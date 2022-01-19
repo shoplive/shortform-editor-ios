@@ -236,6 +236,10 @@ extension OverlayWebView: WKScriptMessageHandler {
                 ShopLiveLogger.debugLog("[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)")
                 if name == "SHOW_NATIVE_DEBUG" {
                     ShopLiveViewLogger.shared.setVisible(show: true)
+                } else if name == "VIBRATE" {
+                    if let typeValue = parameters?["type"] as? String, let style = HapticStyle(rawValue: typeValue)?.style {
+                        HapticManager.impact(style: style)
+                    }
                 }
             }
 

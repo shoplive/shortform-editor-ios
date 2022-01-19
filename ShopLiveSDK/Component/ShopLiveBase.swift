@@ -669,7 +669,7 @@ import WebKit
                 let value = item.value
                 let escapedString = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
                 queryItems.append(URLQueryItem(name: item.key, value: escapedString))
-                ShopLiveLogger.debugLog("\(item.key): \(value)")
+                ShopLiveLogger.debugLog("storage \(item.key): \(value)")
             }
         }
 

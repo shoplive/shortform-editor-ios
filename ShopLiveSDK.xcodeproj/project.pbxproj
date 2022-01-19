@@ -160,6 +160,9 @@
 		BF64083826E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082B26E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift */; };
 		BF64083926E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082B26E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift */; };
 		BF6D31E026CCFAD500B233A4 /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6D31DF26CCFAD500B233A4 /* ShopLiveViewLoggerController.swift */; };
+		BF8AFB002797FE3A00AF8556 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8AFAFF2797FE3900AF8556 /* HapticManager.swift */; };
+		BF8AFB012797FE3A00AF8556 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8AFAFF2797FE3900AF8556 /* HapticManager.swift */; };
+		BF8AFB022797FE3A00AF8556 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8AFAFF2797FE3900AF8556 /* HapticManager.swift */; };
 		BF8CEF91276C6DED0043D5FF /* SDKOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8CEF90276C6DED0043D5FF /* SDKOption.swift */; };
 		BF8CEF93276C70DB0043D5FF /* TextItemInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8CEF92276C70DB0043D5FF /* TextItemInputAlertController.swift */; };
 		BF8CEF9C276CFB310043D5FF /* CouponResponseSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8CEF9B276CFB310043D5FF /* CouponResponseSettingView.swift */; };
@@ -313,6 +316,7 @@
 		BF64082A26E8AFE300ABF1A3 /* SLKeychainItemAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLKeychainItemAccessibility.swift; sourceTree = "<group>"; };
 		BF64082B26E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLKeychainWrapperSubscript.swift; sourceTree = "<group>"; };
 		BF6D31DF26CCFAD500B233A4 /* ShopLiveViewLoggerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveViewLoggerController.swift; sourceTree = "<group>"; };
+		BF8AFAFF2797FE3900AF8556 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		BF8CEF90276C6DED0043D5FF /* SDKOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDKOption.swift; sourceTree = "<group>"; };
 		BF8CEF92276C70DB0043D5FF /* TextItemInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextItemInputAlertController.swift; sourceTree = "<group>"; };
 		BF8CEF9B276CFB310043D5FF /* CouponResponseSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponResponseSettingView.swift; sourceTree = "<group>"; };
@@ -665,6 +669,7 @@
 				BFC00CBD26947B2700BD8733 /* Extensions.swift */,
 				BF64080626E6F8F900ABF1A3 /* ShopLiveStorage.swift */,
 				BF6D31DF26CCFAD500B233A4 /* ShopLiveViewLoggerController.swift */,
+				BF8AFAFF2797FE3900AF8556 /* HapticManager.swift */,
 			);
 			name = Common;
 			path = Component/Common;
@@ -1005,6 +1010,7 @@
 				BF64083226E8AFE300ABF1A3 /* SLNextGrowingTextView.swift in Sources */,
 				BF8D724E267AE5BC00ED2750 /* ChattingWriteView.swift in Sources */,
 				BF64082E26E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift in Sources */,
+				BF8AFB002797FE3A00AF8556 /* HapticManager.swift in Sources */,
 				BFAD8E9E265A211E00202160 /* ShopLiveDefines.swift in Sources */,
 				1B9D659125F1CE4400E9CD4F /* ShopLiveSDKInterface.swift in Sources */,
 				BFBBACA7269AD04E00574958 /* ShopLiveConfiguration.swift in Sources */,
@@ -1039,6 +1045,7 @@
 				BF60E1F42771CECA0060531C /* Extensions.swift in Sources */,
 				BF60E1F52771CECA0060531C /* SideMenuCell.swift in Sources */,
 				BF60E1F62771CECA0060531C /* CouponCallbackSettingViewController.swift in Sources */,
+				BF8AFB022797FE3A00AF8556 /* HapticManager.swift in Sources */,
 				BF60E1F72771CECA0060531C /* SDKSettings.swift in Sources */,
 				BF60E1F82771CECA0060531C /* SwitchOptionCell.swift in Sources */,
 				BF60E1F92771CECA0060531C /* ShopLivePlayItem.swift in Sources */,
@@ -1121,6 +1128,7 @@
 				BFC00CBF26957D1600BD8733 /* Extensions.swift in Sources */,
 				BF4719822766335F00522F6F /* SideMenuCell.swift in Sources */,
 				BF9BB7E2273A1571006BDEF3 /* CouponCallbackSettingViewController.swift in Sources */,
+				BF8AFB012797FE3A00AF8556 /* HapticManager.swift in Sources */,
 				BF9BB7E3273A1571006BDEF3 /* SDKSettings.swift in Sources */,
 				BFE21963276B40BD00900FB1 /* SwitchOptionCell.swift in Sources */,
 				BFFAD7D426BA06EB00C8C5E1 /* ShopLivePlayItem.swift in Sources */,
@@ -1560,7 +1568,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
@@ -1591,7 +1599,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
