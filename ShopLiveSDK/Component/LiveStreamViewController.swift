@@ -356,6 +356,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     func onBackground() {
         ShopLiveLogger.debugLog("lifecycle onBackground()")
         guard ShopLiveController.windowStyle != .osPip else { return }
+        ShopLiveController.playControl = .pause
         overlayView?.sendEventToWeb(event: .onBackground)
     }
 
