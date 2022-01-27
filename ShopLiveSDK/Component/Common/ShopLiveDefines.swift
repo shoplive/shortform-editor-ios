@@ -104,7 +104,6 @@ protocol OverlayWebViewDelegate: AnyObject {
     func didUpdateVideo(with url: URL)
     func reloadVideo()
     func didUpdatePoster(with url: URL)
-    func didUpdateForegroundPoster(with url: URL)
     func replay(with size: CGSize)
     func setVideoCurrentTime(to: CMTime)
     func didTouchBlockView()

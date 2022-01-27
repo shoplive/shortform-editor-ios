@@ -15,7 +15,6 @@ enum WebInterface {
     
     case systemInit
     case setPosterUrl(url: URL)
-    case setForegroundPosterUrl(url: URL)
     case setLiveStreamUrl(url: URL)
     case setVideoMute(isMuted: Bool)
     case setIsPlayingVideo(isPlaying: Bool)
@@ -68,8 +67,6 @@ enum WebInterface {
             return WebFunction.systemInit.rawValue
         case .setPosterUrl:
             return WebFunction.setPosterUrl.rawValue
-        case .setForegroundPosterUrl:
-            return WebFunction.setForegroundPosterUrl.rawValue
         case .setLiveStreamUrl:
             return WebFunction.setLiveStreamUrl.rawValue
         case .setVideoMute:
@@ -168,7 +165,6 @@ enum WebInterface {
         
         case systemInit = "SYSTEM_INIT"
         case setPosterUrl = "SET_POSTER_URL"
-        case setForegroundPosterUrl = "SET_FG_POSTER_URL"
         case setLiveStreamUrl = "SET_LIVE_STREAM_URL"
         case setVideoMute = "SET_VIDEO_MUTE"
         case setIsPlayingVideo = "SET_IS_PLAYING_VIDEO"
@@ -234,10 +230,6 @@ extension WebInterface {
             guard let urlString = parameters?["posterUrl"] as? String else { return nil }
             guard let url = URL(string: urlString) else { return nil }
             self = .setPosterUrl(url: url)
-        case .setForegroundPosterUrl:
-            guard let urlString = parameters?["posterUrl"] as? String else { return nil }
-            guard let url = URL(string: urlString) else { return nil }
-            self = .setForegroundPosterUrl(url: url)
         case .setLiveStreamUrl:
             if let urlString = parameters?["liveStreamUrl"] as? String {
                 guard !urlString.isEmpty, let url = URL(string: urlString) else {

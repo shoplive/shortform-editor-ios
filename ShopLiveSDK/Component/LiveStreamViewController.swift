@@ -26,7 +26,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     private var overlayView: OverlayWebView?
     private var imageView: UIImageView?
     private var snapShotView: UIImageView?
-    private var foregroundImageView: UIImageView?
+    
     private lazy var indicatorView: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -70,12 +70,10 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
         overlayView?.removeFromSuperview()
         imageView?.removeFromSuperview()
-        foregroundImageView?.removeFromSuperview()
         playerView.removeFromSuperview()
 
         overlayView = nil
         imageView = nil
-        foregroundImageView = nil
     }
 
     private var logTimer: Timer?
@@ -282,7 +280,6 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         setupBackgroundImageView()
         setupPlayerView()
         setupSnapshotView()
-        setupForegroungImageView()
         setupOverayWebview()
         setupChatInputView()
         setupIndicator()
@@ -402,21 +399,6 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         ])
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[snapImageView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["snapImageView": snapImageView]))
         self.snapShotView = snapImageView
-    }
-
-    private func setupForegroungImageView() {
-        let foregroundImageView = UIImageView()
-        foregroundImageView.isHidden = true
-        foregroundImageView.contentMode = .scaleAspectFill
-        view.addSubview(foregroundImageView)
-        foregroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        let centerXConstraint = NSLayoutConstraint.init(item: foregroundImageView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
-        let widthConstraint = NSLayoutConstraint.init(item: foregroundImageView, attribute: .width, relatedBy: .equal, toItem: self.view, attribute: .height, multiplier: 0.5625, constant: 0)
-        view.addConstraints([
-            centerXConstraint, widthConstraint
-        ])
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[foregroundImageView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["foregroundImageView": foregroundImageView]))
-        self.foregroundImageView = foregroundImageView
     }
 
     private func setupBackgroundImageView() {
@@ -801,17 +783,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             guard let image = UIImage(data: imageData) else { return }
             DispatchQueue.main.async {
                 self.imageView?.image = image
-            }
-        }
-    }
-
-    func didUpdateForegroundPoster(with url: URL) {
-        DispatchQueue.global().async {
-            guard let imageData = try? Data(contentsOf: url) else { return }
-            guard let image = UIImage(data: imageData) else { return }
-            DispatchQueue.main.async {
-                self.foregroundImageView?.image = image
-                self.foregroundImageView?.isHidden = false
             }
         }
     }

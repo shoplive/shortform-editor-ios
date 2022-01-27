@@ -265,9 +265,6 @@ extension OverlayWebView: WKScriptMessageHandler {
         case .setPosterUrl(let posterUrl):
             ShopLiveLogger.debugLog("setPosterUrl(\(posterUrl))")
             self.delegate?.didUpdatePoster(with: posterUrl)
-        case .setForegroundPosterUrl(let posterUrl):
-            ShopLiveLogger.debugLog("setForegroundPosterUrl(\(posterUrl))")
-            self.delegate?.didUpdateForegroundPoster(with: posterUrl)
         case .setLiveStreamUrl(let streamUrl):
             ShopLiveLogger.debugLog("setLiveStreamUrl(\(streamUrl.absoluteString))")
             self.delegate?.didUpdateVideo(with: streamUrl)
