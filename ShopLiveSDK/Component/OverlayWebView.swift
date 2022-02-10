@@ -244,15 +244,12 @@ extension OverlayWebView: WKScriptMessageHandler {
                         HapticManager.impact(style: style)
                     }
                     break
-                case "SOUND_ITEMS":
-                    SoundManager.shared.addItems(newItems: [])
-                    break
                 case "PLAY_SOUND":
-                    /*
-                    DispatchQueue.global(qos: .background).async {
-                     SoundManager.shared.play(item: .init(name: "", url: ""))
+                    if let alias = parameters?["type"] as? String {
+                        DispatchQueue.global(qos: .background).async {
+                            SoundManager.shared.play(name: alias)
+                        }
                     }
-                    */
                     break
                 default:
                     break
