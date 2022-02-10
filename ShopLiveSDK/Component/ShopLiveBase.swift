@@ -145,7 +145,7 @@ import WebKit
             willChangePreview()
             _style = .pip
         } else {
-            mainWindow?.rootViewController?.dismissKeyboard()
+            mainWindow?.rootViewController?.shopliveHideKeyboard()
             _style = .fullScreen
         }
     }
@@ -347,7 +347,7 @@ import WebKit
 
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
 
-        liveStreamViewController?.dismissKeyboard()
+        liveStreamViewController?.shopliveHideKeyboard()
         let pipPosition: CGRect = self.pipPosition(with: scale, position: position)
 
         ShopLiveController.windowStyle = .inAppPip
@@ -391,7 +391,7 @@ import WebKit
 
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
 
-        mainWindow.rootViewController?.dismissKeyboard()
+        mainWindow.rootViewController?.shopliveHideKeyboard()
 
         delegate?.handleCommand("willShopLiveOn", with: nil)
         ShopLiveController.shared.pipAnimationg = true
@@ -459,7 +459,7 @@ import WebKit
         guard _style != .fullScreen else { return }
         shopLiveWindow.frame = mainWindow.bounds
 
-        mainWindow.rootViewController?.dismissKeyboard()
+        mainWindow.rootViewController?.shopliveHideKeyboard()
 
 //        ShopLiveController.shared.pipAnimationg = true
         videoWindowPanGestureRecognizer?.isEnabled = false

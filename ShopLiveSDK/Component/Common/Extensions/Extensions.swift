@@ -10,7 +10,7 @@ import UIKit
 
 extension UIViewController
 {
-    @objc public func dismissKeyboard()
+    @objc public func shopliveHideKeyboard()
     {
         view.endEditing(true)
     }

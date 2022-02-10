@@ -333,15 +333,15 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
     func hideBackgroundPoster() {
         imageView?.isHidden = true
-        dismissKeyboard()
+        shopliveHideKeyboard()
     }
 
     func showBackgroundPoster() {
         imageView?.isHidden = false
     }
 
-    override func dismissKeyboard() {
-        super.dismissKeyboard()
+    override func shopliveHideKeyboard() {
+        super.shopliveHideKeyboard()
         self.chatInputView.isHidden = true
         self.chatInputBG.isHidden = true
     }
@@ -753,7 +753,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didTouchBlockView() {
-        dismissKeyboard()
+        shopliveHideKeyboard()
     }
 
     func replay(with size: CGSize) {

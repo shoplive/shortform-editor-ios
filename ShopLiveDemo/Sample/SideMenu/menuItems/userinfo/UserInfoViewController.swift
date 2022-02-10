@@ -353,7 +353,7 @@ final class UserInfoViewController: SideMenuItemViewController {
     }
 
     @objc func saveAct() {
-        dismissKeyboard()
+        shopliveHideKeyboard()
         if userIdInputField.text == nil || (userIdInputField.text ?? "").isEmpty {
             /*
             let alert = UIAlertController(title: "userinfo.msg.save.failed.noneId".localized(), message: nil, preferredStyle: .alert)
@@ -422,7 +422,7 @@ final class UserInfoViewController: SideMenuItemViewController {
     }
 
     @objc func makeJWT(completion: @escaping (Bool) -> Void) {
-        dismissKeyboard()
+        shopliveHideKeyboard()
         let makeUser = ShopLiveUser()
         makeUser.id = userIdInputField.text
         makeUser.name = userNameInputField.text
