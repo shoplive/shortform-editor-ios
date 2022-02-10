@@ -151,6 +151,11 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    
+    public static func setEndpoint(_ url: String?) {
+        ShopLiveDefines.endpoint = url
+    }
+    
     public static func isSuccessCampaignJoin() -> Bool {
         return shared.instance?.isSuccessCampaignJoin() ?? false
     }

@@ -25,6 +25,19 @@ import CoreMedia
             return "https://www.shoplive.show/v1/sdk.html"
         }
     }
+    
+    static var endpoint: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "shopliveEndpoint")
+        }
+        get  {
+            UserDefaults.standard.string(forKey: "shopliveEndpoint")
+        }
+    }
+    
+    static var landingUrl: String {
+        endpoint ?? url
+    }
 
     static let webInterface: String = "ShopLiveAppInterface"
     static let osVersion = UIDevice.current.systemVersion
