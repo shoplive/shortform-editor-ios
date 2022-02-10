@@ -234,12 +234,28 @@ extension OverlayWebView: WKScriptMessageHandler {
             } else {
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)"))
                 ShopLiveLogger.debugLog("[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)")
-                if name == "SHOW_NATIVE_DEBUG" {
+                
+                switch name {
+                case "SHOW_NATIVE_DEBUG":
                     ShopLiveViewLogger.shared.setVisible(show: true)
-                } else if name == "VIBRATE" {
+                    break
+                case "VIBRATE":
                     if let typeValue = parameters?["type"] as? String, let style = HapticStyle(rawValue: typeValue)?.style {
                         HapticManager.impact(style: style)
                     }
+                    break
+                case "SOUND_ITEMS":
+                    SoundManager.shared.addItems(newItems: [])
+                    break
+                case "PLAY_SOUND":
+                    /*
+                    DispatchQueue.global(qos: .background).async {
+                     SoundManager.shared.play(item: .init(name: "", url: ""))
+                    }
+                    */
+                    break
+                default:
+                    break
                 }
             }
 

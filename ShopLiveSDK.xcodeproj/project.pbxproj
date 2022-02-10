@@ -205,6 +205,9 @@
 		BFC00CBE26947B2700BD8733 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC00CBD26947B2700BD8733 /* Extensions.swift */; };
 		BFC00CBF26957D1600BD8733 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC00CBD26947B2700BD8733 /* Extensions.swift */; };
 		BFD645E3270C37FD00B0B74F /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */; };
+		BFE01FEA27B4857F007A1A09 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE01FE927B4857F007A1A09 /* SoundManager.swift */; };
+		BFE01FEB27B48587007A1A09 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE01FE927B4857F007A1A09 /* SoundManager.swift */; };
+		BFE01FEC27B48588007A1A09 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE01FE927B4857F007A1A09 /* SoundManager.swift */; };
 		BFE14B60272BA9E600C6624B /* SLLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE14B5F272BA9E600C6624B /* SLLoadingIndicator.swift */; };
 		BFE14B61272BA9E600C6624B /* SLLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE14B5F272BA9E600C6624B /* SLLoadingIndicator.swift */; };
 		BFE14B66272F6E9200C6624B /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBACA02699EAEC00574958 /* CoreTelephony.framework */; };
@@ -349,6 +352,7 @@
 		BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDemoKeyTools.swift; sourceTree = "<group>"; };
 		BFC00CBD26947B2700BD8733 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/VideoToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		BFE01FE927B4857F007A1A09 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		BFE14B5F272BA9E600C6624B /* SLLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLLoadingIndicator.swift; sourceTree = "<group>"; };
 		BFE14B65272F69F100C6624B /* ShopLiveDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShopLiveDemo.entitlements; sourceTree = "<group>"; };
 		BFE21960276B3BE600900FB1 /* ShopLiveDevConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDevConfiguration.swift; sourceTree = "<group>"; };
@@ -681,6 +685,7 @@
 				BFAD8E93265A211E00202160 /* ShopLiveWebInterface.swift */,
 				BF64080626E6F8F900ABF1A3 /* ShopLiveStorage.swift */,
 				BF8AFAFF2797FE3900AF8556 /* HapticManager.swift */,
+				BFE01FE927B4857F007A1A09 /* SoundManager.swift */,
 			);
 			name = Common;
 			path = Component/Common;
@@ -1022,6 +1027,7 @@
 				BF64082E26E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift in Sources */,
 				BF8AFB002797FE3A00AF8556 /* HapticManager.swift in Sources */,
 				BFAD8E9E265A211E00202160 /* ShopLiveDefines.swift in Sources */,
+				BFE01FEA27B4857F007A1A09 /* SoundManager.swift in Sources */,
 				1B9D659125F1CE4400E9CD4F /* ShopLiveSDKInterface.swift in Sources */,
 				BFBBACA7269AD04E00574958 /* ShopLiveConfiguration.swift in Sources */,
 				BFE14B60272BA9E600C6624B /* SLLoadingIndicator.swift in Sources */,
@@ -1066,6 +1072,7 @@
 				BF60E1FE2771CECA0060531C /* CouponResponseSettingView.swift in Sources */,
 				BF60E1FF2771CECA0060531C /* OptionSectionHeader.swift in Sources */,
 				BF60E2002771CECA0060531C /* ShopLive.swift in Sources */,
+				BFE01FEC27B48588007A1A09 /* SoundManager.swift in Sources */,
 				BF60E2012771CECA0060531C /* DemoConfiguration.swift in Sources */,
 				BF60E2022771CECA0060531C /* ShopLiveBase.swift in Sources */,
 				BF60E2032771CECA0060531C /* SLLoadingIndicator.swift in Sources */,
@@ -1148,6 +1155,7 @@
 				BF8CEF9C276CFB310043D5FF /* CouponResponseSettingView.swift in Sources */,
 				BFA69D6A276B64FF00F91394 /* OptionSectionHeader.swift in Sources */,
 				BFAD8EE2265A24DA00202160 /* ShopLive.swift in Sources */,
+				BFE01FEB27B48587007A1A09 /* SoundManager.swift in Sources */,
 				BF47199F2768570100522F6F /* DemoConfiguration.swift in Sources */,
 				BFAD8EE5265A24DA00202160 /* ShopLiveBase.swift in Sources */,
 				BFE14B61272BA9E600C6624B /* SLLoadingIndicator.swift in Sources */,
