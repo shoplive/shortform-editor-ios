@@ -18,7 +18,7 @@ class SoundManager: NSObject {
     private var items: [SoundItem] = []
     
     func play(item: SoundItem) {
-        if let playItem = self.items.filter({ $0.name == item.name }).first {
+        if let playItem = self.items.filter({ $0.alias == item.alias }).first {
             if let player = SoundPlayer(item: playItem) {
                 player.player?.delegate = self
                 self.players.append(player)
@@ -27,15 +27,28 @@ class SoundManager: NSObject {
         }
     }
     
-    func play(name: String) {
-        let item = SoundItem(name: name, url: "")
+    func play(alias: String) {
+        let item = SoundItem(alias: alias, url: "")
         self.play(item: item)
+    }
+    
+    func stop(alias: String) {
+        let filteredPlayer = self.players.filter({ $0.item.alias == alias })
+        
+        filteredPlayer.forEach { player in
+            if let playerIndex = self.players.firstIndex(where: { $0.player == player.player }) {
+                player.player?.stop()
+                self.players.remove(at: playerIndex)
+            }
+        }
     }
     
     func addItems(newItems: [SoundItem]) {
         newItems.forEach { item in
             if !self.items.contains(where: { $0.url == item.url }) {
                 self.items.append(item)
+                // preload
+                _ = SoundPlayer(item: item)
             }
         }
     }
@@ -46,15 +59,10 @@ class SoundManager: NSObject {
         }
         
         self.players.removeAll()
-//        self.items.removeAll()
     }
     
     override init() {
         super.init()
-        var item = SoundItem(name: "quiz_timer_musinsa", url: "https://dev-static.shoplive.cloud/sound/quiz_timer_musinsa.mp3")
-//        var item2 = SoundItem(name: "test", url: "https://shoplive-sdk.s3.amazonaws.com/test.mp3")
-    
-        self.addItems(newItems: [item])
     }
     
 }
@@ -70,7 +78,7 @@ extension SoundManager: AVAudioPlayerDelegate {
 }
 
 struct SoundItem {
-    var name: String
+    var alias: String
     var url: String
 }
 
@@ -95,12 +103,15 @@ extension SoundItem {
 class SoundPlayer {
     
     private(set) var player: AVAudioPlayer?
+    var item: SoundItem
     
     init?(item: SoundItem) {
         
         guard let playItem = item.playItem else {
             return nil
         }
+        
+        self.item = item
         
         do {
             player = try AVAudioPlayer(data: playItem)

@@ -45,15 +45,9 @@ class MainViewController: SideMenuBaseViewController {
             #endif
             switch index {
             case 0: // 직접 입력
-                DispatchQueue.global(qos: .background).async {
-                    SoundManager.shared.play(name: "quiz_timer_musinsa")
-                }
-                
-                /*
                 let vc = CampaignInputAlertController()
                 vc.modalPresentationStyle = .overCurrentContext
                 self.navigationController?.present(vc, animated: false, completion: nil)
-                */
                 break
             case 1: // Dev-Admin
                 // getkey

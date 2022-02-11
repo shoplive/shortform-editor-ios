@@ -851,15 +851,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             if let isReplay = payload?["isReplay"] as? Bool {
                 ShopLiveController.isReplayMode = isReplay
             }
-            if let soundItems = payload?["sound"] as? [[String:String]] {
-                var newItems: [SoundItem] = []
-                soundItems.forEach { item in
-                    if let alias = item["alias"], let url = item["url"] {
-                        newItems.append(.init(name: alias, url: url))
-                    }
-                }
-                SoundManager.shared.addItems(newItems: newItems)
-            }
             chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? NSLocalizedString("chat.placeholder", comment: "메시지를 입력하세요"), sendText: sendText ?? NSLocalizedString("chat.send.title", comment: "보내기"), maxLength: chatInputMaxLength ?? 50))
 
             delegate?.campaignInfo(campaignInfo: campaignInfo ?? [:])
