@@ -30,7 +30,7 @@ class SideMenuItemViewController: UIViewController {
     }
 
     @objc func handleNaviBack() {
-        dismissKeyboard()
+        shopliveHideKeyboard()
         self.navigationController?.popViewController(animated: true)
     }
 
@@ -38,7 +38,7 @@ class SideMenuItemViewController: UIViewController {
         guard gesture.state == .recognized else {
             return
         }
-        dismissKeyboard()
+        shopliveHideKeyboard()
         self.navigationController?.popViewController(animated: true)
     }
 
@@ -52,7 +52,7 @@ class SideMenuItemViewController: UIViewController {
         guard gesture.state == .recognized else {
             return
         }
-        dismissKeyboard()
+        shopliveHideKeyboard()
     }
 
     private func setupTapGesture() {

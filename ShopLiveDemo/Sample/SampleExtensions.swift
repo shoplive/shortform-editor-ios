@@ -179,7 +179,7 @@ extension UIViewController
     {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(
             target: self,
-            action: #selector(UIViewController.dismissKeyboard))
+            action: #selector(UIViewController.shopliveHideKeyboard))
 
         view.addGestureRecognizer(tap)
     }

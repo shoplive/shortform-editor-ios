@@ -145,7 +145,7 @@ import WebKit
             willChangePreview()
             _style = .pip
         } else {
-            mainWindow?.rootViewController?.dismissKeyboard()
+            mainWindow?.rootViewController?.shopliveHideKeyboard()
             _style = .fullScreen
         }
     }
@@ -348,7 +348,7 @@ import WebKit
 
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
 
-        liveStreamViewController?.dismissKeyboard()
+        liveStreamViewController?.shopliveHideKeyboard()
         let pipPosition: CGRect = self.pipPosition(with: scale, position: position)
 
         ShopLiveController.windowStyle = .inAppPip
@@ -392,7 +392,7 @@ import WebKit
 
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
 
-        mainWindow.rootViewController?.dismissKeyboard()
+        mainWindow.rootViewController?.shopliveHideKeyboard()
 
         delegate?.handleCommand("willShopLiveOn", with: nil)
         ShopLiveController.shared.pipAnimationg = true
@@ -460,7 +460,7 @@ import WebKit
         guard _style != .fullScreen else { return }
         shopLiveWindow.frame = mainWindow.bounds
 
-        mainWindow.rootViewController?.dismissKeyboard()
+        mainWindow.rootViewController?.shopliveHideKeyboard()
 
 //        ShopLiveController.shared.pipAnimationg = true
         videoWindowPanGestureRecognizer?.isEnabled = false
@@ -618,7 +618,7 @@ import WebKit
     }
 
     func fetchPreviewUrl(with campaignKey: String?, completionHandler: @escaping ((URL?) -> Void)) {
-        let urlComponents = URLComponents(string: ShopLiveDefines.url)
+        let urlComponents = URLComponents(string: ShopLiveDefines.landingUrl)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
         queryItems.append(URLQueryItem(name: "ak", value: accessKey))
         if let ck = campaignKey {
@@ -628,13 +628,13 @@ import WebKit
         queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
         queryItems.append(URLQueryItem(name: "preview", value: "1"))
 
-        let baseUrl = URL(string: ShopLiveDefines.url)
+        let baseUrl = URL(string: ShopLiveDefines.landingUrl)
         guard let params = URLUtil.query(queryItems) else {
             completionHandler(baseUrl)
             return
         }
 
-        guard let url = URL(string: ShopLiveDefines.url + "?" + params) else {
+        guard let url = URL(string: ShopLiveDefines.landingUrl + "?" + params) else {
             completionHandler(baseUrl)
             return
         }
@@ -648,7 +648,7 @@ import WebKit
             return
         }
 
-        let urlComponents = URLComponents(string: ShopLiveDefines.url)
+        let urlComponents = URLComponents(string: ShopLiveDefines.landingUrl)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
         #if DEMO
         if UserDefaults.standard.bool(forKey: "useWebLog") {
@@ -676,13 +676,13 @@ import WebKit
 
 //        urlComponents?.queryItems = queryItems
 
-        let baseUrl = URL(string: ShopLiveDefines.url)
+        let baseUrl = URL(string: ShopLiveDefines.landingUrl)
         guard let params = URLUtil.query(queryItems) else {
             completionHandler(baseUrl)
             return
         }
 
-        guard let url = URL(string: ShopLiveDefines.url + "?" + params) else {
+        guard let url = URL(string: ShopLiveDefines.landingUrl + "?" + params) else {
             completionHandler(baseUrl)
             return
         }

@@ -146,6 +146,7 @@ class MainViewController: SideMenuBaseViewController {
         }
 
         setupShopliveSettings()
+        ShopLive.setEndpoint(nil)
         ShopLive.configure(with: currentKey.accessKey)
         ShopLive.preview(with: currentKey.campaignKey) {
             ShopLive.play(with: currentKey.campaignKey)
@@ -159,6 +160,7 @@ class MainViewController: SideMenuBaseViewController {
         }
 
         setupShopliveSettings()
+        ShopLive.setEndpoint("https://dev.shoplive.show/v1/sdk.html")
         ShopLive.configure(with: currentKey.accessKey)
 
         ShopLive.play(with: currentKey.campaignKey)

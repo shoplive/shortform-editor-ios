@@ -11,7 +11,7 @@ import CoreMedia
 //import CoreTelephony
 
 @objc internal final class ShopLiveDefines: NSObject {
-    static let sdkVersion: String = "1.2.1"
+    static let sdkVersion: String = "1.2.2"
     static var phase: ShopLive.Phase = .REAL
     static var url: String {
         switch phase {
@@ -24,6 +24,19 @@ import CoreMedia
         default:
             return "https://www.shoplive.show/v1/sdk.html"
         }
+    }
+    
+    static var endpoint: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "shopliveEndpoint")
+        }
+        get  {
+            UserDefaults.standard.string(forKey: "shopliveEndpoint")
+        }
+    }
+    
+    static var landingUrl: String {
+        endpoint ?? url
     }
 
     static let webInterface: String = "ShopLiveAppInterface"

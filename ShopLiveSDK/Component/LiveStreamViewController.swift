@@ -333,15 +333,15 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
     func hideBackgroundPoster() {
         imageView?.isHidden = true
-        dismissKeyboard()
+        shopliveHideKeyboard()
     }
 
     func showBackgroundPoster() {
         imageView?.isHidden = false
     }
 
-    override func dismissKeyboard() {
-        super.dismissKeyboard()
+    override func shopliveHideKeyboard() {
+        super.shopliveHideKeyboard()
         self.chatInputView.isHidden = true
         self.chatInputBG.isHidden = true
     }
@@ -594,7 +594,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
         ShopLiveLogger.debugLog("scm shareurl: \(queryItems)")
 
-        let urlString: String = ShopLiveDefines.url
+        let urlString: String = ShopLiveDefines.landingUrl
         ShopLiveLogger.debugLog("shoplive url : \(urlString)")
         guard let params = URLUtil.query(queryItems) else {
             return URL(string: urlString)
@@ -753,7 +753,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didTouchBlockView() {
-        dismissKeyboard()
+        shopliveHideKeyboard()
     }
 
     func replay(with size: CGSize) {
