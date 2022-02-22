@@ -149,7 +149,7 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.setEndpoint(nil)
         ShopLive.configure(with: currentKey.accessKey)
         ShopLive.preview(with: currentKey.campaignKey) {
-            ShopLive.play(with: currentKey.campaignKey)
+//            ShopLive.play(with: currentKey.campaignKey)
         }
     }
 
@@ -207,6 +207,10 @@ extension MainViewController: ShopLiveSDKDelegate {
 
     func handleCampaignInfo(campaignInfo: [String : Any]) {
         print("handleCampaignInfo")
+        
+        campaignInfo.forEach { info in
+            print("campaignInfo key: \(info.key)  value: \(info.value)")
+        }
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleCampaignInfo \(campaignInfo)"))
     }
 

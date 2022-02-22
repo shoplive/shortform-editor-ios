@@ -2,7 +2,7 @@
 //  SoundManager.swift
 //  ShopLiveSDK
 //
-//  Created by 김우현 on 2022/02/10.
+//  Created by ShopLive on 2022/02/10.
 //
 
 import Foundation

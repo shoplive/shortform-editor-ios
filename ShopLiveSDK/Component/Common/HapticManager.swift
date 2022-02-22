@@ -2,7 +2,7 @@
 //  HapticManager.swift
 //  ShopLiveSDK
 //
-//  Created by 김우현 on 2022/01/19.
+//  Created by ShopLive on 2022/01/19.
 //
 
 import Foundation

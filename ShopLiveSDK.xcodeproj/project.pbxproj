@@ -158,6 +158,8 @@
 		BF64083726E8AFE300ABF1A3 /* SLKeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082A26E8AFE300ABF1A3 /* SLKeychainItemAccessibility.swift */; };
 		BF64083826E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082B26E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift */; };
 		BF64083926E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082B26E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift */; };
+		BF69333027BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */; };
+		BF69333127BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */; };
 		BF6D31E026CCFAD500B233A4 /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6D31DF26CCFAD500B233A4 /* ShopLiveViewLoggerController.swift */; };
 		BF8AFB002797FE3A00AF8556 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8AFAFF2797FE3900AF8556 /* HapticManager.swift */; };
 		BF8AFB012797FE3A00AF8556 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8AFAFF2797FE3900AF8556 /* HapticManager.swift */; };
@@ -315,6 +317,7 @@
 		BF64082926E8AFE300ABF1A3 /* SLKeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLKeychainWrapper.swift; sourceTree = "<group>"; };
 		BF64082A26E8AFE300ABF1A3 /* SLKeychainItemAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLKeychainItemAccessibility.swift; sourceTree = "<group>"; };
 		BF64082B26E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLKeychainWrapperSubscript.swift; sourceTree = "<group>"; };
+		BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShareViewController.swift; sourceTree = "<group>"; };
 		BF6D31DF26CCFAD500B233A4 /* ShopLiveViewLoggerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveViewLoggerController.swift; sourceTree = "<group>"; };
 		BF8AFAFF2797FE3900AF8556 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		BF8CEF90276C6DED0043D5FF /* SDKOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDKOption.swift; sourceTree = "<group>"; };
@@ -530,6 +533,7 @@
 				BF8CEF98276CC5F60043D5FF /* optionsetting */,
 				BF8CEF99276CC6590043D5FF /* couponsetting */,
 				BF8CEF9A276CC6740043D5FF /* secretkeysetting */,
+				BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */,
 			);
 			path = menuItems;
 			sourceTree = "<group>";
@@ -1094,6 +1098,7 @@
 				BF60E2152771CECA0060531C /* ShopLivePlayerView.swift in Sources */,
 				BF60E2162771CECA0060531C /* SampleExtensions.swift in Sources */,
 				BF60E2172771CECA0060531C /* MainViewController.swift in Sources */,
+				BF69333127BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */,
 				BF60E2182771CECA0060531C /* SLNextGrowingInternalTextView.swift in Sources */,
 				BF60E2192771CECA0060531C /* SLNextGrowingTextView.swift in Sources */,
 				BF60E21A2771CECA0060531C /* UIViewExtensions.swift in Sources */,
@@ -1177,6 +1182,7 @@
 				BFFAD7C526BA050200C8C5E1 /* ShopLivePlayerView.swift in Sources */,
 				BF47197827660CF500522F6F /* SampleExtensions.swift in Sources */,
 				BF4719712765F4E800522F6F /* MainViewController.swift in Sources */,
+				BF69333027BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */,
 				BF64082F26E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift in Sources */,
 				BF64083326E8AFE300ABF1A3 /* SLNextGrowingTextView.swift in Sources */,
 				BFFAD7C926BA05CA00C8C5E1 /* UIViewExtensions.swift in Sources */,
