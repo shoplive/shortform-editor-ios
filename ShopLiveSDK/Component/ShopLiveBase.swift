@@ -342,6 +342,10 @@ import WebKit
     
     private func startCustomPictureInPicture(with position: ShopLive.PipPosition = .default, scale: CGFloat = 2/5) {
 
+        guard let topVC = UIApplication.topViewController(), topVC.isKind(of: LiveStreamViewController.self) else {
+            return
+        }
+        
         delegate?.handleCommand("willShopLiveOff", with: ["style" : style.rawValue])
         guard !ShopLiveController.shared.pipAnimationg else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
