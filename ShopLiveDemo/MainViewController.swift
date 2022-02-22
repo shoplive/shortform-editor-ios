@@ -110,11 +110,11 @@ class MainViewController: SideMenuBaseViewController {
         if let scheme = config.shareScheme, !scheme.isEmpty {
             if config.useCustomShare {
                 // Custom Share Setting
+                
                 ShopLive.setShareScheme(scheme, custom: {
-                    let alert = UIAlertController.init(title: "guide.customShare".localized(), message: nil, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "alert.msg.confirm".localized(), style: .default, handler: { (action) in
-                    }))
-                    ShopLive.viewController?.present(alert, animated: true, completion: nil)
+                    let customShareVC = CustomShareViewController()
+                    customShareVC.modalPresentationStyle = .overFullScreen
+                    ShopLive.viewController?.present(customShareVC, animated: false, completion: nil)
                 })
             } else {
                 // Default iOS Share
