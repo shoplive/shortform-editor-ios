@@ -21,6 +21,7 @@ enum CouponResponseKey: String {
 }
 
 enum SDKOptionType: String, CaseIterable {
+    case playWhenPreviewTapped
     case pipPosition
     case pipScale
     case headphoneOption1

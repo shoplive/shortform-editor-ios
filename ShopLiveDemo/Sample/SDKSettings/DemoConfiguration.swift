@@ -137,7 +137,7 @@ final class DemoConfiguration: NSObject {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.callOption.optionKey)
             UserDefaults.standard.synchronize()
-            notifyObservers(key: SDKOptionType.headphoneOption1.optionKey)
+            notifyObservers(key: SDKOptionType.callOption.optionKey)
         }
         get {
             return UserDefaults.standard.bool(forKey: SDKOptionType.callOption.optionKey)
@@ -147,7 +147,7 @@ final class DemoConfiguration: NSObject {
     var useCustomShare: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.customShare.optionKey)
-            notifyObservers(key: SDKOptionType.headphoneOption1.optionKey)
+            notifyObservers(key: SDKOptionType.customShare.optionKey)
             UserDefaults.standard.synchronize()
         }
         get {
@@ -159,7 +159,7 @@ final class DemoConfiguration: NSObject {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.shareScheme.optionKey)
             UserDefaults.standard.synchronize()
-            notifyObservers(key: SDKOptionType.headphoneOption1.optionKey)
+            notifyObservers(key: SDKOptionType.shareScheme.optionKey)
         }
         get {
             return UserDefaults.standard.string(forKey:  SDKOptionType.shareScheme.optionKey)
@@ -170,7 +170,7 @@ final class DemoConfiguration: NSObject {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.progressColor.optionKey)
             UserDefaults.standard.synchronize()
-            notifyObservers(key: SDKOptionType.headphoneOption1.optionKey)
+            notifyObservers(key: SDKOptionType.progressColor.optionKey)
         }
         get {
             return UserDefaults.standard.string(forKey:  SDKOptionType.progressColor.optionKey)
@@ -181,7 +181,7 @@ final class DemoConfiguration: NSObject {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.customProgress.optionKey)
             UserDefaults.standard.synchronize()
-            notifyObservers(key: SDKOptionType.headphoneOption1.optionKey)
+            notifyObservers(key: SDKOptionType.customProgress.optionKey)
         }
         get {
             return UserDefaults.standard.bool(forKey: SDKOptionType.customProgress.optionKey)
@@ -192,7 +192,7 @@ final class DemoConfiguration: NSObject {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.chatInputCustomFont.optionKey)
             UserDefaults.standard.synchronize()
-            notifyObservers(key: SDKOptionType.headphoneOption1.optionKey)
+            notifyObservers(key: SDKOptionType.chatInputCustomFont.optionKey)
         }
         get {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.chatInputCustomFont.optionKey)
@@ -203,7 +203,7 @@ final class DemoConfiguration: NSObject {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.chatSendButtonCustomFont.optionKey)
             UserDefaults.standard.synchronize()
-            notifyObservers(key: SDKOptionType.headphoneOption1.optionKey)
+            notifyObservers(key: SDKOptionType.chatSendButtonCustomFont.optionKey)
         }
         get {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.chatSendButtonCustomFont.optionKey)
@@ -319,6 +319,17 @@ final class DemoConfiguration: NSObject {
         }
         get {
             return UserDefaults.standard.bool(forKey:  "useJWT")
+        }
+    }
+    
+    var usePlayWhenPreviewTapped: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.playWhenPreviewTapped.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.playWhenPreviewTapped.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.playWhenPreviewTapped.optionKey)
         }
     }
 }

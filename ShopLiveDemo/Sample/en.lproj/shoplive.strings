@@ -62,11 +62,14 @@
 "campaign.msg.wrongurl" = "잘못된 url 입니다.";
 "campaign.input.accesskey.placeholder" = "accessKey";
 "campaign.input.campaignkey.placeholder" = "campaignKey";
+"sdkoption.section.preview.title" = "Preview";
 "sdkoption.section.pip.title" = "PIP (Picture in Picture)";
 "sdkoption.section.autoPlay.title" = "자동재생";
 "sdkoption.section.share.title" = "공유하기";
 "sdkoption.section.progress.title" = "로딩 프로그레스";
 "sdkoption.section.chatFont.title" = "채팅 폰트";
+"sdkoption.preview.title" = "Preview Tap to Play";
+"sdkoption.preview.description" = "Play When Preview Tapped";
 "sdkoption.pipPosition.title" = "PIP Position";
 "sdkoption.pipPosition.description" = "PIP 모드가 시작될 때 위치입니다. (기본은 bottomRight)";
 "sdkoption.pipScale.title" = "PIP Scale";

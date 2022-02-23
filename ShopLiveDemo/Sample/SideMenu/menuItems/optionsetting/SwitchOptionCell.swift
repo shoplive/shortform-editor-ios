@@ -146,6 +146,10 @@ class SwitchOptionCell: UITableViewCell {
         case .chatSendButtonCustomFont:
             useOption = DemoConfiguration.shared.useChatSendButtonCustomFont
             break
+        case .playWhenPreviewTapped:
+            useOption = DemoConfiguration.shared.usePlayWhenPreviewTapped
+            break
+            
         default:
             break
         }
@@ -174,6 +178,9 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .chatSendButtonCustomFont:
             DemoConfiguration.shared.useChatSendButtonCustomFont = useOption
+            break
+        case .playWhenPreviewTapped:
+            DemoConfiguration.shared.usePlayWhenPreviewTapped = useOption
             break
         default:
             break

@@ -8,6 +8,7 @@
 import UIKit
 import SideMenu
 import SafariServices
+import Toast
 
 class MainViewController: SideMenuBaseViewController {
 
@@ -149,7 +150,14 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.setEndpoint(nil)
         ShopLive.configure(with: currentKey.accessKey)
         ShopLive.preview(with: currentKey.campaignKey) {
-//            ShopLive.play(with: currentKey.campaignKey)
+            if DemoConfiguration.shared.usePlayWhenPreviewTapped {
+                ShopLive.play(with: currentKey.campaignKey)
+            } else {
+                var toastStyle = ToastStyle()
+                toastStyle.titleAlignment = .center
+                toastStyle.messageAlignment = .center
+                self.view.makeToast("tap preview", duration: 2,style: toastStyle)
+            }
         }
     }
 
@@ -160,7 +168,6 @@ class MainViewController: SideMenuBaseViewController {
         }
 
         setupShopliveSettings()
-        ShopLive.setEndpoint("https://dev.shoplive.show/v1/sdk.html")
         ShopLive.configure(with: currentKey.accessKey)
 
         ShopLive.play(with: currentKey.campaignKey)
