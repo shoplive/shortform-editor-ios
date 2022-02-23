@@ -613,7 +613,6 @@ import WebKit
 
     @objc private func pipTapGestureHandler(_ recognizer: UITapGestureRecognizer) {
         guard !ShopLiveController.shared.isPreview else {
-            ShopLiveController.shared.isPreview = false
             previewCallback?()
             return
         }
