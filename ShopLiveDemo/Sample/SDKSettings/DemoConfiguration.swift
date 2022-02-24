@@ -332,4 +332,16 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.playWhenPreviewTapped.optionKey)
         }
     }
+    
+    var nextActionTypeOnHandleNavigation: ActionType {
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: SDKOptionType.nextActionOnHandleNavigation.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.nextActionOnHandleNavigation.optionKey)
+        }
+        get {
+            let value = UserDefaults.standard.integer(forKey:  SDKOptionType.nextActionOnHandleNavigation.optionKey)
+            return ActionType(rawValue: value) ?? .PIP
+        }
+    }
 }

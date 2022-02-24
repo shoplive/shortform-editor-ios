@@ -134,6 +134,9 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.pipScale = config.pipScale ?? 2/5
         ShopLive.pipPosition = config.pipPosition
 
+        // handle Navigation Action Type
+        ShopLive.setNextActionOnHandleNavigation(actionType: DemoConfiguration.shared.nextActionTypeOnHandleNavigation)
+        
         // Phase Setting
         #if DEMO
         ShopLiveDefines.phase = ShopLiveDevConfiguration.shared.phaseType
@@ -166,7 +169,7 @@ class MainViewController: SideMenuBaseViewController {
             UIWindow.showToast(message: "sdk.msg.nonekey".localized())
             return
         }
-
+        ShopLive.setEndpoint(nil)
         setupShopliveSettings()
         ShopLive.configure(with: currentKey.accessKey)
 
@@ -179,11 +182,22 @@ extension MainViewController: ShopLiveSDKDelegate {
     func handleNavigation(with url: URL) {
         print("handleNavigation \(url)")
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleNavigation \(url)"))
+        
+        var presenter: UIViewController?
+        
+        switch DemoConfiguration.shared.nextActionTypeOnHandleNavigation {
+        case .PIP, .CLOSE:
+            presenter = self
+            break
+        case .KEEP:
+            presenter = ShopLive.viewController
+            break
+        }
 
         guard url.absoluteString.hasPrefix("http") else {
             let alert = UIAlertController(title: nil, message: "campaign.msg.wrongurl".localized() + "[\(url.absoluteString)]", preferredStyle: .alert)
             alert.addAction(.init(title: "alert.msg.confirm".localized(), style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            presenter?.present(alert, animated: true, completion: nil)
             return
         }
 
@@ -195,7 +209,7 @@ extension MainViewController: ShopLiveSDKDelegate {
             safari = .init(url: url)
 
             guard let browser = self.safari else { return }
-            self.present(browser, animated: true)
+            presenter?.present(browser, animated: true)
         } else {
             // TODO: Single UIWindow 에서 PIP 처리 적용 필요
             UIApplication.shared.open(url, options: [:], completionHandler: nil)

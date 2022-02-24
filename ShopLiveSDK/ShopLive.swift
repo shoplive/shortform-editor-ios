@@ -152,6 +152,14 @@ extension ShopLive {
 
 extension ShopLive: ShopLiveSDKInterface {
     
+    public static func setNextActionOnHandleNavigation(actionType: ActionType) {
+        ShopLiveController.shared.nextActionTypeOnHandleNavigation = actionType
+    }
+    
+    public static func getNextActionTypeOnHandleNavigation() -> ActionType {
+        return ShopLiveController.shared.nextActionTypeOnHandleNavigation
+    }
+    
     public static func setEndpoint(_ url: String?) {
         ShopLiveDefines.endpoint = url
     }

@@ -72,6 +72,23 @@ import UIKit
     }
 }
 
+@objc public enum ActionType: Int {
+    case PIP
+    case KEEP
+    case CLOSE
+
+    public var name: String {
+        switch self {
+        case .PIP:
+            return "PIP"
+        case .KEEP:
+            return "KEEP"
+        case .CLOSE:
+            return "CLOSE"
+        }
+    }
+}
+
 @objc public protocol ShopLiveSDKDelegate: AnyObject {
     @objc func handleNavigation(with url: URL)
     @objc optional func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void)
@@ -106,7 +123,6 @@ import UIKit
     @objc static var webViewConfiguration: WKWebViewConfiguration? { get set }
     @objc static var delegate: ShopLiveSDKDelegate? { get set }
 
-    
     @objc static var authToken: String? { get set }
     @objc static var user: ShopLiveUser? { get set }
 
@@ -137,4 +153,7 @@ import UIKit
     @objc static func close()
     
     @objc static func setEndpoint(_ url: String?)
+    
+    @objc static func setNextActionOnHandleNavigation(actionType: ActionType)
+    @objc static func getNextActionTypeOnHandleNavigation() -> ActionType
 }

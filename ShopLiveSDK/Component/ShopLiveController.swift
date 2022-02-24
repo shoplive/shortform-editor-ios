@@ -77,6 +77,7 @@ final class ShopLiveController: NSObject {
     @objc dynamic var releasePlayer: Bool = false
     @objc dynamic var takeSnapShot: Bool = true
     @objc dynamic var isPreview: Bool = false
+    @objc dynamic var nextActionTypeOnHandleNavigation: ActionType = ActionType.PIP
     @objc dynamic var loading: Bool = false
 
     lazy var currentPlayTime: Int64? = nil {

@@ -1106,7 +1106,16 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     
     func didTouchNavigation(with url: URL) {
         guard let hookNavigation = ShopLiveController.shared.hookNavigation else {
-            startPictureInPicture()
+            switch ShopLiveController.shared.nextActionTypeOnHandleNavigation {
+            case .PIP:
+                startPictureInPicture()
+            case .CLOSE:
+                close()
+                _delegate?.handleNavigation(with: url)
+                return
+            case .KEEP:
+                break
+            }
             _delegate?.handleNavigation(with: url)
             return
         }

@@ -56,7 +56,8 @@ final class OptionsViewController: SideMenuItemViewController {
         
         let pipPositionOption = SDKOptionItem(name: "sdkoption.pipPosition.title".localized(), optionDescription: "sdkoption.pipPosition.description".localized(), optionType: .pipPosition)
         let pipScaleOption = SDKOptionItem(name: "sdkoption.pipScale.title".localized(), optionDescription: "sdkoption.pipScale.description".localized(), optionType: .pipScale)
-        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption])
+        let nextActionPipOption = SDKOptionItem(name: "sdkoption.nextActionTypeOnNavigation.title".localized(), optionDescription: "sdkoption.nextActionTypeOnNavigation.description".localized(), optionType: .nextActionOnHandleNavigation)
+        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, nextActionPipOption])
 
         items.append(pipOptions)
 
@@ -182,30 +183,28 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
             let dropdown = DropDown()
             dropdown.width = 150
             dropdown.anchorView = anchorView
-            dropdown.dataSource = ["topLeft", "topRight", "bottomLeft","bottomRight"]
-            dropdown.selectionAction = { (index: Int, item: String) in
-                // print("selected item: \(item) index: \(index)")
-                DemoConfiguration.shared.pipPosition = ShopLive.PipPosition(rawValue: index) ?? .bottomRight
-                /*
-                switch index {
-                case 0: // topLeft
-                    
-                    break
-                case 1: // topRight
-
-                    break
-                case 2: // bottomLeft
-
-                    break
-                case 3: // bottomRight
-
-                    break
-                default:
-                    break
+            
+            switch item.optionType {
+            case .nextActionOnHandleNavigation:
+                dropdown.dataSource = ["PIP", "KEEP", "CLOSE"]
+                dropdown.selectionAction = { (index: Int, item: String) in
+                    // print("selected item: \(item) index: \(index)")
+                    DemoConfiguration.shared.nextActionTypeOnHandleNavigation = ActionType(rawValue: index) ?? .PIP
+                    anchorView.removeFromSuperview()
+                    self.tableView.reloadData()
                 }
-                 */
-                anchorView.removeFromSuperview()
-                self.tableView.reloadData()
+                break
+            case .pipPosition:
+                dropdown.dataSource = ["topLeft", "topRight", "bottomLeft","bottomRight"]
+                dropdown.selectionAction = { (index: Int, item: String) in
+                    // print("selected item: \(item) index: \(index)")
+                    DemoConfiguration.shared.pipPosition = ShopLive.PipPosition(rawValue: index) ?? .bottomRight
+                    anchorView.removeFromSuperview()
+                    self.tableView.reloadData()
+                }
+                break
+            default:
+                    break
             }
 
             dropdown.show()

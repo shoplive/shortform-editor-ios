@@ -115,6 +115,12 @@ final class ButtonOptionCell: UITableViewCell {
                 descriptionTitle = item.optionDescription
             }
             break
+        case .nextActionOnHandleNavigation:
+            let nextActionOnHandleNavigation: ActionType = DemoConfiguration.shared.nextActionTypeOnHandleNavigation
+            
+            descriptionTitle = nextActionOnHandleNavigation.name
+            break
+            
         default:
             descriptionTitle = item.optionDescription
             break
