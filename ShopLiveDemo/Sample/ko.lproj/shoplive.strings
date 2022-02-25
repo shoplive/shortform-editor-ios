@@ -74,8 +74,11 @@
 "sdkoption.pipPosition.description" = "PIP 모드가 시작될 때 위치입니다. (기본은 bottomRight)";
 "sdkoption.pipScale.title" = "PIP Scale";
 "sdkoption.pipScale.description" = "PIP 모드 화면의 Scale입니다.\n화면 width 기준으로 scale 된 사이즈 (0 ~ 1 사이의 값)로 표시";
-"sdkoption.nextActionTypeOnNavigation.title" = "ActionType on Navigation ";
-"sdkoption.nextActionTypeOnNavigation.description" = "상품이 선택되면 PIP로 자동 전환 여부를 설정합니다. ";
+"sdkoption.nextActionTypeOnNavigation.title" = "사용자 링크 탭 시 Shoplive Player의 동시 동작";
+"sdkoption.nextActionTypeOnNavigation.description" = "사용자가 링크를 탭 하였을 때 Shoplive Player 동작을 설정합니다.";
+"sdkoption.nextActionTypeOnNavigation.item1" = "PIP 모드 전환 (기본값)";
+"sdkoption.nextActionTypeOnNavigation.item2" = "변경 없음";
+"sdkoption.nextActionTypeOnNavigation.item3" = "종료";
 "sdkoption.headphoneOption1.title" = "이어폰/헤드셋 옵션";
 "sdkoption.headphoneOption1.description" = "이어폰/헤드셋 연결이 끊기면 영상을 멈추지 않습니다.";
 "sdkoption.callOption.title" = "통화 옵션";

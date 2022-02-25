@@ -181,12 +181,12 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
             anchorView.frame = CGRect(origin: .init(x: 20, y: cellRect.origin.y + cell.frame.height), size: anchorView.frame.size)
 
             let dropdown = DropDown()
-            dropdown.width = 150
             dropdown.anchorView = anchorView
             
             switch item.optionType {
             case .nextActionOnHandleNavigation:
-                dropdown.dataSource = ["PIP", "KEEP", "CLOSE"]
+                dropdown.width = 200
+                dropdown.dataSource = ["sdkoption.nextActionTypeOnNavigation.item1".localized(), "sdkoption.nextActionTypeOnNavigation.item2".localized(), "sdkoption.nextActionTypeOnNavigation.item3".localized()]
                 dropdown.selectionAction = { (index: Int, item: String) in
                     // print("selected item: \(item) index: \(index)")
                     DemoConfiguration.shared.nextActionTypeOnHandleNavigation = ActionType(rawValue: index) ?? .PIP
@@ -195,6 +195,7 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 break
             case .pipPosition:
+                dropdown.width = 150
                 dropdown.dataSource = ["topLeft", "topRight", "bottomLeft","bottomRight"]
                 dropdown.selectionAction = { (index: Int, item: String) in
                     // print("selected item: \(item) index: \(index)")
@@ -218,4 +219,17 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
 
 
 
+}
+
+extension ActionType {
+    var localizedName: String {
+        switch self {
+        case .PIP:
+            return "sdkoption.nextActionTypeOnNavigation.item1".localized()
+        case .KEEP:
+            return "sdkoption.nextActionTypeOnNavigation.item2".localized()
+        case .CLOSE:
+            return "sdkoption.nextActionTypeOnNavigation.item3".localized()
+        }
+    }
 }

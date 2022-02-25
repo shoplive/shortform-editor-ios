@@ -27,12 +27,24 @@ final class ButtonOptionCell: UITableViewCell {
         view.font = .systemFont(ofSize: 14, weight: .regular)
         return view
     }()
+    
+    private lazy var optionValueWhenDropdownLabel: UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.numberOfLines = 0
+        view.textColor = .black
+        view.font = .systemFont(ofSize: 14, weight: .regular)
+        view.isHidden = true
+        return view
+    }()
 
     private lazy var labelBoxView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(optionTitleLabel)
         view.addSubview(optionDescriptionLabel)
+        view.addSubview(optionValueWhenDropdownLabel)
+        
         optionTitleLabel.snp.makeConstraints {
             $0.leading.trailing.top.equalToSuperview()
             $0.height.greaterThanOrEqualTo(20)
@@ -40,6 +52,11 @@ final class ButtonOptionCell: UITableViewCell {
         optionDescriptionLabel.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
+            $0.bottom.equalToSuperview()
+        }
+        optionValueWhenDropdownLabel.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(optionDescriptionLabel.snp.bottom).offset(4)
             $0.bottom.equalToSuperview()
         }
         return view
@@ -77,56 +94,104 @@ final class ButtonOptionCell: UITableViewCell {
             $0.bottom.equalToSuperview().offset(-20)
         }
     }
+    
+    private func setupDefault() {
+        optionValueWhenDropdownLabel.isHidden = true
+        optionDescriptionLabel.snp.remakeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
+            $0.bottom.equalToSuperview()
+        }
+        optionValueWhenDropdownLabel.snp.remakeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(optionDescriptionLabel.snp.bottom).offset(4)
+            $0.bottom.equalToSuperview()
+        }
+    }
+    
+    private func setupDropdown() {
+        optionValueWhenDropdownLabel.isHidden = false
+        optionDescriptionLabel.snp.remakeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
+            $0.bottom.equalTo(optionValueWhenDropdownLabel.snp.top).offset(-4)
+        }
+        optionValueWhenDropdownLabel.snp.remakeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(optionDescriptionLabel.snp.bottom).offset(4)
+            $0.bottom.equalToSuperview()
+        }
+    }
 
     func configure(item: SDKOptionItem) {
+        if item.optionType.settingType == .dropdown {
+            setupDropdown()
+        } else {
+            setupDefault()
+        }
+        
         optionTitleLabel.text = item.name
         updateDatas(item: item)
     }
-
+    
     func updateDatas(item: SDKOptionItem) {
         var descriptionTitle: String = ""
-        switch item.optionType {
-        case .shareScheme:
-            if let shareScheme = DemoConfiguration.shared.shareScheme, !shareScheme.isEmpty {
-                descriptionTitle = shareScheme
-            } else {
-                descriptionTitle = item.optionDescription
+        
+        switch item.optionType.settingType {
+        case .dropdown:
+            optionDescriptionLabel.text = item.optionDescription
+            switch item.optionType {
+            case .pipPosition:
+                let pipPosition = DemoConfiguration.shared.pipPosition
+                if pipPosition != ShopLive.PipPosition.default {
+                    descriptionTitle = pipPosition.name
+                } else {
+                    descriptionTitle = item.optionDescription
+                }
+                break
+            case .nextActionOnHandleNavigation:
+                let nextActionOnHandleNavigation: ActionType = DemoConfiguration.shared.nextActionTypeOnHandleNavigation
+                
+                descriptionTitle = nextActionOnHandleNavigation.localizedName
+                break
+            default:
+                break
             }
+            optionValueWhenDropdownLabel.text = descriptionTitle
             break
-        case .progressColor:
-            if let progressColor = DemoConfiguration.shared.progressColor, !progressColor.isEmpty {
-                descriptionTitle = progressColor
-            } else {
-                descriptionTitle = item.optionDescription
-            }
-            break
-        case .pipScale:
-            if let pipScale = DemoConfiguration.shared.pipScale, pipScale > 0.0, pipScale <= 1.0 {
-                descriptionTitle = String(format: "%.1f",  pipScale)
-            } else {
-                descriptionTitle = item.optionDescription
-            }
-            break
-        case .pipPosition:
-            let pipPosition = DemoConfiguration.shared.pipPosition
-            if pipPosition != ShopLive.PipPosition.default {
-                descriptionTitle = pipPosition.name
-            } else {
-                descriptionTitle = item.optionDescription
-            }
-            break
-        case .nextActionOnHandleNavigation:
-            let nextActionOnHandleNavigation: ActionType = DemoConfiguration.shared.nextActionTypeOnHandleNavigation
-            
-            descriptionTitle = nextActionOnHandleNavigation.name
-            break
-            
         default:
-            descriptionTitle = item.optionDescription
+            switch item.optionType {
+            case .shareScheme:
+                if let shareScheme = DemoConfiguration.shared.shareScheme, !shareScheme.isEmpty {
+                    descriptionTitle = shareScheme
+                } else {
+                    descriptionTitle = item.optionDescription
+                }
+                break
+            case .progressColor:
+                if let progressColor = DemoConfiguration.shared.progressColor, !progressColor.isEmpty {
+                    descriptionTitle = progressColor
+                } else {
+                    descriptionTitle = item.optionDescription
+                }
+                break
+            case .pipScale:
+                if let pipScale = DemoConfiguration.shared.pipScale, pipScale > 0.0, pipScale <= 1.0 {
+                    descriptionTitle = String(format: "%.1f",  pipScale)
+                } else {
+                    descriptionTitle = item.optionDescription
+                }
+                break
+            default:
+                descriptionTitle = item.optionDescription
+                break
+            }
+
+            optionDescriptionLabel.text = descriptionTitle
             break
         }
-
-        optionDescriptionLabel.text = descriptionTitle
+        
+        
     }
 
 }
