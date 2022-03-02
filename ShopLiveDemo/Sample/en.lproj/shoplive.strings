@@ -76,7 +76,7 @@
 "sdkoption.pipScale.description" = "PIP 모드 화면의 Scale입니다.\n화면 width 기준으로 scale 된 사이즈 (0 ~ 1 사이의 값)로 표시";
 "sdkoption.nextActionTypeOnNavigation.title" = "Synchronized Shoplive Player action when a user taps a link";
 "sdkoption.nextActionTypeOnNavigation.description" = "Sets the Synchronized Shoplive Player action when a user taps a link.";
-"sdkoption.nextActionTypeOnNavigation.item1" = "Switch PIP mode (default)";
+"sdkoption.nextActionTypeOnNavigation.item1" = "Switch PIP mode";
 "sdkoption.nextActionTypeOnNavigation.item2" = "No change";
 "sdkoption.nextActionTypeOnNavigation.item3" = "Exit";
 "sdkoption.pipScale.title" = "이어폰/헤드셋 옵션";
