@@ -438,7 +438,7 @@ import WebKit
         self.shopLiveWindow?.clipsToBounds = false
         self.shopLiveWindow?.rootViewController?.view.layer.cornerRadius = 10
         self.shopLiveWindow?.rootViewController?.view.backgroundColor = .black
-        liveStreamViewController?.hideBackgroundPoster()
+//        liveStreamViewController?.hideBackgroundPoster()
 
         videoWindowPanGestureRecognizer?.isEnabled = true
         videoWindowTapGestureRecognizer?.isEnabled = true
