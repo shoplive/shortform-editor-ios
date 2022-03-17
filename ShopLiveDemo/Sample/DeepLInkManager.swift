@@ -39,6 +39,7 @@ final class DeepLinkManager {
         case .video:
             guard let alias = parameters["alias"] as? String, let ak = parameters["ak"] as? String, let ck = parameters["ck"] as? String else { return }
             ShopLiveDemoKeyTools.shared.save(key: .init(alias: alias, campaignKey: ck, accessKey: ak))
+            ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: alias)
             break
         default:
             break

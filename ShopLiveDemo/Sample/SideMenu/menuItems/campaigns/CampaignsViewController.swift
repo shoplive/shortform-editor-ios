@@ -131,5 +131,6 @@ extension CampaignsViewController: KeySetObserver {
 
     func keysetUpdated() {
         updateTableView()
+        self.navigationController?.popViewController(animated: true)
     }
 }
