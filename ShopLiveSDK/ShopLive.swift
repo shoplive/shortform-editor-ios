@@ -151,6 +151,18 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    public static func setPictureInPicturePadding(padding: UIEdgeInsets) {
+        ShopLiveController.shared.pipPadding = padding
+    }
+
+    public static func setPictureInPictureMargin(top: CGFloat) {
+        ShopLiveController.shared.pipTopMargin = top
+    }
+
+    public static func setPictureInPictureMargin(bottom: CGFloat) {
+        ShopLiveController.shared.pipBottomMargin = bottom
+    }
+
     public static func sendCommandMessage(payload: [String : Any]?) {
         guard let payload = payload else {
             return

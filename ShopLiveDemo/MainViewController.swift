@@ -14,6 +14,13 @@ class MainViewController: SideMenuBaseViewController {
 
     var safari: SFSafariViewController? = nil
 
+    lazy var tabbar: UITabBar = {
+        let view = UITabBar()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .lightGray
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,6 +37,12 @@ class MainViewController: SideMenuBaseViewController {
         self.items.insert("DevInfoCell", at: 0)
         self.tableView.register(DevInfoCell.self, forCellReuseIdentifier: "DevInfoCell")
         setupSampleOptions()
+        
+        self.view.addSubviews(tabbar)
+        tabbar.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+        }
     }
 
     func setupSampleOptions() {
@@ -136,6 +149,10 @@ class MainViewController: SideMenuBaseViewController {
 
         // handle Navigation Action Type
         ShopLive.setNextActionOnHandleNavigation(actionType: DemoConfiguration.shared.nextActionTypeOnHandleNavigation)
+        ShopLive.setPictureInPicturePadding(padding: .init(top: 30, left: 40, bottom: 20, right: 20))
+//        ShopLive.setPictureInPicturePadding(padding: .init(top: 40, left: 10, bottom: 10, right: 40))
+        ShopLive.setPictureInPictureMargin(top: 50)
+        ShopLive.setPictureInPictureMargin(bottom: 50)
         
         // Mute Sound Setting
         ShopLive.setMuteWhenPlayStart(config.isMuted)

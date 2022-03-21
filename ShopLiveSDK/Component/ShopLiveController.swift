@@ -108,6 +108,9 @@ final class ShopLiveController: NSObject {
     var sendButtonFont: UIFont?
     var pipAnimationg: Bool = false
     var swipeEnabled: Bool = true
+    var pipPadding: UIEdgeInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
+    var pipTopMargin: CGFloat = 0
+    var pipBottomMargin: CGFloat = 0
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath, let key = ShopLivePlayerObserveValue(rawValue: keyPath), let _ = change?[.newKey] else { return }
