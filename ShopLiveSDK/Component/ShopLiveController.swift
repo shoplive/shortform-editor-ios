@@ -134,7 +134,8 @@ final class ShopLiveController: NSObject {
             break
         case .playerItemStatus:
             if ShopLiveController.playerItemStatus == .readyToPlay {
-                ShopLiveController.player?.isMuted = isPreview ? true : false
+                ShopLiveLogger.debugLog("isMuted \(ShopLiveController.shared.isMuted)")
+                ShopLiveController.player?.isMuted = isPreview ? true : ShopLiveController.shared.isMuted
             }
             postPlayerObservers(key: key)
             break
@@ -208,6 +209,7 @@ final class ShopLiveController: NSObject {
         keepAspectOnTabletPortrait = true
         isSuccessCampaignJoin = false
         campaignStatus = .close
+        isMuted = false
     }
     private func reset() {
         playItem = nil
@@ -218,7 +220,6 @@ final class ShopLiveController: NSObject {
 
         playControl = .none
         isReplayMode = false
-        isMuted = false
         isHiddenOverlay = false
         overlayUrl = nil
         isPlaying = false

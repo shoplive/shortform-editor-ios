@@ -149,7 +149,9 @@ class SwitchOptionCell: UITableViewCell {
         case .playWhenPreviewTapped:
             useOption = DemoConfiguration.shared.usePlayWhenPreviewTapped
             break
-            
+        case .mute:
+            useOption = DemoConfiguration.shared.isMuted
+            break
         default:
             break
         }
@@ -181,6 +183,9 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .playWhenPreviewTapped:
             DemoConfiguration.shared.usePlayWhenPreviewTapped = useOption
+            break
+        case .mute:
+            DemoConfiguration.shared.isMuted = useOption
             break
         default:
             break

@@ -62,12 +62,15 @@
 "campaign.msg.deleteAll.title" = "캠페인을 모두 삭제 하시겠습니까?";
 "campaign.input.accesskey.placeholder" = "accessKey";
 "campaign.input.campaignkey.placeholder" = "campaignKey";
+"sdkoption.section.sound.title" = "Sound";
 "sdkoption.section.preview.title" = "Preview";
 "sdkoption.section.pip.title" = "PIP (Picture in Picture)";
 "sdkoption.section.autoPlay.title" = "자동재생";
 "sdkoption.section.share.title" = "공유하기";
 "sdkoption.section.progress.title" = "로딩 프로그레스";
 "sdkoption.section.chatFont.title" = "채팅 폰트";
+"sdkoption.sound.mute.title" = "Muted play starts";
+"sdkoption.sound.mute.description" = "Muted when play starts video";
 "sdkoption.preview.title" = "Preview Tap to Play";
 "sdkoption.preview.description" = "Play When Preview Tapped";
 "sdkoption.pipPosition.title" = "PIP 위치";

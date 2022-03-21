@@ -137,6 +137,9 @@ class MainViewController: SideMenuBaseViewController {
         // handle Navigation Action Type
         ShopLive.setNextActionOnHandleNavigation(actionType: DemoConfiguration.shared.nextActionTypeOnHandleNavigation)
         
+        // Mute Sound Setting
+        ShopLive.setMuteWhenPlayStart(config.isMuted)
+        
         // Phase Setting
         #if DEMO
         ShopLiveDefines.phase = ShopLiveDevConfiguration.shared.phaseType

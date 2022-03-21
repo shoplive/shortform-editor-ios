@@ -344,4 +344,15 @@ final class DemoConfiguration: NSObject {
             return ActionType(rawValue: value) ?? .PIP
         }
     }
+    
+    var isMuted: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.mute.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.mute.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.mute.optionKey)
+        }
+    }
 }
