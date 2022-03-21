@@ -60,6 +60,7 @@ enum WebInterface {
     case setUserName(payload: [String: Any?])
     case error(code: String, message: String)
     case command(command: String, payload: Any?)
+    case sendCommandMessage
 
     var functionString: String {
         switch self {
@@ -157,6 +158,8 @@ enum WebInterface {
             return WebFunction.error.rawValue
         case .command:
             return WebFunction.command.rawValue
+        case .sendCommandMessage:
+            return WebFunction.sendCommandMessage.rawValue
         }
     }
     
@@ -210,6 +213,7 @@ enum WebInterface {
         case customActionResult = "CUSTOM_ACTION_RESULT"
         case setUserName = "SET_USER_NAME"
         case error = "ERROR"
+        case sendCommandMessage = "SEND_COMMAND_MESSAGE"
     }
 }
 
@@ -369,6 +373,8 @@ extension WebInterface {
             self = .command(command: command, payload: body["payload"])
         case .completeCustomAction:
             self = .completeCustomAction
+        case .sendCommandMessage:
+            self = .sendCommandMessage
         }
     }
 }

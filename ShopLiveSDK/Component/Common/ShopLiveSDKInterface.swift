@@ -157,5 +157,6 @@ import UIKit
     @objc static func setNextActionOnHandleNavigation(actionType: ActionType)
     @objc static func getNextActionTypeOnHandleNavigation() -> ActionType
     
+    @objc static func sendCommandMessage(payload: [String:Any]?)
     @objc static func setMuteWhenPlayStart(_ mute: Bool)
 }

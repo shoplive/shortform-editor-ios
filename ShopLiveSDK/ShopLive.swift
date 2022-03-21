@@ -151,6 +151,13 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    public static func sendCommandMessage(payload: [String : Any]?) {
+        guard let payload = payload else {
+            return
+        }
+
+        ShopLiveController.webInstance?.sendEventToWeb(event: .sendCommandMessage, payload.toJson())
+    }
     
     public static func setMuteWhenPlayStart(_ mute: Bool) {
         ShopLiveController.isMuted = mute
