@@ -149,10 +149,10 @@ class MainViewController: SideMenuBaseViewController {
 
         // handle Navigation Action Type
         ShopLive.setNextActionOnHandleNavigation(actionType: DemoConfiguration.shared.nextActionTypeOnHandleNavigation)
-        ShopLive.setPictureInPicturePadding(padding: .init(top: 30, left: 40, bottom: 20, right: 20))
+        ShopLive.setPictureInPicturePadding(padding: .init(top: 20, left: 20, bottom: 20, right: 20))
 //        ShopLive.setPictureInPicturePadding(padding: .init(top: 40, left: 10, bottom: 10, right: 40))
-        ShopLive.setPictureInPictureMargin(top: 50)
-        ShopLive.setPictureInPictureMargin(bottom: 50)
+        ShopLive.setPictureInPictureMargin(top: 0)
+        ShopLive.setPictureInPictureMargin(bottom: 30)
         
         // Mute Sound Setting
         ShopLive.setMuteWhenPlayStart(config.isMuted)

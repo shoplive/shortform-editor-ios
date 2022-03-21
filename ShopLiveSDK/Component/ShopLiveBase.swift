@@ -520,6 +520,28 @@ import WebKit
 
     }
     
+    private func alignPipPosion(pipCenter: CGPoint) -> ShopLive.PipPosition {
+        guard let mainWindow = self.mainWindow else { return .bottomRight }
+        let center = mainWindow.center
+        let rate = (mainWindow.frame.height - ShopLiveController.shared.keyboardHeight) / mainWindow.frame.height
+        let isPositiveDiffX = center.x - pipCenter.x > 0
+        let isPositiveDiffY = (center.y * rate) - pipCenter.y > 0
+        let position: ShopLive.PipPosition = {
+            switch (isPositiveDiffX, isPositiveDiffY) {
+            case (true, true):
+                return .topLeft
+            case (true, false):
+                return .bottomLeft
+            case (false, true):
+                return .topRight
+            case (false, false):
+                return .bottomRight
+            }
+        }()
+        
+        return position
+    }
+    
     var panGestureInitialCenter: CGPoint = .zero
 
     @objc private func liveWindowPanGestureHandler(_ recognizer: UIPanGestureRecognizer) {
@@ -545,9 +567,9 @@ import WebKit
             let pipBottomMargin: CGFloat = isKeyboardShow ? 0 : ShopLiveController.shared.pipBottomMargin
             
             let mainWindowHeight: CGFloat = mainWindow.bounds.height - (isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0)
-            let minX = (liveWindow.bounds.width / 2.0) + pipEdgeInsets.left + safeAreaInset.left
+            let minX = (liveWindow.bounds.width / 2.0) + pipEdgeInsets.left + safeAreaInset.left + liveWindow.bounds.origin.x
             let maxX = mainWindow.bounds.width - ((liveWindow.bounds.width / 2.0) + pipEdgeInsets.right + safeAreaInset.right)
-            let minY = liveWindow.bounds.height / 2.0 + pipEdgeInsets.top + safeAreaInset.top + pipTopMargin
+            let minY = liveWindow.bounds.height / 2.0 + pipEdgeInsets.top + safeAreaInset.top + pipTopMargin + liveWindow.bounds.origin.y
             let maxY = mainWindowHeight - ((liveWindow.bounds.height / 2.0) + pipEdgeInsets.bottom + pipBottomMargin + safeAreaInset.bottom)
             
             var centerX = panGestureInitialCenter.x + translation.x
@@ -567,39 +589,53 @@ import WebKit
                 return
             }
             
-            let animationDuration: CGFloat = 0.5
+            let animationDuration: CGFloat = 1.0
             
             if velocity.x.magnitude > 600 {
-                centerX += velocity.x
-                if centerX < minX {
+                if centerX + velocity.x < minX {
                     centerX = minX
-                } else if centerX > maxX {
+                } else if centerX + velocity.x > maxX {
                     centerX = maxX
                 }
             }
             
-            ShopLiveLogger.debugLog("velocity y \(velocity.y.magnitude)")
-            
             if velocity.y.magnitude > 600 {
-                centerY += velocity.y
-                
-                if centerY < minY {
+                if centerY + velocity.y < minY {
                     centerY = minY
-                } else if centerY > maxY {
+                } else if centerY + velocity.y > maxY {
                     centerY = maxY
                 }
             }
             
-            let destination = CGPoint(x: min(max(minX, centerX), maxX), y: min(max(minY, centerY), maxY))
+            switch alignPipPosion(pipCenter: .init(x: centerX, y: centerY)) {
+            case .bottomLeft:
+                centerX = minX
+                centerY = maxY
+                break
+            case .topLeft:
+                centerX = minX
+                centerY = minY
+            case .topRight:
+                centerX = maxX
+                centerY = minY
+                break
+            case .bottomRight:
+                centerX = maxX
+                centerY = maxY
+                break
+            case .default:
+                centerX = maxX
+                centerY = maxY
+                break
+            }
+            
+            let destination = CGPoint(x: centerX, y: centerY) //CGPoint(x: min(max(minX, centerX), maxX), y: min(max(minY, centerY), maxY))
             let initialVelocity = initialAnimationVelocity(for: velocity, from: liveWindow.center, to: destination)
             let parameters = UISpringTimingParameters(dampingRatio: 1, initialVelocity: initialVelocity)
             let animator = UIViewPropertyAnimator(duration: TimeInterval(animationDuration), timingParameters: parameters)
-            ShopLiveLogger.debugLog("destination: \(destination)")
+
             animator.addAnimations {
                 liveWindow.center = destination
-            }
-
-            animator.addCompletion { (position) in
                 self.alignPipView()
             }
 
