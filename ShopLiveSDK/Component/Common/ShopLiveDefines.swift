@@ -11,7 +11,7 @@ import CoreMedia
 //import CoreTelephony
 
 @objc internal final class ShopLiveDefines: NSObject {
-    static let sdkVersion: String = "1.2.2"
+    static let sdkVersion: String = "1.2.3"
     static var phase: ShopLive.Phase = .REAL
     static var url: String {
         switch phase {
