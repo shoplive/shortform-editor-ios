@@ -130,7 +130,9 @@ class CampaignInputAlertController: CustomBaseAlertController {
 
     @objc func saveCampaign() {
         guard saveEnable else { return }
-        ShopLiveDemoKeyTools.shared.save(key: .init(alias: titleInputField.text ?? "", campaignKey: campaignInputField.text ?? "", accessKey: accessInputField.text ?? ""))
+        guard let alias = titleInputField.text else { return }
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: alias, campaignKey: campaignInputField.text ?? "", accessKey: accessInputField.text ?? ""))
+        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: alias)
         self.dismiss(animated: false, completion: nil)
 
     }

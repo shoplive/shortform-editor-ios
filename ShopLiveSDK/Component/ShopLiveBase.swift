@@ -561,12 +561,7 @@ import WebKit
                 return
             }
             
-            guard velocity.x.magnitude > 600 || velocity.y.magnitude > 600 else {
-                self.alignPipView()
-                return
-            }
-            
-            let animationDuration: CGFloat = 1.0
+            let animationDuration: CGFloat = 0.7
             
             if velocity.x.magnitude > 600 {
                 if centerX + velocity.x < minX {
@@ -607,8 +602,7 @@ import WebKit
             }
             
             let destination = CGPoint(x: centerX, y: centerY)
-            let initialVelocity = initialAnimationVelocity(for: velocity, from: liveWindow.center, to: destination)
-            let parameters = UISpringTimingParameters(dampingRatio: 1, initialVelocity: initialVelocity)
+            let parameters = UISpringTimingParameters(dampingRatio: 1, initialVelocity: .init(dx: 0, dy: 0))
             let animator = UIViewPropertyAnimator(duration: TimeInterval(animationDuration), timingParameters: parameters)
 
             animator.addAnimations {
@@ -629,18 +623,22 @@ import WebKit
         startShopLivePictureInPicture()
     }
     
-    private func initialAnimationVelocity(for gestureVelocity: CGPoint, from currentPosition: CGPoint, to finalPosition: CGPoint) -> CGVector {
+    /*
+    private func initialAnimationVelocity(from currentPosition: CGPoint, to finalPosition: CGPoint) -> CGVector {
         var animationVelocity = CGVector.zero
         let xDistance = finalPosition.x - currentPosition.x
         let yDistance = finalPosition.y - currentPosition.y
+        ShopLiveLogger.debugLog("initialVelocity- gestureVelocity: \(gestureVelocity)")
+        let gev = CGPoint(x: 0, y: 0)
         if xDistance != 0 {
-            animationVelocity.dx = gestureVelocity.x / xDistance
+            animationVelocity.dx = gev.x / xDistance
         }
         if yDistance != 0 {
-            animationVelocity.dy = gestureVelocity.y / yDistance
+            animationVelocity.dy = gev.y / yDistance
         }
         return animationVelocity
     }
+     */
 
     @objc private func pipTapGestureHandler(_ recognizer: UITapGestureRecognizer) {
         guard !ShopLiveController.shared.isPreview else {

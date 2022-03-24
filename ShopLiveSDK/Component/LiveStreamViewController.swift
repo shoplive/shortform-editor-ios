@@ -766,7 +766,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didTouchMuteButton(with isMuted: Bool) {
-        ShopLiveController.player?.isMuted = isMuted
+        ShopLiveController.player?.isMuted = ShopLiveController.shared.isPreview ? true : isMuted
     }
 
     func reloadVideo() {
