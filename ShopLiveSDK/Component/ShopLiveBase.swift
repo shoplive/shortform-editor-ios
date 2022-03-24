@@ -295,52 +295,29 @@ import WebKit
         let safeAreaInsets = mainWindow.safeAreaInsets
         let pipSize = self.pipSize(with: scale)
         let pipEdgeInsets: UIEdgeInsets = ShopLiveController.shared.pipPadding
-        let pipTopMargin: CGFloat = ShopLiveController.shared.pipTopMargin
-        let pipBottomMargin: CGFloat = isKeyboardShow ? 0 : ShopLiveController.shared.pipBottomMargin
+        let pipFloatingOffset: UIEdgeInsets = ShopLiveController.shared.pipFloatingOffset
+        let pipFloatingOffsetBottom: CGFloat = isKeyboardShow ? 0 : pipFloatingOffset.bottom
         let keyboardHeight: CGFloat = isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0
         
         switch position {
         case .bottomRight, .default:
-            origin.x = mainWindow.frame.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width
-            origin.y = mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipBottomMargin
+            origin.x = mainWindow.frame.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width - pipFloatingOffset.right
+            origin.y = mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
         case .bottomLeft:
-            origin.x = safeAreaInsets.left + pipEdgeInsets.left
-            origin.y = mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipBottomMargin
+            origin.x = safeAreaInsets.left + pipEdgeInsets.left + pipFloatingOffset.left
+            origin.y = mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
         case .topRight:
-            origin.x = mainWindow.frame.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width
-            origin.y = safeAreaInsets.top + pipEdgeInsets.top + pipTopMargin
+            origin.x = mainWindow.frame.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width - pipFloatingOffset.right
+            origin.y = safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
         case .topLeft:
-            origin.x = safeAreaInsets.left + pipEdgeInsets.left
-            origin.y = safeAreaInsets.top + pipEdgeInsets.top + pipTopMargin
+            origin.x = safeAreaInsets.left + pipEdgeInsets.left + pipFloatingOffset.left
+            origin.y = safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
         }
 
         pipPosition = CGRect(origin: origin, size: pipSize)
 
         return pipPosition
     }
-
-//    private func pipCenter(with position: ShopLive.PipPosition) -> CGPoint {
-//        guard let mainWindow = self.mainWindow else { return .zero }
-//        let pipSize = self.pipPosition(with: lastPipScale, position: lastPipPosition).size
-////        let padding: CGFloat = 20
-//        let padding: CGFloat = 0
-//        let safeAreaInset = mainWindow.safeAreaInsets
-//        
-//        let leftCenterX = (pipSize.width / 2) //+ padding // + safeAreaInset.left
-//        let rightCenterX = mainWindow.bounds.width - (pipSize.width / 2) //+ padding + safeAreaInset.right)
-//        let topCenterY = (pipSize.height / 2) //+ padding + safeAreaInset.top
-//        let bottomCenterY = mainWindow.bounds.height - (pipSize.height / 2) //+ padding + safeAreaInset.bottom) - (isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0)
-//        switch position {
-//        case .bottomRight, .default:
-//            return CGPoint(x: rightCenterX, y: bottomCenterY)
-//        case .bottomLeft:
-//            return CGPoint(x: leftCenterX, y: bottomCenterY)
-//        case .topRight:
-//            return CGPoint(x: rightCenterX, y: topCenterY)
-//        case .topLeft:
-//            return CGPoint(x: leftCenterX, y: topCenterY)
-//        }
-//    }
     
     private func startCustomPictureInPicture(with position: ShopLive.PipPosition = .default, scale: CGFloat = 2/5) {
 
@@ -563,20 +540,20 @@ import WebKit
 
             let safeAreaInset = mainWindow.safeAreaInsets
             let pipEdgeInsets: UIEdgeInsets = ShopLiveController.shared.pipPadding
-            let pipTopMargin: CGFloat = ShopLiveController.shared.pipTopMargin
-            let pipBottomMargin: CGFloat = isKeyboardShow ? 0 : ShopLiveController.shared.pipBottomMargin
+            let pipFloatingOffset: UIEdgeInsets = ShopLiveController.shared.pipFloatingOffset
+            let pipFloatingOffsetBottom: CGFloat = isKeyboardShow ? 0 : pipFloatingOffset.bottom
             
             let mainWindowHeight: CGFloat = mainWindow.bounds.height - (isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0)
-            let minX = (liveWindow.bounds.width / 2.0) + pipEdgeInsets.left + safeAreaInset.left + liveWindow.bounds.origin.x
-            let maxX = mainWindow.bounds.width - ((liveWindow.bounds.width / 2.0) + pipEdgeInsets.right + safeAreaInset.right)
-            let minY = liveWindow.bounds.height / 2.0 + pipEdgeInsets.top + safeAreaInset.top + pipTopMargin + liveWindow.bounds.origin.y
-            let maxY = mainWindowHeight - ((liveWindow.bounds.height / 2.0) + pipEdgeInsets.bottom + pipBottomMargin + safeAreaInset.bottom)
+            let minX = (liveWindow.bounds.width / 2.0) + pipEdgeInsets.left + safeAreaInset.left + liveWindow.bounds.origin.x + pipFloatingOffset.left
+            let maxX = mainWindow.bounds.width - ((liveWindow.bounds.width / 2.0) + pipEdgeInsets.right + safeAreaInset.right + pipFloatingOffset.right)
+            let minY = liveWindow.bounds.height / 2.0 + pipEdgeInsets.top + safeAreaInset.top + pipFloatingOffset.top + liveWindow.bounds.origin.y + pipFloatingOffset.top
+            let maxY = mainWindowHeight - ((liveWindow.bounds.height / 2.0) + pipEdgeInsets.bottom + pipFloatingOffsetBottom + safeAreaInset.bottom)
             
             var centerX = panGestureInitialCenter.x + translation.x
             var centerY = panGestureInitialCenter.y + translation.y
             
             let xRange = 0...(mainWindow.bounds.width)
-            let yRange = (0 + safeAreaInset.top)...(mainWindowHeight - (safeAreaInset.bottom)) + (isKeyboardShow ? liveWindow.frame.height * 0.2 : 0) // + pipBottomMargin // pipTopMargin
+            let yRange = (0 + safeAreaInset.top)...(mainWindowHeight - (safeAreaInset.bottom)) + (isKeyboardShow ? liveWindow.frame.height * 0.2 : 0)
             
             //범위밖으로 나가면 stop shoplive
             guard xRange.contains(centerX), yRange.contains(centerY) else {
@@ -629,7 +606,7 @@ import WebKit
                 break
             }
             
-            let destination = CGPoint(x: centerX, y: centerY) //CGPoint(x: min(max(minX, centerX), maxX), y: min(max(minY, centerY), maxY))
+            let destination = CGPoint(x: centerX, y: centerY)
             let initialVelocity = initialAnimationVelocity(for: velocity, from: liveWindow.center, to: destination)
             let parameters = UISpringTimingParameters(dampingRatio: 1, initialVelocity: initialVelocity)
             let animator = UIViewPropertyAnimator(duration: TimeInterval(animationDuration), timingParameters: parameters)

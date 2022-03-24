@@ -82,6 +82,8 @@
 "sdkoption.nextActionTypeOnNavigation.item1" = "Switch PIP mode";
 "sdkoption.nextActionTypeOnNavigation.item2" = "No change";
 "sdkoption.nextActionTypeOnNavigation.item3" = "Exit";
+"sdkoption.pipFloatingOffset.title" = "PIP 영역 설정";
+"sdkoption.pipFloatingOffset.description" = "PIP의 영역을 설정합니다.";
 "sdkoption.pipScale.title" = "이어폰/헤드셋 옵션";
 "sdkoption.pipScale.description" = "이어폰/헤드셋 연결이 끊기면 영상을 멈추지 않습니다.";
 "sdkoption.callOption.title" = "통화 옵션";
@@ -98,6 +100,7 @@
 "sdkoption.chatInputCustomFont.description" = "미사용시, 시스템 기본 폰트가 사용됨";
 "sdkoption.chatSendButtonCustomFont.title" = "채팅 전송 버튼 커스텀 폰트 사용하기";
 "sdkoption.chatSendButtonCustomFont.description" = "미사용시, 시스템 기본 폰트가 사용됨";
+"sdkoption.pipFloatingOffset.page.title" = "PIP 영역 설정";
 "sdk.msg.nonekey" = "선택된 키가 없습니다.";
 "couponresponse.success.default" = "쿠폰 다운로드에 성공 했습니다.";
 "couponresponse.failed.default" = "쿠폰 다운로드에 실패 했습니다.";

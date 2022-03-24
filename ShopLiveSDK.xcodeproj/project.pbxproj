@@ -219,6 +219,8 @@
 		BFE21965276B41A600900FB1 /* ButtonOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21964276B41A600900FB1 /* ButtonOptionCell.swift */; };
 		BFE21967276B436600900FB1 /* DevInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21966276B436600900FB1 /* DevInfoCell.swift */; };
 		BFE21969276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21968276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift */; };
+		BFF3586C27E9AD3500B920E9 /* PipAreaSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3586B27E9AD3500B920E9 /* PipAreaSettingViewController.swift */; };
+		BFF3586D27E9AD3500B920E9 /* PipAreaSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3586B27E9AD3500B920E9 /* PipAreaSettingViewController.swift */; };
 		BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF91D86266D2FE800B659C1 /* SafariServices.framework */; };
 		BFFAD7C226BA050200C8C5E1 /* ShopLivePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFAD7C026BA050200C8C5E1 /* ShopLivePlayer.swift */; };
 		BFFAD7C326BA050200C8C5E1 /* ShopLivePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFAD7C026BA050200C8C5E1 /* ShopLivePlayer.swift */; };
@@ -363,6 +365,7 @@
 		BFE21964276B41A600900FB1 /* ButtonOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonOptionCell.swift; sourceTree = "<group>"; };
 		BFE21966276B436600900FB1 /* DevInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevInfoCell.swift; sourceTree = "<group>"; };
 		BFE21968276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveCheckBoxButton.swift; sourceTree = "<group>"; };
+		BFF3586B27E9AD3500B920E9 /* PipAreaSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipAreaSettingViewController.swift; sourceTree = "<group>"; };
 		BFF91D86266D2FE800B659C1 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		BFFAD7C026BA050200C8C5E1 /* ShopLivePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLivePlayer.swift; sourceTree = "<group>"; };
 		BFFAD7C126BA050200C8C5E1 /* ShopLivePlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLivePlayerView.swift; sourceTree = "<group>"; };
@@ -531,6 +534,7 @@
 				BF8CEF96276CC5D10043D5FF /* campaigns */,
 				BF8CEF97276CC5E60043D5FF /* userinfo */,
 				BF8CEF98276CC5F60043D5FF /* optionsetting */,
+				BFF3586A27E9ACEA00B920E9 /* pipsetting */,
 				BF8CEF99276CC6590043D5FF /* couponsetting */,
 				BF8CEF9A276CC6740043D5FF /* secretkeysetting */,
 				BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */,
@@ -745,6 +749,14 @@
 				BFF91D86266D2FE800B659C1 /* SafariServices.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BFF3586A27E9ACEA00B920E9 /* pipsetting */ = {
+			isa = PBXGroup;
+			children = (
+				BFF3586B27E9AD3500B920E9 /* PipAreaSettingViewController.swift */,
+			);
+			path = pipsetting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1071,6 +1083,7 @@
 				BF60E1F92771CECA0060531C /* ShopLivePlayItem.swift in Sources */,
 				BF60E1FA2771CECA0060531C /* UserInfoCell.swift in Sources */,
 				BF60E1FB2771CECA0060531C /* ShopLiveDemoKeyTools.swift in Sources */,
+				BFF3586D27E9AD3500B920E9 /* PipAreaSettingViewController.swift in Sources */,
 				BF60E1FC2771CECA0060531C /* OverlayWebView.swift in Sources */,
 				BF60E1FD2771CECA0060531C /* ShopLiveRadioButton.swift in Sources */,
 				BF60E1FE2771CECA0060531C /* CouponResponseSettingView.swift in Sources */,
@@ -1155,6 +1168,7 @@
 				BFFAD7D426BA06EB00C8C5E1 /* ShopLivePlayItem.swift in Sources */,
 				BF47199B276832E100522F6F /* UserInfoCell.swift in Sources */,
 				BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */,
+				BFF3586C27E9AD3500B920E9 /* PipAreaSettingViewController.swift in Sources */,
 				BFAD8EDB265A24DA00202160 /* OverlayWebView.swift in Sources */,
 				BF4719B12768C63B00522F6F /* ShopLiveRadioButton.swift in Sources */,
 				BF8CEF9C276CFB310043D5FF /* CouponResponseSettingView.swift in Sources */,
@@ -1528,7 +1542,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
@@ -1538,7 +1552,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.2.3;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo;
 				PRODUCT_NAME = "DEMO QA";
@@ -1559,7 +1573,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
@@ -1569,7 +1583,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.2.3;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo;
 				PRODUCT_NAME = "DEMO QA";

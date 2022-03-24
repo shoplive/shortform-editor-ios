@@ -355,4 +355,38 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.mute.optionKey)
         }
     }
+    
+    var pipPadding: UIEdgeInsets {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipPadding.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.pipPadding.optionKey)
+        }
+        get {
+            let defPadding: UIEdgeInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
+            guard let padding = UserDefaults.standard.cgRect(forKey: SDKOptionType.pipPadding.optionKey) else {
+                return defPadding
+            }
+            
+            return padding
+        }
+    }
+    
+    var pipFloatingOffset: UIEdgeInsets {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipFloatingOffset.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.pipFloatingOffset.optionKey)
+        }
+        get {
+            let defPadding: UIEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
+            guard let padding = UserDefaults.standard.cgRect(forKey: SDKOptionType.pipFloatingOffset.optionKey) else {
+                return defPadding
+            }
+            
+            return padding
+        }
+    }
 }
+
+

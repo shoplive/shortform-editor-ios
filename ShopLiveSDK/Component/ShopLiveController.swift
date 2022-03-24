@@ -109,6 +109,7 @@ final class ShopLiveController: NSObject {
     var pipAnimationg: Bool = false
     var swipeEnabled: Bool = true
     var pipPadding: UIEdgeInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
+    var pipFloatingOffset: UIEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
     var pipTopMargin: CGFloat = 0
     var pipBottomMargin: CGFloat = 0
 

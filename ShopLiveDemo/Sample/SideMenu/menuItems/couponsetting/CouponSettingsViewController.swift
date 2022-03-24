@@ -36,7 +36,7 @@ final class CouponSettingsViewController: SideMenuItemViewController {
     }
 
     func setupNaviItems() {
-        self.title = SideMenuTypes.userinfo.stringKey.localized()
+        self.title = SideMenuTypes.coupon.stringKey.localized()
 
         let save = UIBarButtonItem(title: "sdk.user.save".localized(from: "shoplive"), style: .plain, target: self, action: #selector(saveAct))
 

@@ -161,6 +161,5 @@ import UIKit
     @objc static func setMuteWhenPlayStart(_ mute: Bool)
 
     @objc static func setPictureInPicturePadding(padding: UIEdgeInsets)
-    @objc static func setPictureInPictureMargin(top: CGFloat)
-    @objc static func setPictureInPictureMargin(bottom: CGFloat)
+    @objc static func setPictureInPictureFloatingOffset(offset: UIEdgeInsets)
 }
