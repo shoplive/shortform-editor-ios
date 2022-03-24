@@ -284,9 +284,12 @@ extension OverlayWebView: WKScriptMessageHandler {
             self.isSystemInitialized = true
             ShopLiveController.shared.initialize()
             self.webView?.sendEventToWeb(event: .videoInitialized)
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                self.webView?.sendEventToWeb(event: .setVideoMute(isMuted: ShopLiveController.isMuted), ShopLiveController.isMuted)
+            if !ShopLiveController.shared.isPreview {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                    self.webView?.sendEventToWeb(event: .setVideoMute(isMuted: ShopLiveController.isMuted), ShopLiveController.isMuted)
+                }
             }
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
                 self.webView?.sendEventToWeb(event: .onPipModeChanged, self.isPipMode)
             }
@@ -387,10 +390,6 @@ extension OverlayWebView: ShopLivePlayerDelegate {
     }
 
     func handleIsHiddenOverlay() {
-        guard !ShopLiveController.isReplayMode else {
-            self.isUserInteractionEnabled = !ShopLiveController.isHiddenOverlay
-            return
-        }
         guard !ShopLiveController.isHiddenOverlay else {
             self.isHidden = ShopLiveController.isHiddenOverlay
             return

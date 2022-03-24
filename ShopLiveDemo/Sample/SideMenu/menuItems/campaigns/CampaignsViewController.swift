@@ -131,6 +131,8 @@ extension CampaignsViewController: KeySetObserver {
 
     func keysetUpdated() {
         updateTableView()
+        
+        guard items.count > 0 else { return }
         self.navigationController?.popViewController(animated: true)
     }
 }
