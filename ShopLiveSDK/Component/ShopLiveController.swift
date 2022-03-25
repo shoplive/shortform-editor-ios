@@ -137,10 +137,6 @@ final class ShopLiveController: NSObject {
             postPlayerObservers(key: key)
             break
         case .playerItemStatus:
-            if ShopLiveController.playerItemStatus == .readyToPlay {
-                ShopLiveLogger.debugLog("isMuted \(ShopLiveController.shared.isMuted)")
-                ShopLiveController.player?.isMuted = isPreview ? true : ShopLiveController.shared.isMuted
-            }
             postPlayerObservers(key: key)
             break
         case .isMuted:
