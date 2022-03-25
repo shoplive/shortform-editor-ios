@@ -431,7 +431,7 @@ extension ShopLiveController {
     }
 
     static var timeControlStatus: AVPlayer.TimeControlStatus {
-        return shared.playerItem?.player?.timeControlStatus ?? .paused
+        return shared.playerItem?.player?.timeControlStatus ?? .waitingToPlayAtSpecifiedRate
     }
 
     static var timebase: CMTimebase? {

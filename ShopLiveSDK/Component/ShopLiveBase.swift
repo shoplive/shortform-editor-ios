@@ -775,7 +775,14 @@ import WebKit
     @objc func handleNotification(_ notification: Notification) {
         switch notification.name {
         case UIApplication.didBecomeActiveNotification:
-            self.pictureInPictureController?.stopPictureInPicture()
+            if ShopLiveController.shared.isPreview {
+                ShopLiveController.playControl = .resume
+            } else {
+                if ShopLiveController.timeControlStatus == .paused {
+                    ShopLiveController.playControl = .resume
+                }
+                self.pictureInPictureController?.stopPictureInPicture()
+            }
             break
         case UIApplication.didEnterBackgroundNotification:
             self.liveStreamViewController?.onBackground()
