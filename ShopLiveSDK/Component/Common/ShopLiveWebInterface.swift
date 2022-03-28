@@ -8,6 +8,10 @@
 import Foundation
 import WebKit
 
+/**
+    Web - App Interface
+        - Specification interface for the action/data exchange between App and Web Client
+ */
 enum WebInterface {
     static var allFunctions: [WebFunction] {
         return WebFunction.allCases
@@ -224,7 +228,6 @@ extension WebInterface {
         guard let command = body["action"] as? String else { return nil }
         let function = WebFunction(rawValue: command)
         let parameters = body["payload"] as? [String: Any]
-//        ShopLiveLogger.debugLog("WebInterface  \(String(describing: function))")
         ShopLiveLogger.debugLog("from Web [Interface: \(String(describing: function))]: [payload: \(String(describing: parameters))]")
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "from Web [Interface: \(String(describing: function))]: [payload: \(String(describing: parameters))]"))
         switch function {
@@ -237,7 +240,6 @@ extension WebInterface {
         case .setLiveStreamUrl:
             if let urlString = parameters?["liveStreamUrl"] as? String {
                 guard !urlString.isEmpty, let url = URL(string: urlString) else {
-                    ShopLiveLogger.debugLog("setLiveStreamUrl stop")
                     ShopLiveController.streamUrl = nil
                     ShopLiveController.shared.releasePlayer = true
                     return nil
@@ -340,12 +342,12 @@ extension WebInterface {
         case .enableSwipeDown:
             self = .enableSwipeDown
         case .setParam:
-            ShopLiveLogger.debugLog("receive setparam \(parameters?["key"])  \(parameters?["value"])")
+            ShopLiveLogger.debugLog("receive setparam \(String(describing: parameters?["key"]))  \(String(describing: parameters?["value"]))")
             guard let key = parameters?["key"] as? String else { return nil }
             guard let value = parameters?["value"] as? String else { return nil }
             self = .setParam(key: key, value: value)
         case .delParam:
-            ShopLiveLogger.debugLog("receive delparam \(parameters?["key"])")
+            ShopLiveLogger.debugLog("receive delparam \(String(describing: parameters?["key"]))")
             guard let key = parameters?["key"] as? String else { return nil }
             self = .delParam(key: key)
         case .showNativeDebug:

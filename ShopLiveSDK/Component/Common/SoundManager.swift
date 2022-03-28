@@ -53,7 +53,7 @@ class SoundManager: NSObject {
         }
     }
     
-    func clear() {
+    func removeAllSounds() {
         self.players.forEach { player in
             player.stop()
         }

@@ -21,16 +21,22 @@ internal final class LiveStreamViewModel: NSObject {
     private var perfMeasurements: PerfMeasurements?
     
     deinit {
-        ShopLiveLogger.debugLog("reset viewModel")
-        reset()
+        teardownLiveStreamViewModel()
     }
     
     override init() {
         super.init()
-        ShopLiveController.shared.addPlayerDelegate(delegate: self)
+        setupLiveStreamViewModel()
     }
 
-    func reset() {
+    private func setupLiveStreamViewModel() {
+        ShopLiveController.shared.addPlayerDelegate(delegate: self)
+    }
+    
+    private func teardownLiveStreamViewModel() {
+        ShopLiveController.shared.removePlayerDelegate(delegate: self)
+        resetPlayer()
+        
         overayUrl = nil
         accessKey = nil
         campaignKey = nil
@@ -40,15 +46,12 @@ internal final class LiveStreamViewModel: NSObject {
 
     func updatePlayerItem(with url: URL) {
         guard ShopLiveController.player != nil else { return }
-//        _ = ShopLiveController.playerItemStatus
-//        _ = ShopLiveController.urlAsset?.url == url
+
         resetPlayer()
 
         let asset = AVURLAsset(url: url)
-//        ShopLiveController.urlAsset = AVURLAsset(url: url)
         let playerItem = AVPlayerItem(asset: asset)
         if asset.isPlayable {
-            ShopLiveLogger.debugLog("abc")
             ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
             let metadataOutput = AVPlayerItemMetadataOutput(identifiers: nil)
             metadataOutput.setDelegate(self, queue: DispatchQueue.main)
@@ -61,8 +64,6 @@ internal final class LiveStreamViewModel: NSObject {
             NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase)
             NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .AVPlayerItemPlaybackStalled, object: self.playerItem)
             ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
-        } else {
-            ShopLiveLogger.debugLog("def")
         }
     }
 
@@ -72,7 +73,6 @@ internal final class LiveStreamViewModel: NSObject {
             return
         }
         ShopLiveController.videoUrl = nil
-//        ShopLiveController.player?.pause()
         ShopLiveController.player?.currentItem?.asset.cancelLoading()
         ShopLiveController.player?.cancelPendingPrerolls()
         ShopLiveController.player?.replaceCurrentItem(with: nil)
@@ -88,25 +88,9 @@ internal final class LiveStreamViewModel: NSObject {
 
         ShopLiveController.playControl = .none
     }
-
-    private func handleIsPlayble() {
-//        guard let asset = ShopLiveController.urlAsset else { return }
-//        let playerItem = AVPlayerItem(asset: asset)
-//        ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
-//        let metadataOutput = AVPlayerItemMetadataOutput(identifiers: nil)
-//        metadataOutput.setDelegate(self, queue: DispatchQueue.main)
-//        playerItem.add(metadataOutput)
-//        ShopLiveController.playerItem = playerItem
-//        self.playerItem = playerItem
-//
-//        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase)
-//        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .AVPlayerItemPlaybackStalled, object: self.playerItem)
-//        ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
-    }
     
     func play() {
         if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty, (ShopLiveController.playerItemStatus == .failed || ShopLiveController.player?.reasonForWaitingToPlay == AVPlayer.WaitingReason.evaluatingBufferingRate) {
-            ShopLiveLogger.debugLog("LiveStreamViewModel play()")
             updatePlayerItem(with: url)
         }
         else {
@@ -115,15 +99,7 @@ internal final class LiveStreamViewModel: NSObject {
                     seek(to: .init(value: 0, timescale: 1))
                 }
             }
-            /*
-            else {
-                if ShopLiveController.shared.needSeek { //}, ShopLiveController.windowStyle == .osPip {
-                    ShopLiveLogger.debugLog("[REASON] time paused live needSeek ---> seek")
-                    ShopLiveController.shared.needSeek = false
-                    ShopLiveController.shared.seekToLatest()
-                }
-            }
-             */
+            
             ShopLiveController.player?.play()
         }
     }
@@ -140,16 +116,10 @@ internal final class LiveStreamViewModel: NSObject {
         } else {
             if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty {
                 if ShopLiveController.shared.needSeek {
-                    ShopLiveLogger.debugLog("[REASON] time paused live needSeek ---> resume seek")
                     ShopLiveController.shared.needSeek = false
                     ShopLiveController.shared.seekToLatest()
                 }
                 ShopLiveController.player?.play()
-//                if ShopLiveController.windowStyle == .osPip {
-//                    ShopLiveController.player?.play()
-//                } else {
-//                    updatePlayerItem(with: url)
-//                }
             }
         }
     }
@@ -164,7 +134,6 @@ internal final class LiveStreamViewModel: NSObject {
     }
 
     func seek(to: CMTime) {
-        ShopLiveLogger.debugLog("seek to: \(to.value)")
         ShopLiveController.shared.currentPlayTime = to.value
         ShopLiveController.player?.seek(to: to)
     }
@@ -196,12 +165,9 @@ internal final class LiveStreamViewModel: NSObject {
                     ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[ON_VIDEO_DURATION_CHANGED] duration total: \(duration)  CMTimeGetSeconds(duration): \(CMTimeGetSeconds(duration))"))
                     ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoDurationChanged, CMTimeGetSeconds(duration))
                 }
-                ShopLiveLogger.debugLog("[ViewModel] handlePlayerItemStatus")
                 self.play()
             }
         case .failed:
-            ShopLiveLogger.debugLog("[ViewModel] PlayerItemStatus failed")
-            ShopLiveLogger.debugLog("[REASON] player Item Status 'failed'")
             ShopLiveController.retryPlay = true
             break
         default:
@@ -212,10 +178,6 @@ internal final class LiveStreamViewModel: NSObject {
 }
 
 extension LiveStreamViewModel: ShopLivePlayerDelegate {
-    func clear() {
-        ShopLiveController.shared.removePlayerDelegate(delegate: self)
-        resetPlayer()
-    }
 
     var identifier: String {
         return "LiveStreamViewModel"
@@ -226,9 +188,6 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
         case .videoUrl:
             guard let videoUrl = ShopLiveController.videoUrl else { return }
             updatePlayerItem(with: videoUrl)
-            break
-        case .isPlayable:
-            handleIsPlayble()
             break
         case .playerItemStatus:
             handlePlayerItemStatus()
@@ -253,59 +212,12 @@ extension LiveStreamViewModel: AVPlayerItemMetadataOutputPushDelegate {
                 if let key = item.key as? String, let datav = item.value as? Data {
                     timedMeta += "\(key): \(String(describing: item.value)) \n"
                     payloads[key] = datav.base64EncodedString()
-//                    ShopLiveLogger.debugLog("item base64  \(datav.base64EncodedString())    origin: \(item.value)")
                 }
-
-                ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: timedMeta))
-/*
-                if let dataVa = item.dataValue, let valeng = item.dataValue?.count {
-                    let str = String(decoding: dataVa, as: UTF8.self)
-                    let startIdx: String.Index = str.index(str.startIndex, offsetBy: 1)
-                    var result = String(str[startIdx...])
-
-                    ShopLiveLogger.debugLog("whkimMeta test String str: \(str)")
-                    ShopLiveLogger.debugLog("whkimMeta test String: \(result.fotmattedString())")
-                    ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "\(result.fotmattedString())"))
-                } else if let strVa = item.stringValue {
-                    ShopLiveLogger.debugLog("whkimMeta test String: \(strVa)")
-                }
- */
             }
         }
 
         if payloads.count > 0 {
             ShopLiveController.shared.webInstance?.sendEventToWeb(event: .onVideoMetadataUpdated, payloads.toJson())
         }
-        /*
-        if let item = groups.first?.items.first {
-
-            ShopLiveLogger.debugLog("item: \(item.description)\nitem debug: \(item.debugDescription)\nitem time: \(item.time)\nitem startdate: \(item.startDate)")
-
-            ShopLiveLogger.debugLog("raw Metadata value: \n \(item.value(forKeyPath: #keyPath(AVMetadataItem.value))!)")
-
-            if let dataVa = item.dataValue, let valeng = item.dataValue?.count {
-                let str = String(decoding: dataVa, as: UTF8.self)
-                let startIdx: String.Index = str.index(str.startIndex, offsetBy: 1)
-                var result = String(str[startIdx...])
-
-                ShopLiveLogger.debugLog("whkimMeta test String str: \(str)")
-                ShopLiveLogger.debugLog("whkimMeta test String: \(result.fotmattedString())")
-                ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "\(result.fotmattedString())"))
-            }
-
-
-//            ShopLiveLogger.debugLog("timedMeta value: \(item.value?.debugDescription)")
-
-//            if let timeValue = item.value {
-//                let data: NSData = .init(bytes: timeValue, length: timeValue)
-//                if let str = String(data: data, encoding: NSUTF8StringEncoding) {
-//                    print(str)
-//                } else {
-//                    print("not a valid UTF-8 sequence")
-//                }
-//            }
-
-        }
-        */
     }
 }

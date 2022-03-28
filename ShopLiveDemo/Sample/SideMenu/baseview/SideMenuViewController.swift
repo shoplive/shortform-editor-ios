@@ -113,7 +113,7 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             ShopLive.close()
             break
         case SideMenuTypes.removeCache.identifier:
-            UserDefaults.standard.removeObject(forKey: ShopLiveDefines.Key.localStorageKey)
+            UserDefaults.standard.removeObject(forKey: ShopLiveDefines.shopliveData)
             UserDefaults.standard.synchronize()
             UIWindow.showToast(message: "menu.msg.removeCache".localized())
             break

@@ -91,15 +91,15 @@ import UIKit
 
 @objc public protocol ShopLiveSDKDelegate: AnyObject {
     @objc func handleNavigation(with url: URL)
-    @available(*, deprecated, message: "use handleDownloadCoupon(with couponId: String, completion: @escaping (ShopLive.CouponResult) -> Void) instead")
+    @available(*, deprecated, message: "use handleDownloadCoupon(with couponId: String, result: @escaping (ShopLive.CouponResult) -> Void) instead")
     @objc optional func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void)
-    @objc optional func handleDownloadCoupon(with couponId: String, completion: @escaping (ShopLive.CouponResult) -> Void)
-    @available(*, deprecated, message: "use handleDownloadCoupon(with couponId: String, completion: @escaping (ShopLive.CouponResult) -> Void) instead")
+    @objc optional func handleDownloadCoupon(with couponId: String, result: @escaping (ShopLive.CouponResult) -> Void)
+    @available(*, deprecated, message: "use handleDownloadCoupon(with couponId: String, result: @escaping (ShopLive.CouponResult) -> Void) instead")
     @objc optional func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void)
-    @available(*, deprecated, message: "use handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping (ShopLive.CustomActionResult) -> Void) instead")
+    @available(*, deprecated, message: "use handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLive.CustomActionResult) -> Void) instead")
     @objc optional func handleCustomActionResult(with id: String, type: String, payload: Any?, completion: @escaping (CustomActionResult) -> Void)
-    @objc optional func handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping (ShopLive.CustomActionResult) -> Void)
-    @available(*, deprecated, message: "use handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping (ShopLive.CustomActionResult) -> Void) instead")
+    @objc optional func handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLive.CustomActionResult) -> Void)
+    @available(*, deprecated, message: "use handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLive.CustomActionResult) -> Void) instead")
     @objc optional func handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping () -> Void)
 
     @objc func handleChangeCampaignStatus(status: String)

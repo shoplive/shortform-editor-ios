@@ -26,22 +26,8 @@ import CoreMedia
         }
     }
     
-    class Key {
-        static var localStorageKey = "shoplivelocalstorage"
-    }
-    
-    static var endpoint: String? {
-        set {
-            UserDefaults.standard.set(newValue, forKey: "shopliveEndpoint")
-        }
-        get  {
-            UserDefaults.standard.string(forKey: "shopliveEndpoint")
-        }
-    }
-    
-    static var landingUrl: String {
-        endpoint ?? url
-    }
+
+    static let shopliveData = "shoplivedata"
 
     static let webInterface: String = "ShopLiveAppInterface"
     static let osVersion = UIDevice.current.systemVersion
@@ -56,49 +42,6 @@ import CoreMedia
         }
 
         return identifier
-    }
-
-//    static func deviceModelName() -> String {
-//        let model = UIDevice.current.model
-//
-//        switch model {
-//        case "iPhone":
-//            return self.iPhoneModel()
-//        case "iPad":
-//            return self.iPadModel()
-//        case "iPad mini" :
-//            return self.iPadMiniModel()
-//        default:
-//            return "Unknown Model : \(model)"
-//        }
-//    }
-
-
-    static func mccMnc() -> String? {
-        /*
-#if os(iOS)
-        let networkInfo =  CTTelephonyNetworkInfo()
-        if #available(iOS 12.0, *) {
-            guard let info = networkInfo.serviceSubscriberCellularProviders,
-                  let dict = networkInfo.serviceCurrentRadioAccessTechnology,
-                  let key = dict.keys.first,
-                  let carrier = info[key],
-                  let mcc = carrier.mobileCountryCode,
-                  let mnc = carrier.mobileNetworkCode
-            else { return nil }
-            return mcc + "-" + mnc
-        } else {
-            guard let carrier = networkInfo.subscriberCellularProvider,
-                  let mcc = carrier.mobileCountryCode,
-                  let mnc = carrier.mobileNetworkCode
-            else { return nil }
-            return mcc + "_" + mnc
-        }
-#else
-        return nil
-#endif
-         */
-        return nil
     }
 }
 

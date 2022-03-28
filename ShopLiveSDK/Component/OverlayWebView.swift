@@ -24,34 +24,46 @@ internal class OverlayWebView: UIView {
     private var inBuffering: Bool = false
     
     private var needSeek: Bool = false
-
-    deinit {
-
-    }
     
     override func removeFromSuperview() {
         super.removeFromSuperview()
-        webView?.configuration.userContentController.removeScriptMessageHandler(forName: ShopLiveDefines.webInterface)
-        webView?.removeFromSuperview()
-        webView = nil
     }
     
     init(with webViewConfiguration: WKWebViewConfiguration? =  nil) {
         super.init(frame: .zero)
         initWebView(with: webViewConfiguration)
-        addObserver()
+        setupOverlayWebView()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         initWebView()
-        addObserver()
+        setupOverlayWebView()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         initWebView()
+        setupOverlayWebView()
+    }
+    
+    deinit {
+        teardownOverlayWebView()
+    }
+    
+    private func setupOverlayWebView() {
         addObserver()
+    }
+    
+    private func teardownOverlayWebView() {
+        webView?.stopLoading()
+        webView?.configuration.userContentController.removeScriptMessageHandler(forName: ShopLiveDefines.webInterface)
+        webView?.removeFromSuperview()
+        
+        ShopLiveController.shared.removePlayerDelegate(delegate: self)
+        removeObserver()
+        webView = nil
+        delegate = nil
     }
     
     override func layoutSubviews() {
@@ -65,8 +77,6 @@ internal class OverlayWebView: UIView {
     private lazy var blockTouchView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-//        view.backgroundColor = .red
-//        view.alpha = 0.3
         view.isHidden = true
         return view
     }()
@@ -79,7 +89,6 @@ internal class OverlayWebView: UIView {
         configuration.mediaTypesRequiringUserActionForPlayback = []
 
         let webView = ShopLiveWebView(frame: CGRect.zero, configuration: configuration)
-//        webView.scrollView.contentInsetAdjustmentBehavior = .never
         webView.scrollView.delegate = self
         ShopLiveController.webInstance = webView
         addSubview(webView)
@@ -98,7 +107,7 @@ internal class OverlayWebView: UIView {
         webView.scrollView.contentInsetAdjustmentBehavior = .never
         webView.allowsLinkPreview = false
         webView.scrollView.layer.masksToBounds = false
-//        webView.configuration.userContentController.addUserScript(WKUserScript(source: source, injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: false))
+
         self.clipsToBounds = true
 
         webView.evaluateJavaScript("navigator.userAgent") { [weak webView] (result, error) in
@@ -108,7 +117,6 @@ internal class OverlayWebView: UIView {
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "userAgent: "+defaultUserAgent + " shoplive/\(ShopLiveDefines.sdkVersion)"))
             }
         }
-        //TODO: 라이브 스트림 없어질 때 webView.configuration.userContentController.removeAllScriptMessageHandlers() 해줘야 한다
         webView.configuration.userContentController.add(LeakAvoider(delegate: self), name: ShopLiveDefines.webInterface)
         self.webView = webView
         // setupBlockTouchView()
@@ -148,6 +156,16 @@ internal class OverlayWebView: UIView {
             self.webView?.sendEventToWeb(event: .completeDownloadCoupon, couponId, true)
         }
 
+    
+    func didCompleteDownloadCoupon(with couponResult: ShopLive.CouponResult) {
+        guard let couponResultJson = couponResult.toJson() else {
+            return
+        }
+
+        self.webView?.sendEventToWeb(event: .downloadCouponResult, couponResultJson)
+    }
+    
+    @available(*, deprecated, message: "use didCompleteDownloadCoupon(with couponResult: ShopLive.CouponResult) instead")
     func didCompleteDownloadCoupon(with couponResult: CouponResult) {
         guard let couponResultJson = couponResult.toJson() else {
             return
@@ -156,6 +174,15 @@ internal class OverlayWebView: UIView {
         self.webView?.sendEventToWeb(event: .downloadCouponResult, couponResultJson)
     }
 
+    func didCompleteCustomAction(with customActionResult: ShopLive.CustomActionResult) {
+        guard let customActionResultJson = customActionResult.toJson() else {
+            return
+        }
+
+        self.webView?.sendEventToWeb(event: .customActionResult, customActionResultJson)
+    }
+    
+    @available(*, deprecated, message: "use didCompleteCustomAction(with customActionResult: ShopLive.CustomActionResult) instead")
     func didCompleteCustomAction(with customActionResult: CustomActionResult) {
         guard let customActionResultJson = customActionResult.toJson() else {
             return
@@ -354,12 +381,12 @@ extension OverlayWebView: WKScriptMessageHandler {
             break
         case .setParam(let key, let value):
             ShopLiveLogger.debugLog("setparam key: \(key) value: \(value)")
-            guard ShopLiveConfiguration.Data.useLocalStorage, key == ShopLiveDefines.Key.localStorageKey else { return }
-            UserDefaults.standard.set(value, forKey: ShopLiveDefines.Key.localStorageKey)
+            guard ShopLiveConfiguration.Data.useLocalStorage, key == ShopLiveDefines.shopliveData else { return }
+            UserDefaults.standard.set(value, forKey: ShopLiveDefines.shopliveData)
             UserDefaults.standard.synchronize()
             break
         case .delParam(_):
-            UserDefaults.standard.removeObject(forKey: ShopLiveDefines.Key.localStorageKey)
+            UserDefaults.standard.removeObject(forKey: ShopLiveDefines.shopliveData)
             break
         case .showNativeDebug:
             ShopLiveViewLogger.shared.setVisible(show: true)
@@ -368,7 +395,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: log))
             break
         case .setUserName(let payload):
-            delegate?.onSetUserName(payload)
+            delegate?.onSetUserName(payload as [String : Any])
             break
         case .error(let code, let message):
             delegate?.onError(code: code, message: message)
@@ -383,13 +410,6 @@ extension OverlayWebView: WKScriptMessageHandler {
 }
 
 extension OverlayWebView: ShopLivePlayerDelegate {
-    func clear() {
-        ShopLiveController.shared.removePlayerDelegate(delegate: self)
-        removeObserver()
-        webView = nil
-        delegate = nil
-    }
-
     func handleIsHiddenOverlay() {
         guard !ShopLiveController.isHiddenOverlay else {
             self.isHidden = ShopLiveController.isHiddenOverlay
@@ -454,33 +474,9 @@ extension NSObject {
     }
 }
 
-internal extension CouponResult {
-    func toJson() -> String? {
-        let couponJson = NSMutableDictionary()
-        couponJson.setValue(self.success, forKey: "success")
-        couponJson.setValue(self.coupon, forKey: "coupon")
-        couponJson.setValue(self.message ?? "", forKey: "message")
-        couponJson.setValue(self.couponStatus.name, forKey: "couponStatus")
-        couponJson.setValue(self.alertType.name, forKey: "alertType")
-        return couponJson.toJson()
-    }
-}
-
-internal extension CustomActionResult {
-    func toJson() -> String? {
-        let couponJson = NSMutableDictionary()
-        couponJson.setValue(self.success, forKey: "success")
-        couponJson.setValue(self.id, forKey: "id")
-        couponJson.setValue(self.message ?? "", forKey: "message")
-        couponJson.setValue(self.couponStatus.name, forKey: "couponStatus")
-        couponJson.setValue(self.alertType.name, forKey: "alertType")
-        return couponJson.toJson()
-    }
-}
-
 extension OverlayWebView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        ShopLiveLogger.debugLog("rect: \(scrollView.frame) webview inset: \(webView?.scrollView.contentInset)")
+        ShopLiveLogger.debugLog("rect: \(scrollView.frame) webview inset: \(String(describing: webView?.scrollView.contentInset))")
         scrollView.setContentOffset(.init(x: 0, y: 0), animated: false)
     }
 }
