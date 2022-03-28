@@ -167,6 +167,11 @@ internal final class LiveStreamViewController: ShopLiveViewController {
                            object: AVAudioSession.sharedInstance())
 
     }
+    
+    private func teardownAudioConfig() {
+        NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance())
+    }
 
     @objc func handleInterruption(notification: Notification) {
         ShopLiveLogger.debugLog("handleInterruption")
@@ -1223,6 +1228,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         resetRetry()
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
         removeObserver()
+        teardownAudioConfig()
         removePlaytimeObserver()
         #if DEMO
 //            removeQuailtyLogTimer()
