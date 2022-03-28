@@ -354,10 +354,12 @@ extension OverlayWebView: WKScriptMessageHandler {
             break
         case .setParam(let key, let value):
             ShopLiveLogger.debugLog("setparam key: \(key) value: \(value)")
-            ShopLiveStorage.set(key: key, value: value)
+            guard ShopLiveConfiguration.Data.useLocalStorage, key == ShopLiveDefines.Key.localStorageKey else { return }
+            UserDefaults.standard.set(value, forKey: ShopLiveDefines.Key.localStorageKey)
+            UserDefaults.standard.synchronize()
             break
-        case .delParam(let key):
-            ShopLiveStorage.remove(key: key)
+        case .delParam(_):
+            UserDefaults.standard.removeObject(forKey: ShopLiveDefines.Key.localStorageKey)
             break
         case .showNativeDebug:
             ShopLiveViewLogger.shared.setVisible(show: true)

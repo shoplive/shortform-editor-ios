@@ -135,7 +135,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     }
 
     private func updateHeadPhoneStatus(plugged: Bool) {
-        if !ShopLiveConfiguration.soundPolicy.keepPlayVideoOnHeadphoneUnplugged {
+        if !ShopLiveConfiguration.SoundPolicy.keepPlayVideoOnHeadphoneUnplugged {
             ShopLiveController.playControl = plugged ? .resume : .pause
         }
     }
@@ -201,7 +201,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
             }
 
 
-            guard ShopLiveConfiguration.soundPolicy.autoResumeVideoOnCallEnded else {
+              guard ShopLiveConfiguration.SoundPolicy.autoResumeVideoOnCallEnded else {
                 return
             }
             if ShopLiveController.isReplayMode {

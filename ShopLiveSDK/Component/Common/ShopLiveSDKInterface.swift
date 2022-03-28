@@ -166,4 +166,6 @@ import UIKit
 
     @objc static func setPictureInPicturePadding(padding: UIEdgeInsets)
     @objc static func setPictureInPictureFloatingOffset(offset: UIEdgeInsets)
+    
+    @objc static func setUsingLocalStorage(_ use: Bool)
 }

@@ -214,6 +214,10 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    static func setUsingLocalStorage(_ use: Bool) {
+        ShopLiveConfiguration.Data.useLocalStorage = use
+    }
+    
     public static func setPictureInPictureFloatingOffset(offset: UIEdgeInsets) {
         ShopLiveController.shared.pipFloatingOffset = offset
     }

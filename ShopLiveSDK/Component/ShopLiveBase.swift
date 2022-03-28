@@ -697,14 +697,12 @@ import WebKit
 //            ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "applicationName"))
             queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
         #endif
-        for item in ShopLiveStorage.allItems {
-            if !item.value.isEmpty {
-                let value = item.value
-                let escapedString = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-                queryItems.append(URLQueryItem(name: item.key, value: escapedString))
-                ShopLiveLogger.debugLog("storage \(item.key): \(value)")
-            }
+        
+        if let localStorage = UserDefaults.standard.string(forKey: ShopLiveDefines.Key.localStorageKey), ShopLiveConfiguration.Data.useLocalStorage {
+            queryItems.append(URLQueryItem(name: ShopLiveDefines.Key.localStorageKey, value: localStorage))
         }
+        
+        UserDefaults.standard.synchronize()
 
 //        urlComponents?.queryItems = queryItems
 
@@ -904,19 +902,19 @@ extension ShopLiveBase: ShopLiveComponent {
     }
     
     func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool) {
-        ShopLiveConfiguration.soundPolicy.keepPlayVideoOnHeadphoneUnplugged = keepPlay
+        ShopLiveConfiguration.SoundPolicy.keepPlayVideoOnHeadphoneUnplugged = keepPlay
     }
 
     func isKeepPlayVideoOnHeadPhoneUnplugged() -> Bool {
-        return ShopLiveConfiguration.soundPolicy.keepPlayVideoOnHeadphoneUnplugged
+        return ShopLiveConfiguration.SoundPolicy.keepPlayVideoOnHeadphoneUnplugged
     }
 
     func setAutoResumeVideoOnCallEnded(_ autoResume: Bool) {
-        ShopLiveConfiguration.soundPolicy.autoResumeVideoOnCallEnded = autoResume
+        ShopLiveConfiguration.SoundPolicy.autoResumeVideoOnCallEnded = autoResume
     }
 
     func isAutoResumeVideoOnCallEnded() -> Bool {
-        return ShopLiveConfiguration.soundPolicy.autoResumeVideoOnCallEnded
+        return ShopLiveConfiguration.SoundPolicy.autoResumeVideoOnCallEnded
     }
 
     @objc func startPictureInPicture() {

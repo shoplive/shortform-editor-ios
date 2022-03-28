@@ -26,6 +26,10 @@ import CoreMedia
         }
     }
     
+    class Key {
+        static var localStorageKey = "shoplivelocalstorage"
+    }
+    
     static var endpoint: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: "shopliveEndpoint")

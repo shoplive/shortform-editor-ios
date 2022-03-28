@@ -34,26 +34,13 @@ internal final class ShopLiveConfiguration: NSObject {
     }
 
     class SoundPolicy {
-        var keepPlayVideoOnHeadphoneUnplugged: Bool = false {
-            willSet {
-                guard keepPlayVideoOnHeadphoneUnplugged != newValue else { return }
-                updateNotification()
-            }
-        }
-
-        var autoResumeVideoOnCallEnded: Bool = true {
-            willSet {
-                guard autoResumeVideoOnCallEnded != newValue else { return }
-                updateNotification()
-            }
-        }
-
-        private func updateNotification() {
-            NotificationCenter.default.post(name: SLNotifications.soundPolicyUpdate.name, object: nil)
-        }
+        static var keepPlayVideoOnHeadphoneUnplugged: Bool = false
+        static var autoResumeVideoOnCallEnded: Bool = false
     }
 
-    static var soundPolicy: SoundPolicy = .init()
+    class Data {
+        static var useLocalStorage: Bool = true
+    }
 
     fileprivate override init() {}
 }
