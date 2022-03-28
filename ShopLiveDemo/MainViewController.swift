@@ -259,7 +259,12 @@ extension MainViewController: ShopLiveSDKDelegate {
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleCampaignInfo \(campaignInfo)"))
     }
 
-    func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void) {
+    /*
+     // deprecated
+    func handleDownloadCouponResult(with couponId: String, completion: @escaping (ShopLive.CouponResult) -> Void) {
+    */
+    
+    func handleDownloadCoupon(with couponId: String, completion: @escaping (ShopLive.CouponResult) -> Void) {
         print("handleDownloadCouponResult")
         let alert = UIAlertController(title: "sample.coupon.download".localized(), message: "sample.coupon.id".localized() + ": \(couponId)", preferredStyle: .alert)
         alert.addAction(.init(title: "alert.msg.failed".localized(), style: .cancel, handler: { _ in
@@ -268,7 +273,7 @@ extension MainViewController: ShopLiveSDKDelegate {
                 let status = SDKSettings.downloadCouponFailedStatus
                 let alertType = SDKSettings.downloadCouponFailedAlertType
                 DispatchQueue.main.async {
-                    let result = CouponResult(couponId: couponId, success: false, message: message, status: status, alertType: alertType)
+                    let result = ShopLive.CouponResult(couponId: couponId, success: false, message: message, status: status, alertType: alertType)
                     completion(result)
                 }
             }
@@ -278,7 +283,7 @@ extension MainViewController: ShopLiveSDKDelegate {
             let status = SDKSettings.downloadCouponSuccessStatus
             let alertType = SDKSettings.downloadCouponSuccessAlertType
             DispatchQueue.main.async {
-                let result = CouponResult(couponId: couponId, success: true, message: message, status: status, alertType: alertType)
+                let result = ShopLive.CouponResult(couponId: couponId, success: true, message: message, status: status, alertType: alertType)
                 completion(result)
             }
         }))
@@ -292,7 +297,13 @@ extension MainViewController: ShopLiveSDKDelegate {
     }
     */
 
+    /*
+     // deprecated
     func handleCustomActionResult(with id: String, type: String, payload: Any?, completion: @escaping (CustomActionResult) -> Void) {
+    }
+     */
+    
+    func handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping (ShopLive.CustomActionResult) -> Void) {
         print("handleCustomActionResult")
 
         let alert = UIAlertController(title: "CUSTOM ACTION", message: "id: \(id)\ntype: \(type)\npayload: \(String(describing: payload))", preferredStyle: .alert)
@@ -301,7 +312,7 @@ extension MainViewController: ShopLiveSDKDelegate {
                 let message = SDKSettings.downloadCouponFailedMessage
                 let status = SDKSettings.downloadCouponFailedStatus
                 let alertType = SDKSettings.downloadCouponFailedAlertType
-                let result = CustomActionResult(id: id, success: false, message: message, status: status, alertType: alertType)
+                let result = ShopLive.CustomActionResult(id: id, success: false, message: message, status: status, alertType: alertType)
                 completion(result)
             }
         }))
@@ -310,7 +321,7 @@ extension MainViewController: ShopLiveSDKDelegate {
             let status = SDKSettings.downloadCouponSuccessStatus
             let alertType = SDKSettings.downloadCouponSuccessAlertType
             DispatchQueue.main.async {
-                let result = CustomActionResult(id: id, success: true, message: message, status: status, alertType: alertType)
+                let result = ShopLive.CustomActionResult(id: id, success: true, message: message, status: status, alertType: alertType)
                 completion(result)
             }
         }))

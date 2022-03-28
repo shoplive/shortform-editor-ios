@@ -96,13 +96,13 @@ final class CouponCallbackSettingView: UIView, TappableTextDelegate {
         }
     }
 
-    private var status: ResultStatus = .SHOW {
+    private var status: ShopLive.ResultStatus = .SHOW {
         didSet {
             self.exposeField.configure(title: status.name)
         }
     }
 
-    private var alertType: ResultAlertType = .ALERT {
+    private var alertType: ShopLive.ResultAlertType = .ALERT {
         didSet {
             self.notiField.configure(title: alertType.name)
         }
@@ -232,7 +232,7 @@ final class CouponCallbackSettingView: UIView, TappableTextDelegate {
 
     }
 
-    func configure(title: String, message: String, placeHolder: String, status: ResultStatus, alertType: ResultAlertType) {
+    func configure(title: String, message: String, placeHolder: String, status: ShopLive.ResultStatus, alertType: ShopLive.ResultAlertType) {
         self.title = title
         self.message = message
         self.placeHolder = placeHolder
@@ -240,7 +240,7 @@ final class CouponCallbackSettingView: UIView, TappableTextDelegate {
         self.alertType = alertType
     }
 
-    func getSettingValues() -> (message: String, status: ResultStatus, alertType: ResultAlertType) {
+    func getSettingValues() -> (message: String, status: ShopLive.ResultStatus, alertType: ShopLive.ResultAlertType) {
         return (self.messageField.text ?? "", self.status, self.alertType)
     }
 
@@ -248,7 +248,7 @@ final class CouponCallbackSettingView: UIView, TappableTextDelegate {
         switch sender {
         case exposeField:
             let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            ResultStatus.allCases.forEach { status in
+            ShopLive.ResultStatus.allCases.forEach { status in
                 let action = UIAlertAction(title: status.name, style: .default) { [weak self] alertAction in
                     guard let self = self else { return }
                     self.status = status
@@ -261,7 +261,7 @@ final class CouponCallbackSettingView: UIView, TappableTextDelegate {
             break
         case notiField:
             let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            ResultAlertType.allCases.forEach { alertType in
+            ShopLive.ResultAlertType.allCases.forEach { alertType in
                 let action = UIAlertAction(title: alertType.name, style: .default) { [weak self] alertAction in
                     guard let self = self else { return }
                     self.alertType = alertType

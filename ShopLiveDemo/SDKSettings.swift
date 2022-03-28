@@ -63,25 +63,25 @@ final class SDKSettings {
         }
     }
 
-    static var downloadCouponSuccessStatus: ResultStatus {
+    static var downloadCouponSuccessStatus: ShopLive.ResultStatus {
         set {
             ud.set(newValue.rawValue, forKey: SettingKey.downloadCouponSuccessStatus.key)
             ud.synchronize()
         }
         get {
             let rawValue = ud.integer(forKey: SettingKey.downloadCouponSuccessStatus.key)
-            return ResultStatus(rawValue: rawValue) ?? .SHOW
+            return ShopLive.ResultStatus(rawValue: rawValue) ?? .SHOW
         }
     }
 
-    static var downloadCouponSuccessAlertType: ResultAlertType {
+    static var downloadCouponSuccessAlertType: ShopLive.ResultAlertType {
         set {
             ud.set(newValue.rawValue, forKey: SettingKey.downloadCouponSuccessAlertType.key)
             ud.synchronize()
         }
         get {
             let rawValue = ud.integer(forKey: SettingKey.downloadCouponSuccessAlertType.key)
-            return ResultAlertType(rawValue: rawValue) ?? .ALERT
+            return ShopLive.ResultAlertType(rawValue: rawValue) ?? .ALERT
         }
     }
 
@@ -95,25 +95,25 @@ final class SDKSettings {
         }
     }
 
-    static var downloadCouponFailedStatus: ResultStatus {
+    static var downloadCouponFailedStatus: ShopLive.ResultStatus {
         set {
             ud.set(newValue.rawValue, forKey: SettingKey.downloadCouponFailedStatus.key)
             ud.synchronize()
         }
         get {
             let rawValue = ud.integer(forKey: SettingKey.downloadCouponFailedStatus.key)
-            return ResultStatus(rawValue: rawValue) ?? .SHOW
+            return ShopLive.ResultStatus(rawValue: rawValue) ?? .SHOW
         }
     }
 
-    static var downloadCouponFailedAlertType: ResultAlertType {
+    static var downloadCouponFailedAlertType: ShopLive.ResultAlertType {
         set {
             ud.set(newValue.rawValue, forKey: SettingKey.downloadCouponFailedAlertType.key)
             ud.synchronize()
         }
         get {
             let rawValue = ud.integer(forKey: SettingKey.downloadCouponFailedAlertType.key)
-            return ResultAlertType(rawValue: rawValue) ?? .ALERT
+            return ShopLive.ResultAlertType(rawValue: rawValue) ?? .ALERT
         }
     }
 

@@ -11,8 +11,8 @@ final class CouponResponseSettingView: UIView {
 
     private var isSuccess: Bool
     var resultMessage: String = ""
-    var resultStatus: ResultStatus = .SHOW
-    var resultAlertType: ResultAlertType = .ALERT
+    var resultStatus: ShopLive.ResultStatus = .SHOW
+    var resultAlertType: ShopLive.ResultAlertType = .ALERT
 
     var showRadioGroup: [ShopLiveRadioButton] = []
     var alertRadioGroup: [ShopLiveRadioButton] = []
@@ -86,11 +86,11 @@ final class CouponResponseSettingView: UIView {
     lazy var couponShowView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-
+        
         let showRadio: ShopLiveRadioButton = {
             let view = ShopLiveRadioButton()
             view.translatesAutoresizingMaskIntoConstraints = false
-            view.configure(identifier: ResultStatus.SHOW.name +  (self.isSuccess ? "s": "f"), description: ResultStatus.SHOW.name)
+            view.configure(identifier: ShopLive.ResultStatus.SHOW.name +  (self.isSuccess ? "s": "f"), description: ShopLive.ResultStatus.SHOW.name)
             view.updateRadio(selected: true)
             view.delegate = radioDelegate
             return view
@@ -99,7 +99,7 @@ final class CouponResponseSettingView: UIView {
         let hideRadio: ShopLiveRadioButton = {
             let view = ShopLiveRadioButton()
             view.translatesAutoresizingMaskIntoConstraints = false
-            view.configure(identifier: ResultStatus.HIDE.name +  (self.isSuccess ? "s": "f"), description: ResultStatus.HIDE.name)
+            view.configure(identifier: ShopLive.ResultStatus.HIDE.name +  (self.isSuccess ? "s": "f"), description: ShopLive.ResultStatus.HIDE.name)
             view.delegate = radioDelegate
             return view
         }()
@@ -107,7 +107,7 @@ final class CouponResponseSettingView: UIView {
         let keepRadio: ShopLiveRadioButton = {
             let view = ShopLiveRadioButton()
             view.translatesAutoresizingMaskIntoConstraints = false
-            view.configure(identifier: ResultStatus.KEEP.name +  (self.isSuccess ? "s": "f"), description: ResultStatus.KEEP.name)
+            view.configure(identifier: ShopLive.ResultStatus.KEEP.name +  (self.isSuccess ? "s": "f"), description: ShopLive.ResultStatus.KEEP.name)
             view.delegate = radioDelegate
             return view
         }()
@@ -146,7 +146,7 @@ final class CouponResponseSettingView: UIView {
         let alertRadio: ShopLiveRadioButton = {
             let view = ShopLiveRadioButton()
             view.translatesAutoresizingMaskIntoConstraints = false
-            view.configure(identifier: ResultAlertType.ALERT.name +  (self.isSuccess ? "s": "f"), description: ResultAlertType.ALERT.name)
+            view.configure(identifier: ShopLive.ResultAlertType.ALERT.name +  (self.isSuccess ? "s": "f"), description: ShopLive.ResultAlertType.ALERT.name)
             view.updateRadio(selected: true)
             view.delegate = radioDelegate
             return view
@@ -155,7 +155,7 @@ final class CouponResponseSettingView: UIView {
         let toastRadio: ShopLiveRadioButton = {
             let view = ShopLiveRadioButton()
             view.translatesAutoresizingMaskIntoConstraints = false
-            view.configure(identifier: ResultAlertType.TOAST.name +  (self.isSuccess ? "s": "f"), description: ResultAlertType.TOAST.name)
+            view.configure(identifier: ShopLive.ResultAlertType.TOAST.name +  (self.isSuccess ? "s": "f"), description: ShopLive.ResultAlertType.TOAST.name)
             view.delegate = radioDelegate
             return view
         }()
@@ -280,18 +280,18 @@ final class CouponResponseSettingView: UIView {
 
 extension CouponResponseSettingView {
     func updateShowSetting(identifier: String) {
-        resultStatus = ResultStatus.allCases.first(where: { $0.name == identifier.dropLast()}) ?? (isSuccess ? DemoConfiguration.shared.downloadCouponSuccessStatus : DemoConfiguration.shared.downloadCouponFailedStatus)
+        resultStatus = ShopLive.ResultStatus.allCases.first(where: { $0.name == identifier.dropLast()}) ?? (isSuccess ? DemoConfiguration.shared.downloadCouponSuccessStatus : DemoConfiguration.shared.downloadCouponFailedStatus)
 
         updateShowRadio(identifier: identifier)
     }
 
     func updateAlertSetting(identifier: String) {
-        resultAlertType = ResultAlertType.allCases.first(where: { $0.name == identifier.dropLast()}) ?? (isSuccess ? DemoConfiguration.shared.downloadCouponSuccessAlertType : DemoConfiguration.shared.downloadCouponFailedAlertType)
+        resultAlertType = ShopLive.ResultAlertType.allCases.first(where: { $0.name == identifier.dropLast()}) ?? (isSuccess ? DemoConfiguration.shared.downloadCouponSuccessAlertType : DemoConfiguration.shared.downloadCouponFailedAlertType)
 
         updateAlertRadio(identifier: identifier)
     }
 
-    func getSetting() -> (message: String, resultStatus: ResultStatus, resultalertType: ResultAlertType) {
+    func getSetting() -> (message: String, resultStatus: ShopLive.ResultStatus, resultalertType: ShopLive.ResultAlertType) {
         var message: String = resultMessage
         if let inputMessage = messageTextField.text, !message.isEmpty {
             message = inputMessage
