@@ -79,6 +79,9 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     private var logTimer: Timer?
 
     private func addQualityLogTimer() {
+        logTimer?.invalidate()
+        logTimer = nil
+        
         logTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             if let perf = ShopLiveController.perfMeasurements {
                 var qualityLog = "[play performance]\n"
@@ -666,13 +669,8 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     func handleRetryPlay() {
         ShopLiveLogger.debugLog("handleRetryPlay in \(ShopLiveController.retryPlay)")
 
-//        guard ShopLiveController.playerItemStatus != .readyToPlay else {
-//            resetRetry()
-//            return
-//        }
-
+        resetRetry()
         if ShopLiveController.retryPlay {
-
             retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
                 self.retryCount += 1
 
@@ -707,10 +705,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
                         }
                     }
                 }
-
             }
-        } else {
-            resetRetry()
         }
     }
 }
