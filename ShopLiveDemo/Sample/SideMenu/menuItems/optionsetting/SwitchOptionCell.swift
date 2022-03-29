@@ -119,7 +119,6 @@ class SwitchOptionCell: UITableViewCell {
     @objc func didTapSwitch() {
         optionSwitch.isOn = !optionSwitch.isOn
 
-        // DemoConfiguration 데이터 변경
         updateConfiguration()
     }
 

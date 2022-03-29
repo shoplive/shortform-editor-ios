@@ -222,10 +222,7 @@ final class UserInfoViewController: SideMenuItemViewController {
 
         let delete = UIBarButtonItem(title: "sdk.user.delete".localized(from: "shoplive"), style: .plain, target: self, action: #selector(deleteAct))
 
-//        let save = UIBarButtonItem(title: "sdk.user.save".localized(from: "shoplive"), style: .plain, target: self, action: #selector(saveAct))
-
         delete.tintColor = .white
-//        save.tintColor = .white
 
         self.navigationItem.rightBarButtonItems = [delete] //save,
     }

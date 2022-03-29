@@ -113,12 +113,10 @@ final class DemoSecretKeyTool {
         do {
             guard let keysetArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(unarchivedObject) as? [DemoSecretKeySet] else {
                 return nil
-//                fatalError("unArchiveData - Can't get Keysets")
             }
             return keysetArray
         } catch {
             return nil
-//            fatalError("unArchiveData - Can't encode data: \(error)")
         }
     }
 

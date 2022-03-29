@@ -83,9 +83,9 @@ final class ShopLiveViewLogger {
 
 final class ShopLiveViewLog {
     enum LogType {
-        case callback // 콜백
-        case interface // 웹로그
-        case applog // 앱로그
+        case callback
+        case interface
+        case applog 
         case normal
         case inbound
     }

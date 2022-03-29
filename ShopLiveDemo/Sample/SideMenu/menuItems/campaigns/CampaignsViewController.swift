@@ -102,8 +102,6 @@ extension CampaignsViewController: UITableViewDelegate, UITableViewDataSource {
         case .delete:
             if let item = items[safe: indexPath.row] {
                 ShopLiveDemoKeyTools.shared.delete(alias: item.alias)
-            } else {
-//                UIWindow.showToast(message: "삭제가 ")
             }
             updateTableView()
             break
