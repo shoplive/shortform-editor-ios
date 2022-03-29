@@ -90,7 +90,6 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print(items[indexPath.row].stringKey.localized())
 
         switch items[indexPath.row].identifier {
         case SideMenuTypes.campaigns.identifier:

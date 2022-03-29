@@ -350,10 +350,6 @@ final class CouponCallbackSettingViewController: UIViewController {
     }
 
     func setupSettings() {
-        // 성공시 액션 설정 "sample.callback.success.action_setting".localized()
-        // 쿠폰 다운로드에 성공하였습니다. "sample.callback.success.msg".localized()
-        // 실패시 액션 설정 "sample.callback.failed.action_setting".localized()
-        // 쿠폰 다운로드에 실패하였습니다. "sample.callback.failed.msg".localized()
         self.successSettingView.configure(title: "성공시 액션 설정", message: SDKSettings.downloadCouponSuccessMessage, placeHolder: "쿠폰 다운로드에 성공하였습니다.", status: SDKSettings.downloadCouponSuccessStatus, alertType: SDKSettings.downloadCouponSuccessAlertType)
         self.failedSettingView.configure(title: "실패시 액션 설정", message: SDKSettings.downloadCouponFailedMessage, placeHolder: "쿠폰 다운로드에 실패하였습니다.", status: SDKSettings.downloadCouponFailedStatus, alertType: SDKSettings.downloadCouponFailedAlertType)
     }

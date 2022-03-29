@@ -6,44 +6,6 @@
 //
 
 import Foundation
-
-/*
- {
-   "exp": 1610570508,
-   "iat": 1610527308,
-   "userId": "sample_user_id",
-   "name": "my_nickname",
-   "gender": "f",
-   "age": 15
- }
- */
-//struct ShopLiveClarm: Claims {
-    /*
-    eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTA1NzA1MDgsImlhdCI6MTYxMDUyNzMwOCwidXNlcklkIjoic2FtcGxlX3VzZXJfaWQiLCJuYW1lIjoibXlfbmlja25hbWUiLCJnZW5kZXIiOiJmIiwiYWdlIjoxNX0.0Z5YUo99149fIFyfqwxa-7SLyqC0RHR1T8P7jZLhpG8
-
-        {
-          "exp": 1610570508,
-          "iat": 1610527308,
-          "userId": "sample_user_id",
-          "name": "my_nickname",
-          "gender": "f",
-          "age": 15
-        }
-
-     let jwt = JWT(claims: AdminClaims(sub: "Kitura", isAdmin: true, exp: Date(timeIntervalSinceNow: 3600)))
-    */
-//    var exp: Date?
-//    var iat: Date?
-//    var userId: String?
-//    var name: String?
-//    var gender: String?
-//    var age: Int?
-//
-////    var userScore: String?
-//
-//
-//}
-
 import SwiftyJWT
 
 class JWTTool {
@@ -51,7 +13,6 @@ class JWTTool {
 
     static var secretKey: String? {
         return DemoSecretKeyTool.shared.currentKey()?.key
-        //"ckFXaWtRWENtSTA2QnpGVmxWNlBySWF4cUk1Q1pxbHU="
     }
 
     static func makeJWT(user: ShopLiveUser) -> String? {

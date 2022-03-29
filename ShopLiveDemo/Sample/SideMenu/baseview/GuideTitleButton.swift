@@ -68,8 +68,6 @@ class GuideTitleButton: UIView {
         self.backgroundColor = .white
         self.addSubview(campaignTitleLabel)
         self.addSubview(chooseButton)
-//        self.backgroundColor = .green
-//        campaignTitleLabel.backgroundColor = .red
         campaignTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(10)
             $0.bottom.lessThanOrEqualToSuperview().offset(-10)

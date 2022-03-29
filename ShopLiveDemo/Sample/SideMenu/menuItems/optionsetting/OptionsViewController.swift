@@ -194,7 +194,6 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 dropdown.width = 200
                 dropdown.dataSource = ["sdkoption.nextActionTypeOnNavigation.item1".localized(), "sdkoption.nextActionTypeOnNavigation.item2".localized(), "sdkoption.nextActionTypeOnNavigation.item3".localized()]
                 dropdown.selectionAction = { (index: Int, item: String) in
-                    // print("selected item: \(item) index: \(index)")
                     DemoConfiguration.shared.nextActionTypeOnHandleNavigation = ActionType(rawValue: index) ?? .PIP
                     anchorView.removeFromSuperview()
                     self.tableView.reloadData()
@@ -204,7 +203,6 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 dropdown.width = 150
                 dropdown.dataSource = ["topLeft", "topRight", "bottomLeft","bottomRight"]
                 dropdown.selectionAction = { (index: Int, item: String) in
-                    // print("selected item: \(item) index: \(index)")
                     DemoConfiguration.shared.pipPosition = ShopLive.PipPosition(rawValue: index) ?? .bottomRight
                     anchorView.removeFromSuperview()
                     self.tableView.reloadData()

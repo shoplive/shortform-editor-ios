@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 import CoreMedia
-//import CoreTelephony
 
 @objc internal final class ShopLiveDefines: NSObject {
     static let sdkVersion: String = "1.2.3"
