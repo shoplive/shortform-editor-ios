@@ -79,7 +79,7 @@ internal final class ChattingWriteView: UIView {
         return chatTextView.textView.isFirstResponder
     }
 
-    func clear() {
+    func clearChatText() {
         chatTextView.textView.text.removeAll()
     }
 
@@ -211,7 +211,6 @@ internal final class ChattingWriteView: UIView {
             DispatchQueue.main.async {
                 if !self.isHidden && self.inputFrame.height != height {
                     self.inputFrame.size = .init(width: self.inputFrame.width, height: height)
-                    debugPrint("heightLog self.inputFrame.height: \(self.inputFrame.height)")
                     self.delegate?.updateHeight()
                 }
             }
@@ -265,10 +264,3 @@ extension ChattingWriteView: UITextViewDelegate {
         }
     }
 }
-/*
- let range = NSMakeRange(0, to.range.location + to.range.length + 1)
- guard (group as NSString).length - range.length > 0 else {
-     continue
- }
- let text = (group as NSString).replacingCharacters(in: range, with: "")
- */

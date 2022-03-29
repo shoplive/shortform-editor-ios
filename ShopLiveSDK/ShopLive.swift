@@ -247,7 +247,7 @@ extension ShopLive: ShopLiveSDKInterface {
     }
     
     public static func setEndpoint(_ url: String?) {
-        ShopLiveDefines.endpoint = url
+        ShopLiveConfiguration.AppPreference.endpoint = url
     }
     
     public static func isSuccessCampaignJoin() -> Bool {
@@ -274,7 +274,6 @@ extension ShopLive: ShopLiveSDKInterface {
     }
 
     public static func close() {
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "close api called"))
         shared.instance?.close()
     }
 
@@ -387,13 +386,11 @@ extension ShopLive: ShopLiveSDKInterface {
     }
 
     public static func preview(with campaignKey: String?, completion: @escaping () -> Void) {
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "preview api called ck: \(campaignKey)"))
         ShopLiveController.shared.isPreview = true
         shared.instance?.preview(with: campaignKey, completion: completion)
     }
 
     public static func play(with campaignKey: String?, _ parent: UIViewController? = nil) {
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "play api called ck: \(campaignKey)"))
         ShopLiveController.shared.isPreview = false
         shared.instance?.play(with: campaignKey, parent)
     }
@@ -416,23 +413,5 @@ extension ShopLive: ShopLiveSDKInterface {
 
     public static func reloadLive() {
         shared.instance?.reloadLive()
-    }
-}
-
-class ShopLiveSettings {
-    var indicatorColor: UIColor = .white
-    var isCustomIndicator: Bool {
-        return customIndicatorImages.count > 0
-    }
-    var customIndicatorImages: [UIImage] = []
-
-    func setLoadingAnimation(images: [UIImage]) {
-        customIndicatorImages.removeAll()
-        customIndicatorImages.append(contentsOf: images)
-    }
-
-    func clear() {
-        indicatorColor = .white
-        customIndicatorImages.removeAll()
     }
 }

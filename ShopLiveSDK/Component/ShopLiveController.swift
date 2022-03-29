@@ -41,7 +41,6 @@ protocol ShopLivePlayerDelegate {
     func isEqualTo(_ other: ShopLivePlayerDelegate) -> Bool
 
     func updatedValue(key: ShopLivePlayerObserveValue)
-    func clear()
 }
 
 extension ShopLivePlayerDelegate where Self: Equatable {
@@ -92,8 +91,6 @@ final class ShopLiveController: NSObject {
     var lastPipPlaying: Bool = false
     var screenLock: Bool = false
 
-    var shopliveSettings: ShopLiveSettings = .init()
-
     var snapShot: UIImage? = nil
     var streamUrl: URL? {
         didSet {
@@ -118,10 +115,6 @@ final class ShopLiveController: NSObject {
         switch key {
         case .loadedTimeRanges:
             if let loadedTimeRanges = change?[.newKey] as? [NSValue], let timeRange = loadedTimeRanges.last as? CMTimeRange {
-                /*
-                ShopLiveLogger.debugLog("[REASON] time loadedTimeRanges \(loadedTimeRanges)")
-                ShopLiveLogger.debugLog("[REASON] timeLoaded: \(Int(timeRange.duration.value) / Int(timeRange.duration.timescale)) ShopLiveController.timeControlStatus \(ShopLiveController.timeControlStatus.name) readyToPlay: \(ShopLiveController.playerItemStatus == .readyToPlay)\n")
-                */
                 let timeLoaded = Int(timeRange.duration.value) / Int(timeRange.duration.timescale)
                 ShopLiveLogger.debugLog("[REASON] time Loaded \(timeLoaded) ShopLiveController.timeControlStatus \(ShopLiveController.timeControlStatus.name) \(ShopLiveController.playerItemStatus.rawValue)")
                 if timeLoaded >= 4 && ShopLiveController.timeControlStatus == .waitingToPlayAtSpecifiedRate {
@@ -190,34 +183,28 @@ final class ShopLiveController: NSObject {
         isSuccessCampaignJoin = false
     }
 
-    func clear() {
-        ShopLiveLogger.debugLog("clear")
-        playerDelegates.forEach { delegate in
-            delegate?.clear()
-        }
+    func releaseData() {
         playerDelegates.removeAll()
         removePlayerObserver()
         reset()
     }
 
     func resetOnlyFinished() {
-        ShopLiveLogger.debugLog("resetOnlyFinished")
-        customShareAction = nil
-        hookNavigation = nil
-        currentPlayTime = nil
-        isReplayMode = false
-        keepAspectOnTabletPortrait = true
-        isSuccessCampaignJoin = false
-        campaignStatus = .close
-        isMuted = false
-    }
-    private func reset() {
         playItem = nil
         playItem = .init()
 
         playerItem = nil
         playerItem = .init()
-
+        
+        customShareAction = nil
+        hookNavigation = nil
+        currentPlayTime = nil
+        isReplayMode = false
+        isSuccessCampaignJoin = false
+        campaignStatus = .close
+        isMuted = false
+    }
+    private func reset() {
         playControl = .none
         isReplayMode = false
         isHiddenOverlay = false
@@ -307,7 +294,6 @@ extension ShopLiveController {
         ShopLiveLogger.debugLog("key: \(key.rawValue)")
 
         playerDelegates.forEach { delegate in
-            ShopLiveLogger.debugLog("playerDelegate.identifier: \(delegate?.identifier) - key: \(key)")
             delegate?.updatedValue(key: key)
         }
     }
@@ -504,7 +490,6 @@ extension ShopLiveController {
             return false
         }
 
-        ShopLiveLogger.debugLog("seek isReplayFinished total: \(totalTime)  current: \(currentTime)")
         return (totalTime / 1000) <= currentTime
     }
 }

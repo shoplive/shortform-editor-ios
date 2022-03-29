@@ -197,6 +197,8 @@ final class CouponResponseSettingView: UIView {
         resultAlertType = isSuccess ? config.downloadCouponSuccessAlertType : config.downloadCouponFailedAlertType
         resultStatus = isSuccess ? config.downloadCouponSuccessStatus : config.downloadCouponFailedStatus
 
+        messageTextField.text = resultMessage
+        
         let tag = isSuccess ? "s" : "f"
         let statusIdentifier = resultStatus.name + tag
         let alertIdentifier = resultAlertType.name + tag

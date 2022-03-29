@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import AVKit
 
 extension UIViewController
 {
@@ -81,10 +82,43 @@ extension UIView {
             self.addSubview(view)
         }
     }
+    
+    func fitToSuperView() {
+        guard let superview = self.superview else { return }
+        self.translatesAutoresizingMaskIntoConstraints = false
+        superview.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[subview]-0-|", options: .directionLeadingToTrailing, metrics: nil, views: ["subview": self]))
+        superview.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[subview]-0-|", options: .directionLeadingToTrailing, metrics: nil, views: ["subview": self]))
+    }
 }
 
+extension AVPlayer.TimeControlStatus {
+    var name: String {
+        switch self {
+        case .playing:
+            return "playing"
+        case .waitingToPlayAtSpecifiedRate:
+            return "waitingToPlayAtSpecifiedRate"
+        case .paused:
+            return "paused"
+        @unknown default:
+            return ""
+        }
+    }
+}
 extension String {
 
+    var urlEncodedString: String? {
+        let customAllowedSet =  NSCharacterSet(charactersIn:"=\"#%/<>?@\\^`{|}+").inverted
+        return self.addingPercentEncoding(withAllowedCharacters: customAllowedSet)
+    }
+
+    var urlEncodedStringRFC3986: String? {
+        let unreserved = "-._~"
+        let allowed = NSMutableCharacterSet.alphanumeric()
+        allowed.addCharacters(in: unreserved)
+        return addingPercentEncoding(withAllowedCharacters: allowed as CharacterSet)
+    }
+    
     func versionCompare(_ otherVersion: String) -> ComparisonResult {
         return self.compare(otherVersion, options: .numeric)
     }
@@ -147,11 +181,14 @@ extension Double {
         let dateFrom = Date(timeIntervalSince1970: fromDate)
         let dateTo = date
 
-//        ShopLiveLogger.printLog("from \(dateTo.timeIntervalSince1970))", "")
-//
-//        ShopLiveLogger.printLog("from \(dateFrom.formattedString(by: "yyyy.MM.dd (E) HH:mm"))", "")
-//
-//        ShopLiveLogger.printLog("to \(dateTo.formattedString(by: "yyyy.MM.dd (E) HH:mm"))", "")
+        /*
+         ShopLiveLogger.printLog("from \(dateTo.timeIntervalSince1970))", "")
+
+         ShopLiveLogger.printLog("from \(dateFrom.formattedString(by: "yyyy.MM.dd (E) HH:mm"))", "")
+
+         ShopLiveLogger.printLog("to \(dateTo.formattedString(by: "yyyy.MM.dd (E) HH:mm"))", "")
+
+         */
 
         guard dateFrom.timeIntervalSince1970 < dateTo.timeIntervalSince1970 else {
             return ""
@@ -196,3 +233,98 @@ extension String {
      }
  }
 
+internal extension CouponResult {
+    func toJson() -> String? {
+        let couponJson = NSMutableDictionary()
+        couponJson.setValue(self.success, forKey: "success")
+        couponJson.setValue(self.coupon, forKey: "coupon")
+        couponJson.setValue(self.message ?? "", forKey: "message")
+        couponJson.setValue(self.couponStatus.name, forKey: "couponStatus")
+        couponJson.setValue(self.alertType.name, forKey: "alertType")
+        return couponJson.toJson()
+    }
+}
+
+internal extension CustomActionResult {
+    func toJson() -> String? {
+        let couponJson = NSMutableDictionary()
+        couponJson.setValue(self.success, forKey: "success")
+        couponJson.setValue(self.id, forKey: "id")
+        couponJson.setValue(self.message ?? "", forKey: "message")
+        couponJson.setValue(self.couponStatus.name, forKey: "couponStatus")
+        couponJson.setValue(self.alertType.name, forKey: "alertType")
+        return couponJson.toJson()
+    }
+}
+
+internal extension ShopLive.CouponResult {
+    func toJson() -> String? {
+        let couponJson = NSMutableDictionary()
+        couponJson.setValue(self.success, forKey: "success")
+        couponJson.setValue(self.coupon, forKey: "coupon")
+        couponJson.setValue(self.message ?? "", forKey: "message")
+        couponJson.setValue(self.couponStatus.name, forKey: "couponStatus")
+        couponJson.setValue(self.alertType.name, forKey: "alertType")
+        return couponJson.toJson()
+    }
+}
+
+internal extension ShopLive.CustomActionResult {
+    func toJson() -> String? {
+        let couponJson = NSMutableDictionary()
+        couponJson.setValue(self.success, forKey: "success")
+        couponJson.setValue(self.id, forKey: "id")
+        couponJson.setValue(self.message ?? "", forKey: "message")
+        couponJson.setValue(self.couponStatus.name, forKey: "couponStatus")
+        couponJson.setValue(self.alertType.name, forKey: "alertType")
+        return couponJson.toJson()
+    }
+}
+
+extension UIScreen {
+    static var isLandscape: Bool {
+        let size = UIScreen.main.bounds.size
+        return size.width > size.height
+    }
+}
+
+extension CALayer {
+    func fitToSuperView(superview: UIView) {
+        self.frame = superview.frame
+    }
+}
+
+extension NSMutableDictionary {
+    func toJson() -> String? {
+        let jsonData = try? JSONSerialization.data(withJSONObject: self, options: [])
+        if let jsonString = String(data: jsonData!, encoding: .utf8){
+            return jsonString
+        }else{
+            return nil
+        }
+    }
+}
+
+extension Dictionary {
+    func toJson() -> String? {
+        let jsonData = try? JSONSerialization.data(withJSONObject: self, options: [])
+        if let jsonString = String(data: jsonData!, encoding: .utf8){
+            return jsonString
+        }else{
+            return nil
+        }
+    }
+
+    var jsonData: Data? {
+            return try? JSONSerialization.data(withJSONObject: self, options: [.prettyPrinted])
+        }
+
+    func toJSONString() -> String? {
+        if let jsonData = jsonData {
+            let jsonString = String(data: jsonData, encoding: .utf8)
+            return jsonString
+        }
+
+        return nil
+    }
+}

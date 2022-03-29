@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol SLNotificationName {
     var name: Notification.Name { get }
@@ -33,6 +34,11 @@ internal final class ShopLiveConfiguration: NSObject {
         case resume
     }
 
+    class AppPreference {
+        static var endpoint: String? = nil
+        static var landingUrl: String = endpoint ?? ShopLiveDefines.url
+    }
+    
     class SoundPolicy {
         static var keepPlayVideoOnHeadphoneUnplugged: Bool = false
         static var autoResumeVideoOnCallEnded: Bool = false
@@ -40,6 +46,20 @@ internal final class ShopLiveConfiguration: NSObject {
 
     class Data {
         static var useLocalStorage: Bool = true
+    }
+    
+    class Indicator {
+        static var color: UIColor = .white
+        static var isCustomIndicator: Bool {
+            return customIndicatorImages.count > 0
+        }
+        
+        static var customIndicatorImages: [UIImage] = []
+
+        static func setLoadingAnimation(images: [UIImage]) {
+            customIndicatorImages.removeAll()
+            customIndicatorImages.append(contentsOf: images)
+        }
     }
 
     fileprivate override init() {}
