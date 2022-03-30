@@ -21,6 +21,18 @@
 		BF37D8D727F21FED004C2785 /* URLUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D8D627F21FED004C2785 /* URLUtil.swift */; };
 		BF37D8D827F22047004C2785 /* URLUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D8D627F21FED004C2785 /* URLUtil.swift */; };
 		BF37D8D927F22047004C2785 /* URLUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D8D627F21FED004C2785 /* URLUtil.swift */; };
+		BF37D8F627F4CF66004C2785 /* ShopLiveChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D8F427F4CF66004C2785 /* ShopLiveChatView.swift */; };
+		BF37D8F727F4CF66004C2785 /* ShopLiveChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D8F427F4CF66004C2785 /* ShopLiveChatView.swift */; };
+		BF37D8F827F4CF66004C2785 /* ShopLiveChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D8F427F4CF66004C2785 /* ShopLiveChatView.swift */; };
+		BF37D8F927F4CF66004C2785 /* ShopLiveChattingWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D8F527F4CF66004C2785 /* ShopLiveChattingWriteView.swift */; };
+		BF37D8FA27F4CF66004C2785 /* ShopLiveChattingWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D8F527F4CF66004C2785 /* ShopLiveChattingWriteView.swift */; };
+		BF37D8FB27F4CF66004C2785 /* ShopLiveChattingWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D8F527F4CF66004C2785 /* ShopLiveChattingWriteView.swift */; };
+		BF37D8FE27F4D2F9004C2785 /* SLNextGrowingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D8FC27F4D2F9004C2785 /* SLNextGrowingTextView.swift */; };
+		BF37D8FF27F4D2F9004C2785 /* SLNextGrowingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D8FC27F4D2F9004C2785 /* SLNextGrowingTextView.swift */; };
+		BF37D90027F4D2F9004C2785 /* SLNextGrowingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D8FC27F4D2F9004C2785 /* SLNextGrowingTextView.swift */; };
+		BF37D90127F4D2F9004C2785 /* SLNextGrowingInternalTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D8FD27F4D2F9004C2785 /* SLNextGrowingInternalTextView.swift */; };
+		BF37D90227F4D2F9004C2785 /* SLNextGrowingInternalTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D8FD27F4D2F9004C2785 /* SLNextGrowingInternalTextView.swift */; };
+		BF37D90327F4D2F9004C2785 /* SLNextGrowingInternalTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D8FD27F4D2F9004C2785 /* SLNextGrowingInternalTextView.swift */; };
 		BF47196B2765F40700522F6F /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = BF47196A2765F40700522F6F /* SideMenu */; };
 		BF47196D2765F43000522F6F /* ShopliveSideMenuNavagation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47196C2765F43000522F6F /* ShopliveSideMenuNavagation.swift */; };
 		BF47196F2765F48700522F6F /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47196E2765F48700522F6F /* SideMenuViewController.swift */; };
@@ -89,8 +101,6 @@
 		BF60E2152771CECA0060531C /* ShopLivePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFAD7C126BA050200C8C5E1 /* ShopLivePlayerView.swift */; };
 		BF60E2162771CECA0060531C /* SampleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47197727660CF500522F6F /* SampleExtensions.swift */; };
 		BF60E2172771CECA0060531C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719702765F4E800522F6F /* MainViewController.swift */; };
-		BF60E2182771CECA0060531C /* SLNextGrowingInternalTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082626E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift */; };
-		BF60E2192771CECA0060531C /* SLNextGrowingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082826E8AFE300ABF1A3 /* SLNextGrowingTextView.swift */; };
 		BF60E21B2771CECA0060531C /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47198527663BE100522F6F /* UserInfoViewController.swift */; };
 		BF60E21D2771CECA0060531C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8EAE265A23FD00202160 /* SceneDelegate.swift */; };
 		BF60E21E2771CECA0060531C /* ShopLiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFAD7CC26BA06EB00C8C5E1 /* ShopLiveController.swift */; };
@@ -140,10 +150,6 @@
 		BF64080926E7065300ABF1A3 /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6D31DF26CCFAD500B233A4 /* ShopLiveViewLoggerController.swift */; };
 		BF64082C26E8AFE300ABF1A3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF64082226E8AFE300ABF1A3 /* Localizable.strings */; };
 		BF64082D26E8AFE300ABF1A3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF64082226E8AFE300ABF1A3 /* Localizable.strings */; };
-		BF64082E26E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082626E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift */; };
-		BF64082F26E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082626E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift */; };
-		BF64083226E8AFE300ABF1A3 /* SLNextGrowingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082826E8AFE300ABF1A3 /* SLNextGrowingTextView.swift */; };
-		BF64083326E8AFE300ABF1A3 /* SLNextGrowingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082826E8AFE300ABF1A3 /* SLNextGrowingTextView.swift */; };
 		BF69333027BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */; };
 		BF69333127BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */; };
 		BF6D31E026CCFAD500B233A4 /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6D31DF26CCFAD500B233A4 /* ShopLiveViewLoggerController.swift */; };
@@ -261,6 +267,10 @@
 		BF1B57C0276B19600002EBB5 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
 		BF37D8D627F21FED004C2785 /* URLUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLUtil.swift; sourceTree = "<group>"; };
+		BF37D8F427F4CF66004C2785 /* ShopLiveChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveChatView.swift; sourceTree = "<group>"; };
+		BF37D8F527F4CF66004C2785 /* ShopLiveChattingWriteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveChattingWriteView.swift; sourceTree = "<group>"; };
+		BF37D8FC27F4D2F9004C2785 /* SLNextGrowingTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLNextGrowingTextView.swift; sourceTree = "<group>"; };
+		BF37D8FD27F4D2F9004C2785 /* SLNextGrowingInternalTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLNextGrowingInternalTextView.swift; sourceTree = "<group>"; };
 		BF47196C2765F43000522F6F /* ShopliveSideMenuNavagation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopliveSideMenuNavagation.swift; sourceTree = "<group>"; };
 		BF47196E2765F48700522F6F /* SideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
 		BF4719702765F4E800522F6F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -295,8 +305,6 @@
 		BF60E2542771D86B0060531C /* ShopLiveDemo-QA-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ShopLiveDemo-QA-Info.plist"; sourceTree = "<group>"; };
 		BF64082326E8AFE300ABF1A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BF64082426E8AFE300ABF1A3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
-		BF64082626E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLNextGrowingInternalTextView.swift; sourceTree = "<group>"; };
-		BF64082826E8AFE300ABF1A3 /* SLNextGrowingTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLNextGrowingTextView.swift; sourceTree = "<group>"; };
 		BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShareViewController.swift; sourceTree = "<group>"; };
 		BF6D31DF26CCFAD500B233A4 /* ShopLiveViewLoggerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveViewLoggerController.swift; sourceTree = "<group>"; };
 		BF8AFAFF2797FE3900AF8556 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
@@ -570,10 +578,12 @@
 		BF78878527A17D8700CBB5A2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BF37D8FD27F4D2F9004C2785 /* SLNextGrowingInternalTextView.swift */,
+				BF37D8FC27F4D2F9004C2785 /* SLNextGrowingTextView.swift */,
+				BF37D8F527F4CF66004C2785 /* ShopLiveChattingWriteView.swift */,
+				BF37D8F427F4CF66004C2785 /* ShopLiveChatView.swift */,
 				BFAD8E91265A211E00202160 /* ShopLiveWebView.swift */,
 				BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */,
-				BF64082626E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift */,
-				BF64082826E8AFE300ABF1A3 /* SLNextGrowingTextView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1003,11 +1013,12 @@
 				1BED2D9325DA4BAB002BFEED /* PerfMeasurements.swift in Sources */,
 				BFC00CBE26947B2700BD8733 /* Extensions.swift in Sources */,
 				BF37D8D727F21FED004C2785 /* URLUtil.swift in Sources */,
-				BF64083226E8AFE300ABF1A3 /* SLNextGrowingTextView.swift in Sources */,
+				BF37D90127F4D2F9004C2785 /* SLNextGrowingInternalTextView.swift in Sources */,
 				BF8D724E267AE5BC00ED2750 /* ChattingWriteView.swift in Sources */,
-				BF64082E26E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift in Sources */,
 				BF8AFB002797FE3A00AF8556 /* HapticManager.swift in Sources */,
+				BF37D8FE27F4D2F9004C2785 /* SLNextGrowingTextView.swift in Sources */,
 				BFAD8E9E265A211E00202160 /* ShopLiveDefines.swift in Sources */,
+				BF37D8F927F4CF66004C2785 /* ShopLiveChattingWriteView.swift in Sources */,
 				BFE01FEA27B4857F007A1A09 /* SoundManager.swift in Sources */,
 				1B9D659125F1CE4400E9CD4F /* ShopLiveSDKInterface.swift in Sources */,
 				BFBBACA7269AD04E00574958 /* ShopLiveConfiguration.swift in Sources */,
@@ -1018,6 +1029,7 @@
 				1BA5156A25CBDD3F00070181 /* ShopLive.swift in Sources */,
 				BFFAD7C226BA050200C8C5E1 /* ShopLivePlayer.swift in Sources */,
 				1B3CD6902600647E00B94997 /* ShopLiveUser.swift in Sources */,
+				BF37D8F627F4CF66004C2785 /* ShopLiveChatView.swift in Sources */,
 				BFAD8E9F265A211E00202160 /* ShopLiveWebInterface.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1053,6 +1065,7 @@
 				BF60E1FF2771CECA0060531C /* OptionSectionHeader.swift in Sources */,
 				BF60E2002771CECA0060531C /* ShopLive.swift in Sources */,
 				BFE01FEC27B48588007A1A09 /* SoundManager.swift in Sources */,
+				BF37D90027F4D2F9004C2785 /* SLNextGrowingTextView.swift in Sources */,
 				BF60E2012771CECA0060531C /* DemoConfiguration.swift in Sources */,
 				BF60E2022771CECA0060531C /* ShopLiveBase.swift in Sources */,
 				BF60E2032771CECA0060531C /* SLLoadingIndicator.swift in Sources */,
@@ -1073,8 +1086,7 @@
 				BF60E2162771CECA0060531C /* SampleExtensions.swift in Sources */,
 				BF60E2172771CECA0060531C /* MainViewController.swift in Sources */,
 				BF69333127BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */,
-				BF60E2182771CECA0060531C /* SLNextGrowingInternalTextView.swift in Sources */,
-				BF60E2192771CECA0060531C /* SLNextGrowingTextView.swift in Sources */,
+				BF37D8FB27F4CF66004C2785 /* ShopLiveChattingWriteView.swift in Sources */,
 				BF37D8D927F22047004C2785 /* URLUtil.swift in Sources */,
 				BF60E21B2771CECA0060531C /* UserInfoViewController.swift in Sources */,
 				BF60E21D2771CECA0060531C /* SceneDelegate.swift in Sources */,
@@ -1082,6 +1094,7 @@
 				BF60E21F2771CECA0060531C /* DevInfoCell.swift in Sources */,
 				BF60E2202771CECA0060531C /* SideMenuBaseViewController.swift in Sources */,
 				BF60E2212771CECA0060531C /* CustomBaseAlertController.swift in Sources */,
+				BF37D8F827F4CF66004C2785 /* ShopLiveChatView.swift in Sources */,
 				BF60E2222771CECA0060531C /* ShopLiveConfiguration.swift in Sources */,
 				BF60E2242771CECA0060531C /* CampaignInputAlertController.swift in Sources */,
 				BF60E2252771CECA0060531C /* DemoSecretKeyTool.swift in Sources */,
@@ -1103,6 +1116,7 @@
 				BF60E2362771CECA0060531C /* SideMenuItemViewController.swift in Sources */,
 				BF60E2372771CECA0060531C /* ShopLiveViewLoggerController.swift in Sources */,
 				BF60E2382771CECA0060531C /* SecretKeyCell.swift in Sources */,
+				BF37D90327F4D2F9004C2785 /* SLNextGrowingInternalTextView.swift in Sources */,
 				BF60E23A2771CECA0060531C /* PerfMeasurements.swift in Sources */,
 				BF60E23B2771CECA0060531C /* DemoSecretKeySet.swift in Sources */,
 				BF60E23C2771CECA0060531C /* JWTTool.swift in Sources */,
@@ -1132,6 +1146,7 @@
 				BFA69D6A276B64FF00F91394 /* OptionSectionHeader.swift in Sources */,
 				BFAD8EE2265A24DA00202160 /* ShopLive.swift in Sources */,
 				BFE01FEB27B48587007A1A09 /* SoundManager.swift in Sources */,
+				BF37D8FF27F4D2F9004C2785 /* SLNextGrowingTextView.swift in Sources */,
 				BF47199F2768570100522F6F /* DemoConfiguration.swift in Sources */,
 				BFAD8EE5265A24DA00202160 /* ShopLiveBase.swift in Sources */,
 				BFE14B61272BA9E600C6624B /* SLLoadingIndicator.swift in Sources */,
@@ -1152,8 +1167,7 @@
 				BF47197827660CF500522F6F /* SampleExtensions.swift in Sources */,
 				BF4719712765F4E800522F6F /* MainViewController.swift in Sources */,
 				BF69333027BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */,
-				BF64082F26E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift in Sources */,
-				BF64083326E8AFE300ABF1A3 /* SLNextGrowingTextView.swift in Sources */,
+				BF37D8FA27F4CF66004C2785 /* ShopLiveChattingWriteView.swift in Sources */,
 				BF37D8D827F22047004C2785 /* URLUtil.swift in Sources */,
 				BF47198627663BE100522F6F /* UserInfoViewController.swift in Sources */,
 				BFAD8EAF265A23FD00202160 /* SceneDelegate.swift in Sources */,
@@ -1161,6 +1175,7 @@
 				BFE21967276B436600900FB1 /* DevInfoCell.swift in Sources */,
 				BF47197627660CD300522F6F /* SideMenuBaseViewController.swift in Sources */,
 				BF1B57BA276983600002EBB5 /* CustomBaseAlertController.swift in Sources */,
+				BF37D8F727F4CF66004C2785 /* ShopLiveChatView.swift in Sources */,
 				BFBBACA8269AD04E00574958 /* ShopLiveConfiguration.swift in Sources */,
 				BF1B57BC2769844F0002EBB5 /* CampaignInputAlertController.swift in Sources */,
 				BF60E1D0276F69C00060531C /* DemoSecretKeyTool.swift in Sources */,
@@ -1182,6 +1197,7 @@
 				BF4719902766523000522F6F /* SideMenuItemViewController.swift in Sources */,
 				BF6D31E026CCFAD500B233A4 /* ShopLiveViewLoggerController.swift in Sources */,
 				BF60E1D7276F6EEF0060531C /* SecretKeyCell.swift in Sources */,
+				BF37D90227F4D2F9004C2785 /* SLNextGrowingInternalTextView.swift in Sources */,
 				BFAD8EDE265A24DA00202160 /* PerfMeasurements.swift in Sources */,
 				BF60E1D2276F6A0D0060531C /* DemoSecretKeySet.swift in Sources */,
 				BF60E1CB276E4BC60060531C /* JWTTool.swift in Sources */,

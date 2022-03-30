@@ -342,3 +342,34 @@ extension Dictionary {
         return nil
     }
 }
+
+extension UIFont {
+    func findAvailableFont() -> UIFont {
+        var fontSize: CGFloat = 30
+        var currentLineHeight: CGFloat = self.lineHeight
+        
+        guard currentLineHeight > 20 else {
+            return self
+        }
+        
+        repeat {
+            currentLineHeight = self.withSize(fontSize).lineHeight
+            fontSize -= 1
+        } while 20 < currentLineHeight && fontSize >= 0
+        
+        return fontSize == 0 ? .systemFont(ofSize: 14, weight: .regular) : self.withSize(fontSize)
+    }
+    
+    func lineHeightMultiple(_ lineHeight: CGFloat = 20) -> CGFloat {
+        return lineHeight / self.lineHeight
+    }
+}
+
+extension UITextView {
+    func numberOfLines() -> Int {
+        let size = CGSize(width: frame.width, height: .infinity)
+        let estimatedSize = sizeThatFits(size)
+        
+        return Int(estimatedSize.height / (self.font!.lineHeight))
+    }
+}

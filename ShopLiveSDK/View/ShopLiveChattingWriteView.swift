@@ -1,0 +1,217 @@
+//
+//  ShopLiveChattingWriteView.swift
+//  CustomChatInputView
+//
+//  Created by ShopLive on 2022/03/30.
+//
+
+
+import UIKit
+
+protocol ShopLiveChattingWriteDelegate: AnyObject {
+    func didTouchSendButton()
+    func updateHeight()
+}
+
+final class ShopLiveChattingWriteView: UIView {
+
+    static let minimumHeightChatView: CGFloat = 44
+    static let maximumHeightChatView: CGFloat = 62
+    
+    static var chatInputPlaceholderString: String = NSLocalizedString("chat.placeholder", comment: "Please enter a message")
+    static var chatInputSendString: String = NSLocalizedString("chat.send.title", comment: "Send")
+    static var chatInputMaxLength: Int = 50
+    
+    class ViewModel {
+        var indicatorColor: UIColor {
+            UIColor(red: 0.886, green: 0.886, blue: 0.886, alpha: 1)
+        }
+        
+        var sendButtonNormalTitle: NSAttributedString {
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineHeightMultiple = 0.79
+            return NSAttributedString(string: ShopLiveChattingWriteView.chatInputSendString, attributes: [NSAttributedString.Key.kern: -0.28, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0, green: 0.471, blue: 1, alpha: 1), .font: ShopLiveController.shared.sendButtonFont ?? UIFont.systemFont(ofSize: 14, weight: .medium)])
+        }
+        
+        var sendButtonDisableTitle: NSAttributedString {
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineHeightMultiple = 0.79
+            return NSAttributedString(string: ShopLiveChattingWriteView.chatInputSendString, attributes: [NSAttributedString.Key.kern: -0.28, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0.886, green: 0.886, blue: 0.886, alpha: 1), .font: ShopLiveController.shared.sendButtonFont ?? UIFont.systemFont(ofSize: 14, weight: .medium)])
+        }
+    }
+    
+    private lazy var chatView: ShopLiveChatView = {
+        let view = ShopLiveChatView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.chatViewDelegate = self
+        view.delegate = self
+        return view
+    }()
+    
+    private var topShadow: UIView = {
+        var view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        let layer0 = CAGradientLayer()
+        layer0.colors = [
+          UIColor(red: 1, green: 1, blue: 1, alpha: 1).cgColor,
+          UIColor(red: 1, green: 1, blue: 1, alpha: 0).cgColor
+        ]
+
+        layer0.locations = [0, 1]
+        layer0.startPoint = CGPoint(x: 0.25, y: 0.5)
+        layer0.endPoint = CGPoint(x: 0.75, y: 0.5)
+        layer0.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
+        layer0.bounds = view.bounds.insetBy(dx: -0.5*view.bounds.size.width, dy: -0.5*view.bounds.size.height)
+        layer0.position = view.center
+        view.layer.addSublayer(layer0)
+        view.alpha = 0.8
+        view.isHidden = true
+        return view
+    }()
+    
+    private lazy var sendButton: UIButton = {
+        let send = UIButton()
+        send.translatesAutoresizingMaskIntoConstraints = false
+        send.layer.masksToBounds = true
+        send.backgroundColor = .clear
+        send.layer.cornerRadius = 4
+        send.isEnabled = false
+
+        var paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 0.9
+        send.titleLabel?.textAlignment = .center
+        send.setAttributedTitle(viewModel.sendButtonNormalTitle, for: .normal)
+        send.setAttributedTitle(viewModel.sendButtonDisableTitle, for: .disabled)
+        send.addTarget(self, action: #selector(didTouchSendButton), for: .touchUpInside)
+        return send
+    }()
+    
+    weak var delegate: ShopLiveChattingWriteDelegate?
+    
+    private let viewModel = ViewModel()
+    
+    private var isFocus: Bool = false
+    
+    init() {
+        super.init(frame: .zero)
+        setupChattingWriteView()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupChattingWriteView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupChattingWriteView()
+        
+    }
+    
+    private var chatHeight: NSLayoutConstraint!
+    private var selfHeight: NSLayoutConstraint!
+    private func setupChattingWriteView() {
+        self.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+        self.addSubview(chatView)
+        self.addSubview(topShadow)
+        self.addSubview(sendButton)
+        
+        let topShadowTop = NSLayoutConstraint.init(item: topShadow, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0)
+        let topShadowLeft = NSLayoutConstraint.init(item: topShadow, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 12)
+        let topShadowRight = NSLayoutConstraint.init(item: topShadow, attribute: .trailing, relatedBy: .equal, toItem: sendButton, attribute: .leading, multiplier: 1.0, constant: -8)
+        let topShadowHeight = NSLayoutConstraint.init(item: topShadow, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 9)
+        topShadow.addConstraint(topShadowHeight)
+        
+        let sendBottom = NSLayoutConstraint.init(item: sendButton, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0)
+        let sendRight = NSLayoutConstraint.init(item: sendButton, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1.0, constant: -4)
+        let sendWidth = NSLayoutConstraint.init(item: sendButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
+        let sendHeight = NSLayoutConstraint.init(item: sendButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 36)
+        
+        sendButton.addConstraints([sendWidth, sendHeight])
+        
+        let chatTop = NSLayoutConstraint.init(item: chatView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0)
+        let chatBottom = NSLayoutConstraint.init(item: chatView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0)
+        let chatLeft = NSLayoutConstraint.init(item: chatView, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1.0, constant: 0)
+        let chatRight = NSLayoutConstraint.init(item: chatView, attribute: .right, relatedBy: .equal, toItem: sendButton, attribute: .left, multiplier: 1.0, constant: -4)
+        chatHeight = NSLayoutConstraint.init(item: chatView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: ShopLiveChattingWriteView.minimumHeightChatView)
+        
+        
+        chatView.addConstraints([chatHeight])
+        
+//        selfHeight = NSLayoutConstraint.init(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: ShopLiveChattingWriteView.minimumHeightChatView)
+        
+        self.addConstraints([topShadowTop, topShadowLeft, topShadowRight,
+                             chatTop, chatLeft, chatRight, chatBottom,
+                             sendBottom, sendRight])
+    }
+    
+    private func teardownChattingWriteView() {
+        
+    }
+    
+    func focus() {
+        guard isFocus == false else { return }
+        isFocus = true
+        chatView.chatTextView.becomeFirstResponder()
+    }
+
+    func focusOut() {
+        isFocus = false
+    }
+
+    func isFocused() -> Bool {
+        return chatView.chatTextView.isFirstResponder
+    }
+
+    func clearChatText() {
+        chatView.chatTextView.attributedText = nil
+        chatView.clearChatView()
+    }
+    
+    @objc func didTouchSendButton() {
+        sendButton.isEnabled = false
+        delegate?.didTouchSendButton()
+    }
+    
+    var chatText: String {
+        chatView.chatTextView.attributedText.string
+    }
+    
+    @discardableResult override func becomeFirstResponder() -> Bool {
+      return chatView.chatTextView.becomeFirstResponder()
+    }
+    
+    @discardableResult override func resignFirstResponder() -> Bool {
+      return chatView.chatTextView.resignFirstResponder()
+    }
+}
+ 
+extension ShopLiveChattingWriteView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView){
+        if #available(iOS 13, *) {
+            let verSubView: UIView = scrollView.subviews[(scrollView.subviews.count - 1)]
+            if let verticalIndicator = verSubView.subviews.first {
+                verticalIndicator.backgroundColor = viewModel.indicatorColor
+            }
+
+        } else {
+            if let verticalIndicator: UIImageView = (scrollView.subviews[(scrollView.subviews.count - 1)] as? UIImageView) {
+                verticalIndicator.backgroundColor = viewModel.indicatorColor
+            }
+        }
+    }
+}
+
+extension ShopLiveChattingWriteView: ShopLiveChatViewDelegate {
+    func textViewDidChange(textView: UITextView) {
+        sendButton.isEnabled = textView.hasText
+    }
+    
+    func numberOfLinesChanged(lines: Int) {
+        chatHeight.constant = lines == 1 ? ShopLiveChattingWriteView.minimumHeightChatView : ShopLiveChattingWriteView.maximumHeightChatView
+
+        topShadow.isHidden = lines < chatView.viewModel.chatInputMaxLines
+        self.setNeedsLayout()
+    }
+}
