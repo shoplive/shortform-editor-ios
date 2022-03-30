@@ -110,9 +110,6 @@ import UIKit
     @objc func handleReceivedCommand(_ command: String, with payload: Any?)
 }
 
-@objc public class ShopLiveViewController: UIViewController {
-
-}
 public typealias ShopLiveViewController = UIViewController
 
 @objc protocol ShopLiveSDKInterface: AnyObject {
