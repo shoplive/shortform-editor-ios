@@ -113,6 +113,7 @@ import UIKit
 @objc public class ShopLiveViewController: UIViewController {
 
 }
+public typealias ShopLiveViewController = UIViewController
 
 @objc protocol ShopLiveSDKInterface: AnyObject {
     @objc static var sdkVersion: String { get }
