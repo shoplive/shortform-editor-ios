@@ -547,6 +547,8 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         if let scm: String = ShopLiveController.shared.shareScheme {
             queryItems.append(URLQueryItem(name: "shareUrl", value: scm))
         }
+        
+        queryItems.append(URLQueryItem(name: "appVersion", value: ShopLiveConfiguration.AppPreference.appVersion ?? UIApplication.appVersion()))
 
         let urlString: String = ShopLiveConfiguration.AppPreference.landingUrl
         ShopLiveLogger.debugLog("shoplive landingUrl : \(urlString)")

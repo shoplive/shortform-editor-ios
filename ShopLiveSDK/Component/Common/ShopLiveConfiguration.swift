@@ -37,6 +37,7 @@ internal final class ShopLiveConfiguration: NSObject {
     class AppPreference {
         static var endpoint: String? = nil
         static var landingUrl: String = endpoint ?? ShopLiveDefines.url
+        static var appVersion: String? = nil
     }
     
     class SoundPolicy {

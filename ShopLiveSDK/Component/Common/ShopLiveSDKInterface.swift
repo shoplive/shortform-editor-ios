@@ -166,4 +166,7 @@ public typealias ShopLiveViewController = UIViewController
     @objc static func setPictureInPictureFloatingOffset(offset: UIEdgeInsets)
     
     @objc static func setUsingLocalStorage(_ use: Bool)
+    @objc static func setAppVersion(_ appVersion: String)
+    
+
 }
