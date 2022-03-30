@@ -693,7 +693,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
 
     func didTouchMuteButton(with isMuted: Bool) {
         if !ShopLiveController.shared.isPreview {
-            ShopLiveController.isMuted = isMuted
+            ShopLiveConfiguration.SoundPolicy.isMuted = isMuted
         }
         
         ShopLiveController.player?.isMuted = ShopLiveController.shared.isPreview ? true : isMuted
@@ -719,7 +719,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
 
     func didUpdateVideo(with url: URL) {
         ShopLiveController.streamUrl = url
-        ShopLiveController.player?.isMuted = ShopLiveController.shared.isPreview ? true : ShopLiveController.shared.isMuted
+        ShopLiveController.player?.isMuted = ShopLiveController.shared.isPreview ? true : ShopLiveConfiguration.SoundPolicy.isMuted
         if ShopLiveController.isReplayMode, let time = ShopLiveController.shared.currentPlayTime {
             ShopLiveController.player?.seek(to: .init(value: time, timescale: 1))
         }
@@ -1054,5 +1054,9 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         removeObserver()
         teardownAudioConfig()
         removePlaytimeObserver()
+    }
+
+    func updateChattingWriteView() {
+        chatInputView.updateChattingWriteView()
     }
 }

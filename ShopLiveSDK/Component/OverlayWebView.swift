@@ -318,7 +318,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             self.webView?.sendEventToWeb(event: .videoInitialized)
             if !ShopLiveController.shared.isPreview {
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                    self.webView?.sendEventToWeb(event: .setVideoMute(isMuted: ShopLiveController.isMuted), ShopLiveController.isMuted)
+                    self.webView?.sendEventToWeb(event: .setVideoMute(isMuted: ShopLiveConfiguration.SoundPolicy.isMuted), ShopLiveConfiguration.SoundPolicy.isMuted)
                 }
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {

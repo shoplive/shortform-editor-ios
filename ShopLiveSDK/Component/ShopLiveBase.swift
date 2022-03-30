@@ -65,9 +65,11 @@ import WebKit
         if _style == .fullScreen {
             liveStreamViewController?.viewModel.overayUrl = overlayUrl
             liveStreamViewController?.reload()
+            liveStreamViewController?.updateChattingWriteView()
         } else if _style == .pip {
             liveStreamViewController?.viewModel.overayUrl = overlayUrl
             liveStreamViewController?.reload()
+            liveStreamViewController?.updateChattingWriteView()
 
             if !ShopLiveController.shared.isPreview {
                 stopShopLivePictureInPicture()
@@ -1103,7 +1105,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     
     func didTouchNavigation(with url: URL) {
         guard let hookNavigation = ShopLiveController.shared.hookNavigation else {
-            switch ShopLiveController.shared.nextActionTypeOnHandleNavigation {
+            switch ShopLiveConfiguration.UI.nextActionTypeOnHandleNavigation {
             case .PIP:
                 startPictureInPicture()
             case .CLOSE:

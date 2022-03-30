@@ -78,8 +78,6 @@ final class ShopLiveChattingWriteView: UIView {
         send.layer.cornerRadius = 4
         send.isEnabled = false
 
-        var paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 0.9
         send.titleLabel?.textAlignment = .center
         send.setAttributedTitle(viewModel.sendButtonNormalTitle, for: .normal)
         send.setAttributedTitle(viewModel.sendButtonDisableTitle, for: .disabled)
@@ -139,8 +137,6 @@ final class ShopLiveChattingWriteView: UIView {
         
         chatView.addConstraints([chatHeight])
         
-//        selfHeight = NSLayoutConstraint.init(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: ShopLiveChattingWriteView.minimumHeightChatView)
-        
         self.addConstraints([topShadowTop, topShadowLeft, topShadowRight,
                              chatTop, chatLeft, chatRight, chatBottom,
                              sendBottom, sendRight])
@@ -148,6 +144,12 @@ final class ShopLiveChattingWriteView: UIView {
     
     private func teardownChattingWriteView() {
         
+    }
+
+    func updateChattingWriteView() {
+        sendButton.setAttributedTitle(viewModel.sendButtonNormalTitle, for: .normal)
+        sendButton.setAttributedTitle(viewModel.sendButtonDisableTitle, for: .disabled)
+        chatView.updateShopLiveChatView()
     }
     
     func focus() {

@@ -162,6 +162,11 @@ final class ShopLiveChatView: UIScrollView, UITextViewDelegate {
     private func teardownShopLiveChatView() {
         
     }
+
+    func updateShopLiveChatView() {
+        chatTextView.typingAttributes = viewModel.chatInputAttributes
+        chatTextView.placeholderAttributedText = viewModel.chatInputPlaceholderText
+    }
     
     var isExpanded: Bool {
         self.chatTextView.numberOfLines() > 1

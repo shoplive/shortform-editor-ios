@@ -239,15 +239,15 @@ extension ShopLive: ShopLiveSDKInterface {
     }
     
     public static func setMuteWhenPlayStart(_ mute: Bool) {
-        ShopLiveController.isMuted = mute
+        ShopLiveConfiguration.SoundPolicy.isMuted = mute
     }
     
     public static func setNextActionOnHandleNavigation(actionType: ActionType) {
-        ShopLiveController.shared.nextActionTypeOnHandleNavigation = actionType
+        ShopLiveConfiguration.UI.nextActionTypeOnHandleNavigation = actionType
     }
     
     public static func getNextActionTypeOnHandleNavigation() -> ActionType {
-        return ShopLiveController.shared.nextActionTypeOnHandleNavigation
+        return ShopLiveConfiguration.UI.nextActionTypeOnHandleNavigation
     }
     
     public static func setEndpoint(_ url: String?) {
