@@ -7,7 +7,7 @@
 
 import UIKit
 import Foundation
-
+/*
 protocol ChattingWriteDelegate: AnyObject {
     func didTouchSendButton()
     func updateHeight()
@@ -264,3 +264,4 @@ extension ChattingWriteView: UITextViewDelegate {
         }
     }
 }
+*/

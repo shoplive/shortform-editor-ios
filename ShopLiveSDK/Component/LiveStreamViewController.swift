@@ -438,8 +438,8 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     }
 
     private var chatConstraint: NSLayoutConstraint!
-    private lazy var chatInputView: ChattingWriteView = {
-        let chatView = ChattingWriteView()
+    private lazy var chatInputView: ShopLiveChattingWriteView = {
+        let chatView = ShopLiveChattingWriteView()
         chatView.isHidden = true
         chatView.translatesAutoresizingMaskIntoConstraints = false
         chatView.delegate = self
@@ -773,7 +773,10 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             if let isReplay = payload?["isReplay"] as? Bool {
                 ShopLiveController.isReplayMode = isReplay
             }
-            chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? NSLocalizedString("chat.placeholder", comment: "메시지를 입력하세요"), sendText: sendText ?? NSLocalizedString("chat.send.title", comment: "보내기"), maxLength: chatInputMaxLength ?? 50))
+            
+            ShopLiveChattingWriteView.chatInputPlaceholderString = placeHolder ?? NSLocalizedString("chat.placeholder", comment: "메시지를 입력하세요")
+            ShopLiveChattingWriteView.chatInputSendString = sendText ?? NSLocalizedString("chat.send.title", comment: "보내기")
+            ShopLiveChattingWriteView.chatInputMaxLength = chatInputMaxLength ?? 50
 
             delegate?.campaignInfo(campaignInfo: campaignInfo ?? [:])
             break
@@ -866,10 +869,11 @@ extension LiveStreamViewController: WKUIDelegate {
     }
 }
 
-extension LiveStreamViewController: ChattingWriteDelegate {
+extension LiveStreamViewController: ShopLiveChattingWriteDelegate {
     func didTouchSendButton() {
         let message: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("message", chatInputView.chatText))
         overlayView?.sendEventToWeb(event: .write, message.toJson())
+        chatInputView.clearChatText()
     }
 
     func updateHeight() {
