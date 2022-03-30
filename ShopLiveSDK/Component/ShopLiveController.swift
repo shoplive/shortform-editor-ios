@@ -195,6 +195,7 @@ final class ShopLiveController: NSObject {
         isSuccessCampaignJoin = false
         campaignStatus = .close
         webInstance = nil
+        isMuted = ShopLiveConfiguration.SoundPolicy.isMuted
     }
     private func reset() {
         playControl = .none
@@ -208,6 +209,7 @@ final class ShopLiveController: NSObject {
         pipAnimating = false
         windowStyle = .none
         needReload = false
+        isMuted = ShopLiveConfiguration.SoundPolicy.isMuted
     }
 
     func getSnapShot(completion: @escaping (UIImage?) -> Void) {
