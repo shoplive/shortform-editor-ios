@@ -55,7 +55,9 @@ extension NSObject {
     case .some:
       self.removeObserver(observer, forKeyPath: keyPath)
     default:
-        ShopLiveLogger.debugLog("observer does not exist")
+//        ShopLiveLogger.debugLog("observer does not exist")
+        break
+
     }
   }
 }

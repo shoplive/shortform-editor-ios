@@ -151,7 +151,7 @@ public typealias ShopLiveViewController = UIViewController
 
     @objc static func hookNavigation(navigation: @escaping  ((URL) -> Void))
     @objc static func setShareScheme(_ scheme: String?, custom: (() -> Void)?)
-    @objc static func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont)
+    @objc static func setChatViewFont(inputBoxFont: UIFont?, sendButtonFont: UIFont?)
     @objc static func close()
     
     @objc static func setEndpoint(_ url: String?)

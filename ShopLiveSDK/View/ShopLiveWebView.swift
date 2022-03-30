@@ -8,6 +8,10 @@
 import Foundation
 import WebKit
 
+/**
+    Send data to web client
+        - Sending the data to Web Client
+ */
 internal final class ShopLiveWebView: WKWebView {
     override var inputAccessoryView: UIView? {
         return nil

@@ -58,7 +58,7 @@ class MainViewController: SideMenuBaseViewController {
                 #endif
             #endif
             switch index {
-            case 0: // 직접 입력
+            case 0: // Direct input
                 let vc = CampaignInputAlertController()
                 vc.modalPresentationStyle = .overCurrentContext
                 self.navigationController?.present(vc, animated: false, completion: nil)
@@ -71,7 +71,7 @@ class MainViewController: SideMenuBaseViewController {
                 // getkey
                 DeepLinkManager.shared.sendDeepLink("shoplivestudio://getkey?source=\(sourceScheme)")
                 break
-            case 3: // 전체삭제
+            case 3: // Remove all
                 guard ShopLiveDemoKeyTools.shared.keysets.count > 0 else {
                     return
                 }
@@ -137,10 +137,8 @@ class MainViewController: SideMenuBaseViewController {
         }
 
         // Custom Font Setting
-        let inputDefaultFont = UIFont.systemFont(ofSize: 14, weight: .regular)
-        let sendButtonDefaultFont = UIFont.systemFont(ofSize: 14, weight: .medium)
         if let customFont = config.customFont {
-            ShopLive.setChatViewFont(inputBoxFont: config.useChatInputCustomFont ? customFont : inputDefaultFont, sendButtonFont: config.useChatSendButtonCustomFont ? customFont : sendButtonDefaultFont)
+            ShopLive.setChatViewFont(inputBoxFont: config.useChatInputCustomFont ? customFont : nil, sendButtonFont: config.useChatSendButtonCustomFont ? customFont : nil)
         }
 
         // Picture in Picture Setting

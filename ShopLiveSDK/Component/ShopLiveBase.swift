@@ -266,8 +266,8 @@ import WebKit
         var origin = CGPoint.zero
         let safeAreaInsets = mainWindow.safeAreaInsets
         let pipSize = self.pipSize(with: scale)
-        let pipEdgeInsets: UIEdgeInsets = ShopLiveController.shared.pipPadding
-        let pipFloatingOffset: UIEdgeInsets = ShopLiveController.shared.pipFloatingOffset
+        let pipEdgeInsets: UIEdgeInsets = ShopLiveConfiguration.UI.pipPadding
+        let pipFloatingOffset: UIEdgeInsets = ShopLiveConfiguration.UI.pipFloatingOffset
         let pipFloatingOffsetBottom: CGFloat = isKeyboardShow ? 0 : pipFloatingOffset.bottom
         let keyboardHeight: CGFloat = isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0
         
@@ -298,7 +298,7 @@ import WebKit
         }
         
         delegate?.handleCommand("willShopLiveOff", with: ["style" : style.rawValue])
-        guard !ShopLiveController.shared.pipAnimationg else { return }
+        guard !ShopLiveController.shared.pipAnimating else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
 
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
@@ -324,7 +324,7 @@ import WebKit
             shopLiveWindow.layer.shadowOpacity = 0.5
             shopLiveWindow.layer.shadowOffset = .zero
             shopLiveWindow.layer.shadowRadius = 10
-            ShopLiveController.shared.pipAnimationg = false
+            ShopLiveController.shared.pipAnimating = false
             shopLiveWindow.setNeedsLayout()
             shopLiveWindow.layoutIfNeeded()
         } completion: { (isCompleted) in
@@ -341,7 +341,7 @@ import WebKit
 
         setupPictureInPicture()
 
-        guard !ShopLiveController.shared.pipAnimationg else { return }
+        guard !ShopLiveController.shared.pipAnimating else { return }
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
 
@@ -350,7 +350,7 @@ import WebKit
         mainWindow.rootViewController?.shopliveHideKeyboard()
 
         delegate?.handleCommand("willShopLiveOn", with: nil)
-        ShopLiveController.shared.pipAnimationg = true
+        ShopLiveController.shared.pipAnimating = true
         ShopLiveController.webInstance?.isHidden = false
 
         videoWindowPanGestureRecognizer?.isEnabled = false
@@ -372,7 +372,7 @@ import WebKit
         } completion: { (isCompleted) in
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(300), execute: {
                 ShopLiveController.isHiddenOverlay = false
-                ShopLiveController.shared.pipAnimationg = false
+                ShopLiveController.shared.pipAnimating = false
                 shopLiveWindow.rootViewController?.view.backgroundColor = .black
             })
         }
@@ -434,7 +434,7 @@ import WebKit
         self.liveStreamViewController?.showBackgroundPoster()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(300), execute: {
             ShopLiveController.isHiddenOverlay = false
-            ShopLiveController.shared.pipAnimationg = false
+            ShopLiveController.shared.pipAnimating = false
             shopLiveWindow.rootViewController?.view.backgroundColor = .black
         })
     }
@@ -506,8 +506,8 @@ import WebKit
             let velocity = recognizer.velocity(in: liveWindow)
 
             let safeAreaInset = mainWindow.safeAreaInsets
-            let pipEdgeInsets: UIEdgeInsets = ShopLiveController.shared.pipPadding
-            let pipFloatingOffset: UIEdgeInsets = ShopLiveController.shared.pipFloatingOffset
+            let pipEdgeInsets: UIEdgeInsets = ShopLiveConfiguration.UI.pipPadding
+            let pipFloatingOffset: UIEdgeInsets = ShopLiveConfiguration.UI.pipFloatingOffset
             let pipFloatingOffsetBottom: CGFloat = isKeyboardShow ? 0 : pipFloatingOffset.bottom
             
             let mainWindowHeight: CGFloat = mainWindow.bounds.height - (isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0)
@@ -642,7 +642,7 @@ import WebKit
             queryItems.append(URLQueryItem(name: "ck", value: ck))
         }
         queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
-        queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveController.shared.keepAspectOnTabletPortrait ? "true" : "false")"))
+        queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
         #if DEMO
             queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
         #endif
@@ -801,11 +801,11 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     func setLoadingAnimation(images: [UIImage]) {
-        ShopLiveConfiguration.Indicator.setLoadingAnimation(images: images)
+        ShopLiveConfiguration.UI.setLoadingAnimation(images: images)
     }
 
     func setKeepAspectOnTabletPortrait(_ keep: Bool) {
-        ShopLiveController.shared.keepAspectOnTabletPortrait = keep
+        ShopLiveConfiguration.UI.keepAspectOnTabletPortrait = keep
     }
 
     var viewController: ShopLiveViewController? {
@@ -816,9 +816,9 @@ extension ShopLiveBase: ShopLiveComponent {
         self.hideShopLiveView()
     }
 
-    func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont) {
-        ShopLiveController.shared.inputBoxFont = inputBoxFont
-        ShopLiveController.shared.sendButtonFont = sendButtonFont
+    func setChatViewFont(inputBoxFont: UIFont?, sendButtonFont: UIFont?) {
+        ShopLiveConfiguration.UI.inputBoxFont = inputBoxFont
+        ShopLiveConfiguration.UI.sendButtonFont = sendButtonFont
     }
 
     func hookNavigation(navigation: @escaping ((URL) -> Void)) {
@@ -975,10 +975,10 @@ extension ShopLiveBase: ShopLiveComponent {
 
     @objc var indicatorColor: UIColor {
         get {
-            return ShopLiveConfiguration.Indicator.color
+            return ShopLiveConfiguration.UI.color
         }
         set {
-            ShopLiveConfiguration.Indicator.color = newValue
+            ShopLiveConfiguration.UI.color = newValue
         }
     }
 

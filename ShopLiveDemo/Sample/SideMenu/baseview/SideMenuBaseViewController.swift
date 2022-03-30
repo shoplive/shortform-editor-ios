@@ -169,11 +169,6 @@ extension SideMenuBaseViewController: DemoConfigurationObserver, KeySetObserver 
 
     func updatedValues(keys: [String]) {
         if keys.contains(where: {$0 == "user"}) || keys.contains(where: {$0 == "jwtToken"}) {
-            keys.forEach { key in
-                print("key: \(key)")
-            }
-
-            print("reloadData")
             tableView.reloadData()
         }
     }

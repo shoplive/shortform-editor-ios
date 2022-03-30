@@ -242,6 +242,11 @@ extension OverlayWebView: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
 //        ShopLiveLogger.debugLog("interface: \(WebInterface(message: message)?.functionString)")
 
+        /**
+            Receive data from web client
+                - Receiving the data from Web Client
+         */
+
         guard message.name == ShopLiveDefines.webInterface else { return }
         if let body = message.body as? [String: Any],
            let shopliveEvent = body["shopliveEvent"] as? [String : Any],
@@ -434,7 +439,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
             handleIsHiddenOverlay()
             break
         case .overlayUrl:
-            if let overlayUrl = ShopLiveController.overlayUrl { //}, !ShopLiveController.shared.isPreview {
+            if let overlayUrl = ShopLiveController.overlayUrl {
                 self.loadOverlay(with: overlayUrl)
                 ShopLiveLogger.debugLog("overlayUrl exist \(overlayUrl.absoluteString)")
             } else {
@@ -443,7 +448,6 @@ extension OverlayWebView: ShopLivePlayerDelegate {
             break
         case .isPlaying:
             guard self.isSystemInitialized else { return }
-            ShopLiveLogger.debugLog("isPlaying: \(ShopLiveController.isPlaying)")
             ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: ShopLiveController.isPlaying), ShopLiveController.isPlaying)
             break
         default:

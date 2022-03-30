@@ -38,7 +38,7 @@ final class ShopLiveChatView: UIScrollView, UITextViewDelegate {
         }
         
         private var chatInputFont: UIFont {
-            guard let chatFont = ShopLiveController.shared.inputBoxFont else {
+            guard let chatFont = ShopLiveConfiguration.UI.inputBoxFont else {
                 return .systemFont(ofSize: 14, weight: .regular)
             }
             

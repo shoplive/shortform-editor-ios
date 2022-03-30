@@ -11,7 +11,7 @@ import AVKit
 import MediaPlayer
 import ExternalAccessory
 
-internal final class LiveStreamViewController: ShopLiveViewController {
+internal final class LiveStreamViewController: UIViewController {
 
     @objc dynamic lazy var viewModel: LiveStreamViewModel = LiveStreamViewModel()
     weak var delegate: LiveStreamViewControllerDelegate?
@@ -400,7 +400,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     var topSafeAnchor: NSLayoutConstraint!
     private func setupPlayerView() {
         playerView.playerLayer.player = playerView.player
-        playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveController.shared.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
+        playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
         playerView.playerLayer.needsDisplayOnBoundsChange = true
         ShopLiveController.shared.playerItem?.player = playerView.player
         ShopLiveController.shared.playerItem?.playerLayer = playerLayer
@@ -423,7 +423,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         super.viewWillTransition(to: size, with: coordinator)
 
         guard ShopLiveController.windowStyle != .osPip else { return }
-        playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveController.shared.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
+        playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
         overlayView?.alpha = 0
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700)) {
             UIView.animate(withDuration: 0.4) {
@@ -481,17 +481,17 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     }
 
     private func setupIndicator() {
-        if ShopLiveConfiguration.Indicator.isCustomIndicator {
+        if ShopLiveConfiguration.UI.isCustomIndicator {
             self.view.addSubviews(customIndicator)
-            let customIndicatorWidth = NSLayoutConstraint.init(item: customIndicator, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: ShopLiveConfiguration.Indicator.isCustomIndicator ? 60 : 0)
-            let customIndicatorHeight = NSLayoutConstraint.init(item: customIndicator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: ShopLiveConfiguration.Indicator.isCustomIndicator ? 60 : 0)
+            let customIndicatorWidth = NSLayoutConstraint.init(item: customIndicator, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: ShopLiveConfiguration.UI.isCustomIndicator ? 60 : 0)
+            let customIndicatorHeight = NSLayoutConstraint.init(item: customIndicator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: ShopLiveConfiguration.UI.isCustomIndicator ? 60 : 0)
             let customIndicatorCenterXConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
             let customIndicatorCenterYConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.0, constant: 0)
 
             customIndicator.addConstraints([customIndicatorWidth, customIndicatorHeight])
             self.view.addConstraints([customIndicatorCenterXConstraint, customIndicatorCenterYConstraint])
 
-            customIndicator.configure(images: ShopLiveConfiguration.Indicator.customIndicatorImages)
+            customIndicator.configure(images: ShopLiveConfiguration.UI.customIndicatorImages)
             self.customIndicator.startAnimating()
         } else {
             self.view.addSubviews(indicatorView)
@@ -502,7 +502,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
             indicatorView.addConstraints([indicatorWidth, indicatorHeight])
             self.view.addConstraints([centerXConstraint, centerYConstraint])
-            indicatorView.color = ShopLiveConfiguration.Indicator.color
+            indicatorView.color = ShopLiveConfiguration.UI.color
 
             indicatorView.startAnimating()
         }
@@ -512,6 +512,10 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         ShopLiveController.overlayUrl = playUrl
     }
 
+    /**
+        Initialize web client
+            - Sending the required data using URL for Web Client initialization
+     */
     private var playUrl: URL? {
         guard let baseUrl = viewModel.overayUrl else { return nil }
         let urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false)
@@ -920,16 +924,16 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
 
     func handleLoading() {
         if ShopLiveController.loading {
-            if ShopLiveConfiguration.Indicator.isCustomIndicator {
-                customIndicator.configure(images: ShopLiveConfiguration.Indicator.customIndicatorImages)
+            if ShopLiveConfiguration.UI.isCustomIndicator {
+                customIndicator.configure(images: ShopLiveConfiguration.UI.customIndicatorImages)
                 customIndicator.startAnimating()
             } else {
                 indicatorView.isHidden = false
-                indicatorView.color = ShopLiveConfiguration.Indicator.color
+                indicatorView.color = ShopLiveConfiguration.UI.color
                 indicatorView.startAnimating()
             }
         } else {
-            if ShopLiveConfiguration.Indicator.isCustomIndicator {
+            if ShopLiveConfiguration.UI.isCustomIndicator {
                 customIndicator.stopAnimating()
             } else {
                 indicatorView.stopAnimating()

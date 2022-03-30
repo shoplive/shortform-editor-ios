@@ -48,19 +48,26 @@ internal final class ShopLiveConfiguration: NSObject {
     class Data {
         static var useLocalStorage: Bool = true
     }
-    
-    class Indicator {
+
+    class UI {
+        static var pipPadding: UIEdgeInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
+        static var pipFloatingOffset: UIEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
+        static var inputBoxFont: UIFont?
+        static var sendButtonFont: UIFont?
+
         static var color: UIColor = .white
         static var isCustomIndicator: Bool {
             return customIndicatorImages.count > 0
         }
-        
+
         static var customIndicatorImages: [UIImage] = []
 
         static func setLoadingAnimation(images: [UIImage]) {
             customIndicatorImages.removeAll()
             customIndicatorImages.append(contentsOf: images)
         }
+
+        static var keepAspectOnTabletPortrait: Bool = true
     }
 
     fileprivate override init() {}

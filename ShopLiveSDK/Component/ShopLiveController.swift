@@ -62,7 +62,6 @@ final class ShopLiveController: NSObject {
 
     var campaignStatus: ShopLiveCampaignStatus = .close
     var isSuccessCampaignJoin: Bool = false
-    var keepAspectOnTabletPortrait: Bool = true
     private var playerDelegates: [ShopLivePlayerDelegate?] = []
     @objc dynamic var playItem: ShopLivePlayItem? = .init()
     @objc dynamic var playerItem: ShopLivePlayerItem? = .init()
@@ -81,7 +80,7 @@ final class ShopLiveController: NSObject {
 
     lazy var currentPlayTime: Int64? = nil {
         didSet {
-            ShopLiveLogger.debugLog("seek current play time didSet: \(currentPlayTime)")
+            // ShopLiveLogger.debugLog("seek current play time didSet: \(currentPlayTime)")
         }
     }
     var shareScheme: String? = nil
@@ -101,14 +100,8 @@ final class ShopLiveController: NSObject {
     var customShareAction: (() -> Void)?
     var hookNavigation: ((URL) -> Void)?
     var webInstance: ShopLiveWebView?
-    var inputBoxFont: UIFont?
-    var sendButtonFont: UIFont?
-    var pipAnimationg: Bool = false
+    var pipAnimating: Bool = false
     var swipeEnabled: Bool = true
-    var pipPadding: UIEdgeInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
-    var pipFloatingOffset: UIEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
-    var pipTopMargin: CGFloat = 0
-    var pipBottomMargin: CGFloat = 0
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath, let key = ShopLivePlayerObserveValue(rawValue: keyPath), let _ = change?[.newKey] else { return }
@@ -116,9 +109,9 @@ final class ShopLiveController: NSObject {
         case .loadedTimeRanges:
             if let loadedTimeRanges = change?[.newKey] as? [NSValue], let timeRange = loadedTimeRanges.last as? CMTimeRange {
                 let timeLoaded = Int(timeRange.duration.value) / Int(timeRange.duration.timescale)
-                ShopLiveLogger.debugLog("[REASON] time Loaded \(timeLoaded) ShopLiveController.timeControlStatus \(ShopLiveController.timeControlStatus.name) \(ShopLiveController.playerItemStatus.rawValue)")
+                // ShopLiveLogger.debugLog("time Loaded \(timeLoaded) ShopLiveController.timeControlStatus \(ShopLiveController.timeControlStatus.name) \(ShopLiveController.playerItemStatus.rawValue)")
                 if timeLoaded >= 4 && ShopLiveController.timeControlStatus == .waitingToPlayAtSpecifiedRate {
-                    ShopLiveLogger.debugLog("[REASON] time Loaded play\n")
+                    // ShopLiveLogger.debugLog("time Loaded play\n")
                     ShopLiveController.playControl = .play
                 }
             }
@@ -203,6 +196,7 @@ final class ShopLiveController: NSObject {
         isSuccessCampaignJoin = false
         campaignStatus = .close
         isMuted = false
+        webInstance = nil
     }
     private func reset() {
         playControl = .none
@@ -213,8 +207,7 @@ final class ShopLiveController: NSObject {
         retryPlay = false
         streamUrl = nil
         releasePlayer = false
-        webInstance = nil
-        pipAnimationg = false
+        pipAnimating = false
         windowStyle = .none
         needReload = false
     }
@@ -291,7 +284,7 @@ extension ShopLiveController {
     }
 
     func postPlayerObservers(key: ShopLivePlayerObserveValue) {
-        ShopLiveLogger.debugLog("key: \(key.rawValue)")
+//        ShopLiveLogger.debugLog("key: \(key.rawValue)")
 
         playerDelegates.forEach { delegate in
             delegate?.updatedValue(key: key)

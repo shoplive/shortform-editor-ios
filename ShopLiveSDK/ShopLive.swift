@@ -44,7 +44,7 @@ import WebKit
 
     @objc func hookNavigation(navigation: @escaping ((URL) -> Void))
     @objc func setShareScheme(_ scheme: String?, custom: (() -> Void)?)
-    @objc func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont)
+    @objc func setChatViewFont(inputBoxFont: UIFont?, sendButtonFont: UIFont?)
     @objc func close()
     #if DEMO
     @objc var demo_phase: ShopLive.Phase { get set }
@@ -223,11 +223,11 @@ extension ShopLive: ShopLiveSDKInterface {
     }
     
     public static func setPictureInPictureFloatingOffset(offset: UIEdgeInsets) {
-        ShopLiveController.shared.pipFloatingOffset = offset
+        ShopLiveConfiguration.UI.pipFloatingOffset = offset
     }
     
     public static func setPictureInPicturePadding(padding: UIEdgeInsets) {
-        ShopLiveController.shared.pipPadding = padding
+        ShopLiveConfiguration.UI.pipPadding = padding
     }
 
     public static func sendCommandMessage(payload: [String : Any]?) {
@@ -281,7 +281,7 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.close()
     }
 
-    public static func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont) {
+    public static func setChatViewFont(inputBoxFont: UIFont?, sendButtonFont: UIFont?) {
         shared.instance?.setChatViewFont(inputBoxFont: inputBoxFont, sendButtonFont: sendButtonFont)
     }
 
