@@ -693,7 +693,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
 
     func didTouchMuteButton(with isMuted: Bool) {
         if !ShopLiveController.shared.isPreview {
-            ShopLiveConfiguration.SoundPolicy.isMuted = isMuted
+            ShopLiveController.shared.isMuted = isMuted
         }
         
         ShopLiveController.player?.isMuted = ShopLiveController.shared.isPreview ? true : isMuted

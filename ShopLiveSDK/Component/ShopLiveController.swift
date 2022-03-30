@@ -67,7 +67,6 @@ final class ShopLiveController: NSObject {
     @objc dynamic var playerItem: ShopLivePlayerItem? = .init()
     @objc dynamic var playControl: ShopLiveConfiguration.SLPlayControl = .none
     var isReplayMode: Bool = false
-//    var isMuted: Bool = false
     @objc dynamic var isHiddenOverlay: Bool = false
     @objc dynamic var overlayUrl: URL? = nil
     @objc dynamic var isPlaying: Bool = false
@@ -75,8 +74,8 @@ final class ShopLiveController: NSObject {
     @objc dynamic var releasePlayer: Bool = false
     @objc dynamic var takeSnapShot: Bool = true
     @objc dynamic var isPreview: Bool = false
-//    @objc dynamic var nextActionTypeOnHandleNavigation: ActionType = ActionType.PIP
     @objc dynamic var loading: Bool = false
+    var isMuted: Bool = ShopLiveConfiguration.SoundPolicy.isMuted
 
     lazy var currentPlayTime: Int64? = nil {
         didSet {
