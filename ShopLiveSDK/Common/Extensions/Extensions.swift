@@ -273,7 +273,7 @@ internal extension CustomActionResult {
     }
 }
 
-internal extension ShopLive.CouponResult {
+internal extension ShopLiveCouponResult {
     func toJson() -> String? {
         let couponJson = NSMutableDictionary()
         couponJson.setValue(self.success, forKey: "success")
@@ -285,7 +285,7 @@ internal extension ShopLive.CouponResult {
     }
 }
 
-internal extension ShopLive.CustomActionResult {
+internal extension ShopLiveCustomActionResult {
     func toJson() -> String? {
         let couponJson = NSMutableDictionary()
         couponJson.setValue(self.success, forKey: "success")

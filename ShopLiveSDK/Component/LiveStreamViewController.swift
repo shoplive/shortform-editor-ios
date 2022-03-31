@@ -279,11 +279,11 @@ internal final class LiveStreamViewController: UIViewController {
         overlayView?.didCompleteDownloadCoupon(with: couponId)
     }
 
-    func didCompleteDownLoadCoupon(with couponResult: ShopLive.CouponResult) {
+    func didCompleteDownLoadCoupon(with couponResult: ShopLiveCouponResult) {
         overlayView?.didCompleteDownloadCoupon(with: couponResult)
     }
     
-    @available(*, deprecated, message: "use didCompleteDownLoadCoupon(with couponResult: ShopLive.CouponResult) instead")
+    @available(*, deprecated, message: "use didCompleteDownLoadCoupon(with couponResult: ShopLiveCouponResult) instead")
     func didCompleteDownLoadCoupon(with couponResult: CouponResult) {
         overlayView?.didCompleteDownloadCoupon(with: couponResult)
     }
@@ -292,11 +292,11 @@ internal final class LiveStreamViewController: UIViewController {
         overlayView?.didCompleteCustomAction(with: id)
     }
 
-    func didCompleteCustomAction(with customActionResult: ShopLive.CustomActionResult) {
+    func didCompleteCustomAction(with customActionResult: ShopLiveCustomActionResult) {
         overlayView?.didCompleteCustomAction(with: customActionResult)
     }
     
-    @available(*, deprecated, message: "use didCompleteCustomAction(with customActionResult: ShopLive.CustomActionResult) instead")
+    @available(*, deprecated, message: "use didCompleteCustomAction(with customActionResult: ShopLiveCustomActionResult) instead")
     func didCompleteCustomAction(with customActionResult: CustomActionResult) {
         overlayView?.didCompleteCustomAction(with: customActionResult)
     }

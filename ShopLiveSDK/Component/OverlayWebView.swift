@@ -157,7 +157,7 @@ internal class OverlayWebView: UIView {
         }
 
     
-    func didCompleteDownloadCoupon(with couponResult: ShopLive.CouponResult) {
+    func didCompleteDownloadCoupon(with couponResult: ShopLiveCouponResult) {
         guard let couponResultJson = couponResult.toJson() else {
             return
         }
@@ -165,7 +165,7 @@ internal class OverlayWebView: UIView {
         self.webView?.sendEventToWeb(event: .downloadCouponResult, couponResultJson)
     }
     
-    @available(*, deprecated, message: "use didCompleteDownloadCoupon(with couponResult: ShopLive.CouponResult) instead")
+    @available(*, deprecated, message: "use didCompleteDownloadCoupon(with couponResult: ShopLiveCouponResult) instead")
     func didCompleteDownloadCoupon(with couponResult: CouponResult) {
         guard let couponResultJson = couponResult.toJson() else {
             return
@@ -174,7 +174,7 @@ internal class OverlayWebView: UIView {
         self.webView?.sendEventToWeb(event: .downloadCouponResult, couponResultJson)
     }
 
-    func didCompleteCustomAction(with customActionResult: ShopLive.CustomActionResult) {
+    func didCompleteCustomAction(with customActionResult: ShopLiveCustomActionResult) {
         guard let customActionResultJson = customActionResult.toJson() else {
             return
         }
@@ -182,7 +182,7 @@ internal class OverlayWebView: UIView {
         self.webView?.sendEventToWeb(event: .customActionResult, customActionResultJson)
     }
     
-    @available(*, deprecated, message: "use didCompleteCustomAction(with customActionResult: ShopLive.CustomActionResult) instead")
+    @available(*, deprecated, message: "use didCompleteCustomAction(with customActionResult: ShopLiveCustomActionResult) instead")
     func didCompleteCustomAction(with customActionResult: CustomActionResult) {
         guard let customActionResultJson = customActionResult.toJson() else {
             return

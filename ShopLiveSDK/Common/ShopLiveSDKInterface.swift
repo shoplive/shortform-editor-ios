@@ -72,6 +72,69 @@ import UIKit
     }
 }
 
+@objc public enum ShopLiveResultStatus: Int, CaseIterable {
+    case SHOW
+    case HIDE
+    case KEEP
+
+    public var name: String {
+        switch self {
+        case .SHOW:
+            return "SHOW"
+        case .HIDE:
+            return "HIDE"
+        case .KEEP:
+            return "KEEP"
+        }
+    }
+}
+
+@objc public enum ShopLiveResultAlertType: Int, CaseIterable {
+    case ALERT
+    case TOAST
+
+    public var name: String {
+        switch self {
+        case .ALERT:
+            return "ALERT"
+        case .TOAST:
+            return "TOAST"
+        }
+    }
+}
+
+@objc public class ShopLiveCouponResult: NSObject {
+    var success: Bool
+    var coupon: String = ""
+    var message: String?
+    var couponStatus: ShopLiveResultStatus
+    var alertType: ShopLiveResultAlertType
+
+    public init(couponId: String, success: Bool, message: String?, status: ShopLiveResultStatus, alertType: ShopLiveResultAlertType) {
+        self.coupon = couponId
+        self.success = success
+        self.message = message
+        self.couponStatus = status
+        self.alertType = alertType
+    }
+}
+
+@objc public class ShopLiveCustomActionResult: NSObject {
+    var success: Bool
+    var id: String = ""
+    var message: String?
+    var couponStatus: ShopLiveResultStatus
+    var alertType: ShopLiveResultAlertType
+
+    public init(id: String, success: Bool, message: String?, status: ShopLiveResultStatus, alertType: ShopLiveResultAlertType) {
+        self.id = id
+        self.success = success
+        self.message = message
+        self.couponStatus = status
+        self.alertType = alertType
+    }
+}
+
 @objc public enum ActionType: Int {
     case PIP
     case KEEP
@@ -91,15 +154,15 @@ import UIKit
 
 @objc public protocol ShopLiveSDKDelegate: AnyObject {
     @objc func handleNavigation(with url: URL)
-    @available(*, deprecated, message: "use handleDownloadCoupon(with couponId: String, result: @escaping (ShopLive.CouponResult) -> Void) instead")
+    @available(*, deprecated, message: "use handleDownloadCoupon(with couponId: String, result: @escaping (ShopLiveCouponResult) -> Void) instead")
     @objc optional func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void)
-    @objc optional func handleDownloadCoupon(with couponId: String, result: @escaping (ShopLive.CouponResult) -> Void)
-    @available(*, deprecated, message: "use handleDownloadCoupon(with couponId: String, result: @escaping (ShopLive.CouponResult) -> Void) instead")
+    @objc optional func handleDownloadCoupon(with couponId: String, result: @escaping (ShopLiveCouponResult) -> Void)
+    @available(*, deprecated, message: "use handleDownloadCoupon(with couponId: String, result: @escaping (ShopLiveCouponResult) -> Void) instead")
     @objc optional func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void)
-    @available(*, deprecated, message: "use handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLive.CustomActionResult) -> Void) instead")
+    @available(*, deprecated, message: "use handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLiveCustomActionResult) -> Void) instead")
     @objc optional func handleCustomActionResult(with id: String, type: String, payload: Any?, completion: @escaping (CustomActionResult) -> Void)
-    @objc optional func handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLive.CustomActionResult) -> Void)
-    @available(*, deprecated, message: "use handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLive.CustomActionResult) -> Void) instead")
+    @objc optional func handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLiveCustomActionResult) -> Void)
+    @available(*, deprecated, message: "use handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLiveCustomActionResult) -> Void) instead")
     @objc optional func handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping () -> Void)
 
     @objc func handleChangeCampaignStatus(status: String)

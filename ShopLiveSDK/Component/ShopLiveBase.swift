@@ -1076,7 +1076,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
             self.liveStreamViewController?.didCompleteCustomAction(with: id) }
         _delegate?.handleCustomAction?(with: id, type: type, payload: payload, completion: completion)
 
-        let completionResult: (ShopLive.CustomActionResult?) -> Void = { [weak self] customActionResult in
+        let completionResult: (ShopLiveCustomActionResult?) -> Void = { [weak self] customActionResult in
             if let result = customActionResult {
                 self?.liveStreamViewController?.didCompleteCustomAction(with: result)
             }
@@ -1129,7 +1129,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
 
         _delegate?.handleDownloadCoupon?(with: couponId, completion: completion)
 
-        let completionResult: (ShopLive.CouponResult?) -> Void = { [weak self] couponResult in
+        let completionResult: (ShopLiveCouponResult?) -> Void = { [weak self] couponResult in
             if let result = couponResult {
                 self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: result)
             }

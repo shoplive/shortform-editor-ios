@@ -9,8 +9,8 @@ import UIKit
 
 final class CouponSettingsViewController: SideMenuItemViewController {
 
-    var resultAlertType: ShopLive.ResultAlertType = .ALERT
-    var resultStatus: ShopLive.ResultStatus = .SHOW
+    var resultAlertType: ShopLiveResultAlertType = .ALERT
+    var resultStatus: ShopLiveResultStatus = .SHOW
     var resultMessage: String = ""
 
     private lazy var successSettingView: CouponResponseSettingView = {
