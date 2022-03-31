@@ -214,11 +214,11 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
-    static func setAppVersion(_ appVersion: String) {
+    public static func setAppVersion(_ appVersion: String) {
         ShopLiveConfiguration.AppPreference.appVersion = appVersion
     }
     
-    static func setUsingLocalStorage(_ use: Bool) {
+    public static func setUsingLocalStorage(_ use: Bool) {
         ShopLiveConfiguration.Data.useLocalStorage = use
     }
     
@@ -230,12 +230,17 @@ extension ShopLive: ShopLiveSDKInterface {
         ShopLiveConfiguration.UI.pipPadding = padding
     }
 
-    public static func sendCommandMessage(payload: [String : Any]?) {
+    public static func sendCommandMessage(command: String, payload: [String : Any]?) {
         guard let payload = payload else {
             return
         }
 
-        ShopLiveController.webInstance?.sendEventToWeb(event: .sendCommandMessage, payload.toJson())
+        var message: [String : Any] = [:]
+
+        message["command"] = command
+        message["payload"] = payload
+
+        ShopLiveController.webInstance?.sendEventToWeb(event: .sendCommandMessage, message.toJson())
     }
     
     public static func setMuteWhenPlayStart(_ mute: Bool) {
