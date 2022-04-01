@@ -49,6 +49,11 @@ final class OptionsViewController: SideMenuItemViewController {
 
     private func setupOptions() {
 
+        let muteOption = SDKOptionItem(name: "sdkoption.sound.mute.title".localized(), optionDescription: "sdkoption.sound.mute.description".localized(), optionType: .mute)
+        let muteOptions = SDKOption(optionTitle: "sdkoption.section.sound.title".localized(), optionItems: [muteOption])
+        
+        items.append(muteOptions)
+        
         let previewOption = SDKOptionItem(name: "sdkoption.preview.title".localized(), optionDescription: "sdkoption.preview.description".localized(), optionType: .playWhenPreviewTapped)
         let previewOptions = SDKOption(optionTitle: "sdkoption.section.preview.title".localized(), optionItems: [previewOption])
         
@@ -57,7 +62,8 @@ final class OptionsViewController: SideMenuItemViewController {
         let pipPositionOption = SDKOptionItem(name: "sdkoption.pipPosition.title".localized(), optionDescription: "sdkoption.pipPosition.description".localized(), optionType: .pipPosition)
         let pipScaleOption = SDKOptionItem(name: "sdkoption.pipScale.title".localized(), optionDescription: "sdkoption.pipScale.description".localized(), optionType: .pipScale)
         let nextActionPipOption = SDKOptionItem(name: "sdkoption.nextActionTypeOnNavigation.title".localized(), optionDescription: "sdkoption.nextActionTypeOnNavigation.description".localized(), optionType: .nextActionOnHandleNavigation)
-        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, nextActionPipOption])
+        let pipAreaOption = SDKOptionItem(name: "sdkoption.pipFloatingOffset.title".localized(), optionDescription: "sdkoption.pipFloatingOffset.description".localized(), optionType: .pipFloatingOffset)
+        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, nextActionPipOption, pipAreaOption])
 
         items.append(pipOptions)
 
@@ -109,7 +115,7 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
             }
             cell.configure(item: item)
             return cell
-        case .showAlert, .dropdown:
+        case .showAlert, .dropdown, .routeTo:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonOptionCell", for: indexPath) as? ButtonOptionCell else {
                 return UITableViewCell()
             }
@@ -188,7 +194,6 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 dropdown.width = 200
                 dropdown.dataSource = ["sdkoption.nextActionTypeOnNavigation.item1".localized(), "sdkoption.nextActionTypeOnNavigation.item2".localized(), "sdkoption.nextActionTypeOnNavigation.item3".localized()]
                 dropdown.selectionAction = { (index: Int, item: String) in
-                    // print("selected item: \(item) index: \(index)")
                     DemoConfiguration.shared.nextActionTypeOnHandleNavigation = ActionType(rawValue: index) ?? .PIP
                     anchorView.removeFromSuperview()
                     self.tableView.reloadData()
@@ -198,7 +203,6 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 dropdown.width = 150
                 dropdown.dataSource = ["topLeft", "topRight", "bottomLeft","bottomRight"]
                 dropdown.selectionAction = { (index: Int, item: String) in
-                    // print("selected item: \(item) index: \(index)")
                     DemoConfiguration.shared.pipPosition = ShopLive.PipPosition(rawValue: index) ?? .bottomRight
                     anchorView.removeFromSuperview()
                     self.tableView.reloadData()
@@ -209,6 +213,16 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
             }
 
             dropdown.show()
+            break
+        case .routeTo:
+            switch item.optionType {
+            case .pipFloatingOffset:
+                let pipAreaSetting = PipAreaSettingViewController()
+                self.navigationController?.pushViewController(pipAreaSetting, animated: true)
+                break
+            default:
+                break
+            }
             break
         default:
             break

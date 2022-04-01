@@ -9,8 +9,8 @@ import UIKit
 
 final class CouponSettingsViewController: SideMenuItemViewController {
 
-    var resultAlertType: ResultAlertType = .ALERT
-    var resultStatus: ResultStatus = .SHOW
+    var resultAlertType: ShopLiveResultAlertType = .ALERT
+    var resultStatus: ShopLiveResultStatus = .SHOW
     var resultMessage: String = ""
 
     private lazy var successSettingView: CouponResponseSettingView = {
@@ -33,10 +33,11 @@ final class CouponSettingsViewController: SideMenuItemViewController {
         self.title = SideMenuTypes.coupon.stringKey.localized()
         setupNaviItems()
         setupViews()
+        ShopLiveLogger.debugLog(failedSettingView.resultMessage)
     }
 
     func setupNaviItems() {
-        self.title = SideMenuTypes.userinfo.stringKey.localized()
+        self.title = SideMenuTypes.coupon.stringKey.localized()
 
         let save = UIBarButtonItem(title: "sdk.user.save".localized(from: "shoplive"), style: .plain, target: self, action: #selector(saveAct))
 
@@ -44,7 +45,7 @@ final class CouponSettingsViewController: SideMenuItemViewController {
 
         self.navigationItem.rightBarButtonItem = save
     }
-
+    
     @objc func saveAct() {
         let successSetting = successSettingView.getSetting()
         let failedSetting = failedSettingView.getSetting()

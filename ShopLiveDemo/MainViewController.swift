@@ -14,6 +14,13 @@ class MainViewController: SideMenuBaseViewController {
 
     var safari: SFSafariViewController? = nil
 
+    lazy var tabbar: UITabBar = {
+        let view = UITabBar()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .lightGray
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,6 +37,12 @@ class MainViewController: SideMenuBaseViewController {
         self.items.insert("DevInfoCell", at: 0)
         self.tableView.register(DevInfoCell.self, forCellReuseIdentifier: "DevInfoCell")
         setupSampleOptions()
+        
+        self.view.addSubviews(tabbar)
+        tabbar.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+        }
     }
 
     func setupSampleOptions() {
@@ -45,7 +58,7 @@ class MainViewController: SideMenuBaseViewController {
                 #endif
             #endif
             switch index {
-            case 0: // 직접 입력
+            case 0: // Direct input
                 let vc = CampaignInputAlertController()
                 vc.modalPresentationStyle = .overCurrentContext
                 self.navigationController?.present(vc, animated: false, completion: nil)
@@ -58,7 +71,7 @@ class MainViewController: SideMenuBaseViewController {
                 // getkey
                 DeepLinkManager.shared.sendDeepLink("shoplivestudio://getkey?source=\(sourceScheme)")
                 break
-            case 3: // 전체삭제
+            case 3: // Remove all
                 guard ShopLiveDemoKeyTools.shared.keysets.count > 0 else {
                     return
                 }
@@ -124,10 +137,8 @@ class MainViewController: SideMenuBaseViewController {
         }
 
         // Custom Font Setting
-        let inputDefaultFont = UIFont.systemFont(ofSize: 14, weight: .regular)
-        let sendButtonDefaultFont = UIFont.systemFont(ofSize: 14, weight: .medium)
         if let customFont = config.customFont {
-            ShopLive.setChatViewFont(inputBoxFont: config.useChatInputCustomFont ? customFont : inputDefaultFont, sendButtonFont: config.useChatSendButtonCustomFont ? customFont : sendButtonDefaultFont)
+            ShopLive.setChatViewFont(inputBoxFont: config.useChatInputCustomFont ? customFont : nil, sendButtonFont: config.useChatSendButtonCustomFont ? customFont : nil)
         }
 
         // Picture in Picture Setting
@@ -136,6 +147,17 @@ class MainViewController: SideMenuBaseViewController {
 
         // handle Navigation Action Type
         ShopLive.setNextActionOnHandleNavigation(actionType: DemoConfiguration.shared.nextActionTypeOnHandleNavigation)
+        
+        // Pip padding setting
+        let padding = config.pipPadding
+        ShopLive.setPictureInPicturePadding(padding: .init(top: padding.top, left: padding.left, bottom: padding.bottom, right: padding.right))
+        
+        // Pip floating offset setting
+        let floatingOffset = config.pipFloatingOffset
+        ShopLive.setPictureInPictureFloatingOffset(offset: .init(top: floatingOffset.top, left: floatingOffset.left, bottom: floatingOffset.bottom, right: floatingOffset.right))
+        
+        // Mute Sound Setting
+        ShopLive.setMuteWhenPlayStart(config.isMuted)
         
         // Phase Setting
         #if DEMO
@@ -235,7 +257,14 @@ extension MainViewController: ShopLiveSDKDelegate {
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleCampaignInfo \(campaignInfo)"))
     }
 
-    func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void) {
+    /*
+     // deprecated
+     func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void)
+    
+     func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void)
+    */
+    
+    func handleDownloadCoupon(with couponId: String, result: @escaping (ShopLiveCouponResult) -> Void) {
         print("handleDownloadCouponResult")
         let alert = UIAlertController(title: "sample.coupon.download".localized(), message: "sample.coupon.id".localized() + ": \(couponId)", preferredStyle: .alert)
         alert.addAction(.init(title: "alert.msg.failed".localized(), style: .cancel, handler: { _ in
@@ -244,8 +273,8 @@ extension MainViewController: ShopLiveSDKDelegate {
                 let status = SDKSettings.downloadCouponFailedStatus
                 let alertType = SDKSettings.downloadCouponFailedAlertType
                 DispatchQueue.main.async {
-                    let result = CouponResult(couponId: couponId, success: false, message: message, status: status, alertType: alertType)
-                    completion(result)
+                    let couponResult = ShopLiveCouponResult(couponId: couponId, success: false, message: message, status: status, alertType: alertType)
+                    result(couponResult)
                 }
             }
         }))
@@ -254,8 +283,8 @@ extension MainViewController: ShopLiveSDKDelegate {
             let status = SDKSettings.downloadCouponSuccessStatus
             let alertType = SDKSettings.downloadCouponSuccessAlertType
             DispatchQueue.main.async {
-                let result = CouponResult(couponId: couponId, success: true, message: message, status: status, alertType: alertType)
-                completion(result)
+                let couponResult = ShopLiveCouponResult(couponId: couponId, success: true, message: message, status: status, alertType: alertType)
+                result(couponResult)
             }
         }))
         ShopLive.viewController?.present(alert, animated: true, completion: nil)
@@ -268,7 +297,13 @@ extension MainViewController: ShopLiveSDKDelegate {
     }
     */
 
+    /*
+     // deprecated
     func handleCustomActionResult(with id: String, type: String, payload: Any?, completion: @escaping (CustomActionResult) -> Void) {
+    }
+     */
+    
+    func handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLiveCustomActionResult) -> Void) {
         print("handleCustomActionResult")
 
         let alert = UIAlertController(title: "CUSTOM ACTION", message: "id: \(id)\ntype: \(type)\npayload: \(String(describing: payload))", preferredStyle: .alert)
@@ -277,8 +312,8 @@ extension MainViewController: ShopLiveSDKDelegate {
                 let message = SDKSettings.downloadCouponFailedMessage
                 let status = SDKSettings.downloadCouponFailedStatus
                 let alertType = SDKSettings.downloadCouponFailedAlertType
-                let result = CustomActionResult(id: id, success: false, message: message, status: status, alertType: alertType)
-                completion(result)
+                let customActionResult = ShopLiveCustomActionResult(id: id, success: false, message: message, status: status, alertType: alertType)
+                result(customActionResult)
             }
         }))
         alert.addAction(.init(title: "alert.msg.success".localized(), style: .default, handler: { _ in
@@ -286,8 +321,8 @@ extension MainViewController: ShopLiveSDKDelegate {
             let status = SDKSettings.downloadCouponSuccessStatus
             let alertType = SDKSettings.downloadCouponSuccessAlertType
             DispatchQueue.main.async {
-                let result = CustomActionResult(id: id, success: true, message: message, status: status, alertType: alertType)
-                completion(result)
+                let customActionResult = ShopLiveCustomActionResult(id: id, success: true, message: message, status: status, alertType: alertType)
+                result(customActionResult)
             }
         }))
         ShopLive.viewController?.present(alert, animated: true, completion: nil)

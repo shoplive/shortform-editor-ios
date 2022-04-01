@@ -12,7 +12,7 @@ class CampaignInputAlertController: CustomBaseAlertController {
     lazy var titleInputField: UITextField = {
         let view = UITextField()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.placeholder = "Title" // "campaign.input.alert.alias.placeholder".localized()
+        view.placeholder = "Title"
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.lightGray.cgColor
         view.layer.cornerRadius = 6
@@ -30,7 +30,7 @@ class CampaignInputAlertController: CustomBaseAlertController {
     lazy var accessInputField: UITextField = {
         let view = UITextField()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.placeholder = "Access Key" // "campaign.input.alert.accesskey.placeholder".localized()
+        view.placeholder = "Access Key"
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.lightGray.cgColor
         view.layer.cornerRadius = 6
@@ -48,7 +48,7 @@ class CampaignInputAlertController: CustomBaseAlertController {
     lazy var campaignInputField: UITextField = {
         let view = UITextField()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.placeholder = "Campaign Key" // "campaign.input.alert.campaignkey.placeholder".localized()
+        view.placeholder = "Campaign Key" 
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.lightGray.cgColor
         view.layer.cornerRadius = 6

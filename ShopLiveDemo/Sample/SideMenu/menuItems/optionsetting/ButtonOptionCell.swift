@@ -159,6 +159,16 @@ final class ButtonOptionCell: UITableViewCell {
             }
             optionValueWhenDropdownLabel.text = descriptionTitle
             break
+        case .routeTo:
+            switch item.optionType {
+            case .pipFloatingOffset:
+                descriptionTitle = item.optionDescription
+                break
+            default:
+                descriptionTitle = item.optionDescription
+                break
+            }
+            break
         default:
             switch item.optionType {
             case .shareScheme:

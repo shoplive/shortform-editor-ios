@@ -44,7 +44,7 @@ import WebKit
 
     @objc func hookNavigation(navigation: @escaping ((URL) -> Void))
     @objc func setShareScheme(_ scheme: String?, custom: (() -> Void)?)
-    @objc func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont)
+    @objc func setChatViewFont(inputBoxFont: UIFont?, sendButtonFont: UIFont?)
     @objc func close()
     #if DEMO
     @objc var demo_phase: ShopLive.Phase { get set }
@@ -151,17 +151,49 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    public static func setAppVersion(_ appVersion: String) {
+        ShopLiveConfiguration.AppPreference.appVersion = appVersion
+    }
+    
+    public static func setUsingLocalStorage(_ use: Bool) {
+        ShopLiveConfiguration.Data.useLocalStorage = use
+    }
+    
+    public static func setPictureInPictureFloatingOffset(offset: UIEdgeInsets) {
+        ShopLiveConfiguration.UI.pipFloatingOffset = offset
+    }
+    
+    public static func setPictureInPicturePadding(padding: UIEdgeInsets) {
+        ShopLiveConfiguration.UI.pipPadding = padding
+    }
+
+    public static func sendCommandMessage(command: String, payload: [String : Any]?) {
+        guard let payload = payload else {
+            return
+        }
+
+        var message: [String : Any] = [:]
+
+        message["command"] = command
+        message["payload"] = payload
+
+        ShopLiveController.webInstance?.sendEventToWeb(event: .sendCommandMessage, message.toJson())
+    }
+    
+    public static func setMuteWhenPlayStart(_ mute: Bool) {
+        ShopLiveConfiguration.SoundPolicy.isMuted = mute
+    }
     
     public static func setNextActionOnHandleNavigation(actionType: ActionType) {
-        ShopLiveController.shared.nextActionTypeOnHandleNavigation = actionType
+        ShopLiveConfiguration.UI.nextActionTypeOnHandleNavigation = actionType
     }
     
     public static func getNextActionTypeOnHandleNavigation() -> ActionType {
-        return ShopLiveController.shared.nextActionTypeOnHandleNavigation
+        return ShopLiveConfiguration.UI.nextActionTypeOnHandleNavigation
     }
     
     public static func setEndpoint(_ url: String?) {
-        ShopLiveDefines.endpoint = url
+        ShopLiveConfiguration.AppPreference.endpoint = url
     }
     
     public static func isSuccessCampaignJoin() -> Bool {
@@ -188,11 +220,10 @@ extension ShopLive: ShopLiveSDKInterface {
     }
 
     public static func close() {
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "close api called"))
         shared.instance?.close()
     }
 
-    public static func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont) {
+    public static func setChatViewFont(inputBoxFont: UIFont?, sendButtonFont: UIFont?) {
         shared.instance?.setChatViewFont(inputBoxFont: inputBoxFont, sendButtonFont: sendButtonFont)
     }
 
@@ -301,13 +332,11 @@ extension ShopLive: ShopLiveSDKInterface {
     }
 
     public static func preview(with campaignKey: String?, completion: @escaping () -> Void) {
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "preview api called ck: \(campaignKey)"))
         ShopLiveController.shared.isPreview = true
         shared.instance?.preview(with: campaignKey, completion: completion)
     }
 
     public static func play(with campaignKey: String?, _ parent: UIViewController? = nil) {
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "play api called ck: \(campaignKey)"))
         ShopLiveController.shared.isPreview = false
         shared.instance?.play(with: campaignKey, parent)
     }
@@ -330,23 +359,5 @@ extension ShopLive: ShopLiveSDKInterface {
 
     public static func reloadLive() {
         shared.instance?.reloadLive()
-    }
-}
-
-class ShopLiveSettings {
-    var indicatorColor: UIColor = .white
-    var isCustomIndicator: Bool {
-        return customIndicatorImages.count > 0
-    }
-    var customIndicatorImages: [UIImage] = []
-
-    func setLoadingAnimation(images: [UIImage]) {
-        customIndicatorImages.removeAll()
-        customIndicatorImages.append(contentsOf: images)
-    }
-
-    func clear() {
-        indicatorColor = .white
-        customIndicatorImages.removeAll()
     }
 }

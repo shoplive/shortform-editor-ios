@@ -8,11 +8,10 @@
 import UIKit
 import WebKit
 import AVKit
-//import CallKit
 import MediaPlayer
 import ExternalAccessory
 
-internal final class LiveStreamViewController: ShopLiveViewController {
+internal final class LiveStreamViewController: UIViewController {
 
     @objc dynamic lazy var viewModel: LiveStreamViewModel = LiveStreamViewModel()
     weak var delegate: LiveStreamViewControllerDelegate?
@@ -49,7 +48,6 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
 
     var playerView: ShopLivePlayerView = .init()
-//    private lazy var videoView: UIView = .init()//VideoView = VideoView()
 
     private var playTimeObserver: Any?
 
@@ -59,9 +57,6 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
     var playerLayer: AVPlayerLayer {
         return playerView.playerLayer
-    }
-    // optional: cancel task
-    deinit {
     }
 
     override func removeFromParent() {
@@ -74,44 +69,20 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
         overlayView = nil
         imageView = nil
-    }
-
-    private var logTimer: Timer?
-
-    private func addQualityLogTimer() {
-        logTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-            if let perf = ShopLiveController.perfMeasurements {
-                var qualityLog = "[play performance]\n"
-                if let playerItem = ShopLiveController.playerItem {
-                    qualityLog += "지연없이 재생될 가능성 여부: \(playerItem.isPlaybackLikelyToKeepUp)\n"
-                    qualityLog += "내부 미디어 버퍼 Full: \(playerItem.isPlaybackBufferFull)\n"
-                    qualityLog += "버퍼링 된 미디어 Empty: \(playerItem.isPlaybackBufferEmpty)\n"
-                }
-
-                if let accessLog = perf.accessLog, let last = accessLog.events.last {
-                    qualityLog += "비트전송률: \(String(format: "%.2f", last.averageVideoBitrate / 8 / 1024))\n"
-                }
-
-                ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: qualityLog))
-            }
-        }
-    }
-
-    private func removeQuailtyLogTimer() {
-        logTimer?.invalidate()
-        logTimer = nil
+        
+        tearDownLiveStreamViewController()
     }
 
     private func addPlayTimeObserver() {
+        ShopLiveLogger.debugLog("addPlayTimeObserver")
+        removePlaytimeObserver()
         let time = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        playTimeObserver = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: .main, using: { (time) in
+        playTimeObserver = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: nil) { (time) in
             let curTime = CMTimeGetSeconds(time)
-//                let duration = CMTimeGetSeconds(ShopLiveController.player?.currentItem?.asset.duration ?? CMTime())
-//                ShopLiveLogger.debugLog("addPlayTimeObserver time: \(time)  duration: \(duration)")
 
             ShopLiveController.shared.currentPlayTime = Int64(curTime)
             ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoTimeUpdated, curTime)
-        })
+        }
     }
 
     private func removePlaytimeObserver() {
@@ -135,16 +106,10 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     }
 
     private func updateHeadPhoneStatus(plugged: Bool) {
-        if !ShopLiveConfiguration.soundPolicy.keepPlayVideoOnHeadphoneUnplugged {
+        if !ShopLiveConfiguration.SoundPolicy.keepPlayVideoOnHeadphoneUnplugged {
             ShopLiveController.playControl = plugged ? .resume : .pause
         }
     }
-/*
-    var callObserver = CXCallObserver()
-    func setupCallState() {
-        callObserver.setDelegate(self, queue: DispatchQueue.main)
-    }
-*/
 
     private func setupAudioConfig() {
         let audioSession = AVAudioSession.sharedInstance()
@@ -153,8 +118,6 @@ internal final class LiveStreamViewController: ShopLiveViewController {
                 for description in currentRoute.outputs {
                     updateHeadPhoneStatus(plugged: description.portType == AVAudioSession.Port.headphones)
                 }
-            } else {
-                //print("requires connection to device")
             }
         NotificationCenter.default.addObserver(
                 self,
@@ -167,6 +130,11 @@ internal final class LiveStreamViewController: ShopLiveViewController {
                            object: AVAudioSession.sharedInstance())
 
     }
+    
+    private func teardownAudioConfig() {
+        NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance())
+    }
 
     @objc func handleInterruption(notification: Notification) {
         ShopLiveLogger.debugLog("handleInterruption")
@@ -177,9 +145,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
                     return
             }
 
-//        let interruptionType = notification.userInfo!    [AVAudioSessionInterruptionTypeKey] as! AVAudioSession.InterruptionType
           if type == .began {
-           // Interruption이 시작된 경우 처리 코드
             ShopLiveController.playControl = .pause
           } else {
               guard userInfo[AVAudioSessionInterruptionOptionKey] != nil else {
@@ -192,11 +158,10 @@ internal final class LiveStreamViewController: ShopLiveViewController {
             }
             catch let error {
                 ShopLiveLogger.debugLog("interruption setActive Failed error: \(error.localizedDescription)")
-                debugPrint(error)
             }
 
 
-            guard ShopLiveConfiguration.soundPolicy.autoResumeVideoOnCallEnded else {
+              guard ShopLiveConfiguration.SoundPolicy.autoResumeVideoOnCallEnded else {
                 return
             }
             if ShopLiveController.isReplayMode {
@@ -264,14 +229,10 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        loadOveray()
-//        setupCallState()
-        setupAudioConfig()
-        addPlayTimeObserver()
-        #if DEMO
-//            addQualityLogTimer()
-        #endif
-        addObserver()
+        setupLiveStreamViewController()
+    }
+    
+    deinit {
     }
 
     private func setupView() {
@@ -304,7 +265,6 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
     func resume() {
         if ShopLiveController.shared.windowStyle == .osPip, !ShopLiveController.shared.lastPipPlaying {
-            ShopLiveLogger.debugLog("resume return ospip not lastPlaying ")
             return
         }
         ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
@@ -319,6 +279,11 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         overlayView?.didCompleteDownloadCoupon(with: couponId)
     }
 
+    func didCompleteDownLoadCoupon(with couponResult: ShopLiveCouponResult) {
+        overlayView?.didCompleteDownloadCoupon(with: couponResult)
+    }
+    
+    @available(*, deprecated, message: "use didCompleteDownLoadCoupon(with couponResult: ShopLiveCouponResult) instead")
     func didCompleteDownLoadCoupon(with couponResult: CouponResult) {
         overlayView?.didCompleteDownloadCoupon(with: couponResult)
     }
@@ -327,6 +292,11 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         overlayView?.didCompleteCustomAction(with: id)
     }
 
+    func didCompleteCustomAction(with customActionResult: ShopLiveCustomActionResult) {
+        overlayView?.didCompleteCustomAction(with: customActionResult)
+    }
+    
+    @available(*, deprecated, message: "use didCompleteCustomAction(with customActionResult: ShopLiveCustomActionResult) instead")
     func didCompleteCustomAction(with customActionResult: CustomActionResult) {
         overlayView?.didCompleteCustomAction(with: customActionResult)
     }
@@ -351,16 +321,14 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     }
 
     func onBackground() {
-        ShopLiveLogger.debugLog("lifecycle onBackground()")
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "###########   onBackground() windowStyle \(ShopLiveController.windowStyle)  ###########"))
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "###########   ShopLiveController.windowStyle - play state ( \(ShopLiveController.timeControlStatus.name) )   ###########"))
+        ShopLiveLogger.debugLog("onBackground()")
         guard ShopLiveController.windowStyle != .osPip else { return }
         ShopLiveController.playControl = .pause
         overlayView?.sendEventToWeb(event: .onBackground)
     }
 
     func onForeground() {
-        ShopLiveLogger.debugLog("lifecycle onForeground()")
+        ShopLiveLogger.debugLog("onForeground()")
         guard ShopLiveController.windowStyle != .osPip else {
             return
         }
@@ -368,17 +336,13 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             if ShopLiveController.timeControlStatus == .paused {
                 if !ShopLiveController.isReplayMode {
-                    ShopLiveLogger.debugLog("[REASON] time paused onForeground resume")
                     ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
                     ShopLiveController.playControl = .resume
                 }
             } else {
                 if !ShopLiveController.isReplayMode {
-//                    self.reload()
                     ShopLiveController.shared.needSeek = true
                     ShopLiveController.playControl = .resume
-                } else {
-//                    ShopLiveController.player?.play()
                 }
             }
 
@@ -436,14 +400,12 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     var topSafeAnchor: NSLayoutConstraint!
     private func setupPlayerView() {
         playerView.playerLayer.player = playerView.player
-        playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveController.shared.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
+        playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
         playerView.playerLayer.needsDisplayOnBoundsChange = true
         ShopLiveController.shared.playerItem?.player = playerView.player
         ShopLiveController.shared.playerItem?.playerLayer = playerLayer
 
         view.addSubview(playerView)
-//        videoView.addSubview(playerView)
-//        playerView.fitToSuperView()
 
         topAnchor = playerView.topAnchor.constraint(equalTo: view.topAnchor)
         topSafeAnchor = playerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
@@ -451,7 +413,6 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
         topAnchor.isActive = true
         topSafeAnchor.isActive = false
-//        updateTopAnchor(isPip: false)
         NSLayoutConstraint.activate([playerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                                      playerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                                      playerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -462,7 +423,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         super.viewWillTransition(to: size, with: coordinator)
 
         guard ShopLiveController.windowStyle != .osPip else { return }
-        playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveController.shared.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
+        playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
         overlayView?.alpha = 0
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700)) {
             UIView.animate(withDuration: 0.4) {
@@ -477,8 +438,8 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     }
 
     private var chatConstraint: NSLayoutConstraint!
-    private lazy var chatInputView: ChattingWriteView = {
-        let chatView = ChattingWriteView()
+    private lazy var chatInputView: ShopLiveChattingWriteView = {
+        let chatView = ShopLiveChattingWriteView()
         chatView.isHidden = true
         chatView.translatesAutoresizingMaskIntoConstraints = false
         chatView.delegate = self
@@ -520,17 +481,17 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     }
 
     private func setupIndicator() {
-        if ShopLiveController.shared.shopliveSettings.isCustomIndicator {
+        if ShopLiveConfiguration.UI.isCustomIndicator {
             self.view.addSubviews(customIndicator)
-            let customIndicatorWidth = NSLayoutConstraint.init(item: customIndicator, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: ShopLiveController.shared.shopliveSettings.isCustomIndicator ? 60 : 0)
-            let customIndicatorHeight = NSLayoutConstraint.init(item: customIndicator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: ShopLiveController.shared.shopliveSettings.isCustomIndicator ? 60 : 0)
+            let customIndicatorWidth = NSLayoutConstraint.init(item: customIndicator, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: ShopLiveConfiguration.UI.isCustomIndicator ? 60 : 0)
+            let customIndicatorHeight = NSLayoutConstraint.init(item: customIndicator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: ShopLiveConfiguration.UI.isCustomIndicator ? 60 : 0)
             let customIndicatorCenterXConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
             let customIndicatorCenterYConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.0, constant: 0)
 
             customIndicator.addConstraints([customIndicatorWidth, customIndicatorHeight])
             self.view.addConstraints([customIndicatorCenterXConstraint, customIndicatorCenterYConstraint])
 
-            customIndicator.configure(images: ShopLiveController.shared.shopliveSettings.customIndicatorImages)
+            customIndicator.configure(images: ShopLiveConfiguration.UI.customIndicatorImages)
             self.customIndicator.startAnimating()
         } else {
             self.view.addSubviews(indicatorView)
@@ -541,7 +502,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
             indicatorView.addConstraints([indicatorWidth, indicatorHeight])
             self.view.addConstraints([centerXConstraint, centerYConstraint])
-            indicatorView.color = ShopLiveController.shared.shopliveSettings.indicatorColor
+            indicatorView.color = ShopLiveConfiguration.UI.color
 
             indicatorView.startAnimating()
         }
@@ -551,6 +512,10 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         ShopLiveController.overlayUrl = playUrl
     }
 
+    /**
+        Initialize web client
+            - Sending the required data using URL for Web Client initialization
+     */
     private var playUrl: URL? {
         guard let baseUrl = viewModel.overayUrl else { return nil }
         let urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false)
@@ -583,19 +548,14 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         queryItems.append(URLQueryItem(name: "osVersion", value: ShopLiveDefines.osVersion))
         queryItems.append(URLQueryItem(name: "device", value: ShopLiveDefines.deviceIdentifier))
 
-        if let mccmnc = ShopLiveDefines.mccMnc(), !mccmnc.isEmpty {
-            queryItems.append(URLQueryItem(name: "mccmnc", value: mccmnc))
-        }
-
         if let scm: String = ShopLiveController.shared.shareScheme {
-//            ShopLiveLogger.debugLog("scm before: \(scm)")
             queryItems.append(URLQueryItem(name: "shareUrl", value: scm))
         }
+        
+        queryItems.append(URLQueryItem(name: "appVersion", value: ShopLiveConfiguration.AppPreference.appVersion ?? UIApplication.appVersion()))
 
-        ShopLiveLogger.debugLog("scm shareurl: \(queryItems)")
-
-        let urlString: String = ShopLiveDefines.landingUrl
-        ShopLiveLogger.debugLog("shoplive url : \(urlString)")
+        let urlString: String = ShopLiveConfiguration.AppPreference.landingUrl
+        ShopLiveLogger.debugLog("shoplive landingUrl : \(urlString)")
         guard let params = URLUtil.query(queryItems) else {
             return URL(string: urlString)
         }
@@ -607,20 +567,6 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
         ShopLiveLogger.debugLog("play url: \(url)")
         return url
-/*
-        urlComponents?.queryItems = queryItems
-
-//        guard let componentUrl = urlComponents?.url?.absoluteString.split(separator: "?"),
-//              let base = componentUrl.first,
-//              let params = componentUrl.last,
-//              let encodedUrl = String(describing: params).addingPercentEncoding(withAllowedCharacters: .urlUserAllowed),
-//              let url = URL(string: String(describing: base) + "?" + encodedUrl) else {
-//            return urlComponents?.url }
-        guard let url = urlComponents?.url else { return urlComponents?.url }
-        ShopLiveLogger.debugLog("play url: \(url)")
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "play url: \(url.absoluteString )"))
-        return url
- */
     }
 
     func addObserver() {
@@ -659,42 +605,28 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     }
 
     func handleRetryPlay() {
-        ShopLiveLogger.debugLog("handleRetryPlay in \(ShopLiveController.retryPlay)")
-
-//        guard ShopLiveController.playerItemStatus != .readyToPlay else {
-//            resetRetry()
-//            return
-//        }
-
+        resetRetry()
         if ShopLiveController.retryPlay {
-
             retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
                 self.retryCount += 1
 
                 if ShopLiveController.windowStyle != .osPip {
                     if ShopLiveController.shared.streamUrl == nil {
-                        ShopLiveLogger.debugLog("[REASON] handleRetryPlay close loop in retry timer")
                         self.resetRetry()
                         return
                     }
 
-                    ShopLiveLogger.debugLog("[REASON] handleRetryPlay loop inapp \(self.retryCount)")
                     if (self.retryCount < 20 && self.retryCount % 2 == 0) || (self.retryCount >= 20 && self.retryCount % 5 == 0) {
                         if let videoUrl = ShopLiveController.streamUrl {
-    //                        ShopLiveController.videoUrl = videoUrl
                             self.viewModel.updatePlayerItem(with: videoUrl)
-                            ShopLiveLogger.debugLog("videoUrl: \(videoUrl)")
                         } else {
                             ShopLiveController.retryPlay = false
                             ShopLiveController.shared.takeSnapShot = false
-                            ShopLiveLogger.debugLog("videoUrl: ---nil")
                         }
                     }
                 } else {
-                    ShopLiveLogger.debugLog("[REASON] handleRetryPlay loop ospip \(self.retryCount)")
                     if (self.retryCount < 20 && self.retryCount % 2 == 0) || (self.retryCount >= 20 && self.retryCount % 5 == 0) {
                         if !self.inBuffering {
-                            ShopLiveLogger.debugLog("loop exit")
                             ShopLiveController.shared.seekToLatest()
                             ShopLiveController.playControl = .resume
                             ShopLiveController.retryPlay = false
@@ -702,10 +634,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
                         }
                     }
                 }
-
             }
-        } else {
-            resetRetry()
         }
     }
 }
@@ -728,16 +657,14 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didTouchCustomAction(id: String, type: String, payload: Any?) {
-        ShopLiveLogger.debugLog("id \(id) type \(type) payload: \(payload)")
+        ShopLiveLogger.debugLog("id \(id) type \(type) payload: \(String(describing: payload))")
         delegate?.didTouchCustomAction(id: id, type: type, payload: payload)
     }
 
     func shareAction(url: URL?) {
         guard let originUrl = url?.absoluteString as? NSString, let decodeUrl = originUrl.removingPercentEncoding, let shareUrl = URL(string: decodeUrl) else { return }
-//        let text = "Hello, How are you doing?...."
 
-        let shareAll:[Any] = [shareUrl]//, text]
-        ShopLiveLogger.debugLog("play url share \(url?.absoluteString)")
+        let shareAll:[Any] = [shareUrl]
         let activityViewController = UIActivityViewController(activityItems: shareAll , applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
         self.present(activityViewController, animated: true, completion: nil)
@@ -745,7 +672,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
 
     func didTouchShareButton(with url: URL?) {
         guard let custom = ShopLiveController.shared.customShareAction else {
-            // common 공유하기
             shareAction(url: url)
             return
         }
@@ -766,6 +692,10 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didTouchMuteButton(with isMuted: Bool) {
+        if !ShopLiveController.shared.isPreview {
+            ShopLiveController.shared.isMuted = isMuted
+        }
+        
         ShopLiveController.player?.isMuted = ShopLiveController.shared.isPreview ? true : isMuted
     }
 
@@ -789,6 +719,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
 
     func didUpdateVideo(with url: URL) {
         ShopLiveController.streamUrl = url
+        ShopLiveController.player?.isMuted = ShopLiveController.shared.isPreview ? true : ShopLiveConfiguration.SoundPolicy.isMuted
         if ShopLiveController.isReplayMode, let time = ShopLiveController.shared.currentPlayTime {
             ShopLiveController.player?.seek(to: .init(value: time, timescale: 1))
         }
@@ -803,12 +734,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didTouchPlayButton(with isPlaying: Bool) {
-        if isPlaying {
-            play()
-        }
-        else {
-            pause()
-        }
+        isPlaying ? play() : pause()
     }
 
     func didTouchNavigation(with url: URL) {
@@ -851,7 +777,10 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             if let isReplay = payload?["isReplay"] as? Bool {
                 ShopLiveController.isReplayMode = isReplay
             }
-            chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? NSLocalizedString("chat.placeholder", comment: "메시지를 입력하세요"), sendText: sendText ?? NSLocalizedString("chat.send.title", comment: "보내기"), maxLength: chatInputMaxLength ?? 50))
+            
+            ShopLiveChattingWriteView.chatInputPlaceholderString = placeHolder ?? NSLocalizedString("chat.placeholder", comment: "메시지를 입력하세요")
+            ShopLiveChattingWriteView.chatInputSendString = sendText ?? NSLocalizedString("chat.send.title", comment: "보내기")
+            ShopLiveChattingWriteView.chatInputMaxLength = chatInputMaxLength ?? 50
 
             delegate?.campaignInfo(campaignInfo: campaignInfo ?? [:])
             break
@@ -859,35 +788,12 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             chatInputView.focus()
             break
         case .written:
-            if (payload as? Int ?? 1) == 0 { chatInputView.clear() }
+            if (payload as? Int ?? 1) == 0 { chatInputView.clearChatText() }
             break
         default:
             delegate?.handleCommand(command, with: payload)
             break
         }
-    }
-
-    func showDefaultAlert(with title: String?, message: String?, handler: (() -> ())? = nil) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-
-        alertController.addAction(UIAlertAction(title: "확인", style: .cancel, handler: { (action) in
-            handler?()
-        }))
-        let veiwController = presentedViewController ?? self
-
-//        if UIDevice.current.userInterfaceIdiom == .pad {
-//            //디바이스 타입이 iPad일때
-//            if let popoverController = alertController.popoverPresentationController {
-//                // ActionSheet가 표현되는 위치를 저장해줍니다.
-//                popoverController.sourceView = veiwController.view
-//                popoverController.sourceRect = CGRect(x: veiwController.view.bounds.midX, y: veiwController.view.bounds.midY, width: 0, height: 0)
-//                popoverController.permittedArrowDirections = []
-//                veiwController.present(alertController, animated: true, completion: nil)
-//            }
-//        }
-//        else {
-            veiwController.present(alertController, animated: true, completion: nil)
-//        }
     }
 }
 
@@ -899,9 +805,7 @@ extension LiveStreamViewController: WKUIDelegate {
         }))
 
         if UIDevice.current.userInterfaceIdiom == .pad {
-            //디바이스 타입이 iPad일때
             if let popoverController = alertController.popoverPresentationController {
-                // ActionSheet가 표현되는 위치를 저장해줍니다.
                 popoverController.sourceView = view
                 popoverController.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
                 popoverController.permittedArrowDirections = []
@@ -925,9 +829,7 @@ extension LiveStreamViewController: WKUIDelegate {
         }))
 
         if UIDevice.current.userInterfaceIdiom == .pad {
-            //디바이스 타입이 iPad일때
             if let popoverController = alertController.popoverPresentationController {
-                // ActionSheet가 표현되는 위치를 저장해줍니다.
                 popoverController.sourceView = view
                 popoverController.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
                 popoverController.permittedArrowDirections = []
@@ -946,7 +848,7 @@ extension LiveStreamViewController: WKUIDelegate {
             textField.text = defaultText
         }
 
-        alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: { (action) in
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             if let text = alertController.textFields?.first?.text {
                 completionHandler(text)
             } else {
@@ -954,13 +856,11 @@ extension LiveStreamViewController: WKUIDelegate {
             }
         }))
 
-        alertController.addAction(UIAlertAction(title: "취소", style: .default, handler: { (action) in
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
             completionHandler(nil)
         }))
         if UIDevice.current.userInterfaceIdiom == .pad {
-            //디바이스 타입이 iPad일때
             if let popoverController = alertController.popoverPresentationController {
-                // ActionSheet가 표현되는 위치를 저장해줍니다.
                 popoverController.sourceView = view
                 popoverController.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
                 popoverController.permittedArrowDirections = []
@@ -973,48 +873,20 @@ extension LiveStreamViewController: WKUIDelegate {
     }
 }
 
-extension LiveStreamViewController: ChattingWriteDelegate {
+extension LiveStreamViewController: ShopLiveChattingWriteDelegate {
     func didTouchSendButton() {
         let message: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("message", chatInputView.chatText))
         overlayView?.sendEventToWeb(event: .write, message.toJson())
-        ShopLiveLogger.debugLog("didTouchSendButton webInstance: \(ShopLiveController.webInstance) url: \(ShopLiveController.webInstance?.url?.absoluteString)")
-//        ShopLiveController.webInstance?.sendEventToWeb(event: .write, message.toJson())
+        chatInputView.clearChatText()
     }
 
     func updateHeight() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
-            debugPrint("heightLog lastKeyboardHeight: \(self.lastKeyboardHeight)   self.chatInputView.frame.height: \(self.chatInputView.frame.height)")
             let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("value", "\(Int((self.hasKeyboard ? 0 : self.lastKeyboardHeight) + self.chatInputView.frame.height))px"), ("keyboard", self.hasKeyboard))
             ShopLiveController.webInstance?.sendEventToWeb(event: .setChatListMarginBottom, param.toJson())
         })
     }
 }
-/*
-extension LiveStreamViewController: CXCallObserverDelegate {
-    func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
-        // 통화 종료
-        if call.hasEnded == true {
-            if ShopLiveConfiguration.soundPolicy.autoResumeVideoOnCallEnded {
-                ShopLiveController.playControl = .resume
-            }
-        }
-
-        // 전화 발신
-        if call.isOutgoing == true && call.hasConnected == false {
-            ShopLiveController.playControl = .pause//ShopLiveController.isReplayMode ? .pause : .pause
-        }
-
-        // 통화벨 울림
-        if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
-            ShopLiveController.playControl = .pause//ShopLiveController.isReplayMode ? .pause : .stop
-        }
-
-        // 통화 시작
-        if call.hasConnected == true && call.hasEnded == false {
-        }
-    }
-}
-*/
 
 extension LiveStreamViewController: ShopLivePlayerDelegate {
     var identifier: String {
@@ -1051,18 +923,17 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     }
 
     func handleLoading() {
-        ShopLiveLogger.debugLog("ShopLiveController.loading: \(ShopLiveController.loading)")
         if ShopLiveController.loading {
-            if ShopLiveController.shared.shopliveSettings.isCustomIndicator {
-                customIndicator.configure(images: ShopLiveController.shared.shopliveSettings.customIndicatorImages)
+            if ShopLiveConfiguration.UI.isCustomIndicator {
+                customIndicator.configure(images: ShopLiveConfiguration.UI.customIndicatorImages)
                 customIndicator.startAnimating()
             } else {
                 indicatorView.isHidden = false
-                indicatorView.color = ShopLiveController.shared.shopliveSettings.indicatorColor
+                indicatorView.color = ShopLiveConfiguration.UI.color
                 indicatorView.startAnimating()
             }
         } else {
-            if ShopLiveController.shared.shopliveSettings.isCustomIndicator {
+            if ShopLiveConfiguration.UI.isCustomIndicator {
                 customIndicator.stopAnimating()
             } else {
                 indicatorView.stopAnimating()
@@ -1071,35 +942,21 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     }
 
     func handleTimeControlStatus() {
-/*
- @objc enum SLPlayControl: Int {
-     case none = 0
-     case stop
-     case pause
-     case play
-     case resume
- }
- */
-        ShopLiveLogger.debugLog("[REASON] timeControlStatus: \(ShopLiveController.timeControlStatus.name)")
         switch ShopLiveController.timeControlStatus {
         case .paused:
             if ShopLiveController.isReplayMode {
                 ShopLiveController.isPlaying = false
             } else {
-                ShopLiveLogger.debugLog("[REASON] time paused ShopLiveController.playControl \(ShopLiveController.playControl.rawValue)")
                 if ShopLiveController.playControl != .pause {
                     if ShopLiveController.shared.windowStyle != .osPip {
-                        ShopLiveLogger.debugLog("[REASON] time paused live do Play")
                         ShopLiveController.playControl = .resume
                     } else {
-                        ShopLiveLogger.debugLog("[REASON] time paused live do not Play lastPipPlaying \(ShopLiveController.shared.lastPipPlaying) screenLock \(ShopLiveController.shared.screenLock)")
                         if !ShopLiveController.shared.screenLock {
                             ShopLiveController.shared.lastPipPlaying = false
                         }
                     }
                 } else {
                     if ShopLiveController.shared.windowStyle == .osPip, !ShopLiveController.shared.screenLock {
-                        ShopLiveLogger.debugLog("[REASON] time paused lastPipPlaying false")
                         ShopLiveController.shared.lastPipPlaying = false
                     }
                 }
@@ -1107,7 +964,6 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             }
             break
         case .playing:
-            ShopLiveLogger.debugLog("[REASON] playing time paused ShopLiveController.playControl \(ShopLiveController.playControl.rawValue)")
             requireRetryCheck = false
             inBuffering = false
 
@@ -1119,15 +975,6 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
 
             if ShopLiveController.isReplayMode {
                 ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true)
-                ShopLiveLogger.debugLog("[REASON] 00-00-00 ShopLiveController.windowStyle ospip? \(ShopLiveController.windowStyle == .osPip) needSeek \(needSeek)")
-            } else {
-                /*
-                    if ShopLiveController.windowStyle == .osPip, needSeek {
-                        needSeek = false
-                        ShopLiveController.shared.seekToLatest()
-                    } else {
-                    }
-                */
             }
 
             ShopLiveController.retryPlay = false
@@ -1136,13 +983,9 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
 
             break
         case .waitingToPlayAtSpecifiedRate:
-            ShopLiveLogger.debugLog("[REASON] time waiting ShopLiveController.playControl \(ShopLiveController.playControl.rawValue)")
             if let reason = ShopLiveController.player?.reasonForWaitingToPlay {
                 switch reason {
                 case .toMinimizeStalls:
-                    // TODO: BUFFERING_LIVE_OSPIP
-                    // 라이브 방송, OS PIP 일때 버퍼링이 걸리면 방송을 새로고침 해서 싱크를 맞춰준다.
-                    ShopLiveLogger.debugLog("[REASON] inBuffering \(inBuffering)")
                     if !inBuffering {
                         ShopLiveController.shared.takeSnapShot = true
                         if !ShopLiveController.loading,
@@ -1152,16 +995,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
                             }
                             reserveRetry(waitSecond: 8)
                         }
-//                        if !ShopLiveController.isReplayMode {
-//                            reserveRetry()
-//                        }
                     }
-
-//                    if ShopLiveController.windowStyle == .osPip {
-//                        if !ShopLiveController.isReplayMode {
-//                            ShopLiveController.shared.needReload = true
-//                        }
-//                    }
                     break
                 default:
                     break
@@ -1173,26 +1007,19 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         @unknown default:
             break
         }
-
     }
 
     func reserveRetry(waitSecond: Int = 5) {
-        ShopLiveLogger.debugLog("[REASON] reserveRetry")
         self.requireRetryCheck = true
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(waitSecond)) {
             if self.inBuffering, self.requireRetryCheck {
-                ShopLiveLogger.debugLog("[REASON] time retry run")
                 ShopLiveController.retryPlay = true
-            }
-            else {
-                ShopLiveLogger.debugLog("[REASON] time retry cancel")
             }
             self.requireRetryCheck = false
         }
     }
 
     func updatedValue(key: ShopLivePlayerObserveValue) {
-        ShopLiveLogger.debugLog("LiveStreamViewController key: \(key)")
         switch key {
         case .playControl:
             handlePlayControl()
@@ -1214,61 +1041,22 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         }
     }
 
-    func clear() {
+    func setupLiveStreamViewController() {
+        loadOveray()
+        setupAudioConfig()
+        addPlayTimeObserver()
+        addObserver()
+    }
+    
+    func tearDownLiveStreamViewController() {
         resetRetry()
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
         removeObserver()
+        teardownAudioConfig()
         removePlaytimeObserver()
-        #if DEMO
-//            removeQuailtyLogTimer()
-        #endif
     }
 
-}
-
-final class URLUtil {
-
-    static func query(_ params: [URLQueryItem]?) -> String? {
-        guard let params = params else { return nil }
-        let queryStr = params.compactMap({ (param) -> String in
-            var value: String = ""
-            if let val = param.value {
-                value = val.urlEncodedStringRFC3986 ?? val
-            }
-            return "\(param.name)=\(value)"
-
-        }).joined(separator: "&")
-        return queryStr
-    }
-
-}
-
-extension String {
-    var urlEncodedString: String? {
-        let customAllowedSet =  NSCharacterSet(charactersIn:"=\"#%/<>?@\\^`{|}+").inverted
-        return self.addingPercentEncoding(withAllowedCharacters: customAllowedSet)
-    }
-
-    var urlEncodedStringRFC3986: String? {
-        let unreserved = "-._~"
-        let allowed = NSMutableCharacterSet.alphanumeric()
-        allowed.addCharacters(in: unreserved)
-        return addingPercentEncoding(withAllowedCharacters: allowed as CharacterSet)
-      }
-}
-
-
-extension AVPlayer.TimeControlStatus {
-    var name: String {
-        switch self {
-        case .playing:
-            return "playing"
-        case .waitingToPlayAtSpecifiedRate:
-            return "waitingToPlayAtSpecifiedRate"
-        case .paused:
-            return "paused"
-        @unknown default:
-            return ""
-        }
+    func updateChattingWriteView() {
+        chatInputView.updateChattingWriteView()
     }
 }

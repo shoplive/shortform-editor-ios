@@ -41,7 +41,6 @@ protocol ShopLivePlayerDelegate {
     func isEqualTo(_ other: ShopLivePlayerDelegate) -> Bool
 
     func updatedValue(key: ShopLivePlayerObserveValue)
-    func clear()
 }
 
 extension ShopLivePlayerDelegate where Self: Equatable {
@@ -63,13 +62,11 @@ final class ShopLiveController: NSObject {
 
     var campaignStatus: ShopLiveCampaignStatus = .close
     var isSuccessCampaignJoin: Bool = false
-    var keepAspectOnTabletPortrait: Bool = true
     private var playerDelegates: [ShopLivePlayerDelegate?] = []
     @objc dynamic var playItem: ShopLivePlayItem? = .init()
     @objc dynamic var playerItem: ShopLivePlayerItem? = .init()
     @objc dynamic var playControl: ShopLiveConfiguration.SLPlayControl = .none
     var isReplayMode: Bool = false
-    var isMuted: Bool = false
     @objc dynamic var isHiddenOverlay: Bool = false
     @objc dynamic var overlayUrl: URL? = nil
     @objc dynamic var isPlaying: Bool = false
@@ -77,12 +74,12 @@ final class ShopLiveController: NSObject {
     @objc dynamic var releasePlayer: Bool = false
     @objc dynamic var takeSnapShot: Bool = true
     @objc dynamic var isPreview: Bool = false
-    @objc dynamic var nextActionTypeOnHandleNavigation: ActionType = ActionType.PIP
     @objc dynamic var loading: Bool = false
+    var isMuted: Bool = ShopLiveConfiguration.SoundPolicy.isMuted
 
     lazy var currentPlayTime: Int64? = nil {
         didSet {
-            ShopLiveLogger.debugLog("seek current play time didSet: \(currentPlayTime)")
+            // ShopLiveLogger.debugLog("seek current play time didSet: \(currentPlayTime)")
         }
     }
     var shareScheme: String? = nil
@@ -91,8 +88,6 @@ final class ShopLiveController: NSObject {
     var keyboardHeight: CGFloat = .zero
     var lastPipPlaying: Bool = false
     var screenLock: Bool = false
-
-    var shopliveSettings: ShopLiveSettings = .init()
 
     var snapShot: UIImage? = nil
     var streamUrl: URL? {
@@ -104,9 +99,7 @@ final class ShopLiveController: NSObject {
     var customShareAction: (() -> Void)?
     var hookNavigation: ((URL) -> Void)?
     var webInstance: ShopLiveWebView?
-    var inputBoxFont: UIFont?
-    var sendButtonFont: UIFont?
-    var pipAnimationg: Bool = false
+    var pipAnimating: Bool = false
     var swipeEnabled: Bool = true
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -114,14 +107,10 @@ final class ShopLiveController: NSObject {
         switch key {
         case .loadedTimeRanges:
             if let loadedTimeRanges = change?[.newKey] as? [NSValue], let timeRange = loadedTimeRanges.last as? CMTimeRange {
-                /*
-                ShopLiveLogger.debugLog("[REASON] time loadedTimeRanges \(loadedTimeRanges)")
-                ShopLiveLogger.debugLog("[REASON] timeLoaded: \(Int(timeRange.duration.value) / Int(timeRange.duration.timescale)) ShopLiveController.timeControlStatus \(ShopLiveController.timeControlStatus.name) readyToPlay: \(ShopLiveController.playerItemStatus == .readyToPlay)\n")
-                */
                 let timeLoaded = Int(timeRange.duration.value) / Int(timeRange.duration.timescale)
-                ShopLiveLogger.debugLog("[REASON] time Loaded \(timeLoaded) ShopLiveController.timeControlStatus \(ShopLiveController.timeControlStatus.name) \(ShopLiveController.playerItemStatus.rawValue)")
+                // ShopLiveLogger.debugLog("time Loaded \(timeLoaded) ShopLiveController.timeControlStatus \(ShopLiveController.timeControlStatus.name) \(ShopLiveController.playerItemStatus.rawValue)")
                 if timeLoaded >= 4 && ShopLiveController.timeControlStatus == .waitingToPlayAtSpecifiedRate {
-                    ShopLiveLogger.debugLog("[REASON] time Loaded play\n")
+                    // ShopLiveLogger.debugLog("time Loaded play\n")
                     ShopLiveController.playControl = .play
                 }
             }
@@ -133,9 +122,6 @@ final class ShopLiveController: NSObject {
             postPlayerObservers(key: key)
             break
         case .playerItemStatus:
-            if ShopLiveController.playerItemStatus == .readyToPlay {
-                ShopLiveController.player?.isMuted = isPreview ? true : false
-            }
             postPlayerObservers(key: key)
             break
         case .isMuted:
@@ -189,46 +175,41 @@ final class ShopLiveController: NSObject {
         isSuccessCampaignJoin = false
     }
 
-    func clear() {
-        ShopLiveLogger.debugLog("clear")
-        playerDelegates.forEach { delegate in
-            delegate?.clear()
-        }
+    func releaseData() {
         playerDelegates.removeAll()
         removePlayerObserver()
         reset()
     }
 
     func resetOnlyFinished() {
-        ShopLiveLogger.debugLog("resetOnlyFinished")
-        customShareAction = nil
-        hookNavigation = nil
-        currentPlayTime = nil
-        isReplayMode = false
-        keepAspectOnTabletPortrait = true
-        isSuccessCampaignJoin = false
-        campaignStatus = .close
-    }
-    private func reset() {
         playItem = nil
         playItem = .init()
 
         playerItem = nil
         playerItem = .init()
-
+        
+        customShareAction = nil
+        hookNavigation = nil
+        currentPlayTime = nil
+        isReplayMode = false
+        isSuccessCampaignJoin = false
+        campaignStatus = .close
+        webInstance = nil
+        isMuted = ShopLiveConfiguration.SoundPolicy.isMuted
+    }
+    private func reset() {
         playControl = .none
         isReplayMode = false
-        isMuted = false
         isHiddenOverlay = false
         overlayUrl = nil
         isPlaying = false
         retryPlay = false
         streamUrl = nil
         releasePlayer = false
-        webInstance = nil
-        pipAnimationg = false
+        pipAnimating = false
         windowStyle = .none
         needReload = false
+        isMuted = ShopLiveConfiguration.SoundPolicy.isMuted
     }
 
     func getSnapShot(completion: @escaping (UIImage?) -> Void) {
@@ -303,10 +284,9 @@ extension ShopLiveController {
     }
 
     func postPlayerObservers(key: ShopLivePlayerObserveValue) {
-        ShopLiveLogger.debugLog("key: \(key.rawValue)")
+//        ShopLiveLogger.debugLog("key: \(key.rawValue)")
 
         playerDelegates.forEach { delegate in
-            ShopLiveLogger.debugLog("playerDelegate.identifier: \(delegate?.identifier) - key: \(key)")
             delegate?.updatedValue(key: key)
         }
     }
@@ -426,7 +406,7 @@ extension ShopLiveController {
     }
 
     static var timeControlStatus: AVPlayer.TimeControlStatus {
-        return shared.playerItem?.player?.timeControlStatus ?? .paused
+        return shared.playerItem?.player?.timeControlStatus ?? .waitingToPlayAtSpecifiedRate
     }
 
     static var timebase: CMTimebase? {
@@ -439,15 +419,6 @@ extension ShopLiveController {
         }
         get {
             return shared.overlayUrl
-        }
-    }
-
-    static var isMuted: Bool {
-        set {
-            shared.isMuted = newValue
-        }
-        get {
-            return shared.isMuted
         }
     }
 
@@ -503,7 +474,6 @@ extension ShopLiveController {
             return false
         }
 
-        ShopLiveLogger.debugLog("seek isReplayFinished total: \(totalTime)  current: \(currentTime)")
         return (totalTime / 1000) <= currentTime
     }
 }

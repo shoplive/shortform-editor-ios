@@ -90,7 +90,6 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print(items[indexPath.row].stringKey.localized())
 
         switch items[indexPath.row].identifier {
         case SideMenuTypes.campaigns.identifier:
@@ -113,7 +112,8 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             ShopLive.close()
             break
         case SideMenuTypes.removeCache.identifier:
-            ShopLiveStorage.removeAll()
+            UserDefaults.standard.removeObject(forKey: ShopLiveDefines.shopliveData)
+            UserDefaults.standard.synchronize()
             UIWindow.showToast(message: "menu.msg.removeCache".localized())
             break
         default:

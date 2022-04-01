@@ -105,17 +105,14 @@ class PerfMeasurements: NSObject {
         if playbackStartTime == 0.0 && rate > 0 {
             // First rate change
             playbackStartTime = CACurrentMediaTime()
-            os_log("Perf -- Playback started in %.2f seconds", self.startupTime)
         } else if rate > 0 && lastStallTime > 0 {
             // Subsequent rate change
             playbackStallEnded()
-            os_log("Perf -- Playback resumed in %.2f seconds", totalStallTime)
         }
     }
     
     /// Called when playback stalls.
     func playbackStalled() {
-        os_log("Perf -- Playback stalled")
         lastStallTime = CACurrentMediaTime()
     }
     
@@ -130,9 +127,5 @@ class PerfMeasurements: NSObject {
     /// Called when the player item is released.
     func playbackEnded() {
         playbackStallEnded()
-        os_log("Perf -- Playback ended")
-        os_log("Perf -- Time-weighted Indicated Bitrate: %.2fMbps", timeWeightedIBR / 1_000_000)
-        os_log("Perf -- Stall rate: %.2f stalls/hour", stallRate)
-        os_log("Perf -- Stall wait ratio: %.2f duration-stalled/duration-watched", stallWaitRatio)
     }
 }

@@ -96,13 +96,13 @@ final class CouponCallbackSettingView: UIView, TappableTextDelegate {
         }
     }
 
-    private var status: ResultStatus = .SHOW {
+    private var status: ShopLiveResultStatus = .SHOW {
         didSet {
             self.exposeField.configure(title: status.name)
         }
     }
 
-    private var alertType: ResultAlertType = .ALERT {
+    private var alertType: ShopLiveResultAlertType = .ALERT {
         didSet {
             self.notiField.configure(title: alertType.name)
         }
@@ -232,7 +232,7 @@ final class CouponCallbackSettingView: UIView, TappableTextDelegate {
 
     }
 
-    func configure(title: String, message: String, placeHolder: String, status: ResultStatus, alertType: ResultAlertType) {
+    func configure(title: String, message: String, placeHolder: String, status: ShopLiveResultStatus, alertType: ShopLiveResultAlertType) {
         self.title = title
         self.message = message
         self.placeHolder = placeHolder
@@ -240,7 +240,7 @@ final class CouponCallbackSettingView: UIView, TappableTextDelegate {
         self.alertType = alertType
     }
 
-    func getSettingValues() -> (message: String, status: ResultStatus, alertType: ResultAlertType) {
+    func getSettingValues() -> (message: String, status: ShopLiveResultStatus, alertType: ShopLiveResultAlertType) {
         return (self.messageField.text ?? "", self.status, self.alertType)
     }
 
@@ -248,7 +248,7 @@ final class CouponCallbackSettingView: UIView, TappableTextDelegate {
         switch sender {
         case exposeField:
             let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            ResultStatus.allCases.forEach { status in
+            ShopLiveResultStatus.allCases.forEach { status in
                 let action = UIAlertAction(title: status.name, style: .default) { [weak self] alertAction in
                     guard let self = self else { return }
                     self.status = status
@@ -261,7 +261,7 @@ final class CouponCallbackSettingView: UIView, TappableTextDelegate {
             break
         case notiField:
             let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            ResultAlertType.allCases.forEach { alertType in
+            ShopLiveResultAlertType.allCases.forEach { alertType in
                 let action = UIAlertAction(title: alertType.name, style: .default) { [weak self] alertAction in
                     guard let self = self else { return }
                     self.alertType = alertType
@@ -350,10 +350,6 @@ final class CouponCallbackSettingViewController: UIViewController {
     }
 
     func setupSettings() {
-        // 성공시 액션 설정 "sample.callback.success.action_setting".localized()
-        // 쿠폰 다운로드에 성공하였습니다. "sample.callback.success.msg".localized()
-        // 실패시 액션 설정 "sample.callback.failed.action_setting".localized()
-        // 쿠폰 다운로드에 실패하였습니다. "sample.callback.failed.msg".localized()
         self.successSettingView.configure(title: "성공시 액션 설정", message: SDKSettings.downloadCouponSuccessMessage, placeHolder: "쿠폰 다운로드에 성공하였습니다.", status: SDKSettings.downloadCouponSuccessStatus, alertType: SDKSettings.downloadCouponSuccessAlertType)
         self.failedSettingView.configure(title: "실패시 액션 설정", message: SDKSettings.downloadCouponFailedMessage, placeHolder: "쿠폰 다운로드에 실패하였습니다.", status: SDKSettings.downloadCouponFailedStatus, alertType: SDKSettings.downloadCouponFailedAlertType)
     }

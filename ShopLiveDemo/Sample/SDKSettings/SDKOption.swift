@@ -33,11 +33,17 @@ enum SDKOptionType: String, CaseIterable {
     case customProgress
     case chatInputCustomFont
     case chatSendButtonCustomFont
+    case mute
+    case pipPadding
+    case pipFloatingOffset
+    case pipMarginTop
+    case pipMarginBottom
 
     enum SettingType: Int {
         case showAlert
         case switchControl
         case dropdown
+        case routeTo
     }
 
     var settingType: SettingType {
@@ -46,6 +52,8 @@ enum SDKOptionType: String, CaseIterable {
             return .showAlert
         case .pipPosition, .nextActionOnHandleNavigation:
             return .dropdown
+        case .pipFloatingOffset:
+            return .routeTo
         default:
             return .switchControl
         }

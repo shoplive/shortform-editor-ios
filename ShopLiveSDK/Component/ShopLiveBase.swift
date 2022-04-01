@@ -48,11 +48,9 @@ import WebKit
     
     override init() {
         super.init()
-        addObserver()
     }
 
     deinit {
-        removeObserver()
     }
 
     func showPreview(previewUrl: URL, completion: @escaping () -> Void) {
@@ -65,12 +63,13 @@ import WebKit
         UIApplication.shared.isIdleTimerDisabled = true
 
         if _style == .fullScreen {
-//            ShopLiveController.loading = true
             liveStreamViewController?.viewModel.overayUrl = overlayUrl
             liveStreamViewController?.reload()
+            liveStreamViewController?.updateChattingWriteView()
         } else if _style == .pip {
             liveStreamViewController?.viewModel.overayUrl = overlayUrl
             liveStreamViewController?.reload()
+            liveStreamViewController?.updateChattingWriteView()
 
             if !ShopLiveController.shared.isPreview {
                 stopShopLivePictureInPicture()
@@ -95,7 +94,7 @@ import WebKit
             print("Audio session failed")
         }
 
-        ShopLiveController.shared.clear()
+        ShopLiveController.shared.releaseData()
 
         liveStreamViewController = LiveStreamViewController()
         liveStreamViewController?.delegate = self
@@ -160,7 +159,7 @@ import WebKit
             do {
                 try audioSession.setCategory(originAudioSessionCategory)
             } catch  {
-                print("Audio session failed")
+                ShopLiveLogger.debugLog("Audio session failed")
             }
         }
         
@@ -174,10 +173,10 @@ import WebKit
             shopLiveWindow?.removeGestureRecognizer(videoWindowSwipeDownGestureRecognizer)
         }
 
-        ShopLiveLogger.debugLog("HideShopLiveView")
-        ShopLiveController.shared.clear()
-        ShopLiveController.shared.shopliveSettings.clear()
-        SoundManager.shared.clear()
+        removeObserver()
+        ShopLiveController.shared.releaseData()
+        SoundManager.shared.removeAllSounds()
+        
         self.shopLiveWindow?.transform = .identity
         self.shopLiveWindow?.alpha = 1
 
@@ -206,7 +205,6 @@ import WebKit
         ShopLiveController.shared.resetOnlyFinished()
     }
     
-    //OS 제공 PIP 세팅
     func setupPictureInPicture() {
         guard !ShopLiveController.shared.isPreview else {
             do {
@@ -240,32 +238,8 @@ import WebKit
             } else {
                 // Fallback on earlier versions
             }
-
-            /*
-                pictureInPictureController?.publisher(for: \.isPictureInPicturePossible)
-                    .receive(on: RunLoop.main)
-                    .sink(receiveValue: { [weak self] (isPictureInPicturePossible) in
-    //                    self?.liveStreamViewController?.pipButton?.isEnabled = isPictureInPicturePossible
-                    })
-                    .store(in: &pipControllerPublisherCancellableSet)
-
-                pictureInPictureController?.publisher(for: \.isPictureInPictureActive)
-                    .receive(on: RunLoop.main)
-                    .sink(receiveValue: { [weak self] (isPictureInPictureActive) in
-    //                    self?.style = isPictureInPictureActive ? .pip : .fullScreen
-                    })
-                    .store(in: &pipControllerPublisherCancellableSet)
-
-                pictureInPictureController?.publisher(for: \.isPictureInPictureSuspended)
-                    .receive(on: RunLoop.main)
-                    .sink(receiveValue: { (isPictureInPictureSuspended) in
-
-                    })
-                    .store(in: &pipControllerPublisherCancellableSet)
-             */
         } else {
             // PiP isn't supported by the current device. Disable the PiP button.
-//            liveStreamViewController?.pipButton?.isEnabled = false
         }
     }
     
@@ -294,50 +268,29 @@ import WebKit
         var origin = CGPoint.zero
         let safeAreaInsets = mainWindow.safeAreaInsets
         let pipSize = self.pipSize(with: scale)
-        let pipEdgeInsets: UIEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        let pipEdgeInsets: UIEdgeInsets = ShopLiveConfiguration.UI.pipPadding
+        let pipFloatingOffset: UIEdgeInsets = ShopLiveConfiguration.UI.pipFloatingOffset
+        let pipFloatingOffsetBottom: CGFloat = isKeyboardShow ? 0 : pipFloatingOffset.bottom
         let keyboardHeight: CGFloat = isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0
-
+        
         switch position {
         case .bottomRight, .default:
-            origin.x = mainWindow.frame.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width
-            origin.y = mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight
+            origin.x = mainWindow.frame.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width - pipFloatingOffset.right
+            origin.y = mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
         case .bottomLeft:
-            origin.x = safeAreaInsets.left + pipEdgeInsets.left
-            origin.y = mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight
+            origin.x = safeAreaInsets.left + pipEdgeInsets.left + pipFloatingOffset.left
+            origin.y = mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
         case .topRight:
-            origin.x = mainWindow.frame.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width
-            origin.y = safeAreaInsets.top + pipEdgeInsets.top
+            origin.x = mainWindow.frame.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width - pipFloatingOffset.right
+            origin.y = safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
         case .topLeft:
-            origin.x = safeAreaInsets.left + pipEdgeInsets.left
-            origin.y = safeAreaInsets.top + pipEdgeInsets.top
-
+            origin.x = safeAreaInsets.left + pipEdgeInsets.left + pipFloatingOffset.left
+            origin.y = safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
         }
 
         pipPosition = CGRect(origin: origin, size: pipSize)
 
         return pipPosition
-    }
-
-    private func pipCenter(with position: ShopLive.PipPosition) -> CGPoint {
-        guard let mainWindow = self.mainWindow else { return .zero }
-        let pipSize = self.pipPosition(with: lastPipScale, position: lastPipPosition).size
-        let padding: CGFloat = 20
-        let safeAreaInset = mainWindow.safeAreaInsets
-        
-        let leftCenterX = (pipSize.width / 2) + padding + safeAreaInset.left
-        let rightCenterX = mainWindow.bounds.width - ((pipSize.width / 2) + padding + safeAreaInset.right)
-        let topCenterY = (pipSize.height / 2) + padding + safeAreaInset.top
-        let bottomCenterY = mainWindow.bounds.height - ((pipSize.height / 2) + padding + safeAreaInset.bottom) - (isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0)
-        switch position {
-        case .bottomRight, .default:
-            return CGPoint(x: rightCenterX, y: bottomCenterY)
-        case .bottomLeft:
-            return CGPoint(x: leftCenterX, y: bottomCenterY)
-        case .topRight:
-            return CGPoint(x: rightCenterX, y: topCenterY)
-        case .topLeft:
-            return CGPoint(x: leftCenterX, y: topCenterY)
-        }
     }
     
     private func startCustomPictureInPicture(with position: ShopLive.PipPosition = .default, scale: CGFloat = 2/5) {
@@ -347,7 +300,7 @@ import WebKit
         }
         
         delegate?.handleCommand("willShopLiveOff", with: ["style" : style.rawValue])
-        guard !ShopLiveController.shared.pipAnimationg else { return }
+        guard !ShopLiveController.shared.pipAnimating else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
 
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
@@ -373,7 +326,7 @@ import WebKit
             shopLiveWindow.layer.shadowOpacity = 0.5
             shopLiveWindow.layer.shadowOffset = .zero
             shopLiveWindow.layer.shadowRadius = 10
-            ShopLiveController.shared.pipAnimationg = false
+            ShopLiveController.shared.pipAnimating = false
             shopLiveWindow.setNeedsLayout()
             shopLiveWindow.layoutIfNeeded()
         } completion: { (isCompleted) in
@@ -390,7 +343,7 @@ import WebKit
 
         setupPictureInPicture()
 
-        guard !ShopLiveController.shared.pipAnimationg else { return }
+        guard !ShopLiveController.shared.pipAnimating else { return }
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
 
@@ -399,7 +352,7 @@ import WebKit
         mainWindow.rootViewController?.shopliveHideKeyboard()
 
         delegate?.handleCommand("willShopLiveOn", with: nil)
-        ShopLiveController.shared.pipAnimationg = true
+        ShopLiveController.shared.pipAnimating = true
         ShopLiveController.webInstance?.isHidden = false
 
         videoWindowPanGestureRecognizer?.isEnabled = false
@@ -419,10 +372,9 @@ import WebKit
             shopLiveWindow.layoutIfNeeded()
             shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
         } completion: { (isCompleted) in
-//            self.liveStreamViewController?.showBackgroundPoster()
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(300), execute: {
                 ShopLiveController.isHiddenOverlay = false
-                ShopLiveController.shared.pipAnimationg = false
+                ShopLiveController.shared.pipAnimating = false
                 shopLiveWindow.rootViewController?.view.backgroundColor = .black
             })
         }
@@ -438,7 +390,6 @@ import WebKit
         self.shopLiveWindow?.clipsToBounds = false
         self.shopLiveWindow?.rootViewController?.view.layer.cornerRadius = 10
         self.shopLiveWindow?.rootViewController?.view.backgroundColor = .black
-//        liveStreamViewController?.hideBackgroundPoster()
 
         videoWindowPanGestureRecognizer?.isEnabled = true
         videoWindowTapGestureRecognizer?.isEnabled = true
@@ -466,7 +417,6 @@ import WebKit
 
         mainWindow.rootViewController?.shopliveHideKeyboard()
 
-//        ShopLiveController.shared.pipAnimationg = true
         videoWindowPanGestureRecognizer?.isEnabled = false
         videoWindowTapGestureRecognizer?.isEnabled = false
         videoWindowSwipeDownGestureRecognizer?.isEnabled = true
@@ -481,15 +431,13 @@ import WebKit
 
         shopLiveWindow.layer.cornerRadius = 0
         shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
-//        shopLiveWindow.setNeedsLayout()
         shopLiveWindow.layoutIfNeeded()
 
         self.liveStreamViewController?.showBackgroundPoster()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(300), execute: {
             ShopLiveController.isHiddenOverlay = false
-            ShopLiveController.shared.pipAnimationg = false
+            ShopLiveController.shared.pipAnimating = false
             shopLiveWindow.rootViewController?.view.backgroundColor = .black
-//                    ShopLiveController.loading = true
         })
     }
 
@@ -518,6 +466,28 @@ import WebKit
 
     }
     
+    private func alignPipPosion(pipCenter: CGPoint) -> ShopLive.PipPosition {
+        guard let mainWindow = self.mainWindow else { return .bottomRight }
+        let center = mainWindow.center
+        let rate = (mainWindow.frame.height - ShopLiveController.shared.keyboardHeight) / mainWindow.frame.height
+        let isPositiveDiffX = center.x - pipCenter.x > 0
+        let isPositiveDiffY = (center.y * rate) - pipCenter.y > 0
+        let position: ShopLive.PipPosition = {
+            switch (isPositiveDiffX, isPositiveDiffY) {
+            case (true, true):
+                return .topLeft
+            case (true, false):
+                return .bottomLeft
+            case (false, true):
+                return .topRight
+            case (false, false):
+                return .bottomRight
+            }
+        }()
+        
+        return position
+    }
+    
     var panGestureInitialCenter: CGPoint = .zero
 
     @objc private func liveWindowPanGestureHandler(_ recognizer: UIPanGestureRecognizer) {
@@ -536,20 +506,23 @@ import WebKit
         case .ended:
             guard let mainWindow = self.mainWindow else { return }
             let velocity = recognizer.velocity(in: liveWindow)
-            
-            let padding: CGFloat = 20
+
             let safeAreaInset = mainWindow.safeAreaInsets
+            let pipEdgeInsets: UIEdgeInsets = ShopLiveConfiguration.UI.pipPadding
+            let pipFloatingOffset: UIEdgeInsets = ShopLiveConfiguration.UI.pipFloatingOffset
+            let pipFloatingOffsetBottom: CGFloat = isKeyboardShow ? 0 : pipFloatingOffset.bottom
+            
             let mainWindowHeight: CGFloat = mainWindow.bounds.height - (isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0)
-            let minX = (liveWindow.bounds.width / 2.0) + padding + safeAreaInset.left
-            let maxX = mainWindow.bounds.width - ((liveWindow.bounds.width / 2.0) + padding + safeAreaInset.right)
-            let minY = liveWindow.bounds.height / 2.0 + padding + safeAreaInset.top
-            let maxY = mainWindowHeight - ((liveWindow.bounds.height / 2.0) + padding + safeAreaInset.bottom)
+            let minX = (liveWindow.bounds.width / 2.0) + pipEdgeInsets.left + safeAreaInset.left + liveWindow.bounds.origin.x + pipFloatingOffset.left
+            let maxX = mainWindow.bounds.width - ((liveWindow.bounds.width / 2.0) + pipEdgeInsets.right + safeAreaInset.right + pipFloatingOffset.right)
+            let minY = liveWindow.bounds.height / 2.0 + pipEdgeInsets.top + safeAreaInset.top + pipFloatingOffset.top + liveWindow.bounds.origin.y + pipFloatingOffset.top
+            let maxY = mainWindowHeight - ((liveWindow.bounds.height / 2.0) + pipEdgeInsets.bottom + pipFloatingOffsetBottom + safeAreaInset.bottom)
             
             var centerX = panGestureInitialCenter.x + translation.x
             var centerY = panGestureInitialCenter.y + translation.y
             
-            let xRange = padding...(mainWindow.bounds.width - padding)
-            let yRange = (padding + safeAreaInset.top)...(mainWindowHeight - (padding + safeAreaInset.bottom)) + (isKeyboardShow ? liveWindow.frame.height * 0.2 : 0)
+            let xRange = 0...(mainWindow.bounds.width)
+            let yRange = (0 + safeAreaInset.top)...(mainWindowHeight - (safeAreaInset.bottom)) + (isKeyboardShow ? liveWindow.frame.height * 0.2 : 0)
             
             //범위밖으로 나가면 stop shoplive
             guard xRange.contains(centerX), yRange.contains(centerY) else {
@@ -557,31 +530,52 @@ import WebKit
                 return
             }
             
-            guard velocity.x.magnitude > 600 || velocity.y.magnitude > 600 else {
-                self.alignPipView()
-                return
-            }
-            
-            let animationDuration: CGFloat = 0.5
+            let animationDuration: CGFloat = 0.7
             
             if velocity.x.magnitude > 600 {
-                centerX += velocity.x
+                if centerX + velocity.x < minX {
+                    centerX = minX
+                } else if centerX + velocity.x > maxX {
+                    centerX = maxX
+                }
             }
             
             if velocity.y.magnitude > 600 {
-                centerY += velocity.y
+                if centerY + velocity.y < minY {
+                    centerY = minY
+                } else if centerY + velocity.y > maxY {
+                    centerY = maxY
+                }
             }
             
-            let destination = CGPoint(x: min(max(minX, centerX), maxX), y: min(max(minY, centerY), maxY))
-            let initialVelocity = initialAnimationVelocity(for: velocity, from: liveWindow.center, to: destination)
-            let parameters = UISpringTimingParameters(dampingRatio: 1, initialVelocity: initialVelocity)
+            switch alignPipPosion(pipCenter: .init(x: centerX, y: centerY)) {
+            case .bottomLeft:
+                centerX = minX
+                centerY = maxY
+                break
+            case .topLeft:
+                centerX = minX
+                centerY = minY
+            case .topRight:
+                centerX = maxX
+                centerY = minY
+                break
+            case .bottomRight:
+                centerX = maxX
+                centerY = maxY
+                break
+            case .default:
+                centerX = maxX
+                centerY = maxY
+                break
+            }
+            
+            let destination = CGPoint(x: centerX, y: centerY)
+            let parameters = UISpringTimingParameters(dampingRatio: 1, initialVelocity: .init(dx: 0, dy: 0))
             let animator = UIViewPropertyAnimator(duration: TimeInterval(animationDuration), timingParameters: parameters)
 
             animator.addAnimations {
                 liveWindow.center = destination
-            }
-
-            animator.addCompletion { (position) in
                 self.alignPipView()
             }
 
@@ -598,19 +592,6 @@ import WebKit
         startShopLivePictureInPicture()
     }
     
-    private func initialAnimationVelocity(for gestureVelocity: CGPoint, from currentPosition: CGPoint, to finalPosition: CGPoint) -> CGVector {
-        var animationVelocity = CGVector.zero
-        let xDistance = finalPosition.x - currentPosition.x
-        let yDistance = finalPosition.y - currentPosition.y
-        if xDistance != 0 {
-            animationVelocity.dx = gestureVelocity.x / xDistance
-        }
-        if yDistance != 0 {
-            animationVelocity.dy = gestureVelocity.y / yDistance
-        }
-        return animationVelocity
-    }
-
     @objc private func pipTapGestureHandler(_ recognizer: UITapGestureRecognizer) {
         guard !ShopLiveController.shared.isPreview else {
             previewCallback?()
@@ -621,7 +602,7 @@ import WebKit
     }
 
     func fetchPreviewUrl(with campaignKey: String?, completionHandler: @escaping ((URL?) -> Void)) {
-        let urlComponents = URLComponents(string: ShopLiveDefines.landingUrl)
+        let urlComponents = URLComponents(string: ShopLiveConfiguration.AppPreference.landingUrl)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
         queryItems.append(URLQueryItem(name: "ak", value: accessKey))
         if let ck = campaignKey {
@@ -631,13 +612,13 @@ import WebKit
         queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
         queryItems.append(URLQueryItem(name: "preview", value: "1"))
 
-        let baseUrl = URL(string: ShopLiveDefines.landingUrl)
+        let baseUrl = URL(string: ShopLiveConfiguration.AppPreference.landingUrl)
         guard let params = URLUtil.query(queryItems) else {
             completionHandler(baseUrl)
             return
         }
 
-        guard let url = URL(string: ShopLiveDefines.landingUrl + "?" + params) else {
+        guard let url = URL(string: ShopLiveConfiguration.AppPreference.landingUrl + "?" + params) else {
             completionHandler(baseUrl)
             return
         }
@@ -651,7 +632,7 @@ import WebKit
             return
         }
 
-        let urlComponents = URLComponents(string: ShopLiveDefines.landingUrl)
+        let urlComponents = URLComponents(string: ShopLiveConfiguration.AppPreference.landingUrl)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
         #if DEMO
         if UserDefaults.standard.bool(forKey: "useWebLog") {
@@ -663,29 +644,24 @@ import WebKit
             queryItems.append(URLQueryItem(name: "ck", value: ck))
         }
         queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
-        queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveController.shared.keepAspectOnTabletPortrait ? "true" : "false")"))
+        queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
         #if DEMO
-//            ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "applicationName"))
             queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
         #endif
-        for item in ShopLiveStorage.allItems {
-            if !item.value.isEmpty {
-                let value = item.value
-                let escapedString = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-                queryItems.append(URLQueryItem(name: item.key, value: escapedString))
-                ShopLiveLogger.debugLog("storage \(item.key): \(value)")
-            }
+        
+        if let localStorage = UserDefaults.standard.string(forKey: ShopLiveDefines.shopliveData), ShopLiveConfiguration.Data.useLocalStorage {
+            queryItems.append(URLQueryItem(name: ShopLiveDefines.shopliveData, value: localStorage))
         }
+        
+        UserDefaults.standard.synchronize()
 
-//        urlComponents?.queryItems = queryItems
-
-        let baseUrl = URL(string: ShopLiveDefines.landingUrl)
+        let baseUrl = URL(string: ShopLiveConfiguration.AppPreference.landingUrl)
         guard let params = URLUtil.query(queryItems) else {
             completionHandler(baseUrl)
             return
         }
 
-        guard let url = URL(string: ShopLiveDefines.landingUrl + "?" + params) else {
+        guard let url = URL(string: ShopLiveConfiguration.AppPreference.landingUrl + "?" + params) else {
             completionHandler(baseUrl)
             return
         }
@@ -694,6 +670,8 @@ import WebKit
     }
 
     func addObserver() {
+        removeObserver()
+        
         self.addObserver(self, forKeyPath: "_style", options: [.initial, .old, .new], context: nil)
         self.addObserver(self, forKeyPath: "_authToken", options: [.initial, .old, .new], context: nil)
         self.addObserver(self, forKeyPath: "_user", options: [.initial, .old, .new], context: nil)
@@ -708,9 +686,12 @@ import WebKit
     }
 
     func removeObserver() {
-        self.removeObserver(self, forKeyPath: "_style")
-        self.removeObserver(self, forKeyPath: "_authToken")
-        self.removeObserver(self, forKeyPath: "_user")
+        if self.observationInfo != nil {
+            self.removeObserver(self, forKeyPath: "_style")
+            self.removeObserver(self, forKeyPath: "_authToken")
+            self.removeObserver(self, forKeyPath: "_user")
+        }
+
         NotificationCenter.default.removeObserver(self, name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIApplication.protectedDataWillBecomeUnavailableNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
@@ -726,7 +707,12 @@ import WebKit
 
         if let notification = notification, let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
-            ShopLiveController.shared.keyboardHeight = keyboardScreenEndFrame.height
+            var bottomPadding: CGFloat = 0
+                
+            let window = UIApplication.shared.keyWindow
+            bottomPadding = window?.safeAreaInsets.bottom ?? 0
+        
+            ShopLiveController.shared.keyboardHeight = keyboardScreenEndFrame.height - bottomPadding
         }
 
         let pipPosition: CGRect = self.pipPosition(with: lastPipScale, position: lastPipPosition)
@@ -741,13 +727,19 @@ import WebKit
     @objc func handleNotification(_ notification: Notification) {
         switch notification.name {
         case UIApplication.didBecomeActiveNotification:
-            self.pictureInPictureController?.stopPictureInPicture()
+            if ShopLiveController.shared.isPreview {
+                ShopLiveController.playControl = .resume
+            } else {
+                if ShopLiveController.timeControlStatus == .paused {
+                    ShopLiveController.playControl = .resume
+                }
+                self.pictureInPictureController?.stopPictureInPicture()
+            }
             break
         case UIApplication.didEnterBackgroundNotification:
             self.liveStreamViewController?.onBackground()
             break
         case UIApplication.protectedDataDidBecomeAvailableNotification:
-            ShopLiveLogger.debugLog("[REASON] time paused unlock")
             ShopLiveController.shared.screenLock = false
             guard ShopLiveController.windowStyle == .osPip, !ShopLiveController.isReplayMode else { return }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -757,7 +749,6 @@ import WebKit
             }
             break
         case UIApplication.protectedDataWillBecomeUnavailableNotification:
-            ShopLiveLogger.debugLog("[REASON] time paused lock")
             ShopLiveController.shared.screenLock = true
             ShopLiveController.playControl = .pause
             break
@@ -765,12 +756,10 @@ import WebKit
             self.liveStreamViewController?.onForeground()
             break
         case UIResponder.keyboardWillShowNotification:
-//            ShopLiveLogger.debugLog("pip keyboard show")
             isKeyboardShow = true
             self.handleKeyboard(notification)
             break
         case UIResponder.keyboardWillHideNotification:
-//            ShopLiveLogger.debugLog("pip keyboard hide")kal
             isKeyboardShow = false
             self.handleKeyboard()
             break
@@ -814,11 +803,11 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     func setLoadingAnimation(images: [UIImage]) {
-        ShopLiveController.shared.shopliveSettings.setLoadingAnimation(images: images)
+        ShopLiveConfiguration.UI.setLoadingAnimation(images: images)
     }
 
     func setKeepAspectOnTabletPortrait(_ keep: Bool) {
-        ShopLiveController.shared.keepAspectOnTabletPortrait = keep
+        ShopLiveConfiguration.UI.keepAspectOnTabletPortrait = keep
     }
 
     var viewController: ShopLiveViewController? {
@@ -826,13 +815,12 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     func close() {
-        ShopLiveLogger.debugLog("shoplivebase close()")
         self.hideShopLiveView()
     }
 
-    func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont) {
-        ShopLiveController.shared.inputBoxFont = inputBoxFont
-        ShopLiveController.shared.sendButtonFont = sendButtonFont
+    func setChatViewFont(inputBoxFont: UIFont?, sendButtonFont: UIFont?) {
+        ShopLiveConfiguration.UI.inputBoxFont = inputBoxFont
+        ShopLiveConfiguration.UI.sendButtonFont = sendButtonFont
     }
 
     func hookNavigation(navigation: @escaping ((URL) -> Void)) {
@@ -863,19 +851,19 @@ extension ShopLiveBase: ShopLiveComponent {
     }
     
     func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool) {
-        ShopLiveConfiguration.soundPolicy.keepPlayVideoOnHeadphoneUnplugged = keepPlay
+        ShopLiveConfiguration.SoundPolicy.keepPlayVideoOnHeadphoneUnplugged = keepPlay
     }
 
     func isKeepPlayVideoOnHeadPhoneUnplugged() -> Bool {
-        return ShopLiveConfiguration.soundPolicy.keepPlayVideoOnHeadphoneUnplugged
+        return ShopLiveConfiguration.SoundPolicy.keepPlayVideoOnHeadphoneUnplugged
     }
 
     func setAutoResumeVideoOnCallEnded(_ autoResume: Bool) {
-        ShopLiveConfiguration.soundPolicy.autoResumeVideoOnCallEnded = autoResume
+        ShopLiveConfiguration.SoundPolicy.autoResumeVideoOnCallEnded = autoResume
     }
 
     func isAutoResumeVideoOnCallEnded() -> Bool {
-        return ShopLiveConfiguration.soundPolicy.autoResumeVideoOnCallEnded
+        return ShopLiveConfiguration.SoundPolicy.autoResumeVideoOnCallEnded
     }
 
     @objc func startPictureInPicture() {
@@ -913,31 +901,39 @@ extension ShopLiveBase: ShopLiveComponent {
     @objc func configure(with accessKey: String) {
         self.accessKey = accessKey
         #if DEMO
-
         #else
             self.phase = .REAL
         #endif
     }
 
     func preview(with campaignKey: String?, completion: @escaping () -> Void) {
+        guard self.accessKey != nil else { return }
+        addObserver()
         ShopLiveController.loading = true
         previewCallback = completion
         self.campaignKey = campaignKey
-        fetchPreviewUrl(with: campaignKey) { url in
-            guard let url = url else { return }
-            self.showPreview(previewUrl: url, completion: completion)
+        fetchPreviewUrl(with: campaignKey) { [weak self] url in
+            guard let url = url else {
+                self?.removeObserver()
+                return
+            }
+            self?.showPreview(previewUrl: url, completion: completion)
         }
     }
     
     @objc func play(with campaignKey: String?, _ parent: UIViewController?) {
         guard self.accessKey != nil else { return }
+        addObserver()
         self.campaignKey = campaignKey
         ShopLiveController.loading = true
-        fetchOverlayUrl(with: campaignKey) { (overlayUrl) in
-            guard let url = overlayUrl else { return }
-            liveStreamViewController?.viewModel.authToken = _authToken
-            liveStreamViewController?.viewModel.user = _user
-            showShopLiveView(with: url, nil)
+        fetchOverlayUrl(with: campaignKey) { [weak self] url in
+            guard let url = url else {
+                self?.removeObserver()
+                return
+            }
+            self?.liveStreamViewController?.viewModel.authToken = _authToken
+            self?.liveStreamViewController?.viewModel.user = _user
+            self?.showShopLiveView(with: url, nil)
         }
     }
     
@@ -981,10 +977,10 @@ extension ShopLiveBase: ShopLiveComponent {
 
     @objc var indicatorColor: UIColor {
         get {
-            return ShopLiveController.shared.shopliveSettings.indicatorColor
+            return ShopLiveConfiguration.UI.color
         }
         set {
-            ShopLiveController.shared.shopliveSettings.indicatorColor = newValue
+            ShopLiveConfiguration.UI.color = newValue
         }
     }
 
@@ -1011,7 +1007,7 @@ extension ShopLiveBase: ShopLiveComponent {
 extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
-        //PIP 에서 stop pip 버튼으로 돌아올 때
+        // stop pip button selected
         isRestoredPip = true
         completionHandler(true)
     }
@@ -1036,17 +1032,13 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
         if !isRestoredPip { //touch stop pip button in OS PIP view
             self.hideShopLiveView()
         } else {
-            ShopLiveLogger.debugLog("needReload \(ShopLiveController.shared.needReload)")
             if ShopLiveController.shared.needReload {
                 ShopLiveController.shared.needReload = false
                 guard !ShopLiveController.isReplayMode else { return }
-//                liveStreamViewController?.viewModel.reloadVideo()
-
-                ShopLiveLogger.debugLog("[REASON] time paused didstop pip needReload seek")
+                
                 ShopLiveController.shared.playControl = .resume
             } else {
                 if ShopLiveController.timeControlStatus == .paused, !ShopLiveController.isReplayMode {
-                    ShopLiveLogger.debugLog("[REASON] time paused didstop pip not reload just play")
                     ShopLiveController.shared.playControl = .resume
                 }
             }
@@ -1084,12 +1076,19 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
             self.liveStreamViewController?.didCompleteCustomAction(with: id) }
         _delegate?.handleCustomAction?(with: id, type: type, payload: payload, completion: completion)
 
-        let completionResult: (CustomActionResult?) -> Void = { [weak self] customActionResult in
+        let completionResult: (ShopLiveCustomActionResult?) -> Void = { [weak self] customActionResult in
             if let result = customActionResult {
                 self?.liveStreamViewController?.didCompleteCustomAction(with: result)
             }
         }
-        _delegate?.handleCustomActionResult?(with: id, type: type, payload: payload, completion: completionResult)
+        _delegate?.handleCustomAction?(with: id, type: type, payload: payload, result: completionResult)
+        
+        let deprecatedCompletionResult: (CustomActionResult?) -> Void = { [weak self] customActionResult in
+            if let result = customActionResult {
+                self?.liveStreamViewController?.didCompleteCustomAction(with: result)
+            }
+        }
+        _delegate?.handleCustomActionResult?(with: id, type: type, payload: payload, completion: deprecatedCompletionResult)
     }
 
     func replay(with size: CGSize) {
@@ -1106,7 +1105,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     
     func didTouchNavigation(with url: URL) {
         guard let hookNavigation = ShopLiveController.shared.hookNavigation else {
-            switch ShopLiveController.shared.nextActionTypeOnHandleNavigation {
+            switch ShopLiveConfiguration.UI.nextActionTypeOnHandleNavigation {
             case .PIP:
                 startPictureInPicture()
             case .CLOSE:
@@ -1127,14 +1126,22 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
         let completion: () -> Void = { [weak self] in
             self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponId)
         }
+
         _delegate?.handleDownloadCoupon?(with: couponId, completion: completion)
 
-        let completionResult: (CouponResult?) -> Void = { [weak self] couponResult in
+        let completionResult: (ShopLiveCouponResult?) -> Void = { [weak self] couponResult in
             if let result = couponResult {
                 self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: result)
             }
         }
-        _delegate?.handleDownloadCouponResult?(with: couponId, completion: completionResult)
+        _delegate?.handleDownloadCoupon?(with: couponId, result: completionResult)
+        
+        let deprecatedCompletionResult: (CouponResult?) -> Void = { [weak self] couponResult in
+            if let result = couponResult {
+                self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: result)
+            }
+        }
+        _delegate?.handleDownloadCouponResult?(with: couponId, completion: deprecatedCompletionResult)
     }
     
     func handleCommand(_ command: String, with payload: Any?) {

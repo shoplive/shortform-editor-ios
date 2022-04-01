@@ -97,7 +97,6 @@ final class CampaignInfoCell: SampleBaseCell {
         }
 
         chooseButton.snp.makeConstraints {
-//            $0.leading.equalTo(guideTitleLabel.snp.trailing).offset(15)
             $0.trailing.equalToSuperview().offset(-15)
             $0.top.equalToSuperview().offset(5)
             $0.height.equalTo(35)
