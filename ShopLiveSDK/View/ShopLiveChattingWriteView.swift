@@ -29,14 +29,18 @@ final class ShopLiveChattingWriteView: UIView {
         
         var sendButtonNormalTitle: NSAttributedString {
             let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineHeightMultiple = 0.79
-            return NSAttributedString(string: ShopLiveChattingWriteView.chatInputSendString, attributes: [NSAttributedString.Key.kern: -0.28, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0, green: 0.471, blue: 1, alpha: 1), .font: ShopLiveConfiguration.UI.sendButtonFont ?? UIFont.systemFont(ofSize: 14, weight: .medium)])
+            let font = ShopLiveConfiguration.UI.sendButtonFont ?? UIFont.systemFont(ofSize: 14, weight: .medium).findAvailableFont()
+            
+            paragraphStyle.lineHeightMultiple = font.lineHeightMultiple()
+            return NSAttributedString(string: ShopLiveChattingWriteView.chatInputSendString, attributes: [NSAttributedString.Key.kern: -0.28, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0, green: 0.471, blue: 1, alpha: 1), .font: font])
         }
         
         var sendButtonDisableTitle: NSAttributedString {
             let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineHeightMultiple = 0.79
-            return NSAttributedString(string: ShopLiveChattingWriteView.chatInputSendString, attributes: [NSAttributedString.Key.kern: -0.28, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0.886, green: 0.886, blue: 0.886, alpha: 1), .font: ShopLiveConfiguration.UI.sendButtonFont ?? UIFont.systemFont(ofSize: 14, weight: .medium)])
+            let font = ShopLiveConfiguration.UI.sendButtonFont ?? UIFont.systemFont(ofSize: 14, weight: .medium).findAvailableFont()
+            
+            paragraphStyle.lineHeightMultiple = font.lineHeightMultiple()
+            return NSAttributedString(string: ShopLiveChattingWriteView.chatInputSendString, attributes: [NSAttributedString.Key.kern: -0.28, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0.886, green: 0.886, blue: 0.886, alpha: 1), .font: font])
         }
     }
     
@@ -121,7 +125,7 @@ final class ShopLiveChattingWriteView: UIView {
         let topShadowHeight = NSLayoutConstraint.init(item: topShadow, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 9)
         topShadow.addConstraint(topShadowHeight)
         
-        let sendBottom = NSLayoutConstraint.init(item: sendButton, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0)
+        let sendBottom = NSLayoutConstraint.init(item: sendButton, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -4)
         let sendRight = NSLayoutConstraint.init(item: sendButton, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1.0, constant: -4)
         let sendWidth = NSLayoutConstraint.init(item: sendButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
         let sendHeight = NSLayoutConstraint.init(item: sendButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 36)
