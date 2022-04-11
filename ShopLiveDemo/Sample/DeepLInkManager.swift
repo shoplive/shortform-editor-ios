@@ -15,12 +15,10 @@ final class DeepLinkManager {
 
     enum DeepLink: String, CaseIterable {
         case video
+        case product
 
         var command: String {
-            switch self {
-            case .video:
-                return "video"
-            }
+            return self.rawValue
         }
     }
 
@@ -32,7 +30,7 @@ final class DeepLinkManager {
 
         var parameters: [String: Any] = [:]
         urlComponent.queryItems?.forEach({ item in
-            parameters[item.name] = item.value?.removingPercentEncoding?.base64Decoded
+            parameters[item.name] = (command == .product) ? item.value?.removingPercentEncoding :  item.value?.removingPercentEncoding?.base64Decoded
         })
 
         switch command {
@@ -41,10 +39,15 @@ final class DeepLinkManager {
             ShopLiveDemoKeyTools.shared.save(key: .init(alias: alias, campaignKey: ck, accessKey: ak))
             ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: alias)
             break
+        case .product:
+            ShopLive.startPictureInPicture()
+            let alert = UIAlertController(title: command.command, message: (parameters != nil ? parameters.toJson() : ""), preferredStyle: .alert)
+            alert.addAction(.init(title: "Ok", style: UIAlertAction.Style.default))
+            UIApplication.topViewController(base: AppDelegate.rootViewController)?.present(alert, animated: true)
+            break
         default:
             break
         }
-
     }
 
     func sendDeepLink(_ data: String) {

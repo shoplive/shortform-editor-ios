@@ -12,6 +12,7 @@ import Toast
 
 class MainViewController: SideMenuBaseViewController {
 
+    static var instance: UIViewController?
     var safari: SFSafariViewController? = nil
 
     lazy var tabbar: UITabBar = {
@@ -23,6 +24,8 @@ class MainViewController: SideMenuBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        AppDelegate.rootViewController = self.navigationController
 
         self.view.backgroundColor = .white
 
@@ -342,5 +345,15 @@ extension MainViewController: ShopLiveSDKDelegate {
 
     func handleReceivedCommand(_ command: String, with payload: Any?) {
         print("handleReceivedCommand command: \(command) payload: \(String(describing: payload))")
+        switch command {
+        case "LOGIN_REQUIRED":
+            /*
+                1. 로그인 화면으로 이동
+                2. 로그인이 성공하면, 인증 사용자 계정을 연동하여 샵라이브플레이어를 다시 호출
+             */
+            break
+        default:
+            break
+        }
     }
 }

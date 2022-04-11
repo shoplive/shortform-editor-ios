@@ -301,6 +301,15 @@ extension OverlayWebView: WKScriptMessageHandler {
                         }
                     }
                     break
+                case "OPEN_DEEPLINK":
+                    if let scheme = parameters?["scheme"] as? String {
+                        guard let deeplink = scheme.removingPercentEncoding,
+                                let schemeUrl = URL(string: deeplink.removingPercentEncoding ?? ""),
+                                UIApplication.shared.canOpenURL(schemeUrl) else { return }
+
+                        UIApplication.shared.open(schemeUrl, options: [:], completionHandler: nil)
+                    }
+                    break
                 default:
                     break
                 }
