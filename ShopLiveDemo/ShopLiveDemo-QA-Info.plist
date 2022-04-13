@@ -35,6 +35,7 @@
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>ebay</string>
 		<string>shoplivestudio</string>
 		<string>shoplivestudiodev</string>
 	</array>
