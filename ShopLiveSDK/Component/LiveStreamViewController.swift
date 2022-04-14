@@ -95,11 +95,34 @@ internal final class LiveStreamViewController: UIViewController {
     @objc func audioRouteChangeListener(notification: NSNotification) {
         let audioRouteChangeReason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] as! UInt
 
+        let audioSession = AVAudioSession.sharedInstance()
+        var isEarphoneHeadphone: Bool = false
+        let currentRoute = audioSession.currentRoute
+            if currentRoute.outputs.count != 0 {
+                let earphones: [AVAudioSession.Port] = [.headphones, .headsetMic, .bluetoothA2DP, .bluetoothHFP]
+                currentRoute.outputs.forEach { description in
+                    if !earphones.filter({$0 == description.portType}).isEmpty {
+                        isEarphoneHeadphone = true
+                        return
+                    }
+                }
+//                isEarphoneHeadphone = !currentRoute.outputs.filter({$0.portType == .headphones || $0.portType == .headsetMic}).isEmpty
+                for description in currentRoute.outputs {
+                    ShopLiveLogger.debugLog("audioRouteChange description.portType \(description.portType)")
+                }
+            }
+        
+        ShopLiveLogger.debugLog("audioRouteChange isEarphoneHeadphone \(isEarphoneHeadphone)")
+        
         switch audioRouteChangeReason {
         case AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue:
-            updateHeadPhoneStatus(plugged: true)
+            if isEarphoneHeadphone {
+                updateHeadPhoneStatus(plugged: true)
+            }
         case AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue:
-            updateHeadPhoneStatus(plugged: false)
+            if !isEarphoneHeadphone {
+                updateHeadPhoneStatus(plugged: false)
+            }
         default:
             break
         }
@@ -112,13 +135,6 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     private func setupAudioConfig() {
-        let audioSession = AVAudioSession.sharedInstance()
-        let currentRoute = audioSession.currentRoute
-            if currentRoute.outputs.count != 0 {
-                for description in currentRoute.outputs {
-                    updateHeadPhoneStatus(plugged: description.portType == AVAudioSession.Port.headphones)
-                }
-            }
         NotificationCenter.default.addObserver(
                 self,
                 selector: #selector(audioRouteChangeListener(notification:)),
@@ -159,7 +175,6 @@ internal final class LiveStreamViewController: UIViewController {
             catch let error {
                 ShopLiveLogger.debugLog("interruption setActive Failed error: \(error.localizedDescription)")
             }
-
 
             guard ShopLiveConfiguration.SoundPolicy.autoResumeVideoOnCallEnded else {
                 return
