@@ -196,6 +196,8 @@ final class ShopLiveController: NSObject {
         campaignStatus = .close
         webInstance = nil
         isMuted = ShopLiveConfiguration.SoundPolicy.isMuted
+        ShopLiveConfiguration.UI.color = .white
+        ShopLiveConfiguration.UI.customIndicatorImages.removeAll()
     }
     private func reset() {
         playControl = .none

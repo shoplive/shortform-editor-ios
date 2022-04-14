@@ -88,6 +88,9 @@
 "sdkoption.pipScale.description" = "PIP view size.\nDisplays the scaled size based on the View width. (value between 0.1 and 1.0)";
 "sdkoption.callOption.title" = "통화 옵션";
 "sdkoption.callOption.description" = "통화 종료 후, 영상을 자동으로 재생합니다.";
+"sdkoption.headphoneOption1.title" = "When an earphone/headset is disconnected";
+"sdkoption.headphoneOption1.description" = "Enabling this option, the video will keep playing even if the earphone/headset is disconnected.";
+"sdkoption.headphoneOption1.setting.guide" = "Earphone or headset is disconnected";
 "sdkoption.customShare.title" = "커스텀 공유하기 사용";
 "sdkoption.customShare.description" = "공유하기 UI를 직접 구현 합니다.";
 "sdkoption.shareScheme.title" = "공유하기 scheme 또는 URL";

@@ -122,6 +122,10 @@ class MainViewController: SideMenuBaseViewController {
 
             ShopLive.setLoadingAnimation(images: images)
         }
+        
+        if let progressColor = config.progressColor {
+            ShopLive.indicatorColor = UIColor(progressColor)
+        }
 
         // Share URL/Scheme Setting
         if let scheme = config.shareScheme, !scheme.isEmpty {
