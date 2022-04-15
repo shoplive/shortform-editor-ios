@@ -98,21 +98,15 @@ internal final class LiveStreamViewController: UIViewController {
         let audioSession = AVAudioSession.sharedInstance()
         var isEarphoneHeadphone: Bool = false
         let currentRoute = audioSession.currentRoute
-            if currentRoute.outputs.count != 0 {
-                let earphones: [AVAudioSession.Port] = [.headphones, .headsetMic, .bluetoothA2DP, .bluetoothHFP]
-                currentRoute.outputs.forEach { description in
-                    if !earphones.filter({$0 == description.portType}).isEmpty {
-                        isEarphoneHeadphone = true
-                        return
-                    }
-                }
-//                isEarphoneHeadphone = !currentRoute.outputs.filter({$0.portType == .headphones || $0.portType == .headsetMic}).isEmpty
-                for description in currentRoute.outputs {
-                    ShopLiveLogger.debugLog("audioRouteChange description.portType \(description.portType)")
+        if currentRoute.outputs.count != 0 {
+            let earphones: [AVAudioSession.Port] = [.headphones, .headsetMic, .bluetoothA2DP, .bluetoothHFP]
+            currentRoute.outputs.forEach { description in
+                if !earphones.filter({$0 == description.portType}).isEmpty {
+                    isEarphoneHeadphone = true
+                    return
                 }
             }
-        
-        ShopLiveLogger.debugLog("audioRouteChange isEarphoneHeadphone \(isEarphoneHeadphone)")
+        }
         
         switch audioRouteChangeReason {
         case AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue:
@@ -203,7 +197,6 @@ internal final class LiveStreamViewController: UIViewController {
         switch notification.name.rawValue {
         case "UIKeyboardWillHideNotification":
             lastKeyboardHeight = 0
-//            self.overlayView?.setBlockView(show: false)
             if chatInputView.isFocused() && (ShopLiveController.windowStyle == ShopLiveWindowStyle.normal) {
                 self.hasKeyboard = true
                 isHiddenView = false
@@ -220,7 +213,6 @@ internal final class LiveStreamViewController: UIViewController {
             hasKeyboard = (keyboard.origin.y + keyboard.size.height) > height
             lastKeyboardHeight = keyboardScreenEndFrame.height
             chatConstraint.constant = -(keyboardScreenEndFrame.height - bottomPadding)
-//            self.overlayView?.setBlockView(show: true)
             let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("value", "\(Int((hasKeyboard ? 0 : lastKeyboardHeight) + self.chatInputView.frame.height))px"), ("keyboard", hasKeyboard))
             ShopLiveController.webInstance?.sendEventToWeb(event: .setChatListMarginBottom, param.toJson())
             isHiddenView = false
@@ -267,7 +259,6 @@ internal final class LiveStreamViewController: UIViewController {
 
     func pause() {
         if !ShopLiveController.isReplayMode, ShopLiveController.shared.windowStyle == .osPip {
-            ShopLiveLogger.debugLog("[REASON] time paused marking pause")
             ShopLiveController.shared.needReload = true
         }
         ShopLiveController.player?.pause()

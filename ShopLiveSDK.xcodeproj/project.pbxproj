@@ -493,16 +493,16 @@
 		BF37D99227F5742D004C2785 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				BF37D99527F5742D004C2785 /* ShopLiveSDKInterface.swift */,
-				BF37D99927F5742D004C2785 /* ShopLiveWebInterface.swift */,
-				BF37D99327F5742D004C2785 /* ShopLiveDefines.swift */,
-				BF37D99A27F5742D004C2785 /* HapticManager.swift */,
-				BF37D99427F5742D004C2785 /* SoundManager.swift */,
-				BF37D99D27F5742D004C2785 /* ShopLiveConfiguration.swift */,
-				BF37D99E27F5742D004C2785 /* URLUtil.swift */,
 				BF37D99627F5742D004C2785 /* logger */,
 				BF37D99B27F5742D004C2785 /* Extensions */,
 				BF37D99F27F5742D004C2785 /* Resource */,
+				BF37D99327F5742D004C2785 /* ShopLiveDefines.swift */,
+				BF37D99427F5742D004C2785 /* SoundManager.swift */,
+				BF37D99527F5742D004C2785 /* ShopLiveSDKInterface.swift */,
+				BF37D99927F5742D004C2785 /* ShopLiveWebInterface.swift */,
+				BF37D99A27F5742D004C2785 /* HapticManager.swift */,
+				BF37D99D27F5742D004C2785 /* ShopLiveConfiguration.swift */,
+				BF37D99E27F5742D004C2785 /* URLUtil.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
