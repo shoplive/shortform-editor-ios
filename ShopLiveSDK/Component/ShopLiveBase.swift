@@ -445,7 +445,8 @@ import WebKit
         guard let currentCenter = shopLiveWindow?.center else { return }
         guard let mainWindow = self.mainWindow else { return }
         let center = mainWindow.center
-        let rate = (mainWindow.frame.height - ShopLiveController.shared.keyboardHeight) / mainWindow.frame.height
+        let keyboardHeight: CGFloat = isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0
+        let rate = (mainWindow.frame.height - keyboardHeight) / mainWindow.frame.height
         let isPositiveDiffX = center.x - currentCenter.x > 0
         let isPositiveDiffY = (center.y * rate) - currentCenter.y > 0
         let position: ShopLive.PipPosition = {
@@ -469,7 +470,8 @@ import WebKit
     private func alignPipPosion(pipCenter: CGPoint) -> ShopLive.PipPosition {
         guard let mainWindow = self.mainWindow else { return .bottomRight }
         let center = mainWindow.center
-        let rate = (mainWindow.frame.height - ShopLiveController.shared.keyboardHeight) / mainWindow.frame.height
+        let keyboardHeight: CGFloat = isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0
+        let rate = (mainWindow.frame.height - keyboardHeight) / mainWindow.frame.height
         let isPositiveDiffX = center.x - pipCenter.x > 0
         let isPositiveDiffY = (center.y * rate) - pipCenter.y > 0
         let position: ShopLive.PipPosition = {
@@ -515,7 +517,7 @@ import WebKit
             let mainWindowHeight: CGFloat = mainWindow.bounds.height - (isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0)
             let minX = (liveWindow.bounds.width / 2.0) + pipEdgeInsets.left + safeAreaInset.left + liveWindow.bounds.origin.x + pipFloatingOffset.left
             let maxX = mainWindow.bounds.width - ((liveWindow.bounds.width / 2.0) + pipEdgeInsets.right + safeAreaInset.right + pipFloatingOffset.right)
-            let minY = liveWindow.bounds.height / 2.0 + pipEdgeInsets.top + safeAreaInset.top + pipFloatingOffset.top + liveWindow.bounds.origin.y + pipFloatingOffset.top
+            let minY = liveWindow.bounds.height / 2.0 + pipEdgeInsets.top + safeAreaInset.top + pipFloatingOffset.top + liveWindow.bounds.origin.y - (isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0)
             let maxY = mainWindowHeight - ((liveWindow.bounds.height / 2.0) + pipEdgeInsets.bottom + pipFloatingOffsetBottom + safeAreaInset.bottom)
             
             var centerX = panGestureInitialCenter.x + translation.x

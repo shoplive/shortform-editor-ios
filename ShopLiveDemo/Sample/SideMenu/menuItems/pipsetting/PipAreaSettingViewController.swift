@@ -164,6 +164,21 @@ final class PipAreaSettingViewController: UIViewController {
         setupNaviItems()
         setupViews()
         loadSetting()
+        setupEdgeGesture()
+    }
+    
+    @objc private func handleEdgeGesture(_ gesture: UIScreenEdgePanGestureRecognizer) {
+        guard gesture.state == .recognized else {
+            return
+        }
+        shopliveHideKeyboard()
+        self.navigationController?.popViewController(animated: true)
+    }
+
+    private func setupEdgeGesture() {
+        let edgePanGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleEdgeGesture(_:)))
+        edgePanGesture.edges = .left
+        self.view.addGestureRecognizer(edgePanGesture)
     }
     
     func setupBackButton() {

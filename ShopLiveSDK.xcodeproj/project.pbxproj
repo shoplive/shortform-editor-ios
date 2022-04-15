@@ -493,16 +493,16 @@
 		BF37D99227F5742D004C2785 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				BF37D99527F5742D004C2785 /* ShopLiveSDKInterface.swift */,
-				BF37D99927F5742D004C2785 /* ShopLiveWebInterface.swift */,
-				BF37D99327F5742D004C2785 /* ShopLiveDefines.swift */,
-				BF37D99A27F5742D004C2785 /* HapticManager.swift */,
-				BF37D99427F5742D004C2785 /* SoundManager.swift */,
-				BF37D99D27F5742D004C2785 /* ShopLiveConfiguration.swift */,
-				BF37D99E27F5742D004C2785 /* URLUtil.swift */,
 				BF37D99627F5742D004C2785 /* logger */,
 				BF37D99B27F5742D004C2785 /* Extensions */,
 				BF37D99F27F5742D004C2785 /* Resource */,
+				BF37D99327F5742D004C2785 /* ShopLiveDefines.swift */,
+				BF37D99427F5742D004C2785 /* SoundManager.swift */,
+				BF37D99527F5742D004C2785 /* ShopLiveSDKInterface.swift */,
+				BF37D99927F5742D004C2785 /* ShopLiveWebInterface.swift */,
+				BF37D99A27F5742D004C2785 /* HapticManager.swift */,
+				BF37D99D27F5742D004C2785 /* ShopLiveConfiguration.swift */,
+				BF37D99E27F5742D004C2785 /* URLUtil.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1482,8 +1482,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
@@ -1496,6 +1497,7 @@
 				MARKETING_VERSION = 1.2.4;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "";
 				PRODUCT_NAME = "DEMO QA";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -1513,8 +1515,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
@@ -1527,8 +1530,10 @@
 				MARKETING_VERSION = 1.2.4;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "";
 				PRODUCT_NAME = "DEMO QA";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEMO QA";
 				SWIFT_VERSION = 5.0;

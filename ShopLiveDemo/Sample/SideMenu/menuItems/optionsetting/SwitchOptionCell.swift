@@ -34,23 +34,6 @@ class SwitchOptionCell: UITableViewCell {
         return view
     }()
 
-    private lazy var labelBoxView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(optionTitleLabel)
-        view.addSubview(optionDescriptionLabel)
-        optionTitleLabel.snp.makeConstraints {
-            $0.leading.trailing.top.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(20)
-        }
-        optionDescriptionLabel.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
-            $0.bottom.equalToSuperview()
-        }
-        return view
-    }()
-
     lazy var touchArea: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -88,25 +71,35 @@ class SwitchOptionCell: UITableViewCell {
 
     private func setupViews() {
         self.contentView.backgroundColor = .white
-        self.contentView.addSubview(labelBoxView)
+        self.contentView.addSubview(optionTitleLabel)
+        self.contentView.addSubview(optionDescriptionLabel)
         self.contentView.addSubview(optionSwitch)
         self.contentView.addSubview(touchArea)
-
-        labelBoxView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.lessThanOrEqualTo(optionSwitch.snp.leading).offset(-10)
-            $0.top.equalToSuperview().offset(20)
-            $0.bottom.equalToSuperview().offset(-20)
-        }
-
-        optionSwitch.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-20)
-            $0.centerY.equalTo(labelBoxView)
-        }
 
         touchArea.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+        optionSwitch.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-20)
+            $0.width.equalTo(50)
+            $0.centerY.equalToSuperview()
+        }
+        
+        optionTitleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(15)
+            $0.trailing.equalTo(optionSwitch.snp.leading).offset(-10)
+            $0.height.greaterThanOrEqualTo(20)
+        }
+        
+        optionDescriptionLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(15)
+            $0.trailing.equalTo(optionSwitch.snp.leading).offset(-10)
+            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
+            $0.bottom.equalToSuperview().offset(-20)
+        }
+
     }
 
     func configure(item: SDKOptionItem) {

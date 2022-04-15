@@ -52,7 +52,7 @@ final class ButtonOptionCell: UITableViewCell {
         optionDescriptionLabel.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
-            $0.bottom.equalToSuperview()
+//            $0.bottom.equalToSuperview()
         }
         optionValueWhenDropdownLabel.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
@@ -100,7 +100,7 @@ final class ButtonOptionCell: UITableViewCell {
         optionDescriptionLabel.snp.remakeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
-            $0.bottom.equalToSuperview()
+//            $0.bottom.equalToSuperview()
         }
         optionValueWhenDropdownLabel.snp.remakeConstraints {
             $0.leading.trailing.equalToSuperview()

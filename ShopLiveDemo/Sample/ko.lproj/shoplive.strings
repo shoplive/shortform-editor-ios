@@ -86,6 +86,9 @@
 "sdkoption.pipFloatingOffset.description" = "PIP의 영역을 설정합니다.";
 "sdkoption.headphoneOption1.title" = "이어폰/헤드셋 옵션";
 "sdkoption.headphoneOption1.description" = "이어폰/헤드셋 연결이 끊기면 영상을 멈추지 않습니다.";
+"sdkoption.headphoneOption1.title" = "When an earphone/headset is disconnected";
+"sdkoption.headphoneOption1.description" = "Enabling this option, the video will keep playing even if the earphone/headset is disconnected.";
+"sdkoption.headphoneOption1.setting.guide" = "Earphone or headset is disconnected";
 "sdkoption.callOption.title" = "통화 옵션";
 "sdkoption.callOption.description" = "통화 종료 후, 영상을 자동으로 재생합니다.";
 "sdkoption.customShare.title" = "커스텀 공유하기 사용";

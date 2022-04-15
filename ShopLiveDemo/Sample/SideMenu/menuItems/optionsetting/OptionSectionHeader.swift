@@ -45,7 +45,6 @@ class OptionSectionHeader: UITableViewHeaderFooterView {
             $0.top.equalToSuperview().offset(25)
             $0.bottom.equalToSuperview()
             $0.trailing.lessThanOrEqualToSuperview().offset(-15)
-            $0.height.greaterThanOrEqualTo(25)
         }
 
         topLine.snp.makeConstraints {

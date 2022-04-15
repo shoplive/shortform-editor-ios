@@ -138,7 +138,7 @@ final class ShopLiveController: NSObject {
             if let old: Bool = change?[.oldKey] as? Bool, let new: Bool = change?[.newKey] as? Bool {
                 if old != new {
                     guard let videoUrl = ShopLiveController.streamUrl, !videoUrl.absoluteString.isEmpty && videoUrl.absoluteString != "null" else {
-                        ShopLiveLogger.debugLog("\(keyPath): guard return - videoUrl: \(String(describing: ShopLiveController.streamUrl))")
+                        // ShopLiveLogger.debugLog("\(keyPath): guard return - videoUrl: \(String(describing: ShopLiveController.streamUrl))")
                         return
                     }
                     postPlayerObservers(key: key)
@@ -196,6 +196,8 @@ final class ShopLiveController: NSObject {
         campaignStatus = .close
         webInstance = nil
         isMuted = ShopLiveConfiguration.SoundPolicy.isMuted
+        ShopLiveConfiguration.UI.color = .white
+        ShopLiveConfiguration.UI.customIndicatorImages.removeAll()
     }
     private func reset() {
         playControl = .none
@@ -238,7 +240,7 @@ final class ShopLiveController: NSObject {
         let livePosition = seekableStart + seekableDuration
 
         if livePosition > 0 {
-            ShopLiveLogger.debugLog("[REASON] time paused seekToLatest \(livePosition)")
+            ShopLiveLogger.debugLog("time paused seekToLatest \(livePosition)")
             player.seek(to: CMTime(seconds: livePosition, preferredTimescale: 1))
         }
     }
