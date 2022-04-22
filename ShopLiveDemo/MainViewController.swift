@@ -170,6 +170,8 @@ class MainViewController: SideMenuBaseViewController {
         #if DEMO
         ShopLiveDefines.phase = ShopLiveDevConfiguration.shared.phaseType
         #endif
+        
+        ShopLive.setKeepAspectOnTabletPortrait(false)
     }
 
     override func preview() {

@@ -10,8 +10,17 @@ import UIKit
 import CoreMedia
 
 @objc internal final class ShopLiveDefines: NSObject {
+#if LOCAL_LANDING
+    static let sdkVersion: String = "1.2.5"
+#else
     static let sdkVersion: String = "1.2.4"
-    static var phase: ShopLive.Phase = .REAL
+#endif
+    
+    static var phase: ShopLive.Phase = .REAL {
+        didSet {
+            ShopLiveConfiguration.AppPreference.landingUrl = url
+        }
+    }
     static var url: String {
         switch phase {
         #if DEMO
@@ -24,7 +33,6 @@ import CoreMedia
             return "https://www.shoplive.show/v1/sdk.html"
         }
     }
-    
 
     static let shopliveData = "shoplivedata"
 

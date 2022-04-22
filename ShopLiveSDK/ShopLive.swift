@@ -46,10 +46,6 @@ import WebKit
     @objc func setShareScheme(_ scheme: String?, custom: (() -> Void)?)
     @objc func setChatViewFont(inputBoxFont: UIFont?, sendButtonFont: UIFont?)
     @objc func close()
-    #if DEMO
-    @objc var demo_phase: ShopLive.Phase { get set }
-    #endif
-
 }
 
 enum ShopLiveCampaignStatus: String, CaseIterable {
@@ -144,13 +140,17 @@ extension ShopLive {
             default:
                 return nil
             }
-
         }
-
     }
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+#if LOCAL_LANDING
+    public static func setUsingLocalLanding(_ use: Bool) {
+        ShopLiveConfiguration.AppPreference.useLocalLanding = use
+    }
+#endif
+    
     public static func setAppVersion(_ appVersion: String) {
         ShopLiveConfiguration.AppPreference.appVersion = appVersion
     }
@@ -199,17 +199,6 @@ extension ShopLive: ShopLiveSDKInterface {
     public static func isSuccessCampaignJoin() -> Bool {
         return shared.instance?.isSuccessCampaignJoin() ?? false
     }
-
-    #if DEMO
-    static var phase: ShopLive.Phase {
-        set {
-            shared.instance?.demo_phase = newValue
-        }
-        get {
-            return shared.instance?.demo_phase ?? ShopLiveDefines.phase
-        }
-    }
-    #endif
 
     public static func setKeepAspectOnTabletPortrait(_ keep: Bool = true) {
         shared.instance?.setKeepAspectOnTabletPortrait(keep)

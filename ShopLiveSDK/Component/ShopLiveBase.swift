@@ -19,12 +19,12 @@ import WebKit
     private var _webViewConfiguration: WKWebViewConfiguration?
     private var isRestoredPip: Bool = false
     private var accessKey: String? = nil
+    private var campaignKey: String?
     internal var phase: ShopLive.Phase = .REAL {
         didSet {
             ShopLiveDefines.phase = phase
         }
     }
-    private var campaignKey: String?
 
     private var isKeyboardShow: Bool = false
     private var lastPipPosition: ShopLive.PipPosition = .default
@@ -130,6 +130,8 @@ import WebKit
         videoWindowSwipeDownGestureRecognizer = swipeDownGesture
         videoWindowSwipeDownGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? false : true
         
+        ShopLiveController.windowStyle = .normal
+        
         setupPictureInPicture()
         shopLiveWindow?.makeKeyAndVisible()
 
@@ -143,8 +145,10 @@ import WebKit
         if ShopLiveController.shared.isPreview {
             willChangePreview()
             _style = .pip
+            ShopLiveController.windowStyle = .inAppPip
         } else {
             mainWindow?.rootViewController?.shopliveHideKeyboard()
+            ShopLiveController.windowStyle = .normal
             _style = .fullScreen
         }
     }
@@ -603,29 +607,62 @@ import WebKit
         stopShopLivePictureInPicture()
     }
 
+    
+    
     func fetchPreviewUrl(with campaignKey: String?, completionHandler: @escaping ((URL?) -> Void)) {
-        let urlComponents = URLComponents(string: ShopLiveConfiguration.AppPreference.landingUrl)
-        var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
-        queryItems.append(URLQueryItem(name: "ak", value: accessKey))
-        if let ck = campaignKey {
-            queryItems.append(URLQueryItem(name: "ck", value: ck))
+        
+        if ShopLiveConfiguration.AppPreference.useLocalLanding {
+            let bundle = Bundle(for: type(of: self))
+            guard let bundleMainUrl = bundle.url(forResource: "web/ebay", withExtension: "html") else {
+                //delegate?.handleError(code: "", message: "")
+                completionHandler(nil)
+                return
+            }
+
+            let urlComponents = URLComponents(url: bundleMainUrl, resolvingAgainstBaseURL: true)
+            var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
+            queryItems.append(URLQueryItem(name: "ak", value: accessKey))
+            if let ck = campaignKey {
+                queryItems.append(URLQueryItem(name: "ck", value: ck))
+            }
+
+            queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
+            queryItems.append(URLQueryItem(name: "preview", value: "1"))
+            
+            guard let params = URLUtil.query(queryItems) else {
+                completionHandler(bundleMainUrl)
+                return
+            }
+            guard let fullUrl = URL(string: "?" + params, relativeTo: bundleMainUrl) else {
+                completionHandler(bundleMainUrl)
+                return
+            }
+
+            completionHandler(fullUrl)
+        } else {
+            let urlComponents = URLComponents(string: ShopLiveConfiguration.AppPreference.landingUrl)
+            var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
+            queryItems.append(URLQueryItem(name: "ak", value: accessKey))
+            if let ck = campaignKey {
+                queryItems.append(URLQueryItem(name: "ck", value: ck))
+            }
+
+            queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
+            queryItems.append(URLQueryItem(name: "preview", value: "1"))
+
+            let baseUrl = URL(string: ShopLiveConfiguration.AppPreference.landingUrl)
+            guard let params = URLUtil.query(queryItems) else {
+                completionHandler(baseUrl)
+                return
+            }
+
+            guard let url = URL(string: ShopLiveConfiguration.AppPreference.landingUrl + "?" + params) else {
+                completionHandler(baseUrl)
+                return
+            }
+
+            completionHandler(url)
         }
-
-        queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
-        queryItems.append(URLQueryItem(name: "preview", value: "1"))
-
-        let baseUrl = URL(string: ShopLiveConfiguration.AppPreference.landingUrl)
-        guard let params = URLUtil.query(queryItems) else {
-            completionHandler(baseUrl)
-            return
-        }
-
-        guard let url = URL(string: ShopLiveConfiguration.AppPreference.landingUrl + "?" + params) else {
-            completionHandler(baseUrl)
-            return
-        }
-
-        completionHandler(url)
     }
 
     func fetchOverlayUrl(with campaignKey: String?, completionHandler: ((URL?) -> Void)) {
@@ -634,41 +671,86 @@ import WebKit
             return
         }
 
-        let urlComponents = URLComponents(string: ShopLiveConfiguration.AppPreference.landingUrl)
-        var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
-        #if DEMO
-        if UserDefaults.standard.bool(forKey: "useWebLog") {
-            queryItems.append(URLQueryItem(name: "__debug", value: "true"))
+        if ShopLiveConfiguration.AppPreference.useLocalLanding {
+            let bundle = Bundle(for: type(of: self))
+            guard let bundleMainUrl = bundle.url(forResource: "web/ebay", withExtension: "html") else {
+                //delegate?.handleError(code: "", message: "")
+                completionHandler(nil)
+                return
+            }
+
+            let urlComponents = URLComponents(url: bundleMainUrl, resolvingAgainstBaseURL: true)
+            var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
+            #if DEMO
+            if UserDefaults.standard.bool(forKey: "useWebLog") {
+                queryItems.append(URLQueryItem(name: "__debug", value: "true"))
+            }
+            #endif
+            queryItems.append(URLQueryItem(name: "ak", value: accessKey))
+            if let ck = campaignKey {
+                queryItems.append(URLQueryItem(name: "ck", value: ck))
+            }
+            queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
+            queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
+            #if DEMO
+                queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
+            #endif
+            
+            if let localStorage = UserDefaults.standard.string(forKey: ShopLiveDefines.shopliveData), ShopLiveConfiguration.Data.useLocalStorage {
+                queryItems.append(URLQueryItem(name: ShopLiveDefines.shopliveData, value: localStorage))
+            }
+            
+            UserDefaults.standard.synchronize()
+
+            guard let params = URLUtil.query(queryItems) else {
+                completionHandler(bundleMainUrl)
+                return
+            }
+
+            guard let fullUrl = URL(string: "?" + params, relativeTo: bundleMainUrl) else {
+                completionHandler(bundleMainUrl)
+                return
+            }
+
+            completionHandler(fullUrl)
+        } else {
+            let urlComponents = URLComponents(string: ShopLiveConfiguration.AppPreference.landingUrl)
+            var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
+            #if DEMO
+            if UserDefaults.standard.bool(forKey: "useWebLog") {
+                queryItems.append(URLQueryItem(name: "__debug", value: "true"))
+            }
+            #endif
+            queryItems.append(URLQueryItem(name: "ak", value: accessKey))
+            if let ck = campaignKey {
+                queryItems.append(URLQueryItem(name: "ck", value: ck))
+            }
+            queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
+            queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
+            #if DEMO
+                queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
+            #endif
+            
+            if let localStorage = UserDefaults.standard.string(forKey: ShopLiveDefines.shopliveData), ShopLiveConfiguration.Data.useLocalStorage {
+                queryItems.append(URLQueryItem(name: ShopLiveDefines.shopliveData, value: localStorage))
+            }
+            
+            UserDefaults.standard.synchronize()
+
+            let baseUrl = URL(string: ShopLiveConfiguration.AppPreference.landingUrl)
+            guard let params = URLUtil.query(queryItems) else {
+                completionHandler(baseUrl)
+                return
+            }
+
+            guard let url = URL(string: ShopLiveConfiguration.AppPreference.landingUrl + "?" + params) else {
+                completionHandler(baseUrl)
+                return
+            }
+
+            completionHandler(url)
         }
-        #endif
-        queryItems.append(URLQueryItem(name: "ak", value: accessKey))
-        if let ck = campaignKey {
-            queryItems.append(URLQueryItem(name: "ck", value: ck))
-        }
-        queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
-        queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
-        #if DEMO
-            queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
-        #endif
         
-        if let localStorage = UserDefaults.standard.string(forKey: ShopLiveDefines.shopliveData), ShopLiveConfiguration.Data.useLocalStorage {
-            queryItems.append(URLQueryItem(name: ShopLiveDefines.shopliveData, value: localStorage))
-        }
-        
-        UserDefaults.standard.synchronize()
-
-        let baseUrl = URL(string: ShopLiveConfiguration.AppPreference.landingUrl)
-        guard let params = URLUtil.query(queryItems) else {
-            completionHandler(baseUrl)
-            return
-        }
-
-        guard let url = URL(string: ShopLiveConfiguration.AppPreference.landingUrl + "?" + params) else {
-            completionHandler(baseUrl)
-            return
-        }
-
-        completionHandler(url)
     }
 
     func addObserver() {
@@ -889,16 +971,6 @@ extension ShopLiveBase: ShopLiveComponent {
             self._user = newValue
         }
     }
-    #if DEMO
-    @objc var demo_phase: ShopLive.Phase {
-        get {
-            return self.phase
-        }
-        set {
-            self.phase = newValue
-        }
-    }
-    #endif
 
     @objc func configure(with accessKey: String) {
         self.accessKey = accessKey

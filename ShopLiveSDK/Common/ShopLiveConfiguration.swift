@@ -38,6 +38,12 @@ internal final class ShopLiveConfiguration: NSObject {
         static var endpoint: String? = nil
         static var landingUrl: String = endpoint ?? ShopLiveDefines.url
         static var appVersion: String? = nil
+#if LOCAL_LANDING
+        static var useLocalLanding: Bool = true
+#else
+        static var useLocalLanding: Bool = false
+#endif
+        
     }
     
     class SoundPolicy {

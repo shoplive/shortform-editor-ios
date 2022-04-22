@@ -87,6 +87,7 @@ internal class OverlayWebView: UIView {
         configuration.allowsInlineMediaPlayback = true
         configuration.allowsPictureInPictureMediaPlayback = false
         configuration.mediaTypesRequiringUserActionForPlayback = []
+        configuration.preferences.javaScriptEnabled = true
 
         let webView = ShopLiveWebView(frame: CGRect.zero, configuration: configuration)
         webView.scrollView.delegate = self
@@ -247,6 +248,8 @@ extension OverlayWebView: WKScriptMessageHandler {
                 - Receiving the data from Web Client
          */
 
+        ShopLiveLogger.debugLog("web receive message.name: \(message.name) message.body: \(message.body)")
+        
         guard message.name == ShopLiveDefines.webInterface else { return }
         if let body = message.body as? [String: Any],
            let shopliveEvent = body["shopliveEvent"] as? [String : Any],
@@ -257,7 +260,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             let parameters = body["payload"] as? [String: Any]
             if type == "USER_IMPLEMENTS_CALLBACK" {
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)"))
-                ShopLiveLogger.debugLog("[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)")
+                ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(parameters)")
                 if name == "ON_SUCCESS_CAMPAIGN_JOIN" {
                     ShopLiveController.shared.isSuccessCampaignJoin = true
                 }
@@ -265,7 +268,7 @@ extension OverlayWebView: WKScriptMessageHandler {
                 delegate?.handleReceivedCommand(name, with: parameters)
             } else {
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)"))
-                ShopLiveLogger.debugLog("[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)")
+                ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(parameters)")
                 
                 switch name {
                 case "SHOW_NATIVE_DEBUG":
@@ -303,8 +306,7 @@ extension OverlayWebView: WKScriptMessageHandler {
                     break
                 case "OPEN_DEEPLINK":
                     if let scheme = parameters?["scheme"] as? String {
-                        guard let deeplink = scheme.removingPercentEncoding,
-                                let schemeUrl = URL(string: deeplink.removingPercentEncoding ?? ""),
+                        guard let schemeUrl = URL(string: scheme),
                                 UIApplication.shared.canOpenURL(schemeUrl) else { return }
 
                         UIApplication.shared.open(schemeUrl, options: [:], completionHandler: nil)

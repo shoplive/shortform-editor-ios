@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>LIVE</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: transparent;
+      }
+
+      .test-layer {
+        text-align: center;
+        padding: 50px 0;
+        background-color: #000;
+        color: #fff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script>
+      // add custom css
+      function getQueryStringObject() {
+        var a = window.location.search.substr(1).split("&");
+        if (a == "") return {};
+        var b = {};
+        for (var i = 0; i < a.length; ++i) {
+          var p = a[i].split("=", 2);
+          if (p.length == 1) b[p[0]] = "";
+          else b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+        }
+        return b;
+      }
+    </script>
+    <div id="root"></div>
+    <script src="bundle.js"></script>
+  </body>
+</html>

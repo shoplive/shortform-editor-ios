@@ -26,6 +26,8 @@ internal final class LiveStreamViewController: UIViewController {
     private var imageView: UIImageView?
     private var snapShotView: UIImageView?
     
+    private weak var popoverController: UIPopoverPresentationController?
+    
     private lazy var indicatorView: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -429,6 +431,13 @@ internal final class LiveStreamViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
 
         guard ShopLiveController.windowStyle != .osPip else { return }
+        
+        if let popoverController = self.popoverController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: size.width*0.5, y: size.height*0.5, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
         playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
         overlayView?.alpha = 0
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700)) {
@@ -560,19 +569,37 @@ internal final class LiveStreamViewController: UIViewController {
         
         queryItems.append(URLQueryItem(name: "appVersion", value: ShopLiveConfiguration.AppPreference.appVersion ?? UIApplication.appVersion()))
 
-        let urlString: String = ShopLiveConfiguration.AppPreference.landingUrl
-        ShopLiveLogger.debugLog("shoplive landingUrl : \(urlString)")
-        guard let params = URLUtil.query(queryItems) else {
-            return URL(string: urlString)
+        if ShopLiveConfiguration.AppPreference.useLocalLanding {
+            let bundle = Bundle(for: type(of: self))
+            guard let bundleMainUrl = bundle.url(forResource: "web/ebay", withExtension: "html") else {
+                return nil
+            }
+
+            guard let params = URLUtil.query(queryItems) else {
+                return bundleMainUrl
+            }
+            
+            guard let url = URL(string: "?" + params, relativeTo: bundleMainUrl) else {
+                return bundleMainUrl
+            }
+
+            ShopLiveLogger.debugLog("play url: \(url)")
+            return url
+        } else {
+            let urlString: String = ShopLiveConfiguration.AppPreference.landingUrl
+            ShopLiveLogger.debugLog("shoplive landingUrl : \(urlString)")
+            guard let params = URLUtil.query(queryItems) else {
+                return URL(string: urlString)
+            }
+
+            guard let url = URL(string: urlString + "?" + params) else {
+
+                return URL(string: urlString)
+            }
+
+            ShopLiveLogger.debugLog("play url: \(url)")
+            return url
         }
-
-        guard let url = URL(string: urlString + "?" + params) else {
-
-            return URL(string: urlString)
-        }
-
-        ShopLiveLogger.debugLog("play url: \(url)")
-        return url
     }
 
     func addObserver() {
@@ -672,7 +699,13 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
 
         let shareAll:[Any] = [shareUrl]
         let activityViewController = UIActivityViewController(activityItems: shareAll , applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view
+        popoverController = activityViewController.popoverPresentationController
+        popoverController?.sourceView = self.view
+        if UIDevice.isIpad {
+            popoverController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController?.permittedArrowDirections = []
+        }
+        
         self.present(activityViewController, animated: true, completion: nil)
     }
 

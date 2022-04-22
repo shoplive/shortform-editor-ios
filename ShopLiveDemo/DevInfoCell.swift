@@ -27,6 +27,14 @@ final class DevInfoCell: SampleBaseCell {
         return view
     }()
 
+    lazy var localLandingButton: ShopLiveCheckBoxButton = {
+        let view = ShopLiveCheckBoxButton(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.configure(identifier: "localLanding", description: "로컬 랜딩 사용하기")
+        view.delegate = self
+        return view
+    }()
+
     lazy var phaseView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -91,6 +99,7 @@ final class DevInfoCell: SampleBaseCell {
         ShopLiveDevConfiguration.shared.addConfigurationObserver(observer: self)
         updateWebDebugSetting()
         updateAppDebugSetting()
+        updateLocalLandingSetting()
         updatePhase(identifier: ShopLiveDevConfiguration.shared.phase)
     }
 
@@ -115,7 +124,7 @@ final class DevInfoCell: SampleBaseCell {
         itemView.addSubview(loggerViewButton)
         itemView.addSubview(checkButton)
         itemView.addSubview(phaseView)
-
+        
         loggerViewButton.snp.makeConstraints {
             $0.top.equalToSuperview().offset(10)
             $0.leading.equalToSuperview().offset(10)
@@ -129,12 +138,29 @@ final class DevInfoCell: SampleBaseCell {
         }
 
         phaseView.backgroundColor = .clear
+#if LOCAL_LANDING
+        itemView.addSubviews(localLandingButton)
+        localLandingButton.snp.makeConstraints {
+            $0.top.equalTo(checkButton.snp.bottom).offset(10)
+            $0.leading.equalToSuperview().offset(10)
+            $0.trailing.equalToSuperview().offset(-10)
+        }
+        phaseView.snp.makeConstraints {
+            $0.top.equalTo(localLandingButton.snp.bottom).offset(10)
+            $0.leading.equalToSuperview().offset(10)
+            $0.trailing.equalToSuperview().offset(-10)
+            $0.bottom.equalToSuperview().offset(-10)
+        }
+#else
         phaseView.snp.makeConstraints {
             $0.top.equalTo(checkButton.snp.bottom).offset(10)
             $0.leading.equalToSuperview().offset(10)
             $0.trailing.equalToSuperview().offset(-10)
             $0.bottom.equalToSuperview().offset(-10)
         }
+#endif
+
+        
 
         self.setSectionTitle(title: "개발정보")
     }
@@ -147,6 +173,8 @@ extension DevInfoCell: ShopLiveCheckBoxButtonDelegate {
             ShopLiveDevConfiguration.shared.useWebLog = sender.isChecked
         } else if sender.identifier == "appDebug" {
             ShopLiveViewLogger.shared.setVisible(show: sender.isChecked)
+        } else if sender.identifier == "localLanding" {
+            ShopLive.setUsingLocalLanding(sender.isChecked)
         }
     }
 
@@ -162,6 +190,10 @@ extension DevInfoCell: ShopLiveCheckBoxButtonDelegate {
         }
 
         loggerViewButton.isSelected = ShopLiveDevConfiguration.shared.useAppLog
+    }
+    
+    func updateLocalLandingSetting() {
+        localLandingButton.isSelected = ShopLiveConfiguration.AppPreference.useLocalLanding
     }
 }
 
@@ -191,5 +223,6 @@ extension DevInfoCell: DevConfigurationObserver {
     func updatedValues(keys: [String]) {
         updateWebDebugSetting()
         updateAppDebugSetting()
+        updateLocalLandingSetting()
     }
 }
