@@ -995,7 +995,7 @@ extension ShopLiveBase: ShopLiveComponent {
         }
     }
     
-    @objc func play(with campaignKey: String?, _ parent: UIViewController?) {
+    @objc func play(with campaignKey: String?) {
         guard self.accessKey != nil else { return }
         addObserver()
         self.campaignKey = campaignKey

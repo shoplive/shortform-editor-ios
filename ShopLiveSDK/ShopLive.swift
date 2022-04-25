@@ -25,7 +25,7 @@ import WebKit
 
     @objc func configure(with accessKey: String)
     @objc func preview(with campaignKey: String?, completion: @escaping () -> Void)
-    @objc func play(with campaignKey: String?, _ parent: UIViewController?)
+    @objc func play(with campaignKey: String?)
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
     @objc func startPictureInPicture()
     @objc func stopPictureInPicture()
@@ -325,9 +325,9 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.preview(with: campaignKey, completion: completion)
     }
 
-    public static func play(with campaignKey: String?, _ parent: UIViewController? = nil) {
+    public static func play(with campaignKey: String?) {
         ShopLiveController.shared.isPreview = false
-        shared.instance?.play(with: campaignKey, parent)
+        shared.instance?.play(with: campaignKey)
     }
 
     public static func startPictureInPicture(with position: PipPosition, scale: CGFloat) {
