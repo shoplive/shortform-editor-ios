@@ -51,34 +51,7 @@
 
       var qs = getQueryStringObject();
 
-      function wrongAccess(message, showAlert) {
-        var lang = navigator.language || navigator.userLanguage;
-        if (showAlert) {
-          if (lang === "ko") {
-            alert("잘못된 접근입니다.");
-          } else {
-            alert("Wrong access.");
-          }
-        }
-
-        if (isIosApp()) {
-          window.webkit.messageHandlers[_appInterface].postMessage({
-            action: "CLOSE",
-            payload: message,
-          });
-        } else if (isAndroidApp()) {
-          window[_appInterface].CLOSE(message);
-        } else {
-          history.back();
-        }
-      }
-
-      if (!qs.ak) {
-        wrongAccess("accessKey not found", qs.showErrorAlert);
-      } else if (!qs.ck) {
-        wrongAccess("campaignKey not found", qs.showErrorAlert);
-      }
-
+      
       // init
       var playerId = "root-mobile";
 
