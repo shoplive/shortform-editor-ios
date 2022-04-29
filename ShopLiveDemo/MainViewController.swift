@@ -170,8 +170,6 @@ class MainViewController: SideMenuBaseViewController {
         #if DEMO
         ShopLiveDefines.phase = ShopLiveDevConfiguration.shared.phaseType
         #endif
-        
-        ShopLive.setKeepAspectOnTabletPortrait(false)
     }
 
     override func preview() {
@@ -253,7 +251,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     }
 
     func handleError(code: String, message: String) {
-        print("handleError")
+        print("handleError \(code)  \(message)")
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleError \(code)  \(message)"))
     }
 

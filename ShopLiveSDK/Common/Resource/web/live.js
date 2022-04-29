@@ -781,9 +781,19 @@
           });
         }
       },
+
       ERROR: function (payload) {
-        debugLog(payload.code);
-        debugLog(payload.msg);
+        if (isIosApp()) {
+          window.webkit.messageHandlers[_appInterface].postMessage({
+            action: "ERROR",
+            payload: payload,
+          });
+        } else if (isAndroidApp()) {
+          window[_appInterface].ERROR(payload.code, payload.msg);
+        } else {
+          debugLog(payload.code);
+          debugLog(payload.msg);
+        }
       },
       DOWNLOAD_COUPON: function (payload) {
         var coupon = payload.coupon;

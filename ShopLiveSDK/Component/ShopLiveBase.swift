@@ -307,6 +307,8 @@ import WebKit
         guard !ShopLiveController.shared.pipAnimating else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
 
+        shopLiveWindow.backgroundColor = .clear
+        shopLiveWindow.layer.cornerRadius = 10
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
 
         liveStreamViewController?.shopliveHideKeyboard()
@@ -350,8 +352,9 @@ import WebKit
         guard !ShopLiveController.shared.pipAnimating else { return }
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
-
-        shopLiveWindow.rootViewController?.view.backgroundColor = .clear
+        shopLiveWindow.backgroundColor = .black
+        shopLiveWindow.layer.cornerRadius = 10
+        shopLiveWindow.rootViewController?.view.backgroundColor = .black
 
         mainWindow.rootViewController?.shopliveHideKeyboard()
 
@@ -392,6 +395,7 @@ import WebKit
         let pipSize: CGRect = self.pipPosition(with: lastPipScale, position: lastPipPosition)
         self.shopLiveWindow?.frame = pipSize
         self.shopLiveWindow?.clipsToBounds = false
+        self.shopLiveWindow?.backgroundColor = .clear
         self.shopLiveWindow?.rootViewController?.view.layer.cornerRadius = 10
         self.shopLiveWindow?.rootViewController?.view.backgroundColor = .black
 
@@ -691,7 +695,13 @@ import WebKit
                 queryItems.append(URLQueryItem(name: "ck", value: ck))
             }
             queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
+            #if EBAY
+            queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "false"))
+            #else
             queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
+            #endif
+            queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
+            
             #if DEMO
                 queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
             #endif
@@ -891,7 +901,11 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     func setKeepAspectOnTabletPortrait(_ keep: Bool) {
+        #if EBAY
+        ShopLiveConfiguration.UI.keepAspectOnTabletPortrait = true
+        #else
         ShopLiveConfiguration.UI.keepAspectOnTabletPortrait = keep
+        #endif
     }
 
     var viewController: ShopLiveViewController? {
@@ -995,7 +1009,7 @@ extension ShopLiveBase: ShopLiveComponent {
         }
     }
     
-    @objc func play(with campaignKey: String?, _ parent: UIViewController?) {
+    @objc func play(with campaignKey: String?) {
         guard self.accessKey != nil else { return }
         addObserver()
         self.campaignKey = campaignKey
