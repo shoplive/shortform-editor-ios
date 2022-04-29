@@ -145,9 +145,9 @@
 		BF4719AB2768836000522F6F /* SampleOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719AA2768836000522F6F /* SampleOptions.swift */; };
 		BF4719AF2768AF4700522F6F /* CampaignCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719AE2768AF4700522F6F /* CampaignCell.swift */; };
 		BF4719B12768C63B00522F6F /* ShopLiveRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719B02768C63B00522F6F /* ShopLiveRadioButton.swift */; };
-		BF4FED72281BDB9F00DC8B43 /* web in Resources */ = {isa = PBXBuildFile; fileRef = BF4FED71281BDB9F00DC8B43 /* web */; };
-		BF4FED73281BDB9F00DC8B43 /* web in Resources */ = {isa = PBXBuildFile; fileRef = BF4FED71281BDB9F00DC8B43 /* web */; };
-		BF4FED74281BDB9F00DC8B43 /* web in Resources */ = {isa = PBXBuildFile; fileRef = BF4FED71281BDB9F00DC8B43 /* web */; };
+		BF4FED88281C350F00DC8B43 /* web in Resources */ = {isa = PBXBuildFile; fileRef = BF4FED87281C350F00DC8B43 /* web */; };
+		BF4FED89281C350F00DC8B43 /* web in Resources */ = {isa = PBXBuildFile; fileRef = BF4FED87281C350F00DC8B43 /* web */; };
+		BF4FED8A281C350F00DC8B43 /* web in Resources */ = {isa = PBXBuildFile; fileRef = BF4FED87281C350F00DC8B43 /* web */; };
 		BF60E1C9276DB1380060531C /* Sample.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF60E1C8276DB1380060531C /* Sample.xcassets */; };
 		BF60E1CB276E4BC60060531C /* JWTTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF60E1CA276E4BC60060531C /* JWTTool.swift */; };
 		BF60E1CE276F53730060531C /* SwiftyJWT in Frameworks */ = {isa = PBXBuildFile; productRef = BF60E1CD276F53730060531C /* SwiftyJWT */; };
@@ -337,7 +337,7 @@
 		BF4719AA2768836000522F6F /* SampleOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleOptions.swift; sourceTree = "<group>"; };
 		BF4719AE2768AF4700522F6F /* CampaignCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignCell.swift; sourceTree = "<group>"; };
 		BF4719B02768C63B00522F6F /* ShopLiveRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveRadioButton.swift; sourceTree = "<group>"; };
-		BF4FED71281BDB9F00DC8B43 /* web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = web; sourceTree = "<group>"; };
+		BF4FED87281C350F00DC8B43 /* web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = web; sourceTree = "<group>"; };
 		BF60E1C8276DB1380060531C /* Sample.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Sample.xcassets; sourceTree = "<group>"; };
 		BF60E1CA276E4BC60060531C /* JWTTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTTool.swift; sourceTree = "<group>"; };
 		BF60E1CF276F69C00060531C /* DemoSecretKeyTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSecretKeyTool.swift; sourceTree = "<group>"; };
@@ -574,7 +574,7 @@
 		BF37D99F27F5742D004C2785 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				BF4FED71281BDB9F00DC8B43 /* web */,
+				BF4FED87281C350F00DC8B43 /* web */,
 				BF37D9A027F5742D004C2785 /* Localizable.strings */,
 			);
 			path = Resource;
@@ -1016,7 +1016,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF34F2F928125F8600114DBF /* Localizable.strings in Resources */,
-				BF4FED72281BDB9F00DC8B43 /* web in Resources */,
+				BF4FED88281C350F00DC8B43 /* web in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1024,7 +1024,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF4FED74281BDB9F00DC8B43 /* web in Resources */,
+				BF4FED8A281C350F00DC8B43 /* web in Resources */,
 				BF60E2472771CECA0060531C /* Sample.storyboard in Resources */,
 				BF60E2482771CECA0060531C /* LaunchScreen.storyboard in Resources */,
 				BF60E24A2771CECA0060531C /* shoplive.strings in Resources */,
@@ -1040,7 +1040,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF4FED73281BDB9F00DC8B43 /* web in Resources */,
+				BF4FED89281C350F00DC8B43 /* web in Resources */,
 				BF47199627682DB300522F6F /* Sample.storyboard in Resources */,
 				BFAD8EB9265A23FE00202160 /* LaunchScreen.storyboard in Resources */,
 				BF47197D27662F9300522F6F /* shoplive.strings in Resources */,
@@ -1668,7 +1668,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
@@ -1700,7 +1700,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
