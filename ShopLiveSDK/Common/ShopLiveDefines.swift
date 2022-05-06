@@ -11,9 +11,9 @@ import CoreMedia
 
 @objc internal final class ShopLiveDefines: NSObject {
 #if LOCAL_LANDING
-    static let sdkVersion: String = "1.2.6"
+    static let sdkVersion: String = "1.2.7"
 #else
-    static let sdkVersion: String = "1.2.4"
+    static let sdkVersion: String = "1.2.5"
 #endif
     
     static var phase: ShopLive.Phase = .REAL {

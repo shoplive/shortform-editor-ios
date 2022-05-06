@@ -816,11 +816,10 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             if let isReplay = payload?["isReplay"] as? Bool {
                 ShopLiveController.isReplayMode = isReplay
             }
-            
-            ShopLiveChattingWriteView.chatInputPlaceholderString = placeHolder ?? NSLocalizedString("chat.placeholder", comment: "메시지를 입력하세요")
-            ShopLiveChattingWriteView.chatInputSendString = sendText ?? NSLocalizedString("chat.send.title", comment: "보내기")
-            ShopLiveChattingWriteView.chatInputMaxLength = chatInputMaxLength ?? 50
-
+            ShopLiveConfiguration.UI.chatInputPlaceholderString = placeHolder ?? "chat.placeholder".localizedString()
+            ShopLiveConfiguration.UI.chatInputSendString = sendText ?? "chat.send.title".localizedString()
+            ShopLiveConfiguration.UI.chatInputMaxLength = chatInputMaxLength ?? 50
+            updateChattingWriteView()
             delegate?.campaignInfo(campaignInfo: campaignInfo ?? [:])
             break
         case .showChatInput:

@@ -73,7 +73,7 @@ final class ShopLiveChatView: UIScrollView, UITextViewDelegate {
         }
         
         var chatInputPlaceholderText: NSAttributedString {
-            NSAttributedString(string: ShopLiveChattingWriteView.chatInputPlaceholderString, attributes: chatPlaceholderAttributes)
+            NSAttributedString(string: ShopLiveConfiguration.UI.chatInputPlaceholderString, attributes: chatPlaceholderAttributes)
         }
         
         var chatViewHeight: CGFloat {
@@ -241,7 +241,7 @@ final class ShopLiveChatView: UIScrollView, UITextViewDelegate {
         let carrigeReturn = "\n"
         let newLength = originText.count + (text == carrigeReturn ? 0 : text.count) - range.length
 
-        guard newLength <= ShopLiveChattingWriteView.chatInputMaxLength else {
+        guard newLength <= ShopLiveConfiguration.UI.chatInputMaxLength else {
             return false
         }
 

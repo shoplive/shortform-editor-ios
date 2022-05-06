@@ -122,7 +122,11 @@ extension AVPlayer.TimeControlStatus {
     }
 }
 extension String {
-
+    
+    func localizedString(from: String = "Localizable", bundle: Bundle = Bundle(identifier: "cloud.shoplive.sdk") ?? Bundle.main, comment: String = "") -> String {
+        bundle.localizedString(forKey: self, value: nil, table: from)
+    }
+    
     var urlEncodedString: String? {
         let customAllowedSet =  NSCharacterSet(charactersIn:"=\"#%/<>?@\\^`{|}+").inverted
         return self.addingPercentEncoding(withAllowedCharacters: customAllowedSet)
