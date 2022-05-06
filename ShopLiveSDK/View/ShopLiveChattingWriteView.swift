@@ -18,10 +18,6 @@ final class ShopLiveChattingWriteView: UIView {
     static let minimumHeightChatView: CGFloat = 44
     static let maximumHeightChatView: CGFloat = 62
     
-    static var chatInputPlaceholderString: String = NSLocalizedString("chat.placeholder", comment: "Please enter a message")
-    static var chatInputSendString: String = NSLocalizedString("chat.send.title", comment: "Send")
-    static var chatInputMaxLength: Int = 50
-    
     class ViewModel {
         var indicatorColor: UIColor {
             UIColor(red: 0.886, green: 0.886, blue: 0.886, alpha: 1)
@@ -32,7 +28,7 @@ final class ShopLiveChattingWriteView: UIView {
             let font = ShopLiveConfiguration.UI.sendButtonFont ?? UIFont.systemFont(ofSize: 14, weight: .medium).findAvailableFont()
             
             paragraphStyle.lineHeightMultiple = font.lineHeightMultiple()
-            return NSAttributedString(string: ShopLiveChattingWriteView.chatInputSendString, attributes: [NSAttributedString.Key.kern: -0.28, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0, green: 0.471, blue: 1, alpha: 1), .font: font])
+            return NSAttributedString(string: ShopLiveConfiguration.UI.chatInputSendString, attributes: [NSAttributedString.Key.kern: -0.28, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0, green: 0.471, blue: 1, alpha: 1), .font: font])
         }
         
         var sendButtonDisableTitle: NSAttributedString {
@@ -40,7 +36,7 @@ final class ShopLiveChattingWriteView: UIView {
             let font = ShopLiveConfiguration.UI.sendButtonFont ?? UIFont.systemFont(ofSize: 14, weight: .medium).findAvailableFont()
             
             paragraphStyle.lineHeightMultiple = font.lineHeightMultiple()
-            return NSAttributedString(string: ShopLiveChattingWriteView.chatInputSendString, attributes: [NSAttributedString.Key.kern: -0.28, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0.886, green: 0.886, blue: 0.886, alpha: 1), .font: font])
+            return NSAttributedString(string: ShopLiveConfiguration.UI.chatInputSendString, attributes: [NSAttributedString.Key.kern: -0.28, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0.886, green: 0.886, blue: 0.886, alpha: 1), .font: font])
         }
     }
     
