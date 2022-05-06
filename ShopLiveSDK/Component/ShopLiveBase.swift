@@ -700,7 +700,6 @@ import WebKit
             #else
             queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
             #endif
-            queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
             
             #if DEMO
                 queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
