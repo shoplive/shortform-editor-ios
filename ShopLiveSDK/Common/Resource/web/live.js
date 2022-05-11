@@ -401,6 +401,10 @@
       src += "&adId=" + encodeURIComponent(options.adId);
     }
 
+    if (options.identity) {
+      src += "&identity=" + encodeURIComponent(options.identity);
+    }
+
     iframe.src = src;
 
     // containerFit 옵션이라면, iframe 도 그냥 100%로 해준다.
