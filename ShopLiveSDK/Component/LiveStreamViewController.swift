@@ -384,6 +384,17 @@ internal final class LiveStreamViewController: UIViewController {
             centerXConstraint, widthConstraint
         ])
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[imageView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["imageView": imageView]))
+        #if EBAY
+            imageView.clipsToBounds = true
+            imageView.layer.masksToBounds = true
+        #else
+            if ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
+                imageView.clipsToBounds = true
+                imageView.layer.masksToBounds = true
+            }
+        #endif
+        
+        
         self.imageView = imageView
     }
 
