@@ -244,6 +244,10 @@
 		BF60E24C2771CECA0060531C /* Sample.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF60E1C8276DB1380060531C /* Sample.xcassets */; };
 		BF60E24D2771CECA0060531C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB5265A23FE00202160 /* Assets.xcassets */; };
 		BF60E24E2771CECA0060531C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB2265A23FD00202160 /* Main.storyboard */; };
+		BF616D762825098700C82F3E /* web in Resources */ = {isa = PBXBuildFile; fileRef = BF616D752825098700C82F3E /* web */; };
+		BF616D772825098700C82F3E /* web in Resources */ = {isa = PBXBuildFile; fileRef = BF616D752825098700C82F3E /* web */; };
+		BF616D782825098700C82F3E /* web in Resources */ = {isa = PBXBuildFile; fileRef = BF616D752825098700C82F3E /* web */; };
+		BF616D792825098700C82F3E /* web in Resources */ = {isa = PBXBuildFile; fileRef = BF616D752825098700C82F3E /* web */; };
 		BF69333027BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */; };
 		BF69333127BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */; };
 		BF8CEF91276C6DED0043D5FF /* SDKOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8CEF90276C6DED0043D5FF /* SDKOption.swift */; };
@@ -381,6 +385,7 @@
 		BF60E1DD277175D90060531C /* DeepLInkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLInkManager.swift; sourceTree = "<group>"; };
 		BF60E2522771CECA0060531C /* DEMO QA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DEMO QA.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF60E2542771D86B0060531C /* ShopLiveDemo-QA-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ShopLiveDemo-QA-Info.plist"; sourceTree = "<group>"; };
+		BF616D752825098700C82F3E /* web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = web; sourceTree = "<group>"; };
 		BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShareViewController.swift; sourceTree = "<group>"; };
 		BF8CEF90276C6DED0043D5FF /* SDKOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDKOption.swift; sourceTree = "<group>"; };
 		BF8CEF92276C70DB0043D5FF /* TextItemInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextItemInputAlertController.swift; sourceTree = "<group>"; };
@@ -1770,7 +1775,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG LOCAL_LANDING";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG LOCAL_LANDING EBAY";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1802,7 +1807,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = LOCAL_LANDING;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "LOCAL_LANDING EBAY";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

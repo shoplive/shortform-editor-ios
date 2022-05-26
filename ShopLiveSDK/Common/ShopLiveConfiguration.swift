@@ -83,7 +83,6 @@ internal final class ShopLiveConfiguration: NSObject {
         static var chatInputPlaceholderString: String = "chat.placeholder".localizedString()
         static var chatInputSendString: String = "chat.send.title".localizedString()
         static var chatInputMaxLength: Int = 50
-        
         static var keepWindowStateOnPlayExecuted: Bool = false
     }
 

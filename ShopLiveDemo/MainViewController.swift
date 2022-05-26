@@ -180,7 +180,7 @@ class MainViewController: SideMenuBaseViewController {
         #if DEMO
         ShopLiveDefines.phase = ShopLiveDevConfiguration.shared.phaseType
         #endif
-        
+
         #if LOCAL_LANDING
         ShopLive.setUsingLocalLanding(ShopLiveDevConfiguration.shared.useLocalLanding)
         #endif
