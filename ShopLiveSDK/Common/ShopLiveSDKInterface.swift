@@ -192,7 +192,7 @@ public typealias ShopLiveViewController = UIViewController
     
     @objc static func configure(with accessKey: String)
     @objc static func preview(with campaignKey: String?, completion: @escaping () -> Void)
-    @objc static func play(with campaignKey: String?)
+    @objc static func play(with campaignKey: String?, keepWindowStateOnPlayExecuted: Bool)
     @objc static func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
     @objc static func startPictureInPicture()
     @objc static func stopPictureInPicture()

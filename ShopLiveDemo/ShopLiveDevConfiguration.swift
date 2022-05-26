@@ -42,6 +42,17 @@ final class ShopLiveDevConfiguration {
             UserDefaults.standard.bool(forKey: "useAppLog")
         }
     }
+    
+    var useLocalLanding: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "useLocalLanding")
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: "useLocalLanding")
+        }
+        get {
+            UserDefaults.standard.bool(forKey: "useLocalLanding")
+        }
+    }
 
     var useWebLog: Bool {
         set {
@@ -70,11 +81,6 @@ final class ShopLiveDevConfiguration {
             ShopLive.Phase.DEV.name: ShopLive.Phase.DEV,
             ShopLive.Phase.STAGE.name: ShopLive.Phase.STAGE,
             ShopLive.Phase.REAL.name: ShopLive.Phase.REAL]
-
-
         return phases[phase] ?? .DEV
-
-
     }
-
 }

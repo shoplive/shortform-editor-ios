@@ -25,12 +25,17 @@ class MainViewController: SideMenuBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print(ShopLive.sdkVersion)
         AppDelegate.rootViewController = self.navigationController
 
         self.view.backgroundColor = .white
 
         #if QA
+            #if EBAY
             self.title = "Demo QA"
+            #else
+            self.title = "Demo QA"
+            #endif
         #else
             self.title = "SDK Demo"
         #endif
@@ -56,6 +61,9 @@ class MainViewController: SideMenuBaseViewController {
             #if DEMO
                 #if QA
                     sourceScheme = "shopliveqa"
+                    #if EBAY
+                    sourceScheme = "shoplivesample"
+                    #endif
                 #else
                     sourceScheme = "shoplive"
                 #endif
@@ -103,6 +111,8 @@ class MainViewController: SideMenuBaseViewController {
             // user setting
             if let userId = config.user.id, !userId.isEmpty {
                 ShopLive.user = config.user
+            } else {
+                ShopLive.user = nil
             }
         }
 
@@ -170,6 +180,12 @@ class MainViewController: SideMenuBaseViewController {
         #if DEMO
         ShopLiveDefines.phase = ShopLiveDevConfiguration.shared.phaseType
         #endif
+        
+        #if LOCAL_LANDING
+        ShopLive.setUsingLocalLanding(ShopLiveDevConfiguration.shared.useLocalLanding)
+        #endif
+        
+        ShopLive.setKeepAspectOnTabletPortrait(config.useAspectOnTablet)
     }
 
     override func preview() {
@@ -183,7 +199,7 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.configure(with: currentKey.accessKey)
         ShopLive.preview(with: currentKey.campaignKey) {
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
-                ShopLive.play(with: currentKey.campaignKey)
+                ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted)
             } else {
                 var toastStyle = ToastStyle()
                 toastStyle.titleAlignment = .center
@@ -202,7 +218,7 @@ class MainViewController: SideMenuBaseViewController {
         setupShopliveSettings()
         ShopLive.configure(with: currentKey.accessKey)
 
-        ShopLive.play(with: currentKey.campaignKey)
+        ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted)
     }
 
 }

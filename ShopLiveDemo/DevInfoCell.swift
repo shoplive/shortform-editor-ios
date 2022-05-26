@@ -174,8 +174,12 @@ extension DevInfoCell: ShopLiveCheckBoxButtonDelegate {
         } else if sender.identifier == "appDebug" {
             ShopLiveViewLogger.shared.setVisible(show: sender.isChecked)
         } else if sender.identifier == "localLanding" {
+        #if LOCAL_LANDING
             ShopLive.setUsingLocalLanding(sender.isChecked)
+            ShopLiveDevConfiguration.shared.useLocalLanding = sender.isChecked
+        #endif
         }
+        
     }
 
     func updateWebDebugSetting() {
@@ -193,7 +197,9 @@ extension DevInfoCell: ShopLiveCheckBoxButtonDelegate {
     }
     
     func updateLocalLandingSetting() {
-        localLandingButton.isSelected = ShopLiveConfiguration.AppPreference.useLocalLanding
+        #if LOCAL_LANDING
+        localLandingButton.isSelected = ShopLiveDevConfiguration.shared.useLocalLanding
+        #endif
     }
 }
 

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BF5111E52824464A00E36175"
-               BuildableName = "ShopLiveSDK.framework"
+               BuildableName = "ShopLiveSDKebay.framework"
                BlueprintName = "ShopLiveSDKebay"
                ReferencedContainer = "container:ShopLiveSDK.xcodeproj">
             </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BF5111E52824464A00E36175"
-            BuildableName = "ShopLiveSDK.framework"
+            BuildableName = "ShopLiveSDKebay.framework"
             BlueprintName = "ShopLiveSDKebay"
             ReferencedContainer = "container:ShopLiveSDK.xcodeproj">
          </BuildableReference>

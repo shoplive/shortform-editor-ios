@@ -321,12 +321,11 @@ extension ShopLive: ShopLiveSDKInterface {
     }
 
     public static func preview(with campaignKey: String?, completion: @escaping () -> Void) {
-        ShopLiveController.shared.isPreview = true
         shared.instance?.preview(with: campaignKey, completion: completion)
     }
 
-    public static func play(with campaignKey: String?) {
-        ShopLiveController.shared.isPreview = false
+    public static func play(with campaignKey: String?, keepWindowStateOnPlayExecuted: Bool = false) {
+        ShopLiveConfiguration.UI.keepWindowStateOnPlayExecuted = keepWindowStateOnPlayExecuted
         shared.instance?.play(with: campaignKey)
     }
 

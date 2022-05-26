@@ -49,6 +49,12 @@ final class OptionsViewController: SideMenuItemViewController {
 
     private func setupOptions() {
 
+        let aspectOnTabletOption = SDKOptionItem(name: "sdkoption.setupPlayer.aspectOnTablet.title".localized(), optionDescription: "sdkoption.setupPlayer.aspectOnTablet.description".localized(), optionType: .aspectOnTablet)
+        let keepWindowStateOnPlayExecutedOption = SDKOptionItem(name: "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.title".localized(), optionDescription: "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.description".localized(), optionType: .keepWindowStateOnPlayExecuted)
+        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption])
+        
+        items.append(setupPlayerOptions)
+        
         let muteOption = SDKOptionItem(name: "sdkoption.sound.mute.title".localized(), optionDescription: "sdkoption.sound.mute.description".localized(), optionType: .mute)
         let muteOptions = SDKOption(optionTitle: "sdkoption.section.sound.title".localized(), optionItems: [muteOption])
         

@@ -62,6 +62,7 @@
 "campaign.msg.wrongurl" = "잘못된 url 입니다.";
 "campaign.input.accesskey.placeholder" = "accessKey";
 "campaign.input.campaignkey.placeholder" = "campaignKey";
+"sdkoption.section.setupPlayer.title" = "Setup Shoplive Player";
 "sdkoption.section.sound.title" = "Sound";
 "sdkoption.section.preview.title" = "Preview";
 "sdkoption.section.pip.title" = "PIP (Picture in Picture)";
@@ -69,6 +70,10 @@
 "sdkoption.section.share.title" = "공유하기";
 "sdkoption.section.progress.title" = "로딩 프로그레스";
 "sdkoption.section.chatFont.title" = "채팅 폰트";
+"sdkoption.setupPlayer.aspectOnTablet.title" = "태블릿 PC에서 영상 화면 비율 설정";
+"sdkoption.setupPlayer.aspectOnTablet.description" = "영상을 화면을 꽉 채우기(off) / 영상 사이즈에 맞추기(on)";
+"sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.title" = "플레이어가 실행 중일때 Play 호출시 화면 상태 유지 여부 설정";
+"sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.description" = "항상 전체화면으로 실행(false) / 항상 현재 화면 상태를 유지(true) 기본값 false 다른 방송으로 변경시에는 전체화면으로 실행됩니다.";
 "sdkoption.sound.mute.title" = "Muted play starts";
 "sdkoption.sound.mute.description" = "Muted when play starts video";
 "sdkoption.preview.title" = "Preview Tap to Play";

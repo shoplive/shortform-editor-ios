@@ -13,7 +13,7 @@ import CoreMedia
 #if LOCAL_LANDING
     static let sdkVersion: String = "1.2.8"
 #else
-    static let sdkVersion: String = "1.2.5"
+    static let sdkVersion: String = "1.2.6"
 #endif
     
     static var phase: ShopLive.Phase = .REAL {

@@ -144,6 +144,12 @@ class SwitchOptionCell: UITableViewCell {
         case .mute:
             useOption = DemoConfiguration.shared.isMuted
             break
+        case .aspectOnTablet:
+            useOption = DemoConfiguration.shared.useAspectOnTablet
+            break
+        case .keepWindowStateOnPlayExecuted:
+            useOption = DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted
+            break
         default:
             break
         }
@@ -178,6 +184,12 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .mute:
             DemoConfiguration.shared.isMuted = useOption
+            break
+        case .aspectOnTablet:
+            DemoConfiguration.shared.useAspectOnTablet = useOption
+            break
+        case .keepWindowStateOnPlayExecuted:
+            DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted = useOption
             break
         default:
             break

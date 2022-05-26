@@ -53,9 +53,14 @@ internal final class ShopLiveConfiguration: NSObject {
     }
 
     class Data {
+        #if EBAY
+        static var useLocalStorage: Bool = false
+        #else
         static var useLocalStorage: Bool = true
+        #endif
+        
     }
-
+    
     class UI {
         static var pipPadding: UIEdgeInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
         static var pipFloatingOffset: UIEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
@@ -78,6 +83,8 @@ internal final class ShopLiveConfiguration: NSObject {
         static var chatInputPlaceholderString: String = "chat.placeholder".localizedString()
         static var chatInputSendString: String = "chat.send.title".localizedString()
         static var chatInputMaxLength: Int = 50
+        
+        static var keepWindowStateOnPlayExecuted: Bool = false
     }
 
     fileprivate override init() {}

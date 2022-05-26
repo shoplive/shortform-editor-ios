@@ -379,7 +379,11 @@ internal final class LiveStreamViewController: UIViewController {
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         let centerXConstraint = NSLayoutConstraint.init(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
+        #if EBAY
         let widthConstraint = NSLayoutConstraint.init(item: imageView, attribute: .width, relatedBy: .equal, toItem: self.view, attribute: .height, multiplier: 0.5625, constant: 0)
+        #else
+        let widthConstraint = NSLayoutConstraint.init(item: imageView, attribute: .width, relatedBy: .equal, toItem: self.view, attribute: ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .height : .width, multiplier: ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? 0.5625 : 1.0, constant: 0)
+        #endif
         view.addConstraints([
             centerXConstraint, widthConstraint
         ])

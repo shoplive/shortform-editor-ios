@@ -20,6 +20,9 @@ import WebKit
     private var isRestoredPip: Bool = false
     private var accessKey: String? = nil
     private var campaignKey: String?
+    private var campaignChanged: Bool = false
+    private var needExecuteFullScreen: Bool = false
+    private var playerModeChanged: Bool = false
     internal var phase: ShopLive.Phase = .REAL {
         didSet {
             ShopLiveDefines.phase = phase
@@ -61,20 +64,24 @@ import WebKit
 
     func showShopLiveView(with overlayUrl: URL, _ completion: (() -> Void)? = nil) {
         UIApplication.shared.isIdleTimerDisabled = true
-
-        if _style == .fullScreen {
+        if _style != .unknown {
             liveStreamViewController?.viewModel.overayUrl = overlayUrl
             liveStreamViewController?.reload()
             liveStreamViewController?.updateChattingWriteView()
-        } else if _style == .pip {
-            liveStreamViewController?.viewModel.overayUrl = overlayUrl
-            liveStreamViewController?.reload()
-            liveStreamViewController?.updateChattingWriteView()
-
-            if !ShopLiveController.shared.isPreview {
+            
+            if self.needExecuteFullScreen {
+                self.needExecuteFullScreen = false
                 stopShopLivePictureInPicture()
-                return
+            } else {
+                if !ShopLiveConfiguration.UI.keepWindowStateOnPlayExecuted || self.campaignChanged {
+                    if !ShopLiveController.shared.isPreview, _style == .pip {
+                        stopShopLivePictureInPicture()
+                        return
+                    }
+                }
             }
+            
+            return
         }
 
         guard liveStreamViewController == nil else {
@@ -995,6 +1002,7 @@ extension ShopLiveBase: ShopLiveComponent {
 
     func preview(with campaignKey: String?, completion: @escaping () -> Void) {
         guard self.accessKey != nil else { return }
+        ShopLiveController.shared.isPreview = true
         addObserver()
         ShopLiveController.loading = true
         previewCallback = completion
@@ -1010,7 +1018,10 @@ extension ShopLiveBase: ShopLiveComponent {
     
     @objc func play(with campaignKey: String?) {
         guard self.accessKey != nil else { return }
+        self.needExecuteFullScreen = ShopLiveController.shared.isPreview
+        ShopLiveController.shared.isPreview = false
         addObserver()
+        self.campaignChanged = (campaignKey != self.campaignKey)
         self.campaignKey = campaignKey
         ShopLiveController.loading = true
         fetchOverlayUrl(with: campaignKey) { [weak self] url in
