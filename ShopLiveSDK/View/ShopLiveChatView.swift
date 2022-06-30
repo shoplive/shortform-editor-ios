@@ -101,9 +101,10 @@ final class ShopLiveChatView: UIScrollView, UITextViewDelegate {
         view.backgroundColor = .white
         view.enablesReturnKeyAutomatically = true
         view.returnKeyType = .send
+        view.isScrollEnabled = false
         view.typingAttributes = viewModel.chatInputAttributes
         view.placeholderAttributedText = viewModel.chatInputPlaceholderText
-        view.textContainer.maximumNumberOfLines = viewModel.chatInputMaxLines
+        view.textContainer.maximumNumberOfLines = 0
         return view
     }()
     
@@ -194,11 +195,11 @@ final class ShopLiveChatView: UIScrollView, UITextViewDelegate {
         if viewModel.lastNumberOfLines != numberOfLines {
             viewModel.lastNumberOfLines = numberOfLines
             self.isScrollEnabled = !(numberOfLines < viewModel.chatInputMaxLines)
-            contentViewHeight.constant = viewModel.chatViewHeight
+//            contentViewHeight.constant = viewModel.chatViewHeight
 
             self.contentSize = CGSize(width: self.frame.width, height: viewModel.textContentHeight + topChatTextView.constant.magnitude + bottomChatTextView.constant.magnitude)
-            
-            if numberOfLines == viewModel.chatInputMaxLines {
+            contentViewHeight.constant = self.contentSize.height
+            if numberOfLines >= viewModel.chatInputMaxLines {
                 self.contentOffset = .init(x: self.contentOffset.x, y: self.contentSize.height - self.frame.height)
             } else {
                 self.contentOffset = .init(x: self.contentOffset.x, y: 2)
@@ -223,7 +224,7 @@ final class ShopLiveChatView: UIScrollView, UITextViewDelegate {
 
         self.contentSize = CGSize(width: self.frame.width, height: viewModel.textContentHeight + topChatTextView.constant.magnitude + bottomChatTextView.constant.magnitude)
         
-        if numberOfLines == viewModel.chatInputMaxLines {
+        if numberOfLines >= viewModel.chatInputMaxLines {
             self.contentOffset = .init(x: self.contentOffset.x, y: self.contentSize.height - self.frame.height)
         } else {
             self.contentOffset = .init(x: self.contentOffset.x, y: 2)

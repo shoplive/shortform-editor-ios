@@ -833,7 +833,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             }
             ShopLiveConfiguration.UI.chatInputPlaceholderString = placeHolder ?? "chat.placeholder".localizedString()
             ShopLiveConfiguration.UI.chatInputSendString = sendText ?? "chat.send.title".localizedString()
-            ShopLiveConfiguration.UI.chatInputMaxLength = chatInputMaxLength ?? 50
+            ShopLiveConfiguration.UI.chatInputMaxLength = chatInputMaxLength ?? 200
             updateChattingWriteView()
             delegate?.campaignInfo(campaignInfo: campaignInfo ?? [:])
             break

@@ -372,10 +372,10 @@ extension UIFont {
 }
 
 extension UITextView {
-    func numberOfLines() -> Int {
+    func numberOfLines(lineHeight: CGFloat = 20) -> Int {
         let size = CGSize(width: frame.width, height: .infinity)
         let estimatedSize = sizeThatFits(size)
         
-        return Int(estimatedSize.height / (self.font!.lineHeight))
+        return Int(estimatedSize.height / lineHeight)
     }
 }
