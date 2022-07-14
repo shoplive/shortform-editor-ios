@@ -28,6 +28,53 @@ import WebKit
             ShopLiveDefines.phase = phase
         }
     }
+    
+    #if EBAY
+    #else
+    private var videoOrientation: ShopLiveDefines.VideoOrientaion = .portrait
+    
+    private var pipMinHeight: CGFloat {
+        switch videoOrientation {
+        case .portrait:
+            return 200
+        case .landscape:
+            return 0
+        }
+    }
+    
+    private var pipMaxHeight: CGFloat {
+        let maxHeight = (UIScreen.isLandscape ? UIScreen.main.bounds.height : UIScreen.main.bounds.width)
+        return UIDevice.isIpad ? maxHeight * 0.7 : maxHeight - 60
+    }
+    
+    private var minScale: CGFloat {
+        switch videoOrientation {
+        case .portrait:
+            let minWidth = pipMinHeight * (9/16)
+            return UIScreen.isLandscape ? minWidth / UIScreen.main.bounds.height : minWidth / UIScreen.main.bounds.width
+        case .landscape:
+            return 0.0
+        }
+    }
+    
+    private var maxScale: CGFloat {
+        switch videoOrientation {
+        case .portrait:
+            let maxWidth = pipMaxHeight * (9/16)
+            return UIScreen.isLandscape ? maxWidth / UIScreen.main.bounds.height : maxWidth / UIScreen.main.bounds.width
+        case .landscape:
+            return 1.0
+        }
+    }
+    
+    private func convertPipScale(userScale: CGFloat) -> CGFloat {
+        let range: CGFloat = maxScale - minScale
+        let tg: CGFloat = range * userScale
+        let value: CGFloat = tg + minScale
+        return value
+        return userScale
+    }
+    #endif
 
     private var isKeyboardShow: Bool = false
     private var lastPipPosition: ShopLive.PipPosition = .default
@@ -102,7 +149,8 @@ import WebKit
         }
 
         ShopLiveController.shared.releaseData()
-
+        isKeyboardShow = false
+        
         liveStreamViewController = LiveStreamViewController()
         liveStreamViewController?.delegate = self
         liveStreamViewController?.webViewConfiguration = _webViewConfiguration
@@ -266,7 +314,7 @@ import WebKit
         guard let mainWindow = self.mainWindow else { return .zero }
 
         let defSize = CGSize(width: 9, height: 16)
-        let width = mainWindow.bounds.width * scale
+        let width =  (UIApplication.shared.statusBarOrientation.isLandscape ? mainWindow.bounds.height : mainWindow.bounds.width) * scale
         let height = (defSize.height / defSize.width) * width
 
         return CGSize(width: width, height: height)
@@ -293,10 +341,14 @@ import WebKit
             origin.y = mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
         case .topRight:
             origin.x = mainWindow.frame.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width - pipFloatingOffset.right
-            origin.y = safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
+            
+            let isOutOfScreen = (mainWindow.frame.height - keyboardHeight - (safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top)) < pipSize.height
+            origin.y = isOutOfScreen ? mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom : safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
         case .topLeft:
             origin.x = safeAreaInsets.left + pipEdgeInsets.left + pipFloatingOffset.left
-            origin.y = safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
+            
+            let isOutOfScreen = (mainWindow.frame.height - keyboardHeight - (safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top)) < pipSize.height
+            origin.y = isOutOfScreen ? mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom : safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
         }
 
         pipPosition = CGRect(origin: origin, size: pipSize)
@@ -396,6 +448,21 @@ import WebKit
         _style = .fullScreen
     }
 
+    func updatePip() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(300)) {
+            UIView.animate(withDuration: 0.3, delay: 0, options: .transitionCrossDissolve) {
+                let pipSize: CGRect = self.pipPosition(with: self.lastPipScale, position: self.lastPipPosition)
+                self.shopLiveWindow?.frame = pipSize
+                self.liveStreamViewController?.view.layoutIfNeeded()
+                self.shopLiveWindow?.setNeedsLayout()
+                self.shopLiveWindow?.layoutIfNeeded()
+                
+            } completion: { isFinished in
+                
+            }
+        }
+    }
+    
     func willChangePreview() {
         ShopLiveController.windowStyle = .inAppPip
 
@@ -617,14 +684,12 @@ import WebKit
         guard _style == .pip else { return }
         stopShopLivePictureInPicture()
     }
-
-    
     
     func fetchPreviewUrl(with campaignKey: String?, completionHandler: @escaping ((URL?) -> Void)) {
         
         if ShopLiveConfiguration.AppPreference.useLocalLanding {
             let bundle = Bundle(for: type(of: self))
-            guard let bundleMainUrl = bundle.url(forResource: "web/ebay", withExtension: "html") else {
+            guard let bundleMainUrl = bundle.url(forResource: "web/ebay_sdk", withExtension: "html") else {
                 //delegate?.handleError(code: "", message: "")
                 completionHandler(nil)
                 return
@@ -684,7 +749,7 @@ import WebKit
 
         if ShopLiveConfiguration.AppPreference.useLocalLanding {
             let bundle = Bundle(for: type(of: self))
-            guard let bundleMainUrl = bundle.url(forResource: "web/ebay", withExtension: "html") else {
+            guard let bundleMainUrl = bundle.url(forResource: "web/ebay_sdk", withExtension: "html") else {
                 //delegate?.handleError(code: "", message: "")
                 completionHandler(nil)
                 return
@@ -776,6 +841,8 @@ import WebKit
         self.addObserver(self, forKeyPath: "_authToken", options: [.initial, .old, .new], context: nil)
         self.addObserver(self, forKeyPath: "_user", options: [.initial, .old, .new], context: nil)
 
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.willChangeStatusBarOrientationNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.protectedDataWillBecomeUnavailableNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
@@ -792,6 +859,8 @@ import WebKit
             self.removeObserver(self, forKeyPath: "_user")
         }
 
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willChangeStatusBarOrientationNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIApplication.protectedDataWillBecomeUnavailableNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
@@ -862,6 +931,19 @@ import WebKit
         case UIResponder.keyboardWillHideNotification:
             isKeyboardShow = false
             self.handleKeyboard()
+            break
+        case UIApplication.willChangeStatusBarOrientationNotification:
+            if _style == .pip, ShopLiveController.windowStyle == .inAppPip {
+                ShopLiveLogger.debugLog("isLandscape \(UIDevice.current.orientation.isLandscape) UIDevice.current.orientation.isFlat \(UIDevice.current.orientation.isFlat)")
+                self.shopLiveWindow?.layer.masksToBounds = true
+            }
+            break
+        case UIDevice.orientationDidChangeNotification:
+            if _style == .pip, ShopLiveController.windowStyle == .inAppPip {
+                ShopLiveLogger.debugLog("updatepip")
+                updatePip()
+            }
+            ShopLiveLogger.debugLog("orientaion change current isLandscape \(UIDevice.current.orientation.isLandscape)")
             break
         default:
             break
@@ -1041,7 +1123,12 @@ extension ShopLiveBase: ShopLiveComponent {
     }
     
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat) {
+        #if EBAY
         lastPipScale = scale
+        #else
+        lastPipScale = convertPipScale(userScale: scale)
+        #endif
+        
         lastPipPosition = position
         startShopLivePictureInPicture()
     }
@@ -1069,7 +1156,11 @@ extension ShopLiveBase: ShopLiveComponent {
             return lastPipScale
         }
         set {
+            #if EBAY
             lastPipScale = newValue
+            #else
+            lastPipScale = convertPipScale(userScale: newValue)
+            #endif
         }
     }
 

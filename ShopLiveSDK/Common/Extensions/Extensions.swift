@@ -303,8 +303,7 @@ internal extension ShopLiveCustomActionResult {
 
 extension UIScreen {
     static var isLandscape: Bool {
-        let size = UIScreen.main.bounds.size
-        return size.width > size.height
+        return UIApplication.shared.statusBarOrientation.isLandscape
     }
 }
 

@@ -61,6 +61,7 @@ internal final class LiveStreamViewModel: NSObject {
             ShopLiveController.playerItem = playerItem
             self.playerItem = playerItem
 
+            ShopLiveController.playerItem?.preferredPeakBitRate = 0
             NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase)
             NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .AVPlayerItemPlaybackStalled, object: self.playerItem)
             ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)

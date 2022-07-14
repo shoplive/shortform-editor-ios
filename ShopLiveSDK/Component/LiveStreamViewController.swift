@@ -25,6 +25,7 @@ internal final class LiveStreamViewController: UIViewController {
     private var overlayView: OverlayWebView?
     private var imageView: UIImageView?
     private var snapShotView: UIImageView?
+    private var voiceOverIsOn: Bool = UIAccessibility.isVoiceOverRunning
     
     private weak var popoverController: UIPopoverPresentationController?
     
@@ -127,6 +128,8 @@ internal final class LiveStreamViewController: UIViewController {
     private func updateHeadPhoneStatus(plugged: Bool) {
         if !ShopLiveConfiguration.SoundPolicy.keepPlayVideoOnHeadphoneUnplugged {
             ShopLiveController.playControl = plugged ? .resume : .pause
+        } else {
+            ShopLiveController.playControl = .resume
         }
     }
 
@@ -586,7 +589,7 @@ internal final class LiveStreamViewController: UIViewController {
 
         if ShopLiveConfiguration.AppPreference.useLocalLanding {
             let bundle = Bundle(for: type(of: self))
-            guard let bundleMainUrl = bundle.url(forResource: "web/ebay", withExtension: "html") else {
+            guard let bundleMainUrl = bundle.url(forResource: "web/ebay_sdk", withExtension: "html") else {
                 return nil
             }
 
@@ -621,6 +624,12 @@ internal final class LiveStreamViewController: UIViewController {
         ShopLiveController.shared.addPlayerDelegate(delegate: self)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(voiceOverStatusChanged), name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
+    }
+    
+    @objc func voiceOverStatusChanged() {
+        self.voiceOverIsOn = UIAccessibility.isVoiceOverRunning
+        self.updateVoiceOverStatus()
     }
 
     func removeObserver() {
@@ -847,6 +856,23 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             delegate?.handleCommand(command, with: payload)
             break
         }
+    }
+    
+    func updateVoiceOverStatus() {
+        self.sendCommandMessage(command: "SET_USE_SCREEN_READER", payload: ["useScreenReader" : self.voiceOverIsOn])
+    }
+    
+    func sendCommandMessage(command: String, payload: [String : Any]?) {
+        guard let payload = payload else {
+            return
+        }
+
+        var message: [String : Any] = [:]
+
+        message["command"] = command
+        message["payload"] = payload
+
+        ShopLiveController.webInstance?.sendEventToWeb(event: .sendCommandMessage, message.toJson() ?? "", false)
     }
 }
 

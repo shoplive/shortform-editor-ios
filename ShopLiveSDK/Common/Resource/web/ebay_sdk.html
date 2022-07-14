@@ -1,0 +1,199 @@
+<!-- ebay_sdk.html -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, shrink-to-fit=no" />
+    <title>eBay</title>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+      }
+    </style>
+
+    <script>
+      var query = {};
+      if (location.search) {
+        query = JSON.parse('{"' + location.search.substring(1).replace(/&/g, '","').replace(/=/g, '":"') + '"}', function (key, value) {
+          return key === "" ? value : decodeURIComponent(value);
+        });
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="root-mobile" style="text-align: center"></div>
+
+    <script>
+      const _appInterface = "ShopLiveAppInterface";
+
+      function isIosApp() {
+        // noinspection JSUnresolvedVariable
+        return window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers[_appInterface];
+      }
+
+      function isAndroidApp() {
+        return window[_appInterface];
+      }
+
+      // init
+      var playerId = "root-mobile";
+
+      var messageCallback = {
+        ERROR: (payload) => {
+          if (isIosApp()) {
+            window.webkit.messageHandlers[_appInterface].postMessage({
+              action: "ERROR",
+              payload: payload,
+            });
+          } else if (isAndroidApp()) {
+            window[_appInterface].ERROR(payload.code, payload.msg);
+          } else {
+            console.log(`[ERROR '${payload}']`);
+          }
+        },
+
+        DOWNLOAD_COUPON: (payload) => {
+          if (isIosApp()) {
+            window.webkit.messageHandlers[_appInterface].postMessage({
+              action: "DOWNLOAD_COUPON",
+              payload: {
+                coupon: payload.coupon,
+              },
+            });
+          } else if (isAndroidApp()) {
+            window[_appInterface].DOWNLOAD_COUPON(payload.coupon);
+          } else {
+            console.log(`[DOWNLOAD_COUPON '${payload.coupon}'] Need to implement.`);
+          }
+        },
+        CLICK_SHARE_BTN: (payload, defaultCallback) => {
+          const shareUrl = payload.shareUrl;
+
+          if (isIosApp()) {
+            window.webkit.messageHandlers[_appInterface].postMessage({
+              action: "CLICK_SHARE_BTN",
+              payload: {
+                url: shareUrl,
+              },
+            });
+          } else if (isAndroidApp()) {
+            window[_appInterface].CLICK_SHARE_BTN(shareUrl);
+          } else {
+            console.log("[CLICK_SHARE_BTN] Need to implement.", shareUrl);
+            // defaultCallback(payload);
+          }
+        },
+      };
+
+      function isTrue(val) {
+        return val === "1" || val === "true" || val === 1 || val === true;
+      }
+
+      function isNotFalse(val) {
+        return !(val === "0" || val === "false" || val === 0 || val === false);
+      }
+
+      let tk = "";
+      if (query.userId) {
+        tk = Object.assign({}, tk, { userId: query.userId });
+      }
+      if (query.userName) {
+        tk = Object.assign({}, tk, { userName: query.userName });
+      }
+      if (query.gender) {
+        tk = Object.assign({}, tk, { gender: query.gender });
+      }
+      if (query.age) {
+        tk = Object.assign({}, tk, { age: query.age });
+      }
+      if (query.userScore) {
+        tk = Object.assign({}, tk, { userScore: query.userScore });
+      }
+
+      let version = query.version || "0.0.0";
+      let appVersion = query.appVersion || "";
+      let osType = isIosApp() ? "i" : isAndroidApp() ? "a" : "w";
+      let country = "US";
+      let locale = query.language || navigator.language || navigator.userLanguage;
+      let timezone;
+      try {
+        timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      } catch (ignore) {
+        timezone = "";
+      }
+      let mccmnc = query.mccmnc || "";
+      let osName = query.osName || "_";
+      let network = "";
+      let identity = `${version},${osType},${country},${locale},${timezone},${mccmnc},${osName},${network}`;
+
+      /** alt+k, s **/
+      (function (s, h, o, p, l, i, v, e) {
+        s["ShoplivePlayer"] = l;
+        (s[l] =
+          s[l] ||
+          function () {
+            (s[l].q = s[l].q || []).push(arguments);
+          }),
+          (i = h.createElement(o)),
+          (v = h.getElementsByTagName(o)[0]);
+        i.async = 1;
+        i.src = p;
+        v.parentNode.insertBefore(i, v);
+      })(window, document, "script", "live.min.js", "mplayer");
+      let options = {
+        version: version,
+        appVersion: appVersion,
+        identity: identity,
+        playerUrlPrefix: "",
+        messageCallback: messageCallback,
+        preview: isTrue(query.preview),
+        isReplay: isTrue(query.isReplay),
+        isPlayVideo: isTrue(query.isPlayVideo),
+        shareUrl: query.shareUrl,
+        __debug: isTrue(query.__debug),
+        isLocalLanding: true,
+        // isContainSize: isTrue(query.isContainSize),
+        // keepAspectOnTabletPortrait: isTrue(query.keepAspectOnTabletPortrait),
+        isFullScreen: true,
+        rk: query.rk || "",
+        closePlayerAfterCampaignEnd: 7000,
+        ui: {
+          viewerCount: isNotFalse(query.viewerCount),
+          likeCount: isNotFalse(query.likeCount),
+          shareButton: isNotFalse(query.shareButton),
+          pipButton: isTrue(query.pipButton) || (isNotFalse(query.pipButton) && (isIosApp() || isAndroidApp())),
+          backButton: isTrue(query.backButton) || (isNotFalse(query.backButton) && isIosApp()),
+          optionButton: isNotFalse(query.optionButton),
+          showNativeChatInput: isNotFalse(query.showNativeChatInput),
+          muteButton: isTrue(query.muteButton),
+        },
+      };
+
+      if (query.guestUid) {
+        options["guestUid"] = query.guestUid;
+      }
+      if (query.resolution) {
+        options["resolution"] = query.resolution;
+      }
+
+      if (query.applicationName) {
+        options["applicationName"] = query.applicationName;
+      }
+
+      // mplayer("init", query.ak, query.ck, query.tk || tk, options);
+      // mplayer("run", playerId);
+
+      mplayer("init", query.ak, query.ck, query.tk || tk, options);
+
+      mplayer("run", playerId);
+    </script>
+  </body>
+</html>

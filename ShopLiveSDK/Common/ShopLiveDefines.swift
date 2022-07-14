@@ -11,7 +11,7 @@ import CoreMedia
 
 @objc internal final class ShopLiveDefines: NSObject {
 #if LOCAL_LANDING
-    static let sdkVersion: String = "1.2.8"
+    static let sdkVersion: String = "1.2.11"
 #else
     static let sdkVersion: String = "1.2.6"
 #endif
@@ -39,6 +39,11 @@ import CoreMedia
     static let webInterface: String = "ShopLiveAppInterface"
     static let osVersion = UIDevice.current.systemVersion
 
+    enum VideoOrientaion {
+        case portrait
+        case landscape
+    }
+    
     static var deviceIdentifier: String {
         var systemInfo = utsname()
         uname(&systemInfo)
