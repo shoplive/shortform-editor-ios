@@ -62,7 +62,7 @@ class MainViewController: SideMenuBaseViewController {
                 #if QA
                     sourceScheme = "shopliveqa"
                     #if EBAY
-                    sourceScheme = "shoplivesample"
+                    sourceScheme = "shopliveqa"//"shoplivesample"
                     #endif
                 #else
                     sourceScheme = "shoplive"
