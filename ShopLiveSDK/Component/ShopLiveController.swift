@@ -233,6 +233,12 @@ final class ShopLiveController: NSObject {
             }
         }
     }
+    
+    func setSoundMute(isMuted: Bool) {
+        ShopLiveController.player?.isMuted = isMuted
+        ShopLiveConfiguration.SoundPolicy.isMuted = isMuted
+        ShopLiveController.webInstance?.sendEventToWeb(event: .setVideoMute(isMuted: isMuted), isMuted)
+    }
 
     func seekToLatest() {
         guard let player = ShopLiveController.player else { return }

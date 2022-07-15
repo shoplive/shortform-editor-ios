@@ -149,7 +149,6 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
-    
 #if LOCAL_LANDING
     public static func setUsingLocalLanding(_ use: Bool) {
         ShopLiveConfiguration.AppPreference.useLocalLanding = use
@@ -265,6 +264,14 @@ extension ShopLive: ShopLiveSDKInterface {
         set {
             shared.instance?.fixedPipWidth = newValue
         }
+    }
+    
+    public static func mute() {
+        ShopLiveController.shared.setSoundMute(isMuted: true)
+    }
+    
+    public static func unmute() {
+        ShopLiveController.shared.setSoundMute(isMuted: false)
     }
     #endif
 

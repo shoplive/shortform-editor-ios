@@ -183,6 +183,8 @@ public typealias ShopLiveViewController = UIViewController
     #if MUSINSA
     @objc static var playerWindow: UIWindow? { get }
     @objc static var fixedPipWidth: NSNumber? { get set }
+    @objc static func mute()
+    @objc static func unmute()
     #endif
     
     @objc static var viewController: ShopLiveViewController? { get }
