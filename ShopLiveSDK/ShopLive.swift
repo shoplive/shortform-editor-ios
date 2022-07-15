@@ -10,10 +10,14 @@ import AVKit
 import WebKit
 
 @objc internal protocol ShopLiveComponent: AnyObject {
+#if MUSINSA
+    @objc var playerWindow: UIWindow? { get }
+#endif
     @objc var viewController: ShopLiveViewController? { get }
     @objc var style: ShopLive.PresentationStyle { get }
     @objc var pipPosition: ShopLive.PipPosition { get set }
     @objc var pipScale: CGFloat { get set }
+    @objc var fixedPipWidth: NSNumber? { get set }
     @objc var indicatorColor: UIColor { get set }
     @objc var webViewConfiguration: WKWebViewConfiguration? { get set }
     @objc var delegate: ShopLiveSDKDelegate? { get set }
@@ -145,6 +149,7 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    
 #if LOCAL_LANDING
     public static func setUsingLocalLanding(_ use: Bool) {
         ShopLiveConfiguration.AppPreference.useLocalLanding = use
@@ -247,6 +252,21 @@ extension ShopLive: ShopLiveSDKInterface {
     public static var sdkVersion: String {
         return ShopLiveDefines.sdkVersion
     }
+    
+    #if MUSINSA
+    public static var playerWindow: UIWindow? {
+        return shared.instance?.playerWindow
+    }
+    
+    public static var fixedPipWidth: NSNumber? {
+        get {
+            return shared.instance?.fixedPipWidth
+        }
+        set {
+            shared.instance?.fixedPipWidth = newValue
+        }
+    }
+    #endif
 
     public static var user: ShopLiveUser? {
         get {
@@ -263,19 +283,19 @@ extension ShopLive: ShopLiveSDKInterface {
 
     public static var pipPosition: PipPosition {
         get {
-            shared.instance?.pipPosition ?? .default
+            return ShopLiveController.shared.lastPipPosition
         }
         set {
-            shared.instance?.pipPosition = newValue
+            ShopLiveController.shared.lastPipPosition = newValue
         }
     }
 
     public static var pipScale: CGFloat {
         get {
-            shared.instance?.pipScale ?? 2/5
+            ShopLiveController.shared.lastPipScale
         }
         set {
-            shared.instance?.pipScale = newValue
+            ShopLiveController.shared.lastPipScale = newValue
         }
     }
 
@@ -287,7 +307,6 @@ extension ShopLive: ShopLiveSDKInterface {
             shared.instance?.indicatorColor = newValue
         }
     }
-
 
     public static var webViewConfiguration: WKWebViewConfiguration? {
         get {

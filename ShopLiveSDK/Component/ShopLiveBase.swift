@@ -72,13 +72,10 @@ import WebKit
         let tg: CGFloat = range * userScale
         let value: CGFloat = tg + minScale
         return value
-        return userScale
     }
     #endif
 
     private var isKeyboardShow: Bool = false
-    private var lastPipPosition: ShopLive.PipPosition = .default
-    private var lastPipScale: CGFloat = 2/5
     private var replaySize: CGSize = CGSize(width: 9, height: 16)
     weak private var mainWindow: UIWindow? = nil
     
@@ -147,7 +144,7 @@ import WebKit
         } catch  {
             print("Audio session failed")
         }
-
+        
         ShopLiveController.shared.releaseData()
         isKeyboardShow = false
         
@@ -166,7 +163,7 @@ import WebKit
         }
         shopLiveWindow?.backgroundColor = .clear
         shopLiveWindow?.windowLevel = .statusBar - 1
-        shopLiveWindow?.frame = ShopLiveController.shared.isPreview ? pipPosition(with: lastPipScale, position: lastPipPosition) : mainWindow?.frame ?? UIScreen.main.bounds
+        shopLiveWindow?.frame = ShopLiveController.shared.isPreview ? pipPosition(with: pipScale, position: pipPosition) : mainWindow?.frame ?? UIScreen.main.bounds
         shopLiveWindow?.rootViewController = liveStreamViewController
 
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(liveWindowPanGestureHandler))
@@ -303,7 +300,7 @@ import WebKit
     }
     
     func startShopLivePictureInPicture() {
-        startCustomPictureInPicture(with: lastPipPosition, scale: lastPipScale)
+        startCustomPictureInPicture(with: pipPosition, scale: pipScale)
     }
     
     func stopShopLivePictureInPicture() {
@@ -313,7 +310,7 @@ import WebKit
     private func pipSize(with scale: CGFloat) -> CGSize {
         guard let mainWindow = self.mainWindow else { return .zero }
 
-        let defSize = CGSize(width: 9, height: 16)
+        let defSize = videoOrientation == .landscape ? CGSize(width: 16, height: 9) : CGSize(width: 9, height: 16)
         let width =  (UIApplication.shared.statusBarOrientation.isLandscape ? mainWindow.bounds.height : mainWindow.bounds.width) * scale
         let height = (defSize.height / defSize.width) * width
 
@@ -451,7 +448,7 @@ import WebKit
     func updatePip() {
         DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(300)) {
             UIView.animate(withDuration: 0.3, delay: 0, options: .transitionCrossDissolve) {
-                let pipSize: CGRect = self.pipPosition(with: self.lastPipScale, position: self.lastPipPosition)
+                let pipSize: CGRect = self.pipPosition(with: self.pipScale, position: self.pipPosition)
                 self.shopLiveWindow?.frame = pipSize
                 self.liveStreamViewController?.view.layoutIfNeeded()
                 self.shopLiveWindow?.setNeedsLayout()
@@ -465,8 +462,8 @@ import WebKit
     
     func willChangePreview() {
         ShopLiveController.windowStyle = .inAppPip
-
-        let pipSize: CGRect = self.pipPosition(with: lastPipScale, position: lastPipPosition)
+ 
+        let pipSize: CGRect = self.pipPosition(with: self.pipScale, position: self.pipPosition)
         self.shopLiveWindow?.frame = pipSize
         self.shopLiveWindow?.clipsToBounds = false
         self.shopLiveWindow?.backgroundColor = .clear
@@ -544,7 +541,7 @@ import WebKit
             }
         }()
 
-        lastPipPosition = position
+        self.pipPosition = position
         self.handleKeyboard()
 
     }
@@ -580,6 +577,8 @@ import WebKit
         
         let translation = recognizer.translation(in: liveWindow)
         
+        delegate?.playerPanGesture(state: recognizer.state, position: liveWindow.center)
+        
         switch recognizer.state {
         case .began:
             panGestureInitialCenter = liveWindow.center
@@ -610,6 +609,11 @@ import WebKit
             
             //범위밖으로 나가면 stop shoplive
             guard xRange.contains(centerX), yRange.contains(centerY) else {
+                #if MUSINSA
+                if ShopLiveController.shared.isPreview {
+                    delegate?.handleCommand("CLOSE_FROM_PREVIEW", with: nil)
+                }
+                #endif
                 hideShopLiveView()
                 return
             }
@@ -884,7 +888,7 @@ import WebKit
             ShopLiveController.shared.keyboardHeight = keyboardScreenEndFrame.height - bottomPadding
         }
 
-        let pipPosition: CGRect = self.pipPosition(with: lastPipScale, position: lastPipPosition)
+        let pipPosition: CGRect = self.pipPosition(with: self.pipScale, position: self.pipPosition)
 
         UIView.animate(withDuration: 0.3, delay: 0, options: []) {
             shopLiveWindow.frame = pipPosition
@@ -996,6 +1000,12 @@ extension ShopLiveBase: ShopLiveComponent {
         #endif
     }
 
+    #if MUSINSA
+    var playerWindow: UIWindow? {
+        return self.shopLiveWindow
+    }
+    #endif
+    
     var viewController: ShopLiveViewController? {
         return self.liveStreamViewController
     }
@@ -1053,7 +1063,7 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     @objc func startPictureInPicture() {
-        startPictureInPicture(with: .default, scale: 2/5)
+        startPictureInPicture(with: self.pipPosition, scale: self.pipScale)
     }
     
     @objc var authToken: String? {
@@ -1084,6 +1094,9 @@ extension ShopLiveBase: ShopLiveComponent {
 
     func preview(with campaignKey: String?, completion: @escaping () -> Void) {
         guard self.accessKey != nil else { return }
+        if _style != .pip {
+            startPictureInPicture(with: self.pipPosition, scale: self.pipScale)
+        }
         ShopLiveController.shared.isPreview = true
         addObserver()
         ShopLiveController.loading = true
@@ -1124,12 +1137,12 @@ extension ShopLiveBase: ShopLiveComponent {
     
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat) {
         #if EBAY
-        lastPipScale = scale
+        self.pipScale = scale
         #else
-        lastPipScale = convertPipScale(userScale: scale)
+        self.pipScale = scale//convertPipScale(userScale: scale)
         #endif
         
-        lastPipPosition = position
+        self.pipPosition = position
         startShopLivePictureInPicture()
     }
     @objc func stopPictureInPicture() {
@@ -1144,23 +1157,37 @@ extension ShopLiveBase: ShopLiveComponent {
     
     @objc var pipPosition: ShopLive.PipPosition {
         get {
-            return lastPipPosition
+            return ShopLiveController.shared.lastPipPosition
         }
         set {
-            lastPipPosition = newValue
+            ShopLiveController.shared.lastPipPosition = newValue
         }
     }
     
     @objc var pipScale: CGFloat {
         get {
-            return lastPipScale
+            guard let fixPipWidth = fixedPipWidth as? CGFloat else {
+                return ShopLiveController.shared.lastPipScale
+            }
+
+            let fixedScale = fixPipWidth / (UIApplication.shared.statusBarOrientation.isLandscape ? UIScreen.main.bounds.height : UIScreen.main.bounds.width)
+            return (fixedScale >= 0.0 && fixedScale <= 1.0) ? fixedScale : (fixedScale < 0 ? 0.0 : 1.0)
         }
         set {
             #if EBAY
-            lastPipScale = newValue
+            ShopLiveController.shared.lastPipScale = newValue
             #else
-            lastPipScale = convertPipScale(userScale: newValue)
+            ShopLiveController.shared.lastPipScale = convertPipScale(userScale: newValue)
             #endif
+        }
+    }
+    
+    @objc var fixedPipWidth: NSNumber? {
+        get {
+            return ShopLiveController.shared.fixedPipWidth as NSNumber?
+        }
+        set {
+            ShopLiveController.shared.fixedPipWidth = newValue as? CGFloat
         }
     }
 

@@ -825,7 +825,12 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
 
     @objc func didTouchCloseButton() {
         overlayView?.closeWebSocket()
+        #if MUSINSA
+        delegate?.handleCommand("didTapCloseBUtton", with: nil)
+        #else
         delegate?.didTouchCloseButton()
+        #endif
+        
     }
 
     func handleCommand(_ command: String, with payload: Any?) {

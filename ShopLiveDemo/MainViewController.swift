@@ -45,6 +45,7 @@ class MainViewController: SideMenuBaseViewController {
         self.items.insert("DevInfoCell", at: 0)
         self.tableView.register(DevInfoCell.self, forCellReuseIdentifier: "DevInfoCell")
         setupSampleOptions()
+        ShopLive.pipPosition = .bottomLeft
         
         self.view.addSubviews(tabbar)
         tabbar.snp.makeConstraints {
@@ -160,7 +161,7 @@ class MainViewController: SideMenuBaseViewController {
 
         // Picture in Picture Setting
         ShopLive.pipScale = config.pipScale ?? 2/5
-        ShopLive.pipPosition = config.pipPosition
+//        ShopLive.pipPosition = config.pipPosition
 
         // handle Navigation Action Type
         ShopLive.setNextActionOnHandleNavigation(actionType: DemoConfiguration.shared.nextActionTypeOnHandleNavigation)
@@ -194,10 +195,12 @@ class MainViewController: SideMenuBaseViewController {
             return
         }
 
+        ShopLive.fixedPipWidth = 100
         setupShopliveSettings()
         ShopLive.setEndpoint(nil)
         ShopLive.configure(with: currentKey.accessKey)
         ShopLive.preview(with: currentKey.campaignKey) {
+            
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
                 ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted)
             } else {
@@ -224,6 +227,10 @@ class MainViewController: SideMenuBaseViewController {
 }
 
 extension MainViewController: ShopLiveSDKDelegate {
+    func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint) {
+        ShopLiveLogger.debugLog("window gesture state \(state) position \(position)")
+    }
+    
     func handleNavigation(with url: URL) {
         print("handleNavigation \(url)")
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleNavigation \(url)"))
@@ -354,6 +361,12 @@ extension MainViewController: ShopLiveSDKDelegate {
     func handleCommand(_ command: String, with payload: Any?) {
         print("handleCommand: \(command)  payload: \(String(describing: payload))")
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleCommand \(command)"))
+        
+        if command == "didTapCloseBUtton" {
+            self.preview()
+        } else if command == "CLOSE_FROM_PIP" {
+            
+        }
     }
 
     func onSetUserName(_ payload: [String : Any]) {

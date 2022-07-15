@@ -101,6 +101,9 @@ final class ShopLiveController: NSObject {
     var webInstance: ShopLiveWebView?
     var pipAnimating: Bool = false
     var swipeEnabled: Bool = true
+    var lastPipPosition: ShopLive.PipPosition = .default
+    var lastPipScale: CGFloat = 2/5
+    var fixedPipWidth: CGFloat?
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath, let key = ShopLivePlayerObserveValue(rawValue: keyPath), let _ = change?[.newKey] else { return }
