@@ -186,8 +186,14 @@ final class ButtonOptionCell: UITableViewCell {
                 }
                 break
             case .pipScale:
-                if let pipScale = DemoConfiguration.shared.pipScale, pipScale > 0.0, pipScale <= 1.0 {
-                    descriptionTitle = String(format: "%.1f",  pipScale)
+                if let pipScale = DemoConfiguration.shared.pipScale {
+                    if pipScale > 0.0, pipScale <= 1.0 {
+                        descriptionTitle = String(format: "%.1f",  pipScale)
+                    } else if pipScale > 1.0, pipScale <= 100 {
+                        descriptionTitle = String(format: "%.0f",  pipScale)
+                    } else {
+                        descriptionTitle = item.optionDescription
+                    }
                 } else {
                     descriptionTitle = item.optionDescription
                 }

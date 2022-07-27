@@ -81,8 +81,16 @@ import WebKit
     }
     
     private func convertPipScale(userScale: CGFloat) -> CGFloat {
+        guard userScale > 1.0 && userScale <= 100 else {
+            if userScale < 0 {
+                return 0
+            } else {
+                return userScale
+            }
+        }
+        let inputScale = userScale / 100
         let range: CGFloat = maxScale - minScale
-        let tg: CGFloat = range * userScale
+        let tg: CGFloat = range * inputScale
         let value: CGFloat = tg + minScale
         return value
     }
@@ -1437,7 +1445,7 @@ extension ShopLiveBase: ShopLiveComponent {
             #if EBAY
             ShopLiveController.shared.lastPipScale = newValue
             #else
-            ShopLiveController.shared.lastPipScale = newValue//convertPipScale(userScale: newValue)
+            ShopLiveController.shared.lastPipScale = newValue
             #endif
         }
     }

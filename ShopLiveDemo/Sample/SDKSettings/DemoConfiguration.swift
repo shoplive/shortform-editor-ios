@@ -304,7 +304,7 @@ final class DemoConfiguration: NSObject {
                 return nil
             }
 
-            if let scaleValue = scale.cgfloatValue, scaleValue <= 0.0 || scaleValue > 1.0 {
+            if let scaleValue = scale.cgfloatValue, scaleValue <= 0.0 || scaleValue > 100.0 {
                 return nil
             }
 
