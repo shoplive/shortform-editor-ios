@@ -157,6 +157,19 @@ internal class OverlayWebView: UIView {
     func reload() {
         webView?.reload()
     }
+    
+    func sendCommandMessage(command: String, payload: [String : Any]?) {
+            guard let payload = payload else {
+                return
+            }
+
+            var message: [String : Any] = [:]
+
+            message["command"] = command
+            message["payload"] = payload
+
+        self.webView?.sendEventToWeb(event: .sendCommandMessage, message.toJson() ?? "", false)
+        }
 
     func didCompleteDownloadCoupon(with couponId: String) {
             self.webView?.sendEventToWeb(event: .completeDownloadCoupon, couponId, true)
@@ -266,11 +279,32 @@ extension OverlayWebView: WKScriptMessageHandler {
             if type == "USER_IMPLEMENTS_CALLBACK" {
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)"))
                 ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(parameters)")
-                if name == "ON_SUCCESS_CAMPAIGN_JOIN" {
+                var passToReceivedCommand: Bool = true
+                switch name {
+                case "ON_SUCCESS_CAMPAIGN_JOIN":
                     ShopLiveController.shared.isSuccessCampaignJoin = true
+                    break
+                case "EVENT_LOG":
+                    guard let feature = parameters?["feature"] as? String,
+                            let featureType = ShopLiveLog.Feature.featureFrom(type: feature),
+                            let name = parameters?["name"] as? String else { return }
+                    
+                    let logParameter: [String : String] = parameters?["parameter"] as? [String : String] ?? [:]
+                    let campaignKey: String = (parameters?["campaignKey"] as? String) ?? ShopLiveController.shared.campaignKey
+                    passToReceivedCommand = false
+                    #if MUSINSA
+                    delegate?.log(name: name, feature: featureType, campaign: campaignKey, parameter: logParameter)
+                    #endif
+                    break
+                default:
+                    break
+                }
+                
+                if passToReceivedCommand {
+                    delegate?.handleReceivedCommand(name, with: parameters)
                 }
 
-                delegate?.handleReceivedCommand(name, with: parameters)
+                
             } else {
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)"))
                 ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(parameters)")
@@ -317,6 +351,63 @@ extension OverlayWebView: WKScriptMessageHandler {
                         UIApplication.shared.open(schemeUrl, options: [:], completionHandler: nil)
                     }
                     break
+                case "ON_CHANGED_VIDEO_EXPANDED":
+                    guard let videoExpanded = parameters?["videoExpanded"] as? Int, let isVideoExpended = String(describing: videoExpanded).boolValue else { return }
+                    if ShopLiveController.shared.videoExpanded != isVideoExpended {
+                        ShopLiveController.shared.videoCenterCrop = false
+                        ShopLiveController.shared.videoExpanded = isVideoExpended
+                        delegate?.updateVideoExpanded()
+                    }
+                    break
+                case "SET_VIDEO_POSITION":
+                    guard let x = parameters?["x"] as? CGFloat, let y = parameters?["y"] as? CGFloat,
+                          let height = parameters?["height"] as? CGFloat, let width = parameters?["width"] as? CGFloat,
+                          let centerCrop = parameters?["centerCrop"] as? Int, let isCenterCrop = String(describing: centerCrop).boolValue else { return }
+                    
+                    
+                    if ShopLiveController.shared.supportOrientation == .landscape {
+                        let SET_VIDEO_POSITION_LOG = CGRect(x: x, y: y, width: width, height: height)
+                        
+                        let right = UIScreen.main.bounds.size.width - x - width
+                        let bottom = UIScreen.main.bounds.size.height - y - height
+                        
+                        let playerFrame = CGRect(x: x, y: y, width: right, height: bottom)
+                            if UIScreen.isLandscape {
+                                if ShopLiveController.shared.videoExpanded {
+                                    ShopLiveController.shared.videoFrame.landscape.expanded = playerFrame
+                                    if ShopLiveController.shared.windowStyle == .normal {
+                                        ShopLiveLogger.debugLog("update frame expanded")
+                                        delegate?.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: true)
+                                    }
+                                } else {
+                                    ShopLiveController.shared.videoFrame.landscape.standard = playerFrame
+                                    if ShopLiveController.shared.windowStyle == .normal {
+                                        ShopLiveLogger.debugLog("update frame standard")
+                                        delegate?.updatePlayerFrame(centerCrop: isCenterCrop, playerFrame: playerFrame, immediately: true)
+                                    }
+                                }
+                            } else {
+                                ShopLiveController.shared.videoFrame.portrait = playerFrame
+                                if ShopLiveController.shared.windowStyle == .normal {
+                                    ShopLiveLogger.debugLog("update frame portrait")
+                                    delegate?.updatePlayerFrame(centerCrop: isCenterCrop, playerFrame: playerFrame, immediately: true)
+                                }
+                            }
+                    }
+                    break
+                case "SET_SCREEN_ORIENTATION":
+                    guard !ShopLiveController.shared.keepOrientationWhenPlayStart else {
+                        ShopLiveController.shared.keepOrientationWhenPlayStart = false
+                        return
+                    }
+                    
+                    guard let orientation = parameters?["orientation"] as? String else {
+                        self.delegate?.updateOrientation(toLandscape: false)
+                        return
+                    }
+                    
+                    self.delegate?.updateOrientation(toLandscape: "LANDSCAPE" == orientation)
+                    break
                 default:
                     break
                 }
@@ -336,6 +427,12 @@ extension OverlayWebView: WKScriptMessageHandler {
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
                     self.webView?.sendEventToWeb(event: .setVideoMute(isMuted: ShopLiveConfiguration.SoundPolicy.isMuted), ShopLiveConfiguration.SoundPolicy.isMuted)
                 }
+                
+                let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("top", UIScreen.safeArea.top), ("left", UIScreen.safeArea.left),
+                                                                     ("right", UIScreen.safeArea.right), ("bottom", UIScreen.safeArea.bottom), ("orientation", UIScreen.currentOrientation.angle))
+                
+                self.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
+                
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
                 self.webView?.sendEventToWeb(event: .onPipModeChanged, self.isPipMode)
@@ -433,16 +530,13 @@ extension OverlayWebView: WKScriptMessageHandler {
 extension OverlayWebView: ShopLivePlayerDelegate {
     func handleIsHiddenOverlay() {
         guard !ShopLiveController.isHiddenOverlay else {
-            self.isHidden = ShopLiveController.isHiddenOverlay
+            self.alpha = 0.0
+            self.isHidden = true
             return
         }
-        self.alpha = 0
-        self.isHidden = false
-        UIView.animate(withDuration: 0.3) {
+
             self.alpha = 1.0
-        } completion: { (completion) in
-            self.isHidden = ShopLiveController.isHiddenOverlay
-        }
+            self.isHidden = false
     }
 
     var identifier: String {

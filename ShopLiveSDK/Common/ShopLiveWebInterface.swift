@@ -65,6 +65,7 @@ enum WebInterface {
     case error(code: String, message: String)
     case command(command: String, payload: Any?)
     case sendCommandMessage
+    case setSafeAreaMargin
 
     var functionString: String {
         switch self {
@@ -164,6 +165,8 @@ enum WebInterface {
             return WebFunction.command.rawValue
         case .sendCommandMessage:
             return WebFunction.sendCommandMessage.rawValue
+        case .setSafeAreaMargin:
+            return WebFunction.setSafeAreaMargin.rawValue
         }
     }
     
@@ -218,6 +221,7 @@ enum WebInterface {
         case setUserName = "SET_USER_NAME"
         case error = "ERROR"
         case sendCommandMessage = "SEND_COMMAND_MESSAGE"
+        case setSafeAreaMargin = "SET_SAFE_AREA_MARGIN"
     }
 }
 
@@ -377,6 +381,8 @@ extension WebInterface {
             self = .completeCustomAction
         case .sendCommandMessage:
             self = .sendCommandMessage
+        case .setSafeAreaMargin:
+            self = .setSafeAreaMargin
         }
     }
 }

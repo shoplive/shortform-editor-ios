@@ -67,9 +67,10 @@ final class OptionsViewController: SideMenuItemViewController {
         
         let pipPositionOption = SDKOptionItem(name: "sdkoption.pipPosition.title".localized(), optionDescription: "sdkoption.pipPosition.description".localized(), optionType: .pipPosition)
         let pipScaleOption = SDKOptionItem(name: "sdkoption.pipScale.title".localized(), optionDescription: "sdkoption.pipScale.description".localized(), optionType: .pipScale)
+        let fixedPipWidthOption = SDKOptionItem(name: "sdkoption.fixedPipWidth.title".localized(), optionDescription: "sdkoption.fixedPipWidth.description".localized(), optionType: .fixedPipWidth)
         let nextActionPipOption = SDKOptionItem(name: "sdkoption.nextActionTypeOnNavigation.title".localized(), optionDescription: "sdkoption.nextActionTypeOnNavigation.description".localized(), optionType: .nextActionOnHandleNavigation)
         let pipAreaOption = SDKOptionItem(name: "sdkoption.pipFloatingOffset.title".localized(), optionDescription: "sdkoption.pipFloatingOffset.description".localized(), optionType: .pipFloatingOffset)
-        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, nextActionPipOption, pipAreaOption])
+        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, fixedPipWidthOption, nextActionPipOption, pipAreaOption])
 
         items.append(pipOptions)
 
@@ -176,6 +177,15 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 pipScaleAlert.modalPresentationStyle = .overCurrentContext
                 self.navigationController?.present(pipScaleAlert, animated: false, completion: nil)
+                break
+            case .fixedPipWidth:
+                let fixedPipWidth = DemoConfiguration.shared.fixedPipWidth == nil ? "" : String(format: "%.0f",  DemoConfiguration.shared.fixedPipWidth!)
+                let fixedPipWidthAlert = TextItemInputAlertController(header: "sdkoption.fixedPipWidth.title".localized(), data: fixedPipWidth, placeHolder: "ex) 200") { fixedWidth in
+                    DemoConfiguration.shared.fixedPipWidth = fixedWidth.cgfloatValue
+                    self.tableView.reloadData()
+                }
+                fixedPipWidthAlert.modalPresentationStyle = .overCurrentContext
+                self.navigationController?.present(fixedPipWidthAlert, animated: false, completion: nil)
                 break
             default:
                 break

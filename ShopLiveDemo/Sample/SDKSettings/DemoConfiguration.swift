@@ -311,6 +311,24 @@ final class DemoConfiguration: NSObject {
             return scale.cgfloatValue
         }
     }
+    
+    var fixedPipWidth: CGFloat? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.fixedPipWidth.optionKey)
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            guard let fixedWidth = UserDefaults.standard.string(forKey:  SDKOptionType.fixedPipWidth.optionKey), !fixedWidth.isEmpty else {
+                return nil
+            }
+
+            if let fixedWidthValue = fixedWidth.cgfloatValue, fixedWidthValue <= 0.0 {
+                return nil
+            }
+
+            return fixedWidth.cgfloatValue
+        }
+    }
 
     var useJWT: Bool {
         set {

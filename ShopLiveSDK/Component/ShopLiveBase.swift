@@ -14,6 +14,7 @@ import WebKit
     private var shopLiveWindow: UIWindow? = nil
     private var videoWindowPanGestureRecognizer: UIPanGestureRecognizer?
     private var videoWindowTapGestureRecognizer: UITapGestureRecognizer?
+    private var videoPinchGestureRecognizer: UIPinchGestureRecognizer?
 
     private var videoWindowSwipeDownGestureRecognizer: UISwipeGestureRecognizer?
     private var _webViewConfiguration: WKWebViewConfiguration?
@@ -23,6 +24,7 @@ import WebKit
     private var campaignChanged: Bool = false
     private var needExecuteFullScreen: Bool = false
     private var playerModeChanged: Bool = false
+    private var needAnimateToChangePreivew: Bool = false
     internal var phase: ShopLive.Phase = .REAL {
         didSet {
             ShopLiveDefines.phase = phase
@@ -31,39 +33,50 @@ import WebKit
     
     #if EBAY
     #else
-    private var videoOrientation: ShopLiveDefines.VideoOrientaion = .portrait
-    
-    private var pipMinHeight: CGFloat {
-        switch videoOrientation {
+    private var pipMin: CGFloat {
+        let videoOrientaion: ShopLiveDefines.ShopLiveOrientaion = ShopLiveController.shared.videoOrientation
+        
+        switch videoOrientaion {
         case .portrait:
             return 200
         case .landscape:
-            return 0
+            return 100
         }
     }
     
-    private var pipMaxHeight: CGFloat {
+    private var pipMax: CGFloat {
+        let videoOrientaion: ShopLiveDefines.ShopLiveOrientaion = ShopLiveController.shared.videoOrientation
         let maxHeight = (UIScreen.isLandscape ? UIScreen.main.bounds.height : UIScreen.main.bounds.width)
-        return UIDevice.isIpad ? maxHeight * 0.7 : maxHeight - 60
+        switch videoOrientaion {
+        case .portrait:
+            return UIDevice.isIpad ? maxHeight * 0.7 : maxHeight * 0.84615385
+        case .landscape:
+            return UIDevice.isIpad ? maxHeight * 0.7 : maxHeight * 0.96//4615385
+        }
+        
     }
     
     private var minScale: CGFloat {
-        switch videoOrientation {
+        let videoOrientaion: ShopLiveDefines.ShopLiveOrientaion = ShopLiveController.shared.videoOrientation
+        
+        switch videoOrientaion {
         case .portrait:
-            let minWidth = pipMinHeight * (9/16)
+            let minWidth = pipMin * (ShopLiveController.shared.videoRatio.width/ShopLiveController.shared.videoRatio.height)
             return UIScreen.isLandscape ? minWidth / UIScreen.main.bounds.height : minWidth / UIScreen.main.bounds.width
         case .landscape:
-            return 0.0
+            return UIScreen.isLandscape ? pipMin / UIScreen.main.bounds.height : pipMin / UIScreen.main.bounds.width
         }
     }
     
     private var maxScale: CGFloat {
-        switch videoOrientation {
+        let videoOrientaion: ShopLiveDefines.ShopLiveOrientaion = ShopLiveController.shared.videoOrientation
+        
+        switch videoOrientaion {
         case .portrait:
-            let maxWidth = pipMaxHeight * (9/16)
+            let maxWidth = pipMax * (ShopLiveController.shared.videoRatio.width/ShopLiveController.shared.videoRatio.height)
             return UIScreen.isLandscape ? maxWidth / UIScreen.main.bounds.height : maxWidth / UIScreen.main.bounds.width
         case .landscape:
-            return 1.0
+            return UIScreen.isLandscape ? pipMax / UIScreen.main.bounds.height : pipMax / UIScreen.main.bounds.width
         }
     }
     
@@ -108,33 +121,41 @@ import WebKit
 
     func showShopLiveView(with overlayUrl: URL, _ completion: (() -> Void)? = nil) {
         UIApplication.shared.isIdleTimerDisabled = true
+        
+        ShopLiveController.shared.resetVideoDatas()
+        ShopLiveController.shared.newStartPlay = true
+        
         if _style != .unknown {
-            liveStreamViewController?.viewModel.overayUrl = overlayUrl
-            liveStreamViewController?.reload()
-            liveStreamViewController?.updateChattingWriteView()
-            
-            if self.needExecuteFullScreen {
-                self.needExecuteFullScreen = false
-                stopShopLivePictureInPicture()
-            } else {
-                if !ShopLiveConfiguration.UI.keepWindowStateOnPlayExecuted || self.campaignChanged {
-                    if !ShopLiveController.shared.isPreview, _style == .pip {
-                        stopShopLivePictureInPicture()
-                        return
+            self.liveStreamViewController?.viewModel.overayUrl = overlayUrl
+            self.liveStreamViewController?.reload()
+            self.liveStreamViewController?.updateChattingWriteView()
+        
+                if self.needExecuteFullScreen {
+                    self._style = .fullScreen
+                    ShopLiveController.windowStyle = .normal
+                    self.needExecuteFullScreen = false
+                } else {
+                    if !ShopLiveConfiguration.UI.keepWindowStateOnPlayExecuted || self.campaignChanged {
+                        if !ShopLiveController.shared.isPreview {
+                            if self._style == .pip {
+                                self._style = .fullScreen
+                                ShopLiveController.windowStyle = .normal
+                            }
+                        } else {
+                            self.needAnimateToChangePreivew = true
+                            self._style = .pip
+                            ShopLiveController.windowStyle = .inAppPip
+                        }
+                    } else {
+                        if ShopLiveController.shared.isPreview {
+                            self._style = .pip
+                            ShopLiveController.windowStyle = .inAppPip
+                        } else {
+                            ShopLiveController.shared.keepOrientationWhenPlayStart = true
+                        }
                     }
                 }
-            }
-            
             return
-        }
-
-        guard liveStreamViewController == nil else {
-            setupPictureInPicture()
-            return
-        }
-
-        if !ShopLiveController.shared.isPreview {
-            delegate?.handleCommand("willShopLiveOn", with: nil)
         }
         
         let audioSession = AVAudioSession.sharedInstance()
@@ -163,8 +184,9 @@ import WebKit
         }
         shopLiveWindow?.backgroundColor = .clear
         shopLiveWindow?.windowLevel = .statusBar - 1
-        shopLiveWindow?.frame = ShopLiveController.shared.isPreview ? pipPosition(with: pipScale, position: pipPosition) : mainWindow?.frame ?? UIScreen.main.bounds
+        shopLiveWindow?.frame = ShopLiveController.shared.isPreview ? .zero : mainWindow?.frame ?? UIScreen.main.bounds //
         shopLiveWindow?.rootViewController = liveStreamViewController
+        self.liveStreamViewController?.hideBackgroundPoster()
 
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(liveWindowPanGestureHandler))
         shopLiveWindow?.addGestureRecognizer(panGesture)
@@ -182,20 +204,19 @@ import WebKit
         videoWindowSwipeDownGestureRecognizer = swipeDownGesture
         videoWindowSwipeDownGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? false : true
         
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(pinchGestureHandler))
+        shopLiveWindow?.addGestureRecognizer(pinchGesture)
+        videoPinchGestureRecognizer = pinchGesture
+        videoPinchGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? false : true
+        
         ShopLiveController.windowStyle = .normal
         
         setupPictureInPicture()
         shopLiveWindow?.makeKeyAndVisible()
 
-        liveStreamViewController?.view.alpha = 0
-
         ShopLiveLogger.debugLog("ShowShopLiveView")
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
-            self.liveStreamViewController?.view.alpha = 1.0
-        }
 
         if ShopLiveController.shared.isPreview {
-            willChangePreview()
             _style = .pip
             ShopLiveController.windowStyle = .inAppPip
         } else {
@@ -241,6 +262,8 @@ import WebKit
 
         self.videoWindowPanGestureRecognizer = nil
         self.videoWindowTapGestureRecognizer = nil
+        self.videoWindowSwipeDownGestureRecognizer = nil
+        self.videoPinchGestureRecognizer = nil
         self.pictureInPictureController = nil
 
         self.liveStreamViewController?.removeFromParent()
@@ -253,7 +276,9 @@ import WebKit
         self.shopLiveWindow?.rootViewController = nil
 
         self.shopLiveWindow = nil
-
+#if MUSINSA
+        delegate?.log(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
+#endif
         self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
         self._style = .unknown
         self._authToken = nil
@@ -263,11 +288,8 @@ import WebKit
     
     func setupPictureInPicture() {
         guard !ShopLiveController.shared.isPreview else {
-            do {
-                pictureInPictureController?.delegate = nil
-                try AVAudioSession.sharedInstance().setActive(false)
-                self.pictureInPictureController = nil
-            } catch {}
+            self.pictureInPictureController?.delegate = nil
+            self.pictureInPictureController = nil
             return
         }
         guard pictureInPictureController == nil else { return }
@@ -287,13 +309,20 @@ import WebKit
             // Create a new controller, passing the reference to the AVPlayerLayer.
             pictureInPictureController = AVPictureInPictureController(playerLayer: playerLayer)
             pictureInPictureController?.delegate = self
-
+            
+            if #available(iOS 14.2, *) {
+                pictureInPictureController?.canStartPictureInPictureAutomaticallyFromInline = true
+            } else {
+                // Fallback on earlier versions
+            }
 
             if #available(iOS 14.0, *) {
                 pictureInPictureController?.requiresLinearPlayback = false
             } else {
                 // Fallback on earlier versions
             }
+            
+            
         } else {
             // PiP isn't supported by the current device. Disable the PiP button.
         }
@@ -308,10 +337,10 @@ import WebKit
     }
     
     private func pipSize(with scale: CGFloat) -> CGSize {
-        guard let mainWindow = self.mainWindow else { return .zero }
+        guard self.mainWindow != nil else { return .zero }
 
-        let defSize = videoOrientation == .landscape ? CGSize(width: 16, height: 9) : CGSize(width: 9, height: 16)
-        let width =  (UIApplication.shared.statusBarOrientation.isLandscape ? mainWindow.bounds.height : mainWindow.bounds.width) * scale
+        let defSize = ShopLiveController.shared.videoRatio
+        let width =  (UIScreen.isLandscape ? UIScreen.main.bounds.height : UIScreen.main.bounds.width) * scale
         let height = (defSize.height / defSize.width) * width
 
         return CGSize(width: width, height: height)
@@ -319,7 +348,7 @@ import WebKit
 
     private func pipPosition(with scale: CGFloat = 2/5, position: ShopLive.PipPosition = .default) -> CGRect {
         guard let mainWindow = self.mainWindow else { return .zero }
-
+        
         var pipPosition: CGRect = .zero
         var origin = CGPoint.zero
         let safeAreaInsets = mainWindow.safeAreaInsets
@@ -329,23 +358,25 @@ import WebKit
         let pipFloatingOffsetBottom: CGFloat = isKeyboardShow ? 0 : pipFloatingOffset.bottom
         let keyboardHeight: CGFloat = isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0
         
+        let standardSize: CGSize = UIScreen.main.bounds.size
+        
         switch position {
         case .bottomRight, .default:
-            origin.x = mainWindow.frame.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width - pipFloatingOffset.right
-            origin.y = mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
+            origin.x = standardSize.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width - pipFloatingOffset.right
+            origin.y = standardSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
         case .bottomLeft:
             origin.x = safeAreaInsets.left + pipEdgeInsets.left + pipFloatingOffset.left
-            origin.y = mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
+            origin.y = standardSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
         case .topRight:
-            origin.x = mainWindow.frame.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width - pipFloatingOffset.right
+            origin.x = standardSize.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width - pipFloatingOffset.right
             
-            let isOutOfScreen = (mainWindow.frame.height - keyboardHeight - (safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top)) < pipSize.height
-            origin.y = isOutOfScreen ? mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom : safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
+            let isOutOfScreen = (standardSize.height - keyboardHeight - (safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top)) < pipSize.height
+            origin.y = isOutOfScreen ? standardSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom : safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
         case .topLeft:
             origin.x = safeAreaInsets.left + pipEdgeInsets.left + pipFloatingOffset.left
             
-            let isOutOfScreen = (mainWindow.frame.height - keyboardHeight - (safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top)) < pipSize.height
-            origin.y = isOutOfScreen ? mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom : safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
+            let isOutOfScreen = (standardSize.height - keyboardHeight - (safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top)) < pipSize.height
+            origin.y = isOutOfScreen ? standardSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom : safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
         }
 
         pipPosition = CGRect(origin: origin, size: pipSize)
@@ -354,7 +385,7 @@ import WebKit
     }
     
     private func startCustomPictureInPicture(with position: ShopLive.PipPosition = .default, scale: CGFloat = 2/5) {
-
+        
         guard let topVC = UIApplication.topViewController(), topVC.isKind(of: LiveStreamViewController.self) else {
             return
         }
@@ -362,129 +393,321 @@ import WebKit
         delegate?.handleCommand("willShopLiveOff", with: ["style" : style.rawValue])
         guard !ShopLiveController.shared.pipAnimating else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
-
+        
         shopLiveWindow.backgroundColor = .clear
         shopLiveWindow.layer.cornerRadius = 10
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
 
         liveStreamViewController?.shopliveHideKeyboard()
+        
         let pipPosition: CGRect = self.pipPosition(with: scale, position: position)
 
         ShopLiveController.windowStyle = .inAppPip
-        shopLiveWindow.clipsToBounds = false
+        
         shopLiveWindow.rootViewController?.view.layer.cornerRadius = 10
-
-//        liveStreamViewController?.hideBackgroundPoster()
+        shopLiveWindow.rootViewController?.view.layer.masksToBounds = true
+        shopLiveWindow.layer.masksToBounds = true
+        
         ShopLiveController.webInstance?.isHidden = true
         videoWindowPanGestureRecognizer?.isEnabled = true
         videoWindowTapGestureRecognizer?.isEnabled = true
         videoWindowSwipeDownGestureRecognizer?.isEnabled = false
-
-        UIView.animate(withDuration: 0.4, delay: 0, options: []) {
-            ShopLiveController.isHiddenOverlay = true
+        
+        ShopLiveController.webInstance?.isHidden = true
+        
+        self.liveStreamViewController?.updateVideoFit(centerCrop: true, immediately: false)
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
+            self.liveStreamViewController?.updateVideoConstraint()
             shopLiveWindow.frame = pipPosition
-            shopLiveWindow.rootViewController?.view.clipsToBounds = true
             shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
             shopLiveWindow.layer.shadowOpacity = 0.5
             shopLiveWindow.layer.shadowOffset = .zero
             shopLiveWindow.layer.shadowRadius = 10
-            ShopLiveController.shared.pipAnimating = false
+            
             shopLiveWindow.setNeedsLayout()
             shopLiveWindow.layoutIfNeeded()
         } completion: { (isCompleted) in
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(100), execute: {
-                shopLiveWindow.rootViewController?.view.backgroundColor = .black
-            })
+            ShopLiveController.shared.pipAnimating = false
+            self.shopLiveWindow?.backgroundColor = .black
+            self.liveStreamViewController?.view.backgroundColor = .black
+            shopLiveWindow.layer.masksToBounds = false
         }
 
+        ShopLiveController.shared.videoExpanded = true
         delegate?.handleCommand("didShopLiveOff", with: ["style" : style.rawValue])
         _style = .pip
+#if MUSINSA
+        delegate?.log(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+#endif
     }
-
-    private func stopCustomPictureInPicture() {
-
-        setupPictureInPicture()
-
+    
+    func startFromCampaignFullscreen() {
         guard !ShopLiveController.shared.pipAnimating else { return }
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
+        
         shopLiveWindow.backgroundColor = .black
         shopLiveWindow.layer.cornerRadius = 10
-        shopLiveWindow.rootViewController?.view.backgroundColor = .black
+        shopLiveWindow.rootViewController?.view.backgroundColor = .clear
 
+        if pictureInPictureController == nil {
+            setupPictureInPicture()
+        }
+        
+        ShopLiveController.webInstance?.isHidden = false
         mainWindow.rootViewController?.shopliveHideKeyboard()
+        self.liveStreamViewController?.showBackgroundPoster()
 
         delegate?.handleCommand("willShopLiveOn", with: nil)
         ShopLiveController.shared.pipAnimating = true
-        ShopLiveController.webInstance?.isHidden = false
 
         videoWindowPanGestureRecognizer?.isEnabled = false
         videoWindowTapGestureRecognizer?.isEnabled = false
         videoWindowSwipeDownGestureRecognizer?.isEnabled = true
         ShopLiveController.windowStyle = .normal
-
+        
         shopLiveWindow.layer.shadowColor = nil
         shopLiveWindow.layer.shadowOpacity = 0.0
         shopLiveWindow.layer.shadowOffset = .zero
         shopLiveWindow.layer.shadowRadius = 0
-
-        UIView.animate(withDuration: 0.3, delay: 0, options: []) {
-            shopLiveWindow.frame = mainWindow.bounds
-            shopLiveWindow.layer.cornerRadius = 0
-            shopLiveWindow.setNeedsLayout()
-            shopLiveWindow.layoutIfNeeded()
-            shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
-        } completion: { (isCompleted) in
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(300), execute: {
-                ShopLiveController.isHiddenOverlay = false
-                ShopLiveController.shared.pipAnimating = false
+        
+        self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
+        
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
+            self.shopLiveWindow?.layer.masksToBounds = true
+            self.liveStreamViewController?.view.layer.masksToBounds = true
+            self.liveStreamViewController?.updateVideoConstraint()
+        } completion: { _ in
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
+                shopLiveWindow.frame = mainWindow.bounds
+                shopLiveWindow.layer.cornerRadius = 0
+                shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
+                self.shopLiveWindow?.layoutIfNeeded()
+            } completion: { (isCompleted) in
                 shopLiveWindow.rootViewController?.view.backgroundColor = .black
-            })
+                ShopLiveController.shared.pipAnimating = false
+            }
         }
-
+        
         _style = .fullScreen
+        delegate?.handleCommand("didShopLiveOn", with: nil)
     }
 
-    func updatePip() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(300)) {
-            UIView.animate(withDuration: 0.3, delay: 0, options: .transitionCrossDissolve) {
-                let pipSize: CGRect = self.pipPosition(with: self.pipScale, position: self.pipPosition)
+    private func stopCustomPictureInPicture() {
+        if pictureInPictureController == nil {
+            setupPictureInPicture()
+        }
+
+        guard !ShopLiveController.shared.pipAnimating else { return }
+        guard let mainWindow = self.mainWindow else { return }
+        guard let shopLiveWindow = self.shopLiveWindow else { return }
+        
+        shopLiveWindow.backgroundColor = .clear
+        shopLiveWindow.layer.cornerRadius = 10
+        shopLiveWindow.rootViewController?.view.backgroundColor = .clear
+
+        mainWindow.rootViewController?.shopliveHideKeyboard()
+//        self.liveStreamViewController?.hideBackgroundPoster()
+        delegate?.handleCommand("willShopLiveOn", with: nil)
+        ShopLiveController.shared.pipAnimating = true
+
+        videoWindowPanGestureRecognizer?.isEnabled = false
+        videoWindowTapGestureRecognizer?.isEnabled = false
+        videoWindowSwipeDownGestureRecognizer?.isEnabled = true
+        ShopLiveController.windowStyle = .normal
+        
+        shopLiveWindow.layer.shadowColor = nil
+        shopLiveWindow.layer.shadowOpacity = 0.0
+        shopLiveWindow.layer.shadowOffset = .zero
+        shopLiveWindow.layer.shadowRadius = 0
+        
+        if self.needExecuteFullScreen {
+            self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
+            UIView.animate(withDuration: 0.3, delay: 0, options: []) {
+                ShopLiveController.webInstance?.isHidden = UIScreen.isLandscape
+                self.liveStreamViewController?.updateVideoConstraint()
+                shopLiveWindow.frame = mainWindow.bounds
+                shopLiveWindow.layer.cornerRadius = 0
+                shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
+                } completion: { (isCompleted) in
+                    shopLiveWindow.rootViewController?.view.backgroundColor = .black
+                    ShopLiveController.webInstance?.isHidden = false
+                    ShopLiveController.shared.pipAnimating = false
+                    self.liveStreamViewController?.showBackgroundPoster()
+                }
+        } else {
+            self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
+            UIView.animate(withDuration: 0.3, delay: 0, options: []) {
+                ShopLiveController.webInstance?.isHidden = UIScreen.isLandscape
+                self.liveStreamViewController?.updateVideoConstraint()
+                shopLiveWindow.frame = mainWindow.bounds
+                shopLiveWindow.layer.cornerRadius = 0
+                shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
+                } completion: { (isCompleted) in
+                    shopLiveWindow.rootViewController?.view.backgroundColor = .black
+                    ShopLiveController.webInstance?.isHidden = false
+                    shopLiveWindow.backgroundColor = .black
+                    ShopLiveController.shared.pipAnimating = false
+                    self.liveStreamViewController?.showBackgroundPoster()
+                }
+        }
+        _style = .fullScreen
+        delegate?.handleCommand("didShopLiveOn", with: nil)
+#if MUSINSA
+        delegate?.log(name: "pip_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+#endif
+    }
+
+    func updatePip(isRotation: Bool = false) {
+        guard !ShopLiveController.shared.pipAnimating else { return }
+        
+        if isRotation {
+            let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("top", UIScreen.safeArea.top), ("left", UIScreen.safeArea.left),
+                                                                 ("right", UIScreen.safeArea.right), ("bottom", UIScreen.safeArea.bottom), ("orientation", UIScreen.currentOrientation.angle))
+            
+            self.liveStreamViewController?.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
+        } else {
+            delegate?.handleCommand("willShopLiveOff", with: nil)
+        }
+        
+//        self.liveStreamViewController?.hideBackgroundPoster()
+        
+        ShopLiveController.webInstance?.isHidden = true
+        
+        ShopLiveController.shared.pipAnimating = true
+        let pipSize: CGRect = self.pipPosition(with: self.pipScale, position: self.pipPosition)
+        
+        self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
+            self.shopLiveWindow?.layer.masksToBounds = true
+            self.liveStreamViewController?.view.layer.masksToBounds = true
+            self.liveStreamViewController?.updateVideoConstraint()
+        } completion: { _ in
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
                 self.shopLiveWindow?.frame = pipSize
-                self.liveStreamViewController?.view.layoutIfNeeded()
-                self.shopLiveWindow?.setNeedsLayout()
                 self.shopLiveWindow?.layoutIfNeeded()
-                
-            } completion: { isFinished in
-                
+            } completion: { _ in
+                ShopLiveController.shared.pipAnimating = false
             }
+        }
+        
+        if !isRotation {
+            delegate?.handleCommand("didShopLiveOff", with: nil)
         }
     }
     
-    func willChangePreview() {
-        ShopLiveController.windowStyle = .inAppPip
- 
-        let pipSize: CGRect = self.pipPosition(with: self.pipScale, position: self.pipPosition)
-        self.shopLiveWindow?.frame = pipSize
-        self.shopLiveWindow?.clipsToBounds = false
-        self.shopLiveWindow?.backgroundColor = .clear
-        self.shopLiveWindow?.rootViewController?.view.layer.cornerRadius = 10
-        self.shopLiveWindow?.rootViewController?.view.backgroundColor = .black
+    func startFromCampaignPIP() {
+        self.liveStreamViewController?.updateVideoFit(centerCrop: true)
+        
+        delegate?.handleCommand("willShopLiveOff", with: ["style" : style.rawValue])
+        guard !ShopLiveController.shared.pipAnimating else { return }
+        guard let shopLiveWindow = self.shopLiveWindow else { return }
+        
+        ShopLiveController.shared.pipAnimating = true
+        shopLiveWindow.backgroundColor = .clear
+        shopLiveWindow.layer.cornerRadius = 10
+        shopLiveWindow.rootViewController?.view.backgroundColor = .clear
 
+        liveStreamViewController?.shopliveHideKeyboard()
+
+        ShopLiveController.windowStyle = .inAppPip
+        
+        shopLiveWindow.rootViewController?.view.layer.cornerRadius = 10
+        shopLiveWindow.rootViewController?.view.layer.masksToBounds = true
+    
+        ShopLiveController.webInstance?.isHidden = true
         videoWindowPanGestureRecognizer?.isEnabled = true
         videoWindowTapGestureRecognizer?.isEnabled = true
         videoWindowSwipeDownGestureRecognizer?.isEnabled = false
+        
+//        self.liveStreamViewController?.hideBackgroundPoster()
+        
+        let pipPosition: CGRect = self.pipPosition(with: self.pipScale, position: self.pipPosition)
+        shopLiveWindow.frame = pipPosition
+        
+        shopLiveWindow.layer.masksToBounds = false
+        shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
+        shopLiveWindow.layer.shadowOpacity = 0.5
+        shopLiveWindow.layer.shadowOffset = .zero
+        shopLiveWindow.layer.shadowRadius = 10
+        ShopLiveController.shared.pipAnimating = false
+        shopLiveWindow.setNeedsLayout()
+        shopLiveWindow.layoutIfNeeded()
+        
+        delegate?.handleCommand("didShopLiveOff", with: nil)
+    }
+    
+    func willChangePreview() {
+        
+        if pictureInPictureController != nil {
+            pictureInPictureController?.delegate = nil
+            pictureInPictureController = nil
+        }
+        
+        ShopLiveController.windowStyle = .inAppPip
 
-        ShopLiveController.isHiddenOverlay = true
-
-        self.shopLiveWindow?.rootViewController?.view.clipsToBounds = true
-        self.shopLiveWindow?.layer.shadowColor = UIColor.black.cgColor
-        self.shopLiveWindow?.layer.shadowOpacity = 0.5
-        self.shopLiveWindow?.layer.shadowOffset = .zero
-        self.shopLiveWindow?.layer.shadowRadius = 10
-
-        self.shopLiveWindow?.layoutIfNeeded()
-        self.liveStreamViewController?.view.layoutIfNeeded()
-
+        delegate?.handleCommand("willShopLiveOff", with: [["style" : style.rawValue]])
+        
+        if self.needAnimateToChangePreivew {
+//            self.liveStreamViewController?.hideBackgroundPoster()
+            ShopLiveController.webInstance?.isHidden = false
+        } else {
+            self.shopLiveWindow?.isHidden = true
+            self.liveStreamViewController?.view.backgroundColor = .clear
+        }
+        
+        self.shopLiveWindow?.layer.cornerRadius = 10
+        
+        self.videoWindowPanGestureRecognizer?.isEnabled = true
+        self.videoWindowTapGestureRecognizer?.isEnabled = true
+        self.videoWindowSwipeDownGestureRecognizer?.isEnabled = false
+        
+        let pipSize: CGRect = self.pipPosition(with: self.pipScale, position: self.pipPosition)
+        
+        if !self.needAnimateToChangePreivew {
+            self.liveStreamViewController?.updateVideoFit(centerCrop: true, immediately: false)
+            UIView.animate(withDuration: 0, delay: 0, options: []) {
+                self.liveStreamViewController?.updateVideoConstraint()
+                self.shopLiveWindow?.layer.masksToBounds = true
+                self.shopLiveWindow?.layer.shadowColor = UIColor.black.cgColor
+                self.shopLiveWindow?.layer.shadowOpacity = 0.5
+                self.shopLiveWindow?.layer.shadowOffset = .zero
+                self.shopLiveWindow?.rootViewController?.view.layer.cornerRadius = 10
+                self.shopLiveWindow?.frame = pipSize
+            } completion: { _ in
+                self.shopLiveWindow?.setNeedsLayout()
+                self.shopLiveWindow?.layoutIfNeeded()
+                
+                self.shopLiveWindow?.isHidden = false
+                ShopLiveController.shared.webInstance?.isHidden = true
+                self.shopLiveWindow?.layer.masksToBounds = true
+                self.liveStreamViewController?.view.layer.masksToBounds = true
+                self.shopLiveWindow?.backgroundColor = .black
+                self.liveStreamViewController?.showBackgroundPoster()
+            }
+        } else {
+            self.liveStreamViewController?.updateVideoFit(centerCrop: true)
+            UIView.animate(withDuration: 0.3, delay: 0, options: .transitionCrossDissolve) {
+                self.liveStreamViewController?.updateVideoConstraint()
+                self.shopLiveWindow?.frame = pipSize
+                self.shopLiveWindow?.layer.masksToBounds = true
+                self.shopLiveWindow?.layer.shadowColor = UIColor.black.cgColor
+                self.shopLiveWindow?.layer.shadowOpacity = 0.5
+                self.shopLiveWindow?.layer.shadowOffset = .zero
+                self.shopLiveWindow?.rootViewController?.view.layer.cornerRadius = 10
+            } completion: { _ in
+                self.shopLiveWindow?.isHidden = false
+                ShopLiveController.shared.webInstance?.isHidden = true
+                self.shopLiveWindow?.layer.masksToBounds = true
+                self.liveStreamViewController?.view.layer.masksToBounds = true
+                self.shopLiveWindow?.backgroundColor = .black
+                self.liveStreamViewController?.showBackgroundPoster()
+            }
+        }
+        
+        ShopLiveController.shared.videoExpanded = true
+        delegate?.handleCommand("didShopLiveOff", with: ["style" : style.rawValue])
+        self.needAnimateToChangePreivew = false
     }
 
     func didChangeOSPIP() {
@@ -506,18 +729,15 @@ import WebKit
         shopLiveWindow.layer.shadowOffset = .zero
         shopLiveWindow.layer.shadowRadius = 0
 
-        shopLiveWindow.rootViewController?.view.backgroundColor = .clear
+        shopLiveWindow.rootViewController?.view.backgroundColor = .black
 
         shopLiveWindow.layer.cornerRadius = 0
         shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
+        shopLiveWindow.setNeedsLayout()
         shopLiveWindow.layoutIfNeeded()
 
         self.liveStreamViewController?.showBackgroundPoster()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(300), execute: {
-            ShopLiveController.isHiddenOverlay = false
-            ShopLiveController.shared.pipAnimating = false
-            shopLiveWindow.rootViewController?.view.backgroundColor = .black
-        })
+        ShopLiveController.shared.pipAnimating = false
     }
 
     private func alignPipView() {
@@ -577,8 +797,9 @@ import WebKit
         
         let translation = recognizer.translation(in: liveWindow)
         
+#if MUSINSA
         delegate?.playerPanGesture(state: recognizer.state, position: liveWindow.center)
-        
+#endif
         switch recognizer.state {
         case .began:
             panGestureInitialCenter = liveWindow.center
@@ -677,7 +898,18 @@ import WebKit
         guard ShopLiveController.shared.swipeEnabled else { return }
         guard !ShopLiveController.shared.isPreview else { return }
         guard _style == .fullScreen else { return }
-        startShopLivePictureInPicture()
+        guard let topViewController = UIApplication.topViewController(base: self.liveStreamViewController), topViewController.isKind(of: LiveStreamViewController.self) else {
+            self.shopLiveWindow?.rootViewController?.dismiss(animated: false, completion: nil)
+            return
+        }
+#if MUSINSA
+        delegate?.log(name: "swipe_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+#endif
+        if ShopLiveController.shared.videoOrientation == .landscape, UIScreen.isLandscape {
+            self.liveStreamViewController?.updateOrientation(toLandscape: false)
+        }
+        
+        self.startShopLivePictureInPicture()
     }
     
     @objc private func pipTapGestureHandler(_ recognizer: UITapGestureRecognizer) {
@@ -687,6 +919,24 @@ import WebKit
         }
         guard _style == .pip else { return }
         stopShopLivePictureInPicture()
+    }
+    
+    @objc private func pinchGestureHandler(_ recognizer: UIPinchGestureRecognizer) {
+        guard ShopLiveController.shared.videoOrientation == .landscape else { return }
+        guard UIScreen.isLandscape else { return }
+        guard ShopLiveController.shared.videoExpanded else { return }
+                
+        switch recognizer.state {
+        case .ended:
+            ShopLiveController.shared.videoCenterCrop = recognizer.scale > 1.0
+#if MUSINSA
+            delegate?.log(name: recognizer.scale > 1.0 ? "pinch_zoom_out" : "pinch_zoom_in", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+#endif
+            self.liveStreamViewController?.changeVideoGravity(centerCrop: ShopLiveController.shared.videoCenterCrop)
+            break
+        default:
+            break
+        }
     }
     
     func fetchPreviewUrl(with campaignKey: String?, completionHandler: @escaping ((URL?) -> Void)) {
@@ -811,7 +1061,11 @@ import WebKit
                 queryItems.append(URLQueryItem(name: "ck", value: ck))
             }
             queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
+            #if EBAY
+            queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "false"))
+            #else
             queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
+            #endif
             #if DEMO
                 queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
             #endif
@@ -939,15 +1193,9 @@ import WebKit
         case UIApplication.willChangeStatusBarOrientationNotification:
             if _style == .pip, ShopLiveController.windowStyle == .inAppPip {
                 ShopLiveLogger.debugLog("isLandscape \(UIDevice.current.orientation.isLandscape) UIDevice.current.orientation.isFlat \(UIDevice.current.orientation.isFlat)")
-                self.shopLiveWindow?.layer.masksToBounds = true
             }
             break
         case UIDevice.orientationDidChangeNotification:
-            if _style == .pip, ShopLiveController.windowStyle == .inAppPip {
-                ShopLiveLogger.debugLog("updatepip")
-                updatePip()
-            }
-            ShopLiveLogger.debugLog("orientaion change current isLandscape \(UIDevice.current.orientation.isLandscape)")
             break
         default:
             break
@@ -1094,9 +1342,10 @@ extension ShopLiveBase: ShopLiveComponent {
 
     func preview(with campaignKey: String?, completion: @escaping () -> Void) {
         guard self.accessKey != nil else { return }
-        if _style != .pip {
-            startPictureInPicture(with: self.pipPosition, scale: self.pipScale)
-        }
+        ShopLiveController.shared.campaignKey = campaignKey ?? ""
+#if MUSINSA
+        delegate?.log(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "preview"])
+#endif
         ShopLiveController.shared.isPreview = true
         addObserver()
         ShopLiveController.loading = true
@@ -1113,7 +1362,14 @@ extension ShopLiveBase: ShopLiveComponent {
     
     @objc func play(with campaignKey: String?) {
         guard self.accessKey != nil else { return }
+        ShopLiveController.shared.campaignKey = campaignKey ?? ""
         self.needExecuteFullScreen = ShopLiveController.shared.isPreview
+#if MUSINSA
+        if self.needExecuteFullScreen {
+            delegate?.log(name: "preview_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+        }
+        delegate?.log(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "normal"])
+#endif
         ShopLiveController.shared.isPreview = false
         addObserver()
         self.campaignChanged = (campaignKey != self.campaignKey)
@@ -1139,7 +1395,7 @@ extension ShopLiveBase: ShopLiveComponent {
         #if EBAY
         self.pipScale = scale
         #else
-        self.pipScale = scale//convertPipScale(userScale: scale)
+        self.pipScale = scale
         #endif
         
         self.pipPosition = position
@@ -1166,22 +1422,26 @@ extension ShopLiveBase: ShopLiveComponent {
     
     @objc var pipScale: CGFloat {
         get {
+            #if MUSINSA
             guard let fixPipWidth = fixedPipWidth as? CGFloat else {
-                return ShopLiveController.shared.lastPipScale
+                return convertPipScale(userScale: ShopLiveController.shared.lastPipScale)
             }
 
-            let fixedScale = fixPipWidth / (UIApplication.shared.statusBarOrientation.isLandscape ? UIScreen.main.bounds.height : UIScreen.main.bounds.width)
+            let fixedScale = fixPipWidth / (UIScreen.isLandscape ? UIScreen.main.bounds.height : UIScreen.main.bounds.width)
             return (fixedScale >= 0.0 && fixedScale <= 1.0) ? fixedScale : (fixedScale < 0 ? 0.0 : 1.0)
+            #else
+            return convertPipScale(userScale: ShopLiveController.shared.lastPipScale)
+            #endif
         }
         set {
             #if EBAY
             ShopLiveController.shared.lastPipScale = newValue
             #else
-            ShopLiveController.shared.lastPipScale = convertPipScale(userScale: newValue)
+            ShopLiveController.shared.lastPipScale = newValue//convertPipScale(userScale: newValue)
             #endif
         }
     }
-    
+#if MUSINSA
     @objc var fixedPipWidth: NSNumber? {
         get {
             return ShopLiveController.shared.fixedPipWidth as NSNumber?
@@ -1190,6 +1450,7 @@ extension ShopLiveBase: ShopLiveComponent {
             ShopLiveController.shared.fixedPipWidth = newValue as? CGFloat
         }
     }
+#endif
 
     @objc var indicatorColor: UIColor {
         get {
@@ -1242,22 +1503,27 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
         _style = .fullScreen
         ShopLiveController.windowStyle = .normal
+
+        self.startFromCampaignFullscreen()
     }
 
     public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
         if !isRestoredPip { //touch stop pip button in OS PIP view
             self.hideShopLiveView()
-        } else {
+        }
+        else {
             if ShopLiveController.shared.needReload {
                 ShopLiveController.shared.needReload = false
                 guard !ShopLiveController.isReplayMode else { return }
-                
+
                 ShopLiveController.shared.playControl = .resume
             } else {
                 if ShopLiveController.timeControlStatus == .paused, !ShopLiveController.isReplayMode {
                     ShopLiveController.shared.playControl = .resume
                 }
             }
+
+            ShopLiveController.shared.swipeEnabled = true
         }
 
         ShopLiveController.webInstance?.sendEventToWeb(event: .onPipModeChanged, false)
@@ -1267,6 +1533,87 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
 }
 
 extension ShopLiveBase: LiveStreamViewControllerDelegate {
+    func resetPictureInPicture() {
+        if pictureInPictureController == nil {
+            setupPictureInPicture()
+        }
+    }
+    
+#if MUSINSA
+    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
+        delegate?.log(name: name, feature: feature, campaign: campaign, parameter: parameter)
+    }
+#endif
+    
+    func finishRotation() {
+
+        if ShopLiveController.shared.videoOrientation == .portrait {
+            
+            if ShopLiveController.shared.windowStyle != .inAppPip {
+                ShopLiveController.shared.webInstance?.alpha = 0
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
+                    UIView.animate(withDuration: 0.3, delay: 0, options: .transitionCrossDissolve) {
+                        ShopLiveController.shared.webInstance?.alpha = 1
+                        ShopLiveController.shared.webInstance?.isHidden = false
+                        self.liveStreamViewController?.showBackgroundPoster()
+                    } completion: { _ in
+                        
+                    }
+                }
+            }
+        }
+        
+        UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve) {
+            self.shopLiveWindow?.layer.masksToBounds = false
+            self.liveStreamViewController?.showBackgroundPoster()
+        } completion: { _ in
+
+        }
+    }
+    
+    func updatePictureInPicture() {
+        if ShopLiveController.shared.isPreview {
+            willChangePreview()
+        } else {
+            if ShopLiveController.shared.windowStyle == .inAppPip {
+                if ShopLiveController.shared.videoOrientation == .landscape {
+                    updatePip()
+                } else {
+                    startFromCampaignPIP()
+                }
+            } else {
+                self.startFromCampaignFullscreen()
+            }
+        }
+    }
+    
+    func changeOrientation(to: ShopLiveDefines.ShopLiveOrientaion) {
+        if _style == .pip, ShopLiveController.windowStyle == .inAppPip {
+            updatePip(isRotation: true)
+        } else {
+            let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("top", UIScreen.safeArea.top), ("left", UIScreen.safeArea.left),
+                                                                 ("right", UIScreen.safeArea.right), ("bottom", UIScreen.safeArea.bottom), ("orientation", UIScreen.currentOrientation.angle))
+            
+            self.liveStreamViewController?.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
+            
+            self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
+            
+//            self.liveStreamViewController?.hideBackgroundPoster()
+            if ShopLiveController.shared.videoOrientation == .portrait {
+                ShopLiveController.shared.webInstance?.isHidden = true
+            }
+            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
+                
+            } completion: { _ in
+                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
+                    self.liveStreamViewController?.updateVideoConstraint()
+                    self.shopLiveWindow?.layoutIfNeeded()
+                } completion: { _ in
+                }
+            }
+        }
+    }
+    
     func handleReceivedCommand(_ command: String, with payload: Any?) {
         delegate?.handleReceivedCommand(command, with: payload)
     }
@@ -1312,6 +1659,10 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     func didTouchPipButton() {
+        if ShopLiveController.shared.videoOrientation == .landscape, UIScreen.isLandscape {
+            self.liveStreamViewController?.updateOrientation(toLandscape: false)
+        }
+        
         startShopLivePictureInPicture()
     }
     

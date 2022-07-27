@@ -135,6 +135,27 @@ import UIKit
     }
 }
 
+@objc public class ShopLiveLog: NSObject {
+    @objc public enum Feature: Int, CaseIterable {
+        case CLICK, SHOW, ACTION
+        
+        var name: String {
+            switch self {
+            case .CLICK:
+                return "click"
+            case .ACTION:
+                return "action"
+            case .SHOW:
+                return "show"
+            }
+        }
+        
+        static func featureFrom(type: String) -> Feature? {
+            return Feature.allCases.filter({$0.name == type}).first
+        }
+    }
+}
+
 @objc public enum ActionType: Int {
     case PIP
     case KEEP
@@ -173,6 +194,7 @@ import UIKit
     @objc func handleReceivedCommand(_ command: String, with payload: Any?)
 #if MUSINSA
     @objc func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint)
+    @objc func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String: String])
 #endif
 }
 
@@ -185,6 +207,8 @@ public typealias ShopLiveViewController = UIViewController
     @objc static var fixedPipWidth: NSNumber? { get set }
     @objc static func mute()
     @objc static func unmute()
+    @objc static var playerMode: ShopLive.PlayerMode { get }
+    @objc static var orientationMode: ShopLive.VideoOrientation { get }
     #endif
     
     @objc static var viewController: ShopLiveViewController? { get }

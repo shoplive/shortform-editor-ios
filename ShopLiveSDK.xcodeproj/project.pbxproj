@@ -14,6 +14,12 @@
 		BF1B57BA276983600002EBB5 /* CustomBaseAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */; };
 		BF1B57BC2769844F0002EBB5 /* CampaignInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */; };
 		BF1C0804272797C400F6B2E1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */; };
+		BF263095288DDA980071C8BE /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF263092288DDA980071C8BE /* LoginTextField.swift */; };
+		BF263096288DDA980071C8BE /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF263092288DDA980071C8BE /* LoginTextField.swift */; };
+		BF263097288DDA980071C8BE /* BaseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF263093288DDA980071C8BE /* BaseTextField.swift */; };
+		BF263098288DDA980071C8BE /* BaseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF263093288DDA980071C8BE /* BaseTextField.swift */; };
+		BF263099288DDA980071C8BE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF263094288DDA980071C8BE /* LoginViewController.swift */; };
+		BF26309A288DDA980071C8BE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF263094288DDA980071C8BE /* LoginViewController.swift */; };
 		BF34F2D928125F8600114DBF /* ShopLiveSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BA5155025CBDCD100070181 /* ShopLiveSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF34F2DB28125F8600114DBF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99C27F5742D004C2785 /* Extensions.swift */; };
 		BF34F2DC28125F8600114DBF /* OverlayWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D98727F5742D004C2785 /* OverlayWebView.swift */; };
@@ -250,6 +256,8 @@
 		BF60E24E2771CECA0060531C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB2265A23FD00202160 /* Main.storyboard */; };
 		BF69333027BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */; };
 		BF69333127BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */; };
+		BF85BA8C2886FB3000E48A22 /* DemoAppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF85BA8B2886FB3000E48A22 /* DemoAppUtility.swift */; };
+		BF85BA8D2886FB3000E48A22 /* DemoAppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF85BA8B2886FB3000E48A22 /* DemoAppUtility.swift */; };
 		BF8CEF91276C6DED0043D5FF /* SDKOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8CEF90276C6DED0043D5FF /* SDKOption.swift */; };
 		BF8CEF93276C70DB0043D5FF /* TextItemInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8CEF92276C70DB0043D5FF /* TextItemInputAlertController.swift */; };
 		BF8CEF9C276CFB310043D5FF /* CouponResponseSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8CEF9B276CFB310043D5FF /* CouponResponseSettingView.swift */; };
@@ -317,6 +325,9 @@
 		BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignInputAlertController.swift; sourceTree = "<group>"; };
 		BF1B57C0276B19600002EBB5 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
+		BF263092288DDA980071C8BE /* LoginTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
+		BF263093288DDA980071C8BE /* BaseTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTextField.swift; sourceTree = "<group>"; };
+		BF263094288DDA980071C8BE /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BF34F2FE28125F8600114DBF /* ShopLiveSDKLocal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDKLocal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF34F2FF28125F8600114DBF /* ShopLiveSDK local-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ShopLiveSDK local-Info.plist"; path = "/Users/vincent/repo/matrix-sdk-ios/ShopLiveSDK local-Info.plist"; sourceTree = "<absolute>"; };
 		BF37D98327F5742D004C2785 /* LiveStreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveStreamViewController.swift; sourceTree = "<group>"; };
@@ -383,6 +394,7 @@
 		BF60E2522771CECA0060531C /* DEMO QA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DEMO QA.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF60E2542771D86B0060531C /* ShopLiveDemo-QA-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ShopLiveDemo-QA-Info.plist"; sourceTree = "<group>"; };
 		BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShareViewController.swift; sourceTree = "<group>"; };
+		BF85BA8B2886FB3000E48A22 /* DemoAppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppUtility.swift; sourceTree = "<group>"; };
 		BF8CEF90276C6DED0043D5FF /* SDKOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDKOption.swift; sourceTree = "<group>"; };
 		BF8CEF92276C70DB0043D5FF /* TextItemInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextItemInputAlertController.swift; sourceTree = "<group>"; };
 		BF8CEF9B276CFB310043D5FF /* CouponResponseSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponResponseSettingView.swift; sourceTree = "<group>"; };
@@ -654,6 +666,9 @@
 				BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */,
 				BF8CEF92276C70DB0043D5FF /* TextItemInputAlertController.swift */,
 				BF60E1D8276F8D970060531C /* SecretKeyInputAlertController.swift */,
+				BF263093288DDA980071C8BE /* BaseTextField.swift */,
+				BF263092288DDA980071C8BE /* LoginTextField.swift */,
+				BF263094288DDA980071C8BE /* LoginViewController.swift */,
 				BFE21968276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift */,
 				BF47197727660CF500522F6F /* SampleExtensions.swift */,
 				BF60E1C8276DB1380060531C /* Sample.xcassets */,
@@ -686,6 +701,7 @@
 				BF60E1CF276F69C00060531C /* DemoSecretKeyTool.swift */,
 				BF60E1CA276E4BC60060531C /* JWTTool.swift */,
 				BF60E1D1276F6A0D0060531C /* DemoSecretKeySet.swift */,
+				BF85BA8B2886FB3000E48A22 /* DemoAppUtility.swift */,
 			);
 			path = SDKSettings;
 			sourceTree = "<group>";
@@ -1312,6 +1328,7 @@
 				BF60E2012771CECA0060531C /* DemoConfiguration.swift in Sources */,
 				BF37D9AD27F5742D004C2785 /* ShopLiveController.swift in Sources */,
 				BF37D9D127F5742D004C2785 /* ShopLiveDefines.swift in Sources */,
+				BF85BA8D2886FB3000E48A22 /* DemoAppUtility.swift in Sources */,
 				BF60E2062771CECA0060531C /* GuideTitleButton.swift in Sources */,
 				BF60E2092771CECA0060531C /* AppDelegate.swift in Sources */,
 				BF37D9B327F5742D004C2785 /* OverlayWebView.swift in Sources */,
@@ -1332,6 +1349,7 @@
 				BF37D9E027F5742D004C2785 /* ShopLiveWebInterface.swift in Sources */,
 				BF69333127BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */,
 				BF60E21B2771CECA0060531C /* UserInfoViewController.swift in Sources */,
+				BF263096288DDA980071C8BE /* LoginTextField.swift in Sources */,
 				BF60E21D2771CECA0060531C /* SceneDelegate.swift in Sources */,
 				BF60E21F2771CECA0060531C /* DevInfoCell.swift in Sources */,
 				BF60E2202771CECA0060531C /* SideMenuBaseViewController.swift in Sources */,
@@ -1348,6 +1366,7 @@
 				BF60E22E2771CECA0060531C /* ShopLiveCheckBoxButton.swift in Sources */,
 				BF60E22F2771CECA0060531C /* CampaignsViewController.swift in Sources */,
 				BF60E2302771CECA0060531C /* SampleOptions.swift in Sources */,
+				BF26309A288DDA980071C8BE /* LoginViewController.swift in Sources */,
 				BF60E2322771CECA0060531C /* SideMenuViewController.swift in Sources */,
 				BF60E2332771CECA0060531C /* SecretKeysViewController.swift in Sources */,
 				BF37D9EC27F5742D004C2785 /* URLUtil.swift in Sources */,
@@ -1357,6 +1376,7 @@
 				BF60E2362771CECA0060531C /* SideMenuItemViewController.swift in Sources */,
 				BF60E2382771CECA0060531C /* SecretKeyCell.swift in Sources */,
 				BF60E23B2771CECA0060531C /* DemoSecretKeySet.swift in Sources */,
+				BF263098288DDA980071C8BE /* BaseTextField.swift in Sources */,
 				BF60E23C2771CECA0060531C /* JWTTool.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1390,6 +1410,7 @@
 				BF47199F2768570100522F6F /* DemoConfiguration.swift in Sources */,
 				BF37D9AC27F5742D004C2785 /* ShopLiveController.swift in Sources */,
 				BF37D9D027F5742D004C2785 /* ShopLiveDefines.swift in Sources */,
+				BF85BA8C2886FB3000E48A22 /* DemoAppUtility.swift in Sources */,
 				BF4719A127685D8E00522F6F /* GuideTitleButton.swift in Sources */,
 				BFAD8EAD265A23FD00202160 /* AppDelegate.swift in Sources */,
 				BF37D9B227F5742D004C2785 /* OverlayWebView.swift in Sources */,
@@ -1410,6 +1431,7 @@
 				BF37D9DF27F5742D004C2785 /* ShopLiveWebInterface.swift in Sources */,
 				BF69333027BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */,
 				BF47198627663BE100522F6F /* UserInfoViewController.swift in Sources */,
+				BF263095288DDA980071C8BE /* LoginTextField.swift in Sources */,
 				BFAD8EAF265A23FD00202160 /* SceneDelegate.swift in Sources */,
 				BFE21967276B436600900FB1 /* DevInfoCell.swift in Sources */,
 				BF47197627660CD300522F6F /* SideMenuBaseViewController.swift in Sources */,
@@ -1426,6 +1448,7 @@
 				BFE21969276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift in Sources */,
 				BF4719842766389F00522F6F /* CampaignsViewController.swift in Sources */,
 				BF4719AB2768836000522F6F /* SampleOptions.swift in Sources */,
+				BF263099288DDA980071C8BE /* LoginViewController.swift in Sources */,
 				BF47196F2765F48700522F6F /* SideMenuViewController.swift in Sources */,
 				BF60E1D5276F6E860060531C /* SecretKeysViewController.swift in Sources */,
 				BF37D9EB27F5742D004C2785 /* URLUtil.swift in Sources */,
@@ -1435,6 +1458,7 @@
 				BF4719902766523000522F6F /* SideMenuItemViewController.swift in Sources */,
 				BF60E1D7276F6EEF0060531C /* SecretKeyCell.swift in Sources */,
 				BF60E1D2276F6A0D0060531C /* DemoSecretKeySet.swift in Sources */,
+				BF263097288DDA980071C8BE /* BaseTextField.swift in Sources */,
 				BF60E1CB276E4BC60060531C /* JWTTool.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1882,7 +1906,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
@@ -1914,7 +1938,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
@@ -1931,7 +1955,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SUPPORTS_MACCATALYST = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEMO QA";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEMO MUSINSA QA";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

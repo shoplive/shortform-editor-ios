@@ -122,6 +122,16 @@ extension AVPlayer.TimeControlStatus {
     }
 }
 extension String {
+    var boolValue: Bool? {
+        switch self {
+        case "true", "1", "yes":
+            return true
+        case "false", "0", "no":
+            return false
+        default:
+            return nil
+        }
+    }
     
     func localizedString(from: String = "Localizable", bundle: Bundle = Bundle(identifier: "cloud.shoplive.sdk") ?? Bundle.main, comment: String = "") -> String {
         bundle.localizedString(forKey: self, value: nil, table: from)
@@ -289,6 +299,13 @@ internal extension ShopLiveCouponResult {
     }
 }
 
+enum UIScreenDirection {
+    case top
+    case left
+    case right
+    case bottom
+}
+
 internal extension ShopLiveCustomActionResult {
     func toJson() -> String? {
         let couponJson = NSMutableDictionary()
@@ -302,9 +319,99 @@ internal extension ShopLiveCustomActionResult {
 }
 
 extension UIScreen {
-    static var isLandscape: Bool {
-        return UIApplication.shared.statusBarOrientation.isLandscape
+    static var currentOrientation: UIInterfaceOrientation {
+        if #available(iOS 13.0, *) {
+            return UIApplication.shared.windows
+                .first?
+                .windowScene?
+                .interfaceOrientation ?? UIDevice.current.orientation.interfaceOrientation
+        } else {
+            return UIApplication.shared.statusBarOrientation
+        }
     }
+    
+    static var isLandscape: Bool {
+        if #available(iOS 13.0, *) {
+            return UIApplication.shared.windows
+                .first?
+                .windowScene?
+                .interfaceOrientation
+                .isLandscape ?? false
+        } else {
+            return UIApplication.shared.statusBarOrientation.isLandscape
+        }
+    }
+    
+    static var concreteWidth: CGFloat {
+        UIScreen.main.bounds.width < UIScreen.main.bounds.height ? UIScreen.main.bounds.width : UIScreen.main.bounds.height
+    }
+    
+    static var concreteHeight: CGFloat {
+        UIScreen.main.bounds.width < UIScreen.main.bounds.height ? UIScreen.main.bounds.height : UIScreen.main.bounds.width
+    }
+    
+    static var landscapeWidth: CGFloat {
+        UIScreen.main.bounds.width > UIScreen.main.bounds.height ? UIScreen.main.bounds.width : UIScreen.main.bounds.height
+    }
+    
+    static var concreteTopSafeArea: CGFloat {
+        let tops = isLandscape ? (currentOrientation == .landscapeLeft ? safeArea.left : safeArea.right) : (currentOrientation == .portrait ? safeArea.top : safeArea.bottom)
+        
+        return tops
+    }
+    
+    static var topSafeArea: CGFloat {
+        if #available(iOS 13.0, *) {
+            let window = UIApplication.shared.windows.first
+            return window?.safeAreaInsets.top ?? 0
+        } else {
+            let window = UIApplication.shared.keyWindow
+            return window?.safeAreaInsets.top ?? 0
+        }
+    }
+    
+    static var leftSafeArea: CGFloat {
+        if #available(iOS 13.0, *) {
+            let window = UIApplication.shared.windows.filter({ $0.frame == main.bounds && $0.safeAreaInsets != .zero }).first
+            return window?.safeAreaInsets.left ?? 0
+        } else {
+            let window = UIApplication.shared.keyWindow
+            return window?.safeAreaInsets.left ?? 0
+        }
+    }
+    
+    static var rightSafeArea: CGFloat {
+        if #available(iOS 13.0, *) {
+            let window = UIApplication.shared.windows.filter({ $0.frame == main.bounds && $0.safeAreaInsets != .zero }).first
+            return window?.safeAreaInsets.right ?? 0
+        } else {
+            let window = UIApplication.shared.keyWindow
+            return window?.safeAreaInsets.right ?? 0
+        }
+    }
+    
+    static var bottomSafeArea: CGFloat {
+        if #available(iOS 13.0, *) {
+            let window = UIApplication.shared.windows.first
+            return window?.safeAreaInsets.bottom ?? 0
+        } else {
+            let window = UIApplication.shared.keyWindow
+            return window?.safeAreaInsets.bottom ?? 0
+        }
+    }
+    
+    static var safeArea: UIEdgeInsets {
+        if #available(iOS 13.0, *) {
+            let window = UIApplication.shared.windows.filter({ $0.frame == main.bounds && $0.safeAreaInsets != .zero }).first
+            
+            return window?.safeAreaInsets ?? .zero
+        } else {
+            let window = UIApplication.shared.keyWindow
+            return window?.safeAreaInsets ?? .zero
+        }
+    }
+    
+    
 }
 
 extension CALayer {
@@ -376,5 +483,84 @@ extension UITextView {
         let estimatedSize = sizeThatFits(size)
         
         return Int(estimatedSize.height / lineHeight)
+    }
+}
+
+extension NSLayoutConstraint {
+    func updateConstraint(value: NSLayoutConstraint?) {
+        guard let newConstraint = value else { return }
+        NSLayoutConstraint.deactivate([self])
+
+        NSLayoutConstraint.activate([newConstraint])
+    }
+    
+    func setMultiplier(multiplier:CGFloat) -> NSLayoutConstraint {
+
+        NSLayoutConstraint.deactivate([self])
+
+        let newConstraint = NSLayoutConstraint(
+            item: firstItem as Any,
+            attribute: firstAttribute,
+            relatedBy: relation,
+            toItem: secondItem,
+            attribute: secondAttribute,
+            multiplier: multiplier,
+            constant: constant)
+
+        newConstraint.priority = priority
+        newConstraint.shouldBeArchived = self.shouldBeArchived
+        newConstraint.identifier = self.identifier
+
+        NSLayoutConstraint.activate([newConstraint])
+        return newConstraint
+    }
+}
+
+extension UIInterfaceOrientation {
+    var angle: CGFloat {
+        switch self {
+        case .portrait:
+            return 0
+        case .portraitUpsideDown:
+            return 180
+        case .landscapeRight:
+            return 270
+        case .landscapeLeft:
+            return 90
+        default:
+            return 0
+        }
+    }
+    
+    var deviceOrientation: UIDeviceOrientation {
+        switch self {
+        case .portrait:
+            return .portrait
+        case .portraitUpsideDown:
+            return .portraitUpsideDown
+        case .landscapeLeft:
+            return .landscapeLeft
+        case .landscapeRight:
+            return .landscapeRight
+        default:
+            return .portrait
+        }
+    }
+}
+
+extension UIDeviceOrientation {
+    var interfaceOrientation: UIInterfaceOrientation {
+        switch self {
+        case .portrait:
+            return .portrait
+        case .portraitUpsideDown:
+            return .portraitUpsideDown
+        case .landscapeLeft:
+            return .landscapeLeft
+        case .landscapeRight:
+            return .landscapeRight
+        default:
+            return .portrait
+        }
     }
 }

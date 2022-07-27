@@ -12,6 +12,7 @@
 "alert.msg.cancel" = "취소";
 "alert.msg.success" = "성공";
 "alert.msg.failed" = "실패";
+"alert.login.required.description" = "로그인이 필요합니다. 로그인 화면으로 \n 이동하시겠습니까?";
 "sdk.play" = "재생";
 "sdk.preview" = "미리보기";
 "sdk.user.delete" = "지우기";
@@ -82,6 +83,8 @@
 "sdkoption.pipPosition.description" = "PIP 모드가 시작될 때 위치입니다. (기본은 bottomRight)";
 "sdkoption.pipScale.title" = "PIP Scale";
 "sdkoption.pipScale.description" = "PIP 모드 화면의 Scale입니다.\n화면 width 기준으로 scale 된 사이즈 (0 ~ 1 사이의 값)로 표시";
+"sdkoption.fixedPipWidth.title" = "PIP 고정 가로 사이즈";
+"sdkoption.fixedPipWidth.description" = "서로 다른 해상도의 단말에서 가로사이즈를 동일하게 유지하도록 고정 가로 길이를 설정할 수 있습니다. 모든 단말에서 pip크기가 일정하게 설정 해애하는 서비스에서 설정(현재는 무신사 제공 모듈만 적용됨)";
 "sdkoption.nextActionTypeOnNavigation.title" = "사용자 링크 탭 시 Shoplive Player의 동시 동작";
 "sdkoption.nextActionTypeOnNavigation.description" = "사용자가 링크를 탭 하였을 때 Shoplive Player 동작을 설정합니다.";
 "sdkoption.nextActionTypeOnNavigation.item1" = "PIP 모드 전환";
@@ -120,3 +123,8 @@
 "sample.coupon.download" = "쿠폰 다운로드";
 "sample.coupon.id" = "쿠폰 ID";
 "guide.customShare" = "커스텀 공유하기 사용";
+"login.id.label" = "User ID";
+"login.id.placeholder" = "Enter User ID";
+"login.pwd.label" = "Password";
+"login.pwd.placeholder" = "Enter Password";
+"login.send.title" = "Log In";

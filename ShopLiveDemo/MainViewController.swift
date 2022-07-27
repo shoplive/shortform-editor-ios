@@ -55,6 +55,7 @@ class MainViewController: SideMenuBaseViewController {
     }
 
     func setupSampleOptions() {
+        
         SampleOptions.campaignNaviMoreOptions = ["campaign.menu.write".localized(), "Dev-Admin", "Admin", "campaign.menu.deleteall".localized()]
         SampleOptions.campaignNaviMoreSelectionAction = { (index: Int, item: String) in
             print("selected item: \(item) index: \(index)")
@@ -187,6 +188,10 @@ class MainViewController: SideMenuBaseViewController {
         #endif
         
         ShopLive.setKeepAspectOnTabletPortrait(config.useAspectOnTablet)
+        
+        #if MUSINSA
+        ShopLive.fixedPipWidth = DemoConfiguration.shared.fixedPipWidth as? NSNumber
+        #endif
     }
 
     override func preview() {
@@ -195,12 +200,10 @@ class MainViewController: SideMenuBaseViewController {
             return
         }
 
-        ShopLive.fixedPipWidth = 100
         setupShopliveSettings()
         ShopLive.setEndpoint(nil)
         ShopLive.configure(with: currentKey.accessKey)
         ShopLive.preview(with: currentKey.campaignKey) {
-            
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
                 ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted)
             } else {
@@ -217,6 +220,7 @@ class MainViewController: SideMenuBaseViewController {
             UIWindow.showToast(message: "sdk.msg.nonekey".localized())
             return
         }
+        
         ShopLive.setEndpoint(nil)
         setupShopliveSettings()
         ShopLive.configure(with: currentKey.accessKey)
@@ -227,10 +231,15 @@ class MainViewController: SideMenuBaseViewController {
 }
 
 extension MainViewController: ShopLiveSDKDelegate {
+    #if MUSINSA
+    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
+        ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) parameter \(parameter)")
+    }
+    
     func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint) {
         ShopLiveLogger.debugLog("window gesture state \(state) position \(position)")
     }
-    
+    #endif
     func handleNavigation(with url: URL) {
         print("handleNavigation \(url)")
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleNavigation \(url)"))
@@ -380,13 +389,39 @@ extension MainViewController: ShopLiveSDKDelegate {
         print("handleReceivedCommand command: \(command) payload: \(String(describing: payload))")
         switch command {
         case "LOGIN_REQUIRED":
-            /*
-                1. 로그인 화면으로 이동
-                2. 로그인이 성공하면, 인증 사용자 계정을 연동하여 샵라이브플레이어를 다시 호출
-             */
+            let alert = UIAlertController(title: command, message: "alert.login.required.description".localized(), preferredStyle: .alert)
+            alert.addAction(.init(title: "alert.msg.ok".localized(), style: .default, handler: { _ in
+                /*
+                    1. 로그인 화면으로 이동
+                    2. 로그인이 성공하면, 인증 사용자 계정을 연동하여 샵라이브플레이어를 다시 호출
+                 */
+                ShopLive.startPictureInPicture()
+                let login = LoginViewController()
+                login.delegate = self
+                self.navigationController?.pushViewController(login, animated: true)
+            }))
+            alert.addAction(.init(title: "alert.msg.no".localized(), style: .default, handler: { _ in
+                alert.dismiss(animated: true)
+            }))
+            ShopLive.viewController?.present(alert, animated: true, completion: nil)
             break
         default:
             break
         }
+    }
+}
+
+extension MainViewController: LoginDelegate {
+    func loginSuccess() {
+        
+        guard let currentKey = ShopLiveDemoKeyTools.shared.currentKey() else {
+            UIWindow.showToast(message: "sdk.msg.nonekey".localized())
+            return
+        }
+        
+        let loginUser = ShopLiveUser(id: "shoplive", name: "loginUser", gender: .male, age: 20)
+        ShopLive.user = loginUser
+        
+        ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: true)
     }
 }

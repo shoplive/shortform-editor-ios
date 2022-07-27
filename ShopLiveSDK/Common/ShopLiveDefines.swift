@@ -40,11 +40,8 @@ import CoreMedia
 
     static let webInterface: String = "ShopLiveAppInterface"
     static let osVersion = UIDevice.current.systemVersion
-
-    enum VideoOrientaion {
-        case portrait
-        case landscape
-    }
+    
+    static let defVideoRatio: CGSize = .init(width: 9, height: 16)
     
     static var deviceIdentifier: String {
         var systemInfo = utsname()
@@ -56,6 +53,11 @@ import CoreMedia
         }
 
         return identifier
+    }
+    
+    enum ShopLiveOrientaion {
+        case portrait
+        case landscape
     }
 }
 
@@ -72,6 +74,13 @@ protocol LiveStreamViewControllerDelegate: AnyObject {
     func onError(code: String, message: String)
     func onSetUserName(_ payload: [String : Any])
     func handleReceivedCommand(_ command: String, with payload: Any?)
+    func changeOrientation(to: ShopLiveDefines.ShopLiveOrientaion)
+    func updatePictureInPicture()
+    func finishRotation()
+    func resetPictureInPicture()
+    #if MUSINSA
+    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String])
+    #endif
 }
 
 protocol OverlayWebViewDelegate: AnyObject {
@@ -96,7 +105,12 @@ protocol OverlayWebViewDelegate: AnyObject {
     func handleCommand(_ command: String, with payload: Any?)
     func onSetUserName(_ payload: [String : Any])
     func handleReceivedCommand(_ command: String, with payload: Any?)
-
+    func updatePlayerFrame(centerCrop: Bool, playerFrame: CGRect, immediately: Bool)
+    func updateOrientation(toLandscape: Bool)
+    func updateVideoExpanded()
+    #if MUSINSA
+    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String])
+    #endif
 }
 
 extension Notification.Name {

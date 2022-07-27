@@ -60,6 +60,8 @@ final class ShopLiveController: NSObject {
     deinit {
     }
 
+    var campaignKey: String = ""
+    var newStartPlay: Bool = false
     var campaignStatus: ShopLiveCampaignStatus = .close
     var isSuccessCampaignJoin: Bool = false
     private var playerDelegates: [ShopLivePlayerDelegate?] = []
@@ -75,8 +77,20 @@ final class ShopLiveController: NSObject {
     @objc dynamic var takeSnapShot: Bool = true
     @objc dynamic var isPreview: Bool = false
     @objc dynamic var loading: Bool = false
+    
     var isMuted: Bool = ShopLiveConfiguration.SoundPolicy.isMuted
+    var isStartedCampaign: Bool = false
 
+    var playerResumeCount: Int = 0
+    
+    var playerMode: ShopLive.PlayerMode {
+        if isStartedCampaign {
+            return isPreview ? .preview : .play
+        } else {
+            return .none
+        }
+    }
+    
     lazy var currentPlayTime: Int64? = nil {
         didSet {
             // ShopLiveLogger.debugLog("seek current play time didSet: \(currentPlayTime)")
@@ -88,6 +102,8 @@ final class ShopLiveController: NSObject {
     var keyboardHeight: CGFloat = .zero
     var lastPipPlaying: Bool = false
     var screenLock: Bool = false
+    
+    var keepOrientationWhenPlayStart: Bool = false
 
     var snapShot: UIImage? = nil
     var streamUrl: URL? {
@@ -100,20 +116,42 @@ final class ShopLiveController: NSObject {
     var hookNavigation: ((URL) -> Void)?
     var webInstance: ShopLiveWebView?
     var pipAnimating: Bool = false
-    var swipeEnabled: Bool = true
+    var swipeEnabled: Bool = false
     var lastPipPosition: ShopLive.PipPosition = .default
     var lastPipScale: CGFloat = 2/5
     var fixedPipWidth: CGFloat?
-
+    var videoOrientation: ShopLiveDefines.ShopLiveOrientaion {
+        switch supportOrientation {
+        case .portrait, .unknown:
+            return .portrait
+        case .landscape:
+            return .landscape
+        }
+    }
+    var supportOrientation: ShopLive.VideoOrientation = .unknown
+    var videoExpanded: Bool = true
+    
+    lazy var videoRatio: CGSize = videoOrientation == .landscape ? CGSize(width: 16, height: 9) : CGSize(width: 9, height: 16)
+    var videoFrame: (portrait: CGRect?, landscape: (expanded: CGRect?, standard: CGRect?)) = (portrait: nil, landscape: (expanded: nil, standard: nil))
+    var lastOrientaion: ShopLiveDefines.ShopLiveOrientaion = .portrait
+    var videoCenterCrop: Bool {
+        set {
+            self._videoCenterCrop = newValue
+        }
+        get {
+            return self.videoExpanded && UIScreen.isLandscape && videoOrientation == .landscape ? _videoCenterCrop : false
+        }
+    }
+    
+    private var _videoCenterCrop: Bool = false
+    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath, let key = ShopLivePlayerObserveValue(rawValue: keyPath), let _ = change?[.newKey] else { return }
         switch key {
         case .loadedTimeRanges:
             if let loadedTimeRanges = change?[.newKey] as? [NSValue], let timeRange = loadedTimeRanges.last as? CMTimeRange {
                 let timeLoaded = Int(timeRange.duration.value) / Int(timeRange.duration.timescale)
-                // ShopLiveLogger.debugLog("time Loaded \(timeLoaded) ShopLiveController.timeControlStatus \(ShopLiveController.timeControlStatus.name) \(ShopLiveController.playerItemStatus.rawValue)")
                 if timeLoaded >= 4 && ShopLiveController.timeControlStatus == .waitingToPlayAtSpecifiedRate {
-                    // ShopLiveLogger.debugLog("time Loaded play\n")
                     ShopLiveController.playControl = .play
                 }
             }
@@ -185,6 +223,8 @@ final class ShopLiveController: NSObject {
     }
 
     func resetOnlyFinished() {
+        isStartedCampaign = false
+        
         playItem = nil
         playItem = .init()
 
@@ -198,11 +238,16 @@ final class ShopLiveController: NSObject {
         isSuccessCampaignJoin = false
         campaignStatus = .close
         webInstance = nil
+        
+        newStartPlay = false
         isMuted = ShopLiveConfiguration.SoundPolicy.isMuted
         ShopLiveConfiguration.UI.color = .white
         ShopLiveConfiguration.UI.customIndicatorImages.removeAll()
     }
     private func reset() {
+        keepOrientationWhenPlayStart = false
+        
+        playerResumeCount = 0
         playControl = .none
         isReplayMode = false
         isHiddenOverlay = false
@@ -215,6 +260,17 @@ final class ShopLiveController: NSObject {
         windowStyle = .none
         needReload = false
         isMuted = ShopLiveConfiguration.SoundPolicy.isMuted
+        
+        resetVideoDatas()
+    }
+    
+    func resetVideoDatas() {
+        lastOrientaion = .portrait
+        supportOrientation = .unknown
+        videoRatio = ShopLiveDefines.defVideoRatio
+        videoFrame = (nil, (nil, nil))
+        videoCenterCrop = false
+        videoExpanded = true
     }
 
     func getSnapShot(completion: @escaping (UIImage?) -> Void) {
@@ -262,7 +318,6 @@ extension ShopLiveController {
         playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue, options: .new, context: nil)
         playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlayable.rawValue, options: .new, context: nil)
         playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.playerItemStatus.rawValue, options: .new, context: nil)
-        playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue, options: .new, context: nil)
         playerItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.timeControlStatus.rawValue, options: .new, context: nil)
         playerItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isMuted.rawValue, options: .new, context: nil)
         playerItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.loadedTimeRanges.rawValue, options: .new, context: nil)
@@ -280,7 +335,6 @@ extension ShopLiveController {
         playItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue)
         playItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlayable.rawValue)
         playItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.playerItemStatus.rawValue)
-        playItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue)
         playerItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.timeControlStatus.rawValue)
         playerItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isMuted.rawValue)
         playerItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.loadedTimeRanges.rawValue)

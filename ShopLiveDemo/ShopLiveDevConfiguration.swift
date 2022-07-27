@@ -64,6 +64,17 @@ final class ShopLiveDevConfiguration {
             UserDefaults.standard.bool(forKey: "useWebLog")
         }
     }
+    
+    var useLockPortrait: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "useLockPortrait")
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: "useLockPortrait")
+        }
+        get {
+            UserDefaults.standard.bool(forKey: "useLockPortrait")
+        }
+    }
 
     var phase: String {
         set {

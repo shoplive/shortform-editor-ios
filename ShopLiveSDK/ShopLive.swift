@@ -12,12 +12,13 @@ import WebKit
 @objc internal protocol ShopLiveComponent: AnyObject {
 #if MUSINSA
     @objc var playerWindow: UIWindow? { get }
+    @objc var fixedPipWidth: NSNumber? { get set }
 #endif
     @objc var viewController: ShopLiveViewController? { get }
     @objc var style: ShopLive.PresentationStyle { get }
     @objc var pipPosition: ShopLive.PipPosition { get set }
     @objc var pipScale: CGFloat { get set }
-    @objc var fixedPipWidth: NSNumber? { get set }
+    
     @objc var indicatorColor: UIColor { get set }
     @objc var webViewConfiguration: WKWebViewConfiguration? { get set }
     @objc var delegate: ShopLiveSDKDelegate? { get set }
@@ -67,6 +68,42 @@ enum ShopLiveCampaignStatus: String, CaseIterable {
     override init() {
         super.init()
         instance = ShopLiveBase()
+    }
+}
+
+extension ShopLive {
+    @objc public enum PlayerMode: Int {
+        case play
+        case preview
+        case none
+        
+        public var name: String {
+            switch self {
+            case .play:
+                return "play"
+            case .preview:
+                return "preview"
+            case .none:
+                return "none"
+            }
+        }
+    }
+    
+    @objc public enum VideoOrientation: Int {
+        case portrait
+        case landscape
+        case unknown
+        
+        public var name: String {
+            switch self {
+            case .portrait:
+                return "portrait"
+            case .landscape:
+                return "landscape"
+            case .unknown:
+                return "unknown"
+            }
+        }
     }
 }
 
@@ -253,6 +290,10 @@ extension ShopLive: ShopLiveSDKInterface {
     }
     
     #if MUSINSA
+    public static var playerMode: ShopLive.PlayerMode {
+        ShopLiveController.shared.playerMode
+    }
+    
     public static var playerWindow: UIWindow? {
         return shared.instance?.playerWindow
     }
@@ -272,6 +313,10 @@ extension ShopLive: ShopLiveSDKInterface {
     
     public static func unmute() {
         ShopLiveController.shared.setSoundMute(isMuted: false)
+    }
+    
+    public static var orientationMode: ShopLive.VideoOrientation {
+        ShopLiveController.shared.supportOrientation
     }
     #endif
 
@@ -299,10 +344,10 @@ extension ShopLive: ShopLiveSDKInterface {
 
     public static var pipScale: CGFloat {
         get {
-            ShopLiveController.shared.lastPipScale
+            shared.instance?.pipScale ?? ShopLiveController.shared.lastPipScale
         }
         set {
-            ShopLiveController.shared.lastPipScale = newValue
+            shared.instance?.pipScale = newValue
         }
     }
 

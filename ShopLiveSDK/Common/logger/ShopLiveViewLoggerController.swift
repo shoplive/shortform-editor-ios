@@ -73,7 +73,7 @@ final class ShopLiveViewLogger {
     }
 
     func addLog(log: ShopLiveViewLog) {
-        v.addLog(log: log)
+//        v.addLog(log: log)
     }
 
     func clearLog() {

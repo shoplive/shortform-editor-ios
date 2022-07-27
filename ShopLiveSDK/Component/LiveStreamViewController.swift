@@ -49,11 +49,27 @@ internal final class LiveStreamViewController: UIViewController {
         return view
     }()
 
+    private var playerView: ShopLivePlayerView = .init()
+    
+    private var playerTopConstraint: NSLayoutConstraint!
+    private var playerLeadingConstraint: NSLayoutConstraint!
+    private var playerRightConstraint: NSLayoutConstraint!
+    private var playerBottomConstraint: NSLayoutConstraint!
+    
+    private var posterTopContraint: NSLayoutConstraint?
+    private var posterLeftContraint: NSLayoutConstraint?
+    private var posterRightContraint: NSLayoutConstraint?
+    private var posterBottomContraint: NSLayoutConstraint?
+    
+    private var snapshotTopContraint: NSLayoutConstraint?
+    private var snapshotLeftContraint: NSLayoutConstraint?
+    private var snapshotRightContraint: NSLayoutConstraint?
+    private var snapshotBottomContraint: NSLayoutConstraint?
 
-    var playerView: ShopLivePlayerView = .init()
-
+    private var pausedResumeCount: Int = 0
+    
     private var playTimeObserver: Any?
-
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -114,10 +130,16 @@ internal final class LiveStreamViewController: UIViewController {
         switch audioRouteChangeReason {
         case AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue:
             if isEarphoneHeadphone {
+                #if MUSINSA
+                delegate?.log(name: "audio_gain", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+                #endif
                 updateHeadPhoneStatus(plugged: true)
             }
         case AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue:
             if !isEarphoneHeadphone {
+#if MUSINSA
+                delegate?.log(name: "audio_loss", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+#endif
                 updateHeadPhoneStatus(plugged: false)
             }
         default:
@@ -161,6 +183,9 @@ internal final class LiveStreamViewController: UIViewController {
             }
 
           if type == .began {
+#if MUSINSA
+              delegate?.log(name: "audio_loss", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+#endif
             ShopLiveController.playControl = .pause
           } else {
               guard userInfo[AVAudioSessionInterruptionOptionKey] != nil else {
@@ -178,6 +203,9 @@ internal final class LiveStreamViewController: UIViewController {
             guard ShopLiveConfiguration.SoundPolicy.autoResumeVideoOnCallEnded else {
                 return
             }
+#if MUSINSA
+              delegate?.log(name: "audio_gain", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+#endif
             if ShopLiveController.isReplayMode {
                 ShopLiveController.player?.play()
             } else {
@@ -365,32 +393,195 @@ internal final class LiveStreamViewController: UIViewController {
         let snapImageView = UIImageView()
         snapImageView.isHidden = true
         snapImageView.contentMode = .scaleAspectFill
-        view.addSubview(snapImageView)
+        playerView.addSubview(snapImageView)
         snapImageView.translatesAutoresizingMaskIntoConstraints = false
-        let centerXConstraint = NSLayoutConstraint.init(item: snapImageView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
-        let widthConstraint = NSLayoutConstraint.init(item: snapImageView, attribute: .width, relatedBy: .equal, toItem: self.view, attribute: .height, multiplier: 0.5625, constant: 0)
-        view.addConstraints([
-            centerXConstraint, widthConstraint
+        let centerXConstraint: NSLayoutConstraint = .init(item: snapImageView, attribute: .centerX, relatedBy: .equal, toItem: playerView, attribute: .centerX, multiplier: 1, constant: 0)
+        let centerYConstraint: NSLayoutConstraint = .init(item: snapImageView, attribute: .centerY, relatedBy: .equal, toItem: playerView, attribute: .centerY, multiplier: 1, constant: 0)
+        let topConstraint: NSLayoutConstraint = .init(item: snapImageView, attribute: .top, relatedBy: .equal, toItem: playerView, attribute: .top, multiplier: 1, constant: 0)
+        let leftConstraint: NSLayoutConstraint = .init(item: snapImageView, attribute: .left, relatedBy: .equal, toItem: playerView, attribute: .left, multiplier: 1, constant: 0)
+        let bottomConstraint: NSLayoutConstraint = .init(item: snapImageView, attribute: .bottom, relatedBy: .equal, toItem: playerView, attribute: .bottom, multiplier: 1, constant: 0)
+        let rightConstraint: NSLayoutConstraint = .init(item: snapImageView, attribute: .right, relatedBy: .equal, toItem: playerView, attribute: .right, multiplier: 1, constant: 0)
+
+        topConstraint.priority = .init(rawValue: 999)
+        leftConstraint.priority = .init(rawValue: 999)
+        rightConstraint.priority = .init(rawValue: 999)
+        bottomConstraint.priority = .init(rawValue: 999)
+        
+        snapshotTopContraint = topConstraint
+        snapshotLeftContraint = leftConstraint
+        snapshotRightContraint = rightConstraint
+        snapshotBottomContraint = bottomConstraint
+        
+        playerView.addConstraints([
+            topConstraint, leftConstraint, rightConstraint, bottomConstraint, centerXConstraint, centerYConstraint
         ])
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[snapImageView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["snapImageView": snapImageView]))
+        
+        snapImageView.layer.masksToBounds = true
+        snapImageView.clipsToBounds = true
         self.snapShotView = snapImageView
     }
-
+    
+    private func updateImageConstraint(from: CGRect) {
+        if let bgImageView = self.imageView {
+            let ratio = ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height
+            let screenSize = UIScreen.main.bounds
+            let imageFrame = CGSize(width: screenSize.width - from.origin.x - from.size.width, height: screenSize.height - from.origin.y - from.size.height)
+            
+            let fromSize: CGSize = UIScreen.isLandscape ? (ShopLiveController.shared.videoExpanded ? screenSize.size : imageFrame) : imageFrame
+            let imageFrameRatio = imageFrame.width / imageFrame.height
+            
+            guard ShopLiveController.shared.windowStyle != .inAppPip else { return }
+            
+            if ShopLiveController.shared.videoOrientation == .portrait {
+                if !ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
+                    if UIScreen.isLandscape {
+                        self.imageView?.clipsToBounds = true
+                        self.imageView?.layer.masksToBounds = true
+                        let letterSpacing = (fromSize.width - (fromSize.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
+                        posterTopContraint?.constant = 0
+                        posterBottomContraint?.constant = 0
+                        posterLeftContraint?.constant = letterSpacing
+                        posterRightContraint?.constant = -letterSpacing
+                        
+                        snapshotTopContraint?.constant = 0
+                        snapshotBottomContraint?.constant = 0
+                        snapshotLeftContraint?.constant = letterSpacing
+                        snapshotRightContraint?.constant = -letterSpacing
+                    } else {
+                        self.imageView?.clipsToBounds = false
+                        self.imageView?.layer.masksToBounds = false
+                        
+                        let letterSpacing = (fromSize.width - (fromSize.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
+                        posterTopContraint?.constant = 0
+                        posterBottomContraint?.constant = 0
+                        posterLeftContraint?.constant = letterSpacing
+                        posterRightContraint?.constant = -letterSpacing
+                        
+                        snapshotTopContraint?.constant = 0
+                        snapshotBottomContraint?.constant = 0
+                        snapshotLeftContraint?.constant = letterSpacing
+                        snapshotRightContraint?.constant = -letterSpacing
+                    }
+                } else {
+                    if UIScreen.isLandscape {
+                        let letterSpacing = (fromSize.width - (fromSize.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
+                        posterTopContraint?.constant = 0
+                        posterBottomContraint?.constant = 0
+                        posterLeftContraint?.constant = letterSpacing
+                        posterRightContraint?.constant = -letterSpacing
+                        
+                        snapshotTopContraint?.constant = 0
+                        snapshotBottomContraint?.constant = 0
+                        snapshotLeftContraint?.constant = letterSpacing
+                        snapshotRightContraint?.constant = -letterSpacing
+                    } else {
+                        if imageFrameRatio == ratio {
+                            posterTopContraint?.constant = 0
+                            posterBottomContraint?.constant = 0
+                            posterLeftContraint?.constant = 0
+                            posterRightContraint?.constant = 0
+                            
+                            snapshotTopContraint?.constant = 0
+                            snapshotBottomContraint?.constant = 0
+                            snapshotLeftContraint?.constant = 0
+                            snapshotRightContraint?.constant = 0
+                        } else {
+                            let letterSpacing = (fromSize.width - (fromSize.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
+                            posterTopContraint?.constant = 0
+                            posterBottomContraint?.constant = 0
+                            posterLeftContraint?.constant = letterSpacing
+                            posterRightContraint?.constant = -letterSpacing
+                            
+                            snapshotTopContraint?.constant = 0
+                            snapshotBottomContraint?.constant = 0
+                            snapshotLeftContraint?.constant = letterSpacing
+                            snapshotRightContraint?.constant = -letterSpacing
+                        }
+                    }
+                }
+            } else {
+                if imageFrameRatio == ratio {
+                    posterTopContraint?.constant = 0
+                    posterBottomContraint?.constant = 0
+                    posterLeftContraint?.constant = 0
+                    posterRightContraint?.constant = 0
+                    
+                    snapshotTopContraint?.constant = 0
+                    snapshotBottomContraint?.constant = 0
+                    snapshotLeftContraint?.constant = 0
+                    snapshotRightContraint?.constant = 0
+                } else {
+                    if imageFrameRatio < ratio  {
+                        let letterSpacing = (fromSize.height - (fromSize.width * (ShopLiveController.shared.videoRatio.height / ShopLiveController.shared.videoRatio.width))) / 2
+                        posterTopContraint?.constant = letterSpacing
+                        posterBottomContraint?.constant = -letterSpacing
+                        posterLeftContraint?.constant = 0
+                        posterRightContraint?.constant = 0
+                        
+                        snapshotTopContraint?.constant = letterSpacing
+                        snapshotBottomContraint?.constant = -letterSpacing
+                        snapshotLeftContraint?.constant = 0
+                        snapshotRightContraint?.constant = 0
+                    } else {
+                        let letterSpacing = (fromSize.width - (fromSize.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
+                        posterTopContraint?.constant = 0
+                        posterBottomContraint?.constant = 0
+                        posterLeftContraint?.constant = letterSpacing
+                        posterRightContraint?.constant = -letterSpacing
+                        
+                        snapshotTopContraint?.constant = 0
+                        snapshotBottomContraint?.constant = 0
+                        snapshotLeftContraint?.constant = letterSpacing
+                        snapshotRightContraint?.constant = -letterSpacing
+                    }
+                }
+            }
+            
+            #if EBAY
+                bgImageView.clipsToBounds = true
+                bgImageView.layer.masksToBounds = true
+            #else
+            if ShopLiveController.shared.videoOrientation == .portrait {
+                if ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
+                    bgImageView.clipsToBounds = true
+                    bgImageView.layer.masksToBounds = true
+                }
+            } else {
+                bgImageView.clipsToBounds = true
+                bgImageView.layer.masksToBounds = true
+            }
+            #endif
+        }
+    }
+    
     private func setupBackgroundImageView() {
         let imageView = UIImageView()
-        view.addSubview(imageView)
+        playerView.addSubview(imageView)
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        let centerXConstraint = NSLayoutConstraint.init(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
-        #if EBAY
-        let widthConstraint = NSLayoutConstraint.init(item: imageView, attribute: .width, relatedBy: .equal, toItem: self.view, attribute: .height, multiplier: 0.5625, constant: 0)
-        #else
-        let widthConstraint = NSLayoutConstraint.init(item: imageView, attribute: .width, relatedBy: .equal, toItem: self.view, attribute: ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .height : .width, multiplier: ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? 0.5625 : 1.0, constant: 0)
-        #endif
-        view.addConstraints([
-            centerXConstraint, widthConstraint
+        let ratio = ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height
+        
+        let centerXConstraint: NSLayoutConstraint = .init(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: playerView, attribute: .centerX, multiplier: 1, constant: 0)
+        let centerYConstraint: NSLayoutConstraint = .init(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: playerView, attribute: .centerY, multiplier: 1, constant: 0)
+        let topConstraint: NSLayoutConstraint = .init(item: imageView, attribute: .top, relatedBy: .equal, toItem: playerView, attribute: .top, multiplier: 1, constant: 0)
+        let leftConstraint: NSLayoutConstraint = .init(item: imageView, attribute: .left, relatedBy: .equal, toItem: playerView, attribute: .left, multiplier: 1, constant: 0)
+        let bottomConstraint: NSLayoutConstraint = .init(item: imageView, attribute: .bottom, relatedBy: .equal, toItem: playerView, attribute: .bottom, multiplier: 1, constant: 0)
+        let rightConstraint: NSLayoutConstraint = .init(item: imageView, attribute: .right, relatedBy: .equal, toItem: playerView, attribute: .right, multiplier: 1, constant: 0)
+
+        topConstraint.priority = .init(rawValue: 999)
+        leftConstraint.priority = .init(rawValue: 999)
+        rightConstraint.priority = .init(rawValue: 999)
+        bottomConstraint.priority = .init(rawValue: 999)
+        
+        posterTopContraint = topConstraint
+        posterLeftContraint = leftConstraint
+        posterRightContraint = rightConstraint
+        posterBottomContraint = bottomConstraint
+        
+        playerView.addConstraints([
+            topConstraint, leftConstraint, rightConstraint, bottomConstraint, centerXConstraint, centerYConstraint
         ])
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[imageView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["imageView": imageView]))
+
         #if EBAY
             imageView.clipsToBounds = true
             imageView.layer.masksToBounds = true
@@ -401,8 +592,9 @@ internal final class LiveStreamViewController: UIViewController {
             }
         #endif
         
-        
         self.imageView = imageView
+        
+        playerView.sendSubviewToBack(imageView)
     }
 
     private let bottomItemSpacing: CGFloat = 21
@@ -422,52 +614,56 @@ internal final class LiveStreamViewController: UIViewController {
         self.overlayView = overlayView
     }
 
-    var topAnchor: NSLayoutConstraint!
-    var topSafeAnchor: NSLayoutConstraint!
     private func setupPlayerView() {
         playerView.playerLayer.player = playerView.player
-        playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
+        if ShopLiveController.shared.videoOrientation == .portrait {
+            playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
+        } else {
+            playerView.playerLayer.videoGravity = .resizeAspect
+        }
+        
         playerView.playerLayer.needsDisplayOnBoundsChange = true
         ShopLiveController.shared.playerItem?.player = playerView.player
         ShopLiveController.shared.playerItem?.playerLayer = playerLayer
-
         view.addSubview(playerView)
-
-        topAnchor = playerView.topAnchor.constraint(equalTo: view.topAnchor)
-        topSafeAnchor = playerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         playerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        playerTopConstraint = playerView.topAnchor.constraint(equalTo: view.topAnchor)
+        playerLeadingConstraint = playerView.leftAnchor.constraint(equalTo: view.leftAnchor)
+        playerRightConstraint = playerView.rightAnchor.constraint(equalTo: view.rightAnchor)
+        playerBottomConstraint = playerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
 
-        topAnchor.isActive = true
-        topSafeAnchor.isActive = false
-        NSLayoutConstraint.activate([playerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                                     playerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                                     playerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
+        NSLayoutConstraint.activate([playerTopConstraint, playerLeadingConstraint, playerRightConstraint, playerBottomConstraint])
     }
-
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
+        ShopLiveLogger.debugLog("viewWillTransition")
+        
         guard ShopLiveController.windowStyle != .osPip else { return }
         
         if let popoverController = self.popoverController {
             popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: size.width*0.5, y: size.height*0.5, width: 0, height: 0)
+            popoverController.sourceRect = CGRect(x: size.width * 0.5, y: size.height * 0.5, width: 0, height: 0)
             popoverController.permittedArrowDirections = []
         }
-        
-        playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
-        overlayView?.alpha = 0
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700)) {
-            UIView.animate(withDuration: 0.4) {
-                self.overlayView?.alpha = 1
-            }
-        }
-    }
 
-    private func updateTopAnchor(isPip: Bool) {
-        topAnchor.isActive = isPip
-        topSafeAnchor.isActive = !isPip
+        if ShopLiveController.shared.videoOrientation == .portrait {
+            playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
+        }
+        
+        if !(ShopLiveController.shared.lastOrientaion == .landscape && UIScreen.isLandscape) {
+            ShopLiveController.shared.videoCenterCrop = false
+        }
+        ShopLiveController.shared.lastOrientaion = UIScreen.isLandscape ? .landscape : .portrait
+        
+        coordinator.animate { _ in
+            self.delegate?.changeOrientation(to: UIScreen.isLandscape ? .landscape : .portrait)
+        } completion: { _ in
+            self.delegate?.finishRotation()
+        }
+        
     }
 
     private var chatConstraint: NSLayoutConstraint!
@@ -515,30 +711,32 @@ internal final class LiveStreamViewController: UIViewController {
 
     private func setupIndicator() {
         if ShopLiveConfiguration.UI.isCustomIndicator {
-            self.view.addSubviews(customIndicator)
+            self.playerView.addSubviews(customIndicator)
             let customIndicatorWidth = NSLayoutConstraint.init(item: customIndicator, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
             let customIndicatorHeight = NSLayoutConstraint.init(item: customIndicator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
-            let customIndicatorCenterXConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
-            let customIndicatorCenterYConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.0, constant: 0)
+            let customIndicatorCenterXConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerX, relatedBy: .equal, toItem: self.playerView, attribute: .centerX, multiplier: 1.0, constant: 0)
+            let customIndicatorCenterYConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerY, relatedBy: .equal, toItem: self.playerView, attribute: .centerY, multiplier: 1.0, constant: 0)
 
             customIndicator.addConstraints([customIndicatorWidth, customIndicatorHeight])
-            self.view.addConstraints([customIndicatorCenterXConstraint, customIndicatorCenterYConstraint])
+            self.playerView.addConstraints([customIndicatorCenterXConstraint, customIndicatorCenterYConstraint])
 
             customIndicator.configure(images: ShopLiveConfiguration.UI.customIndicatorImages)
             self.customIndicator.startAnimating()
         } else {
-            self.view.addSubviews(indicatorView)
+            self.playerView.addSubviews(indicatorView)
             let indicatorWidth = NSLayoutConstraint.init(item: indicatorView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
             let indicatorHeight = NSLayoutConstraint.init(item: indicatorView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
-            let centerXConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
-            let centerYConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.0, constant: 0)
+            let centerXConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerX, relatedBy: .equal, toItem: self.playerView, attribute: .centerX, multiplier: 1.0, constant: 0)
+            let centerYConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerY, relatedBy: .equal, toItem: self.playerView, attribute: .centerY, multiplier: 1.0, constant: 0)
 
             indicatorView.addConstraints([indicatorWidth, indicatorHeight])
-            self.view.addConstraints([centerXConstraint, centerYConstraint])
+            self.playerView.addConstraints([centerXConstraint, centerYConstraint])
             indicatorView.color = ShopLiveConfiguration.UI.color
 
             indicatorView.startAnimating()
         }
+        
+        self.playerView.bringSubviewToFront(indicatorView)
     }
 
     private func loadOveray() {
@@ -694,9 +892,105 @@ internal final class LiveStreamViewController: UIViewController {
             }
         }
     }
+    
+    private func changeOrientation(toLandscape: Bool) {
+        let orientation = toLandscape ? (UIScreen.isLandscape ? UIDevice.current.orientation.rawValue : UIInterfaceOrientation.landscapeRight.rawValue) : (UIScreen.isLandscape ? UIInterfaceOrientation.portrait.rawValue : UIDevice.current.orientation.rawValue)
+        
+        guard UIScreen.currentOrientation.deviceOrientation.rawValue != orientation else { return }
+        
+        UIDevice.current.setValue(orientation, forKey: "orientation")
+        UIViewController.attemptRotationToDeviceOrientation()
+    }
+    
+    func updateVideoFit(centerCrop: Bool = false, immediately: Bool = false) {
+        self.playerView.playerLayer.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
+        playerTopConstraint.constant = 0
+        playerLeadingConstraint.constant = 0
+        playerRightConstraint.constant = 0
+        playerBottomConstraint.constant = 0
+        self.updateImageConstraint(from: .zero)
+        if immediately {
+            self.playerView.setNeedsLayout()
+            self.playerView.layoutIfNeeded()
+        }
+    }
+    
+    func changeVideoGravity(centerCrop: Bool) {
+        self.playerView.playerLayer.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
+    }
+    
+    func updateVideoFrame(immeadiately: Bool) {
+        guard !ShopLiveController.shared.isPreview else { return }
+        
+        if ShopLiveController.shared.videoOrientation == .landscape {
+            if ShopLiveController.windowStyle == .inAppPip {
+                self.updateVideoFit(centerCrop: true, immediately: immeadiately)
+            } else {
+                if let playerFrame = UIScreen.isLandscape ? ( ShopLiveController.shared.videoExpanded ? ShopLiveController.shared.videoFrame.landscape.expanded : ShopLiveController.shared.videoFrame.landscape.standard) : ShopLiveController.shared.videoFrame.portrait {
+                    self.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: immeadiately)
+                }
+            }
+        } else {
+            self.updateImageConstraint(from: .zero)
+        }
+    }
 }
 
 extension LiveStreamViewController: OverlayWebViewDelegate {
+#if MUSINSA
+    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
+        delegate?.log(name: name, feature: feature, campaign: campaign, parameter: parameter)
+    }
+#endif
+    
+    func updateVideoExpanded() {
+        guard UIScreen.isLandscape, ShopLiveController.shared.videoOrientation == .landscape else { return }
+        self.updateVideoFrame(immeadiately: false)
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
+        self.updateVideoConstraint()
+        } completion: { _ in
+            self.delegate?.resetPictureInPicture()
+        }
+    }
+    
+    func updateOrientation(toLandscape: Bool) {
+        self.changeOrientation(toLandscape: toLandscape)
+        
+        if ShopLiveController.shared.newStartPlay {
+            ShopLiveController.shared.newStartPlay = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
+                let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("top", UIScreen.safeArea.top), ("left", UIScreen.safeArea.left),
+                                                                     ("right", UIScreen.safeArea.right), ("bottom", UIScreen.safeArea.bottom), ("orientation", UIScreen.currentOrientation.angle))
+                
+                self.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
+            }
+        }
+    }
+    
+    func updatePlayerFrame(centerCrop: Bool = false, playerFrame: CGRect = .zero, immediately: Bool = false) {
+        guard playerFrame != .zero else {
+            updateVideoFit(centerCrop: centerCrop, immediately: immediately)
+            return
+        }
+        
+        self.playerView.playerLayer.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
+        
+        playerTopConstraint.constant = playerFrame.origin.y
+        playerLeadingConstraint.constant = playerFrame.origin.x
+        playerRightConstraint.constant = -playerFrame.size.width
+        playerBottomConstraint.constant = -playerFrame.size.height
+        
+        self.updateImageConstraint(from: playerFrame)
+        if immediately {
+            self.playerView.setNeedsLayout()
+            self.playerView.layoutIfNeeded()
+        }
+    }
+    
+    func updateVideoConstraint() {
+        self.playerView.layoutIfNeeded()
+    }
+    
     func handleReceivedCommand(_ command: String, with payload: Any?) {
         delegate?.handleReceivedCommand(command, with: payload)
     }
@@ -786,6 +1080,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         if ShopLiveController.isReplayMode, let time = ShopLiveController.shared.currentPlayTime {
             ShopLiveController.player?.seek(to: .init(value: time, timescale: 1))
         }
+        showBackgroundPoster()
     }
 
     func didTouchPlayButton() {
@@ -805,17 +1100,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func updatePipStyle(with style: ShopLive.PresentationStyle) {
-        var payload: [String:Int]? = nil
-        var styleCommand: String = ""
-        switch style {
-        case .fullScreen:
-            styleCommand = "didShopLiveOn"
-            payload = ["style" : style.rawValue]
-            delegate?.handleCommand(styleCommand, with: payload)
-        default:
-            break
-        }
-
         overlayView?.updatePipStyle(with: style)
     }
 
@@ -832,7 +1116,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         #endif
         
     }
-
+    
     func handleCommand(_ command: String, with payload: Any?) {
         let interface = WebInterface.WebFunction.init(rawValue: command)
         switch interface  {
@@ -842,6 +1126,32 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             let sendText = payload?["chatInputSendText"] as? String
             let chatInputMaxLength = payload?["chatInputMaxLength"] as? Int
             let campaignInfo = payload?["campaignInfo"] as? [String : Any]
+            
+            if let videoAspectRatio = payload?["videoAspectRatio"] as? String {
+                let parseRatio = videoAspectRatio.split(separator: ":")
+                if parseRatio.isEmpty {
+                    ShopLiveController.shared.videoRatio = ShopLiveDefines.defVideoRatio
+                    ShopLiveController.shared.supportOrientation = .portrait
+                } else {
+                    if parseRatio.count == 2, let width = Int(parseRatio[0]), let height = Int(parseRatio[1]) {
+                        ShopLiveController.shared.videoRatio = CGSize(width: width, height: height)
+                        ShopLiveController.shared.supportOrientation = width > height ? .landscape : .portrait
+                    } else {
+                        ShopLiveController.shared.videoRatio = ShopLiveDefines.defVideoRatio
+                        ShopLiveController.shared.supportOrientation = .portrait
+                    }
+                }
+            } else {
+                ShopLiveController.shared.videoRatio = ShopLiveDefines.defVideoRatio
+                ShopLiveController.shared.supportOrientation = .portrait
+            }
+            
+            if ShopLiveController.shared.windowStyle == .inAppPip || ShopLiveController.shared.windowStyle == .normal {
+                delegate?.updatePictureInPicture()
+            }
+            
+            ShopLiveController.shared.swipeEnabled = true
+            
             if let isReplay = payload?["isReplay"] as? Bool {
                 ShopLiveController.isReplayMode = isReplay
             }
@@ -849,6 +1159,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             ShopLiveConfiguration.UI.chatInputSendString = sendText ?? "chat.send.title".localizedString()
             ShopLiveConfiguration.UI.chatInputMaxLength = chatInputMaxLength ?? 200
             updateChattingWriteView()
+            ShopLiveController.shared.isStartedCampaign = true
             delegate?.campaignInfo(campaignInfo: campaignInfo ?? [:])
             break
         case .showChatInput:
@@ -1033,7 +1344,15 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             } else {
                 if ShopLiveController.playControl != .pause {
                     if ShopLiveController.shared.windowStyle != .osPip {
-                        ShopLiveController.playControl = .resume
+                        if pausedResumeCount >= 10 {
+                            pausedResumeCount = 0
+                            ShopLiveController.retryPlay = true
+                        } else {
+                            if !ShopLiveController.retryPlay {
+                                pausedResumeCount += 1
+                                ShopLiveController.playControl = .resume
+                            }
+                        }
                     } else {
                         if !ShopLiveController.shared.screenLock {
                             ShopLiveController.shared.lastPipPlaying = false

@@ -18,4 +18,16 @@ final class ShopLivePlayerView: UIView {
     override class var layerClass: AnyClass {
         return AVPlayerLayer.self
     }
+    
+    init() {
+        super.init(frame: .zero)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.backgroundColor = .black
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.backgroundColor = .black
+    }
 }

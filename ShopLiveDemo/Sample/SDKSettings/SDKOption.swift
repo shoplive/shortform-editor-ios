@@ -24,6 +24,7 @@ enum SDKOptionType: String, CaseIterable {
     case playWhenPreviewTapped
     case pipPosition
     case pipScale
+    case fixedPipWidth
     case nextActionOnHandleNavigation
     case headphoneOption1
     case callOption
@@ -50,7 +51,7 @@ enum SDKOptionType: String, CaseIterable {
 
     var settingType: SettingType {
         switch self {
-        case .shareScheme, .progressColor, .pipScale:
+        case .shareScheme, .progressColor, .pipScale, .fixedPipWidth:
             return .showAlert
         case .pipPosition, .nextActionOnHandleNavigation:
             return .dropdown
