@@ -60,10 +60,25 @@ final class ShopLiveController: NSObject {
     deinit {
     }
 
-    var campaignKey: String = ""
+    var campaignKey: String {
+        set {
+            self.isSameCampaign = (newValue == self.currentCampaignKey)
+            self.currentCampaignKey = newValue
+        }
+        get {
+            return currentCampaignKey
+        }
+    }
+
+    private var currentCampaignKey: String = ""
+    
+    var posterUrl: String = ""
+    
+    var isSameCampaign: Bool = false
     var newStartPlay: Bool = false
     var campaignStatus: ShopLiveCampaignStatus = .close
     var isSuccessCampaignJoin: Bool = false
+    var keepSnapshot: Bool = false
     private var playerDelegates: [ShopLivePlayerDelegate?] = []
     @objc dynamic var playItem: ShopLivePlayItem? = .init()
     @objc dynamic var playerItem: ShopLivePlayerItem? = .init()
@@ -223,6 +238,8 @@ final class ShopLiveController: NSObject {
     }
 
     func resetOnlyFinished() {
+        currentCampaignKey = ""
+        isSameCampaign = false
         isStartedCampaign = false
         
         playItem = nil

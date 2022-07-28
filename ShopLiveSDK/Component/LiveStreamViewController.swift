@@ -908,13 +908,31 @@ internal final class LiveStreamViewController: UIViewController {
         UIViewController.attemptRotationToDeviceOrientation()
     }
     
-    func updateVideoFit(centerCrop: Bool = false, immediately: Bool = false) {
+    func updateImageFit() {
+        posterTopContraint?.constant = 0
+        posterBottomContraint?.constant = 0
+        posterLeftContraint?.constant = 0
+        posterRightContraint?.constant = 0
+        
+        snapshotTopContraint?.constant = 0
+        snapshotBottomContraint?.constant = 0
+        snapshotLeftContraint?.constant = 0
+        snapshotRightContraint?.constant = 0
+        
+        self.imageView?.layoutIfNeeded()
+        self.snapShotView?.layoutIfNeeded()
+    }
+    
+    func updateVideoFit(centerCrop: Bool = false, immediately: Bool = false, imageUpdate: Bool = true) {
         self.playerView.playerLayer.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
         playerTopConstraint.constant = 0
         playerLeadingConstraint.constant = 0
         playerRightConstraint.constant = 0
         playerBottomConstraint.constant = 0
-        self.updateImageConstraint(from: .zero)
+        if imageUpdate {
+            self.updateImageConstraint(from: .zero)
+        }
+        
         if immediately {
             self.playerView.setNeedsLayout()
             self.playerView.layoutIfNeeded()
@@ -925,19 +943,32 @@ internal final class LiveStreamViewController: UIViewController {
         self.playerView.playerLayer.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
     }
     
-    func updateVideoFrame(immeadiately: Bool) {
+    func updateVideoFrame(immeadiately: Bool, fromPreview: Bool = false) {
         guard !ShopLiveController.shared.isPreview else { return }
         
         if ShopLiveController.shared.videoOrientation == .landscape {
             if ShopLiveController.windowStyle == .inAppPip {
                 self.updateVideoFit(centerCrop: true, immediately: immeadiately)
             } else {
+                if fromPreview {
+                    setVideoDefaultFrame()
+                }
+                
                 if let playerFrame = UIScreen.isLandscape ? ( ShopLiveController.shared.videoExpanded ? ShopLiveController.shared.videoFrame.landscape.expanded : ShopLiveController.shared.videoFrame.landscape.standard) : ShopLiveController.shared.videoFrame.portrait {
                     self.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: immeadiately)
                 }
             }
         } else {
             self.updateImageConstraint(from: .zero)
+        }
+    }
+    
+    func setVideoDefaultFrame() {
+        if UIScreen.isLandscape {
+            ShopLiveController.shared.videoFrame.landscape.expanded = .zero
+        } else {
+            let height = UIScreen.main.bounds.height - (UIScreen.main.bounds.width * (ShopLiveController.shared.videoRatio.height / ShopLiveController.shared.videoRatio.width))
+            ShopLiveController.shared.videoFrame.portrait = .init(x: 0, y: 0, width: 0, height: height)
         }
     }
 }
@@ -1115,12 +1146,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
 
     @objc func didTouchCloseButton() {
         overlayView?.closeWebSocket()
-        #if MUSINSA
-        delegate?.handleCommand("didTapCloseBUtton", with: nil)
-        #else
         delegate?.didTouchCloseButton()
-        #endif
-        
     }
     
     func handleCommand(_ command: String, with payload: Any?) {
@@ -1308,11 +1334,24 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             break
         }
     }
-
+    
+    func doSnapShot() {
+        ShopLiveLogger.debugLog("process check doSnapshot 1")
+        ShopLiveController.shared.getSnapShot { image in
+            ShopLiveLogger.debugLog("process check doSnapshot 2")
+                self.snapShotView?.image = image
+                self.snapShotView?.isHidden = false
+            }
+    }
+    
     func takeSnapShot(on: Bool) {
+        guard !ShopLiveController.shared.keepSnapshot else {
+            return
+        }
+        
         DispatchQueue.main.async {
             if on {
-            ShopLiveController.shared.getSnapShot { image in
+                ShopLiveController.shared.getSnapShot { image in
                     self.snapShotView?.image = image
                     self.snapShotView?.isHidden = false
                     ShopLiveController.playControl = .play

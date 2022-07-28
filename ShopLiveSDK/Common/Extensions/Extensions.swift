@@ -560,7 +560,7 @@ extension UIDeviceOrientation {
         case .landscapeRight:
             return .landscapeRight
         default:
-            return .portrait
+            return self.isLandscape ? .landscapeLeft : .portrait
         }
     }
 }
