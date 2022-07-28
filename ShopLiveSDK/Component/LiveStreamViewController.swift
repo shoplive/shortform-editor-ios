@@ -671,7 +671,7 @@ internal final class LiveStreamViewController: UIViewController {
         }
         
     }
-
+    
     private var chatConstraint: NSLayoutConstraint!
     private lazy var chatInputView: ShopLiveChattingWriteView = {
         let chatView = ShopLiveChattingWriteView()

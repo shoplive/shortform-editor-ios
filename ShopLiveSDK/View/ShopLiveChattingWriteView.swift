@@ -40,6 +40,14 @@ final class ShopLiveChattingWriteView: UIView {
         }
     }
     
+    private lazy var chatInputViewTopBorder: UIView = {
+        let border = UIView()
+        border.backgroundColor = UIColor(red: 0.886, green: 0.886, blue: 0.886, alpha: 1)
+        border.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 1)
+        border.isHidden = true
+        return border
+    }()
+    
     private lazy var chatView: ShopLiveChatView = {
         let view = ShopLiveChatView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -114,6 +122,7 @@ final class ShopLiveChattingWriteView: UIView {
         self.addSubview(chatView)
         self.addSubview(topShadow)
         self.addSubview(sendButton)
+        self.addSubview(chatInputViewTopBorder)
         
         let topShadowTop = NSLayoutConstraint.init(item: topShadow, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0)
         let topShadowLeft = NSLayoutConstraint.init(item: topShadow, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 12)
@@ -155,6 +164,9 @@ final class ShopLiveChattingWriteView: UIView {
     func focus() {
         guard isFocus == false else { return }
         isFocus = true
+        self.chatInputViewTopBorder.isHidden = !(!UIScreen.isLandscape && ShopLiveController.shared.videoOrientation == .landscape)
+        ShopLiveLogger.debugLog("chat border ishidden : \(!UIScreen.isLandscape && ShopLiveController.shared.videoOrientation == .landscape)")
+        
         chatView.chatTextView.becomeFirstResponder()
     }
 
