@@ -937,10 +937,10 @@ import WebKit
         switch recognizer.state {
         case .ended:
             ShopLiveController.shared.videoCenterCrop = recognizer.scale > 1.0
+            self.liveStreamViewController?.changeVideoGravity(centerCrop: ShopLiveController.shared.videoCenterCrop)
 #if MUSINSA
             delegate?.log(name: recognizer.scale > 1.0 ? "pinch_zoom_out" : "pinch_zoom_in", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
 #endif
-            self.liveStreamViewController?.changeVideoGravity(centerCrop: ShopLiveController.shared.videoCenterCrop)
             break
         default:
             break
@@ -1606,7 +1606,6 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
             
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
             
-//            self.liveStreamViewController?.hideBackgroundPoster()
             if ShopLiveController.shared.videoOrientation == .portrait {
                 ShopLiveController.shared.webInstance?.isHidden = true
             }

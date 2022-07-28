@@ -139,7 +139,7 @@ import UIKit
     @objc public enum Feature: Int, CaseIterable {
         case CLICK, SHOW, ACTION
         
-        var name: String {
+        public var name: String {
             switch self {
             case .CLICK:
                 return "click"

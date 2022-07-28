@@ -656,10 +656,16 @@ internal final class LiveStreamViewController: UIViewController {
         if !(ShopLiveController.shared.lastOrientaion == .landscape && UIScreen.isLandscape) {
             ShopLiveController.shared.videoCenterCrop = false
         }
-        ShopLiveController.shared.lastOrientaion = UIScreen.isLandscape ? .landscape : .portrait
+        
+        let currentOrientation: ShopLiveDefines.ShopLiveOrientaion = UIScreen.isLandscape ? .landscape : .portrait
+        if ShopLiveController.shared.lastOrientaion != currentOrientation {
+            self.shopliveHideKeyboard()
+        }
+        
+        ShopLiveController.shared.lastOrientaion = currentOrientation
         
         coordinator.animate { _ in
-            self.delegate?.changeOrientation(to: UIScreen.isLandscape ? .landscape : .portrait)
+            self.delegate?.changeOrientation(to: currentOrientation)
         } completion: { _ in
             self.delegate?.finishRotation()
         }
