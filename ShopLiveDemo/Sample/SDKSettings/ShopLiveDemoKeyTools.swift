@@ -25,7 +25,7 @@ final class ShopLiveDemoKeyTools {
 
     var keysets: [ShopLiveKeySet] {
         loadData()
-        return keys
+        return keys.reversed()
     }
 
     private func notifyObservers() {
