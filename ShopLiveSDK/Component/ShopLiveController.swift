@@ -306,7 +306,7 @@ final class ShopLiveController: NSObject {
 
         if livePosition > 0 {
             ShopLiveLogger.debugLog("time paused seekToLatest \(livePosition)")
-            player.seek(to: CMTime(seconds: livePosition, preferredTimescale: 1))
+            player.seek(to: CMTime(seconds: floor(livePosition), preferredTimescale: 1))
         }
     }
 
