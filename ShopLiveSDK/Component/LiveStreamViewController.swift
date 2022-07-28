@@ -427,9 +427,8 @@ internal final class LiveStreamViewController: UIViewController {
             let screenSize = UIScreen.main.bounds
             let imageFrame = CGSize(width: screenSize.width - from.origin.x - from.size.width, height: screenSize.height - from.origin.y - from.size.height)
             
-            let fromSize: CGSize = UIScreen.isLandscape ? (ShopLiveController.shared.videoExpanded ? screenSize.size : imageFrame) : imageFrame
             let imageFrameRatio = imageFrame.width / imageFrame.height
-            
+
             guard ShopLiveController.shared.windowStyle != .inAppPip else { return }
             
             if ShopLiveController.shared.videoOrientation == .portrait {
@@ -437,7 +436,7 @@ internal final class LiveStreamViewController: UIViewController {
                     if UIScreen.isLandscape {
                         self.imageView?.clipsToBounds = true
                         self.imageView?.layer.masksToBounds = true
-                        let letterSpacing = (fromSize.width - (fromSize.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
+                        let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
                         posterTopContraint?.constant = 0
                         posterBottomContraint?.constant = 0
                         posterLeftContraint?.constant = letterSpacing
@@ -451,7 +450,7 @@ internal final class LiveStreamViewController: UIViewController {
                         self.imageView?.clipsToBounds = false
                         self.imageView?.layer.masksToBounds = false
                         
-                        let letterSpacing = (fromSize.width - (fromSize.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
+                        let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
                         posterTopContraint?.constant = 0
                         posterBottomContraint?.constant = 0
                         posterLeftContraint?.constant = letterSpacing
@@ -464,7 +463,7 @@ internal final class LiveStreamViewController: UIViewController {
                     }
                 } else {
                     if UIScreen.isLandscape {
-                        let letterSpacing = (fromSize.width - (fromSize.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
+                        let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
                         posterTopContraint?.constant = 0
                         posterBottomContraint?.constant = 0
                         posterLeftContraint?.constant = letterSpacing
@@ -486,7 +485,7 @@ internal final class LiveStreamViewController: UIViewController {
                             snapshotLeftContraint?.constant = 0
                             snapshotRightContraint?.constant = 0
                         } else {
-                            let letterSpacing = (fromSize.width - (fromSize.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
+                            let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
                             posterTopContraint?.constant = 0
                             posterBottomContraint?.constant = 0
                             posterLeftContraint?.constant = letterSpacing
@@ -499,7 +498,23 @@ internal final class LiveStreamViewController: UIViewController {
                         }
                     }
                 }
+                #if EBAY
+                    bgImageView.clipsToBounds = true
+                    bgImageView.layer.masksToBounds = true
+                #else
+                if ShopLiveController.shared.videoOrientation == .portrait {
+                    if ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
+                        bgImageView.clipsToBounds = true
+                        bgImageView.layer.masksToBounds = true
+                    }
+                } else {
+                    bgImageView.clipsToBounds = true
+                    bgImageView.layer.masksToBounds = true
+                }
+                #endif
             } else {
+                self.imageView?.clipsToBounds = true
+                self.imageView?.layer.masksToBounds = true
                 if imageFrameRatio == ratio {
                     posterTopContraint?.constant = 0
                     posterBottomContraint?.constant = 0
@@ -512,7 +527,7 @@ internal final class LiveStreamViewController: UIViewController {
                     snapshotRightContraint?.constant = 0
                 } else {
                     if imageFrameRatio < ratio  {
-                        let letterSpacing = (fromSize.height - (fromSize.width * (ShopLiveController.shared.videoRatio.height / ShopLiveController.shared.videoRatio.width))) / 2
+                        let letterSpacing = (imageFrame.height - (imageFrame.width * (ShopLiveController.shared.videoRatio.height / ShopLiveController.shared.videoRatio.width))) / 2
                         posterTopContraint?.constant = letterSpacing
                         posterBottomContraint?.constant = -letterSpacing
                         posterLeftContraint?.constant = 0
@@ -523,7 +538,7 @@ internal final class LiveStreamViewController: UIViewController {
                         snapshotLeftContraint?.constant = 0
                         snapshotRightContraint?.constant = 0
                     } else {
-                        let letterSpacing = (fromSize.width - (fromSize.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
+                        let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
                         posterTopContraint?.constant = 0
                         posterBottomContraint?.constant = 0
                         posterLeftContraint?.constant = letterSpacing
@@ -536,21 +551,6 @@ internal final class LiveStreamViewController: UIViewController {
                     }
                 }
             }
-            
-            #if EBAY
-                bgImageView.clipsToBounds = true
-                bgImageView.layer.masksToBounds = true
-            #else
-            if ShopLiveController.shared.videoOrientation == .portrait {
-                if ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-                    bgImageView.clipsToBounds = true
-                    bgImageView.layer.masksToBounds = true
-                }
-            } else {
-                bgImageView.clipsToBounds = true
-                bgImageView.layer.masksToBounds = true
-            }
-            #endif
         }
     }
     
