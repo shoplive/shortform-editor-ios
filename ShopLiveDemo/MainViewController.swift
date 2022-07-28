@@ -371,7 +371,7 @@ extension MainViewController: ShopLiveSDKDelegate {
         print("handleCommand: \(command)  payload: \(String(describing: payload))")
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleCommand \(command)"))
         
-        if command == "didTapCloseBUtton" {
+        if command == "didTapCloseButton" {
             self.preview()
         } else if command == "CLOSE_FROM_PIP" {
             
