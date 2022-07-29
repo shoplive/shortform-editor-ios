@@ -259,7 +259,7 @@ final class ShopLiveChattingView: UITextView {
     lazy var placeholderLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.numberOfLines = 0
+        view.numberOfLines = 1
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.4
         return view
@@ -285,6 +285,7 @@ final class ShopLiveChattingView: UITextView {
     
     private func setupShopLiveChattingView() {
         addSubview(placeholderLabel)
+        self.placeholderLabel.fitToSuperView()
     }
     
     private func teardownShopLiveChattingView() {
@@ -309,19 +310,8 @@ final class ShopLiveChattingView: UITextView {
     override func layoutSubviews() {
       super.layoutSubviews()
       
-      let maxSize = bounds.inset(by: textContainerInset).size
-      
-      var size = placeholderLabel.sizeThatFits(maxSize)
-      size.height = min(size.height, maxSize.height)
-      
-        placeholderLabel.frame = CGRect(
-        origin: .init(
-          x: 5 + textContainerInset.left,
-          y: textContainerInset.top
-        ),
-        size: size
-      )
-      
+      placeholderLabel.frame.origin = CGPoint(x: 5 + textContainerInset.left, y: textContainerInset.top)
+      placeholderLabel.sizeToFit()
     }
     
     func updatePlaceholder() {
