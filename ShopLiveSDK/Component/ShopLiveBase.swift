@@ -762,7 +762,7 @@ import WebKit
         guard _style != .fullScreen else { return }
         shopLiveWindow.frame = mainWindow.bounds
 
-        mainWindow.rootViewController?.shopliveHideKeyboard()
+        self.liveStreamViewController?.shopliveHideKeyboard()
 
         videoWindowPanGestureRecognizer?.isEnabled = false
         videoWindowTapGestureRecognizer?.isEnabled = false
@@ -970,6 +970,7 @@ import WebKit
         guard ShopLiveController.shared.videoOrientation == .landscape else { return }
         guard UIScreen.isLandscape else { return }
         guard ShopLiveController.shared.videoExpanded else { return }
+        guard let isSnapshotHidden = self.liveStreamViewController?.isSnapshotHidden, isSnapshotHidden else { return }
                 
         switch recognizer.state {
         case .ended:
@@ -1548,6 +1549,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
         ShopLiveController.shared.needReload = false
         ShopLiveController.windowStyle = .osPip
         ShopLiveController.shared.lastPipPlaying = ShopLiveController.timeControlStatus == .playing
+        self.liveStreamViewController?.shopliveHideKeyboard()
     }
     
     public func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {

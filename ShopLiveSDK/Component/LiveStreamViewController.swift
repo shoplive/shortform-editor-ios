@@ -27,6 +27,10 @@ internal final class LiveStreamViewController: UIViewController {
     private var snapShotView: UIImageView?
     private var voiceOverIsOn: Bool = UIAccessibility.isVoiceOverRunning
     
+    var isSnapshotHidden: Bool {
+        return self.snapShotView?.isHidden ?? true
+    }
+    
     private weak var popoverController: UIPopoverPresentationController?
     
     private lazy var indicatorView: UIActivityIndicatorView = {
@@ -351,6 +355,7 @@ internal final class LiveStreamViewController: UIViewController {
 
     override func shopliveHideKeyboard() {
         super.shopliveHideKeyboard()
+        self.chatInputView.resignFirstResponder()
         self.chatInputView.isHidden = true
         self.chatInputBG.isHidden = true
     }
