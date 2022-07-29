@@ -1336,9 +1336,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     }
     
     func doSnapShot() {
-        ShopLiveLogger.debugLog("process check doSnapshot 1")
         ShopLiveController.shared.getSnapShot { image in
-            ShopLiveLogger.debugLog("process check doSnapshot 2")
                 self.snapShotView?.image = image
                 self.snapShotView?.isHidden = false
             }

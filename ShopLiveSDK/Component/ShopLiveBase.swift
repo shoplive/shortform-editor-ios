@@ -493,7 +493,6 @@ import WebKit
                     self.liveStreamViewController?.updateVideoConstraint()
                 }
             } completion: { _ in
-                ShopLiveLogger.debugLog("process check start animating ")
                 UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
                     if self.needExecuteFullScreen {
                         self.liveStreamViewController?.updateVideoConstraint()
@@ -503,7 +502,6 @@ import WebKit
                     shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
                     ShopLiveController.webInstance?.isHidden = false
                 } completion: { (isCompleted) in
-                    ShopLiveLogger.debugLog("process check end")
                     shopLiveWindow.rootViewController?.view.backgroundColor = .black
                     ShopLiveController.shared.pipAnimating = false
                     ShopLiveController.shared.keepSnapshot = false
@@ -527,7 +525,7 @@ import WebKit
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
         
-        shopLiveWindow.backgroundColor = .clear
+//        shopLiveWindow.backgroundColor = .clear
         shopLiveWindow.layer.cornerRadius = 10
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
 
@@ -548,8 +546,8 @@ import WebKit
         
         if self.needExecuteFullScreen {
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
+            ShopLiveController.webInstance?.isHidden = false
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
-                ShopLiveController.webInstance?.isHidden = UIScreen.isLandscape
                 self.liveStreamViewController?.updateVideoConstraint()
                 shopLiveWindow.frame = mainWindow.bounds
                 shopLiveWindow.layer.cornerRadius = 0
@@ -562,8 +560,8 @@ import WebKit
                 }
         } else {
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
+            ShopLiveController.webInstance?.isHidden = false
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
-                ShopLiveController.webInstance?.isHidden = UIScreen.isLandscape
                 self.liveStreamViewController?.updateVideoConstraint()
                 shopLiveWindow.frame = mainWindow.bounds
                 shopLiveWindow.layer.cornerRadius = 0
