@@ -167,6 +167,9 @@ final class ShopLiveChatView: UIScrollView, UITextViewDelegate {
     func updateShopLiveChatView() {
         chatTextView.typingAttributes = viewModel.chatInputAttributes
         chatTextView.placeholderAttributedText = viewModel.chatInputPlaceholderText
+//        414 해상도 기준 잘리는 글자 수
+//        동해물과백두산이마르고닳도록하느님이보우하사우리나라 26자
+//        dhajsdhajksdojkashdjashjkasdjkalsdqklqwsadsaZ 45자
     }
     
     var isExpanded: Bool {
@@ -259,7 +262,7 @@ final class ShopLiveChattingView: UITextView {
     lazy var placeholderLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.numberOfLines = 0
+        view.numberOfLines = 1
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.4
         return view
@@ -285,6 +288,7 @@ final class ShopLiveChattingView: UITextView {
     
     private func setupShopLiveChattingView() {
         addSubview(placeholderLabel)
+        self.placeholderLabel.fitToSuperView()
     }
     
     private func teardownShopLiveChattingView() {
