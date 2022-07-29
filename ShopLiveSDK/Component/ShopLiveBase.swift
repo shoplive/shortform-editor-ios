@@ -142,9 +142,11 @@ import WebKit
             self.liveStreamViewController?.updateChattingWriteView()
         
                 if self.needExecuteFullScreen {
-                    ShopLiveController.shared.keepSnapshot = true
-                    self.liveStreamViewController?.doSnapShot {
-                        
+                    if ShopLiveController.shared.isSameCampaign {
+                        ShopLiveController.shared.keepSnapshot = true
+                        self.liveStreamViewController?.doSnapShot {
+                            
+                        }
                     }
                     self._style = .fullScreen
                 } else {
@@ -1396,8 +1398,13 @@ extension ShopLiveBase: ShopLiveComponent {
         addObserver()
         
         if !ShopLiveController.shared.isPreview && ShopLiveController.shared.playerMode == .play {
-            ShopLiveController.shared.keepSnapshot = true
-            self.liveStreamViewController?.doSnapShot {
+            if ShopLiveController.shared.isSameCampaign {
+                ShopLiveController.shared.keepSnapshot = true
+                self.liveStreamViewController?.doSnapShot {
+                    self.liveStreamViewController?.updateImageFit()
+                    self.startShopLivePictureInPicture()
+                }
+            } else {
                 self.liveStreamViewController?.updateImageFit()
                 self.startShopLivePictureInPicture()
             }
