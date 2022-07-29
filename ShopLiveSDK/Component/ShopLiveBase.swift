@@ -142,9 +142,11 @@ import WebKit
             self.liveStreamViewController?.updateChattingWriteView()
         
                 if self.needExecuteFullScreen {
-                    self._style = .fullScreen
                     ShopLiveController.shared.keepSnapshot = true
-                    self.liveStreamViewController?.doSnapShot()
+                    self.liveStreamViewController?.doSnapShot {
+                        
+                    }
+                    self._style = .fullScreen
                 } else {
                     if !ShopLiveConfiguration.UI.keepWindowStateOnPlayExecuted || self.campaignChanged {
                         if !ShopLiveController.shared.isPreview {
@@ -485,28 +487,43 @@ import WebKit
             shopLiveWindow.layer.shadowOffset = .zero
             shopLiveWindow.layer.shadowRadius = 0
             
-            self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fromPreview: self.needExecuteFullScreen)
-            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
-                self.shopLiveWindow?.layer.masksToBounds = true
-                self.liveStreamViewController?.view.layer.masksToBounds = true
-                if !self.needExecuteFullScreen {
-                    self.liveStreamViewController?.updateVideoConstraint()
-                }
-            } completion: { _ in
-                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
-                    if self.needExecuteFullScreen {
-                        self.liveStreamViewController?.updateVideoConstraint()
+            if self.needExecuteFullScreen {
+                    self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fromPreview: true)
+                    UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
+                        self.shopLiveWindow?.layer.masksToBounds = true
+                        self.liveStreamViewController?.view.layer.masksToBounds = true
+                    } completion: { _ in
+                        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
+                                self.liveStreamViewController?.updateVideoConstraint()
+                            shopLiveWindow.frame = mainWindow.bounds
+                            shopLiveWindow.layer.cornerRadius = 0
+                            shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
+                            ShopLiveController.webInstance?.isHidden = false
+                        } completion: { (isCompleted) in
+                            shopLiveWindow.rootViewController?.view.backgroundColor = .black
+                            ShopLiveController.shared.pipAnimating = false
+                            ShopLiveController.shared.keepSnapshot = false
+                            ShopLiveController.shared.playControl = .play
+                            self.needExecuteFullScreen = false
+                        }
                     }
-                    shopLiveWindow.frame = mainWindow.bounds
-                    shopLiveWindow.layer.cornerRadius = 0
-                    shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
-                    ShopLiveController.webInstance?.isHidden = false
-                } completion: { (isCompleted) in
-                    shopLiveWindow.rootViewController?.view.backgroundColor = .black
-                    ShopLiveController.shared.pipAnimating = false
-                    ShopLiveController.shared.keepSnapshot = false
-                    ShopLiveController.shared.playControl = .play
-                    self.needExecuteFullScreen = false
+            } else {
+                self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fromPreview: false)
+                UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
+                    self.shopLiveWindow?.layer.masksToBounds = true
+                    self.liveStreamViewController?.view.layer.masksToBounds = true
+                        self.liveStreamViewController?.updateVideoConstraint()
+                } completion: { _ in
+                    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
+                        shopLiveWindow.frame = mainWindow.bounds
+                        shopLiveWindow.layer.cornerRadius = 0
+                        shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
+                        ShopLiveController.webInstance?.isHidden = false
+                    } completion: { (isCompleted) in
+                        shopLiveWindow.rootViewController?.view.backgroundColor = .black
+                        ShopLiveController.shared.pipAnimating = false
+                        self.needExecuteFullScreen = false
+                    }
                 }
             }
             
@@ -1379,9 +1396,10 @@ extension ShopLiveBase: ShopLiveComponent {
         
         if !ShopLiveController.shared.isPreview && ShopLiveController.shared.playerMode == .play {
             ShopLiveController.shared.keepSnapshot = true
-            self.liveStreamViewController?.doSnapShot()
-            self.liveStreamViewController?.updateImageFit()
-            startShopLivePictureInPicture()
+            self.liveStreamViewController?.doSnapShot {
+                self.liveStreamViewController?.updateImageFit()
+                self.startShopLivePictureInPicture()
+            }
         }
         
         ShopLiveController.shared.isPreview = true

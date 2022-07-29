@@ -1335,10 +1335,11 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         }
     }
     
-    func doSnapShot() {
+    func doSnapShot(_ completion: @escaping (() -> Void)) {
         ShopLiveController.shared.getSnapShot { image in
                 self.snapShotView?.image = image
                 self.snapShotView?.isHidden = false
+                completion()
             }
     }
     
