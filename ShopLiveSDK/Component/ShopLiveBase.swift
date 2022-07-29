@@ -1540,8 +1540,6 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
         _style = .fullScreen
         ShopLiveController.windowStyle = .normal
-
-        self.startFromCampaignFullscreen()
     }
 
     public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
@@ -1561,6 +1559,8 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
             }
 
             ShopLiveController.shared.swipeEnabled = true
+            
+            self.startFromCampaignFullscreen()
         }
 
         ShopLiveController.webInstance?.sendEventToWeb(event: .onPipModeChanged, false)
