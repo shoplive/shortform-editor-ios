@@ -309,19 +309,8 @@ final class ShopLiveChattingView: UITextView {
     override func layoutSubviews() {
       super.layoutSubviews()
       
-      let maxSize = bounds.inset(by: textContainerInset).size
-      
-      var size = placeholderLabel.sizeThatFits(maxSize)
-      size.height = min(size.height, maxSize.height)
-      
-        placeholderLabel.frame = CGRect(
-        origin: .init(
-          x: 5 + textContainerInset.left,
-          y: textContainerInset.top
-        ),
-        size: size
-      )
-      
+      placeholderLabel.frame.origin = CGPoint(x: 5 + textContainerInset.left, y: textContainerInset.top)
+      placeholderLabel.sizeToFit()
     }
     
     func updatePlaceholder() {
