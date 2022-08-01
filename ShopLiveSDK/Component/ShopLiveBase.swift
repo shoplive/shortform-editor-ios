@@ -1625,23 +1625,6 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
 #endif
     
     func finishRotation() {
-
-        if ShopLiveController.shared.videoOrientation == .portrait {
-            
-            if ShopLiveController.shared.windowStyle != .inAppPip {
-                ShopLiveController.shared.webInstance?.alpha = 0
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
-                    UIView.animate(withDuration: 0.3, delay: 0, options: .transitionCrossDissolve) {
-                        ShopLiveController.shared.webInstance?.alpha = 1
-                        ShopLiveController.shared.webInstance?.isHidden = false
-                        self.liveStreamViewController?.showBackgroundPoster()
-                    } completion: { _ in
-                        
-                    }
-                }
-            }
-        }
-        
         UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve) {
             self.shopLiveWindow?.layer.masksToBounds = false
             self.liveStreamViewController?.showBackgroundPoster()
@@ -1677,9 +1660,6 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
             
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
             
-            if ShopLiveController.shared.videoOrientation == .portrait {
-                ShopLiveController.shared.webInstance?.isHidden = true
-            }
             UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
                 
             } completion: { _ in
