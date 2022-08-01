@@ -28,7 +28,11 @@ internal final class LiveStreamViewController: UIViewController {
     private var voiceOverIsOn: Bool = UIAccessibility.isVoiceOverRunning
     
     var isSnapshotHidden: Bool {
-        return self.snapShotView?.isHidden ?? true
+        guard let snapShotView = self.snapShotView else {
+            return true
+        }
+        
+        return snapShotView.isHidden
     }
     
     private weak var popoverController: UIPopoverPresentationController?
@@ -394,7 +398,7 @@ internal final class LiveStreamViewController: UIViewController {
 
     private func setupSnapshotView() {
         let snapImageView = UIImageView()
-        snapImageView.isHidden = true
+        snapImageView.isHidden = false // true
         snapImageView.contentMode = .scaleAspectFill
         playerView.addSubview(snapImageView)
         snapImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -529,6 +533,7 @@ internal final class LiveStreamViewController: UIViewController {
                     snapshotLeftContraint?.constant = 0
                     snapshotRightContraint?.constant = 0
                 } else {
+                    let videoZoomed: Bool = self.playerView.playerLayer.videoGravity == .resizeAspectFill
                     if imageFrameRatio < ratio  {
                         let letterSpacing = (imageFrame.height - (imageFrame.width * (ShopLiveController.shared.videoRatio.height / ShopLiveController.shared.videoRatio.width))) / 2
                         posterTopContraint?.constant = letterSpacing
@@ -536,8 +541,8 @@ internal final class LiveStreamViewController: UIViewController {
                         posterLeftContraint?.constant = 0
                         posterRightContraint?.constant = 0
                         
-                        snapshotTopContraint?.constant = letterSpacing
-                        snapshotBottomContraint?.constant = -letterSpacing
+                        snapshotTopContraint?.constant = ShopLiveController.shared.videoExpanded ? (videoZoomed ? 0 : letterSpacing) : letterSpacing
+                        snapshotBottomContraint?.constant = ShopLiveController.shared.videoExpanded ? (videoZoomed ? 0 : -letterSpacing) : -letterSpacing
                         snapshotLeftContraint?.constant = 0
                         snapshotRightContraint?.constant = 0
                     } else {
@@ -549,8 +554,8 @@ internal final class LiveStreamViewController: UIViewController {
                         
                         snapshotTopContraint?.constant = 0
                         snapshotBottomContraint?.constant = 0
-                        snapshotLeftContraint?.constant = letterSpacing
-                        snapshotRightContraint?.constant = -letterSpacing
+                        snapshotLeftContraint?.constant = ShopLiveController.shared.videoExpanded ? (videoZoomed ? 0 : letterSpacing) : letterSpacing
+                        snapshotRightContraint?.constant = ShopLiveController.shared.videoExpanded ? (videoZoomed ? 0 : -letterSpacing) : -letterSpacing
                     }
                 }
             }
@@ -943,7 +948,18 @@ internal final class LiveStreamViewController: UIViewController {
     }
     
     func changeVideoGravity(centerCrop: Bool) {
-        self.playerView.playerLayer.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
+//        self.playerView.playerLayer.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
+        
+        if let playerFrame = UIScreen.isLandscape ? ( ShopLiveController.shared.videoExpanded ? ShopLiveController.shared.videoFrame.landscape.expanded : ShopLiveController.shared.videoFrame.landscape.standard) : ShopLiveController.shared.videoFrame.portrait {
+            self.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: false)
+            
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
+                self.updateVideoConstraint()
+            } completion: { _ in
+                
+            }
+
+        }
     }
     
     func updateVideoFrame(immeadiately: Bool, fromPreview: Bool = false) {
