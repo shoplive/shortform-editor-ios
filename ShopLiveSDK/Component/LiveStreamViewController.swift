@@ -69,8 +69,6 @@ internal final class LiveStreamViewController: UIViewController {
     private var snapshotLeftContraint: NSLayoutConstraint?
     private var snapshotRightContraint: NSLayoutConstraint?
     private var snapshotBottomContraint: NSLayoutConstraint?
-
-    private var pausedResumeCount: Int = 0
     
     private var playTimeObserver: Any?
     
@@ -1393,15 +1391,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             } else {
                 if ShopLiveController.playControl != .pause {
                     if ShopLiveController.shared.windowStyle != .osPip {
-                        if pausedResumeCount >= 10 {
-                            pausedResumeCount = 0
-                            ShopLiveController.retryPlay = true
-                        } else {
-                            if !ShopLiveController.retryPlay {
-                                pausedResumeCount += 1
-                                ShopLiveController.playControl = .resume
-                            }
-                        }
+                        ShopLiveController.playControl = .resume
                     } else {
                         if !ShopLiveController.shared.screenLock {
                             ShopLiveController.shared.lastPipPlaying = false
