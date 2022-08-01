@@ -843,6 +843,7 @@ internal final class LiveStreamViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(voiceOverStatusChanged), name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
+        UIScreen.main.addObserver(self, forKeyPath: "captured", options: .new, context: nil)
     }
     
     @objc func voiceOverStatusChanged() {
@@ -853,6 +854,8 @@ internal final class LiveStreamViewController: UIViewController {
     func removeObserver() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
+        UIScreen.main.removeObserver(self, forKeyPath: "captured")
     }
 
     @objc func handleNotification(_ notification: Notification) {
@@ -1543,5 +1546,37 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
 
     func updateChattingWriteView() {
         chatInputView.updateChattingWriteView()
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        switch keyPath {
+        case "captured":
+            if UIScreen.main.isCaptured {
+                do {
+                    try AVAudioSession.sharedInstance().setCategory(.soloAmbient)
+                } catch {
+                    
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(200)) {
+                    do {
+                        try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+                    } catch {
+                        
+                    }
+                }
+            } else {
+                do {
+                    try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+                } catch {
+                    
+                }
+                
+            }
+            
+            break
+        default:
+            break
+        }
     }
 }

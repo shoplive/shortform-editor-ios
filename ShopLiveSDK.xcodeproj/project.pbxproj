@@ -286,6 +286,8 @@
 		BFE21969276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21968276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift */; };
 		BFF3586C27E9AD3500B920E9 /* PipAreaSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3586B27E9AD3500B920E9 /* PipAreaSettingViewController.swift */; };
 		BFF3586D27E9AD3500B920E9 /* PipAreaSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3586B27E9AD3500B920E9 /* PipAreaSettingViewController.swift */; };
+		BFF8477E2897E0230075A0AA /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF8477D2897E0230075A0AA /* ReplayKit.framework */; };
+		BFF8477F2897E02F0075A0AA /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF8477D2897E0230075A0AA /* ReplayKit.framework */; };
 		BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF91D86266D2FE800B659C1 /* SafariServices.framework */; };
 /* End PBXBuildFile section */
 
@@ -427,6 +429,7 @@
 		BFE21966276B436600900FB1 /* DevInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevInfoCell.swift; sourceTree = "<group>"; };
 		BFE21968276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveCheckBoxButton.swift; sourceTree = "<group>"; };
 		BFF3586B27E9AD3500B920E9 /* PipAreaSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipAreaSettingViewController.swift; sourceTree = "<group>"; };
+		BFF8477D2897E0230075A0AA /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/System/iOSSupport/System/Library/Frameworks/ReplayKit.framework; sourceTree = DEVELOPER_DIR; };
 		BFF91D86266D2FE800B659C1 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -435,6 +438,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFF8477E2897E0230075A0AA /* ReplayKit.framework in Frameworks */,
 				BF1C0804272797C400F6B2E1 /* CoreTelephony.framework in Frameworks */,
 				BFD645E3270C37FD00B0B74F /* VideoToolbox.framework in Frameworks */,
 			);
@@ -470,6 +474,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFF8477F2897E02F0075A0AA /* ReplayKit.framework in Frameworks */,
 				BF60E23E2771CECA0060531C /* Toast in Frameworks */,
 				BF60E23F2771CECA0060531C /* CryptoSwift in Frameworks */,
 				BF60E2402771CECA0060531C /* SnapKit in Frameworks */,
@@ -836,6 +841,7 @@
 		BFAD8EEB265A24FC00202160 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BFF8477D2897E0230075A0AA /* ReplayKit.framework */,
 				BF1B57C0276B19600002EBB5 /* XCTest.framework */,
 				BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */,
 				BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */,
@@ -1906,7 +1912,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 36;
+				CURRENT_PROJECT_VERSION = 37;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
@@ -1938,7 +1944,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 36;
+				CURRENT_PROJECT_VERSION = 37;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
