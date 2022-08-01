@@ -963,8 +963,6 @@ internal final class LiveStreamViewController: UIViewController {
     }
     
     func changeVideoGravity(centerCrop: Bool) {
-//        self.playerView.playerLayer.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
-        
         if let playerFrame = UIScreen.isLandscape ? ( ShopLiveController.shared.videoExpanded ? ShopLiveController.shared.videoFrame.landscape.expanded : ShopLiveController.shared.videoFrame.landscape.standard) : ShopLiveController.shared.videoFrame.portrait {
             self.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: false)
             
@@ -993,6 +991,8 @@ internal final class LiveStreamViewController: UIViewController {
                 }
             }
         } else {
+            self.playerView.playerLayer.videoGravity = UIScreen.isLandscape ?
+                .resizeAspect : (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill)
             self.updateImageConstraint(from: .zero)
         }
     }
