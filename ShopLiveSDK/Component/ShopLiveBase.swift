@@ -489,7 +489,7 @@ import WebKit
             
             if self.needExecuteFullScreen {
                 self.videoPinchGestureRecognizer?.isEnabled = true
-                self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fromPreview: true)
+                self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true)
                 UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
                     self.shopLiveWindow?.layer.masksToBounds = true
                     self.liveStreamViewController?.view.layer.masksToBounds = true
@@ -509,7 +509,7 @@ import WebKit
                     }
                 }
             } else {
-                self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fromPreview: false)
+                self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: false)
                 UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
                     self.shopLiveWindow?.layer.masksToBounds = true
                     self.liveStreamViewController?.view.layer.masksToBounds = true
@@ -563,13 +563,14 @@ import WebKit
         shopLiveWindow.layer.shadowRadius = 0
         
         if self.needExecuteFullScreen {
-            self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
-            ShopLiveController.webInstance?.isHidden = false
+            self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true)
+            
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
                 self.liveStreamViewController?.updateVideoConstraint()
                 shopLiveWindow.frame = mainWindow.bounds
                 shopLiveWindow.layer.cornerRadius = 0
                 shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
+                ShopLiveController.webInstance?.isHidden = false
                 } completion: { (isCompleted) in
                     shopLiveWindow.rootViewController?.view.backgroundColor = .black
                     ShopLiveController.webInstance?.isHidden = false
@@ -577,13 +578,13 @@ import WebKit
                     self.liveStreamViewController?.showBackgroundPoster()
                 }
         } else {
-            self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
-            ShopLiveController.webInstance?.isHidden = false
+            self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true)
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
                 self.liveStreamViewController?.updateVideoConstraint()
                 shopLiveWindow.frame = mainWindow.bounds
                 shopLiveWindow.layer.cornerRadius = 0
                 shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
+                ShopLiveController.webInstance?.isHidden = false
                 } completion: { (isCompleted) in
                     shopLiveWindow.rootViewController?.view.backgroundColor = .black
                     ShopLiveController.webInstance?.isHidden = false

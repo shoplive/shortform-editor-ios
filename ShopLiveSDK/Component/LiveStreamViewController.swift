@@ -677,8 +677,10 @@ internal final class LiveStreamViewController: UIViewController {
         ShopLiveController.shared.lastOrientaion = currentOrientation
         
         coordinator.animate { _ in
+            ShopLiveController.shared.inRotating = true
             self.delegate?.changeOrientation(to: currentOrientation)
         } completion: { _ in
+            ShopLiveController.shared.inRotating = false
             self.delegate?.finishRotation()
         }
         
@@ -975,14 +977,14 @@ internal final class LiveStreamViewController: UIViewController {
         }
     }
     
-    func updateVideoFrame(immeadiately: Bool, fromPreview: Bool = false) {
+    func updateVideoFrame(immeadiately: Bool, fitTopArea: Bool = false) {
         guard !ShopLiveController.shared.isPreview else { return }
         
         if ShopLiveController.shared.videoOrientation == .landscape {
             if ShopLiveController.windowStyle == .inAppPip {
                 self.updateVideoFit(centerCrop: true, immediately: immeadiately)
             } else {
-                if fromPreview {
+                if fitTopArea {
                     setVideoDefaultFrame()
                 }
                 
@@ -1016,7 +1018,17 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     
     func updateVideoExpanded() {
         guard UIScreen.isLandscape, ShopLiveController.shared.videoOrientation == .landscape else { return }
-        self.updateVideoFrame(immeadiately: true)
+        
+        if ShopLiveController.shared.inRotating {
+            self.updateVideoFrame(immeadiately: true)
+        } else {
+            self.updateVideoFrame(immeadiately: false)
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
+                self.updateVideoConstraint()
+            } completion: { _ in
+            }
+        }
+        
         self.delegate?.resetPictureInPicture()
     }
     

@@ -135,6 +135,7 @@ final class ShopLiveController: NSObject {
     var lastPipPosition: ShopLive.PipPosition = .default
     var lastPipScale: CGFloat = 2/5
     var fixedPipWidth: CGFloat?
+    var inRotating: Bool = false
     var videoOrientation: ShopLiveDefines.ShopLiveOrientaion {
         switch supportOrientation {
         case .portrait, .unknown:
