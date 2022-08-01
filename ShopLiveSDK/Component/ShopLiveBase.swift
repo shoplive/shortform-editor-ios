@@ -423,7 +423,6 @@ import WebKit
             shopLiveWindow.rootViewController?.view.layer.masksToBounds = true
             shopLiveWindow.layer.masksToBounds = true
             
-            ShopLiveController.webInstance?.isHidden = true
             self.videoWindowPanGestureRecognizer?.isEnabled = true
             self.videoWindowTapGestureRecognizer?.isEnabled = true
             self.videoWindowSwipeDownGestureRecognizer?.isEnabled = false
