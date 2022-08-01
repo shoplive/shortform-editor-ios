@@ -151,6 +151,7 @@ final class ShopLiveController: NSObject {
     
     var prevLandscapeOrientation: UIDeviceOrientation = .landscapeLeft
     var lastOrientaion: ShopLiveDefines.ShopLiveOrientaion = .portrait
+    
     var videoCenterCrop: Bool {
         set {
             self._videoCenterCrop = newValue

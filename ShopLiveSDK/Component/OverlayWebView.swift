@@ -357,7 +357,7 @@ extension OverlayWebView: WKScriptMessageHandler {
                 case "ON_CHANGED_VIDEO_EXPANDED":
                     guard let videoExpanded = parameters?["videoExpanded"] as? Int, let isVideoExpended = String(describing: videoExpanded).boolValue else { return }
                     if ShopLiveController.shared.videoExpanded != isVideoExpended {
-                        ShopLiveController.shared.videoCenterCrop = false
+
                         ShopLiveController.shared.videoExpanded = isVideoExpended
                         delegate?.updateVideoExpanded()
                     }
