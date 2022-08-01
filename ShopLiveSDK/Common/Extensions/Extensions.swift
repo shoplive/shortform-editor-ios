@@ -539,9 +539,9 @@ extension UIInterfaceOrientation {
         case .portraitUpsideDown:
             return .portraitUpsideDown
         case .landscapeLeft:
-            return .landscapeLeft
-        case .landscapeRight:
             return .landscapeRight
+        case .landscapeRight:
+            return .landscapeLeft
         default:
             return .portrait
         }
@@ -556,11 +556,11 @@ extension UIDeviceOrientation {
         case .portraitUpsideDown:
             return .portraitUpsideDown
         case .landscapeLeft:
-            return .landscapeLeft
-        case .landscapeRight:
             return .landscapeRight
+        case .landscapeRight:
+            return .landscapeLeft
         default:
-            return self.isLandscape ? .landscapeLeft : .portrait
+            return self.isLandscape ? .landscapeRight : .portrait
         }
     }
 }

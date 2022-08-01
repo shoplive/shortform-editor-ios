@@ -670,6 +670,10 @@ internal final class LiveStreamViewController: UIViewController {
             self.shopliveHideKeyboard()
         }
         
+        if UIScreen.currentOrientation.deviceOrientation.isLandscape {
+            ShopLiveController.shared.prevLandscapeOrientation = UIScreen.currentOrientation.deviceOrientation
+        }
+        
         ShopLiveController.shared.lastOrientaion = currentOrientation
         
         coordinator.animate { _ in
@@ -907,13 +911,24 @@ internal final class LiveStreamViewController: UIViewController {
         }
     }
     
+    private func changeOrientation(orientation: UIDeviceOrientation) {
+        DispatchQueue.main.async {
+            guard UIScreen.currentOrientation.deviceOrientation.rawValue != orientation.rawValue else { return }
+            
+            UIDevice.current.setValue(orientation, forKey: "orientation")
+            UIViewController.attemptRotationToDeviceOrientation()
+        }
+    }
+    
     private func changeOrientation(toLandscape: Bool) {
-        let orientation = toLandscape ? (UIScreen.isLandscape ? UIDevice.current.orientation.rawValue : UIInterfaceOrientation.landscapeRight.rawValue) : (UIScreen.isLandscape ? UIInterfaceOrientation.portrait.rawValue : UIDevice.current.orientation.rawValue)
-        
-        guard UIScreen.currentOrientation.deviceOrientation.rawValue != orientation else { return }
-        
-        UIDevice.current.setValue(orientation, forKey: "orientation")
-        UIViewController.attemptRotationToDeviceOrientation()
+        DispatchQueue.main.async {
+            let orientation = toLandscape ? (UIScreen.isLandscape ? UIScreen.currentOrientation.deviceOrientation.rawValue :  ShopLiveController.shared.prevLandscapeOrientation.rawValue) : (UIScreen.isLandscape ? UIInterfaceOrientation.portrait.rawValue : UIDevice.current.orientation.rawValue)
+            
+            guard UIScreen.currentOrientation.deviceOrientation.rawValue != orientation else { return }
+            
+            UIDevice.current.setValue(orientation, forKey: "orientation")
+            UIViewController.attemptRotationToDeviceOrientation()
+        }
     }
     
     func updateImageFit() {
@@ -1011,6 +1026,10 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     
     func updateOrientation(toLandscape: Bool) {
         self.changeOrientation(toLandscape: toLandscape)
+    }
+    
+    func updateOrientation(orientation: UIDeviceOrientation) {
+        self.changeOrientation(orientation: orientation)
         
         if ShopLiveController.shared.newStartPlay {
             ShopLiveController.shared.newStartPlay = false

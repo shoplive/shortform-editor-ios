@@ -409,7 +409,7 @@ extension OverlayWebView: WKScriptMessageHandler {
                         return
                     }
                     
-                    self.delegate?.updateOrientation(toLandscape: "LANDSCAPE" == orientation)
+                    self.delegate?.updateOrientation(toLandscape: ("LANDSCAPE" == orientation))
                     break
                 default:
                     break

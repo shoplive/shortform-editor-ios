@@ -106,6 +106,7 @@ protocol OverlayWebViewDelegate: AnyObject {
     func onSetUserName(_ payload: [String : Any])
     func handleReceivedCommand(_ command: String, with payload: Any?)
     func updatePlayerFrame(centerCrop: Bool, playerFrame: CGRect, immediately: Bool)
+    func updateOrientation(orientation: UIDeviceOrientation)
     func updateOrientation(toLandscape: Bool)
     func updateVideoExpanded()
     #if MUSINSA

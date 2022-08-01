@@ -957,11 +957,18 @@ import WebKit
 #if MUSINSA
         delegate?.log(name: "swipe_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
 #endif
-        if ShopLiveController.shared.videoOrientation == .landscape, UIScreen.isLandscape {
-            self.liveStreamViewController?.updateOrientation(toLandscape: false)
+        if ShopLiveController.shared.videoOrientation == .landscape {
+            if UIScreen.isLandscape {
+                self.liveStreamViewController?.updateOrientation(toLandscape: false)
+            } else {
+                self.startShopLivePictureInPicture()
+            }
+        } else {
+            self.startShopLivePictureInPicture()
         }
         
-        self.startShopLivePictureInPicture()
+        
+        
     }
     
     @objc private func pipTapGestureHandler(_ recognizer: UITapGestureRecognizer) {
@@ -1730,10 +1737,6 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     func didTouchPipButton() {
-        if ShopLiveController.shared.videoOrientation == .landscape, UIScreen.isLandscape {
-            self.liveStreamViewController?.updateOrientation(toLandscape: false)
-        }
-        
         startShopLivePictureInPicture()
     }
     

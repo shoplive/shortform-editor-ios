@@ -148,6 +148,8 @@ final class ShopLiveController: NSObject {
     
     lazy var videoRatio: CGSize = videoOrientation == .landscape ? CGSize(width: 16, height: 9) : CGSize(width: 9, height: 16)
     var videoFrame: (portrait: CGRect?, landscape: (expanded: CGRect?, standard: CGRect?)) = (portrait: nil, landscape: (expanded: nil, standard: nil))
+    
+    var prevLandscapeOrientation: UIDeviceOrientation = .landscapeLeft
     var lastOrientaion: ShopLiveDefines.ShopLiveOrientaion = .portrait
     var videoCenterCrop: Bool {
         set {
@@ -263,7 +265,7 @@ final class ShopLiveController: NSObject {
     }
     private func reset() {
         keepOrientationWhenPlayStart = false
-        
+        ShopLiveController.shared.prevLandscapeOrientation = .landscapeLeft
         playerResumeCount = 0
         playControl = .none
         isReplayMode = false
