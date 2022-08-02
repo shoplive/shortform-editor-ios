@@ -375,6 +375,11 @@ extension MainViewController: ShopLiveSDKDelegate {
             self.preview()
         } else if command == "CLOSE_FROM_PIP" {
             
+        } else if command == "didShopLiveOff" {
+            #if MUSINSA
+            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            UINavigationController.attemptRotationToDeviceOrientation()
+            #endif
         }
     }
 

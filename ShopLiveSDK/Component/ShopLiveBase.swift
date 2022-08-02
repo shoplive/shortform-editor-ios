@@ -445,14 +445,15 @@ import WebKit
                 self.shopLiveWindow?.backgroundColor = .black
                 self.liveStreamViewController?.view.backgroundColor = .black
                 shopLiveWindow.layer.masksToBounds = false
+                
+                ShopLiveController.shared.videoExpanded = true
+                self._style = .pip
+                self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
+                
+        #if MUSINSA
+                self.delegate?.log(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+        #endif
             }
-
-            ShopLiveController.shared.videoExpanded = true
-            self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
-            self._style = .pip
-    #if MUSINSA
-            self.delegate?.log(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
-    #endif
         }
     }
     
@@ -505,6 +506,7 @@ import WebKit
                         ShopLiveController.shared.keepSnapshot = false
                         ShopLiveController.shared.playControl = .play
                         self.needExecuteFullScreen = false
+                        self.delegate?.handleCommand("didShopLiveOn", with: nil)
                     }
                 }
             } else {
@@ -523,13 +525,13 @@ import WebKit
                         shopLiveWindow.rootViewController?.view.backgroundColor = .black
                         ShopLiveController.shared.pipAnimating = false
                         self.needExecuteFullScreen = false
+                        self.delegate?.handleCommand("didShopLiveOn", with: nil)
                     }
                 }
             }
             
             self._style = .fullScreen
             ShopLiveController.windowStyle = .normal
-            self.delegate?.handleCommand("didShopLiveOn", with: nil)
         }
     }
 
@@ -620,9 +622,10 @@ import WebKit
             let pipSize: CGRect = self.pipPosition(with: self.pipScale, position: self.pipPosition)
             
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
+            self.shopLiveWindow?.layer.masksToBounds = true
+            self.liveStreamViewController?.view.layer.masksToBounds = true
             UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
-                self.shopLiveWindow?.layer.masksToBounds = true
-                self.liveStreamViewController?.view.layer.masksToBounds = true
+                
                 self.liveStreamViewController?.updateVideoConstraint()
             } completion: { _ in
                 UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
@@ -630,11 +633,11 @@ import WebKit
                     self.shopLiveWindow?.layoutIfNeeded()
                 } completion: { _ in
                     ShopLiveController.shared.pipAnimating = false
+                    
+                    if !isRotation {
+                        self.delegate?.handleCommand("didShopLiveOff", with: nil)
+                    }
                 }
-            }
-            
-            if !isRotation {
-                self.delegate?.handleCommand("didShopLiveOff", with: nil)
             }
         }
     }
@@ -730,6 +733,9 @@ import WebKit
                     self.liveStreamViewController?.view.layer.masksToBounds = true
                     self.shopLiveWindow?.backgroundColor = .clear
                     self.liveStreamViewController?.showBackgroundPoster()
+                    self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
+                    ShopLiveController.shared.videoExpanded = true
+                    self.needAnimateToChangePreivew = false
                 }
             } else {
                 self.liveStreamViewController?.updateVideoFit(centerCrop: true, imageUpdate: false)
@@ -751,12 +757,13 @@ import WebKit
                     self.shopLiveWindow?.layer.masksToBounds = true
                     self.liveStreamViewController?.view.layer.masksToBounds = true
                     self.liveStreamViewController?.showBackgroundPoster()
+                    self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
+                    ShopLiveController.shared.videoExpanded = true
+                    self.needAnimateToChangePreivew = false
                 }
             }
             
-            ShopLiveController.shared.videoExpanded = true
-            self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
-            self.needAnimateToChangePreivew = false
+            
         }
     }
 
