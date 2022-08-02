@@ -331,15 +331,16 @@ extension UIScreen {
     }
     
     static var isLandscape: Bool {
-        if #available(iOS 13.0, *) {
-            return UIApplication.shared.windows
-                .first?
-                .windowScene?
-                .interfaceOrientation
-                .isLandscape ?? false
-        } else {
-            return UIApplication.shared.statusBarOrientation.isLandscape
-        }
+//        if #available(iOS 13.0, *) {
+//            return UIApplication.shared.windows
+//                .first?
+//                .windowScene?
+//                .interfaceOrientation
+//                .isLandscape ??
+//        } else {
+//            return UIApplication.shared.statusBarOrientation.isLandscape
+//        }
+        UIDevice.current.orientation.isLandscape
     }
     
     static var concreteWidth: CGFloat {
@@ -352,6 +353,18 @@ extension UIScreen {
     
     static var landscapeWidth: CGFloat {
         UIScreen.main.bounds.width > UIScreen.main.bounds.height ? UIScreen.main.bounds.width : UIScreen.main.bounds.height
+    }
+    
+    static var landscapeHeight: CGFloat {
+        UIScreen.main.bounds.width > UIScreen.main.bounds.height ? UIScreen.main.bounds.height : UIScreen.main.bounds.width
+    }
+    
+    static var screenWidth: CGFloat {
+        isLandscape ? landscapeWidth : concreteWidth
+    }
+    
+    static var screenHeight: CGFloat {
+        isLandscape ? landscapeHeight : concreteHeight
     }
     
     static var concreteTopSafeArea: CGFloat {

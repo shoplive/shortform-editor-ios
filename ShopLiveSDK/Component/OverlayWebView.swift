@@ -371,10 +371,11 @@ extension OverlayWebView: WKScriptMessageHandler {
                     if ShopLiveController.shared.supportOrientation == .landscape {
                         let SET_VIDEO_POSITION_LOG = CGRect(x: x, y: y, width: width, height: height)
                         
-                        let right = UIScreen.main.bounds.size.width - x - width
-                        let bottom = UIScreen.main.bounds.size.height - y - height
+                        let right = UIScreen.screenWidth - x - width
+                        let bottom = UIScreen.screenHeight - y - height
                         
                         let playerFrame = CGRect(x: x, y: y, width: right, height: bottom)
+                        
                             if UIScreen.isLandscape {
                                 if ShopLiveController.shared.videoExpanded {
                                     ShopLiveController.shared.videoFrame.landscape.expanded = playerFrame

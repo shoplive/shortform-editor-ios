@@ -1660,6 +1660,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
         if _style == .pip, ShopLiveController.windowStyle == .inAppPip {
             updatePip(isRotation: true)
         } else {
+            
             let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("top", UIScreen.safeArea.top), ("left", UIScreen.safeArea.left),
                                                                  ("right", UIScreen.safeArea.right), ("bottom", UIScreen.safeArea.bottom), ("orientation", UIScreen.currentOrientation.angle))
             
