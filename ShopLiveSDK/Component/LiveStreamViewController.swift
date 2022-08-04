@@ -659,10 +659,7 @@ internal final class LiveStreamViewController: UIViewController {
 
         if ShopLiveController.shared.videoOrientation == .portrait {
             playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
-        }
-        
-        if !(ShopLiveController.shared.lastOrientaion == .landscape && UIScreen.isLandscape) {
-//            ShopLiveController.shared.videoCenterCrop = false
+            ShopLiveController.shared.webInstance?.alpha = 0
         }
         
         let currentOrientation: ShopLiveDefines.ShopLiveOrientaion = UIScreen.isLandscape ? .landscape : .portrait

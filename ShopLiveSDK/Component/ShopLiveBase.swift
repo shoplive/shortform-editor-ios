@@ -1636,7 +1636,11 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
             self.shopLiveWindow?.layer.masksToBounds = false
             self.liveStreamViewController?.showBackgroundPoster()
         } completion: { _ in
-
+            UIView.animate(withDuration: 0.3, delay: 0.25, options: .transitionCrossDissolve) {
+                ShopLiveController.shared.webInstance?.alpha = 1
+            } completion: { _ in
+                
+            }
         }
     }
     
