@@ -340,7 +340,7 @@ extension UIScreen {
 //        } else {
 //            return UIApplication.shared.statusBarOrientation.isLandscape
 //        }
-        UIDevice.current.orientation.isLandscape
+        currentOrientation.isLandscape
     }
     
     static var concreteWidth: CGFloat {
