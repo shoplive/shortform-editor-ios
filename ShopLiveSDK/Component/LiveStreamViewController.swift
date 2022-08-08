@@ -1454,9 +1454,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
 
             ShopLiveController.shared.lastPipPlaying = true
 
-            if ShopLiveController.loading {
-                ShopLiveController.loading = false
-            }
+            ShopLiveController.loading = false
 
             if ShopLiveController.isReplayMode {
                 ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true)
