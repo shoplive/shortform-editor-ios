@@ -643,6 +643,8 @@ import WebKit
                         self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
                 #endif
                     }
+                    
+                    self.shopLiveWindow?.layer.masksToBounds = false
                 }
             }
         }
@@ -739,7 +741,7 @@ import WebKit
                     
                     self.shopLiveWindow?.isHidden = false
                     ShopLiveController.shared.webInstance?.isHidden = true
-                    self.shopLiveWindow?.layer.masksToBounds = true
+                    self.shopLiveWindow?.layer.masksToBounds = false
                     self.liveStreamViewController?.view.layer.masksToBounds = true
                     self.shopLiveWindow?.backgroundColor = .clear
                     self.liveStreamViewController?.showBackgroundPoster()
@@ -766,7 +768,7 @@ import WebKit
                     ShopLiveController.shared.playControl = .play
                     self.shopLiveWindow?.isHidden = false
                     ShopLiveController.shared.webInstance?.isHidden = true
-                    self.shopLiveWindow?.layer.masksToBounds = true
+                    self.shopLiveWindow?.layer.masksToBounds = false
                     self.liveStreamViewController?.view.layer.masksToBounds = true
                     self.liveStreamViewController?.showBackgroundPoster()
                     self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
@@ -866,6 +868,7 @@ import WebKit
         guard _style == .pip else { return }
         guard let liveWindow = recognizer.view else { return }
         
+        liveWindow.layer.masksToBounds = false
         let translation = recognizer.translation(in: liveWindow)
         
 #if MUSINSA
@@ -880,6 +883,7 @@ import WebKit
             liveWindow.center = CGPoint(x: centerX, y: centerY)
         case .ended:
             guard let mainWindow = self.mainWindow else { return }
+            liveWindow.layer.masksToBounds = true
             let velocity = recognizer.velocity(in: liveWindow)
 
             let safeAreaInset = mainWindow.safeAreaInsets
