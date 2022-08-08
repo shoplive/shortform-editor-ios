@@ -250,6 +250,7 @@ extension ShopLive: ShopLiveSDKInterface {
     }
 
     public static func close() {
+        ShopLiveController.shared.execusedClose = true
         shared.instance?.close()
     }
 

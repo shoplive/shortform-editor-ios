@@ -70,6 +70,7 @@ final class ShopLiveController: NSObject {
         }
     }
 
+    var execusedClose: Bool = false
     private var currentCampaignKey: String = ""
     
     var posterUrl: String = ""
