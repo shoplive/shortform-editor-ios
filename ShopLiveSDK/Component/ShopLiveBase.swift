@@ -448,10 +448,12 @@ import WebKit
                 
                 ShopLiveController.shared.videoExpanded = true
                 self._style = .pip
-                self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
                 
         #if MUSINSA
                 self.delegate?.log(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+                self.sendCommandMusinsa()
+        #else
+                self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
         #endif
             }
         }
@@ -635,7 +637,11 @@ import WebKit
                     ShopLiveController.shared.pipAnimating = false
                     
                     if !isRotation {
-                        self.delegate?.handleCommand("didShopLiveOff", with: nil)
+                #if MUSINSA
+                        self.sendCommandMusinsa()
+                #else
+                        self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
+                #endif
                     }
                 }
             }
@@ -681,7 +687,11 @@ import WebKit
             shopLiveWindow.setNeedsLayout()
             shopLiveWindow.layoutIfNeeded()
             
-            self.delegate?.handleCommand("didShopLiveOff", with: nil)
+            #if MUSINSA
+            self.sendCommandMusinsa()
+            #else
+            self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
+            #endif
         }
     }
     
@@ -733,7 +743,9 @@ import WebKit
                     self.liveStreamViewController?.view.layer.masksToBounds = true
                     self.shopLiveWindow?.backgroundColor = .clear
                     self.liveStreamViewController?.showBackgroundPoster()
+                    
                     self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
+                    
                     ShopLiveController.shared.videoExpanded = true
                     self.needAnimateToChangePreivew = false
                 }
@@ -890,9 +902,7 @@ import WebKit
             //범위밖으로 나가면 stop shoplive
             guard xRange.contains(centerX), yRange.contains(centerY) else {
                 #if MUSINSA
-                if ShopLiveController.shared.isPreview {
-                    delegate?.handleCommand("CLOSE_FROM_PREVIEW", with: nil)
-                }
+                delegate?.handleCommand(ShopLiveController.shared.isPreview ? "CLOSE_FROM_PREVIEW" : "CLOSE_FROM_PLAY", with: nil)
                 #endif
                 hideShopLiveView()
                 return
@@ -1298,6 +1308,10 @@ import WebKit
         default:
             break
         }
+    }
+    private func sendCommandMusinsa() {
+        guard !ShopLiveController.shared.isPreview else { return }
+        self.delegate?.handleCommand("CHANGE_TO_PIP", with: nil)
     }
 }
 
