@@ -577,3 +577,9 @@ extension UIDeviceOrientation {
         }
     }
 }
+
+extension CGRect {
+    var center: CGPoint {
+        CGPoint(x: self.midX, y: self.midY)
+    }
+}

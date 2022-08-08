@@ -738,7 +738,7 @@ internal final class LiveStreamViewController: UIViewController {
             self.playerView.addConstraints([customIndicatorCenterXConstraint, customIndicatorCenterYConstraint])
 
             customIndicator.configure(images: ShopLiveConfiguration.UI.customIndicatorImages)
-            self.customIndicator.startAnimating()
+//            self.customIndicator.startAnimating()
         } else {
             self.playerView.addSubviews(indicatorView)
             let indicatorWidth = NSLayoutConstraint.init(item: indicatorView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
@@ -750,7 +750,7 @@ internal final class LiveStreamViewController: UIViewController {
             self.playerView.addConstraints([centerXConstraint, centerYConstraint])
             indicatorView.color = ShopLiveConfiguration.UI.color
 
-            indicatorView.startAnimating()
+//            indicatorView.startAnimating()
         }
         
         self.playerView.bringSubviewToFront(indicatorView)

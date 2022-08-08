@@ -106,6 +106,8 @@ import WebKit
 
     private var previewCallback: (() -> Void)?
     
+    let debouncer = Debouncer(timeInterval: 0.3)
+    
     var liveStreamViewController: LiveStreamViewController?
     var pictureInPictureController: AVPictureInPictureController?
     
@@ -199,7 +201,14 @@ import WebKit
         }
         shopLiveWindow?.backgroundColor = .clear
         shopLiveWindow?.windowLevel = .statusBar - 1
-        shopLiveWindow?.frame = ShopLiveController.shared.isPreview ? .zero : mainWindow?.frame ?? UIScreen.main.bounds //
+        
+        if ShopLiveController.shared.isPreview {
+            shopLiveWindow?.frame = .zero
+            shopLiveWindow?.center = self.pipPosition(with: self.pipScale, position: self.pipPosition).center
+        } else {
+            shopLiveWindow?.frame = mainWindow?.frame ?? UIScreen.main.bounds
+        }
+        
         shopLiveWindow?.rootViewController = liveStreamViewController
         self.liveStreamViewController?.hideBackgroundPoster()
 
@@ -1435,70 +1444,78 @@ extension ShopLiveBase: ShopLiveComponent {
 
     func preview(with campaignKey: String?, completion: @escaping () -> Void) {
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 500 : 0)) {
-            ShopLiveController.shared.execusedClose = false
-            guard self.accessKey != nil else { return }
-            
-            ShopLiveController.shared.campaignKey = campaignKey ?? ""
-    #if MUSINSA
-            self.delegate?.log(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "preview"])
-    #endif
-            
-            self.addObserver()
-            
-            if !ShopLiveController.shared.isPreview && ShopLiveController.shared.playerMode == .play {
-                if ShopLiveController.shared.isSameCampaign {
-                    ShopLiveController.shared.keepSnapshot = true
-                    self.liveStreamViewController?.doSnapShot {
+        debouncer.renewInterval()
+        
+        debouncer.handler = {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 500 : 0)) {
+                ShopLiveController.shared.execusedClose = false
+                guard self.accessKey != nil else { return }
+                
+                ShopLiveController.shared.campaignKey = campaignKey ?? ""
+        #if MUSINSA
+                self.delegate?.log(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "preview"])
+        #endif
+                
+                self.addObserver()
+                
+                if !ShopLiveController.shared.isPreview && ShopLiveController.shared.playerMode == .play {
+                    if ShopLiveController.shared.isSameCampaign {
+                        ShopLiveController.shared.keepSnapshot = true
+                        self.liveStreamViewController?.doSnapShot {
+                            self.liveStreamViewController?.updateImageFit()
+                            self.startShopLivePictureInPicture()
+                        }
+                    } else {
                         self.liveStreamViewController?.updateImageFit()
                         self.startShopLivePictureInPicture()
                     }
-                } else {
-                    self.liveStreamViewController?.updateImageFit()
-                    self.startShopLivePictureInPicture()
                 }
-            }
-            
-            ShopLiveController.shared.isPreview = true
-            ShopLiveController.loading = true
-            self.previewCallback = completion
-            self.campaignKey = campaignKey
-            self.fetchPreviewUrl(with: campaignKey) { [weak self] url in
-                guard let url = url else {
-                    self?.removeObserver()
-                    return
+                
+                ShopLiveController.shared.isPreview = true
+                ShopLiveController.loading = true
+                self.previewCallback = completion
+                self.campaignKey = campaignKey
+                self.fetchPreviewUrl(with: campaignKey) { [weak self] url in
+                    guard let url = url else {
+                        self?.removeObserver()
+                        return
+                    }
+                    self?.showPreview(previewUrl: url, completion: completion)
                 }
-                self?.showPreview(previewUrl: url, completion: completion)
             }
         }
         
     }
     
     @objc func play(with campaignKey: String?) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 500 : 0)) {
-            ShopLiveController.shared.execusedClose = false
-            guard self.accessKey != nil else { return }
-            ShopLiveController.shared.campaignKey = campaignKey ?? ""
-            self.needExecuteFullScreen = ShopLiveController.shared.isPreview
-    #if MUSINSA
-            if self.needExecuteFullScreen {
-                self.delegate?.log(name: "preview_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
-            }
-            self.delegate?.log(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "normal"])
-    #endif
-            ShopLiveController.shared.isPreview = false
-            self.addObserver()
-            self.campaignChanged = (campaignKey != self.campaignKey)
-            self.campaignKey = campaignKey
-            ShopLiveController.loading = true
-            self.fetchOverlayUrl(with: campaignKey) { [weak self] url in
-                guard let url = url else {
-                    self?.removeObserver()
-                    return
+        debouncer.renewInterval()
+        
+        debouncer.handler = {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 500 : 0)) {
+                ShopLiveController.shared.execusedClose = false
+                guard self.accessKey != nil else { return }
+                ShopLiveController.shared.campaignKey = campaignKey ?? ""
+                self.needExecuteFullScreen = ShopLiveController.shared.isPreview
+        #if MUSINSA
+                if self.needExecuteFullScreen {
+                    self.delegate?.log(name: "preview_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
                 }
-                self?.liveStreamViewController?.viewModel.authToken = self?._authToken
-                self?.liveStreamViewController?.viewModel.user = self?._user
-                self?.showShopLiveView(with: url, nil)
+                self.delegate?.log(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "normal"])
+        #endif
+                ShopLiveController.shared.isPreview = false
+                self.addObserver()
+                self.campaignChanged = (campaignKey != self.campaignKey)
+                self.campaignKey = campaignKey
+                ShopLiveController.loading = true
+                self.fetchOverlayUrl(with: campaignKey) { [weak self] url in
+                    guard let url = url else {
+                        self?.removeObserver()
+                        return
+                    }
+                    self?.liveStreamViewController?.viewModel.authToken = self?._authToken
+                    self?.liveStreamViewController?.viewModel.user = self?._user
+                    self?.showShopLiveView(with: url, nil)
+                }
             }
         }
     }

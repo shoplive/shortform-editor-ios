@@ -277,6 +277,11 @@
 		BFBBB03C2670ECB10025ED1D /* ShopLiveKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */; };
 		BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */; };
 		BFD645E3270C37FD00B0B74F /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */; };
+		BFDC8B6728A169050055C4DA /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDC8B6628A169050055C4DA /* Debouncer.swift */; };
+		BFDC8B6828A169050055C4DA /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDC8B6628A169050055C4DA /* Debouncer.swift */; };
+		BFDC8B6928A169050055C4DA /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDC8B6628A169050055C4DA /* Debouncer.swift */; };
+		BFDC8B6A28A169050055C4DA /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDC8B6628A169050055C4DA /* Debouncer.swift */; };
+		BFDC8B6B28A169050055C4DA /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDC8B6628A169050055C4DA /* Debouncer.swift */; };
 		BFE14B66272F6E9200C6624B /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBACA02699EAEC00574958 /* CoreTelephony.framework */; };
 		BFE2195F276B35C000900FB1 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = BFE2195E276B35C000900FB1 /* Toast */; };
 		BFE21961276B3BE600900FB1 /* ShopLiveDevConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21960276B3BE600900FB1 /* ShopLiveDevConfiguration.swift */; };
@@ -422,6 +427,7 @@
 		BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveKeySet.swift; sourceTree = "<group>"; };
 		BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDemoKeyTools.swift; sourceTree = "<group>"; };
 		BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/VideoToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		BFDC8B6628A169050055C4DA /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
 		BFE14B65272F69F100C6624B /* ShopLiveDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShopLiveDemo.entitlements; sourceTree = "<group>"; };
 		BFE21960276B3BE600900FB1 /* ShopLiveDevConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDevConfiguration.swift; sourceTree = "<group>"; };
 		BFE21962276B40BD00900FB1 /* SwitchOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchOptionCell.swift; sourceTree = "<group>"; };
@@ -611,6 +617,7 @@
 				BF37D99A27F5742D004C2785 /* HapticManager.swift */,
 				BF37D99D27F5742D004C2785 /* ShopLiveConfiguration.swift */,
 				BF37D99E27F5742D004C2785 /* URLUtil.swift */,
+				BFDC8B6628A169050055C4DA /* Debouncer.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1204,6 +1211,7 @@
 			files = (
 				BF37D9E427F5742D004C2785 /* Extensions.swift in Sources */,
 				BF37D9B127F5742D004C2785 /* OverlayWebView.swift in Sources */,
+				BFDC8B6728A169050055C4DA /* Debouncer.swift in Sources */,
 				BF37D9C327F5742D004C2785 /* ShopLivePlayerView.swift in Sources */,
 				BF37D9C027F5742D004C2785 /* SLLoadingIndicator.swift in Sources */,
 				BF37D9B727F5742D004C2785 /* ShopLivePlayerItem.swift in Sources */,
@@ -1245,6 +1253,7 @@
 			files = (
 				BF34F2DB28125F8600114DBF /* Extensions.swift in Sources */,
 				BF34F2DC28125F8600114DBF /* OverlayWebView.swift in Sources */,
+				BFDC8B6828A169050055C4DA /* Debouncer.swift in Sources */,
 				BF34F2DD28125F8600114DBF /* ShopLivePlayerView.swift in Sources */,
 				BF34F2DE28125F8600114DBF /* SLLoadingIndicator.swift in Sources */,
 				BF34F2DF28125F8600114DBF /* ShopLivePlayerItem.swift in Sources */,
@@ -1278,6 +1287,7 @@
 			files = (
 				BF5111E92824464A00E36175 /* Extensions.swift in Sources */,
 				BF5111EA2824464A00E36175 /* OverlayWebView.swift in Sources */,
+				BFDC8B6928A169050055C4DA /* Debouncer.swift in Sources */,
 				BF5111EB2824464A00E36175 /* ShopLivePlayerView.swift in Sources */,
 				BF5111EC2824464A00E36175 /* SLLoadingIndicator.swift in Sources */,
 				BF5111ED2824464A00E36175 /* ShopLivePlayerItem.swift in Sources */,
@@ -1330,6 +1340,7 @@
 				BF60E1FE2771CECA0060531C /* CouponResponseSettingView.swift in Sources */,
 				BF60E1FF2771CECA0060531C /* OptionSectionHeader.swift in Sources */,
 				BF37D9D427F5742D004C2785 /* SoundManager.swift in Sources */,
+				BFDC8B6B28A169050055C4DA /* Debouncer.swift in Sources */,
 				BF60E2002771CECA0060531C /* ShopLive.swift in Sources */,
 				BF60E2012771CECA0060531C /* DemoConfiguration.swift in Sources */,
 				BF37D9AD27F5742D004C2785 /* ShopLiveController.swift in Sources */,
@@ -1412,6 +1423,7 @@
 				BF8CEF9C276CFB310043D5FF /* CouponResponseSettingView.swift in Sources */,
 				BFA69D6A276B64FF00F91394 /* OptionSectionHeader.swift in Sources */,
 				BF37D9D327F5742D004C2785 /* SoundManager.swift in Sources */,
+				BFDC8B6A28A169050055C4DA /* Debouncer.swift in Sources */,
 				BFAD8EE2265A24DA00202160 /* ShopLive.swift in Sources */,
 				BF47199F2768570100522F6F /* DemoConfiguration.swift in Sources */,
 				BF37D9AC27F5742D004C2785 /* ShopLiveController.swift in Sources */,
