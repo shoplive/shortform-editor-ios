@@ -988,7 +988,7 @@ import WebKit
     }
     
     @objc private func pinchGestureHandler(_ recognizer: UIPinchGestureRecognizer) {
-        guard ShopLiveController.shared.videoOrientation == .landscape else { return }
+        guard ShopLiveController.shared.videoOrientation == .landscape, ShopLiveController.shared.windowStyle == .normal else { return }
         guard UIScreen.isLandscape else { return }
         guard ShopLiveController.shared.videoExpanded else { return }
         
