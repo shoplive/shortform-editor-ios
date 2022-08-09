@@ -308,7 +308,7 @@ import WebKit
         self._user = nil
         ShopLiveController.shared.resetOnlyFinished()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1200)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) {
             ShopLiveController.shared.execusedClose = false
         }
     }
