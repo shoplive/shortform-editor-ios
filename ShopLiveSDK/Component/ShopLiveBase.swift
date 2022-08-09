@@ -308,7 +308,7 @@ import WebKit
         self._user = nil
         ShopLiveController.shared.resetOnlyFinished()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(600)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1200)) {
             ShopLiveController.shared.execusedClose = false
         }
     }
@@ -1446,7 +1446,7 @@ extension ShopLiveBase: ShopLiveComponent {
         debouncer.renewInterval()
         
         debouncer.handler = {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 500 : 0)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 800 : 0)) {
                 ShopLiveController.shared.execusedClose = false
                 guard self.accessKey != nil else { return }
                 
@@ -1490,7 +1490,7 @@ extension ShopLiveBase: ShopLiveComponent {
         debouncer.renewInterval()
         
         debouncer.handler = {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 500 : 0)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 800 : 0)) {
                 ShopLiveController.shared.execusedClose = false
                 guard self.accessKey != nil else { return }
                 ShopLiveController.shared.campaignKey = campaignKey ?? ""
