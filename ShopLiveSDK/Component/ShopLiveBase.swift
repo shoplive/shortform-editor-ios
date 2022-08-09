@@ -656,9 +656,8 @@ import WebKit
                 #else
                         self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
                 #endif
+                        self.shopLiveWindow?.layer.masksToBounds = false
                     }
-                    
-                    self.shopLiveWindow?.layer.masksToBounds = false
                 }
             }
         }
@@ -1688,7 +1687,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
             UIView.animate(withDuration: 0.3, delay: 0.25, options: .transitionCrossDissolve) {
                 ShopLiveController.shared.webInstance?.alpha = 1
             } completion: { _ in
-                
+                self.shopLiveWindow?.layer.masksToBounds = false
             }
         }
     }
