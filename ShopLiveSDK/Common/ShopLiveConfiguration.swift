@@ -48,6 +48,7 @@ internal final class ShopLiveConfiguration: NSObject {
     
     class SoundPolicy {
         static var keepPlayVideoOnHeadphoneUnplugged: Bool = false
+        static var onHeadphoneUnpluggedIsMute: Bool = false
         static var autoResumeVideoOnCallEnded: Bool = false
         static var isMuted: Bool = false
     }

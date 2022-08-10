@@ -1395,8 +1395,9 @@ extension ShopLiveBase: ShopLiveComponent {
         liveStreamViewController?.onTerminated()
     }
     
-    func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool) {
+    func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool, isMute: Bool = false) {
         ShopLiveConfiguration.SoundPolicy.keepPlayVideoOnHeadphoneUnplugged = keepPlay
+        ShopLiveConfiguration.SoundPolicy.onHeadphoneUnpluggedIsMute = isMute
     }
 
     func isKeepPlayVideoOnHeadPhoneUnplugged() -> Bool {

@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import AVKit
+import MediaPlayer
 
 extension UIViewController
 {
@@ -581,5 +582,15 @@ extension UIDeviceOrientation {
 extension CGRect {
     var center: CGPoint {
         CGPoint(x: self.midX, y: self.midY)
+    }
+}
+
+extension MPVolumeView {
+    static func setVolume(_ volume: Float) {
+        let volumeView = MPVolumeView()
+        let slider = volumeView.subviews.first(where: { $0 is UISlider }) as? UISlider
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) {
+            slider?.value = volume
+        }
     }
 }

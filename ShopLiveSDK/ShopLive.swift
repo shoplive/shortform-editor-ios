@@ -39,7 +39,7 @@ import WebKit
 
     @objc func setLoadingAnimation(images: [UIImage])
 
-    @objc func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool)
+    @objc func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool, isMute: Bool)
     @objc func isKeepPlayVideoOnHeadPhoneUnplugged() -> Bool
     @objc func setAutoResumeVideoOnCallEnded(_ autoResume: Bool)
     @objc func isAutoResumeVideoOnCallEnded() -> Bool
@@ -270,8 +270,8 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.onTerminated()
     }
 
-    public static func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool) {
-        shared.instance?.setKeepPlayVideoOnHeadphoneUnplugged(keepPlay)
+    public static func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool, isMute: Bool = false) {
+        shared.instance?.setKeepPlayVideoOnHeadphoneUnplugged(keepPlay, isMute: isMute)
     }
 
     public static func isKeepPlayVideoOnHeadPhoneUnplugged() -> Bool {

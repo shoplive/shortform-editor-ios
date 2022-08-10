@@ -157,6 +157,9 @@ internal final class LiveStreamViewController: UIViewController {
         if !ShopLiveConfiguration.SoundPolicy.keepPlayVideoOnHeadphoneUnplugged {
             ShopLiveController.playControl = plugged ? .resume : .pause
         } else {
+            if ShopLiveConfiguration.SoundPolicy.onHeadphoneUnpluggedIsMute && !plugged {
+                MPVolumeView.setVolume(0.0)
+            }
             ShopLiveController.playControl = .resume
         }
     }
