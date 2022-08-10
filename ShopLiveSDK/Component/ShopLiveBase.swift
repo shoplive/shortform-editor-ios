@@ -1384,7 +1384,7 @@ extension ShopLiveBase: ShopLiveComponent {
         }
 
         ShopLiveController.shared.shareScheme = scheme
-        ShopLiveController.shared.customShareAction = custom
+        ShopLiveController.shared.customShareAction = .init(custom: custom)
     }
 
     func onTerminated() {

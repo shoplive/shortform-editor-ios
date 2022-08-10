@@ -50,6 +50,10 @@ extension ShopLivePlayerDelegate where Self: Equatable {
     }
 }
 
+struct CustomShare {
+    var custom: (() -> Void)?
+}
+
 final class ShopLiveController: NSObject {
     static let shared = ShopLiveController()
 
@@ -128,7 +132,7 @@ final class ShopLiveController: NSObject {
         }
     }
     var windowStyle: ShopLiveWindowStyle = .normal
-    var customShareAction: (() -> Void)?
+    var customShareAction: CustomShare?
     var hookNavigation: ((URL) -> Void)?
     var webInstance: ShopLiveWebView?
     var pipAnimating: Bool = false

@@ -1114,7 +1114,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didTouchShareButton(with url: URL?) {
-        guard let custom = ShopLiveController.shared.customShareAction else {
+        guard let custom = ShopLiveController.shared.customShareAction?.custom else {
             shareAction(url: url)
             return
         }
