@@ -1547,6 +1547,10 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         switch keyPath {
         case "captured":
             if UIScreen.main.isCaptured {
+                guard ShopLiveController.shared.windowStyle != .osPip else {
+                    return
+                }
+                
                 do {
                     try AVAudioSession.sharedInstance().setCategory(.soloAmbient)
                 } catch {
