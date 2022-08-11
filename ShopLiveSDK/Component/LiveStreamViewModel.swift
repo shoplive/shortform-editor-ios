@@ -91,17 +91,19 @@ internal final class LiveStreamViewModel: NSObject {
     }
     
     func play() {
-        if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty, (ShopLiveController.playerItemStatus == .failed || ShopLiveController.player?.reasonForWaitingToPlay == AVPlayer.WaitingReason.evaluatingBufferingRate) {
-            updatePlayerItem(with: url)
-        }
-        else {
-            if ShopLiveController.isReplayMode {
-                if ShopLiveController.isReplayFinished {
-                    seek(to: .init(value: 0, timescale: 1))
-                }
+        DispatchQueue.main.async {
+            if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty, (ShopLiveController.playerItemStatus == .failed || ShopLiveController.player?.reasonForWaitingToPlay == AVPlayer.WaitingReason.evaluatingBufferingRate) {
+                self.updatePlayerItem(with: url)
             }
-            
-            ShopLiveController.player?.play()
+            else {
+                if ShopLiveController.isReplayMode {
+                    if ShopLiveController.isReplayFinished {
+                        self.seek(to: .init(value: 0, timescale: 1))
+                    }
+                }
+                
+                ShopLiveController.player?.play()
+            }
         }
     }
     
@@ -112,15 +114,17 @@ internal final class LiveStreamViewModel: NSObject {
     func resume() {
         guard ShopLiveController.player?.timeControlStatus != .playing else { return }
 
-        if ShopLiveController.isReplayMode {
-            ShopLiveController.player?.play()
-        } else {
-            if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty {
-                if ShopLiveController.shared.needSeek {
-                    ShopLiveController.shared.needSeek = false
-                    ShopLiveController.shared.seekToLatest()
-                }
+        DispatchQueue.main.async {
+            if ShopLiveController.isReplayMode {
                 ShopLiveController.player?.play()
+            } else {
+                if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty {
+                    if ShopLiveController.shared.needSeek {
+                        ShopLiveController.shared.needSeek = false
+                        ShopLiveController.shared.seekToLatest()
+                    }
+                    ShopLiveController.player?.play()
+                }
             }
         }
     }

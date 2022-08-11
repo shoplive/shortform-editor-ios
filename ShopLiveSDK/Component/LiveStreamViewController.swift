@@ -155,12 +155,14 @@ internal final class LiveStreamViewController: UIViewController {
 
     private func updateHeadPhoneStatus(plugged: Bool) {
         if !ShopLiveConfiguration.SoundPolicy.keepPlayVideoOnHeadphoneUnplugged {
-            ShopLiveController.playControl = plugged ? .resume : .pause
+            plugged ? self.resumeFromNotification() : self.pause()
         } else {
             if ShopLiveConfiguration.SoundPolicy.onHeadphoneUnpluggedIsMute && !plugged {
                 MPVolumeView.setVolume(0.0)
             }
-            ShopLiveController.playControl = .resume
+            if !plugged {
+                self.resumeFromNotification()
+            }
         }
     }
 
@@ -216,7 +218,9 @@ internal final class LiveStreamViewController: UIViewController {
               delegate?.log(name: "audio_gain", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
 #endif
             if ShopLiveController.isReplayMode {
-                ShopLiveController.player?.play()
+                DispatchQueue.main.async {
+                    ShopLiveController.player?.play()
+                }
             } else {
                 ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
                 
@@ -303,8 +307,10 @@ internal final class LiveStreamViewController: UIViewController {
         if !ShopLiveController.isReplayMode, ShopLiveController.shared.windowStyle == .osPip {
             ShopLiveController.shared.needReload = true
         }
-        ShopLiveController.player?.pause()
-        ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: false), false) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, true, true)
+        DispatchQueue.main.async {
+            ShopLiveController.player?.pause()
+            ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: false), false) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, true, true)
+        }
     }
 
     func stop() {
@@ -317,6 +323,13 @@ internal final class LiveStreamViewController: UIViewController {
         }
         ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
         viewModel.resume()
+    }
+    
+    func resumeFromNotification() {
+        DispatchQueue.main.async {
+            ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
+            self.viewModel.resume()
+        }
     }
 
     func reload() {
@@ -1370,17 +1383,19 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     }
 
     func handlePlayControl() {
-        switch ShopLiveController.playControl {
-        case .play:
-            self.play()
-        case .pause:
-            self.pause()
-        case .resume:
-            self.resume()
-        case .stop:
-            self.stop()
-        default:
-            break
+        DispatchQueue.main.async {
+            switch ShopLiveController.playControl {
+            case .play:
+                self.play()
+            case .pause:
+                self.pause()
+            case .resume:
+                self.resume()
+            case .stop:
+                self.stop()
+            default:
+                break
+            }
         }
     }
     
@@ -1411,22 +1426,25 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     }
 
     func handleLoading() {
-        if ShopLiveController.loading {
-            if ShopLiveConfiguration.UI.isCustomIndicator {
-                customIndicator.configure(images: ShopLiveConfiguration.UI.customIndicatorImages)
-                customIndicator.startAnimating()
+        DispatchQueue.main.async {
+            if ShopLiveController.loading {
+                if ShopLiveConfiguration.UI.isCustomIndicator {
+                    self.customIndicator.configure(images: ShopLiveConfiguration.UI.customIndicatorImages)
+                    self.customIndicator.startAnimating()
+                } else {
+                    self.indicatorView.isHidden = false
+                    self.indicatorView.color = ShopLiveConfiguration.UI.color
+                    self.indicatorView.startAnimating()
+                }
             } else {
-                indicatorView.isHidden = false
-                indicatorView.color = ShopLiveConfiguration.UI.color
-                indicatorView.startAnimating()
-            }
-        } else {
-            if ShopLiveConfiguration.UI.isCustomIndicator {
-                customIndicator.stopAnimating()
-            } else {
-                indicatorView.stopAnimating()
+                if ShopLiveConfiguration.UI.isCustomIndicator {
+                    self.customIndicator.stopAnimating()
+                } else {
+                    self.indicatorView.stopAnimating()
+                }
             }
         }
+        
     }
 
     func handleTimeControlStatus() {

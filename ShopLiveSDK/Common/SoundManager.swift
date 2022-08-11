@@ -18,27 +18,33 @@ class SoundManager: NSObject {
     private var items: [SoundItem] = []
     
     func play(item: SoundItem) {
-        if let playItem = self.items.filter({ $0.alias == item.alias }).first {
-            if let player = SoundPlayer(item: playItem) {
-                player.player?.delegate = self
-                self.players.append(player)
-                player.play()
+        DispatchQueue.main.async {
+            if let playItem = self.items.filter({ $0.alias == item.alias }).first {
+                if let player = SoundPlayer(item: playItem) {
+                    player.player?.delegate = self
+                    self.players.append(player)
+                    player.play()
+                }
             }
         }
     }
     
     func play(alias: String) {
-        let item = SoundItem(alias: alias, url: "")
-        self.play(item: item)
+        DispatchQueue.main.async {
+            let item = SoundItem(alias: alias, url: "")
+            self.play(item: item)
+        }
     }
     
     func stop(alias: String) {
-        let filteredPlayer = self.players.filter({ $0.item.alias == alias })
-        
-        filteredPlayer.forEach { player in
-            if let playerIndex = self.players.firstIndex(where: { $0.player == player.player }) {
-                player.player?.stop()
-                self.players.remove(at: playerIndex)
+        DispatchQueue.main.async {
+            let filteredPlayer = self.players.filter({ $0.item.alias == alias })
+            
+            filteredPlayer.forEach { player in
+                if let playerIndex = self.players.firstIndex(where: { $0.player == player.player }) {
+                    player.player?.stop()
+                    self.players.remove(at: playerIndex)
+                }
             }
         }
     }
@@ -54,11 +60,13 @@ class SoundManager: NSObject {
     }
     
     func removeAllSounds() {
-        self.players.forEach { player in
-            player.stop()
+        DispatchQueue.main.async {
+            self.players.forEach { player in
+                player.stop()
+            }
+            
+            self.players.removeAll()
         }
-        
-        self.players.removeAll()
     }
     
     override init() {
