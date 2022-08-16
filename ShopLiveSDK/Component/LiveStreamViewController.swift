@@ -664,7 +664,7 @@ internal final class LiveStreamViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
 
         ShopLiveLogger.debugLog("viewWillTransition")
-        
+        self.chatInputView.updateChattingWritrViewConstraint()
         guard ShopLiveController.windowStyle != .osPip else { return }
         
         if let popoverController = self.popoverController {
@@ -722,8 +722,8 @@ internal final class LiveStreamViewController: UIViewController {
         view.addSubview(chatInputView)
 
         chatConstraint = NSLayoutConstraint.init(item: chatInputView, attribute: .bottom, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0)
-        let chatLeading = NSLayoutConstraint.init(item: chatInputView, attribute: .leading, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .leading, multiplier: 1.0, constant: 0)
-        let chatTrailing = NSLayoutConstraint.init(item: chatInputView, attribute: .trailing, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .trailing, multiplier: 1.0, constant: 0)
+        let chatLeading = NSLayoutConstraint.init(item: chatInputView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 0)
+        let chatTrailing = NSLayoutConstraint.init(item: chatInputView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 0)
 
         self.view.addConstraints([
             chatLeading, chatTrailing, chatConstraint
