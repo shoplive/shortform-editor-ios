@@ -1636,6 +1636,9 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     }
     
     public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        if !ShopLiveController.isReplayMode {
+           ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
+        }
         _style = .fullScreen
         ShopLiveController.windowStyle = .normal
     }
