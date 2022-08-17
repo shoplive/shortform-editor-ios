@@ -163,11 +163,11 @@ final class ShopLiveChattingWriteView: UIView {
     
     func updateChattingWritrViewConstraint() {
         if UIScreen.currentOrientation.deviceOrientation == .landscapeRight {
-            chatViewLeading.constant = 0
-            sendButtonTrailing.constant = -UIScreen.rightSafeArea
+            chatViewLeading.constant = UIScreen.safeArea.right == .zero ? 0 : UIScreen.safeArea.right / 3
+            sendButtonTrailing.constant = -UIScreen.safeArea.right
         } else if UIScreen.currentOrientation.deviceOrientation == .landscapeLeft {
-            chatViewLeading.constant = UIScreen.leftSafeArea
-            sendButtonTrailing.constant = 0
+            chatViewLeading.constant = UIScreen.safeArea.left
+            sendButtonTrailing.constant = UIScreen.safeArea.left == .zero ? 0 : -(UIScreen.safeArea.right / 3)
         } else {
             chatViewLeading.constant = 0
             sendButtonTrailing.constant = -4
