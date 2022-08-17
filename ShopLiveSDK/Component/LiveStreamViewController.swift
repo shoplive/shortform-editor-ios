@@ -1479,6 +1479,8 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
 
             if ShopLiveController.isReplayMode {
                 ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true)
+            } else {
+                ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
             }
 
             ShopLiveController.retryPlay = false
