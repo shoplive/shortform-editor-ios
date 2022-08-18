@@ -300,6 +300,9 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     func play() {
+        guard !ShopLiveController.shared.screenLock else {
+            return
+        }
         viewModel.play()
     }
 
@@ -318,6 +321,9 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     func resume() {
+        guard !ShopLiveController.shared.screenLock else {
+            return
+        }
         if ShopLiveController.shared.windowStyle == .osPip, !ShopLiveController.shared.lastPipPlaying {
             return
         }
