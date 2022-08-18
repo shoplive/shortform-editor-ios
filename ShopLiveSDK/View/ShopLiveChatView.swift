@@ -319,8 +319,9 @@ final class ShopLiveChattingView: UITextView {
     }
     
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        
       if action == #selector(UIResponderStandardEditActions.paste(_:)) || action == #selector(UIResponderStandardEditActions.copy(_:)) {
-        return false
+        return true
       }
 
       return super.canPerformAction(action, withSender: sender)
