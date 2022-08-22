@@ -948,10 +948,18 @@ internal final class LiveStreamViewController: UIViewController {
         DispatchQueue.main.async {
             let orientation = toLandscape ? (UIScreen.isLandscape ? UIScreen.currentOrientation.deviceOrientation.rawValue :  ShopLiveController.shared.prevLandscapeOrientation.rawValue) : (UIScreen.isLandscape ? UIInterfaceOrientation.portrait.rawValue : UIDevice.current.orientation.rawValue)
             
+            let lastOrientation = UIDevice.current.orientation
+            
             guard UIScreen.currentOrientation.deviceOrientation.rawValue != orientation else { return }
             
             UIDevice.current.setValue(orientation, forKey: "orientation")
             UIViewController.attemptRotationToDeviceOrientation()
+//            ShopLiveLogger.debugLog("SET_SCREEN_ORIENTATION lastOrientation \(lastOrientation.rawValue) changed \(orientation == UIScreen.currentOrientation.deviceOrientation.rawValue)")
+            
+            if orientation != UIScreen.currentOrientation.deviceOrientation.rawValue {
+                UIDevice.current.setValue(lastOrientation.rawValue, forKey: "orientation")
+                UIViewController.attemptRotationToDeviceOrientation()
+            }
         }
     }
     
