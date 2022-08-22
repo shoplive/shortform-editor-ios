@@ -594,3 +594,9 @@ extension MPVolumeView {
         }
     }
 }
+
+extension UIWindow {
+    static var mainWindowFrame: UIWindow {
+        UIWindow(frame: UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.frame ?? UIScreen.main.bounds)
+    }
+}
