@@ -192,6 +192,8 @@ class MainViewController: SideMenuBaseViewController {
         #if MUSINSA
         ShopLive.fixedPipWidth = DemoConfiguration.shared.fixedPipWidth as? NSNumber
         #endif
+        
+        ShopLive.setKeepWindowStyleOnReturnFromOsPip(config.usePipKeepWindowStyle)
     }
 
     override func preview() {

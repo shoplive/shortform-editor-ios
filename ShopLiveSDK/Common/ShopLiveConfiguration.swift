@@ -85,6 +85,7 @@ internal final class ShopLiveConfiguration: NSObject {
         static var chatInputSendString: String = "chat.send.title".localizedString()
         static var chatInputMaxLength: Int = 200
         static var keepWindowStateOnPlayExecuted: Bool = false
+        static var keepWindowStyleOnReturnFromOsPip: Bool = false
     }
 
     fileprivate override init() {}

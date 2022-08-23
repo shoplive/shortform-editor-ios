@@ -131,7 +131,8 @@ final class ShopLiveController: NSObject {
             ShopLiveController.videoUrl = streamUrl
         }
     }
-    var windowStyle: ShopLiveWindowStyle = .normal
+    private var windowStyle: ShopLiveWindowStyle = .normal
+    var prevWindowStyle: ShopLiveWindowStyle = .none
     var customShareAction: CustomShare?
     var hookNavigation: ((URL) -> Void)?
     var webInstance: ShopLiveWebView?
@@ -264,6 +265,7 @@ final class ShopLiveController: NSObject {
         isSuccessCampaignJoin = false
         campaignStatus = .close
         webInstance = nil
+        prevWindowStyle = .none
         
         newStartPlay = false
         isMuted = ShopLiveConfiguration.SoundPolicy.isMuted
@@ -544,6 +546,7 @@ extension ShopLiveController {
 
     static var windowStyle: ShopLiveWindowStyle {
         set {
+            shared.prevWindowStyle = shared.windowStyle
             shared.windowStyle = newValue
         }
         get {

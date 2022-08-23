@@ -90,6 +90,8 @@
 "sdkoption.nextActionTypeOnNavigation.item1" = "Switch PIP mode";
 "sdkoption.nextActionTypeOnNavigation.item2" = "No change";
 "sdkoption.nextActionTypeOnNavigation.item3" = "Exit";
+"sdkoption.pipKeepWindowStyle.title" = "OS PIP에서 앱으로 복귀할 때 윈도우스타일 유지 여부 설정";
+"sdkoption.pipKeepWindowStyle.description" = "OS PIP에서 앱으로 복귀할때 옵션을 true로 설정 할 경우 마지막 실행 중이던 상태(앱 내 PIP 또는 Fullscreen)로 복귀되도록 설정. (기본은 유지안함)";
 "sdkoption.pipFloatingOffset.title" = "PIP 영역 설정";
 "sdkoption.pipFloatingOffset.description" = "PIP의 영역을 설정합니다.";
 "sdkoption.pipScale.title" = "View size";

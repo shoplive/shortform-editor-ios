@@ -150,6 +150,9 @@ class SwitchOptionCell: UITableViewCell {
         case .keepWindowStateOnPlayExecuted:
             useOption = DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted
             break
+        case .pipKeepWindowStyle:
+            useOption = DemoConfiguration.shared.usePipKeepWindowStyle
+            break
         default:
             break
         }
@@ -190,6 +193,9 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .keepWindowStateOnPlayExecuted:
             DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted = useOption
+            break
+        case .pipKeepWindowStyle:
+            DemoConfiguration.shared.usePipKeepWindowStyle = useOption
             break
         default:
             break

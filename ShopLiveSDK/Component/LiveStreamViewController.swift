@@ -307,7 +307,7 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     func pause() {
-        if !ShopLiveController.isReplayMode, ShopLiveController.shared.windowStyle == .osPip {
+        if !ShopLiveController.isReplayMode, ShopLiveController.windowStyle == .osPip {
             ShopLiveController.shared.needReload = true
         }
         DispatchQueue.main.async {
@@ -324,7 +324,7 @@ internal final class LiveStreamViewController: UIViewController {
         guard !ShopLiveController.shared.screenLock else {
             return
         }
-        if ShopLiveController.shared.windowStyle == .osPip, !ShopLiveController.shared.lastPipPlaying {
+        if ShopLiveController.windowStyle == .osPip, !ShopLiveController.shared.lastPipPlaying {
             return
         }
         ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
@@ -458,7 +458,7 @@ internal final class LiveStreamViewController: UIViewController {
             
             let imageFrameRatio = imageFrame.width / imageFrame.height
 
-            guard ShopLiveController.shared.windowStyle != .inAppPip else { return }
+            guard ShopLiveController.windowStyle != .inAppPip else { return }
             
             if ShopLiveController.shared.videoOrientation == .portrait {
                 if !ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
@@ -1255,7 +1255,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
                 ShopLiveController.shared.supportOrientation = .portrait
             }
             
-            if ShopLiveController.shared.windowStyle == .inAppPip || ShopLiveController.shared.windowStyle == .normal {
+            if ShopLiveController.windowStyle == .inAppPip || ShopLiveController.windowStyle == .normal {
                 delegate?.updatePictureInPicture()
             }
             
@@ -1469,7 +1469,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
                 ShopLiveController.isPlaying = false
             } else {
                 if ShopLiveController.playControl != .pause {
-                    if ShopLiveController.shared.windowStyle != .osPip {
+                    if ShopLiveController.windowStyle != .osPip {
                         ShopLiveController.playControl = .resume
                     } else {
                         if !ShopLiveController.shared.screenLock {
@@ -1477,7 +1477,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
                         }
                     }
                 } else {
-                    if ShopLiveController.shared.windowStyle == .osPip, !ShopLiveController.shared.screenLock {
+                    if ShopLiveController.windowStyle == .osPip, !ShopLiveController.shared.screenLock {
                         ShopLiveController.shared.lastPipPlaying = false
                     }
                 }
@@ -1585,7 +1585,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         switch keyPath {
         case "captured":
             if UIScreen.main.isCaptured {
-                guard ShopLiveController.shared.windowStyle != .osPip else {
+                guard ShopLiveController.windowStyle != .osPip else {
                     return
                 }
                 

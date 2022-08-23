@@ -792,14 +792,22 @@ import WebKit
             
         }
     }
-
+    
     func didChangeOSPIP() {
         DispatchQueue.main.async {
             guard !ShopLiveController.shared.isPreview else { return }
             guard let mainWindow = self.mainWindow else { return }
             guard let shopLiveWindow = self.shopLiveWindow else { return }
-            guard self._style != .fullScreen else { return }
-            shopLiveWindow.frame = mainWindow.bounds
+            if ShopLiveConfiguration.UI.keepWindowStyleOnReturnFromOsPip {
+                if self._style == .fullScreen {
+                    shopLiveWindow.frame = mainWindow.bounds
+                } else {
+                    shopLiveWindow.frame = self.pipPosition(with: self.pipScale, position: self.pipPosition)
+                }
+            } else {
+                guard self._style != .fullScreen else { return }
+                shopLiveWindow.frame = mainWindow.bounds
+            }
 
             self.liveStreamViewController?.shopliveHideKeyboard()
 
@@ -1014,7 +1022,7 @@ import WebKit
     }
     
     @objc private func pinchGestureHandler(_ recognizer: UIPinchGestureRecognizer) {
-        guard ShopLiveController.shared.videoOrientation == .landscape, ShopLiveController.shared.windowStyle == .normal else { return }
+        guard ShopLiveController.shared.videoOrientation == .landscape, ShopLiveController.windowStyle == .normal else { return }
         guard UIScreen.isLandscape else { return }
         guard ShopLiveController.shared.videoExpanded else { return }
         
@@ -1631,15 +1639,25 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     
     public func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
         ShopLiveController.webInstance?.sendEventToWeb(event: .onPipModeChanged, true)
-        didChangeOSPIP()
+        
+        if !ShopLiveConfiguration.UI.keepWindowStyleOnReturnFromOsPip {
+            didChangeOSPIP()
+        }
     }
     
     public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
         if !ShopLiveController.isReplayMode && ShopLiveController.timeControlStatus == .playing {
             ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
         }
-        _style = .fullScreen
-        ShopLiveController.windowStyle = .normal
+        
+        if ShopLiveConfiguration.UI.keepWindowStyleOnReturnFromOsPip {
+            let prevWindowStyle = ShopLiveController.shared.prevWindowStyle
+            _style = prevWindowStyle == .normal ? .fullScreen : prevWindowStyle == .inAppPip ? .pip : .unknown
+            ShopLiveController.windowStyle = prevWindowStyle
+        } else {
+            _style = .fullScreen
+            ShopLiveController.windowStyle = .normal
+        }
     }
 
     public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
@@ -1658,9 +1676,17 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
                 }
             }
 
-            ShopLiveController.shared.swipeEnabled = true
-            
-            self.startFromCampaignFullscreen()
+            if ShopLiveConfiguration.UI.keepWindowStyleOnReturnFromOsPip {
+                if ShopLiveController.windowStyle == .inAppPip {
+                    self.startFromCampaignPIP()
+                } else {
+                    ShopLiveController.shared.swipeEnabled = true
+                    self.startFromCampaignFullscreen()
+                }
+            } else {
+                ShopLiveController.shared.swipeEnabled = true
+                self.startFromCampaignFullscreen()
+            }
         }
 
         ShopLiveController.webInstance?.sendEventToWeb(event: .onPipModeChanged, false)

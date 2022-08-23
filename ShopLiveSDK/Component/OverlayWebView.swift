@@ -378,20 +378,20 @@ extension OverlayWebView: WKScriptMessageHandler {
                             if UIScreen.isLandscape {
                                 if ShopLiveController.shared.videoExpanded {
                                     ShopLiveController.shared.videoFrame.landscape.expanded = playerFrame
-                                    if ShopLiveController.shared.windowStyle == .normal {
+                                    if ShopLiveController.windowStyle == .normal {
                                         ShopLiveLogger.debugLog("update frame expanded")
                                         delegate?.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: true)
                                     }
                                 } else {
                                     ShopLiveController.shared.videoFrame.landscape.standard = playerFrame
-                                    if ShopLiveController.shared.windowStyle == .normal {
+                                    if ShopLiveController.windowStyle == .normal {
                                         ShopLiveLogger.debugLog("update frame standard")
                                         delegate?.updatePlayerFrame(centerCrop: isCenterCrop, playerFrame: playerFrame, immediately: true)
                                     }
                                 }
                             } else {
                                 ShopLiveController.shared.videoFrame.portrait = playerFrame
-                                if ShopLiveController.shared.windowStyle == .normal {
+                                if ShopLiveController.windowStyle == .normal {
                                     ShopLiveLogger.debugLog("update frame portrait")
                                     delegate?.updatePlayerFrame(centerCrop: isCenterCrop, playerFrame: playerFrame, immediately: true)
                                 }

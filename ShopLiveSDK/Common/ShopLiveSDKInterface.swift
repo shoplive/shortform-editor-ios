@@ -265,5 +265,8 @@ public typealias ShopLiveViewController = UIViewController
 #if LOCAL_LANDING
     @objc static func setUsingLocalLanding(_ useLocalLanding: Bool)
 #endif
+    
+    @objc static func setKeepWindowStyleOnReturnFromOsPip(_ keep: Bool)
+    @objc static func isKeepWindowStyleOnReturnFromOsPip() -> Bool
 
 }

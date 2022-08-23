@@ -427,6 +427,17 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.keepWindowStateOnPlayExecuted.optionKey)
         }
     }
+    
+    var usePipKeepWindowStyle: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipKeepWindowStyle.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.pipKeepWindowStyle.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.pipKeepWindowStyle.optionKey)
+        }
+    }
 }
 
 
