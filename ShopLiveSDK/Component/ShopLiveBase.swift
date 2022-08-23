@@ -142,7 +142,6 @@ import WebKit
             self.liveStreamViewController?.viewModel.overayUrl = overlayUrl
             self.liveStreamViewController?.reload()
             self.liveStreamViewController?.updateChattingWriteView()
-        
                 if self.needExecuteFullScreen {
                     if ShopLiveController.shared.isSameCampaign {
                         ShopLiveController.shared.keepSnapshot = true

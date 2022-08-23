@@ -183,7 +183,7 @@ internal final class LiveStreamViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance())
     }
-
+    
     @objc func handleInterruption(notification: Notification) {
         ShopLiveLogger.debugLog("handleInterruption")
 
@@ -670,7 +670,7 @@ internal final class LiveStreamViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
 
         ShopLiveLogger.debugLog("viewWillTransition")
-        self.chatInputView.updateChattingWritrViewConstraint()
+        self.chatInputView.orientationChattingWritrViewConstraint()
         guard ShopLiveController.windowStyle != .osPip else { return }
         
         if let popoverController = self.popoverController {
@@ -1101,6 +1101,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
     
     func updateVideoConstraint() {
+        self.chatInputView.updateChattingWriteViewConstraint()
         self.playerView.layoutIfNeeded()
     }
     

@@ -141,12 +141,14 @@ final class ShopLiveChatView: UIScrollView, UITextViewDelegate {
     private var topChatTextView: NSLayoutConstraint!
     private var bottomChatTextView: NSLayoutConstraint!
     private var contentViewHeight: NSLayoutConstraint!
+    private var leftChatTextView: NSLayoutConstraint!
+    private var rightChatTextView: NSLayoutConstraint!
     private func setupShopLiveChatView() {
         addSubview(itemContentView)
         itemContentView.addSubview(chatTextView)
         
-        let leftChatTextView = NSLayoutConstraint(item: chatTextView, attribute: .left, relatedBy: .equal, toItem: itemContentView, attribute: .left, multiplier: 1.0, constant: 12)
-        let rightChatTextView = NSLayoutConstraint(item: chatTextView, attribute: .right, relatedBy: .equal, toItem: itemContentView, attribute: .right, multiplier: 1.0, constant: -25)
+        leftChatTextView = NSLayoutConstraint(item: chatTextView, attribute: .left, relatedBy: .equal, toItem: itemContentView, attribute: .left, multiplier: 1.0, constant: 0)
+        rightChatTextView = NSLayoutConstraint(item: chatTextView, attribute: .right, relatedBy: .equal, toItem: itemContentView, attribute: .right, multiplier: 1.0, constant: 0)
         topChatTextView = NSLayoutConstraint(item: chatTextView, attribute: .top, relatedBy: .equal, toItem: itemContentView, attribute: .top, multiplier: 1.0, constant: viewModel.topPadding)
         bottomChatTextView = NSLayoutConstraint(item: chatTextView, attribute: .bottom, relatedBy: .equal, toItem: itemContentView, attribute: .bottom, multiplier: 1.0, constant: viewModel.bottomPadding)
         
@@ -167,6 +169,16 @@ final class ShopLiveChatView: UIScrollView, UITextViewDelegate {
     func updateShopLiveChatView() {
         chatTextView.typingAttributes = viewModel.chatInputAttributes
         chatTextView.placeholderAttributedText = viewModel.chatInputPlaceholderText
+    }
+    
+    func updateShopLiveChatViewConstraint() {
+        if ShopLiveController.shared.isPreview {
+            leftChatTextView.constant = 0
+            rightChatTextView.constant = 0
+        } else {
+            rightChatTextView.constant = -25
+            leftChatTextView.constant = 12
+        }
     }
     
     var isExpanded: Bool {
