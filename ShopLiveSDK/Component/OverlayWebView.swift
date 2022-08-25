@@ -59,10 +59,8 @@ internal class OverlayWebView: UIView {
         webView?.stopLoading()
         webView?.configuration.userContentController.removeScriptMessageHandler(forName: ShopLiveDefines.webInterface)
         webView?.removeFromSuperview()
-        
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
         removeObserver()
-        webView = nil
         delegate = nil
     }
     
