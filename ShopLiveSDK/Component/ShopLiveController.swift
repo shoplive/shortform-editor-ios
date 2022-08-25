@@ -157,7 +157,7 @@ final class ShopLiveController: NSObject {
     var videoFrame: (portrait: CGRect?, landscape: (expanded: CGRect?, standard: CGRect?)) = (portrait: nil, landscape: (expanded: nil, standard: nil))
     
     var prevLandscapeOrientation: UIDeviceOrientation = .landscapeLeft
-    var lastOrientaion: ShopLiveDefines.ShopLiveOrientaion = .portrait
+    var lastOrientaion: (direction: ShopLiveDefines.ShopLiveOrientaion, orientation: UIDeviceOrientation) = ((UIScreen.isLandscape ? .landscape : .portrait, UIScreen.currentOrientation.deviceOrientation))
     
     var videoCenterCrop: Bool {
         set {
@@ -293,7 +293,7 @@ final class ShopLiveController: NSObject {
     }
     
     func resetVideoDatas() {
-        lastOrientaion = .portrait
+        lastOrientaion = (UIScreen.isLandscape ? .landscape : .portrait, UIScreen.currentOrientation.deviceOrientation)
         supportOrientation = .unknown
         videoRatio = ShopLiveDefines.defVideoRatio
         videoFrame = (nil, (nil, nil))

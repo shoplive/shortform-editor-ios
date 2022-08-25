@@ -240,20 +240,24 @@ internal final class LiveStreamViewController: UIViewController {
         let keyboard = self.view.convert(keyboardScreenEndFrame, from: self.view.window)
         let height = self.view.frame.size.height
         var isHiddenView = true
+        
         switch notification.name.rawValue {
         case "UIKeyboardWillHideNotification":
             lastKeyboardHeight = 0
             if chatInputView.isFocused() && (ShopLiveController.windowStyle == ShopLiveWindowStyle.normal) {
-                self.hasKeyboard = true
+                self.hasKeyboard = false
                 isHiddenView = false
                 self.chatInputView.isHidden = false
                 self.chatInputBG.isHidden = false
             }
-
-            let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("value", hasKeyboard ? "\(self.chatInputView.frame.height)px" : "0px"), ("keyboard", hasKeyboard))
-            ShopLiveController.webInstance?.sendEventToWeb(event: .setChatListMarginBottom, param.toJson())
-            ShopLiveController.webInstance?.sendEventToWeb(event: .hiddenChatInput)
-            chatConstraint.constant = 0
+            
+            if (ShopLiveController.shared.lastOrientaion.orientation == UIScreen.currentOrientation.deviceOrientation) || (ShopLiveController.shared.lastOrientaion.direction != (UIScreen.isLandscape ? .landscape : .portrait)) {
+                let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("value", hasKeyboard ? "\(self.chatInputView.frame.height)px" : "0px"), ("keyboard", hasKeyboard))
+                ShopLiveController.webInstance?.sendEventToWeb(event: .setChatListMarginBottom, param.toJson())
+                ShopLiveController.webInstance?.sendEventToWeb(event: .hiddenChatInput)
+                chatConstraint.constant = 0
+            }
+            
             break
         case "UIKeyboardWillShowNotification":
             hasKeyboard = (keyboard.origin.y + keyboard.size.height) > height
@@ -683,9 +687,8 @@ internal final class LiveStreamViewController: UIViewController {
             playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
             ShopLiveController.shared.webInstance?.alpha = 0
         }
-        
         let currentOrientation: ShopLiveDefines.ShopLiveOrientaion = UIScreen.isLandscape ? .landscape : .portrait
-        if ShopLiveController.shared.lastOrientaion != currentOrientation {
+        if ShopLiveController.shared.lastOrientaion.direction != currentOrientation {
             self.shopliveHideKeyboard()
         }
         
@@ -693,8 +696,7 @@ internal final class LiveStreamViewController: UIViewController {
             ShopLiveController.shared.prevLandscapeOrientation = UIScreen.currentOrientation.deviceOrientation
         }
         
-        ShopLiveController.shared.lastOrientaion = currentOrientation
-        
+        ShopLiveController.shared.lastOrientaion = (currentOrientation, UIScreen.currentOrientation.deviceOrientation)
         coordinator.animate { _ in
             ShopLiveController.shared.inRotating = true
             self.delegate?.changeOrientation(to: currentOrientation)
