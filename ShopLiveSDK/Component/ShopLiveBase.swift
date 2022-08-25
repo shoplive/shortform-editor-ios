@@ -571,7 +571,6 @@ import WebKit
         videoWindowPanGestureRecognizer?.isEnabled = false
         videoWindowTapGestureRecognizer?.isEnabled = false
         videoWindowSwipeDownGestureRecognizer?.isEnabled = true
-        ShopLiveController.windowStyle = .normal
         
         shopLiveWindow.layer.shadowColor = nil
         shopLiveWindow.layer.shadowOpacity = 0.0
@@ -609,6 +608,7 @@ import WebKit
                     self.liveStreamViewController?.showBackgroundPoster()
                 }
         }
+        ShopLiveController.windowStyle = .normal
         _style = .fullScreen
         delegate?.handleCommand("didShopLiveOn", with: nil)
 #if MUSINSA
