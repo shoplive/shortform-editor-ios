@@ -1450,6 +1450,7 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     func preview(with campaignKey: String?, completion: @escaping () -> Void) {
+        ShopLiveController.shared._playerMode = .preview
         
         debouncer.renewInterval()
         
@@ -1495,6 +1496,7 @@ extension ShopLiveBase: ShopLiveComponent {
     }
     
     @objc func play(with campaignKey: String?) {
+        ShopLiveController.shared._playerMode = .play
         debouncer.renewInterval()
         
         debouncer.handler = {

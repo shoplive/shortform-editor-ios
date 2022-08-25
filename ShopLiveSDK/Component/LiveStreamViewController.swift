@@ -1257,6 +1257,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
                 ShopLiveController.shared.supportOrientation = .portrait
             }
             
+            ShopLiveController.shared._playerMode = ShopLiveController.shared.isPreview ? .preview : .play
             if ShopLiveController.windowStyle == .inAppPip || ShopLiveController.windowStyle == .normal {
                 delegate?.updatePictureInPicture()
             }

@@ -103,12 +103,15 @@ final class ShopLiveController: NSObject {
 
     var playerResumeCount: Int = 0
     
+    var _playerMode: ShopLive.PlayerMode = .none
+    
     var playerMode: ShopLive.PlayerMode {
-        if isStartedCampaign {
-            return isPreview ? .preview : .play
-        } else {
-            return .none
-        }
+//        if isStartedCampaign {
+//            return isPreview ? .preview : .play
+//        } else {
+//            return .none
+//        }
+        return _playerMode
     }
     
     lazy var currentPlayTime: Int64? = nil {
@@ -271,6 +274,7 @@ final class ShopLiveController: NSObject {
         isMuted = ShopLiveConfiguration.SoundPolicy.isMuted
         ShopLiveConfiguration.UI.color = .white
         ShopLiveConfiguration.UI.customIndicatorImages.removeAll()
+        _playerMode = .none
     }
     private func reset() {
         keepOrientationWhenPlayStart = false
