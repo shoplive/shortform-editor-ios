@@ -1678,6 +1678,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     }
     
     public func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        ShopLiveController.shared.willStartPip = true
         ShopLiveController.shared.needReload = false
         ShopLiveController.windowStyle = .osPip
         ShopLiveController.shared.lastPipPlaying = ShopLiveController.timeControlStatus == .playing
@@ -1705,6 +1706,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
             _style = .fullScreen
             ShopLiveController.windowStyle = .normal
         }
+        ShopLiveController.shared.willStartPip = false
     }
 
     public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {

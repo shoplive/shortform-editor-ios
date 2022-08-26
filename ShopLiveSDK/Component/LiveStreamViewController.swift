@@ -674,7 +674,7 @@ internal final class LiveStreamViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
         let currentOrientation: ShopLiveDefines.ShopLiveOrientaion = UIScreen.isLandscape ? .landscape : .portrait
         ShopLiveLogger.debugLog("viewWillTransition")
-        if ShopLiveController.shared.supportOrientation == .landscape {
+        if ShopLiveController.shared.supportOrientation == .landscape && !ShopLiveController.shared.willStartPip {
             self.updatePlayerFrame()
         }
         self.chatInputView.orientationChattingWritrViewConstraint()
