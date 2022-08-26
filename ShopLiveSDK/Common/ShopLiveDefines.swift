@@ -13,7 +13,7 @@ import CoreMedia
 #if LOCAL_LANDING
     static let sdkVersion: String = "1.2.11"
 #elseif MUSINSA
-    static let sdkVersion: String = "1.2.6.1"
+    static let sdkVersion: String = "1.2.6.2"
 #else
     static let sdkVersion: String = "1.2.6"
 #endif
