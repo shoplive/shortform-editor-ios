@@ -123,6 +123,9 @@ class SwitchOptionCell: UITableViewCell {
         case .headphoneOption1:
             useOption = DemoConfiguration.shared.useHeadPhoneOption1
             break
+        case .headphoneOption2:
+            useOption = DemoConfiguration.shared.useHeadPhoneOption2
+            break
         case .callOption:
             useOption = DemoConfiguration.shared.useCallOption
             break
@@ -166,6 +169,9 @@ class SwitchOptionCell: UITableViewCell {
         switch item.optionType {
         case .headphoneOption1:
             DemoConfiguration.shared.useHeadPhoneOption1 = useOption
+            break
+        case .headphoneOption2:
+            DemoConfiguration.shared.useHeadPhoneOption2 = useOption
             break
         case .callOption:
             DemoConfiguration.shared.useCallOption = useOption

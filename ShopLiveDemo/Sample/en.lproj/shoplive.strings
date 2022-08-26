@@ -100,6 +100,8 @@
 "sdkoption.callOption.description" = "통화 종료 후, 영상을 자동으로 재생합니다.";
 "sdkoption.headphoneOption1.title" = "When an earphone/headset is disconnected";
 "sdkoption.headphoneOption1.description" = "Enabling this option, the video will keep playing even if the earphone/headset is disconnected.";
+"sdkoption.headphoneOption2.title" = "이어폰/헤드셋 연결이 끊겼을 때 음소거";
+"sdkoption.headphoneOption2.description" = "이 옵션을 활성화 하면 이어폰/헤드셋 연결이 끊겼을 때 음소거 상태로 처리할 수 있습니다. 기본 : false 볼륨 유지, true 음소거 처리.";
 "sdkoption.headphoneOption1.setting.guide" = "Earphone or headset is disconnected";
 "sdkoption.customShare.title" = "커스텀 공유하기 사용";
 "sdkoption.customShare.description" = "공유하기 UI를 직접 구현 합니다.";

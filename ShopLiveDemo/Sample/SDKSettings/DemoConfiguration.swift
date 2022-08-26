@@ -132,6 +132,17 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey: SDKOptionType.headphoneOption1.optionKey)
         }
     }
+    
+    var useHeadPhoneOption2: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.headphoneOption2.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.headphoneOption2.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey: SDKOptionType.headphoneOption2.optionKey)
+        }
+    }
 
     var useCallOption: Bool {
         set {

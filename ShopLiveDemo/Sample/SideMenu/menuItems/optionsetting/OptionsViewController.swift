@@ -76,9 +76,11 @@ final class OptionsViewController: SideMenuItemViewController {
         items.append(pipOptions)
 
         let headphoneOption1 = SDKOptionItem(name: "sdkoption.headphoneOption1.title".localized(), optionDescription: "sdkoption.headphoneOption1.description".localized(), optionType: .headphoneOption1)
+        
+        let headphoneOption2 = SDKOptionItem(name: "sdkoption.headphoneOption2.title".localized(), optionDescription: "sdkoption.headphoneOption2.description".localized(), optionType: .headphoneOption2)
         let callOption = SDKOptionItem(name: "sdkoption.callOption.title".localized(), optionDescription: "sdkoption.callOption.description".localized(), optionType: .callOption)
 
-        let autoPlayOptions = SDKOption(optionTitle: "sdkoption.section.autoPlay.title".localized(), optionItems: [headphoneOption1, callOption])
+        let autoPlayOptions = SDKOption(optionTitle: "sdkoption.section.autoPlay.title".localized(), optionItems: [headphoneOption1, headphoneOption2, callOption])
 
         items.append(autoPlayOptions)
 

@@ -27,6 +27,7 @@ enum SDKOptionType: String, CaseIterable {
     case fixedPipWidth
     case nextActionOnHandleNavigation
     case headphoneOption1
+    case headphoneOption2
     case callOption
     case customShare
     case shareScheme

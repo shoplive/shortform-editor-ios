@@ -10,6 +10,7 @@ import WebKit
 import AVKit
 import MediaPlayer
 import ExternalAccessory
+import Foundation
 
 internal final class LiveStreamViewController: UIViewController {
 
@@ -154,14 +155,22 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     private func updateHeadPhoneStatus(plugged: Bool) {
-        if !ShopLiveConfiguration.SoundPolicy.keepPlayVideoOnHeadphoneUnplugged {
-            plugged ? self.resumeFromNotification() : self.pause()
-        } else {
-            if ShopLiveConfiguration.SoundPolicy.onHeadphoneUnpluggedIsMute && !plugged {
-                MPVolumeView.setVolume(0.0)
-            }
-            if !plugged {
-                self.resumeFromNotification()
+        DispatchQueue.main.async {
+            if !ShopLiveConfiguration.SoundPolicy.keepPlayVideoOnHeadphoneUnplugged {
+                if plugged {
+                    ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
+                    ShopLiveController.playControl = .resume
+                } else {
+                    ShopLiveController.playControl = .pause
+                }
+            } else {
+                if ShopLiveConfiguration.SoundPolicy.onHeadphoneUnpluggedIsMute && !plugged {
+                    MPVolumeView.setVolume(0.0)
+                }
+                if !plugged {
+                    ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
+                    ShopLiveController.playControl = .resume
+                }
             }
         }
     }

@@ -119,7 +119,7 @@ class MainViewController: SideMenuBaseViewController {
         }
 
         // Keep play video on headphone unplugged setting
-        ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(config.useHeadPhoneOption1)
+        ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(config.useHeadPhoneOption1, isMute: config.useHeadPhoneOption2)
 
         // Auto resume video on call end setting
         ShopLive.setAutoResumeVideoOnCallEnded(config.useCallOption)

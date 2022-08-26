@@ -96,6 +96,8 @@
 "sdkoption.pipFloatingOffset.description" = "PIP의 영역을 설정합니다.";
 "sdkoption.headphoneOption1.title" = "이어폰/헤드셋 옵션";
 "sdkoption.headphoneOption1.description" = "이어폰/헤드셋 연결이 끊기면 영상을 멈추지 않습니다.";
+"sdkoption.headphoneOption2.title" = "이어폰/헤드셋 연결이 끊겼을 때 음소거";
+"sdkoption.headphoneOption2.description" = "이 옵션을 활성화 하면 이어폰/헤드셋 연결이 끊겼을 때 음소거 상태로 처리할 수 있습니다. 기본 : false 볼륨 유지, true 음소거 처리.";
 "sdkoption.headphoneOption1.title" = "When an earphone/headset is disconnected";
 "sdkoption.headphoneOption1.description" = "Enabling this option, the video will keep playing even if the earphone/headset is disconnected.";
 "sdkoption.headphoneOption1.setting.guide" = "Earphone or headset is disconnected";
