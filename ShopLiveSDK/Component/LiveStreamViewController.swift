@@ -672,13 +672,16 @@ internal final class LiveStreamViewController: UIViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-
+        let currentOrientation: ShopLiveDefines.ShopLiveOrientaion = UIScreen.isLandscape ? .landscape : .portrait
         ShopLiveLogger.debugLog("viewWillTransition")
         if ShopLiveController.shared.supportOrientation == .landscape {
             self.updatePlayerFrame()
         }
         self.chatInputView.orientationChattingWritrViewConstraint()
-        guard ShopLiveController.windowStyle != .osPip else { return }
+        guard ShopLiveController.windowStyle != .osPip else {
+            ShopLiveController.shared.lastOrientaion = (currentOrientation, UIScreen.currentOrientation.deviceOrientation)
+            return
+        }
         
         if let popoverController = self.popoverController {
             popoverController.sourceView = self.view
@@ -690,7 +693,7 @@ internal final class LiveStreamViewController: UIViewController {
             playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
             ShopLiveController.shared.webInstance?.alpha = 0
         }
-        let currentOrientation: ShopLiveDefines.ShopLiveOrientaion = UIScreen.isLandscape ? .landscape : .portrait
+        
         if ShopLiveController.shared.lastOrientaion.direction != currentOrientation {
             self.shopliveHideKeyboard()
         }
