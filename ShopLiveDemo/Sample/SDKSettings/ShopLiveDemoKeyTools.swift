@@ -134,7 +134,7 @@ final class ShopLiveDemoKeyTools {
         if self.keys.isEmpty || curKey == alias {
             saveCurrentKey(alias: "")
         }
-        notifyObservers()
+        notifyCurrentKeyObservers()
     }
 
     func load(alias: String) -> ShopLiveKeySet? {
