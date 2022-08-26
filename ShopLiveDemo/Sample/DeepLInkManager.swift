@@ -23,7 +23,8 @@ final class DeepLinkManager {
     }
 
     func handleDeepLink(_ url: URL?) {
-
+        ShopLive.startPictureInPicture()
+        return
         guard let url = url else { return }
 
         guard let urlComponent: URLComponents = .init(url: url, resolvingAgainstBaseURL: false), let host = urlComponent.host, let command = DeepLink(rawValue: host) else { return }

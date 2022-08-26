@@ -550,7 +550,9 @@ extension ShopLiveController {
 
     static var windowStyle: ShopLiveWindowStyle {
         set {
-            shared.prevWindowStyle = shared.windowStyle
+            if shared.windowStyle != .osPip {
+                shared.prevWindowStyle = shared.windowStyle
+            }
             shared.windowStyle = newValue
         }
         get {

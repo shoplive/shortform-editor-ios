@@ -71,6 +71,12 @@ enum ShopLiveCampaignStatus: String, CaseIterable {
     }
 }
 
+enum ShopLiveWindowChangeCommand {
+    case none
+    case switchToInAppPip
+    case switchToFullScreen
+}
+
 extension ShopLive {
     @objc public enum PlayerMode: Int {
         case play

@@ -1269,6 +1269,8 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
                 delegate?.updatePictureInPicture()
             }
             
+            ShopLiveController.loading = true
+            
             ShopLiveController.shared.swipeEnabled = true
             
             if let isReplay = payload?["isReplay"] as? Bool {
