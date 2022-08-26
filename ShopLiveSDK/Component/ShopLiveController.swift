@@ -261,7 +261,6 @@ final class ShopLiveController: NSObject {
         playerItem = nil
         playerItem = .init()
         
-        customShareAction = nil
         hookNavigation = nil
         currentPlayTime = nil
         isReplayMode = false
