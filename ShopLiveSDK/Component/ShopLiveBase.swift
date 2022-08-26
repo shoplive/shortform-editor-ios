@@ -1511,7 +1511,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 
                 self.addObserver()
                 
-                if !ShopLiveController.shared.isPreview && ShopLiveController.shared.playerMode == .play {
+                if !ShopLiveController.shared.isPreview && ShopLiveController.windowStyle == .normal {
                     if ShopLiveController.shared.isSameCampaign {
                         ShopLiveController.shared.keepSnapshot = true
                         self.liveStreamViewController?.doSnapShot {
