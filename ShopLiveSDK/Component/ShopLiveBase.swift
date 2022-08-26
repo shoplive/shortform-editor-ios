@@ -919,11 +919,57 @@ import WebKit
             var centerX = panGestureInitialCenter.x + translation.x
             var centerY = panGestureInitialCenter.y + translation.y
             
-            let xRange = 0...(mainWindow.bounds.width)
-            let yRange = (0 + safeAreaInset.top)...(mainWindowHeight - (safeAreaInset.bottom)) + (isKeyboardShow ? liveWindow.frame.height * 0.2 : 0)
+            let xRange = (pipFloatingOffset.left + pipEdgeInsets.left)...(mainWindow.bounds.width - pipFloatingOffset.right - pipEdgeInsets.right)
+            let yRange = (pipFloatingOffset.top + pipEdgeInsets.top + safeAreaInset.top)...(mainWindowHeight - (safeAreaInset.bottom + pipFloatingOffset.bottom + pipEdgeInsets.bottom)) + (isKeyboardShow ? liveWindow.frame.height * 0.2 : 0)
             
             //범위밖으로 나가면 stop shoplive
-            guard xRange.contains(centerX), yRange.contains(centerY) else {
+            
+            var checkCenterX = centerX
+            var checkCenterY = centerY
+            
+            ShopLiveLogger.debugLog("xRange \(xRange)")
+            ShopLiveLogger.debugLog("yRange \(yRange)")
+            
+            if ShopLiveController.shared.lastPipPosition == .topLeft || ShopLiveController.shared.lastPipPosition == .bottomLeft {
+                if velocity.x < 0 {
+                    if velocity.x.magnitude > 600 {
+                        if checkCenterX + velocity.x < minX {
+                            checkCenterX = minX - liveWindow.frame.width
+                        }
+                    }
+                }
+            } else if ShopLiveController.shared.lastPipPosition == .topRight || ShopLiveController.shared.lastPipPosition == .bottomRight {
+                if velocity.x > 0 {
+                    if velocity.x.magnitude > 600 {
+                        if checkCenterX + velocity.x > maxX {
+                            checkCenterX = maxX + liveWindow.frame.width
+                        }
+                    }
+                }
+            }
+            
+            if ShopLiveController.shared.lastPipPosition == .topLeft || ShopLiveController.shared.lastPipPosition == .topRight {
+                if velocity.y > 0 {
+                    if velocity.y.magnitude > 600 {
+                        if checkCenterY + velocity.y < minY {
+                            checkCenterY = minY - liveWindow.frame.height
+                        }
+                    }
+                }
+            } else if ShopLiveController.shared.lastPipPosition == .bottomLeft || ShopLiveController.shared.lastPipPosition == .bottomRight {
+                if velocity.y < 0 {
+                    if velocity.y.magnitude > 600 {
+                        if checkCenterY + velocity.y > maxY {
+                            checkCenterY = maxY + liveWindow.frame.height
+                        }
+                    }
+                }
+            }
+            
+            ShopLiveLogger.debugLog("checkCenterX \(checkCenterX)")
+            ShopLiveLogger.debugLog("checkCenterY \(checkCenterY)")
+            
+            guard xRange.contains(checkCenterX), yRange.contains(checkCenterY) else {
                 #if MUSINSA
                 delegate?.handleCommand(ShopLiveController.shared.isPreview ? "CLOSE_FROM_PREVIEW" : "CLOSE_FROM_PLAY", with: nil)
                 #endif
