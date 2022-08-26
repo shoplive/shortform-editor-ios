@@ -674,6 +674,9 @@ internal final class LiveStreamViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
 
         ShopLiveLogger.debugLog("viewWillTransition")
+        if ShopLiveController.shared.supportOrientation == .landscape {
+            self.updatePlayerFrame()
+        }
         self.chatInputView.orientationChattingWritrViewConstraint()
         guard ShopLiveController.windowStyle != .osPip else { return }
         
@@ -1018,6 +1021,7 @@ internal final class LiveStreamViewController: UIViewController {
             } else {
                 if fitTopArea {
                     setVideoDefaultFrame()
+                    return
                 }
                 
                 if let playerFrame = UIScreen.isLandscape ? ( ShopLiveController.shared.videoExpanded ? ShopLiveController.shared.videoFrame.landscape.expanded : ShopLiveController.shared.videoFrame.landscape.standard) : ShopLiveController.shared.videoFrame.portrait {
