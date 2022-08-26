@@ -186,11 +186,11 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
-    static func setKeepWindowStyleOnReturnFromOsPip(_ keep: Bool = false) {
+    public static func setKeepWindowStyleOnReturnFromOsPip(_ keep: Bool = false) {
         ShopLiveConfiguration.UI.keepWindowStyleOnReturnFromOsPip = keep
     }
     
-    static func isKeepWindowStyleOnReturnFromOsPip() -> Bool {
+    public static func isKeepWindowStyleOnReturnFromOsPip() -> Bool {
         ShopLiveConfiguration.UI.keepWindowStyleOnReturnFromOsPip
     }
     
