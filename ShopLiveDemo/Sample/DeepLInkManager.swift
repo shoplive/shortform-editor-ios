@@ -16,6 +16,8 @@ final class DeepLinkManager {
     enum DeepLink: String, CaseIterable {
         case video
         case product
+        case pip
+        case fullscreen
 
         var command: String {
             return self.rawValue
@@ -23,8 +25,6 @@ final class DeepLinkManager {
     }
 
     func handleDeepLink(_ url: URL?) {
-        ShopLive.startPictureInPicture()
-        return
         guard let url = url else { return }
 
         guard let urlComponent: URLComponents = .init(url: url, resolvingAgainstBaseURL: false), let host = urlComponent.host, let command = DeepLink(rawValue: host) else { return }
@@ -45,6 +45,12 @@ final class DeepLinkManager {
             let alert = UIAlertController(title: command.command, message: (parameters != nil ? parameters.toJson() : ""), preferredStyle: .alert)
             alert.addAction(.init(title: "Ok", style: UIAlertAction.Style.default))
             UIApplication.topViewController(base: AppDelegate.rootViewController)?.present(alert, animated: true)
+            break
+        case .pip:
+            ShopLive.startPictureInPicture()
+            break
+        case .fullscreen:
+            ShopLive.stopPictureInPicture()
             break
         default:
             break
