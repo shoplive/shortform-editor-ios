@@ -43,11 +43,16 @@
 "userinfo.gender.male" = "남";
 "userinfo.gender.female" = "여";
 "userinfo.gender.none" = "선택안함";
+"userinfo.add.parameter.button.title" = "파라미터 추가";
+"userinfo.add.parameter.key.placeholder" = "key";
+"userinfo.add.parameter.value.placeholder" = "value";
+"userinfo.add.parameter.delete.placeholder" = "삭제";
 "userinfo.jwt.button.usersave" = "유저정보 저장하기";
 "userinfo.jwt.result.message" = "JWT not generated";
 "userinfo.jwt.button.generate" = "JWT Generate & Save";
 "userinfo.new.button.save" = "Save";
 "userinfo.msg.save.success" = "저장 되었습니다.";
+"userinfo.msg.save.parameter.error" = "key:value를 다시입력해주세요";
 "userinfo.msg.save.failed.noneId" = "userId는 필수 입니다.";
 "userinfo.msg.save.failed.noneToken" = "생성된 토큰이 없습니다.";
 "userinfo.msg.save.failed.sameInfo" = "이미 생성된 토큰입니다.";

@@ -294,6 +294,8 @@
 		BFF8477E2897E0230075A0AA /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF8477D2897E0230075A0AA /* ReplayKit.framework */; };
 		BFF8477F2897E02F0075A0AA /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF8477D2897E0230075A0AA /* ReplayKit.framework */; };
 		BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF91D86266D2FE800B659C1 /* SafariServices.framework */; };
+		C9E1F63C28B205FD00C4C3D4 /* AddParameterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E1F63B28B205FD00C4C3D4 /* AddParameterCell.swift */; };
+		C9E1F63D28B205FD00C4C3D4 /* AddParameterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E1F63B28B205FD00C4C3D4 /* AddParameterCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -437,6 +439,7 @@
 		BFF3586B27E9AD3500B920E9 /* PipAreaSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipAreaSettingViewController.swift; sourceTree = "<group>"; };
 		BFF8477D2897E0230075A0AA /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/System/iOSSupport/System/Library/Frameworks/ReplayKit.framework; sourceTree = DEVELOPER_DIR; };
 		BFF91D86266D2FE800B659C1 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		C9E1F63B28B205FD00C4C3D4 /* AddParameterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddParameterCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -811,6 +814,7 @@
 			children = (
 				BF47199227682C4900522F6F /* Sample */,
 				BFE21966276B436600900FB1 /* DevInfoCell.swift */,
+				C9E1F63B28B205FD00C4C3D4 /* AddParameterCell.swift */,
 				BF4719702765F4E800522F6F /* MainViewController.swift */,
 				BFE21960276B3BE600900FB1 /* ShopLiveDevConfiguration.swift */,
 				BF9BB7E0273A1571006BDEF3 /* CouponCallbackSettingViewController.swift */,
@@ -1342,6 +1346,7 @@
 				BF37D9D427F5742D004C2785 /* SoundManager.swift in Sources */,
 				BFDC8B6B28A169050055C4DA /* Debouncer.swift in Sources */,
 				BF60E2002771CECA0060531C /* ShopLive.swift in Sources */,
+				C9E1F63D28B205FD00C4C3D4 /* AddParameterCell.swift in Sources */,
 				BF60E2012771CECA0060531C /* DemoConfiguration.swift in Sources */,
 				BF37D9AD27F5742D004C2785 /* ShopLiveController.swift in Sources */,
 				BF37D9D127F5742D004C2785 /* ShopLiveDefines.swift in Sources */,
@@ -1425,6 +1430,7 @@
 				BF37D9D327F5742D004C2785 /* SoundManager.swift in Sources */,
 				BFDC8B6A28A169050055C4DA /* Debouncer.swift in Sources */,
 				BFAD8EE2265A24DA00202160 /* ShopLive.swift in Sources */,
+				C9E1F63C28B205FD00C4C3D4 /* AddParameterCell.swift in Sources */,
 				BF47199F2768570100522F6F /* DemoConfiguration.swift in Sources */,
 				BF37D9AC27F5742D004C2785 /* ShopLiveController.swift in Sources */,
 				BF37D9D027F5742D004C2785 /* ShopLiveDefines.swift in Sources */,

@@ -48,6 +48,13 @@ final class DemoConfiguration: NSObject {
             user.age = userAge
             user.gender = userGender
             user.add(["userScore" : userScore])
+            for index in 0..<(userParameters?.count ?? 0) {
+                let splitParamter = userParameters?[index].split(separator: ":")
+                let key = "\(splitParamter?[0] ?? "null")"
+                let value = "\(splitParamter?[1] ?? "null")"
+                user.add([key: value])
+            }
+            
             return user
         }
     }
@@ -119,6 +126,19 @@ final class DemoConfiguration: NSObject {
         }
         get {
             return UserDefaults.standard.string(forKey: "jwtToken")
+        }
+    }
+    
+    var userParameters: [String]? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "parameter")
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            guard let list = UserDefaults.standard.array(forKey: "parameter") else {
+                return nil
+            }
+            return list as? [String]
         }
     }
 

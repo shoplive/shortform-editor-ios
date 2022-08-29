@@ -824,7 +824,7 @@ internal final class LiveStreamViewController: UIViewController {
         if let age = viewModel.user?.age, age > 0 {
             queryItems.append(URLQueryItem(name: "age", value: String(age)))
         }
-
+        
         if let additional = viewModel.user?.getParams(), !additional.isEmpty {
             additional.forEach { (key: String, value: String) in
                 queryItems.append(URLQueryItem(name: key, value: value))

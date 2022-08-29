@@ -79,8 +79,32 @@ final class UserInfoViewController: SideMenuItemViewController {
         view.keyboardType = .numberPad
         return view
     }()
-
-
+    
+    private lazy var addParameterButton: UIButton = {
+        let view = UIButton()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 6
+        view.backgroundColor = .red
+        view.setTitle("userinfo.add.parameter.button.title".localized(), for: .normal)
+        view.titleLabel?.textColor = .white
+        view.addTarget(self, action: #selector(addParameter), for: .touchUpInside)
+        return view
+    }()
+    
+    private lazy var parameterTableView: UITableView = {
+        let view = UITableView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.register(AddParameterCell.self, forCellReuseIdentifier: "AddParameterCell")
+        view.backgroundColor = .white
+        view.delegate = self
+        view.rowHeight = 50
+        view.allowsSelection = false
+        view.dataSource = self
+        view.separatorStyle = .singleLine
+        view.isUserInteractionEnabled = true
+        return view
+    }()
+    
     var radioGroup: [ShopLiveRadioButton] = []
 
     lazy var genderView: UIView = {
@@ -205,16 +229,24 @@ final class UserInfoViewController: SideMenuItemViewController {
         view.addTarget(self, action: #selector(tokenGenerateSaveAct), for: .touchUpInside)
         return view
     }()
-
+    private var param: String = "nullKey: nullValue"
+    private var parameterList: [String] = []
     private var user: ShopLiveUser = DemoConfiguration.shared.user
     private var newUser: ShopLiveUser?
     override func viewDidLoad() {
         super.viewDidLoad()
-
         DemoSecretKeyTool.shared.addKeysetObserver(observer: self)
         setupNaviItems()
         setupViews()
+        setupParameterList()
         updateUserInfo()
+    }
+    
+    private func setupParameterList() {
+        guard let param = DemoConfiguration.shared.userParameters else {
+            return
+        }
+        self.parameterList = param
     }
 
     func setupNaviItems() {
@@ -239,7 +271,24 @@ final class UserInfoViewController: SideMenuItemViewController {
         self.view.addSubview(jwtInputButton)
         self.view.addSubview(jwtResultLabel)
         self.view.addSubview(jwtGenerateButton)
-
+        self.view.addSubview(parameterTableView)
+        self.view.addSubview(addParameterButton)
+        
+        parameterTableView.snp.makeConstraints {
+            $0.top.equalTo(genderView.snp.bottom).offset(15)
+            $0.leading.equalToSuperview().offset(15)
+            $0.trailing.equalToSuperview().offset(-15)
+            $0.height.lessThanOrEqualTo(100)
+            
+        }
+        
+        addParameterButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-15)
+            $0.top.equalTo(parameterTableView.snp.bottom).offset(10)
+            $0.width.equalTo(self.view.frame.width / 2 - 20)
+            $0.height.greaterThanOrEqualTo(35)
+        }
+        
         userIdInputField.snp.makeConstraints {
             $0.top.leading.equalToSuperview().offset(15)
             $0.trailing.equalToSuperview().offset(-15)
@@ -273,11 +322,11 @@ final class UserInfoViewController: SideMenuItemViewController {
             $0.top.equalTo(userScoreInputField.snp.bottom).offset(15)
             $0.height.equalTo(20)
         }
-
+        
         saveUserInfoButton.snp.makeConstraints {
-            $0.top.equalTo(genderView.snp.bottom).offset(10)
+            $0.top.equalTo(parameterTableView.snp.bottom).offset(10)
             $0.leading.equalToSuperview().offset(15)
-            $0.trailing.equalToSuperview().offset(-15)
+            $0.width.equalTo(self.view.frame.width / 2 - 20)
             $0.height.equalTo(35)
         }
 
@@ -342,11 +391,21 @@ final class UserInfoViewController: SideMenuItemViewController {
         }
 
         user.add(["userScore" : userScoreInputField.text])
-
+        self.saveParameterList()
         DemoConfiguration.shared.user = user
-
         UIWindow.showToast(message: "userinfo.msg.save.success".localized())
         handleNaviBack()
+    }
+    
+    private func saveParameterList() {
+        parameterList.removeAll { $0 == "" }
+        for index in 0..<parameterList.count {
+            let splitParamter = parameterList[index].split(separator: ":")
+            let key = "\(splitParamter[0])"
+            let value = "\(splitParamter[1])"
+            user.add([key: value])
+        }
+        DemoConfiguration.shared.userParameters = self.parameterList
     }
 
     @objc func saveAct() {
@@ -534,4 +593,64 @@ extension UserInfoViewController: SecretKeySetObserver {
         jwtInputButton.setTitle(secretKeyButtonTitle, for: .normal)
     }
 
+}
+extension UserInfoViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return parameterList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "AddParameterCell", for: indexPath) as? AddParameterCell else { return UITableViewCell(style: .default, reuseIdentifier: "Cell") }
+        cell.configure(parameter: parameterList[indexPath.row], index: indexPath.row)
+        cell.keyInputField.delegate = self
+        cell.valueInputField.delegate = self
+        cell.keyInputField.tag = indexPath.row
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            if editingStyle == .delete {
+                self.parameterList.remove(at: indexPath.row)
+                self.parameterTableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    @objc func addParameter() {
+        self.parameterList.append("")
+        self.parameterTableView.reloadData()
+    }
+}
+
+extension UserInfoViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text else {
+            return
+        }
+        
+        switch(textField.accessibilityIdentifier) {
+        case "keyInputField":
+            param = param.replacingOccurrences(of: "nullKey", with: text)
+            break
+        case "valueInputField":
+            param = param.replacingOccurrences(of: "nullValue", with: text)
+            break
+        case _:
+            break
+        }
+        if param.contains("nullKey") || param.contains("nullValue") {
+            return
+        }
+        
+        self.parameterList[self.parameterList.index(before: parameterList.endIndex)].append(param)
+        param = "nullKey: nullValue"
+        self.saveParameterList()
+    }
 }
