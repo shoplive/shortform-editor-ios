@@ -13,7 +13,7 @@ internal class OverlayWebView: UIView {
     
     private var isSystemInitialized: Bool = false
     private weak var webView: ShopLiveWebView?
-    private lazy var webViewFrame = self.window?.frame
+    
     weak var delegate: OverlayWebViewDelegate?
     weak var webviewUIDelegate: WKUIDelegate? {
         didSet {
@@ -368,9 +368,10 @@ extension OverlayWebView: WKScriptMessageHandler {
                     
                     if ShopLiveController.shared.supportOrientation == .landscape {
                         let SET_VIDEO_POSITION_LOG = CGRect(x: x, y: y, width: width, height: height)
-                        let right = (self.webViewFrame?.width ?? UIWindow.mainWindowFrame.frame.width) - x - width
-                        let bottom = (self.webViewFrame?.height ?? UIWindow.mainWindowFrame.frame.height) - y - height
-                        
+
+                        let right = (self.window?.frame.width ?? UIWindow.mainWindowFrame.frame.width) - x - width
+                        let bottom = (self.window?.frame.height ?? UIWindow.mainWindowFrame.frame.height) - y - height
+            
                         let playerFrame = CGRect(x: x, y: y, width: right, height: bottom)
                         
                             if UIScreen.isLandscape {
