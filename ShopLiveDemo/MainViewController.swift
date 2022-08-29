@@ -189,9 +189,7 @@ class MainViewController: SideMenuBaseViewController {
         
         ShopLive.setKeepAspectOnTabletPortrait(config.useAspectOnTablet)
         
-        #if MUSINSA
         ShopLive.fixedPipWidth = DemoConfiguration.shared.fixedPipWidth as? NSNumber
-        #endif
         
         ShopLive.setKeepWindowStyleOnReturnFromOsPip(config.usePipKeepWindowStyle)
     }
@@ -233,7 +231,6 @@ class MainViewController: SideMenuBaseViewController {
 }
 
 extension MainViewController: ShopLiveSDKDelegate {
-    #if MUSINSA
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
         ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) parameter \(parameter)")
     }
@@ -241,7 +238,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint) {
         ShopLiveLogger.debugLog("window gesture state \(state) position \(position)")
     }
-    #endif
+
     func handleNavigation(with url: URL) {
         print("handleNavigation \(url)")
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleNavigation \(url)"))
@@ -378,10 +375,8 @@ extension MainViewController: ShopLiveSDKDelegate {
         } else if command == "CLOSE_FROM_PIP" {
             
         } else if command == "didShopLiveOff" {
-            #if MUSINSA
-            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
-            UINavigationController.attemptRotationToDeviceOrientation()
-            #endif
+//            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+//            UINavigationController.attemptRotationToDeviceOrientation()
         }
     }
 

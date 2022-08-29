@@ -10,10 +10,8 @@ import AVKit
 import WebKit
 
 @objc internal protocol ShopLiveComponent: AnyObject {
-#if MUSINSA
     @objc var playerWindow: UIWindow? { get }
     @objc var fixedPipWidth: NSNumber? { get set }
-#endif
     @objc var viewController: ShopLiveViewController? { get }
     @objc var style: ShopLive.PresentationStyle { get }
     @objc var pipPosition: ShopLive.PipPosition { get set }
@@ -304,7 +302,6 @@ extension ShopLive: ShopLiveSDKInterface {
         return ShopLiveDefines.sdkVersion
     }
     
-    #if MUSINSA
     public static var playerMode: ShopLive.PlayerMode {
         ShopLiveController.shared.playerMode
     }
@@ -333,7 +330,6 @@ extension ShopLive: ShopLiveSDKInterface {
     public static var orientationMode: ShopLive.VideoOrientation {
         ShopLiveController.shared.supportOrientation
     }
-    #endif
 
     public static var user: ShopLiveUser? {
         get {

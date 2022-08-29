@@ -192,24 +192,20 @@ import UIKit
     @objc func handleCommand(_ command: String, with payload: Any?)
     @objc func onSetUserName(_ payload: [String : Any])
     @objc func handleReceivedCommand(_ command: String, with payload: Any?)
-#if MUSINSA
     @objc func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint)
     @objc func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String: String])
-#endif
 }
 
 public typealias ShopLiveViewController = UIViewController
 
 @objc protocol ShopLiveSDKInterface: AnyObject {
     @objc static var sdkVersion: String { get }
-    #if MUSINSA
     @objc static var playerWindow: UIWindow? { get }
     @objc static var fixedPipWidth: NSNumber? { get set }
     @objc static func mute()
     @objc static func unmute()
     @objc static var playerMode: ShopLive.PlayerMode { get }
     @objc static var orientationMode: ShopLive.VideoOrientation { get }
-    #endif
     
     @objc static var viewController: ShopLiveViewController? { get }
     @objc static var style: ShopLive.PresentationStyle { get }

@@ -290,9 +290,7 @@ extension OverlayWebView: WKScriptMessageHandler {
                     let logParameter: [String : String] = parameters?["parameter"] as? [String : String] ?? [:]
                     let campaignKey: String = (parameters?["campaignKey"] as? String) ?? ShopLiveController.shared.campaignKey
                     passToReceivedCommand = false
-                    #if MUSINSA
                     delegate?.log(name: name, feature: featureType, campaign: campaignKey, parameter: logParameter)
-                    #endif
                     break
                 case "CLICK_BACK_BUTTON":
                     delegate?.handleCommand("didTapCloseButton", with: nil)

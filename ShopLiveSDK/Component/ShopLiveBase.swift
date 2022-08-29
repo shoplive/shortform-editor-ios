@@ -305,9 +305,7 @@ import WebKit
         self.shopLiveWindow?.rootViewController = nil
 
         self.shopLiveWindow = nil
-#if MUSINSA
         delegate?.log(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
-#endif
         self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
         self._style = .unknown
         self._authToken = nil
@@ -476,12 +474,9 @@ import WebKit
                     }
                 }
                 
-        #if MUSINSA
                 self.delegate?.log(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
-                self.sendCommandMusinsa()
-        #else
+                self.sendCommandChangeToPip()
                 self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
-        #endif
             }
         }
     }
@@ -637,9 +632,7 @@ import WebKit
         }
         _style = .fullScreen
         delegate?.handleCommand("didShopLiveOn", with: nil)
-#if MUSINSA
         delegate?.log(name: "pip_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
-#endif
     }
 
     func updatePip(isRotation: Bool = false) {
@@ -677,11 +670,8 @@ import WebKit
                     ShopLiveController.shared.pipAnimating = false
                     
                     if !isRotation {
-                #if MUSINSA
-                        self.sendCommandMusinsa()
-                #else
+                        self.sendCommandChangeToPip()
                         self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
-                #endif
                         self.shopLiveWindow?.layer.masksToBounds = false
                     }
                     self.handleWindowChangeCommand()
@@ -731,11 +721,8 @@ import WebKit
             
             shopLiveWindow.backgroundColor = .black
             
-            #if MUSINSA
-            self.sendCommandMusinsa()
-            #else
+            self.sendCommandChangeToPip()
             self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
-            #endif
             self.handleWindowChangeCommand()
         }
     }
@@ -963,9 +950,8 @@ import WebKit
         liveWindow.layer.masksToBounds = false
         let translation = recognizer.translation(in: liveWindow)
         
-#if MUSINSA
         delegate?.playerPanGesture(state: recognizer.state, position: liveWindow.center)
-#endif
+        
         switch recognizer.state {
         case .began:
             panGestureInitialCenter = liveWindow.center
@@ -1043,9 +1029,7 @@ import WebKit
             ShopLiveLogger.debugLog("checkCenterY \(checkCenterY)")
             
             guard xRange.contains(checkCenterX), yRange.contains(checkCenterY) else {
-                #if MUSINSA
                 delegate?.handleCommand(ShopLiveController.shared.isPreview ? "CLOSE_FROM_PREVIEW" : "CLOSE_FROM_PLAY", with: nil)
-                #endif
                 hideShopLiveView()
                 return
             }
@@ -1113,9 +1097,7 @@ import WebKit
             self.shopLiveWindow?.rootViewController?.dismiss(animated: false, completion: nil)
             return
         }
-#if MUSINSA
         delegate?.log(name: "swipe_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
-#endif
         if ShopLiveController.shared.videoOrientation == .landscape {
             if UIScreen.isLandscape {
                 self.liveStreamViewController?.updateOrientation(toLandscape: false)
@@ -1152,9 +1134,7 @@ import WebKit
         case .ended:
             ShopLiveController.shared.videoCenterCrop = recognizer.scale > 1.0
             self.liveStreamViewController?.changeVideoGravity(centerCrop: ShopLiveController.shared.videoCenterCrop)
-#if MUSINSA
             delegate?.log(name: recognizer.scale > 1.0 ? "pinch_zoom_out" : "pinch_zoom_in", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
-#endif
             break
         default:
             break
@@ -1448,7 +1428,7 @@ import WebKit
             break
         }
     }
-    private func sendCommandMusinsa() {
+    private func sendCommandChangeToPip() {
         guard !ShopLiveController.shared.isPreview else { return }
         self.delegate?.handleCommand("CHANGE_TO_PIP", with: nil)
     }
@@ -1471,11 +1451,9 @@ extension ShopLiveBase: ShopLiveComponent {
         #endif
     }
 
-    #if MUSINSA
     var playerWindow: UIWindow? {
         return self.shopLiveWindow
     }
-    #endif
     
     var viewController: ShopLiveViewController? {
         return self.liveStreamViewController
@@ -1575,9 +1553,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 guard self.accessKey != nil else { return }
                 
                 ShopLiveController.shared.campaignKey = campaignKey ?? ""
-        #if MUSINSA
                 self.delegate?.log(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "preview"])
-        #endif
                 
                 self.addObserver()
                 
@@ -1624,12 +1600,10 @@ extension ShopLiveBase: ShopLiveComponent {
                 guard self.accessKey != nil else { return }
                 ShopLiveController.shared.campaignKey = campaignKey ?? ""
                 self.needExecuteFullScreen = ShopLiveController.shared.isPreview
-        #if MUSINSA
                 if self.needExecuteFullScreen {
                     self.delegate?.log(name: "preview_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
                 }
                 self.delegate?.log(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "normal"])
-        #endif
                 ShopLiveController.shared.isPreview = false
                 self.addObserver()
                 self.campaignChanged = (campaignKey != self.campaignKey)
@@ -1699,16 +1673,16 @@ extension ShopLiveBase: ShopLiveComponent {
     
     @objc var pipScale: CGFloat {
         get {
-            #if MUSINSA
             guard let fixPipWidth = fixedPipWidth as? CGFloat else {
                 return convertPipScale(userScale: ShopLiveController.shared.lastPipScale)
             }
 
             let fixedScale = fixPipWidth / (UIScreen.isLandscape ? UIScreen.main.bounds.height : UIScreen.main.bounds.width)
             return (fixedScale >= 0.0 && fixedScale <= 1.0) ? fixedScale : (fixedScale < 0 ? 0.0 : 1.0)
-            #else
-            return convertPipScale(userScale: ShopLiveController.shared.lastPipScale)
-            #endif
+            /*
+                // 기존 코드 제거 예정
+                return convertPipScale(userScale: ShopLiveController.shared.lastPipScale)
+             */
         }
         set {
             #if EBAY
@@ -1718,7 +1692,7 @@ extension ShopLiveBase: ShopLiveComponent {
             #endif
         }
     }
-#if MUSINSA
+
     @objc var fixedPipWidth: NSNumber? {
         get {
             return ShopLiveController.shared.fixedPipWidth as NSNumber?
@@ -1727,7 +1701,6 @@ extension ShopLiveBase: ShopLiveComponent {
             ShopLiveController.shared.fixedPipWidth = newValue as? CGFloat
         }
     }
-#endif
 
     @objc var indicatorColor: UIColor {
         get {
@@ -1844,11 +1817,9 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
         }
     }
     
-#if MUSINSA
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
         delegate?.log(name: name, feature: feature, campaign: campaign, parameter: parameter)
     }
-#endif
     
     func finishRotation() {
         UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve) {

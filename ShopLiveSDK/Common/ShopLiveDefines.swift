@@ -12,10 +12,8 @@ import CoreMedia
 @objc internal final class ShopLiveDefines: NSObject {
 #if LOCAL_LANDING
     static let sdkVersion: String = "1.2.11"
-#elseif MUSINSA
-    static let sdkVersion: String = "1.2.6.2"
 #else
-    static let sdkVersion: String = "1.2.6"
+    static let sdkVersion: String = "1.3.0"
 #endif
     
     static var phase: ShopLive.Phase = .REAL {
@@ -78,9 +76,7 @@ protocol LiveStreamViewControllerDelegate: AnyObject {
     func updatePictureInPicture()
     func finishRotation()
     func resetPictureInPicture()
-    #if MUSINSA
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String])
-    #endif
 }
 
 protocol OverlayWebViewDelegate: AnyObject {
@@ -109,9 +105,7 @@ protocol OverlayWebViewDelegate: AnyObject {
     func updateOrientation(orientation: UIDeviceOrientation)
     func updateOrientation(toLandscape: Bool)
     func updateVideoExpanded()
-    #if MUSINSA
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String])
-    #endif
 }
 
 extension Notification.Name {

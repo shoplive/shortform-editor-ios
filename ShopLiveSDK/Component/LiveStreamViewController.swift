@@ -137,16 +137,12 @@ internal final class LiveStreamViewController: UIViewController {
         switch audioRouteChangeReason {
         case AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue:
             if isEarphoneHeadphone {
-                #if MUSINSA
                 delegate?.log(name: "audio_gain", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
-                #endif
                 updateHeadPhoneStatus(plugged: true)
             }
         case AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue:
             if !isEarphoneHeadphone {
-#if MUSINSA
                 delegate?.log(name: "audio_loss", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
-#endif
                 updateHeadPhoneStatus(plugged: false)
             }
         default:
@@ -203,10 +199,8 @@ internal final class LiveStreamViewController: UIViewController {
             }
 
           if type == .began {
-#if MUSINSA
               delegate?.log(name: "audio_loss", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
-#endif
-            ShopLiveController.playControl = .pause
+              ShopLiveController.playControl = .pause
           } else {
               guard userInfo[AVAudioSessionInterruptionOptionKey] != nil else {
                 return
@@ -223,9 +217,7 @@ internal final class LiveStreamViewController: UIViewController {
             guard ShopLiveConfiguration.SoundPolicy.autoResumeVideoOnCallEnded else {
                 return
             }
-#if MUSINSA
               delegate?.log(name: "audio_gain", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
-#endif
             if ShopLiveController.isReplayMode {
                 DispatchQueue.main.async {
                     ShopLiveController.player?.play()
@@ -1058,11 +1050,9 @@ internal final class LiveStreamViewController: UIViewController {
 }
 
 extension LiveStreamViewController: OverlayWebViewDelegate {
-#if MUSINSA
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
         delegate?.log(name: name, feature: feature, campaign: campaign, parameter: parameter)
     }
-#endif
     
     func updateVideoExpanded() {
         guard UIScreen.isLandscape, ShopLiveController.shared.videoOrientation == .landscape else { return }
