@@ -25,8 +25,8 @@ final class ShopLiveCheckBoxButton: UIView {
         let view = UIButton(type: .custom)
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        view.setImage(UIImage(named: "radio_not_selected"), for: .normal)
-        view.setImage(UIImage(named: "radio_selected"), for: .selected)
+        view.setImage(UIImage(named: "check_not_selected"), for: .normal)
+        view.setImage(UIImage(named: "check_selected"), for: .selected)
         return view
     }()
 
