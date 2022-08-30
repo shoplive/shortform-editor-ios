@@ -180,7 +180,30 @@ class MainViewController: SideMenuBaseViewController {
         
         // Phase Setting
         #if DEMO
-        ShopLiveDefines.phase = ShopLiveDevConfiguration.shared.phaseType
+//        ShopLiveDefines.phase = ShopLiveDevConfiguration.shared.phaseType
+        let phase = ShopLiveDevConfiguration.shared.phase
+        
+        var landingUrl: String = "https://www.shoplive.show/v1/sdk.html"
+        switch phase {
+        case "DEV":
+            landingUrl = "https://dev.shoplive.show/v1/sdk.html"
+            break
+        case "STAGE":
+            landingUrl = "https://stg.shoplive.show/v1/sdk.html"
+            break
+        case "CUSTOM":
+            if let customLanding = config.customLandingInput, !customLanding.isEmpty {
+                landingUrl = customLanding
+                config.customLandingUrl = customLanding
+            } else {
+                landingUrl = ""
+            }
+            break
+        default:
+            break
+        }
+        
+        ShopLive.setEndpoint(landingUrl)
         #endif
 
         #if LOCAL_LANDING
@@ -284,6 +307,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     func handleError(code: String, message: String) {
         print("handleError \(code)  \(message)")
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleError \(code)  \(message)"))
+        
     }
 
     func handleCampaignInfo(campaignInfo: [String : Any]) {

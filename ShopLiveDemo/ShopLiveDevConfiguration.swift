@@ -83,15 +83,15 @@ final class ShopLiveDevConfiguration {
             notifyObservers(key: "playerPhase")
         }
         get {
-            UserDefaults.standard.string(forKey: "playerPhase") ?? ShopLive.Phase.REAL.name
+            UserDefaults.standard.string(forKey: "playerPhase") ?? "REAL"
         }
     }
 
-    var phaseType: ShopLive.Phase {
-        let phases: [String: ShopLive.Phase] = [
-            ShopLive.Phase.DEV.name: ShopLive.Phase.DEV,
-            ShopLive.Phase.STAGE.name: ShopLive.Phase.STAGE,
-            ShopLive.Phase.REAL.name: ShopLive.Phase.REAL]
-        return phases[phase] ?? .DEV
+    var phaseType: String {
+        let phases: [String: String] = [
+            "DEV": "DEV",
+            "STAGE": "STAGE",
+            "REAL": "REAL"]
+        return phases[phase] ?? "DEV"
     }
 }

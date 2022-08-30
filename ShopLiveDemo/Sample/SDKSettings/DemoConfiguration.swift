@@ -469,6 +469,18 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.pipKeepWindowStyle.optionKey)
         }
     }
+    
+    var customLandingUrl: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "CUSTOM_LANDING_URL")
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return UserDefaults.standard.string(forKey: "CUSTOM_LANDING_URL") ?? "https://dev-static.shoplive.cloud/cr/v/test/ebay_sdk.html"
+        }
+    }
+    
+    var customLandingInput: String? = nil
 }
 
 

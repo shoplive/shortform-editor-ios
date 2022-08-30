@@ -43,6 +43,24 @@ final class DevInfoCell: SampleBaseCell {
         return view
     }()
 
+    lazy var landingField: UITextField = {
+        let view = UITextField()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textColor = .black
+        view.placeholder = "landing url"
+        view.text = DemoConfiguration.shared.customLandingUrl ?? ""
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.lightGray.cgColor
+        view.layer.cornerRadius = 6
+        view.textColor = .black
+        view.setPlaceholderColor(.darkGray)
+        view.leftViewMode = .always
+        let paddingView = UIView(frame: .init(origin: .zero, size: .init(width: 10, height: view.frame.height)))
+        view.leftView = paddingView
+        view.delegate = self
+        return view
+    }()
+    
     lazy var phaseView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +68,7 @@ final class DevInfoCell: SampleBaseCell {
         let devRadio: ShopLiveRadioButton = {
             let view = ShopLiveRadioButton()
             view.translatesAutoresizingMaskIntoConstraints = false
-            view.configure(identifier: ShopLive.Phase.DEV.name, description: "DEV player")
+            view.configure(identifier: "DEV", description: "DEV player")
             view.delegate = self
             return view
         }()
@@ -58,7 +76,7 @@ final class DevInfoCell: SampleBaseCell {
         let stageRadio: ShopLiveRadioButton = {
             let view = ShopLiveRadioButton()
             view.translatesAutoresizingMaskIntoConstraints = false
-            view.configure(identifier: ShopLive.Phase.STAGE.name, description: "STAGE player")
+            view.configure(identifier: "STAGE", description: "STAGE player")
             view.delegate = self
             return view
         }()
@@ -66,48 +84,79 @@ final class DevInfoCell: SampleBaseCell {
         let realRadio: ShopLiveRadioButton = {
             let view = ShopLiveRadioButton()
             view.translatesAutoresizingMaskIntoConstraints = false
-            view.configure(identifier: ShopLive.Phase.REAL.name, description: "REAL player")
+            view.configure(identifier: "REAL", description: "REAL player")
             view.delegate = self
             return view
         }()
-
-        self.radioGroup = [devRadio, stageRadio, realRadio]
+        
+        let setRadio: ShopLiveRadioButton = {
+            let view = ShopLiveRadioButton()
+            view.translatesAutoresizingMaskIntoConstraints = false
+            view.configure(identifier: "CUSTOM", description: "랜딩 Url 직접 입력")
+            view.delegate = self
+            return view
+        }()
+        
+        self.radioGroup = [devRadio, stageRadio, realRadio, setRadio]
         view.addSubview(devRadio)
         view.addSubview(stageRadio)
         view.addSubview(realRadio)
+        view.addSubview(setRadio)
+        view.addSubview(landingField)
 
         devRadio.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.equalToSuperview().offset(20)
             $0.leading.equalToSuperview()
             $0.bottom.lessThanOrEqualToSuperview()
-            $0.height.equalTo(20)
-        }
-
-        stageRadio.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.bottom.lessThanOrEqualToSuperview()
-            $0.leading.equalTo(devRadio.snp.trailing).offset(30)
-            $0.height.equalTo(20)
-        }
-
-        realRadio.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.bottom.lessThanOrEqualToSuperview()
-            $0.leading.equalTo(stageRadio.snp.trailing).offset(30)
             $0.trailing.lessThanOrEqualToSuperview()
             $0.height.equalTo(20)
         }
 
+        stageRadio.snp.makeConstraints {
+            $0.top.equalTo(devRadio.snp.bottom).offset(10)
+            $0.bottom.lessThanOrEqualToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.lessThanOrEqualToSuperview()
+            $0.height.equalTo(20)
+        }
+
+        realRadio.snp.makeConstraints {
+            $0.top.equalTo(stageRadio.snp.bottom).offset(10)
+            $0.bottom.lessThanOrEqualToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.lessThanOrEqualToSuperview()
+            $0.height.equalTo(20)
+        }
+        
+        setRadio.snp.makeConstraints {
+            $0.top.equalTo(realRadio.snp.bottom).offset(10)
+            $0.bottom.lessThanOrEqualToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.lessThanOrEqualToSuperview()
+            $0.height.equalTo(20)
+        }
+
+        landingField.snp.makeConstraints {
+            $0.top.equalTo(setRadio.snp.bottom).offset(10)
+            $0.bottom.lessThanOrEqualToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.height.equalTo(30)
+        }
+        
         return view
     }()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
+        let demoConfig = DemoConfiguration.shared
         ShopLiveDevConfiguration.shared.addConfigurationObserver(observer: self)
         updateWebDebugSetting()
         updateAppDebugSetting()
         updateLocalLandingSetting()
+        demoConfig.customLandingInput = demoConfig.customLandingUrl
+        landingField.text = demoConfig.customLandingInput
         updatePhase(identifier: ShopLiveDevConfiguration.shared.phase)
     }
 
@@ -230,11 +279,11 @@ extension DevInfoCell: ShopLiveCheckBoxButtonDelegate {
 
 extension DevInfoCell: ShopLiveRadioButtonDelegate {
     func didSelectRadioButton(_ sender: ShopLiveRadioButton) {
-        guard let phase = ShopLive.Phase(name: sender.identifier) else {
-            return
-        }
+//        guard let phase = ShopLive.Phase(name: sender.identifier) else {
+//            return
+//        }
 
-        ShopLiveDevConfiguration.shared.phase = phase.name
+        ShopLiveDevConfiguration.shared.phase = sender.identifier
         updatePhase(identifier: sender.identifier)
     }
 
@@ -257,4 +306,35 @@ extension DevInfoCell: DevConfigurationObserver {
         updateLockPortrait()
         updateLocalLandingSetting()
     }
+}
+
+extension DevInfoCell: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+
+        /// newText: 새로 입력된 텍스트
+        let newText = string.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        /// text: 기존에 입력되었던 text
+        /// predictRange: 입력으로 예상되는 text의 range값 추측 > range값을 알면 기존 문자열에 새로운 문자를 위치에 알맞게 추가 가능
+        guard let text = textField.text, let predictRange = Range(range, in: text) else { return true }
+
+        /// predictedText: 기존에 입력되었던 text에 새로 입력된 newText를 붙여서, 현재까지 입력된 전체 텍스트
+        let predictedText = text.replacingCharacters(in: predictRange, with: newText)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        ShopLiveLogger.debugLog("update customLandingInput \(predictedText)")
+        DemoConfiguration.shared.customLandingInput = predictedText
+//
+//        if predictedText.isEmpty {
+//            rightViewMode = .never
+//        } else {
+//            rightViewMode = .whileEditing
+//        }
+
+        return true
+    }
+    
 }

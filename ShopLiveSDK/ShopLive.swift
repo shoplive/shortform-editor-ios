@@ -151,7 +151,7 @@ extension ShopLive {
             }
         }
     }
-
+    /*
     @objc enum Phase: Int {
         #if DEMO
         case DEV
@@ -187,6 +187,7 @@ extension ShopLive {
             }
         }
     }
+     */
 }
 
 extension ShopLive: ShopLiveSDKInterface {

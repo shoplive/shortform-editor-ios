@@ -140,7 +140,7 @@ final class ShopLiveController: NSObject {
     var hookNavigation: ((URL) -> Void)?
     var webInstance: ShopLiveWebView?
     var pipAnimating: Bool = false
-    var swipeEnabled: Bool = false
+    var swipeEnabled: Bool = true
     var lastPipPosition: ShopLive.PipPosition = .default
     var lastPipScale: CGFloat = 2/5
     var fixedPipWidth: CGFloat?

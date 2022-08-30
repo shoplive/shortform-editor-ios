@@ -16,22 +16,26 @@ import CoreMedia
     static let sdkVersion: String = "1.3.0"
 #endif
     
+    /*
     static var phase: ShopLive.Phase = .REAL {
         didSet {
             ShopLiveConfiguration.AppPreference.landingUrl = url
         }
     }
+     */
+    
     static var url: String {
-        switch phase {
-        #if DEMO
-        case .DEV:
-            return "https://dev.shoplive.show/v1/sdk.html"
-        #endif
-        case .STAGE:
-            return "https://stg.shoplive.show/v1/sdk.html"
-        default:
-            return "https://www.shoplive.show/v1/sdk.html"
-        }
+//        switch phase {
+//        #if DEMO
+//        case .DEV:
+//            return "https://dev.shoplive.show/v1/sdk.html"
+//        #endif
+//        case .STAGE:
+//            return "https://stg.shoplive.show/v1/sdk.html"
+//        default:
+//            return "https://www.shoplive.show/v1/sdk.html"
+//        }
+        "https://www.shoplive.show/v1/sdk.html"
     }
 
     static let shopliveData = "shoplivedata"

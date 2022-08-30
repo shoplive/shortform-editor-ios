@@ -25,11 +25,13 @@ import WebKit
     private var needExecuteFullScreen: Bool = false
     private var playerModeChanged: Bool = false
     private var needAnimateToChangePreivew: Bool = false
+    /*
     internal var phase: ShopLive.Phase = .REAL {
         didSet {
             ShopLiveDefines.phase = phase
         }
     }
+     */
     
     #if EBAY
     #else
@@ -1536,10 +1538,6 @@ extension ShopLiveBase: ShopLiveComponent {
 
     @objc func configure(with accessKey: String) {
         self.accessKey = accessKey
-        #if DEMO
-        #else
-            self.phase = .REAL
-        #endif
     }
 
     func preview(with campaignKey: String?, completion: @escaping () -> Void) {
