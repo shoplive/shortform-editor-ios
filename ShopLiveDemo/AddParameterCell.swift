@@ -52,13 +52,9 @@ class AddParameterCell: UITableViewCell, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(parameter: String, index: Int) {
-        guard parameter.contains(":") else {
-            return
-        }
-        let splitParamter = parameter.split(separator: ":")
-        self.keyInputField.text = String(splitParamter[0])
-        self.valueInputField.text = String(splitParamter[1])
+    func configure(key: String, value: String) {
+        self.keyInputField.text = key
+        self.valueInputField.text = value
     }
     
     private func setupViews() {

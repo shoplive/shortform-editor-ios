@@ -229,8 +229,9 @@ final class UserInfoViewController: SideMenuItemViewController {
         view.addTarget(self, action: #selector(tokenGenerateSaveAct), for: .touchUpInside)
         return view
     }()
-    private var param: String = "nullKey: nullValue"
-    private var parameterList: [String] = []
+    private var parameterList: [String: String] = [:]
+    private var keysArray: [Dictionary<String, String>.Keys.Element] = []
+    private var valueArray: [Dictionary<String, String>.Values.Element] = []
     private var user: ShopLiveUser = DemoConfiguration.shared.user
     private var newUser: ShopLiveUser?
     override func viewDidLoad() {
@@ -246,7 +247,11 @@ final class UserInfoViewController: SideMenuItemViewController {
         guard let param = DemoConfiguration.shared.userParameters else {
             return
         }
-        self.parameterList = param
+        param.forEach { (key: String, value: Any?) in
+            parameterList[key] = "\(value ?? "null")"
+        }
+        keysArray = Array(parameterList.keys)
+        valueArray = Array(parameterList.values)
     }
 
     func setupNaviItems() {
@@ -398,13 +403,11 @@ final class UserInfoViewController: SideMenuItemViewController {
     }
     
     private func saveParameterList() {
-        parameterList.removeAll { $0 == "" }
-        for index in 0..<parameterList.count {
-            let splitParamter = parameterList[index].split(separator: ":")
-            let key = "\(splitParamter[0])"
-            let value = "\(splitParamter[1])"
-            user.add([key: value])
+        
+        for index in 0..<keysArray.count {
+            parameterList.updateValue(valueArray[index], forKey: keysArray[index])
         }
+        user.add(parameterList)
         DemoConfiguration.shared.userParameters = self.parameterList
     }
 
@@ -596,12 +599,12 @@ extension UserInfoViewController: SecretKeySetObserver {
 }
 extension UserInfoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return parameterList.count
+        return keysArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "AddParameterCell", for: indexPath) as? AddParameterCell else { return UITableViewCell(style: .default, reuseIdentifier: "Cell") }
-        cell.configure(parameter: parameterList[indexPath.row], index: indexPath.row)
+        cell.configure(key: keysArray[indexPath.row], value: valueArray[indexPath.row])
         cell.keyInputField.delegate = self
         cell.valueInputField.delegate = self
         cell.keyInputField.tag = indexPath.row
@@ -614,8 +617,11 @@ extension UserInfoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
             if editingStyle == .delete {
-                self.parameterList.remove(at: indexPath.row)
+                self.parameterList.removeValue(forKey: keysArray[indexPath.row])
+                self.keysArray.remove(at: indexPath.row)
+                self.valueArray.remove(at: indexPath.row)
                 self.parameterTableView.deleteRows(at: [indexPath], with: .fade)
+                saveParameterList()
         }
     }
     
@@ -624,7 +630,8 @@ extension UserInfoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func addParameter() {
-        self.parameterList.append("")
+        self.keysArray.append("")
+        self.valueArray.append("")
         self.parameterTableView.reloadData()
     }
 }
@@ -637,20 +644,16 @@ extension UserInfoViewController: UITextFieldDelegate {
         
         switch(textField.accessibilityIdentifier) {
         case "keyInputField":
-            param = param.replacingOccurrences(of: "nullKey", with: text)
+            self.keysArray[self.keysArray.firstIndex(of: "") ?? self.keysArray.endIndex - 1] = text
             break
         case "valueInputField":
-            param = param.replacingOccurrences(of: "nullValue", with: text)
+            self.valueArray[self.valueArray.firstIndex(of: "") ?? self.valueArray.endIndex - 1] = text
             break
         case _:
             break
         }
-        if param.contains("nullKey") || param.contains("nullValue") {
-            return
+        if keysArray.count == valueArray.count {
+            self.saveParameterList()
         }
-        
-        self.parameterList[self.parameterList.index(before: parameterList.endIndex)].append(param)
-        param = "nullKey: nullValue"
-        self.saveParameterList()
     }
 }

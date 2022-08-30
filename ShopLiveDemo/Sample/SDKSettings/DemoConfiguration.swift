@@ -48,13 +48,10 @@ final class DemoConfiguration: NSObject {
             user.age = userAge
             user.gender = userGender
             user.add(["userScore" : userScore])
-            for index in 0..<(userParameters?.count ?? 0) {
-                let splitParamter = userParameters?[index].split(separator: ":")
-                let key = "\(splitParamter?[0] ?? "null")"
-                let value = "\(splitParamter?[1] ?? "null")"
-                user.add([key: value])
+            guard let params = self.userParameters else {
+                return user
             }
-            
+            user.add(params)
             return user
         }
     }
@@ -129,16 +126,16 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var userParameters: [String]? {
+    var userParameters: [String: Any?]? {
         set {
             UserDefaults.standard.set(newValue, forKey: "parameter")
             UserDefaults.standard.synchronize()
         }
         get {
-            guard let list = UserDefaults.standard.array(forKey: "parameter") else {
+            guard let list = UserDefaults.standard.dictionary(forKey: "parameter") else {
                 return nil
             }
-            return list as? [String]
+            return list as [String: Any?]
         }
     }
 
