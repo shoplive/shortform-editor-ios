@@ -426,6 +426,7 @@ import WebKit
             self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.style.rawValue])
             guard !ShopLiveController.shared.pipAnimating else { return }
             guard let shopLiveWindow = self.shopLiveWindow else { return }
+            guard shopLiveWindow.frame.size != .zero else { return }
             
             self.isWindowChanging = changeWindow
             shopLiveWindow.backgroundColor = .clear
@@ -1561,11 +1562,9 @@ extension ShopLiveBase: ShopLiveComponent {
                         self.liveStreamViewController?.doSnapShot {
                             self.liveStreamViewController?.updateImageFit()
                             self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale, changeWindow: false)
-//                            self.startShopLivePictureInPicture()
                         }
                     } else {
                         self.liveStreamViewController?.updateImageFit()
-//                        self.startShopLivePictureInPicture()
                         self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale, changeWindow: false)
                     }
                 }
