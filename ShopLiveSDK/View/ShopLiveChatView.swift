@@ -206,7 +206,7 @@ final class ShopLiveChatView: UIScrollView, UITextViewDelegate {
         
         if viewModel.lastNumberOfLines != numberOfLines {
             viewModel.lastNumberOfLines = numberOfLines
-            self.isScrollEnabled = !(numberOfLines < viewModel.chatInputMaxLines)
+            self.isScrollEnabled = true
 //            contentViewHeight.constant = viewModel.chatViewHeight
 
             self.contentSize = CGSize(width: self.frame.width, height: viewModel.textContentHeight + topChatTextView.constant.magnitude + bottomChatTextView.constant.magnitude)
