@@ -158,6 +158,7 @@ final class DevInfoCell: SampleBaseCell {
         demoConfig.customLandingInput = demoConfig.customLandingUrl
         landingField.text = demoConfig.customLandingInput
         updatePhase(identifier: ShopLiveDevConfiguration.shared.phase)
+        updateLockPortrait()
     }
 
     required init?(coder: NSCoder) {
