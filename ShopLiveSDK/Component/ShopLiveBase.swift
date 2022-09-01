@@ -102,7 +102,12 @@ import WebKit
     private var replaySize: CGSize = CGSize(width: 9, height: 16)
     weak private var mainWindow: UIWindow? = nil
     
-    @objc dynamic var _style: ShopLive.PresentationStyle = .unknown
+    @objc dynamic var _style: ShopLive.PresentationStyle = .unknown {
+        willSet {
+            self.lastStyle = self._style
+        }
+    }
+    private var lastStyle: ShopLive.PresentationStyle = .unknown
     @objc dynamic var _authToken: String?
     @objc dynamic var _user: ShopLiveUser?
 
@@ -261,7 +266,7 @@ import WebKit
         UIApplication.shared.isIdleTimerDisabled = false
 
         ShopLiveController.webInstance?.sendEventToWeb(event: .onTerminated)
-        delegate?.handleCommand("willShopLiveOff", with: ["style" : style.rawValue])
+        delegate?.handleCommand("willShopLiveOff", with: ["style" : self.style.rawValue])
         if let originAudioSessionCategory = self.originAudioSessionCategory {
             let audioSession = AVAudioSession.sharedInstance()
             do {
@@ -310,6 +315,7 @@ import WebKit
         delegate?.log(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
         self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
         self._style = .unknown
+        self.lastStyle = .unknown
         self._authToken = nil
         self._user = nil
         ShopLiveController.shared.resetOnlyFinished()
@@ -423,7 +429,7 @@ import WebKit
 //                return
 //            }
 //
-            self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.style.rawValue])
+            self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             guard !ShopLiveController.shared.pipAnimating else { return }
             guard let shopLiveWindow = self.shopLiveWindow else { return }
             guard shopLiveWindow.frame.size != .zero else { return }
@@ -469,7 +475,7 @@ import WebKit
                 shopLiveWindow.layer.masksToBounds = false
                 
                 ShopLiveController.shared.videoExpanded = true
-                self._style = .pip
+                
                 if self.windowChangeCommand != .none {
 //                    self.isWindowChanging = false
                     if changeWindow {
@@ -479,7 +485,7 @@ import WebKit
                 
                 self.delegate?.log(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
                 self.sendCommandChangeToPip()
-                self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
+                self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             }
         }
     }
@@ -534,7 +540,7 @@ import WebKit
                         ShopLiveController.shared.keepSnapshot = false
                         ShopLiveController.shared.playControl = .play
                         self.needExecuteFullScreen = false
-                        self.delegate?.handleCommand("didShopLiveOn", with: nil)
+                        self.delegate?.handleCommand("didShopLiveOn", with: self.lastStyle)
                         self.handleWindowChangeCommand()
                     }
                 }
@@ -554,7 +560,7 @@ import WebKit
                         shopLiveWindow.rootViewController?.view.backgroundColor = .black
                         ShopLiveController.shared.pipAnimating = false
                         self.needExecuteFullScreen = false
-                        self.delegate?.handleCommand("didShopLiveOn", with: nil)
+                        self.delegate?.handleCommand("didShopLiveOn", with: self.style)
                         self.handleWindowChangeCommand()
                     }
                 }
@@ -634,7 +640,7 @@ import WebKit
                 }
         }
         _style = .fullScreen
-        delegate?.handleCommand("didShopLiveOn", with: nil)
+        delegate?.handleCommand("didShopLiveOn", with: self.lastStyle)
         delegate?.log(name: "pip_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
     }
 
@@ -674,7 +680,7 @@ import WebKit
                     
                     if !isRotation {
                         self.sendCommandChangeToPip()
-                        self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
+                        self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
                         self.shopLiveWindow?.layer.masksToBounds = false
                     }
                     self.handleWindowChangeCommand()
@@ -687,7 +693,7 @@ import WebKit
         DispatchQueue.main.async {
             self.liveStreamViewController?.updateVideoFit(centerCrop: true)
             
-            self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.style.rawValue])
+            self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             guard !ShopLiveController.shared.pipAnimating else { return }
             guard let shopLiveWindow = self.shopLiveWindow else { return }
             
@@ -725,7 +731,7 @@ import WebKit
             shopLiveWindow.backgroundColor = .black
             
             self.sendCommandChangeToPip()
-            self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
+            self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             self.handleWindowChangeCommand()
         }
     }
@@ -742,7 +748,7 @@ import WebKit
             
             ShopLiveController.windowStyle = .inAppPip
 
-            self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.style.rawValue])
+            self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             
             self.liveStreamViewController?.view.backgroundColor = .clear
 //            self.shopLiveWindow?.backgroundColor = .clear
@@ -782,7 +788,7 @@ import WebKit
                     self.shopLiveWindow?.backgroundColor = .clear
                     self.liveStreamViewController?.showBackgroundPoster()
                     
-                    self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
+                    self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
                     
                     ShopLiveController.shared.videoExpanded = true
                     self.needAnimateToChangePreivew = false
@@ -808,7 +814,7 @@ import WebKit
                     self.shopLiveWindow?.layer.masksToBounds = false
                     self.liveStreamViewController?.view.layer.masksToBounds = true
                     self.liveStreamViewController?.showBackgroundPoster()
-                    self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
+                    self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
                     ShopLiveController.shared.videoExpanded = true
                     self.needAnimateToChangePreivew = false
                     self.handleWindowChangeCommand()
