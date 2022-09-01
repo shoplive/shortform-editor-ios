@@ -154,6 +154,18 @@ import UIKit
             return Feature.allCases.filter({$0.name == type}).first
         }
     }
+    
+    public var name: String
+    public var campaign: String
+    public var feature: Feature
+    public var parameter: [String : String]
+    
+    public init(name: String, feature: Feature, campaign: String, parameter: [String : String]) {
+        self.name = name
+        self.feature = feature
+        self.campaign = campaign
+        self.parameter = parameter
+    }
 }
 
 @objc public enum ActionType: Int {

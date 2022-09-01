@@ -256,6 +256,8 @@ class MainViewController: SideMenuBaseViewController {
 extension MainViewController: ShopLiveSDKDelegate {
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
         ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) parameter \(parameter)")
+        let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, parameter: parameter)
+        print("eventLog \(eventLog.name)")
     }
     
     func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint) {
