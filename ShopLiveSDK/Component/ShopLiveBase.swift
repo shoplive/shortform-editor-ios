@@ -312,7 +312,7 @@ import WebKit
         self.shopLiveWindow?.rootViewController = nil
 
         self.shopLiveWindow = nil
-        delegate?.log(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
+        delegate?.log?(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
         self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
         self._style = .unknown
         self.lastStyle = .unknown
@@ -483,7 +483,7 @@ import WebKit
                     }
                 }
                 
-                self.delegate?.log(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+                self.delegate?.log?(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
                 self.sendCommandChangeToPip()
                 self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             }
@@ -640,8 +640,8 @@ import WebKit
                 }
         }
         _style = .fullScreen
-        delegate?.handleCommand("didShopLiveOn", with: self.lastStyle)
-        delegate?.log(name: "pip_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+        delegate?.handleCommand("didShopLiveOn", with: nil)
+        delegate?.log?(name: "pip_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
     }
 
     func updatePip(isRotation: Bool = false) {
@@ -959,7 +959,7 @@ import WebKit
         liveWindow.layer.masksToBounds = false
         let translation = recognizer.translation(in: liveWindow)
         
-        delegate?.playerPanGesture(state: recognizer.state, position: liveWindow.center)
+        delegate?.playerPanGesture?(state: recognizer.state, position: liveWindow.center)
         
         switch recognizer.state {
         case .began:
@@ -1106,7 +1106,7 @@ import WebKit
             self.shopLiveWindow?.rootViewController?.dismiss(animated: false, completion: nil)
             return
         }
-        delegate?.log(name: "swipe_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+        delegate?.log?(name: "swipe_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
         if ShopLiveController.shared.videoOrientation == .landscape {
             if UIScreen.isLandscape {
                 self.liveStreamViewController?.updateOrientation(toLandscape: false)
@@ -1143,7 +1143,7 @@ import WebKit
         case .ended:
             ShopLiveController.shared.videoCenterCrop = recognizer.scale > 1.0
             self.liveStreamViewController?.changeVideoGravity(centerCrop: ShopLiveController.shared.videoCenterCrop)
-            delegate?.log(name: recognizer.scale > 1.0 ? "pinch_zoom_out" : "pinch_zoom_in", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+            delegate?.log?(name: recognizer.scale > 1.0 ? "pinch_zoom_out" : "pinch_zoom_in", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
             break
         default:
             break
@@ -1558,7 +1558,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 guard self.accessKey != nil else { return }
                 
                 ShopLiveController.shared.campaignKey = campaignKey ?? ""
-                self.delegate?.log(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "preview"])
+                self.delegate?.log?(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "preview"])
                 
                 self.addObserver()
                 
@@ -1604,9 +1604,9 @@ extension ShopLiveBase: ShopLiveComponent {
                 ShopLiveController.shared.campaignKey = campaignKey ?? ""
                 self.needExecuteFullScreen = ShopLiveController.shared.isPreview
                 if self.needExecuteFullScreen {
-                    self.delegate?.log(name: "preview_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+                    self.delegate?.log?(name: "preview_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
                 }
-                self.delegate?.log(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "normal"])
+                self.delegate?.log?(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "normal"])
                 ShopLiveController.shared.isPreview = false
                 self.addObserver()
                 self.campaignChanged = (campaignKey != self.campaignKey)
@@ -1821,7 +1821,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
-        delegate?.log(name: name, feature: feature, campaign: campaign, parameter: parameter)
+        delegate?.log?(name: name, feature: feature, campaign: campaign, parameter: parameter)
     }
     
     func finishRotation() {

@@ -192,8 +192,8 @@ import UIKit
     @objc func handleCommand(_ command: String, with payload: Any?)
     @objc func onSetUserName(_ payload: [String : Any])
     @objc func handleReceivedCommand(_ command: String, with payload: Any?)
-    @objc func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint)
-    @objc func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String: String])
+    @objc optional func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint)
+    @objc optional func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String: String])
 }
 
 public typealias ShopLiveViewController = UIViewController
