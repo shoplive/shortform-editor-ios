@@ -293,7 +293,6 @@ extension OverlayWebView: WKScriptMessageHandler {
                     delegate?.log(name: name, feature: featureType, campaign: campaignKey, parameter: logParameter)
                     break
                 case "CLICK_BACK_BUTTON":
-                    delegate?.handleCommand("didTapCloseButton", with: nil)
                     break
                 default:
                     break
