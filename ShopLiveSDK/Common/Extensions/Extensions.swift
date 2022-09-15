@@ -577,6 +577,21 @@ extension UIDeviceOrientation {
             return self.isLandscape ? .landscapeRight : .portrait
         }
     }
+    
+    var orientationMask: UIInterfaceOrientationMask {
+        switch self {
+        case .portrait:
+            return .portrait
+        case .portraitUpsideDown:
+            return .portrait
+        case .landscapeLeft:
+            return .landscapeRight
+        case .landscapeRight:
+            return .landscapeLeft
+        default:
+            return self.isLandscape ? .landscapeRight : .portrait
+        }
+    }
 }
 
 extension CGRect {

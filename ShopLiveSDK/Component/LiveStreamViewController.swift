@@ -948,8 +948,16 @@ internal final class LiveStreamViewController: UIViewController {
         DispatchQueue.main.async {
             guard UIScreen.currentOrientation.deviceOrientation.rawValue != orientation.rawValue else { return }
             
-            UIDevice.current.setValue(orientation, forKey: "orientation")
-            UIViewController.attemptRotationToDeviceOrientation()
+            if #available(iOS 16.0, *) {
+                self.setNeedsUpdateOfSupportedInterfaceOrientations()
+                self.navigationController?.setNeedsUpdateOfSupportedInterfaceOrientations()
+                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                let orientationMask = orientation.orientationMask
+                windowScene?.requestGeometryUpdate(.iOS(interfaceOrientations: orientationMask))
+            } else {
+                UIDevice.current.setValue(orientation, forKey: "orientation")
+                UIViewController.attemptRotationToDeviceOrientation()
+            }
         }
     }
     
@@ -961,14 +969,22 @@ internal final class LiveStreamViewController: UIViewController {
             
             guard UIScreen.currentOrientation.deviceOrientation.rawValue != orientation else { return }
             
-            UIDevice.current.setValue(orientation, forKey: "orientation")
-            UIViewController.attemptRotationToDeviceOrientation()
-//            ShopLiveLogger.debugLog("SET_SCREEN_ORIENTATION lastOrientation \(lastOrientation.rawValue) changed \(orientation == UIScreen.currentOrientation.deviceOrientation.rawValue)")
-            
-            if orientation != UIScreen.currentOrientation.deviceOrientation.rawValue {
-                UIDevice.current.setValue(lastOrientation.rawValue, forKey: "orientation")
+            if #available(iOS 16.0, *) {
+                self.setNeedsUpdateOfSupportedInterfaceOrientations()
+                self.navigationController?.setNeedsUpdateOfSupportedInterfaceOrientations()
+                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                let orientationMask = UIDeviceOrientation(rawValue: orientation)?.orientationMask ?? (toLandscape ? .landscape : .portrait)
+                windowScene?.requestGeometryUpdate(.iOS(interfaceOrientations: toLandscape ? orientationMask : .portrait))
+            } else {
+                UIDevice.current.setValue(orientation, forKey: "orientation")
                 UIViewController.attemptRotationToDeviceOrientation()
+                
+                if orientation != UIScreen.currentOrientation.deviceOrientation.rawValue {
+                    UIDevice.current.setValue(lastOrientation.rawValue, forKey: "orientation")
+                    UIViewController.attemptRotationToDeviceOrientation()
+                }
             }
+            
         }
     }
     

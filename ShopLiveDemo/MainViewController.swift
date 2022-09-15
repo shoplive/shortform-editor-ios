@@ -401,8 +401,6 @@ extension MainViewController: ShopLiveSDKDelegate {
         } else if command == "CLOSE_FROM_PIP" {
             
         } else if command == "didShopLiveOff" {
-//            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
-//            UINavigationController.attemptRotationToDeviceOrientation()
         }
     }
 

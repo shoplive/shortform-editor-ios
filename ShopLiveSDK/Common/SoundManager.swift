@@ -54,7 +54,9 @@ class SoundManager: NSObject {
             if !self.items.contains(where: { $0.url == item.url }) {
                 self.items.append(item)
                 // preload
-                _ = SoundPlayer(item: item)
+                DispatchQueue.global().async {
+                    _ = SoundPlayer(item: item)
+                }
             }
         }
     }
