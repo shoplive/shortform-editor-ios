@@ -1191,7 +1191,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             ShopLiveController.shared.isMuted = isMuted
         }
         
-        ShopLiveController.player?.isMuted = ShopLiveController.shared.isPreview ? true : isMuted
+        ShopLiveController.shared.setSoundMute(isMuted: ShopLiveController.shared.isPreview ? true : isMuted)
     }
 
     func reloadVideo() {
@@ -1214,7 +1214,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
 
     func didUpdateVideo(with url: URL) {
         ShopLiveController.streamUrl = url
-        ShopLiveController.player?.isMuted = ShopLiveController.shared.isPreview ? true : ShopLiveConfiguration.SoundPolicy.isMuted
         if ShopLiveController.isReplayMode, let time = ShopLiveController.shared.currentPlayTime {
             ShopLiveController.player?.seek(to: .init(value: time, timescale: 1))
         }
@@ -1259,6 +1258,8 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             let sendText = payload?["chatInputSendText"] as? String
             let chatInputMaxLength = payload?["chatInputMaxLength"] as? Int
             let campaignInfo = payload?["campaignInfo"] as? [String : Any]
+            let isMuted = ShopLiveController.shared.isPreview ? true : ShopLiveConfiguration.SoundPolicy.isMuted
+            ShopLiveController.shared.setSoundMute(isMuted: isMuted)
             
             if let videoAspectRatio = payload?["videoAspectRatio"] as? String {
                 let parseRatio = videoAspectRatio.split(separator: ":")

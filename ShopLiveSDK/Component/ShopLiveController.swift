@@ -20,7 +20,6 @@ enum ShopLivePlayerObserveValue: String {
     case playControl = "playControl"
     case isHiddenOverlay = "isHiddenOverlay"
     case overlayUrl = "overlayUrl"
-    case isMuted = "player.isMuted"
     case loadedTimeRanges = "player.currentItem.loadedTimeRanges"
     case isPlaying = "isPlaying"
     case retryPlay = "retryPlay"
@@ -98,7 +97,7 @@ final class ShopLiveController: NSObject {
     @objc dynamic var isPreview: Bool = false
     @objc dynamic var loading: Bool = false
     
-    var isMuted: Bool = ShopLiveConfiguration.SoundPolicy.isMuted
+    @objc dynamic var isMuted: Bool = ShopLiveConfiguration.SoundPolicy.isMuted
     var isStartedCampaign: Bool = false
 
     var playerResumeCount: Int = 0
@@ -193,16 +192,6 @@ final class ShopLiveController: NSObject {
             break
         case .playerItemStatus:
             postPlayerObservers(key: key)
-            break
-        case .isMuted:
-            
-            if let old: Bool = change?[.oldKey] as? Bool, let new: Bool = change?[.newKey] as? Bool {
-                if old != new {
-                    postPlayerObservers(key: key)
-                }
-            } else {
-                postPlayerObservers(key: key)
-            }
             break
         case .retryPlay:
             if let old: Bool = change?[.oldKey] as? Bool, let new: Bool = change?[.newKey] as? Bool {
@@ -323,8 +312,8 @@ final class ShopLiveController: NSObject {
     }
     
     func setSoundMute(isMuted: Bool) {
+        guard let playerMuted = ShopLiveController.player?.isMuted, playerMuted != isMuted else { return }
         ShopLiveController.player?.isMuted = isMuted
-        ShopLiveConfiguration.SoundPolicy.isMuted = isMuted
         ShopLiveController.webInstance?.sendEventToWeb(event: .setVideoMute(isMuted: isMuted), isMuted)
     }
 
@@ -351,7 +340,6 @@ extension ShopLiveController {
         playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlayable.rawValue, options: .new, context: nil)
         playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.playerItemStatus.rawValue, options: .new, context: nil)
         playerItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.timeControlStatus.rawValue, options: .new, context: nil)
-        playerItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isMuted.rawValue, options: .new, context: nil)
         playerItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.loadedTimeRanges.rawValue, options: .new, context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isHiddenOverlay.rawValue, options: [.initial, .new], context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.overlayUrl.rawValue, options: [.initial, .old, .new], context: nil)
@@ -368,7 +356,6 @@ extension ShopLiveController {
         playItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlayable.rawValue)
         playItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.playerItemStatus.rawValue)
         playerItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.timeControlStatus.rawValue)
-        playerItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isMuted.rawValue)
         playerItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.loadedTimeRanges.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isHiddenOverlay.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.overlayUrl.rawValue)
