@@ -594,7 +594,7 @@ internal final class LiveStreamViewController: UIViewController {
         playerView.addSubview(imageView)
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        let ratio = ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height
+//        let ratio = ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height
         
         let centerXConstraint: NSLayoutConstraint = .init(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: playerView, attribute: .centerX, multiplier: 1, constant: 0)
         let centerYConstraint: NSLayoutConstraint = .init(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: playerView, attribute: .centerY, multiplier: 1, constant: 0)

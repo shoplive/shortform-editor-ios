@@ -34,7 +34,7 @@ internal final class ShopLiveWebView: WKWebView {
 //        ShopLiveLogger.debugLog(command)
         if event.functionString != WebInterface.onVideoTimeUpdated.functionString && event.functionString != WebInterface.onVideoMetadataUpdated.functionString {
             ShopLiveViewLogger.shared.addLog(log: .init(logType: .callback, log: "to Web [Interface: \(String(describing: event.functionString))]: [payload: \(String(describing: param))]"))
-            ShopLiveLogger.debugLog("to Web [Interface: \(event.functionString)]: [payload: \(param)]")
+            ShopLiveLogger.debugLog("to Web [Interface: \(event.functionString)]: [payload: \(String(describing: param))]")
         }
 
         self.evaluateJavaScript(command, completionHandler: nil)

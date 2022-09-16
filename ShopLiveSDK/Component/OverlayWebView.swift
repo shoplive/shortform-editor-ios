@@ -271,8 +271,8 @@ extension OverlayWebView: WKScriptMessageHandler {
 
             let parameters = body["payload"] as? [String: Any]
             if type == "USER_IMPLEMENTS_CALLBACK" {
-                ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)"))
-                ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(parameters)")
+                ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))"))
+                ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))")
                 var passToReceivedCommand: Bool = true
                 switch name {
                 case "ON_SUCCESS_CAMPAIGN_JOIN":
@@ -300,8 +300,8 @@ extension OverlayWebView: WKScriptMessageHandler {
 
                 
             } else {
-                ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)"))
-                ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(parameters)")
+                ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))"))
+                ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))")
                 
                 switch name {
                 case "SHOW_NATIVE_DEBUG":
@@ -360,7 +360,7 @@ extension OverlayWebView: WKScriptMessageHandler {
                     
                     
                     if ShopLiveController.shared.supportOrientation == .landscape {
-                        let SET_VIDEO_POSITION_LOG = CGRect(x: x, y: y, width: width, height: height)
+//                        let SET_VIDEO_POSITION_LOG = CGRect(x: x, y: y, width: width, height: height)
 
                         let right = (self.window?.frame.width ?? UIWindow.mainWindowFrame.frame.width) - x - width
                         let bottom = (self.window?.frame.height ?? UIWindow.mainWindowFrame.frame.height) - y - height

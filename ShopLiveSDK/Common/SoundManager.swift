@@ -50,12 +50,14 @@ class SoundManager: NSObject {
     }
     
     func addItems(newItems: [SoundItem]) {
-        newItems.forEach { item in
-            if !self.items.contains(where: { $0.url == item.url }) {
-                self.items.append(item)
-                // preload
-                DispatchQueue.global().async {
-                    _ = SoundPlayer(item: item)
+        DispatchQueue.main.async {
+            newItems.forEach { item in
+                if !self.items.contains(where: { $0.url == item.url }) {
+                    self.items.append(item)
+                    // preload
+                    DispatchQueue.global().async {
+                        _ = SoundPlayer(item: item)
+                    }
                 }
             }
         }
@@ -79,11 +81,12 @@ class SoundManager: NSObject {
 
 extension SoundManager: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        if let playerIndex = self.players.firstIndex(where: { $0.player == player }) {
-            self.players.remove(at: playerIndex)
+        DispatchQueue.main.async {
+            if let playerIndex = self.players.firstIndex(where: { $0.player == player }) {
+                self.players.remove(at: playerIndex)
+            }
+            ShopLiveLogger.debugLog("didFinishPlaying current players count \(self.players.count)")
         }
-        
-        ShopLiveLogger.debugLog("didFinishPlaying current players count \(self.players.count)")
     }
 }
 
@@ -116,28 +119,33 @@ class SoundPlayer {
     var item: SoundItem
     
     init?(item: SoundItem) {
-        
-        guard let playItem = item.playItem else {
-            return nil
+            guard let playItem = item.playItem else {
+                return nil
+            }
+            
+            self.item = item
+            
+            do {
+                player = try AVAudioPlayer(data: playItem)
+            } catch {
+                return nil
+            }
+            
+        DispatchQueue.main.async {
+            self.player?.prepareToPlay()
         }
-        
-        self.item = item
-        
-        do {
-            player = try AVAudioPlayer(data: playItem)
-        } catch {
-            return nil
-        }
-        
-        player?.prepareToPlay()
     }
     
     func play() {
-        player?.play()
+        DispatchQueue.main.async {
+            self.player?.play()
+        }
     }
     
     func stop() {
-        player?.stop()
+        DispatchQueue.main.async {
+            self.player?.stop()
+        }
     }
     
 }
