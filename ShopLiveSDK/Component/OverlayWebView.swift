@@ -242,12 +242,36 @@ internal class OverlayWebView: UIView {
 }
 
 extension OverlayWebView: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        guard !ShopLiveController.shared.isPreview else { return }
+        guard !ShopLiveController.shared.isSameCampaign else { return }
+        ShopLiveController.loading = true
+    }
+    
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        guard !ShopLiveController.shared.isPreview else { return }
+        guard !ShopLiveController.shared.isSameCampaign else { return }
+        ShopLiveController.loading = true
+    }
+    
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         decisionHandler(.allow)
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         ShopLiveController.shared.loading = false
+    }
+    
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        ShopLiveController.loading = false
+    }
+    
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        ShopLiveController.loading = false
+    }
+    
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        ShopLiveController.loading = false
     }
 }
 

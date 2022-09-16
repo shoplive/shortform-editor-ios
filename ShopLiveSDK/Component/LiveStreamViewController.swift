@@ -1468,6 +1468,10 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     func handleLoading() {
         DispatchQueue.main.async {
             if ShopLiveController.loading {
+                guard !ShopLiveController.shared.isPreview else {
+                    return
+                }
+                
                 if ShopLiveConfiguration.UI.isCustomIndicator {
                     self.customIndicator.configure(images: ShopLiveConfiguration.UI.customIndicatorImages)
                     self.customIndicator.startAnimating()
@@ -1536,9 +1540,11 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
                         ShopLiveController.shared.takeSnapShot = true
                         if !ShopLiveController.loading,
                             ShopLiveController.shared.campaignStatus != .close {
+                            /*
                             if ShopLiveController.windowStyle != .osPip {
                                 ShopLiveController.loading = true
                             }
+                             */
                             reserveRetry(waitSecond: 8)
                         }
                     }
