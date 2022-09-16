@@ -397,7 +397,7 @@ extension MainViewController: ShopLiveSDKDelegate {
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleCommand \(command)"))
         
         if command == "didTapCloseButton" {
-            self.preview()
+            
         } else if command == "CLOSE_FROM_PIP" {
             
         } else if command == "didShopLiveOff" {
