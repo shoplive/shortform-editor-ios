@@ -82,11 +82,7 @@ internal class OverlayWebView: UIView {
     private func initWebView(with webViewConfiguration: WKWebViewConfiguration? = nil) {
         ShopLiveController.shared.addPlayerDelegate(delegate: self)
         let configuration = webViewConfiguration ?? WKWebViewConfiguration()
-        if #available(iOS 14.5, *) {
-            configuration.preferences.isTextInteractionEnabled = false
-        } else {
-            // Fallback on earlier versions
-        }
+        
         configuration.allowsInlineMediaPlayback = true
         configuration.allowsPictureInPictureMediaPlayback = false
         configuration.mediaTypesRequiringUserActionForPlayback = []
