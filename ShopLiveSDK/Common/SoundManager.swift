@@ -31,6 +31,7 @@ class SoundManager: NSObject {
     
     func play(alias: String) {
         DispatchQueue.main.async {
+            guard !ShopLiveController.shared.isMuted else { return }
             let item = SoundItem(alias: alias, url: "")
             self.play(item: item)
         }
@@ -55,9 +56,9 @@ class SoundManager: NSObject {
                 if !self.items.contains(where: { $0.url == item.url }) {
                     self.items.append(item)
                     // preload
-                    DispatchQueue.global().async {
-                        _ = SoundPlayer(item: item)
-                    }
+                        if let player = SoundPlayer(item: item) {
+                            self.players.append(player)
+                        }
                 }
             }
         }
