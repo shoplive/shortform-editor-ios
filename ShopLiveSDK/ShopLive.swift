@@ -199,12 +199,6 @@ extension ShopLive: ShopLiveSDKInterface {
         ShopLiveConfiguration.UI.keepWindowStyleOnReturnFromOsPip
     }
     
-#if LOCAL_LANDING
-    public static func setUsingLocalLanding(_ use: Bool) {
-        ShopLiveConfiguration.AppPreference.useLocalLanding = use
-    }
-#endif
-    
     public static func setAppVersion(_ appVersion: String) {
         ShopLiveConfiguration.AppPreference.appVersion = appVersion
     }

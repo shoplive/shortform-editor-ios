@@ -832,38 +832,21 @@ internal final class LiveStreamViewController: UIViewController {
         }
         
         queryItems.append(URLQueryItem(name: "appVersion", value: ShopLiveConfiguration.AppPreference.appVersion ?? UIApplication.appVersion()))
-
-        if ShopLiveConfiguration.AppPreference.useLocalLanding {
-            let bundle = Bundle(for: type(of: self))
-            guard let bundleMainUrl = bundle.url(forResource: "web/ebay_sdk", withExtension: "html") else {
-                return nil
-            }
-
-            guard let params = URLUtil.query(queryItems) else {
-                return bundleMainUrl
-            }
-            
-            guard let url = URL(string: "?" + params, relativeTo: bundleMainUrl) else {
-                return bundleMainUrl
-            }
-
-            ShopLiveLogger.debugLog("play url: \(url)")
-            return url
-        } else {
-            let urlString: String = ShopLiveConfiguration.AppPreference.landingUrl
-            ShopLiveLogger.debugLog("shoplive landingUrl : \(urlString)")
-            guard let params = URLUtil.query(queryItems) else {
-                return URL(string: urlString)
-            }
-
-            guard let url = URL(string: urlString + "?" + params) else {
-
-                return URL(string: urlString)
-            }
-
-            ShopLiveLogger.debugLog("play url: \(url)")
-            return url
+    
+        let urlString: String = ShopLiveConfiguration.AppPreference.landingUrl
+        ShopLiveLogger.debugLog("shoplive landingUrl : \(urlString)")
+        guard let params = URLUtil.query(queryItems) else {
+            return URL(string: urlString)
         }
+
+        guard let url = URL(string: urlString + "?" + params) else {
+
+            return URL(string: urlString)
+        }
+
+        ShopLiveLogger.debugLog("play url: \(url)")
+        return url
+        
     }
 
     func addObserver() {

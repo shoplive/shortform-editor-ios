@@ -42,17 +42,6 @@ final class ShopLiveDevConfiguration {
             UserDefaults.standard.bool(forKey: "useAppLog")
         }
     }
-    
-    var useLocalLanding: Bool {
-        set {
-            UserDefaults.standard.set(newValue, forKey: "useLocalLanding")
-            UserDefaults.standard.synchronize()
-            notifyObservers(key: "useLocalLanding")
-        }
-        get {
-            UserDefaults.standard.bool(forKey: "useLocalLanding")
-        }
-    }
 
     var useWebLog: Bool {
         set {

@@ -1151,59 +1151,28 @@ import WebKit
     }
     
     func fetchPreviewUrl(with campaignKey: String?, completionHandler: @escaping ((URL?) -> Void)) {
-        
-        if ShopLiveConfiguration.AppPreference.useLocalLanding {
-            let bundle = Bundle(for: type(of: self))
-            guard let bundleMainUrl = bundle.url(forResource: "web/ebay_sdk", withExtension: "html") else {
-                //delegate?.handleError(code: "", message: "")
-                completionHandler(nil)
-                return
-            }
-
-            let urlComponents = URLComponents(url: bundleMainUrl, resolvingAgainstBaseURL: true)
-            var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
-            queryItems.append(URLQueryItem(name: "ak", value: accessKey))
-            if let ck = campaignKey {
-                queryItems.append(URLQueryItem(name: "ck", value: ck))
-            }
-
-            queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
-            queryItems.append(URLQueryItem(name: "preview", value: "1"))
-            
-            guard let params = URLUtil.query(queryItems) else {
-                completionHandler(bundleMainUrl)
-                return
-            }
-            guard let fullUrl = URL(string: "?" + params, relativeTo: bundleMainUrl) else {
-                completionHandler(bundleMainUrl)
-                return
-            }
-
-            completionHandler(fullUrl)
-        } else {
-            let urlComponents = URLComponents(string: ShopLiveConfiguration.AppPreference.landingUrl)
-            var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
-            queryItems.append(URLQueryItem(name: "ak", value: accessKey))
-            if let ck = campaignKey {
-                queryItems.append(URLQueryItem(name: "ck", value: ck))
-            }
-
-            queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
-            queryItems.append(URLQueryItem(name: "preview", value: "1"))
-
-            let baseUrl = URL(string: ShopLiveConfiguration.AppPreference.landingUrl)
-            guard let params = URLUtil.query(queryItems) else {
-                completionHandler(baseUrl)
-                return
-            }
-
-            guard let url = URL(string: ShopLiveConfiguration.AppPreference.landingUrl + "?" + params) else {
-                completionHandler(baseUrl)
-                return
-            }
-
-            completionHandler(url)
+        let urlComponents = URLComponents(string: ShopLiveConfiguration.AppPreference.landingUrl)
+        var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
+        queryItems.append(URLQueryItem(name: "ak", value: accessKey))
+        if let ck = campaignKey {
+            queryItems.append(URLQueryItem(name: "ck", value: ck))
         }
+
+        queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
+        queryItems.append(URLQueryItem(name: "preview", value: "1"))
+
+        let baseUrl = URL(string: ShopLiveConfiguration.AppPreference.landingUrl)
+        guard let params = URLUtil.query(queryItems) else {
+            completionHandler(baseUrl)
+            return
+        }
+
+        guard let url = URL(string: ShopLiveConfiguration.AppPreference.landingUrl + "?" + params) else {
+            completionHandler(baseUrl)
+            return
+        }
+
+        completionHandler(url)
     }
 
     func fetchOverlayUrl(with campaignKey: String?, completionHandler: ((URL?) -> Void)) {
@@ -1212,95 +1181,45 @@ import WebKit
             return
         }
 
-        if ShopLiveConfiguration.AppPreference.useLocalLanding {
-            let bundle = Bundle(for: type(of: self))
-            guard let bundleMainUrl = bundle.url(forResource: "web/ebay_sdk", withExtension: "html") else {
-                //delegate?.handleError(code: "", message: "")
-                completionHandler(nil)
-                return
-            }
-
-            let urlComponents = URLComponents(url: bundleMainUrl, resolvingAgainstBaseURL: true)
-            var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
-            #if DEMO
-            if UserDefaults.standard.bool(forKey: "useWebLog") {
-                queryItems.append(URLQueryItem(name: "__debug", value: "true"))
-            }
-            #endif
-            queryItems.append(URLQueryItem(name: "ak", value: accessKey))
-            if let ck = campaignKey {
-                queryItems.append(URLQueryItem(name: "ck", value: ck))
-            }
-            queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
-            #if EBAY
-            queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "false"))
-            #else
-            queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
-            #endif
-            
-            #if DEMO
-                queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
-            #endif
-            
-            if let localStorage = UserDefaults.standard.string(forKey: ShopLiveDefines.shopliveData), ShopLiveConfiguration.Data.useLocalStorage {
-                queryItems.append(URLQueryItem(name: ShopLiveDefines.shopliveData, value: localStorage))
-            }
-            
-            UserDefaults.standard.synchronize()
-
-            guard let params = URLUtil.query(queryItems) else {
-                completionHandler(bundleMainUrl)
-                return
-            }
-
-            guard let fullUrl = URL(string: "?" + params, relativeTo: bundleMainUrl) else {
-                completionHandler(bundleMainUrl)
-                return
-            }
-
-            completionHandler(fullUrl)
-        } else {
-            let urlComponents = URLComponents(string: ShopLiveConfiguration.AppPreference.landingUrl)
-            var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
-            #if DEMO
-            if UserDefaults.standard.bool(forKey: "useWebLog") {
-                queryItems.append(URLQueryItem(name: "__debug", value: "true"))
-            }
-            #endif
-            queryItems.append(URLQueryItem(name: "ak", value: accessKey))
-            if let ck = campaignKey {
-                queryItems.append(URLQueryItem(name: "ck", value: ck))
-            }
-            queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
-            #if EBAY
-            queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "false"))
-            #else
-            queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
-            #endif
-            #if DEMO
-                queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
-            #endif
-            
-            if let localStorage = UserDefaults.standard.string(forKey: ShopLiveDefines.shopliveData), ShopLiveConfiguration.Data.useLocalStorage {
-                queryItems.append(URLQueryItem(name: ShopLiveDefines.shopliveData, value: localStorage))
-            }
-            
-            UserDefaults.standard.synchronize()
-
-            let baseUrl = URL(string: ShopLiveConfiguration.AppPreference.landingUrl)
-            guard let params = URLUtil.query(queryItems) else {
-                completionHandler(baseUrl)
-                return
-            }
-
-            guard let url = URL(string: ShopLiveConfiguration.AppPreference.landingUrl + "?" + params) else {
-                completionHandler(baseUrl)
-                return
-            }
-
-            completionHandler(url)
+        let urlComponents = URLComponents(string: ShopLiveConfiguration.AppPreference.landingUrl)
+        var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
+        #if DEMO
+        if UserDefaults.standard.bool(forKey: "useWebLog") {
+            queryItems.append(URLQueryItem(name: "__debug", value: "true"))
+        }
+        #endif
+        queryItems.append(URLQueryItem(name: "ak", value: accessKey))
+        if let ck = campaignKey {
+            queryItems.append(URLQueryItem(name: "ck", value: ck))
+        }
+        queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
+        #if EBAY
+        queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "false"))
+        #else
+        queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
+        #endif
+        #if DEMO
+            queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
+        #endif
+        
+        if let localStorage = UserDefaults.standard.string(forKey: ShopLiveDefines.shopliveData), ShopLiveConfiguration.Data.useLocalStorage {
+            queryItems.append(URLQueryItem(name: ShopLiveDefines.shopliveData, value: localStorage))
         }
         
+        UserDefaults.standard.synchronize()
+
+        let baseUrl = URL(string: ShopLiveConfiguration.AppPreference.landingUrl)
+        guard let params = URLUtil.query(queryItems) else {
+            completionHandler(baseUrl)
+            return
+        }
+
+        guard let url = URL(string: ShopLiveConfiguration.AppPreference.landingUrl + "?" + params) else {
+            completionHandler(baseUrl)
+            return
+        }
+
+        completionHandler(url)
     }
 
     func addObserver() {

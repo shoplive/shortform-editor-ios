@@ -205,10 +205,6 @@ class MainViewController: SideMenuBaseViewController {
         
         ShopLive.setEndpoint(landingUrl)
         #endif
-
-        #if LOCAL_LANDING
-        ShopLive.setUsingLocalLanding(ShopLiveDevConfiguration.shared.useLocalLanding)
-        #endif
         
         ShopLive.setKeepAspectOnTabletPortrait(config.useAspectOnTablet)
         
