@@ -220,7 +220,6 @@ class MainViewController: SideMenuBaseViewController {
         }
 
         setupShopliveSettings()
-        ShopLive.setEndpoint(nil)
         ShopLive.configure(with: currentKey.accessKey)
         ShopLive.preview(with: currentKey.campaignKey) {
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
@@ -240,7 +239,7 @@ class MainViewController: SideMenuBaseViewController {
             return
         }
         
-        ShopLive.setEndpoint(nil)
+//        ShopLive.setEndpoint(nil)
         setupShopliveSettings()
         ShopLive.configure(with: currentKey.accessKey)
 

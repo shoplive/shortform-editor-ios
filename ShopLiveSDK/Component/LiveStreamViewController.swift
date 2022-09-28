@@ -24,7 +24,8 @@ internal final class LiveStreamViewController: UIViewController {
     private var requireRetryCheck = false
 
     private var overlayView: OverlayWebView?
-    private var imageView: UIImageView?
+    private var imageView: WKWebView? //UIImageView?
+    private var snapshotImageView: UIImageView?
     private var snapShotView: UIImageView?
     private var voiceOverIsOn: Bool = UIAccessibility.isVoiceOverRunning
     
@@ -373,6 +374,18 @@ internal final class LiveStreamViewController: UIViewController {
         overlayView?.didCompleteCustomAction(with: customActionResult)
     }
 
+    func showSnapshotBackground() {
+        self.snapshotImageView?.isHidden = false
+        self.imageView?.snapshot(completion: { image in
+            self.snapshotImageView?.image = image
+        })
+        
+    }
+    
+    func hideSnapshotBackground() {
+        self.snapshotImageView?.isHidden = true
+    }
+    
     func hideBackgroundPoster() {
         imageView?.isHidden = true
         shopliveHideKeyboard()
@@ -463,7 +476,18 @@ internal final class LiveStreamViewController: UIViewController {
             
             let imageFrameRatio = imageFrame.width / imageFrame.height
 
-            guard ShopLiveController.windowStyle != .inAppPip else { return }
+            guard ShopLiveController.windowStyle != .inAppPip else {
+                posterTopContraint?.constant = 0
+                posterBottomContraint?.constant = 0
+                posterLeftContraint?.constant = 0
+                posterRightContraint?.constant = 0
+                
+                snapshotTopContraint?.constant = 0
+                snapshotBottomContraint?.constant = 0
+                snapshotLeftContraint?.constant = 0
+                snapshotRightContraint?.constant = 0
+                return
+            }
             
             if ShopLiveController.shared.videoOrientation == .portrait {
                 if !ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
@@ -590,11 +614,18 @@ internal final class LiveStreamViewController: UIViewController {
     }
     
     private func setupBackgroundImageView() {
-        let imageView = UIImageView()
+        let imageView = WKWebView()
+        imageView.isOpaque = false
+        imageView.backgroundColor = .clear
+        imageView.scrollView.backgroundColor = .clear
+        imageView.layer.masksToBounds = true
+        imageView.clipsToBounds = true
+        imageView.scrollView.contentInsetAdjustmentBehavior = .never
+        imageView.scrollView.contentInset = .zero
         playerView.addSubview(imageView)
-        imageView.contentMode = .scaleAspectFill
+                
+//        imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
-//        let ratio = ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height
         
         let centerXConstraint: NSLayoutConstraint = .init(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: playerView, attribute: .centerX, multiplier: 1, constant: 0)
         let centerYConstraint: NSLayoutConstraint = .init(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: playerView, attribute: .centerY, multiplier: 1, constant: 0)
@@ -616,7 +647,24 @@ internal final class LiveStreamViewController: UIViewController {
         playerView.addConstraints([
             topConstraint, leftConstraint, rightConstraint, bottomConstraint, centerXConstraint, centerYConstraint
         ])
+        
+        let snapBackgroundImageView = UIImageView()
+        snapBackgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+        snapBackgroundImageView.backgroundColor = .clear
+        imageView.addSubview(snapBackgroundImageView)
+        snapBackgroundImageView.isHidden = true
+        
+        let centerXSnapshotConstraint: NSLayoutConstraint = .init(item: snapBackgroundImageView, attribute: .centerX, relatedBy: .equal, toItem: imageView, attribute: .centerX, multiplier: 1, constant: 0)
+        let centerYSnapshotConstraint: NSLayoutConstraint = .init(item: snapBackgroundImageView, attribute: .centerY, relatedBy: .equal, toItem: imageView, attribute: .centerY, multiplier: 1, constant: 0)
+        let topSnapshotConstraint: NSLayoutConstraint = .init(item: snapBackgroundImageView, attribute: .top, relatedBy: .equal, toItem: imageView, attribute: .top, multiplier: 1, constant: 0)
+        let leftSnapshotConstraint: NSLayoutConstraint = .init(item: snapBackgroundImageView, attribute: .left, relatedBy: .equal, toItem: imageView, attribute: .left, multiplier: 1, constant: 0)
+        let bottomSnapshotConstraint: NSLayoutConstraint = .init(item: snapBackgroundImageView, attribute: .bottom, relatedBy: .equal, toItem: imageView, attribute: .bottom, multiplier: 1, constant: 0)
+        let rightSnapshotConstraint: NSLayoutConstraint = .init(item: snapBackgroundImageView, attribute: .right, relatedBy: .equal, toItem: imageView, attribute: .right, multiplier: 1, constant: 0)
 
+        imageView.addConstraints([
+            topSnapshotConstraint, leftSnapshotConstraint, rightSnapshotConstraint, bottomSnapshotConstraint, centerXSnapshotConstraint, centerYSnapshotConstraint
+        ])
+        
         #if EBAY
             imageView.clipsToBounds = true
             imageView.layer.masksToBounds = true
@@ -628,7 +676,9 @@ internal final class LiveStreamViewController: UIViewController {
         #endif
         
         self.imageView = imageView
+        self.snapshotImageView = snapBackgroundImageView
         
+        imageView.bringSubviewToFront(snapBackgroundImageView)
         playerView.sendSubviewToBack(imageView)
     }
 
@@ -1187,10 +1237,9 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
 
     func didUpdatePoster(with url: URL) {
         DispatchQueue.global().async {
-            guard let imageData = try? Data(contentsOf: url) else { return }
-            guard let image = UIImage(data: imageData) else { return }
+//            guard let imageUrl = URL(string: "https://dev-static.shoplive.cloud/background_image.html?src=" + (url.absoluteString.urlEncodedStringRFC3986 ?? url.absoluteString)) else { return }
             DispatchQueue.main.async {
-                self.imageView?.image = image
+                self.imageView?.load(.init(url: url))
             }
         }
     }

@@ -94,6 +94,20 @@ extension UIButton {
 }
 
 extension UIView {
+    func snapshot(completion: @escaping (UIImage?) -> Void) {
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, true, UIScreen.main.scale)
+        print(self.bounds.size)
+        print(UIScreen.main.scale)
+        self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+        guard let img = UIGraphicsGetImageFromCurrentImageContext() else {
+            completion(nil)
+            return
+        }
+        UIGraphicsEndImageContext()
+        completion(img)
+        
+    }
+    
     func addSubviews(_ views: UIView...) {
         views.forEach { view in
             self.addSubview(view)

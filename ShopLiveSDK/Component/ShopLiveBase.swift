@@ -457,9 +457,11 @@ import WebKit
             
             ShopLiveController.webInstance?.isHidden = true
             
+            self.liveStreamViewController?.showSnapshotBackground()
+            
             self.liveStreamViewController?.updateVideoFit(centerCrop: true, immediately: false)
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
                 self.liveStreamViewController?.updateVideoConstraint()
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
                 shopLiveWindow.frame = pipPosition
                 shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
                 shopLiveWindow.layer.shadowOpacity = 0.5
@@ -469,6 +471,7 @@ import WebKit
                 shopLiveWindow.setNeedsLayout()
                 shopLiveWindow.layoutIfNeeded()
             } completion: { (isCompleted) in
+                self.liveStreamViewController?.hideSnapshotBackground()
                 ShopLiveController.shared.pipAnimating = false
                 self.shopLiveWindow?.backgroundColor = .black
                 self.liveStreamViewController?.view.backgroundColor = .black
@@ -600,6 +603,8 @@ import WebKit
         shopLiveWindow.layer.shadowOffset = .zero
         shopLiveWindow.layer.shadowRadius = 0
         
+        self.liveStreamViewController?.showSnapshotBackground()
+        
         if self.needExecuteFullScreen {
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true)
             
@@ -610,7 +615,7 @@ import WebKit
                 shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
                 ShopLiveController.webInstance?.isHidden = false
                 } completion: { (isCompleted) in
-                    
+                    self.liveStreamViewController?.hideSnapshotBackground()
                     shopLiveWindow.rootViewController?.view.backgroundColor = .black
                     ShopLiveController.webInstance?.isHidden = false
                     shopLiveWindow.backgroundColor = .black
@@ -629,6 +634,7 @@ import WebKit
                 shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
                 ShopLiveController.webInstance?.isHidden = false
                 } completion: { (isCompleted) in
+                    self.liveStreamViewController?.hideSnapshotBackground()
                     shopLiveWindow.rootViewController?.view.backgroundColor = .black
                     ShopLiveController.webInstance?.isHidden = false
                     shopLiveWindow.backgroundColor = .black
