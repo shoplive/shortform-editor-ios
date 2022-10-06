@@ -80,6 +80,8 @@
 "sdkoption.setupPlayer.aspectOnTablet.description" = "영상을 화면을 꽉 채우기(off) / 영상 사이즈에 맞추기(on)";
 "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.title" = "플레이어가 실행 중일때 Play 호출시 화면 상태 유지 여부 설정";
 "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.description" = "항상 전체화면으로 실행(false) / 항상 현재 화면 상태를 유지(true) 기본값 false 다른 방송으로 변경시에는 전체화면으로 실행됩니다.";
+"sdkoption.setupPlayer.manualRotation.title" = "가로방송에서 회전 버튼에 대한 화면 회전 컨트롤을 직접 설정";
+"sdkoption.setupPlayer.manualRotation.description" = "가로방송에서 회전 버튼이 눌렸을 때 SDK에서 화면 회전을 직접 컨트롤(false - 기본값), 회전 버튼이 눌렸을 때 고객사 앱에서 직접 회전에 대한 처리(true)";
 "sdkoption.sound.mute.title" = "Muted play starts";
 "sdkoption.sound.mute.description" = "Muted when play starts video";
 "sdkoption.preview.title" = "Preview Tap to Play";

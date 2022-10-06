@@ -191,6 +191,10 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    public static func setManualRotation(_ manual: Bool) {
+        ShopLiveConfiguration.UI.manualRoatation = manual
+    }
+    
     public static func setKeepWindowStyleOnReturnFromOsPip(_ keep: Bool = false) {
         ShopLiveConfiguration.UI.keepWindowStyleOnReturnFromOsPip = keep
     }

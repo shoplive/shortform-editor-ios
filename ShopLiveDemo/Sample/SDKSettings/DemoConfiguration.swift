@@ -478,6 +478,17 @@ final class DemoConfiguration: NSObject {
     }
     
     var customLandingInput: String? = nil
+    
+    var useManualRotation: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.manualRotation.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.manualRotation.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.manualRotation.optionKey)
+        }
+    }
 }
 
 

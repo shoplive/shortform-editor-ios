@@ -43,6 +43,7 @@ enum SDKOptionType: String, CaseIterable {
     case aspectOnTablet
     case keepWindowStateOnPlayExecuted
     case pipKeepWindowStyle
+    case manualRotation
 
     enum SettingType: Int {
         case showAlert

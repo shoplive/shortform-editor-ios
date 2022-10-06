@@ -156,6 +156,8 @@ class SwitchOptionCell: UITableViewCell {
         case .pipKeepWindowStyle:
             useOption = DemoConfiguration.shared.usePipKeepWindowStyle
             break
+        case .manualRotation:
+            useOption = DemoConfiguration.shared.useManualRotation
         default:
             break
         }
@@ -202,6 +204,9 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .pipKeepWindowStyle:
             DemoConfiguration.shared.usePipKeepWindowStyle = useOption
+            break
+        case .manualRotation:
+            DemoConfiguration.shared.useManualRotation = useOption
             break
         default:
             break

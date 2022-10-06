@@ -82,6 +82,8 @@ internal final class ShopLiveConfiguration: NSObject {
         static var chatInputMaxLength: Int = 200
         static var keepWindowStateOnPlayExecuted: Bool = false
         static var keepWindowStyleOnReturnFromOsPip: Bool = false
+        
+        static var manualRoatation: Bool = false
     }
 
     fileprivate override init() {}

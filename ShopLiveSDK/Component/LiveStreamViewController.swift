@@ -883,6 +883,8 @@ internal final class LiveStreamViewController: UIViewController {
         
         queryItems.append(URLQueryItem(name: "appVersion", value: ShopLiveConfiguration.AppPreference.appVersion ?? UIApplication.appVersion()))
     
+        queryItems.append(URLQueryItem(name: "manualRotation", value: ShopLiveConfiguration.UI.manualRoatation ? "true" : "false"))
+        
         let urlString: String = ShopLiveConfiguration.AppPreference.landingUrl
         ShopLiveLogger.debugLog("shoplive landingUrl : \(urlString)")
         guard let params = URLUtil.query(queryItems) else {

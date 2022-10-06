@@ -51,7 +51,8 @@ final class OptionsViewController: SideMenuItemViewController {
 
         let aspectOnTabletOption = SDKOptionItem(name: "sdkoption.setupPlayer.aspectOnTablet.title".localized(), optionDescription: "sdkoption.setupPlayer.aspectOnTablet.description".localized(), optionType: .aspectOnTablet)
         let keepWindowStateOnPlayExecutedOption = SDKOptionItem(name: "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.title".localized(), optionDescription: "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.description".localized(), optionType: .keepWindowStateOnPlayExecuted)
-        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption])
+        let manualRotation = SDKOptionItem(name: "sdkoption.setupPlayer.manualRotation.title".localized(), optionDescription: "sdkoption.setupPlayer.manualRotation.description".localized(), optionType: .manualRotation)
+        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption, manualRotation])
         
         items.append(setupPlayerOptions)
         
