@@ -428,6 +428,9 @@ extension MainViewController: ShopLiveSDKDelegate {
             }))
             ShopLive.viewController?.present(alert, animated: true, completion: nil)
             break
+        case "CLICK_ROTATE_BUTTON":
+            UIWindow.showToast(message: "[CLICK_ROTATE_BUTTON]\n 회전버튼이 클릭되었습니다.\n고객사앱에서 이 커맨드를 수신하여 회전처리")
+            break
         default:
             break
         }
