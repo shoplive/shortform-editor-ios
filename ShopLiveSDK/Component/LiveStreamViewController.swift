@@ -984,11 +984,11 @@ internal final class LiveStreamViewController: UIViewController {
             guard UIScreen.currentOrientation.deviceOrientation.rawValue != orientation.rawValue else { return }
             
             if #available(iOS 16.0, *) {
-                self.setNeedsUpdateOfSupportedInterfaceOrientations()
-                self.navigationController?.setNeedsUpdateOfSupportedInterfaceOrientations()
-                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-                let orientationMask = orientation.orientationMask
-                windowScene?.requestGeometryUpdate(.iOS(interfaceOrientations: orientationMask))
+                    self.setNeedsUpdateOfSupportedInterfaceOrientations()
+                    self.navigationController?.setNeedsUpdateOfSupportedInterfaceOrientations()
+                    let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                    let orientationMask = orientation.orientationMask
+                    windowScene?.requestGeometryUpdate(.iOS(interfaceOrientations: orientationMask))
             } else {
                 UIDevice.current.setValue(orientation, forKey: "orientation")
                 UIViewController.attemptRotationToDeviceOrientation()

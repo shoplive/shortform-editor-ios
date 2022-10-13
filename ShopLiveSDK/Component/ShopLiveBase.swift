@@ -498,8 +498,8 @@ import WebKit
             guard !ShopLiveController.shared.pipAnimating else { return }
             guard let mainWindow = self.mainWindow else { return }
             guard let shopLiveWindow = self.shopLiveWindow else { return }
-            ShopLiveLogger.debugLog("isWindowChanging to true")
-            self.isWindowChanging = true
+            
+//            self.isWindowChanging = true
             shopLiveWindow.backgroundColor = .clear
             shopLiveWindow.layer.cornerRadius = 10
             shopLiveWindow.rootViewController?.view.backgroundColor = .clear
@@ -1451,7 +1451,7 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     @objc func startPictureInPicture() {
-        startPictureInPicture(with: self.pipPosition, scale: self.pipScale)
+        startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
     }
     
     @objc var authToken: String? {
