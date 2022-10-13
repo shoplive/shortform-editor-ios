@@ -498,7 +498,7 @@ import WebKit
             guard !ShopLiveController.shared.pipAnimating else { return }
             guard let mainWindow = self.mainWindow else { return }
             guard let shopLiveWindow = self.shopLiveWindow else { return }
-            
+            ShopLiveLogger.debugLog("isWindowChanging to true")
             self.isWindowChanging = true
             shopLiveWindow.backgroundColor = .clear
             shopLiveWindow.layer.cornerRadius = 10
@@ -1369,6 +1369,10 @@ import WebKit
 }
 
 extension ShopLiveBase: ShopLiveComponent {
+    func awakePlayer() {
+        self.liveStreamViewController?.awakePlayer()
+    }
+    
     func isSuccessCampaignJoin() -> Bool {
         return ShopLiveController.shared.isSuccessCampaignJoin
     }

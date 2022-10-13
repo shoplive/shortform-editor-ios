@@ -1347,6 +1347,16 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         self.sendCommandMessage(command: "SET_USE_SCREEN_READER", payload: ["useScreenReader" : self.voiceOverIsOn])
     }
     
+    func awakePlayer() {
+        let vc = UIViewController()
+        vc.view.backgroundColor = .clear
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: false, completion: {
+            vc.dismiss(animated: false)
+        })
+    }
+    
     func sendCommandMessage(command: String, payload: [String : Any]?) {
         guard let payload = payload else {
             return

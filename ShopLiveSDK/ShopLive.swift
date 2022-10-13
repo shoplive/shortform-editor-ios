@@ -49,6 +49,8 @@ import WebKit
     @objc func setShareScheme(_ scheme: String?, custom: (() -> Void)?)
     @objc func setChatViewFont(inputBoxFont: UIFont?, sendButtonFont: UIFont?)
     @objc func close()
+    
+    @objc func awakePlayer()
 }
 
 enum ShopLiveCampaignStatus: String, CaseIterable {
@@ -191,6 +193,10 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    public static func awakePlayer() {
+        shared.instance?.awakePlayer()
+    }
+    
     public static func setManualRotation(_ manual: Bool) {
         ShopLiveConfiguration.UI.manualRoatation = manual
     }
