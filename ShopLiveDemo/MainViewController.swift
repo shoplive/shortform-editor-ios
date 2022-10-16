@@ -59,7 +59,7 @@ class MainViewController: SideMenuBaseViewController {
 
     func setupSampleOptions() {
         
-        SampleOptions.campaignNaviMoreOptions = ["campaign.menu.write".localized(), "Dev-Admin", "Admin", "campaign.menu.deleteall".localized()]
+        SampleOptions.campaignNaviMoreOptions = ["campaign.menu.write".localized(), "QR code", "Dev-Admin", "Admin", "campaign.menu.deleteall".localized()]
         SampleOptions.campaignNaviMoreSelectionAction = { (index: Int, item: String) in
             print("selected item: \(item) index: \(index)")
             var sourceScheme = ""
@@ -79,15 +79,20 @@ class MainViewController: SideMenuBaseViewController {
                 vc.modalPresentationStyle = .overCurrentContext
                 self.navigationController?.present(vc, animated: false, completion: nil)
                 break
-            case 1: // Dev-Admin
+            case 1: // QR-code
+                let qrReaderVC = QRReaderViewController()
+                qrReaderVC.delegate = self
+                self.present(qrReaderVC, animated: true)
+                break
+            case 2: // Dev-Admin
                 // getkey
                 DeepLinkManager.shared.sendDeepLink("shoplivestudiodev://getkey?source=\(sourceScheme)")
                 break
-            case 2: // Admin
+            case 3: // Admin
                 // getkey
                 DeepLinkManager.shared.sendDeepLink("shoplivestudio://getkey?source=\(sourceScheme)")
                 break
-            case 3: // Remove all
+            case 4: // Remove all
                 guard ShopLiveDemoKeyTools.shared.keysets.count > 0 else {
                     return
                 }
@@ -460,4 +465,15 @@ extension MainViewController: LoginDelegate {
         
         ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: true)
     }
+}
+
+extension MainViewController: QRKeyReaderDelegate {
+    func updateKeyFromQR(keyset: ShopLiveKeySet?) {
+        guard let keyset = keyset else { return }
+        let vc = CampaignInputAlertController(keyset: keyset)
+        vc.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(vc, animated: false, completion: nil)
+    }
+    
+    
 }

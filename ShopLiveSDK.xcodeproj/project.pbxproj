@@ -14,6 +14,10 @@
 		BF1B57BA276983600002EBB5 /* CustomBaseAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */; };
 		BF1B57BC2769844F0002EBB5 /* CampaignInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */; };
 		BF1C0804272797C400F6B2E1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */; };
+		BF25526128FC1302008B018B /* QRScanner in Frameworks */ = {isa = PBXBuildFile; productRef = BF25526028FC1302008B018B /* QRScanner */; };
+		BF25526328FC1309008B018B /* QRScanner in Frameworks */ = {isa = PBXBuildFile; productRef = BF25526228FC1309008B018B /* QRScanner */; };
+		BF25526528FC150F008B018B /* QRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF25526428FC150F008B018B /* QRReaderViewController.swift */; };
+		BF25526628FC150F008B018B /* QRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF25526428FC150F008B018B /* QRReaderViewController.swift */; };
 		BF263095288DDA980071C8BE /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF263092288DDA980071C8BE /* LoginTextField.swift */; };
 		BF263096288DDA980071C8BE /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF263092288DDA980071C8BE /* LoginTextField.swift */; };
 		BF263097288DDA980071C8BE /* BaseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF263093288DDA980071C8BE /* BaseTextField.swift */; };
@@ -421,6 +425,7 @@
 		BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignInputAlertController.swift; sourceTree = "<group>"; };
 		BF1B57C0276B19600002EBB5 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
+		BF25526428FC150F008B018B /* QRReaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderViewController.swift; sourceTree = "<group>"; };
 		BF263092288DDA980071C8BE /* LoginTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
 		BF263093288DDA980071C8BE /* BaseTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTextField.swift; sourceTree = "<group>"; };
 		BF263094288DDA980071C8BE /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -588,6 +593,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF25526328FC1309008B018B /* QRScanner in Frameworks */,
 				BFF8477F2897E02F0075A0AA /* ReplayKit.framework in Frameworks */,
 				BF60E23E2771CECA0060531C /* Toast in Frameworks */,
 				BF60E23F2771CECA0060531C /* CryptoSwift in Frameworks */,
@@ -605,6 +611,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFE2195F276B35C000900FB1 /* Toast in Frameworks */,
+				BF25526128FC1302008B018B /* QRScanner in Frameworks */,
 				BF60E1DC276F97040060531C /* CryptoSwift in Frameworks */,
 				BF9BB7E6273A1640006BDEF3 /* SnapKit in Frameworks */,
 				BF4719A927687C7E00522F6F /* DropDown in Frameworks */,
@@ -794,6 +801,7 @@
 				BF47197727660CF500522F6F /* SampleExtensions.swift */,
 				BF60E1C8276DB1380060531C /* Sample.xcassets */,
 				BF60E1DD277175D90060531C /* DeepLInkManager.swift */,
+				BF25526428FC150F008B018B /* QRReaderViewController.swift */,
 			);
 			path = Sample;
 			sourceTree = "<group>";
@@ -1132,6 +1140,7 @@
 				BF60E1EA2771CECA0060531C /* Toast */,
 				BF60E1EC2771CECA0060531C /* SwiftyJWT */,
 				BF60E1EE2771CECA0060531C /* CryptoSwift */,
+				BF25526228FC1309008B018B /* QRScanner */,
 			);
 			productName = SwiftDemo;
 			productReference = BF60E2522771CECA0060531C /* DEMO QA.app */;
@@ -1157,6 +1166,7 @@
 				BFE2195E276B35C000900FB1 /* Toast */,
 				BF60E1CD276F53730060531C /* SwiftyJWT */,
 				BF60E1DB276F97040060531C /* CryptoSwift */,
+				BF25526028FC1302008B018B /* QRScanner */,
 			);
 			productName = SwiftDemo;
 			productReference = BFAD8EAA265A23FD00202160 /* SDK DEMO.app */;
@@ -1242,6 +1252,7 @@
 				BFE2195D276B35C000900FB1 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				BF60E1CC276F53730060531C /* XCRemoteSwiftPackageReference "SwiftyJWT" */,
 				BF60E1DA276F97040060531C /* XCRemoteSwiftPackageReference "CryptoSwift" */,
+				BF25525D28FC12E8008B018B /* XCRemoteSwiftPackageReference "QRScanner" */,
 			);
 			productRefGroup = 1BA5154E25CBDCD100070181 /* Products */;
 			projectDirPath = "";
@@ -1570,6 +1581,7 @@
 				BF60E2142771CECA0060531C /* ShopliveSideMenuNavagation.swift in Sources */,
 				BF60E2162771CECA0060531C /* SampleExtensions.swift in Sources */,
 				BF60E2172771CECA0060531C /* MainViewController.swift in Sources */,
+				BF25526628FC150F008B018B /* QRReaderViewController.swift in Sources */,
 				BF37D9CB27F5742D004C2785 /* ShopLiveChatView.swift in Sources */,
 				BF37D9E027F5742D004C2785 /* ShopLiveWebInterface.swift in Sources */,
 				BF69333127BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */,
@@ -1654,6 +1666,7 @@
 				BF47196D2765F43000522F6F /* ShopliveSideMenuNavagation.swift in Sources */,
 				BF47197827660CF500522F6F /* SampleExtensions.swift in Sources */,
 				BF4719712765F4E800522F6F /* MainViewController.swift in Sources */,
+				BF25526528FC150F008B018B /* QRReaderViewController.swift in Sources */,
 				BF37D9CA27F5742D004C2785 /* ShopLiveChatView.swift in Sources */,
 				BF37D9DF27F5742D004C2785 /* ShopLiveWebInterface.swift in Sources */,
 				BF69333027BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */,
@@ -2497,6 +2510,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BF25525D28FC12E8008B018B /* XCRemoteSwiftPackageReference "QRScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mercari/QRScanner.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		BF4719692765F40700522F6F /* XCRemoteSwiftPackageReference "SideMenu" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jonkykong/SideMenu.git";
@@ -2644,6 +2665,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BF25526028FC1302008B018B /* QRScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF25525D28FC12E8008B018B /* XCRemoteSwiftPackageReference "QRScanner" */;
+			productName = QRScanner;
+		};
+		BF25526228FC1309008B018B /* QRScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF25525D28FC12E8008B018B /* XCRemoteSwiftPackageReference "QRScanner" */;
+			productName = QRScanner;
+		};
 		BF47196A2765F40700522F6F /* SideMenu */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BF4719692765F40700522F6F /* XCRemoteSwiftPackageReference "SideMenu" */;

@@ -78,7 +78,22 @@ class CampaignInputAlertController: CustomBaseAlertController {
     var saveEnable: Bool {
         return !(titleInputField.text?.isEmpty ?? false) && !(accessInputField.text?.isEmpty ?? false) && !(campaignInputField.text?.isEmpty ?? false)
     }
-
+    
+    init(keyset: ShopLiveKeySet) {
+        super.init(nibName: nil, bundle: nil)
+        titleInputField.text = keyset.alias
+        campaignInputField.text = keyset.campaignKey
+        accessInputField.text = keyset.accessKey
+    }
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
