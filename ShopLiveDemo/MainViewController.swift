@@ -213,7 +213,11 @@ class MainViewController: SideMenuBaseViewController {
             break
         }
         
-        ShopLive.setEndpoint(landingUrl)
+        if !landingUrl.isEmpty {
+            ShopLive.setEndpoint(landingUrl)
+        } else {
+            ShopLive.setEndpoint(nil)
+        }
         #endif
         
         ShopLive.setKeepAspectOnTabletPortrait(config.useAspectOnTablet)
@@ -228,10 +232,6 @@ class MainViewController: SideMenuBaseViewController {
             UIWindow.showToast(message: "sdk.msg.nonekey".localized())
             return
         }
-
-        #if EBAY
-        ShopLive.setEndpoint(nil)
-        #endif
         
         setupShopliveSettings()
         ShopLive.configure(with: currentKey.accessKey)
@@ -252,10 +252,6 @@ class MainViewController: SideMenuBaseViewController {
             UIWindow.showToast(message: "sdk.msg.nonekey".localized())
             return
         }
-
-        #if EBAY
-        ShopLive.setEndpoint(nil)
-        #endif
 
         setupShopliveSettings()
         ShopLive.configure(with: currentKey.accessKey)
