@@ -219,7 +219,7 @@ class MainViewController: SideMenuBaseViewController {
     }
 
     override func preview() {
-        guard let currentKey = ShopLiveDemoKeyTools.shared.currentKey() else {
+        guard let currentKey = getCurrentKeySet() else {
             UIWindow.showToast(message: "sdk.msg.nonekey".localized())
             return
         }
@@ -243,7 +243,7 @@ class MainViewController: SideMenuBaseViewController {
     }
 
     override func play() {
-        guard let currentKey = ShopLiveDemoKeyTools.shared.currentKey() else {
+        guard let currentKey = getCurrentKeySet() else {
             UIWindow.showToast(message: "sdk.msg.nonekey".localized())
             return
         }
@@ -450,7 +450,7 @@ extension MainViewController: ShopLiveSDKDelegate {
 extension MainViewController: LoginDelegate {
     func loginSuccess() {
         
-        guard let currentKey = ShopLiveDemoKeyTools.shared.currentKey() else {
+        guard let currentKey = getCurrentKeySet() else {
             UIWindow.showToast(message: "sdk.msg.nonekey".localized())
             return
         }

@@ -43,4 +43,12 @@ final class ShopLiveKeySet: NSObject, NSCoding {
 
         super.init()
     }
+    
+    func hasEmptyValue() -> Bool {
+        return self.alias.isEmpty || self.accessKey.isEmpty || self.campaignKey.isEmpty
+    }
+    
+    override func isEqual(_ object: Any?) -> Bool {
+        return self.alias == (object as? ShopLiveKeySet)?.alias && self.accessKey == (object as? ShopLiveKeySet)?.accessKey && self.campaignKey == (object as? ShopLiveKeySet)?.campaignKey
+    }
 }

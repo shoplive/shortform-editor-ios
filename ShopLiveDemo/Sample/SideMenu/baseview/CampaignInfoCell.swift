@@ -7,15 +7,29 @@
 
 import UIKit
 
+protocol CampaignInfoCellDelegate: AnyObject{
+    func keysetFieldSelected()
+    func updateKeySet(_ keyset: ShopLiveKeySet)
+}
+
 final class CampaignInfoCell: SampleBaseCell {
 
-    private lazy var guideTitleLabel: UILabel = {
-        let view = UILabel()
+    weak var delegate: CampaignInfoCellDelegate?
+    
+    private lazy var guideTitleInputField: UITextField = {
+        let view = UITextField()
+        view.delegate = self
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.numberOfLines = 0
-        view.font = .systemFont(ofSize: 16, weight: .medium)
+        view.isUserInteractionEnabled = true
+        view.placeholder = "base.section.campaignInfo.campaign.none.title".localized()
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.lightGray.cgColor
+        view.layer.cornerRadius = 6
         view.textColor = .black
-        view.text = "base.section.campaignInfo.campaign.none.title".localized()
+        view.leftViewMode = .always
+        let paddingView = UIView(frame: .init(origin: .zero, size: .init(width: 10, height: view.frame.height)))
+        view.leftView = paddingView
+        view.setPlaceholderColor(.darkGray)
         return view
     }()
 
@@ -33,8 +47,9 @@ final class CampaignInfoCell: SampleBaseCell {
 
     private lazy var accessKeyInputField: UITextField = {
         let view = UITextField()
+        view.delegate = self
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.isUserInteractionEnabled = false
+        view.isUserInteractionEnabled = true
         view.placeholder = "accessKey"
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.lightGray.cgColor
@@ -49,8 +64,9 @@ final class CampaignInfoCell: SampleBaseCell {
 
     lazy var campaignKeyInputField: UITextField = {
         let view = UITextField()
+        view.delegate = self
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.isUserInteractionEnabled = false
+        view.isUserInteractionEnabled = true
         view.placeholder = "campaignKey"
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.lightGray.cgColor
@@ -86,14 +102,15 @@ final class CampaignInfoCell: SampleBaseCell {
 
     override func setupViews() {
         super.setupViews()
-        self.itemView.addSubview(guideTitleLabel)
+        self.itemView.addSubview(guideTitleInputField)
         self.itemView.addSubview(chooseButton)
         self.itemView.addSubview(accessKeyInputField)
         self.itemView.addSubview(campaignKeyInputField)
-        guideTitleLabel.snp.makeConstraints {
+        guideTitleInputField.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(15)
             $0.top.equalToSuperview().offset(15)
             $0.trailing.equalTo(chooseButton.snp.leading).offset(-15)
+            $0.height.equalTo(30)
         }
 
         chooseButton.snp.makeConstraints {
@@ -106,7 +123,7 @@ final class CampaignInfoCell: SampleBaseCell {
         accessKeyInputField.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(15)
             $0.trailing.equalToSuperview().offset(-15)
-            $0.top.equalTo(guideTitleLabel.snp.bottom).offset(10)
+            $0.top.equalTo(guideTitleInputField.snp.bottom).offset(10)
             $0.height.equalTo(30)
         }
 
@@ -139,15 +156,36 @@ extension CampaignInfoCell: KeySetObserver {
 
     func currentKeyUpdated() {
         if let currentKey = ShopLiveDemoKeyTools.shared.currentKey() {
-            guideTitleLabel.text = currentKey.alias
+            guideTitleInputField.text = currentKey.alias
             campaignKeyInputField.text = currentKey.campaignKey
             accessKeyInputField.text = currentKey.accessKey
         } else {
-            guideTitleLabel.text = "base.section.campaignInfo.campaign.none.title".localized()
+            guideTitleInputField.text = "base.section.campaignInfo.campaign.none.title".localized()
             campaignKeyInputField.text = "campaignKey"
             accessKeyInputField.text = "accessKey"
         }
-        guideTitleLabel.sizeToFit()
+        guideTitleInputField.sizeToFit()
     }
 }
 
+extension CampaignInfoCell: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        delegate?.keysetFieldSelected()
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let keyset = ShopLiveKeySet(alias: guideTitleInputField.text ?? "base.section.campaignInfo.campaign.none.title".localized(),
+                                    campaignKey: campaignKeyInputField.text ?? "campaignKey",
+                                    accessKey: accessKeyInputField.text ?? "accessKey")
+        self.delegate?.updateKeySet(keyset)
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        let keyset = ShopLiveKeySet(alias: guideTitleInputField.text ?? "base.section.campaignInfo.campaign.none.title".localized(),
+                                    campaignKey: campaignKeyInputField.text ?? "campaignKey",
+                                    accessKey: accessKeyInputField.text ?? "accessKey")
+        self.delegate?.updateKeySet(keyset)
+    }
+}

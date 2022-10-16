@@ -9,6 +9,7 @@ import UIKit
 
 class SideMenuBaseViewController: UIViewController {
 
+    var keyset: ShopLiveKeySet?
     var items: [String] = ["CampaignInfoCell", "UserInfoCell"]
 
     lazy var tableView: UITableView = {
@@ -22,7 +23,6 @@ class SideMenuBaseViewController: UIViewController {
         view.register(UserInfoCell.self, forCellReuseIdentifier: "UserInfoCell")
         view.alwaysBounceVertical = false
         view.rowHeight = UITableView.automaticDimension
-
         view.contentInset = .init(top: 0, left: 0, bottom: ((UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) + 16), right: 0)
         return view
     }()
@@ -35,12 +35,69 @@ class SideMenuBaseViewController: UIViewController {
             action: #selector(UIViewController.shopliveHideKeyboard))
 
         view.addGestureRecognizer(tap)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         ShopLiveDemoKeyTools.shared.addKeysetObserver(observer: self)
         setupBaseUI()
         setupNavigation()
         setupSDKButtons()
         setupSideMenu()
         DemoConfiguration.shared.addConfigurationObserver(observer: self)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func handleNotification(_ notification: Notification) {
+        switch notification.name {
+        case UIResponder.keyboardWillShowNotification:
+            self.setKeyboard(notification: notification)
+            break
+        case UIResponder.keyboardWillHideNotification:
+            self.setKeyboard(notification: notification)
+            break
+        default:
+            break
+        }
+    }
+    
+    private func setKeyboard(notification: Notification) {
+        guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+              let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
+              let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt,
+              let bottomPadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom else { return }
+        
+        let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
+        let keyboard = self.view.convert(keyboardScreenEndFrame, from: self.view.window)
+        let height = self.view.frame.size.height
+        
+        switch notification.name.rawValue {
+        case "UIKeyboardWillHideNotification":
+            self.tableView.snp.remakeConstraints {
+                $0.left.right.top.equalToSuperview()
+                $0.bottom.equalToSuperview()
+            }
+            break
+        case "UIKeyboardWillShowNotification":
+//            self.tableView.snp.remakeConstraints {
+//                $0.left.right.top.equalToSuperview()
+//                $0.bottom.equalToSuperview().offset(-keyboard.height)
+//            }
+            break
+        default:
+            break
+        }
+        scrollToBottom()
+        
+    }
+    
+    func scrollToBottom(){
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: self.items.count-1, section: 0)
+            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
     }
 }
 
@@ -64,6 +121,10 @@ extension SideMenuBaseViewController: UITableViewDelegate, UITableViewDataSource
             return UITableViewCell()
         }
         cell.configure(parent: self)
+        
+        if let campaignInfoCell = cell as? CampaignInfoCell {
+            campaignInfoCell.delegate = self
+        }
         return cell
     }
 }
@@ -173,5 +234,38 @@ extension SideMenuBaseViewController: DemoConfigurationObserver, KeySetObserver 
         }
     }
 
+}
 
+extension SideMenuBaseViewController: CampaignInfoCellDelegate {
+    func getCurrentKeySet() -> ShopLiveKeySet? {
+        if let keyset = keyset, !keyset.hasEmptyValue() {
+            if let currentKeySet = ShopLiveDemoKeyTools.shared.currentKey() {
+                if currentKeySet.isEqual(keyset) {
+                    return currentKeySet
+                } else {
+                    ShopLiveDemoKeyTools.shared.save(key: keyset)
+                    return keyset
+                }
+            } else {
+                return keyset
+            }
+        } else {
+            if let currentKeySet = ShopLiveDemoKeyTools.shared.currentKey() {
+                return currentKeySet
+            } else {
+                return nil
+            }
+        }
+    }
+    
+    func updateKeySet(_ keyset: ShopLiveKeySet) {
+        self.keyset = keyset
+    }
+    
+    func keysetFieldSelected() {
+        self.tableView.snp.remakeConstraints {
+            $0.left.right.top.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-200)
+        }
+    }
 }
