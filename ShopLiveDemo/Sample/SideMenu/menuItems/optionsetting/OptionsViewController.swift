@@ -7,6 +7,9 @@
 
 import UIKit
 import DropDown
+#if SDK_MODULE
+import ShopLiveSDK
+#endif
 
 final class OptionsViewController: SideMenuItemViewController {
 

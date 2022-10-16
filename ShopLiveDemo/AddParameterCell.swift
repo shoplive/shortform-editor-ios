@@ -80,3 +80,11 @@ class AddParameterCell: UITableViewCell, UITextFieldDelegate {
         self.contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 4, left: 0, bottom: 10, right: 0))
     }
 }
+#if SDK_MODULE
+
+extension UIWindow {
+    static var mainWindowFrame: UIWindow {
+        UIWindow(frame: UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.frame ?? UIScreen.main.bounds)
+    }
+}
+#endif

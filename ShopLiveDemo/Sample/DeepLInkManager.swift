@@ -7,6 +7,9 @@
 
 import Foundation
 import UIKit
+#if SDK_MODULE
+import ShopLiveSDK
+#endif
 
 final class DeepLinkManager {
     static let shared = DeepLinkManager()
@@ -69,3 +72,62 @@ final class DeepLinkManager {
 
     }
 }
+
+#if SDK_MODULE
+extension UIApplication {
+    class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let nav = base as? UINavigationController {
+            return topViewController(base: nav.visibleViewController)
+        }
+
+        if let tab = base as? UITabBarController {
+            if let selected = tab.selectedViewController
+            { return topViewController(base: selected) }
+        }
+
+        if let presented = base?.presentedViewController {
+            return topViewController(base: presented)
+        }
+        return base
+    }
+    
+    class func appVersion() -> String {
+            return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        }
+
+        class func appBuild() -> String {
+            return Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as! String
+        }
+
+        class func versionBuild() -> String {
+            let version = appVersion(), build = appBuild()
+
+            return version == build ? "v\(version)" : "v\(version)(\(build))"
+        }
+}
+
+
+extension Dictionary {
+    func toJson() -> String? {
+        let jsonData = try? JSONSerialization.data(withJSONObject: self, options: [])
+        if let jsonString = String(data: jsonData!, encoding: .utf8){
+            return jsonString
+        }else{
+            return nil
+        }
+    }
+
+    var jsonData: Data? {
+            return try? JSONSerialization.data(withJSONObject: self, options: [.prettyPrinted])
+        }
+
+    func toJSONString() -> String? {
+        if let jsonData = jsonData {
+            let jsonString = String(data: jsonData, encoding: .utf8)
+            return jsonString
+        }
+
+        return nil
+    }
+}
+#endif

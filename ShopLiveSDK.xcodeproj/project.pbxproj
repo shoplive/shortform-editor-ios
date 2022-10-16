@@ -181,6 +181,76 @@
 		BF5112052824464A00E36175 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */; };
 		BF5112BD282449C200E36175 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF51120F282446A800E36175 /* Localizable.strings */; };
 		BF5112BE282449C500E36175 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF5111DE2824463F00E36175 /* Localizable.strings */; };
+		BF5F505128F7D1E1008B79D9 /* TextItemInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8CEF92276C70DB0043D5FF /* TextItemInputAlertController.swift */; };
+		BF5F505228F7D1E1008B79D9 /* CouponSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47198B27663CDE00522F6F /* CouponSettingsViewController.swift */; };
+		BF5F505328F7D1E1008B79D9 /* SideMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719812766335F00522F6F /* SideMenuCell.swift */; };
+		BF5F505428F7D1E1008B79D9 /* CouponCallbackSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BB7E0273A1571006BDEF3 /* CouponCallbackSettingViewController.swift */; };
+		BF5F505628F7D1E1008B79D9 /* SDKSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BB7E1273A1571006BDEF3 /* SDKSettings.swift */; };
+		BF5F505728F7D1E1008B79D9 /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21962276B40BD00900FB1 /* SwitchOptionCell.swift */; };
+		BF5F505928F7D1E1008B79D9 /* UserInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47199A276832E100522F6F /* UserInfoCell.swift */; };
+		BF5F505E28F7D1E1008B79D9 /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */; };
+		BF5F505F28F7D1E1008B79D9 /* PipAreaSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3586B27E9AD3500B920E9 /* PipAreaSettingViewController.swift */; };
+		BF5F506228F7D1E1008B79D9 /* ShopLiveRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719B02768C63B00522F6F /* ShopLiveRadioButton.swift */; };
+		BF5F506328F7D1E1008B79D9 /* CouponResponseSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8CEF9B276CFB310043D5FF /* CouponResponseSettingView.swift */; };
+		BF5F506428F7D1E1008B79D9 /* OptionSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA69D69276B64FF00F91394 /* OptionSectionHeader.swift */; };
+		BF5F506828F7D1E1008B79D9 /* AddParameterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9E1F63B28B205FD00C4C3D4 /* AddParameterCell.swift */; };
+		BF5F506928F7D1E1008B79D9 /* DemoConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47199E2768570100522F6F /* DemoConfiguration.swift */; };
+		BF5F506C28F7D1E1008B79D9 /* DemoAppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF85BA8B2886FB3000E48A22 /* DemoAppUtility.swift */; };
+		BF5F506D28F7D1E1008B79D9 /* GuideTitleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719A027685D8E00522F6F /* GuideTitleButton.swift */; };
+		BF5F506E28F7D1E1008B79D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8EAC265A23FD00202160 /* AppDelegate.swift */; };
+		BF5F507128F7D1E1008B79D9 /* SecretKeyInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF60E1D8276F8D970060531C /* SecretKeyInputAlertController.swift */; };
+		BF5F507528F7D1E1008B79D9 /* ShopLiveKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */; };
+		BF5F507628F7D1E1008B79D9 /* SDKOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8CEF90276C6DED0043D5FF /* SDKOption.swift */; };
+		BF5F507728F7D1E1008B79D9 /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47198727663C9600522F6F /* OptionsViewController.swift */; };
+		BF5F507828F7D1E1008B79D9 /* SampleBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47199C27684A8D00522F6F /* SampleBaseCell.swift */; };
+		BF5F507928F7D1E1008B79D9 /* ShopLiveDevConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21960276B3BE600900FB1 /* ShopLiveDevConfiguration.swift */; };
+		BF5F507A28F7D1E1008B79D9 /* ShopliveSideMenuNavagation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47196C2765F43000522F6F /* ShopliveSideMenuNavagation.swift */; };
+		BF5F507B28F7D1E1008B79D9 /* SampleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47197727660CF500522F6F /* SampleExtensions.swift */; };
+		BF5F507C28F7D1E1008B79D9 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719702765F4E800522F6F /* MainViewController.swift */; };
+		BF5F507F28F7D1E1008B79D9 /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */; };
+		BF5F508028F7D1E1008B79D9 /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47198527663BE100522F6F /* UserInfoViewController.swift */; };
+		BF5F508128F7D1E1008B79D9 /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF263092288DDA980071C8BE /* LoginTextField.swift */; };
+		BF5F508228F7D1E1008B79D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8EAE265A23FD00202160 /* SceneDelegate.swift */; };
+		BF5F508328F7D1E1008B79D9 /* DevInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21966276B436600900FB1 /* DevInfoCell.swift */; };
+		BF5F508428F7D1E1008B79D9 /* SideMenuBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47197527660CD300522F6F /* SideMenuBaseViewController.swift */; };
+		BF5F508528F7D1E1008B79D9 /* CustomBaseAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */; };
+		BF5F508628F7D1E1008B79D9 /* CampaignInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */; };
+		BF5F508728F7D1E1008B79D9 /* DemoSecretKeyTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF60E1CF276F69C00060531C /* DemoSecretKeyTool.swift */; };
+		BF5F508928F7D1E1008B79D9 /* CampaignCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719AE2768AF4700522F6F /* CampaignCell.swift */; };
+		BF5F508E28F7D1E1008B79D9 /* CampaignInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF471998276832C700522F6F /* CampaignInfoCell.swift */; };
+		BF5F508F28F7D1E1008B79D9 /* ShopLiveCheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21968276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift */; };
+		BF5F509028F7D1E1008B79D9 /* CampaignsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719832766389F00522F6F /* CampaignsViewController.swift */; };
+		BF5F509128F7D1E1008B79D9 /* SampleOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719AA2768836000522F6F /* SampleOptions.swift */; };
+		BF5F509228F7D1E1008B79D9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF263094288DDA980071C8BE /* LoginViewController.swift */; };
+		BF5F509328F7D1E1008B79D9 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47196E2765F48700522F6F /* SideMenuViewController.swift */; };
+		BF5F509428F7D1E1008B79D9 /* SecretKeysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF60E1D4276F6E860060531C /* SecretKeysViewController.swift */; };
+		BF5F509728F7D1E1008B79D9 /* DeepLInkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF60E1DD277175D90060531C /* DeepLInkManager.swift */; };
+		BF5F509828F7D1E1008B79D9 /* ButtonOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21964276B41A600900FB1 /* ButtonOptionCell.swift */; };
+		BF5F509928F7D1E1008B79D9 /* SideMenuItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47198F2766523000522F6F /* SideMenuItemViewController.swift */; };
+		BF5F509A28F7D1E1008B79D9 /* SecretKeyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF60E1D6276F6EEF0060531C /* SecretKeyCell.swift */; };
+		BF5F509B28F7D1E1008B79D9 /* DemoSecretKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF60E1D1276F6A0D0060531C /* DemoSecretKeySet.swift */; };
+		BF5F509C28F7D1E1008B79D9 /* BaseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF263093288DDA980071C8BE /* BaseTextField.swift */; };
+		BF5F509D28F7D1E1008B79D9 /* JWTTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF60E1CA276E4BC60060531C /* JWTTool.swift */; };
+		BF5F509F28F7D1E1008B79D9 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF8477D2897E0230075A0AA /* ReplayKit.framework */; };
+		BF5F50A028F7D1E1008B79D9 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = BF5F504A28F7D1E1008B79D9 /* Toast */; };
+		BF5F50A128F7D1E1008B79D9 /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BF5F504E28F7D1E1008B79D9 /* CryptoSwift */; };
+		BF5F50A228F7D1E1008B79D9 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BF5F504428F7D1E1008B79D9 /* SnapKit */; };
+		BF5F50A328F7D1E1008B79D9 /* DropDown in Frameworks */ = {isa = PBXBuildFile; productRef = BF5F504828F7D1E1008B79D9 /* DropDown */; };
+		BF5F50A428F7D1E1008B79D9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBACA02699EAEC00574958 /* CoreTelephony.framework */; };
+		BF5F50A528F7D1E1008B79D9 /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = BF5F504628F7D1E1008B79D9 /* SideMenu */; };
+		BF5F50A628F7D1E1008B79D9 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF91D86266D2FE800B659C1 /* SafariServices.framework */; };
+		BF5F50A728F7D1E1008B79D9 /* SwiftyJWT in Frameworks */ = {isa = PBXBuildFile; productRef = BF5F504C28F7D1E1008B79D9 /* SwiftyJWT */; };
+		BF5F50A928F7D1E1008B79D9 /* Sample.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF47199527682DB300522F6F /* Sample.storyboard */; };
+		BF5F50AA28F7D1E1008B79D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB7265A23FE00202160 /* LaunchScreen.storyboard */; };
+		BF5F50AB28F7D1E1008B79D9 /* shoplive.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF47197F27662F9300522F6F /* shoplive.strings */; };
+		BF5F50AD28F7D1E1008B79D9 /* NanumBrush.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF8CEF9F276D1C3C0043D5FF /* NanumBrush.ttf */; };
+		BF5F50AE28F7D1E1008B79D9 /* Sample.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF60E1C8276DB1380060531C /* Sample.xcassets */; };
+		BF5F50AF28F7D1E1008B79D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB5265A23FE00202160 /* Assets.xcassets */; };
+		BF5F50B028F7D1E1008B79D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB2265A23FD00202160 /* Main.storyboard */; };
+		BF5F50B728F7D308008B79D9 /* ShopLiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; };
+		BF5F50B828F7D308008B79D9 /* ShopLiveSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BF5F50BC28F7D575008B79D9 /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99727F5742D004C2785 /* ShopLiveViewLoggerController.swift */; };
+		BF5F50BD28F7D5C6008B79D9 /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99827F5742D004C2785 /* ShopLiveLogger.swift */; };
 		BF60E1C9276DB1380060531C /* Sample.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF60E1C8276DB1380060531C /* Sample.xcassets */; };
 		BF60E1CB276E4BC60060531C /* JWTTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF60E1CA276E4BC60060531C /* JWTTool.swift */; };
 		BF60E1CE276F53730060531C /* SwiftyJWT in Frameworks */ = {isa = PBXBuildFile; productRef = BF60E1CD276F53730060531C /* SwiftyJWT */; };
@@ -302,6 +372,13 @@
 			remoteGlobalIDString = 1BA5154C25CBDCD100070181;
 			remoteInfo = ShopLiveSDK;
 		};
+		BF5F50B928F7D308008B79D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1BA5154425CBDCD100070181 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1BA5154C25CBDCD100070181;
+			remoteInfo = ShopLiveSDK;
+		};
 		BFAD8EC0265A23FE00202160 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1BA5154425CBDCD100070181 /* Project object */;
@@ -317,6 +394,20 @@
 			remoteInfo = SwiftDemo;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BF5F50BB28F7D308008B79D9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BF5F50B828F7D308008B79D9 /* ShopLiveSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -387,6 +478,8 @@
 		BF51120C2824464A00E36175 /* ShopLiveSDKebay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDKebay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF511210282446A800E36175 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BF511211282446A800E36175 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BF5F50B428F7D1E1008B79D9 /* DEMO QA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DEMO QA.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF5F50B528F7D1E1008B79D9 /* ShopLiveDemo for QA copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ShopLiveDemo for QA copy-Info.plist"; path = "/Users/vincent/repo/matrix-sdk-ios/ShopLiveDemo for QA copy-Info.plist"; sourceTree = "<absolute>"; };
 		BF60E1C8276DB1380060531C /* Sample.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Sample.xcassets; sourceTree = "<group>"; };
 		BF60E1CA276E4BC60060531C /* JWTTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTTool.swift; sourceTree = "<group>"; };
 		BF60E1CF276F69C00060531C /* DemoSecretKeyTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSecretKeyTool.swift; sourceTree = "<group>"; };
@@ -474,6 +567,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BF5F509E28F7D1E1008B79D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF5F509F28F7D1E1008B79D9 /* ReplayKit.framework in Frameworks */,
+				BF5F50A028F7D1E1008B79D9 /* Toast in Frameworks */,
+				BF5F50A128F7D1E1008B79D9 /* CryptoSwift in Frameworks */,
+				BF5F50B728F7D308008B79D9 /* ShopLiveSDK.framework in Frameworks */,
+				BF5F50A228F7D1E1008B79D9 /* SnapKit in Frameworks */,
+				BF5F50A328F7D1E1008B79D9 /* DropDown in Frameworks */,
+				BF5F50A428F7D1E1008B79D9 /* CoreTelephony.framework in Frameworks */,
+				BF5F50A528F7D1E1008B79D9 /* SideMenu in Frameworks */,
+				BF5F50A628F7D1E1008B79D9 /* SafariServices.framework in Frameworks */,
+				BF5F50A728F7D1E1008B79D9 /* SwiftyJWT in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BF60E23D2771CECA0060531C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -533,6 +643,7 @@
 				1BA5154E25CBDCD100070181 /* Products */,
 				BFAD8EEB265A24FC00202160 /* Frameworks */,
 				BF34F2FF28125F8600114DBF /* ShopLiveSDK local-Info.plist */,
+				BF5F50B528F7D1E1008B79D9 /* ShopLiveDemo for QA copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -547,6 +658,7 @@
 				BF60E2522771CECA0060531C /* DEMO QA.app */,
 				BF34F2FE28125F8600114DBF /* ShopLiveSDKLocal.framework */,
 				BF51120C2824464A00E36175 /* ShopLiveSDKebay.framework */,
+				BF5F50B428F7D1E1008B79D9 /* DEMO QA.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -973,9 +1085,36 @@
 			productReference = BF51120C2824464A00E36175 /* ShopLiveSDKebay.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		BF60E1E32771CECA0060531C /* ShopLiveDemo for QA */ = {
+		BF5F504328F7D1E1008B79D9 /* ShopLiveDemo for QA */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BF60E24F2771CECA0060531C /* Build configuration list for PBXNativeTarget "ShopLiveDemo for QA" */;
+			buildConfigurationList = BF5F50B128F7D1E1008B79D9 /* Build configuration list for PBXNativeTarget "ShopLiveDemo for QA" */;
+			buildPhases = (
+				BF5F505028F7D1E1008B79D9 /* Sources */,
+				BF5F509E28F7D1E1008B79D9 /* Frameworks */,
+				BF5F50A828F7D1E1008B79D9 /* Resources */,
+				BF5F50BB28F7D308008B79D9 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BF5F50BA28F7D308008B79D9 /* PBXTargetDependency */,
+			);
+			name = "ShopLiveDemo for QA";
+			packageProductDependencies = (
+				BF5F504428F7D1E1008B79D9 /* SnapKit */,
+				BF5F504628F7D1E1008B79D9 /* SideMenu */,
+				BF5F504828F7D1E1008B79D9 /* DropDown */,
+				BF5F504A28F7D1E1008B79D9 /* Toast */,
+				BF5F504C28F7D1E1008B79D9 /* SwiftyJWT */,
+				BF5F504E28F7D1E1008B79D9 /* CryptoSwift */,
+			);
+			productName = SwiftDemo;
+			productReference = BF5F50B428F7D1E1008B79D9 /* DEMO QA.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BF60E1E32771CECA0060531C /* ShopLiveDemo for QA for dev */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF60E24F2771CECA0060531C /* Build configuration list for PBXNativeTarget "ShopLiveDemo for QA for dev" */;
 			buildPhases = (
 				BF60E1F02771CECA0060531C /* Sources */,
 				BF60E23D2771CECA0060531C /* Frameworks */,
@@ -985,7 +1124,7 @@
 			);
 			dependencies = (
 			);
-			name = "ShopLiveDemo for QA";
+			name = "ShopLiveDemo for QA for dev";
 			packageProductDependencies = (
 				BF60E1E42771CECA0060531C /* SnapKit */,
 				BF60E1E62771CECA0060531C /* SideMenu */,
@@ -1113,7 +1252,8 @@
 				BF5111E52824464A00E36175 /* ShopLiveSDKebay */,
 				1BA5155525CBDCD100070181 /* ShopLiveSDKTests */,
 				BFAD8EA9265A23FD00202160 /* ShopLiveDemo */,
-				BF60E1E32771CECA0060531C /* ShopLiveDemo for QA */,
+				BF60E1E32771CECA0060531C /* ShopLiveDemo for QA for dev */,
+				BF5F504328F7D1E1008B79D9 /* ShopLiveDemo for QA */,
 				BFAD8EBE265A23FE00202160 /* SwiftDemoTests */,
 				BFAD8EC9265A23FE00202160 /* SwiftDemoUITests */,
 			);
@@ -1149,6 +1289,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF5112BD282449C200E36175 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF5F50A828F7D1E1008B79D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF5F50A928F7D1E1008B79D9 /* Sample.storyboard in Resources */,
+				BF5F50AA28F7D1E1008B79D9 /* LaunchScreen.storyboard in Resources */,
+				BF5F50AB28F7D1E1008B79D9 /* shoplive.strings in Resources */,
+				BF5F50AD28F7D1E1008B79D9 /* NanumBrush.ttf in Resources */,
+				BF5F50AE28F7D1E1008B79D9 /* Sample.xcassets in Resources */,
+				BF5F50AF28F7D1E1008B79D9 /* Assets.xcassets in Resources */,
+				BF5F50B028F7D1E1008B79D9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1306,6 +1460,65 @@
 				BF5112002824464A00E36175 /* ShopLivePlayer.swift in Sources */,
 				BF5112012824464A00E36175 /* ShopLiveChattingWriteView.swift in Sources */,
 				BF5112022824464A00E36175 /* SoundManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF5F505028F7D1E1008B79D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF5F505128F7D1E1008B79D9 /* TextItemInputAlertController.swift in Sources */,
+				BF5F505228F7D1E1008B79D9 /* CouponSettingsViewController.swift in Sources */,
+				BF5F505328F7D1E1008B79D9 /* SideMenuCell.swift in Sources */,
+				BF5F505428F7D1E1008B79D9 /* CouponCallbackSettingViewController.swift in Sources */,
+				BF5F505628F7D1E1008B79D9 /* SDKSettings.swift in Sources */,
+				BF5F505728F7D1E1008B79D9 /* SwitchOptionCell.swift in Sources */,
+				BF5F505928F7D1E1008B79D9 /* UserInfoCell.swift in Sources */,
+				BF5F505E28F7D1E1008B79D9 /* ShopLiveDemoKeyTools.swift in Sources */,
+				BF5F505F28F7D1E1008B79D9 /* PipAreaSettingViewController.swift in Sources */,
+				BF5F506228F7D1E1008B79D9 /* ShopLiveRadioButton.swift in Sources */,
+				BF5F506328F7D1E1008B79D9 /* CouponResponseSettingView.swift in Sources */,
+				BF5F506428F7D1E1008B79D9 /* OptionSectionHeader.swift in Sources */,
+				BF5F50BC28F7D575008B79D9 /* ShopLiveViewLoggerController.swift in Sources */,
+				BF5F506828F7D1E1008B79D9 /* AddParameterCell.swift in Sources */,
+				BF5F506928F7D1E1008B79D9 /* DemoConfiguration.swift in Sources */,
+				BF5F506C28F7D1E1008B79D9 /* DemoAppUtility.swift in Sources */,
+				BF5F506D28F7D1E1008B79D9 /* GuideTitleButton.swift in Sources */,
+				BF5F506E28F7D1E1008B79D9 /* AppDelegate.swift in Sources */,
+				BF5F507128F7D1E1008B79D9 /* SecretKeyInputAlertController.swift in Sources */,
+				BF5F507528F7D1E1008B79D9 /* ShopLiveKeySet.swift in Sources */,
+				BF5F507628F7D1E1008B79D9 /* SDKOption.swift in Sources */,
+				BF5F507728F7D1E1008B79D9 /* OptionsViewController.swift in Sources */,
+				BF5F507828F7D1E1008B79D9 /* SampleBaseCell.swift in Sources */,
+				BF5F507928F7D1E1008B79D9 /* ShopLiveDevConfiguration.swift in Sources */,
+				BF5F507A28F7D1E1008B79D9 /* ShopliveSideMenuNavagation.swift in Sources */,
+				BF5F507B28F7D1E1008B79D9 /* SampleExtensions.swift in Sources */,
+				BF5F507C28F7D1E1008B79D9 /* MainViewController.swift in Sources */,
+				BF5F507F28F7D1E1008B79D9 /* CustomShareViewController.swift in Sources */,
+				BF5F508028F7D1E1008B79D9 /* UserInfoViewController.swift in Sources */,
+				BF5F508128F7D1E1008B79D9 /* LoginTextField.swift in Sources */,
+				BF5F508228F7D1E1008B79D9 /* SceneDelegate.swift in Sources */,
+				BF5F508328F7D1E1008B79D9 /* DevInfoCell.swift in Sources */,
+				BF5F508428F7D1E1008B79D9 /* SideMenuBaseViewController.swift in Sources */,
+				BF5F508528F7D1E1008B79D9 /* CustomBaseAlertController.swift in Sources */,
+				BF5F508628F7D1E1008B79D9 /* CampaignInputAlertController.swift in Sources */,
+				BF5F508728F7D1E1008B79D9 /* DemoSecretKeyTool.swift in Sources */,
+				BF5F508928F7D1E1008B79D9 /* CampaignCell.swift in Sources */,
+				BF5F50BD28F7D5C6008B79D9 /* ShopLiveLogger.swift in Sources */,
+				BF5F508E28F7D1E1008B79D9 /* CampaignInfoCell.swift in Sources */,
+				BF5F508F28F7D1E1008B79D9 /* ShopLiveCheckBoxButton.swift in Sources */,
+				BF5F509028F7D1E1008B79D9 /* CampaignsViewController.swift in Sources */,
+				BF5F509128F7D1E1008B79D9 /* SampleOptions.swift in Sources */,
+				BF5F509228F7D1E1008B79D9 /* LoginViewController.swift in Sources */,
+				BF5F509328F7D1E1008B79D9 /* SideMenuViewController.swift in Sources */,
+				BF5F509428F7D1E1008B79D9 /* SecretKeysViewController.swift in Sources */,
+				BF5F509728F7D1E1008B79D9 /* DeepLInkManager.swift in Sources */,
+				BF5F509828F7D1E1008B79D9 /* ButtonOptionCell.swift in Sources */,
+				BF5F509928F7D1E1008B79D9 /* SideMenuItemViewController.swift in Sources */,
+				BF5F509A28F7D1E1008B79D9 /* SecretKeyCell.swift in Sources */,
+				BF5F509B28F7D1E1008B79D9 /* DemoSecretKeySet.swift in Sources */,
+				BF5F509C28F7D1E1008B79D9 /* BaseTextField.swift in Sources */,
+				BF5F509D28F7D1E1008B79D9 /* JWTTool.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1500,6 +1713,11 @@
 			isa = PBXTargetDependency;
 			target = 1BA5154C25CBDCD100070181 /* ShopLiveSDK */;
 			targetProxy = 1BA5155825CBDCD100070181 /* PBXContainerItemProxy */;
+		};
+		BF5F50BA28F7D308008B79D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1BA5154C25CBDCD100070181 /* ShopLiveSDK */;
+			targetProxy = BF5F50B928F7D308008B79D9 /* PBXContainerItemProxy */;
 		};
 		BFAD8EC1265A23FE00202160 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1911,6 +2129,70 @@
 			};
 			name = Release;
 		};
+		BF5F50B228F7D1E1008B79D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = D237UGRPX6;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				INFOPLIST_FILE = "ShopLiveDemo for QA copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.3.1;
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo;
+				PRODUCT_NAME = "DEMO QA";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG QA DEMO SDK_MODULE";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BF5F50B328F7D1E1008B79D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = D237UGRPX6;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				INFOPLIST_FILE = "ShopLiveDemo for QA copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.3.1;
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo;
+				PRODUCT_NAME = "DEMO QA";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEMO QA SDK_MODULE";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		BF60E2502771CECA0060531C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2167,7 +2449,16 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BF60E24F2771CECA0060531C /* Build configuration list for PBXNativeTarget "ShopLiveDemo for QA" */ = {
+		BF5F50B128F7D1E1008B79D9 /* Build configuration list for PBXNativeTarget "ShopLiveDemo for QA" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF5F50B228F7D1E1008B79D9 /* Debug */,
+				BF5F50B328F7D1E1008B79D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BF60E24F2771CECA0060531C /* Build configuration list for PBXNativeTarget "ShopLiveDemo for QA for dev" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BF60E2502771CECA0060531C /* Debug */,
@@ -2219,6 +2510,54 @@
 			repositoryURL = "https://github.com/AssistoLab/DropDown.git";
 			requirement = {
 				branch = master;
+				kind = branch;
+			};
+		};
+		BF5F504528F7D1E1008B79D9 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		BF5F504728F7D1E1008B79D9 /* XCRemoteSwiftPackageReference "SideMenu" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jonkykong/SideMenu.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+		BF5F504928F7D1E1008B79D9 /* XCRemoteSwiftPackageReference "DropDown" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AssistoLab/DropDown.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		BF5F504B28F7D1E1008B79D9 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		BF5F504D28F7D1E1008B79D9 /* XCRemoteSwiftPackageReference "SwiftyJWT" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/polarcop/SwiftyJWT.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		BF5F504F28F7D1E1008B79D9 /* XCRemoteSwiftPackageReference "CryptoSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krzyzanowskim/CryptoSwift.git";
+			requirement = {
+				branch = main;
 				kind = branch;
 			};
 		};
@@ -2314,6 +2653,36 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BF4719A527687C6A00522F6F /* XCRemoteSwiftPackageReference "DropDown" */;
 			productName = DropDown;
+		};
+		BF5F504428F7D1E1008B79D9 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF5F504528F7D1E1008B79D9 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		BF5F504628F7D1E1008B79D9 /* SideMenu */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF5F504728F7D1E1008B79D9 /* XCRemoteSwiftPackageReference "SideMenu" */;
+			productName = SideMenu;
+		};
+		BF5F504828F7D1E1008B79D9 /* DropDown */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF5F504928F7D1E1008B79D9 /* XCRemoteSwiftPackageReference "DropDown" */;
+			productName = DropDown;
+		};
+		BF5F504A28F7D1E1008B79D9 /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF5F504B28F7D1E1008B79D9 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
+		};
+		BF5F504C28F7D1E1008B79D9 /* SwiftyJWT */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF5F504D28F7D1E1008B79D9 /* XCRemoteSwiftPackageReference "SwiftyJWT" */;
+			productName = SwiftyJWT;
+		};
+		BF5F504E28F7D1E1008B79D9 /* CryptoSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF5F504F28F7D1E1008B79D9 /* XCRemoteSwiftPackageReference "CryptoSwift" */;
+			productName = CryptoSwift;
 		};
 		BF60E1CD276F53730060531C /* SwiftyJWT */ = {
 			isa = XCSwiftPackageProductDependency;

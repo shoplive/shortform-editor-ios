@@ -7,6 +7,9 @@
 
 import Foundation
 import UIKit
+#if SDK_MODULE
+import ShopLiveSDK
+#endif
 
 @objc protocol DemoConfigurationObserver {
     var identifier: String { get }

@@ -9,6 +9,9 @@ import UIKit
 import SideMenu
 import SafariServices
 import Toast
+#if SDK_MODULE
+import ShopLiveSDK
+#endif
 
 class MainViewController: SideMenuBaseViewController {
 

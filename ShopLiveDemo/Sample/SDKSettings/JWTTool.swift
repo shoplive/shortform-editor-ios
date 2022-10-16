@@ -7,6 +7,9 @@
 
 import Foundation
 import SwiftyJWT
+#if SDK_MODULE
+import ShopLiveSDK
+#endif
 
 class JWTTool {
     static let config = DemoConfiguration.shared

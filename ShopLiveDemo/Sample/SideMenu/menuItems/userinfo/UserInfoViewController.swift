@@ -6,6 +6,9 @@
 //
 
 import UIKit
+#if SDK_MODULE
+import ShopLiveSDK
+#endif
 
 final class UserInfoViewController: SideMenuItemViewController {
 

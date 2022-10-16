@@ -7,6 +7,9 @@
 
 import UIKit
 import SnapKit
+#if SDK_MODULE
+import ShopLiveSDK
+#endif
 
 protocol TappableTextDelegate: AnyObject {
     func didTapText(_ sender: TappableText)
@@ -374,3 +377,43 @@ final class CouponCallbackSettingViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
 }
+
+#if SDK_MODULE
+extension String {
+    func textWithDownArrow() -> NSAttributedString {
+        let downArrow = UIImage(named: "down_arrow")
+
+        let attrText: NSMutableAttributedString = .init(string: "\(self) ")
+        guard let downArrowImage = downArrow else {
+            return attrText
+        }
+
+        attrText.append(.init(attachment: downArrowImage.toNSTextAttachment(yPos: 3)))
+        return attrText
+    }
+}
+
+extension UIView {
+    func addSubviews(_ views: UIView...) {
+        views.forEach { view in
+            self.addSubview(view)
+        }
+    }
+}
+
+extension UIImage {
+    func toNSTextAttachment(_ width: CGFloat? = nil, _ height: CGFloat? = nil, _ yPos: CGFloat = -8) -> NSTextAttachment {
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.bounds = CGRect(x: 0, y: yPos, width: width ?? self.size.width, height: height ?? self.size.height)
+        imageAttachment.image = self
+        return imageAttachment
+    }
+
+    func toNSTextAttachment(yPos: CGFloat = -8) -> NSTextAttachment {
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.bounds = CGRect(x: 0, y: yPos, width:  self.size.width, height: self.size.height)
+        imageAttachment.image = self
+        return imageAttachment
+    }
+}
+#endif

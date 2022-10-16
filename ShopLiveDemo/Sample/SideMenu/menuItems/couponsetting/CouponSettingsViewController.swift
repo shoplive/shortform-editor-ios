@@ -6,7 +6,9 @@
 //
 
 import UIKit
-
+#if SDK_MODULE
+import ShopLiveSDK
+#endif
 final class CouponSettingsViewController: SideMenuItemViewController {
 
     var resultAlertType: ShopLiveResultAlertType = .ALERT
@@ -33,7 +35,7 @@ final class CouponSettingsViewController: SideMenuItemViewController {
         self.title = SideMenuTypes.coupon.stringKey.localized()
         setupNaviItems()
         setupViews()
-        ShopLiveLogger.debugLog(failedSettingView.resultMessage)
+//        ShopLiveLogger.debugLog(failedSettingView.resultMessage)
     }
 
     func setupNaviItems() {

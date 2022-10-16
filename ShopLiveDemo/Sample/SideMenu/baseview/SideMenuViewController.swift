@@ -6,6 +6,9 @@
 //
 
 import UIKit
+#if SDK_MODULE
+import ShopLiveSDK
+#endif
 
 struct SideMenu {
     var identifier: String
@@ -112,7 +115,7 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             ShopLive.close()
             break
         case SideMenuTypes.removeCache.identifier:
-            UserDefaults.standard.removeObject(forKey: ShopLiveDefines.shopliveData)
+            UserDefaults.standard.removeObject(forKey: "shoplivedata")
             UserDefaults.standard.synchronize()
             UIWindow.showToast(message: "menu.msg.removeCache".localized())
             break
