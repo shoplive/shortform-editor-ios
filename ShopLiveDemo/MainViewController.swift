@@ -221,6 +221,10 @@ class MainViewController: SideMenuBaseViewController {
             return
         }
 
+        #if EBAY
+        ShopLive.setEndpoint(nil)
+        #endif
+        
         setupShopliveSettings()
         ShopLive.configure(with: currentKey.accessKey)
         ShopLive.preview(with: currentKey.campaignKey) {
@@ -240,8 +244,11 @@ class MainViewController: SideMenuBaseViewController {
             UIWindow.showToast(message: "sdk.msg.nonekey".localized())
             return
         }
-        
-//        ShopLive.setEndpoint(nil)
+
+        #if EBAY
+        ShopLive.setEndpoint(nil)
+        #endif
+
         setupShopliveSettings()
         ShopLive.configure(with: currentKey.accessKey)
 
