@@ -175,9 +175,36 @@ extension CampaignInfoCell: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let keyset = ShopLiveKeySet(alias: guideTitleInputField.text ?? "base.section.campaignInfo.campaign.none.title".localized(),
-                                    campaignKey: campaignKeyInputField.text ?? "campaignKey",
-                                    accessKey: accessKeyInputField.text ?? "accessKey")
+
+        let newText = string.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard let text = textField.text, let predictRange = Range(range, in: text) else { return true }
+
+        let predictedText = text.replacingCharacters(in: predictRange, with: newText)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        var alias = guideTitleInputField.text ?? "base.section.campaignInfo.campaign.none.title".localized()
+        var campaignKey = campaignKeyInputField.text ?? "campaignKey"
+        var accessKey = accessKeyInputField.text ?? "accessKey"
+        
+        switch textField {
+        case campaignKeyInputField:
+            campaignKey = predictedText
+            break
+        case accessKeyInputField:
+            accessKey = predictedText
+            break
+        case guideTitleInputField:
+            alias = predictedText
+            break
+        default:
+            break
+        }
+        
+        let keyset = ShopLiveKeySet(alias: alias,
+                                    campaignKey: campaignKey,
+                                    accessKey: accessKey)
+
         self.delegate?.updateKeySet(keyset)
         return true
     }
