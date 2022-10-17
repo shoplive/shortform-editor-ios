@@ -32,7 +32,7 @@ class SoundManager: NSObject {
     func play(alias: String) {
         DispatchQueue.main.async {
             guard !ShopLiveController.shared.isMuted else { return }
-            let item = SoundItem(alias: alias, url: "")
+            guard let item = self.items.filter({ $0.alias == alias}).first else { return }
             self.play(item: item)
         }
     }
@@ -94,24 +94,28 @@ extension SoundManager: AVAudioPlayerDelegate {
 struct SoundItem {
     var alias: String
     var url: String
+    
+    init(alias: String, url: String) {
+        self.alias = alias
+        self.url = url
+    }
+    
+    func download(completion: @escaping ((URL?) -> Void)) {
+        guard let url = self.playUrl else { return }
+        
+        let downloadTask: URLSessionDownloadTask = URLSession.shared.downloadTask(with: .init(url: url)) { url, response, error in
+            completion(url)
+        }
+        downloadTask.resume()
+    }
+    
+    private var playUrl: URL? {
+        URL(string: self.url)
+    }
 }
 
 extension SoundItem {
-    var playItem: Data? {
-        var item: Data? = nil
-        
-        guard let itemURL = URL(string: self.url) else {
-            return item
-        }
-        
-        do {
-            item = try Data(contentsOf: itemURL)
-        } catch {
-            
-        }
-        
-        return item
-    }
+    
 }
 
 class SoundPlayer {
@@ -120,26 +124,21 @@ class SoundPlayer {
     var item: SoundItem
     
     init?(item: SoundItem) {
-            guard let playItem = item.playItem else {
-                return nil
-            }
-            
-            self.item = item
-            
-            do {
-                player = try AVAudioPlayer(data: playItem)
-            } catch {
-                return nil
-            }
-            
-        DispatchQueue.main.async {
-            self.player?.prepareToPlay()
-        }
+        self.item = item
     }
     
     func play() {
         DispatchQueue.main.async {
-            self.player?.play()
+            self.item.download { url in
+                guard let url = url else { return }
+                do {
+                    self.player = try AVAudioPlayer(contentsOf: url)
+                    self.player?.prepareToPlay()
+                    self.player?.play()
+                } catch {
+                    return
+                }
+            }
         }
     }
     
