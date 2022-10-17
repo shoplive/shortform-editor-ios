@@ -359,6 +359,7 @@
 		BFE21965276B41A600900FB1 /* ButtonOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21964276B41A600900FB1 /* ButtonOptionCell.swift */; };
 		BFE21967276B436600900FB1 /* DevInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21966276B436600900FB1 /* DevInfoCell.swift */; };
 		BFE21969276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21968276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift */; };
+		BFE9607B28FD3A2A0098937A /* QRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF25526428FC150F008B018B /* QRReaderViewController.swift */; };
 		BFF3586C27E9AD3500B920E9 /* PipAreaSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3586B27E9AD3500B920E9 /* PipAreaSettingViewController.swift */; };
 		BFF3586D27E9AD3500B920E9 /* PipAreaSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3586B27E9AD3500B920E9 /* PipAreaSettingViewController.swift */; };
 		BFF8477E2897E0230075A0AA /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF8477D2897E0230075A0AA /* ReplayKit.framework */; };
@@ -1484,6 +1485,7 @@
 				BF5F505428F7D1E1008B79D9 /* CouponCallbackSettingViewController.swift in Sources */,
 				BF5F505628F7D1E1008B79D9 /* SDKSettings.swift in Sources */,
 				BF5F505728F7D1E1008B79D9 /* SwitchOptionCell.swift in Sources */,
+				BFE9607B28FD3A2A0098937A /* QRReaderViewController.swift in Sources */,
 				BF5F505928F7D1E1008B79D9 /* UserInfoCell.swift in Sources */,
 				BF5F505E28F7D1E1008B79D9 /* ShopLiveDemoKeyTools.swift in Sources */,
 				BF5F505F28F7D1E1008B79D9 /* PipAreaSettingViewController.swift in Sources */,
