@@ -163,6 +163,8 @@ class MainViewController: SideMenuBaseViewController {
                 // Default iOS Share
                 ShopLive.setShareScheme(scheme, custom: nil)
             }
+        } else {
+            ShopLive.setShareScheme(nil, custom: nil)
         }
 
         // Custom Font Setting
