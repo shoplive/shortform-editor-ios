@@ -244,6 +244,7 @@ extension SideMenuBaseViewController: CampaignInfoCellDelegate {
                     return currentKeySet
                 } else {
                     ShopLiveDemoKeyTools.shared.save(key: keyset)
+                    ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: keyset.alias)
                     return keyset
                 }
             } else {

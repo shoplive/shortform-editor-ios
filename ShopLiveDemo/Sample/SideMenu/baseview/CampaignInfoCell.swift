@@ -99,6 +99,11 @@ final class CampaignInfoCell: SampleBaseCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+    }
 
     override func setupViews() {
         super.setupViews()
@@ -165,6 +170,16 @@ extension CampaignInfoCell: KeySetObserver {
             accessKeyInputField.text = "accessKey"
         }
         guideTitleInputField.sizeToFit()
+        
+        var alias = guideTitleInputField.text ?? "base.section.campaignInfo.campaign.none.title".localized()
+        var campaignKey = campaignKeyInputField.text ?? "campaignKey"
+        var accessKey = accessKeyInputField.text ?? "accessKey"
+        
+        let keyset = ShopLiveKeySet(alias: alias.trimmingCharacters(in: .whitespacesAndNewlines),
+                                    campaignKey: campaignKey.trimmingCharacters(in: .whitespacesAndNewlines),
+                                    accessKey: accessKey.trimmingCharacters(in: .whitespacesAndNewlines))
+        
+        delegate?.updateKeySet(keyset)
     }
 }
 
@@ -181,7 +196,6 @@ extension CampaignInfoCell: UITextFieldDelegate {
         guard let text = textField.text, let predictRange = Range(range, in: text) else { return true }
 
         let predictedText = text.replacingCharacters(in: predictRange, with: newText)
-            .trimmingCharacters(in: .whitespacesAndNewlines)
         
         var alias = guideTitleInputField.text ?? "base.section.campaignInfo.campaign.none.title".localized()
         var campaignKey = campaignKeyInputField.text ?? "campaignKey"
@@ -201,18 +215,11 @@ extension CampaignInfoCell: UITextFieldDelegate {
             break
         }
         
-        let keyset = ShopLiveKeySet(alias: alias,
-                                    campaignKey: campaignKey,
-                                    accessKey: accessKey)
+        let keyset = ShopLiveKeySet(alias: alias.trimmingCharacters(in: .whitespacesAndNewlines),
+                                    campaignKey: campaignKey.trimmingCharacters(in: .whitespacesAndNewlines),
+                                    accessKey: accessKey.trimmingCharacters(in: .whitespacesAndNewlines))
 
         self.delegate?.updateKeySet(keyset)
         return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        let keyset = ShopLiveKeySet(alias: guideTitleInputField.text ?? "base.section.campaignInfo.campaign.none.title".localized(),
-                                    campaignKey: campaignKeyInputField.text ?? "campaignKey",
-                                    accessKey: accessKeyInputField.text ?? "accessKey")
-        self.delegate?.updateKeySet(keyset)
     }
 }
