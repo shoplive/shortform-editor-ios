@@ -346,6 +346,11 @@
 		BFAD8EE2265A24DA00202160 /* ShopLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5156925CBDD3F00070181 /* ShopLive.swift */; };
 		BFBBB03C2670ECB10025ED1D /* ShopLiveKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */; };
 		BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */; };
+		BFC73CDB2901791900D9BC8A /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC73CDA2901791900D9BC8A /* Throttle.swift */; };
+		BFC73CDC2901791900D9BC8A /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC73CDA2901791900D9BC8A /* Throttle.swift */; };
+		BFC73CDD2901791900D9BC8A /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC73CDA2901791900D9BC8A /* Throttle.swift */; };
+		BFC73CDE2901791900D9BC8A /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC73CDA2901791900D9BC8A /* Throttle.swift */; };
+		BFC73CDF2901791900D9BC8A /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC73CDA2901791900D9BC8A /* Throttle.swift */; };
 		BFD645E3270C37FD00B0B74F /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */; };
 		BFDC8B6728A169050055C4DA /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDC8B6628A169050055C4DA /* Debouncer.swift */; };
 		BFDC8B6828A169050055C4DA /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDC8B6628A169050055C4DA /* Debouncer.swift */; };
@@ -523,6 +528,7 @@
 		BFBBACA32699EC4500574958 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
 		BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveKeySet.swift; sourceTree = "<group>"; };
 		BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDemoKeyTools.swift; sourceTree = "<group>"; };
+		BFC73CDA2901791900D9BC8A /* Throttle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Throttle.swift; sourceTree = "<group>"; };
 		BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/VideoToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		BFDC8B6628A169050055C4DA /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
 		BFE14B65272F69F100C6624B /* ShopLiveDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShopLiveDemo.entitlements; sourceTree = "<group>"; };
@@ -738,6 +744,7 @@
 				BF37D99D27F5742D004C2785 /* ShopLiveConfiguration.swift */,
 				BF37D99E27F5742D004C2785 /* URLUtil.swift */,
 				BFDC8B6628A169050055C4DA /* Debouncer.swift */,
+				BFC73CDA2901791900D9BC8A /* Throttle.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1387,6 +1394,7 @@
 				BF37D9BD27F5742D004C2785 /* PerfMeasurements.swift in Sources */,
 				BF37D9DE27F5742D004C2785 /* ShopLiveWebInterface.swift in Sources */,
 				BF37D9CF27F5742D004C2785 /* ShopLiveDefines.swift in Sources */,
+				BFC73CDB2901791900D9BC8A /* Throttle.swift in Sources */,
 				BF37D9D827F5742D004C2785 /* ShopLiveViewLoggerController.swift in Sources */,
 				BF37D9A827F5742D004C2785 /* ShopLiveBase.swift in Sources */,
 				BF37D9E727F5742D004C2785 /* ShopLiveConfiguration.swift in Sources */,
@@ -1429,6 +1437,7 @@
 				BF34F2E628125F8600114DBF /* PerfMeasurements.swift in Sources */,
 				BF34F2E728125F8600114DBF /* ShopLiveWebInterface.swift in Sources */,
 				BF34F2E828125F8600114DBF /* ShopLiveDefines.swift in Sources */,
+				BFC73CDC2901791900D9BC8A /* Throttle.swift in Sources */,
 				BF34F2E928125F8600114DBF /* ShopLiveViewLoggerController.swift in Sources */,
 				BF34F2EA28125F8600114DBF /* ShopLiveBase.swift in Sources */,
 				BF34F2EB28125F8600114DBF /* ShopLiveConfiguration.swift in Sources */,
@@ -1463,6 +1472,7 @@
 				BF5111F42824464A00E36175 /* PerfMeasurements.swift in Sources */,
 				BF5111F52824464A00E36175 /* ShopLiveWebInterface.swift in Sources */,
 				BF5111F62824464A00E36175 /* ShopLiveDefines.swift in Sources */,
+				BFC73CDD2901791900D9BC8A /* Throttle.swift in Sources */,
 				BF5111F72824464A00E36175 /* ShopLiveViewLoggerController.swift in Sources */,
 				BF5111F82824464A00E36175 /* ShopLiveBase.swift in Sources */,
 				BF5111F92824464A00E36175 /* ShopLiveConfiguration.swift in Sources */,
@@ -1555,6 +1565,7 @@
 				BF37D9BC27F5742D004C2785 /* ShopLivePlayer.swift in Sources */,
 				BF37D9B927F5742D004C2785 /* ShopLivePlayerItem.swift in Sources */,
 				BF37D9BF27F5742D004C2785 /* PerfMeasurements.swift in Sources */,
+				BFC73CDF2901791900D9BC8A /* Throttle.swift in Sources */,
 				BF60E1FB2771CECA0060531C /* ShopLiveDemoKeyTools.swift in Sources */,
 				BFF3586D27E9AD3500B920E9 /* PipAreaSettingViewController.swift in Sources */,
 				BF37D9D727F5742D004C2785 /* ShopLiveSDKInterface.swift in Sources */,
@@ -1640,6 +1651,7 @@
 				BF37D9BB27F5742D004C2785 /* ShopLivePlayer.swift in Sources */,
 				BF37D9B827F5742D004C2785 /* ShopLivePlayerItem.swift in Sources */,
 				BF37D9BE27F5742D004C2785 /* PerfMeasurements.swift in Sources */,
+				BFC73CDE2901791900D9BC8A /* Throttle.swift in Sources */,
 				BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */,
 				BFF3586C27E9AD3500B920E9 /* PipAreaSettingViewController.swift in Sources */,
 				BF37D9D627F5742D004C2785 /* ShopLiveSDKInterface.swift in Sources */,

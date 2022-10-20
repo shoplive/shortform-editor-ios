@@ -99,6 +99,8 @@ final class ShopLiveChattingWriteView: UIView {
     
     private var isFocus: Bool = false
     
+    let throttle: Throttle = Throttle(queue: DispatchQueue.main, delay: 0.3)
+    
     init() {
         super.init(frame: .zero)
         setupChattingWriteView()
@@ -206,14 +208,19 @@ final class ShopLiveChattingWriteView: UIView {
     }
     
     func focus() {
-        guard isFocus == false else { return }
-        isFocus = true
-        self.chatInputViewTopBorder.isHidden = !(!UIScreen.isLandscape && ShopLiveController.shared.videoOrientation == .landscape)
-        ShopLiveLogger.debugLog("chat border ishidden : \(!UIScreen.isLandscape && ShopLiveController.shared.videoOrientation == .landscape)")
+        throttle {
+            guard self.isFocus == false else { return }
+            self.isFocus = true
+            self.chatInputViewTopBorder.isHidden = !(!UIScreen.isLandscape && ShopLiveController.shared.videoOrientation == .landscape)
+            ShopLiveLogger.debugLog("chat border ishidden : \(!UIScreen.isLandscape && ShopLiveController.shared.videoOrientation == .landscape)")
+            
+            self.chatView.chatTextView.becomeFirstResponder()
+        } onCancel: {
+            
+        }
         
-        chatView.chatTextView.becomeFirstResponder()
     }
-
+    
     func focusOut() {
         isFocus = false
     }
