@@ -103,10 +103,12 @@ struct SoundItem {
     func download(completion: @escaping ((URL?) -> Void)) {
         guard let url = self.playUrl else { return }
         
-        let downloadTask: URLSessionDownloadTask = URLSession.shared.downloadTask(with: .init(url: url)) { url, response, error in
-            completion(url)
+        DispatchQueue.global(qos: .background).async {
+            let downloadTask: URLSessionDownloadTask = URLSession.shared.downloadTask(with: .init(url: url)) { url, response, error in
+                completion(url)
+            }
+            downloadTask.resume()
         }
-        downloadTask.resume()
     }
     
     private var playUrl: URL? {

@@ -28,6 +28,7 @@ internal final class LiveStreamViewController: UIViewController {
     private var snapshotImageView: UIImageView?
     private var snapShotView: UIImageView?
     private var voiceOverIsOn: Bool = UIAccessibility.isVoiceOverRunning
+    private var audioLevel: Float = 0.0
     
     var isSnapshotHidden: Bool {
         guard let snapShotView = self.snapShotView else {
@@ -907,6 +908,18 @@ internal final class LiveStreamViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(voiceOverStatusChanged), name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
         UIScreen.main.addObserver(self, forKeyPath: "captured", options: .new, context: nil)
+        
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setActive(true, options: [])
+            audioSession.addObserver(self, forKeyPath: "outputVolume",
+                               options: NSKeyValueObservingOptions.new, context: nil)
+            audioLevel = audioSession.outputVolume
+        } catch {
+            ShopLiveLogger.debugLog("setup failed - outputVolume observe")
+        }
+        
+        
     }
     
     @objc func voiceOverStatusChanged() {
@@ -919,6 +932,7 @@ internal final class LiveStreamViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
         UIScreen.main.removeObserver(self, forKeyPath: "captured")
+        AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: "outputVolume")
     }
 
     @objc func handleNotification(_ notification: Notification) {
@@ -1661,6 +1675,18 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         switch keyPath {
+        case "outputVolume":
+            let audioSession = AVAudioSession.sharedInstance()
+            if audioSession.outputVolume > audioLevel {
+                ShopLiveLogger.debugLog("volume up")
+                ShopLiveController.shared.setSoundMute(isMuted: false)
+            }
+            if audioSession.outputVolume < audioLevel {
+                ShopLiveLogger.debugLog("volume down")
+            }
+            audioLevel = audioSession.outputVolume
+print(audioSession.outputVolume)
+            break
         case "captured":
             if UIScreen.main.isCaptured {
                 guard ShopLiveController.windowStyle != .osPip else {
