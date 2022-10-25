@@ -1683,6 +1683,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             }
             if audioSession.outputVolume < audioLevel {
                 ShopLiveLogger.debugLog("volume down")
+                ShopLiveController.shared.setSoundMute(isMuted: false)
             }
             audioLevel = audioSession.outputVolume
 print(audioSession.outputVolume)
