@@ -959,6 +959,7 @@ internal final class LiveStreamViewController: UIViewController {
 
                     if (self.retryCount < 20 && self.retryCount % 2 == 0) || (self.retryCount >= 20 && self.retryCount % 5 == 0) {
                         if let videoUrl = ShopLiveController.streamUrl {
+                            self.inBuffering = false
                             self.viewModel.updatePlayerItem(with: videoUrl)
                         } else {
                             ShopLiveController.retryPlay = false
@@ -1571,13 +1572,14 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             } else {
                 ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
             }
-
-            ShopLiveController.retryPlay = false
-            ShopLiveController.shared.takeSnapShot = false
-            ShopLiveController.isPlaying = true
+            let playerItemStatusFailed = ShopLiveController.playerItemStatus == .failed
+            ShopLiveController.retryPlay = playerItemStatusFailed
+            ShopLiveController.shared.takeSnapShot = playerItemStatusFailed
+            ShopLiveController.isPlaying = !playerItemStatusFailed
 
             break
         case .waitingToPlayAtSpecifiedRate:
+            ShopLiveLogger.debugLog("waitingToPlayAtSpecifiedRate")
             if let reason = ShopLiveController.player?.reasonForWaitingToPlay {
                 switch reason {
                 case .toMinimizeStalls:

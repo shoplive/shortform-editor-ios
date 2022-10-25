@@ -164,6 +164,7 @@ internal final class LiveStreamViewModel: NSObject {
     func handlePlayerItemStatus() {
         switch ShopLiveController.playerItemStatus {
         case .readyToPlay:
+            ShopLiveLogger.debugLog("readyToPlay")
             if ShopLiveController.playControl != .pause, ShopLiveController.playControl != .play, ShopLiveController.windowStyle != .osPip {
                 if ShopLiveController.isReplayMode && ShopLiveController.playControl == .resume { return }
                 if ShopLiveController.isReplayMode, let duration = ShopLiveController.duration {
@@ -173,6 +174,7 @@ internal final class LiveStreamViewModel: NSObject {
                 self.play()
             }
         case .failed:
+            ShopLiveLogger.debugLog("failed")
             ShopLiveController.retryPlay = true
             break
         default:
