@@ -313,6 +313,7 @@ final class ShopLiveController: NSObject {
     
     func setSoundMute(isMuted: Bool) {
         guard let playerMuted = ShopLiveController.player?.isMuted, playerMuted != isMuted else { return }
+        if ShopLiveController.shared.isPreview && !isMuted { return } // 미리보기 일때 음소거 해제는 return
         ShopLiveController.player?.isMuted = isMuted
         ShopLiveController.webInstance?.sendEventToWeb(event: .setVideoMute(isMuted: isMuted), isMuted)
     }
