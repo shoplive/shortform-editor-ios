@@ -165,16 +165,20 @@ internal final class LiveStreamViewModel: NSObject {
         switch ShopLiveController.playerItemStatus {
         case .readyToPlay:
             ShopLiveLogger.debugLog("readyToPlay")
+            ShopLiveLogger.debugLog("[1.3.2] readyToPlay")
             if ShopLiveController.playControl != .pause, ShopLiveController.playControl != .play, ShopLiveController.windowStyle != .osPip {
                 if ShopLiveController.isReplayMode && ShopLiveController.playControl == .resume { return }
                 if ShopLiveController.isReplayMode, let duration = ShopLiveController.duration {
                     ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[ON_VIDEO_DURATION_CHANGED] duration total: \(duration)  CMTimeGetSeconds(duration): \(CMTimeGetSeconds(duration))"))
                     ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoDurationChanged, CMTimeGetSeconds(duration))
                 }
+                ShopLiveController.retryPlay = false
                 self.play()
             }
         case .failed:
             ShopLiveLogger.debugLog("failed")
+            ShopLiveLogger.debugLog("[1.3.2] failed")
+            ShopLiveLogger.debugLog("[1.3.2] failed retry true")
             ShopLiveController.retryPlay = true
             break
         default:

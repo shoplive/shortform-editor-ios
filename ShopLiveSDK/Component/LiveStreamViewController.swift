@@ -960,11 +960,13 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     func handleRetryPlay() {
+        ShopLiveLogger.debugLog("[1.3.2] handleRetryPlay ShopLiveController.retryPlay \(ShopLiveController.retryPlay)")
         resetRetry()
         if ShopLiveController.retryPlay {
+            ShopLiveLogger.debugLog("[1.3.2] retry")
             retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
                 self.retryCount += 1
-
+                ShopLiveLogger.debugLog("[1.3.2] retryCount \(self.retryCount)")
                 if ShopLiveController.windowStyle != .osPip {
                     if ShopLiveController.shared.streamUrl == nil {
                         self.resetRetry()
@@ -976,6 +978,7 @@ internal final class LiveStreamViewController: UIViewController {
                             self.inBuffering = false
                             self.viewModel.updatePlayerItem(with: videoUrl)
                         } else {
+                            ShopLiveLogger.debugLog("[1.3.2] ShopLiveController.retryPlay \(ShopLiveController.retryPlay)")
                             ShopLiveController.retryPlay = false
                             ShopLiveController.shared.takeSnapShot = false
                         }
@@ -985,6 +988,7 @@ internal final class LiveStreamViewController: UIViewController {
                         if !self.inBuffering {
                             ShopLiveController.shared.seekToLatest()
                             ShopLiveController.playControl = .resume
+                            ShopLiveLogger.debugLog("[1.3.2] ShopLiveController.retryPlay \(ShopLiveController.retryPlay)")
                             ShopLiveController.retryPlay = false
                             ShopLiveController.shared.takeSnapShot = false
                         }
@@ -1508,6 +1512,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     }
     
     func takeSnapShot(on: Bool) {
+        return
         guard !ShopLiveController.shared.keepSnapshot else {
             return
         }
@@ -1554,6 +1559,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     func handleTimeControlStatus() {
         switch ShopLiveController.timeControlStatus {
         case .paused:
+            ShopLiveLogger.debugLog("[1.3.2] paused")
             if ShopLiveController.isReplayMode {
                 ShopLiveController.isPlaying = false
             } else {
@@ -1574,6 +1580,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             }
             break
         case .playing:
+            ShopLiveLogger.debugLog("[1.3.2] playing")
             requireRetryCheck = false
             inBuffering = false
 
@@ -1586,17 +1593,16 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             } else {
                 ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
             }
-            let playerItemStatusFailed = ShopLiveController.playerItemStatus == .failed
-            ShopLiveController.retryPlay = playerItemStatusFailed
-            ShopLiveController.shared.takeSnapShot = playerItemStatusFailed
-            ShopLiveController.isPlaying = !playerItemStatusFailed
+            ShopLiveController.isPlaying = true
 
             break
         case .waitingToPlayAtSpecifiedRate:
             ShopLiveLogger.debugLog("waitingToPlayAtSpecifiedRate")
+//            ShopLiveLogger.debugLog("[1.3.2] waitingToPlayAtSpecifiedRate")
             if let reason = ShopLiveController.player?.reasonForWaitingToPlay {
                 switch reason {
                 case .toMinimizeStalls:
+                    ShopLiveLogger.debugLog("[1.3.2] wt toMinimizeStalls buffer empty \(ShopLiveController.isPlaybackBufferEmpty) full \(ShopLiveController.isPlaybackBufferFull)  keepup \(ShopLiveController.isPlaybackLikelyToKeepUp)")
                     if !inBuffering {
                         ShopLiveController.shared.takeSnapShot = true
                         if !ShopLiveController.loading,
@@ -1610,7 +1616,14 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
                         }
                     }
                     break
+                case .evaluatingBufferingRate:
+                    ShopLiveLogger.debugLog("[1.3.2] wt evaluatingBufferingRate")
+                    break
+                case .noItemToPlay:
+                    ShopLiveLogger.debugLog("[1.3.2] wt noItemToPlay")
+                    break
                 default:
+                    ShopLiveLogger.debugLog("[1.3.2] wt etc reason")
                     break
                 }
                 inBuffering = true
@@ -1626,6 +1639,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         self.requireRetryCheck = true
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(waitSecond)) {
             if self.inBuffering, self.requireRetryCheck {
+                ShopLiveLogger.debugLog("[1.3.2] reserveRetry retry true")
                 ShopLiveController.retryPlay = true
             }
             self.requireRetryCheck = false

@@ -274,6 +274,7 @@ final class ShopLiveController: NSObject {
         isHiddenOverlay = false
         overlayUrl = nil
         isPlaying = false
+        ShopLiveLogger.debugLog("[1.3.2] rest retryPlay \(ShopLiveController.retryPlay)")
         retryPlay = false
         streamUrl = nil
         releasePlayer = false
@@ -438,6 +439,24 @@ extension ShopLiveController {
     static var playerItemStatus: AVPlayerItem.Status {
         get {
             return shared.playItem?.playerItem?.status ?? .unknown
+        }
+    }
+    
+    static var isPlaybackLikelyToKeepUp: Bool? {
+        get {
+            return shared.playItem?.playerItem?.isPlaybackLikelyToKeepUp
+        }
+    }
+    
+    static var isPlaybackBufferEmpty: Bool? {
+        get {
+            return shared.playItem?.playerItem?.isPlaybackBufferEmpty
+        }
+    }
+    
+    static var isPlaybackBufferFull: Bool? {
+        get {
+            return shared.playItem?.playerItem?.isPlaybackBufferFull
         }
     }
 
