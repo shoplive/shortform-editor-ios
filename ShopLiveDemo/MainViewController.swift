@@ -155,9 +155,12 @@ class MainViewController: SideMenuBaseViewController {
                 // Custom Share Setting
                 
                 ShopLive.setShareScheme(scheme, custom: {
+                    /*
                     let customShareVC = CustomShareViewController()
                     customShareVC.modalPresentationStyle = .overFullScreen
                     ShopLive.viewController?.present(customShareVC, animated: false, completion: nil)
+                     */
+                    ShopLive.startPictureInPicture(with: .bottomLeft, scale: 0.2)
                 })
             } else {
                 // Default iOS Share
@@ -230,6 +233,8 @@ class MainViewController: SideMenuBaseViewController {
     }
 
     override func preview() {
+        ShopLive.startPictureInPicture(with: .topRight, scale: 0.5)
+        return
         guard let currentKey = getCurrentKeySet() else {
             UIWindow.showToast(message: "sdk.msg.nonekey".localized())
             return
@@ -277,6 +282,8 @@ extension MainViewController: ShopLiveSDKDelegate {
     func handleNavigation(with url: URL) {
         print("handleNavigation \(url)")
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleNavigation \(url)"))
+        
+        ShopLive.startPictureInPicture()
         
         var presenter: UIViewController?
         

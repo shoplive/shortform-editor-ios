@@ -25,6 +25,7 @@ import WebKit
     private var needExecuteFullScreen: Bool = false
     private var playerModeChanged: Bool = false
     private var needAnimateToChangePreivew: Bool = false
+    private var activeFromBackground: Bool = false
     /*
     internal var phase: ShopLive.Phase = .REAL {
         didSet {
@@ -904,7 +905,8 @@ import WebKit
                 return
             }
         }
-
+        
+        self.activeFromBackground = false
         self.isWindowChanging = false
         switch self.windowChangeCommand {
         case .switchToFullScreen:
@@ -1451,7 +1453,8 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     @objc func startPictureInPicture() {
-        startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
+        startPictureInPicture(with: self.pipPosition, scale: self.pipScale)
+//        startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
     }
     
     @objc var authToken: String? {
@@ -1576,6 +1579,9 @@ extension ShopLiveBase: ShopLiveComponent {
             self.startShopLivePictureInPicture()
         } else {
             self.windowChangeCommand = .switchToInAppPip
+            if !activeFromBackground {
+                self.startShopLivePictureInPicture()
+            }
         }
         
     }
@@ -1706,6 +1712,8 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     }
 
     public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        self.activeFromBackground = true
+        
         if !isRestoredPip { //touch stop pip button in OS PIP view
             self.hideShopLiveView()
         }

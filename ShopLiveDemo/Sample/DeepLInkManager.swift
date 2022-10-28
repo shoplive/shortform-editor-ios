@@ -50,7 +50,7 @@ final class DeepLinkManager {
             UIApplication.topViewController(base: AppDelegate.rootViewController)?.present(alert, animated: true)
             break
         case .pip:
-            ShopLive.startPictureInPicture()
+            ShopLive.startPictureInPicture(with: .bottomRight, scale: 0.4)
             break
         case .fullscreen:
             ShopLive.stopPictureInPicture()
