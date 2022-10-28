@@ -1512,7 +1512,6 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     }
     
     func takeSnapShot(on: Bool) {
-        return
         guard !ShopLiveController.shared.keepSnapshot else {
             return
         }
