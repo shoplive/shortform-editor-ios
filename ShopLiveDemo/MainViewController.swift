@@ -233,8 +233,6 @@ class MainViewController: SideMenuBaseViewController {
     }
 
     override func preview() {
-        ShopLive.startPictureInPicture(with: .topRight, scale: 0.5)
-        return
         guard let currentKey = getCurrentKeySet() else {
             UIWindow.showToast(message: "sdk.msg.nonekey".localized())
             return

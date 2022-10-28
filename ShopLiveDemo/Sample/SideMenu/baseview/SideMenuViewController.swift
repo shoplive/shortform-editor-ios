@@ -60,7 +60,14 @@ final class SideMenuViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
 
-        demoVersionLabel.text = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+        let buildVersion: String? = Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as? String
+        let bundleVersion: String? = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+        
+        var appVersion: String = ""
+        if let version = bundleVersion {
+            appVersion = version + (buildVersion != nil ? " (\(buildVersion ?? "x"))" : "")
+        }
+        demoVersionLabel.text = appVersion
         sdkVersionLabel.text = ShopLive.sdkVersion
         
         setupTableView()
