@@ -25,6 +25,7 @@ enum ShopLivePlayerObserveValue: String {
     case retryPlay = "retryPlay"
     case releasePlayer = "releasePlayer"
     case takeSnapShot = "takeSnapShot"
+    case keepSnapshot = "keepSnapshot"
     case loading = "loading"
 }
 
@@ -82,7 +83,7 @@ final class ShopLiveController: NSObject {
     var newStartPlay: Bool = false
     var campaignStatus: ShopLiveCampaignStatus = .close
     var isSuccessCampaignJoin: Bool = false
-    var keepSnapshot: Bool = false
+    @objc dynamic var keepSnapshot: Bool = false
     private var playerDelegates: [ShopLivePlayerDelegate?] = []
     @objc dynamic var playItem: ShopLivePlayItem? = .init()
     @objc dynamic var playerItem: ShopLivePlayerItem? = .init()
@@ -184,7 +185,7 @@ final class ShopLiveController: NSObject {
                 }
             }
             break
-        case .videoUrl, .isPlayable, .playControl, .isHiddenOverlay, .overlayUrl, .isPlaying, .releasePlayer, .takeSnapShot, .timeControlStatus:
+        case .videoUrl, .isPlayable, .playControl, .isHiddenOverlay, .overlayUrl, .isPlaying, .releasePlayer, .takeSnapShot, .timeControlStatus, .keepSnapshot:
             postPlayerObservers(key: key)
             break
         case .loading:
@@ -241,6 +242,7 @@ final class ShopLiveController: NSObject {
     }
 
     func resetOnlyFinished() {
+        keepSnapshot = false
         currentCampaignKey = ""
         isSameCampaign = false
         isStartedCampaign = false
@@ -350,6 +352,7 @@ extension ShopLiveController {
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.retryPlay.rawValue, options: [.old, .new], context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.releasePlayer.rawValue, options: .new, context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.takeSnapShot.rawValue, options: .new, context: nil)
+        self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.keepSnapshot.rawValue, options: .new, context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.loading.rawValue, options: .new, context: nil)
     }
 
@@ -366,6 +369,7 @@ extension ShopLiveController {
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.retryPlay.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.releasePlayer.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.takeSnapShot.rawValue)
+        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.keepSnapshot.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.loading.rawValue)
     }
 

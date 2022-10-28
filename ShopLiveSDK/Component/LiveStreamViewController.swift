@@ -1582,16 +1582,19 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             ShopLiveLogger.debugLog("[1.3.2] playing")
             requireRetryCheck = false
             inBuffering = false
-
+            
             ShopLiveController.shared.lastPipPlaying = true
-
+            
             ShopLiveController.loading = false
-
+            
             if ShopLiveController.isReplayMode {
                 ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true)
             } else {
                 ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
             }
+            
+            ShopLiveController.shared.takeSnapShot = false
+            
             ShopLiveController.isPlaying = true
 
             break
@@ -1661,6 +1664,11 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             break
         case .retryPlay:
             handleRetryPlay()
+            break
+        case .keepSnapshot:
+            if !ShopLiveController.shared.keepSnapshot {
+                takeSnapShot(on: ShopLiveController.shared.takeSnapShot)
+            }
             break
         default:
             break
