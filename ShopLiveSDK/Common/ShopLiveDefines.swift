@@ -104,7 +104,6 @@ protocol OverlayWebViewDelegate: AnyObject {
     func updatePlayerFrame(centerCrop: Bool, playerFrame: CGRect, immediately: Bool)
     func updateOrientation(orientation: UIDeviceOrientation)
     func updateOrientation(toLandscape: Bool)
-    func updateVideoExpanded()
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String])
 }
 
