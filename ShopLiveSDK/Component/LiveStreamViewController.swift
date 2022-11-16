@@ -273,15 +273,15 @@ internal final class LiveStreamViewController: UIViewController {
             break
         }
         let options = UIView.AnimationOptions(rawValue: curve << 16)
-        UIView.animate(withDuration: duration, delay: 0, options: options) {
+        UIView.animate(withDuration: duration, delay: 0, options: options) { [weak self] in
             if isHiddenView {
-                self.chatInputView.isHidden = isHiddenView
-                self.chatInputBG.isHidden = isHiddenView
+                self?.chatInputView.isHidden = isHiddenView
+                self?.chatInputBG.isHidden = isHiddenView
             }
-            self.view.layoutIfNeeded()
-        } completion: { (isComplete) in
+            self?.view.layoutIfNeeded()
+        } completion: { [weak self] (isComplete) in
             if isComplete {
-                self.chatInputView.focusOut()
+                self?.chatInputView.focusOut()
             }
         }
     }
@@ -339,7 +339,8 @@ internal final class LiveStreamViewController: UIViewController {
     }
     
     func resumeFromNotification() {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
             self.viewModel.resume()
         }
@@ -999,7 +1000,8 @@ internal final class LiveStreamViewController: UIViewController {
     }
     
     private func changeOrientation(orientation: UIDeviceOrientation) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             guard UIScreen.currentOrientation.deviceOrientation.rawValue != orientation.rawValue else { return }
             
             if #available(iOS 16.0, *) {
@@ -1016,7 +1018,8 @@ internal final class LiveStreamViewController: UIViewController {
     }
     
     private func changeOrientation(toLandscape: Bool) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             let orientation = toLandscape ? (UIScreen.isLandscape ? UIScreen.currentOrientation.deviceOrientation.rawValue :  ShopLiveController.shared.prevLandscapeOrientation.rawValue) : (UIScreen.isLandscape ? UIInterfaceOrientation.portrait.rawValue : UIDevice.current.orientation.rawValue)
             
             let lastOrientation = UIDevice.current.orientation
@@ -1077,8 +1080,8 @@ internal final class LiveStreamViewController: UIViewController {
         if let playerFrame = UIScreen.isLandscape ? ( ShopLiveController.shared.videoExpanded ? ShopLiveController.shared.videoFrame.landscape.expanded : ShopLiveController.shared.videoFrame.landscape.standard) : ShopLiveController.shared.videoFrame.portrait {
             self.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: false)
             
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
-                self.updateVideoConstraint()
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) { [weak self] in
+                self?.updateVideoConstraint()
             } completion: { _ in
                 
             }
@@ -1131,8 +1134,8 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             self.updateVideoFrame(immeadiately: true)
         } else {
             self.updateVideoFrame(immeadiately: false)
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
-                self.updateVideoConstraint()
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) { [weak self] in
+                self?.updateVideoConstraint()
             } completion: { _ in
             }
         }
@@ -1257,12 +1260,14 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didUpdatePoster(with url: URL) {
-        DispatchQueue.global().async {
+//        DispatchQueue.global().async { [weak self] in
+//            guard let self = self else { return }
 //            guard let imageUrl = URL(string: "https://dev-static.shoplive.cloud/background_image.html?src=" + (url.absoluteString.urlEncodedStringRFC3986 ?? url.absoluteString)) else { return }
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
                 self.imageView?.load(.init(url: url))
             }
-        }
+//        }
     }
 
     func didUpdateVideo(with url: URL) {
@@ -1487,7 +1492,8 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     }
 
     func handlePlayControl() {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             switch ShopLiveController.playControl {
             case .play:
                 self.play()
@@ -1516,7 +1522,8 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             return
         }
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             if on {
                 ShopLiveController.shared.getSnapShot { image in
                     self.snapShotView?.image = image
@@ -1530,7 +1537,8 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     }
 
     func handleLoading() {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             if ShopLiveController.loading {
                 guard !ShopLiveController.shared.isPreview else {
                     return
@@ -1604,7 +1612,6 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             if let reason = ShopLiveController.player?.reasonForWaitingToPlay {
                 switch reason {
                 case .toMinimizeStalls:
-                    ShopLiveLogger.debugLog("[1.3.2] wt toMinimizeStalls buffer empty \(ShopLiveController.isPlaybackBufferEmpty) full \(ShopLiveController.isPlaybackBufferFull)  keepup \(ShopLiveController.isPlaybackLikelyToKeepUp)")
                     if !inBuffering {
                         ShopLiveController.shared.takeSnapShot = true
                         if !ShopLiveController.loading,

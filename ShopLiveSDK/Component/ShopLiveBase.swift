@@ -425,7 +425,8 @@ import WebKit
     }
     
     private func startCustomPictureInPicture(with position: ShopLive.PipPosition = .default, scale: CGFloat = 2/5, changeWindow: Bool = true) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
 //            guard let topVC = UIApplication.topViewController(), topVC.isKind(of: LiveStreamViewController.self) else {
 //                return
 //            }
@@ -495,7 +496,8 @@ import WebKit
     }
     
     func startFromCampaignFullscreen() {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             guard !ShopLiveController.shared.pipAnimating else { return }
             guard let mainWindow = self.mainWindow else { return }
             guard let shopLiveWindow = self.shopLiveWindow else { return }
@@ -533,7 +535,7 @@ import WebKit
                     self.liveStreamViewController?.view.layer.masksToBounds = true
                 } completion: { _ in
                     UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
-                            self.liveStreamViewController?.updateVideoConstraint()
+                        self.liveStreamViewController?.updateVideoConstraint()
                         shopLiveWindow.frame = mainWindow.bounds
                         shopLiveWindow.layer.cornerRadius = 0
                         shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
@@ -652,7 +654,8 @@ import WebKit
     }
 
     func updatePip(isRotation: Bool = false) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             guard !ShopLiveController.shared.pipAnimating else { return }
             
             self.isWindowChanging = true
@@ -697,7 +700,8 @@ import WebKit
     }
     
     func startFromCampaignPIP() {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             self.liveStreamViewController?.updateVideoFit(centerCrop: true)
             
             self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.lastStyle.rawValue])
@@ -744,7 +748,8 @@ import WebKit
     }
     
     func willChangePreview() {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             
             self.isWindowChanging = true
             
@@ -833,7 +838,8 @@ import WebKit
     }
     
     func didChangeOSPIP() {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             guard !ShopLiveController.shared.isPreview else { return }
             guard let mainWindow = self.mainWindow else { return }
             guard let shopLiveWindow = self.shopLiveWindow else { return }
@@ -1762,14 +1768,14 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     func finishRotation() {
-        UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve) {
-            self.shopLiveWindow?.layer.masksToBounds = false
-            self.liveStreamViewController?.showBackgroundPoster()
+        UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve) { [weak self] in
+            self?.shopLiveWindow?.layer.masksToBounds = false
+            self?.liveStreamViewController?.showBackgroundPoster()
         } completion: { _ in
             UIView.animate(withDuration: 0.3, delay: 0.25, options: .transitionCrossDissolve) {
                 ShopLiveController.shared.webInstance?.alpha = 1
-            } completion: { _ in
-                self.shopLiveWindow?.layer.masksToBounds = false
+            } completion: { [weak self] _ in
+                self?.shopLiveWindow?.layer.masksToBounds = false
             }
         }
     }
@@ -1805,9 +1811,9 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
             UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
                 
             } completion: { _ in
-                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
-                    self.liveStreamViewController?.updateVideoConstraint()
-                    self.shopLiveWindow?.layoutIfNeeded()
+                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) { [weak self] in
+                    self?.liveStreamViewController?.updateVideoConstraint()
+                    self?.shopLiveWindow?.layoutIfNeeded()
                 } completion: { _ in
                 }
             }

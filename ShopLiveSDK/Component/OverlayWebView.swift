@@ -61,6 +61,8 @@ internal class OverlayWebView: UIView {
         webView?.removeFromSuperview()
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
         removeObserver()
+        webView = nil
+        ShopLiveController.shared.webInstance = nil
         delegate = nil
     }
     
@@ -143,7 +145,9 @@ internal class OverlayWebView: UIView {
     }
     
     private func loadOverlay(with url: URL) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            ShopLiveLogger.debugLog("this is called \(url.absoluteString)")
             self.webView?.load(URLRequest(url: url))
         }
     }
@@ -349,16 +353,16 @@ extension OverlayWebView: WKScriptMessageHandler {
                     break
                 case "PLAY_SOUND":
                     if let alias = parameters?["alias"] as? String {
-                        DispatchQueue.global(qos: .background).async {
+//                        DispatchQueue.global(qos: .background).async {
                             SoundManager.shared.play(alias: alias)
-                        }
+//                        }
                     }
                     break
                 case "STOP_SOUND":
                     if let alias = parameters?["alias"] as? String {
-                        DispatchQueue.global(qos: .background).async {
+//                        DispatchQueue.global(qos: .background).async {
                             SoundManager.shared.stop(alias: alias)
-                        }
+//                        }
                     }
                     break
                 case "OPEN_DEEPLINK":

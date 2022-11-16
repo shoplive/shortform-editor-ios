@@ -64,14 +64,16 @@ class SideMenuBaseViewController: UIViewController {
     }
     
     private func setKeyboard(notification: Notification) {
-        guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
-              let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
-              let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt,
-              let bottomPadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom else { return }
-        
-        let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
-        let keyboard = self.view.convert(keyboardScreenEndFrame, from: self.view.window)
-        let height = self.view.frame.size.height
+        /*
+            guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+            let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
+            let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
+            let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt,
+            let bottomPadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom
+
+            let keyboard = self.view.convert(keyboardScreenEndFrame, from: self.view.window)
+            let height = self.view.frame.size.height
+         */
         
         switch notification.name.rawValue {
         case "UIKeyboardWillHideNotification":
@@ -81,10 +83,6 @@ class SideMenuBaseViewController: UIViewController {
             }
             break
         case "UIKeyboardWillShowNotification":
-//            self.tableView.snp.remakeConstraints {
-//                $0.left.right.top.equalToSuperview()
-//                $0.bottom.equalToSuperview().offset(-keyboard.height)
-//            }
             break
         default:
             break
@@ -94,7 +92,8 @@ class SideMenuBaseViewController: UIViewController {
     }
     
     func scrollToBottom(){
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             let indexPath = IndexPath(row: self.items.count-1, section: 0)
             self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }

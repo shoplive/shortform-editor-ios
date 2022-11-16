@@ -18,7 +18,8 @@ class SoundManager: NSObject {
     private var items: [SoundItem] = []
     
     func play(item: SoundItem) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             if let playItem = self.items.filter({ $0.alias == item.alias }).first {
                 if let player = SoundPlayer(item: playItem) {
                     player.player?.delegate = self
@@ -30,7 +31,8 @@ class SoundManager: NSObject {
     }
     
     func play(alias: String) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             guard !ShopLiveController.shared.isMuted else { return }
             guard let item = self.items.filter({ $0.alias == alias}).first else { return }
             self.play(item: item)
@@ -82,7 +84,8 @@ class SoundManager: NSObject {
 
 extension SoundManager: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             if let playerIndex = self.players.firstIndex(where: { $0.player == player }) {
                 self.players.remove(at: playerIndex)
             }
@@ -103,7 +106,7 @@ struct SoundItem {
     func download(completion: @escaping ((URL?) -> Void)) {
         guard let url = self.playUrl else { return }
         
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .background).async { 
             let downloadTask: URLSessionDownloadTask = URLSession.shared.downloadTask(with: .init(url: url)) { url, response, error in
                 completion(url)
             }
@@ -130,7 +133,8 @@ class SoundPlayer {
     }
     
     func play() {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             self.item.download { url in
                 guard let url = url else { return }
                 do {
@@ -145,7 +149,8 @@ class SoundPlayer {
     }
     
     func stop() {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             self.player?.stop()
         }
     }

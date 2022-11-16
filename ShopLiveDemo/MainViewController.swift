@@ -287,6 +287,8 @@ extension MainViewController: ShopLiveSDKDelegate {
         case .KEEP:
             presenter = ShopLive.viewController
             break
+        @unknown default:
+            break
         }
 
         guard url.absoluteString.hasPrefix("http") else {
@@ -346,17 +348,17 @@ extension MainViewController: ShopLiveSDKDelegate {
                 let message = SDKSettings.downloadCouponFailedMessage
                 let status = SDKSettings.downloadCouponFailedStatus
                 let alertType = SDKSettings.downloadCouponFailedAlertType
-                DispatchQueue.main.async {
-                    let couponResult = ShopLiveCouponResult(couponId: couponId, success: false, message: message, status: status, alertType: alertType)
-                    result(couponResult)
-                }
+                
+                let couponResult = ShopLiveCouponResult(couponId: couponId, success: false, message: message, status: status, alertType: alertType)
+                result(couponResult)
             }
         }))
         alert.addAction(.init(title: "alert.msg.success".localized(), style: .default, handler: { _ in
-            let message = SDKSettings.downloadCouponSuccessMessage
-            let status = SDKSettings.downloadCouponSuccessStatus
-            let alertType = SDKSettings.downloadCouponSuccessAlertType
             DispatchQueue.main.async {
+                let message = SDKSettings.downloadCouponSuccessMessage
+                let status = SDKSettings.downloadCouponSuccessStatus
+                let alertType = SDKSettings.downloadCouponSuccessAlertType
+                
                 let couponResult = ShopLiveCouponResult(couponId: couponId, success: true, message: message, status: status, alertType: alertType)
                 result(couponResult)
             }
@@ -382,22 +384,18 @@ extension MainViewController: ShopLiveSDKDelegate {
 
         let alert = UIAlertController(title: "CUSTOM ACTION", message: "id: \(id)\ntype: \(type)\npayload: \(String(describing: payload))", preferredStyle: .alert)
         alert.addAction(.init(title: "alert.msg.failed".localized(), style: .cancel, handler: { _ in
-            DispatchQueue.main.async {
-                let message = SDKSettings.downloadCouponFailedMessage
-                let status = SDKSettings.downloadCouponFailedStatus
-                let alertType = SDKSettings.downloadCouponFailedAlertType
-                let customActionResult = ShopLiveCustomActionResult(id: id, success: false, message: message, status: status, alertType: alertType)
-                result(customActionResult)
-            }
+            let message = SDKSettings.downloadCouponFailedMessage
+            let status = SDKSettings.downloadCouponFailedStatus
+            let alertType = SDKSettings.downloadCouponFailedAlertType
+            let customActionResult = ShopLiveCustomActionResult(id: id, success: false, message: message, status: status, alertType: alertType)
+            result(customActionResult)
         }))
         alert.addAction(.init(title: "alert.msg.success".localized(), style: .default, handler: { _ in
             let message = SDKSettings.downloadCouponSuccessMessage
             let status = SDKSettings.downloadCouponSuccessStatus
             let alertType = SDKSettings.downloadCouponSuccessAlertType
-            DispatchQueue.main.async {
-                let customActionResult = ShopLiveCustomActionResult(id: id, success: true, message: message, status: status, alertType: alertType)
-                result(customActionResult)
-            }
+            let customActionResult = ShopLiveCustomActionResult(id: id, success: true, message: message, status: status, alertType: alertType)
+            result(customActionResult)
         }))
         ShopLive.viewController?.present(alert, animated: true, completion: nil)
     }
