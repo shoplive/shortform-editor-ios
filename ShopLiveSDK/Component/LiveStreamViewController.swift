@@ -378,14 +378,14 @@ internal final class LiveStreamViewController: UIViewController {
 
     func showSnapshotBackground() {
         self.snapshotImageView?.isHidden = false
-        self.imageView?.snapshot(completion: { image in
-            self.snapshotImageView?.image = image
-        })
-        
+        self.imageView?.snapshot(afterScreenUpdates: false, completion: { image in
+                self.snapshotImageView?.image = image
+            })
     }
     
     func hideSnapshotBackground() {
         self.snapshotImageView?.isHidden = true
+        self.snapshotImageView?.image = nil
     }
     
     func hideBackgroundPoster() {
