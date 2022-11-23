@@ -272,8 +272,6 @@ public typealias ShopLiveViewController = UIViewController
     
     @objc static func setKeepWindowStyleOnReturnFromOsPip(_ keep: Bool)
     @objc static func isKeepWindowStyleOnReturnFromOsPip() -> Bool
-
-    @objc static func setManualRotation(_ manual: Bool)
     
     @objc static func awakePlayer()
 }

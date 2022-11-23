@@ -126,8 +126,6 @@ class MainViewController: SideMenuBaseViewController {
             }
         }
 
-        ShopLive.setManualRotation(config.useManualRotation)
-        
         // Keep play video on headphone unplugged setting
         ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(config.useHeadPhoneOption1, isMute: config.useHeadPhoneOption2)
 
