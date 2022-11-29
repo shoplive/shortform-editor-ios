@@ -187,8 +187,8 @@ internal final class LiveStreamViewController: UIViewController {
     }
     
     private func teardownAudioConfig() {
-        NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance())
+        NotificationCenter.default.safeRemoveObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance())
     }
     
     @objc func handleInterruption(notification: Notification) {
@@ -929,11 +929,11 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     func removeObserver() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
-        UIScreen.main.removeObserver(self, forKeyPath: "captured")
-        AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: "outputVolume")
+        NotificationCenter.default.safeRemoveObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
+        UIScreen.main.safeRemoveObserver(self, forKeyPath: "captured")
+        AVAudioSession.sharedInstance().safeRemoveObserver(self, forKeyPath: "outputVolume")
     }
 
     @objc func handleNotification(_ notification: Notification) {

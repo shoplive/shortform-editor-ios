@@ -229,7 +229,7 @@ internal class OverlayWebView: UIView {
      }
 
      func removeObserver() {
-        self.removeObserver(self, forKeyPath: "isPipMode")
+        self.safeRemoveObserver(self, forKeyPath: "isPipMode")
      }
 
      override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

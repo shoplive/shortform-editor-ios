@@ -84,8 +84,8 @@ internal final class LiveStreamViewModel: NSObject {
         ShopLiveController.perfMeasurements?.playbackEnded()
         ShopLiveController.perfMeasurements = nil
 
-        NotificationCenter.default.removeObserver(self, name: .TimebaseEffectiveRateChangedNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemPlaybackStalled, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: .TimebaseEffectiveRateChangedNotification, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: .AVPlayerItemPlaybackStalled, object: nil)
 
         ShopLiveController.playControl = .none
     }

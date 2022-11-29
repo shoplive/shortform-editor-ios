@@ -128,8 +128,8 @@ extension KeyboardNotificationProtocol {
     }
 
     func removeKeyboardNoti() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
 }

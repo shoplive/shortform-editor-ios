@@ -1256,20 +1256,20 @@ import WebKit
 
     func removeObserver() {
         if self.observationInfo != nil {
-            self.removeObserver(self, forKeyPath: "_style")
-            self.removeObserver(self, forKeyPath: "_authToken")
-            self.removeObserver(self, forKeyPath: "_user")
+            self.safeRemoveObserver(self, forKeyPath: "_style")
+            self.safeRemoveObserver(self, forKeyPath: "_authToken")
+            self.safeRemoveObserver(self, forKeyPath: "_user")
         }
 
-        NotificationCenter.default.removeObserver(self, name: UIApplication.willChangeStatusBarOrientationNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIApplication.protectedDataWillBecomeUnavailableNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: UIApplication.willChangeStatusBarOrientationNotification, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: UIApplication.protectedDataWillBecomeUnavailableNotification, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.safeRemoveObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     @objc func handleKeyboard(_ notification: Notification? = nil) {

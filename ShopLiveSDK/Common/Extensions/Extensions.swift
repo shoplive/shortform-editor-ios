@@ -51,16 +51,33 @@ extension UIApplication {
 }
 
 extension NSObject {
-  func safeRemoveObserver(_ observer: NSObject, forKeyPath keyPath: String) {
+  func safeRemoveObserver(_ observer: Any, forKeyPath keyPath: String) {
+    guard let obverb: NSObject = observer as? NSObject else { return }
+      
     switch self.observationInfo {
     case .some:
-      self.removeObserver(observer, forKeyPath: keyPath)
+      self.removeObserver(obverb, forKeyPath: keyPath)
     default:
 //        ShopLiveLogger.debugLog("observer does not exist")
         break
 
     }
   }
+}
+
+extension NotificationCenter {
+    func safeRemoveObserver(_ observer: Any, name aName: NSNotification.Name?, object anObject: Any?) {
+        guard let obverb: NSObject = observer as? NSObject else { return }
+        
+        switch self.observationInfo {
+        case .some:
+            self.removeObserver(obverb, name: aName, object: anObject)
+        default:
+    //        ShopLiveLogger.debugLog("observer does not exist")
+            break
+
+        }
+    }
 }
 
 extension Array {

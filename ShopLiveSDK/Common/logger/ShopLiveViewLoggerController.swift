@@ -464,8 +464,8 @@ extension ShopLiveViewLoggerController {
     }
 
     private func removeObserver() {
-        self.removeObserver(self, forKeyPath: "isOn")
-        self.removeObserver(self, forKeyPath: "needReload")
+        self.safeRemoveObserver(self, forKeyPath: "isOn")
+        self.safeRemoveObserver(self, forKeyPath: "needReload")
     }
 
     func handleIsOn() {
