@@ -303,6 +303,11 @@ extension OverlayWebView: WKScriptMessageHandler {
                 ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))")
                 var passToReceivedCommand: Bool = true
                 switch name {
+                case "WILL_REDIRECT_CAMPAIGN":
+                    if let campaignKey: String = parameters?["ck"] as? String {
+                        ShopLiveController.shared.campaignKey = campaignKey
+                    }
+                    break
                 case "ON_SUCCESS_CAMPAIGN_JOIN":
                     ShopLiveController.shared.isSuccessCampaignJoin = true
                     break
