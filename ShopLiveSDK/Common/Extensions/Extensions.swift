@@ -51,7 +51,7 @@ extension UIApplication {
 }
 
 extension NSObject {
-  func safeRemoveObserver(_ observer: Any, forKeyPath keyPath: String) {
+  public func safeRemoveObserver(_ observer: Any, forKeyPath keyPath: String) {
     guard let obverb: NSObject = observer as? NSObject else { return }
       
     switch self.observationInfo {
@@ -66,7 +66,7 @@ extension NSObject {
 }
 
 extension NotificationCenter {
-    func safeRemoveObserver(_ observer: Any, name aName: NSNotification.Name?, object anObject: Any?) {
+    public func safeRemoveObserver(_ observer: Any, name aName: NSNotification.Name?, object anObject: Any?) {
         guard let obverb: NSObject = observer as? NSObject else { return }
         
         switch self.observationInfo {
