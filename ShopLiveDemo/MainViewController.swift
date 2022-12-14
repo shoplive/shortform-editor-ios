@@ -47,6 +47,9 @@ class MainViewController: SideMenuBaseViewController {
 
         self.items.insert("DevInfoCell", at: 0)
         self.tableView.register(DevInfoCell.self, forCellReuseIdentifier: "DevInfoCell")
+        
+        self.items.insert("VersionInfoCell", at: 0)
+        self.tableView.register(VersionInfoCell.self, forCellReuseIdentifier: "VersionInfoCell")
         setupSampleOptions()
         ShopLive.pipPosition = .bottomLeft
         
@@ -170,6 +173,11 @@ class MainViewController: SideMenuBaseViewController {
             ShopLive.setChatViewFont(inputBoxFont: config.useChatInputCustomFont ? customFont : nil, sendButtonFont: config.useChatSendButtonCustomFont ? customFont : nil)
         }
 
+        //
+        if let appVersion = DemoConfiguration.shared.customAppVersion {
+            ShopLive.setAppVersion(appVersion)
+        }
+        
         // Picture in Picture Setting
         ShopLive.pipScale = config.pipScale ?? 2/5
         ShopLive.pipPosition = config.pipPosition

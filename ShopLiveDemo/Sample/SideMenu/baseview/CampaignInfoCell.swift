@@ -148,6 +148,15 @@ final class CampaignInfoCell: SampleBaseCell {
         page.selectKeySet = true
         self.parent?.navigationController?.pushViewController(page, animated: true)
     }
+    
+    override func configure(parent: UIViewController) {
+        super.configure(parent: parent)
+        
+        guard let delegateType = parent as? CampaignInfoCellDelegate else {
+            return
+        }
+        self.delegate = delegateType
+    }
 }
 
 extension CampaignInfoCell: KeySetObserver {
@@ -171,9 +180,9 @@ extension CampaignInfoCell: KeySetObserver {
         }
         guideTitleInputField.sizeToFit()
         
-        var alias = guideTitleInputField.text ?? "base.section.campaignInfo.campaign.none.title".localized()
-        var campaignKey = campaignKeyInputField.text ?? "campaignKey"
-        var accessKey = accessKeyInputField.text ?? "accessKey"
+        let alias = guideTitleInputField.text ?? "base.section.campaignInfo.campaign.none.title".localized()
+        let campaignKey = campaignKeyInputField.text ?? "campaignKey"
+        let accessKey = accessKeyInputField.text ?? "accessKey"
         
         let keyset = ShopLiveKeySet(alias: alias.trimmingCharacters(in: .whitespacesAndNewlines),
                                     campaignKey: campaignKey.trimmingCharacters(in: .whitespacesAndNewlines),

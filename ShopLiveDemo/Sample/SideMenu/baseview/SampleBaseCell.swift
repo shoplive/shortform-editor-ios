@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol SampleBaseCellDelegate: AnyObject {
+    func updateDatas()
+}
+
 class SampleBaseCell: UITableViewCell {
 
+    weak var baseDelegate: SampleBaseCellDelegate?
     var parent: UIViewController?
 
     let sectionTitleLabel: UILabel = {

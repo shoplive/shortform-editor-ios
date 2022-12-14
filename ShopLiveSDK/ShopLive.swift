@@ -206,7 +206,7 @@ extension ShopLive: ShopLiveSDKInterface {
     }
     
     public static func setAppVersion(_ appVersion: String) {
-        ShopLiveConfiguration.AppPreference.appVersion = appVersion
+        ShopLiveConfiguration.AppPreference.appVersion = appVersion.isEmpty ? nil : appVersion
     }
     
     public static func setUsingLocalStorage(_ use: Bool) {

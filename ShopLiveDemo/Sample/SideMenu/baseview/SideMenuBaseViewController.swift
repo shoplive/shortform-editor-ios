@@ -120,10 +120,8 @@ extension SideMenuBaseViewController: UITableViewDelegate, UITableViewDataSource
             return UITableViewCell()
         }
         cell.configure(parent: self)
+        cell.baseDelegate = self
         
-        if let campaignInfoCell = cell as? CampaignInfoCell {
-            campaignInfoCell.delegate = self
-        }
         return cell
     }
 }
@@ -267,5 +265,11 @@ extension SideMenuBaseViewController: CampaignInfoCellDelegate {
             $0.left.right.top.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-200)
         }
+    }
+}
+
+extension SideMenuBaseViewController: SampleBaseCellDelegate {
+    func updateDatas() {
+        self.tableView.reloadData()
     }
 }

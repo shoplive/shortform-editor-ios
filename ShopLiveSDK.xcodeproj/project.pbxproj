@@ -324,6 +324,9 @@
 		BF60E24C2771CECA0060531C /* Sample.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF60E1C8276DB1380060531C /* Sample.xcassets */; };
 		BF60E24D2771CECA0060531C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB5265A23FE00202160 /* Assets.xcassets */; };
 		BF60E24E2771CECA0060531C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB2265A23FD00202160 /* Main.storyboard */; };
+		BF670E7F29468F1C00F5EECF /* VersionInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF670E7E29468F1C00F5EECF /* VersionInfoCell.swift */; };
+		BF670E8029468F1C00F5EECF /* VersionInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF670E7E29468F1C00F5EECF /* VersionInfoCell.swift */; };
+		BF670E8129468F1C00F5EECF /* VersionInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF670E7E29468F1C00F5EECF /* VersionInfoCell.swift */; };
 		BF69333027BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */; };
 		BF69333127BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */; };
 		BF85BA8C2886FB3000E48A22 /* DemoAppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF85BA8B2886FB3000E48A22 /* DemoAppUtility.swift */; };
@@ -351,6 +354,9 @@
 		BFC73CDD2901791900D9BC8A /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC73CDA2901791900D9BC8A /* Throttle.swift */; };
 		BFC73CDE2901791900D9BC8A /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC73CDA2901791900D9BC8A /* Throttle.swift */; };
 		BFC73CDF2901791900D9BC8A /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC73CDA2901791900D9BC8A /* Throttle.swift */; };
+		BFD1B0F02942845F00721854 /* CustomAppVeersionInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD1B0EF2942845F00721854 /* CustomAppVeersionInputAlertController.swift */; };
+		BFD1B0F12942845F00721854 /* CustomAppVeersionInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD1B0EF2942845F00721854 /* CustomAppVeersionInputAlertController.swift */; };
+		BFD1B0F22942845F00721854 /* CustomAppVeersionInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD1B0EF2942845F00721854 /* CustomAppVeersionInputAlertController.swift */; };
 		BFD645E3270C37FD00B0B74F /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */; };
 		BFDC8B6728A169050055C4DA /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDC8B6628A169050055C4DA /* Debouncer.swift */; };
 		BFDC8B6828A169050055C4DA /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDC8B6628A169050055C4DA /* Debouncer.swift */; };
@@ -502,6 +508,7 @@
 		BF60E1DD277175D90060531C /* DeepLInkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLInkManager.swift; sourceTree = "<group>"; };
 		BF60E2522771CECA0060531C /* DEMO QA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DEMO QA.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF60E2542771D86B0060531C /* ShopLiveDemo-QA-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ShopLiveDemo-QA-Info.plist"; sourceTree = "<group>"; };
+		BF670E7E29468F1C00F5EECF /* VersionInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionInfoCell.swift; sourceTree = "<group>"; };
 		BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShareViewController.swift; sourceTree = "<group>"; };
 		BF85BA8B2886FB3000E48A22 /* DemoAppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppUtility.swift; sourceTree = "<group>"; };
 		BF8CEF90276C6DED0043D5FF /* SDKOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDKOption.swift; sourceTree = "<group>"; };
@@ -529,6 +536,7 @@
 		BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveKeySet.swift; sourceTree = "<group>"; };
 		BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDemoKeyTools.swift; sourceTree = "<group>"; };
 		BFC73CDA2901791900D9BC8A /* Throttle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Throttle.swift; sourceTree = "<group>"; };
+		BFD1B0EF2942845F00721854 /* CustomAppVeersionInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAppVeersionInputAlertController.swift; sourceTree = "<group>"; };
 		BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/VideoToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		BFDC8B6628A169050055C4DA /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
 		BFE14B65272F69F100C6624B /* ShopLiveDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShopLiveDemo.entitlements; sourceTree = "<group>"; };
@@ -812,6 +820,7 @@
 				BF60E1C8276DB1380060531C /* Sample.xcassets */,
 				BF60E1DD277175D90060531C /* DeepLInkManager.swift */,
 				BF25526428FC150F008B018B /* QRReaderViewController.swift */,
+				BFD1B0EF2942845F00721854 /* CustomAppVeersionInputAlertController.swift */,
 			);
 			path = Sample;
 			sourceTree = "<group>";
@@ -858,6 +867,7 @@
 				BF471998276832C700522F6F /* CampaignInfoCell.swift */,
 				BF47199A276832E100522F6F /* UserInfoCell.swift */,
 				BF4719A027685D8E00522F6F /* GuideTitleButton.swift */,
+				BF670E7E29468F1C00F5EECF /* VersionInfoCell.swift */,
 			);
 			path = baseview;
 			sourceTree = "<group>";
@@ -1495,6 +1505,7 @@
 				BF5F505128F7D1E1008B79D9 /* TextItemInputAlertController.swift in Sources */,
 				BF5F505228F7D1E1008B79D9 /* CouponSettingsViewController.swift in Sources */,
 				BF5F505328F7D1E1008B79D9 /* SideMenuCell.swift in Sources */,
+				BF670E8129468F1C00F5EECF /* VersionInfoCell.swift in Sources */,
 				BF5F505428F7D1E1008B79D9 /* CouponCallbackSettingViewController.swift in Sources */,
 				BF5F505628F7D1E1008B79D9 /* SDKSettings.swift in Sources */,
 				BF5F505728F7D1E1008B79D9 /* SwitchOptionCell.swift in Sources */,
@@ -1545,6 +1556,7 @@
 				BF5F509B28F7D1E1008B79D9 /* DemoSecretKeySet.swift in Sources */,
 				BF5F509C28F7D1E1008B79D9 /* BaseTextField.swift in Sources */,
 				BF5F509D28F7D1E1008B79D9 /* JWTTool.swift in Sources */,
+				BFD1B0F22942845F00721854 /* CustomAppVeersionInputAlertController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1622,9 +1634,11 @@
 				BF26309A288DDA980071C8BE /* LoginViewController.swift in Sources */,
 				BF60E2322771CECA0060531C /* SideMenuViewController.swift in Sources */,
 				BF60E2332771CECA0060531C /* SecretKeysViewController.swift in Sources */,
+				BF670E8029468F1C00F5EECF /* VersionInfoCell.swift in Sources */,
 				BF37D9EC27F5742D004C2785 /* URLUtil.swift in Sources */,
 				BF37D9F227F5742D004C2785 /* ShopLiveUser.swift in Sources */,
 				BF60E2342771CECA0060531C /* DeepLInkManager.swift in Sources */,
+				BFD1B0F12942845F00721854 /* CustomAppVeersionInputAlertController.swift in Sources */,
 				BF60E2352771CECA0060531C /* ButtonOptionCell.swift in Sources */,
 				BF60E2362771CECA0060531C /* SideMenuItemViewController.swift in Sources */,
 				BF60E2382771CECA0060531C /* SecretKeyCell.swift in Sources */,
@@ -1708,9 +1722,11 @@
 				BF263099288DDA980071C8BE /* LoginViewController.swift in Sources */,
 				BF47196F2765F48700522F6F /* SideMenuViewController.swift in Sources */,
 				BF60E1D5276F6E860060531C /* SecretKeysViewController.swift in Sources */,
+				BF670E7F29468F1C00F5EECF /* VersionInfoCell.swift in Sources */,
 				BF37D9EB27F5742D004C2785 /* URLUtil.swift in Sources */,
 				BF37D9F127F5742D004C2785 /* ShopLiveUser.swift in Sources */,
 				BF60E1DE277175D90060531C /* DeepLInkManager.swift in Sources */,
+				BFD1B0F02942845F00721854 /* CustomAppVeersionInputAlertController.swift in Sources */,
 				BFE21965276B41A600900FB1 /* ButtonOptionCell.swift in Sources */,
 				BF4719902766523000522F6F /* SideMenuItemViewController.swift in Sources */,
 				BF60E1D7276F6EEF0060531C /* SecretKeyCell.swift in Sources */,
@@ -2230,7 +2246,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = D237UGRPX6;
@@ -2247,7 +2262,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo;
 				PRODUCT_NAME = "DEMO QA";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG QA DEMO";
 				SWIFT_VERSION = 5.0;
@@ -2262,7 +2276,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = D237UGRPX6;
@@ -2279,7 +2292,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo;
 				PRODUCT_NAME = "DEMO QA";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEMO QA";
 				SWIFT_VERSION = 5.0;

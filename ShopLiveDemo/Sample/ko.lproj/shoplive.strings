@@ -12,6 +12,8 @@
 "alert.msg.cancel" = "취소";
 "alert.msg.success" = "성공";
 "alert.msg.failed" = "실패";
+"alert.msg.delete" = "삭제";
+"alert.msg.save" = "저장";
 "alert.login.required.description" = "로그인이 필요합니다. 로그인 화면으로 \n 이동하시겠습니까?";
 "sdk.play" = "재생";
 "sdk.preview" = "미리보기";
@@ -139,3 +141,4 @@
 "login.pwd.label" = "Password";
 "login.pwd.placeholder" = "Enter Password";
 "login.send.title" = "Log In";
+"appversion.alert.placeholder" = "예) 1.0.0";

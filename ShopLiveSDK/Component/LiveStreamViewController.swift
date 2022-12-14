@@ -915,6 +915,7 @@ internal final class LiveStreamViewController: UIViewController {
             try audioSession.setActive(true, options: [])
             audioSession.addObserver(self, forKeyPath: "outputVolume",
                                options: NSKeyValueObservingOptions.new, context: nil)
+            
             audioLevel = audioSession.outputVolume
         } catch {
             ShopLiveLogger.debugLog("setup failed - outputVolume observe")

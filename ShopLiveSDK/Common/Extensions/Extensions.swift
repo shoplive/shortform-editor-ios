@@ -113,8 +113,6 @@ extension UIButton {
 extension UIView {
     func snapshot(afterScreenUpdates: Bool = false, completion: @escaping (UIImage?) -> Void) {
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, true, UIScreen.main.scale)
-        print(self.bounds.size)
-        print(UIScreen.main.scale)
         self.drawHierarchy(in: self.bounds, afterScreenUpdates: afterScreenUpdates)
         guard let img = UIGraphicsGetImageFromCurrentImageContext() else {
             completion(nil)

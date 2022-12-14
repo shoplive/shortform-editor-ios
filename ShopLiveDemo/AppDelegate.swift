@@ -12,7 +12,7 @@ import ShopLiveSDK
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    static var rootViewController: UINavigationController?
+static var rootViewController: UINavigationController?
     var window: UIWindow?
     var orientationLock = UIInterfaceOrientationMask.all
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

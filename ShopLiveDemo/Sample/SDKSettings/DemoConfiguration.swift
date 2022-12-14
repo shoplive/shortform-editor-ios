@@ -492,6 +492,16 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.manualRotation.optionKey)
         }
     }
+    
+    var customAppVersion: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "customAppVersion")
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return UserDefaults.standard.string(forKey: "customAppVersion")
+        }
+    }
 }
 
 
