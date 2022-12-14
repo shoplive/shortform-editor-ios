@@ -269,9 +269,9 @@ extension WebInterface {
         case .navigation:
             guard let urlString = parameters?["url"] as? String else { return nil }
             var navUrl: URL? = nil
-            if let url = URL(string: urlString) {
+            if let url = URL(string: urlString.trimmingCharacters(in: .whitespacesAndNewlines)) {
                 navUrl = url
-            } else if let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let encodedUrl = URL(string: encodedStr) {
+            } else if let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)?.trimmingCharacters(in: .whitespacesAndNewlines), let encodedUrl = URL(string: encodedStr) {
                 navUrl = encodedUrl
             }
 
