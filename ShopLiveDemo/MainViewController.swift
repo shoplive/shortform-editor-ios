@@ -151,7 +151,7 @@ class MainViewController: SideMenuBaseViewController {
         }
 
         // Share URL/Scheme Setting
-        if let scheme = config.shareScheme, !scheme.isEmpty {
+        if let scheme = config.shareScheme {
             if config.useCustomShare {
                 // Custom Share Setting
                 

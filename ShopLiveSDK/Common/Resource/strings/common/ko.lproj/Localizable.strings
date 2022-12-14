@@ -7,3 +7,5 @@
 */
 "chat.placeholder" = "메시지를 입력하세요";
 "chat.send.title" = "보내기";
+"share.url.empty.error" = "설정된 공유 url이 없습니다.";
+"share.url.empty.message" = "공유하기 버튼을 클릭 했을 때 설정된 공유할 url 이 없으면 공유하기가 실행되지 않습니다.";

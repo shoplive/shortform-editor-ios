@@ -7,3 +7,6 @@
 */
 "chat.placeholder" = "Please enter a message";
 "chat.send.title" = "Send";
+"share.url.empty.error" = "There is no shared URL.";
+"share.url.empty.message" = "If there is no url to share, sharing is not executed even if you click the share button.";
+

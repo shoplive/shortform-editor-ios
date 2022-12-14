@@ -1209,7 +1209,12 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func shareAction(url: URL?) {
-        guard let originUrl = url?.absoluteString as? NSString, let decodeUrl = originUrl.removingPercentEncoding, let shareUrl = URL(string: decodeUrl) else { return }
+        guard let urlString = url?.absoluteString, !urlString.isEmpty else {
+            delegate?.onError(code: "9001", message: "share.url.empty.error".localizedString())
+            return
+        }
+                
+        guard let originUrl = urlString as? NSString, let decodeUrl = originUrl.trimmingCharacters(in: .whitespacesAndNewlines).removingPercentEncoding, let shareUrl = URL(string: decodeUrl) else { return }
 
         let shareAll:[Any] = [shareUrl]
         let activityViewController = UIActivityViewController(activityItems: shareAll , applicationActivities: nil)
