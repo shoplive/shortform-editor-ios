@@ -82,8 +82,10 @@ extension QRReaderViewController: QRScannerViewDelegate {
         
         guard let ak = queryItems?.first(where: {$0.name == "ak"})?.value, let ck = queryItems?.first(where: {$0.name == "ck"})?.value else { return }
         
+        let title: String? = queryItems?.first(where: {$0.name == "title"})?.value
+        
         self.dismiss(animated: true, completion: {
-            self.delegate?.updateKeyFromQR(keyset: .init(alias: "Unknonw Title (QR)", campaignKey: ck, accessKey: ak))
+            self.delegate?.updateKeyFromQR(keyset: .init(alias: title ?? "Unknown Title (QR)", campaignKey: ck, accessKey: ak))
         })
     }
 }
