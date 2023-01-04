@@ -7,7 +7,9 @@
 
 import Foundation
 import UIKit
+#if SDK_MODULE
 import ShopLiveSDK
+#endif
 
 final class VersionInfoCell: SampleBaseCell {
     
