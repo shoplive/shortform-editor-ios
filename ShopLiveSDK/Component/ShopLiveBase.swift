@@ -252,6 +252,8 @@ import WebKit
         setupPictureInPicture()
         shopLiveWindow?.makeKeyAndVisible()
 
+        self.delegate?.handleChangedPlayerStatus?(status: "CREATED")
+        
         if ShopLiveController.shared.isPreview {
             _style = .pip
             ShopLiveController.windowStyle = .inAppPip
@@ -313,6 +315,7 @@ import WebKit
         self.shopLiveWindow?.rootViewController = nil
 
         self.shopLiveWindow = nil
+        self.delegate?.handleChangedPlayerStatus?(status: "DESTROYED")
         delegate?.log?(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
         self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
         self._style = .unknown

@@ -319,6 +319,10 @@ extension MainViewController: ShopLiveSDKDelegate {
         }
     }
 
+    func handleChangedPlayerStatus(status: String) {
+        print("onChangedPlayerStatus \(status)")
+    }
+    
     func handleChangeCampaignStatus(status: String) {
         print("handleChangeCampaignStatus \(status)")
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleChangeCampaignStatus \(status)"))

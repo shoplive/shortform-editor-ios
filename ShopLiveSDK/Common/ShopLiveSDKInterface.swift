@@ -199,6 +199,7 @@ import UIKit
     @objc optional func handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping () -> Void)
 
     @objc func handleChangeCampaignStatus(status: String)
+    @objc optional func handleChangedPlayerStatus(status: String)
     @objc func handleError(code: String, message: String)
     @objc func handleCampaignInfo(campaignInfo: [String : Any])
     @objc func handleCommand(_ command: String, with payload: Any?)
