@@ -966,7 +966,8 @@ internal final class LiveStreamViewController: UIViewController {
         resetRetry()
         if ShopLiveController.retryPlay {
             ShopLiveLogger.debugLog("[1.3.2] retry")
-            retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
+                guard let self = self else { return }
                 self.retryCount += 1
                 ShopLiveLogger.debugLog("[1.3.2] retryCount \(self.retryCount)")
                 if ShopLiveController.windowStyle != .osPip {
