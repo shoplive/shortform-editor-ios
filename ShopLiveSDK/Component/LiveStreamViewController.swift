@@ -72,7 +72,9 @@ internal final class LiveStreamViewController: UIViewController {
     private lazy var closeButton: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setImage(UIImage(named: "closebutton"), for: .normal)
+        let bundle = Bundle(for: type(of: self))
+        let closebuttonImage = UIImage(named: "closebutton", in: bundle, compatibleWith: nil)
+        view.setImage(closebuttonImage, for: .normal)
         view.addTarget(self, action: #selector(didTouchCloseButton), for: .touchUpInside)
         return view
     }()
@@ -1823,7 +1825,6 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
                 ShopLiveController.shared.setSoundMute(isMuted: false)
             }
             audioLevel = audioSession.outputVolume
-print(audioSession.outputVolume)
             break
         case "captured":
             guard !ShopLiveController.shared.isPreview else { return }
