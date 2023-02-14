@@ -27,8 +27,8 @@ import WebKit
     @objc func isSuccessCampaignJoin() -> Bool
 
     @objc func configure(with accessKey: String)
-    @objc func preview(with campaignKey: String?, completion: @escaping () -> Void)
-    @objc func play(with campaignKey: String?)
+    @objc func preview(with campaignKey: String?, referrer: String?, completion: @escaping () -> Void)
+    @objc func play(with campaignKey: String?, referrer: String?)
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
     @objc func startPictureInPicture()
     @objc func stopPictureInPicture()
@@ -403,13 +403,13 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.configure(with: accessKey)
     }
 
-    public static func preview(with campaignKey: String?, completion: @escaping () -> Void) {
-        shared.instance?.preview(with: campaignKey, completion: completion)
+    public static func preview(with campaignKey: String?, referrer: String? = nil, completion: @escaping () -> Void) {
+        shared.instance?.preview(with: campaignKey, referrer: referrer, completion: completion)
     }
 
-    public static func play(with campaignKey: String?, keepWindowStateOnPlayExecuted: Bool = false) {
+    public static func play(with campaignKey: String?, keepWindowStateOnPlayExecuted: Bool = false, referrer: String? = nil) {
         ShopLiveConfiguration.UI.keepWindowStateOnPlayExecuted = keepWindowStateOnPlayExecuted
-        shared.instance?.play(with: campaignKey)
+        shared.instance?.play(with: campaignKey, referrer: referrer)
     }
 
     public static func startPictureInPicture(with position: PipPosition, scale: CGFloat) {

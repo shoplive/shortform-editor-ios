@@ -129,6 +129,8 @@ import WebKit
         }
     }
     
+    var queryParameters: [String: String] = [:]
+    
     weak var _delegate: ShopLiveSDKDelegate?
     
     override init() {
@@ -1178,6 +1180,10 @@ import WebKit
         queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
         queryItems.append(URLQueryItem(name: "preview", value: "1"))
 
+        self.queryParameters.forEach { param in
+            queryItems.append(URLQueryItem(name: param.key, value: param.value))
+        }
+        
         let baseUrl = URL(string: ShopLiveConfiguration.AppPreference.landingUrl)
         guard let params = URLUtil.query(queryItems) else {
             completionHandler(baseUrl)
@@ -1218,6 +1224,10 @@ import WebKit
         #if DEMO
             queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
         #endif
+        
+        self.queryParameters.forEach { param in
+            queryItems.append(URLQueryItem(name: param.key, value: param.value))
+        }
         
         if let localStorage = UserDefaults.standard.string(forKey: ShopLiveDefines.shopliveData), ShopLiveConfiguration.Data.useLocalStorage {
             queryItems.append(URLQueryItem(name: ShopLiveDefines.shopliveData, value: localStorage))
@@ -1488,15 +1498,23 @@ extension ShopLiveBase: ShopLiveComponent {
         self.accessKey = accessKey
     }
 
-    func preview(with campaignKey: String?, completion: @escaping () -> Void) {
+    func preview(with campaignKey: String?, referrer: String? = nil, completion: @escaping () -> Void) {
         ShopLiveController.shared._playerMode = .preview
         
         debouncer.renewInterval()
         
         debouncer.handler = {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 800 : 0)) {
+                self.resetQueryParameters()
+                
                 ShopLiveController.shared.execusedClose = false
                 guard self.accessKey != nil else { return }
+                
+                if let referrer = referrer {
+                    self.queryParameters["referrer"] = referrer
+                }
+                
+                self.queryParameters["_from"] = "sdk_direct"
                 
                 ShopLiveController.shared.campaignKey = campaignKey ?? ""
                 self.delegate?.log?(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "preview"])
@@ -1534,18 +1552,28 @@ extension ShopLiveBase: ShopLiveComponent {
         
     }
     
-    @objc func play(with campaignKey: String?) {
+    @objc func play(with campaignKey: String?, referrer: String? = nil) {
         ShopLiveController.shared._playerMode = .play
         debouncer.renewInterval()
         
         debouncer.handler = {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 800 : 0)) {
+                
+                self.resetQueryParameters()
                 ShopLiveController.shared.execusedClose = false
                 guard self.accessKey != nil else { return }
+                
+                if let referrer = referrer {
+                    self.queryParameters["referrer"] = referrer
+                }
+                
                 ShopLiveController.shared.campaignKey = campaignKey ?? ""
                 self.needExecuteFullScreen = ShopLiveController.shared.isPreview
                 if self.needExecuteFullScreen {
+                    self.queryParameters["_from"] = "sdk_preview"
                     self.delegate?.log?(name: "preview_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+                } else {
+                    self.queryParameters["_from"] = "sdk_direct"
                 }
                 self.delegate?.log?(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "normal"])
                 ShopLiveController.shared.isPreview = false
@@ -1756,6 +1784,10 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
         ShopLiveController.webInstance?.sendEventToWeb(event: .onPipModeChanged, false)
         
         isRestoredPip = false
+    }
+    
+    private func resetQueryParameters() {
+        queryParameters.removeAll()
     }
 }
 
