@@ -288,5 +288,6 @@ public typealias ShopLiveViewController = UIViewController
     
     @objc static func awakePlayer()
     
+    @objc static func setMixWithOthers(isMixAudio: Bool)
     @objc static func useCloseButton(_ use: Bool)
 }

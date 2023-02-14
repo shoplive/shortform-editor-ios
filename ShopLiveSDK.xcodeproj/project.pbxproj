@@ -151,6 +151,11 @@
 		BF4719AB2768836000522F6F /* SampleOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719AA2768836000522F6F /* SampleOptions.swift */; };
 		BF4719AF2768AF4700522F6F /* CampaignCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719AE2768AF4700522F6F /* CampaignCell.swift */; };
 		BF4719B12768C63B00522F6F /* ShopLiveRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719B02768C63B00522F6F /* ShopLiveRadioButton.swift */; };
+		BF4B3595299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B3594299B4EC2008BCA5A /* AudioSessionManager.swift */; };
+		BF4B3596299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B3594299B4EC2008BCA5A /* AudioSessionManager.swift */; };
+		BF4B3597299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B3594299B4EC2008BCA5A /* AudioSessionManager.swift */; };
+		BF4B3598299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B3594299B4EC2008BCA5A /* AudioSessionManager.swift */; };
+		BF4B3599299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B3594299B4EC2008BCA5A /* AudioSessionManager.swift */; };
 		BF4B358F299A2DBE008BCA5A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF4B358E299A2DBD008BCA5A /* Images.xcassets */; };
 		BF4B3590299A2DBE008BCA5A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF4B358E299A2DBD008BCA5A /* Images.xcassets */; };
 		BF4B3591299A2DBE008BCA5A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF4B358E299A2DBD008BCA5A /* Images.xcassets */; };
@@ -496,6 +501,7 @@
 		BF4719AA2768836000522F6F /* SampleOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleOptions.swift; sourceTree = "<group>"; };
 		BF4719AE2768AF4700522F6F /* CampaignCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignCell.swift; sourceTree = "<group>"; };
 		BF4719B02768C63B00522F6F /* ShopLiveRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveRadioButton.swift; sourceTree = "<group>"; };
+		BF4B3594299B4EC2008BCA5A /* AudioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionManager.swift; sourceTree = "<group>"; };
 		BF4B358E299A2DBD008BCA5A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BF5111DF2824463F00E36175 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BF5111E02824463F00E36175 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -759,6 +765,7 @@
 				BF37D99E27F5742D004C2785 /* URLUtil.swift */,
 				BFDC8B6628A169050055C4DA /* Debouncer.swift */,
 				BFC73CDA2901791900D9BC8A /* Throttle.swift */,
+				BF4B3594299B4EC2008BCA5A /* AudioSessionManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1420,6 +1427,7 @@
 				BF37D9D827F5742D004C2785 /* ShopLiveViewLoggerController.swift in Sources */,
 				BF37D9A827F5742D004C2785 /* ShopLiveBase.swift in Sources */,
 				BF37D9E727F5742D004C2785 /* ShopLiveConfiguration.swift in Sources */,
+				BF4B3595299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */,
 				BF37D9C627F5742D004C2785 /* ShopLiveWebView.swift in Sources */,
 				BF37D9EA27F5742D004C2785 /* URLUtil.swift in Sources */,
 				1BA5156A25CBDD3F00070181 /* ShopLive.swift in Sources */,
@@ -1463,6 +1471,7 @@
 				BF34F2E928125F8600114DBF /* ShopLiveViewLoggerController.swift in Sources */,
 				BF34F2EA28125F8600114DBF /* ShopLiveBase.swift in Sources */,
 				BF34F2EB28125F8600114DBF /* ShopLiveConfiguration.swift in Sources */,
+				BF4B3596299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */,
 				BF34F2EC28125F8600114DBF /* ShopLiveWebView.swift in Sources */,
 				BF34F2ED28125F8600114DBF /* URLUtil.swift in Sources */,
 				BF34F2EE28125F8600114DBF /* ShopLive.swift in Sources */,
@@ -1498,6 +1507,7 @@
 				BF5111F72824464A00E36175 /* ShopLiveViewLoggerController.swift in Sources */,
 				BF5111F82824464A00E36175 /* ShopLiveBase.swift in Sources */,
 				BF5111F92824464A00E36175 /* ShopLiveConfiguration.swift in Sources */,
+				BF4B3597299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */,
 				BF5111FA2824464A00E36175 /* ShopLiveWebView.swift in Sources */,
 				BF5111FB2824464A00E36175 /* URLUtil.swift in Sources */,
 				BF5111FC2824464A00E36175 /* ShopLive.swift in Sources */,
@@ -1635,6 +1645,7 @@
 				BF60E2252771CECA0060531C /* DemoSecretKeyTool.swift in Sources */,
 				BF37D9CE27F5742D004C2785 /* ShopLiveChattingWriteView.swift in Sources */,
 				BF60E2262771CECA0060531C /* CampaignCell.swift in Sources */,
+				BF4B3599299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */,
 				BF37D9DD27F5742D004C2785 /* ShopLiveLogger.swift in Sources */,
 				BF37D9AA27F5742D004C2785 /* ShopLiveBase.swift in Sources */,
 				BF37D9A727F5742D004C2785 /* LiveStreamViewController.swift in Sources */,
@@ -1723,6 +1734,7 @@
 				BF60E1D0276F69C00060531C /* DemoSecretKeyTool.swift in Sources */,
 				BF37D9CD27F5742D004C2785 /* ShopLiveChattingWriteView.swift in Sources */,
 				BF4719AF2768AF4700522F6F /* CampaignCell.swift in Sources */,
+				BF4B3598299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */,
 				BF37D9DC27F5742D004C2785 /* ShopLiveLogger.swift in Sources */,
 				BF37D9A927F5742D004C2785 /* ShopLiveBase.swift in Sources */,
 				BF37D9A627F5742D004C2785 /* LiveStreamViewController.swift in Sources */,

@@ -191,12 +191,11 @@ import WebKit
             return
         }
         
-        let audioSession = AVAudioSession.sharedInstance()
-        originAudioSessionCategory = audioSession.category
-        do {
-            try audioSession.setCategory(AVAudioSession.Category.playback)
-        } catch  {
-            print("Audio session failed")
+        if !ShopLiveController.shared.isPreview {
+            let audioSession = AVAudioSession.sharedInstance()
+            let audioSessionManager = AudioSessionManager.shared
+            originAudioSessionCategory = audioSession.category
+            audioSessionManager.setCategory(category: .playback, options: audioSessionManager.currentCategoryOptions)
         }
         
         ShopLiveController.shared.releaseData()
@@ -273,12 +272,8 @@ import WebKit
         ShopLiveController.webInstance?.sendEventToWeb(event: .onTerminated)
         delegate?.handleCommand("willShopLiveOff", with: ["style" : self.style.rawValue])
         if let originAudioSessionCategory = self.originAudioSessionCategory {
-            let audioSession = AVAudioSession.sharedInstance()
-            do {
-                try audioSession.setCategory(originAudioSessionCategory)
-            } catch  {
-                ShopLiveLogger.debugLog("Audio session failed")
-            }
+            let audioSessionManager = AudioSessionManager.shared
+            audioSessionManager.setCategory(category: originAudioSessionCategory, options: audioSessionManager.customerOptions)
         }
         
         if let videoWindowPanGestureRecognizer = self.videoWindowPanGestureRecognizer {
@@ -1400,6 +1395,12 @@ import WebKit
 }
 
 extension ShopLiveBase: ShopLiveComponent {
+    func setMixWithOthers(isMixAudio: Bool) {
+        let audioSessionManager = AudioSessionManager.shared
+        audioSessionManager.customerAudioCategoryOptions = audioSessionManager.currentCategoryOptions
+        ShopLiveConfiguration.SoundPolicy.useMixWithOthers = isMixAudio
+    }
+    
     func awakePlayer() {
         self.liveStreamViewController?.awakePlayer()
     }
@@ -1515,6 +1516,10 @@ extension ShopLiveBase: ShopLiveComponent {
         
         debouncer.handler = {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 800 : 0)) {
+                let audioSession = AVAudioSession.sharedInstance()
+                let categoryOption: AVAudioSession.CategoryOptions = ShopLiveConfiguration.SoundPolicy.useMixWithOthers ? .mixWithOthers : AudioSessionManager.shared.customerOptions
+                AudioSessionManager.shared.setCategory(category: .playback, options: categoryOption)
+
                 self.resetQueryParameters()
                 
                 ShopLiveController.shared.execusedClose = false
@@ -1580,6 +1585,11 @@ extension ShopLiveBase: ShopLiveComponent {
                 
                 ShopLiveController.shared.campaignKey = campaignKey ?? ""
                 self.needExecuteFullScreen = ShopLiveController.shared.isPreview
+
+                let categoryOption: AVAudioSession.CategoryOptions = ShopLiveConfiguration.SoundPolicy.useMixWithOthers ? .mixWithOthers : AudioSessionManager.shared.customerOptions
+                
+                AudioSessionManager.shared.setCategory(category: .playback, options: categoryOption)
+                
                 if self.needExecuteFullScreen {
                     self.queryParameters["_from"] = "sdk_preview"
                     self.delegate?.log?(name: "preview_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])

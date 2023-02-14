@@ -51,6 +51,8 @@ import WebKit
     @objc func close()
     
     @objc func awakePlayer()
+    
+    @objc func setMixWithOthers(isMixAudio: Bool)
 }
 
 enum ShopLiveCampaignStatus: String, CaseIterable {
@@ -193,6 +195,10 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    public static func setMixWithOthers(isMixAudio: Bool) {
+        shared.instance?.setMixWithOthers(isMixAudio: isMixAudio)
+    }
+    
     public static func useCloseButton(_ use: Bool) {
         ShopLiveConfiguration.UI.closeButton = use
     }

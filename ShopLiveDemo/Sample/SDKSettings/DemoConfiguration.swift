@@ -504,6 +504,17 @@ final class DemoConfiguration: NSObject {
         }
     }
     
+    var useMixAudio: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.mixAudio.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.mixAudio.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.mixAudio.optionKey)
+        }
+    }
+    
     var useClickLog: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.clicklog.optionKey)

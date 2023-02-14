@@ -248,6 +248,9 @@ class MainViewController: SideMenuBaseViewController {
         }
         
         setupShopliveSettings()
+        let config = DemoConfiguration.shared
+        ShopLive.setMixWithOthers(isMixAudio: config.useMixAudio)
+        
         ShopLive.configure(with: currentKey.accessKey)
         ShopLive.preview(with: currentKey.campaignKey) {
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {

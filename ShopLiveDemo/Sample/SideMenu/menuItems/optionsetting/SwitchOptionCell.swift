@@ -162,6 +162,8 @@ class SwitchOptionCell: UITableViewCell {
         case .manualRotation:
             useOption = DemoConfiguration.shared.useManualRotation
             break
+        case .mixAudio:
+            useOption = DemoConfiguration.shared.useMixAudio
         case .clicklog:
             useOption = DemoConfiguration.shared.useClickLog
             break
@@ -218,6 +220,8 @@ class SwitchOptionCell: UITableViewCell {
         case .manualRotation:
             DemoConfiguration.shared.useManualRotation = useOption
             break
+        case .mixAudio:
+            DemoConfiguration.shared.useMixAudio = useOption
         case .clicklog:
             DemoConfiguration.shared.useClickLog = useOption
             break

@@ -1826,33 +1826,21 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
 print(audioSession.outputVolume)
             break
         case "captured":
+            guard !ShopLiveController.shared.isPreview else { return }
+            let audioSessionManager = AudioSessionManager.shared
             if UIScreen.main.isCaptured {
                 guard ShopLiveController.windowStyle != .osPip else {
                     return
                 }
                 
-                do {
-                    try AVAudioSession.sharedInstance().setCategory(.soloAmbient)
-                } catch {
-                    
-                }
+                audioSessionManager.setCategory(category: .soloAmbient, options: audioSessionManager.currentCategoryOptions)
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(200)) {
-                    do {
-                        try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
-                    } catch {
-                        
-                    }
+                    audioSessionManager.setCategory(category: .playback, options: audioSessionManager.currentCategoryOptions)
                 }
             } else {
-                do {
-                    try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
-                } catch {
-                    
-                }
-                
+                audioSessionManager.setCategory(category: .playback, options: audioSessionManager.currentCategoryOptions)
             }
-            
             break
         default:
             break
