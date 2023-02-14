@@ -158,13 +158,22 @@ import UIKit
     public var name: String
     public var campaign: String
     public var feature: Feature
-    public var parameter: [String : String]
+    @available(*, deprecated, message: "use payload: [String : Any] instead")
+    public var parameter: [String : String] = [:]
+    public var payload: [String: Any] = [:]
     
     public init(name: String, feature: Feature, campaign: String, parameter: [String : String]) {
         self.name = name
         self.feature = feature
         self.campaign = campaign
         self.parameter = parameter
+    }
+    
+    public init(name: String, feature: Feature, campaign: String, payload: [String : Any]) {
+        self.name = name
+        self.feature = feature
+        self.campaign = campaign
+        self.payload = payload
     }
 }
 
@@ -206,7 +215,10 @@ import UIKit
     @objc func onSetUserName(_ payload: [String : Any])
     @objc func handleReceivedCommand(_ command: String, with payload: Any?)
     @objc optional func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint)
+    
+    @available(*, deprecated, message: "use log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) instead")
     @objc optional func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String: String])
+    @objc optional func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any])
 }
 
 public typealias ShopLiveViewController = UIViewController

@@ -118,11 +118,13 @@ class MainViewController: SideMenuBaseViewController {
     func setupShopliveSettings() {
         let config = DemoConfiguration.shared
 
+        ShopLive.setAppVersion("3.39.0")
         if config.useJWT {
             ShopLive.authToken = config.jwtToken
         } else {
             // user setting
             if let userId = config.user.id, !userId.isEmpty {
+                config.user.add(["brand": "{\"identifier\":\"thisisneverthat\",\"favorite\":false}"])
                 ShopLive.user = config.user
             } else {
                 ShopLive.user = nil
@@ -237,7 +239,9 @@ class MainViewController: SideMenuBaseViewController {
 
     override func preview() {
         guard let currentKey = getCurrentKeySet() else {
-            UIWindow.showToast(message: "sdk.msg.nonekey".localized())
+            DispatchQueue.main.async {
+                UIWindow.showToast(message: "sdk.msg.nonekey".localized())
+            }
             return
         }
         
@@ -250,14 +254,18 @@ class MainViewController: SideMenuBaseViewController {
                 var toastStyle = ToastStyle()
                 toastStyle.titleAlignment = .center
                 toastStyle.messageAlignment = .center
-                self.view.makeToast("tap preview", duration: 2,style: toastStyle)
+                DispatchQueue.main.async {
+                    self.view.makeToast("tap preview", duration: 2,style: toastStyle)
+                }
             }
         }
     }
 
     override func play() {
         guard let currentKey = getCurrentKeySet() else {
-            UIWindow.showToast(message: "sdk.msg.nonekey".localized())
+            DispatchQueue.main.async {
+                UIWindow.showToast(message: "sdk.msg.nonekey".localized())
+            }
             return
         }
 
@@ -270,8 +278,19 @@ class MainViewController: SideMenuBaseViewController {
 }
 
 extension MainViewController: ShopLiveSDKDelegate {
+    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
+        ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) parameter(String:Any) \(payload)")
+        let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, payload: payload)
+        print("eventLog \(eventLog.name)")
+        if DemoConfiguration.shared.useClickLog {
+            DispatchQueue.main.async {
+                UIWindow.showToast(message: "evnet log handler \n (String: Any) name \(name) feature \(feature.name) campaignKey \(campaign) payload \(payload)")
+            }
+        }
+    }
+    
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
-        ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) parameter \(parameter)")
+        ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) parameter(String:String) \(parameter)")
         let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, parameter: parameter)
         print("eventLog \(eventLog.name)")
     }
@@ -450,7 +469,32 @@ extension MainViewController: ShopLiveSDKDelegate {
             ShopLive.viewController?.present(alert, animated: true, completion: nil)
             break
         case "CLICK_ROTATE_BUTTON":
-            UIWindow.showToast(message: "[CLICK_ROTATE_BUTTON]\n 회전버튼이 클릭되었습니다.\n고객사앱에서 이 커맨드를 수신하여 회전처리")
+            DispatchQueue.main.async {
+                UIWindow.showToast(message: "[CLICK_ROTATE_BUTTON]\n 회전버튼이 클릭되었습니다.\n고객사앱에서 이 커맨드를 수신하여 회전처리")
+            }
+            break
+        case "CLICK_BACK_BUTTON":
+            preview()
+            break
+        case "ON_CHANGED_BRAND_FAVORITE":
+            guard let parameters = payload as? [String: Any],
+                  let favorite = parameters["favorite"] as? Bool,
+                  let identifier = parameters["identifier"] as? String else {
+                return
+            }
+            
+            print("[command = ON_CHANGED_BRAND_FAVORITE] \n identifier: \(identifier)\nfavorite \(favorite)")
+            break
+        case "ON_CLICK_BRAND_FAVORITE_BUTTON":
+            guard let parameters = payload as? [String: Any],
+                  let favorite = parameters["favorite"] as? Bool,
+                  let identifier = parameters["identifier"] as? String else {
+                return
+            }
+            
+            print("[command = ON_CHANGE_BRAND_FAVORITE] \n identifier: \(identifier)\nfavorite \(favorite)")
+            let result: [String: Any] = ["identifier" : "thisisneverthat", "favorite" : !favorite]
+            ShopLive.sendCommandMessage(command: "SET_BRAND_FAVORITE", payload: result)
             break
         case "CLICK_BACK_BUTTON":
             preview()
@@ -465,7 +509,9 @@ extension MainViewController: LoginDelegate {
     func loginSuccess() {
         
         guard let currentKey = getCurrentKeySet() else {
-            UIWindow.showToast(message: "sdk.msg.nonekey".localized())
+            DispatchQueue.main.async {
+                UIWindow.showToast(message: "sdk.msg.nonekey".localized())
+            }
             return
         }
         

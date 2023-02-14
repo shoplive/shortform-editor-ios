@@ -319,6 +319,7 @@ import WebKit
         self.shopLiveWindow = nil
         self.delegate?.handleChangedPlayerStatus?(status: "DESTROYED")
         delegate?.log?(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
+        delegate?.log?(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type" : (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
         self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
         self._style = .unknown
         self.lastStyle = .unknown
@@ -494,6 +495,7 @@ import WebKit
                 }
                 
                 self.delegate?.log?(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+                self.delegate?.log?(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
                 self.sendCommandChangeToPip()
                 self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             }
@@ -656,6 +658,7 @@ import WebKit
         _style = .fullScreen
         delegate?.handleCommand("didShopLiveOn", with: nil)
         delegate?.log?(name: "pip_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+        delegate?.log?(name: "pip_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
     }
 
     func updatePip(isRotation: Bool = false) {
@@ -1126,6 +1129,7 @@ import WebKit
             return
         }
         delegate?.log?(name: "swipe_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+        delegate?.log?(name: "swipe_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
         if ShopLiveController.shared.videoOrientation == .landscape {
             if UIScreen.isLandscape {
                 self.liveStreamViewController?.updateOrientation(toLandscape: false)
@@ -1163,6 +1167,7 @@ import WebKit
             ShopLiveController.shared.videoCenterCrop = recognizer.scale > 1.0
             self.liveStreamViewController?.changeVideoGravity(centerCrop: ShopLiveController.shared.videoCenterCrop)
             delegate?.log?(name: recognizer.scale > 1.0 ? "pinch_zoom_out" : "pinch_zoom_in", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+            delegate?.log?(name: recognizer.scale > 1.0 ? "pinch_zoom_out" : "pinch_zoom_in", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
             break
         default:
             break
@@ -1518,6 +1523,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 
                 ShopLiveController.shared.campaignKey = campaignKey ?? ""
                 self.delegate?.log?(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "preview"])
+                self.delegate?.log?(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type" : "preview"])
                 
                 self.addObserver()
                 
@@ -1572,10 +1578,12 @@ extension ShopLiveBase: ShopLiveComponent {
                 if self.needExecuteFullScreen {
                     self.queryParameters["_from"] = "sdk_preview"
                     self.delegate?.log?(name: "preview_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+                    self.delegate?.log?(name: "preview_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
                 } else {
                     self.queryParameters["_from"] = "sdk_direct"
                 }
                 self.delegate?.log?(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "normal"])
+                self.delegate?.log?(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type" : "normal"])
                 ShopLiveController.shared.isPreview = false
                 self.addObserver()
                 self.campaignChanged = (campaignKey != self.campaignKey)
@@ -1798,6 +1806,11 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
         }
     }
     
+    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
+        delegate?.log?(name: name, feature: feature, campaign: campaign, payload: payload)
+    }
+    
+    @available(*, deprecated, message: "use log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) instead")
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
         delegate?.log?(name: name, feature: feature, campaign: campaign, parameter: parameter)
     }

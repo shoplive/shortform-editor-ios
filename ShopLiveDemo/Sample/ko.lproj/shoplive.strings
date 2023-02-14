@@ -78,6 +78,7 @@
 "sdkoption.section.share.title" = "공유하기";
 "sdkoption.section.progress.title" = "로딩 프로그레스";
 "sdkoption.section.chatFont.title" = "채팅 폰트";
+"sdkoption.section.clicklog.title" = "Click log";
 "sdkoption.setupPlayer.aspectOnTablet.title" = "태블릿 PC에서 영상 화면 비율 설정";
 "sdkoption.setupPlayer.aspectOnTablet.description" = "영상을 화면을 꽉 채우기(off) / 영상 사이즈에 맞추기(on)";
 "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.title" = "플레이어가 실행 중일때 Play 호출시 화면 상태 유지 여부 설정";
@@ -125,6 +126,8 @@
 "sdkoption.chatSendButtonCustomFont.title" = "채팅 전송 버튼 커스텀 폰트 사용하기";
 "sdkoption.chatSendButtonCustomFont.description" = "미사용시, 시스템 기본 폰트가 사용됨";
 "sdkoption.pipFloatingOffset.page.title" = "PIP 영역 설정";
+"sdkoption.clicklog.title" = "Click log Toast 옵션";
+"sdkoption.clicklog.description" = "Click log 를 Toast 로 나타냅니다.";
 "sdk.msg.nonekey" = "선택된 키가 없습니다.";
 "couponresponse.success.default" = "쿠폰 다운로드에 성공 했습니다.";
 "couponresponse.failed.default" = "쿠폰 다운로드에 실패 했습니다.";

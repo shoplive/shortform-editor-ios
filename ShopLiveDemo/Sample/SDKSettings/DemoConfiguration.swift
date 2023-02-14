@@ -493,6 +493,17 @@ final class DemoConfiguration: NSObject {
         }
     }
     
+    var useClickLog: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.clicklog.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.clicklog.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.clicklog.optionKey)
+        }
+    }
+
     var customAppVersion: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: "customAppVersion")

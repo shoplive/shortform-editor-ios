@@ -44,6 +44,7 @@ enum SDKOptionType: String, CaseIterable {
     case keepWindowStateOnPlayExecuted
     case pipKeepWindowStyle
     case manualRotation
+    case clicklog
 
     enum SettingType: Int {
         case showAlert

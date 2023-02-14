@@ -158,6 +158,10 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .manualRotation:
             useOption = DemoConfiguration.shared.useManualRotation
+            break
+        case .clicklog:
+            useOption = DemoConfiguration.shared.useClickLog
+            break
         default:
             break
         }
@@ -207,6 +211,9 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .manualRotation:
             DemoConfiguration.shared.useManualRotation = useOption
+            break
+        case .clicklog:
+            DemoConfiguration.shared.useClickLog = useOption
             break
         default:
             break

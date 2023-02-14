@@ -140,11 +140,13 @@ internal final class LiveStreamViewController: UIViewController {
         case AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue:
             if isEarphoneHeadphone {
                 delegate?.log(name: "audio_gain", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+                delegate?.log(name: "audio_gain", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
                 updateHeadPhoneStatus(plugged: true)
             }
         case AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue:
             if !isEarphoneHeadphone {
                 delegate?.log(name: "audio_loss", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+                delegate?.log(name: "audio_loss", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
                 updateHeadPhoneStatus(plugged: false)
             }
         default:
@@ -202,6 +204,7 @@ internal final class LiveStreamViewController: UIViewController {
 
           if type == .began {
               delegate?.log(name: "audio_loss", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+              delegate?.log(name: "audio_loss", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
               ShopLiveController.playControl = .pause
           } else {
               guard userInfo[AVAudioSessionInterruptionOptionKey] != nil else {
@@ -220,6 +223,7 @@ internal final class LiveStreamViewController: UIViewController {
                 return
             }
               delegate?.log(name: "audio_gain", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+              delegate?.log(name: "audio_gain", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
             if ShopLiveController.isReplayMode {
                 DispatchQueue.main.async {
                     ShopLiveController.player?.play()
@@ -1125,6 +1129,11 @@ internal final class LiveStreamViewController: UIViewController {
 }
 
 extension LiveStreamViewController: OverlayWebViewDelegate {
+    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
+        delegate?.log(name: name, feature: feature, campaign: campaign, payload: payload)
+    }
+    
+    @available(*, deprecated, message: "use log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) instead")
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
         delegate?.log(name: name, feature: feature, campaign: campaign, parameter: parameter)
     }
