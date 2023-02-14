@@ -535,6 +535,16 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.string(forKey: "customAppVersion")
         }
     }
+    
+    var customReferrer: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "customReferrer")
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return UserDefaults.standard.string(forKey: "customReferrer")
+        }
+    }
 }
 
 

@@ -2,7 +2,7 @@
 //  DemoAppUtility.swift
 //  ShopLiveSDK
 //
-//  Created by 김우현 on 2022/07/19.
+//  Created by Vincent on 2022/07/19.
 //
 
 import Foundation

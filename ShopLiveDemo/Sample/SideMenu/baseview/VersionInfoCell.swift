@@ -2,7 +2,7 @@
 //  VersionInfoCell.swift
 //  ShopLiveSDK
 //
-//  Created by 김우현 on 12/12/22.
+//  Created by Vincent on 12/12/22.
 //
 
 import Foundation
@@ -25,6 +25,14 @@ final class VersionInfoCell: SampleBaseCell {
             }
             
             return baseString + "v\(appVersion)"
+        }
+
+        var customReferrerButtonTitle: String {
+            guard let referrer = DemoConfiguration.shared.customReferrer, !referrer.isEmpty else {
+                return "Referrer 미입력"
+            }
+            
+            return "Referrer: \(referrer)"
         }
     }
     
@@ -54,6 +62,19 @@ final class VersionInfoCell: SampleBaseCell {
         return view
     }()
     
+    private lazy var customReferrerButton: UIButton = {
+        let view = UIButton(type: .custom)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+        view.setTitleColor(.black, for: .normal)
+        view.setTitleColor(.black, for: .highlighted)
+        view.setTitle(viewModel.customReferrerButtonTitle, for: .normal)
+        view.setTitle(viewModel.customReferrerButtonTitle, for: .highlighted)
+        view.addTarget(self, action: #selector(didTapReferrerSetup), for: .touchUpInside)
+        
+        return view
+    }()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -76,11 +97,11 @@ final class VersionInfoCell: SampleBaseCell {
         super.setupViews()
         self.contentView.addSubview(sdkVersionLabel)
         self.contentView.addSubview(customAppVersionButton)
+        self.contentView.addSubview(customReferrerButton)
         
         sdkVersionLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(15)
             $0.top.equalToSuperview().offset(25)
-            $0.bottom.equalToSuperview().offset(-15)
             $0.height.equalTo(30)
         }
         
@@ -88,6 +109,13 @@ final class VersionInfoCell: SampleBaseCell {
             $0.leading.equalTo(sdkVersionLabel.snp.trailing)
             $0.trailing.lessThanOrEqualToSuperview().offset(-15)
             $0.top.bottom.equalTo(sdkVersionLabel)
+        }
+        
+        customReferrerButton.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(15)
+            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
+            $0.top.equalTo(customAppVersionButton.snp.bottom).offset(10)
+            $0.bottom.equalToSuperview().offset(-15)
         }
         
         sectionTitleLabel.snp.remakeConstraints {
@@ -100,10 +128,25 @@ final class VersionInfoCell: SampleBaseCell {
         customAppVersionButton.setTitle(viewModel.customAppVersionButtonTitle, for: .highlighted)
     }
     
+    private func updateReferrer() {
+        customReferrerButton.setTitle(viewModel.customReferrerButtonTitle, for: .normal)
+        customReferrerButton.setTitle(viewModel.customReferrerButtonTitle, for: .highlighted)
+    }
+    
     @objc
     private func didTapVersionSetup() {
         let vc = CustomAppVersionInputAlertController(completion: { [weak self] in
                 self?.updateVersion()
+                self?.baseDelegate?.updateDatas()
+        })
+        vc.modalPresentationStyle = .overCurrentContext
+        parent?.present(vc, animated: false, completion: nil)
+    }
+    
+    @objc
+    private func didTapReferrerSetup() {
+        let vc = CustomReferrerAlertController(completion: { [weak self] in
+                self?.updateReferrer()
                 self?.baseDelegate?.updateDatas()
         })
         vc.modalPresentationStyle = .overCurrentContext

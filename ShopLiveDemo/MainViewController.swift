@@ -252,9 +252,9 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.setMixWithOthers(isMixAudio: config.useMixAudio)
         
         ShopLive.configure(with: currentKey.accessKey)
-        ShopLive.preview(with: currentKey.campaignKey) {
+        ShopLive.preview(with: currentKey.campaignKey, referrer: DemoConfiguration.shared.customReferrer) {
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
-                ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted)
+                ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)
             } else {
                 var toastStyle = ToastStyle()
                 toastStyle.titleAlignment = .center
@@ -277,7 +277,7 @@ class MainViewController: SideMenuBaseViewController {
         setupShopliveSettings()
         ShopLive.configure(with: currentKey.accessKey)
 
-        ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted)
+        ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)
     }
 
 }
@@ -523,7 +523,7 @@ extension MainViewController: LoginDelegate {
         let loginUser = ShopLiveUser(id: "shoplive", name: "loginUser", gender: .male, age: 20)
         ShopLive.user = loginUser
         
-        ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted)
+        ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)
     }
 }
 

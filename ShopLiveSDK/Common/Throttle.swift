@@ -2,7 +2,7 @@
 //  Throttle.swift
 //  ShopLiveSDK
 //
-//  Created by 김우현 on 2022/10/20.
+//  Created by Vincent on 2022/10/20.
 //
 
 import Foundation

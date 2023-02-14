@@ -2,7 +2,7 @@
 //  Debouncer.swift
 //  ShopLiveSDK
 //
-//  Created by 김우현 on 2022/08/09.
+//  Created by Vincent on 2022/08/09.
 //
 
 import Foundation

@@ -151,6 +151,12 @@
 		BF4719AB2768836000522F6F /* SampleOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719AA2768836000522F6F /* SampleOptions.swift */; };
 		BF4719AF2768AF4700522F6F /* CampaignCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719AE2768AF4700522F6F /* CampaignCell.swift */; };
 		BF4719B12768C63B00522F6F /* ShopLiveRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719B02768C63B00522F6F /* ShopLiveRadioButton.swift */; };
+		BF4B359B299B7167008BCA5A /* CustomInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B359A299B7167008BCA5A /* CustomInputAlertController.swift */; };
+		BF4B359C299B7167008BCA5A /* CustomInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B359A299B7167008BCA5A /* CustomInputAlertController.swift */; };
+		BF4B359D299B7167008BCA5A /* CustomInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B359A299B7167008BCA5A /* CustomInputAlertController.swift */; };
+		BF4B359F299B73E1008BCA5A /* CustomReferrerAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B359E299B73E1008BCA5A /* CustomReferrerAlertController.swift */; };
+		BF4B35A0299B73E1008BCA5A /* CustomReferrerAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B359E299B73E1008BCA5A /* CustomReferrerAlertController.swift */; };
+		BF4B35A1299B73E1008BCA5A /* CustomReferrerAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B359E299B73E1008BCA5A /* CustomReferrerAlertController.swift */; };
 		BF4B3595299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B3594299B4EC2008BCA5A /* AudioSessionManager.swift */; };
 		BF4B3596299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B3594299B4EC2008BCA5A /* AudioSessionManager.swift */; };
 		BF4B3597299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B3594299B4EC2008BCA5A /* AudioSessionManager.swift */; };
@@ -501,6 +507,8 @@
 		BF4719AA2768836000522F6F /* SampleOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleOptions.swift; sourceTree = "<group>"; };
 		BF4719AE2768AF4700522F6F /* CampaignCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignCell.swift; sourceTree = "<group>"; };
 		BF4719B02768C63B00522F6F /* ShopLiveRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveRadioButton.swift; sourceTree = "<group>"; };
+		BF4B359A299B7167008BCA5A /* CustomInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInputAlertController.swift; sourceTree = "<group>"; };
+		BF4B359E299B73E1008BCA5A /* CustomReferrerAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomReferrerAlertController.swift; sourceTree = "<group>"; };
 		BF4B3594299B4EC2008BCA5A /* AudioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionManager.swift; sourceTree = "<group>"; };
 		BF4B358E299A2DBD008BCA5A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BF5111DF2824463F00E36175 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -811,6 +819,7 @@
 				BF47199327682CD700522F6F /* menuItems */,
 				BF47199527682DB300522F6F /* Sample.storyboard */,
 				BF8CEF9F276D1C3C0043D5FF /* NanumBrush.ttf */,
+				BF4B359E299B73E1008BCA5A /* CustomReferrerAlertController.swift */,
 			);
 			path = SideMenu;
 			sourceTree = "<group>";
@@ -821,6 +830,7 @@
 				BF47197F27662F9300522F6F /* shoplive.strings */,
 				BF47197427660C7300522F6F /* SideMenu */,
 				BF47199427682D4000522F6F /* SDKSettings */,
+				BF4B359A299B7167008BCA5A /* CustomInputAlertController.swift */,
 				BF4719B02768C63B00522F6F /* ShopLiveRadioButton.swift */,
 				BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */,
 				BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */,
@@ -1553,6 +1563,7 @@
 				BF5F507A28F7D1E1008B79D9 /* ShopliveSideMenuNavagation.swift in Sources */,
 				BF5F507B28F7D1E1008B79D9 /* SampleExtensions.swift in Sources */,
 				BF5F507C28F7D1E1008B79D9 /* MainViewController.swift in Sources */,
+				BF4B35A1299B73E1008BCA5A /* CustomReferrerAlertController.swift in Sources */,
 				BF5F507F28F7D1E1008B79D9 /* CustomShareViewController.swift in Sources */,
 				BF5F508028F7D1E1008B79D9 /* UserInfoViewController.swift in Sources */,
 				BF5F508128F7D1E1008B79D9 /* LoginTextField.swift in Sources */,
@@ -1576,6 +1587,7 @@
 				BF5F509928F7D1E1008B79D9 /* SideMenuItemViewController.swift in Sources */,
 				BF5F509A28F7D1E1008B79D9 /* SecretKeyCell.swift in Sources */,
 				BF5F509B28F7D1E1008B79D9 /* DemoSecretKeySet.swift in Sources */,
+				BF4B359D299B7167008BCA5A /* CustomInputAlertController.swift in Sources */,
 				BF5F509C28F7D1E1008B79D9 /* BaseTextField.swift in Sources */,
 				BF5F509D28F7D1E1008B79D9 /* JWTTool.swift in Sources */,
 				BFD1B0F22942845F00721854 /* CustomAppVeersionInputAlertController.swift in Sources */,
@@ -1600,10 +1612,12 @@
 				BF37D9B927F5742D004C2785 /* ShopLivePlayerItem.swift in Sources */,
 				BF37D9BF27F5742D004C2785 /* PerfMeasurements.swift in Sources */,
 				BFC73CDF2901791900D9BC8A /* Throttle.swift in Sources */,
+				BF4B35A0299B73E1008BCA5A /* CustomReferrerAlertController.swift in Sources */,
 				BF60E1FB2771CECA0060531C /* ShopLiveDemoKeyTools.swift in Sources */,
 				BFF3586D27E9AD3500B920E9 /* PipAreaSettingViewController.swift in Sources */,
 				BF37D9D727F5742D004C2785 /* ShopLiveSDKInterface.swift in Sources */,
 				BF37D9C227F5742D004C2785 /* SLLoadingIndicator.swift in Sources */,
+				BF4B359C299B7167008BCA5A /* CustomInputAlertController.swift in Sources */,
 				BF60E1FD2771CECA0060531C /* ShopLiveRadioButton.swift in Sources */,
 				BF60E1FE2771CECA0060531C /* CouponResponseSettingView.swift in Sources */,
 				BF60E1FF2771CECA0060531C /* OptionSectionHeader.swift in Sources */,
@@ -1689,10 +1703,12 @@
 				BF37D9B827F5742D004C2785 /* ShopLivePlayerItem.swift in Sources */,
 				BF37D9BE27F5742D004C2785 /* PerfMeasurements.swift in Sources */,
 				BFC73CDE2901791900D9BC8A /* Throttle.swift in Sources */,
+				BF4B359F299B73E1008BCA5A /* CustomReferrerAlertController.swift in Sources */,
 				BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */,
 				BFF3586C27E9AD3500B920E9 /* PipAreaSettingViewController.swift in Sources */,
 				BF37D9D627F5742D004C2785 /* ShopLiveSDKInterface.swift in Sources */,
 				BF37D9C127F5742D004C2785 /* SLLoadingIndicator.swift in Sources */,
+				BF4B359B299B7167008BCA5A /* CustomInputAlertController.swift in Sources */,
 				BF4719B12768C63B00522F6F /* ShopLiveRadioButton.swift in Sources */,
 				BF8CEF9C276CFB310043D5FF /* CouponResponseSettingView.swift in Sources */,
 				BFA69D6A276B64FF00F91394 /* OptionSectionHeader.swift in Sources */,
