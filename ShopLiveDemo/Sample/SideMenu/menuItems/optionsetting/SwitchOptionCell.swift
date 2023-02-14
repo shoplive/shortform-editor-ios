@@ -144,6 +144,9 @@ class SwitchOptionCell: UITableViewCell {
         case .playWhenPreviewTapped:
             useOption = DemoConfiguration.shared.usePlayWhenPreviewTapped
             break
+        case .useCloseButton:
+            useOption = DemoConfiguration.shared.useCloseButton
+            break
         case .mute:
             useOption = DemoConfiguration.shared.isMuted
             break
@@ -196,6 +199,9 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .playWhenPreviewTapped:
             DemoConfiguration.shared.usePlayWhenPreviewTapped = useOption
+            break
+        case .useCloseButton:
+            DemoConfiguration.shared.useCloseButton = useOption
             break
         case .mute:
             DemoConfiguration.shared.isMuted = useOption

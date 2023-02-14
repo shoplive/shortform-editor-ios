@@ -84,6 +84,7 @@ internal final class ShopLiveConfiguration: NSObject {
         static var keepWindowStyleOnReturnFromOsPip: Bool = false
         
         static var manualRoatation: Bool = false
+        static var closeButton: Bool = false
     }
 
     fileprivate override init() {}

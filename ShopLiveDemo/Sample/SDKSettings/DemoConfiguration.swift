@@ -382,6 +382,17 @@ final class DemoConfiguration: NSObject {
         }
     }
     
+    var useCloseButton: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.useCloseButton.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.useCloseButton.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.useCloseButton.optionKey)
+        }
+    }
+    
     var nextActionTypeOnHandleNavigation: ActionType {
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: SDKOptionType.nextActionOnHandleNavigation.optionKey)

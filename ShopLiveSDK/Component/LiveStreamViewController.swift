@@ -40,6 +40,43 @@ internal final class LiveStreamViewController: UIViewController {
     
     private weak var popoverController: UIPopoverPresentationController?
     
+    private lazy var inAppPipView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        view.isHidden = true
+        return view
+    }()
+    
+    private lazy var pipDimLayer: CAGradientLayer = {
+        let layer0 = CAGradientLayer()
+        layer0.colors = [
+            UIColor(red: 0, green: 0, blue: 0, alpha: 0.4).cgColor,
+          UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor
+        ]
+
+        layer0.locations = [0, 1]
+        layer0.startPoint = CGPoint(x: 0.25, y: 0.5)
+        layer0.endPoint = CGPoint(x: 0.75, y: 0.5)
+        layer0.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
+        return layer0
+    }()
+    private lazy var pipDim: UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.addSublayer(pipDimLayer)
+        view.layer.cornerRadius = 10
+        return view
+    }()
+    
+    private lazy var closeButton: UIButton = {
+        let view = UIButton()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setImage(UIImage(named: "closebutton"), for: .normal)
+        view.addTarget(self, action: #selector(didTouchCloseButton), for: .touchUpInside)
+        return view
+    }()
+    
     private lazy var indicatorView: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -296,6 +333,12 @@ internal final class LiveStreamViewController: UIViewController {
         setupLiveStreamViewController()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard ShopLiveConfiguration.UI.closeButton else { return }
+        updateCloseButtonDim()
+    }
+    
     deinit {
     }
 
@@ -308,6 +351,56 @@ internal final class LiveStreamViewController: UIViewController {
         setupOverayWebview()
         setupChatInputView()
         setupIndicator()
+        setupCloseButton()
+    }
+    
+    var closeButtonTopConstraint: NSLayoutConstraint?
+    var closeButtonLeadingConstraint: NSLayoutConstraint?
+    var minimumPipViewWidth: CGFloat = 60
+    
+    func setupCloseButton() {
+        self.view.addSubview(inAppPipView)
+        inAppPipView.fitToSuperView()
+        inAppPipView.addSubview(pipDim)
+        pipDim.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        pipDim.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: 0).isActive = true
+        pipDim.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: 0).isActive = true
+        pipDim.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: 0).isActive = true
+        
+        inAppPipView.addSubview(closeButton)
+        closeButtonLeadingConstraint = closeButton.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: 8)
+        closeButtonLeadingConstraint?.isActive = true
+        closeButtonTopConstraint = closeButton.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: 8)
+        closeButtonTopConstraint?.isActive = true
+        closeButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        closeButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        self.view.bringSubviewToFront(inAppPipView)
+    }
+    
+    func updateCloseButtonDim() {
+        pipDimLayer.bounds = inAppPipView.bounds.insetBy(dx: -0.5*inAppPipView.bounds.size.width, dy: -0.5*inAppPipView.bounds.size.height)
+        pipDimLayer.position = inAppPipView.center
+    }
+    
+    func setCloseButtonVisible(_ visible: Bool) {
+        guard ShopLiveConfiguration.UI.closeButton else {
+            inAppPipView.isHidden = true
+            return
+        }
+        
+        let inappPipViewWidth = inAppPipView.frame.width
+        if inappPipViewWidth < minimumPipViewWidth {
+            inAppPipView.isHidden = true
+        } else {
+            let constraintGap = (inappPipViewWidth - minimumPipViewWidth) / 25
+            let gap = 4 + (constraintGap > 4 ? 4 : constraintGap)
+            closeButtonTopConstraint?.constant = gap
+            closeButtonLeadingConstraint?.constant = gap
+            self.view.bringSubviewToFront(inAppPipView)
+            inAppPipView.isHidden = !visible
+            updateCloseButtonDim()
+        }
+        
     }
 
     func play() {

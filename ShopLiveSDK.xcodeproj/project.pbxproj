@@ -151,6 +151,11 @@
 		BF4719AB2768836000522F6F /* SampleOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719AA2768836000522F6F /* SampleOptions.swift */; };
 		BF4719AF2768AF4700522F6F /* CampaignCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719AE2768AF4700522F6F /* CampaignCell.swift */; };
 		BF4719B12768C63B00522F6F /* ShopLiveRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719B02768C63B00522F6F /* ShopLiveRadioButton.swift */; };
+		BF4B358F299A2DBE008BCA5A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF4B358E299A2DBD008BCA5A /* Images.xcassets */; };
+		BF4B3590299A2DBE008BCA5A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF4B358E299A2DBD008BCA5A /* Images.xcassets */; };
+		BF4B3591299A2DBE008BCA5A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF4B358E299A2DBD008BCA5A /* Images.xcassets */; };
+		BF4B3592299A2DCD008BCA5A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF4B358E299A2DBD008BCA5A /* Images.xcassets */; };
+		BF4B3593299A2DCE008BCA5A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF4B358E299A2DBD008BCA5A /* Images.xcassets */; };
 		BF5111E12824463F00E36175 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF5111DE2824463F00E36175 /* Localizable.strings */; };
 		BF5111E32824463F00E36175 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF5111DE2824463F00E36175 /* Localizable.strings */; };
 		BF5111E42824463F00E36175 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF5111DE2824463F00E36175 /* Localizable.strings */; };
@@ -491,6 +496,7 @@
 		BF4719AA2768836000522F6F /* SampleOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleOptions.swift; sourceTree = "<group>"; };
 		BF4719AE2768AF4700522F6F /* CampaignCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignCell.swift; sourceTree = "<group>"; };
 		BF4719B02768C63B00522F6F /* ShopLiveRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveRadioButton.swift; sourceTree = "<group>"; };
+		BF4B358E299A2DBD008BCA5A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BF5111DF2824463F00E36175 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BF5111E02824463F00E36175 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BF51120C2824464A00E36175 /* ShopLiveSDKebay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDKebay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -777,6 +783,7 @@
 		BF37D99F27F5742D004C2785 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				BF4B358E299A2DBD008BCA5A /* Images.xcassets */,
 				BF5111DC2824461000E36175 /* strings */,
 			);
 			path = Resource;
@@ -1297,6 +1304,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF4B358F299A2DBE008BCA5A /* Images.xcassets in Resources */,
 				BF5111E12824463F00E36175 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1312,6 +1320,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF4B3590299A2DBE008BCA5A /* Images.xcassets in Resources */,
 				BF5112BE282449C500E36175 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1320,6 +1329,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF4B3591299A2DBE008BCA5A /* Images.xcassets in Resources */,
 				BF5112BD282449C200E36175 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1349,6 +1359,7 @@
 				BF60E24B2771CECA0060531C /* NanumBrush.ttf in Resources */,
 				BF60E24C2771CECA0060531C /* Sample.xcassets in Resources */,
 				BF60E24D2771CECA0060531C /* Assets.xcassets in Resources */,
+				BF4B3593299A2DCE008BCA5A /* Images.xcassets in Resources */,
 				BF60E24E2771CECA0060531C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1364,6 +1375,7 @@
 				BF8CEFA0276D1C3C0043D5FF /* NanumBrush.ttf in Resources */,
 				BF60E1C9276DB1380060531C /* Sample.xcassets in Resources */,
 				BFAD8EB6265A23FE00202160 /* Assets.xcassets in Resources */,
+				BF4B3592299A2DCD008BCA5A /* Images.xcassets in Resources */,
 				BFAD8EB4265A23FD00202160 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

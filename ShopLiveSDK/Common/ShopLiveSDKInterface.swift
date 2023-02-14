@@ -287,4 +287,6 @@ public typealias ShopLiveViewController = UIViewController
     @objc static func isKeepWindowStyleOnReturnFromOsPip() -> Bool
     
     @objc static func awakePlayer()
+    
+    @objc static func useCloseButton(_ use: Bool)
 }

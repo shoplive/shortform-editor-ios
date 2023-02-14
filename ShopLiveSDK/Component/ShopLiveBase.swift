@@ -475,7 +475,6 @@ import WebKit
                 shopLiveWindow.layer.shadowOpacity = 0.5
                 shopLiveWindow.layer.shadowOffset = .zero
                 shopLiveWindow.layer.shadowRadius = 10
-                
                 shopLiveWindow.setNeedsLayout()
                 shopLiveWindow.layoutIfNeeded()
             } completion: { (isCompleted) in
@@ -484,6 +483,7 @@ import WebKit
                 self.shopLiveWindow?.backgroundColor = .black
                 self.liveStreamViewController?.view.backgroundColor = .black
                 shopLiveWindow.layer.masksToBounds = false
+                self.liveStreamViewController?.setCloseButtonVisible(true)
                 
                 ShopLiveController.shared.videoExpanded = true
                 
@@ -534,13 +534,13 @@ import WebKit
             shopLiveWindow.layer.shadowOpacity = 0.0
             shopLiveWindow.layer.shadowOffset = .zero
             shopLiveWindow.layer.shadowRadius = 0
-            
             if self.needExecuteFullScreen {
                 self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true)
                 UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
                     self.shopLiveWindow?.layer.masksToBounds = true
                     self.liveStreamViewController?.view.layer.masksToBounds = true
                 } completion: { _ in
+                    self.liveStreamViewController?.setCloseButtonVisible(false)
                     UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
                         self.liveStreamViewController?.updateVideoConstraint()
                         shopLiveWindow.frame = mainWindow.bounds
@@ -564,6 +564,7 @@ import WebKit
                     self.liveStreamViewController?.view.layer.masksToBounds = true
                         self.liveStreamViewController?.updateVideoConstraint()
                 } completion: { _ in
+                    self.liveStreamViewController?.setCloseButtonVisible(false)
                     UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
                         shopLiveWindow.frame = mainWindow.bounds
                         shopLiveWindow.layer.cornerRadius = 0
@@ -617,13 +618,14 @@ import WebKit
         
         if self.needExecuteFullScreen {
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true)
-            
+            ShopLiveController.webInstance?.isHidden = false
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
                 self.liveStreamViewController?.updateVideoConstraint()
                 shopLiveWindow.frame = mainWindow.bounds
                 shopLiveWindow.layer.cornerRadius = 0
                 shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
-                ShopLiveController.webInstance?.isHidden = false
+                
+                self.liveStreamViewController?.setCloseButtonVisible(false)
                 } completion: { (isCompleted) in
                     self.liveStreamViewController?.hideSnapshotBackground()
                     shopLiveWindow.rootViewController?.view.backgroundColor = .black
@@ -642,7 +644,8 @@ import WebKit
                 shopLiveWindow.frame = mainWindow.bounds
                 shopLiveWindow.layer.cornerRadius = 0
                 shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
-                ShopLiveController.webInstance?.isHidden = false
+//                ShopLiveController.webInstance?.isHidden = false
+                self.liveStreamViewController?.setCloseButtonVisible(false)
                 } completion: { (isCompleted) in
                     self.liveStreamViewController?.hideSnapshotBackground()
                     shopLiveWindow.rootViewController?.view.backgroundColor = .black
@@ -748,6 +751,7 @@ import WebKit
             shopLiveWindow.layoutIfNeeded()
             
             shopLiveWindow.backgroundColor = .black
+            self.liveStreamViewController?.setCloseButtonVisible(true)
             
             self.sendCommandChangeToPip()
             self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
@@ -800,7 +804,7 @@ import WebKit
                     self.shopLiveWindow?.setNeedsLayout()
                     self.shopLiveWindow?.layoutIfNeeded()
                 } completion: { _ in
-                    
+                    self.liveStreamViewController?.setCloseButtonVisible(true)
                     self.shopLiveWindow?.isHidden = false
                     ShopLiveController.shared.webInstance?.isHidden = true
                     self.shopLiveWindow?.layer.masksToBounds = false
@@ -809,7 +813,6 @@ import WebKit
                     self.liveStreamViewController?.showBackgroundPoster()
                     
                     self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
-                    
                     ShopLiveController.shared.videoExpanded = true
                     self.needAnimateToChangePreivew = false
                     self.handleWindowChangeCommand()
@@ -827,6 +830,7 @@ import WebKit
                     self.shopLiveWindow?.setNeedsLayout()
                     self.shopLiveWindow?.layoutIfNeeded()
                 } completion: { _ in
+                    self.liveStreamViewController?.setCloseButtonVisible(true)
                     ShopLiveController.shared.keepSnapshot = false
                     ShopLiveController.shared.playControl = .play
                     self.shopLiveWindow?.isHidden = false
@@ -882,6 +886,7 @@ import WebKit
             shopLiveWindow.setNeedsLayout()
             shopLiveWindow.layoutIfNeeded()
 
+            self.liveStreamViewController?.setCloseButtonVisible(false)
             self.liveStreamViewController?.showBackgroundPoster()
             ShopLiveController.shared.pipAnimating = false
         }

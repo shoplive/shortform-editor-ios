@@ -193,6 +193,10 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    public static func useCloseButton(_ use: Bool) {
+        ShopLiveConfiguration.UI.closeButton = use
+    }
+    
     public static func awakePlayer() {
         shared.instance?.awakePlayer()
     }
