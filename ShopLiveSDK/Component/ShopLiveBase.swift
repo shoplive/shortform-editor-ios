@@ -273,8 +273,10 @@ import WebKit
         delegate?.handleCommand("willShopLiveOff", with: ["style" : self.style.rawValue])
         if let originAudioSessionCategory = self.originAudioSessionCategory {
             let audioSessionManager = AudioSessionManager.shared
-            audioSessionManager.setCategory(category: originAudioSessionCategory, options: audioSessionManager.customerOptions)
+            audioSessionManager.setCategory(category: originAudioSessionCategory, options: audioSessionManager.customerAudioCategoryOptions)
         }
+        
+        self.originAudioSessionCategory = nil
         
         if let videoWindowPanGestureRecognizer = self.videoWindowPanGestureRecognizer {
             shopLiveWindow?.removeGestureRecognizer(videoWindowPanGestureRecognizer)
@@ -1396,8 +1398,6 @@ import WebKit
 
 extension ShopLiveBase: ShopLiveComponent {
     func setMixWithOthers(isMixAudio: Bool) {
-        let audioSessionManager = AudioSessionManager.shared
-        audioSessionManager.customerAudioCategoryOptions = audioSessionManager.currentCategoryOptions
         ShopLiveConfiguration.SoundPolicy.useMixWithOthers = isMixAudio
     }
     
@@ -1515,15 +1515,19 @@ extension ShopLiveBase: ShopLiveComponent {
         debouncer.renewInterval()
         
         debouncer.handler = {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 800 : 0)) {
-                let audioSession = AVAudioSession.sharedInstance()
-                let categoryOption: AVAudioSession.CategoryOptions = ShopLiveConfiguration.SoundPolicy.useMixWithOthers ? .mixWithOthers : AudioSessionManager.shared.customerOptions
-                AudioSessionManager.shared.setCategory(category: .playback, options: categoryOption)
-
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 800 : 0)) { [weak self] in
+                guard let self = self else { return }
                 self.resetQueryParameters()
                 
                 ShopLiveController.shared.execusedClose = false
                 guard self.accessKey != nil else { return }
+                
+                let audioSessionManager = AudioSessionManager.shared
+                if self._style == .unknown {
+                    audioSessionManager.customerAudioCategoryOptions = audioSessionManager.currentCategoryOptions
+                }
+                
+                audioSessionManager.setCategory(category: .playback, options: .mixWithOthers)
                 
                 if let referrer = referrer {
                     self.queryParameters["referrer"] = referrer
@@ -1586,9 +1590,14 @@ extension ShopLiveBase: ShopLiveComponent {
                 ShopLiveController.shared.campaignKey = campaignKey ?? ""
                 self.needExecuteFullScreen = ShopLiveController.shared.isPreview
 
-                let categoryOption: AVAudioSession.CategoryOptions = ShopLiveConfiguration.SoundPolicy.useMixWithOthers ? .mixWithOthers : AudioSessionManager.shared.customerOptions
+                let audioSessionManager = AudioSessionManager.shared
+                if self._style == .unknown {
+                    audioSessionManager.customerAudioCategoryOptions = audioSessionManager.currentCategoryOptions
+                }
                 
-                AudioSessionManager.shared.setCategory(category: .playback, options: categoryOption)
+                let categoryOption: AVAudioSession.CategoryOptions = ShopLiveConfiguration.SoundPolicy.useMixWithOthers ? .mixWithOthers : audioSessionManager.customerAudioCategoryOptions
+                
+                audioSessionManager.setCategory(category: .playback, options: categoryOption)
                 
                 if self.needExecuteFullScreen {
                     self.queryParameters["_from"] = "sdk_preview"

@@ -131,6 +131,8 @@ class MainViewController: SideMenuBaseViewController {
             }
         }
 
+        ShopLive.setMixWithOthers(isMixAudio: config.useMixAudio)
+        
         ShopLive.useCloseButton(config.useCloseButton)
         
         // Keep play video on headphone unplugged setting
@@ -260,8 +262,6 @@ class MainViewController: SideMenuBaseViewController {
         }
         
         setupShopliveSettings()
-        let config = DemoConfiguration.shared
-        ShopLive.setMixWithOthers(isMixAudio: config.useMixAudio)
         
         ShopLive.configure(with: currentKey.accessKey)
         ShopLive.preview(with: currentKey.campaignKey, referrer: DemoConfiguration.shared.customReferrer) {

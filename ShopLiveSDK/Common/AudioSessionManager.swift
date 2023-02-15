@@ -22,24 +22,6 @@ final class AudioSessionManager {
         audioSession.categoryOptions
     }
     
-    var originCategoryOptions: AVAudioSession.CategoryOptions = .init(rawValue: 0)
-    
-    var customerOptions: AVAudioSession.CategoryOptions {
-        guard ShopLiveConfiguration.SoundPolicy.useMixWithOthers else {
-            return originCategoryOptions
-        }
-        
-        guard customerAudioCategoryOptions != .mixWithOthers else {
-            return .mixWithOthers
-        }
-        
-        guard customerAudioCategoryOptions != currentCategoryOptions else {
-            return currentCategoryOptions
-        }
-        
-        return customerAudioCategoryOptions
-    }
-    
     func setCategory(category: AVAudioSession.Category, options: AVAudioSession.CategoryOptions) {
         do {
             try audioSession.setCategory(category, options: options)
