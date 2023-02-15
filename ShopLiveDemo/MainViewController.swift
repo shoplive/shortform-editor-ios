@@ -296,7 +296,7 @@ class MainViewController: SideMenuBaseViewController {
 
 extension MainViewController: ShopLiveSDKDelegate {
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
-        ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) parameter(String:Any) \(payload)")
+        ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) payload(String:Any) \(payload)")
         let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, payload: payload)
         print("eventLog \(eventLog.name)")
         if DemoConfiguration.shared.useClickLog {

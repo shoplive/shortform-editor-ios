@@ -58,11 +58,10 @@ internal final class LiveStreamViewModel: NSObject {
             playerItem.add(metadataOutput)
             playerItem.preferredForwardBufferDuration = 5
             playerItem.preferredPeakBitRate = 10000000
-            playerItem.preferredMaximumResolution = CGSize(width: 720, height: 1280)
+            playerItem.preferredMaximumResolution = CGSize(width: 1080, height: 1920)
             ShopLiveController.playerItem = playerItem
             self.playerItem = playerItem
 
-            
             NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase)
             NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .AVPlayerItemPlaybackStalled, object: self.playerItem)
             ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
