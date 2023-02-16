@@ -57,7 +57,7 @@ internal final class LiveStreamViewModel: NSObject {
             metadataOutput.setDelegate(self, queue: DispatchQueue.main)
             playerItem.add(metadataOutput)
             playerItem.preferredForwardBufferDuration = 5
-            playerItem.preferredPeakBitRate = 10000000
+            playerItem.preferredPeakBitRate = 0
             playerItem.preferredMaximumResolution = CGSize(width: 1080, height: 1920)
             ShopLiveController.playerItem = playerItem
             self.playerItem = playerItem
