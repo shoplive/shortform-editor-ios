@@ -351,6 +351,9 @@
 		BF8CEF93276C70DB0043D5FF /* TextItemInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8CEF92276C70DB0043D5FF /* TextItemInputAlertController.swift */; };
 		BF8CEF9C276CFB310043D5FF /* CouponResponseSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8CEF9B276CFB310043D5FF /* CouponResponseSettingView.swift */; };
 		BF8CEFA0276D1C3C0043D5FF /* NanumBrush.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF8CEF9F276D1C3C0043D5FF /* NanumBrush.ttf */; };
+		BF95D2C629D28E900033CECB /* CustomAdIdAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF95D2C529D28E900033CECB /* CustomAdIdAlertController.swift */; };
+		BF95D2C729D28E900033CECB /* CustomAdIdAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF95D2C529D28E900033CECB /* CustomAdIdAlertController.swift */; };
+		BF95D2C829D28E900033CECB /* CustomAdIdAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF95D2C529D28E900033CECB /* CustomAdIdAlertController.swift */; };
 		BF9BB7E2273A1571006BDEF3 /* CouponCallbackSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BB7E0273A1571006BDEF3 /* CouponCallbackSettingViewController.swift */; };
 		BF9BB7E3273A1571006BDEF3 /* SDKSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BB7E1273A1571006BDEF3 /* SDKSettings.swift */; };
 		BF9BB7E6273A1640006BDEF3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BF9BB7E5273A1640006BDEF3 /* SnapKit */; };
@@ -535,6 +538,7 @@
 		BF8CEF92276C70DB0043D5FF /* TextItemInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextItemInputAlertController.swift; sourceTree = "<group>"; };
 		BF8CEF9B276CFB310043D5FF /* CouponResponseSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponResponseSettingView.swift; sourceTree = "<group>"; };
 		BF8CEF9F276D1C3C0043D5FF /* NanumBrush.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumBrush.ttf; sourceTree = "<group>"; };
+		BF95D2C529D28E900033CECB /* CustomAdIdAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAdIdAlertController.swift; sourceTree = "<group>"; };
 		BF9BB7E0273A1571006BDEF3 /* CouponCallbackSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponCallbackSettingViewController.swift; sourceTree = "<group>"; };
 		BF9BB7E1273A1571006BDEF3 /* SDKSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SDKSettings.swift; sourceTree = "<group>"; };
 		BFA69D69276B64FF00F91394 /* OptionSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionSectionHeader.swift; sourceTree = "<group>"; };
@@ -859,6 +863,7 @@
 				BF8CEF99276CC6590043D5FF /* couponsetting */,
 				BF8CEF9A276CC6740043D5FF /* secretkeysetting */,
 				BF69332F27BF6A3E00B2DEDB /* CustomShareViewController.swift */,
+				BF95D2C529D28E900033CECB /* CustomAdIdAlertController.swift */,
 			);
 			path = menuItems;
 			sourceTree = "<group>";
@@ -1549,6 +1554,7 @@
 				BF5F506328F7D1E1008B79D9 /* CouponResponseSettingView.swift in Sources */,
 				BF5F506428F7D1E1008B79D9 /* OptionSectionHeader.swift in Sources */,
 				BF5F50BC28F7D575008B79D9 /* ShopLiveViewLoggerController.swift in Sources */,
+				BF95D2C829D28E900033CECB /* CustomAdIdAlertController.swift in Sources */,
 				BF5F506828F7D1E1008B79D9 /* AddParameterCell.swift in Sources */,
 				BF5F506928F7D1E1008B79D9 /* DemoConfiguration.swift in Sources */,
 				BF5F506C28F7D1E1008B79D9 /* DemoAppUtility.swift in Sources */,
@@ -1655,6 +1661,7 @@
 				BF60E21F2771CECA0060531C /* DevInfoCell.swift in Sources */,
 				BF60E2202771CECA0060531C /* SideMenuBaseViewController.swift in Sources */,
 				BF60E2212771CECA0060531C /* CustomBaseAlertController.swift in Sources */,
+				BF95D2C729D28E900033CECB /* CustomAdIdAlertController.swift in Sources */,
 				BF60E2242771CECA0060531C /* CampaignInputAlertController.swift in Sources */,
 				BF60E2252771CECA0060531C /* DemoSecretKeyTool.swift in Sources */,
 				BF37D9CE27F5742D004C2785 /* ShopLiveChattingWriteView.swift in Sources */,
@@ -1746,6 +1753,7 @@
 				BFE21967276B436600900FB1 /* DevInfoCell.swift in Sources */,
 				BF47197627660CD300522F6F /* SideMenuBaseViewController.swift in Sources */,
 				BF1B57BA276983600002EBB5 /* CustomBaseAlertController.swift in Sources */,
+				BF95D2C629D28E900033CECB /* CustomAdIdAlertController.swift in Sources */,
 				BF1B57BC2769844F0002EBB5 /* CampaignInputAlertController.swift in Sources */,
 				BF60E1D0276F69C00060531C /* DemoSecretKeyTool.swift in Sources */,
 				BF37D9CD27F5742D004C2785 /* ShopLiveChattingWriteView.swift in Sources */,
@@ -2287,7 +2295,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
@@ -2297,7 +2305,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.2;
+				MARKETING_VERSION = 1.3.3;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo;
 				PRODUCT_NAME = "DEMO QA";
@@ -2317,7 +2325,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
@@ -2327,7 +2335,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.2;
+				MARKETING_VERSION = 1.3.3;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo;
 				PRODUCT_NAME = "DEMO QA";

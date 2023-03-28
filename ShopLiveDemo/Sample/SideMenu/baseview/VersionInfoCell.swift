@@ -34,6 +34,14 @@ final class VersionInfoCell: SampleBaseCell {
             
             return "Referrer: \(referrer)"
         }
+        
+        var customAdIdButtonTitle: String {
+            guard let referrer = DemoConfiguration.shared.adId, !referrer.isEmpty else {
+                return "adId 미입력"
+            }
+            
+            return "adId: \(referrer)"
+        }
     }
     
     private let viewModel = VersionInfoCellViewModel()
@@ -75,6 +83,19 @@ final class VersionInfoCell: SampleBaseCell {
         return view
     }()
     
+    private lazy var customAdIdButton: UIButton = {
+        let view = UIButton(type: .custom)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+        view.setTitleColor(.black, for: .normal)
+        view.setTitleColor(.black, for: .highlighted)
+        view.setTitle(viewModel.customAdIdButtonTitle, for: .normal)
+        view.setTitle(viewModel.customAdIdButtonTitle, for: .highlighted)
+        view.addTarget(self, action: #selector(didTapAdIdSetup), for: .touchUpInside)
+        
+        return view
+    }()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -98,6 +119,7 @@ final class VersionInfoCell: SampleBaseCell {
         self.contentView.addSubview(sdkVersionLabel)
         self.contentView.addSubview(customAppVersionButton)
         self.contentView.addSubview(customReferrerButton)
+        self.contentView.addSubview(customAdIdButton)
         
         sdkVersionLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(15)
@@ -115,6 +137,12 @@ final class VersionInfoCell: SampleBaseCell {
             $0.leading.equalToSuperview().offset(15)
             $0.trailing.lessThanOrEqualToSuperview().offset(-15)
             $0.top.equalTo(customAppVersionButton.snp.bottom).offset(10)
+        }
+        
+        customAdIdButton.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(15)
+            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
+            $0.top.equalTo(customReferrerButton.snp.bottom).offset(10)
             $0.bottom.equalToSuperview().offset(-15)
         }
         
@@ -133,6 +161,11 @@ final class VersionInfoCell: SampleBaseCell {
         customReferrerButton.setTitle(viewModel.customReferrerButtonTitle, for: .highlighted)
     }
     
+    private func updateAdId() {
+        customAdIdButton.setTitle(viewModel.customAdIdButtonTitle, for: .normal)
+        customAdIdButton.setTitle(viewModel.customAdIdButtonTitle, for: .highlighted)
+    }
+    
     @objc
     private func didTapVersionSetup() {
         let vc = CustomAppVersionInputAlertController(completion: { [weak self] in
@@ -147,6 +180,16 @@ final class VersionInfoCell: SampleBaseCell {
     private func didTapReferrerSetup() {
         let vc = CustomReferrerAlertController(completion: { [weak self] in
                 self?.updateReferrer()
+                self?.baseDelegate?.updateDatas()
+        })
+        vc.modalPresentationStyle = .overCurrentContext
+        parent?.present(vc, animated: false, completion: nil)
+    }
+    
+    @objc
+    private func didTapAdIdSetup() {
+        let vc = CustomAdIdAlertController(completion: { [weak self] in
+                self?.updateAdId()
                 self?.baseDelegate?.updateDatas()
         })
         vc.modalPresentationStyle = .overCurrentContext

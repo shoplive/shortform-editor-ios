@@ -985,6 +985,9 @@ internal final class LiveStreamViewController: UIViewController {
         queryItems.append(URLQueryItem(name: "appVersion", value: ShopLiveConfiguration.AppPreference.appVersion ?? UIApplication.appVersion()))
     
         queryItems.append(URLQueryItem(name: "manualRotation", value: "false"))
+        if let adid = ShopLiveConfiguration.Data.adid, !adid.isEmpty {
+            queryItems.append(URLQueryItem(name: "adId", value: adid))
+        }
         
         let urlString: String = ShopLiveConfiguration.AppPreference.landingUrl
         ShopLiveLogger.debugLog("shoplive landingUrl : \(urlString)")

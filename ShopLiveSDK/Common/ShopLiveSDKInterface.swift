@@ -290,4 +290,6 @@ public typealias ShopLiveViewController = UIViewController
     
     @objc static func setMixWithOthers(isMixAudio: Bool)
     @objc static func useCloseButton(_ use: Bool)
+    
+    @objc static func setAdId(adId: String)
 }

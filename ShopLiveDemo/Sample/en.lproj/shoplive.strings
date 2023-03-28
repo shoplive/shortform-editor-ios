@@ -150,3 +150,4 @@
 "login.send.title" = "Log In";
 "appversion.alert.placeholder" = "예) 1.0.0";
 "referrer.alert.placeholder" = "예) shoplive";
+"adid.alert.placeholder" = "예) shoplive";

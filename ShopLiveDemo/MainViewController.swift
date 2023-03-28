@@ -117,7 +117,13 @@ class MainViewController: SideMenuBaseViewController {
 
     func setupShopliveSettings() {
         let config = DemoConfiguration.shared
-
+        
+        if let adid = config.adId, !adid.isEmpty {
+            ShopLive.setAdId(adId: adid)
+        } else {
+            ShopLive.setAdId(adId: "")
+        }
+        
         ShopLive.setAppVersion("3.39.0")
         if config.useJWT {
             ShopLive.authToken = config.jwtToken

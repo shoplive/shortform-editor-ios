@@ -545,6 +545,16 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.string(forKey: "customReferrer")
         }
     }
+    
+    var adId: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "adId")
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return UserDefaults.standard.string(forKey: "adId")
+        }
+    }
 }
 
 
