@@ -63,6 +63,9 @@ final class ShopLiveViewLogger {
 
     func setVisible(show: Bool) {
         logWindow.isHidden = !show
+        if !show {
+            clearLog()
+        }
         #if DEMO
             ShopLiveDevConfiguration.shared.useAppLog = show
         #endif
@@ -73,7 +76,8 @@ final class ShopLiveViewLogger {
     }
 
     func addLog(log: ShopLiveViewLog) {
-//        v.addLog(log: log)
+        guard !logWindow.isHidden else { return }
+        v.addLog(log: log)
     }
 
     func clearLog() {

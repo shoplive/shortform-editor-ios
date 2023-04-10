@@ -141,6 +141,29 @@ final class DemoConfiguration: NSObject {
             return list as [String: Any?]
         }
     }
+    
+    var customParameters: [CustomParam] {
+        set {
+            do {
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(newValue), forKey:"customParameter")
+                
+                UserDefaults.standard.synchronize()
+            } catch {
+                
+            }
+        }
+        get {
+            var genres: [CustomParam]?
+            if let data = UserDefaults.standard.value(forKey:"customParameter") as? Data {
+                do {
+                    genres = try? PropertyListDecoder().decode([CustomParam].self, from: data)
+                } catch {
+                    return []
+                }
+            }
+            return genres ?? []
+        }
+    }
 
     var useHeadPhoneOption1: Bool {
         set {

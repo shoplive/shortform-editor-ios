@@ -265,7 +265,6 @@ final class ShopLiveController: NSObject {
         isMuted = ShopLiveConfiguration.SoundPolicy.isMuted
         ShopLiveConfiguration.UI.color = .white
         ShopLiveConfiguration.UI.customIndicatorImages.removeAll()
-        ShopLiveConfiguration.Data.adid = nil
         _playerMode = .none
     }
     private func reset() {

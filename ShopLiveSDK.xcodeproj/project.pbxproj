@@ -128,6 +128,15 @@
 		BF37D9F027F5742D004C2785 /* ShopLiveUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9A427F5742D004C2785 /* ShopLiveUser.swift */; };
 		BF37D9F127F5742D004C2785 /* ShopLiveUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9A427F5742D004C2785 /* ShopLiveUser.swift */; };
 		BF37D9F227F5742D004C2785 /* ShopLiveUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9A427F5742D004C2785 /* ShopLiveUser.swift */; };
+		BF43A29129E3B6350062143C /* SettingCustomParameterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF43A29029E3B6350062143C /* SettingCustomParameterViewController.swift */; };
+		BF43A29229E3B6350062143C /* SettingCustomParameterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF43A29029E3B6350062143C /* SettingCustomParameterViewController.swift */; };
+		BF43A29329E3B6350062143C /* SettingCustomParameterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF43A29029E3B6350062143C /* SettingCustomParameterViewController.swift */; };
+		BF43A29729E409310062143C /* AddUserParameterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF43A29629E409310062143C /* AddUserParameterCell.swift */; };
+		BF43A29829E409310062143C /* AddUserParameterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF43A29629E409310062143C /* AddUserParameterCell.swift */; };
+		BF43A29929E409310062143C /* AddUserParameterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF43A29629E409310062143C /* AddUserParameterCell.swift */; };
+		BF43A29B29E40B440062143C /* CustomParamValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF43A29A29E40B440062143C /* CustomParamValue.swift */; };
+		BF43A29C29E40B440062143C /* CustomParamValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF43A29A29E40B440062143C /* CustomParamValue.swift */; };
+		BF43A29D29E40B440062143C /* CustomParamValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF43A29A29E40B440062143C /* CustomParamValue.swift */; };
 		BF47196B2765F40700522F6F /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = BF47196A2765F40700522F6F /* SideMenu */; };
 		BF47196D2765F43000522F6F /* ShopliveSideMenuNavagation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47196C2765F43000522F6F /* ShopliveSideMenuNavagation.swift */; };
 		BF47196F2765F48700522F6F /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47196E2765F48700522F6F /* SideMenuViewController.swift */; };
@@ -488,6 +497,9 @@
 		BF37D99D27F5742D004C2785 /* ShopLiveConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveConfiguration.swift; sourceTree = "<group>"; };
 		BF37D99E27F5742D004C2785 /* URLUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLUtil.swift; sourceTree = "<group>"; };
 		BF37D9A427F5742D004C2785 /* ShopLiveUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveUser.swift; sourceTree = "<group>"; };
+		BF43A29029E3B6350062143C /* SettingCustomParameterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCustomParameterViewController.swift; sourceTree = "<group>"; };
+		BF43A29629E409310062143C /* AddUserParameterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddUserParameterCell.swift; sourceTree = "<group>"; };
+		BF43A29A29E40B440062143C /* CustomParamValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomParamValue.swift; sourceTree = "<group>"; };
 		BF47196C2765F43000522F6F /* ShopliveSideMenuNavagation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopliveSideMenuNavagation.swift; sourceTree = "<group>"; };
 		BF47196E2765F48700522F6F /* SideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
 		BF4719702765F4E800522F6F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -816,6 +828,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		BF43A28F29E3B6140062143C /* parameter */ = {
+			isa = PBXGroup;
+			children = (
+				BF43A29029E3B6350062143C /* SettingCustomParameterViewController.swift */,
+			);
+			path = parameter;
+			sourceTree = "<group>";
+		};
 		BF47197427660C7300522F6F /* SideMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -856,6 +876,7 @@
 		BF47199327682CD700522F6F /* menuItems */ = {
 			isa = PBXGroup;
 			children = (
+				BF43A28F29E3B6140062143C /* parameter */,
 				BF8CEF96276CC5D10043D5FF /* campaigns */,
 				BF8CEF97276CC5E60043D5FF /* userinfo */,
 				BF8CEF98276CC5F60043D5FF /* optionsetting */,
@@ -977,6 +998,8 @@
 			children = (
 				BF47199227682C4900522F6F /* Sample */,
 				BFE21966276B436600900FB1 /* DevInfoCell.swift */,
+				BF43A29A29E40B440062143C /* CustomParamValue.swift */,
+				BF43A29629E409310062143C /* AddUserParameterCell.swift */,
 				C9E1F63B28B205FD00C4C3D4 /* AddParameterCell.swift */,
 				BF4719702765F4E800522F6F /* MainViewController.swift */,
 				BFE21960276B3BE600900FB1 /* ShopLiveDevConfiguration.swift */,
@@ -1565,11 +1588,13 @@
 				BF5F507628F7D1E1008B79D9 /* SDKOption.swift in Sources */,
 				BF5F507728F7D1E1008B79D9 /* OptionsViewController.swift in Sources */,
 				BF5F507828F7D1E1008B79D9 /* SampleBaseCell.swift in Sources */,
+				BF43A29929E409310062143C /* AddUserParameterCell.swift in Sources */,
 				BF5F507928F7D1E1008B79D9 /* ShopLiveDevConfiguration.swift in Sources */,
 				BF5F507A28F7D1E1008B79D9 /* ShopliveSideMenuNavagation.swift in Sources */,
 				BF5F507B28F7D1E1008B79D9 /* SampleExtensions.swift in Sources */,
 				BF5F507C28F7D1E1008B79D9 /* MainViewController.swift in Sources */,
 				BF4B35A1299B73E1008BCA5A /* CustomReferrerAlertController.swift in Sources */,
+				BF43A29D29E40B440062143C /* CustomParamValue.swift in Sources */,
 				BF5F507F28F7D1E1008B79D9 /* CustomShareViewController.swift in Sources */,
 				BF5F508028F7D1E1008B79D9 /* UserInfoViewController.swift in Sources */,
 				BF5F508128F7D1E1008B79D9 /* LoginTextField.swift in Sources */,
@@ -1581,6 +1606,7 @@
 				BF5F508728F7D1E1008B79D9 /* DemoSecretKeyTool.swift in Sources */,
 				BF5F508928F7D1E1008B79D9 /* CampaignCell.swift in Sources */,
 				BF5F50BD28F7D5C6008B79D9 /* ShopLiveLogger.swift in Sources */,
+				BF43A29329E3B6350062143C /* SettingCustomParameterViewController.swift in Sources */,
 				BF5F508E28F7D1E1008B79D9 /* CampaignInfoCell.swift in Sources */,
 				BF5F508F28F7D1E1008B79D9 /* ShopLiveCheckBoxButton.swift in Sources */,
 				BF5F509028F7D1E1008B79D9 /* CampaignsViewController.swift in Sources */,
@@ -1606,6 +1632,7 @@
 			files = (
 				BF60E1F22771CECA0060531C /* TextItemInputAlertController.swift in Sources */,
 				BF60E1F32771CECA0060531C /* CouponSettingsViewController.swift in Sources */,
+				BF43A29829E409310062143C /* AddUserParameterCell.swift in Sources */,
 				BF60E1F52771CECA0060531C /* SideMenuCell.swift in Sources */,
 				BF60E1F62771CECA0060531C /* CouponCallbackSettingViewController.swift in Sources */,
 				BF37D9B027F5742D004C2785 /* LiveStreamViewModel.swift in Sources */,
@@ -1669,6 +1696,7 @@
 				BF4B3599299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */,
 				BF37D9DD27F5742D004C2785 /* ShopLiveLogger.swift in Sources */,
 				BF37D9AA27F5742D004C2785 /* ShopLiveBase.swift in Sources */,
+				BF43A29C29E40B440062143C /* CustomParamValue.swift in Sources */,
 				BF37D9A727F5742D004C2785 /* LiveStreamViewController.swift in Sources */,
 				BF37D9E327F5742D004C2785 /* HapticManager.swift in Sources */,
 				BF60E2272771CECA0060531C /* CampaignInfoCell.swift in Sources */,
@@ -1688,6 +1716,7 @@
 				BF60E2382771CECA0060531C /* SecretKeyCell.swift in Sources */,
 				BF60E23B2771CECA0060531C /* DemoSecretKeySet.swift in Sources */,
 				BF263098288DDA980071C8BE /* BaseTextField.swift in Sources */,
+				BF43A29229E3B6350062143C /* SettingCustomParameterViewController.swift in Sources */,
 				BF60E23C2771CECA0060531C /* JWTTool.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1698,6 +1727,7 @@
 			files = (
 				BF8CEF93276C70DB0043D5FF /* TextItemInputAlertController.swift in Sources */,
 				BF47198C27663CDE00522F6F /* CouponSettingsViewController.swift in Sources */,
+				BF43A29729E409310062143C /* AddUserParameterCell.swift in Sources */,
 				BF4719822766335F00522F6F /* SideMenuCell.swift in Sources */,
 				BF9BB7E2273A1571006BDEF3 /* CouponCallbackSettingViewController.swift in Sources */,
 				BF37D9AF27F5742D004C2785 /* LiveStreamViewModel.swift in Sources */,
@@ -1761,6 +1791,7 @@
 				BF4B3598299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */,
 				BF37D9DC27F5742D004C2785 /* ShopLiveLogger.swift in Sources */,
 				BF37D9A927F5742D004C2785 /* ShopLiveBase.swift in Sources */,
+				BF43A29B29E40B440062143C /* CustomParamValue.swift in Sources */,
 				BF37D9A627F5742D004C2785 /* LiveStreamViewController.swift in Sources */,
 				BF37D9E227F5742D004C2785 /* HapticManager.swift in Sources */,
 				BF471999276832C700522F6F /* CampaignInfoCell.swift in Sources */,
@@ -1780,6 +1811,7 @@
 				BF60E1D7276F6EEF0060531C /* SecretKeyCell.swift in Sources */,
 				BF60E1D2276F6A0D0060531C /* DemoSecretKeySet.swift in Sources */,
 				BF263097288DDA980071C8BE /* BaseTextField.swift in Sources */,
+				BF43A29129E3B6350062143C /* SettingCustomParameterViewController.swift in Sources */,
 				BF60E1CB276E4BC60060531C /* JWTTool.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2295,7 +2327,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
@@ -2325,7 +2357,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";

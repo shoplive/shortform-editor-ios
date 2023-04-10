@@ -120,6 +120,11 @@ final class OptionsViewController: SideMenuItemViewController {
         let clicklogOptions = SDKOption(optionTitle: "sdkoption.section.clicklog.title".localized(), optionItems: [clicklogOption])
         
         items.append(clicklogOptions)
+        
+        let addParameterOPtion = SDKOptionItem(name: "sdkoption.addParameter.title".localized(), optionDescription: "", optionType: .addParameter)
+        let customOptions = SDKOption(optionTitle: "sdkoption.section.customOption.title".localized(), optionItems: [addParameterOPtion])
+        
+        items.append(customOptions)
     }
 
 }
@@ -251,6 +256,10 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
             case .pipFloatingOffset:
                 let pipAreaSetting = PipAreaSettingViewController()
                 self.navigationController?.pushViewController(pipAreaSetting, animated: true)
+                break
+            case .addParameter:
+                let customParam = SettingCustomParameterViewController()
+                self.navigationController?.pushViewController(customParam, animated: true)
                 break
             default:
                 break

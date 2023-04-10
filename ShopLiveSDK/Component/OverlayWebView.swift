@@ -583,6 +583,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         case .overlayUrl:
             if let overlayUrl = ShopLiveController.overlayUrl {
                 self.loadOverlay(with: overlayUrl)
+                ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "overlayUrl: \(overlayUrl.absoluteString)"))
                 ShopLiveLogger.debugLog("overlayUrl exist \(overlayUrl.absoluteString)")
             } else {
                 ShopLiveLogger.debugLog(".overlayUrl")

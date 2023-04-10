@@ -20,6 +20,7 @@
 "sdk.user.delete" = "지우기";
 "sdk.user.save" = "저장";
 "sdk.user.secret.add" = "추가";
+"sdk.menu.add" = "추가";
 "menu.campaigns" = "방송 목록 관리";
 "menu.userinfo" = "유저 정보 입력";
 "menu.userinfo.secretkey" = "시크릿키 관리";
@@ -79,6 +80,7 @@
 "sdkoption.section.progress.title" = "로딩 프로그레스";
 "sdkoption.section.chatFont.title" = "채팅 폰트";
 "sdkoption.section.clicklog.title" = "Click log";
+"sdkoption.section.customOption.title" = "커스텀 설정";
 "sdkoption.setupPlayer.aspectOnTablet.title" = "태블릿 PC에서 영상 화면 비율 설정";
 "sdkoption.setupPlayer.aspectOnTablet.description" = "영상을 화면을 꽉 채우기(off) / 영상 사이즈에 맞추기(on)";
 "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.title" = "플레이어가 실행 중일때 Play 호출시 화면 상태 유지 여부 설정";
@@ -131,6 +133,7 @@
 "sdkoption.chatSendButtonCustomFont.description" = "미사용시, 시스템 기본 폰트가 사용됨";
 "sdkoption.pipFloatingOffset.page.title" = "PIP 영역 설정";
 "sdkoption.clicklog.title" = "Click log Toast 옵션";
+"sdkoption.addParameter.title" = "커스텀 파라미터 추가";
 "sdkoption.clicklog.description" = "Click log 를 Toast 로 나타냅니다.";
 "sdk.msg.nonekey" = "선택된 키가 없습니다.";
 "couponresponse.success.default" = "쿠폰 다운로드에 성공 했습니다.";
@@ -151,3 +154,4 @@
 "appversion.alert.placeholder" = "예) 1.0.0";
 "referrer.alert.placeholder" = "예) shoplive";
 "adid.alert.placeholder" = "예) shoplive";
+"sdk.page.addParam.title" = "파라미터 설정";

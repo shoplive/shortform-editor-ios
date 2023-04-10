@@ -229,7 +229,7 @@ internal final class LiveStreamViewController: UIViewController {
     
     private func teardownAudioConfig() {
         NotificationCenter.default.safeRemoveObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
-        NotificationCenter.default.safeRemoveObserver(self, name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance())
+        NotificationCenter.default.safeRemoveObserver(self, name: AVAudioSession.interruptionNotification, object: nil)
     }
     
     @objc func handleInterruption(notification: Notification) {
@@ -987,6 +987,10 @@ internal final class LiveStreamViewController: UIViewController {
         queryItems.append(URLQueryItem(name: "manualRotation", value: "false"))
         if let adid = ShopLiveConfiguration.Data.adid, !adid.isEmpty {
             queryItems.append(URLQueryItem(name: "adId", value: adid))
+        }
+        
+        ShopLiveConfiguration.Data.customParameters.forEach { (key: String, value: Any) in
+            queryItems.append(URLQueryItem(name: key, value: "\(value)"))
         }
         
         let urlString: String = ShopLiveConfiguration.AppPreference.landingUrl

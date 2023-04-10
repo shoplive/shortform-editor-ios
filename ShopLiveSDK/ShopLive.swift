@@ -195,7 +195,15 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
-    public static func setAdId(adId: String) {
+    public static func removeParameter(key: String) {
+        ShopLiveConfiguration.Data.customParameters.removeValue(forKey: key)
+    }
+    
+    public static func addParameter(key: String, value: String) {
+        ShopLiveConfiguration.Data.customParameters[key] = value
+    }
+    
+    public static func setAdId(adId: String?) {
         ShopLiveConfiguration.Data.adid = adId
     }
     

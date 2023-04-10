@@ -47,6 +47,7 @@ enum SDKOptionType: String, CaseIterable {
     case manualRotation
     case mixAudio
     case clicklog
+    case addParameter
 
     enum SettingType: Int {
         case showAlert
@@ -61,7 +62,7 @@ enum SDKOptionType: String, CaseIterable {
             return .showAlert
         case .pipPosition, .nextActionOnHandleNavigation:
             return .dropdown
-        case .pipFloatingOffset:
+        case .pipFloatingOffset, .addParameter:
             return .routeTo
         default:
             return .switchControl

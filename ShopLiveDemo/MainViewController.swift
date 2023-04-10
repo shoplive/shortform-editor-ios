@@ -137,6 +137,16 @@ class MainViewController: SideMenuBaseViewController {
             }
         }
 
+        
+        DemoConfiguration.shared.customParameters.forEach { customParam in
+            if customParam.isUseParam, let value = customParam.paramValue {
+                ShopLive.addParameter(key: customParam.paramKey, value: value)
+            } else {
+                ShopLive.removeParameter(key: customParam.paramKey)
+            }
+        }
+        
+        
         ShopLive.setMixWithOthers(isMixAudio: config.useMixAudio)
         
         ShopLive.useCloseButton(config.useCloseButton)

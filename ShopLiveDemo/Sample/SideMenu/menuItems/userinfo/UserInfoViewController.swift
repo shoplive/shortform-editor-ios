@@ -97,7 +97,7 @@ final class UserInfoViewController: SideMenuItemViewController {
     private lazy var parameterTableView: UITableView = {
         let view = UITableView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.register(AddParameterCell.self, forCellReuseIdentifier: "AddParameterCell")
+        view.register(AddUserParameterCell.self, forCellReuseIdentifier: "AddUserParameterCell")
         view.backgroundColor = .white
         view.delegate = self
         view.rowHeight = 50
@@ -606,7 +606,7 @@ extension UserInfoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "AddParameterCell", for: indexPath) as? AddParameterCell else { return UITableViewCell(style: .default, reuseIdentifier: "Cell") }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "AddUserParameterCell", for: indexPath) as? AddUserParameterCell else { return UITableViewCell(style: .default, reuseIdentifier: "Cell") }
         cell.configure(key: keysArray[indexPath.row], value: valueArray[indexPath.row])
         cell.keyInputField.delegate = self
         cell.valueInputField.delegate = self

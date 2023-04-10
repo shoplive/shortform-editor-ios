@@ -1,5 +1,5 @@
 //
-//  AddParameterCell.swift
+//  AddUserParameterCell.swift
 //  ShopLiveSDK
 //
 //  Created by vex on 2022/08/21.
@@ -8,13 +8,7 @@
 import Foundation
 import UIKit
 
-protocol AddParameterCellDelegate: AnyObject {
-    func parameter(index: Int, key: String, value: String, isUse: Bool)
-}
-
-class AddParameterCell: UITableViewCell, UITextFieldDelegate {
-    
-    weak var delegate: AddParameterCellDelegate?
+class AddUserParameterCell: UITableViewCell, UITextFieldDelegate {
     lazy var keyInputField: UITextField = {
         let view = UITextField()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -49,14 +43,6 @@ class AddParameterCell: UITableViewCell, UITextFieldDelegate {
         return view
     }()
     
-    lazy var isUseCheckBox: ShopLiveCheckBoxButton = {
-        let view = ShopLiveCheckBoxButton()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.configure(identifier: "useCustomParam", description: "use Param")
-        view.delegate = self
-        return view
-    }()
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setupViews()
@@ -66,49 +52,39 @@ class AddParameterCell: UITableViewCell, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(key: String, value: String, isUse: Bool) {
+    func configure(key: String, value: String) {
         self.keyInputField.text = key
         self.valueInputField.text = value
-        self.isUseCheckBox.isSelected = isUse
     }
     
     private func setupViews() {
         self.contentView.addSubview(keyInputField)
         self.contentView.addSubview(valueInputField)
-        self.contentView.addSubview(isUseCheckBox)
         self.backgroundColor = .white
         keyInputField.snp.makeConstraints {
-            $0.width.equalToSuperview().multipliedBy(0.3)
-            $0.leading.equalToSuperview()
+            $0.width.greaterThanOrEqualTo(UIWindow.mainWindowFrame.frame.width / 2 - 20)
             $0.height.equalToSuperview()
             $0.leading.equalToSuperview()
         }
         
         valueInputField.snp.makeConstraints {
-            $0.width.equalToSuperview().multipliedBy(0.3)
-            $0.leading.equalTo(keyInputField.snp.trailing).offset(10)
-            $0.width.equalTo(keyInputField)
+            $0.width.greaterThanOrEqualTo(UIWindow.mainWindowFrame.frame.width / 2 - 20)
+            $0.trailing.equalToSuperview()
             $0.height.equalToSuperview()
             $0.centerY.equalToSuperview()
         }
-        
-        isUseCheckBox.snp.makeConstraints {
-            $0.leading.equalTo(valueInputField.snp.trailing).offset(10)
-            $0.trailing.equalToSuperview()
-            $0.centerY.equalToSuperview()
-        }
-        
-        
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-//        self.contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 4, left: 0, bottom: 10, right: 0))
+        self.contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 4, left: 0, bottom: 10, right: 0))
     }
 }
+#if SDK_MODULE
 
-extension AddParameterCell: ShopLiveCheckBoxButtonDelegate {
-    func didChecked(_ sender: ShopLiveCheckBoxButton) {
-        delegate?.parameter(index: self.keyInputField.tag, key: self.keyInputField.text ?? "", value: self.valueInputField.text ?? "", isUse: self.isUseCheckBox.isChecked)
+extension UIWindow {
+    static var mainWindowFrame: UIWindow {
+        UIWindow(frame: UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.frame ?? UIScreen.main.bounds)
     }
 }
+#endif
