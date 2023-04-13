@@ -52,8 +52,8 @@ final class ShopLiveViewLogger {
         window.addGestureRecognizer(panGesture)
 
         window.rootViewController = v
-        window.isHidden = true
         window.makeKeyAndVisible()
+        window.isHidden = true
         return window
     }()
 
