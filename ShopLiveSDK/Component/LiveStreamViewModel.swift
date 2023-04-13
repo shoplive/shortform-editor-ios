@@ -199,6 +199,7 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
         switch key {
         case .videoUrl:
             guard let videoUrl = ShopLiveController.videoUrl else { return }
+            ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: videoUrl.absoluteString))
             updatePlayerItem(with: videoUrl)
             break
         case .playerItemStatus:

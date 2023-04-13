@@ -103,13 +103,21 @@ class SettingCustomParameterViewController: UIViewController {
     
     private func setupView() {
         self.view.addSubview(parameterTableView)
-        parameterTableView.fitToSuperView()
+        parameterTableView.fit()
     }
     
     private func saveParameterList() {
         DemoConfiguration.shared.customParameters = self.paramArray
     }
     
+}
+extension UIView {
+    func fit() {
+        guard let superview = self.superview else { return }
+        self.translatesAutoresizingMaskIntoConstraints = false
+        superview.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[subview]-0-|", options: .directionLeadingToTrailing, metrics: nil, views: ["subview": self]))
+        superview.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[subview]-0-|", options: .directionLeadingToTrailing, metrics: nil, views: ["subview": self]))
+    }
 }
 
 extension SettingCustomParameterViewController: UITableViewDataSource, UITableViewDelegate {
