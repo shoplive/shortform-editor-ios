@@ -18,7 +18,8 @@ internal final class LiveStreamViewController: UIViewController {
     weak var delegate: LiveStreamViewControllerDelegate?
 
     var webViewConfiguration: WKWebViewConfiguration?
-
+    private let audioSession = AVAudioSession.sharedInstance()
+    private var audioSessionObservationInfo: UnsafeMutableRawPointer?
     private var inBuffering: Bool = true
     private var needSeek: Bool = false
     private var requireRetryCheck = false
@@ -162,7 +163,6 @@ internal final class LiveStreamViewController: UIViewController {
     @objc func audioRouteChangeListener(notification: NSNotification) {
         let audioRouteChangeReason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] as! UInt
 
-        let audioSession = AVAudioSession.sharedInstance()
         var isEarphoneHeadphone: Bool = false
         let currentRoute = audioSession.currentRoute
         if currentRoute.outputs.count != 0 {
@@ -223,7 +223,7 @@ internal final class LiveStreamViewController: UIViewController {
         NotificationCenter.default.addObserver(self,
                            selector: #selector(handleInterruption),
                            name: AVAudioSession.interruptionNotification,
-                           object: AVAudioSession.sharedInstance())
+                           object: audioSession)
 
     }
     
@@ -251,7 +251,7 @@ internal final class LiveStreamViewController: UIViewController {
             }
 
             do {
-                try AVAudioSession.sharedInstance().setActive(true)
+                try audioSession.setActive(true)
                 ShopLiveLogger.debugLog("interruption setActive")
             }
             catch let error {
@@ -331,6 +331,7 @@ internal final class LiveStreamViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupView()
         setupLiveStreamViewController()
     }
@@ -1016,12 +1017,11 @@ internal final class LiveStreamViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(voiceOverStatusChanged), name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
         UIScreen.main.addObserver(self, forKeyPath: "captured", options: .new, context: nil)
         
-        let audioSession = AVAudioSession.sharedInstance()
         do {
             try audioSession.setActive(true, options: [])
             audioSession.addObserver(self, forKeyPath: "outputVolume",
                                options: NSKeyValueObservingOptions.new, context: nil)
-            
+            audioSessionObservationInfo = audioSession.observationInfo
             audioLevel = audioSession.outputVolume
         } catch {
             ShopLiveLogger.debugLog("setup failed - outputVolume observe")
@@ -1040,7 +1040,12 @@ internal final class LiveStreamViewController: UIViewController {
         NotificationCenter.default.safeRemoveObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.safeRemoveObserver(self, name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
         UIScreen.main.safeRemoveObserver(self, forKeyPath: "captured")
-        AVAudioSession.sharedInstance().safeRemoveObserver(self, forKeyPath: "outputVolume")
+        print("remove outputVolume")
+        audioSession.safeRemoveObserver(self, forKeyPath: "outputVolume", observeInfo: audioSessionObservationInfo) { [weak self] success in
+            if success {
+                self?.audioSessionObservationInfo = nil
+            }
+        }
     }
 
     @objc func handleNotification(_ notification: Notification) {
@@ -1822,7 +1827,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         switch keyPath {
         case "outputVolume":
-            let audioSession = AVAudioSession.sharedInstance()
+            
             if audioSession.outputVolume > audioLevel {
                 ShopLiveLogger.debugLog("volume up")
                 ShopLiveController.shared.setSoundMute(isMuted: false)

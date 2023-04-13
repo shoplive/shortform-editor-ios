@@ -50,18 +50,36 @@ extension UIApplication {
         }
 }
 
+extension AVAudioSession {
+    //    audioSessionObservationInfo
+    public func safeRemoveObserver(_ observer: Any, forKeyPath keyPath: String, observeInfo: UnsafeMutableRawPointer?, completion: @escaping (Bool)->Void) {
+        guard let obverb: NSObject = observer as? NSObject else { return }
+        ShopLiveLogger.debugLog("\(keyPath) self.observationInfo is nil ? \(observeInfo == nil). \(observeInfo)")
+        if observeInfo != nil {
+            do {
+                try self.removeObserver(obverb, forKeyPath: keyPath)
+            } catch {
+                completion(false)
+            }
+            
+            completion(true)
+        } else {
+            completion(false)
+        }
+    }
+}
+
 extension NSObject {
   public func safeRemoveObserver(_ observer: Any, forKeyPath keyPath: String) {
     guard let obverb: NSObject = observer as? NSObject else { return }
-      
-    switch self.observationInfo {
-    case .some:
-      self.removeObserver(obverb, forKeyPath: keyPath)
-    default:
-//        ShopLiveLogger.debugLog("observer does not exist")
-        break
-
-    }
+      ShopLiveLogger.debugLog("\(keyPath) self.observationInfo is nil ? \(self.observationInfo == nil). \(self.observationInfo)")
+      if self.observationInfo != nil {
+          do {
+              try self.removeObserver(obverb, forKeyPath: keyPath)
+          } catch {
+              
+          }
+      }
   }
 }
 
@@ -69,13 +87,12 @@ extension NotificationCenter {
     public func safeRemoveObserver(_ observer: Any, name aName: NSNotification.Name?, object anObject: Any?) {
         guard let obverb: NSObject = observer as? NSObject else { return }
         
-        switch self.observationInfo {
-        case .some:
-            self.removeObserver(obverb, name: aName, object: anObject)
-        default:
-    //        ShopLiveLogger.debugLog("observer does not exist")
-            break
-
+        if self.observationInfo != nil {
+            do {
+                try self.removeObserver(obverb, name: aName, object: anObject)
+            } catch {
+                
+            }
         }
     }
 }

@@ -157,14 +157,14 @@ internal class OverlayWebView: UIView {
     }
     
     func sendCommandMessage(command: String, payload: [String : Any]?) {
-            guard let payload = payload else {
-                return
-            }
+        guard let payload = payload else {
+            return
+        }
 
-            var message: [String : Any] = [:]
+        var message: [String : Any] = [:]
 
-            message["command"] = command
-            message["payload"] = payload
+        message["command"] = command
+        message["payload"] = payload
 
         self.webView?.sendEventToWeb(event: .sendCommandMessage, message.toJson() ?? "", false)
         }
@@ -287,7 +287,6 @@ extension OverlayWebView: WKScriptMessageHandler {
             Receive data from web client
                 - Receiving the data from Web Client
          */
-
         ShopLiveLogger.debugLog("web receive message.name: \(message.name) message.body: \(message.body)")
         
         guard message.name == ShopLiveDefines.webInterface else { return }
