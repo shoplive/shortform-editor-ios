@@ -56,12 +56,26 @@ internal final class LiveStreamViewModel: NSObject {
             let metadataOutput = AVPlayerItemMetadataOutput(identifiers: nil)
             metadataOutput.setDelegate(self, queue: DispatchQueue.main)
             playerItem.add(metadataOutput)
-            playerItem.preferredForwardBufferDuration = 6
-            playerItem.preferredPeakBitRate = 0
-            playerItem.preferredMaximumResolution = CGSize(width: 1080, height: 1920)
+            
+            if #available(iOS 13.0, *) {
+                playerItem.automaticallyPreservesTimeOffsetFromLive = true
+                playerItem.configuredTimeOffsetFromLive = asset.minimumTimeOffsetFromLive
+            }
+            if #available(iOS 14.0, *) {
+                playerItem.startsOnFirstEligibleVariant = true
+            }
+            if #available(iOS 14.5, *) {
+                playerItem.variantPreferences = .scalabilityToLosslessAudio
+            }
+            if !ShopLiveController.isReplayMode {
+                playerItem.preferredForwardBufferDuration = 3
+            } else {
+                playerItem.preferredForwardBufferDuration = 5
+            }
+            
             ShopLiveController.playerItem = playerItem
             self.playerItem = playerItem
-
+            
             NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase)
             NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .AVPlayerItemPlaybackStalled, object: self.playerItem)
             ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
