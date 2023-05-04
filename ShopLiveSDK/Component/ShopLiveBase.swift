@@ -26,6 +26,7 @@ import WebKit
     private var playerModeChanged: Bool = false
     private var needAnimateToChangePreivew: Bool = false
     private var activeFromBackground: Bool = false
+    private var enabledPictureInPictureMode : Bool = true
     /*
     internal var phase: ShopLive.Phase = .REAL {
         didSet {
@@ -433,8 +434,13 @@ import WebKit
 //            guard let topVC = UIApplication.topViewController(), topVC.isKind(of: LiveStreamViewController.self) else {
 //                return
 //            }
-//
+            
             self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.lastStyle.rawValue])
+            if self.enabledPictureInPictureMode == false {
+                self.close()
+                return
+            }
+            
             guard !ShopLiveController.shared.pipAnimating else { return }
             guard let shopLiveWindow = self.shopLiveWindow else { return }
             guard shopLiveWindow.frame.size != .zero else { return }
@@ -485,7 +491,7 @@ import WebKit
                 ShopLiveController.shared.videoExpanded = true
                 
                 if self.windowChangeCommand != .none {
-//                    self.isWindowChanging = false
+                    //                    self.isWindowChanging = false
                     if changeWindow {
                         self.handleWindowChangeCommand()
                     }
@@ -494,6 +500,7 @@ import WebKit
                 self.delegate?.log?(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
                 self.delegate?.log?(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
                 self.sendCommandChangeToPip()
+                
                 self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             }
         }
@@ -1123,6 +1130,9 @@ import WebKit
     }
     
     @objc private func swipeDownGestureHandler(_ recognizer: UISwipeGestureRecognizer) {
+        if self.enabledPictureInPictureMode == false {
+            return
+        }
         guard ShopLiveController.shared.swipeEnabled else { return }
         guard !ShopLiveController.shared.isPreview else { return }
         guard _style == .fullScreen else { return }
@@ -1399,6 +1409,9 @@ import WebKit
 extension ShopLiveBase: ShopLiveComponent {
     func setMixWithOthers(isMixAudio: Bool) {
         ShopLiveConfiguration.SoundPolicy.useMixWithOthers = isMixAudio
+    }
+    func enablePictureInPictureMode(isEnabled : Bool){
+        self.enabledPictureInPictureMode = isEnabled
     }
     
     func awakePlayer() {

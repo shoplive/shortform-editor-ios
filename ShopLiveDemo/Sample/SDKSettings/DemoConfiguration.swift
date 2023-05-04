@@ -504,6 +504,17 @@ final class DemoConfiguration: NSObject {
         }
     }
     
+    var enablePictureInPictureMode : Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.enablePictureInPictureMode.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.enablePictureInPictureMode.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.enablePictureInPictureMode.optionKey)
+        }
+    }
+    
     var customLandingUrl: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: "CUSTOM_LANDING_URL")

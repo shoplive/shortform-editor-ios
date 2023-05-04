@@ -7,6 +7,8 @@
 
 import Foundation
 import AVKit
+import Network
+
 
 internal final class LiveStreamViewModel: NSObject {
 

@@ -11,6 +11,9 @@
 		1BA5155C25CBDCD100070181 /* ShopLiveSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5155B25CBDCD100070181 /* ShopLiveSDKTests.swift */; };
 		1BA5155E25CBDCD200070181 /* ShopLiveSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BA5155025CBDCD100070181 /* ShopLiveSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BA5156A25CBDD3F00070181 /* ShopLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5156925CBDD3F00070181 /* ShopLive.swift */; };
+		2F7A6DFD2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
+		2F7A6DFE2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
+		2FD062B32A03804B004841D2 /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
 		BF1B57BA276983600002EBB5 /* CustomBaseAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */; };
 		BF1B57BC2769844F0002EBB5 /* CampaignInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */; };
 		BF1C0804272797C400F6B2E1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */; };
@@ -215,7 +218,6 @@
 		BF5F505328F7D1E1008B79D9 /* SideMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719812766335F00522F6F /* SideMenuCell.swift */; };
 		BF5F505428F7D1E1008B79D9 /* CouponCallbackSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BB7E0273A1571006BDEF3 /* CouponCallbackSettingViewController.swift */; };
 		BF5F505628F7D1E1008B79D9 /* SDKSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BB7E1273A1571006BDEF3 /* SDKSettings.swift */; };
-		BF5F505728F7D1E1008B79D9 /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21962276B40BD00900FB1 /* SwitchOptionCell.swift */; };
 		BF5F505928F7D1E1008B79D9 /* UserInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47199A276832E100522F6F /* UserInfoCell.swift */; };
 		BF5F505E28F7D1E1008B79D9 /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */; };
 		BF5F505F28F7D1E1008B79D9 /* PipAreaSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3586B27E9AD3500B920E9 /* PipAreaSettingViewController.swift */; };
@@ -295,7 +297,6 @@
 		BF60E1F52771CECA0060531C /* SideMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719812766335F00522F6F /* SideMenuCell.swift */; };
 		BF60E1F62771CECA0060531C /* CouponCallbackSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BB7E0273A1571006BDEF3 /* CouponCallbackSettingViewController.swift */; };
 		BF60E1F72771CECA0060531C /* SDKSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BB7E1273A1571006BDEF3 /* SDKSettings.swift */; };
-		BF60E1F82771CECA0060531C /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21962276B40BD00900FB1 /* SwitchOptionCell.swift */; };
 		BF60E1FA2771CECA0060531C /* UserInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47199A276832E100522F6F /* UserInfoCell.swift */; };
 		BF60E1FB2771CECA0060531C /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */; };
 		BF60E1FD2771CECA0060531C /* ShopLiveRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719B02768C63B00522F6F /* ShopLiveRadioButton.swift */; };
@@ -394,7 +395,6 @@
 		BFE14B66272F6E9200C6624B /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBACA02699EAEC00574958 /* CoreTelephony.framework */; };
 		BFE2195F276B35C000900FB1 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = BFE2195E276B35C000900FB1 /* Toast */; };
 		BFE21961276B3BE600900FB1 /* ShopLiveDevConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21960276B3BE600900FB1 /* ShopLiveDevConfiguration.swift */; };
-		BFE21963276B40BD00900FB1 /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21962276B40BD00900FB1 /* SwitchOptionCell.swift */; };
 		BFE21965276B41A600900FB1 /* ButtonOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21964276B41A600900FB1 /* ButtonOptionCell.swift */; };
 		BFE21967276B436600900FB1 /* DevInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21966276B436600900FB1 /* DevInfoCell.swift */; };
 		BFE21969276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21968276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift */; };
@@ -462,6 +462,7 @@
 		1BA5155B25CBDCD100070181 /* ShopLiveSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveSDKTests.swift; sourceTree = "<group>"; };
 		1BA5155D25CBDCD200070181 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1BA5156925CBDD3F00070181 /* ShopLive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLive.swift; sourceTree = "<group>"; };
+		2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchOptionCell.swift; sourceTree = "<group>"; };
 		BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBaseAlertController.swift; sourceTree = "<group>"; };
 		BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignInputAlertController.swift; sourceTree = "<group>"; };
 		BF1B57C0276B19600002EBB5 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -577,7 +578,6 @@
 		BFDC8B6628A169050055C4DA /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
 		BFE14B65272F69F100C6624B /* ShopLiveDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShopLiveDemo.entitlements; sourceTree = "<group>"; };
 		BFE21960276B3BE600900FB1 /* ShopLiveDevConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDevConfiguration.swift; sourceTree = "<group>"; };
-		BFE21962276B40BD00900FB1 /* SwitchOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchOptionCell.swift; sourceTree = "<group>"; };
 		BFE21964276B41A600900FB1 /* ButtonOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonOptionCell.swift; sourceTree = "<group>"; };
 		BFE21966276B436600900FB1 /* DevInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevInfoCell.swift; sourceTree = "<group>"; };
 		BFE21968276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveCheckBoxButton.swift; sourceTree = "<group>"; };
@@ -967,8 +967,8 @@
 		BF8CEF98276CC5F60043D5FF /* optionsetting */ = {
 			isa = PBXGroup;
 			children = (
-				BFE21962276B40BD00900FB1 /* SwitchOptionCell.swift */,
 				BFE21964276B41A600900FB1 /* ButtonOptionCell.swift */,
+				2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */,
 				BFA69D69276B64FF00F91394 /* OptionSectionHeader.swift */,
 				BF47198727663C9600522F6F /* OptionsViewController.swift */,
 			);
@@ -1562,13 +1562,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F7A6DFE2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */,
 				BF5F505128F7D1E1008B79D9 /* TextItemInputAlertController.swift in Sources */,
 				BF5F505228F7D1E1008B79D9 /* CouponSettingsViewController.swift in Sources */,
 				BF5F505328F7D1E1008B79D9 /* SideMenuCell.swift in Sources */,
 				BF670E8129468F1C00F5EECF /* VersionInfoCell.swift in Sources */,
 				BF5F505428F7D1E1008B79D9 /* CouponCallbackSettingViewController.swift in Sources */,
 				BF5F505628F7D1E1008B79D9 /* SDKSettings.swift in Sources */,
-				BF5F505728F7D1E1008B79D9 /* SwitchOptionCell.swift in Sources */,
 				BFE9607B28FD3A2A0098937A /* QRReaderViewController.swift in Sources */,
 				BF5F505928F7D1E1008B79D9 /* UserInfoCell.swift in Sources */,
 				BF5F505E28F7D1E1008B79D9 /* ShopLiveDemoKeyTools.swift in Sources */,
@@ -1637,7 +1637,6 @@
 				BF60E1F62771CECA0060531C /* CouponCallbackSettingViewController.swift in Sources */,
 				BF37D9B027F5742D004C2785 /* LiveStreamViewModel.swift in Sources */,
 				BF60E1F72771CECA0060531C /* SDKSettings.swift in Sources */,
-				BF60E1F82771CECA0060531C /* SwitchOptionCell.swift in Sources */,
 				BF37D9C527F5742D004C2785 /* ShopLivePlayerView.swift in Sources */,
 				BF60E1FA2771CECA0060531C /* UserInfoCell.swift in Sources */,
 				BF37D9C827F5742D004C2785 /* ShopLiveWebView.swift in Sources */,
@@ -1659,6 +1658,7 @@
 				BF60E2002771CECA0060531C /* ShopLive.swift in Sources */,
 				C9E1F63D28B205FD00C4C3D4 /* AddParameterCell.swift in Sources */,
 				BF60E2012771CECA0060531C /* DemoConfiguration.swift in Sources */,
+				2F7A6DFD2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */,
 				BF37D9AD27F5742D004C2785 /* ShopLiveController.swift in Sources */,
 				BF37D9D127F5742D004C2785 /* ShopLiveDefines.swift in Sources */,
 				BF85BA8D2886FB3000E48A22 /* DemoAppUtility.swift in Sources */,
@@ -1732,7 +1732,6 @@
 				BF9BB7E2273A1571006BDEF3 /* CouponCallbackSettingViewController.swift in Sources */,
 				BF37D9AF27F5742D004C2785 /* LiveStreamViewModel.swift in Sources */,
 				BF9BB7E3273A1571006BDEF3 /* SDKSettings.swift in Sources */,
-				BFE21963276B40BD00900FB1 /* SwitchOptionCell.swift in Sources */,
 				BF37D9C427F5742D004C2785 /* ShopLivePlayerView.swift in Sources */,
 				BF47199B276832E100522F6F /* UserInfoCell.swift in Sources */,
 				BF37D9C727F5742D004C2785 /* ShopLiveWebView.swift in Sources */,
@@ -1798,6 +1797,7 @@
 				BFE21969276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift in Sources */,
 				BF4719842766389F00522F6F /* CampaignsViewController.swift in Sources */,
 				BF4719AB2768836000522F6F /* SampleOptions.swift in Sources */,
+				2FD062B32A03804B004841D2 /* SwitchOptionCell.swift in Sources */,
 				BF263099288DDA980071C8BE /* LoginViewController.swift in Sources */,
 				BF47196F2765F48700522F6F /* SideMenuViewController.swift in Sources */,
 				BF60E1D5276F6E860060531C /* SecretKeysViewController.swift in Sources */,

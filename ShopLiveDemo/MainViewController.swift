@@ -266,6 +266,8 @@ class MainViewController: SideMenuBaseViewController {
         
         ShopLive.fixedPipWidth = DemoConfiguration.shared.fixedPipWidth as? NSNumber
         
+        ShopLive.enablePictureInPictureMode(isEnabled: DemoConfiguration.shared.enablePictureInPictureMode)
+        
         ShopLive.setKeepWindowStyleOnReturnFromOsPip(config.usePipKeepWindowStyle)
     }
 

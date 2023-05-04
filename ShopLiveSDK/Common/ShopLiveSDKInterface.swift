@@ -251,6 +251,7 @@ public typealias ShopLiveViewController = UIViewController
     @objc static func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
     @objc static func startPictureInPicture()
     @objc static func stopPictureInPicture()
+    @objc static func enablePictureInPictureMode(isEnabled : Bool)
 
     @objc static func setLoadingAnimation(images: [UIImage])
 

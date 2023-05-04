@@ -48,6 +48,7 @@ enum SDKOptionType: String, CaseIterable {
     case mixAudio
     case clicklog
     case addParameter
+    case enablePictureInPictureMode
 
     enum SettingType: Int {
         case showAlert

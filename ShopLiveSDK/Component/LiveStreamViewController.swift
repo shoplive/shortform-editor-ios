@@ -786,6 +786,7 @@ internal final class LiveStreamViewController: UIViewController {
 
     private let bottomItemSpacing: CGFloat = 21
     private func setupOverayWebview() {
+
         let overlayView = OverlayWebView(with: webViewConfiguration)
         overlayView.webviewUIDelegate = self
         overlayView.delegate = self
