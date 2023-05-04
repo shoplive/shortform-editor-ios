@@ -68,7 +68,7 @@ internal final class LiveStreamViewModel: NSObject {
                 playerItem.variantPreferences = .scalabilityToLosslessAudio
             }
             
-            playerItem.preferredForwardBufferDuration = 1
+            playerItem.preferredForwardBufferDuration = 2.5
             
             ShopLiveController.playerItem = playerItem
             self.playerItem = playerItem
