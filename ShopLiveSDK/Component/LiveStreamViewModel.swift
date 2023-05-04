@@ -67,11 +67,8 @@ internal final class LiveStreamViewModel: NSObject {
             if #available(iOS 14.5, *) {
                 playerItem.variantPreferences = .scalabilityToLosslessAudio
             }
-            if !ShopLiveController.isReplayMode {
-                playerItem.preferredForwardBufferDuration = 3
-            } else {
-                playerItem.preferredForwardBufferDuration = 5
-            }
+            
+            playerItem.preferredForwardBufferDuration = 1
             
             ShopLiveController.playerItem = playerItem
             self.playerItem = playerItem
@@ -181,6 +178,7 @@ internal final class LiveStreamViewModel: NSObject {
         case .readyToPlay:
             ShopLiveLogger.debugLog("readyToPlay")
             ShopLiveLogger.debugLog("[1.3.2] readyToPlay")
+            ShopLiveController.playerItem?.preferredForwardBufferDuration = 5
             if ShopLiveController.playControl != .pause, ShopLiveController.playControl != .play, ShopLiveController.windowStyle != .osPip {
                 if ShopLiveController.isReplayMode && ShopLiveController.playControl == .resume { return }
                 if ShopLiveController.isReplayMode, let duration = ShopLiveController.duration {
