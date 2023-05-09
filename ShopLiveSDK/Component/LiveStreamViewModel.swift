@@ -71,6 +71,7 @@ internal final class LiveStreamViewModel: NSObject {
             }
             
             playerItem.preferredForwardBufferDuration = 2.5
+            playerItem.audioTimePitchAlgorithm = .timeDomain
             
             ShopLiveController.playerItem = playerItem
             self.playerItem = playerItem

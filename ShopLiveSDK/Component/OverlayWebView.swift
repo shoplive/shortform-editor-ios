@@ -439,11 +439,14 @@ extension OverlayWebView: WKScriptMessageHandler {
                     
                     self.delegate?.updateOrientation(toLandscape: ("LANDSCAPE" == orientation))
                     break
+                case "SET_PLAYBACK_SPEED":
+                    if let playBackSpeed = parameters?["rate"] as? Float {
+                        self.delegate?.didUpdatePlaybackSpeed(speed: playBackSpeed)
+                    }
                 default:
                     break
                 }
             }
-
             return
         }
 

@@ -1237,6 +1237,11 @@ internal final class LiveStreamViewController: UIViewController {
 }
 
 extension LiveStreamViewController: OverlayWebViewDelegate {
+    
+    func didUpdatePlaybackSpeed(speed: Float) {
+        playerView.player.rate = speed
+    }
+    
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
         delegate?.log(name: name, feature: feature, campaign: campaign, payload: payload)
     }
