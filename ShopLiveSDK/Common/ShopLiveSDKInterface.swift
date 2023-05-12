@@ -295,4 +295,6 @@ public typealias ShopLiveViewController = UIViewController
     @objc static func setAdId(adId: String?)
     @objc static func addParameter(key: String, value: String)
     @objc static func removeParameter(key: String)
+    
+    @objc static func setDisablePipSwipeOut(_ disable: Bool)
 }

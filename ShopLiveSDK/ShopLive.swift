@@ -195,6 +195,10 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    public static func setDisablePipSwipeOut(_ disable: Bool) {
+        ShopLiveConfiguration.UI.disablePipSwipeOut = disable
+    }
+    
     public static func removeParameter(key: String) {
         ShopLiveConfiguration.Data.customParameters.removeValue(forKey: key)
     }

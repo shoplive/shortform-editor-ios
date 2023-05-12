@@ -1068,10 +1068,12 @@ import WebKit
             ShopLiveLogger.debugLog("checkCenterX \(checkCenterX)")
             ShopLiveLogger.debugLog("checkCenterY \(checkCenterY)")
             
-            guard xRange.contains(checkCenterX), yRange.contains(checkCenterY) else {
-                delegate?.handleCommand(ShopLiveController.shared.isPreview ? "CLOSE_FROM_PREVIEW" : "CLOSE_FROM_PLAY", with: nil)
-                hideShopLiveView()
-                return
+            if !ShopLiveConfiguration.UI.disablePipSwipeOut || ShopLiveController.shared.isPreview {
+                guard xRange.contains(checkCenterX), yRange.contains(checkCenterY) else {
+                    delegate?.handleCommand(ShopLiveController.shared.isPreview ? "CLOSE_FROM_PREVIEW" : "CLOSE_FROM_PLAY", with: nil)
+                    hideShopLiveView()
+                    return
+                }
             }
             
             let animationDuration: CGFloat = 0.7

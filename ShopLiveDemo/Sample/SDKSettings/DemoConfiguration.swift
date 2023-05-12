@@ -589,6 +589,17 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.string(forKey: "adId")
         }
     }
+    
+    var pipDisableSwipeOut: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipDisableSwipeOut.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.pipDisableSwipeOut.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.pipDisableSwipeOut.optionKey)
+        }
+    }
 }
 
 

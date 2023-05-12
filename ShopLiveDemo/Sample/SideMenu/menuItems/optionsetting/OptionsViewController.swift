@@ -78,7 +78,8 @@ final class OptionsViewController: SideMenuItemViewController {
         let pipModelEnableSetting = SDKOptionItem(name: "sdkoption.enablePictureInPictureMode.title".localized(),
                                                optionDescription: "sdkoption.enablePictureInPictureMode.description".localized(), optionType: .enablePictureInPictureMode)
         let pipAreaOption = SDKOptionItem(name: "sdkoption.pipFloatingOffset.title".localized(), optionDescription: "sdkoption.pipFloatingOffset.description".localized(), optionType: .pipFloatingOffset)
-        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, fixedPipWidthOption, nextActionPipOption, pipKeepWindowStyle, pipModelEnableSetting, pipAreaOption])
+        let pipDisableSwipeOutOption = SDKOptionItem(name: "sdkoption.pipDisableSwipeOutOption.title".localized(), optionDescription: "sdkoption.pipDisableSwipeOutOption.description".localized(), optionType: .pipDisableSwipeOut)
+        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, fixedPipWidthOption, nextActionPipOption, pipKeepWindowStyle, pipModelEnableSetting, pipDisableSwipeOutOption, pipAreaOption])
 
         items.append(pipOptions)
 
