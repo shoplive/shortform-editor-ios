@@ -1412,7 +1412,7 @@ extension ShopLiveBase: ShopLiveComponent {
     func setMixWithOthers(isMixAudio: Bool) {
         ShopLiveConfiguration.SoundPolicy.useMixWithOthers = isMixAudio
     }
-    func enablePictureInPictureMode(isEnabled : Bool){
+    func setEnabledPictureInPictureMode(isEnabled : Bool){
         self.enabledPictureInPictureMode = isEnabled
     }
     

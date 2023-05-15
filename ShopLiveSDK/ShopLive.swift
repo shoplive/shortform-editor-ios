@@ -32,7 +32,7 @@ import WebKit
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
     @objc func startPictureInPicture()
     @objc func stopPictureInPicture()
-    @objc func enablePictureInPictureMode(isEnabled : Bool)
+    @objc func setEnabledPictureInPictureMode(isEnabled : Bool)
     @objc func setKeepAspectOnTabletPortrait(_ keep: Bool)
 
     @objc func setLoadingAnimation(images: [UIImage])
@@ -458,7 +458,7 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.reloadLive()
     }
     
-    public static func enablePictureInPictureMode(isEnabled : Bool){
-        shared.instance?.enablePictureInPictureMode(isEnabled: isEnabled)
+    public static func setEnabledPictureInPictureMode(isEnabled : Bool){
+        shared.instance?.setEnabledPictureInPictureMode(isEnabled: isEnabled)
     }
 }
