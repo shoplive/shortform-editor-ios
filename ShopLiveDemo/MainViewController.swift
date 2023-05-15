@@ -269,7 +269,7 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.setEnabledPictureInPictureMode(isEnabled: DemoConfiguration.shared.enablePictureInPictureMode)
         
         ShopLive.setKeepWindowStyleOnReturnFromOsPip(config.usePipKeepWindowStyle)
-        ShopLive.setDisablePipSwipeOut(config.pipDisableSwipeOut)
+        ShopLive.setEnabledPipSwipeOut(config.pipEnableSwipeOut)
     }
 
     override func preview() {

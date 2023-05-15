@@ -110,8 +110,8 @@
 "sdkoption.pipKeepWindowStyle.description" = "OS PIP에서 앱으로 복귀할때 옵션을 true로 설정 할 경우 마지막 실행 중이던 상태(앱 내 PIP 또는 Fullscreen)로 복귀되도록 설정. (기본은 유지안함)";
 "sdkoption.enablePictureInPictureMode.title" = "Enable PIP Mode";
 "sdkoption.enablePictureInPictureMode.description" = "Enable user to use PIP mode while watching live streaming.";
-"sdkoption.pipDisableSwipeOutOption.title" = "화면 밖으로 PIP를 SWIPE하는 경우 종료 여부 설정";
-"sdkoption.pipDisableSwipeOutOption.description" = "화면 밖으로 PIP를 SWIPE 하는 경우 플레이어를 종료시키지 않을지 여부를 설정합니다. preview는 해당없음. in-app pip만 적용되는 옵션입니다. (기본은 종료, 설정시 종료되지 않음.)";
+"sdkoption.pipEnableSwipeOutOption.title" = "화면 밖으로 PIP를 SWIPE하는 경우 종료 여부 설정";
+"sdkoption.pipEnableSwipeOutOption.description" = "화면 밖으로 PIP를 SWIPE 하는 경우 플레이어를 종료시킬지 여부를 설정합니다. preview는 해당없음. in-app pip만 적용되는 옵션입니다. (기본은 종료, 설정해제 시 종료되지 않음.)";
 "sdkoption.pipFloatingOffset.title" = "PIP 영역 설정";
 "sdkoption.pipFloatingOffset.description" = "PIP의 영역을 설정합니다.";
 "sdkoption.pipScale.title" = "View size";

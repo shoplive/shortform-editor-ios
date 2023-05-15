@@ -590,14 +590,14 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var pipDisableSwipeOut: Bool {
+    var pipEnableSwipeOut: Bool {
         set {
-            UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipDisableSwipeOut.optionKey)
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipEnableSwipeOut.optionKey)
             UserDefaults.standard.synchronize()
-            notifyObservers(key: SDKOptionType.pipDisableSwipeOut.optionKey)
+            notifyObservers(key: SDKOptionType.pipEnableSwipeOut.optionKey)
         }
         get {
-            return UserDefaults.standard.bool(forKey:  SDKOptionType.pipDisableSwipeOut.optionKey)
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.pipEnableSwipeOut.optionKey)
         }
     }
 }

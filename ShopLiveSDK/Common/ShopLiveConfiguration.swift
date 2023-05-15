@@ -88,7 +88,7 @@ internal final class ShopLiveConfiguration: NSObject {
         
         static var manualRoatation: Bool = false
         static var closeButton: Bool = false
-        static var disablePipSwipeOut: Bool = false
+        static var enablePipSwipeOut: Bool = false
     }
 
     fileprivate override init() {}

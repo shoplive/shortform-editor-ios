@@ -1068,7 +1068,7 @@ import WebKit
             ShopLiveLogger.debugLog("checkCenterX \(checkCenterX)")
             ShopLiveLogger.debugLog("checkCenterY \(checkCenterY)")
             
-            if !ShopLiveConfiguration.UI.disablePipSwipeOut || ShopLiveController.shared.isPreview {
+            if ShopLiveConfiguration.UI.enablePipSwipeOut || ShopLiveController.shared.isPreview {
                 guard xRange.contains(checkCenterX), yRange.contains(checkCenterY) else {
                     delegate?.handleCommand(ShopLiveController.shared.isPreview ? "CLOSE_FROM_PREVIEW" : "CLOSE_FROM_PLAY", with: nil)
                     hideShopLiveView()

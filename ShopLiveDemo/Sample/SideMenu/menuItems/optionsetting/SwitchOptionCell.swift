@@ -169,8 +169,8 @@ class SwitchOptionCell: UITableViewCell {
         case .clicklog:
             useOption = DemoConfiguration.shared.useClickLog
             break
-        case .pipDisableSwipeOut:
-            useOption = DemoConfiguration.shared.pipDisableSwipeOut
+        case .pipEnableSwipeOut:
+            useOption = DemoConfiguration.shared.pipEnableSwipeOut
         default:
             break
         }
@@ -230,8 +230,8 @@ class SwitchOptionCell: UITableViewCell {
             DemoConfiguration.shared.useMixAudio = useOption
         case .clicklog:
             DemoConfiguration.shared.useClickLog = useOption
-        case .pipDisableSwipeOut:
-            DemoConfiguration.shared.pipDisableSwipeOut = useOption
+        case .pipEnableSwipeOut:
+            DemoConfiguration.shared.pipEnableSwipeOut = useOption
             break
         default:
             break
