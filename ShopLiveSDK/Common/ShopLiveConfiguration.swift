@@ -34,6 +34,12 @@ internal final class ShopLiveConfiguration: NSObject {
         case resume
     }
 
+    class StreamOption {
+        static var automaticallyPreservesTimeOffsetFromLive = true
+        static var startsOnFirstEligibleVariant = true
+        static var variantPreferencesScalabilityToLosslessAudio = true
+    }
+    
     class AppPreference {
         static var endpoint: String? = nil
         static var landingUrl: String {

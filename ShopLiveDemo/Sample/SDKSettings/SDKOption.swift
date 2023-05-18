@@ -50,6 +50,9 @@ enum SDKOptionType: String, CaseIterable {
     case clicklog
     case addParameter
     case enablePictureInPictureMode
+    case automaticallyPreservesTimeOffsetFromLive
+    case startsOnFirstEligibleVariant
+    case variantPreferences_scalabilityToLosslessAudio
 
     enum SettingType: Int {
         case showAlert

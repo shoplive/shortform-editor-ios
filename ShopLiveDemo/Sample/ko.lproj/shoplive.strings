@@ -81,6 +81,14 @@
 "sdkoption.section.chatFont.title" = "채팅 폰트";
 "sdkoption.section.clicklog.title" = "Click log";
 "sdkoption.section.customOption.title" = "커스텀 설정";
+"sdkoption.section.streamOption.title" = "Stream Option";
+"sdkoption.streamOption.automaticallyPreservesTimeOffsetFromLive.title" = "automaticallyPreservesTimeOffsetFromLive 설정";
+"sdkoption.streamOption.automaticallyPreservesTimeOffsetFromLive.description" = "A Boolean value that indicates whether the player preserves its time offset from the live time after a buffering operation.";
+"sdkoption.streamOption.startsOnFirstEligibleVariant.title" = "startsOnFirstEligibleVariant 설정";
+"sdkoption.streamOption.startsOnFirstEligibleVariant.description" = "A Boolean value that indicates whether playback starts with the first eligible variant that appears in the stream’s main playlist.";
+"sdkoption.streamOption.variantPreferences.title" = "variantPreferences scalabilityToLosslessAudio 설정";
+"sdkoption.streamOption.variantPreferences.description" = "A preference that indicates the player item supports variant playlists that contain losslessly encoded audio when sufficient bandwidth is available.
+";
 "sdkoption.setupPlayer.aspectOnTablet.title" = "태블릿 PC에서 영상 화면 비율 설정";
 "sdkoption.setupPlayer.aspectOnTablet.description" = "영상을 화면을 꽉 채우기(off) / 영상 사이즈에 맞추기(on)";
 "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.title" = "플레이어가 실행 중일때 Play 호출시 화면 상태 유지 여부 설정";

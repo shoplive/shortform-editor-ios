@@ -195,6 +195,23 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    #if QA
+    #if SDK_MODULE
+    #else
+    public static func setUsingAutomaticallyPreservesTimeOffsetFromLive(_ use: Bool) {
+        ShopLiveConfiguration.StreamOption.automaticallyPreservesTimeOffsetFromLive = use
+    }
+
+    public static func setUsingStartsOnFirstEligibleVariant(_ use: Bool) {
+        ShopLiveConfiguration.StreamOption.startsOnFirstEligibleVariant = use
+    }
+
+    public static func setUsingVariantPreferencesScalabilityToLosslessAudio(_ use: Bool) {
+        ShopLiveConfiguration.StreamOption.variantPreferencesScalabilityToLosslessAudio = use
+    }
+    #endif
+    #endif
+    
     public static func setEnabledPipSwipeOut(_ enabled: Bool) {
         ShopLiveConfiguration.UI.enablePipSwipeOut = enabled
     }

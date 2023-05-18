@@ -600,6 +600,39 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.pipEnableSwipeOut.optionKey)
         }
     }
+    
+    var useAutomaticallyPreservesTimeOffsetFromLive: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.automaticallyPreservesTimeOffsetFromLive.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.automaticallyPreservesTimeOffsetFromLive.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.automaticallyPreservesTimeOffsetFromLive.optionKey)
+        }
+    }
+    
+    var useStartsOnFirstEligibleVariant: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.startsOnFirstEligibleVariant.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.startsOnFirstEligibleVariant.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.startsOnFirstEligibleVariant.optionKey)
+        }
+    }
+    
+    var useVariantPreferencesScalabilityToLosslessAudio: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.variantPreferences_scalabilityToLosslessAudio.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.variantPreferences_scalabilityToLosslessAudio.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.variantPreferences_scalabilityToLosslessAudio.optionKey)
+        }
+    }
 }
 
 

@@ -270,6 +270,15 @@ class MainViewController: SideMenuBaseViewController {
         
         ShopLive.setKeepWindowStyleOnReturnFromOsPip(config.usePipKeepWindowStyle)
         ShopLive.setEnabledPipSwipeOut(config.pipEnableSwipeOut)
+        
+        #if QA
+            #if SDK_MODULE
+            #else
+        ShopLive.setUsingStartsOnFirstEligibleVariant(config.useStartsOnFirstEligibleVariant)
+        ShopLive.setUsingAutomaticallyPreservesTimeOffsetFromLive(config.useAutomaticallyPreservesTimeOffsetFromLive)
+        ShopLive.setUsingVariantPreferencesScalabilityToLosslessAudio(config.useVariantPreferencesScalabilityToLosslessAudio)
+            #endif
+        #endif
     }
 
     override func preview() {

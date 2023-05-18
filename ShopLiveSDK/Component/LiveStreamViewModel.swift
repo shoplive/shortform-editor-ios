@@ -59,15 +59,23 @@ internal final class LiveStreamViewModel: NSObject {
             metadataOutput.setDelegate(self, queue: DispatchQueue.main)
             playerItem.add(metadataOutput)
             
-            if #available(iOS 13.0, *) {
-                playerItem.automaticallyPreservesTimeOffsetFromLive = true
-                playerItem.configuredTimeOffsetFromLive = asset.minimumTimeOffsetFromLive
+            if ShopLiveConfiguration.StreamOption.automaticallyPreservesTimeOffsetFromLive {
+                if #available(iOS 13.0, *) {
+                    playerItem.automaticallyPreservesTimeOffsetFromLive = true
+                    playerItem.configuredTimeOffsetFromLive = asset.minimumTimeOffsetFromLive
+                }
             }
-            if #available(iOS 14.0, *) {
-                playerItem.startsOnFirstEligibleVariant = true
+            
+            if ShopLiveConfiguration.StreamOption.startsOnFirstEligibleVariant {
+                if #available(iOS 14.0, *) {
+                    playerItem.startsOnFirstEligibleVariant = true
+                }
             }
-            if #available(iOS 14.5, *) {
-                playerItem.variantPreferences = .scalabilityToLosslessAudio
+            
+            if ShopLiveConfiguration.StreamOption.variantPreferencesScalabilityToLosslessAudio {
+                if #available(iOS 14.5, *) {
+                    playerItem.variantPreferences = .scalabilityToLosslessAudio
+                }
             }
             
             playerItem.preferredForwardBufferDuration = 2.5

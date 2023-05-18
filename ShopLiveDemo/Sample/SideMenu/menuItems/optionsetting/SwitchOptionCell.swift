@@ -171,6 +171,16 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .pipEnableSwipeOut:
             useOption = DemoConfiguration.shared.pipEnableSwipeOut
+            break
+        case .automaticallyPreservesTimeOffsetFromLive:
+            useOption = DemoConfiguration.shared.useAutomaticallyPreservesTimeOffsetFromLive
+            break
+        case .startsOnFirstEligibleVariant:
+            useOption = DemoConfiguration.shared.useStartsOnFirstEligibleVariant
+            break
+        case .variantPreferences_scalabilityToLosslessAudio:
+            useOption = DemoConfiguration.shared.useVariantPreferencesScalabilityToLosslessAudio
+            break
         default:
             break
         }
@@ -232,6 +242,15 @@ class SwitchOptionCell: UITableViewCell {
             DemoConfiguration.shared.useClickLog = useOption
         case .pipEnableSwipeOut:
             DemoConfiguration.shared.pipEnableSwipeOut = useOption
+            break
+        case .automaticallyPreservesTimeOffsetFromLive:
+            DemoConfiguration.shared.useAutomaticallyPreservesTimeOffsetFromLive = useOption
+            break
+        case .startsOnFirstEligibleVariant:
+            DemoConfiguration.shared.useStartsOnFirstEligibleVariant = useOption
+            break
+        case .variantPreferences_scalabilityToLosslessAudio:
+            DemoConfiguration.shared.useVariantPreferencesScalabilityToLosslessAudio = useOption
             break
         default:
             break

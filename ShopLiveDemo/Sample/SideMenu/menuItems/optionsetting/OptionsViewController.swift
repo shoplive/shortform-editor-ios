@@ -52,6 +52,18 @@ final class OptionsViewController: SideMenuItemViewController {
 
     private func setupOptions() {
 
+            #if QA
+                #if SDK_MODULE
+                #else
+        let automaticallyPreservesTimeOffsetFromLiveOption = SDKOptionItem(name: "sdkoption.streamOption.automaticallyPreservesTimeOffsetFromLive.title".localized(), optionDescription: "sdkoption.streamOption.automaticallyPreservesTimeOffsetFromLive.description".localized(), optionType: .automaticallyPreservesTimeOffsetFromLive)
+        let startsOnFirstEligibleVariantOption = SDKOptionItem(name: "sdkoption.streamOption.startsOnFirstEligibleVariant.title".localized(), optionDescription: "sdkoption.streamOption.startsOnFirstEligibleVariant.description".localized(), optionType: .startsOnFirstEligibleVariant)
+        let variantPreferencesOption = SDKOptionItem(name: "sdkoption.streamOption.variantPreferences.title".localized(), optionDescription: "sdkoption.streamOption.variantPreferences.description".localized(), optionType: .variantPreferences_scalabilityToLosslessAudio)
+        let streamOptions = SDKOption(optionTitle: "sdkoption.section.streamOption.title".localized(), optionItems: [automaticallyPreservesTimeOffsetFromLiveOption, startsOnFirstEligibleVariantOption, variantPreferencesOption])
+        
+        items.append(streamOptions)
+                #endif
+        #endif
+        
         let aspectOnTabletOption = SDKOptionItem(name: "sdkoption.setupPlayer.aspectOnTablet.title".localized(), optionDescription: "sdkoption.setupPlayer.aspectOnTablet.description".localized(), optionType: .aspectOnTablet)
         let keepWindowStateOnPlayExecutedOption = SDKOptionItem(name: "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.title".localized(), optionDescription: "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.description".localized(), optionType: .keepWindowStateOnPlayExecuted)
         let mixAudioOption = SDKOptionItem(name: "sdkoption.setupPlayer.mixAudio.title".localized(), optionDescription: "sdkoption.setupPlayer.mixAudio.description".localized(), optionType: .mixAudio)

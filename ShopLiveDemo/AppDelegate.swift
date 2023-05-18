@@ -17,6 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var orientationLock = UIInterfaceOrientationMask.all
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        if !UserDefaults.standard.bool(forKey: "streamOptionInitialized") {
+            UserDefaults.standard.register(defaults: [SDKOptionType.automaticallyPreservesTimeOffsetFromLive.optionKey: true, SDKOptionType.startsOnFirstEligibleVariant.optionKey: true, SDKOptionType.variantPreferences_scalabilityToLosslessAudio.optionKey: true])
+            UserDefaults.standard.set(true, forKey: "streamOptionInitialized")
+            UserDefaults.standard.synchronize()
+        }
+        
         UserDefaults.standard.register(defaults: [SDKOptionType.enablePictureInPictureMode.optionKey: true, SDKOptionType.pipEnableSwipeOut.optionKey: true])
         return true
     }
