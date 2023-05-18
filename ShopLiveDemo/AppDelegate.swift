@@ -18,7 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         if !UserDefaults.standard.bool(forKey: "streamOptionInitialized") {
-            UserDefaults.standard.register(defaults: [SDKOptionType.automaticallyPreservesTimeOffsetFromLive.optionKey: true, SDKOptionType.startsOnFirstEligibleVariant.optionKey: true, SDKOptionType.variantPreferences_scalabilityToLosslessAudio.optionKey: true])
+            DemoConfiguration.shared.useAutomaticallyPreservesTimeOffsetFromLive = true
+            DemoConfiguration.shared.useStartsOnFirstEligibleVariant = true
+            DemoConfiguration.shared.useVariantPreferencesScalabilityToLosslessAudio = true
             UserDefaults.standard.set(true, forKey: "streamOptionInitialized")
             UserDefaults.standard.synchronize()
         }
