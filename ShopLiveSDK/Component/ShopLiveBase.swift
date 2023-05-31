@@ -1340,6 +1340,14 @@ import WebKit
             }
             break
         case UIApplication.didEnterBackgroundNotification:
+            if #available(iOS 14.0, *) {
+              // use UIStackView
+            } else {
+                if !AVPictureInPictureController.isPictureInPictureSupported() {
+                    delegate?.handleError(code: "9500", message: "Unsupported OS version to use OS PIP mode.")
+                }
+            }
+            
             self.liveStreamViewController?.onBackground()
             break
         case UIApplication.protectedDataDidBecomeAvailableNotification:
