@@ -588,7 +588,7 @@ import WebKit
         }
     }
 
-    private func stopCustomPictureInPicture(changeWindow: Bool = true) {
+    private func stopCustomPictureInPicture() {
         if pictureInPictureController == nil {
             setupPictureInPicture()
         }
@@ -598,8 +598,6 @@ import WebKit
         guard let shopLiveWindow = self.shopLiveWindow else { return }
         
         shopLiveWindow.backgroundColor = .clear
-        
-        self.isWindowChanging = changeWindow
         shopLiveWindow.layer.cornerRadius = 10
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
 
@@ -1787,6 +1785,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     }
     
     public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        self.isWindowChanging = false
         setupPictureInPicture()
         if !ShopLiveController.isReplayMode && ShopLiveController.timeControlStatus == .playing {
             ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
