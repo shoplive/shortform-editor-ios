@@ -490,7 +490,9 @@ import WebKit
                 ShopLiveController.shared.videoExpanded = true
                 
                 if self.windowChangeCommand != .none {
-                    self.handleWindowChangeCommand()
+                    if self.isWindowChanging {
+                        self.handleWindowChangeCommand()
+                    }
                 }
                 
                 self.delegate?.log?(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
@@ -1781,7 +1783,6 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     }
     
     public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-        self.isWindowChanging = false
         setupPictureInPicture()
         if !ShopLiveController.isReplayMode && ShopLiveController.timeControlStatus == .playing {
             ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
@@ -1829,6 +1830,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
                 ShopLiveController.shared.swipeEnabled = true
                 self.startFromCampaignFullscreen()
             }
+            self.isWindowChanging = false
         }
 
         ShopLiveController.webInstance?.sendEventToWeb(event: .onPipModeChanged, false)
