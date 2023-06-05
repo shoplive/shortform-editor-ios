@@ -428,7 +428,7 @@ import WebKit
         return pipPosition
     }
     
-    private func startCustomPictureInPicture(with position: ShopLive.PipPosition = .default, scale: CGFloat = 2/5, changeWindow: Bool = true) {
+    private func startCustomPictureInPicture(with position: ShopLive.PipPosition = .default, scale: CGFloat = 2/5) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
 //            guard let topVC = UIApplication.topViewController(), topVC.isKind(of: LiveStreamViewController.self) else {
@@ -445,7 +445,6 @@ import WebKit
             guard let shopLiveWindow = self.shopLiveWindow else { return }
             guard shopLiveWindow.frame.size != .zero else { return }
             
-            self.isWindowChanging = changeWindow
             shopLiveWindow.backgroundColor = .clear
             shopLiveWindow.layer.cornerRadius = 10
             shopLiveWindow.rootViewController?.view.backgroundColor = .clear
@@ -491,10 +490,7 @@ import WebKit
                 ShopLiveController.shared.videoExpanded = true
                 
                 if self.windowChangeCommand != .none {
-                    //                    self.isWindowChanging = false
-                    if changeWindow {
-                        self.handleWindowChangeCommand()
-                    }
+                    self.handleWindowChangeCommand()
                 }
                 
                 self.delegate?.log?(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
@@ -947,7 +943,7 @@ import WebKit
             guard !ShopLiveController.shared.isPreview else {
                 return
             }
-            self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale, changeWindow: false)
+            self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
             self.windowChangeCommand = .none
             break
         default:
@@ -1146,10 +1142,10 @@ import WebKit
             if UIScreen.isLandscape {
                 self.liveStreamViewController?.updateOrientation(toLandscape: false)
             } else {
-                self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale, changeWindow: false)
+                self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
             }
         } else {
-            self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale, changeWindow: false)
+            self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
         }
     }
     
@@ -1567,11 +1563,11 @@ extension ShopLiveBase: ShopLiveComponent {
                         ShopLiveController.shared.keepSnapshot = true
                         self.liveStreamViewController?.doSnapShot {
                             self.liveStreamViewController?.updateImageFit()
-                            self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale, changeWindow: false)
+                            self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
                         }
                     } else {
                         self.liveStreamViewController?.updateImageFit()
-                        self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale, changeWindow: false)
+                        self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
                     }
                 }
                 
@@ -1970,7 +1966,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
         guard let hookNavigation = ShopLiveController.shared.hookNavigation else {
             switch ShopLiveConfiguration.UI.nextActionTypeOnHandleNavigation {
             case .PIP:
-                startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale, changeWindow: false)
+                startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
             case .CLOSE:
                 close()
                 _delegate?.handleNavigation(with: url)
