@@ -151,7 +151,7 @@ final class ShopLiveChattingWriteView: UIView {
         let chatBottom = NSLayoutConstraint.init(item: chatView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0)
         chatTrailing = NSLayoutConstraint.init(item: chatView, attribute: .trailing, relatedBy: .equal, toItem: sendButton, attribute: .leading, multiplier: 1.0, constant: 0)
         chatHeight = NSLayoutConstraint.init(item: chatView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: ShopLiveChattingWriteView.minimumHeightChatView)
-        
+        orientationChattingWritrViewConstraint()
         
         chatView.addConstraints([chatHeight])
         
