@@ -34,6 +34,20 @@ enum ShopLiveWindowStyle {
     case inAppPip
     case osPip
     case normal
+    
+    var name : String {
+        switch self {
+        case .none:
+            return "none"
+        case .inAppPip:
+            return "inAppPip"
+        case .osPip:
+            return "osPip"
+        case .normal:
+            return "normal"
+        }
+    }
+    
 }
 
 protocol ShopLivePlayerDelegate {
@@ -97,7 +111,6 @@ final class ShopLiveController: NSObject {
     @objc dynamic var takeSnapShot: Bool = true
     @objc dynamic var isPreview: Bool = false
     @objc dynamic var loading: Bool = false
-    
     @objc dynamic var isMuted: Bool = ShopLiveConfiguration.SoundPolicy.isMuted
     var isStartedCampaign: Bool = false
 
@@ -185,7 +198,7 @@ final class ShopLiveController: NSObject {
                 }
             }
             break
-        case .videoUrl, .isPlayable, .playControl, .isHiddenOverlay, .overlayUrl, .isPlaying, .releasePlayer, .takeSnapShot, .timeControlStatus, .keepSnapshot:
+        case .playControl, .takeSnapShot, .timeControlStatus , .keepSnapshot, .videoUrl, .isPlayable, .isHiddenOverlay, .overlayUrl, .isPlaying, .releasePlayer:
             postPlayerObservers(key: key)
             break
         case .loading:
@@ -362,6 +375,7 @@ extension ShopLiveController {
         playItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.playerItemStatus.rawValue)
         playerItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.timeControlStatus.rawValue)
         playerItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.loadedTimeRanges.rawValue)
+        
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isHiddenOverlay.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.overlayUrl.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlaying.rawValue)
@@ -374,8 +388,6 @@ extension ShopLiveController {
     }
 
     func postPlayerObservers(key: ShopLivePlayerObserveValue) {
-//        ShopLiveLogger.debugLog("key: \(key.rawValue)")
-
         playerDelegates.forEach { delegate in
             delegate?.updatedValue(key: key)
         }
@@ -493,6 +505,9 @@ extension ShopLiveController {
 
     static var playControl: ShopLiveConfiguration.SLPlayControl {
         set {
+            if UIApplication.shared.applicationState == .background && ShopLiveController.windowStyle != .osPip {
+                return
+            }
             shared.playControl = newValue
         }
         get {

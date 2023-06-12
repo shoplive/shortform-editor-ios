@@ -287,7 +287,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             Receive data from web client
                 - Receiving the data from Web Client
          */
-        ShopLiveLogger.debugLog("web receive message.name: \(message.name) message.body: \(message.body)")
+//        ShopLiveLogger.debugLog("web receive message.name: \(message.name) message.body: \(message.body)")
         
         guard message.name == ShopLiveDefines.webInterface else { return }
         if let body = message.body as? [String: Any],
@@ -299,7 +299,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             let parameters = body["payload"] as? [String: Any]
             if type == "USER_IMPLEMENTS_CALLBACK" {
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))"))
-                ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))")
+//                ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))")
                 var passToReceivedCommand: Bool = true
                 switch name {
                 case "WILL_REDIRECT_CAMPAIGN":
@@ -339,7 +339,7 @@ extension OverlayWebView: WKScriptMessageHandler {
                 
             } else {
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))"))
-                ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))")
+//                ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))")
                 
                 switch name {
                 case "SHOW_NATIVE_DEBUG":

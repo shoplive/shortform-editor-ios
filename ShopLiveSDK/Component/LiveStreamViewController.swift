@@ -228,8 +228,8 @@ internal final class LiveStreamViewController: UIViewController {
     }
     
     private func teardownAudioConfig() {
-        NotificationCenter.default.safeRemoveObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
-        NotificationCenter.default.safeRemoveObserver(self, name: AVAudioSession.interruptionNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: AVAudioSession.interruptionNotification, object: nil)
     }
     
     @objc func handleInterruption(notification: Notification) {
@@ -431,9 +431,11 @@ internal final class LiveStreamViewController: UIViewController {
         guard !ShopLiveController.shared.screenLock else {
             return
         }
+        
         if ShopLiveController.windowStyle == .osPip, !ShopLiveController.shared.lastPipPlaying {
             return
         }
+        
         ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
         viewModel.resume()
     }
@@ -510,14 +512,15 @@ internal final class LiveStreamViewController: UIViewController {
 
     func onBackground() {
         ShopLiveLogger.debugLog("onBackground()")
-        guard ShopLiveController.windowStyle != .osPip else { return }
-        ShopLiveController.playControl = .pause
+        if ShopLiveController.windowStyle == .osPip {
+            return
+        }
         overlayView?.sendEventToWeb(event: .onBackground)
     }
 
     func onForeground() {
         ShopLiveLogger.debugLog("onForeground()")
-        guard ShopLiveController.windowStyle != .osPip else {
+        if ShopLiveController.windowStyle == .osPip {
             return
         }
 
@@ -527,13 +530,13 @@ internal final class LiveStreamViewController: UIViewController {
                     ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
                     ShopLiveController.playControl = .resume
                 }
-            } else {
+            }
+            else {
                 if !ShopLiveController.isReplayMode {
                     ShopLiveController.shared.needSeek = true
                     ShopLiveController.playControl = .resume
                 }
             }
-
             self.overlayView?.sendEventToWeb(event: .onForeground)
         }
     }
@@ -1037,9 +1040,9 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     func removeObserver() {
-        NotificationCenter.default.safeRemoveObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.safeRemoveObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.safeRemoveObserver(self, name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
         UIScreen.main.safeRemoveObserver(self, forKeyPath: "captured")
         print("remove outputVolume")
         audioSession.safeRemoveObserver(self, forKeyPath: "outputVolume", observeInfo: audioSessionObservationInfo) { [weak self] success in
@@ -1075,11 +1078,18 @@ internal final class LiveStreamViewController: UIViewController {
 
     func handleRetryPlay() {
         ShopLiveLogger.debugLog("[1.3.2] handleRetryPlay ShopLiveController.retryPlay \(ShopLiveController.retryPlay)")
+        
         resetRetry()
         if ShopLiveController.retryPlay {
             ShopLiveLogger.debugLog("[1.3.2] retry")
             retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
                 guard let self = self else { return }
+                if UIApplication.shared.applicationState == .background && ShopLiveController.windowStyle != .osPip {
+                    self.inBuffering = false
+                    ShopLiveController.retryPlay = false
+                    ShopLiveController.shared.takeSnapShot = false
+                    return
+                }
                 self.retryCount += 1
                 ShopLiveLogger.debugLog("[1.3.2] retryCount \(self.retryCount)")
                 if ShopLiveController.windowStyle != .osPip {
@@ -1389,14 +1399,10 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didUpdatePoster(with url: URL) {
-//        DispatchQueue.global().async { [weak self] in
-//            guard let self = self else { return }
-//            guard let imageUrl = URL(string: "https://dev-static.shoplive.cloud/background_image.html?src=" + (url.absoluteString.urlEncodedStringRFC3986 ?? url.absoluteString)) else { return }
-            DispatchQueue.main.async { [weak self] in
+        DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-                self.imageView?.load(.init(url: url))
-            }
-//        }
+            self.imageView?.load(.init(url: url))
+        }
     }
 
     func didUpdateVideo(with url: URL) {
@@ -1646,6 +1652,10 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             }
     }
     
+    func hideSnapShotView(){
+        self.snapShotView?.isHidden = true
+    }
+    
     func takeSnapShot(on: Bool) {
         guard !ShopLiveController.shared.keepSnapshot else {
             return
@@ -1719,25 +1729,22 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             ShopLiveLogger.debugLog("[1.3.2] playing")
             requireRetryCheck = false
             inBuffering = false
-            
             ShopLiveController.shared.lastPipPlaying = true
-            
             ShopLiveController.loading = false
-            
             if ShopLiveController.isReplayMode {
                 ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true)
             } else {
                 ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
             }
-            
             ShopLiveController.shared.takeSnapShot = false
-            
+            self.hideSnapShotView()
+            self.hideSnapshotBackground()
+            self.hideBackgroundPoster()
             ShopLiveController.isPlaying = true
 
             break
         case .waitingToPlayAtSpecifiedRate:
             ShopLiveLogger.debugLog("waitingToPlayAtSpecifiedRate")
-//            ShopLiveLogger.debugLog("[1.3.2] waitingToPlayAtSpecifiedRate")
             if let reason = ShopLiveController.player?.reasonForWaitingToPlay {
                 switch reason {
                 case .toMinimizeStalls:
@@ -1745,11 +1752,6 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
                         ShopLiveController.shared.takeSnapShot = true
                         if !ShopLiveController.loading,
                             ShopLiveController.shared.campaignStatus != .close {
-                            /*
-                            if ShopLiveController.windowStyle != .osPip {
-                                ShopLiveController.loading = true
-                            }
-                             */
                             reserveRetry(waitSecond: 8)
                         }
                     }

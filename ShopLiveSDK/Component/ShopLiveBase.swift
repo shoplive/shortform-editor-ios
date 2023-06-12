@@ -118,7 +118,7 @@ import WebKit
     let debouncer = Debouncer(timeInterval: 0.3)
     
     var liveStreamViewController: LiveStreamViewController?
-    var pictureInPictureController: AVPictureInPictureController?
+    var osPictureInPictureController: AVPictureInPictureController?
     
     var pipPossibleObservation: NSKeyValueObservation?
     var originAudioSessionCategory: AVAudioSession.Category?
@@ -141,13 +141,14 @@ import WebKit
     deinit {
     }
 
-    func showPreview(previewUrl: URL, completion: @escaping () -> Void) {
+    func showPreview(previewUrl: URL) {
         liveStreamViewController?.viewModel.authToken = _authToken
         liveStreamViewController?.viewModel.user = _user
         showShopLiveView(with: previewUrl)
     }
 
     func showShopLiveView(with overlayUrl: URL, _ completion: (() -> Void)? = nil) {
+        
         UIApplication.shared.isIdleTimerDisabled = true
         
         if !ShopLiveController.shared.isSameCampaign {
@@ -156,39 +157,48 @@ import WebKit
         
         ShopLiveController.shared.newStartPlay = true
         
+        
         if _style != .unknown {
             self.liveStreamViewController?.viewModel.overayUrl = overlayUrl
             self.liveStreamViewController?.reload()
             self.liveStreamViewController?.updateChattingWriteView()
-                if self.needExecuteFullScreen {
-                    if ShopLiveController.shared.isSameCampaign {
-                        ShopLiveController.shared.keepSnapshot = true
-                        self.liveStreamViewController?.doSnapShot {
-                            
-                        }
-                    }
-                    self._style = .fullScreen
-                } else {
-                    if !ShopLiveConfiguration.UI.keepWindowStateOnPlayExecuted || self.campaignChanged {
-                        if !ShopLiveController.shared.isPreview {
-                            if self._style == .pip {
-                                self._style = .fullScreen
-                                ShopLiveController.windowStyle = .normal
-                            }
-                        } else {
-                            self.needAnimateToChangePreivew = true
-                            self._style = .pip
-                            ShopLiveController.windowStyle = .inAppPip
-                        }
-                    } else {
-                        if ShopLiveController.shared.isPreview {
-                            self._style = .pip
-                            ShopLiveController.windowStyle = .inAppPip
-                        } else {
-                            ShopLiveController.shared.keepOrientationWhenPlayStart = true
-                        }
+            if self.needExecuteFullScreen {
+                if ShopLiveController.shared.isSameCampaign {
+                    ShopLiveController.shared.keepSnapshot = true
+                    self.liveStreamViewController?.doSnapShot {
+                        
                     }
                 }
+                self._style = .fullScreen
+            }
+            else {
+                if ShopLiveConfiguration.UI.keepWindowStateOnPlayExecuted == false || self.campaignChanged {
+                    if ShopLiveController.shared.isPreview == false {
+                        if self._style == .pip {
+                            self._style = .fullScreen
+                            ShopLiveController.windowStyle = .normal
+                        }
+                    }
+                    else {
+                        self.needAnimateToChangePreivew = true
+                        self._style = .pip
+                        ShopLiveController.windowStyle = .inAppPip
+                    }
+                }
+                else {
+                    if ShopLiveController.shared.isPreview {
+                        self._style = .pip
+                        ShopLiveController.windowStyle = .inAppPip
+                        self.liveStreamViewController?.hideSnapShotView()
+                    
+                    } else {
+                        ShopLiveController.shared.keepOrientationWhenPlayStart = true
+                    }
+                }
+            }
+            if let completion = completion {
+                completion()
+            }
             return
         }
         
@@ -251,7 +261,7 @@ import WebKit
         
         ShopLiveController.windowStyle = .normal
         
-        setupPictureInPicture()
+        setupOsPictureInPicture()
         shopLiveWindow?.makeKeyAndVisible()
 
         self.delegate?.handleChangedPlayerStatus?(status: "CREATED")
@@ -263,6 +273,9 @@ import WebKit
             mainWindow?.rootViewController?.shopliveHideKeyboard()
             ShopLiveController.windowStyle = .normal
             _style = .fullScreen
+        }
+        if let completion = completion {
+            completion()
         }
     }
     
@@ -303,7 +316,7 @@ import WebKit
         self.videoWindowTapGestureRecognizer = nil
         self.videoWindowSwipeDownGestureRecognizer = nil
         self.videoPinchGestureRecognizer = nil
-        self.pictureInPictureController = nil
+        self.osPictureInPictureController = nil
 
         self.liveStreamViewController?.removeFromParent()
         self.liveStreamViewController?.stop()
@@ -330,13 +343,15 @@ import WebKit
         }
     }
     
-    func setupPictureInPicture() {
+    func setupOsPictureInPicture() {
         guard !ShopLiveController.shared.isPreview else {
-            self.pictureInPictureController?.delegate = nil
-            self.pictureInPictureController = nil
+            self.osPictureInPictureController?.delegate = nil
+            self.osPictureInPictureController = nil
             return
         }
-        guard pictureInPictureController == nil else { return }
+        
+        guard osPictureInPictureController == nil else { return }
+        
         do {
             try AVAudioSession.sharedInstance().setActive(true)
             ShopLiveLogger.debugLog("interruption setActive")
@@ -348,27 +363,35 @@ import WebKit
 
         guard let playerLayer = liveStreamViewController?.playerLayer else { return }
         playerLayer.frame = CGRect(x: 100, y: 100, width: 320, height: 180)
-        // Ensure PiP is supported by current device.
         if AVPictureInPictureController.isPictureInPictureSupported() {
-            // Create a new controller, passing the reference to the AVPlayerLayer.
-            pictureInPictureController = AVPictureInPictureController(playerLayer: playerLayer)
-            pictureInPictureController?.delegate = self
+            osPictureInPictureController = AVPictureInPictureController(playerLayer: playerLayer)
+            osPictureInPictureController?.delegate = self
             
             if #available(iOS 14.2, *) {
-                pictureInPictureController?.canStartPictureInPictureAutomaticallyFromInline = true
-            } else {
-                // Fallback on earlier versions
+                osPictureInPictureController?.canStartPictureInPictureAutomaticallyFromInline = true
             }
-
+            
             if #available(iOS 14.0, *) {
-                pictureInPictureController?.requiresLinearPlayback = false
-            } else {
-                // Fallback on earlier versions
+                osPictureInPictureController?.requiresLinearPlayback = false
             }
-            
-            
-        } else {
-            // PiP isn't supported by the current device. Disable the PiP button.
+        }
+    }
+    
+    func startOsPictureInPicture(){
+        if AVPictureInPictureController.isPictureInPictureSupported() == false {
+            delegate?.handleError(code: "9500", message: "Unsupported OS version to use OS PIP mode.")
+            return
+        }
+        if (osPictureInPictureController?.isPictureInPictureActive ?? false) == true {
+            return
+        }
+        setupOsPictureInPicture()
+        guard let osPictureInPictureController = osPictureInPictureController else {
+            return
+        }
+        
+        if osPictureInPictureController.isPictureInPicturePossible && osPictureInPictureController.isPictureInPictureActive == false {
+            osPictureInPictureController.startPictureInPicture()
         }
     }
     
@@ -431,9 +454,6 @@ import WebKit
     private func startCustomPictureInPicture(with position: ShopLive.PipPosition = .default, scale: CGFloat = 2/5) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-//            guard let topVC = UIApplication.topViewController(), topVC.isKind(of: LiveStreamViewController.self) else {
-//                return
-//            }
             
             self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             if self.enabledPictureInPictureMode == false {
@@ -470,7 +490,8 @@ import WebKit
             self.liveStreamViewController?.showSnapshotBackground()
             
             self.liveStreamViewController?.updateVideoFit(centerCrop: true, immediately: false)
-                self.liveStreamViewController?.updateVideoConstraint()
+            self.liveStreamViewController?.updateVideoConstraint()
+        
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
                 shopLiveWindow.frame = pipPosition
                 shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
@@ -489,10 +510,8 @@ import WebKit
                 
                 ShopLiveController.shared.videoExpanded = true
                 
-                if self.windowChangeCommand != .none {
-                    if self.isWindowChanging {
-                        self.handleWindowChangeCommand()
-                    }
+                if self.windowChangeCommand != .none && self.isWindowChanging {
+                    self.handleWindowChangeCommand()
                 }
                 
                 self.delegate?.log?(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
@@ -511,13 +530,12 @@ import WebKit
             guard let mainWindow = self.mainWindow else { return }
             guard let shopLiveWindow = self.shopLiveWindow else { return }
             
-//            self.isWindowChanging = true
             shopLiveWindow.backgroundColor = .clear
             shopLiveWindow.layer.cornerRadius = 10
             shopLiveWindow.rootViewController?.view.backgroundColor = .clear
 
-            if self.pictureInPictureController == nil {
-                self.setupPictureInPicture()
+            if self.osPictureInPictureController == nil {
+                self.setupOsPictureInPicture()
             }
             
             mainWindow.rootViewController?.shopliveHideKeyboard()
@@ -587,8 +605,8 @@ import WebKit
     }
 
     private func stopCustomPictureInPicture() {
-        if pictureInPictureController == nil {
-            setupPictureInPicture()
+        if osPictureInPictureController == nil {
+            setupOsPictureInPicture()
         }
 
         guard !ShopLiveController.shared.pipAnimating else { return }
@@ -765,9 +783,9 @@ import WebKit
             
             self.isWindowChanging = true
             
-            if self.pictureInPictureController != nil {
-                self.pictureInPictureController?.delegate = nil
-                self.pictureInPictureController = nil
+            if self.osPictureInPictureController != nil {
+                self.osPictureInPictureController?.delegate = nil
+                self.osPictureInPictureController = nil
             }
             
             ShopLiveController.windowStyle = .inAppPip
@@ -775,7 +793,6 @@ import WebKit
             self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             
             self.liveStreamViewController?.view.backgroundColor = .clear
-//            self.shopLiveWindow?.backgroundColor = .clear
             
             let pipSize: CGRect = self.pipPosition(with: self.pipScale, position: self.pipPosition)
             
@@ -919,10 +936,8 @@ import WebKit
     }
     
     private func handleWindowChangeCommand() {
-        if ShopLiveConfiguration.UI.keepWindowStyleOnReturnFromOsPip {
-            guard self.windowChangeCommand != .none else {
-                return
-            }
+        if ShopLiveConfiguration.UI.keepWindowStyleOnReturnFromOsPip && windowChangeCommand == .none{
+            return
         }
         
         self.activeFromBackground = false
@@ -1152,7 +1167,7 @@ import WebKit
     }
     
     @objc private func pipTapGestureHandler(_ recognizer: UITapGestureRecognizer) {
-        guard !ShopLiveController.shared.isPreview else {
+        if ShopLiveController.shared.isPreview {
             previewCallback?()
             return
         }
@@ -1277,27 +1292,34 @@ import WebKit
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.protectedDataWillBecomeUnavailableNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.willResignActiveNotification, object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        
     }
 
     func removeObserver() {
+        
         if self.observationInfo != nil {
-            self.safeRemoveObserver(self, forKeyPath: "_style")
-            self.safeRemoveObserver(self, forKeyPath: "_authToken")
-            self.safeRemoveObserver(self, forKeyPath: "_user")
+            self.removeObserver(self, forKeyPath: "_style")
+            self.removeObserver(self, forKeyPath: "_authToken")
+            self.removeObserver(self, forKeyPath: "_user")
         }
 
-        NotificationCenter.default.safeRemoveObserver(self, name: UIApplication.willChangeStatusBarOrientationNotification, object: nil)
-        NotificationCenter.default.safeRemoveObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
-        NotificationCenter.default.safeRemoveObserver(self, name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
-        NotificationCenter.default.safeRemoveObserver(self, name: UIApplication.protectedDataWillBecomeUnavailableNotification, object: nil)
-        NotificationCenter.default.safeRemoveObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
-        NotificationCenter.default.safeRemoveObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
-        NotificationCenter.default.safeRemoveObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
-        NotificationCenter.default.safeRemoveObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.safeRemoveObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willChangeStatusBarOrientationNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.protectedDataWillBecomeUnavailableNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willResignActiveNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    
     }
 
     @objc func handleKeyboard(_ notification: Notification? = nil) {
@@ -1323,28 +1345,57 @@ import WebKit
         }
     }
 
+    
+    private var backgroundPlayerBlockTimer : Timer?
+    private func setBackgroundPlayerBlockTimer(){
+        invalidateAndResetbackgroundPlayerBlockTimer()
+        if ShopLiveController.windowStyle == .osPip {
+            return
+        }
+        backgroundPlayerBlockTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [weak self] timer in
+            guard let self = self else { return }
+            guard let player = ShopLiveController.player else {
+                timer.invalidate()
+                return
+            }
+            if ShopLiveController.windowStyle != .osPip {
+                player.pause()
+                player.currentItem?.cancelPendingSeeks()
+                player.cancelPendingPrerolls()
+                player.currentItem?.asset.cancelLoading()
+            }
+            
+        })
+        backgroundPlayerBlockTimer?.fire()
+    }
+    
+    private func invalidateAndResetbackgroundPlayerBlockTimer(){
+        if backgroundPlayerBlockTimer != nil {
+            backgroundPlayerBlockTimer?.invalidate()
+            backgroundPlayerBlockTimer = nil
+        }
+    }
+    
     @objc func handleNotification(_ notification: Notification) {
         switch notification.name {
         case UIApplication.didBecomeActiveNotification:
+            invalidateAndResetbackgroundPlayerBlockTimer()
             if ShopLiveController.shared.isPreview {
                 ShopLiveController.playControl = .resume
             } else {
                 if ShopLiveController.timeControlStatus == .paused {
                     ShopLiveController.playControl = .resume
                 }
-                self.pictureInPictureController?.stopPictureInPicture()
+                self.osPictureInPictureController?.stopPictureInPicture()
             }
             break
+        case UIApplication.willResignActiveNotification:
+            self.startOsPictureInPicture()
+            break
         case UIApplication.didEnterBackgroundNotification:
-            if #available(iOS 14.0, *) {
-              // use UIStackView
-            } else {
-                if !AVPictureInPictureController.isPictureInPictureSupported() {
-                    delegate?.handleError(code: "9500", message: "Unsupported OS version to use OS PIP mode.")
-                }
-            }
-            
+            self.startOsPictureInPicture()
             self.liveStreamViewController?.onBackground()
+            setBackgroundPlayerBlockTimer()
             break
         case UIApplication.protectedDataDidBecomeAvailableNotification:
             ShopLiveController.shared.screenLock = false
@@ -1382,9 +1433,12 @@ import WebKit
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         switch keyPath {
         case "_style":
-            guard let oldValue: Int = change?[.oldKey] as? Int, let newValue: Int = change?[.newKey] as? Int, oldValue != newValue,
+            guard let oldValue: Int = change?[.oldKey] as? Int,
+                  let newValue: Int = change?[.newKey] as? Int, oldValue != newValue,
                   let newStyle: ShopLive.PresentationStyle = .init(rawValue: newValue) else {
-                if let newValue: Int = change?[.newKey] as? Int, let newStyle: ShopLive.PresentationStyle = .init(rawValue: newValue) {
+                if let newValue: Int = change?[.newKey] as? Int,
+                   let newStyle: ShopLive.PresentationStyle = .init(rawValue: newValue),
+                   ShopLiveController.windowStyle != .osPip {
                     self.liveStreamViewController?.updatePipStyle(with: newStyle)
                 }
                 return
@@ -1529,10 +1583,9 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     func preview(with campaignKey: String?, referrer: String? = nil, completion: @escaping () -> Void) {
+        
         ShopLiveController.shared._playerMode = .preview
-        
         debouncer.renewInterval()
-        
         debouncer.handler = {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 800 : 0)) { [weak self] in
                 guard let self = self else { return }
@@ -1573,6 +1626,7 @@ extension ShopLiveBase: ShopLiveComponent {
                     }
                 }
                 
+//                play -> home delay -> preview -> none
                 ShopLiveController.shared.isPreview = true
                 
                 self.previewCallback = completion
@@ -1584,7 +1638,7 @@ extension ShopLiveBase: ShopLiveComponent {
                     }
                     self?.windowChangeCommand = .none
                     self?.isWindowChanging = false
-                    self?.showPreview(previewUrl: url, completion: completion)
+                    self?.showPreview(previewUrl: url)
                 }
             }
         }
@@ -1597,7 +1651,6 @@ extension ShopLiveBase: ShopLiveComponent {
         
         debouncer.handler = {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 800 : 0)) {
-                
                 self.resetQueryParameters()
                 ShopLiveController.shared.execusedClose = false
                 guard self.accessKey != nil else { return }
@@ -1643,7 +1696,7 @@ extension ShopLiveBase: ShopLiveComponent {
                     self?.windowChangeCommand = .none
                     self?.isWindowChanging = false
                     
-                    self?.showShopLiveView(with: url, nil)
+                    self?.showShopLiveView(with: url)
                 }
             }
         }
@@ -1660,7 +1713,6 @@ extension ShopLiveBase: ShopLiveComponent {
         #else
         self.pipScale = scale
         #endif
-        
         self.pipPosition = position
         
         if !self.isWindowChanging {
@@ -1674,7 +1726,7 @@ extension ShopLiveBase: ShopLiveComponent {
         
     }
     @objc func stopPictureInPicture() {
-        if !self.isWindowChanging {
+        if self.isWindowChanging == false {
             self.stopShopLivePictureInPicture()
         } else {
             self.windowChangeCommand = .switchToFullScreen
@@ -1775,6 +1827,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     }
     
     public func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        ShopLiveController.playControl = .resume
         ShopLiveController.webInstance?.sendEventToWeb(event: .onPipModeChanged, true)
         
         if !ShopLiveConfiguration.UI.keepWindowStyleOnReturnFromOsPip {
@@ -1783,7 +1836,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     }
     
     public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-        setupPictureInPicture()
+        setupOsPictureInPicture()
         if !ShopLiveController.isReplayMode && ShopLiveController.timeControlStatus == .playing {
             ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
         }
@@ -1813,20 +1866,26 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
                 }
 
                 ShopLiveController.shared.playControl = .resume
-            } else {
+            }
+            else {
                 if ShopLiveController.timeControlStatus == .paused, !ShopLiveController.isReplayMode {
                     ShopLiveController.shared.playControl = .resume
                 }
             }
 
             if ShopLiveConfiguration.UI.keepWindowStyleOnReturnFromOsPip {
-                if ShopLiveController.windowStyle == .inAppPip {
+                if ShopLiveController.shared.isPreview == true {
+                    ShopLiveController.shared.swipeEnabled = true
+                    self.startFromCampaignFullscreen()
+                }
+                else if ShopLiveController.windowStyle == .inAppPip {
                     self.startFromCampaignPIP()
                 } else {
                     ShopLiveController.shared.swipeEnabled = true
                     self.startFromCampaignFullscreen()
                 }
-            } else {
+            }
+            else {
                 ShopLiveController.shared.swipeEnabled = true
                 self.startFromCampaignFullscreen()
             }
@@ -1838,6 +1897,10 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
         isRestoredPip = false
     }
     
+    func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, failedToStartPictureInPictureWithError error: Error) {
+        ShopLiveLogger.debugLog("AVPictureInPicture failed to start with error -> \(error)")
+    }
+    
     private func resetQueryParameters() {
         queryParameters.removeAll()
     }
@@ -1845,8 +1908,8 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
 
 extension ShopLiveBase: LiveStreamViewControllerDelegate {
     func resetPictureInPicture() {
-        if pictureInPictureController == nil {
-            setupPictureInPicture()
+        if osPictureInPictureController == nil {
+            setupOsPictureInPicture()
         }
     }
     
@@ -2009,3 +2072,12 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
         _delegate?.handleCommand(command, with: payload)
     }
 }
+//https://www.shoplive.show/v1/sdk.html?
+//ak=6mnefY1z9lK0vZlsduRp&ck=2966fc4ee15e&
+//version=1.3.3&
+//keepAspectOnTabletPortrait=true
+//&_from=sdk_direct&
+//tk=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2ODYzMjEyNDMsImlhdCI6MTY4NjI3ODA0MywiYWNjZXNzS2V5IjoiNm1uZWZZMXo5bEswdlpsc2R1UnAiLCJ1c2VySWQiOiJhNDg1MDNlNTRjYjFmNjJjZWU3MWZiYWE4NjY0NWRhOCIsIm5hbWUiOiJoYXNzYW4wNDI0IiwiZ2VuZGVyIjoibSIsImFnZSI6MjUsInZpZGVvSWQiOiIifQ.LcX6Tj_Xm4nt5yT7zPIpPtERTahIoJ_nzP43dIuckNg&osType=i&
+//osVersion=16.5&
+//device=iPhone14%2C6&
+//appVersion=3.49.0&manualRotation=false

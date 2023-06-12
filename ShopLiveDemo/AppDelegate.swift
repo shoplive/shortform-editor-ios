@@ -10,6 +10,7 @@ import UIKit
 import ShopLiveSDK
 #endif
 
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     static var rootViewController: UINavigationController?

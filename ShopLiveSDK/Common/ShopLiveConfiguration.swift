@@ -32,6 +32,21 @@ internal final class ShopLiveConfiguration: NSObject {
         case pause
         case play
         case resume
+        
+        func getDesc() -> String {
+            switch self {
+            case .none:
+                return "none"
+            case .stop:
+                return "stop"
+            case .pause:
+                return "pause"
+            case .play:
+                return "play"
+            case .resume:
+                return "resume"
+            }
+        }
     }
 
     class StreamOption {

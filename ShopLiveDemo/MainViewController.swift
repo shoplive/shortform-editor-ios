@@ -294,18 +294,11 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.configure(with: currentKey.accessKey)
         ShopLive.preview(with: currentKey.campaignKey, referrer: DemoConfiguration.shared.customReferrer) {
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
-                ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)
-            } else {
-                var toastStyle = ToastStyle()
-                toastStyle.titleAlignment = .center
-                toastStyle.messageAlignment = .center
-                DispatchQueue.main.async {
-                    self.view.makeToast("tap preview", duration: 2,style: toastStyle)
-                }
+                ShopLive.play(with: currentKey.campaignKey,keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,referrer: DemoConfiguration.shared.customReferrer)
             }
         }
+        
     }
-
     override func play() {
         guard let currentKey = getCurrentKeySet() else {
             DispatchQueue.main.async {
@@ -475,7 +468,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     }
 
     func handleCommand(_ command: String, with payload: Any?) {
-        print("handleCommand: \(command)  payload: \(String(describing: payload))")
+//        print("handleCommand: \(command)  payload: \(String(describing: payload))")
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleCommand \(command)"))
         
         if command == "didTapCloseButton" {
@@ -494,7 +487,6 @@ extension MainViewController: ShopLiveSDKDelegate {
     }
 
     func handleReceivedCommand(_ command: String, with payload: Any?) {
-        print("handleReceivedCommand command: \(command) payload: \(String(describing: payload))")
         switch command {
         case "LOGIN_REQUIRED":
             let alert = UIAlertController(title: command, message: "alert.login.required.description".localized(), preferredStyle: .alert)

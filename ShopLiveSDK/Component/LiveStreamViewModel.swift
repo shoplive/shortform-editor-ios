@@ -106,8 +106,8 @@ internal final class LiveStreamViewModel: NSObject {
         ShopLiveController.perfMeasurements?.playbackEnded()
         ShopLiveController.perfMeasurements = nil
 
-        NotificationCenter.default.safeRemoveObserver(self, name: .TimebaseEffectiveRateChangedNotification, object: nil)
-        NotificationCenter.default.safeRemoveObserver(self, name: .AVPlayerItemPlaybackStalled, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .TimebaseEffectiveRateChangedNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemPlaybackStalled, object: nil)
 
         ShopLiveController.playControl = .none
     }
@@ -136,20 +136,19 @@ internal final class LiveStreamViewModel: NSObject {
 
     func resume() {
         guard ShopLiveController.player?.timeControlStatus != .playing else { return }
-
         DispatchQueue.main.async {
             if ShopLiveController.isReplayMode {
                 ShopLiveController.player?.play()
-            } else {
-                if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty {
-                    if ShopLiveController.shared.needSeek {
-                        ShopLiveController.shared.needSeek = false
-                        ShopLiveController.shared.seekToLatest()
-                    }
-                    ShopLiveController.player?.play()
+            }
+            else if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty {
+                if ShopLiveController.shared.needSeek {
+                    ShopLiveController.shared.needSeek = false
+                    ShopLiveController.shared.seekToLatest()
                 }
+                ShopLiveController.player?.play()
             }
         }
+       
     }
     
     func reloadVideo() {

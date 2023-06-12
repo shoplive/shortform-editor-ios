@@ -249,7 +249,8 @@ extension WebInterface {
                     return nil
                 }
                 self = .setLiveStreamUrl(url: url)
-            } else {
+            }
+            else {
                 ShopLiveController.streamUrl = nil
                 ShopLiveController.shared.releasePlayer = true
                 return nil
