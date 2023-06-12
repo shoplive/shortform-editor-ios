@@ -510,11 +510,47 @@ internal final class LiveStreamViewController: UIViewController {
         overlayView?.closeWebSocket()
     }
 
+    func onLockScreen() {
+        ShopLiveLogger.debugLog("onLockScreen()")
+        
+        guard ShopLiveBase.sessionState != .background else {
+            return
+        }
+        
+        ShopLiveLogger.debugLog("Function: \(#function), line: \(#line)  onBackground")
+        ShopLiveBase.sessionState = .background
+        overlayView?.sendEventToWeb(event: .onBackground)
+    }
+    
+    func onUnlockScreen() {
+        ShopLiveLogger.debugLog("onUnlockScreen()")
+        
+        guard ShopLiveController.windowStyle == .osPip else {
+            return
+        }
+        
+        guard ShopLiveBase.sessionState != .foreground else {
+            return
+        }
+        
+        ShopLiveLogger.debugLog("Function: \(#function), line: \(#line)  onForeground")
+        ShopLiveBase.sessionState = .foreground
+        overlayView?.sendEventToWeb(event: .onForeground)
+    }
+    
     func onBackground() {
         ShopLiveLogger.debugLog("onBackground()")
         if ShopLiveController.windowStyle == .osPip {
             return
         }
+        ShopLiveController.playControl = .pause
+        
+        guard ShopLiveBase.sessionState != .background else {
+            return
+        }
+        
+        ShopLiveLogger.debugLog("Function: \(#function), line: \(#line)  onBackground")
+        ShopLiveBase.sessionState = .background
         overlayView?.sendEventToWeb(event: .onBackground)
     }
 
@@ -537,6 +573,8 @@ internal final class LiveStreamViewController: UIViewController {
                     ShopLiveController.playControl = .resume
                 }
             }
+            ShopLiveLogger.debugLog("Function: \(#function), line: \(#line)  onForeground")
+            ShopLiveBase.sessionState = .foreground
             self.overlayView?.sendEventToWeb(event: .onForeground)
         }
     }

@@ -134,6 +134,8 @@ import WebKit
     
     weak var _delegate: ShopLiveSDKDelegate?
     
+    static var sessionState: PlayerSessionState = .terminated
+    
     override init() {
         super.init()
     }
@@ -274,6 +276,8 @@ import WebKit
             ShopLiveController.windowStyle = .normal
             _style = .fullScreen
         }
+        
+        ShopLiveBase.sessionState = .foreground
         if let completion = completion {
             completion()
         }
@@ -336,6 +340,8 @@ import WebKit
         self.lastStyle = .unknown
         self._authToken = nil
         self._user = nil
+        
+        ShopLiveBase.sessionState = .terminated
         ShopLiveController.shared.resetOnlyFinished()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) {
@@ -1399,6 +1405,7 @@ import WebKit
             break
         case UIApplication.protectedDataDidBecomeAvailableNotification:
             ShopLiveController.shared.screenLock = false
+            self.liveStreamViewController?.onUnlockScreen()
             guard ShopLiveController.windowStyle == .osPip, !ShopLiveController.isReplayMode else { return }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 if !ShopLiveController.shared.screenLock {
@@ -1409,6 +1416,7 @@ import WebKit
         case UIApplication.protectedDataWillBecomeUnavailableNotification:
             ShopLiveController.shared.screenLock = true
             ShopLiveController.playControl = .pause
+            self.liveStreamViewController?.onLockScreen()
             break
         case UIApplication.willEnterForegroundNotification:
             self.liveStreamViewController?.onForeground()

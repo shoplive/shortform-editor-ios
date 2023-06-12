@@ -213,6 +213,7 @@ internal class OverlayWebView: UIView {
     }
 
     func closeWebSocket() {
+        ShopLiveBase.sessionState = .terminated
         self.sendEventToWeb(event: .onTerminated)
     }
 

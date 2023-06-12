@@ -383,6 +383,11 @@
 		BFC73CDD2901791900D9BC8A /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC73CDA2901791900D9BC8A /* Throttle.swift */; };
 		BFC73CDE2901791900D9BC8A /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC73CDA2901791900D9BC8A /* Throttle.swift */; };
 		BFC73CDF2901791900D9BC8A /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC73CDA2901791900D9BC8A /* Throttle.swift */; };
+		BFCB03312A32FEB300E130CC /* PlayerSessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCB03302A32FEB300E130CC /* PlayerSessionState.swift */; };
+		BFCB03322A32FEB300E130CC /* PlayerSessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCB03302A32FEB300E130CC /* PlayerSessionState.swift */; };
+		BFCB03332A32FEB300E130CC /* PlayerSessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCB03302A32FEB300E130CC /* PlayerSessionState.swift */; };
+		BFCB03342A32FEB300E130CC /* PlayerSessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCB03302A32FEB300E130CC /* PlayerSessionState.swift */; };
+		BFCB03352A32FEB300E130CC /* PlayerSessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCB03302A32FEB300E130CC /* PlayerSessionState.swift */; };
 		BFD1B0F02942845F00721854 /* CustomAppVeersionInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD1B0EF2942845F00721854 /* CustomAppVeersionInputAlertController.swift */; };
 		BFD1B0F12942845F00721854 /* CustomAppVeersionInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD1B0EF2942845F00721854 /* CustomAppVeersionInputAlertController.swift */; };
 		BFD1B0F22942845F00721854 /* CustomAppVeersionInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD1B0EF2942845F00721854 /* CustomAppVeersionInputAlertController.swift */; };
@@ -573,6 +578,7 @@
 		BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveKeySet.swift; sourceTree = "<group>"; };
 		BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDemoKeyTools.swift; sourceTree = "<group>"; };
 		BFC73CDA2901791900D9BC8A /* Throttle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Throttle.swift; sourceTree = "<group>"; };
+		BFCB03302A32FEB300E130CC /* PlayerSessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSessionState.swift; sourceTree = "<group>"; };
 		BFD1B0EF2942845F00721854 /* CustomAppVeersionInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAppVeersionInputAlertController.swift; sourceTree = "<group>"; };
 		BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/VideoToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		BFDC8B6628A169050055C4DA /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
@@ -760,6 +766,7 @@
 				BF37D98B27F5742D004C2785 /* PerfMeasurements.swift */,
 				BF37D98C27F5742D004C2785 /* SLLoadingIndicator.swift */,
 				BF37D98D27F5742D004C2785 /* ShopLivePlayerView.swift */,
+				BFCB03302A32FEB300E130CC /* PlayerSessionState.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -1449,6 +1456,7 @@
 				BF37D9E427F5742D004C2785 /* Extensions.swift in Sources */,
 				BF37D9B127F5742D004C2785 /* OverlayWebView.swift in Sources */,
 				BFDC8B6728A169050055C4DA /* Debouncer.swift in Sources */,
+				BFCB03312A32FEB300E130CC /* PlayerSessionState.swift in Sources */,
 				BF37D9C327F5742D004C2785 /* ShopLivePlayerView.swift in Sources */,
 				BF37D9C027F5742D004C2785 /* SLLoadingIndicator.swift in Sources */,
 				BF37D9B727F5742D004C2785 /* ShopLivePlayerItem.swift in Sources */,
@@ -1493,6 +1501,7 @@
 				BF34F2DB28125F8600114DBF /* Extensions.swift in Sources */,
 				BF34F2DC28125F8600114DBF /* OverlayWebView.swift in Sources */,
 				BFDC8B6828A169050055C4DA /* Debouncer.swift in Sources */,
+				BFCB03322A32FEB300E130CC /* PlayerSessionState.swift in Sources */,
 				BF34F2DD28125F8600114DBF /* ShopLivePlayerView.swift in Sources */,
 				BF34F2DE28125F8600114DBF /* SLLoadingIndicator.swift in Sources */,
 				BF34F2DF28125F8600114DBF /* ShopLivePlayerItem.swift in Sources */,
@@ -1529,6 +1538,7 @@
 				BF5111E92824464A00E36175 /* Extensions.swift in Sources */,
 				BF5111EA2824464A00E36175 /* OverlayWebView.swift in Sources */,
 				BFDC8B6928A169050055C4DA /* Debouncer.swift in Sources */,
+				BFCB03332A32FEB300E130CC /* PlayerSessionState.swift in Sources */,
 				BF5111EB2824464A00E36175 /* ShopLivePlayerView.swift in Sources */,
 				BF5111EC2824464A00E36175 /* SLLoadingIndicator.swift in Sources */,
 				BF5111ED2824464A00E36175 /* ShopLivePlayerItem.swift in Sources */,
@@ -1696,6 +1706,7 @@
 				BF4B3599299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */,
 				BF37D9DD27F5742D004C2785 /* ShopLiveLogger.swift in Sources */,
 				BF37D9AA27F5742D004C2785 /* ShopLiveBase.swift in Sources */,
+				BFCB03352A32FEB300E130CC /* PlayerSessionState.swift in Sources */,
 				BF43A29C29E40B440062143C /* CustomParamValue.swift in Sources */,
 				BF37D9A727F5742D004C2785 /* LiveStreamViewController.swift in Sources */,
 				BF37D9E327F5742D004C2785 /* HapticManager.swift in Sources */,
@@ -1791,6 +1802,7 @@
 				BF37D9DC27F5742D004C2785 /* ShopLiveLogger.swift in Sources */,
 				BF37D9A927F5742D004C2785 /* ShopLiveBase.swift in Sources */,
 				BF43A29B29E40B440062143C /* CustomParamValue.swift in Sources */,
+				BFCB03342A32FEB300E130CC /* PlayerSessionState.swift in Sources */,
 				BF37D9A627F5742D004C2785 /* LiveStreamViewController.swift in Sources */,
 				BF37D9E227F5742D004C2785 /* HapticManager.swift in Sources */,
 				BF471999276832C700522F6F /* CampaignInfoCell.swift in Sources */,
