@@ -14,7 +14,7 @@ import ShopLiveSDK
 #endif
 
 class MainViewController: SideMenuBaseViewController {
-
+    
     static var instance: UIViewController?
     var safari: SFSafariViewController? = nil
 
@@ -309,7 +309,6 @@ class MainViewController: SideMenuBaseViewController {
 
         setupShopliveSettings()
         ShopLive.configure(with: currentKey.accessKey)
-
         ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)
     }
 
@@ -338,7 +337,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     }
 
     func handleNavigation(with url: URL) {
-        print("handleNavigation \(url)")
+        
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleNavigation \(url)"))
         
         var presenter: UIViewController?
@@ -468,7 +467,6 @@ extension MainViewController: ShopLiveSDKDelegate {
     }
 
     func handleCommand(_ command: String, with payload: Any?) {
-//        print("handleCommand: \(command)  payload: \(String(describing: payload))")
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleCommand \(command)"))
         
         if command == "didTapCloseButton" {
@@ -486,6 +484,8 @@ extension MainViewController: ShopLiveSDKDelegate {
         }
     }
 
+    
+    
     func handleReceivedCommand(_ command: String, with payload: Any?) {
         switch command {
         case "LOGIN_REQUIRED":

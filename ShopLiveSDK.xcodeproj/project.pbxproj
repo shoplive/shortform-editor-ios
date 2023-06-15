@@ -11,6 +11,7 @@
 		1BA5155C25CBDCD100070181 /* ShopLiveSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5155B25CBDCD100070181 /* ShopLiveSDKTests.swift */; };
 		1BA5155E25CBDCD200070181 /* ShopLiveSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BA5155025CBDCD100070181 /* ShopLiveSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BA5156A25CBDD3F00070181 /* ShopLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5156925CBDD3F00070181 /* ShopLive.swift */; };
+		2F10CCE12A3B15A500D41EC6 /* ShopLiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */; };
 		2F7A6DFD2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
 		2F7A6DFE2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
 		2FD062B32A03804B004841D2 /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
@@ -467,6 +468,7 @@
 		1BA5155B25CBDCD100070181 /* ShopLiveSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveSDKTests.swift; sourceTree = "<group>"; };
 		1BA5155D25CBDCD200070181 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1BA5156925CBDD3F00070181 /* ShopLive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLive.swift; sourceTree = "<group>"; };
+		2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveWindow.swift; sourceTree = "<group>"; };
 		2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchOptionCell.swift; sourceTree = "<group>"; };
 		BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBaseAlertController.swift; sourceTree = "<group>"; };
 		BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignInputAlertController.swift; sourceTree = "<group>"; };
@@ -766,6 +768,7 @@
 				BF37D98B27F5742D004C2785 /* PerfMeasurements.swift */,
 				BF37D98C27F5742D004C2785 /* SLLoadingIndicator.swift */,
 				BF37D98D27F5742D004C2785 /* ShopLivePlayerView.swift */,
+				2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */,
 				BFCB03302A32FEB300E130CC /* PlayerSessionState.swift */,
 			);
 			path = Component;
@@ -1477,6 +1480,7 @@
 				BF37D9C627F5742D004C2785 /* ShopLiveWebView.swift in Sources */,
 				BF37D9EA27F5742D004C2785 /* URLUtil.swift in Sources */,
 				1BA5156A25CBDD3F00070181 /* ShopLive.swift in Sources */,
+				2F10CCE12A3B15A500D41EC6 /* ShopLiveWindow.swift in Sources */,
 				BF37D9F027F5742D004C2785 /* ShopLiveUser.swift in Sources */,
 				BF37D9AE27F5742D004C2785 /* LiveStreamViewModel.swift in Sources */,
 				BF37D9C927F5742D004C2785 /* ShopLiveChatView.swift in Sources */,

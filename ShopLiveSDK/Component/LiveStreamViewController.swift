@@ -126,7 +126,7 @@ internal final class LiveStreamViewController: UIViewController {
     var playerLayer: AVPlayerLayer {
         return playerView.playerLayer
     }
-
+    
     override func removeFromParent() {
         super.removeFromParent()
         overlayView?.delegate = nil
@@ -331,7 +331,6 @@ internal final class LiveStreamViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupView()
         setupLiveStreamViewController()
     }

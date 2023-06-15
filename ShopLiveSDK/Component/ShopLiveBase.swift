@@ -9,9 +9,10 @@ import UIKit
 import AVKit
 import WebKit
 
+
 @objc internal final class ShopLiveBase: NSObject {
 
-    private var shopLiveWindow: UIWindow? = nil
+    private var shopLiveWindow: ShopliveWindow? = nil
     private var videoWindowPanGestureRecognizer: UIPanGestureRecognizer?
     private var videoWindowTapGestureRecognizer: UITapGestureRecognizer?
     private var videoPinchGestureRecognizer: UIPinchGestureRecognizer?
@@ -152,7 +153,6 @@ import WebKit
     func showShopLiveView(with overlayUrl: URL, _ completion: (() -> Void)? = nil) {
         
         UIApplication.shared.isIdleTimerDisabled = true
-        
         if !ShopLiveController.shared.isSameCampaign {
             ShopLiveController.shared.resetVideoDatas()
         }
@@ -223,7 +223,7 @@ import WebKit
         
         mainWindow = (UIApplication.shared.windows.first(where: { $0.isKeyWindow }))
         
-        shopLiveWindow = UIWindow()
+        shopLiveWindow = ShopliveWindow()
         if #available(iOS 13.0, *) {
             shopLiveWindow?.windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
         }
@@ -236,7 +236,6 @@ import WebKit
         } else {
             shopLiveWindow?.frame = mainWindow?.frame ?? UIScreen.main.bounds
         }
-        
         shopLiveWindow?.rootViewController = liveStreamViewController
         self.liveStreamViewController?.hideBackgroundPoster()
 
@@ -265,7 +264,6 @@ import WebKit
         
         setupOsPictureInPicture()
         shopLiveWindow?.makeKeyAndVisible()
-
         self.delegate?.handleChangedPlayerStatus?(status: "CREATED")
         
         if ShopLiveController.shared.isPreview {
@@ -314,7 +312,6 @@ import WebKit
         self.shopLiveWindow?.alpha = 1
 
         self.shopLiveWindow?.resignKey()
-        self.mainWindow?.makeKeyAndVisible()
 
         self.videoWindowPanGestureRecognizer = nil
         self.videoWindowTapGestureRecognizer = nil
@@ -458,9 +455,9 @@ import WebKit
     }
     
     private func startCustomPictureInPicture(with position: ShopLive.PipPosition = .default, scale: CGFloat = 2/5) {
+        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            
             self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             if self.enabledPictureInPictureMode == false {
                 self.close()
@@ -470,6 +467,8 @@ import WebKit
             guard !ShopLiveController.shared.pipAnimating else { return }
             guard let shopLiveWindow = self.shopLiveWindow else { return }
             guard shopLiveWindow.frame.size != .zero else { return }
+            
+            self.mainWindow?.makeKey()
             
             shopLiveWindow.backgroundColor = .clear
             shopLiveWindow.layer.cornerRadius = 10
@@ -494,7 +493,6 @@ import WebKit
             ShopLiveController.webInstance?.isHidden = true
             
             self.liveStreamViewController?.showSnapshotBackground()
-            
             self.liveStreamViewController?.updateVideoFit(centerCrop: true, immediately: false)
             self.liveStreamViewController?.updateVideoConstraint()
         
@@ -640,15 +638,17 @@ import WebKit
         
         self.liveStreamViewController?.showSnapshotBackground()
         
+        shopLiveWindow.invalidateBlockAddSubViewTimer()
+        
         if self.needExecuteFullScreen {
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true)
             ShopLiveController.webInstance?.isHidden = false
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
+                shopLiveWindow.startBlockAddSubViewTimer()
                 self.liveStreamViewController?.updateVideoConstraint()
                 shopLiveWindow.frame = mainWindow.bounds
                 shopLiveWindow.layer.cornerRadius = 0
                 shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
-                
                 self.liveStreamViewController?.setCloseButtonVisible(false)
                 } completion: { (isCompleted) in
                     self.liveStreamViewController?.hideSnapshotBackground()
@@ -664,11 +664,11 @@ import WebKit
         } else {
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true)
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
+                shopLiveWindow.startBlockAddSubViewTimer()
                 self.liveStreamViewController?.updateVideoConstraint()
                 shopLiveWindow.frame = mainWindow.bounds
                 shopLiveWindow.layer.cornerRadius = 0
                 shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
-//                ShopLiveController.webInstance?.isHidden = false
                 self.liveStreamViewController?.setCloseButtonVisible(false)
                 } completion: { (isCompleted) in
                     self.liveStreamViewController?.hideSnapshotBackground()
@@ -680,8 +680,10 @@ import WebKit
                     if self.windowChangeCommand != .none {
                         self.isWindowChanging = false
                     }
+                    
                 }
         }
+        shopLiveWindow.makeKey()
         _style = .fullScreen
         delegate?.handleCommand("didShopLiveOn", with: nil)
         delegate?.log?(name: "pip_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
@@ -1152,6 +1154,7 @@ import WebKit
         if self.enabledPictureInPictureMode == false {
             return
         }
+        
         guard ShopLiveController.shared.swipeEnabled else { return }
         guard !ShopLiveController.shared.isPreview else { return }
         guard _style == .fullScreen else { return }
@@ -2048,6 +2051,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
                 break
             }
             _delegate?.handleNavigation(with: url)
+            
             return
         }
 
@@ -2080,12 +2084,4 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
         _delegate?.handleCommand(command, with: payload)
     }
 }
-//https://www.shoplive.show/v1/sdk.html?
-//ak=6mnefY1z9lK0vZlsduRp&ck=2966fc4ee15e&
-//version=1.3.3&
-//keepAspectOnTabletPortrait=true
-//&_from=sdk_direct&
-//tk=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2ODYzMjEyNDMsImlhdCI6MTY4NjI3ODA0MywiYWNjZXNzS2V5IjoiNm1uZWZZMXo5bEswdlpsc2R1UnAiLCJ1c2VySWQiOiJhNDg1MDNlNTRjYjFmNjJjZWU3MWZiYWE4NjY0NWRhOCIsIm5hbWUiOiJoYXNzYW4wNDI0IiwiZ2VuZGVyIjoibSIsImFnZSI6MjUsInZpZGVvSWQiOiIifQ.LcX6Tj_Xm4nt5yT7zPIpPtERTahIoJ_nzP43dIuckNg&osType=i&
-//osVersion=16.5&
-//device=iPhone14%2C6&
-//appVersion=3.49.0&manualRotation=false
+

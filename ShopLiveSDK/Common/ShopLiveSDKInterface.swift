@@ -195,6 +195,7 @@ import UIKit
 }
 
 @objc public protocol ShopLiveSDKDelegate: AnyObject {
+    
     @objc func handleNavigation(with url: URL)
     @available(*, deprecated, message: "use handleDownloadCoupon(with couponId: String, result: @escaping (ShopLiveCouponResult) -> Void) instead")
     @objc optional func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void)
