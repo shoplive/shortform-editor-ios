@@ -1268,6 +1268,7 @@ internal final class LiveStreamViewController: UIViewController {
                 }
             }
         } else {
+            self.updateVideoFit(centerCrop: true, immediately: immeadiately)
             self.playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
             self.updateImageConstraint(from: .zero)
         }
