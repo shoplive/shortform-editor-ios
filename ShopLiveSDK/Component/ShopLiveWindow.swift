@@ -14,8 +14,6 @@ class ShopliveWindow: UIWindow {
     private var timer : Timer?
     private var dispatchSource : DispatchSourceTimer?
     
-    private var onFirstLaunchAddSubViewBlock : (() -> ())?
-    
     func startBlockAddSubViewTimer(){
         blockAddSubView = true
         dispatchSource?.cancel()
