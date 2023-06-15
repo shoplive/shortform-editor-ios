@@ -12,6 +12,10 @@
 		1BA5155E25CBDCD200070181 /* ShopLiveSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BA5155025CBDCD100070181 /* ShopLiveSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BA5156A25CBDD3F00070181 /* ShopLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5156925CBDD3F00070181 /* ShopLive.swift */; };
 		2F10CCE12A3B15A500D41EC6 /* ShopLiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */; };
+		2F57B78D2A3B2ACA00946B6E /* ShopLiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */; };
+		2F57B78E2A3B2ACB00946B6E /* ShopLiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */; };
+		2F57B78F2A3B2ACD00946B6E /* ShopLiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */; };
+		2F57B7902A3B2ACE00946B6E /* ShopLiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */; };
 		2F7A6DFD2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
 		2F7A6DFE2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
 		2FD062B32A03804B004841D2 /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
@@ -1522,6 +1526,7 @@
 				BF34F2E928125F8600114DBF /* ShopLiveViewLoggerController.swift in Sources */,
 				BF34F2EA28125F8600114DBF /* ShopLiveBase.swift in Sources */,
 				BF34F2EB28125F8600114DBF /* ShopLiveConfiguration.swift in Sources */,
+				2F57B78D2A3B2ACA00946B6E /* ShopLiveWindow.swift in Sources */,
 				BF4B3596299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */,
 				BF34F2EC28125F8600114DBF /* ShopLiveWebView.swift in Sources */,
 				BF34F2ED28125F8600114DBF /* URLUtil.swift in Sources */,
@@ -1559,6 +1564,7 @@
 				BF5111F72824464A00E36175 /* ShopLiveViewLoggerController.swift in Sources */,
 				BF5111F82824464A00E36175 /* ShopLiveBase.swift in Sources */,
 				BF5111F92824464A00E36175 /* ShopLiveConfiguration.swift in Sources */,
+				2F57B78E2A3B2ACB00946B6E /* ShopLiveWindow.swift in Sources */,
 				BF4B3597299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */,
 				BF5111FA2824464A00E36175 /* ShopLiveWebView.swift in Sources */,
 				BF5111FB2824464A00E36175 /* URLUtil.swift in Sources */,
@@ -1667,6 +1673,7 @@
 				BF60E1FD2771CECA0060531C /* ShopLiveRadioButton.swift in Sources */,
 				BF60E1FE2771CECA0060531C /* CouponResponseSettingView.swift in Sources */,
 				BF60E1FF2771CECA0060531C /* OptionSectionHeader.swift in Sources */,
+				2F57B7902A3B2ACE00946B6E /* ShopLiveWindow.swift in Sources */,
 				BF37D9D427F5742D004C2785 /* SoundManager.swift in Sources */,
 				BFDC8B6B28A169050055C4DA /* Debouncer.swift in Sources */,
 				BF60E2002771CECA0060531C /* ShopLive.swift in Sources */,
@@ -1763,6 +1770,7 @@
 				BF4719B12768C63B00522F6F /* ShopLiveRadioButton.swift in Sources */,
 				BF8CEF9C276CFB310043D5FF /* CouponResponseSettingView.swift in Sources */,
 				BFA69D6A276B64FF00F91394 /* OptionSectionHeader.swift in Sources */,
+				2F57B78F2A3B2ACD00946B6E /* ShopLiveWindow.swift in Sources */,
 				BF37D9D327F5742D004C2785 /* SoundManager.swift in Sources */,
 				BFDC8B6A28A169050055C4DA /* Debouncer.swift in Sources */,
 				BFAD8EE2265A24DA00202160 /* ShopLive.swift in Sources */,

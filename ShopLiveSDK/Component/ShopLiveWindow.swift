@@ -14,6 +14,8 @@ class ShopliveWindow: UIWindow {
     private var timer : Timer?
     private var dispatchSource : DispatchSourceTimer?
     
+    private var onFirstLaunchAddSubViewBlock : (() -> ())?
+    
     func startBlockAddSubViewTimer(){
         blockAddSubView = true
         dispatchSource?.cancel()
@@ -34,6 +36,10 @@ class ShopliveWindow: UIWindow {
     }
     
     override func addSubview(_ view: UIView) {
+        if self.subviews.count == 0 && String(describing: view).contains("UITransitionView") {
+            super.addSubview(view)
+            return
+        }
         if self.blockAddSubView == true {
             return
         }
@@ -43,3 +49,4 @@ class ShopliveWindow: UIWindow {
         super.addSubview(view)
     }
 }
+

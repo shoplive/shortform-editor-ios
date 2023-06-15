@@ -1616,7 +1616,6 @@ extension ShopLiveBase: ShopLiveComponent {
                     }
                 }
                 
-//                play -> home delay -> preview -> none
                 ShopLiveController.shared.isPreview = true
                 
                 self.previewCallback = completion
