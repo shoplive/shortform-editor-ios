@@ -11,6 +11,7 @@ import WebKit
 
 
 @objc internal final class ShopLiveBase: NSObject {
+    private var inRotating: Bool = false
     private var shopLiveWindow: ShopliveWindow? = nil
     private var videoWindowPanGestureRecognizer: UIPanGestureRecognizer?
     private var videoWindowTapGestureRecognizer: UITapGestureRecognizer?
@@ -694,6 +695,7 @@ import WebKit
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
             self.shopLiveWindow?.layer.masksToBounds = true
             self.liveStreamViewController?.view.layer.masksToBounds = true
+            self.liveStreamViewController?.setCloseDimLayerVisible(false)
             UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
                 
                 self.liveStreamViewController?.updateVideoConstraint()
@@ -1908,36 +1910,8 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
         delegate?.log?(name: name, feature: feature, campaign: campaign, parameter: parameter)
     }
     
-    func finishRotation() {
-        UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve) { [weak self] in
-            self?.shopLiveWindow?.layer.masksToBounds = false
-            self?.liveStreamViewController?.showBackgroundPoster()
-        } completion: { _ in
-            UIView.animate(withDuration: 0.3, delay: 0.25, options: .transitionCrossDissolve) {
-                ShopLiveController.shared.webInstance?.alpha = 1
-            } completion: { [weak self] _ in
-                self?.shopLiveWindow?.layer.masksToBounds = false
-            }
-        }
-    }
-    
-    func updatePictureInPicture() {
-        if ShopLiveController.shared.isPreview {
-            willChangePreview()
-        } else {
-            if _style == .pip {
-                if ShopLiveController.shared.videoOrientation == .landscape {
-                    updatePip()
-                } else {
-                    startFromCampaignPIP()
-                }
-            } else {
-                self.startFromCampaignFullscreen()
-            }
-        }
-    }
-    
     func changeOrientation(to: ShopLiveDefines.ShopLiveOrientaion) {
+        self.inRotating = true
         if _style == .pip, ShopLiveController.windowStyle == .inAppPip {
             updatePip(isRotation: true)
         } else {
@@ -1957,6 +1931,39 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
                     self?.shopLiveWindow?.layoutIfNeeded()
                 } completion: { _ in
                 }
+            }
+        }
+    }
+    
+    func finishRotation() {
+        self.inRotating = false
+        UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve) { [weak self] in
+            self?.liveStreamViewController?.showBackgroundPoster()
+        } completion: { _ in
+            UIView.animate(withDuration: 0.3, delay: 0.25, options: .transitionCrossDissolve) {
+                ShopLiveController.shared.webInstance?.alpha = 1
+            } completion: { [weak self] _ in
+                guard let self = self else { return }
+                if !self.inRotating {
+                    self.shopLiveWindow?.layer.masksToBounds = false
+                    self.liveStreamViewController?.setCloseDimLayerVisible(true)
+                }
+            }
+        }
+    }
+    
+    func updatePictureInPicture() {
+        if ShopLiveController.shared.isPreview {
+            willChangePreview()
+        } else {
+            if _style == .pip {
+                if ShopLiveController.shared.videoOrientation == .landscape {
+                    updatePip()
+                } else {
+                    startFromCampaignPIP()
+                }
+            } else {
+                self.startFromCampaignFullscreen()
             }
         }
     }

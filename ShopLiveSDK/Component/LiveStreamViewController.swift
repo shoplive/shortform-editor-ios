@@ -493,6 +493,12 @@ internal final class LiveStreamViewController: UIViewController {
         imageView?.isHidden = true
         shopliveHideKeyboard()
     }
+    
+    func setCloseDimLayerVisible(_ visible: Bool) {
+        self.inAppPipView.layer.masksToBounds = !visible
+        self.pipDim.layer.masksToBounds = !visible
+        self.pipDimLayer.masksToBounds = !visible
+    }
 
     func showBackgroundPoster() {
         imageView?.isHidden = false
