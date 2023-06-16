@@ -1783,9 +1783,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             ShopLiveController.shared.takeSnapShot = false
             self.hideSnapShotView()
             self.hideSnapshotBackground()
-            self.hideBackgroundPoster()
             ShopLiveController.isPlaying = true
-
             break
         case .waitingToPlayAtSpecifiedRate:
             ShopLiveLogger.debugLog("waitingToPlayAtSpecifiedRate")
