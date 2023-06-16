@@ -19,6 +19,7 @@
 		2F7A6DFD2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
 		2F7A6DFE2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
 		2FD062B32A03804B004841D2 /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
+		2FE099222A3C47C500D077F6 /* ShopLiveThrottle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */; };
 		BF1B57BA276983600002EBB5 /* CustomBaseAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */; };
 		BF1B57BC2769844F0002EBB5 /* CampaignInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */; };
 		BF1C0804272797C400F6B2E1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */; };
@@ -474,6 +475,7 @@
 		1BA5156925CBDD3F00070181 /* ShopLive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLive.swift; sourceTree = "<group>"; };
 		2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveWindow.swift; sourceTree = "<group>"; };
 		2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchOptionCell.swift; sourceTree = "<group>"; };
+		2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveThrottle.swift; sourceTree = "<group>"; };
 		BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBaseAlertController.swift; sourceTree = "<group>"; };
 		BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignInputAlertController.swift; sourceTree = "<group>"; };
 		BF1B57C0276B19600002EBB5 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -774,6 +776,7 @@
 				BF37D98D27F5742D004C2785 /* ShopLivePlayerView.swift */,
 				2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */,
 				BFCB03302A32FEB300E130CC /* PlayerSessionState.swift */,
+				2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -1477,6 +1480,7 @@
 				BF37D9DE27F5742D004C2785 /* ShopLiveWebInterface.swift in Sources */,
 				BF37D9CF27F5742D004C2785 /* ShopLiveDefines.swift in Sources */,
 				BFC73CDB2901791900D9BC8A /* Throttle.swift in Sources */,
+				2FE099222A3C47C500D077F6 /* ShopLiveThrottle.swift in Sources */,
 				BF37D9D827F5742D004C2785 /* ShopLiveViewLoggerController.swift in Sources */,
 				BF37D9A827F5742D004C2785 /* ShopLiveBase.swift in Sources */,
 				BF37D9E727F5742D004C2785 /* ShopLiveConfiguration.swift in Sources */,

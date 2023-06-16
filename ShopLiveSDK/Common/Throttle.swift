@@ -15,12 +15,12 @@ class Throttle {
     private var timer: DispatchSourceTimer?
     private var isReady = true
     private var hasDelayedBlock: Bool { delayedBlock != nil }
-
+    
     init(queue: DispatchQueue, delay: Double) {
         self.queue = queue
         self.delay = delay
     }
-
+    
     func callAsFunction(action: @escaping () -> Void, onCancel: @escaping () -> Void) {
         queue.async { [weak self] in
             guard let self = self else {
@@ -38,7 +38,7 @@ class Throttle {
             }
         }
     }
-
+    
     private func scheduleTimer() {
         let timer = DispatchSource.makeTimerSource(queue: queue)
         timer.setEventHandler { [weak self] in
@@ -57,3 +57,4 @@ class Throttle {
         self.timer = timer
     }
 }
+
