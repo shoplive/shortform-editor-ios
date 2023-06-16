@@ -108,7 +108,7 @@ import WebKit
     
     private var previewCallback: (() -> Void)?
     
-    let debouncer = Debouncer(timeInterval: 0.3)
+    let debouncer = Debouncer(timeInterval: 0.5)
     
     var liveStreamViewController: LiveStreamViewController?
     var osPictureInPictureController: AVPictureInPictureController?
