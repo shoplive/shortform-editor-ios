@@ -137,6 +137,10 @@
 		BF37D9F027F5742D004C2785 /* ShopLiveUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9A427F5742D004C2785 /* ShopLiveUser.swift */; };
 		BF37D9F127F5742D004C2785 /* ShopLiveUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9A427F5742D004C2785 /* ShopLiveUser.swift */; };
 		BF37D9F227F5742D004C2785 /* ShopLiveUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9A427F5742D004C2785 /* ShopLiveUser.swift */; };
+		BF3D15E62A3D69680033561D /* ShopLiveThrottle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */; };
+		BF3D15E72A3D69690033561D /* ShopLiveThrottle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */; };
+		BF3D15E82A3D69690033561D /* ShopLiveThrottle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */; };
+		BF3D15E92A3D696A0033561D /* ShopLiveThrottle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */; };
 		BF43A29129E3B6350062143C /* SettingCustomParameterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF43A29029E3B6350062143C /* SettingCustomParameterViewController.swift */; };
 		BF43A29229E3B6350062143C /* SettingCustomParameterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF43A29029E3B6350062143C /* SettingCustomParameterViewController.swift */; };
 		BF43A29329E3B6350062143C /* SettingCustomParameterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF43A29029E3B6350062143C /* SettingCustomParameterViewController.swift */; };
@@ -1527,6 +1531,7 @@
 				BF34F2E728125F8600114DBF /* ShopLiveWebInterface.swift in Sources */,
 				BF34F2E828125F8600114DBF /* ShopLiveDefines.swift in Sources */,
 				BFC73CDC2901791900D9BC8A /* Throttle.swift in Sources */,
+				BF3D15E62A3D69680033561D /* ShopLiveThrottle.swift in Sources */,
 				BF34F2E928125F8600114DBF /* ShopLiveViewLoggerController.swift in Sources */,
 				BF34F2EA28125F8600114DBF /* ShopLiveBase.swift in Sources */,
 				BF34F2EB28125F8600114DBF /* ShopLiveConfiguration.swift in Sources */,
@@ -1565,6 +1570,7 @@
 				BF5111F52824464A00E36175 /* ShopLiveWebInterface.swift in Sources */,
 				BF5111F62824464A00E36175 /* ShopLiveDefines.swift in Sources */,
 				BFC73CDD2901791900D9BC8A /* Throttle.swift in Sources */,
+				BF3D15E72A3D69690033561D /* ShopLiveThrottle.swift in Sources */,
 				BF5111F72824464A00E36175 /* ShopLiveViewLoggerController.swift in Sources */,
 				BF5111F82824464A00E36175 /* ShopLiveBase.swift in Sources */,
 				BF5111F92824464A00E36175 /* ShopLiveConfiguration.swift in Sources */,
@@ -1713,6 +1719,7 @@
 				BF60E21F2771CECA0060531C /* DevInfoCell.swift in Sources */,
 				BF60E2202771CECA0060531C /* SideMenuBaseViewController.swift in Sources */,
 				BF60E2212771CECA0060531C /* CustomBaseAlertController.swift in Sources */,
+				BF3D15E92A3D696A0033561D /* ShopLiveThrottle.swift in Sources */,
 				BF95D2C729D28E900033CECB /* CustomAdIdAlertController.swift in Sources */,
 				BF60E2242771CECA0060531C /* CampaignInputAlertController.swift in Sources */,
 				BF60E2252771CECA0060531C /* DemoSecretKeyTool.swift in Sources */,
@@ -1810,6 +1817,7 @@
 				BF47197627660CD300522F6F /* SideMenuBaseViewController.swift in Sources */,
 				BF1B57BA276983600002EBB5 /* CustomBaseAlertController.swift in Sources */,
 				BF95D2C629D28E900033CECB /* CustomAdIdAlertController.swift in Sources */,
+				BF3D15E82A3D69690033561D /* ShopLiveThrottle.swift in Sources */,
 				BF1B57BC2769844F0002EBB5 /* CampaignInputAlertController.swift in Sources */,
 				BF60E1D0276F69C00060531C /* DemoSecretKeyTool.swift in Sources */,
 				BF37D9CD27F5742D004C2785 /* ShopLiveChattingWriteView.swift in Sources */,

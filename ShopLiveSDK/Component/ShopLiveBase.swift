@@ -478,6 +478,8 @@ import WebKit
             ShopLiveController.windowStyle = .inAppPip
             self._style = .pip
             
+            ShopLiveController.shared.pipAnimating = true
+            
             shopLiveWindow.rootViewController?.view.layer.cornerRadius = 10
             shopLiveWindow.rootViewController?.view.layer.masksToBounds = true
             shopLiveWindow.layer.masksToBounds = true
@@ -1576,6 +1578,8 @@ extension ShopLiveBase: ShopLiveComponent {
     }
     
     func preview(with campaignKey: String?, referrer: String? = nil, completion: @escaping () -> Void) {
+        guard !ShopLiveController.shared.pipAnimating else { return }
+        
         throttler.addQueue(timeInterval: 0.6) {
             ShopLiveController.shared._playerMode = .preview
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 800 : 0)) { [weak self] in
@@ -1636,6 +1640,8 @@ extension ShopLiveBase: ShopLiveComponent {
     
     
     @objc func play(with campaignKey: String?, referrer: String? = nil) {
+        guard !ShopLiveController.shared.pipAnimating else { return }
+        
         throttler.addQueue(timeInterval: 0.6) {
             ShopLiveController.shared._playerMode = .play
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 800 : 0)) {
