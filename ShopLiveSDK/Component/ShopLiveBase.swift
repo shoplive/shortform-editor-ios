@@ -146,7 +146,6 @@ import WebKit
     }
     
     func showShopLiveView(with overlayUrl: URL, _ completion: (() -> Void)? = nil) {
-        
         UIApplication.shared.isIdleTimerDisabled = true
         if !ShopLiveController.shared.isSameCampaign {
             ShopLiveController.shared.resetVideoDatas()
@@ -1617,9 +1616,8 @@ extension ShopLiveBase: ShopLiveComponent {
                         self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
                     }
                 }
-                
                 ShopLiveController.shared.isPreview = true
-                
+               
                 self.previewCallback = completion
                 self.campaignKey = campaignKey
                 self.fetchPreviewUrl(with: campaignKey) { [weak self] url in
@@ -1629,6 +1627,7 @@ extension ShopLiveBase: ShopLiveComponent {
                     }
                     self?.windowChangeCommand = .none
                     self?.isWindowChanging = false
+                    self?.needExecuteFullScreen = false
                     self?.showPreview(previewUrl: url)
                 }
             }
@@ -1650,6 +1649,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 
                 ShopLiveController.shared.campaignKey = campaignKey ?? ""
                 self.needExecuteFullScreen = ShopLiveController.shared.isPreview
+                ShopLiveController.shared.isPreview = false
                 
                 let audioSessionManager = AudioSessionManager.shared
                 if self._style == .unknown {
@@ -1659,7 +1659,6 @@ extension ShopLiveBase: ShopLiveComponent {
                 let categoryOption: AVAudioSession.CategoryOptions = ShopLiveConfiguration.SoundPolicy.useMixWithOthers ? .mixWithOthers : audioSessionManager.customerAudioCategoryOptions
                 
                 audioSessionManager.setCategory(category: .playback, options: categoryOption)
-                
                 if self.needExecuteFullScreen {
                     self.queryParameters["_from"] = "sdk_preview"
                     self.delegate?.log?(name: "preview_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
@@ -1669,7 +1668,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 }
                 self.delegate?.log?(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "normal"])
                 self.delegate?.log?(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type" : "normal"])
-                ShopLiveController.shared.isPreview = false
+               
                 self.addObserver()
                 self.campaignChanged = (campaignKey != self.campaignKey)
                 self.campaignKey = campaignKey
