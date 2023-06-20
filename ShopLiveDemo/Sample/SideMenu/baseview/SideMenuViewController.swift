@@ -16,8 +16,6 @@ struct SideMenu {
 }
 
 enum SideMenuTypes: String, CaseIterable {
-    case campaigns
-    case userinfo
     case options
     case exit
     case coupon
@@ -39,8 +37,6 @@ enum SideMenuTypes: String, CaseIterable {
 
 final class ShopLiveSideMenu {
     static var sideMenus: [SideMenu] = [
-        SideMenuTypes.campaigns.sideMenu,
-        SideMenuTypes.userinfo.sideMenu,
         SideMenuTypes.options.sideMenu,
         SideMenuTypes.coupon.sideMenu,
         SideMenuTypes.exit.sideMenu,
@@ -102,14 +98,6 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         switch items[indexPath.row].identifier {
-        case SideMenuTypes.campaigns.identifier:
-            let page = CampaignsViewController()
-            self.navigationController?.pushViewController(page, animated: true)
-            break
-        case SideMenuTypes.userinfo.identifier:
-            let page = UserInfoViewController()
-            self.navigationController?.pushViewController(page, animated: true)
-            break
         case SideMenuTypes.options.identifier:
             let page = OptionsViewController()
             self.navigationController?.pushViewController(page, animated: true)

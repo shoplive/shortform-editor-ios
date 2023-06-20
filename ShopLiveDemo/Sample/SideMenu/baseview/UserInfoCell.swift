@@ -97,6 +97,14 @@ final class UserInfoCell: SampleBaseCell {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
+        let guestRadio: ShopLiveRadioButton = {
+            let view = ShopLiveRadioButton()
+            view.translatesAutoresizingMaskIntoConstraints = false
+            view.configure(identifier: "guest", description: "userinfo.auth.type.guest".localized())
+            view.delegate = self
+            return view
+        }()
+        
         let commonRadio: ShopLiveRadioButton = {
             let view = ShopLiveRadioButton()
             view.translatesAutoresizingMaskIntoConstraints = false
@@ -113,16 +121,23 @@ final class UserInfoCell: SampleBaseCell {
             return view
         }()
 
-        self.radioGroup = [commonRadio, tokenRadio]
+        self.radioGroup = [guestRadio, commonRadio, tokenRadio]
+        view.addSubview(guestRadio)
         view.addSubview(commonRadio)
         view.addSubview(tokenRadio)
 
-        commonRadio.snp.makeConstraints {
+        guestRadio.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview()
             $0.height.equalTo(20)
         }
 
+        commonRadio.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalTo(guestRadio.snp.trailing).offset(15)
+            $0.height.equalTo(20)
+        }
+        
         tokenRadio.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalTo(commonRadio.snp.trailing).offset(15)
@@ -194,11 +209,21 @@ final class UserInfoCell: SampleBaseCell {
     }
 
     private func updateUserInfo() {
-        updateAuthType(identifier: DemoConfiguration.shared.useJWT ? "token" : "common")
-        user = DemoConfiguration.shared.user
-        userinfoTitleLabel.text = userDescription
-        jwtTokenTitleLabel.text = DemoConfiguration.shared.jwtToken ?? ""
-        chooseButton.setTitle(userButtonTitle, for: .normal)
+        let demoConfig = DemoConfiguration.shared
+        updateAuthType(identifier: demoConfig.isGuestMode ? "guest" : demoConfig.useJWT ? "token" : "common")
+        
+        if demoConfig.isGuestMode {
+            userinfoTitleLabel.text = "Guest mode"
+            jwtTokenTitleLabel.text = ""
+            chooseButton.isHidden = true
+        } else {
+            user = DemoConfiguration.shared.user
+            userinfoTitleLabel.text = userDescription
+            jwtTokenTitleLabel.text = DemoConfiguration.shared.jwtToken ?? ""
+            chooseButton.isHidden = false
+            chooseButton.setTitle(userButtonTitle, for: .normal)
+        }
+        
     }
 
     private func isNonUser(_ user: ShopLiveUser) -> Bool {
@@ -271,12 +296,32 @@ extension UserInfoCell: ShopLiveRadioButtonDelegate {
 
     func didSelectRadioButton(_ sender: ShopLiveRadioButton) {
         updateAuthType(identifier: sender.identifier)
-        guard let selected = radioGroup.first(where: {$0.isSelected == true}) else {
+        
+        switch sender.identifier {
+        case "guest":
+            DemoConfiguration.shared.isGuestMode = true
+            DemoConfiguration.shared.useJWT = true
+            break
+        case "common":
+            DemoConfiguration.shared.isGuestMode = false
             DemoConfiguration.shared.useJWT = false
-            return
+            break
+        case "token":
+            DemoConfiguration.shared.isGuestMode = false
+            DemoConfiguration.shared.useJWT = true
+            break
+        default:
+            break
         }
+        
+        updateUserInfo()
+//
+//        guard let selected = radioGroup.first(where: {$0.isSelected == true}) else {
+//            DemoConfiguration.shared.useJWT = false
+//            return
+//        }
 
-        DemoConfiguration.shared.useJWT = (selected.identifier == "token")
+//        DemoConfiguration.shared.useJWT = (selected.identifier == "token")
     }
 
     var selectedIdentifier: String {

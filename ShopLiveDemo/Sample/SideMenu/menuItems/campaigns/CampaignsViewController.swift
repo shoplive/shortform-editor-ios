@@ -31,7 +31,7 @@ final class CampaignsViewController: SideMenuItemViewController {
         items = ShopLiveDemoKeyTools.shared.keysets
         setupNaviItems()
         setupViews()
-        self.title = SideMenuTypes.campaigns.stringKey.localized()
+        self.title = "menu.campaigns".localized()
 
     }
 

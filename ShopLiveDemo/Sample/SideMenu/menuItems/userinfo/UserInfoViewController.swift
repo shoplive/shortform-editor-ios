@@ -258,7 +258,7 @@ final class UserInfoViewController: SideMenuItemViewController {
     }
 
     func setupNaviItems() {
-        self.title = SideMenuTypes.userinfo.stringKey.localized()
+        self.title = "menu.userinfo".localized()
 
         let delete = UIBarButtonItem(title: "sdk.user.delete".localized(from: "shoplive"), style: .plain, target: self, action: #selector(deleteAct))
 

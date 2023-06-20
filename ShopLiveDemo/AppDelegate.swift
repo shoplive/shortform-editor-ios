@@ -22,11 +22,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             DemoConfiguration.shared.useAutomaticallyPreservesTimeOffsetFromLive = true
             DemoConfiguration.shared.useStartsOnFirstEligibleVariant = true
             DemoConfiguration.shared.useVariantPreferencesScalabilityToLosslessAudio = true
+            
+            DemoConfiguration.shared.useCallOption = true
             UserDefaults.standard.set(true, forKey: "streamOptionInitialized")
             UserDefaults.standard.synchronize()
         }
         
-        UserDefaults.standard.register(defaults: [SDKOptionType.enablePictureInPictureMode.optionKey: true, SDKOptionType.pipEnableSwipeOut.optionKey: true])
+        UserDefaults.standard.register(defaults: [SDKOptionType.enablePictureInPictureMode.optionKey: true, SDKOptionType.pipEnableSwipeOut.optionKey: true,
+                                                  "playerPhase": "DEV",
+                                                  "isGuestMode": true])
         return true
     }
 

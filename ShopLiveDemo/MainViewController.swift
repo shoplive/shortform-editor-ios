@@ -125,18 +125,21 @@ class MainViewController: SideMenuBaseViewController {
         }
         
         ShopLive.setAppVersion("3.39.0")
-        if config.useJWT {
-            ShopLive.authToken = config.jwtToken
-        } else {
-            // user setting
-            if let userId = config.user.id, !userId.isEmpty {
-                config.user.add(["brand": "{\"identifier\":\"thisisneverthat\",\"favorite\":false}"])
-                ShopLive.user = config.user
+        if !config.isGuestMode {
+            if config.useJWT {
+                ShopLive.authToken = config.jwtToken
             } else {
-                ShopLive.user = nil
+                // user setting
+                if let userId = config.user.id, !userId.isEmpty {
+                    config.user.add(["brand": "{\"identifier\":\"thisisneverthat\",\"favorite\":false}"])
+                    ShopLive.user = config.user
+                } else {
+                    ShopLive.user = nil
+                }
             }
+        } else {
+            ShopLive.user = nil
         }
-
         
         DemoConfiguration.shared.customParameters.forEach { customParam in
             if customParam.isUseParam, let value = customParam.paramValue {
@@ -270,15 +273,6 @@ class MainViewController: SideMenuBaseViewController {
         
         ShopLive.setKeepWindowStyleOnReturnFromOsPip(config.usePipKeepWindowStyle)
         ShopLive.setEnabledPipSwipeOut(config.pipEnableSwipeOut)
-        
-        #if QA
-            #if SDK_MODULE
-            #else
-        ShopLive.setUsingStartsOnFirstEligibleVariant(config.useStartsOnFirstEligibleVariant)
-        ShopLive.setUsingAutomaticallyPreservesTimeOffsetFromLive(config.useAutomaticallyPreservesTimeOffsetFromLive)
-        ShopLive.setUsingVariantPreferencesScalabilityToLosslessAudio(config.useVariantPreferencesScalabilityToLosslessAudio)
-            #endif
-        #endif
     }
 
     override func preview() {

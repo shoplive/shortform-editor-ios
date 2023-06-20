@@ -51,23 +51,11 @@ final class OptionsViewController: SideMenuItemViewController {
     }
 
     private func setupOptions() {
-
-            #if QA
-                #if SDK_MODULE
-                #else
-        let automaticallyPreservesTimeOffsetFromLiveOption = SDKOptionItem(name: "sdkoption.streamOption.automaticallyPreservesTimeOffsetFromLive.title".localized(), optionDescription: "sdkoption.streamOption.automaticallyPreservesTimeOffsetFromLive.description".localized(), optionType: .automaticallyPreservesTimeOffsetFromLive)
-        let startsOnFirstEligibleVariantOption = SDKOptionItem(name: "sdkoption.streamOption.startsOnFirstEligibleVariant.title".localized(), optionDescription: "sdkoption.streamOption.startsOnFirstEligibleVariant.description".localized(), optionType: .startsOnFirstEligibleVariant)
-        let variantPreferencesOption = SDKOptionItem(name: "sdkoption.streamOption.variantPreferences.title".localized(), optionDescription: "sdkoption.streamOption.variantPreferences.description".localized(), optionType: .variantPreferences_scalabilityToLosslessAudio)
-        let streamOptions = SDKOption(optionTitle: "sdkoption.section.streamOption.title".localized(), optionItems: [automaticallyPreservesTimeOffsetFromLiveOption, startsOnFirstEligibleVariantOption, variantPreferencesOption])
-        
-        items.append(streamOptions)
-                #endif
-        #endif
-        
         let aspectOnTabletOption = SDKOptionItem(name: "sdkoption.setupPlayer.aspectOnTablet.title".localized(), optionDescription: "sdkoption.setupPlayer.aspectOnTablet.description".localized(), optionType: .aspectOnTablet)
         let keepWindowStateOnPlayExecutedOption = SDKOptionItem(name: "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.title".localized(), optionDescription: "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.description".localized(), optionType: .keepWindowStateOnPlayExecuted)
         let mixAudioOption = SDKOptionItem(name: "sdkoption.setupPlayer.mixAudio.title".localized(), optionDescription: "sdkoption.setupPlayer.mixAudio.description".localized(), optionType: .mixAudio)
-        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption, mixAudioOption])
+        let nextActionOption = SDKOptionItem(name: "sdkoption.nextActionTypeOnNavigation.title".localized(), optionDescription: "sdkoption.nextActionTypeOnNavigation.description".localized(), optionType: .nextActionOnHandleNavigation)
+        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption, mixAudioOption, nextActionOption])
         
         items.append(setupPlayerOptions)
         
@@ -85,13 +73,12 @@ final class OptionsViewController: SideMenuItemViewController {
         let pipPositionOption = SDKOptionItem(name: "sdkoption.pipPosition.title".localized(), optionDescription: "sdkoption.pipPosition.description".localized(), optionType: .pipPosition)
         let pipScaleOption = SDKOptionItem(name: "sdkoption.pipScale.title".localized(), optionDescription: "sdkoption.pipScale.description".localized(), optionType: .pipScale)
         let fixedPipWidthOption = SDKOptionItem(name: "sdkoption.fixedPipWidth.title".localized(), optionDescription: "sdkoption.fixedPipWidth.description".localized(), optionType: .fixedPipWidth)
-        let nextActionPipOption = SDKOptionItem(name: "sdkoption.nextActionTypeOnNavigation.title".localized(), optionDescription: "sdkoption.nextActionTypeOnNavigation.description".localized(), optionType: .nextActionOnHandleNavigation)
         let pipKeepWindowStyle = SDKOptionItem(name: "sdkoption.pipKeepWindowStyle.title".localized(), optionDescription: "sdkoption.pipKeepWindowStyle.description".localized(), optionType: .pipKeepWindowStyle)
         let pipModelEnableSetting = SDKOptionItem(name: "sdkoption.enablePictureInPictureMode.title".localized(),
                                                optionDescription: "sdkoption.enablePictureInPictureMode.description".localized(), optionType: .enablePictureInPictureMode)
         let pipAreaOption = SDKOptionItem(name: "sdkoption.pipFloatingOffset.title".localized(), optionDescription: "sdkoption.pipFloatingOffset.description".localized(), optionType: .pipFloatingOffset)
         let pipEnableSwipeOutOption = SDKOptionItem(name: "sdkoption.pipEnableSwipeOutOption.title".localized(), optionDescription: "sdkoption.pipEnableSwipeOutOption.description".localized(), optionType: .pipEnableSwipeOut)
-        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, fixedPipWidthOption, nextActionPipOption, pipKeepWindowStyle, pipModelEnableSetting, pipEnableSwipeOutOption, pipAreaOption])
+        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, fixedPipWidthOption, pipKeepWindowStyle, pipModelEnableSetting, pipEnableSwipeOutOption, pipAreaOption])
 
         items.append(pipOptions)
 

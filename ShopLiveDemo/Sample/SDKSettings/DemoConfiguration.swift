@@ -339,11 +339,11 @@ final class DemoConfiguration: NSObject {
 
     var pipPosition: ShopLive.PipPosition {
         set {
-            UserDefaults.standard.set(newValue.rawValue, forKey: SDKOptionType.pipPosition.optionKey)
+            UserDefaults.standard.set(newValue.rawValue + 1, forKey: SDKOptionType.pipPosition.optionKey)
             UserDefaults.standard.synchronize()
         }
         get {
-            let rawValue = UserDefaults.standard.integer(forKey: SDKOptionType.pipPosition.optionKey)
+            let rawValue = UserDefaults.standard.integer(forKey: SDKOptionType.pipPosition.optionKey) - 1
             return ShopLive.PipPosition(rawValue: rawValue) ?? ShopLive.PipPosition.default
         }
     }
@@ -381,6 +381,16 @@ final class DemoConfiguration: NSObject {
             }
 
             return fixedWidth.cgfloatValue
+        }
+    }
+    
+    var isGuestMode: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isGuestMode")
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  "isGuestMode")
         }
     }
 
@@ -521,7 +531,7 @@ final class DemoConfiguration: NSObject {
             UserDefaults.standard.synchronize()
         }
         get {
-            return UserDefaults.standard.string(forKey: "CUSTOM_LANDING_URL") ?? "https://dev-static.shoplive.cloud/cr/v/test/ebay_sdk.html"
+            return UserDefaults.standard.string(forKey: "CUSTOM_LANDING_URL") ?? ""
         }
     }
     

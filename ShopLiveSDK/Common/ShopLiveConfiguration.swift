@@ -48,12 +48,6 @@ internal final class ShopLiveConfiguration: NSObject {
             }
         }
     }
-
-    class StreamOption {
-        static var automaticallyPreservesTimeOffsetFromLive = true
-        static var startsOnFirstEligibleVariant = true
-        static var variantPreferencesScalabilityToLosslessAudio = true
-    }
     
     class AppPreference {
         static var endpoint: String? = nil

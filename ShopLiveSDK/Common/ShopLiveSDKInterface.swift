@@ -298,13 +298,4 @@ public typealias ShopLiveViewController = UIViewController
     @objc static func removeParameter(key: String)
     
     @objc static func setEnabledPipSwipeOut(_ enabled: Bool)
-    
-    #if QA
-    #if SDK_MODULE
-    #else
-    @objc static func setUsingAutomaticallyPreservesTimeOffsetFromLive(_ use: Bool)
-    @objc static func setUsingStartsOnFirstEligibleVariant(_ use: Bool)
-    @objc static func setUsingVariantPreferencesScalabilityToLosslessAudio(_ use: Bool)
-    #endif
-    #endif
 }

@@ -146,15 +146,10 @@ final class ButtonOptionCell: UITableViewCell {
             switch item.optionType {
             case .pipPosition:
                 let pipPosition = DemoConfiguration.shared.pipPosition
-                if pipPosition != ShopLive.PipPosition.default {
-                    descriptionTitle = pipPosition.name
-                } else {
-                    descriptionTitle = item.optionDescription
-                }
+                descriptionTitle = pipPosition.name
                 break
             case .nextActionOnHandleNavigation:
                 let nextActionOnHandleNavigation: ActionType = DemoConfiguration.shared.nextActionTypeOnHandleNavigation
-                
                 descriptionTitle = nextActionOnHandleNavigation.localizedName
                 break
             default:

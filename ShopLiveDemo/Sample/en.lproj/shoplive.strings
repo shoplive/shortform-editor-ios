@@ -36,6 +36,7 @@
 "base.section.userinfo.none.title" = "유저 정보를 입력해 보세요.";
 "base.section.userinfo.button.chooseCampaign.input.title" = "입력";
 "base.section.userinfo.button.chooseCampaign.change.title" = "변경";
+"userinfo.auth.type.guest" = "Guest";
 "userinfo.auth.type.common" = "일반 인증";
 "userinfo.auth.type.jwt" = "JWT 토큰 인증";
 "userinfo.userid.placeholder" = "userId(필수)";
@@ -81,14 +82,6 @@
 "sdkoption.section.chatFont.title" = "채팅 폰트";
 "sdkoption.section.clicklog.title" = "Click log";
 "sdkoption.section.customOption.title" = "커스텀 설정";
-"sdkoption.section.streamOption.title" = "Stream Option";
-"sdkoption.streamOption.automaticallyPreservesTimeOffsetFromLive.title" = "automaticallyPreservesTimeOffsetFromLive 설정";
-"sdkoption.streamOption.automaticallyPreservesTimeOffsetFromLive.description" = "A Boolean value that indicates whether the player preserves its time offset from the live time after a buffering operation.";
-"sdkoption.streamOption.startsOnFirstEligibleVariant.title" = "startsOnFirstEligibleVariant 설정";
-"sdkoption.streamOption.startsOnFirstEligibleVariant.description" = "A Boolean value that indicates whether playback starts with the first eligible variant that appears in the stream’s main playlist.";
-"sdkoption.streamOption.variantPreferences.title" = "variantPreferences scalabilityToLosslessAudio 설정";
-"sdkoption.streamOption.variantPreferences.description" = "A preference that indicates the player item supports variant playlists that contain losslessly encoded audio when sufficient bandwidth is available.
-";
 "sdkoption.setupPlayer.aspectOnTablet.title" = "태블릿 PC에서 영상 화면 비율 설정";
 "sdkoption.setupPlayer.aspectOnTablet.description" = "영상을 화면을 꽉 채우기(off) / 영상 사이즈에 맞추기(on)";
 "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.title" = "플레이어가 실행 중일때 Play 호출시 화면 상태 유지 여부 설정";
@@ -106,7 +99,7 @@
 "sdkoption.pipPosition.title" = "PIP Position";
 "sdkoption.pipPosition.description" = "PIP 모드가 시작될 때 위치입니다. (기본은 bottomRight)";
 "sdkoption.pipScale.title" = "PIP Scale";
-"sdkoption.pipScale.description" = "PIP 모드 화면의 Scale입니다.\n화면 width 기준으로 scale 된 사이즈 (0 ~ 1 사이의 값) 또는 최소, 최대 제한 사이즈가 있고, 그 사이의 비율에 맞춘 scale 사이즈(1 ~. 100 사이의 값) 으로 표시\n ";
+"sdkoption.pipScale.description" = "PIP 모드 화면의 Scale입니다.\n화면 width 기준으로 scale 된 사이즈 (0 ~ 1 사이의 값) 또는 최소, 최대 제한 사이즈가 있고, 그 사이의 비율에 맞춘 scale 사이즈(1 ~. 100 사이의 값) 으로 표시 기본값(0.4)\n ";
 "sdkoption.fixedPipWidth.title" = "PIP 고정 가로 사이즈";
 "sdkoption.fixedPipWidth.description" = "서로 다른 해상도의 단말에서 가로사이즈를 동일하게 유지하도록 고정 가로 길이를 설정할 수 있습니다. 모든 단말에서 pip크기가 일정하게 설정 해애하는 서비스에서 설정(현재는 무신사 제공 모듈만 적용됨)";
 "sdkoption.nextActionTypeOnNavigation.title" = "Synchronized Shoplive Player action when a user taps a link";
