@@ -14,7 +14,7 @@ protocol ShopLiveChatViewDelegate: AnyObject {
     func didTouchSendButton()
 }
 
-final class ShopLiveChatView: UIScrollView, UITextViewDelegate {
+final class ShopLiveChatView: SLScrollView, UITextViewDelegate {
     
     class ViewModel {
         let chatInputMaxLines: Int = 3
@@ -85,8 +85,8 @@ final class ShopLiveChatView: UIScrollView, UITextViewDelegate {
         }
     }
     
-    private lazy var itemContentView: UIView = {
-        let view = UIView()
+    private lazy var itemContentView: SLView = {
+        let view = SLView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
         return view
@@ -267,9 +267,9 @@ final class ShopLiveChatView: UIScrollView, UITextViewDelegate {
     }
 }
 
-final class ShopLiveChattingView: UITextView {
-    lazy var placeholderLabel: UILabel = {
-        let view = UILabel()
+final class ShopLiveChattingView: SLTextView {
+    lazy var placeholderLabel: SLLabel = {
+        let view = SLLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.numberOfLines = 1
         view.adjustsFontSizeToFitWidth = true

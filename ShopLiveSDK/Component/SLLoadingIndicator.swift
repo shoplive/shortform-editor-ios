@@ -7,15 +7,15 @@
 
 import UIKit
 
-final class SLLoadingIndicator: UIView {
+final class SLLoadingIndicator: SLView {
     private var loadingImages: [UIImage] = []
 
     var isAnimating: Bool {
         return indicatorImageView.isAnimating
     }
 
-    private lazy var indicatorImageView: UIImageView = {
-        let view = UIImageView()
+    private lazy var indicatorImageView: SLImageView = {
+        let view = SLImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
         view.isUserInteractionEnabled = false

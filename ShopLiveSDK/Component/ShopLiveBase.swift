@@ -112,7 +112,7 @@ import WebKit
     let debouncer = Debouncer(timeInterval: 0.6)
     
     var liveStreamViewController: LiveStreamViewController?
-    var osPictureInPictureController: AVPictureInPictureController?
+    var osPictureInPictureController: SLPictureInPictureController?
     
     var pipPossibleObservation: NSKeyValueObservation?
     var originAudioSessionCategory: AVAudioSession.Category?
@@ -362,7 +362,7 @@ import WebKit
         guard let playerLayer = liveStreamViewController?.playerLayer else { return }
         playerLayer.frame = CGRect(x: 100, y: 100, width: 320, height: 180)
         if AVPictureInPictureController.isPictureInPictureSupported() {
-            osPictureInPictureController = AVPictureInPictureController(playerLayer: playerLayer)
+            osPictureInPictureController = SLPictureInPictureController(playerLayer: playerLayer)
             osPictureInPictureController?.delegate = self
             
             if #available(iOS 14.2, *) {
@@ -534,6 +534,7 @@ import WebKit
                 if ShopLiveController.windowStyle == .normal {
                     self.liveStreamViewController?.updateVideoFrame(immeadiately: true, fitTopArea: false)
                 }
+                self.liveStreamViewController?.updateVideoConstraint()
                 return
             }
             

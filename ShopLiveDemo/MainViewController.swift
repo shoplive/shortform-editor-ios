@@ -175,11 +175,18 @@ class MainViewController: SideMenuBaseViewController {
             ShopLive.indicatorColor = UIColor(progressColor)
         }
 
-        // Share URL/Scheme Setting
+//        ShopLive.setShareScheme("kakao", custom: {
+//            let customShareVC = CustomShareViewController()
+//            customShareVC.modalPresentationStyle = .overFullScreen
+//            ShopLive.viewController?.present(customShareVC, animated: false, completion: nil)
+//        })
+        
+        
+//        // Share URL/Scheme Setting
         if let scheme = config.shareScheme {
             if config.useCustomShare {
                 // Custom Share Setting
-                
+
                 ShopLive.setShareScheme(scheme, custom: {
                     let customShareVC = CustomShareViewController()
                     customShareVC.modalPresentationStyle = .overFullScreen
@@ -192,7 +199,7 @@ class MainViewController: SideMenuBaseViewController {
         } else {
             if config.useCustomShare {
                 // Custom Share Setting
-                
+
                 ShopLive.setShareScheme(nil, custom: {
                     let customShareVC = CustomShareViewController()
                     customShareVC.modalPresentationStyle = .overFullScreen
@@ -202,7 +209,7 @@ class MainViewController: SideMenuBaseViewController {
                 // Default iOS Share
                 ShopLive.setShareScheme(nil, custom: nil)
             }
-            
+
         }
 
         // Custom Font Setting

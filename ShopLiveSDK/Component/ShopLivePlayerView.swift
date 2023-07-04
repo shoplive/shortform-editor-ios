@@ -7,7 +7,7 @@
 
 import AVKit
 
-final class ShopLivePlayerView: UIView {
+final class ShopLivePlayerView: SLView {
 
     var player: ShopLivePlayer = .init()
 

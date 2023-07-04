@@ -12,8 +12,8 @@ import WebKit
     Send data to web client
         - Sending the data to Web Client
  */
-internal final class ShopLiveWebView: WKWebView {
-    override var inputAccessoryView: UIView? {
+internal final class ShopLiveWebView: SLWKWebView {
+    override var inputAccessoryView: SLView? {
         return nil
     }
 

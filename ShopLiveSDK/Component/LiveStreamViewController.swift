@@ -12,7 +12,7 @@ import MediaPlayer
 import ExternalAccessory
 import Foundation
 
-internal final class LiveStreamViewController: UIViewController {
+internal final class LiveStreamViewController: SLViewController {
 
     @objc dynamic lazy var viewModel: LiveStreamViewModel = LiveStreamViewModel()
     weak var delegate: LiveStreamViewControllerDelegate?
@@ -25,9 +25,9 @@ internal final class LiveStreamViewController: UIViewController {
     private var requireRetryCheck = false
 
     private var overlayView: OverlayWebView?
-    private var imageView: WKWebView? //UIImageView?
-    private var snapshotImageView: UIImageView?
-    private var snapShotView: UIImageView?
+    private var imageView: SLWKWebView? //UIImageView?
+    private var snapshotImageView: SLImageView?
+    private var snapShotView: SLImageView?
     private var voiceOverIsOn: Bool = UIAccessibility.isVoiceOverRunning
     private var audioLevel: Float = 0.0
     
@@ -41,8 +41,8 @@ internal final class LiveStreamViewController: UIViewController {
     
     private weak var popoverController: UIPopoverPresentationController?
     
-    private lazy var inAppPipView: UIView = {
-        let view = UIView()
+    private lazy var inAppPipView: SLView = {
+        let view = SLView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
         view.isHidden = true
@@ -62,16 +62,16 @@ internal final class LiveStreamViewController: UIViewController {
         layer0.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
         return layer0
     }()
-    private lazy var pipDim: UILabel = {
-        let view = UILabel()
+    private lazy var pipDim: SLLabel = {
+        let view = SLLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.addSublayer(pipDimLayer)
         view.layer.cornerRadius = 10
         return view
     }()
     
-    private lazy var closeButton: UIButton = {
-        let view = UIButton()
+    private lazy var closeButton: SLButton = {
+        let view = SLButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         let bundle = Bundle(for: type(of: self))
         let closebuttonImage = UIImage(named: "closebutton", in: bundle, compatibleWith: nil)
@@ -80,8 +80,8 @@ internal final class LiveStreamViewController: UIViewController {
         return view
     }()
     
-    private lazy var indicatorView: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView()
+    private lazy var indicatorView: SLActivityIndicatorView = {
+        let activityIndicator = SLActivityIndicatorView()
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
         activityIndicator.center = self.view.center
@@ -585,7 +585,7 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     private func setupSnapshotView() {
-        let snapImageView = UIImageView()
+        let snapImageView = SLImageView()
         snapImageView.isHidden = false // true
         snapImageView.contentMode = .scaleAspectFill
         playerView.addSubview(snapImageView)
@@ -762,7 +762,7 @@ internal final class LiveStreamViewController: UIViewController {
     }
     
     private func setupBackgroundImageView() {
-        let imageView = WKWebView()
+        let imageView = SLWKWebView()
         imageView.isOpaque = false
         imageView.backgroundColor = .clear
         imageView.scrollView.backgroundColor = .clear
@@ -796,7 +796,7 @@ internal final class LiveStreamViewController: UIViewController {
             topConstraint, leftConstraint, rightConstraint, bottomConstraint, centerXConstraint, centerYConstraint
         ])
         
-        let snapBackgroundImageView = UIImageView()
+        let snapBackgroundImageView = SLImageView()
         snapBackgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         snapBackgroundImageView.backgroundColor = .clear
         imageView.addSubview(snapBackgroundImageView)
@@ -922,8 +922,8 @@ internal final class LiveStreamViewController: UIViewController {
         return chatView
     }()
 
-    private lazy var chatInputBG: UIView = {
-            let chatBG = UIView()
+    private lazy var chatInputBG: SLView = {
+            let chatBG = SLView()
             chatBG.translatesAutoresizingMaskIntoConstraints = false
             chatBG.backgroundColor = .white
             chatBG.isHidden = true
@@ -1394,14 +1394,14 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         guard let originUrl = urlString as? NSString, let decodeUrl = originUrl.trimmingCharacters(in: .whitespacesAndNewlines).removingPercentEncoding, let shareUrl = URL(string: decodeUrl) else { return }
 
         let shareAll:[Any] = [shareUrl]
-        let activityViewController = UIActivityViewController(activityItems: shareAll , applicationActivities: nil)
+        let activityViewController = SLActivityViewController(activityItems: shareAll , applicationActivities: nil)
         popoverController = activityViewController.popoverPresentationController
         popoverController?.sourceView = self.view
         if UIDevice.isIpad {
             popoverController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
             popoverController?.permittedArrowDirections = []
         }
-        
+       
         self.present(activityViewController, animated: true, completion: nil)
     }
 
@@ -1551,7 +1551,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
     
     func awakePlayer() {
-        let vc = UIViewController()
+        let vc = SLViewController()
         vc.view.backgroundColor = .clear
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .overCurrentContext
@@ -1576,7 +1576,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
 
 extension LiveStreamViewController: WKUIDelegate {
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
+        let alertController = SLAlertController(myTitle: nil, myMessage: message, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             completionHandler()
         }))
@@ -1595,7 +1595,7 @@ extension LiveStreamViewController: WKUIDelegate {
     }
 
     func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
+        let alertController = SLAlertController(myTitle: nil, myMessage: message, preferredStyle: .actionSheet)
 
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             completionHandler(true)
@@ -1619,7 +1619,7 @@ extension LiveStreamViewController: WKUIDelegate {
     }
 
     func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
-        let alertController = UIAlertController(title: nil, message: prompt, preferredStyle: .actionSheet)
+        let alertController = SLAlertController(myTitle: nil, myMessage: prompt, preferredStyle: .actionSheet)
 
         alertController.addTextField { (textField) in
             textField.text = defaultText

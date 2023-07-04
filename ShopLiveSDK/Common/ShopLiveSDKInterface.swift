@@ -222,7 +222,7 @@ import UIKit
     @objc optional func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any])
 }
 
-public typealias ShopLiveViewController = UIViewController
+public typealias ShopLiveViewController = SLViewController
 
 @objc protocol ShopLiveSDKInterface: AnyObject {
     @objc static var sdkVersion: String { get }

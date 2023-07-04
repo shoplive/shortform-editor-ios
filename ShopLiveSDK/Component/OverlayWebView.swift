@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-internal class OverlayWebView: UIView {
+internal class OverlayWebView: SLView {
     @objc dynamic var isPipMode: Bool = false
     
     private var isSystemInitialized: Bool = false
@@ -74,8 +74,8 @@ internal class OverlayWebView: UIView {
         self.webView?.isHidden = toHidden
     }
     
-    private lazy var blockTouchView: UIView = {
-        let view = UIView()
+    private lazy var blockTouchView: SLView = {
+        let view = SLView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isHidden = true
         return view

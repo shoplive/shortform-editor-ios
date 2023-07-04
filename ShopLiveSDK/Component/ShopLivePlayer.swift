@@ -9,13 +9,13 @@ import AVKit
 
 final class ShopLivePlayer: AVPlayer {
 
-    var superview: UIView?
+    var superview: SLView?
 
     override init() {
         super.init()
     }
 
-    init(superview: UIView) {
+    init(superview: SLView) {
         super.init()
         self.superview = superview
     }

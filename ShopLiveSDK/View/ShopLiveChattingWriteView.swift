@@ -13,7 +13,7 @@ protocol ShopLiveChattingWriteDelegate: AnyObject {
     func updateHeight()
 }
 
-final class ShopLiveChattingWriteView: UIView {
+final class ShopLiveChattingWriteView: SLView {
 
     static let minimumHeightChatView: CGFloat = 44
     static let maximumHeightChatView: CGFloat = 62
@@ -40,8 +40,8 @@ final class ShopLiveChattingWriteView: UIView {
         }
     }
     
-    private lazy var chatInputViewTopBorder: UIView = {
-        let border = UIView()
+    private lazy var chatInputViewTopBorder: SLView = {
+        let border = SLView()
         border.backgroundColor = UIColor(red: 0.886, green: 0.886, blue: 0.886, alpha: 1)
         border.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 1)
         border.isHidden = true
@@ -56,8 +56,8 @@ final class ShopLiveChattingWriteView: UIView {
         return view
     }()
     
-    private var topShadow: UIView = {
-        var view = UIView()
+    private var topShadow: SLView = {
+        var view = SLView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         let layer0 = CAGradientLayer()
@@ -78,8 +78,8 @@ final class ShopLiveChattingWriteView: UIView {
         return view
     }()
     
-    private lazy var sendButton: UIButton = {
-        let send = UIButton()
+    private lazy var sendButton: SLButton = {
+        let send = SLButton()
         send.translatesAutoresizingMaskIntoConstraints = false
         send.layer.masksToBounds = true
         send.backgroundColor = .clear
@@ -255,13 +255,12 @@ final class ShopLiveChattingWriteView: UIView {
 extension ShopLiveChattingWriteView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView){
         if #available(iOS 13, *) {
-            let verSubView: UIView = scrollView.subviews[(scrollView.subviews.count - 1)]
-            if let verticalIndicator = verSubView.subviews.first {
+            if let subviews = scrollView.subviews as? [SLView],
+               let verticalIndicator = subviews[(scrollView.subviews.count - 1)].subviews.first {
                 verticalIndicator.backgroundColor = viewModel.indicatorColor
             }
-
         } else {
-            if let verticalIndicator: UIImageView = (scrollView.subviews[(scrollView.subviews.count - 1)] as? UIImageView) {
+            if let verticalIndicator: SLImageView = (scrollView.subviews[(scrollView.subviews.count - 1)] as? SLImageView) {
                 verticalIndicator.backgroundColor = viewModel.indicatorColor
             }
         }
