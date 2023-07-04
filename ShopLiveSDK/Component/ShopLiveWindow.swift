@@ -35,18 +35,27 @@ class ShopliveWindow: SLWindow {
     }
     
     
+    private var blackLists : Set<UIView> = []
     
-   
     override func addSubview(_ view: UIView) {
+        
+        //최초 preview 혹은 play시 liveStreamViewController 넣기 위해서
         if self.subviews.count == 0 && String(describing: view).contains("UITransitionView") {
             super.addSubview(view)
             return
         }
+        //stopPictureInPicture 함수 불리면서 blockAddSubView 타이머 돌림
+        // 이변수 true인 동안에 ShopLiveViewComponent가 아닌것이 들어오면 blackList처리
         if self.blockAddSubView == true {
             self.detectIfShopLiveViewisBeingAdded(view: view)
             return
         }
+        //pip상태의 경우 모든 뷰 전부 블락킹
         if self.frame.size != UIScreen.main.bounds.size {
+            return
+        }
+        //블랙리스트 뷰는 ShopLiveWindow 초기화 될때까지 모두 블락킹
+        if blackLists.contains(where: { $0 === view }) {
             return
         }
         super.addSubview(view)
@@ -67,6 +76,10 @@ class ShopliveWindow: SLWindow {
             if subViews.map({ $0.tag }).contains(where: { $0 == shopLiveViewTag }) {
                 self.blockAddSubView = false
                 self.forceAddSubView(view)
+                return
+            }
+            else {
+                self.blackLists.insert(view)
             }
         }
     }

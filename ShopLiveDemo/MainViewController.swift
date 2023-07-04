@@ -282,6 +282,29 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.setEnabledPipSwipeOut(config.pipEnableSwipeOut)
     }
 
+    // 하나 은행 프레임 워크 재현을 위한 더미 뷰
+    var dummyView : UIView = {
+        let view = UIView()
+        view.frame = UIScreen.main.bounds
+        view.backgroundColor = .yellow
+        view.alpha = 0.1
+        return view
+    }()
+    var hanaBankTimer : Double = 0
+    
+    private func regenerateHanaBankFrameworkIssue(){
+        hanaBankTimer = 0
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer  in
+            let keywindow = UIApplication.shared.keyWindow
+            keywindow?.addSubview(self.dummyView)
+            keywindow?.bringSubviewToFront(self.dummyView)
+            
+            self.hanaBankTimer += 0.5
+            if self.hanaBankTimer > 10 {
+                timer.invalidate()
+            }
+        }
+    }
     override func preview() {
         guard let currentKey = getCurrentKeySet() else {
             DispatchQueue.main.async {
@@ -300,6 +323,7 @@ class MainViewController: SideMenuBaseViewController {
         }
         
     }
+    
     override func play() {
         guard let currentKey = getCurrentKeySet() else {
             DispatchQueue.main.async {
@@ -311,6 +335,10 @@ class MainViewController: SideMenuBaseViewController {
         setupShopliveSettings()
         ShopLive.configure(with: currentKey.accessKey)
         ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//            self.regenerateHanaBankFrameworkIssue()
+//        }
     }
 
 }

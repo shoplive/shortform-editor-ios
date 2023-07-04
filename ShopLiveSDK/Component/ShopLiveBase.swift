@@ -626,8 +626,8 @@ import WebKit
         if self.needExecuteFullScreen {
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true)
             ShopLiveController.webInstance?.isHidden = false
+            shopLiveWindow.startBlockAddSubViewTimer()
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
-                shopLiveWindow.startBlockAddSubViewTimer()
                 self.liveStreamViewController?.updateVideoConstraint()
                 shopLiveWindow.frame = mainWindow.bounds
                 shopLiveWindow.layer.cornerRadius = 0
@@ -645,9 +645,9 @@ import WebKit
                     }
                 }
         } else {
+            shopLiveWindow.startBlockAddSubViewTimer()
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true)
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
-                shopLiveWindow.startBlockAddSubViewTimer()
                 self.liveStreamViewController?.updateVideoConstraint()
                 shopLiveWindow.frame = mainWindow.bounds
                 shopLiveWindow.layer.cornerRadius = 0
@@ -687,8 +687,6 @@ import WebKit
             } else {
                 self.delegate?.handleCommand("willShopLiveOff", with: nil)
             }
-            
-    //        self.liveStreamViewController?.hideBackgroundPoster()
             
             ShopLiveController.webInstance?.isHidden = true
             
