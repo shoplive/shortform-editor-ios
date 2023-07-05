@@ -1,7 +1,7 @@
 #/bin/bash
 
-WORKING_DIR="/Users/vincent/repo/matrix-sdk-ios"
-DIST_DIR="/Users/vincent/repo/ios-sdk/"
+WORKING_DIR=$(pwd)
+DIST_DIR=$(pwd)
 DIST_SDK_DIR="Frameworks/"
 SDK_FILENAME="ShopLiveSDK.xcframework"
 POD_FILENAME="ShopLive.podspec"
@@ -22,4 +22,3 @@ rm -rf "${DIST_DIR}${DIST_SDK_DIR}"
 mkdir "${DIST_DIR}${DIST_SDK_DIR}"
 cp -rf "${WORKING_DIR}/build/${SDK_FILENAME}" "${DIST_DIR}${DIST_SDK_DIR}${SDK_FILENAME}"
 
-open -a "Visual Studio Code" "${DIST_DIR}${POD_FILENAME}"

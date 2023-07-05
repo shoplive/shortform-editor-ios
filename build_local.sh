@@ -1,7 +1,7 @@
 #/bin/bash
 
-WORKING_DIR="/Users/vincent/repo/matrix-sdk-ios"
-DIST_DIR="/Users/vincent/repo/matrix-sdk-ios/"
+WORKING_DIR=$(pwd)
+DIST_DIR=$(pwd)
 DIST_SDK_DIR="Frameworks/"
 SDK_FILENAME="ShopLiveSDK.xcframework"
 

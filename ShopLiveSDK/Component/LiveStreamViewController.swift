@@ -1246,11 +1246,11 @@ internal final class LiveStreamViewController: SLViewController {
     func changeVideoGravity(centerCrop: Bool) {
         if let playerFrame = UIScreen.isLandscape ? ( ShopLiveController.shared.videoExpanded ? ShopLiveController.shared.videoFrame.landscape.expanded : ShopLiveController.shared.videoFrame.landscape.standard) : ShopLiveController.shared.videoFrame.portrait {
             self.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: false)
-            
+
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) { [weak self] in
                 self?.updateVideoConstraint()
             } completion: { _ in
-                
+
             }
 
         }
@@ -1305,21 +1305,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         delegate?.log(name: name, feature: feature, campaign: campaign, parameter: parameter)
     }
     
-    func updateVideoExpanded() {
-        guard UIScreen.isLandscape, ShopLiveController.shared.videoOrientation == .landscape else { return }
-        
-        if ShopLiveController.shared.inRotating {
-            self.updateVideoFrame(immeadiately: true)
-        } else {
-            self.updateVideoFrame(immeadiately: false)
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) { [weak self] in
-                self?.updateVideoConstraint()
-            } completion: { _ in
-            }
-        }
-        
-        self.delegate?.resetPictureInPicture()
-    }
     
     func updateOrientation(toLandscape: Bool) {
         self.changeOrientation(toLandscape: toLandscape)

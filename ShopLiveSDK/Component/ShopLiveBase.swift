@@ -492,7 +492,7 @@ import WebKit
             self.liveStreamViewController?.showSnapshotBackground()
             self.liveStreamViewController?.updateVideoFit(centerCrop: true, immediately: false)
             self.liveStreamViewController?.updateVideoConstraint()
-            
+            self.shopLiveWindow?.layer.removeAllAnimations()
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
                 shopLiveWindow.frame = pipPosition
                 shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
@@ -567,6 +567,7 @@ import WebKit
             self.shopLiveWindow?.layer.masksToBounds = true
             self.liveStreamViewController?.view.layer.masksToBounds = true
             self.liveStreamViewController?.setCloseButtonVisible(false)
+            self.shopLiveWindow?.layer.removeAllAnimations()
             UIView.animate(withDuration: animationDuration, delay: 0, options: [.allowUserInteraction, .curveEaseInOut]) {
                 self.liveStreamViewController?.updateVideoConstraint()
                 shopLiveWindow.frame = mainWindow.bounds
@@ -627,6 +628,7 @@ import WebKit
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true)
             ShopLiveController.webInstance?.isHidden = false
             shopLiveWindow.startBlockAddSubViewTimer()
+            shopLiveWindow.layer.removeAllAnimations()
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
                 self.liveStreamViewController?.updateVideoConstraint()
                 shopLiveWindow.frame = mainWindow.bounds
@@ -647,6 +649,7 @@ import WebKit
         } else {
             shopLiveWindow.startBlockAddSubViewTimer()
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true)
+            shopLiveWindow.layer.removeAllAnimations()
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
                 self.liveStreamViewController?.updateVideoConstraint()
                 shopLiveWindow.frame = mainWindow.bounds
@@ -697,10 +700,11 @@ import WebKit
             self.shopLiveWindow?.layer.masksToBounds = true
             self.liveStreamViewController?.view.layer.masksToBounds = true
             self.liveStreamViewController?.setCloseDimLayerVisible(false)
+            self.shopLiveWindow?.layer.removeAllAnimations()
             UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
-                
                 self.liveStreamViewController?.updateVideoConstraint()
             } completion: { _ in
+                self.shopLiveWindow?.layer.removeAllAnimations()
                 UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
                     self.shopLiveWindow?.frame = pipSize
                     self.shopLiveWindow?.layoutIfNeeded()
@@ -801,6 +805,7 @@ import WebKit
             
             if !self.needAnimateToChangePreivew {
                 self.liveStreamViewController?.updateVideoFit(centerCrop: true, immediately: false)
+                self.shopLiveWindow?.layer.removeAllAnimations()
                 UIView.animate(withDuration: 0, delay: 0, options: .transitionCrossDissolve) {
                     self.liveStreamViewController?.updateVideoConstraint()
                     self.shopLiveWindow?.layer.shadowColor = UIColor.black.cgColor
@@ -826,6 +831,7 @@ import WebKit
                 }
             } else {
                 self.liveStreamViewController?.updateVideoFit(centerCrop: true, imageUpdate: false)
+                self.shopLiveWindow?.layer.removeAllAnimations()
                 UIView.animate(withDuration: 0.4, delay: 0, options: []) {
                     self.liveStreamViewController?.updateVideoConstraint()
                     self.shopLiveWindow?.frame = pipSize
@@ -1328,7 +1334,7 @@ import WebKit
         }
 
         let pipPosition: CGRect = self.pipPosition(with: self.pipScale, position: self.pipPosition)
-
+        
         UIView.animate(withDuration: 0.3, delay: 0, options: []) {
             shopLiveWindow.frame = pipPosition
             shopLiveWindow.setNeedsLayout()
@@ -1925,10 +1931,11 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
             self.liveStreamViewController?.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
             
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
-            
+            self.shopLiveWindow?.layer.removeAllAnimations()
             UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
                 
-            } completion: { _ in
+            } completion: { [weak self] _ in
+                self?.shopLiveWindow?.layer.removeAllAnimations()
                 UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) { [weak self] in
                     self?.liveStreamViewController?.updateVideoConstraint()
                     self?.shopLiveWindow?.layoutIfNeeded()
@@ -1940,9 +1947,11 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     
     func finishRotation() {
         self.inRotating = false
+        self.shopLiveWindow?.layer.removeAllAnimations()
         UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve) { [weak self] in
             self?.liveStreamViewController?.showBackgroundPoster()
-        } completion: { _ in
+        } completion: { [weak self] _ in
+            self?.shopLiveWindow?.layer.removeAllAnimations()
             UIView.animate(withDuration: 0.3, delay: 0.25, options: .transitionCrossDissolve) {
                 ShopLiveController.shared.webInstance?.alpha = 1
             } completion: { [weak self] _ in
