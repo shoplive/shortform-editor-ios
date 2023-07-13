@@ -152,6 +152,10 @@ internal class OverlayWebView: SLView {
         }
     }
     
+    func reload(with url : URL){
+        webView?.load(URLRequest(url: url))
+    }
+    
     func reload() {
         webView?.reload()
     }
@@ -265,6 +269,7 @@ extension OverlayWebView: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         ShopLiveController.shared.loading = false
+        delegate?.webViewDidFinishedLoading()
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
@@ -272,7 +277,12 @@ extension OverlayWebView: WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        ShopLiveController.loading = false
+        if NetworkReachability().connectionStatus() == .Offline {
+            delegate?.didFailToLoadWebViewWithNetworkUnreachable()
+        }
+        else {
+            ShopLiveController.loading = false
+        }
     }
     
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {

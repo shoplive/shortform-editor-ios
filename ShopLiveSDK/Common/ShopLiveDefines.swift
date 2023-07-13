@@ -110,6 +110,9 @@ protocol OverlayWebViewDelegate: AnyObject {
     @available(*, deprecated, message: "use log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) instead")
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String])
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any])
+    func didFailToLoadWebViewWithNetworkUnreachable()
+    func webViewDidFinishedLoading()
+
 }
 
 extension Notification.Name {

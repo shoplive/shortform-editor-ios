@@ -26,6 +26,11 @@
 		2F7A6DFD2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
 		2F7A6DFE2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
 		2FD062B32A03804B004841D2 /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
+		2FD769202A5F86D30092C73F /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD7691F2A5F86D30092C73F /* NetworkReachability.swift */; };
+		2FD769212A5F86D30092C73F /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD7691F2A5F86D30092C73F /* NetworkReachability.swift */; };
+		2FD769222A5F86D30092C73F /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD7691F2A5F86D30092C73F /* NetworkReachability.swift */; };
+		2FD769232A5F86D30092C73F /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD7691F2A5F86D30092C73F /* NetworkReachability.swift */; };
+		2FD769242A5F86D30092C73F /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD7691F2A5F86D30092C73F /* NetworkReachability.swift */; };
 		2FE099222A3C47C500D077F6 /* ShopLiveThrottle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */; };
 		BF1B57BA276983600002EBB5 /* CustomBaseAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */; };
 		BF1B57BC2769844F0002EBB5 /* CampaignInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */; };
@@ -487,6 +492,7 @@
 		2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveWindow.swift; sourceTree = "<group>"; };
 		2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveViewComponents.swift; sourceTree = "<group>"; };
 		2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchOptionCell.swift; sourceTree = "<group>"; };
+		2FD7691F2A5F86D30092C73F /* NetworkReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
 		2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveThrottle.swift; sourceTree = "<group>"; };
 		BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBaseAlertController.swift; sourceTree = "<group>"; };
 		BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignInputAlertController.swift; sourceTree = "<group>"; };
@@ -781,9 +787,18 @@
 			path = ShopLiveViewComponents;
 			sourceTree = "<group>";
 		};
+		2FD7691E2A5F86D30092C73F /* NetworkReachability */ = {
+			isa = PBXGroup;
+			children = (
+				2FD7691F2A5F86D30092C73F /* NetworkReachability.swift */,
+			);
+			path = NetworkReachability;
+			sourceTree = "<group>";
+		};
 		BF37D98227F5742D004C2785 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				2FD7691E2A5F86D30092C73F /* NetworkReachability */,
 				BF37D98327F5742D004C2785 /* LiveStreamViewController.swift */,
 				BF37D98427F5742D004C2785 /* ShopLiveBase.swift */,
 				BF37D98527F5742D004C2785 /* ShopLiveController.swift */,
@@ -1515,6 +1530,7 @@
 				BF37D9AE27F5742D004C2785 /* LiveStreamViewModel.swift in Sources */,
 				BF37D9C927F5742D004C2785 /* ShopLiveChatView.swift in Sources */,
 				BF37D9BA27F5742D004C2785 /* ShopLivePlayer.swift in Sources */,
+				2FD769202A5F86D30092C73F /* NetworkReachability.swift in Sources */,
 				BF37D9CC27F5742D004C2785 /* ShopLiveChattingWriteView.swift in Sources */,
 				BF37D9D227F5742D004C2785 /* SoundManager.swift in Sources */,
 			);
@@ -1563,6 +1579,7 @@
 				BF34F2F028125F8600114DBF /* LiveStreamViewModel.swift in Sources */,
 				BF34F2F128125F8600114DBF /* ShopLiveChatView.swift in Sources */,
 				BF34F2F228125F8600114DBF /* ShopLivePlayer.swift in Sources */,
+				2FD769212A5F86D30092C73F /* NetworkReachability.swift in Sources */,
 				BF34F2F328125F8600114DBF /* ShopLiveChattingWriteView.swift in Sources */,
 				BF34F2F428125F8600114DBF /* SoundManager.swift in Sources */,
 			);
@@ -1603,6 +1620,7 @@
 				BF5111FE2824464A00E36175 /* LiveStreamViewModel.swift in Sources */,
 				BF5111FF2824464A00E36175 /* ShopLiveChatView.swift in Sources */,
 				BF5112002824464A00E36175 /* ShopLivePlayer.swift in Sources */,
+				2FD769222A5F86D30092C73F /* NetworkReachability.swift in Sources */,
 				BF5112012824464A00E36175 /* ShopLiveChattingWriteView.swift in Sources */,
 				BF5112022824464A00E36175 /* SoundManager.swift in Sources */,
 			);
@@ -1774,6 +1792,7 @@
 				BF263098288DDA980071C8BE /* BaseTextField.swift in Sources */,
 				BF43A29229E3B6350062143C /* SettingCustomParameterViewController.swift in Sources */,
 				BF60E23C2771CECA0060531C /* JWTTool.swift in Sources */,
+				2FD769242A5F86D30092C73F /* NetworkReachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1873,6 +1892,7 @@
 				BF263097288DDA980071C8BE /* BaseTextField.swift in Sources */,
 				BF43A29129E3B6350062143C /* SettingCustomParameterViewController.swift in Sources */,
 				BF60E1CB276E4BC60060531C /* JWTTool.swift in Sources */,
+				2FD769232A5F86D30092C73F /* NetworkReachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -30,6 +30,7 @@ internal final class LiveStreamViewController: SLViewController {
     private var snapShotView: SLImageView?
     private var voiceOverIsOn: Bool = UIAccessibility.isVoiceOverRunning
     private var audioLevel: Float = 0.0
+    private var isTryingToRecoverFromNetworkDisconnected : Bool = false
     
     var isSnapshotHidden: Bool {
         guard let snapShotView = self.snapShotView else {
@@ -1557,6 +1558,17 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
 
         ShopLiveController.webInstance?.sendEventToWeb(event: .sendCommandMessage, message.toJson() ?? "", false)
     }
+    
+    func didFailToLoadWebViewWithNetworkUnreachable() {
+        self.retryOnNetworkDisconnected()
+    }
+    
+    func webViewDidFinishedLoading() {
+        if self.isTryingToRecoverFromNetworkDisconnected {
+            self.resetRetry()
+            self.isTryingToRecoverFromNetworkDisconnected = false
+        }
+    }
 }
 
 extension LiveStreamViewController: WKUIDelegate {
@@ -1775,12 +1787,13 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             if let reason = ShopLiveController.player?.reasonForWaitingToPlay {
                 switch reason {
                 case .toMinimizeStalls:
-                    if !inBuffering {
-                        ShopLiveController.shared.takeSnapShot = true
-                        if !ShopLiveController.loading,
-                            ShopLiveController.shared.campaignStatus != .close {
-                            reserveRetry(waitSecond: 8)
-                        }
+                    if inBuffering { return }
+                    ShopLiveController.shared.takeSnapShot = true
+                    if !ShopLiveController.loading && ShopLiveController.shared.campaignStatus != .close {
+                        reserveRetry(waitSecond: 8)
+                    }
+                    else if NetworkReachability().connectionStatus() == .Offline {
+                        self.retryOnNetworkDisconnected()
                     }
                     break
                 case .evaluatingBufferingRate:
@@ -1802,6 +1815,27 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         }
     }
 
+    private func retryOnNetworkDisconnected() {
+        self.isTryingToRecoverFromNetworkDisconnected = true
+        resetRetry()
+        retryTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { [weak self] timer in
+            ShopLiveController.loading = true
+            ShopLiveLogger.debugLog("[HASSAN LOG] retrying OnNetworkDisconnected")
+            guard let overlayUrl = self?.viewModel.overayUrl,
+                  let player = ShopLiveController.player else { return }
+            if player.timeControlStatus != .playing {
+                self?.overlayView?.reload(with: overlayUrl)
+            }
+            else if player.timeControlStatus == .playing {
+                self?.inBuffering = false
+                timer.invalidate()
+                self?.retryTimer = nil
+                ShopLiveController.loading = false
+            }
+        })
+    }
+    
+    
     func reserveRetry(waitSecond: Int = 5) {
         self.requireRetryCheck = true
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(waitSecond)) {
