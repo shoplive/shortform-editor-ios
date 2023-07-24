@@ -374,16 +374,12 @@ extension OverlayWebView: WKScriptMessageHandler {
                     break
                 case "PLAY_SOUND":
                     if let alias = parameters?["alias"] as? String {
-//                        DispatchQueue.global(qos: .background).async {
-                            SoundManager.shared.play(alias: alias)
-//                        }
+                        SoundManager.shared.play(alias: alias)
                     }
                     break
                 case "STOP_SOUND":
                     if let alias = parameters?["alias"] as? String {
-//                        DispatchQueue.global(qos: .background).async {
-                            SoundManager.shared.stop(alias: alias)
-//                        }
+                        SoundManager.shared.stop(alias: alias)
                     }
                     break
                 case "OPEN_DEEPLINK":

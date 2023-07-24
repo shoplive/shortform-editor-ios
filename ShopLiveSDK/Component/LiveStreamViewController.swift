@@ -1820,7 +1820,6 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         resetRetry()
         retryTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { [weak self] timer in
             ShopLiveController.loading = true
-            ShopLiveLogger.debugLog("[HASSAN LOG] retrying OnNetworkDisconnected")
             guard let overlayUrl = self?.viewModel.overayUrl,
                   let player = ShopLiveController.player else { return }
             if player.timeControlStatus != .playing {

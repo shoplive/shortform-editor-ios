@@ -10,70 +10,41 @@ import AVFAudio
 
 class SoundManager: NSObject {
     
-    static var shared: SoundManager = {
-        return SoundManager()
-    }()
+    static let shared: SoundManager = SoundManager()
     
     private var players: [SoundPlayer] = []
     private var items: [SoundItem] = []
     
-    func play(item: SoundItem) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            if let playItem = self.items.filter({ $0.alias == item.alias }).first {
-                if let player = SoundPlayer(item: playItem) {
-                    player.player?.delegate = self
-                    self.players.append(player)
-                    player.play()
-                }
-            }
-        }
-    }
     
-    func play(alias: String) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            guard !ShopLiveController.shared.isMuted else { return }
-            guard let item = self.items.filter({ $0.alias == alias}).first else { return }
-            self.play(item: item)
+    func play(alias : String) {
+        if let playItem = self.items.filter({ $0.alias == alias }).first {
+            if let player = self.players.filter({ $0.item.alias == playItem.alias }).first {
+                player.play()
+            }
         }
     }
     
     func stop(alias: String) {
-        DispatchQueue.main.async {
-            let filteredPlayer = self.players.filter({ $0.item.alias == alias })
-            
-            filteredPlayer.forEach { player in
-                if let playerIndex = self.players.firstIndex(where: { $0.player == player.player }) {
-                    player.player?.stop()
-                    self.players.remove(at: playerIndex)
-                }
-            }
+        if let first = players.filter({ $0.item.alias == alias }).first {
+            first.stop()
         }
     }
     
     func addItems(newItems: [SoundItem]) {
-        DispatchQueue.main.async {
-            newItems.forEach { item in
-                if !self.items.contains(where: { $0.url == item.url }) {
-                    self.items.append(item)
-                    // preload
-                        if let player = SoundPlayer(item: item) {
-                            self.players.append(player)
-                        }
-                }
+        newItems.forEach { item in
+            if !self.items.contains(where: { $0.url == item.url }) {
+                self.items.append(item)
+                self.players.append(SoundPlayer(item: item))
             }
         }
     }
     
     func removeAllSounds() {
-        DispatchQueue.main.async {
-            self.players.forEach { player in
-                player.stop()
-            }
-            
-            self.players.removeAll()
+        self.players.forEach { player in
+            player.stop()
         }
+        
+        self.players.removeAll()
     }
     
     override init() {
@@ -82,45 +53,69 @@ class SoundManager: NSObject {
     
 }
 
-extension SoundManager: AVAudioPlayerDelegate {
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            if let playerIndex = self.players.firstIndex(where: { $0.player == player }) {
-                self.players.remove(at: playerIndex)
-            }
-            ShopLiveLogger.debugLog("didFinishPlaying current players count \(self.players.count)")
-        }
-    }
-}
-
-struct SoundItem {
+class SoundItem {
     var alias: String
     var url: String
+    private var localUrl : URL?
+    
     
     init(alias: String, url: String) {
         self.alias = alias
         self.url = url
+        
+        guard let requestUrl = URL(string: url) else { return }
+        self.checkIfDownloaded(audioUrl: requestUrl)
     }
     
-    func download(completion: @escaping ((URL?) -> Void)) {
-        guard let url = self.playUrl else { return }
-        
-        DispatchQueue.global(qos: .background).async { 
-            let downloadTask: URLSessionDownloadTask = URLSession.shared.downloadTask(with: .init(url: url)) { url, response, error in
-                completion(url)
+    func downloadSoundItem(requestUrl : URL, destination : URL) {
+        let task = URLSession.shared.downloadTask(with: requestUrl) {  [weak self] localUrl, response , error in
+            guard let self = self else { return }
+            guard let localUrl = localUrl else { return }
+            self.localUrl = destination
+            do {
+                try FileManager.default.moveItem(at: localUrl, to: destination)
             }
-            downloadTask.resume()
+            catch(let error) {
+                ShopLiveLogger.debugLog("soundItem file directory couldn't be moved \(error)")
+            }
+        }
+        task.resume()
+    }
+    
+    
+    private func checkIfDownloaded(audioUrl : URL) {
+        DispatchQueue.global(qos: .background).async {
+            let documentsUrl = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            let destination = documentsUrl.appendingPathComponent(audioUrl.lastPathComponent)
+            
+            if FileManager.default.fileExists(atPath: destination.path) {
+                self.localUrl = destination
+            }
+            else {
+                self.downloadSoundItem(requestUrl: audioUrl, destination: destination)
+            }
         }
     }
     
-    private var playUrl: URL? {
-        URL(string: self.url)
-    }
 }
 
 extension SoundItem {
     
+    var playItem: Data? {
+        var item: Data? = nil
+        
+        guard let localUrl = self.localUrl else { return nil }
+        
+        do {
+            item = try Data(contentsOf: localUrl)
+        }
+        catch (let error) {
+            ShopLiveLogger.debugLog("soundItem failed to read from directory \(error)")
+            return nil
+        }
+        
+        return item
+    }
 }
 
 class SoundPlayer {
@@ -128,31 +123,26 @@ class SoundPlayer {
     private(set) var player: AVAudioPlayer?
     var item: SoundItem
     
-    init?(item: SoundItem) {
+    init(item: SoundItem) {
         self.item = item
+        
     }
     
     func play() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.item.download { url in
-                guard let url = url else { return }
-                do {
-                    self.player = try AVAudioPlayer(contentsOf: url)
-                    self.player?.prepareToPlay()
-                    self.player?.play()
-                } catch {
-                    return
-                }
-            }
+        player = nil
+        guard let playeItem = self.item.playItem else { return }
+        do {
+            player = try AVAudioPlayer(data: playeItem)
         }
+        catch {
+            ShopLiveLogger.debugLog("SoundPlayer player set failed")
+        }
+        player?.play()
     }
     
+    
     func stop() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.player?.stop()
-        }
+        player?.stop()
     }
     
 }
