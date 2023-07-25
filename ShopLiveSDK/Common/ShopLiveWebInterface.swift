@@ -227,6 +227,7 @@ enum WebInterface {
 
 extension WebInterface {
     init?(message: WKScriptMessage) {
+        
         guard message.name == ShopLiveDefines.webInterface else { return nil }
         guard let body = message.body as? [String: Any] else { return nil }
         guard let command = body["action"] as? String else { return nil }

@@ -120,8 +120,14 @@ internal final class LiveStreamViewController: SLViewController {
     
     private var playTimeObserver: Any?
     
+    private var forceStatusBarLightContent : Bool = true
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        if self.forceStatusBarLightContent {
+            return .lightContent
+        }
+        else {
+            return .default
+        }
     }
 
     var playerLayer: AVPlayerLayer {
@@ -874,7 +880,6 @@ internal final class LiveStreamViewController: SLViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         let currentOrientation: ShopLiveDefines.ShopLiveOrientaion = UIScreen.isLandscape ? .landscape : .portrait
-        ShopLiveLogger.debugLog("viewWillTransition")
         if ShopLiveController.shared.supportOrientation == .landscape && !ShopLiveController.shared.willStartPip {
             self.updatePlayerFrame()
         }
@@ -1311,6 +1316,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         self.changeOrientation(toLandscape: toLandscape)
     }
     
+    //이거 안쓰는 것 같음, 사용처가 없음
     func updateOrientation(orientation: UIDeviceOrientation) {
         self.changeOrientation(orientation: orientation)
         
@@ -1926,5 +1932,16 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         default:
             break
         }
+    }
+}
+extension LiveStreamViewController {
+    func updateStatuBarStyleToLightContent(){
+        self.forceStatusBarLightContent = true
+        self.setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    func updateStatusBarToDefault(){
+        self.forceStatusBarLightContent = false
+        self.setNeedsStatusBarAppearanceUpdate()
     }
 }

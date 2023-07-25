@@ -110,7 +110,7 @@ import WebKit
     private var previewCallback: (() -> Void)?
     
     let debouncer = Debouncer(timeInterval: 0.6)
-    
+    static let parentStatusBarStyle = UIApplication.shared.statusBarStyle
     var liveStreamViewController: LiveStreamViewController?
     var osPictureInPictureController: SLPictureInPictureController?
     
@@ -262,6 +262,7 @@ import WebKit
         
         if ShopLiveController.shared.isPreview {
             _style = .pip
+            self.liveStreamViewController?.updateStatusBarToDefault()
             ShopLiveController.windowStyle = .inAppPip
         } else {
             mainWindow?.rootViewController?.shopliveHideKeyboard()
@@ -276,6 +277,7 @@ import WebKit
     }
     
     func hideShopLiveView(_ animated: Bool = true) {
+        self.liveStreamViewController?.updateStatusBarToDefault()
         ShopLiveController.shared.execusedClose = true
         UIApplication.shared.isIdleTimerDisabled = false
         
@@ -453,7 +455,8 @@ import WebKit
         
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.lastStyle.rawValue])
+            
+            
             if self.enabledPictureInPictureMode == false {
                 self.close()
                 return
@@ -462,7 +465,8 @@ import WebKit
             guard !ShopLiveController.shared.pipAnimating else { return }
             guard let shopLiveWindow = self.shopLiveWindow else { return }
             guard shopLiveWindow.frame.size != .zero else { return }
-            
+            self.liveStreamViewController?.updateStatusBarToDefault()
+            self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             self.mainWindow?.makeKey()
             
             shopLiveWindow.backgroundColor = .clear
@@ -518,7 +522,6 @@ import WebKit
                 self.delegate?.log?(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
                 self.delegate?.log?(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
                 self.sendCommandChangeToPip()
-                
                 self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             }
         }
@@ -593,6 +596,7 @@ import WebKit
     }
     
     private func stopCustomPictureInPicture() {
+        
         if osPictureInPictureController == nil {
             setupOsPictureInPicture()
         }
@@ -600,6 +604,8 @@ import WebKit
         guard !ShopLiveController.shared.pipAnimating else { return }
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
+        
+        self.liveStreamViewController?.updateStatuBarStyleToLightContent()
         
         shopLiveWindow.backgroundColor = .clear
         shopLiveWindow.layer.cornerRadius = 10
@@ -726,7 +732,6 @@ import WebKit
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.liveStreamViewController?.updateVideoFit(centerCrop: true)
-            
             self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             guard !ShopLiveController.shared.pipAnimating else { return }
             guard let shopLiveWindow = self.shopLiveWindow else { return }
@@ -783,7 +788,6 @@ import WebKit
             }
             
             ShopLiveController.windowStyle = .inAppPip
-
             self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             
             self.liveStreamViewController?.view.backgroundColor = .clear
@@ -823,7 +827,6 @@ import WebKit
                     self.liveStreamViewController?.view.layer.masksToBounds = true
                     self.shopLiveWindow?.backgroundColor = .clear
                     self.liveStreamViewController?.showBackgroundPoster()
-                    
                     self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
                     ShopLiveController.shared.videoExpanded = true
                     self.needAnimateToChangePreivew = false

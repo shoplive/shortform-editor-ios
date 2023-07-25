@@ -350,8 +350,6 @@ extension OverlayWebView: WKScriptMessageHandler {
                 
             } else {
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))"))
-//                ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))")
-                
                 switch name {
                 case "SHOW_NATIVE_DEBUG":
                     ShopLiveViewLogger.shared.setVisible(show: true)
@@ -506,7 +504,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             ShopLiveLogger.debugLog("close")
             self.delegate?.didTouchCloseButton()
         case .navigation(let navigationUrl):
-            ShopLiveLogger.debugLog("navigation")
+            ShopLiveLogger.debugLog("navigationUrl")
             self.delegate?.didTouchNavigation(with: navigationUrl)
         case .coupon(let id):
             ShopLiveLogger.debugLog("coupon")
