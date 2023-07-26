@@ -572,7 +572,7 @@ extension MainViewController: ShopLiveSDKDelegate {
 }
 
 extension MainViewController: LoginDelegate {
-    func loginSuccess() {
+    func loginSuccess(name : String?, pwd : String?) {
         
         guard let currentKey = getCurrentKeySet() else {
             DispatchQueue.main.async {
@@ -580,9 +580,14 @@ extension MainViewController: LoginDelegate {
             }
             return
         }
-        
-        let loginUser = ShopLiveUser(id: "shoplive", name: "loginUser", gender: .male, age: 20)
-        ShopLive.user = loginUser
+        if let name = name, let pwd = pwd {
+            let loginUser = ShopLiveUser(id: name, name: pwd, gender: .male, age: 20)
+            ShopLive.user = loginUser
+        }
+        else {
+            let loginUser = ShopLiveUser(id: "shoplive", name: "loginUser", gender: .male, age: 20)
+            ShopLive.user = loginUser
+        }
         
         ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)
     }

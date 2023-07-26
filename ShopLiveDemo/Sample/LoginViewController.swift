@@ -8,7 +8,7 @@
 import UIKit
 
 protocol LoginDelegate: AnyObject {
-    func loginSuccess()
+    func loginSuccess(name : String?, pwd : String?)
 }
 
 final class LoginViewController: UIViewController {
@@ -36,7 +36,7 @@ final class LoginViewController: UIViewController {
     private lazy var userIdField: UITextField = {
         let userId = LoginTextField(type: .id)
         userId.text = "shoplive"
-        userId.isUserInteractionEnabled = false
+        userId.isUserInteractionEnabled = true
         userId.translatesAutoresizingMaskIntoConstraints = false
         return userId
     }()
@@ -58,7 +58,7 @@ final class LoginViewController: UIViewController {
     private lazy var userPwdField: LoginTextField = {
         let userPwd = LoginTextField(type: .pwd)
         userPwd.text = "shoplive"
-        userPwd.isUserInteractionEnabled = false
+        userPwd.isUserInteractionEnabled = true
         userPwd.translatesAutoresizingMaskIntoConstraints = false
         return userPwd
     }()
@@ -124,7 +124,7 @@ final class LoginViewController: UIViewController {
     }
     
     @objc func loginAction() {
-        delegate?.loginSuccess()
+        delegate?.loginSuccess(name : userIdField.text, pwd : userPwdField.text)
         self.navigationController?.popViewController(animated: true)
     }
 
