@@ -2344,7 +2344,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
@@ -2354,7 +2354,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.4;
+				MARKETING_VERSION = 1.4.5;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo;
 				PRODUCT_NAME = "DEMO QA";
@@ -2376,7 +2376,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
@@ -2386,7 +2386,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.4;
+				MARKETING_VERSION = 1.4.5;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo;
 				PRODUCT_NAME = "DEMO QA";
