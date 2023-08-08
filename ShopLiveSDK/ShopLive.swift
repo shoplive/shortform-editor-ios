@@ -10,7 +10,7 @@ import AVKit
 import WebKit
 
 @objc internal protocol ShopLiveComponent: AnyObject {
-    @objc var playerWindow: UIWindow? { get }
+    @objc var playerWindow: ShopliveWindow? { get }
     @objc var fixedPipWidth: NSNumber? { get set }
     @objc var viewController: ShopLiveViewController? { get }
     @objc var style: ShopLive.PresentationStyle { get }
@@ -333,7 +333,7 @@ extension ShopLive: ShopLiveSDKInterface {
         ShopLiveController.shared.playerMode
     }
     
-    public static var playerWindow: UIWindow? {
+    public static var playerWindow: ShopliveWindow? {
         return shared.instance?.playerWindow
     }
     

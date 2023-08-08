@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class ShopliveWindow: SLWindow {
+public class ShopliveWindow: SLWindow {
     
     private var blockAddSubView : Bool = false
     private var timer : Timer?
@@ -37,7 +37,7 @@ class ShopliveWindow: SLWindow {
     
     private var blackLists : Set<UIView> = []
     
-    override func addSubview(_ view: UIView) {
+    public override func addSubview(_ view: UIView) {
         
         //최초 preview 혹은 play시 liveStreamViewController 넣기 위해서
         if self.subviews.count == 0 && String(describing: view).contains("UITransitionView") {
@@ -84,7 +84,7 @@ class ShopliveWindow: SLWindow {
         }
     }
     
-    private func forceAddSubView(_ view : UIView){
+    public func forceAddSubView(_ view : UIView){
         super.addSubview(view)
     }
     

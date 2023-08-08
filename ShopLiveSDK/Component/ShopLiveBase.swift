@@ -1496,7 +1496,7 @@ extension ShopLiveBase: ShopLiveComponent {
         #endif
     }
 
-    var playerWindow: UIWindow? {
+    var playerWindow: ShopliveWindow? {
         return self.shopLiveWindow
     }
     

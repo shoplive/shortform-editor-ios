@@ -226,7 +226,7 @@ public typealias ShopLiveViewController = SLViewController
 
 @objc protocol ShopLiveSDKInterface: AnyObject {
     @objc static var sdkVersion: String { get }
-    @objc static var playerWindow: UIWindow? { get }
+    @objc static var playerWindow: ShopliveWindow? { get }
     @objc static var fixedPipWidth: NSNumber? { get set }
     @objc static func mute()
     @objc static func unmute()
