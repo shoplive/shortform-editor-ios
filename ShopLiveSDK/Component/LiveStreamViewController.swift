@@ -155,7 +155,7 @@ internal final class LiveStreamViewController: SLViewController {
         playTimeObserver = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: nil) { (time) in
             let curTime = CMTimeGetSeconds(time)
 
-            ShopLiveController.shared.currentPlayTime = Int64(curTime)
+            ShopLiveController.shared.currentPlayTime = time
             ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoTimeUpdated, curTime)
         }
     }
@@ -1444,7 +1444,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     func didUpdateVideo(with url: URL) {
         ShopLiveController.streamUrl = url
         if ShopLiveController.isReplayMode, let time = ShopLiveController.shared.currentPlayTime {
-            ShopLiveController.player?.seek(to: .init(value: time, timescale: 1))
+            ShopLiveController.player?.seek(to: time)
         }
         showBackgroundPoster()
     }

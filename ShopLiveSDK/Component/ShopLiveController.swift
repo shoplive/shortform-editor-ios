@@ -127,11 +127,7 @@ final class ShopLiveController: NSObject {
         return _playerMode
     }
     
-    lazy var currentPlayTime: Int64? = nil {
-        didSet {
-            // ShopLiveLogger.debugLog("seek current play time didSet: \(currentPlayTime)")
-        }
-    }
+    var currentPlayTime: CMTime? = nil
     var shareScheme: String? = nil
     var needReload: Bool = false
     var needSeek: Bool = false
@@ -596,10 +592,10 @@ extension ShopLiveController {
     }
 
     static var isReplayFinished: Bool {
-        guard ShopLiveController.isReplayMode, let totalTime = ShopLiveController.duration?.value, let currentTime = shared.currentPlayTime else {
+        guard ShopLiveController.isReplayMode, var duration = ShopLiveController.duration, var currentTime = shared.currentPlayTime else {
             return false
         }
-
-        return (totalTime / 1000) <= currentTime
+        let roundedCurrentTime = Int64(round(Double(currentTime.value) / 1000000000))
+        return (duration.value / 1000) <= roundedCurrentTime
     }
 }
