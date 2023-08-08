@@ -538,6 +538,8 @@ import WebKit
                     self.liveStreamViewController?.updateVideoFrame(immeadiately: true, fitTopArea: false)
                 }
                 self.liveStreamViewController?.updateVideoConstraint()
+                self.delegate?.handleCommand("willShopLiveOn", with: nil)
+                self.delegate?.handleCommand("didShopLiveOn", with: self.lastStyle)
                 return
             }
             
