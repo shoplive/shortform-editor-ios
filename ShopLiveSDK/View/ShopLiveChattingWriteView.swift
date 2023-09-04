@@ -276,6 +276,7 @@ extension ShopLiveChattingWriteView: ShopLiveChatViewDelegate {
         chatHeight.constant = lines == 1 ? ShopLiveChattingWriteView.minimumHeightChatView : ShopLiveChattingWriteView.maximumHeightChatView
 
         topShadow.isHidden = lines < chatView.viewModel.chatInputMaxLines
+        delegate?.updateHeight()
         self.setNeedsLayout()
     }
 }
