@@ -22,6 +22,11 @@ internal final class LiveStreamViewModel: NSObject {
     private var playerItem: AVPlayerItem?
     private var perfMeasurements: PerfMeasurements?
     
+    private var liveKeepUpTimer : Any?
+    private var blockLiveKeeupTimer : Bool = false
+    private var liveKeepUpTimerBlockDuration : Double = 2.0
+    
+    
     deinit {
         teardownLiveStreamViewModel()
     }
@@ -81,6 +86,7 @@ internal final class LiveStreamViewModel: NSObject {
             NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase)
             NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .AVPlayerItemPlaybackStalled, object: self.playerItem)
             ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
+            startLiveStreamKeepUpTimer()
         }
     }
 
@@ -229,7 +235,55 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
         }
     }
 }
-
+extension LiveStreamViewModel {
+    private func startLiveStreamKeepUpTimer() {
+        if liveKeepUpTimer != nil {
+            ShopLiveController.player?.removeTimeObserver(liveKeepUpTimer!)
+            liveKeepUpTimer = nil
+        }
+        
+        let time = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        liveKeepUpTimer = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: nil) { [weak self] time in
+            guard let self = self else { return }
+            if ShopLiveController.player?.timeControlStatus != .playing {
+                self.blockLiveKeeupTimer = true
+                if ShopLiveController.windowStyle == .osPip {
+                    self.liveKeepUpTimerBlockDuration = 10
+                }
+                else {
+                    self.liveKeepUpTimerBlockDuration = 2
+                }
+               
+                return
+            }
+            if self.blockLiveKeeupTimer == true {
+                self.liveKeepUpTimerBlockDuration -= 0.5
+                if self.liveKeepUpTimerBlockDuration <= 0 {
+                    self.blockLiveKeeupTimer = false
+                    if ShopLiveController.windowStyle == .osPip {
+                        self.liveKeepUpTimerBlockDuration = 10
+                    }
+                    else {
+                        self.liveKeepUpTimerBlockDuration = 2
+                    }
+                }
+            }
+            else {
+                if let loadedTimeRange = ShopLiveController.playerItem?.loadedTimeRanges.first as? CMTimeRange,
+                   let currentTime = ShopLiveController.player?.currentTime().seconds {
+                    let startTime = loadedTimeRange.start.seconds
+                    if currentTime - startTime <= 0 && ShopLiveController.player?.timeControlStatus != .paused {
+                        self.blockLiveKeeupTimer = true
+                        DispatchQueue.main.async {
+                            ShopLiveController.player?.seek(to: .positiveInfinity)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+}
 extension LiveStreamViewModel: AVPlayerItemMetadataOutputPushDelegate {
     func metadataOutput(_ output: AVPlayerItemMetadataOutput, didOutputTimedMetadataGroups groups: [AVTimedMetadataGroup], from track: AVPlayerItemTrack?) {
 
