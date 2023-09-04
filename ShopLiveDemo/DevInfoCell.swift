@@ -65,6 +65,14 @@ final class DevInfoCell: SampleBaseCell {
             return view
         }()
 
+        let qaRadio : ShopLiveRadioButton = {
+            let view = ShopLiveRadioButton()
+            view.translatesAutoresizingMaskIntoConstraints = false
+            view.configure(identifier: "QA", description: "QA player")
+            view.delegate = self
+            return view
+        }()
+        
         let stageRadio: ShopLiveRadioButton = {
             let view = ShopLiveRadioButton()
             view.translatesAutoresizingMaskIntoConstraints = false
@@ -89,8 +97,9 @@ final class DevInfoCell: SampleBaseCell {
             return view
         }()
         
-        self.radioGroup = [devRadio, stageRadio, realRadio, setRadio]
+        self.radioGroup = [devRadio,qaRadio, stageRadio, realRadio, setRadio]
         view.addSubview(devRadio)
+        view.addSubview(qaRadio)
         view.addSubview(stageRadio)
         view.addSubview(realRadio)
         view.addSubview(setRadio)
@@ -103,9 +112,17 @@ final class DevInfoCell: SampleBaseCell {
             $0.trailing.lessThanOrEqualToSuperview()
             $0.height.equalTo(20)
         }
+        
+        qaRadio.snp.makeConstraints {
+            $0.top.equalTo(devRadio.snp.bottom).offset(10)
+            $0.bottom.lessThanOrEqualToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.lessThanOrEqualToSuperview()
+            $0.height.equalTo(20)
+        }
 
         stageRadio.snp.makeConstraints {
-            $0.top.equalTo(devRadio.snp.bottom).offset(10)
+            $0.top.equalTo(qaRadio.snp.bottom).offset(10)
             $0.bottom.lessThanOrEqualToSuperview()
             $0.leading.equalToSuperview()
             $0.trailing.lessThanOrEqualToSuperview()

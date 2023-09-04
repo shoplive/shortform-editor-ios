@@ -250,6 +250,9 @@ class MainViewController: SideMenuBaseViewController {
         case "DEV":
             landingUrl = "https://dev.shoplive.show/v1/sdk.html"
             break
+        case "QA":
+            landingUrl = "https://qa.shoplive.show/v1/sdk.html"
+            break
         case "STAGE":
             landingUrl = "https://stg.shoplive.show/v1/sdk.html"
             break
