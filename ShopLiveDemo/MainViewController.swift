@@ -562,7 +562,7 @@ extension MainViewController: ShopLiveSDKDelegate {
             }
             
             print("[command = ON_CHANGE_BRAND_FAVORITE] \n identifier: \(identifier)\nfavorite \(favorite)")
-            let result: [String: Any] = ["identifier" : "thisisneverthat", "favorite" : !favorite]
+            let result: [String: Any] = ["identifier" : identifier, "favorite" : !favorite]
             ShopLive.sendCommandMessage(command: "SET_BRAND_FAVORITE", payload: result)
             break
         case "CLICK_BACK_BUTTON":
