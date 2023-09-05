@@ -1917,12 +1917,17 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
         delegate?.log?(name: name, feature: feature, campaign: campaign, payload: payload)
+        var param : [String : Any] = ["campaignKey" : campaign]
+        for (key, value) in payload {
+            param.updateValue(value, forKey: key)
+        }
+        delegate?.handleReceivedCommand(name, with: param.toJSONString())
     }
     
-    @available(*, deprecated, message: "use log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) instead")
-    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
-        delegate?.log?(name: name, feature: feature, campaign: campaign, parameter: parameter)
+    func handleReceivedCommand(_ command: String, with payload: Any?) {
+        delegate?.handleReceivedCommand(command, with: payload)
     }
+    
     
     func changeOrientation(to: ShopLiveDefines.ShopLiveOrientaion) {
         self.inRotating = true
@@ -1985,9 +1990,6 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
         }
     }
     
-    func handleReceivedCommand(_ command: String, with payload: Any?) {
-        delegate?.handleReceivedCommand(command, with: payload)
-    }
 
     func onSetUserName(_ payload: [String : Any]) {
         delegate?.onSetUserName(payload)

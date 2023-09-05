@@ -76,8 +76,7 @@ protocol LiveStreamViewControllerDelegate: AnyObject {
     func updatePictureInPicture()
     func finishRotation()
     func resetPictureInPicture()
-    @available(*, deprecated, message: "use log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) instead")
-    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String])
+    
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any])
 }
 
@@ -107,8 +106,7 @@ protocol OverlayWebViewDelegate: AnyObject {
     func updatePlayerFrame(centerCrop: Bool, playerFrame: CGRect, immediately: Bool)
     func updateOrientation(orientation: UIDeviceOrientation)
     func updateOrientation(toLandscape: Bool)
-    @available(*, deprecated, message: "use log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) instead")
-    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String])
+    
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any])
     func didFailToLoadWebViewWithNetworkUnreachable()
     func webViewDidFinishedLoading()

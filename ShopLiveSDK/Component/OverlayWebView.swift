@@ -334,7 +334,6 @@ extension OverlayWebView: WKScriptMessageHandler {
                     
                     let campaignKey: String = (parameters?["campaignKey"] as? String) ?? ShopLiveController.shared.campaignKey
                     passToReceivedCommand = false
-                    delegate?.log(name: name, feature: featureType, campaign: campaignKey, parameter: logParameter)
                     delegate?.log(name: name, feature: featureType, campaign: campaignKey, payload: logPayload)
                     break
                 case "CLICK_BACK_BUTTON":

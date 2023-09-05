@@ -185,13 +185,12 @@ internal final class LiveStreamViewController: SLViewController {
         switch audioRouteChangeReason {
         case AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue:
             if isEarphoneHeadphone {
-                delegate?.log(name: "audio_gain", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
+             
                 delegate?.log(name: "audio_gain", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
                 updateHeadPhoneStatus(plugged: true)
             }
         case AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue:
             if !isEarphoneHeadphone {
-                delegate?.log(name: "audio_loss", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
                 delegate?.log(name: "audio_loss", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
                 updateHeadPhoneStatus(plugged: false)
             }
@@ -249,7 +248,6 @@ internal final class LiveStreamViewController: SLViewController {
             }
 
           if type == .began {
-              delegate?.log(name: "audio_loss", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
               delegate?.log(name: "audio_loss", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
               ShopLiveController.playControl = .pause
           } else {
@@ -268,7 +266,6 @@ internal final class LiveStreamViewController: SLViewController {
             guard ShopLiveConfiguration.SoundPolicy.autoResumeVideoOnCallEnded else {
                 return
             }
-              delegate?.log(name: "audio_gain", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
               delegate?.log(name: "audio_gain", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
             if ShopLiveController.isReplayMode {
                 DispatchQueue.main.async {
@@ -1305,12 +1302,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
         delegate?.log(name: name, feature: feature, campaign: campaign, payload: payload)
     }
-    
-    @available(*, deprecated, message: "use log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) instead")
-    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
-        delegate?.log(name: name, feature: feature, campaign: campaign, parameter: parameter)
-    }
-    
     
     func updateOrientation(toLandscape: Bool) {
         self.changeOrientation(toLandscape: toLandscape)
