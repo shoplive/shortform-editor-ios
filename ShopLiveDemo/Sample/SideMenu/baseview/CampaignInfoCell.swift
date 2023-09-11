@@ -111,34 +111,59 @@ final class CampaignInfoCell: SampleBaseCell {
         self.itemView.addSubview(chooseButton)
         self.itemView.addSubview(accessKeyInputField)
         self.itemView.addSubview(campaignKeyInputField)
-        guideTitleInputField.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(15)
-            $0.top.equalToSuperview().offset(15)
-            $0.trailing.equalTo(chooseButton.snp.leading).offset(-15)
-            $0.height.equalTo(30)
-        }
-
-        chooseButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.top.equalToSuperview().offset(5)
-            $0.height.equalTo(35)
-            $0.width.equalTo(80)
-        }
-
-        accessKeyInputField.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.top.equalTo(guideTitleInputField.snp.bottom).offset(10)
-            $0.height.equalTo(30)
-        }
-
-        campaignKeyInputField.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.top.equalTo(accessKeyInputField.snp.bottom).offset(10)
-            $0.bottom.equalToSuperview()
-            $0.height.equalTo(30)
-        }
+        
+        NSLayoutConstraint.activate([
+            guideTitleInputField.leadingAnchor.constraint(equalTo: itemView.leadingAnchor,constant: 15),
+            guideTitleInputField.topAnchor.constraint(equalTo: itemView.topAnchor, constant: 15),
+            guideTitleInputField.trailingAnchor.constraint(equalTo: chooseButton.leadingAnchor,constant: -15),
+            guideTitleInputField.heightAnchor.constraint(equalToConstant: 30),
+            
+            chooseButton.trailingAnchor.constraint(equalTo: itemView.trailingAnchor, constant: -15),
+//            chooseButton.topAnchor.constraint(equalTo: itemView.topAnchor, constant: 5),
+            chooseButton.centerYAnchor.constraint(equalTo: guideTitleInputField.centerYAnchor),
+            chooseButton.heightAnchor.constraint(equalToConstant: 35),
+            chooseButton.widthAnchor.constraint(equalToConstant: 80),
+            
+            accessKeyInputField.leadingAnchor.constraint(equalTo: itemView.leadingAnchor, constant: 15),
+            accessKeyInputField.trailingAnchor.constraint(equalTo: itemView.trailingAnchor,constant: -15),
+            accessKeyInputField.topAnchor.constraint(equalTo: guideTitleInputField.bottomAnchor, constant: 10),
+            accessKeyInputField.heightAnchor.constraint(equalToConstant: 30),
+            
+            campaignKeyInputField.leadingAnchor.constraint(equalTo: itemView.leadingAnchor,constant: 15),
+            campaignKeyInputField.trailingAnchor.constraint(equalTo: itemView.trailingAnchor, constant: -15),
+            campaignKeyInputField.topAnchor.constraint(equalTo: accessKeyInputField.bottomAnchor, constant: 10),
+            campaignKeyInputField.heightAnchor.constraint(equalToConstant: 30),
+            
+            itemView.bottomAnchor.constraint(equalTo: campaignKeyInputField.bottomAnchor)
+        ])
+//        guideTitleInputField.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.top.equalToSuperview().offset(15)
+//            $0.trailing.equalTo(chooseButton.snp.leading).offset(-15)
+//            $0.height.equalTo(30)
+//        }
+//
+//        chooseButton.snp.makeConstraints {
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.top.equalToSuperview().offset(5)
+//            $0.height.equalTo(35)
+//            $0.width.equalTo(80)
+//        }
+//
+//        accessKeyInputField.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.top.equalTo(guideTitleInputField.snp.bottom).offset(10)
+//            $0.height.equalTo(30)
+//        }
+//
+//        campaignKeyInputField.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.top.equalTo(accessKeyInputField.snp.bottom).offset(10)
+//            $0.bottom.equalToSuperview()
+//            $0.height.equalTo(30)
+//        }
 
         self.setSectionTitle(title: "base.section.campaignInfo.title".localized())
     }

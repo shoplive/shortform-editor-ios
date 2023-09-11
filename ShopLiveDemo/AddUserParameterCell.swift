@@ -61,18 +61,31 @@ class AddUserParameterCell: UITableViewCell, UITextFieldDelegate {
         self.contentView.addSubview(keyInputField)
         self.contentView.addSubview(valueInputField)
         self.backgroundColor = .white
-        keyInputField.snp.makeConstraints {
-            $0.width.greaterThanOrEqualTo(UIWindow.mainWindowFrame.frame.width / 2 - 20)
-            $0.height.equalToSuperview()
-            $0.leading.equalToSuperview()
-        }
         
-        valueInputField.snp.makeConstraints {
-            $0.width.greaterThanOrEqualTo(UIWindow.mainWindowFrame.frame.width / 2 - 20)
-            $0.trailing.equalToSuperview()
-            $0.height.equalToSuperview()
-            $0.centerY.equalToSuperview()
-        }
+        NSLayoutConstraint.activate([
+            keyInputField.widthAnchor.constraint(greaterThanOrEqualToConstant: UIWindow.mainWindowFrame.frame.width / 2 - 20),
+            keyInputField.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 1),
+            keyInputField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            
+            valueInputField.widthAnchor.constraint(greaterThanOrEqualToConstant: UIWindow.mainWindowFrame.frame.width / 2 - 20),
+            valueInputField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            valueInputField.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 1),
+            valueInputField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+        ])
+        
+        
+//        keyInputField.snp.makeConstraints {
+//            $0.width.greaterThanOrEqualTo(UIWindow.mainWindowFrame.frame.width / 2 - 20)
+//            $0.height.equalToSuperview()
+//            $0.leading.equalToSuperview()
+//        }
+//        
+//        valueInputField.snp.makeConstraints {
+//            $0.width.greaterThanOrEqualTo(UIWindow.mainWindowFrame.frame.width / 2 - 20)
+//            $0.trailing.equalToSuperview()
+//            $0.height.equalToSuperview()
+//            $0.centerY.equalToSuperview()
+//        }
     }
     
     override func layoutSubviews() {

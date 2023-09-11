@@ -45,10 +45,16 @@ final class SideMenuCell: UITableViewCell {
     private func setupViews() {
         self.contentView.backgroundColor = .white
         self.contentView.addSubview(menuItemLabel)
-        menuItemLabel.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().offset(15)
-            $0.bottom.trailing.lessThanOrEqualToSuperview().offset(-15)
-        }
+        NSLayoutConstraint.activate([
+            menuItemLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            menuItemLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
+            menuItemLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -15),
+            menuItemLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -15)
+        ])
+//        menuItemLabel.snp.makeConstraints {
+//            $0.top.leading.equalToSuperview().offset(15)
+//            $0.bottom.trailing.lessThanOrEqualToSuperview().offset(-15)
+//        }
     }
 
     func configure(item: SideMenu) {

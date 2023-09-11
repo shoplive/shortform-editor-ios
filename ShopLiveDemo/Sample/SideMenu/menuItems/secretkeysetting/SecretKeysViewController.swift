@@ -34,9 +34,17 @@ final class SecretKeysViewController: SideMenuItemViewController {
 
     func setupViews() {
         self.view.addSubview(tableView)
-        tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
+        
+//        tableView.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
     }
 
     func setupNaviItems() {

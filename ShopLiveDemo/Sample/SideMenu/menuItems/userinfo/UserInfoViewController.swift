@@ -143,25 +143,39 @@ final class UserInfoViewController: SideMenuItemViewController {
         view.addSubview(maleRadio)
         view.addSubview(femaleRadio)
         view.addSubview(noneRadio)
+        
+        NSLayoutConstraint.activate([
+            maleRadio.topAnchor.constraint(equalTo: view.topAnchor),
+            maleRadio.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            maleRadio.heightAnchor.constraint(equalToConstant: 20),
+            
+            femaleRadio.topAnchor.constraint(equalTo: view.topAnchor),
+            femaleRadio.leadingAnchor.constraint(equalTo: maleRadio.trailingAnchor,constant: 15),
+            femaleRadio.heightAnchor.constraint(equalToConstant: 20),
+            
+            noneRadio.topAnchor.constraint(equalTo: view.topAnchor),
+            noneRadio.leadingAnchor.constraint(equalTo: femaleRadio.trailingAnchor,constant: 15),
+            noneRadio.heightAnchor.constraint(equalToConstant: 20)
+        ])
 
-        maleRadio.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalToSuperview()
-            $0.height.equalTo(20)
-        }
-
-        femaleRadio.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalTo(maleRadio.snp.trailing).offset(15)
-            $0.height.equalTo(20)
-        }
-
-        noneRadio.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalTo(femaleRadio.snp.trailing).offset(15)
-            $0.trailing.lessThanOrEqualToSuperview()
-            $0.height.equalTo(20)
-        }
+//        maleRadio.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.equalToSuperview()
+//            $0.height.equalTo(20)
+//        }
+//
+//        femaleRadio.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.equalTo(maleRadio.snp.trailing).offset(15)
+//            $0.height.equalTo(20)
+//        }
+//
+//        noneRadio.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.equalTo(femaleRadio.snp.trailing).offset(15)
+//            $0.trailing.lessThanOrEqualToSuperview()
+//            $0.height.equalTo(20)
+//        }
 
         return view
     }()
@@ -282,97 +296,166 @@ final class UserInfoViewController: SideMenuItemViewController {
         self.view.addSubview(parameterTableView)
         self.view.addSubview(addParameterButton)
         
-        parameterTableView.snp.makeConstraints {
-            $0.top.equalTo(genderView.snp.bottom).offset(15)
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.height.lessThanOrEqualTo(100)
+        
+        NSLayoutConstraint.activate([
+            parameterTableView.topAnchor.constraint(equalTo: genderView.bottomAnchor, constant: 15),
+            parameterTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
+            parameterTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
+            parameterTableView.heightAnchor.constraint(lessThanOrEqualToConstant: 100),
             
-        }
+            addParameterButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
+            addParameterButton.topAnchor.constraint(equalTo: parameterTableView.bottomAnchor,constant: 10),
+            addParameterButton.widthAnchor.constraint(equalToConstant: self.view.frame.width / 2 - 20),
+            addParameterButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 35),
+            
+            userIdInputField.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 15),
+            userIdInputField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor,constant: 15),
+            userIdInputField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor,constant: -15),
+            userIdInputField.heightAnchor.constraint(greaterThanOrEqualToConstant: 35),
+            
+            userNameInputField.topAnchor.constraint(equalTo: userIdInputField.bottomAnchor, constant: 10),
+            userNameInputField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
+            userNameInputField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
+            userNameInputField.heightAnchor.constraint(greaterThanOrEqualToConstant: 35),
+            
+            ageInputField.topAnchor.constraint(equalTo: userNameInputField.bottomAnchor, constant: 10),
+            ageInputField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor,constant: 15),
+            ageInputField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
+            ageInputField.heightAnchor.constraint(greaterThanOrEqualToConstant: 35),
+            
+            userScoreInputField.topAnchor.constraint(equalTo: ageInputField.bottomAnchor, constant: 10),
+            userScoreInputField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
+            userScoreInputField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor,constant: -15),
+            userScoreInputField.heightAnchor.constraint(greaterThanOrEqualToConstant: 35),
+            
+            genderView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
+            genderView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
+            genderView.topAnchor.constraint(equalTo: userScoreInputField.bottomAnchor, constant: 15),
+            genderView.heightAnchor.constraint(equalToConstant: 20),
+            
+            saveUserInfoButton.topAnchor.constraint(equalTo: parameterTableView.bottomAnchor, constant: 10),
+            saveUserInfoButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
+            saveUserInfoButton.widthAnchor.constraint(equalToConstant: self.view.frame.width / 2 - 20),
+            saveUserInfoButton.heightAnchor.constraint(equalToConstant: 35),
+            
+            authTokenTitle.topAnchor.constraint(equalTo: saveUserInfoButton.bottomAnchor, constant: 35),
+            authTokenTitle.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
+            authTokenTitle.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
+            authTokenTitle.heightAnchor.constraint(equalToConstant: 30),
+            
+            jwtInputField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
+            jwtInputField.topAnchor.constraint(equalTo: authTokenTitle.bottomAnchor, constant: 10),
+            jwtInputField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
+            jwtInputField.heightAnchor.constraint(equalToConstant: 35),
+            
+            jwtInputButton.topAnchor.constraint(equalTo: jwtInputField.topAnchor),
+            jwtInputButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
+            jwtInputButton.widthAnchor.constraint(equalToConstant: 100),
+            jwtInputButton.heightAnchor.constraint(equalToConstant: 35),
+            
+            jwtResultLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
+            jwtResultLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
+            jwtResultLabel.topAnchor.constraint(equalTo: jwtInputField.bottomAnchor, constant: 5),
+            jwtResultLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 20),
+            
+            jwtGenerateButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
+            jwtGenerateButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
+            jwtGenerateButton.topAnchor.constraint(equalTo: jwtResultLabel.bottomAnchor, constant: 5),
+            jwtGenerateButton.heightAnchor.constraint(equalToConstant: 35),
+            jwtGenerateButton.bottomAnchor.constraint(lessThanOrEqualTo: self.view.bottomAnchor)
+        ])
         
-        addParameterButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.top.equalTo(parameterTableView.snp.bottom).offset(10)
-            $0.width.equalTo(self.view.frame.width / 2 - 20)
-            $0.height.greaterThanOrEqualTo(35)
-        }
-        
-        userIdInputField.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().offset(15)
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.height.greaterThanOrEqualTo(35)
-        }
-
-        userNameInputField.snp.makeConstraints {
-            $0.top.equalTo(userIdInputField.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.height.greaterThanOrEqualTo(35)
-        }
-
-        ageInputField.snp.makeConstraints {
-            $0.top.equalTo(userNameInputField.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.height.greaterThanOrEqualTo(35)
-        }
-
-        userScoreInputField.snp.makeConstraints {
-            $0.top.equalTo(ageInputField.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.height.greaterThanOrEqualTo(35)
-        }
-
-        genderView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.top.equalTo(userScoreInputField.snp.bottom).offset(15)
-            $0.height.equalTo(20)
-        }
-        
-        saveUserInfoButton.snp.makeConstraints {
-            $0.top.equalTo(parameterTableView.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().offset(15)
-            $0.width.equalTo(self.view.frame.width / 2 - 20)
-            $0.height.equalTo(35)
-        }
-
-        authTokenTitle.snp.makeConstraints {
-            $0.top.equalTo(saveUserInfoButton.snp.bottom).offset(35)
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.height.equalTo(30)
-        }
-
-        jwtInputField.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(15)
-            $0.top.equalTo(authTokenTitle.snp.bottom).offset(10)
-            $0.trailing.equalTo(jwtInputButton.snp.leading).offset(-15)
-            $0.height.equalTo(35)
-        }
-
-        jwtInputButton.snp.makeConstraints {
-            $0.top.equalTo(jwtInputField)
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.width.equalTo(100)
-            $0.height.equalTo(35)
-        }
-
-        jwtResultLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.top.equalTo(jwtInputField.snp.bottom).offset(5)
-            $0.height.greaterThanOrEqualTo(20)
-        }
-
-        jwtGenerateButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.top.equalTo(jwtResultLabel.snp.bottom).offset(5)
-            $0.height.equalTo(35)
-            $0.bottom.lessThanOrEqualToSuperview()
-        }
+//        parameterTableView.snp.makeConstraints {
+//            $0.top.equalTo(genderView.snp.bottom).offset(15)
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.height.lessThanOrEqualTo(100)
+//
+//        }
+//
+//        addParameterButton.snp.makeConstraints {
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.top.equalTo(parameterTableView.snp.bottom).offset(10)
+//            $0.width.equalTo(self.view.frame.width / 2 - 20)
+//            $0.height.greaterThanOrEqualTo(35)
+//        }
+//
+//        userIdInputField.snp.makeConstraints {
+//            $0.top.leading.equalToSuperview().offset(15)
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.height.greaterThanOrEqualTo(35)
+//        }
+//
+//        userNameInputField.snp.makeConstraints {
+//            $0.top.equalTo(userIdInputField.snp.bottom).offset(10)
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.height.greaterThanOrEqualTo(35)
+//        }
+//
+//        ageInputField.snp.makeConstraints {
+//            $0.top.equalTo(userNameInputField.snp.bottom).offset(10)
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.height.greaterThanOrEqualTo(35)
+//        }
+//
+//        userScoreInputField.snp.makeConstraints {
+//            $0.top.equalTo(ageInputField.snp.bottom).offset(10)
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.height.greaterThanOrEqualTo(35)
+//        }
+//
+//        genderView.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.top.equalTo(userScoreInputField.snp.bottom).offset(15)
+//            $0.height.equalTo(20)
+//        }
+//
+//        saveUserInfoButton.snp.makeConstraints {
+//            $0.top.equalTo(parameterTableView.snp.bottom).offset(10)
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.width.equalTo(self.view.frame.width / 2 - 20)
+//            $0.height.equalTo(35)
+//        }
+//
+//        authTokenTitle.snp.makeConstraints {
+//            $0.top.equalTo(saveUserInfoButton.snp.bottom).offset(35)
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.height.equalTo(30)
+//        }
+//
+//        jwtInputField.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.top.equalTo(authTokenTitle.snp.bottom).offset(10)
+//            $0.trailing.equalTo(jwtInputButton.snp.leading).offset(-15)
+//            $0.height.equalTo(35)
+//        }
+//
+//        jwtInputButton.snp.makeConstraints {
+//            $0.top.equalTo(jwtInputField)
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.width.equalTo(100)
+//            $0.height.equalTo(35)
+//        }
+//
+//        jwtResultLabel.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.top.equalTo(jwtInputField.snp.bottom).offset(5)
+//            $0.height.greaterThanOrEqualTo(20)
+//        }
+//
+//        jwtGenerateButton.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.top.equalTo(jwtResultLabel.snp.bottom).offset(5)
+//            $0.height.equalTo(35)
+//            $0.bottom.lessThanOrEqualToSuperview()
+//        }
     }
 
     @objc func deleteAct() {

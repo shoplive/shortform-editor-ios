@@ -119,25 +119,40 @@ final class CouponResponseSettingView: UIView {
         view.addSubview(showRadio)
         view.addSubview(hideRadio)
         view.addSubview(keepRadio)
+        
+        NSLayoutConstraint.activate([
+            showRadio.topAnchor.constraint(equalTo: view.topAnchor),
+            showRadio.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            showRadio.heightAnchor.constraint(equalToConstant: 20),
+            
+            hideRadio.topAnchor.constraint(equalTo: view.topAnchor),
+            hideRadio.leadingAnchor.constraint(equalTo: showRadio.trailingAnchor, constant: 15),
+            hideRadio.heightAnchor.constraint(equalToConstant: 20),
+            
+            keepRadio.topAnchor.constraint(equalTo: view.topAnchor),
+            keepRadio.leadingAnchor.constraint(equalTo: hideRadio.trailingAnchor, constant: 15),
+            keepRadio.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor),
+            keepRadio.heightAnchor.constraint(equalToConstant: 20)
+        ])
 
-        showRadio.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalToSuperview()
-            $0.height.equalTo(20)
-        }
-
-        hideRadio.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalTo(showRadio.snp.trailing).offset(15)
-            $0.height.equalTo(20)
-        }
-
-        keepRadio.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalTo(hideRadio.snp.trailing).offset(15)
-            $0.trailing.lessThanOrEqualToSuperview()
-            $0.height.equalTo(20)
-        }
+//        showRadio.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.equalToSuperview()
+//            $0.height.equalTo(20)
+//        }
+//
+//        hideRadio.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.equalTo(showRadio.snp.trailing).offset(15)
+//            $0.height.equalTo(20)
+//        }
+//
+//        keepRadio.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.equalTo(hideRadio.snp.trailing).offset(15)
+//            $0.trailing.lessThanOrEqualToSuperview()
+//            $0.height.equalTo(20)
+//        }
 
         return view
     }()
@@ -166,19 +181,30 @@ final class CouponResponseSettingView: UIView {
         self.alertRadioGroup = [alertRadio, toastRadio]
         view.addSubview(alertRadio)
         view.addSubview(toastRadio)
+        
+        NSLayoutConstraint.activate([
+            alertRadio.topAnchor.constraint(equalTo: view.topAnchor),
+            alertRadio.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            alertRadio.heightAnchor.constraint(equalToConstant: 20),
+            
+            toastRadio.topAnchor.constraint(equalTo: view.topAnchor),
+            toastRadio.leadingAnchor.constraint(equalTo: alertRadio.trailingAnchor, constant: 15),
+            toastRadio.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: 0),
+            toastRadio.heightAnchor.constraint(equalToConstant: 20)
+        ])
 
-        alertRadio.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalToSuperview()
-            $0.height.equalTo(20)
-        }
-
-        toastRadio.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalTo(alertRadio.snp.trailing).offset(15)
-            $0.trailing.lessThanOrEqualToSuperview()
-            $0.height.equalTo(20)
-        }
+//        alertRadio.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.equalToSuperview()
+//            $0.height.equalTo(20)
+//        }
+//
+//        toastRadio.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.equalTo(alertRadio.snp.trailing).offset(15)
+//            $0.trailing.lessThanOrEqualToSuperview()
+//            $0.height.equalTo(20)
+//        }
 
         return view
     }()
@@ -218,56 +244,116 @@ final class CouponResponseSettingView: UIView {
         self.addSubview(alertTitleLabel)
         self.addSubview(couponShowView)
         self.addSubview(couponAlertView)
+        
+        let couponShowViewTopAnc = couponShowView.topAnchor.constraint(greaterThanOrEqualTo: showTitleLabel.topAnchor)
+        couponShowViewTopAnc.priority = UILayoutPriority(rawValue: 999)
+        let couponShowViewBottomAnc = couponShowView.bottomAnchor.constraint(lessThanOrEqualTo: showTitleLabel.bottomAnchor)
+        couponShowViewBottomAnc.priority = UILayoutPriority(rawValue: 999)
+        let couponShowViewCentYAnc = couponShowView.centerYAnchor.constraint(equalTo: showTitleLabel.centerYAnchor)
+        couponShowViewCentYAnc.priority = UILayoutPriority(rawValue: 1000)
+        
+        
+        let couponAlertViewTopAnc = couponAlertView.topAnchor.constraint(greaterThanOrEqualTo: alertTitleLabel.topAnchor)
+        couponAlertViewTopAnc.priority = UILayoutPriority(rawValue: 999)
+        let couponAlertViewBottomAnc = couponAlertView.bottomAnchor.constraint(lessThanOrEqualTo: alertTitleLabel.bottomAnchor)
+        couponAlertViewBottomAnc.priority = UILayoutPriority(rawValue: 999)
+        let couponAlertViewCentYAnc = couponAlertView.centerYAnchor.constraint(equalTo: alertTitleLabel.centerYAnchor)
+        couponAlertViewCentYAnc.priority = UILayoutPriority(rawValue: 1000)
+        
+        
+        
+        
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 15),
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 15),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -10),
+            titleLabel.heightAnchor.constraint(equalToConstant: 30),
+            
+            messageTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: 15),
+            messageTitleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor ,constant: 15),
+            messageTitleLabel.widthAnchor.constraint(equalToConstant: 120),
+            messageTitleLabel.heightAnchor.constraint(equalToConstant: 30),
+            
+            showTitleLabel.topAnchor.constraint(equalTo: messageTitleLabel.bottomAnchor, constant: 15),
+            showTitleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
+            showTitleLabel.widthAnchor.constraint(equalToConstant: 120),
+            showTitleLabel.heightAnchor.constraint(equalToConstant: 30),
+            
+            alertTitleLabel.topAnchor.constraint(equalTo: showTitleLabel.bottomAnchor, constant: 15),
+            alertTitleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
+            alertTitleLabel.widthAnchor.constraint(equalToConstant: 120),
+            alertTitleLabel.heightAnchor.constraint(equalToConstant: 30),
+            alertTitleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -15),
+            
+            messageTextField.topAnchor.constraint(equalTo: messageTitleLabel.topAnchor),
+            messageTextField.bottomAnchor.constraint(equalTo: messageTitleLabel.bottomAnchor),
+            messageTextField.leadingAnchor.constraint(equalTo: messageTitleLabel.trailingAnchor),
+            messageTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -15),
+            
+            couponShowViewTopAnc,
+            couponShowViewBottomAnc,
+            couponShowViewCentYAnc,
+            couponShowView.leadingAnchor.constraint(equalTo: showTitleLabel.trailingAnchor),
+            couponShowView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -15),
+            
+            couponAlertViewTopAnc,
+            couponAlertViewBottomAnc,
+            couponAlertViewCentYAnc,
+            couponAlertView.leadingAnchor.constraint(equalTo: alertTitleLabel.trailingAnchor),
+            couponAlertView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -15)
+            
+        ])
 
-        titleLabel.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().offset(15)
-            $0.trailing.lessThanOrEqualToSuperview().offset(-10)
-            $0.height.equalTo(30)
-        }
-
-        messageTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(15)
-            $0.leading.equalToSuperview().offset(15)
-            $0.width.equalTo(120)
-            $0.height.equalTo(30)
-        }
-
-        showTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(messageTitleLabel.snp.bottom).offset(15)
-            $0.leading.equalToSuperview().offset(15)
-            $0.width.equalTo(120)
-            $0.height.equalTo(30)
-        }
-
-        alertTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(showTitleLabel.snp.bottom).offset(15)
-            $0.leading.equalToSuperview().offset(15)
-            $0.width.equalTo(120)
-            $0.height.equalTo(30)
-            $0.bottom.equalToSuperview().offset(-15)
-        }
-
-        messageTextField.snp.makeConstraints {
-            $0.top.bottom.equalTo(messageTitleLabel)
-            $0.leading.equalTo(messageTitleLabel.snp.trailing)
-            $0.trailing.equalToSuperview().offset(-15)
-        }
-
-        couponShowView.snp.makeConstraints {
-            $0.top.greaterThanOrEqualTo(showTitleLabel).priority(999)
-            $0.bottom.lessThanOrEqualTo(showTitleLabel).priority(999)
-            $0.centerY.equalTo(showTitleLabel).priority(1000)
-            $0.leading.equalTo(showTitleLabel.snp.trailing)
-            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
-        }
-
-        couponAlertView.snp.makeConstraints {
-            $0.top.greaterThanOrEqualTo(alertTitleLabel).priority(999)
-            $0.bottom.lessThanOrEqualTo(alertTitleLabel).priority(999)
-            $0.centerY.equalTo(alertTitleLabel).priority(1000)
-            $0.leading.equalTo(alertTitleLabel.snp.trailing)
-            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
-        }
+//
+//        titleLabel.snp.makeConstraints {
+//            $0.top.leading.equalToSuperview().offset(15)
+//            $0.trailing.lessThanOrEqualToSuperview().offset(-10)
+//            $0.height.equalTo(30)
+//        }
+//
+//        messageTitleLabel.snp.makeConstraints {
+//            $0.top.equalTo(titleLabel.snp.bottom).offset(15)
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.width.equalTo(120)
+//            $0.height.equalTo(30)
+//        }
+//
+//        showTitleLabel.snp.makeConstraints {
+//            $0.top.equalTo(messageTitleLabel.snp.bottom).offset(15)
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.width.equalTo(120)
+//            $0.height.equalTo(30)
+//        }
+//
+//        alertTitleLabel.snp.makeConstraints {
+//            $0.top.equalTo(showTitleLabel.snp.bottom).offset(15)
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.width.equalTo(120)
+//            $0.height.equalTo(30)
+//            $0.bottom.equalToSuperview().offset(-15)
+//        }
+//
+//        messageTextField.snp.makeConstraints {
+//            $0.top.bottom.equalTo(messageTitleLabel)
+//            $0.leading.equalTo(messageTitleLabel.snp.trailing)
+//            $0.trailing.equalToSuperview().offset(-15)
+//        }
+//
+//        couponShowView.snp.makeConstraints {
+//            $0.top.greaterThanOrEqualTo(showTitleLabel).priority(999)
+//            $0.bottom.lessThanOrEqualTo(showTitleLabel).priority(999)
+//            $0.centerY.equalTo(showTitleLabel).priority(1000)
+//            $0.leading.equalTo(showTitleLabel.snp.trailing)
+//            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
+//        }
+//
+//        couponAlertView.snp.makeConstraints {
+//            $0.top.greaterThanOrEqualTo(alertTitleLabel).priority(999)
+//            $0.bottom.lessThanOrEqualTo(alertTitleLabel).priority(999)
+//            $0.centerY.equalTo(alertTitleLabel).priority(1000)
+//            $0.leading.equalTo(alertTitleLabel.snp.trailing)
+//            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
+//        }
     }
 
     private func updateShowRadio(identifier: String) {

@@ -77,28 +77,44 @@ class AddParameterCell: UITableViewCell, UITextFieldDelegate {
         self.contentView.addSubview(valueInputField)
         self.contentView.addSubview(isUseCheckBox)
         self.backgroundColor = .white
-        keyInputField.snp.makeConstraints {
-            $0.width.equalToSuperview().multipliedBy(0.3)
-            $0.leading.equalToSuperview()
-            $0.height.equalToSuperview()
-            $0.leading.equalToSuperview()
-        }
         
-        valueInputField.snp.makeConstraints {
-            $0.width.equalToSuperview().multipliedBy(0.3)
-            $0.leading.equalTo(keyInputField.snp.trailing).offset(10)
-            $0.width.equalTo(keyInputField)
-            $0.height.equalToSuperview()
-            $0.centerY.equalToSuperview()
-        }
+        NSLayoutConstraint.activate([
+            keyInputField.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.3),
+            keyInputField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            keyInputField.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 1),
+            keyInputField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            
+            valueInputField.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.3),
+            valueInputField.leadingAnchor.constraint(equalTo: keyInputField.trailingAnchor,constant: 10),
+            valueInputField.widthAnchor.constraint(equalTo: keyInputField.widthAnchor, multiplier: 1),
+            valueInputField.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 1),
+            valueInputField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            isUseCheckBox.leadingAnchor.constraint(equalTo: valueInputField.trailingAnchor, constant: 10),
+            isUseCheckBox.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            isUseCheckBox.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+        ])
         
-        isUseCheckBox.snp.makeConstraints {
-            $0.leading.equalTo(valueInputField.snp.trailing).offset(10)
-            $0.trailing.equalToSuperview()
-            $0.centerY.equalToSuperview()
-        }
-        
-        
+//        keyInputField.snp.makeConstraints {
+//            $0.width.equalToSuperview().multipliedBy(0.3)
+//            $0.leading.equalToSuperview()
+//            $0.height.equalToSuperview()
+//            $0.leading.equalToSuperview()
+//        }
+//
+//        valueInputField.snp.makeConstraints {
+//            $0.width.equalToSuperview().multipliedBy(0.3)
+//            $0.leading.equalTo(keyInputField.snp.trailing).offset(10)
+//            $0.width.equalTo(keyInputField)
+//            $0.height.equalToSuperview()
+//            $0.centerY.equalToSuperview()
+//        }
+//
+//        isUseCheckBox.snp.makeConstraints {
+//            $0.leading.equalTo(valueInputField.snp.trailing).offset(10)
+//            $0.trailing.equalToSuperview()
+//            $0.centerY.equalToSuperview()
+//        }
     }
     
     override func layoutSubviews() {

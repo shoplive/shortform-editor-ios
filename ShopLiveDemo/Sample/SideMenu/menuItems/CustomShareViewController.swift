@@ -77,32 +77,60 @@ class CustomShareViewController: UIViewController {
         
         self.view.addSubviews(bgView, snsButtons)
         
-        bgView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        NSLayoutConstraint.activate([
+            bgView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            bgView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            bgView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            bgView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            
+            snsButtons.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            snsButtons.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            snsButtons.leadingAnchor.constraint(greaterThanOrEqualTo: self.view.leadingAnchor, constant: 20),
+            snsButtons.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+            snsButtons.heightAnchor.constraint(equalToConstant: 50),
+            
+            snsIconButton_twitter.widthAnchor.constraint(equalToConstant: 50),
+            snsIconButton_twitter.heightAnchor.constraint(equalToConstant: 50),
+            
+            snsIconButton_kakaotalk.widthAnchor.constraint(equalToConstant: 50),
+            snsIconButton_kakaotalk.heightAnchor.constraint(equalToConstant: 50),
+            
+            snsIconButton_instagram.widthAnchor.constraint(equalToConstant: 50),
+            snsIconButton_instagram.heightAnchor.constraint(equalToConstant: 50),
+            
+            snsIconButton_facebook.widthAnchor.constraint(equalToConstant: 50),
+            snsIconButton_facebook.heightAnchor.constraint(equalToConstant: 50),
+            
+            
+            
+        ])
         
-        snsButtons.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.leading.greaterThanOrEqualToSuperview().offset(20)
-            $0.trailing.lessThanOrEqualToSuperview().offset(-20)
-            $0.height.equalTo(50)
-        }
-        
-        snsIconButton_twitter.snp.makeConstraints {
-            $0.width.height.equalTo(50)
-        }
-        
-        snsIconButton_kakaotalk.snp.makeConstraints {
-            $0.width.height.equalTo(50)
-        }
-        
-        snsIconButton_instagram.snp.makeConstraints {
-            $0.width.height.equalTo(50)
-        }
-        
-        snsIconButton_facebook.snp.makeConstraints {
-            $0.width.height.equalTo(50)
-        }
+//        bgView.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
+//        
+//        snsButtons.snp.makeConstraints {
+//            $0.center.equalToSuperview()
+//            $0.leading.greaterThanOrEqualToSuperview().offset(20)
+//            $0.trailing.lessThanOrEqualToSuperview().offset(-20)
+//            $0.height.equalTo(50)
+//        }
+//        
+//        snsIconButton_twitter.snp.makeConstraints {
+//            $0.width.height.equalTo(50)
+//        }
+//        
+//        snsIconButton_kakaotalk.snp.makeConstraints {
+//            $0.width.height.equalTo(50)
+//        }
+//        
+//        snsIconButton_instagram.snp.makeConstraints {
+//            $0.width.height.equalTo(50)
+//        }
+//        
+//        snsIconButton_facebook.snp.makeConstraints {
+//            $0.width.height.equalTo(50)
+//        }
     }
     
 

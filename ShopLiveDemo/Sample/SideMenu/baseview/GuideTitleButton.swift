@@ -68,20 +68,34 @@ class GuideTitleButton: UIView {
         self.backgroundColor = .white
         self.addSubview(campaignTitleLabel)
         self.addSubview(chooseButton)
-        campaignTitleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10)
-            $0.bottom.lessThanOrEqualToSuperview().offset(-10)
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.lessThanOrEqualTo(chooseButton.snp.leading).offset(-10)
-            $0.height.greaterThanOrEqualTo(30)
-        }
-
-        chooseButton.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.width.greaterThanOrEqualTo(90)
-            $0.height.greaterThanOrEqualTo(35)
-        }
+        
+        NSLayoutConstraint.activate([
+            campaignTitleLabel.topAnchor.constraint(equalTo: self.topAnchor,constant: 10),
+            campaignTitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomAnchor, constant: -10),
+            campaignTitleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 15),
+            campaignTitleLabel.trailingAnchor.constraint(equalTo: chooseButton.leadingAnchor, constant: -10),
+            campaignTitleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 30),
+            
+            chooseButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
+            chooseButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15),
+            chooseButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 90),
+            chooseButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 35)
+        ])
+//        
+//        campaignTitleLabel.snp.makeConstraints {
+//            $0.top.equalToSuperview().offset(10)
+//            $0.bottom.lessThanOrEqualToSuperview().offset(-10)
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.lessThanOrEqualTo(chooseButton.snp.leading).offset(-10)
+//            $0.height.greaterThanOrEqualTo(30)
+//        }
+//
+//        chooseButton.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.width.greaterThanOrEqualTo(90)
+//            $0.height.greaterThanOrEqualTo(35)
+//        }
     }
 
     @objc private func didTouchButton() {

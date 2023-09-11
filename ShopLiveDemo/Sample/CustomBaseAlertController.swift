@@ -38,9 +38,16 @@ class CustomBaseAlertController: UIViewController {
 
     func setupViews() {
         self.view.addSubview(dimView)
-        dimView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        
+        NSLayoutConstraint.activate([
+            dimView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            dimView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            dimView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            dimView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
+//        dimView.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
     }
 
 }

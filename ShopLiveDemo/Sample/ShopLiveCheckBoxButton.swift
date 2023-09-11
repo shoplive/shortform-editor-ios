@@ -74,20 +74,37 @@ final class ShopLiveCheckBoxButton: UIView {
         self.addSubview(descriptionLabel)
         self.addSubview(checkButton)
         self.addSubview(touchArea)
+        
+        NSLayoutConstraint.activate([
+            checkButton.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            checkButton.topAnchor.constraint(equalTo: self.topAnchor),
+            checkButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            checkButton.heightAnchor.constraint(equalToConstant: 20),
+            
+            descriptionLabel.topAnchor.constraint(equalTo: self.topAnchor),
+            descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            descriptionLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            descriptionLabel.leadingAnchor.constraint(equalTo: checkButton.trailingAnchor, constant: 5),
+            
+            touchArea.topAnchor.constraint(equalTo: self.topAnchor),
+            touchArea.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            touchArea.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            touchArea.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
 
-        checkButton.snp.makeConstraints {
-            $0.leading.top.bottom.equalToSuperview()
-            $0.height.equalTo(20)
-        }
-
-        descriptionLabel.snp.makeConstraints {
-            $0.top.bottom.trailing.equalToSuperview()
-            $0.leading.equalTo(checkButton.snp.trailing).offset(5)
-        }
-
-        touchArea.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+//        checkButton.snp.makeConstraints {
+//            $0.leading.top.bottom.equalToSuperview()
+//            $0.height.equalTo(20)
+//        }
+//
+//        descriptionLabel.snp.makeConstraints {
+//            $0.top.bottom.trailing.equalToSuperview()
+//            $0.leading.equalTo(checkButton.snp.trailing).offset(5)
+//        }
+//
+//        touchArea.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
     }
 
     func configure(identifier: String, description: String) {

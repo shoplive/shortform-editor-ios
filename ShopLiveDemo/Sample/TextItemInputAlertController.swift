@@ -81,43 +81,74 @@ class TextItemInputAlertController: CustomBaseAlertController {
 
     override func setupViews() {
         super.setupViews()
-
         self.view.addSubview(alertItemView)
-        alertItemView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.width.equalToSuperview().multipliedBy(0.9)
-            $0.height.greaterThanOrEqualTo(160)
-        }
-
         alertItemView.addSubview(titleLabel)
         alertItemView.addSubview(textInputField)
         alertItemView.addSubview(cancelButton)
         alertItemView.addSubview(confirmButton)
-
-        titleLabel.snp.makeConstraints {
-            $0.leading.top.equalToSuperview().offset(15)
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.height.equalTo(30)
-        }
-
-        textInputField.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(15)
-            $0.leading.trailing.equalTo(titleLabel)
-            $0.height.greaterThanOrEqualTo(30)
-        }
-
-        confirmButton.snp.makeConstraints {
-            $0.top.equalTo(textInputField.snp.bottom).offset(20)
-            $0.bottom.trailing.equalToSuperview().offset(-15)
-            $0.width.greaterThanOrEqualTo(20)
-            $0.height.equalTo(30)
-        }
-
-        cancelButton.snp.makeConstraints {
-            $0.top.bottom.width.height.equalTo(confirmButton)
-            $0.trailing.equalTo(confirmButton.snp.leading).offset(-15)
-
-        }
+        
+        NSLayoutConstraint.activate([
+            alertItemView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            alertItemView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            alertItemView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9),
+            alertItemView.heightAnchor.constraint(greaterThanOrEqualToConstant: 160),
+            
+            titleLabel.topAnchor.constraint(equalTo: alertItemView.topAnchor,constant: 15),
+            titleLabel.leadingAnchor.constraint(equalTo: alertItemView.leadingAnchor,constant: 15),
+            titleLabel.trailingAnchor.constraint(equalTo: alertItemView.trailingAnchor,constant: -15),
+            titleLabel.heightAnchor.constraint(equalToConstant: 30),
+            
+            textInputField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15),
+            textInputField.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            textInputField.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+            textInputField.heightAnchor.constraint(greaterThanOrEqualToConstant: 30),
+            
+            confirmButton.topAnchor.constraint(equalTo: textInputField.bottomAnchor,constant: 20),
+            confirmButton.trailingAnchor.constraint(equalTo: alertItemView.trailingAnchor,constant: -15),
+            confirmButton.bottomAnchor.constraint(equalTo: alertItemView.bottomAnchor,constant: -15),
+            confirmButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 20),
+            confirmButton.heightAnchor.constraint(equalToConstant: 30),
+            
+            cancelButton.topAnchor.constraint(equalTo: confirmButton.topAnchor),
+            cancelButton.bottomAnchor.constraint(equalTo: confirmButton.bottomAnchor),
+            cancelButton.widthAnchor.constraint(equalTo: confirmButton.widthAnchor, multiplier: 1),
+            cancelButton.heightAnchor.constraint(equalTo: confirmButton.heightAnchor, multiplier: 1),
+            cancelButton.trailingAnchor.constraint(equalTo: confirmButton.leadingAnchor,constant: -15)
+        ])
+        
+        
+        
+//        alertItemView.snp.makeConstraints {
+//            $0.center.equalToSuperview()
+//            $0.width.equalToSuperview().multipliedBy(0.9)
+//            $0.height.greaterThanOrEqualTo(160)
+//        }
+//
+//
+//        titleLabel.snp.makeConstraints {
+//            $0.leading.top.equalToSuperview().offset(15)
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.height.equalTo(30)
+//        }
+//
+//        textInputField.snp.makeConstraints {
+//            $0.top.equalTo(titleLabel.snp.bottom).offset(15)
+//            $0.leading.trailing.equalTo(titleLabel)
+//            $0.height.greaterThanOrEqualTo(30)
+//        }
+//
+//        confirmButton.snp.makeConstraints {
+//            $0.top.equalTo(textInputField.snp.bottom).offset(20)
+//            $0.bottom.trailing.equalToSuperview().offset(-15)
+//            $0.width.greaterThanOrEqualTo(20)
+//            $0.height.equalTo(30)
+//        }
+//
+//        cancelButton.snp.makeConstraints {
+//            $0.top.bottom.width.height.equalTo(confirmButton)
+//            $0.trailing.equalTo(confirmButton.snp.leading).offset(-15)
+//
+//        }
     }
 
     @objc func cancelAct() {

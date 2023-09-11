@@ -103,44 +103,73 @@ class CampaignInputAlertController: CustomBaseAlertController {
         super.setupViews()
 
         self.view.addSubview(alertItemView)
-        alertItemView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.width.equalToSuperview().multipliedBy(0.9)
-            $0.height.greaterThanOrEqualTo(140)
-        }
-
         alertItemView.addSubview(titleInputField)
         alertItemView.addSubview(accessInputField)
         alertItemView.addSubview(campaignInputField)
         alertItemView.addSubview(saveButton)
-
-        titleInputField.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-10)
-            $0.top.equalToSuperview().offset(10)
-            $0.height.equalTo(35)
-        }
-
-        accessInputField.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-10)
-            $0.top.equalTo(titleInputField.snp.bottom).offset(10)
-            $0.height.equalTo(35)
-        }
-
-        campaignInputField.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-10)
-            $0.top.equalTo(accessInputField.snp.bottom).offset(10)
-            $0.height.equalTo(35)
-        }
-        saveButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-10)
-            $0.top.equalTo(campaignInputField.snp.bottom).offset(10)
-            $0.bottom.equalToSuperview().offset(-10)
-            $0.height.equalTo(40)
-        }
+        
+        NSLayoutConstraint.activate([
+            alertItemView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            alertItemView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            alertItemView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9),
+            alertItemView.heightAnchor.constraint(greaterThanOrEqualToConstant: 140),
+            
+            titleInputField.leadingAnchor.constraint(equalTo: alertItemView.leadingAnchor,constant: 10),
+            titleInputField.trailingAnchor.constraint(equalTo: alertItemView.trailingAnchor, constant: -10),
+            titleInputField.topAnchor.constraint(equalTo: alertItemView.topAnchor,constant: 10),
+            titleInputField.heightAnchor.constraint(equalToConstant: 35),
+            
+            accessInputField.leadingAnchor.constraint(equalTo: alertItemView.leadingAnchor,constant: 10),
+            accessInputField.trailingAnchor.constraint(equalTo: alertItemView.trailingAnchor, constant: -10),
+            accessInputField.topAnchor.constraint(equalTo: titleInputField.bottomAnchor,constant: 10),
+            accessInputField.heightAnchor.constraint(equalToConstant: 35),
+            
+            campaignInputField.leadingAnchor.constraint(equalTo: alertItemView.leadingAnchor,constant: 10),
+            campaignInputField.trailingAnchor.constraint(equalTo: alertItemView.trailingAnchor,constant: -10),
+            campaignInputField.topAnchor.constraint(equalTo: accessInputField.bottomAnchor,constant: 10),
+            campaignInputField.heightAnchor.constraint(equalToConstant: 35),
+            
+            saveButton.leadingAnchor.constraint(equalTo: alertItemView.leadingAnchor,constant: 10),
+            saveButton.trailingAnchor.constraint(equalTo: alertItemView.trailingAnchor,constant: -10),
+            saveButton.topAnchor.constraint(equalTo: campaignInputField.bottomAnchor, constant: 10),
+            saveButton.bottomAnchor.constraint(equalTo: alertItemView.bottomAnchor,constant: -10),
+            saveButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+//        alertItemView.snp.makeConstraints {
+//            $0.center.equalToSuperview()
+//            $0.width.equalToSuperview().multipliedBy(0.9)
+//            $0.height.greaterThanOrEqualTo(140)
+//        }
+//
+//
+//        titleInputField.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(10)
+//            $0.trailing.equalToSuperview().offset(-10)
+//            $0.top.equalToSuperview().offset(10)
+//            $0.height.equalTo(35)
+//        }
+//
+//        accessInputField.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(10)
+//            $0.trailing.equalToSuperview().offset(-10)
+//            $0.top.equalTo(titleInputField.snp.bottom).offset(10)
+//            $0.height.equalTo(35)
+//        }
+//
+//        campaignInputField.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(10)
+//            $0.trailing.equalToSuperview().offset(-10)
+//            $0.top.equalTo(accessInputField.snp.bottom).offset(10)
+//            $0.height.equalTo(35)
+//        }
+//        saveButton.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(10)
+//            $0.trailing.equalToSuperview().offset(-10)
+//            $0.top.equalTo(campaignInputField.snp.bottom).offset(10)
+//            $0.bottom.equalToSuperview().offset(-10)
+//            $0.height.equalTo(40)
+//        }
     }
 
     @objc func saveCampaign() {

@@ -104,54 +104,93 @@ final class DevInfoCell: SampleBaseCell {
         view.addSubview(realRadio)
         view.addSubview(setRadio)
         view.addSubview(landingField)
-
-        devRadio.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(20)
-            $0.leading.equalToSuperview()
-            $0.bottom.lessThanOrEqualToSuperview()
-            $0.trailing.lessThanOrEqualToSuperview()
-            $0.height.equalTo(20)
-        }
         
-        qaRadio.snp.makeConstraints {
-            $0.top.equalTo(devRadio.snp.bottom).offset(10)
-            $0.bottom.lessThanOrEqualToSuperview()
-            $0.leading.equalToSuperview()
-            $0.trailing.lessThanOrEqualToSuperview()
-            $0.height.equalTo(20)
-        }
-
-        stageRadio.snp.makeConstraints {
-            $0.top.equalTo(qaRadio.snp.bottom).offset(10)
-            $0.bottom.lessThanOrEqualToSuperview()
-            $0.leading.equalToSuperview()
-            $0.trailing.lessThanOrEqualToSuperview()
-            $0.height.equalTo(20)
-        }
-
-        realRadio.snp.makeConstraints {
-            $0.top.equalTo(stageRadio.snp.bottom).offset(10)
-            $0.bottom.lessThanOrEqualToSuperview()
-            $0.leading.equalToSuperview()
-            $0.trailing.lessThanOrEqualToSuperview()
-            $0.height.equalTo(20)
-        }
         
-        setRadio.snp.makeConstraints {
-            $0.top.equalTo(realRadio.snp.bottom).offset(10)
-            $0.bottom.lessThanOrEqualToSuperview()
-            $0.leading.equalToSuperview()
-            $0.trailing.lessThanOrEqualToSuperview()
-            $0.height.equalTo(20)
-        }
+        NSLayoutConstraint.activate([
+            devRadio.topAnchor.constraint(equalTo: view.topAnchor,constant: 20),
+            devRadio.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            devRadio.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor),
+            devRadio.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor),
+            devRadio.heightAnchor.constraint(equalToConstant: 20),
+            
+            qaRadio.topAnchor.constraint(equalTo: devRadio.bottomAnchor, constant: 10),
+            qaRadio.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            qaRadio.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor),
+            qaRadio.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor),
+            qaRadio.heightAnchor.constraint(equalToConstant: 20),
+            
+            stageRadio.topAnchor.constraint(equalTo: qaRadio.bottomAnchor, constant: 10),
+            stageRadio.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            stageRadio.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor),
+            stageRadio.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor),
+            stageRadio.heightAnchor.constraint(equalToConstant: 20),
+            
+            realRadio.topAnchor.constraint(equalTo: stageRadio.bottomAnchor, constant: 10),
+            realRadio.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            realRadio.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor),
+            realRadio.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor),
+            realRadio.heightAnchor.constraint(equalToConstant: 20),
+        
+            setRadio.topAnchor.constraint(equalTo: realRadio.bottomAnchor, constant: 10),
+            setRadio.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            setRadio.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor),
+            setRadio.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor),
+            setRadio.heightAnchor.constraint(equalToConstant: 20),
+            
+            landingField.topAnchor.constraint(equalTo: setRadio.bottomAnchor, constant: 10),
+            landingField.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor),
+            landingField.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            landingField.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            landingField.heightAnchor.constraint(equalToConstant: 30)
+        ])
 
-        landingField.snp.makeConstraints {
-            $0.top.equalTo(setRadio.snp.bottom).offset(10)
-            $0.bottom.lessThanOrEqualToSuperview()
-            $0.leading.equalToSuperview()
-            $0.trailing.equalToSuperview()
-            $0.height.equalTo(30)
-        }
+//        devRadio.snp.makeConstraints {
+//            $0.top.equalToSuperview().offset(20)
+//            $0.leading.equalToSuperview()
+//            $0.bottom.lessThanOrEqualToSuperview()
+//            $0.trailing.lessThanOrEqualToSuperview()
+//            $0.height.equalTo(20)
+//        }
+//
+//        qaRadio.snp.makeConstraints {
+//            $0.top.equalTo(devRadio.snp.bottom).offset(10)
+//            $0.bottom.lessThanOrEqualToSuperview()
+//            $0.leading.equalToSuperview()
+//            $0.trailing.lessThanOrEqualToSuperview()
+//            $0.height.equalTo(20)
+//        }
+//
+//        stageRadio.snp.makeConstraints {
+//            $0.top.equalTo(qaRadio.snp.bottom).offset(10)
+//            $0.bottom.lessThanOrEqualToSuperview()
+//            $0.leading.equalToSuperview()
+//            $0.trailing.lessThanOrEqualToSuperview()
+//            $0.height.equalTo(20)
+//        }
+//
+//        realRadio.snp.makeConstraints {
+//            $0.top.equalTo(stageRadio.snp.bottom).offset(10)
+//            $0.bottom.lessThanOrEqualToSuperview()
+//            $0.leading.equalToSuperview()
+//            $0.trailing.lessThanOrEqualToSuperview()
+//            $0.height.equalTo(20)
+//        }
+//
+//        setRadio.snp.makeConstraints {
+//            $0.top.equalTo(realRadio.snp.bottom).offset(10)
+//            $0.bottom.lessThanOrEqualToSuperview()
+//            $0.leading.equalToSuperview()
+//            $0.trailing.lessThanOrEqualToSuperview()
+//            $0.height.equalTo(20)
+//        }
+//
+//        landingField.snp.makeConstraints {
+//            $0.top.equalTo(setRadio.snp.bottom).offset(10)
+//            $0.bottom.lessThanOrEqualToSuperview()
+//            $0.leading.equalToSuperview()
+//            $0.trailing.equalToSuperview()
+//            $0.height.equalTo(30)
+//        }
         
         return view
     }()
@@ -192,31 +231,52 @@ final class DevInfoCell: SampleBaseCell {
         itemView.addSubview(lockPortrait)
         itemView.addSubview(phaseView)
         
-        loggerViewButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10)
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-10)
-        }
-
-        checkButton.snp.makeConstraints {
-            $0.top.equalTo(loggerViewButton.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-10)
-        }
-        
-        lockPortrait.snp.makeConstraints {
-            $0.top.equalTo(checkButton.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-10)
-        }
-
         phaseView.backgroundColor = .clear
-        phaseView.snp.makeConstraints {
-            $0.top.equalTo(lockPortrait.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-10)
-            $0.bottom.equalToSuperview().offset(-10)
-        }
+        
+        NSLayoutConstraint.activate([
+            loggerViewButton.topAnchor.constraint(equalTo: itemView.topAnchor, constant: 10),
+            loggerViewButton.leadingAnchor.constraint(equalTo: itemView.leadingAnchor,constant: 10),
+            loggerViewButton.trailingAnchor.constraint(equalTo: itemView.trailingAnchor, constant: -10),
+            
+            checkButton.topAnchor.constraint(equalTo: loggerViewButton.bottomAnchor, constant: 10),
+            checkButton.leadingAnchor.constraint(equalTo: itemView.leadingAnchor, constant: 10),
+            checkButton.trailingAnchor.constraint(equalTo: itemView.trailingAnchor, constant: -10),
+            
+            lockPortrait.topAnchor.constraint(equalTo: checkButton.bottomAnchor, constant: 10),
+            lockPortrait.leadingAnchor.constraint(equalTo: itemView.leadingAnchor,constant: 10),
+            lockPortrait.trailingAnchor.constraint(equalTo: itemView.trailingAnchor, constant: 10),
+            
+            phaseView.topAnchor.constraint(equalTo: lockPortrait.bottomAnchor, constant: 10),
+            phaseView.leadingAnchor.constraint(equalTo: itemView.leadingAnchor,constant: 10),
+            phaseView.trailingAnchor.constraint(equalTo: itemView.trailingAnchor, constant: -10),
+            phaseView.bottomAnchor.constraint(equalTo: itemView.bottomAnchor,constant: -10)
+        ])
+        
+//        loggerViewButton.snp.makeConstraints {
+//            $0.top.equalToSuperview().offset(10)
+//            $0.leading.equalToSuperview().offset(10)
+//            $0.trailing.equalToSuperview().offset(-10)
+//        }
+//
+//        checkButton.snp.makeConstraints {
+//            $0.top.equalTo(loggerViewButton.snp.bottom).offset(10)
+//            $0.leading.equalToSuperview().offset(10)
+//            $0.trailing.equalToSuperview().offset(-10)
+//        }
+//
+//        lockPortrait.snp.makeConstraints {
+//            $0.top.equalTo(checkButton.snp.bottom).offset(10)
+//            $0.leading.equalToSuperview().offset(10)
+//            $0.trailing.equalToSuperview().offset(-10)
+//        }
+//
+//
+//        phaseView.snp.makeConstraints {
+//            $0.top.equalTo(lockPortrait.snp.bottom).offset(10)
+//            $0.leading.equalToSuperview().offset(10)
+//            $0.trailing.equalToSuperview().offset(-10)
+//            $0.bottom.equalToSuperview().offset(-10)
+//        }
 
         self.setSectionTitle(title: "개발정보")
     }

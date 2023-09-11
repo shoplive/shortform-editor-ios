@@ -54,10 +54,16 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.pipPosition = .bottomLeft
         
         self.view.addSubviews(tabbar)
-        tabbar.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
-        }
+        
+        NSLayoutConstraint.activate([
+            tabbar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            tabbar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            tabbar.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+//        tabbar.snp.makeConstraints {
+//            $0.leading.trailing.equalToSuperview()
+//            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+//        }
     }
 
     func setupSampleOptions() {

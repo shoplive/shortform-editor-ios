@@ -288,7 +288,6 @@
 		BF5F509F28F7D1E1008B79D9 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF8477D2897E0230075A0AA /* ReplayKit.framework */; };
 		BF5F50A028F7D1E1008B79D9 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = BF5F504A28F7D1E1008B79D9 /* Toast */; };
 		BF5F50A128F7D1E1008B79D9 /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BF5F504E28F7D1E1008B79D9 /* CryptoSwift */; };
-		BF5F50A228F7D1E1008B79D9 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BF5F504428F7D1E1008B79D9 /* SnapKit */; };
 		BF5F50A328F7D1E1008B79D9 /* DropDown in Frameworks */ = {isa = PBXBuildFile; productRef = BF5F504828F7D1E1008B79D9 /* DropDown */; };
 		BF5F50A428F7D1E1008B79D9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBACA02699EAEC00574958 /* CoreTelephony.framework */; };
 		BF5F50A528F7D1E1008B79D9 /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = BF5F504628F7D1E1008B79D9 /* SideMenu */; };
@@ -360,7 +359,6 @@
 		BF60E23C2771CECA0060531C /* JWTTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF60E1CA276E4BC60060531C /* JWTTool.swift */; };
 		BF60E23E2771CECA0060531C /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = BF60E1EA2771CECA0060531C /* Toast */; };
 		BF60E23F2771CECA0060531C /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BF60E1EE2771CECA0060531C /* CryptoSwift */; };
-		BF60E2402771CECA0060531C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BF60E1E42771CECA0060531C /* SnapKit */; };
 		BF60E2412771CECA0060531C /* DropDown in Frameworks */ = {isa = PBXBuildFile; productRef = BF60E1E82771CECA0060531C /* DropDown */; };
 		BF60E2422771CECA0060531C /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBACA02699EAEC00574958 /* CoreTelephony.framework */; };
 		BF60E2432771CECA0060531C /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = BF60E1E62771CECA0060531C /* SideMenu */; };
@@ -389,7 +387,6 @@
 		BF95D2C829D28E900033CECB /* CustomAdIdAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF95D2C529D28E900033CECB /* CustomAdIdAlertController.swift */; };
 		BF9BB7E2273A1571006BDEF3 /* CouponCallbackSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BB7E0273A1571006BDEF3 /* CouponCallbackSettingViewController.swift */; };
 		BF9BB7E3273A1571006BDEF3 /* SDKSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BB7E1273A1571006BDEF3 /* SDKSettings.swift */; };
-		BF9BB7E6273A1640006BDEF3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BF9BB7E5273A1640006BDEF3 /* SnapKit */; };
 		BFA69D6A276B64FF00F91394 /* OptionSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA69D69276B64FF00F91394 /* OptionSectionHeader.swift */; };
 		BFAD8EAD265A23FD00202160 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8EAC265A23FD00202160 /* AppDelegate.swift */; };
 		BFAD8EAF265A23FD00202160 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8EAE265A23FD00202160 /* SceneDelegate.swift */; };
@@ -666,7 +663,6 @@
 				BF5F50A028F7D1E1008B79D9 /* Toast in Frameworks */,
 				BF5F50A128F7D1E1008B79D9 /* CryptoSwift in Frameworks */,
 				BF5F50B728F7D308008B79D9 /* ShopLiveSDK.framework in Frameworks */,
-				BF5F50A228F7D1E1008B79D9 /* SnapKit in Frameworks */,
 				BFE9607D28FD3E560098937A /* QRScanner in Frameworks */,
 				BF5F50A328F7D1E1008B79D9 /* DropDown in Frameworks */,
 				BF5F50A428F7D1E1008B79D9 /* CoreTelephony.framework in Frameworks */,
@@ -684,7 +680,6 @@
 				BFF8477F2897E02F0075A0AA /* ReplayKit.framework in Frameworks */,
 				BF60E23E2771CECA0060531C /* Toast in Frameworks */,
 				BF60E23F2771CECA0060531C /* CryptoSwift in Frameworks */,
-				BF60E2402771CECA0060531C /* SnapKit in Frameworks */,
 				BF60E2412771CECA0060531C /* DropDown in Frameworks */,
 				BF60E2422771CECA0060531C /* CoreTelephony.framework in Frameworks */,
 				BF60E2432771CECA0060531C /* SideMenu in Frameworks */,
@@ -700,7 +695,6 @@
 				BFE2195F276B35C000900FB1 /* Toast in Frameworks */,
 				BF25526128FC1302008B018B /* QRScanner in Frameworks */,
 				BF60E1DC276F97040060531C /* CryptoSwift in Frameworks */,
-				BF9BB7E6273A1640006BDEF3 /* SnapKit in Frameworks */,
 				BF4719A927687C7E00522F6F /* DropDown in Frameworks */,
 				BFE14B66272F6E9200C6624B /* CoreTelephony.framework in Frameworks */,
 				BF47196B2765F40700522F6F /* SideMenu in Frameworks */,
@@ -1253,7 +1247,6 @@
 			);
 			name = "ShopLiveDemo for QA";
 			packageProductDependencies = (
-				BF5F504428F7D1E1008B79D9 /* SnapKit */,
 				BF5F504628F7D1E1008B79D9 /* SideMenu */,
 				BF5F504828F7D1E1008B79D9 /* DropDown */,
 				BF5F504A28F7D1E1008B79D9 /* Toast */,
@@ -1279,7 +1272,6 @@
 			);
 			name = "ShopLiveDemo for QA for dev";
 			packageProductDependencies = (
-				BF60E1E42771CECA0060531C /* SnapKit */,
 				BF60E1E62771CECA0060531C /* SideMenu */,
 				BF60E1E82771CECA0060531C /* DropDown */,
 				BF60E1EA2771CECA0060531C /* Toast */,
@@ -1305,7 +1297,6 @@
 			);
 			name = ShopLiveDemo;
 			packageProductDependencies = (
-				BF9BB7E5273A1640006BDEF3 /* SnapKit */,
 				BF47196A2765F40700522F6F /* SideMenu */,
 				BF4719A827687C7E00522F6F /* DropDown */,
 				BFE2195E276B35C000900FB1 /* Toast */,
@@ -1391,7 +1382,6 @@
 			);
 			mainGroup = 1BA5154325CBDCD100070181;
 			packageReferences = (
-				BF9BB7E4273A1640006BDEF3 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				BF4719692765F40700522F6F /* XCRemoteSwiftPackageReference "SideMenu" */,
 				BF4719A527687C6A00522F6F /* XCRemoteSwiftPackageReference "DropDown" */,
 				BFE2195D276B35C000900FB1 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
@@ -2743,14 +2733,6 @@
 				kind = branch;
 			};
 		};
-		BF5F504528F7D1E1008B79D9 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
 		BF5F504728F7D1E1008B79D9 /* XCRemoteSwiftPackageReference "SideMenu" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jonkykong/SideMenu.git";
@@ -2807,14 +2789,6 @@
 				kind = branch;
 			};
 		};
-		BF60E1E52771CECA0060531C /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
 		BF60E1E72771CECA0060531C /* XCRemoteSwiftPackageReference "SideMenu" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jonkykong/SideMenu.git";
@@ -2855,14 +2829,6 @@
 				kind = branch;
 			};
 		};
-		BF9BB7E4273A1640006BDEF3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
 		BFE2195D276B35C000900FB1 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
@@ -2893,11 +2859,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BF4719A527687C6A00522F6F /* XCRemoteSwiftPackageReference "DropDown" */;
 			productName = DropDown;
-		};
-		BF5F504428F7D1E1008B79D9 /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF5F504528F7D1E1008B79D9 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
 		};
 		BF5F504628F7D1E1008B79D9 /* SideMenu */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -2934,11 +2895,6 @@
 			package = BF60E1DA276F97040060531C /* XCRemoteSwiftPackageReference "CryptoSwift" */;
 			productName = CryptoSwift;
 		};
-		BF60E1E42771CECA0060531C /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF60E1E52771CECA0060531C /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
-		};
 		BF60E1E62771CECA0060531C /* SideMenu */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BF60E1E72771CECA0060531C /* XCRemoteSwiftPackageReference "SideMenu" */;
@@ -2963,11 +2919,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BF60E1EF2771CECA0060531C /* XCRemoteSwiftPackageReference "CryptoSwift" */;
 			productName = CryptoSwift;
-		};
-		BF9BB7E5273A1640006BDEF3 /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF9BB7E4273A1640006BDEF3 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
 		};
 		BFE2195E276B35C000900FB1 /* Toast */ = {
 			isa = XCSwiftPackageProductDependency;

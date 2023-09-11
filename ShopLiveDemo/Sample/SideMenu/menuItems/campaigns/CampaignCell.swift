@@ -76,27 +76,49 @@ final class CampaignCell: UITableViewCell {
         }()
 
         self.contentView.addSubview(bottomLine)
-        bottomLine.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(1)
-        }
-        campaignAliasLabel.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().offset(15)
-            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
-        }
-
-        accessKeyLabel.snp.makeConstraints {
-            $0.top.equalTo(campaignAliasLabel.snp.bottom)
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
-        }
-
-        campaignKeyLabel.snp.makeConstraints {
-            $0.top.equalTo(accessKeyLabel.snp.bottom)
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
-            $0.bottom.equalToSuperview().offset(-15)
-        }
+        
+        
+        NSLayoutConstraint.activate([
+            bottomLine.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            bottomLine.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            bottomLine.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            bottomLine.heightAnchor.constraint(equalToConstant: 1),
+            
+            campaignAliasLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            campaignAliasLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
+            campaignAliasLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -15),
+            
+            accessKeyLabel.topAnchor.constraint(equalTo: campaignAliasLabel.bottomAnchor, constant: 0),
+            accessKeyLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
+            accessKeyLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -15),
+            
+            campaignKeyLabel.topAnchor.constraint(equalTo: accessKeyLabel.bottomAnchor, constant: 0),
+            campaignKeyLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            campaignKeyLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -15),
+            campaignKeyLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -15)
+        ])
+        
+//        bottomLine.snp.makeConstraints {
+//            $0.leading.trailing.bottom.equalToSuperview()
+//            $0.height.equalTo(1)
+//        }
+//        campaignAliasLabel.snp.makeConstraints {
+//            $0.top.leading.equalToSuperview().offset(15)
+//            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
+//        }
+//
+//        accessKeyLabel.snp.makeConstraints {
+//            $0.top.equalTo(campaignAliasLabel.snp.bottom)
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
+//        }
+//
+//        campaignKeyLabel.snp.makeConstraints {
+//            $0.top.equalTo(accessKeyLabel.snp.bottom)
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
+//            $0.bottom.equalToSuperview().offset(-15)
+//        }
     }
 
     func configure(keySet: ShopLiveKeySet) {

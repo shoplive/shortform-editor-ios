@@ -75,30 +75,51 @@ class SwitchOptionCell: UITableViewCell {
         self.contentView.addSubview(optionDescriptionLabel)
         self.contentView.addSubview(optionSwitch)
         self.contentView.addSubview(touchArea)
+        
+        NSLayoutConstraint.activate([
+            touchArea.topAnchor.constraint(equalTo: contentView.topAnchor),
+            touchArea.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            touchArea.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            touchArea.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
+            optionSwitch.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20),
+            optionSwitch.widthAnchor.constraint(equalToConstant: 50),
+            optionSwitch.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            optionTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            optionTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            optionTitleLabel.trailingAnchor.constraint(equalTo: optionSwitch.leadingAnchor, constant: -10),
+            optionTitleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 20),
+            
+            optionDescriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            optionDescriptionLabel.trailingAnchor.constraint(equalTo: optionSwitch.leadingAnchor, constant: -10),
+            optionDescriptionLabel.topAnchor.constraint(equalTo: optionTitleLabel.bottomAnchor, constant: 4),
+            optionDescriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+        ])
 
-        touchArea.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        optionSwitch.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-20)
-            $0.width.equalTo(50)
-            $0.centerY.equalToSuperview()
-        }
-        
-        optionTitleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(20)
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.equalTo(optionSwitch.snp.leading).offset(-10)
-            $0.height.greaterThanOrEqualTo(20)
-        }
-        
-        optionDescriptionLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.equalTo(optionSwitch.snp.leading).offset(-10)
-            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
-            $0.bottom.equalToSuperview().offset(-20)
-        }
+//        touchArea.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
+//        
+//        optionSwitch.snp.makeConstraints {
+//            $0.trailing.equalToSuperview().offset(-20)
+//            $0.width.equalTo(50)
+//            $0.centerY.equalToSuperview()
+//        }
+//        
+//        optionTitleLabel.snp.makeConstraints {
+//            $0.top.equalToSuperview().offset(20)
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.equalTo(optionSwitch.snp.leading).offset(-10)
+//            $0.height.greaterThanOrEqualTo(20)
+//        }
+//        
+//        optionDescriptionLabel.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.equalTo(optionSwitch.snp.leading).offset(-10)
+//            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
+//            $0.bottom.equalToSuperview().offset(-20)
+//        }
 
     }
 

@@ -73,37 +73,60 @@ class SecretKeyInputAlertController: CustomBaseAlertController {
         super.setupViews()
 
         self.view.addSubview(alertItemView)
-        alertItemView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.width.equalToSuperview().multipliedBy(0.9)
-            $0.height.greaterThanOrEqualTo(140)
-        }
-
         alertItemView.addSubview(keyTitleInputField)
         alertItemView.addSubview(secretKeyInputField)
         alertItemView.addSubview(saveButton)
-
-        keyTitleInputField.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-10)
-            $0.top.equalToSuperview().offset(10)
-            $0.height.equalTo(35)
-        }
-
-        secretKeyInputField.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-10)
-            $0.top.equalTo(keyTitleInputField.snp.bottom).offset(10)
-            $0.height.equalTo(35)
-        }
-
-        saveButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-10)
-            $0.top.equalTo(secretKeyInputField.snp.bottom).offset(10)
-            $0.bottom.equalToSuperview().offset(-10)
-            $0.height.equalTo(40)
-        }
+        
+        NSLayoutConstraint.activate([
+            alertItemView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            alertItemView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            alertItemView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.9),
+            alertItemView.heightAnchor.constraint(greaterThanOrEqualToConstant: 140),
+            
+            keyTitleInputField.leadingAnchor.constraint(equalTo: alertItemView.leadingAnchor,constant: 10),
+            keyTitleInputField.trailingAnchor.constraint(equalTo: alertItemView.trailingAnchor,constant: -10),
+            keyTitleInputField.topAnchor.constraint(equalTo: alertItemView.topAnchor,constant: 10),
+            keyTitleInputField.heightAnchor.constraint(equalToConstant: 35),
+            
+            secretKeyInputField.leadingAnchor.constraint(equalTo: alertItemView.leadingAnchor,constant: 10),
+            secretKeyInputField.trailingAnchor.constraint(equalTo: alertItemView.trailingAnchor, constant: -10),
+            secretKeyInputField.topAnchor.constraint(equalTo: keyTitleInputField.bottomAnchor, constant: 10),
+            secretKeyInputField.heightAnchor.constraint(equalToConstant: 35),
+            
+            saveButton.leadingAnchor.constraint(equalTo: alertItemView.leadingAnchor, constant: 10),
+            saveButton.trailingAnchor.constraint(equalTo: alertItemView.trailingAnchor,constant: -10),
+            saveButton.topAnchor.constraint(equalTo: secretKeyInputField.bottomAnchor,constant: 10),
+            saveButton.heightAnchor.constraint(equalToConstant: 40),
+            saveButton.bottomAnchor.constraint(equalTo: alertItemView.bottomAnchor, constant: -10)
+        ])
+    
+//        alertItemView.snp.makeConstraints {
+//            $0.center.equalToSuperview()
+//            $0.width.equalToSuperview().multipliedBy(0.9)
+//            $0.height.greaterThanOrEqualTo(140)
+//        }
+//
+//        keyTitleInputField.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(10)
+//            $0.trailing.equalToSuperview().offset(-10)
+//            $0.top.equalToSuperview().offset(10)
+//            $0.height.equalTo(35)
+//        }
+//
+//        secretKeyInputField.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(10)
+//            $0.trailing.equalToSuperview().offset(-10)
+//            $0.top.equalTo(keyTitleInputField.snp.bottom).offset(10)
+//            $0.height.equalTo(35)
+//        }
+//
+//        saveButton.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(10)
+//            $0.trailing.equalToSuperview().offset(-10)
+//            $0.top.equalTo(secretKeyInputField.snp.bottom).offset(10)
+//            $0.bottom.equalToSuperview().offset(-10)
+//            $0.height.equalTo(40)
+//        }
     }
 
     @objc func saveSecretKey() {

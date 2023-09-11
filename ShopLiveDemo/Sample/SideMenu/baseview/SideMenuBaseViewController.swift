@@ -77,10 +77,16 @@ class SideMenuBaseViewController: UIViewController {
         
         switch notification.name.rawValue {
         case "UIKeyboardWillHideNotification":
-            self.tableView.snp.remakeConstraints {
-                $0.left.right.top.equalToSuperview()
-                $0.bottom.equalToSuperview()
-            }
+            NSLayoutConstraint.activate([
+                tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
+                tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+                tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+                tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            ])
+//            self.tableView.snp.remakeConstraints {
+//                $0.left.right.top.equalToSuperview()
+//                $0.bottom.equalToSuperview()
+//            }
             break
         case "UIKeyboardWillShowNotification":
             break
@@ -105,9 +111,16 @@ extension SideMenuBaseViewController: UITableViewDelegate, UITableViewDataSource
         self.view.backgroundColor = .white
 
         self.view.addSubview(tableView)
-        tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
+//        tableView.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -261,10 +274,16 @@ extension SideMenuBaseViewController: CampaignInfoCellDelegate {
     }
     
     func keysetFieldSelected() {
-        self.tableView.snp.remakeConstraints {
-            $0.left.right.top.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-200)
-        }
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
+//        self.tableView.snp.remakeConstraints {
+//            $0.left.right.top.equalToSuperview()
+//            $0.bottom.equalToSuperview().offset(-200)
+//        }
     }
 }
 

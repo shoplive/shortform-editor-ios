@@ -121,34 +121,57 @@ final class VersionInfoCell: SampleBaseCell {
         self.contentView.addSubview(customReferrerButton)
         self.contentView.addSubview(customAdIdButton)
         
-        sdkVersionLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(15)
-            $0.top.equalToSuperview().offset(25)
-            $0.height.equalTo(30)
-        }
+        NSLayoutConstraint.activate([
+            sdkVersionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            sdkVersionLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 25),
+            sdkVersionLabel.heightAnchor.constraint(equalToConstant: 30),
+            
+            customAppVersionButton.leadingAnchor.constraint(equalTo: sdkVersionLabel.trailingAnchor),
+            customAppVersionButton.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -15),
+            customAppVersionButton.topAnchor.constraint(equalTo: sdkVersionLabel.topAnchor),
+            customAppVersionButton.bottomAnchor.constraint(equalTo: sdkVersionLabel.bottomAnchor),
+            
+            customReferrerButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            customReferrerButton.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -15),
+            customReferrerButton.topAnchor.constraint(equalTo: customAppVersionButton.bottomAnchor,constant: 10),
+            
+            customAdIdButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            customAdIdButton.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -15),
+            customAdIdButton.topAnchor.constraint(equalTo: customReferrerButton.bottomAnchor, constant: 10),
+            customAdIdButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+            
+            sectionTitleLabel.widthAnchor.constraint(equalToConstant: 0),
+            sectionTitleLabel.heightAnchor.constraint(equalToConstant: 0)
+        ])
         
-        customAppVersionButton.snp.makeConstraints {
-            $0.leading.equalTo(sdkVersionLabel.snp.trailing)
-            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
-            $0.top.bottom.equalTo(sdkVersionLabel)
-        }
-        
-        customReferrerButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
-            $0.top.equalTo(customAppVersionButton.snp.bottom).offset(10)
-        }
-        
-        customAdIdButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
-            $0.top.equalTo(customReferrerButton.snp.bottom).offset(10)
-            $0.bottom.equalToSuperview().offset(-15)
-        }
-        
-        sectionTitleLabel.snp.remakeConstraints {
-            $0.width.height.equalTo(0)
-        }
+//        sdkVersionLabel.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.top.equalToSuperview().offset(25)
+//            $0.height.equalTo(30)
+//        }
+//        
+//        customAppVersionButton.snp.makeConstraints {
+//            $0.leading.equalTo(sdkVersionLabel.snp.trailing)
+//            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
+//            $0.top.bottom.equalTo(sdkVersionLabel)
+//        }
+//        
+//        customReferrerButton.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
+//            $0.top.equalTo(customAppVersionButton.snp.bottom).offset(10)
+//        }
+//        
+//        customAdIdButton.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
+//            $0.top.equalTo(customReferrerButton.snp.bottom).offset(10)
+//            $0.bottom.equalToSuperview().offset(-15)
+//        }
+//        
+//        sectionTitleLabel.snp.remakeConstraints {
+//            $0.width.height.equalTo(0)
+//        }
     }
     
     private func updateVersion() {

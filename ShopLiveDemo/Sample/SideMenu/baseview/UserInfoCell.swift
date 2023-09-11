@@ -125,25 +125,41 @@ final class UserInfoCell: SampleBaseCell {
         view.addSubview(guestRadio)
         view.addSubview(commonRadio)
         view.addSubview(tokenRadio)
-
-        guestRadio.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalToSuperview()
-            $0.height.equalTo(20)
-        }
-
-        commonRadio.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalTo(guestRadio.snp.trailing).offset(15)
-            $0.height.equalTo(20)
-        }
         
-        tokenRadio.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalTo(commonRadio.snp.trailing).offset(15)
-            $0.trailing.lessThanOrEqualToSuperview()
-            $0.height.equalTo(20)
-        }
+        NSLayoutConstraint.activate([
+            guestRadio.topAnchor.constraint(equalTo: view.topAnchor),
+            guestRadio.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            guestRadio.heightAnchor.constraint(equalToConstant: 20),
+            
+            commonRadio.topAnchor.constraint(equalTo: view.topAnchor),
+            commonRadio.leadingAnchor.constraint(equalTo: guestRadio.trailingAnchor,constant: 15),
+            commonRadio.heightAnchor.constraint(equalToConstant: 20),
+            
+            tokenRadio.topAnchor.constraint(equalTo: view.topAnchor),
+            tokenRadio.leadingAnchor.constraint(equalTo: commonRadio.trailingAnchor, constant: 15),
+            tokenRadio.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor),
+            tokenRadio.heightAnchor.constraint(equalToConstant: 20)
+        ])
+        
+
+//        guestRadio.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.equalToSuperview()
+//            $0.height.equalTo(20)
+//        }
+//
+//        commonRadio.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.equalTo(guestRadio.snp.trailing).offset(15)
+//            $0.height.equalTo(20)
+//        }
+//        
+//        tokenRadio.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.equalTo(commonRadio.snp.trailing).offset(15)
+//            $0.trailing.lessThanOrEqualToSuperview()
+//            $0.height.equalTo(20)
+//        }
 
         return view
     }()
@@ -172,33 +188,57 @@ final class UserInfoCell: SampleBaseCell {
         self.itemView.addSubview(userinfoTitleLabel)
         self.itemView.addSubview(jwtTokenTitleLabel)
         self.itemView.addSubview(chooseButton)
+        
+        
+        NSLayoutConstraint.activate([
+            authView.leadingAnchor.constraint(equalTo: titleMenuView.leadingAnchor),
+            authView.trailingAnchor.constraint(lessThanOrEqualTo: titleMenuView.trailingAnchor),
+            authView.centerYAnchor.constraint(equalTo: titleMenuView.centerYAnchor),
+            authView.heightAnchor.constraint(equalToConstant: 20),
+            
+            userinfoTitleLabel.leadingAnchor.constraint(equalTo: itemView.leadingAnchor, constant: 15),
+            userinfoTitleLabel.topAnchor.constraint(equalTo: itemView.topAnchor,constant: 15),
+            userinfoTitleLabel.trailingAnchor.constraint(equalTo: chooseButton.leadingAnchor,constant: -15),
+            
+            chooseButton.trailingAnchor.constraint(equalTo: itemView.trailingAnchor, constant: -15),
+            chooseButton.topAnchor.constraint(equalTo: itemView.topAnchor, constant: 5),
+            chooseButton.widthAnchor.constraint(equalToConstant: 80),
+            chooseButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 35),
+            
+            
+            jwtTokenTitleLabel.leadingAnchor.constraint(equalTo: userinfoTitleLabel.leadingAnchor),
+            jwtTokenTitleLabel.trailingAnchor.constraint(equalTo: itemView.trailingAnchor, constant: -15),
+            jwtTokenTitleLabel.topAnchor.constraint(equalTo: userinfoTitleLabel.bottomAnchor, constant: 15),
+            jwtTokenTitleLabel.topAnchor.constraint(greaterThanOrEqualTo: chooseButton.bottomAnchor, constant: 15),
+            jwtTokenTitleLabel.bottomAnchor.constraint(equalTo: itemView.bottomAnchor, constant: -15)
+        ])
 
-        authView.snp.makeConstraints {
-            $0.leading.equalToSuperview()
-            $0.trailing.lessThanOrEqualToSuperview()
-            $0.centerY.equalToSuperview()
-            $0.height.equalTo(20)
-        }
-        userinfoTitleLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(15)
-            $0.top.equalToSuperview().offset(15)
-            $0.trailing.equalTo(chooseButton.snp.leading).offset(-15)
-        }
-
-        chooseButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.top.equalToSuperview().offset(5)
-            $0.width.equalTo(80)
-            $0.height.greaterThanOrEqualTo(35)
-        }
-
-        jwtTokenTitleLabel.snp.makeConstraints {
-            $0.leading.equalTo(userinfoTitleLabel)
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.top.equalTo(userinfoTitleLabel.snp.bottom).offset(15)
-            $0.top.greaterThanOrEqualTo(chooseButton.snp.bottom).offset(15)
-            $0.bottom.equalToSuperview().offset(-15)
-        }
+//        authView.snp.makeConstraints {
+//            $0.leading.equalToSuperview()
+//            $0.trailing.lessThanOrEqualToSuperview()
+//            $0.centerY.equalToSuperview()
+//            $0.height.equalTo(20)
+//        }
+//        userinfoTitleLabel.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.top.equalToSuperview().offset(15)
+//            $0.trailing.equalTo(chooseButton.snp.leading).offset(-15)
+//        }
+//
+//        chooseButton.snp.makeConstraints {
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.top.equalToSuperview().offset(5)
+//            $0.width.equalTo(80)
+//            $0.height.greaterThanOrEqualTo(35)
+//        }
+//
+//        jwtTokenTitleLabel.snp.makeConstraints {
+//            $0.leading.equalTo(userinfoTitleLabel)
+//            $0.trailing.equalToSuperview().offset(-15)
+//            $0.top.equalTo(userinfoTitleLabel.snp.bottom).offset(15)
+//            $0.top.greaterThanOrEqualTo(chooseButton.snp.bottom).offset(15)
+//            $0.bottom.equalToSuperview().offset(-15)
+//        }
 
         self.setSectionTitle(title: "base.section.userinfo.title".localized())
     }

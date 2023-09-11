@@ -44,9 +44,16 @@ final class CampaignsViewController: SideMenuItemViewController {
 
     func setupViews() {
         self.view.addSubview(tableView)
-        tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
+        
+//        tableView.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
     }
 
     func setupNaviItems() {
@@ -57,12 +64,22 @@ final class CampaignsViewController: SideMenuItemViewController {
         self.navigationItem.rightBarButtonItem = more
 
         let dropdownAnchor = UIView()
+        dropdownAnchor.translatesAutoresizingMaskIntoConstraints = false
         dropdownAnchor.backgroundColor = .clear
         self.view.addSubview(dropdownAnchor)
-        dropdownAnchor.snp.makeConstraints {
-            $0.top.trailing.equalToSuperview()
-            $0.width.height.equalTo(1)
-        }
+        
+        
+        NSLayoutConstraint.activate([
+            dropdownAnchor.topAnchor.constraint(equalTo: self.view.topAnchor),
+            dropdownAnchor.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            dropdownAnchor.widthAnchor.constraint(equalToConstant: 1),
+            dropdownAnchor.heightAnchor.constraint(equalToConstant: 1)
+        ])
+        
+//        dropdownAnchor.snp.makeConstraints {
+//            $0.top.trailing.equalToSuperview()
+//            $0.width.height.equalTo(1)
+//        }
 
         dropdown.anchorView = dropdownAnchor
         dropdown.dataSource = SampleOptions.campaignNaviMoreOptions

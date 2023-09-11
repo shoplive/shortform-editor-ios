@@ -66,23 +66,39 @@ class SampleBaseCell: UITableViewCell {
         self.contentView.addSubview(titleMenuView)
         self.contentView.addSubview(itemView)
         
-        self.sectionTitleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(15)
-            $0.leading.equalToSuperview().offset(15)
-            $0.height.equalTo(22)
-        }
-
-        self.titleMenuView.snp.makeConstraints {
-            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
-            $0.leading.equalTo(self.sectionTitleLabel.snp.trailing).offset(15)
-            $0.centerY.equalTo(self.sectionTitleLabel)
-            $0.height.equalTo(30)
-        }
-
-        self.itemView.snp.makeConstraints {
-            $0.top.equalTo(self.titleMenuView.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
-        }
+        NSLayoutConstraint.activate([
+            sectionTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 15),
+            sectionTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            sectionTitleLabel.heightAnchor.constraint(equalToConstant: 22),
+            
+            titleMenuView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -15),
+            titleMenuView.leadingAnchor.constraint(equalTo: self.sectionTitleLabel.trailingAnchor, constant: 15),
+            titleMenuView.centerYAnchor.constraint(equalTo: self.sectionTitleLabel.centerYAnchor),
+            titleMenuView.heightAnchor.constraint(equalToConstant: 30),
+            
+            itemView.topAnchor.constraint(equalTo: titleMenuView.bottomAnchor),
+            itemView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            itemView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            itemView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+        
+//        self.sectionTitleLabel.snp.makeConstraints {
+//            $0.top.equalToSuperview().offset(15)
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.height.equalTo(22)
+//        }
+//
+//        self.titleMenuView.snp.makeConstraints {
+//            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
+//            $0.leading.equalTo(self.sectionTitleLabel.snp.trailing).offset(15)
+//            $0.centerY.equalTo(self.sectionTitleLabel)
+//            $0.height.equalTo(30)
+//        }
+//
+//        self.itemView.snp.makeConstraints {
+//            $0.top.equalTo(self.titleMenuView.snp.bottom)
+//            $0.leading.trailing.bottom.equalToSuperview()
+//        }
 
     }
 

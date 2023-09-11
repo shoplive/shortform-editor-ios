@@ -66,14 +66,26 @@ final class CouponSettingsViewController: SideMenuItemViewController {
     func setupViews() {
         self.view.addSubview(successSettingView)
         self.view.addSubview(failedSettingView)
-        successSettingView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-        }
-        failedSettingView.snp.makeConstraints {
-            $0.top.equalTo(successSettingView.snp.bottom).offset(15)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.lessThanOrEqualToSuperview()
-        }
+        
+        NSLayoutConstraint.activate([
+            successSettingView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            successSettingView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            successSettingView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            
+            failedSettingView.topAnchor.constraint(equalTo: successSettingView.bottomAnchor,constant: 15),
+            failedSettingView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            failedSettingView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            failedSettingView.bottomAnchor.constraint(lessThanOrEqualTo: self.view.bottomAnchor)
+        ])
+        
+//        successSettingView.snp.makeConstraints {
+//            $0.top.leading.trailing.equalToSuperview()
+//        }
+//        failedSettingView.snp.makeConstraints {
+//            $0.top.equalTo(successSettingView.snp.bottom).offset(15)
+//            $0.leading.trailing.equalToSuperview()
+//            $0.bottom.lessThanOrEqualToSuperview()
+//        }
     }
 
 }

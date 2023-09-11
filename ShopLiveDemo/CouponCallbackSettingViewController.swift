@@ -59,18 +59,35 @@ final class TappableText: UIView {
 
     private func setupViews() {
         self.addSubviews(underLine, textField, tapButton)
+        
+        NSLayoutConstraint.activate([
+            underLine.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            underLine.heightAnchor.constraint(equalToConstant: 1),
+            underLine.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            underLine.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            
+            textField.topAnchor.constraint(equalTo: self.topAnchor),
+            textField.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            textField.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            textField.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            tapButton.topAnchor.constraint(equalTo: self.topAnchor),
+            tapButton.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            tapButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            tapButton.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
 
-        underLine.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-            $0.height.equalTo(1)
-            $0.leading.trailing.equalToSuperview()
-        }
-        textField.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        tapButton.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+//        underLine.snp.makeConstraints {
+//            $0.bottom.equalToSuperview()
+//            $0.height.equalTo(1)
+//            $0.leading.trailing.equalToSuperview()
+//        }
+//        textField.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
+//        tapButton.snp.makeConstraints {
+//            $0.edges.equalToSuperview()
+//        }
         self.bringSubviewToFront(tapButton)
     }
 
@@ -186,52 +203,83 @@ final class CouponCallbackSettingView: UIView, TappableTextDelegate {
     private func setupViews() {
         self.backgroundColor = .lightGray
         self.addSubviews(titleLabel, messageLabel, messageField, exposeLabel, exposeField, notiLabel, notiField)
+        
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor,constant: 10),
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -20),
+            titleLabel.heightAnchor.constraint(equalToConstant: 20),
+            
+            messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: 12),
+            messageLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            messageLabel.heightAnchor.constraint(equalToConstant: 18),
+            
+            messageField.centerYAnchor.constraint(equalTo: messageLabel.centerYAnchor),
+            messageField.leadingAnchor.constraint(equalTo: messageLabel.leadingAnchor,constant: 10),
+            messageField.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -20),
+            messageField.heightAnchor.constraint(equalToConstant: 18),
+            
+            exposeLabel.topAnchor.constraint(equalTo: messageLabel.bottomAnchor,constant: 12),
+            exposeLabel.leadingAnchor.constraint(equalTo: messageLabel.leadingAnchor),
+            exposeLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -20),
+            exposeLabel.heightAnchor.constraint(equalToConstant: 18),
+            
+            notiLabel.topAnchor.constraint(equalTo: exposeLabel.bottomAnchor,constant: 12),
+            notiLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            notiLabel.heightAnchor.constraint(equalToConstant: 18),
+            
+            notiField.centerYAnchor.constraint(equalTo: notiLabel.centerYAnchor),
+            notiField.leadingAnchor.constraint(greaterThanOrEqualTo: notiLabel.trailingAnchor, constant: 10),
+            notiField.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -20),
+            notiField.heightAnchor.constraint(equalToConstant: 18)
+        
+        ])
 
-        titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
-            $0.height.equalTo(20)
-        }
-
-        messageLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(12)
-            $0.leading.equalTo(titleLabel)
-            $0.height.equalTo(18)
-        }
-
-        messageField.snp.makeConstraints {
-            $0.centerY.equalTo(messageLabel)
-            $0.leading.equalTo(messageLabel.snp.trailing).offset(10)
-            $0.trailing.equalToSuperview().offset(-20)
-            $0.height.equalTo(18)
-        }
-
-        exposeLabel.snp.makeConstraints {
-            $0.top.equalTo(messageLabel.snp.bottom).offset(12)
-            $0.leading.equalTo(messageLabel)
-            $0.height.equalTo(18)
-        }
-
-        exposeField.snp.makeConstraints {
-            $0.centerY.equalTo(exposeLabel)
-            $0.leading.greaterThanOrEqualTo(exposeLabel.snp.trailing).offset(10)
-            $0.trailing.equalToSuperview().offset(-20)
-            $0.height.equalTo(18)
-        }
-
-        notiLabel.snp.makeConstraints {
-            $0.top.equalTo(exposeLabel.snp.bottom).offset(12)
-            $0.leading.equalTo(titleLabel)
-            $0.height.equalTo(18)
-        }
-
-        notiField.snp.makeConstraints {
-            $0.centerY.equalTo(notiLabel)
-            $0.leading.greaterThanOrEqualTo(notiLabel.snp.trailing).offset(10)
-            $0.trailing.equalToSuperview().offset(-20)
-            $0.height.equalTo(18)
-        }
+//        titleLabel.snp.makeConstraints {
+//            $0.top.equalToSuperview().offset(10)
+//            $0.leading.equalToSuperview().offset(20)
+//            $0.trailing.equalToSuperview().offset(-20)
+//            $0.height.equalTo(20)
+//        }
+//
+//        messageLabel.snp.makeConstraints {
+//            $0.top.equalTo(titleLabel.snp.bottom).offset(12)
+//            $0.leading.equalTo(titleLabel)
+//            $0.height.equalTo(18)
+//        }
+//
+//        messageField.snp.makeConstraints {
+//            $0.centerY.equalTo(messageLabel)
+//            $0.leading.equalTo(messageLabel.snp.trailing).offset(10)
+//            $0.trailing.equalToSuperview().offset(-20)
+//            $0.height.equalTo(18)
+//        }
+//
+//        exposeLabel.snp.makeConstraints {
+//            $0.top.equalTo(messageLabel.snp.bottom).offset(12)
+//            $0.leading.equalTo(messageLabel)
+//            $0.height.equalTo(18)
+//        }
+//
+//        exposeField.snp.makeConstraints {
+//            $0.centerY.equalTo(exposeLabel)
+//            $0.leading.greaterThanOrEqualTo(exposeLabel.snp.trailing).offset(10)
+//            $0.trailing.equalToSuperview().offset(-20)
+//            $0.height.equalTo(18)
+//        }
+//
+//        notiLabel.snp.makeConstraints {
+//            $0.top.equalTo(exposeLabel.snp.bottom).offset(12)
+//            $0.leading.equalTo(titleLabel)
+//            $0.height.equalTo(18)
+//        }
+//
+//        notiField.snp.makeConstraints {
+//            $0.centerY.equalTo(notiLabel)
+//            $0.leading.greaterThanOrEqualTo(notiLabel.snp.trailing).offset(10)
+//            $0.trailing.equalToSuperview().offset(-20)
+//            $0.height.equalTo(18)
+//        }
 
     }
 
@@ -323,32 +371,54 @@ final class CouponCallbackSettingViewController: UIViewController {
     private func setupViews() {
         self.view.backgroundColor = .white
         self.view.addSubviews(closeButton, saveButton, successSettingView, failedSettingView)
+        
+        NSLayoutConstraint.activate([
+            closeButton.leadingAnchor.constraint(equalTo:self.view.leadingAnchor,constant: 10),
+            closeButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 10),
+            closeButton.widthAnchor.constraint(equalToConstant: 40),
+            closeButton.heightAnchor.constraint(equalToConstant: 40),
+            
+            saveButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor,constant: -10),
+            saveButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 10),
+            saveButton.heightAnchor.constraint(equalToConstant: 40),
+            
+            successSettingView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor,constant: 20),
+            successSettingView.topAnchor.constraint(equalTo: closeButton.bottomAnchor,constant: 10),
+            successSettingView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+            successSettingView.heightAnchor.constraint(greaterThanOrEqualToConstant: 130),
+            
+            failedSettingView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor,constant: 20),
+            failedSettingView.topAnchor.constraint(equalTo: successSettingView.bottomAnchor,constant: 20),
+            failedSettingView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor,constant: -20),
+            failedSettingView.heightAnchor.constraint(greaterThanOrEqualToConstant: 130)
+        
+        ])
 
-        closeButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(10)
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(10)
-            $0.width.height.equalTo(40)
-        }
-
-        saveButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-10)
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(10)
-            $0.height.equalTo(40)
-        }
-
-        successSettingView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(20)
-            $0.top.equalTo(closeButton.snp.bottom).offset(10)
-            $0.trailing.equalToSuperview().offset(-20)
-            $0.height.greaterThanOrEqualTo(130)
-        }
-
-        failedSettingView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(20)
-            $0.top.equalTo(successSettingView.snp.bottom).offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
-            $0.height.greaterThanOrEqualTo(130)
-        }
+//        closeButton.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(10)
+//            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(10)
+//            $0.width.height.equalTo(40)
+//        }
+//
+//        saveButton.snp.makeConstraints {
+//            $0.trailing.equalToSuperview().offset(-10)
+//            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(10)
+//            $0.height.equalTo(40)
+//        }
+//
+//        successSettingView.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(20)
+//            $0.top.equalTo(closeButton.snp.bottom).offset(10)
+//            $0.trailing.equalToSuperview().offset(-20)
+//            $0.height.greaterThanOrEqualTo(130)
+//        }
+//
+//        failedSettingView.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(20)
+//            $0.top.equalTo(successSettingView.snp.bottom).offset(20)
+//            $0.trailing.equalToSuperview().offset(-20)
+//            $0.height.greaterThanOrEqualTo(130)
+//        }
 
     }
 

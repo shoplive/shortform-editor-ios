@@ -48,20 +48,36 @@ final class ButtonOptionCell: UITableViewCell {
         view.addSubview(optionDescriptionLabel)
         view.addSubview(optionValueWhenDropdownLabel)
         
-        optionTitleLabel.snp.makeConstraints {
-            $0.leading.trailing.top.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(20)
-        }
-        optionDescriptionLabel.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
+        NSLayoutConstraint.activate([
+            optionTitleLabel.topAnchor.constraint(equalTo: view.topAnchor),
+            optionTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            optionTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            optionTitleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 20),
+            
+            optionDescriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            optionDescriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            optionDescriptionLabel.topAnchor.constraint(equalTo: optionTitleLabel.bottomAnchor,constant: 4),
+            
+            optionValueWhenDropdownLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            optionValueWhenDropdownLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            optionValueWhenDropdownLabel.topAnchor.constraint(equalTo: optionDescriptionLabel.bottomAnchor, constant: 4),
+            optionValueWhenDropdownLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+//        optionTitleLabel.snp.makeConstraints {
+//            $0.leading.trailing.top.equalToSuperview()
+//            $0.height.greaterThanOrEqualTo(20)
+//        }
+//        optionDescriptionLabel.snp.makeConstraints {
+//            $0.leading.trailing.equalToSuperview()
+//            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
+////            $0.bottom.equalToSuperview()
+//        }
+//        optionValueWhenDropdownLabel.snp.makeConstraints {
+//            $0.leading.trailing.equalToSuperview()
+//            $0.top.equalTo(optionDescriptionLabel.snp.bottom).offset(4)
 //            $0.bottom.equalToSuperview()
-        }
-        optionValueWhenDropdownLabel.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(optionDescriptionLabel.snp.bottom).offset(4)
-            $0.bottom.equalToSuperview()
-        }
+//        }
         return view
     }()
 
@@ -89,41 +105,75 @@ final class ButtonOptionCell: UITableViewCell {
     private func setupViews() {
         self.contentView.backgroundColor = .white
         self.contentView.addSubview(labelBoxView)
+        
+        NSLayoutConstraint.activate([
+            labelBoxView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            labelBoxView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -10),
+            labelBoxView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            labelBoxView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+        ])
 
-        labelBoxView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.lessThanOrEqualToSuperview().offset(-10)
-            $0.top.equalToSuperview().offset(20)
-            $0.bottom.equalToSuperview().offset(-20)
-        }
+//        labelBoxView.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.trailing.lessThanOrEqualToSuperview().offset(-10)
+//            $0.top.equalToSuperview().offset(20)
+//            $0.bottom.equalToSuperview().offset(-20)
+//        }
     }
     
     private func setupDefault() {
         optionValueWhenDropdownLabel.isHidden = true
-        optionDescriptionLabel.snp.remakeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
+        
+        guard let superview = optionDescriptionLabel.superview else { return }
+        NSLayoutConstraint.activate([
+            optionDescriptionLabel.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: 0),
+            optionDescriptionLabel.trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: 0),
+            optionDescriptionLabel.topAnchor.constraint(equalTo: optionTitleLabel.bottomAnchor, constant: 4),
+            
+            optionValueWhenDropdownLabel.leadingAnchor.constraint(equalTo: superview.leadingAnchor),
+            optionValueWhenDropdownLabel.trailingAnchor.constraint(equalTo: superview.trailingAnchor),
+            optionValueWhenDropdownLabel.topAnchor.constraint(equalTo: optionDescriptionLabel.bottomAnchor, constant: 4),
+            optionValueWhenDropdownLabel.bottomAnchor.constraint(equalTo: superview.bottomAnchor)
+        ])
+//        optionDescriptionLabel.snp.remakeConstraints {
+//            $0.leading.trailing.equalToSuperview()
+//            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
+////            $0.bottom.equalToSuperview()
+//        }
+//        optionValueWhenDropdownLabel.snp.remakeConstraints {
+//            $0.leading.trailing.equalToSuperview()
+//            $0.top.equalTo(optionDescriptionLabel.snp.bottom).offset(4)
 //            $0.bottom.equalToSuperview()
-        }
-        optionValueWhenDropdownLabel.snp.remakeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(optionDescriptionLabel.snp.bottom).offset(4)
-            $0.bottom.equalToSuperview()
-        }
+//        }
     }
     
     private func setupDropdown() {
         optionValueWhenDropdownLabel.isHidden = false
-        optionDescriptionLabel.snp.remakeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
-            $0.bottom.equalTo(optionValueWhenDropdownLabel.snp.top).offset(-4)
-        }
-        optionValueWhenDropdownLabel.snp.remakeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(optionDescriptionLabel.snp.bottom).offset(4)
-            $0.bottom.equalToSuperview()
-        }
+        
+        guard let superview = optionDescriptionLabel.superview else { return }
+        
+        NSLayoutConstraint.activate([
+            optionDescriptionLabel.leadingAnchor.constraint(equalTo: superview.leadingAnchor),
+            optionDescriptionLabel.trailingAnchor.constraint(equalTo: superview.trailingAnchor),
+            optionDescriptionLabel.topAnchor.constraint(equalTo: optionTitleLabel.bottomAnchor, constant: 4),
+            optionDescriptionLabel.bottomAnchor.constraint(equalTo: optionValueWhenDropdownLabel.topAnchor, constant: -4),
+            
+            optionValueWhenDropdownLabel.leadingAnchor.constraint(equalTo: superview.leadingAnchor),
+            optionValueWhenDropdownLabel.trailingAnchor.constraint(equalTo: superview.trailingAnchor),
+            optionValueWhenDropdownLabel.topAnchor.constraint(equalTo: optionDescriptionLabel.bottomAnchor,constant: 4),
+            optionValueWhenDropdownLabel.bottomAnchor.constraint(equalTo: super.bottomAnchor)
+        ])
+        
+//        optionDescriptionLabel.snp.remakeConstraints {
+//            $0.leading.trailing.equalToSuperview()
+//            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
+//            $0.bottom.equalTo(optionValueWhenDropdownLabel.snp.top).offset(-4)
+//        }
+//        optionValueWhenDropdownLabel.snp.remakeConstraints {
+//            $0.leading.trailing.equalToSuperview()
+//            $0.top.equalTo(optionDescriptionLabel.snp.bottom).offset(4)
+//            $0.bottom.equalToSuperview()
+//        }
     }
 
     func configure(item: SDKOptionItem) {
