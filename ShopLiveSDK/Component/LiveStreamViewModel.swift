@@ -25,6 +25,9 @@ internal final class LiveStreamViewModel: NSObject {
     private var liveKeepUpTimer : Any?
     private var blockLiveKeeupTimer : Bool = false
     private var liveKeepUpTimerBlockDuration : Double = 2.0
+    private var inAppPipConfiguration : ShopLiveInAppPipConfiguration?
+    private var lastPipPosition : ShopLive.PipPosition?
+    
     
     
     deinit {
@@ -50,6 +53,7 @@ internal final class LiveStreamViewModel: NSObject {
         authToken = nil
         user = nil
     }
+    
 
     func updatePlayerItem(with url: URL) {
         guard ShopLiveController.player != nil else { return }
@@ -301,6 +305,47 @@ extension LiveStreamViewModel: AVPlayerItemMetadataOutputPushDelegate {
 
         if payloads.count > 0 {
             ShopLiveController.shared.webInstance?.sendEventToWeb(event: .onVideoMetadataUpdated, payloads.toJson())
+        }
+    }
+}
+extension LiveStreamViewModel {
+    
+    func setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration?) {
+        self.inAppPipConfiguration = config
+    }
+    
+    func getUseCloseBtnIsEnabled() -> Bool {
+        if let config = self.inAppPipConfiguration, let useCloseBtn = config.useCloseButton {
+            return useCloseBtn
+        }
+        else {
+            return ShopLiveConfiguration.UI.closeButton
+        }
+    }
+    
+    
+    func setPipPosition(position : ShopLive.PipPosition) {
+        self.lastPipPosition = position
+    }
+    
+    func getPipPosition() -> ShopLive.PipPosition {
+        if let pos = self.lastPipPosition {
+            return pos
+        }
+        else if let config = self.inAppPipConfiguration, let pos = config.pipPosition {
+            return pos
+        }
+        else {
+            return .default
+        }
+    }
+    
+    func getEnablePipSwipeOut() -> Bool {
+        if let config = inAppPipConfiguration, let enablePipSwipeOut = config.enableSwipeOut {
+            return enablePipSwipeOut
+        }
+        else {
+            return ShopLiveConfiguration.UI.enablePipSwipeOut
         }
     }
 }

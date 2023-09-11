@@ -277,7 +277,11 @@ class MainViewController: SideMenuBaseViewController {
         
         ShopLive.setKeepAspectOnTabletPortrait(config.useAspectOnTablet)
         
-        ShopLive.fixedPipWidth = DemoConfiguration.shared.fixedPipWidth as? NSNumber
+        let inAppPipConfig = ShopLiveInAppPipConfiguration(pipMaxSize: DemoConfiguration.shared.maxPipSize,
+                                                           useCloseButton: DemoConfiguration.shared.useCloseButton,
+                                                           pipPosition: .bottomLeft,
+                                                           enableSwipeOut: nil)
+        ShopLive.setInAppPipConfiguration(config: inAppPipConfig)
         
         ShopLive.setEnabledPictureInPictureMode(isEnabled: DemoConfiguration.shared.enablePictureInPictureMode)
         

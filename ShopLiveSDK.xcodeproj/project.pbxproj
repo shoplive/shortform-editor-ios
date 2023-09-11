@@ -32,6 +32,7 @@
 		2FD769232A5F86D30092C73F /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD7691F2A5F86D30092C73F /* NetworkReachability.swift */; };
 		2FD769242A5F86D30092C73F /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD7691F2A5F86D30092C73F /* NetworkReachability.swift */; };
 		2FE099222A3C47C500D077F6 /* ShopLiveThrottle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */; };
+		2FFBD3452AA9958B00B2A8BB /* ShopLiveInAppPipConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFBD3442AA9958B00B2A8BB /* ShopLiveInAppPipConfiguration.swift */; };
 		BF1B57BA276983600002EBB5 /* CustomBaseAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */; };
 		BF1B57BC2769844F0002EBB5 /* CampaignInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */; };
 		BF1C0804272797C400F6B2E1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */; };
@@ -494,6 +495,7 @@
 		2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchOptionCell.swift; sourceTree = "<group>"; };
 		2FD7691F2A5F86D30092C73F /* NetworkReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
 		2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveThrottle.swift; sourceTree = "<group>"; };
+		2FFBD3442AA9958B00B2A8BB /* ShopLiveInAppPipConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveInAppPipConfiguration.swift; sourceTree = "<group>"; };
 		BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBaseAlertController.swift; sourceTree = "<group>"; };
 		BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignInputAlertController.swift; sourceTree = "<group>"; };
 		BF1B57C0276B19600002EBB5 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -795,6 +797,21 @@
 			path = NetworkReachability;
 			sourceTree = "<group>";
 		};
+		2FFBD3472AA9961000B2A8BB /* InterfaceModel */ = {
+			isa = PBXGroup;
+			children = (
+				2FFBD3442AA9958B00B2A8BB /* ShopLiveInAppPipConfiguration.swift */,
+			);
+			path = InterfaceModel;
+			sourceTree = "<group>";
+		};
+		2FFBD3482AAA4B9300B2A8BB /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		BF37D98227F5742D004C2785 /* Component */ = {
 			isa = PBXGroup;
 			children = (
@@ -830,6 +847,8 @@
 		BF37D99227F5742D004C2785 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				2FFBD3482AAA4B9300B2A8BB /* New Group */,
+				2FFBD3472AA9961000B2A8BB /* InterfaceModel */,
 				BF37D99627F5742D004C2785 /* logger */,
 				BF37D99B27F5742D004C2785 /* Extensions */,
 				BF37D99F27F5742D004C2785 /* Resource */,
@@ -1529,6 +1548,7 @@
 				BF37D9F027F5742D004C2785 /* ShopLiveUser.swift in Sources */,
 				BF37D9AE27F5742D004C2785 /* LiveStreamViewModel.swift in Sources */,
 				BF37D9C927F5742D004C2785 /* ShopLiveChatView.swift in Sources */,
+				2FFBD3452AA9958B00B2A8BB /* ShopLiveInAppPipConfiguration.swift in Sources */,
 				BF37D9BA27F5742D004C2785 /* ShopLivePlayer.swift in Sources */,
 				2FD769202A5F86D30092C73F /* NetworkReachability.swift in Sources */,
 				BF37D9CC27F5742D004C2785 /* ShopLiveChattingWriteView.swift in Sources */,

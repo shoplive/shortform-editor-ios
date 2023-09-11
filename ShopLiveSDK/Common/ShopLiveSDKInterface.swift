@@ -227,6 +227,8 @@ public typealias ShopLiveViewController = SLViewController
 @objc protocol ShopLiveSDKInterface: AnyObject {
     @objc static var sdkVersion: String { get }
     @objc static var playerWindow: ShopliveWindow? { get }
+    
+    @available(iOS, deprecated, message: "Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     @objc static var fixedPipWidth: NSNumber? { get set }
     @objc static func mute()
     @objc static func unmute()
@@ -235,8 +237,14 @@ public typealias ShopLiveViewController = SLViewController
     
     @objc static var viewController: ShopLiveViewController? { get }
     @objc static var style: ShopLive.PresentationStyle { get }
+    
+    @available(iOS, deprecated, message: "Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     @objc static var pipPosition: ShopLive.PipPosition { get set }
+    
+    @available(iOS, deprecated, message: "Use pipMaxSize in setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     @objc static var pipScale: CGFloat { get set }
+    
+    
     @objc static var indicatorColor: UIColor { get set }
     @objc static var webViewConfiguration: WKWebViewConfiguration? { get set }
     @objc static var delegate: ShopLiveSDKDelegate? { get set }
@@ -291,11 +299,16 @@ public typealias ShopLiveViewController = SLViewController
     @objc static func awakePlayer()
     
     @objc static func setMixWithOthers(isMixAudio: Bool)
+    
+    @available(iOS, deprecated, message: "Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     @objc static func useCloseButton(_ use: Bool)
     
     @objc static func setAdId(adId: String?)
     @objc static func addParameter(key: String, value: String)
     @objc static func removeParameter(key: String)
     
+    @available(iOS, deprecated, message: "Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     @objc static func setEnabledPipSwipeOut(_ enabled: Bool)
+    
+    @objc static func setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration)
 }

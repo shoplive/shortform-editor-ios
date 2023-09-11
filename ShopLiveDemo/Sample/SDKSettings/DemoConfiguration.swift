@@ -366,21 +366,21 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var fixedPipWidth: CGFloat? {
+    var maxPipSize: CGFloat? {
         set {
-            UserDefaults.standard.set(newValue, forKey: SDKOptionType.fixedPipWidth.optionKey)
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.maxPipSize.optionKey)
             UserDefaults.standard.synchronize()
         }
         get {
-            guard let fixedWidth = UserDefaults.standard.string(forKey:  SDKOptionType.fixedPipWidth.optionKey), !fixedWidth.isEmpty else {
+            guard let maxPipSize = UserDefaults.standard.string(forKey:  SDKOptionType.maxPipSize.optionKey), !maxPipSize.isEmpty else {
                 return nil
             }
 
-            if let fixedWidthValue = fixedWidth.cgfloatValue, fixedWidthValue <= 0.0 {
+            if let maxPipSizeValue = maxPipSize.cgfloatValue, maxPipSizeValue <= 0.0 {
                 return nil
             }
 
-            return fixedWidth.cgfloatValue
+            return maxPipSize.cgfloatValue
         }
     }
     

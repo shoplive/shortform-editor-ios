@@ -196,9 +196,9 @@ final class ButtonOptionCell: UITableViewCell {
                     descriptionTitle = item.optionDescription
                 }
                 break
-            case .fixedPipWidth:
-                if let fixedPipWidth = DemoConfiguration.shared.fixedPipWidth, fixedPipWidth > 0.0 {
-                    descriptionTitle = String(format: "%.0f",  fixedPipWidth)
+            case .maxPipSize:
+                if let maxPipSize = DemoConfiguration.shared.maxPipSize, maxPipSize > 0.0 {
+                    descriptionTitle = String(format: "%.0f",  maxPipSize)
                 } else {
                     descriptionTitle = item.optionDescription
                 }

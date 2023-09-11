@@ -28,6 +28,9 @@ import WebKit
     private var needAnimateToChangePreivew: Bool = false
     private var activeFromBackground: Bool = false
     private var enabledPictureInPictureMode : Bool = true
+    private var inAppPipConfiguration : ShopLiveInAppPipConfiguration?
+    
+    
     
 #if EBAY
 #else
@@ -208,6 +211,11 @@ import WebKit
         isKeyboardShow = false
         
         liveStreamViewController = LiveStreamViewController()
+        // inAppPipConfiguration에서 pipPosition이 설정되어 있지 않다면, legacy를 통해서 세팅된거여서 초기값을 밀어넣어줘야 함
+        if inAppPipConfiguration?.pipPosition == nil {
+            liveStreamViewController?.viewModel.setPipPosition(position: ShopLiveController.shared.initialPipPosition)
+        }
+        liveStreamViewController?.viewModel.setInAppPipConfiguration(config: inAppPipConfiguration)
         liveStreamViewController?.delegate = self
         liveStreamViewController?.webViewConfiguration = _webViewConfiguration
         liveStreamViewController?.viewModel.overayUrl = overlayUrl
@@ -225,7 +233,7 @@ import WebKit
         
         if ShopLiveController.shared.isPreview {
             shopLiveWindow?.frame = .zero
-            shopLiveWindow?.center = self.pipPosition(with: self.pipScale, position: self.pipPosition).center
+            shopLiveWindow?.center = self.pipPosition(with: self.pipScale, position: self.getPipPosition()).center
         } else {
             shopLiveWindow?.frame = mainWindow?.frame ?? UIScreen.main.bounds
         }
@@ -396,7 +404,7 @@ import WebKit
     }
     
     func startShopLivePictureInPicture() {
-        startCustomPictureInPicture(with: pipPosition, scale: pipScale)
+        startCustomPictureInPicture(with: self.getPipPosition(), scale: pipScale)
     }
     
     func stopShopLivePictureInPicture() {
@@ -405,12 +413,21 @@ import WebKit
     
     private func pipSize(with scale: CGFloat) -> CGSize {
         guard self.mainWindow != nil else { return .zero }
-        
         let defSize = ShopLiveController.shared.videoRatio
-        let width =  (UIScreen.isLandscape ? UIScreen.main.bounds.height : UIScreen.main.bounds.width) * scale
-        let height = (defSize.height / defSize.width) * width
+        if let config = inAppPipConfiguration, let pipMaxSize = config.pipMaxSize {
+            if defSize.width > defSize.height { //가로모드 방송에서는 세로를 기준으로 가로를 맞추고
+                return CGSize(width: pipMaxSize, height: pipMaxSize * ( defSize.height / defSize.width))
+            }
+            else { //세로 모드 방송에서는 가로를 기준으로 세로를 맞춤
+                return CGSize(width: pipMaxSize * (defSize.width / defSize.height ), height: pipMaxSize)
+            }
+        }
+        else {
+            let width =  (UIScreen.isLandscape ? UIScreen.main.bounds.height : UIScreen.main.bounds.width) * scale
+            let height = (defSize.height / defSize.width) * width
+            return CGSize(width: width, height: height)
+        }
         
-        return CGSize(width: width, height: height)
     }
     
     private func pipPosition(with scale: CGFloat = 2/5, position: ShopLive.PipPosition = .default) -> CGRect {
@@ -702,7 +719,7 @@ import WebKit
             ShopLiveController.webInstance?.isHidden = true
             
             ShopLiveController.shared.pipAnimating = true
-            let pipSize: CGRect = self.pipPosition(with: self.pipScale, position: self.pipPosition)
+            let pipSize: CGRect = self.pipPosition(with: self.pipScale, position: self.getPipPosition())
             
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
             self.shopLiveWindow?.layer.masksToBounds = true
@@ -757,7 +774,7 @@ import WebKit
             
     //        self.liveStreamViewController?.hideBackgroundPoster()
             
-            let pipPosition: CGRect = self.pipPosition(with: self.pipScale, position: self.pipPosition)
+            let pipPosition: CGRect = self.pipPosition(with: self.pipScale, position: self.getPipPosition())
             shopLiveWindow.frame = pipPosition
             
             shopLiveWindow.layer.masksToBounds = false
@@ -794,7 +811,7 @@ import WebKit
             
             self.liveStreamViewController?.view.backgroundColor = .clear
             
-            let pipSize: CGRect = self.pipPosition(with: self.pipScale, position: self.pipPosition)
+            let pipSize: CGRect = self.pipPosition(with: self.pipScale, position: self.getPipPosition())
             
             if self.needAnimateToChangePreivew {
                 self.liveStreamViewController?.hideBackgroundPoster()
@@ -878,7 +895,7 @@ import WebKit
                 if self._style == .fullScreen {
                     shopLiveWindow.frame = mainWindow.bounds
                 } else {
-                    shopLiveWindow.frame = self.pipPosition(with: self.pipScale, position: self.pipPosition)
+                    shopLiveWindow.frame = self.pipPosition(with: self.pipScale, position: self.getPipPosition())
                 }
             } else {
                 guard self._style != .fullScreen else { return }
@@ -931,7 +948,8 @@ import WebKit
             }
         }()
 
-        self.pipPosition = position
+        self.setPipPosition(pos: position)
+//        self.pipPosition = position
         self.handleKeyboard()
 
     }
@@ -961,7 +979,7 @@ import WebKit
             guard !ShopLiveController.shared.isPreview else {
                 return
             }
-            self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
+            self.startCustomPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
             self.windowChangeCommand = .none
             break
         default:
@@ -1041,7 +1059,10 @@ import WebKit
             ShopLiveLogger.debugLog("xRange \(xRange)")
             ShopLiveLogger.debugLog("yRange \(yRange)")
             
-            if ShopLiveController.shared.lastPipPosition == .topLeft || ShopLiveController.shared.lastPipPosition == .bottomLeft {
+            guard let liveStreamViewController = self.liveStreamViewController else { return }
+            
+            let pipPosition = liveStreamViewController.viewModel.getPipPosition()
+            if pipPosition == .topLeft || pipPosition == .bottomLeft {
                 if velocity.x < 0 {
                     if velocity.x.magnitude > 600 {
                         if checkCenterX + velocity.x < minX {
@@ -1049,7 +1070,7 @@ import WebKit
                         }
                     }
                 }
-            } else if ShopLiveController.shared.lastPipPosition == .topRight || ShopLiveController.shared.lastPipPosition == .bottomRight {
+            } else if pipPosition == .topRight || pipPosition == .bottomRight {
                 if velocity.x > 0 {
                     if velocity.x.magnitude > 600 {
                         if checkCenterX + velocity.x > maxX {
@@ -1059,7 +1080,7 @@ import WebKit
                 }
             }
             
-            if ShopLiveController.shared.lastPipPosition == .topLeft || ShopLiveController.shared.lastPipPosition == .topRight {
+            if pipPosition == .topLeft || pipPosition == .topRight {
                 if velocity.y > 0 {
                     if velocity.y.magnitude > 600 {
                         if checkCenterY + velocity.y < minY {
@@ -1067,7 +1088,7 @@ import WebKit
                         }
                     }
                 }
-            } else if ShopLiveController.shared.lastPipPosition == .bottomLeft || ShopLiveController.shared.lastPipPosition == .bottomRight {
+            } else if pipPosition == .bottomLeft || pipPosition == .bottomRight {
                 if velocity.y < 0 {
                     if velocity.y.magnitude > 600 {
                         if checkCenterY + velocity.y > maxY {
@@ -1080,7 +1101,7 @@ import WebKit
             ShopLiveLogger.debugLog("checkCenterX \(checkCenterX)")
             ShopLiveLogger.debugLog("checkCenterY \(checkCenterY)")
             
-            if ShopLiveConfiguration.UI.enablePipSwipeOut || ShopLiveController.shared.isPreview {
+            if liveStreamViewController.viewModel.getEnablePipSwipeOut() == true || ShopLiveController.shared.isPreview {
                 guard xRange.contains(checkCenterX), yRange.contains(checkCenterY) else {
                     delegate?.handleCommand(ShopLiveController.shared.isPreview ? "CLOSE_FROM_PREVIEW" : "CLOSE_FROM_PLAY", with: nil)
                     hideShopLiveView()
@@ -1161,10 +1182,10 @@ import WebKit
             if UIScreen.isLandscape {
                 self.liveStreamViewController?.updateOrientation(toLandscape: false)
             } else {
-                self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
+                self.startCustomPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
             }
         } else {
-            self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
+            self.startCustomPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
         }
     }
     
@@ -1338,7 +1359,7 @@ import WebKit
             ShopLiveController.shared.keyboardHeight = keyboardScreenEndFrame.height - bottomPadding
         }
 
-        let pipPosition: CGRect = self.pipPosition(with: self.pipScale, position: self.pipPosition)
+        let pipPosition: CGRect = self.pipPosition(with: self.pipScale, position: self.getPipPosition())
         
         UIView.animate(withDuration: 0.3, delay: 0, options: []) {
             shopLiveWindow.frame = pipPosition
@@ -1471,6 +1492,24 @@ import WebKit
 }
 
 extension ShopLiveBase: ShopLiveComponent {
+    func getPipPosition() -> ShopLive.PipPosition {
+        if let liveStreamViewController = self.liveStreamViewController {
+            return liveStreamViewController.viewModel.getPipPosition()
+        }
+        if let config = self.inAppPipConfiguration, let pos = config.pipPosition {
+            return pos
+        }
+        return ShopLiveController.shared.initialPipPosition
+    }
+    
+    func setPipPosition(pos : ShopLive.PipPosition) {
+        liveStreamViewController?.viewModel.setPipPosition(position: pos)
+    }
+    
+    func setInAppPipConfiguration(config: ShopLiveInAppPipConfiguration) {
+        self.inAppPipConfiguration = config
+    }
+    
     func setMixWithOthers(isMixAudio: Bool) {
         ShopLiveConfiguration.SoundPolicy.useMixWithOthers = isMixAudio
     }
@@ -1560,7 +1599,7 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     @objc func startPictureInPicture() {
-        startPictureInPicture(with: self.pipPosition, scale: self.pipScale)
+        startPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
 //        startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
     }
     
@@ -1623,11 +1662,11 @@ extension ShopLiveBase: ShopLiveComponent {
                         ShopLiveController.shared.keepSnapshot = true
                         self.liveStreamViewController?.doSnapShot {
                             self.liveStreamViewController?.updateImageFit()
-                            self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
+                            self.startCustomPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
                         }
                     } else {
                         self.liveStreamViewController?.updateImageFit()
-                        self.startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
+                        self.startCustomPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
                     }
                 }
                 
@@ -1713,12 +1752,9 @@ extension ShopLiveBase: ShopLiveComponent {
     }
     
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat) {
-        #if EBAY
         self.pipScale = scale
-        #else
-        self.pipScale = scale
-        #endif
-        self.pipPosition = position
+        self.setPipPosition(pos: position)
+//        self.pipPosition = position
         
         if !self.isWindowChanging {
             self.startShopLivePictureInPicture()
@@ -1745,15 +1781,6 @@ extension ShopLiveBase: ShopLiveComponent {
         }
     }
     
-    @objc var pipPosition: ShopLive.PipPosition {
-        get {
-            return ShopLiveController.shared.lastPipPosition
-        }
-        set {
-            ShopLiveController.shared.lastPipPosition = newValue
-        }
-    }
-    
     @objc var pipScale: CGFloat {
         get {
             guard let fixPipWidth = fixedPipWidth as? CGFloat else {
@@ -1762,17 +1789,9 @@ extension ShopLiveBase: ShopLiveComponent {
 
             let fixedScale = fixPipWidth / (UIScreen.isLandscape ? UIScreen.main.bounds.height : UIScreen.main.bounds.width)
             return (fixedScale >= 0.0 && fixedScale <= 1.0) ? fixedScale : (fixedScale < 0 ? 0.0 : 1.0)
-            /*
-                // 기존 코드 제거 예정
-                return convertPipScale(userScale: ShopLiveController.shared.lastPipScale)
-             */
         }
         set {
-            #if EBAY
             ShopLiveController.shared.lastPipScale = newValue
-            #else
-            ShopLiveController.shared.lastPipScale = newValue
-            #endif
         }
     }
 
@@ -2043,7 +2062,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
         guard let hookNavigation = ShopLiveController.shared.hookNavigation else {
             switch ShopLiveConfiguration.UI.nextActionTypeOnHandleNavigation {
             case .PIP:
-                startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
+                startCustomPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
             case .CLOSE:
                 close()
                 _delegate?.handleNavigation(with: url)
@@ -2085,4 +2104,3 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
         _delegate?.handleCommand(command, with: payload)
     }
 }
-

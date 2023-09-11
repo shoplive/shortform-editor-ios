@@ -341,7 +341,7 @@ internal final class LiveStreamViewController: SLViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        guard ShopLiveConfiguration.UI.closeButton else { return }
+        guard viewModel.getUseCloseBtnIsEnabled() else { return }
         updateCloseButtonDim()
     }
     
@@ -389,7 +389,7 @@ internal final class LiveStreamViewController: SLViewController {
     }
     
     func setCloseButtonVisible(_ visible: Bool) {
-        guard ShopLiveConfiguration.UI.closeButton else {
+        guard viewModel.getUseCloseBtnIsEnabled() else {
             inAppPipView.isHidden = true
             return
         }

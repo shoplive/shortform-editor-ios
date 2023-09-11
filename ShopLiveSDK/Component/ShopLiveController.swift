@@ -150,9 +150,15 @@ final class ShopLiveController: NSObject {
     var webInstance: ShopLiveWebView?
     var pipAnimating: Bool = false
     var swipeEnabled: Bool = true
-    var lastPipPosition: ShopLive.PipPosition = .default
+    
+    @available(iOS,deprecated, message:"레거시 용도로 곧 없앨거고 inAppPipConfiguration으로 모든걸 대체 할 계획")
+    var initialPipPosition: ShopLive.PipPosition = .default
+    @available(iOS,deprecated, message:"레거시 용도로 곧 없앨거고 inAppPipConfiguration으로 모든걸 대체 할 계획")
     var lastPipScale: CGFloat = 2/5
+    @available(iOS,deprecated, message:"레거시 용도로 곧 없앨거고 inAppPipConfiguration으로 모든걸 대체 할 계획")
     var fixedPipWidth: CGFloat?
+    
+    
     var inRotating: Bool = false
     var willStartPip: Bool = false
     var videoOrientation: ShopLiveDefines.ShopLiveOrientaion {

@@ -14,7 +14,7 @@ import WebKit
     @objc var fixedPipWidth: NSNumber? { get set }
     @objc var viewController: ShopLiveViewController? { get }
     @objc var style: ShopLive.PresentationStyle { get }
-    @objc var pipPosition: ShopLive.PipPosition { get set }
+//    @objc var pipPosition: ShopLive.PipPosition { get set }
     @objc var pipScale: CGFloat { get set }
     
     @objc var indicatorColor: UIColor { get set }
@@ -53,6 +53,8 @@ import WebKit
     @objc func awakePlayer()
     
     @objc func setMixWithOthers(isMixAudio: Bool)
+    
+    @objc func setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration)
 }
 
 enum ShopLiveCampaignStatus: String, CaseIterable {
@@ -373,10 +375,10 @@ extension ShopLive: ShopLiveSDKInterface {
 
     public static var pipPosition: PipPosition {
         get {
-            return ShopLiveController.shared.lastPipPosition
+            return ShopLiveController.shared.initialPipPosition
         }
         set {
-            ShopLiveController.shared.lastPipPosition = newValue
+            ShopLiveController.shared.initialPipPosition = newValue
         }
     }
 
@@ -460,5 +462,9 @@ extension ShopLive: ShopLiveSDKInterface {
     
     public static func setEnabledPictureInPictureMode(isEnabled : Bool){
         shared.instance?.setEnabledPictureInPictureMode(isEnabled: isEnabled)
+    }
+    
+    public static func setInAppPipConfiguration(config: ShopLiveInAppPipConfiguration) {
+        shared.instance?.setInAppPipConfiguration(config: config)
     }
 }

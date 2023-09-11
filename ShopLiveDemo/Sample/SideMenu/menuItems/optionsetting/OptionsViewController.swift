@@ -72,13 +72,13 @@ final class OptionsViewController: SideMenuItemViewController {
         
         let pipPositionOption = SDKOptionItem(name: "sdkoption.pipPosition.title".localized(), optionDescription: "sdkoption.pipPosition.description".localized(), optionType: .pipPosition)
         let pipScaleOption = SDKOptionItem(name: "sdkoption.pipScale.title".localized(), optionDescription: "sdkoption.pipScale.description".localized(), optionType: .pipScale)
-        let fixedPipWidthOption = SDKOptionItem(name: "sdkoption.fixedPipWidth.title".localized(), optionDescription: "sdkoption.fixedPipWidth.description".localized(), optionType: .fixedPipWidth)
+        let pipMaxSizeOption = SDKOptionItem(name: "sdkOption.pipMaxSize.title".localized(), optionDescription: "sdkOption.pipMaxSize.description".localized(), optionType: .maxPipSize)
         let pipKeepWindowStyle = SDKOptionItem(name: "sdkoption.pipKeepWindowStyle.title".localized(), optionDescription: "sdkoption.pipKeepWindowStyle.description".localized(), optionType: .pipKeepWindowStyle)
         let pipModelEnableSetting = SDKOptionItem(name: "sdkoption.enablePictureInPictureMode.title".localized(),
                                                optionDescription: "sdkoption.enablePictureInPictureMode.description".localized(), optionType: .enablePictureInPictureMode)
         let pipAreaOption = SDKOptionItem(name: "sdkoption.pipFloatingOffset.title".localized(), optionDescription: "sdkoption.pipFloatingOffset.description".localized(), optionType: .pipFloatingOffset)
         let pipEnableSwipeOutOption = SDKOptionItem(name: "sdkoption.pipEnableSwipeOutOption.title".localized(), optionDescription: "sdkoption.pipEnableSwipeOutOption.description".localized(), optionType: .pipEnableSwipeOut)
-        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, fixedPipWidthOption, pipKeepWindowStyle, pipModelEnableSetting, pipEnableSwipeOutOption, pipAreaOption])
+        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, pipMaxSizeOption, pipKeepWindowStyle, pipModelEnableSetting, pipEnableSwipeOutOption, pipAreaOption])
 
         items.append(pipOptions)
 
@@ -200,10 +200,10 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 pipScaleAlert.modalPresentationStyle = .overCurrentContext
                 self.navigationController?.present(pipScaleAlert, animated: false, completion: nil)
                 break
-            case .fixedPipWidth:
-                let fixedPipWidth = DemoConfiguration.shared.fixedPipWidth == nil ? "" : String(format: "%.0f",  DemoConfiguration.shared.fixedPipWidth!)
-                let fixedPipWidthAlert = TextItemInputAlertController(header: "sdkoption.fixedPipWidth.title".localized(), data: fixedPipWidth, placeHolder: "ex) 200") { fixedWidth in
-                    DemoConfiguration.shared.fixedPipWidth = fixedWidth.cgfloatValue
+            case .maxPipSize:
+                let fixedPipWidth = DemoConfiguration.shared.maxPipSize == nil ? "" : String(format: "%.0f",  DemoConfiguration.shared.maxPipSize!)
+                let fixedPipWidthAlert = TextItemInputAlertController(header: "sdkOption.pipMaxSize.title".localized(), data: fixedPipWidth, placeHolder: "ex) 200") { fixedWidth in
+                    DemoConfiguration.shared.maxPipSize = fixedWidth.cgfloatValue
                     self.tableView.reloadData()
                 }
                 fixedPipWidthAlert.modalPresentationStyle = .overCurrentContext

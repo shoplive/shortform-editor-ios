@@ -106,5 +106,6 @@ internal final class ShopLiveConfiguration: NSObject {
         static var enablePipSwipeOut: Bool = false
     }
 
+    
     fileprivate override init() {}
 }
