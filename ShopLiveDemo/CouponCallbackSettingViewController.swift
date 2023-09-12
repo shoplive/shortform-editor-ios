@@ -6,10 +6,8 @@
 //
 
 import UIKit
-import SnapKit
-#if SDK_MODULE
 import ShopLiveSDK
-#endif
+
 
 protocol TappableTextDelegate: AnyObject {
     func didTapText(_ sender: TappableText)
