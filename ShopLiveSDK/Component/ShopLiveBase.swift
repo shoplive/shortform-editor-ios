@@ -230,6 +230,7 @@ import WebKit
         }
         shopLiveWindow?.backgroundColor = .clear
         shopLiveWindow?.windowLevel = .statusBar - 1
+        shopLiveWindow?.isHidden = false
         
         if ShopLiveController.shared.isPreview {
             shopLiveWindow?.frame = .zero
@@ -312,6 +313,7 @@ import WebKit
         ShopLiveController.shared.releaseData()
         SoundManager.shared.removeAllSounds()
         
+        self.shopLiveWindow?.isHidden = true
         self.shopLiveWindow?.transform = .identity
         self.shopLiveWindow?.alpha = 1
         
