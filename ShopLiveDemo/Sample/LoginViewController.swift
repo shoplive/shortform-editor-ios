@@ -104,7 +104,7 @@ final class LoginViewController: UIViewController {
             userPwdLabel.topAnchor.constraint(equalTo: userIdField.bottomAnchor, constant: 24),
             
             userPwdField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor,constant: 40),
-            userPwdField.trailingAnchor.constraint(lessThanOrEqualTo: self.view.trailingAnchor, constant: -40),
+            userPwdField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -40),
             userPwdField.topAnchor.constraint(equalTo: userPwdLabel.bottomAnchor,constant: 6),
             userPwdField.heightAnchor.constraint(equalToConstant: 46),
             
@@ -113,40 +113,6 @@ final class LoginViewController: UIViewController {
             loginButton.topAnchor.constraint(equalTo: userPwdField.bottomAnchor,constant: 40),
             loginButton.heightAnchor.constraint(equalToConstant: 46)
         ])
-        
-        
-//        userIdLabel.snp.makeConstraints {
-//            $0.leading.equalToSuperview().offset(40)
-//            $0.trailing.lessThanOrEqualToSuperview().offset(-40)
-//            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(90)
-//        }
-//
-//        userIdField.snp.makeConstraints {
-//            $0.leading.equalToSuperview().offset(40)
-//            $0.trailing.equalToSuperview().offset(-40)
-//            $0.top.equalTo(userIdLabel.snp.bottom).offset(6)
-//            $0.height.equalTo(46)
-//
-//        }
-//
-//        userPwdLabel.snp.makeConstraints {
-//            $0.leading.equalToSuperview().offset(40)
-//            $0.trailing.lessThanOrEqualToSuperview().offset(-40)
-//            $0.top.equalTo(userIdField.snp.bottom).offset(24)
-//        }
-//
-//        userPwdField.snp.makeConstraints {
-//            $0.leading.equalToSuperview().offset(40)
-//            $0.trailing.equalToSuperview().offset(-40)
-//            $0.top.equalTo(userPwdLabel.snp.bottom).offset(6)
-//            $0.height.equalTo(46)
-//        }
-//
-//        loginButton.snp.makeConstraints {
-//            $0.leading.trailing.equalTo(userPwdField)
-//            $0.top.equalTo(userPwdField.snp.bottom).offset(40)
-//            $0.height.equalTo(46)
-//        }
     }
     
     @objc func loginAction() {

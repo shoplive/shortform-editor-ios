@@ -199,7 +199,7 @@ final class ShopLiveChattingWriteView: SLView {
             topShadowLeading.constant = 12
             topShadowtrailing.constant = -16
             topShadowHeight.constant = 9
-            sendBottom.constant = -4
+            sendBottom.constant = -6
             sendWidth.constant = 60
             sendHeight.constant = 36
             chatTrailing.constant = -4

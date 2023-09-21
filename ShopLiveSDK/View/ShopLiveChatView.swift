@@ -98,6 +98,7 @@ final class ShopLiveChatView: SLScrollView, UITextViewDelegate {
         view.delegate = self
         view.contentInset = .zero
         view.textContainerInset = .zero
+        view.textContainer.lineFragmentPadding = .zero
         view.backgroundColor = .white
         view.enablesReturnKeyAutomatically = true
         view.returnKeyType = .send
@@ -176,8 +177,8 @@ final class ShopLiveChatView: SLScrollView, UITextViewDelegate {
             leftChatTextView.constant = 0
             rightChatTextView.constant = 0
         } else {
-            rightChatTextView.constant = -25
-            leftChatTextView.constant = 12
+            rightChatTextView.constant = 0
+            leftChatTextView.constant = 15
         }
     }
     
