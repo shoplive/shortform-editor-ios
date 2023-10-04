@@ -25,6 +25,9 @@
 		2F57B7902A3B2ACE00946B6E /* ShopLiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */; };
 		2F7A6DFD2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
 		2F7A6DFE2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
+		2FCC70452AC3F577002CCA4F /* SLQRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCC70442AC3F577002CCA4F /* SLQRReaderViewController.swift */; };
+		2FCC70462AC3F577002CCA4F /* SLQRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCC70442AC3F577002CCA4F /* SLQRReaderViewController.swift */; };
+		2FCC70472AC3F577002CCA4F /* SLQRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCC70442AC3F577002CCA4F /* SLQRReaderViewController.swift */; };
 		2FD062B32A03804B004841D2 /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
 		2FD769202A5F86D30092C73F /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD7691F2A5F86D30092C73F /* NetworkReachability.swift */; };
 		2FD769212A5F86D30092C73F /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD7691F2A5F86D30092C73F /* NetworkReachability.swift */; };
@@ -36,8 +39,6 @@
 		BF1B57BA276983600002EBB5 /* CustomBaseAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */; };
 		BF1B57BC2769844F0002EBB5 /* CampaignInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */; };
 		BF1C0804272797C400F6B2E1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */; };
-		BF25526128FC1302008B018B /* QRScanner in Frameworks */ = {isa = PBXBuildFile; productRef = BF25526028FC1302008B018B /* QRScanner */; };
-		BF25526328FC1309008B018B /* QRScanner in Frameworks */ = {isa = PBXBuildFile; productRef = BF25526228FC1309008B018B /* QRScanner */; };
 		BF25526528FC150F008B018B /* QRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF25526428FC150F008B018B /* QRReaderViewController.swift */; };
 		BF25526628FC150F008B018B /* QRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF25526428FC150F008B018B /* QRReaderViewController.swift */; };
 		BF263095288DDA980071C8BE /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF263092288DDA980071C8BE /* LoginTextField.swift */; };
@@ -424,7 +425,6 @@
 		BFE21967276B436600900FB1 /* DevInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21966276B436600900FB1 /* DevInfoCell.swift */; };
 		BFE21969276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21968276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift */; };
 		BFE9607B28FD3A2A0098937A /* QRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF25526428FC150F008B018B /* QRReaderViewController.swift */; };
-		BFE9607D28FD3E560098937A /* QRScanner in Frameworks */ = {isa = PBXBuildFile; productRef = BFE9607C28FD3E560098937A /* QRScanner */; };
 		BFF3586C27E9AD3500B920E9 /* PipAreaSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3586B27E9AD3500B920E9 /* PipAreaSettingViewController.swift */; };
 		BFF3586D27E9AD3500B920E9 /* PipAreaSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3586B27E9AD3500B920E9 /* PipAreaSettingViewController.swift */; };
 		BFF8477E2897E0230075A0AA /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF8477D2897E0230075A0AA /* ReplayKit.framework */; };
@@ -489,6 +489,7 @@
 		1BA5156925CBDD3F00070181 /* ShopLive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLive.swift; sourceTree = "<group>"; };
 		2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveWindow.swift; sourceTree = "<group>"; };
 		2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveViewComponents.swift; sourceTree = "<group>"; };
+		2FCC70442AC3F577002CCA4F /* SLQRReaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLQRReaderViewController.swift; sourceTree = "<group>"; };
 		2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchOptionCell.swift; sourceTree = "<group>"; };
 		2FD7691F2A5F86D30092C73F /* NetworkReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
 		2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveThrottle.swift; sourceTree = "<group>"; };
@@ -663,7 +664,6 @@
 				BF5F50A028F7D1E1008B79D9 /* Toast in Frameworks */,
 				BF5F50A128F7D1E1008B79D9 /* CryptoSwift in Frameworks */,
 				BF5F50B728F7D308008B79D9 /* ShopLiveSDK.framework in Frameworks */,
-				BFE9607D28FD3E560098937A /* QRScanner in Frameworks */,
 				BF5F50A328F7D1E1008B79D9 /* DropDown in Frameworks */,
 				BF5F50A428F7D1E1008B79D9 /* CoreTelephony.framework in Frameworks */,
 				BF5F50A528F7D1E1008B79D9 /* SideMenu in Frameworks */,
@@ -676,7 +676,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF25526328FC1309008B018B /* QRScanner in Frameworks */,
 				BFF8477F2897E02F0075A0AA /* ReplayKit.framework in Frameworks */,
 				BF60E23E2771CECA0060531C /* Toast in Frameworks */,
 				BF60E23F2771CECA0060531C /* CryptoSwift in Frameworks */,
@@ -693,7 +692,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFE2195F276B35C000900FB1 /* Toast in Frameworks */,
-				BF25526128FC1302008B018B /* QRScanner in Frameworks */,
 				BF60E1DC276F97040060531C /* CryptoSwift in Frameworks */,
 				BF4719A927687C7E00522F6F /* DropDown in Frameworks */,
 				BFE14B66272F6E9200C6624B /* CoreTelephony.framework in Frameworks */,
@@ -935,6 +933,7 @@
 				BF60E1DD277175D90060531C /* DeepLInkManager.swift */,
 				BF25526428FC150F008B018B /* QRReaderViewController.swift */,
 				BFD1B0EF2942845F00721854 /* CustomAppVeersionInputAlertController.swift */,
+				2FCC70442AC3F577002CCA4F /* SLQRReaderViewController.swift */,
 			);
 			path = Sample;
 			sourceTree = "<group>";
@@ -1252,7 +1251,6 @@
 				BF5F504A28F7D1E1008B79D9 /* Toast */,
 				BF5F504C28F7D1E1008B79D9 /* SwiftyJWT */,
 				BF5F504E28F7D1E1008B79D9 /* CryptoSwift */,
-				BFE9607C28FD3E560098937A /* QRScanner */,
 			);
 			productName = SwiftDemo;
 			productReference = BF5F50B428F7D1E1008B79D9 /* DEMO QA.app */;
@@ -1277,7 +1275,6 @@
 				BF60E1EA2771CECA0060531C /* Toast */,
 				BF60E1EC2771CECA0060531C /* SwiftyJWT */,
 				BF60E1EE2771CECA0060531C /* CryptoSwift */,
-				BF25526228FC1309008B018B /* QRScanner */,
 			);
 			productName = SwiftDemo;
 			productReference = BF60E2522771CECA0060531C /* DEMO QA.app */;
@@ -1302,7 +1299,6 @@
 				BFE2195E276B35C000900FB1 /* Toast */,
 				BF60E1CD276F53730060531C /* SwiftyJWT */,
 				BF60E1DB276F97040060531C /* CryptoSwift */,
-				BF25526028FC1302008B018B /* QRScanner */,
 			);
 			productName = SwiftDemo;
 			productReference = BFAD8EAA265A23FD00202160 /* SDK DEMO.app */;
@@ -1387,7 +1383,6 @@
 				BFE2195D276B35C000900FB1 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				BF60E1CC276F53730060531C /* XCRemoteSwiftPackageReference "SwiftyJWT" */,
 				BF60E1DA276F97040060531C /* XCRemoteSwiftPackageReference "CryptoSwift" */,
-				BF25525D28FC12E8008B018B /* XCRemoteSwiftPackageReference "QRScanner" */,
 			);
 			productRefGroup = 1BA5154E25CBDCD100070181 /* Products */;
 			projectDirPath = "";
@@ -1653,6 +1648,7 @@
 				2F1CBD722A52A8B80060B29D /* ShopLiveViewComponents.swift in Sources */,
 				BF5F505F28F7D1E1008B79D9 /* PipAreaSettingViewController.swift in Sources */,
 				BF5F506228F7D1E1008B79D9 /* ShopLiveRadioButton.swift in Sources */,
+				2FCC70472AC3F577002CCA4F /* SLQRReaderViewController.swift in Sources */,
 				BF5F506328F7D1E1008B79D9 /* CouponResponseSettingView.swift in Sources */,
 				BF5F506428F7D1E1008B79D9 /* OptionSectionHeader.swift in Sources */,
 				BF5F50BC28F7D575008B79D9 /* ShopLiveViewLoggerController.swift in Sources */,
@@ -1725,6 +1721,7 @@
 				BF37D9BF27F5742D004C2785 /* PerfMeasurements.swift in Sources */,
 				BFC73CDF2901791900D9BC8A /* Throttle.swift in Sources */,
 				BF4B35A0299B73E1008BCA5A /* CustomReferrerAlertController.swift in Sources */,
+				2FCC70462AC3F577002CCA4F /* SLQRReaderViewController.swift in Sources */,
 				BF60E1FB2771CECA0060531C /* ShopLiveDemoKeyTools.swift in Sources */,
 				BFF3586D27E9AD3500B920E9 /* PipAreaSettingViewController.swift in Sources */,
 				BF37D9D727F5742D004C2785 /* ShopLiveSDKInterface.swift in Sources */,
@@ -1825,6 +1822,7 @@
 				BF37D9BE27F5742D004C2785 /* PerfMeasurements.swift in Sources */,
 				BFC73CDE2901791900D9BC8A /* Throttle.swift in Sources */,
 				BF4B359F299B73E1008BCA5A /* CustomReferrerAlertController.swift in Sources */,
+				2FCC70452AC3F577002CCA4F /* SLQRReaderViewController.swift in Sources */,
 				BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */,
 				BFF3586C27E9AD3500B920E9 /* PipAreaSettingViewController.swift in Sources */,
 				BF37D9D627F5742D004C2785 /* ShopLiveSDKInterface.swift in Sources */,
@@ -2709,14 +2707,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		BF25525D28FC12E8008B018B /* XCRemoteSwiftPackageReference "QRScanner" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mercari/QRScanner.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 		BF4719692765F40700522F6F /* XCRemoteSwiftPackageReference "SideMenu" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jonkykong/SideMenu.git";
@@ -2840,16 +2830,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		BF25526028FC1302008B018B /* QRScanner */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF25525D28FC12E8008B018B /* XCRemoteSwiftPackageReference "QRScanner" */;
-			productName = QRScanner;
-		};
-		BF25526228FC1309008B018B /* QRScanner */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF25525D28FC12E8008B018B /* XCRemoteSwiftPackageReference "QRScanner" */;
-			productName = QRScanner;
-		};
 		BF47196A2765F40700522F6F /* SideMenu */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BF4719692765F40700522F6F /* XCRemoteSwiftPackageReference "SideMenu" */;
@@ -2924,11 +2904,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BFE2195D276B35C000900FB1 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
 			productName = Toast;
-		};
-		BFE9607C28FD3E560098937A /* QRScanner */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF25525D28FC12E8008B018B /* XCRemoteSwiftPackageReference "QRScanner" */;
-			productName = QRScanner;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

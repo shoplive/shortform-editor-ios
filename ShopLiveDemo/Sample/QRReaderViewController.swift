@@ -9,9 +9,6 @@ import UIKit
 import QRScanner
 import AVFoundation
 
-protocol QRKeyReaderDelegate: AnyObject {
-    func updateKeyFromQR(keyset: ShopLiveKeySet?)
-}
 
 class QRReaderViewController: UIViewController {
 

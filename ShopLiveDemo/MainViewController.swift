@@ -89,7 +89,7 @@ class MainViewController: SideMenuBaseViewController {
                 self.navigationController?.present(vc, animated: false, completion: nil)
                 break
             case 1: // QR-code
-                let qrReaderVC = QRReaderViewController()
+                let qrReaderVC = SLQRReaderViewController()
                 qrReaderVC.delegate = self
                 self.present(qrReaderVC, animated: true)
                 break
