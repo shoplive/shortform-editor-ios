@@ -149,7 +149,6 @@ internal final class LiveStreamViewController: SLViewController {
     }
 
     private func addPlayTimeObserver() {
-        ShopLiveLogger.debugLog("addPlayTimeObserver")
         removePlaytimeObserver()
         let time = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         playTimeObserver = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: nil) { (time) in
@@ -346,6 +345,7 @@ internal final class LiveStreamViewController: SLViewController {
     }
     
     deinit {
+        
     }
 
     private func setupView() {
@@ -1433,6 +1433,9 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didUpdateVideo(with url: URL) {
+        if let streamUrl = ShopLiveController.streamUrl, streamUrl.absoluteString == url.absoluteString {
+            return
+        }
         ShopLiveController.streamUrl = url
         if ShopLiveController.isReplayMode, let time = ShopLiveController.shared.currentPlayTime {
             ShopLiveController.player?.seek(to: time)
@@ -1481,29 +1484,18 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             let isMuted = ShopLiveController.shared.isPreview ? true : ShopLiveConfiguration.SoundPolicy.isMuted
             ShopLiveController.shared.setSoundMute(isMuted: isMuted)
             
-            if let videoAspectRatio = payload?["videoAspectRatio"] as? String {
-                let parseRatio = videoAspectRatio.split(separator: ":")
-                if parseRatio.isEmpty {
-                    ShopLiveController.shared.videoRatio = ShopLiveDefines.defVideoRatio
-                    ShopLiveController.shared.supportOrientation = .portrait
-                } else {
-                    if parseRatio.count == 2, let width = Int(parseRatio[0]), let height = Int(parseRatio[1]) {
-                        ShopLiveController.shared.videoRatio = CGSize(width: width, height: height)
-                        ShopLiveController.shared.supportOrientation = width > height ? .landscape : .portrait
-                    } else {
-                        ShopLiveController.shared.videoRatio = ShopLiveDefines.defVideoRatio
-                        ShopLiveController.shared.supportOrientation = .portrait
-                    }
-                }
-            } else {
-                ShopLiveController.shared.videoRatio = ShopLiveDefines.defVideoRatio
-                ShopLiveController.shared.supportOrientation = .portrait
-            }
+            self.viewModel.parseRatioStringAndSetData(ratio: payload?["videoAspectRatio"] as? String)
             
             ShopLiveController.shared._playerMode = ShopLiveController.shared.isPreview ? .preview : .play
-            if ShopLiveController.windowStyle == .inAppPip || ShopLiveController.windowStyle == .normal {
+            
+            if viewModel.getIsUpdatePictureInPictureNeedInSetConfInitialized() {
+                viewModel.setIsUpdatePictureInPictureNeedInSetConfInitialized(isNeeded: false)
                 delegate?.updatePictureInPicture()
             }
+            else if ShopLiveController.shared.isPreview == false  {
+                delegate?.updatePictureInPicture()
+            }
+            
             
             ShopLiveController.shared.swipeEnabled = true
             
@@ -1561,6 +1553,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
     
     func webViewDidFinishedLoading() {
+        self.viewModel.setWebViewLoadingCompleted(isCompleted: true)
         if self.isTryingToRecoverFromNetworkDisconnected {
             self.resetRetry()
             self.isTryingToRecoverFromNetworkDisconnected = false
@@ -1741,6 +1734,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     }
 
     func handleTimeControlStatus() {
+        
         switch ShopLiveController.timeControlStatus {
         case .paused:
             ShopLiveLogger.debugLog("[1.3.2] paused")

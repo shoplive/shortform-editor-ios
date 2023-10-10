@@ -398,7 +398,6 @@ extension OverlayWebView: WKScriptMessageHandler {
                           let height = parameters?["height"] as? CGFloat, let width = parameters?["width"] as? CGFloat,
                           let centerCrop = parameters?["centerCrop"] as? Int, let isCenterCrop = String(describing: centerCrop).boolValue else { return }
                     
-                    
                     if ShopLiveController.shared.supportOrientation == .landscape {
 //                        let SET_VIDEO_POSITION_LOG = CGRect(x: x, y: y, width: width, height: height)
 
@@ -406,7 +405,6 @@ extension OverlayWebView: WKScriptMessageHandler {
                         let bottom = (self.window?.frame.height ?? UIWindow.mainWindowFrame.frame.height) - y - height
             
                         let playerFrame = CGRect(x: x, y: y, width: right, height: bottom)
-                        
                             if UIScreen.isLandscape {
                                 if ShopLiveController.shared.videoExpanded {
                                     ShopLiveController.shared.videoFrame.landscape.expanded = playerFrame

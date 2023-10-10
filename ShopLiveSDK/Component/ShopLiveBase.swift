@@ -121,12 +121,7 @@ import WebKit
     var originAudioSessionCategory: AVAudioSession.Category?
     
     var isWindowChanging = false
-    var windowChangeCommand: ShopLiveWindowChangeCommand = .none {
-        didSet {
-            ShopLiveLogger.debugLog("didSet windowChangeCommand \(windowChangeCommand)")
-        }
-    }
-    
+    var windowChangeCommand: ShopLiveWindowChangeCommand = .none 
     var queryParameters: [String: String] = [:]
     
     weak var _delegate: ShopLiveSDKDelegate?
@@ -143,7 +138,19 @@ import WebKit
     func showPreview(previewUrl: URL) {
         liveStreamViewController?.viewModel.authToken = _authToken
         liveStreamViewController?.viewModel.user = _user
-        showShopLiveView(with: previewUrl)
+        showShopLiveView(with: previewUrl) { [weak self] in
+            guard let self = self else { return }
+            if let ak = self.accessKey,
+               let vc = self.liveStreamViewController,
+               ShopLiveController.shared.isPreview {
+                vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
+                                                                 campaignKey: ShopLiveController.shared.campaignKey,
+                                                                 isPreview: true) {
+                    
+                    self.updatePictureInPicture()
+                }
+            }
+        }
     }
     
     func showShopLiveView(with overlayUrl: URL, _ completion: (() -> Void)? = nil) {
@@ -238,7 +245,9 @@ import WebKit
         } else {
             shopLiveWindow?.frame = mainWindow?.frame ?? UIScreen.main.bounds
         }
-        shopLiveWindow?.rootViewController = liveStreamViewController
+        
+        self.shopLiveWindow?.rootViewController = self.liveStreamViewController
+        self.liveStreamViewController?.view.backgroundColor = .white
         self.liveStreamViewController?.hideBackgroundPoster()
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(liveWindowPanGestureHandler))
@@ -710,8 +719,11 @@ import WebKit
             
             self.isWindowChanging = true
             if isRotation {
-                let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("top", UIScreen.safeArea.top), ("left", UIScreen.safeArea.left),
-                                                                     ("right", UIScreen.safeArea.right), ("bottom", UIScreen.safeArea.bottom), ("orientation", UIScreen.currentOrientation.angle))
+                let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("top", UIScreen.safeArea.top),
+                                                                     ("left", UIScreen.safeArea.left),
+                                                                     ("right", UIScreen.safeArea.right),
+                                                                     ("bottom", UIScreen.safeArea.bottom),
+                                                                     ("orientation", UIScreen.currentOrientation.angle))
                 
                 self.liveStreamViewController?.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
             } else {
@@ -1694,7 +1706,6 @@ extension ShopLiveBase: ShopLiveComponent {
         guard !ShopLiveController.shared.pipAnimating else { return }
         ShopLiveController.shared._playerMode = .play
         debouncer.renewInterval()
-        
         debouncer.handler = {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 800 : 0)) {
                 self.resetQueryParameters()
@@ -1742,7 +1753,23 @@ extension ShopLiveBase: ShopLiveComponent {
                     self?.windowChangeCommand = .none
                     self?.isWindowChanging = false
                     
-                    self?.showShopLiveView(with: url)
+                    self?.showShopLiveView(with: url) { [weak self] in
+                        guard let self = self else { return }
+                        if let ak = self.accessKey,
+                           let vc = self.liveStreamViewController,
+                           ShopLiveController.shared.isPreview == false {
+                            vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
+                                                                             campaignKey: ShopLiveController.shared.campaignKey,
+                                                                             isPreview: false) {
+                                
+                                guard let playerFrame = vc.viewModel.getEstimatedPlayerFrameForFullScreenOnInitalize() else { return }
+                                DispatchQueue.main.async {
+                                    vc.updatePlayerFrame(centerCrop : true, playerFrame: playerFrame,immediately: false)
+                                }
+                            }
+                        }
+                        
+                    }
                 }
             }
         }
@@ -1756,7 +1783,6 @@ extension ShopLiveBase: ShopLiveComponent {
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat) {
         self.pipScale = scale
         self.setPipPosition(pos: position)
-//        self.pipPosition = position
         
         if !self.isWindowChanging {
             self.startShopLivePictureInPicture()
@@ -1996,9 +2022,10 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     func updatePictureInPicture() {
-        if ShopLiveController.shared.isPreview {
+        if ShopLiveController.shared.isPreview  {
             willChangePreview()
-        } else {
+        }
+        else {
             if _style == .pip {
                 if ShopLiveController.shared.videoOrientation == .landscape {
                     updatePip()

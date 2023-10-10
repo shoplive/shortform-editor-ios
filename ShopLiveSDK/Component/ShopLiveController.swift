@@ -119,11 +119,6 @@ final class ShopLiveController: NSObject {
     var _playerMode: ShopLive.PlayerMode = .none
     
     var playerMode: ShopLive.PlayerMode {
-//        if isStartedCampaign {
-//            return isPreview ? .preview : .play
-//        } else {
-//            return .none
-//        }
         return _playerMode
     }
     

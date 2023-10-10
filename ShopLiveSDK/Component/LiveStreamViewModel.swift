@@ -27,6 +27,13 @@ internal final class LiveStreamViewModel: NSObject {
     private var liveKeepUpTimerBlockDuration : Double = 2.0
     private var inAppPipConfiguration : ShopLiveInAppPipConfiguration?
     private var lastPipPosition : ShopLive.PipPosition?
+    private var isWebViewDidCompleteLoading : Bool = false
+    /**
+     api도입되면서 가로모드일때만 setConf에서 delegate.updatePictureInPicture를 불러야함
+     */
+    private var isUpdatePictureInPictureNeedInSetConfInitialized : Bool = false
+    
+    
     
     
     
@@ -52,12 +59,48 @@ internal final class LiveStreamViewModel: NSObject {
         campaignKey = nil
         authToken = nil
         user = nil
+        isWebViewDidCompleteLoading = false
     }
     
-
+    
+    func updatePlayerItemWithLiveUrlFetchAPI(accessKey : String, campaignKey : String,isPreview : Bool, completion : @escaping(() -> ())) {
+        LiveUrlFetchAPI.fetchUrl(accessKey: accessKey, campaignKey: campaignKey) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let model):
+                var url : URL
+                
+                if let aspectRatio = model.videoAspectRatio {
+                    self.parseRatioStringAndSetData(ratio: aspectRatio)
+                }
+                
+                if isPreview, let urlString = model.previewLiveUrl, let previewUrl = URL(string: urlString){
+                    url = previewUrl
+                }
+                else if let urlString = model.liveUrl,  let liveUrl = URL(string: urlString) {
+                    url = liveUrl
+                }
+                else {
+                    self.isUpdatePictureInPictureNeedInSetConfInitialized = true
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    ShopLiveController.streamUrl = url
+                    completion()
+                }
+                break
+            case .failure(_):
+                self.isUpdatePictureInPictureNeedInSetConfInitialized = true
+                break
+            }
+        }
+        
+    }
+    
+    
     func updatePlayerItem(with url: URL) {
         guard ShopLiveController.player != nil else { return }
-
         resetPlayer()
 
         let asset = AVURLAsset(url: url)
@@ -212,7 +255,58 @@ internal final class LiveStreamViewModel: NSObject {
             break
         }
     }
-
+    
+    
+    func parseRatioStringAndSetData(ratio : String?) {
+        if let ratio = ratio {
+            let parseRatio = ratio.split(separator: ":")
+            if parseRatio.isEmpty {
+                ShopLiveController.shared.videoRatio = ShopLiveDefines.defVideoRatio
+                ShopLiveController.shared.supportOrientation = .portrait
+            } else {
+                if parseRatio.count == 2, let width = Int(parseRatio[0]), let height = Int(parseRatio[1]) {
+                    ShopLiveController.shared.videoRatio = CGSize(width: width, height: height)
+                    ShopLiveController.shared.supportOrientation = width > height ? .landscape : .portrait
+                } else {
+                    ShopLiveController.shared.videoRatio = ShopLiveDefines.defVideoRatio
+                    ShopLiveController.shared.supportOrientation = .portrait
+                }
+            }
+        }
+        else {
+            ShopLiveController.shared.videoRatio = ShopLiveDefines.defVideoRatio
+            ShopLiveController.shared.supportOrientation = .portrait
+        }
+    }
+    
+    
+    
+    func getEstimatedPlayerFrameForFullScreenOnInitalize() -> CGRect? {
+        guard isWebViewDidCompleteLoading == false else {
+            return nil
+        }
+        //가로모드는 api호출해서 사용하는 거 안하기로 협의 되었음
+        guard ShopLiveController.shared.videoRatio.width < ShopLiveController.shared.videoRatio.height else {
+            return nil
+        }
+        
+        let originX : CGFloat = UIScreen.leftSafeArea
+        var originY : CGFloat = 0
+        
+        //playerFrame의 오른쪽 인셋
+        var width : CGFloat = 0.0
+        //playerFrame의 아래쪽 인셋
+        var height : CGFloat = 0.0
+        
+        let videoRatio = ShopLiveController.shared.videoRatio
+        
+        width = 0
+        height = 0
+        ShopLiveController.shared.videoFrame.portrait = CGRect(x: originX, y: originY, width: width, height: height)
+        
+        return .init(x: originX, y: originY, width: width, height: height)
+    }
+    
 }
 
 extension LiveStreamViewModel: ShopLivePlayerDelegate {
@@ -347,5 +441,17 @@ extension LiveStreamViewModel {
         else {
             return ShopLiveConfiguration.UI.enablePipSwipeOut
         }
+    }
+    
+    func setWebViewLoadingCompleted(isCompleted : Bool){
+        self.isWebViewDidCompleteLoading = isCompleted
+    }
+    
+    func setIsUpdatePictureInPictureNeedInSetConfInitialized(isNeeded : Bool) {
+        self.isUpdatePictureInPictureNeedInSetConfInitialized = isNeeded
+    }
+    
+    func getIsUpdatePictureInPictureNeedInSetConfInitialized() -> Bool {
+        return self.isUpdatePictureInPictureNeedInSetConfInitialized
     }
 }
