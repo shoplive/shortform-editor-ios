@@ -9,33 +9,42 @@ import Foundation
 import AVKit
 import Network
 
+protocol LiveStreamViewModelDelegate : NSObjectProtocol {
+    func requestHideOrShowSnapShotView(hide: Bool, withOutPlaying : Bool)
+    func requestHideOrShowSnapShotBackground(hide : Bool)
+    func requestHideOrShowbackgroundPosterImageWebView(hide : Bool)
+    func reloadWebView(with url : URL)
+}
 
 internal final class LiveStreamViewModel: NSObject {
 
+    weak var delegate : LiveStreamViewModelDelegate?
+    
     var overayUrl: URL?
     var accessKey: String?
     var campaignKey: String?
     var authToken: String? = nil
     var user: ShopLiveUser? = nil
+    var liveStreamViewController : LiveStreamViewController?
     
     private var urlAsset: AVURLAsset?
     private var playerItem: AVPlayerItem?
     private var perfMeasurements: PerfMeasurements?
-    
+    private var playerErrorObserver : ShopLiveAVPlayerErrorObserver?
+    var retryManager : LiveStreamRetryManager?
+    private var playTimeObserver: Any?
+    private var loadedTimeRangeStalledQueue : [Double] = []
     private var liveKeepUpTimer : Any?
     private var blockLiveKeeupTimer : Bool = false
     private var liveKeepUpTimerBlockDuration : Double = 2.0
     private var inAppPipConfiguration : ShopLiveInAppPipConfiguration?
     private var lastPipPosition : ShopLive.PipPosition?
     private var isWebViewDidCompleteLoading : Bool = false
+    var isAlreadyPlayedOnce : Bool = false
     /**
      api도입되면서 가로모드일때만 setConf에서 delegate.updatePictureInPicture를 불러야함
      */
     private var isUpdatePictureInPictureNeedInSetConfInitialized : Bool = false
-    
-    
-    
-    
     
     deinit {
         teardownLiveStreamViewModel()
@@ -44,14 +53,20 @@ internal final class LiveStreamViewModel: NSObject {
     override init() {
         super.init()
         setupLiveStreamViewModel()
+        
+        
     }
 
     private func setupLiveStreamViewModel() {
         ShopLiveController.shared.addPlayerDelegate(delegate: self)
+        retryManager = LiveStreamRetryManager()
+        retryManager?.delegate = self
+        isAlreadyPlayedOnce = false
     }
     
     private func teardownLiveStreamViewModel() {
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
+        removePlaytimeObserver()
         resetPlayer()
         
         overayUrl = nil
@@ -95,7 +110,6 @@ internal final class LiveStreamViewModel: NSObject {
                 break
             }
         }
-        
     }
     
     
@@ -133,11 +147,14 @@ internal final class LiveStreamViewModel: NSObject {
             NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase)
             NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .AVPlayerItemPlaybackStalled, object: self.playerItem)
             ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
+            playerErrorObserver = ShopLiveAVPlayerErrorObserver(player: ShopLiveController.player!)
+            playerErrorObserver?.delegate = self
             startLiveStreamKeepUpTimer()
+            addPlayTimeObserver()
         }
     }
 
-    private func resetPlayer() {
+    func resetPlayer() {
         guard ShopLiveController.player != nil else { return }
         if ShopLiveController.player?.currentItem == nil {
             return
@@ -159,51 +176,12 @@ internal final class LiveStreamViewModel: NSObject {
         ShopLiveController.playControl = .none
     }
     
-    func play() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty, (ShopLiveController.playerItemStatus == .failed || ShopLiveController.player?.reasonForWaitingToPlay == AVPlayer.WaitingReason.evaluatingBufferingRate) {
-                self.updatePlayerItem(with: url)
-            }
-            else {
-                if ShopLiveController.isReplayMode {
-                    if ShopLiveController.isReplayFinished {
-                        self.seek(to: .init(value: 0, timescale: 1))
-                    }
-                }
-                
-                ShopLiveController.player?.play()
-            }
-        }
-    }
-    
-    func stop() {
-        resetPlayer()
-    }
-
-    func resume() {
-        guard ShopLiveController.player?.timeControlStatus != .playing else { return }
-        DispatchQueue.main.async {
-            if ShopLiveController.isReplayMode {
-                ShopLiveController.player?.play()
-            }
-            else if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty {
-                if ShopLiveController.shared.needSeek {
-                    ShopLiveController.shared.needSeek = false
-                    ShopLiveController.shared.seekToLatest()
-                }
-                ShopLiveController.player?.play()
-            }
-        }
-       
-    }
     
     func reloadVideo() {
         guard let url = ShopLiveController.streamUrl else {
             resetPlayer()
             return
         }
-        
         updatePlayerItem(with: url)
     }
 
@@ -230,33 +208,6 @@ internal final class LiveStreamViewModel: NSObject {
         }
     }
 
-    func handlePlayerItemStatus() {
-        switch ShopLiveController.playerItemStatus {
-        case .readyToPlay:
-            ShopLiveLogger.debugLog("readyToPlay")
-            ShopLiveLogger.debugLog("[1.3.2] readyToPlay")
-            ShopLiveController.playerItem?.preferredForwardBufferDuration = 5
-            if ShopLiveController.playControl != .pause, ShopLiveController.playControl != .play, ShopLiveController.windowStyle != .osPip {
-                if ShopLiveController.isReplayMode && ShopLiveController.playControl == .resume { return }
-                if ShopLiveController.isReplayMode, let duration = ShopLiveController.duration {
-                    ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[ON_VIDEO_DURATION_CHANGED] duration total: \(duration)  CMTimeGetSeconds(duration): \(CMTimeGetSeconds(duration))"))
-                    ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoDurationChanged, CMTimeGetSeconds(duration))
-                }
-                ShopLiveController.retryPlay = false
-                self.play()
-            }
-        case .failed:
-            ShopLiveLogger.debugLog("failed")
-            ShopLiveLogger.debugLog("[1.3.2] failed")
-            ShopLiveLogger.debugLog("[1.3.2] failed retry true")
-            ShopLiveController.retryPlay = true
-            break
-        default:
-            break
-        }
-    }
-    
-    
     func parseRatioStringAndSetData(ratio : String?) {
         if let ratio = ratio {
             let parseRatio = ratio.split(separator: ":")
@@ -278,8 +229,6 @@ internal final class LiveStreamViewModel: NSObject {
             ShopLiveController.shared.supportOrientation = .portrait
         }
     }
-    
-    
     
     func getEstimatedPlayerFrameForFullScreenOnInitalize() -> CGRect? {
         guard isWebViewDidCompleteLoading == false else {
@@ -310,7 +259,6 @@ internal final class LiveStreamViewModel: NSObject {
 }
 
 extension LiveStreamViewModel: ShopLivePlayerDelegate {
-
     var identifier: String {
         return "LiveStreamViewModel"
     }
@@ -328,17 +276,122 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
         case .releasePlayer:
             resetPlayer()
             break
+        case .playControl:
+            self.handlePlayControl()
+        case .timeControlStatus:
+            handleTimeControlStatus()
+        case .retryPlay:
+            handleRetry()
         default:
+            break
+        }
+    }
+    
+    private func handlePlayerItemStatus() {
+        switch ShopLiveController.playerItemStatus {
+        case .readyToPlay:
+            ShopLiveLogger.debugLog("playerItem Status readyToPlay")
+            ShopLiveController.playerItem?.preferredForwardBufferDuration = 5
+            if ShopLiveController.playControl != .pause, ShopLiveController.playControl != .play, ShopLiveController.windowStyle != .osPip {
+                if ShopLiveController.isReplayMode && ShopLiveController.playControl == .resume { return }
+                if ShopLiveController.isReplayMode, let duration = ShopLiveController.duration {
+                    ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[ON_VIDEO_DURATION_CHANGED] duration total: \(duration)  CMTimeGetSeconds(duration): \(CMTimeGetSeconds(duration))"))
+                    ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoDurationChanged, CMTimeGetSeconds(duration))
+                }
+                ShopLiveController.retryPlay = false
+                retryManager?.setIsBuffering(isBuffering: false)
+                retryManager?.setIsTryingToRecoverFromLoadedTimeRangeStalled(isRetrying: false)
+                self.play()
+            }
+        case .failed:
+            ShopLiveLogger.debugLog("playerItem Status failed setting retry = true")
+            ShopLiveController.retryPlay = true
+            break
+        default:
+            break
+        }
+    }
+    
+    private func handlePlayControl() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            switch ShopLiveController.playControl {
+            case .play:
+                play()
+            case .pause:
+                pause()
+            case .resume:
+                resume()
+            case .stop:
+                stop()
+            default:
+                break
+            }
+        }
+    }
+    
+    func handleTimeControlStatus() {
+        switch ShopLiveController.timeControlStatus {
+        case .playing:
+            self.handleTimeControlStatusPlaying()
+            break
+        case .paused:
+            self.handleTimeControlStatusPaused()
+            break
+        case .waitingToPlayAtSpecifiedRate:
+            self.handleTimeControlStatusWaitingToPlay()
+            break
+        @unknown default:
             break
         }
     }
 }
 extension LiveStreamViewModel {
-    private func startLiveStreamKeepUpTimer() {
-        if liveKeepUpTimer != nil {
-            ShopLiveController.player?.removeTimeObserver(liveKeepUpTimer!)
-            liveKeepUpTimer = nil
+    private func addPlayTimeObserver() {
+        removePlaytimeObserver()
+        let time = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        playTimeObserver = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: nil) { [weak self] (time) in
+            guard let self = self else { return }
+            let curTime = CMTimeGetSeconds(time)
+            self.checkLoadedTimeRangeStalled()
+            ShopLiveController.shared.currentPlayTime = time
+            ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoTimeUpdated, curTime)
         }
+    }
+    
+    private func checkLoadedTimeRangeStalled(){
+        if let loadedTimeRange = ShopLiveController.playerItem?.loadedTimeRanges.first as? CMTimeRange {
+            if self.loadedTimeRangeStalledQueue.isEmpty {
+                self.loadedTimeRangeStalledQueue.append(loadedTimeRange.start.seconds)
+            }
+            else if let last = loadedTimeRangeStalledQueue.last {
+                if last != loadedTimeRange.start.seconds {
+                    self.loadedTimeRangeStalledQueue.removeAll()
+                    self.loadedTimeRangeStalledQueue.append(loadedTimeRange.start.seconds)
+                }
+                else {
+                    self.loadedTimeRangeStalledQueue.append(loadedTimeRange.start.seconds)
+                }
+            }
+        }
+        if ShopLiveController.timeControlStatus == .playing && self.loadedTimeRangeStalledQueue.count >= 16 {
+            self.loadedTimeRangeStalledQueue.removeAll()
+            self.delegate?.requestHideOrShowSnapShotView(hide: false, withOutPlaying: true)
+            self.retryManager?.setIsBuffering(isBuffering: true)
+            self.retryManager?.setIsTryingToRecoverFromLoadedTimeRangeStalled(isRetrying: true)
+            self.retryManager?.reserveRetry(waitSecond: 0)
+        }
+    }
+    
+    private func removePlaytimeObserver() {
+        if let playTimeObserver = self.playTimeObserver {
+            ShopLiveController.player?.removeTimeObserver(playTimeObserver)
+            self.playTimeObserver = nil
+        }
+    }
+    
+    private func startLiveStreamKeepUpTimer() {
+        self.removeLiveStreamKeepUpTimer()
         
         let time = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         liveKeepUpTimer = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: nil) { [weak self] time in
@@ -351,7 +404,6 @@ extension LiveStreamViewModel {
                 else {
                     self.liveKeepUpTimerBlockDuration = 2
                 }
-               
                 return
             }
             if self.blockLiveKeeupTimer == true {
@@ -378,6 +430,13 @@ extension LiveStreamViewModel {
                     }
                 }
             }
+        }
+    }
+    
+    private func removeLiveStreamKeepUpTimer() {
+        if liveKeepUpTimer != nil {
+            ShopLiveController.player?.removeTimeObserver(liveKeepUpTimer!)
+            liveKeepUpTimer = nil
         }
     }
     
@@ -453,5 +512,179 @@ extension LiveStreamViewModel {
     
     func getIsUpdatePictureInPictureNeedInSetConfInitialized() -> Bool {
         return self.isUpdatePictureInPictureNeedInSetConfInitialized
+    }
+    
+    func setVc(vc : LiveStreamViewController){
+        self.liveStreamViewController = vc
+    }
+    
+    /**
+        Initialize web client
+            - Sending the required data using URL for Web Client initialization
+     */
+    func getOverLayUrlWithInfosAttached() -> URL? {
+        guard let baseUrl = overayUrl else { return nil }
+        let urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false)
+        var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
+
+        if let authToken = authToken, !authToken.isEmpty {
+            queryItems.append(URLQueryItem(name: "tk", value: authToken))
+        }
+        
+        if let name = user?.name, !name.isEmpty {
+            queryItems.append(URLQueryItem(name: "userName", value: name))
+        }
+        if let userId = user?.id, !userId.isEmpty {
+            queryItems.append(URLQueryItem(name: "userId", value: userId))
+        }
+        if let gender = user?.gender, gender != .unknown {
+            queryItems.append(URLQueryItem(name: "gender", value: gender.description))
+        }
+        if let age = user?.age, age > 0 {
+            queryItems.append(URLQueryItem(name: "age", value: String(age)))
+        }
+        
+        if let additional = user?.getParams(), !additional.isEmpty {
+            additional.forEach { (key: String, value: String) in
+                queryItems.append(URLQueryItem(name: key, value: value))
+            }
+        }
+
+        queryItems.append(URLQueryItem(name: "osType", value: "i"))
+        queryItems.append(URLQueryItem(name: "osVersion", value: ShopLiveDefines.osVersion))
+        queryItems.append(URLQueryItem(name: "device", value: ShopLiveDefines.deviceIdentifier))
+
+        if let scm: String = ShopLiveController.shared.shareScheme {
+            queryItems.append(URLQueryItem(name: "shareUrl", value: scm))
+        }
+        
+        queryItems.append(URLQueryItem(name: "appVersion", value: ShopLiveConfiguration.AppPreference.appVersion ?? UIApplication.appVersion()))
+    
+        queryItems.append(URLQueryItem(name: "manualRotation", value: "false"))
+        if let adid = ShopLiveConfiguration.Data.adid, !adid.isEmpty {
+            queryItems.append(URLQueryItem(name: "adId", value: adid))
+        }
+        
+        ShopLiveConfiguration.Data.customParameters.forEach { (key: String, value: Any) in
+            queryItems.append(URLQueryItem(name: key, value: "\(value)"))
+        }
+        
+        let urlString: String = ShopLiveConfiguration.AppPreference.landingUrl
+        guard let params = URLUtil.query(queryItems) else {
+            return URL(string: urlString)
+        }
+
+        guard let url = URL(string: urlString + "?" + params) else {
+
+            return URL(string: urlString)
+        }
+
+        return url
+    }
+}
+extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {
+    func pauseAndWaitForBufferFromPlayerObserveError() {
+        playerErrorObserver?.resetErrorCase()
+    }
+    
+    func onStallDangerFromPlayerObserveError() {
+        self.playerErrorObserver?.resetErrorCase()
+    }
+    
+    func onMissingRenditionReport() {
+        playerErrorObserver?.resetErrorCase()
+    }
+    
+    func onLiveStreamDisconnect() {
+        if ShopLiveController.windowStyle == .osPip {
+            self.resetPlayer()
+        }
+        else {
+            Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { [weak self] timer in
+                guard let self = self else { return }
+                self.retryManager?.setIsBuffering(isBuffering: true)
+                self.retryManager?.reserveRetry(waitSecond: 0)
+                if ShopLiveController.player?.timeControlStatus == .playing {
+                    ShopLiveController.player?.pause()
+                    self.delegate?.requestHideOrShowSnapShotView(hide: false,withOutPlaying: false)
+                    if ShopLiveController.loading == false && ShopLiveController.shared.campaignStatus != .close {
+                        ShopLiveController.loading = true
+                    }
+                }
+            }
+        }
+    }
+    
+    func onPlayListParseError() {
+        guard let player = ShopLiveController.player,
+                      let playerItem = player.currentItem,
+                      let urlAsset = (playerItem.asset as? AVURLAsset) else { return }
+                if ShopLiveController.windowStyle != .osPip {
+                    self.updatePlayerItem(with: urlAsset.url)
+                }
+                else {
+                    self.resetPlayer()
+                }
+    }
+    
+    func onBandWidthExceeds() {
+        playerErrorObserver?.resetErrorCase()
+    }
+    
+    func onNoMatchingMediaFileFound() {
+        guard let retryManager = retryManager else { return }
+        
+        if retryManager.getIsBuffering() == true {
+            return
+        }
+        
+        self.delegate?.requestHideOrShowSnapShotView(hide: false,withOutPlaying: false)
+        if ShopLiveController.loading == false && ShopLiveController.shared.campaignStatus != .close {
+            if ShopLiveController.windowStyle != .osPip {
+                ShopLiveController.loading = true
+            }
+            self.retryManager?.setIsBuffering(isBuffering: true)
+            self.retryManager?.reserveRetry(waitSecond: 0)
+        }
+    }
+    
+    func onUnableToGetPlayList() {
+        if ShopLiveController.windowStyle != .osPip {
+            if let url = ShopLiveController.videoUrl {
+                self.updatePlayerItem(with: url)
+            }
+        }
+    }
+}
+extension LiveStreamViewModel : LiveStreamRetryManagerDelegate {
+    //MARK: -delegate functions
+    func updatePlayerItemInRetry(with url: URL) {
+        self.updatePlayerItem(with: url)
+    }
+    
+    func reloadWebViewInRetry(with url: URL) {
+        delegate?.reloadWebView(with: url)
+    }
+    
+    func requestHideOrShowSnapShot(hide: Bool) {
+        delegate?.requestHideOrShowSnapShotView(hide: hide,withOutPlaying: false)
+    }
+    //End
+    
+    func resetRetry(triggerFromWebView : Bool = false){
+        retryManager?.resetRetry(triggerFromWebView : triggerFromWebView)
+    }
+    
+    func handleRetry(){
+        retryManager?.handleRetryPlay()
+    }
+    
+    func retryOnNetworkDisconnected(){
+        guard let overayUrl = overayUrl else { return }
+        retryManager?.retryOnNetworkDisconnected(with: overayUrl)
+    }
+    
+    func getInBuffering() -> Bool {
+        return retryManager?.getIsBuffering() ?? false
     }
 }

@@ -170,9 +170,7 @@ import WebKit
             if self.needExecuteFullScreen {
                 if ShopLiveController.shared.isSameCampaign {
                     ShopLiveController.shared.keepSnapshot = true
-                    self.liveStreamViewController?.doSnapShot {
-                        
-                    }
+                    self.liveStreamViewController?.takeSnapShot(on: true)
                 }
                 self._style = .fullScreen
             }
@@ -248,7 +246,6 @@ import WebKit
         
         self.shopLiveWindow?.rootViewController = self.liveStreamViewController
         self.liveStreamViewController?.view.backgroundColor = .white
-        self.liveStreamViewController?.hideBackgroundPoster()
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(liveWindowPanGestureHandler))
         shopLiveWindow?.addGestureRecognizer(panGesture)
@@ -336,7 +333,7 @@ import WebKit
         self.osPictureInPictureController = nil
         
         self.liveStreamViewController?.removeFromParent()
-        self.liveStreamViewController?.stop()
+        self.liveStreamViewController?.viewModel.stop()
         self.liveStreamViewController?.delegate = nil
         self.liveStreamViewController = nil
         
@@ -786,8 +783,6 @@ import WebKit
             self.videoWindowTapGestureRecognizer?.isEnabled = true
             self.videoWindowSwipeDownGestureRecognizer?.isEnabled = false
             
-    //        self.liveStreamViewController?.hideBackgroundPoster()
-            
             let pipPosition: CGRect = self.pipPosition(with: self.pipScale, position: self.getPipPosition())
             shopLiveWindow.frame = pipPosition
             
@@ -1217,7 +1212,7 @@ import WebKit
         guard UIScreen.isLandscape else { return }
         guard ShopLiveController.shared.videoExpanded else { return }
         
-        if let isSnapshotHidden = self.liveStreamViewController?.isSnapshotHidden {
+        if let isSnapshotHidden = self.liveStreamViewController?.getIsSnapShotHidden() {
             guard (isSnapshotHidden && ShopLiveController.timeControlStatus == .playing) ||
                     (!isSnapshotHidden && ShopLiveController.timeControlStatus != .playing) else {
                 return
@@ -1674,7 +1669,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 if !ShopLiveController.shared.isPreview && ShopLiveController.windowStyle == .normal {
                     if ShopLiveController.shared.isSameCampaign {
                         ShopLiveController.shared.keepSnapshot = true
-                        self.liveStreamViewController?.doSnapShot {
+                        self.liveStreamViewController?.takeSnapShot(on: true) {
                             self.liveStreamViewController?.updateImageFit()
                             self.startCustomPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
                         }
