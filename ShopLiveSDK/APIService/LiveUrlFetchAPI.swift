@@ -21,7 +21,6 @@ class LiveUrlFetchAPI {
     
     
     class func fetchUrl(accessKey : String, campaignKey : String, completion : @escaping(Result<LiveFetchUrlModel, ShopLiveNetWorkError>) -> ()){
-        
         let urlString = "https://config.shoplive.cloud/\(accessKey)/live/\(campaignKey).json"
         guard let url = URL(string: urlString) else {
             completion(.failure(.invalidUrl))
@@ -58,8 +57,5 @@ class LiveUrlFetchAPI {
         DispatchQueue.global(qos: .background).async {
             task.resume()
         }
-        
     }
-    
-    
 }
