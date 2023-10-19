@@ -28,6 +28,7 @@ import WebKit
     private var needAnimateToChangePreivew: Bool = false
     private var activeFromBackground: Bool = false
     private var enabledPictureInPictureMode : Bool = true
+    private var blockWindowTapGesture : Bool = false
     private var inAppPipConfiguration : ShopLiveInAppPipConfiguration?
     
     
@@ -1200,6 +1201,12 @@ import WebKit
     }
     
     @objc private func pipTapGestureHandler(_ recognizer: UITapGestureRecognizer) {
+        if blockWindowTapGesture { return }
+        self.blockWindowTapGesture = true
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { [weak self] timer in
+            guard let self = self else { return }
+            self.blockWindowTapGesture = false
+        }
         if ShopLiveController.shared.isPreview {
             previewCallback?()
             return
