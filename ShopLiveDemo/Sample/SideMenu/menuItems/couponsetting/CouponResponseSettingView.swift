@@ -6,9 +6,7 @@
 //
 
 import UIKit
-#if SDK_MODULE
 import ShopLiveSDK
-#endif
 
 final class CouponResponseSettingView: UIView {
 

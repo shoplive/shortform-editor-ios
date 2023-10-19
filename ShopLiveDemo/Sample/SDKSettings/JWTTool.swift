@@ -7,9 +7,9 @@
 
 import Foundation
 import SwiftyJWT
-#if SDK_MODULE
 import ShopLiveSDK
-#endif
+import ShopliveSDKCommon
+
 
 class JWTTool {
     static let config = DemoConfiguration.shared
@@ -18,21 +18,19 @@ class JWTTool {
         return DemoSecretKeyTool.shared.currentKey()?.key
     }
 
-    static func makeJWT(user: ShopLiveUser) -> String? {
+    static func makeJWT(user: ShopLiveCommonUser) -> String? {
         guard let secret = secretKey?.base64Decoded?.data(using: .utf8) else { return nil }
 //        let secret = "ckFXaWtRWENtSTA2QnpGVmxWNlBySWF4cUk1Q1pxbHU=".base64Decoded!.data(using: .utf8)!
         var claims = ClaimSet()
         claims.expiration = Date(timeIntervalSinceNow:  60 * 60 * 12)
         claims.issuedAt = Date()
-        if let userId = user.id {
-            claims["userId"] = userId
-        }
+        claims["userId"] = user.userId
 
         if let name = user.name {
             claims["name"] = name
         }
 
-        if let gender = user.gender?.description, gender == "f" || gender == "m" {
+        if let gender = user.gender?.rawValue, gender == "f" || gender == "m" {
             claims["gender"] = gender
         }
 
@@ -40,11 +38,12 @@ class JWTTool {
             claims["age"] = age
         }
 
-        if let userScore = user.getParams().first(where: {$0.key == "userScore"})?.value, let score = Int(userScore) {
-            claims["userScore"] = score
+        if let userScore = user.userScore {
+            claims["userScore"] = userScore
         }
 
         let jwt = SwiftyJWT.encode(claims: claims, algorithm: .hs256(secret))
+        
         return jwt
     }
 
@@ -62,7 +61,7 @@ class JWTTool {
             claims["name"] = name
         }
 
-        if let gender = config.userGender?.description, gender == "f" || gender == "m" {
+        if let gender = config.userGender?.rawValue, gender == "f" || gender == "m" {
             claims["gender"] = gender
         }
 

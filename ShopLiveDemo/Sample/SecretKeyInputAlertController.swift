@@ -6,9 +6,7 @@
 //
 
 import UIKit
-#if SDK_MODULE
 import ShopLiveSDK
-#endif
 
 class SecretKeyInputAlertController: CustomBaseAlertController {
 
@@ -163,7 +161,7 @@ extension SecretKeyInputAlertController: UITextFieldDelegate {
 
 }
 
-#if SDK_MODULE
+
 extension UIButton {
     func setBackgroundColor(_ color: UIColor, for state: UIControl.State) {
         UIGraphicsBeginImageContext(CGSize(width: 1.0, height: 1.0))
@@ -177,4 +175,3 @@ extension UIButton {
         self.setBackgroundImage(backgroundImage, for: state)
     }
 }
-#endif

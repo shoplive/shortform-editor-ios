@@ -8,6 +8,7 @@
 import Foundation
 import WebKit
 import UIKit
+import ShopliveSDKCommon
 
 @objc public enum ResultStatus: Int, CaseIterable {
     case SHOW
@@ -249,12 +250,8 @@ public typealias ShopLiveViewController = SLViewController
     @objc static var webViewConfiguration: WKWebViewConfiguration? { get set }
     @objc static var delegate: ShopLiveSDKDelegate? { get set }
 
-    @objc static var authToken: String? { get set }
-    @objc static var user: ShopLiveUser? { get set }
-
     @objc static func isSuccessCampaignJoin() -> Bool
     
-    @objc static func configure(with accessKey: String)
     @objc static func preview(with campaignKey: String?, referrer: String?, completion: @escaping () -> Void)
     @objc static func play(with campaignKey: String?, keepWindowStateOnPlayExecuted: Bool, referrer: String?)
     @objc static func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
@@ -310,5 +307,13 @@ public typealias ShopLiveViewController = SLViewController
     @available(iOS, deprecated, message: "Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     @objc static func setEnabledPipSwipeOut(_ enabled: Bool)
     
+    //MARK: - will be deprecated in v2
+    //실제 값이 저장되는 곳은 ShopLiveCommon에 저장됨
+    @available(*, deprecated, message: "use ShopLiveCommon.setUserJWT(userJWT: String?) instead")
+    @objc static var authToken : String? { get set }
+    @available(*, deprecated, message: "use ShopLiveCommon.setUser(user: ShopLiveCommonUser?) instead")
+    @objc static var user : ShopLiveCommonUser? { get set }
+    @available(*, deprecated, message: "use ShopLiveCommon.setAccessKey(accessKey: String) instead")
+    @objc static func configure(with accessKey : String)
     @objc static func setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration)
 }

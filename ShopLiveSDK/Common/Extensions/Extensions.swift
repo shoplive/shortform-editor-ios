@@ -10,13 +10,6 @@ import UIKit
 import AVKit
 import MediaPlayer
 
-extension UIViewController
-{
-    @objc public func shopliveHideKeyboard()
-    {
-        view.endEditing(true)
-    }
-}
 
 extension UIApplication {
     class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {

@@ -19,30 +19,12 @@
       }
     },
     {
-      "identity" : "qrscanner",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mercari/QRScanner.git",
-      "state" : {
-        "revision" : "b9bbcabf8ce54974b56a63f403abc43930684314",
-        "version" : "1.9.0"
-      }
-    },
-    {
       "identity" : "sidemenu",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/jonkykong/SideMenu.git",
       "state" : {
         "revision" : "8bd4fd128923cf5494fa726839af8afe12908ad9",
         "version" : "6.5.0"
-      }
-    },
-    {
-      "identity" : "snapkit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SnapKit/SnapKit",
-      "state" : {
-        "revision" : "f222cbdf325885926566172f6f5f06af95473158",
-        "version" : "5.6.0"
       }
     },
     {

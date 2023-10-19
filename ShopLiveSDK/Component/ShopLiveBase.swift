@@ -8,7 +8,7 @@
 import UIKit
 import AVKit
 import WebKit
-
+import ShopliveSDKCommon
 
 @objc internal final class ShopLiveBase: NSObject {
     private var inRotating: Bool = false
@@ -20,7 +20,6 @@ import WebKit
     private var videoWindowSwipeDownGestureRecognizer: UISwipeGestureRecognizer?
     private var _webViewConfiguration: WKWebViewConfiguration?
     private var isRestoredPip: Bool = false
-    private var accessKey: String? = nil
     private var campaignKey: String?
     private var campaignChanged: Bool = false
     private var needExecuteFullScreen: Bool = false
@@ -108,8 +107,6 @@ import WebKit
         }
     }
     private var lastStyle: ShopLive.PresentationStyle = .unknown
-    @objc dynamic var _authToken: String?
-    @objc dynamic var _user: ShopLiveUser?
     
     private var previewCallback: (() -> Void)?
     
@@ -131,10 +128,9 @@ import WebKit
     
     override init() {
         super.init()
+        ShopLiveCommon.setDelegate(delegate: self)
     }
-    
-    deinit {
-    }
+
     
     func showPreview(previewUrl: URL) {
         liveStreamViewController?.viewModel.authToken = _authToken
@@ -226,8 +222,6 @@ import WebKit
         liveStreamViewController?.delegate = self
         liveStreamViewController?.webViewConfiguration = _webViewConfiguration
         liveStreamViewController?.viewModel.overayUrl = overlayUrl
-        liveStreamViewController?.viewModel.authToken = _authToken
-        liveStreamViewController?.viewModel.user = _user
         
         mainWindow = (UIApplication.shared.windows.first(where: { $0.isKeyWindow }))
         
@@ -350,12 +344,8 @@ import WebKit
         self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
         self._style = .unknown
         self.lastStyle = .unknown
-        self._authToken = nil
-        self._user = nil
-        
         ShopLiveBase.sessionState = .terminated
         ShopLiveController.shared.resetOnlyFinished()
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) {
             ShopLiveController.shared.execusedClose = false
         }
@@ -1242,7 +1232,7 @@ import WebKit
     func fetchPreviewUrl(with campaignKey: String?, completionHandler: @escaping ((URL?) -> Void)) {
         let urlComponents = URLComponents(string: ShopLiveConfiguration.AppPreference.landingUrl)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
-        queryItems.append(URLQueryItem(name: "ak", value: accessKey))
+        queryItems.append(URLQueryItem(name: "ak", value: ShopLiveCommon.getAccessKey() ?? ""))
         if let ck = campaignKey {
             queryItems.append(URLQueryItem(name: "ck", value: ck))
         }
@@ -1269,7 +1259,7 @@ import WebKit
     }
 
     func fetchOverlayUrl(with campaignKey: String?, completionHandler: ((URL?) -> Void)) {
-        guard let accessKey = self.accessKey else {
+        guard let accessKey = ShopLiveCommon.getAccessKey() else {
             completionHandler(nil)
             return
         }
@@ -1323,8 +1313,6 @@ import WebKit
         removeObserver()
         
         self.addObserver(self, forKeyPath: "_style", options: [.initial, .old, .new], context: nil)
-        self.addObserver(self, forKeyPath: "_authToken", options: [.initial, .old, .new], context: nil)
-        self.addObserver(self, forKeyPath: "_user", options: [.initial, .old, .new], context: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.willChangeStatusBarOrientationNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
@@ -1345,8 +1333,6 @@ import WebKit
         
         if self.observationInfo != nil {
             self.removeObserver(self, forKeyPath: "_style")
-            self.removeObserver(self, forKeyPath: "_authToken")
-            self.removeObserver(self, forKeyPath: "_user")
         }
 
         NotificationCenter.default.removeObserver(self, name: UIApplication.willChangeStatusBarOrientationNotification, object: nil)
@@ -1488,20 +1474,11 @@ import WebKit
 
             self.liveStreamViewController?.updatePipStyle(with: newStyle)
             break
-        case "_authToken":
-            guard let oldValue: String = change?[.oldKey] as? String,
-                  let newValue: String = change?[.newKey] as? String, oldValue != newValue else { return }
-            self.liveStreamViewController?.viewModel.authToken = newValue
-            break
-        case "_user":
-            guard let oldValue: ShopLiveUser = change?[.oldKey] as? ShopLiveUser,
-                  let newValue: ShopLiveUser = change?[.newKey] as? ShopLiveUser, oldValue != newValue else { return }
-            self.liveStreamViewController?.viewModel.user = newValue
-            break
         default:
             break
         }
     }
+    
     private func sendCommandChangeToPip() {
         guard !ShopLiveController.shared.isPreview else { return }
         self.delegate?.handleCommand("CHANGE_TO_PIP", with: nil)
@@ -1547,11 +1524,7 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     func setKeepAspectOnTabletPortrait(_ keep: Bool) {
-        #if EBAY
-        ShopLiveConfiguration.UI.keepAspectOnTabletPortrait = true
-        #else
         ShopLiveConfiguration.UI.keepAspectOnTabletPortrait = keep
-        #endif
     }
 
     var playerWindow: ShopliveWindow? {
@@ -1619,28 +1592,6 @@ extension ShopLiveBase: ShopLiveComponent {
         startPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
 //        startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
     }
-    
-    @objc var authToken: String? {
-        get {
-            return _authToken
-        }
-        set {
-            _authToken = newValue
-        }
-    }
-    
-    @objc var user: ShopLiveUser? {
-        get {
-            return self._user
-        }
-        set {
-            self._user = newValue
-        }
-    }
-
-    @objc func configure(with accessKey: String) {
-        self.accessKey = accessKey
-    }
 
     func preview(with campaignKey: String?, referrer: String? = nil, completion: @escaping () -> Void) {
         guard !ShopLiveController.shared.pipAnimating else { return }
@@ -1653,7 +1604,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 self.resetQueryParameters()
                 
                 ShopLiveController.shared.execusedClose = false
-                guard self.accessKey != nil else { return }
+                guard ShopLiveCommon.getAccessKey() != nil else { return }
                 
                 let audioSessionManager = AudioSessionManager.shared
                 if self._style == .unknown {
@@ -1713,7 +1664,7 @@ extension ShopLiveBase: ShopLiveComponent {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.execusedClose ? 800 : 0)) {
                 self.resetQueryParameters()
                 ShopLiveController.shared.execusedClose = false
-                guard self.accessKey != nil else { return }
+                guard ShopLiveCommon.getAccessKey() != nil else { return }
                 
                 if let referrer = referrer {
                     self.queryParameters["referrer"] = referrer
@@ -1750,8 +1701,6 @@ extension ShopLiveBase: ShopLiveComponent {
                         self?.removeObserver()
                         return
                     }
-                    self?.liveStreamViewController?.viewModel.authToken = self?._authToken
-                    self?.liveStreamViewController?.viewModel.user = self?._user
                     
                     self?.windowChangeCommand = .none
                     self?.isWindowChanging = false
@@ -1779,7 +1728,7 @@ extension ShopLiveBase: ShopLiveComponent {
     }
     
     @objc func reloadLive() {
-        guard self.accessKey != nil else { return }
+        guard ShopLiveCommon.getAccessKey() != nil else { return }
         liveStreamViewController?.reload()
     }
     
@@ -2136,3 +2085,4 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
         _delegate?.handleCommand(command, with: payload)
     }
 }
+

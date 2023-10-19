@@ -6,9 +6,8 @@
 //
 
 import UIKit
-#if SDK_MODULE
 import ShopLiveSDK
-#endif
+
 final class CouponSettingsViewController: SideMenuItemViewController {
 
     var resultAlertType: ShopLiveResultAlertType = .ALERT

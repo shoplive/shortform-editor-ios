@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:matrix-common-ios/matrix-common-ios.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:ShopLiveSDK.xcodeproj">
+   </FileRef>
+</Workspace>

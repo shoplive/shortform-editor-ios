@@ -8,6 +8,7 @@
 import UIKit
 import AVKit
 import WebKit
+import ShopliveSDKCommon
 
 @objc internal protocol ShopLiveComponent: AnyObject {
     @objc var playerWindow: ShopliveWindow? { get }
@@ -20,13 +21,9 @@ import WebKit
     @objc var indicatorColor: UIColor { get set }
     @objc var webViewConfiguration: WKWebViewConfiguration? { get set }
     @objc var delegate: ShopLiveSDKDelegate? { get set }
-
-    @objc var authToken: String? { get set }
-    @objc var user: ShopLiveUser? { get set }
-
+    
     @objc func isSuccessCampaignJoin() -> Bool
 
-    @objc func configure(with accessKey: String)
     @objc func preview(with campaignKey: String?, referrer: String?, completion: @escaping () -> Void)
     @objc func play(with campaignKey: String?, referrer: String?)
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
@@ -69,6 +66,7 @@ enum ShopLiveCampaignStatus: String, CaseIterable {
     }()
 
     private var instance: ShopLiveComponent?
+    
     override init() {
         super.init()
         instance = ShopLiveBase()
@@ -359,16 +357,7 @@ extension ShopLive: ShopLiveSDKInterface {
     public static var orientationMode: ShopLive.VideoOrientation {
         ShopLiveController.shared.supportOrientation
     }
-
-    public static var user: ShopLiveUser? {
-        get {
-            shared.instance?.user
-        }
-        set {
-            shared.instance?.user = newValue
-        }
-    }
-
+    
     public static var style: PresentationStyle {
         return shared.instance?.style ?? .unknown
     }
@@ -418,19 +407,6 @@ extension ShopLive: ShopLiveSDKInterface {
         }
     }
 
-    public static var authToken: String? {
-        get {
-            shared.instance?.authToken
-        }
-        set {
-            shared.instance?.authToken = newValue
-        }
-    }
-    
-    public static func configure(with accessKey: String) {
-        shared.instance?.configure(with: accessKey)
-    }
-
     public static func preview(with campaignKey: String?, referrer: String? = nil, completion: @escaping () -> Void) {
         shared.instance?.preview(with: campaignKey, referrer: referrer, completion: completion)
     }
@@ -462,6 +438,29 @@ extension ShopLive: ShopLiveSDKInterface {
     
     public static func setEnabledPictureInPictureMode(isEnabled : Bool){
         shared.instance?.setEnabledPictureInPictureMode(isEnabled: isEnabled)
+    }
+    
+    //MARK: - will be deprecated in v2
+    public static var authToken: String? {
+        set {
+            ShopLiveCommon.setUserJWT(userJWT: newValue)
+        }
+        get {
+            ShopLiveCommon.getUserJWT()
+        }
+    }
+    
+    public static var user: ShopLiveCommonUser? {
+        set {
+            ShopLiveCommon.setUser(user: newValue)
+        }
+        get {
+            ShopLiveCommon.getUser()
+        }
+    }
+    
+    public static func configure(with accessKey: String) {
+        ShopLiveCommon.setAccessKey(accessKey: accessKey)
     }
     
     public static func setInAppPipConfiguration(config: ShopLiveInAppPipConfiguration) {

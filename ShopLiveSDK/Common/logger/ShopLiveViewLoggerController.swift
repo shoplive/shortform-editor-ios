@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ShopliveSDKCommon
 
 final class ShopLiveViewLogger {
     let v = ShopLiveViewLoggerController()
@@ -30,8 +31,8 @@ final class ShopLiveViewLogger {
         }
     }
 
-    private lazy var logWindow: SLWindow = {
-        let window = SLWindow()
+    private lazy var logWindow: UIWindow = {
+        let window = UIWindow()
         window.backgroundColor = .black
         window.alpha = 0.6
         window.windowLevel = .statusBar + 1 //UIWindow.Level(rawValue: CGFloat.greatestFiniteMagnitude)
@@ -40,7 +41,6 @@ final class ShopLiveViewLogger {
         window.setNeedsLayout()
         window.layoutIfNeeded()
 
-        v.view.isUserInteractionEnabled = true
         window.isUserInteractionEnabled = true
         if #available(iOS 13.0, *) {
             window.windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
@@ -103,7 +103,7 @@ final class ShopLiveViewLog {
     }
 }
 
-final class ShopLiveViewLoggerController: SLViewController, UITableViewDelegate, UITableViewDataSource {
+final class ShopLiveViewLoggerController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     class ViewModel: NSObject {
         private var logs: [ShopLiveViewLog] = []
@@ -186,8 +186,8 @@ final class ShopLiveViewLoggerController: SLViewController, UITableViewDelegate,
 
     private var videoWindowPanGestureRecognizer: UIPanGestureRecognizer?
 
-    private lazy var onOffButton: SLButton = {
-        let button = SLButton()
+    private lazy var onOffButton: UIButton = {
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.alpha = 0.7
         button.backgroundColor = .lightGray
@@ -196,8 +196,8 @@ final class ShopLiveViewLoggerController: SLViewController, UITableViewDelegate,
         return button
     }()
 
-    private lazy var onOffCallBack: SLButton = {
-        let button = SLButton()
+    private lazy var onOffCallBack: UIButton = {
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.alpha = 0.8
         button.setBackgroundColor(.lightGray, for: .normal)
@@ -210,8 +210,8 @@ final class ShopLiveViewLoggerController: SLViewController, UITableViewDelegate,
         return button
     }()
 
-    private lazy var onOffSendInterface: SLButton = {
-        let button = SLButton()
+    private lazy var onOffSendInterface: UIButton = {
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.alpha = 0.8
         button.setBackgroundColor(.lightGray, for: .normal)
@@ -224,8 +224,8 @@ final class ShopLiveViewLoggerController: SLViewController, UITableViewDelegate,
         return button
     }()
 
-    private lazy var onOffAppLog: SLButton = {
-        let button = SLButton()
+    private lazy var onOffAppLog: UIButton = {
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.alpha = 0.8
         button.setBackgroundColor(.lightGray, for: .normal)
@@ -238,8 +238,8 @@ final class ShopLiveViewLoggerController: SLViewController, UITableViewDelegate,
         return button
     }()
 
-    private lazy var onOffHidden: SLButton = {
-        let button = SLButton()
+    private lazy var onOffHidden: UIButton = {
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.alpha = 0.8
         button.setBackgroundColor(.lightGray, for: .normal)
@@ -251,8 +251,8 @@ final class ShopLiveViewLoggerController: SLViewController, UITableViewDelegate,
         return button
     }()
 
-    private lazy var onOffScroll: SLButton = {
-        let button = SLButton()
+    private lazy var onOffScroll: UIButton = {
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.alpha = 0.8
         button.setBackgroundColor(.lightGray, for: .normal)
@@ -264,8 +264,8 @@ final class ShopLiveViewLoggerController: SLViewController, UITableViewDelegate,
         return button
     }()
 
-    private lazy var exportButton: SLButton = {
-            let button = SLButton()
+    private lazy var exportButton: UIButton = {
+            let button = UIButton()
             button.translatesAutoresizingMaskIntoConstraints = false
             button.alpha = 0.8
             button.setBackgroundColor(.lightGray, for: .normal)
@@ -277,8 +277,8 @@ final class ShopLiveViewLoggerController: SLViewController, UITableViewDelegate,
             return button
         }()
 
-    private lazy var clearButton: SLButton = {
-        let button = SLButton()
+    private lazy var clearButton: UIButton = {
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.alpha = 0.8
         button.setBackgroundColor(.lightGray, for: .normal)
@@ -290,8 +290,8 @@ final class ShopLiveViewLoggerController: SLViewController, UITableViewDelegate,
         return button
     }()
 
-    private lazy var tableView: SLTableView = {
-        let v = SLTableView(frame: .zero, style: .plain)
+    private lazy var tableView: UITableView = {
+        let v = UITableView(frame: .zero, style: .plain)
         v.translatesAutoresizingMaskIntoConstraints = false
         v.allowsSelection = false
         v.allowsMultipleSelection = false
@@ -381,7 +381,7 @@ final class ShopLiveViewLoggerController: SLViewController, UITableViewDelegate,
         guard logData.count > 0 else { return }
         let shareAll:[Any] = [logData]
 
-        let activityViewController = SLActivityViewController(activityItems: shareAll , applicationActivities: nil)
+        let activityViewController = UIActivityViewController(activityItems: shareAll , applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
         self.present(activityViewController, animated: true, completion: nil)
     }
@@ -510,8 +510,8 @@ extension ShopLiveViewLoggerController {
 
 final class ShopLiveViewLoggerCell: UITableViewCell {
 
-    private lazy var logLabel: SLLabel = {
-        let label = SLLabel()
+    private lazy var logLabel: UILabel = {
+        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 12)
         label.textColor = .white

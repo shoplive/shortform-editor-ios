@@ -1,0 +1,3 @@
+[submodule "matrix-common-ios"]
+	path = matrix-common-ios
+	url = https://github.com/shoplive/matrix-common-ios

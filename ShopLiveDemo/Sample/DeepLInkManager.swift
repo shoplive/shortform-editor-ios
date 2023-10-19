@@ -7,9 +7,7 @@
 
 import Foundation
 import UIKit
-#if SDK_MODULE
 import ShopLiveSDK
-#endif
 
 final class DeepLinkManager {
     static let shared = DeepLinkManager()
@@ -73,7 +71,6 @@ final class DeepLinkManager {
     }
 }
 
-#if SDK_MODULE
 extension UIApplication {
     class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
         if let nav = base as? UINavigationController {
@@ -130,4 +127,3 @@ extension Dictionary {
         return nil
     }
 }
-#endif

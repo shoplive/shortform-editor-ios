@@ -6,9 +6,8 @@
 //
 
 import UIKit
-#if SDK_MODULE
 import ShopLiveSDK
-#endif
+import ShopliveSDKCommon
 
 final class UserInfoViewController: SideMenuItemViewController {
 
@@ -249,8 +248,8 @@ final class UserInfoViewController: SideMenuItemViewController {
     private var parameterList: [String: String] = [:]
     private var keysArray: [Dictionary<String, String>.Keys.Element] = []
     private var valueArray: [Dictionary<String, String>.Values.Element] = []
-    private var user: ShopLiveUser = DemoConfiguration.shared.user
-    private var newUser: ShopLiveUser?
+    private var user: ShopLiveCommonUser = DemoConfiguration.shared.user
+    private var newUser: ShopLiveCommonUser?
     override func viewDidLoad() {
         super.viewDidLoad()
         DemoSecretKeyTool.shared.addKeysetObserver(observer: self)
@@ -464,7 +463,7 @@ final class UserInfoViewController: SideMenuItemViewController {
 
         }))
         alert.addAction(.init(title: "alert.msg.ok".localized(), style: .default, handler: { action in
-            DemoConfiguration.shared.user = ShopLiveUser()
+            DemoConfiguration.shared.user = ShopLiveCommonUser(userId: "")
             DemoConfiguration.shared.jwtToken = nil
             self.updateUserInfo()
         }))
@@ -472,7 +471,7 @@ final class UserInfoViewController: SideMenuItemViewController {
     }
 
     private func save() {
-        user.id = userIdInputField.text
+        user.userId = userIdInputField.text ?? ""
         user.name = userNameInputField.text
         user.gender = selectedGender()
         if let ageText = ageInputField.text, !ageText.isEmpty, let age = Int(ageText), age >= 0 {
@@ -480,8 +479,7 @@ final class UserInfoViewController: SideMenuItemViewController {
         } else {
             user.age = nil
         }
-
-        user.add(["userScore" : userScoreInputField.text])
+        user.userScore = Int(userScoreInputField.text ?? "") ?? 0
         self.saveParameterList()
         DemoConfiguration.shared.user = user
         UIWindow.showToast(message: "userinfo.msg.save.success".localized())
@@ -493,7 +491,9 @@ final class UserInfoViewController: SideMenuItemViewController {
         for index in 0..<keysArray.count {
             parameterList.updateValue(valueArray[index], forKey: keysArray[index])
         }
-        user.add(parameterList)
+        for (key, value) in parameterList {
+            user.custom?.updateValue(key, forKey: value)
+        }
         DemoConfiguration.shared.userParameters = self.parameterList
     }
 
@@ -547,11 +547,11 @@ final class UserInfoViewController: SideMenuItemViewController {
 
     private func updateUserInfo() {
         user = DemoConfiguration.shared.user
-        userIdInputField.text = user.id ?? ""
+        userIdInputField.text = user.userId
         userNameInputField.text = user.name ?? ""
         let age = user.age ?? -1
         ageInputField.text = age >= 0 ? "\(age)" : ""
-        updateGender(identifier: user.gender?.description ?? "unknown")
+        updateGender(identifier: user.gender?.rawValue ?? "unknown")
         let userScore = DemoConfiguration.shared.userScore
         userScoreInputField.text = userScore != nil ? "\(userScore!)" : ""
         updateJwtToken()
@@ -568,8 +568,7 @@ final class UserInfoViewController: SideMenuItemViewController {
 
     @objc func makeJWT(completion: @escaping (Bool) -> Void) {
         shopliveHideKeyboard()
-        let makeUser = ShopLiveUser()
-        makeUser.id = userIdInputField.text
+        var makeUser = ShopLiveCommonUser(userId: userIdInputField.text ?? "")
         makeUser.name = userNameInputField.text
         makeUser.gender = selectedGender()
         if let ageText = ageInputField.text, !ageText.isEmpty, let age = Int(ageText), age >= 0 {
@@ -577,10 +576,9 @@ final class UserInfoViewController: SideMenuItemViewController {
         } else {
             makeUser.age = nil
         }
+        makeUser.userScore = Int(userScoreInputField.text ?? "") ?? 0
 
-        makeUser.add(["userScore" : userScoreInputField.text])
-
-        guard let userId = makeUser.id, !userId.isEmpty else {
+        guard !makeUser.userId.isEmpty else {
             UIWindow.showToast(message: "userinfo.msg.save.failed.noneId".localized())
             completion(false)
             return
@@ -609,13 +607,13 @@ final class UserInfoViewController: SideMenuItemViewController {
 
     }
 
-    private func isEqualUser(user: ShopLiveUser) -> Bool {
+    private func isEqualUser(user: ShopLiveCommonUser) -> Bool {
         if newUser == nil {
             return false
         }
 
         if let curUser = newUser,
-            curUser.id == user.id &&
+            curUser.userId == user.userId &&
             curUser.name == user.name &&
             curUser.age == user.age &&
             curUser.userScore == user.userScore &&
@@ -639,20 +637,18 @@ extension UserInfoViewController: ShopLiveRadioButtonDelegate {
         updateGender(identifier: sender.identifier)
     }
 
-    func selectedGender() -> ShopLiveUser.Gender {
+    func selectedGender() -> ShopliveCommonUserGender {
         guard let selected = radioGroup.first(where: {$0.isSelected == true}) else {
-            return .unknown
+            return .netural
         }
 
         switch selected.identifier {
-        case ShopLiveUser.Gender.male.description:
+        case ShopliveCommonUserGender.male.rawValue:
             return .male
-        case ShopLiveUser.Gender.female.description:
+        case ShopliveCommonUserGender.female.rawValue:
             return .female
-        case ShopLiveUser.Gender.unknown.description:
-            return .unknown
         default:
-            return .unknown
+            return .netural
         }
 
     }

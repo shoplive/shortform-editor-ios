@@ -446,7 +446,7 @@ final class CouponCallbackSettingViewController: UIViewController {
     }
 }
 
-#if SDK_MODULE
+
 extension String {
     func textWithDownArrow() -> NSAttributedString {
         let downArrow = UIImage(named: "down_arrow")
@@ -484,4 +484,3 @@ extension UIImage {
         return imageAttachment
     }
 }
-#endif

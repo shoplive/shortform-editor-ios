@@ -9,9 +9,8 @@ import UIKit
 import SideMenu
 import SafariServices
 import Toast
-#if SDK_MODULE
 import ShopLiveSDK
-#endif
+import ShopliveSDKCommon
 
 class MainViewController: SideMenuBaseViewController {
     
@@ -125,26 +124,25 @@ class MainViewController: SideMenuBaseViewController {
         let config = DemoConfiguration.shared
         
         if let adid = config.adId, !adid.isEmpty {
-            ShopLive.setAdId(adId: adid)
+            ShopLiveCommon.setAdId(adId: adid)
         } else {
-            ShopLive.setAdId(adId: "")
+            ShopLiveCommon.setAdId(adId: "")
         }
         
         ShopLive.setAppVersion("3.39.0")
         if !config.isGuestMode {
             if config.useJWT {
-                ShopLive.authToken = config.jwtToken
+                ShopLiveCommon.setUserJWT(userJWT: config.jwtToken)
             } else {
                 // user setting
-                if let userId = config.user.id, !userId.isEmpty {
-                    config.user.add(["brand": "{\"identifier\":\"thisisneverthat\",\"favorite\":false}"])
-                    ShopLive.user = config.user
+                if !config.user.userId.isEmpty {
+                    ShopLiveCommon.setUser(user: config.user)
                 } else {
-                    ShopLive.user = nil
+                    ShopLiveCommon.setUser(user: nil)
                 }
             }
         } else {
-            ShopLive.user = nil
+            ShopLiveCommon.setUser(user: nil)
         }
         
         DemoConfiguration.shared.customParameters.forEach { customParam in
@@ -180,19 +178,12 @@ class MainViewController: SideMenuBaseViewController {
         if let progressColor = config.progressColor {
             ShopLive.indicatorColor = UIColor(progressColor)
         }
-
-//        ShopLive.setShareScheme("kakao", custom: {
-//            let customShareVC = CustomShareViewController()
-//            customShareVC.modalPresentationStyle = .overFullScreen
-//            ShopLive.viewController?.present(customShareVC, animated: false, completion: nil)
-//        })
         
         
 //        // Share URL/Scheme Setting
         if let scheme = config.shareScheme {
             if config.useCustomShare {
                 // Custom Share Setting
-
                 ShopLive.setShareScheme(scheme, custom: {
                     let customShareVC = CustomShareViewController()
                     customShareVC.modalPresentationStyle = .overFullScreen
@@ -327,8 +318,7 @@ class MainViewController: SideMenuBaseViewController {
         }
         
         setupShopliveSettings()
-        
-        ShopLive.configure(with: currentKey.accessKey)
+        ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
         ShopLive.preview(with: currentKey.campaignKey, referrer: DemoConfiguration.shared.customReferrer) {
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
                 ShopLive.play(with: currentKey.campaignKey,keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,referrer: DemoConfiguration.shared.customReferrer)
@@ -346,9 +336,8 @@ class MainViewController: SideMenuBaseViewController {
         }
 
         setupShopliveSettings()
-        ShopLive.configure(with: currentKey.accessKey)
+        ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
         ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)
-        
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
 //            self.regenerateHanaBankFrameworkIssue()
 //        }
@@ -594,12 +583,18 @@ extension MainViewController: LoginDelegate {
             return
         }
         if let name = name, let pwd = pwd {
-            let loginUser = ShopLiveUser(id: name, name: pwd, gender: .male, age: 20)
-            ShopLive.user = loginUser
+            var user = ShopLiveCommonUser(userId: name)
+            user.name = pwd
+            user.gender = .male
+            user.age = 20
+            ShopLiveCommon.setUser(user: user )
         }
         else {
-            let loginUser = ShopLiveUser(id: "shoplive", name: "loginUser", gender: .male, age: 20)
-            ShopLive.user = loginUser
+            var user = ShopLiveCommonUser(userId: "ShopLive")
+            user.name = "loginUser"
+            user.gender = .male
+            user.age = 20
+            ShopLiveCommon.setUser(user: user )
         }
         
         ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)

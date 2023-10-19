@@ -6,9 +6,8 @@
 //
 
 import UIKit
-#if SDK_MODULE
 import ShopLiveSDK
-#endif
+import ShopliveSDKCommon
 
 
 @main
@@ -31,6 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.standard.register(defaults: [SDKOptionType.enablePictureInPictureMode.optionKey: true, SDKOptionType.pipEnableSwipeOut.optionKey: true,
                                                   "playerPhase": "DEV",
                                                   "isGuestMode": true])
+        
         return true
     }
 

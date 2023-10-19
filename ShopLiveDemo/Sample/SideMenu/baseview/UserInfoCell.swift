@@ -6,9 +6,8 @@
 //
 
 import UIKit
-#if SDK_MODULE
 import ShopLiveSDK
-#endif
+import ShopliveSDKCommon
 
 final class UserInfoCell: SampleBaseCell {
 
@@ -24,9 +23,9 @@ final class UserInfoCell: SampleBaseCell {
 
     private var userDescription: String {
 
-        let id = user.id ?? ""
+        let id = user.userId ?? ""
         let name = user.name ?? ""
-        let gender = user.gender?.description ?? ""
+        let gender = user.gender?.rawValue ?? ""
         let age = user.age
         let score = user.userScore
 
@@ -36,8 +35,8 @@ final class UserInfoCell: SampleBaseCell {
 
         var description: String = "userId: \(id)\n"
         description += "userName: \(user.name ?? "userName: ")\n"
-        description += "age: \(user.ageText)\n"
-        description += "userScore: \(user.scoreText)\n"
+        description += "age: \(user.age ?? 0)\n"
+        description += "userScore: \(user.userScore ?? 0)\n"
 
         var userGender: String = "userinfo.gender.none".localized()
 
@@ -266,9 +265,9 @@ final class UserInfoCell: SampleBaseCell {
         
     }
 
-    private func isNonUser(_ user: ShopLiveUser) -> Bool {
+    private func isNonUser(_ user: ShopLiveCommonUser) -> Bool {
 
-        if let id = user.id, !id.isEmpty {
+        if !user.userId.isEmpty {
             return false
         }
 
@@ -284,35 +283,11 @@ final class UserInfoCell: SampleBaseCell {
             return false
         }
 
-        if let gender = user.gender, (gender.description == "m" || gender.description == "f") {
+        if let gender = user.gender, (gender.rawValue == "m" || gender.rawValue == "f") {
             return false
         }
 
         return true
-    }
-}
-
-extension ShopLiveUser {
-    var userScore: Int? {
-        if let userScoreObj = self.getParams().first(where: { $0.key == "userScore" }) {
-            return Int(userScoreObj.value)
-        } else {
-            return nil
-        }
-    }
-
-    var scoreText: String {
-        guard let scoreValue = self.userScore else {
-            return ""
-        }
-        return "\(scoreValue)"
-    }
-
-    var ageText: String {
-        guard let ageValue = self.age, ageValue >= 0 else {
-            return ""
-        }
-        return "\(ageValue)"
     }
 }
 
@@ -355,13 +330,6 @@ extension UserInfoCell: ShopLiveRadioButtonDelegate {
         }
         
         updateUserInfo()
-//
-//        guard let selected = radioGroup.first(where: {$0.isSelected == true}) else {
-//            DemoConfiguration.shared.useJWT = false
-//            return
-//        }
-
-//        DemoConfiguration.shared.useJWT = (selected.identifier == "token")
     }
 
     var selectedIdentifier: String {
