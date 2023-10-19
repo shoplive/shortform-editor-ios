@@ -140,6 +140,7 @@ import WebKit
         liveStreamViewController?.viewModel.user = _user
         showShopLiveView(with: previewUrl) { [weak self] in
             guard let self = self else { return }
+            ShopLiveController.shared.setSoundMute(isMuted: true)
             if let ak = self.accessKey,
                let vc = self.liveStreamViewController,
                ShopLiveController.shared.isPreview {
