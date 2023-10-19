@@ -8,6 +8,8 @@
 import Foundation
 import AVKit
 import Network
+import ShopliveSDKCommon
+
 
 protocol LiveStreamViewModelDelegate : NSObjectProtocol {
     func requestHideOrShowSnapShotView(hide: Bool, withOutPlaying : Bool)
@@ -21,10 +23,9 @@ internal final class LiveStreamViewModel: NSObject {
     weak var delegate : LiveStreamViewModelDelegate?
     
     var overayUrl: URL?
-    var accessKey: String?
+    
     var campaignKey: String?
-    var authToken: String? = nil
-    var user: ShopLiveUser? = nil
+    
     var liveStreamViewController : LiveStreamViewController?
     
     private var urlAsset: AVURLAsset?
@@ -70,10 +71,7 @@ internal final class LiveStreamViewModel: NSObject {
         resetPlayer()
         
         overayUrl = nil
-        accessKey = nil
         campaignKey = nil
-        authToken = nil
-        user = nil
         isWebViewDidCompleteLoading = false
     }
     
@@ -527,29 +525,36 @@ extension LiveStreamViewModel {
         let urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
 
-        if let authToken = authToken, !authToken.isEmpty {
+        if let authToken = ShopLiveCommon.getUserJWT(), !authToken.isEmpty {
             queryItems.append(URLQueryItem(name: "tk", value: authToken))
         }
         
-        if let name = user?.name, !name.isEmpty {
-            queryItems.append(URLQueryItem(name: "userName", value: name))
-        }
-        if let userId = user?.id, !userId.isEmpty {
-            queryItems.append(URLQueryItem(name: "userId", value: userId))
-        }
-        if let gender = user?.gender, gender != .unknown {
-            queryItems.append(URLQueryItem(name: "gender", value: gender.description))
-        }
-        if let age = user?.age, age > 0 {
-            queryItems.append(URLQueryItem(name: "age", value: String(age)))
-        }
-        
-        if let additional = user?.getParams(), !additional.isEmpty {
-            additional.forEach { (key: String, value: String) in
-                queryItems.append(URLQueryItem(name: key, value: value))
+        if let user = ShopLiveCommon.getUser() {
+            queryItems.append(URLQueryItem(name: "userId", value: user.userId))
+            if let name = user.name, !name.isEmpty {
+                queryItems.append(URLQueryItem(name: "userName", value: name))
+            }
+            if let gender = user.gender {
+                queryItems.append(URLQueryItem(name: "gender", value: gender.rawValue))
+            }
+            if let age = user.age, age > 0 {
+                queryItems.append(URLQueryItem(name: "age", value: String(age)))
+            }
+            
+            if let additional = user.custom, !additional.isEmpty {
+                additional.forEach { (key: String, value: Any) in
+                    if let value = value as? String {
+                        queryItems.append(URLQueryItem(name: key, value: value))
+                    }
+                }
             }
         }
-
+        
+        if let adid = ShopLiveCommon.getAdId(), !adid.isEmpty {
+            queryItems.append(URLQueryItem(name: "adId", value: adid))
+        }
+        
+        
         queryItems.append(URLQueryItem(name: "osType", value: "i"))
         queryItems.append(URLQueryItem(name: "osVersion", value: ShopLiveDefines.osVersion))
         queryItems.append(URLQueryItem(name: "device", value: ShopLiveDefines.deviceIdentifier))
@@ -561,9 +566,6 @@ extension LiveStreamViewModel {
         queryItems.append(URLQueryItem(name: "appVersion", value: ShopLiveConfiguration.AppPreference.appVersion ?? UIApplication.appVersion()))
     
         queryItems.append(URLQueryItem(name: "manualRotation", value: "false"))
-        if let adid = ShopLiveConfiguration.Data.adid, !adid.isEmpty {
-            queryItems.append(URLQueryItem(name: "adId", value: adid))
-        }
         
         ShopLiveConfiguration.Data.customParameters.forEach { (key: String, value: Any) in
             queryItems.append(URLQueryItem(name: key, value: "\(value)"))

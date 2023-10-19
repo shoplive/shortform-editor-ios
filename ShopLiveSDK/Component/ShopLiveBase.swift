@@ -133,12 +133,11 @@ import ShopliveSDKCommon
 
     
     func showPreview(previewUrl: URL) {
-        liveStreamViewController?.viewModel.authToken = _authToken
-        liveStreamViewController?.viewModel.user = _user
+        
         showShopLiveView(with: previewUrl) { [weak self] in
             guard let self = self else { return }
             ShopLiveController.shared.setSoundMute(isMuted: true)
-            if let ak = self.accessKey,
+            if let ak = ShopLiveCommon.getAccessKey(),
                let vc = self.liveStreamViewController,
                ShopLiveController.shared.isPreview {
                 vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
@@ -1707,7 +1706,7 @@ extension ShopLiveBase: ShopLiveComponent {
                     
                     self?.showShopLiveView(with: url) { [weak self] in
                         guard let self = self else { return }
-                        if let ak = self.accessKey,
+                        if let ak = ShopLiveCommon.getAccessKey(),
                            let vc = self.liveStreamViewController,
                            ShopLiveController.shared.isPreview == false {
                             vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
