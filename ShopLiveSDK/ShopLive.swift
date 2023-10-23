@@ -24,7 +24,6 @@ import ShopliveSDKCommon
     
     @objc func isSuccessCampaignJoin() -> Bool
 
-    @objc func configure(with accessKey: String)
     @objc func preview(with campaignKey: String?, referrer: String?, completion: (() -> Void)?)
     @objc func play(with campaignKey: String?, referrer: String?)
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)

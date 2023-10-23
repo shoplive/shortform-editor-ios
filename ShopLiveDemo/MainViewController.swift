@@ -325,11 +325,6 @@ class MainViewController: SideMenuBaseViewController {
             }
         }
         
-        
-        ShopLive.preview(with: "campaignKey") {
-            ShopLive.play(with: "campaignKey")
-        }
-        
     }
     
     override func play() {
@@ -344,7 +339,6 @@ class MainViewController: SideMenuBaseViewController {
         
 //        ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
         ShopLive.configure(with: currentKey.accessKey)
-        ShopLive.user = ShopLiveCommonUser(userId: "1111",name: "testName",age: 100)
         ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
 //            self.regenerateHanaBankFrameworkIssue()
