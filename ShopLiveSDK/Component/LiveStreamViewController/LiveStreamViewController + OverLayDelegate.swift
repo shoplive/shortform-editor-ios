@@ -58,6 +58,9 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didChangeCampaignStatus(status: String) {
+        if status == "CLOSED" {
+            self.hideSnapShotView()
+        }
         delegate?.didChangeCampaignStatus(status: status)
     }
 
@@ -200,8 +203,10 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
                 delegate?.updatePictureInPicture()
             }
             else if ShopLiveController.shared.isPreview == false  {
+                print("[HASSAN LOG] delegate?.updatePictureInPicture")
                 delegate?.updatePictureInPicture()
             }
+            
             
             
             ShopLiveController.shared.swipeEnabled = true
@@ -213,7 +218,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             ShopLiveConfiguration.UI.chatInputSendString = sendText ?? "chat.send.title".localizedString()
             ShopLiveConfiguration.UI.chatInputMaxLength = chatInputMaxLength ?? 200
             updateChattingWriteView()
-            ShopLiveController.shared.isStartedCampaign = true
             delegate?.campaignInfo(campaignInfo: campaignInfo ?? [:])
             break
         case .showChatInput:
@@ -262,6 +266,10 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     func webViewDidFinishedLoading() {
         viewModel.setWebViewLoadingCompleted(isCompleted: true)
         viewModel.resetRetry(triggerFromWebView: true)
+    }
+    
+    func requestHideOrShowLoading(hide: Bool) {
+        self.processLoadingIndicator(hide: hide)
     }
 }
 extension LiveStreamViewController: WKUIDelegate {

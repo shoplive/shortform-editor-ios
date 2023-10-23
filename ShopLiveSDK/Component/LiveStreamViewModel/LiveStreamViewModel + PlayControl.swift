@@ -24,7 +24,6 @@ extension LiveStreamViewModel {
                         self.seek(to: .init(value: 0, timescale: 1))
                     }
                 }
-                self.delegate?.requestHideOrShowbackgroundPosterImageWebView(hide: true)
                 ShopLiveController.player?.play()
             }
         }

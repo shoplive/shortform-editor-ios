@@ -12,8 +12,6 @@ import AVKit
 
 
 extension LiveStreamViewModel {
-    
-    
     func handleTimeControlStatusPlaying() {
         self.isAlreadyPlayedOnce = true
         ShopLiveLogger.debugLog("timeControlStatus.playing")
@@ -32,12 +30,7 @@ extension LiveStreamViewModel {
             ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn,false,false)
         }
         
-        if retryManager?.getIsTringtoRecoverFromLoadedTimeRangeStalled() ?? true == false {
-            self.delegate?.requestHideOrShowSnapShotView(hide: true,withOutPlaying: false)
-            self.delegate?.requestHideOrShowSnapShotBackground(hide: true)
-        }
-        
-        ShopLiveController.loading = false
+        self.delegate?.requestHideOrShowLoading(hide: true)
         ShopLiveController.isPlaying = true
     }
     
@@ -73,7 +66,7 @@ extension LiveStreamViewModel {
         case .evaluatingBufferingRate:
             ShopLiveLogger.debugLog("evaluatingBufferingRate")
         case .noItemToPlay:
-            ShopLiveLogger.debugLog("noItemToPlay")
+            ShopLiveLogger.debugLog("k")
         default:
             break
         }
@@ -95,17 +88,9 @@ extension LiveStreamViewModel {
         ShopLiveLogger.debugLog("toMinimizeStall")
         guard let retryManager = retryManager else { return }
         guard retryManager.getIsBuffering() == false else { return }
+        self.delegate?.requestTakeSnapShotView()
         
-        self.delegate?.requestHideOrShowSnapShotView(hide: false,withOutPlaying: false)
-        
-        if ShopLiveController.loading == false && ShopLiveController.shared.campaignStatus != .close {
-            //동영상 플레이중 버퍼 돌때 로딩 인디케이터 안보여줌
-            if ShopLiveController.windowStyle != .osPip && isAlreadyPlayedOnce == false {
-                ShopLiveController.loading = true
-            }
-            else {
-                ShopLiveController.loading = false
-            }
+        if ShopLiveController.shared.campaignStatus != .close {
             if NetworkReachability().connectionStatus() == .Offline {
                 self.retryOnNetworkDisconnected()
             }

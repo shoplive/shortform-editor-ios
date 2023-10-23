@@ -11,7 +11,7 @@ import UIKit
 protocol LiveStreamRetryManagerDelegate {
     func updatePlayerItemInRetry(with url : URL)
     func reloadWebViewInRetry(with url : URL)
-    func requestHideOrShowSnapShot(hide : Bool)
+    func requestHideOrShowLoading(hide : Bool)
 }
 
 class LiveStreamRetryManager {
@@ -21,7 +21,6 @@ class LiveStreamRetryManager {
     private var retryTimer : Timer?
     private var retryCount : Int = 0
     private var isTryingToRecoverFormNetworkDisconnected : Bool = false
-    private var isTryingToRecoverFromLoadedTimeRangeStalled : Bool = false
     
     
     var delegate : LiveStreamRetryManagerDelegate?
@@ -38,15 +37,6 @@ class LiveStreamRetryManager {
     func setRequiredRetryCheck(isRequired : Bool){
         self.requireRetryCheck = isRequired
     }
-    
-    func setIsTryingToRecoverFromLoadedTimeRangeStalled(isRetrying : Bool) {
-        self.isTryingToRecoverFromLoadedTimeRangeStalled = isRetrying
-    }
-    
-    func getIsTringtoRecoverFromLoadedTimeRangeStalled() -> Bool {
-        return isTryingToRecoverFromLoadedTimeRangeStalled
-    }
-    
     
     func reserveRetry(waitSecond: Int = 5) {
         self.requireRetryCheck = true
@@ -90,7 +80,6 @@ class LiveStreamRetryManager {
                             self.delegate?.updatePlayerItemInRetry(with: videoUrl)
                         } else {
                             ShopLiveController.retryPlay = false
-                            self.delegate?.requestHideOrShowSnapShot(hide: true)
                         }
                     }
                 } else {
@@ -99,7 +88,6 @@ class LiveStreamRetryManager {
                             ShopLiveController.shared.seekToLatest()
                             ShopLiveController.playControl = .resume
                             ShopLiveController.retryPlay = false
-                            self.delegate?.requestHideOrShowSnapShot(hide: true)
                         }
                     }
                 }
@@ -112,11 +100,11 @@ class LiveStreamRetryManager {
         self.isTryingToRecoverFormNetworkDisconnected = true
         resetRetry()
         retryTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { [weak self] timer in
-            ShopLiveController.loading = true
             guard let self = self else {
                 timer.invalidate()
                 return
             }
+            self.delegate?.requestHideOrShowLoading(hide: false)
             guard let player = ShopLiveController.player else { return }
             if player.timeControlStatus != .playing {
                 self.delegate?.reloadWebViewInRetry(with: url)
@@ -125,7 +113,7 @@ class LiveStreamRetryManager {
                 self.inBuffering = false
                 timer.invalidate()
                 self.retryTimer = nil
-                ShopLiveController.loading = false
+                self.delegate?.requestHideOrShowLoading(hide: true)
             }
         })
     }

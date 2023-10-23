@@ -108,6 +108,7 @@ protocol OverlayWebViewDelegate: AnyObject {
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any])
     func didFailToLoadWebViewWithNetworkUnreachable()
     func webViewDidFinishedLoading()
+    func requestHideOrShowLoading(hide : Bool)
 
 }
 

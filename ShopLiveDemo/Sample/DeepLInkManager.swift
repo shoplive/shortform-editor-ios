@@ -32,7 +32,13 @@ final class DeepLinkManager {
 
         var parameters: [String: Any] = [:]
         urlComponent.queryItems?.forEach({ item in
-            parameters[item.name] = (command == .product) ? item.value?.removingPercentEncoding :  item.value?.removingPercentEncoding?.base64Decoded
+            if command == .product {
+                parameters[item.name] = item.value?.removingPercentEncoding
+            }
+            else {
+                parameters[item.name] = item.value
+            }
+            
         })
 
         switch command {
@@ -40,6 +46,8 @@ final class DeepLinkManager {
             guard let alias = parameters["alias"] as? String, let ak = parameters["ak"] as? String, let ck = parameters["ck"] as? String else { return }
             ShopLiveDemoKeyTools.shared.save(key: .init(alias: alias, campaignKey: ck, accessKey: ak))
             ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: alias)
+            ShopLive.configure(with: ak)
+            ShopLive.preview(with: ck) { }
             break
         case .product:
             ShopLive.startPictureInPicture()

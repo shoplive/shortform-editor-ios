@@ -6,56 +6,36 @@
 //
 
 import Foundation
+import ShopliveSDKCommon
+import UIKit
 
 
-
-//MARK: - TODO 나중에 커먼 모듈 붙이면 그쪽 네트워크 모듈 이용해서 만들것
-enum ShopLiveNetWorkError : Error {
-    case invalidUrl
-    case statusCodeError(Int)
-    case other(Error)
-    case noData
-}
-
-class LiveUrlFetchAPI {
+struct LiveUrlFetchAPI : APIDefinition {
+    typealias ResultType = LiveFetchUrlModel
+    
+    private var campaignKey : String = ""
+    
+    init(campaignKey : String){
+        self.campaignKey = campaignKey
+    }
     
     
-    class func fetchUrl(accessKey : String, campaignKey : String, completion : @escaping(Result<LiveFetchUrlModel, ShopLiveNetWorkError>) -> ()){
-        let urlString = "https://config.shoplive.cloud/\(accessKey)/live/\(campaignKey).json"
-        guard let url = URL(string: urlString) else {
-            completion(.failure(.invalidUrl))
-            return
-        }
-        
-        let task = URLSession(configuration: .default).dataTask(with: url) { data, response , error  in
-            if let error = error {
-                completion(.failure(.other(error)))
-                return
-            }
-            
-            if let httpResponse = response as? HTTPURLResponse {
-                if !(200..<400 ~= httpResponse.statusCode) {
-                    completion(.failure(.statusCodeError(httpResponse.statusCode)))
-                    return
-                }
-            }
-            
-            guard let data = data else {
-                completion(.failure(.noData))
-                return
-            }
-            
-            do {
-                let decoded = try JSONDecoder().decode(LiveFetchUrlModel.self, from: data)
-                completion(.success(decoded))
-            }
-            catch(let error) {
-                completion(.failure(.other(error)))
-            }
-        }
-        
-        DispatchQueue.global(qos: .background).async {
-            task.resume()
-        }
+    var baseUrl: String {
+       return "https://config.shoplive.cloud"
+    }
+    
+    var urlPath: String {
+        return "/\(ShopLiveCommon.getAccessKey() ?? "unknown")/live/\(self.campaignKey).json"
+    }
+    
+    var method: SLHTTPMethod {
+        return .get
+    }
+    
+    var headers: [String : String] {
+        var header : [String : String] = [:]
+        header[CommonKeys.x_sl_player_app_version] = UIApplication.appVersion()
+        header[CommonKeys.x_sl_player_sdk_version] = ShopLive.sdkVersion
+        return header
     }
 }

@@ -6,14 +6,19 @@
 //
 
 import Foundation
+import ShopliveSDKCommon
 
 
-struct LiveFetchUrlModel : Codable {
+struct LiveFetchUrlModel : BaseResponsable {
+    public var _s: Int?
+    public var _e: String?
+    
     let campaignId: Int
     let liveUrl, previewLiveUrl, videoAspectRatio, campaignStatus: String?
     let startHorizontalViewOnLandscapeVideo : Bool?
     
     enum CodingKeys: String, CodingKey {
+        case _s, _e
         case campaignId = "campaignId"
         case liveUrl = "liveUrl"
         case previewLiveUrl = "previewLiveUrl"

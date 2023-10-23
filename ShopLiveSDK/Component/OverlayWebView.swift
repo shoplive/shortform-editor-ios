@@ -57,12 +57,17 @@ internal class OverlayWebView: SLView {
     
     private func teardownOverlayWebView() {
         webView?.stopLoading()
+        webView?.configuration.userContentController.removeAllUserScripts()
+        if #available(iOS 14.0, *) {
+            webView?.configuration.userContentController.removeAllScriptMessageHandlers()
+        } 
         webView?.configuration.userContentController.removeScriptMessageHandler(forName: ShopLiveDefines.webInterface)
         webView?.removeFromSuperview()
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
         removeObserver()
         webView = nil
         ShopLiveController.shared.webInstance = nil
+        print("[HASSAN LOG] webInstance = nil in teaderDown overlay view")
         delegate = nil
     }
     
@@ -93,6 +98,7 @@ internal class OverlayWebView: SLView {
         let webView = ShopLiveWebView(frame: CGRect.zero, configuration: configuration)
         webView.scrollView.delegate = self
         ShopLiveController.webInstance = webView
+        print("[HASSAN LOG] allocate webInstance in initWebView")
         addSubview(webView)
         webView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([webView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -254,13 +260,13 @@ extension OverlayWebView: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         guard !ShopLiveController.shared.isPreview else { return }
         guard !ShopLiveController.shared.isSameCampaign else { return }
-        ShopLiveController.loading = true
+        delegate?.requestHideOrShowLoading(hide: false)
     }
     
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         guard !ShopLiveController.shared.isPreview else { return }
         guard !ShopLiveController.shared.isSameCampaign else { return }
-        ShopLiveController.loading = true
+        delegate?.requestHideOrShowLoading(hide: false)
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
@@ -268,12 +274,12 @@ extension OverlayWebView: WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        ShopLiveController.shared.loading = false
+        delegate?.requestHideOrShowLoading(hide: true)
         delegate?.webViewDidFinishedLoading()
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        ShopLiveController.loading = false
+        delegate?.requestHideOrShowLoading(hide: true)
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
@@ -281,12 +287,12 @@ extension OverlayWebView: WKNavigationDelegate {
             delegate?.didFailToLoadWebViewWithNetworkUnreachable()
         }
         else {
-            ShopLiveController.loading = false
+            delegate?.requestHideOrShowLoading(hide: true)
         }
     }
     
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
-        ShopLiveController.loading = false
+        delegate?.requestHideOrShowLoading(hide: true)
     }
 }
 

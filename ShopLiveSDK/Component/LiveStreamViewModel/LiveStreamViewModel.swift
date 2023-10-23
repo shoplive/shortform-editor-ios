@@ -12,9 +12,8 @@ import ShopliveSDKCommon
 
 
 protocol LiveStreamViewModelDelegate : NSObjectProtocol {
-    func requestHideOrShowSnapShotView(hide: Bool, withOutPlaying : Bool)
-    func requestHideOrShowSnapShotBackground(hide : Bool)
-    func requestHideOrShowbackgroundPosterImageWebView(hide : Bool)
+    func requestTakeSnapShotView()
+    func requestHideOrShowLoading(hide : Bool)
     func reloadWebView(with url : URL)
 }
 
@@ -43,7 +42,7 @@ internal final class LiveStreamViewModel: NSObject {
     private var isWebViewDidCompleteLoading : Bool = false
     var isAlreadyPlayedOnce : Bool = false
     /**
-     api도입되면서 가로모드일때만 setConf에서 delegate.updatePictureInPicture를 불러야함
+     api에서 아무데이터 없거나 할때 쓰임 setConf에서 updatePictureInPicture하기 위해서 있음
      */
     private var isUpdatePictureInPictureNeedInSetConfInitialized : Bool = false
     
@@ -77,36 +76,37 @@ internal final class LiveStreamViewModel: NSObject {
     
     
     func updatePlayerItemWithLiveUrlFetchAPI(accessKey : String, campaignKey : String,isPreview : Bool, completion : @escaping(() -> ())) {
-        LiveUrlFetchAPI.fetchUrl(accessKey: accessKey, campaignKey: campaignKey) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let model):
-                var url : URL
-                
-                if let aspectRatio = model.videoAspectRatio {
-                    self.parseRatioStringAndSetData(ratio: aspectRatio)
-                }
-                
-                if isPreview, let urlString = model.previewLiveUrl, let previewUrl = URL(string: urlString){
-                    url = previewUrl
-                }
-                else if let urlString = model.liveUrl,  let liveUrl = URL(string: urlString) {
-                    url = liveUrl
-                }
-                else {
+        LiveUrlFetchAPI(campaignKey: campaignKey)
+            .request(useSDKPath: false,userVersionPath: false,useAccessKeyPath: false) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success(let model):
+                    var url : URL
+                    
+                    if let aspectRatio = model.videoAspectRatio {
+                        self.parseRatioStringAndSetData(ratio: aspectRatio)
+                    }
+                    
+                    if isPreview, let urlString = model.previewLiveUrl, let previewUrl = URL(string: urlString){
+                        url = previewUrl
+                    }
+                    else if let urlString = model.liveUrl,  let liveUrl = URL(string: urlString) {
+                        url = liveUrl
+                    }
+                    else {
+                        self.isUpdatePictureInPictureNeedInSetConfInitialized = true
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        ShopLiveController.streamUrl = url
+                        completion()
+                    }
+                    break
+                case .failure(_):
                     self.isUpdatePictureInPictureNeedInSetConfInitialized = true
-                    return
+                    break
                 }
-                
-                DispatchQueue.main.async {
-                    ShopLiveController.streamUrl = url
-                    completion()
-                }
-                break
-            case .failure(_):
-                self.isUpdatePictureInPictureNeedInSetConfInitialized = true
-                break
-            }
         }
     }
     
@@ -238,14 +238,12 @@ internal final class LiveStreamViewModel: NSObject {
         }
         
         let originX : CGFloat = UIScreen.leftSafeArea
-        var originY : CGFloat = 0
+        let originY : CGFloat = 0
         
         //playerFrame의 오른쪽 인셋
         var width : CGFloat = 0.0
         //playerFrame의 아래쪽 인셋
         var height : CGFloat = 0.0
-        
-        let videoRatio = ShopLiveController.shared.videoRatio
         
         width = 0
         height = 0
@@ -298,7 +296,6 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
                 }
                 ShopLiveController.retryPlay = false
                 retryManager?.setIsBuffering(isBuffering: false)
-                retryManager?.setIsTryingToRecoverFromLoadedTimeRangeStalled(isRetrying: false)
                 self.play()
             }
         case .failed:
@@ -374,9 +371,9 @@ extension LiveStreamViewModel {
         }
         if ShopLiveController.timeControlStatus == .playing && self.loadedTimeRangeStalledQueue.count >= 16 {
             self.loadedTimeRangeStalledQueue.removeAll()
-            self.delegate?.requestHideOrShowSnapShotView(hide: false, withOutPlaying: true)
+            print("[HASSAN LOG] checkLoadedTimeRangeStalled hideSnapShot")
+            self.delegate?.requestTakeSnapShotView()
             self.retryManager?.setIsBuffering(isBuffering: true)
-            self.retryManager?.setIsTryingToRecoverFromLoadedTimeRangeStalled(isRetrying: true)
             self.retryManager?.reserveRetry(waitSecond: 0)
         }
     }
@@ -580,6 +577,7 @@ extension LiveStreamViewModel {
 
             return URL(string: urlString)
         }
+        print("[HASSAN LOG] url \(url.absoluteString)")
 
         return url
     }
@@ -608,9 +606,10 @@ extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {
                 self.retryManager?.reserveRetry(waitSecond: 0)
                 if ShopLiveController.player?.timeControlStatus == .playing {
                     ShopLiveController.player?.pause()
-                    self.delegate?.requestHideOrShowSnapShotView(hide: false,withOutPlaying: false)
-                    if ShopLiveController.loading == false && ShopLiveController.shared.campaignStatus != .close {
-                        ShopLiveController.loading = true
+                    print("[HASSAN LOG] onLiveStreamDisconnect hideSnapShot")
+                    self.delegate?.requestTakeSnapShotView()
+                    if ShopLiveController.shared.campaignStatus != .close {
+                        self.delegate?.requestHideOrShowLoading(hide: false)
                     }
                 }
             }
@@ -639,11 +638,11 @@ extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {
         if retryManager.getIsBuffering() == true {
             return
         }
-        
-        self.delegate?.requestHideOrShowSnapShotView(hide: false,withOutPlaying: false)
-        if ShopLiveController.loading == false && ShopLiveController.shared.campaignStatus != .close {
+        print("[HASSAN LOG] onMatchingMediaFileFound hideSnapShot")
+        self.delegate?.requestTakeSnapShotView()
+        if ShopLiveController.shared.campaignStatus != .close {
             if ShopLiveController.windowStyle != .osPip {
-                ShopLiveController.loading = true
+                self.delegate?.requestHideOrShowLoading(hide: false)
             }
             self.retryManager?.setIsBuffering(isBuffering: true)
             self.retryManager?.reserveRetry(waitSecond: 0)
@@ -667,9 +666,8 @@ extension LiveStreamViewModel : LiveStreamRetryManagerDelegate {
     func reloadWebViewInRetry(with url: URL) {
         delegate?.reloadWebView(with: url)
     }
-    
-    func requestHideOrShowSnapShot(hide: Bool) {
-        delegate?.requestHideOrShowSnapShotView(hide: hide,withOutPlaying: false)
+    func requestHideOrShowLoading(hide: Bool) {
+        self.delegate?.requestHideOrShowLoading(hide: hide)
     }
     //End
     

@@ -29,9 +29,13 @@ internal final class LiveStreamViewController: SLViewController {
     
     weak var popoverController: UIPopoverPresentationController?
     
+    //뷰 계층
+    //playerView
+    // - backgroundPosterImageView
+    // - snapShotImageView
+    //overlayView
     var overlayView: OverlayWebView?
-    var backgroundPosterImageWebView: SLWKWebView? //UIImageView?
-    var snapShotBackgroundImageView: SLImageView?
+    var backgroundPosterImageWebView: SLWKWebView?
     var snapShotImageView: SLImageView?
     var playerView: ShopLivePlayerView = .init()
     
@@ -196,9 +200,10 @@ internal final class LiveStreamViewController: SLViewController {
     
     private func setupView() {
         view.backgroundColor = .black
-        setupBackgroundImageView()
         setupPlayerView()
+        setUpBackgroundPosterImageWebView()
         setupSnapshotView()
+        self.view.bringSubviewToFront(playerView)
         setupOverayWebview()
         setupChatInputView()
         setupIndicator()
@@ -224,289 +229,103 @@ internal final class LiveStreamViewController: SLViewController {
         self.view.bringSubviewToFront(inAppPipView)
     }
     
-    private func setupSnapshotView() {
-        let snapImageView = SLImageView()
-        snapImageView.isHidden = false // true
-        snapImageView.contentMode = .scaleAspectFill
-        playerView.addSubview(snapImageView)
-        snapImageView.translatesAutoresizingMaskIntoConstraints = false
-        let centerXConstraint: NSLayoutConstraint = .init(item: snapImageView, attribute: .centerX, relatedBy: .equal, toItem: playerView, attribute: .centerX, multiplier: 1, constant: 0)
-        let centerYConstraint: NSLayoutConstraint = .init(item: snapImageView, attribute: .centerY, relatedBy: .equal, toItem: playerView, attribute: .centerY, multiplier: 1, constant: 0)
-        
-        let topConstraint: NSLayoutConstraint = .init(item: snapImageView, attribute: .top, relatedBy: .equal, toItem: playerView, attribute: .top, multiplier: 1, constant: 0)
-        let leftConstraint: NSLayoutConstraint = .init(item: snapImageView, attribute: .left, relatedBy: .equal, toItem: playerView, attribute: .left, multiplier: 1, constant: 0)
-        let bottomConstraint: NSLayoutConstraint = .init(item: snapImageView, attribute: .bottom, relatedBy: .equal, toItem: playerView, attribute: .bottom, multiplier: 1, constant: 0)
-        let rightConstraint: NSLayoutConstraint = .init(item: snapImageView, attribute: .right, relatedBy: .equal, toItem: playerView, attribute: .right, multiplier: 1, constant: 0)
-
-        topConstraint.priority = .init(rawValue: 999)
-        leftConstraint.priority = .init(rawValue: 999)
-        rightConstraint.priority = .init(rawValue: 999)
-        bottomConstraint.priority = .init(rawValue: 999)
-        
-        snapshotTopContraint = topConstraint
-        snapshotLeftContraint = leftConstraint
-        snapshotRightContraint = rightConstraint
-        snapshotBottomContraint = bottomConstraint
-        
-        playerView.addConstraints([
-            topConstraint, leftConstraint, rightConstraint, bottomConstraint, centerXConstraint, centerYConstraint
-        ])
-        
-        snapImageView.layer.masksToBounds = true
-        snapImageView.clipsToBounds = true
-        self.snapShotImageView = snapImageView
-    }
+    
     
     func updateImageConstraint(from: CGRect) {
-        if let bgImageView = self.backgroundPosterImageWebView {
-            let ratio = ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height
-            let screenSize = UIScreen.main.bounds
-            let imageFrame = CGSize(width: screenSize.width - from.origin.x - from.size.width, height: screenSize.height - from.origin.y - from.size.height)
-            
-            let imageFrameRatio = imageFrame.width / imageFrame.height
-            var posterConstraints : UIEdgeInsets = .zero
-            var snapShotConstraints : UIEdgeInsets = .zero
-            
-            guard ShopLiveController.windowStyle != .inAppPip else {
-                posterConstraints = .zero
-                snapShotConstraints = .zero
-                return
-            }
-            
-            if ShopLiveController.shared.videoOrientation == .portrait {
-                if !ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-                    if UIScreen.isLandscape {
-                        self.backgroundPosterImageWebView?.clipsToBounds = true
-                        self.backgroundPosterImageWebView?.layer.masksToBounds = true
-                        let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
-                        posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                        snapShotConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                    } else {
-                        self.backgroundPosterImageWebView?.clipsToBounds = false
-                        self.backgroundPosterImageWebView?.layer.masksToBounds = false
-                        
-                        let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
-                        posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                        snapShotConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                    }
+        guard let bgImageView = self.backgroundPosterImageWebView else { return }
+        let ratio = ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height
+        let screenSize = UIScreen.main.bounds
+        let imageFrame = CGSize(width: screenSize.width - from.origin.x - from.size.width, height: screenSize.height - from.origin.y - from.size.height)
+        
+        let imageFrameRatio = imageFrame.width / imageFrame.height
+        var posterConstraints : UIEdgeInsets = .zero
+        var snapShotConstraints : UIEdgeInsets = .zero
+        
+        guard ShopLiveController.windowStyle != .inAppPip else {
+            posterConstraints = .zero
+            snapShotConstraints = .zero
+            return
+        }
+        
+        if ShopLiveController.shared.videoOrientation == .portrait {
+            if !ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
+                if UIScreen.isLandscape {
+                    self.backgroundPosterImageWebView?.clipsToBounds = true
+                    self.backgroundPosterImageWebView?.layer.masksToBounds = true
+                    let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
+                    posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
+                    snapShotConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
                 } else {
-                    if UIScreen.isLandscape {
+                    self.backgroundPosterImageWebView?.clipsToBounds = false
+                    self.backgroundPosterImageWebView?.layer.masksToBounds = false
+                    
+                    let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
+                    posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
+                    snapShotConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
+                }
+            } else {
+                if UIScreen.isLandscape {
+                    let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
+                    posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
+                    snapShotConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
+                } else {
+                    if imageFrameRatio == ratio {
+                        posterConstraints = .zero
+                        snapShotConstraints = .zero
+                    } else {
                         let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
                         posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
                         snapShotConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                    } else {
-                        if imageFrameRatio == ratio {
-                            posterConstraints = .zero
-                            snapShotConstraints = .zero
-                        } else {
-                            let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
-                            posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                            snapShotConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                        }
                     }
                 }
-                if ShopLiveController.shared.videoOrientation == .portrait {
-                    if ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-                        bgImageView.clipsToBounds = true
-                        bgImageView.layer.masksToBounds = true
-                    }
-                } else {
+            }
+            if ShopLiveController.shared.videoOrientation == .portrait {
+                if ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
                     bgImageView.clipsToBounds = true
                     bgImageView.layer.masksToBounds = true
                 }
             } else {
-                self.backgroundPosterImageWebView?.clipsToBounds = true
-                self.backgroundPosterImageWebView?.layer.masksToBounds = true
-                if imageFrameRatio == ratio {
-                    posterConstraints = .zero
-                    snapShotConstraints = .zero
+                bgImageView.clipsToBounds = true
+                bgImageView.layer.masksToBounds = true
+            }
+        }
+        else {
+            self.backgroundPosterImageWebView?.clipsToBounds = true
+            self.backgroundPosterImageWebView?.layer.masksToBounds = true
+            if imageFrameRatio == ratio {
+                posterConstraints = .zero
+                snapShotConstraints = .zero
+            } else {
+                let videoZoomed: Bool = self.playerView.playerLayer.videoGravity == .resizeAspectFill
+                if imageFrameRatio < ratio  {
+                    let letterSpacing = (imageFrame.height - (imageFrame.width * (ShopLiveController.shared.videoRatio.height / ShopLiveController.shared.videoRatio.width))) / 2
+                    posterConstraints = .init(top: letterSpacing, left: 0, bottom: -letterSpacing, right: 0)
+                    
+                    snapShotConstraints = .init(top: ShopLiveController.shared.videoExpanded ? (videoZoomed ? 0 : letterSpacing) : letterSpacing,
+                                                left: 0,
+                                                bottom: ShopLiveController.shared.videoExpanded ? (videoZoomed ? 0 : -letterSpacing) : -letterSpacing,
+                                                right: 0)
+                    
                 } else {
-                    let videoZoomed: Bool = self.playerView.playerLayer.videoGravity == .resizeAspectFill
-                    if imageFrameRatio < ratio  {
-                        let letterSpacing = (imageFrame.height - (imageFrame.width * (ShopLiveController.shared.videoRatio.height / ShopLiveController.shared.videoRatio.width))) / 2
-                        posterConstraints = .init(top: letterSpacing, left: 0, bottom: -letterSpacing, right: 0)
-                        
-                        snapShotConstraints = .init(top: ShopLiveController.shared.videoExpanded ? (videoZoomed ? 0 : letterSpacing) : letterSpacing,
-                                                    left: 0,
-                                                    bottom: ShopLiveController.shared.videoExpanded ? (videoZoomed ? 0 : -letterSpacing) : -letterSpacing,
-                                                    right: 0)
-                        
-                    } else {
-                        let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
-                        posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                        snapShotConstraints = .init(top: 0,
-                                                    left: ShopLiveController.shared.videoExpanded ? (videoZoomed ? 0 : letterSpacing) : letterSpacing,
-                                                    bottom: 0,
-                                                    right: ShopLiveController.shared.videoExpanded ? (videoZoomed ? 0 : -letterSpacing) : -letterSpacing)
-                    }
+                    let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
+                    posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
+                    snapShotConstraints = .init(top: 0,
+                                                left: ShopLiveController.shared.videoExpanded ? (videoZoomed ? 0 : letterSpacing) : letterSpacing,
+                                                bottom: 0,
+                                                right: ShopLiveController.shared.videoExpanded ? (videoZoomed ? 0 : -letterSpacing) : -letterSpacing)
                 }
             }
-            posterTopContraint?.constant = posterConstraints.top
-            posterBottomContraint?.constant = posterConstraints.bottom
-            posterLeftContraint?.constant = posterConstraints.left
-            posterRightContraint?.constant = posterConstraints.right
-            
-            snapshotTopContraint?.constant = snapShotConstraints.top
-            snapshotBottomContraint?.constant = snapShotConstraints.bottom
-            snapshotLeftContraint?.constant = snapShotConstraints.left
-            snapshotRightContraint?.constant = snapShotConstraints.right
         }
-    }
-    
-    
-    private func setupBackgroundImageView() {
-        let imageView = SLWKWebView()
-        imageView.isOpaque = false
-        imageView.backgroundColor = .clear
-        imageView.scrollView.backgroundColor = .clear
-        imageView.layer.masksToBounds = true
-        imageView.clipsToBounds = true
-        imageView.scrollView.contentInsetAdjustmentBehavior = .never
-        imageView.scrollView.contentInset = .zero
-        playerView.addSubview(imageView)
-                
-//        imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        posterTopContraint?.constant = posterConstraints.top
+        posterBottomContraint?.constant = posterConstraints.bottom
+        posterLeftContraint?.constant = posterConstraints.left
+        posterRightContraint?.constant = posterConstraints.right
         
-        let centerXConstraint: NSLayoutConstraint = .init(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: playerView, attribute: .centerX, multiplier: 1, constant: 0)
-        let centerYConstraint: NSLayoutConstraint = .init(item: imageView, attribute: .centerY, relatedBy: .equal, toItem: playerView, attribute: .centerY, multiplier: 1, constant: 0)
-        let topConstraint: NSLayoutConstraint = .init(item: imageView, attribute: .top, relatedBy: .equal, toItem: playerView, attribute: .top, multiplier: 1, constant: 0)
-        let leftConstraint: NSLayoutConstraint = .init(item: imageView, attribute: .left, relatedBy: .equal, toItem: playerView, attribute: .left, multiplier: 1, constant: 0)
-        let bottomConstraint: NSLayoutConstraint = .init(item: imageView, attribute: .bottom, relatedBy: .equal, toItem: playerView, attribute: .bottom, multiplier: 1, constant: 0)
-        let rightConstraint: NSLayoutConstraint = .init(item: imageView, attribute: .right, relatedBy: .equal, toItem: playerView, attribute: .right, multiplier: 1, constant: 0)
-
-        topConstraint.priority = .init(rawValue: 999)
-        leftConstraint.priority = .init(rawValue: 999)
-        rightConstraint.priority = .init(rawValue: 999)
-        bottomConstraint.priority = .init(rawValue: 999)
+        snapshotTopContraint?.constant = snapShotConstraints.top
+        snapshotBottomContraint?.constant = snapShotConstraints.bottom
+        snapshotLeftContraint?.constant = snapShotConstraints.left
+        snapshotRightContraint?.constant = snapShotConstraints.right
         
-        posterTopContraint = topConstraint
-        posterLeftContraint = leftConstraint
-        posterRightContraint = rightConstraint
-        posterBottomContraint = bottomConstraint
-        
-        playerView.addConstraints([
-            topConstraint, leftConstraint, rightConstraint, bottomConstraint, centerXConstraint, centerYConstraint
-        ])
-        
-        let snapBackgroundImageView = SLImageView()
-        snapBackgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        snapBackgroundImageView.backgroundColor = .clear
-        imageView.addSubview(snapBackgroundImageView)
-        snapBackgroundImageView.isHidden = true
-        
-        let centerXSnapshotConstraint: NSLayoutConstraint = .init(item: snapBackgroundImageView, attribute: .centerX, relatedBy: .equal, toItem: imageView, attribute: .centerX, multiplier: 1, constant: 0)
-        let centerYSnapshotConstraint: NSLayoutConstraint = .init(item: snapBackgroundImageView, attribute: .centerY, relatedBy: .equal, toItem: imageView, attribute: .centerY, multiplier: 1, constant: 0)
-        let topSnapshotConstraint: NSLayoutConstraint = .init(item: snapBackgroundImageView, attribute: .top, relatedBy: .equal, toItem: imageView, attribute: .top, multiplier: 1, constant: 0)
-        let leftSnapshotConstraint: NSLayoutConstraint = .init(item: snapBackgroundImageView, attribute: .left, relatedBy: .equal, toItem: imageView, attribute: .left, multiplier: 1, constant: 0)
-        let bottomSnapshotConstraint: NSLayoutConstraint = .init(item: snapBackgroundImageView, attribute: .bottom, relatedBy: .equal, toItem: imageView, attribute: .bottom, multiplier: 1, constant: 0)
-        let rightSnapshotConstraint: NSLayoutConstraint = .init(item: snapBackgroundImageView, attribute: .right, relatedBy: .equal, toItem: imageView, attribute: .right, multiplier: 1, constant: 0)
-
-        imageView.addConstraints([
-            topSnapshotConstraint, leftSnapshotConstraint, rightSnapshotConstraint, bottomSnapshotConstraint, centerXSnapshotConstraint, centerYSnapshotConstraint
-        ])
-        
-        if ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-            backgroundPosterImageWebView?.clipsToBounds = true
-            backgroundPosterImageWebView?.layer.masksToBounds = true
-        }
-        
-        self.backgroundPosterImageWebView = imageView
-        self.snapShotBackgroundImageView = snapBackgroundImageView
-        
-        imageView.bringSubviewToFront(snapBackgroundImageView)
-        playerView.sendSubviewToBack(imageView)
-    }
-
-    private func setupOverayWebview() {
-
-        let overlayView = OverlayWebView(with: webViewConfiguration)
-        overlayView.webviewUIDelegate = self
-        overlayView.delegate = self
-
-        view.addSubview(overlayView)
-        overlayView.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([overlayView.topAnchor.constraint(equalTo: view.topAnchor),
-                                     overlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                                     overlayView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                                     overlayView.widthAnchor.constraint(equalTo: view.widthAnchor)
-        ])
-        self.overlayView = overlayView
-    }
-
-    private func setupPlayerView() {
-        playerView.playerLayer.player = playerView.player
-        if ShopLiveController.shared.videoOrientation == .portrait {
-            playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
-        } else {
-            playerView.playerLayer.videoGravity = .resizeAspect
-        }
-        
-        playerView.playerLayer.needsDisplayOnBoundsChange = true
-        ShopLiveController.shared.playerItem?.player = playerView.player
-        ShopLiveController.shared.playerItem?.playerLayer = playerLayer
-        view.addSubview(playerView)
-        playerView.translatesAutoresizingMaskIntoConstraints = false
-        
-        playerTopConstraint = playerView.topAnchor.constraint(equalTo: view.topAnchor)
-        playerLeadingConstraint = playerView.leftAnchor.constraint(equalTo: view.leftAnchor)
-        playerRightConstraint = playerView.rightAnchor.constraint(equalTo: view.rightAnchor)
-        playerBottomConstraint = playerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-
-        NSLayoutConstraint.activate([playerTopConstraint, playerLeadingConstraint, playerRightConstraint, playerBottomConstraint])
-    }
-    
-    private func setupChatInputView() {
-        view.addSubview(chatInputView)
-
-        chatConstraint = NSLayoutConstraint.init(item: chatInputView, attribute: .bottom, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0)
-        let chatLeading = NSLayoutConstraint.init(item: chatInputView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 0)
-        let chatTrailing = NSLayoutConstraint.init(item: chatInputView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 0)
-
-        self.view.addConstraints([
-            chatLeading, chatTrailing, chatConstraint
-        ])
-
-        self.view.addSubview(chatInputBG)
-        NSLayoutConstraint.activate([
-                                     chatInputBG.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-                                     chatInputBG.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)])
-        self.view.addConstraints([
-            NSLayoutConstraint(item: chatInputBG, attribute: .top, relatedBy: .equal, toItem: self.chatInputView, attribute: .bottom, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: chatInputBG, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
-        ])
-        
-        self.view.updateConstraints()
-        self.view.layoutIfNeeded()
-    }
-
-    private func setupIndicator() {
-        if ShopLiveConfiguration.UI.isCustomIndicator {
-            self.playerView.addSubviews(customIndicator)
-            let customIndicatorWidth = NSLayoutConstraint.init(item: customIndicator, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
-            let customIndicatorHeight = NSLayoutConstraint.init(item: customIndicator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
-            let customIndicatorCenterXConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerX, relatedBy: .equal, toItem: self.playerView, attribute: .centerX, multiplier: 1.0, constant: 0)
-            let customIndicatorCenterYConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerY, relatedBy: .equal, toItem: self.playerView, attribute: .centerY, multiplier: 1.0, constant: 0)
-
-            customIndicator.addConstraints([customIndicatorWidth, customIndicatorHeight])
-            self.playerView.addConstraints([customIndicatorCenterXConstraint, customIndicatorCenterYConstraint])
-
-            customIndicator.configure(images: ShopLiveConfiguration.UI.customIndicatorImages)
-        } else {
-            self.playerView.addSubviews(indicatorView)
-            let indicatorWidth = NSLayoutConstraint.init(item: indicatorView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
-            let indicatorHeight = NSLayoutConstraint.init(item: indicatorView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
-            let centerXConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerX, relatedBy: .equal, toItem: self.playerView, attribute: .centerX, multiplier: 1.0, constant: 0)
-            let centerYConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerY, relatedBy: .equal, toItem: self.playerView, attribute: .centerY, multiplier: 1.0, constant: 0)
-
-            indicatorView.addConstraints([indicatorWidth, indicatorHeight])
-            self.playerView.addConstraints([centerXConstraint, centerYConstraint])
-            indicatorView.color = ShopLiveConfiguration.UI.color
-
-        }
-        
-        self.playerView.bringSubviewToFront(indicatorView)
     }
 
     
@@ -535,18 +354,6 @@ internal final class LiveStreamViewController: SLViewController {
         }
     }
 
-    func showSnapshotBackground() {
-        self.snapShotBackgroundImageView?.isHidden = false
-        self.backgroundPosterImageWebView?.snapshot(afterScreenUpdates: false, completion: { image in
-                self.snapShotBackgroundImageView?.image = image
-            })
-    }
-    
-    func hideSnapshotBackground() {
-        self.snapShotBackgroundImageView?.isHidden = true
-        self.snapShotBackgroundImageView?.image = nil
-    }
-    
     func hideBackgroundPoster() {
         backgroundPosterImageWebView?.isHidden = true
         shopliveHideKeyboard()
@@ -718,34 +525,17 @@ internal final class LiveStreamViewController: SLViewController {
 
 extension LiveStreamViewController {
     func hideSnapShotView(){
+        print("[HASSAN LOG] hideSnapShotView")
         self.snapShotImageView?.isHidden = true
     }
     
-    func takeSnapShotWithOutPlaying() {
+    func takeSnapShot(completion : (() -> ())? = nil) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             ShopLiveController.shared.getSnapShot { image in
                 self.snapShotImageView?.image = image
                 self.snapShotImageView?.isHidden = false
-            }
-            
-        }
-    }
-    
-    func takeSnapShot(on: Bool,completion : (() -> ())? = nil) {
-        guard !ShopLiveController.shared.keepSnapshot else {
-            return
-        }
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            if on {
-                ShopLiveController.shared.getSnapShot { image in
-                    self.snapShotImageView?.image = image
-                    self.snapShotImageView?.isHidden = false
-                    ShopLiveController.playControl = .play
-                }
-            } else {
-                self.snapShotImageView?.isHidden = true
+                completion?()
             }
         }
     }
@@ -774,40 +564,25 @@ extension LiveStreamViewController : ShopLivePlayerDelegate {
     }
     
     func updatedValue(key: ShopLivePlayerObserveValue) {
-        switch key {
-        case .loading:
-            handleLoading()
-            break
-        case .takeSnapShot:
-            takeSnapShot(on: ShopLiveController.shared.takeSnapShot)
-            break
-        case .keepSnapshot:
-            if !ShopLiveController.shared.keepSnapshot {
-                takeSnapShot(on: ShopLiveController.shared.takeSnapShot)
-            }
-            break
-        default:
-            break
-        }
+        
     }
     
-    func handleLoading() {
+    func processLoadingIndicator(hide : Bool){
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            if ShopLiveController.loading {
-                guard !ShopLiveController.shared.isPreview else {
-                    return
-                }
-                
+            if hide == false {
+                guard ShopLiveController.shared.isPreview == false else  { return }
                 if ShopLiveConfiguration.UI.isCustomIndicator {
                     self.customIndicator.configure(images: ShopLiveConfiguration.UI.customIndicatorImages)
                     self.customIndicator.startAnimating()
-                } else {
+                }
+                else {
                     self.indicatorView.isHidden = false
                     self.indicatorView.color = ShopLiveConfiguration.UI.color
                     self.indicatorView.startAnimating()
                 }
-            } else {
+            }
+            else {
                 if ShopLiveConfiguration.UI.isCustomIndicator {
                     self.customIndicator.stopAnimating()
                 } else {
@@ -818,38 +593,192 @@ extension LiveStreamViewController : ShopLivePlayerDelegate {
     }
 }
 extension LiveStreamViewController : LiveStreamViewModelDelegate {
-    func requestHideOrShowSnapShotView(hide: Bool, withOutPlaying: Bool) {
-        if hide {
-            self.hideSnapShotView()
-        }
-        else if withOutPlaying {
-            self.takeSnapShotWithOutPlaying()
-        }
-        else {
-            self.takeSnapShot(on: true)
-        }
-    }
-    
-    func requestHideOrShowSnapShotBackground(hide: Bool) {
-        if hide {
-            self.hideSnapshotBackground()
-        }
-        else {
-            self.showSnapshotBackground()
-        }
-    }
-    
-    func requestHideOrShowbackgroundPosterImageWebView(hide: Bool) {
-        if hide {
-            self.hideBackgroundPoster()
-        }
-        else {
-            self.showBackgroundPoster()
-        }
+    func requestTakeSnapShotView() {
+        self.takeSnapShot()
     }
     
     func reloadWebView(with url: URL) {
         self.overlayView?.reload(with: url)
+    }
+    
+}
+//MARK: - ViewSetUp functions
+extension LiveStreamViewController {
+    private func setUpBackgroundPosterImageWebView() {
+        self.backgroundPosterImageWebView = SLWKWebView()
+        guard let backgroundPosterImageWebView = self.backgroundPosterImageWebView else { return }
+        self.view.addSubview(backgroundPosterImageWebView)
+        backgroundPosterImageWebView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundPosterImageWebView.isOpaque = false
+        backgroundPosterImageWebView.backgroundColor = .black
+        backgroundPosterImageWebView.scrollView.backgroundColor = .black
+        backgroundPosterImageWebView.layer.masksToBounds = true
+        backgroundPosterImageWebView.clipsToBounds = true
+        backgroundPosterImageWebView.scrollView.contentInsetAdjustmentBehavior = .never
+        backgroundPosterImageWebView.scrollView.contentInset = .zero
+       
+        if ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
+            backgroundPosterImageWebView.clipsToBounds = true
+            backgroundPosterImageWebView.layer.masksToBounds = true
+        }
+        
+        let centxConstraint  = backgroundPosterImageWebView.centerXAnchor.constraint(equalTo: playerView.centerXAnchor)
+        let centYConstraint  = backgroundPosterImageWebView.centerYAnchor.constraint(equalTo: playerView.centerYAnchor)
+        
+        let topConstraint    = backgroundPosterImageWebView.topAnchor.constraint(equalTo: playerView.topAnchor)
+        let leftConstraint   = backgroundPosterImageWebView.leadingAnchor.constraint(equalTo: playerView.leadingAnchor)
+        let rightConstraint  = backgroundPosterImageWebView.trailingAnchor.constraint(equalTo: playerView.trailingAnchor)
+        let bottomConstraint = backgroundPosterImageWebView.bottomAnchor.constraint(equalTo: playerView.bottomAnchor)
+        
+        topConstraint.priority = .init(rawValue: 999)
+        leftConstraint.priority = .init(rawValue: 999)
+        rightConstraint.priority = .init(rawValue: 999)
+        bottomConstraint.priority = .init(rawValue: 999)
+        
+        posterTopContraint = topConstraint
+        posterLeftContraint = leftConstraint
+        posterRightContraint = rightConstraint
+        posterBottomContraint = bottomConstraint
+        
+        NSLayoutConstraint.activate([ topConstraint, leftConstraint, rightConstraint, bottomConstraint, centxConstraint, centYConstraint ])
+    }
+    
+    private func setupSnapshotView() {
+        self.snapShotImageView = SLImageView()
+        guard let snapShotImageView = self.snapShotImageView else { return }
+        self.view.addSubview(snapShotImageView)
+        snapShotImageView.translatesAutoresizingMaskIntoConstraints = false
+        snapShotImageView.contentMode = .scaleAspectFill
+        snapShotImageView.layer.masksToBounds = true
+        snapShotImageView.clipsToBounds = true
+        snapShotImageView.backgroundColor = .clear
+        snapShotImageView.isHidden = true
+        
+        let centerXConstraint = snapShotImageView.centerXAnchor.constraint(equalTo: playerView.centerXAnchor)
+        let centerYConstraint = snapShotImageView.centerYAnchor.constraint(equalTo: playerView.centerYAnchor)
+        
+        let topConstraint     = snapShotImageView.topAnchor.constraint(equalTo: playerView.topAnchor)
+        let leftConstraint    = snapShotImageView.leadingAnchor.constraint(equalTo: playerView.leadingAnchor)
+        let rightConstraint   = snapShotImageView.trailingAnchor.constraint(equalTo: playerView.trailingAnchor)
+        let bottomConstraint  = snapShotImageView.bottomAnchor.constraint(equalTo: playerView.bottomAnchor)
+        
+        topConstraint.priority = .init(rawValue: 999)
+        leftConstraint.priority = .init(rawValue: 999)
+        rightConstraint.priority = .init(rawValue: 999)
+        bottomConstraint.priority = .init(rawValue: 999)
+        
+        
+        snapshotTopContraint = topConstraint
+        snapshotLeftContraint = leftConstraint
+        snapshotRightContraint = rightConstraint
+        snapshotBottomContraint = bottomConstraint
+        
+        NSLayoutConstraint.activate([ topConstraint, leftConstraint, rightConstraint, bottomConstraint, centerXConstraint, centerYConstraint ])
+    }
+    
+    private func setupPlayerView() {
+        view.addSubview(playerView)
+        playerView.translatesAutoresizingMaskIntoConstraints = false
+        playerView.playerLayer.player = playerView.player
+        playerView.playerLayer.needsDisplayOnBoundsChange = true
+        
+        if ShopLiveController.shared.videoOrientation == .portrait {
+            if UIScreen.isLandscape {
+                playerView.playerLayer.videoGravity = .resizeAspect
+            }
+            else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
+                playerView.playerLayer.videoGravity = .resizeAspect
+            }
+            else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait == false {
+                playerView.playerLayer.videoGravity = .resizeAspectFill
+            }
+            else {
+                playerView.playerLayer.videoGravity = .resizeAspectFill
+            }
+        } else {
+            playerView.playerLayer.videoGravity = .resizeAspect
+        }
+        
+        
+        ShopLiveController.shared.playerItem?.player = playerView.player
+        ShopLiveController.shared.playerItem?.playerLayer = playerLayer
+       
+        playerTopConstraint     = playerView.topAnchor.constraint(equalTo: view.topAnchor)
+        playerLeadingConstraint = playerView.leftAnchor.constraint(equalTo: view.leftAnchor)
+        playerRightConstraint   = playerView.rightAnchor.constraint(equalTo: view.rightAnchor)
+        playerBottomConstraint  = playerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+
+        NSLayoutConstraint.activate([playerTopConstraint, playerLeadingConstraint, playerRightConstraint, playerBottomConstraint])
+    }
+    
+    
+    func setupOverayWebview() {
+
+        let overlayView = OverlayWebView(with: webViewConfiguration)
+        overlayView.webviewUIDelegate = self
+        overlayView.delegate = self
+
+        view.addSubview(overlayView)
+        overlayView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([overlayView.topAnchor.constraint(equalTo: view.topAnchor),
+                                     overlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                                     overlayView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                                     overlayView.widthAnchor.constraint(equalTo: view.widthAnchor)
+        ])
+        self.overlayView = overlayView
+    }
+    
+    private func setupChatInputView() {
+        view.addSubview(chatInputView)
+
+        chatConstraint = NSLayoutConstraint.init(item: chatInputView, attribute: .bottom, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0)
+        let chatLeading = NSLayoutConstraint.init(item: chatInputView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 0)
+        let chatTrailing = NSLayoutConstraint.init(item: chatInputView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1.0, constant: 0)
+
+        self.view.addConstraints([
+            chatLeading, chatTrailing, chatConstraint
+        ])
+
+        self.view.addSubview(chatInputBG)
+        NSLayoutConstraint.activate([
+                                     chatInputBG.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+                                     chatInputBG.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)])
+        self.view.addConstraints([
+            NSLayoutConstraint(item: chatInputBG, attribute: .top, relatedBy: .equal, toItem: self.chatInputView, attribute: .bottom, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: chatInputBG, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
+        ])
+        
+        self.view.updateConstraints()
+        self.view.layoutIfNeeded()
+    }
+
+    private func setupIndicator() {
+        if ShopLiveConfiguration.UI.isCustomIndicator {
+            self.playerView.addSubviews(customIndicator)
+            let customIndicatorWidth = NSLayoutConstraint.init(item: customIndicator, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
+            let customIndicatorHeight = NSLayoutConstraint.init(item: customIndicator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
+            let customIndicatorCenterXConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerX, relatedBy: .equal, toItem: self.playerView, attribute: .centerX, multiplier: 1.0, constant: 0)
+            let customIndicatorCenterYConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerY, relatedBy: .equal, toItem: self.playerView, attribute: .centerY, multiplier: 1.0, constant: 0)
+
+            customIndicator.addConstraints([customIndicatorWidth, customIndicatorHeight])
+            self.playerView.addConstraints([customIndicatorCenterXConstraint, customIndicatorCenterYConstraint])
+
+            customIndicator.configure(images: ShopLiveConfiguration.UI.customIndicatorImages)
+        } else {
+            self.playerView.addSubviews(indicatorView)
+            let indicatorWidth = NSLayoutConstraint.init(item: indicatorView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
+            let indicatorHeight = NSLayoutConstraint.init(item: indicatorView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
+            let centerXConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerX, relatedBy: .equal, toItem: self.playerView, attribute: .centerX, multiplier: 1.0, constant: 0)
+            let centerYConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerY, relatedBy: .equal, toItem: self.playerView, attribute: .centerY, multiplier: 1.0, constant: 0)
+
+            indicatorView.addConstraints([indicatorWidth, indicatorHeight])
+            self.playerView.addConstraints([centerXConstraint, centerYConstraint])
+            indicatorView.color = ShopLiveConfiguration.UI.color
+
+        }
+        
+        self.playerView.bringSubviewToFront(indicatorView)
     }
     
 }

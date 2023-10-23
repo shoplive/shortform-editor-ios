@@ -71,7 +71,6 @@ internal final class ShopLiveConfiguration: NSObject {
         #else
         static var useLocalStorage: Bool = true
         #endif
-        static var adid: String?
         
         static var customParameters: [String: String] = [:]
     }

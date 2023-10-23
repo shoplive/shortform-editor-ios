@@ -24,9 +24,6 @@ enum ShopLivePlayerObserveValue: String {
     case isPlaying = "isPlaying"
     case retryPlay = "retryPlay"
     case releasePlayer = "releasePlayer"
-    case takeSnapShot = "takeSnapShot"
-    case keepSnapshot = "keepSnapshot"
-    case loading = "loading"
 }
 
 enum ShopLiveWindowStyle {
@@ -67,16 +64,22 @@ extension ShopLivePlayerDelegate where Self: Equatable {
 struct CustomShare {
     var custom: (() -> Void)?
 }
+ 
+protocol ShopLiveControllerDelegate : NSObjectProtocol {
+    func setPresentationStyle(style : ShopLive.PresentationStyle )
+}
 
 final class ShopLiveController: NSObject {
     static let shared = ShopLiveController()
 
+    weak var delegate : ShopLiveControllerDelegate?
+    
+    
     private override init() {
         super.init()
     }
 
-    deinit {
-    }
+    deinit { }
 
     var campaignKey: String {
         set {
@@ -94,10 +97,8 @@ final class ShopLiveController: NSObject {
     var posterUrl: String = ""
     
     var isSameCampaign: Bool = false
-    var newStartPlay: Bool = false
     var campaignStatus: ShopLiveCampaignStatus = .close
     var isSuccessCampaignJoin: Bool = false
-    @objc dynamic var keepSnapshot: Bool = false
     private var playerDelegates: [ShopLivePlayerDelegate?] = []
     @objc dynamic var playItem: ShopLivePlayItem? = .init()
     @objc dynamic var playerItem: ShopLivePlayerItem? = .init()
@@ -108,11 +109,8 @@ final class ShopLiveController: NSObject {
     @objc dynamic var isPlaying: Bool = false
     @objc dynamic var retryPlay: Bool = false
     @objc dynamic var releasePlayer: Bool = false
-    @objc dynamic var takeSnapShot: Bool = true
     @objc dynamic var isPreview: Bool = false
-    @objc dynamic var loading: Bool = false
     @objc dynamic var isMuted: Bool = ShopLiveConfiguration.SoundPolicy.isMuted
-    var isStartedCampaign: Bool = false
 
     var playerResumeCount: Int = 0
     
@@ -142,7 +140,13 @@ final class ShopLiveController: NSObject {
     var prevWindowStyle: ShopLiveWindowStyle = .none
     var customShareAction: CustomShare?
     var hookNavigation: ((URL) -> Void)?
-    var webInstance: ShopLiveWebView?
+    var webInstance: ShopLiveWebView? {
+        didSet {
+            if webInstance == nil {
+                delegate?.setPresentationStyle(style: .unknown)
+            }
+        }
+    }
     var pipAnimating: Bool = false
     var swipeEnabled: Bool = true
     
@@ -195,10 +199,7 @@ final class ShopLiveController: NSObject {
                 }
             }
             break
-        case .playControl, .takeSnapShot, .timeControlStatus , .keepSnapshot, .videoUrl, .isPlayable, .isHiddenOverlay, .overlayUrl, .isPlaying, .releasePlayer:
-            postPlayerObservers(key: key)
-            break
-        case .loading:
+        case .playControl, .timeControlStatus, .videoUrl, .isPlayable, .isHiddenOverlay, .overlayUrl, .isPlaying, .releasePlayer:
             postPlayerObservers(key: key)
             break
         case .playerItemStatus:
@@ -252,10 +253,8 @@ final class ShopLiveController: NSObject {
     }
 
     func resetOnlyFinished() {
-        keepSnapshot = false
         currentCampaignKey = ""
         isSameCampaign = false
-        isStartedCampaign = false
         
         playItem = nil
         playItem = .init()
@@ -269,9 +268,9 @@ final class ShopLiveController: NSObject {
         isSuccessCampaignJoin = false
         campaignStatus = .close
         webInstance = nil
+        print("[HASSAN LOG] webInstance = nil in resetOnlyFinished")
         prevWindowStyle = .none
         
-        newStartPlay = false
         isMuted = ShopLiveConfiguration.SoundPolicy.isMuted
         ShopLiveConfiguration.UI.color = .white
         ShopLiveConfiguration.UI.customIndicatorImages.removeAll()
@@ -361,9 +360,6 @@ extension ShopLiveController {
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.playControl.rawValue, options: .new, context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.retryPlay.rawValue, options: [.old, .new], context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.releasePlayer.rawValue, options: .new, context: nil)
-        self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.takeSnapShot.rawValue, options: .new, context: nil)
-        self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.keepSnapshot.rawValue, options: .new, context: nil)
-        self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.loading.rawValue, options: .new, context: nil)
     }
 
     func removePlayerObserver() {
@@ -379,9 +375,6 @@ extension ShopLiveController {
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.playControl.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.retryPlay.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.releasePlayer.rawValue)
-        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.takeSnapShot.rawValue)
-        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.keepSnapshot.rawValue)
-        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.loading.rawValue)
     }
 
     func postPlayerObservers(key: ShopLivePlayerObserveValue) {
@@ -580,15 +573,6 @@ extension ShopLiveController {
         }
         get {
             return shared.windowStyle
-        }
-    }
-
-    static var loading: Bool {
-        set {
-            shared.loading = newValue
-        }
-        get {
-            return shared.loading
         }
     }
 

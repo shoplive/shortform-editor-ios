@@ -132,17 +132,17 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.setAppVersion("3.39.0")
         if !config.isGuestMode {
             if config.useJWT {
-                ShopLiveCommon.setUserJWT(userJWT: config.jwtToken)
+                ShopLive.authToken = config.jwtToken
             } else {
                 // user setting
                 if !config.user.userId.isEmpty {
-                    ShopLiveCommon.setUser(user: config.user)
+                    ShopLive.user = config.user
                 } else {
-                    ShopLiveCommon.setUser(user: nil)
+                    ShopLive.user = nil
                 }
             }
         } else {
-            ShopLiveCommon.setUser(user: nil)
+            ShopLive.user = nil
         }
         
         DemoConfiguration.shared.customParameters.forEach { customParam in
@@ -325,6 +325,11 @@ class MainViewController: SideMenuBaseViewController {
             }
         }
         
+        
+        ShopLive.preview(with: "campaignKey") {
+            ShopLive.play(with: "campaignKey")
+        }
+        
     }
     
     override func play() {
@@ -336,7 +341,10 @@ class MainViewController: SideMenuBaseViewController {
         }
 
         setupShopliveSettings()
-        ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
+        
+//        ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
+        ShopLive.configure(with: currentKey.accessKey)
+        ShopLive.user = ShopLiveCommonUser(userId: "1111",name: "testName",age: 100)
         ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
 //            self.regenerateHanaBankFrameworkIssue()

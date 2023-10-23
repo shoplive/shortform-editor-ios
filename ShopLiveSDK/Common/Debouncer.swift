@@ -15,6 +15,7 @@ class Debouncer {
     typealias Handler = () -> Void
     var handler: Handler?
     
+    
     init(timeInterval: TimeInterval) {
         self.timeInterval = timeInterval
     }

@@ -208,7 +208,7 @@ extension ShopLive: ShopLiveSDKInterface {
     }
     
     public static func setAdId(adId: String?) {
-        ShopLiveConfiguration.Data.adid = adId
+        ShopLiveCommon.setAdId(adId: adId)
     }
     
     public static func setMixWithOthers(isMixAudio: Bool) {

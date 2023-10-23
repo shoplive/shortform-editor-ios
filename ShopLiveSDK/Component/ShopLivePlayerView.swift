@@ -22,12 +22,14 @@ final class ShopLivePlayerView: SLView {
     init() {
         super.init(frame: .zero)
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = .black
+        self.backgroundColor = .clear
+        self.playerLayer.backgroundColor = UIColor.clear.cgColor
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = .black
+        self.backgroundColor = .clear
+        self.playerLayer.backgroundColor = UIColor.clear.cgColor
     }
 }
