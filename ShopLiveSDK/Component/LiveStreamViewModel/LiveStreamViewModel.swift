@@ -315,13 +315,13 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
             guard let self = self else { return }
             switch ShopLiveController.playControl {
             case .play:
-                play()
+                self.play()
             case .pause:
-                pause()
+                self.pause()
             case .resume:
-                resume()
+                self.resume()
             case .stop:
-                stop()
+                self.stop()
             default:
                 break
             }

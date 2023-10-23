@@ -29,6 +29,8 @@ import ShopliveSDKCommon
     private var enabledPictureInPictureMode : Bool = true
     private var blockWindowTapGesture : Bool = false
     private var inAppPipConfiguration : ShopLiveInAppPipConfiguration?
+    private var blockLiveWindowPangestureHapticSound : Bool = false
+    
     
     
     
@@ -1029,6 +1031,49 @@ import ShopliveSDKCommon
             let centerX = panGestureInitialCenter.x + translation.x
             let centerY = panGestureInitialCenter.y + translation.y
             liveWindow.center = CGPoint(x: centerX, y: centerY)
+            
+            
+            guard liveStreamViewController?.viewModel.getEnablePipSwipeOut() ?? false == true || ShopLiveController.shared.isPreview else { return }
+            guard let mainWindow = self.mainWindow else { return }
+            let mainWindowHeight: CGFloat = mainWindow.bounds.height - (isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0)
+            let safeAreaInset = mainWindow.safeAreaInsets
+            let pipEdgeInsets: UIEdgeInsets = ShopLiveConfiguration.UI.pipPadding
+            let pipFloatingOffset: UIEdgeInsets = ShopLiveConfiguration.UI.pipFloatingOffset
+            
+            let pipSize = self.pipSize(with: pipScale)
+            
+            let minXLimit = pipFloatingOffset.left + pipEdgeInsets.left
+            let maxXLimit = mainWindow.bounds.width - pipFloatingOffset.right - pipEdgeInsets.right
+            let minYLimit = pipFloatingOffset.top + pipEdgeInsets.top + safeAreaInset.top
+            let maxYLimit = (mainWindowHeight - (safeAreaInset.bottom + pipFloatingOffset.bottom + pipEdgeInsets.bottom)) + (isKeyboardShow ? liveWindow.frame.height * 0.2 : 0)
+            
+            let minXOffset = max(centerX - minXLimit,0)
+            let maxXOffset = max(maxXLimit - centerX,0)
+            let minYOffset = max(centerY - minYLimit,0)
+            let maxYOffset = max(maxYLimit - centerY,0)
+            let xOffset = min(minXOffset,maxXOffset)
+            let yOffset = min(minYOffset,maxYOffset)
+            
+            var alpha : CGFloat = 1
+            if xOffset < yOffset {
+                alpha = max(xOffset / (pipSize.width / 2),0.5)
+            }
+            else {
+                alpha = max(yOffset / (pipSize.height / 2),0.5)
+            }
+            
+            if alpha >= 1 {
+                blockLiveWindowPangestureHapticSound = false
+            }
+            
+            if alpha < 1 && blockLiveWindowPangestureHapticSound == false {
+                blockLiveWindowPangestureHapticSound = true
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            }
+            
+            self.shopLiveWindow?.alpha = alpha
+            self.liveStreamViewController?.view.alpha = alpha
+            
         case .ended:
             guard let mainWindow = self.mainWindow else { return }
             liveWindow.layer.masksToBounds = true
@@ -1155,10 +1200,13 @@ import ShopliveSDKCommon
 
             animator.addAnimations {
                 liveWindow.center = destination
+                self.shopLiveWindow?.alpha = 1
+                self.liveStreamViewController?.view.alpha = 1
                 self.alignPipView()
             }
 
             animator.startAnimation()
+            blockLiveWindowPangestureHapticSound = false
         default:
             break
         }
