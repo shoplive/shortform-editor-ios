@@ -24,7 +24,8 @@ import ShopliveSDKCommon
     
     @objc func isSuccessCampaignJoin() -> Bool
 
-    @objc func preview(with campaignKey: String?, referrer: String?, completion: @escaping () -> Void)
+    @objc func configure(with accessKey: String)
+    @objc func preview(with campaignKey: String?, referrer: String?, completion: (() -> Void)?)
     @objc func play(with campaignKey: String?, referrer: String?)
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
     @objc func startPictureInPicture()
@@ -407,7 +408,7 @@ extension ShopLive: ShopLiveSDKInterface {
         }
     }
 
-    public static func preview(with campaignKey: String?, referrer: String? = nil, completion: @escaping () -> Void) {
+    public static func preview(with campaignKey: String?, referrer: String? = nil, completion: (() -> Void)?) {
         shared.instance?.preview(with: campaignKey, referrer: referrer, completion: completion)
     }
 

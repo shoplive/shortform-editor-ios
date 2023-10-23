@@ -1668,7 +1668,8 @@ extension ShopLiveBase: ShopLiveComponent {
         //        startCustomPictureInPicture(with: self.pipPosition, scale: self.pipScale)
     }
     
-    func preview(with campaignKey: String?, referrer: String? = nil, completion: @escaping () -> Void) {
+    func preview(with campaignKey: String?, referrer: String? = nil, completion: (() -> Void)?) {
+        
         guard !ShopLiveController.shared.pipAnimating else { return }
         
         ShopLiveController.shared._playerMode = .preview

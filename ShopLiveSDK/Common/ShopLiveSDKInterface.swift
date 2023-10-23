@@ -252,7 +252,7 @@ public typealias ShopLiveViewController = SLViewController
 
     @objc static func isSuccessCampaignJoin() -> Bool
     
-    @objc static func preview(with campaignKey: String?, referrer: String?, completion: @escaping () -> Void)
+    @objc static func preview(with campaignKey: String?, referrer: String?, completion:  (() -> Void)?)
     @objc static func play(with campaignKey: String?, keepWindowStateOnPlayExecuted: Bool, referrer: String?)
     @objc static func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
     @objc static func startPictureInPicture()
