@@ -11,6 +11,7 @@ final class PipAreaSettingViewController: UIViewController {
 
     private lazy var resetButton: UIButton = {
         let view = UIButton()
+        view.translatesAutoresizingMaskIntoConstraints = false
         view.setTitle("초기화", for: .normal)
         view.addTarget(self, action: #selector(resetPipArea), for: .touchUpInside)
         view.backgroundColor = .lightGray
@@ -229,7 +230,8 @@ final class PipAreaSettingViewController: UIViewController {
         NSLayoutConstraint.activate([
             paddingTitle.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20),
             paddingTitle.leadingAnchor.constraint(equalTo: self.view.leadingAnchor,constant: 20),
-            paddingTitle.trailingAnchor.constraint(lessThanOrEqualTo: self.view.trailingAnchor, constant: -20),
+            paddingTitle.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+            paddingTitle.heightAnchor.constraint(equalToConstant: 20),
             
             paddingTopInput.topAnchor.constraint(equalTo: paddingTitle.bottomAnchor,constant: 20),
             paddingTopInput.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
@@ -239,21 +241,22 @@ final class PipAreaSettingViewController: UIViewController {
             paddingLeftInput.topAnchor.constraint(equalTo: paddingTopInput.bottomAnchor,constant: 20),
             paddingLeftInput.leadingAnchor.constraint(equalTo: self.view.leadingAnchor,constant: 20),
             paddingLeftInput.widthAnchor.constraint(equalToConstant: 120),
-            paddingRightInput.heightAnchor.constraint(equalToConstant: 30),
+            paddingLeftInput.heightAnchor.constraint(equalToConstant: 30),
             
             paddingRightInput.topAnchor.constraint(equalTo: paddingTopInput.bottomAnchor,constant: 20),
             paddingRightInput.trailingAnchor.constraint(equalTo: self.view.trailingAnchor,constant: -20),
             paddingRightInput.widthAnchor.constraint(equalToConstant: 120),
             paddingRightInput.heightAnchor.constraint(equalToConstant: 30),
             
-            paddingBottomInput.topAnchor.constraint(equalTo: paddingTopInput.bottomAnchor, constant: 20),
+            paddingBottomInput.topAnchor.constraint(equalTo: paddingLeftInput.bottomAnchor, constant: 20),
             paddingBottomInput.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             paddingBottomInput.widthAnchor.constraint(equalToConstant: 120),
             paddingBottomInput.heightAnchor.constraint(equalToConstant: 30),
             
             marginTitle.topAnchor.constraint(equalTo: paddingBottomInput.bottomAnchor, constant: 20),
             marginTitle.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
-            marginTitle.trailingAnchor.constraint(lessThanOrEqualTo: self.view.trailingAnchor, constant: -20),
+            marginTitle.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+            marginTitle.heightAnchor.constraint(equalToConstant: 20),
             
             marginTopInput.topAnchor.constraint(equalTo: marginTitle.bottomAnchor,constant: 20),
             marginTopInput.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
@@ -280,80 +283,6 @@ final class PipAreaSettingViewController: UIViewController {
             resetButton.widthAnchor.constraint(equalToConstant: 120),
             resetButton.heightAnchor.constraint(equalToConstant: 34)
         ])
-        
-//        paddingTitle.snp.makeConstraints {
-//            $0.top.leading.equalToSuperview().offset(20)
-//            $0.trailing.lessThanOrEqualToSuperview().offset(-20)
-//        }
-//
-//        paddingTopInput.snp.makeConstraints {
-//            $0.top.equalTo(paddingTitle.snp.bottom).offset(20)
-//            $0.centerX.equalToSuperview()
-//            $0.width.equalTo(120)
-//            $0.height.equalTo(30)
-//        }
-//
-//        paddingLeftInput.snp.makeConstraints {
-//            $0.top.equalTo(paddingTopInput.snp.bottom).offset(20)
-//            $0.leading.equalToSuperview().offset(20)
-//            $0.width.equalTo(120)
-//            $0.height.equalTo(30)
-//        }
-//
-//        paddingRightInput.snp.makeConstraints {
-//            $0.top.equalTo(paddingTopInput.snp.bottom).offset(20)
-//            $0.trailing.equalToSuperview().offset(-20)
-//            $0.width.equalTo(120)
-//            $0.height.equalTo(30)
-//        }
-//
-//        paddingBottomInput.snp.makeConstraints {
-//            $0.top.equalTo(paddingRightInput.snp.bottom).offset(20)
-//            $0.centerX.equalToSuperview()
-//            $0.width.equalTo(120)
-//            $0.height.equalTo(30)
-//        }
-//
-//        marginTitle.snp.makeConstraints {
-//            $0.top.equalTo(paddingBottomInput.snp.bottom).offset(20)
-//            $0.leading.equalToSuperview().offset(20)
-//            $0.trailing.lessThanOrEqualToSuperview().offset(-20)
-//        }
-//
-//        marginTopInput.snp.makeConstraints {
-//            $0.top.equalTo(marginTitle.snp.bottom).offset(20)
-//            $0.centerX.equalToSuperview()
-//            $0.width.equalTo(120)
-//            $0.height.equalTo(30)
-//        }
-//
-//        marginLeftInput.snp.makeConstraints {
-//            $0.top.equalTo(marginTopInput.snp.bottom).offset(20)
-//            $0.leading.equalToSuperview().offset(20)
-//            $0.width.equalTo(120)
-//            $0.height.equalTo(30)
-//        }
-//
-//        marginRightInput.snp.makeConstraints {
-//            $0.top.equalTo(marginTopInput.snp.bottom).offset(20)
-//            $0.trailing.equalToSuperview().offset(-20)
-//            $0.width.equalTo(120)
-//            $0.height.equalTo(30)
-//        }
-//
-//        marginBottomInput.snp.makeConstraints {
-//            $0.top.equalTo(marginRightInput.snp.bottom).offset(20)
-//            $0.centerX.equalToSuperview()
-//            $0.width.equalTo(120)
-//            $0.height.equalTo(30)
-//        }
-//
-//        resetButton.snp.makeConstraints {
-//            $0.top.equalTo(marginBottomInput.snp.bottom).offset(20)
-//            $0.centerX.equalToSuperview()
-//            $0.width.equalTo(120)
-//            $0.height.equalTo(34)
-//        }
     }
     
     func loadSetting() {
