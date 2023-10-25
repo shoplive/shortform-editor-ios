@@ -220,8 +220,8 @@ class MainViewController: SideMenuBaseViewController {
         }
         
         // Picture in Picture Setting
-        ShopLive.pipScale = config.pipScale ?? 2/5
-        ShopLive.pipPosition = config.pipPosition
+//        ShopLive.pipScale = config.pipScale ?? 2/5
+//        ShopLive.pipPosition = config.pipPosition
 
         // handle Navigation Action Type
         ShopLive.setNextActionOnHandleNavigation(actionType: DemoConfiguration.shared.nextActionTypeOnHandleNavigation)
@@ -276,7 +276,7 @@ class MainViewController: SideMenuBaseViewController {
         
         let inAppPipConfig = ShopLiveInAppPipConfiguration(pipMaxSize: DemoConfiguration.shared.maxPipSize,
                                                            useCloseButton: DemoConfiguration.shared.useCloseButton,
-                                                           pipPosition: .bottomLeft,
+                                                           pipPosition: config.pipPosition,
                                                            enableSwipeOut: nil)
         ShopLive.setInAppPipConfiguration(config: inAppPipConfig)
         
