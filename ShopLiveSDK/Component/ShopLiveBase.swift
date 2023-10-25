@@ -648,14 +648,12 @@ import ShopliveSDKCommon
         
         
         shopLiveWindow.invalidateBlockAddSubViewTimer()
-        
         if self.needExecuteFullScreen {
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true)
             
             shopLiveWindow.startBlockAddSubViewTimer()
             shopLiveWindow.layer.removeAllAnimations()
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
-                self.liveStreamViewController?.updateVideoConstraint()
                 shopLiveWindow.frame = mainWindow.bounds
                 shopLiveWindow.layer.cornerRadius = 0
                 shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
@@ -678,7 +676,6 @@ import ShopliveSDKCommon
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true)
             shopLiveWindow.layer.removeAllAnimations()
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
-                self.liveStreamViewController?.updateVideoConstraint()
                 shopLiveWindow.frame = mainWindow.bounds
                 shopLiveWindow.layer.cornerRadius = 0
                 shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
@@ -706,6 +703,7 @@ import ShopliveSDKCommon
         }
         ShopLiveController.windowStyle = .normal
         _style = .fullScreen
+        self.liveStreamViewController?.updateVideoConstraint()
         delegate?.handleCommand("didShopLiveOn", with: nil)
         delegate?.log?(name: "pip_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
         delegate?.log?(name: "pip_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])

@@ -68,19 +68,6 @@
 		2FDF15642AE1401100F5E5A9 /* LiveFetchUrlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDF15622AE1401100F5E5A9 /* LiveFetchUrlModel.swift */; };
 		2FDF15652AE1401100F5E5A9 /* LiveFetchUrlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDF15622AE1401100F5E5A9 /* LiveFetchUrlModel.swift */; };
 		2FE099222A3C47C500D077F6 /* ShopLiveThrottle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */; };
-		2FFBD34B2AAA86F200B2A8BB /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; };
-		2FFBD3502AAA8F0A00B2A8BB /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34F2AAA8F0A00B2A8BB /* ShopliveSDKCommon.framework */; };
-		2FFBD3542AAA8F1300B2A8BB /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD3532AAA8F1300B2A8BB /* ShopliveSDKCommon.framework */; };
-		2FFBD36F2AAA93B100B2A8BB /* ShopLiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; };
-		2FFBD3702AAA93B100B2A8BB /* ShopLiveSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		2FFBD3742AAA93B800B2A8BB /* ShopLiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; };
-		2FFBD3752AAA93B800B2A8BB /* ShopLiveSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		2FFBD3792AAAA36700B2A8BB /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99727F5742D004C2785 /* ShopLiveViewLoggerController.swift */; };
-		2FFBD37A2AAAA36800B2A8BB /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99727F5742D004C2785 /* ShopLiveViewLoggerController.swift */; };
-		2FFBD37B2AAAA37100B2A8BB /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99727F5742D004C2785 /* ShopLiveViewLoggerController.swift */; };
-		2FFBD37C2AAAA44B00B2A8BB /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99827F5742D004C2785 /* ShopLiveLogger.swift */; };
-		2FFBD37D2AAAA44B00B2A8BB /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99827F5742D004C2785 /* ShopLiveLogger.swift */; };
-		2FFBD37E2AAAA44B00B2A8BB /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99827F5742D004C2785 /* ShopLiveLogger.swift */; };
 		2FFBD3452AA9958B00B2A8BB /* ShopLiveInAppPipConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFBD3442AA9958B00B2A8BB /* ShopLiveInAppPipConfiguration.swift */; };
 		2FFBD34B2AAA86F200B2A8BB /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; };
 		2FFBD3502AAA8F0A00B2A8BB /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34F2AAA8F0A00B2A8BB /* ShopliveSDKCommon.framework */; };
@@ -526,12 +513,6 @@
 		2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveWindow.swift; sourceTree = "<group>"; };
 		2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveViewComponents.swift; sourceTree = "<group>"; };
 		2F8DDD0B2AAAEFEF005FA074 /* ShopLiveBase + CommonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShopLiveBase + CommonDelegate.swift"; sourceTree = "<group>"; };
-		2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchOptionCell.swift; sourceTree = "<group>"; };
-		2FD7691F2A5F86D30092C73F /* NetworkReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
-		2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveThrottle.swift; sourceTree = "<group>"; };
-		2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ShopliveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2FFBD34F2AAA8F0A00B2A8BB /* ShopliveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ShopliveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2FFBD3532AAA8F1300B2A8BB /* ShopliveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ShopliveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F9EB2EE2ABA983000C3CE9A /* LiveUrlFetchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveUrlFetchAPI.swift; sourceTree = "<group>"; };
 		2F9EB2F12ABA98A600C3CE9A /* LiveFetchUrlModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveFetchUrlModel.swift; sourceTree = "<group>"; };
 		2FCC70442AC3F577002CCA4F /* SLQRReaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLQRReaderViewController.swift; sourceTree = "<group>"; };
@@ -813,7 +794,6 @@
 				BF37D99227F5742D004C2785 /* Common */,
 				BF37D98227F5742D004C2785 /* Component */,
 				2FDF15612AE1401100F5E5A9 /* Model */,
-				BF37D98E27F5742D004C2785 /* View */,
 				1BA5155025CBDCD100070181 /* ShopLiveSDK.h */,
 				1BA5156925CBDD3F00070181 /* ShopLive.swift */,
 				1BA5155125CBDCD100070181 /* Info.plist */,
@@ -910,6 +890,16 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		2FE3E7972AE8A5F70041C480 /* ChatViews */ = {
+			isa = PBXGroup;
+			children = (
+				BF37D98F27F5742D004C2785 /* ShopLiveWebView.swift */,
+				BF37D99027F5742D004C2785 /* ShopLiveChatView.swift */,
+				BF37D99127F5742D004C2785 /* ShopLiveChattingWriteView.swift */,
+			);
+			path = ChatViews;
+			sourceTree = "<group>";
+		};
 		2FFBD3472AA9961000B2A8BB /* InterfaceModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -921,6 +911,7 @@
 		BF37D98227F5742D004C2785 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				2FE3E7972AE8A5F70041C480 /* ChatViews */,
 				2F071E472AD5468E004616A6 /* LiveStreamViewModel */,
 				2F071E462AD54682004616A6 /* LiveStreamViewController */,
 				2F071E432AD537B3004616A6 /* RetryManager */,
@@ -941,16 +932,6 @@
 				2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */,
 			);
 			path = Component;
-			sourceTree = "<group>";
-		};
-		BF37D98E27F5742D004C2785 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				BF37D98F27F5742D004C2785 /* ShopLiveWebView.swift */,
-				BF37D99027F5742D004C2785 /* ShopLiveChatView.swift */,
-				BF37D99127F5742D004C2785 /* ShopLiveChattingWriteView.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		BF37D99227F5742D004C2785 /* Common */ = {
@@ -1879,8 +1860,6 @@
 				BF60E2162771CECA0060531C /* SampleExtensions.swift in Sources */,
 				BF60E2172771CECA0060531C /* MainViewController.swift in Sources */,
 				2FFBD3792AAAA36700B2A8BB /* ShopLiveViewLoggerController.swift in Sources */,
-				BF37D9CB27F5742D004C2785 /* ShopLiveChatView.swift in Sources */,
-				BF37D9E027F5742D004C2785 /* ShopLiveWebInterface.swift in Sources */,
 				BF69333127BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */,
 				BF60E21B2771CECA0060531C /* UserInfoViewController.swift in Sources */,
 				BF263096288DDA980071C8BE /* LoginTextField.swift in Sources */,
@@ -2477,7 +2456,6 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
