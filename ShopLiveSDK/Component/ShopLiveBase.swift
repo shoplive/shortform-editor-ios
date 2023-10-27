@@ -1804,11 +1804,15 @@ extension ShopLiveBase: ShopLiveComponent {
                                 
                                 guard let playerFrame = vc.viewModel.getEstimatedPlayerFrameForFullScreenOnInitalize() else { return }
                                 DispatchQueue.main.async {
-                                    vc.updatePlayerFrame(centerCrop : true, playerFrame: playerFrame,immediately: false)
+                                    if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
+                                        vc.updatePlayerFrame(centerCrop : false, playerFrame: playerFrame,immediately: false)
+                                    }
+                                    else {
+                                        vc.updatePlayerFrame(centerCrop : true, playerFrame: playerFrame,immediately: false)
+                                    }
                                 }
                             }
                         }
-                        
                     }
                 }
             }

@@ -438,7 +438,13 @@ internal final class LiveStreamViewController: SLViewController {
                 }
             }
         } else {
-            self.updateVideoFit(centerCrop: true, immediately: immeadiately)
+            if ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
+                self.updateVideoFit(centerCrop: false, immediately: immeadiately)
+            }
+            else {
+                self.updateVideoFit(centerCrop: true, immediately: immeadiately)
+            }
+            
             self.playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
             self.updateImageConstraint(from: .zero)
         }
@@ -600,7 +606,6 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
     func reloadWebView(with url: URL) {
         self.overlayView?.reload(with: url)
     }
-    
 }
 //MARK: - ViewSetUp functions
 extension LiveStreamViewController {
