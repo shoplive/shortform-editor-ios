@@ -77,7 +77,7 @@ internal final class LiveStreamViewModel: NSObject {
     
     func updatePlayerItemWithLiveUrlFetchAPI(accessKey : String, campaignKey : String,isPreview : Bool, completion : @escaping(() -> ())) {
         LiveUrlFetchAPI(campaignKey: campaignKey)
-            .request(useSDKPath: false,userVersionPath: false,useAccessKeyPath: false) { [weak self] result in
+            .request { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success(let model):
