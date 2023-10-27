@@ -231,7 +231,7 @@ import ShopliveSDKCommon
         }
         
         self.shopLiveWindow?.rootViewController = self.liveStreamViewController
-        self.liveStreamViewController?.view.backgroundColor = .white
+        self.liveStreamViewController?.view.backgroundColor = .black
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(liveWindowPanGestureHandler))
         shopLiveWindow?.addGestureRecognizer(panGesture)
@@ -541,7 +541,7 @@ import ShopliveSDKCommon
         }
     }
     
-    func startFromCampaignFullscreen(animationDuration : Double = 0.3) {
+    func startFromCampaignFullscreen(animationDuration : Double = 0.3,onOsPipRestoration : Bool = false) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
@@ -556,7 +556,9 @@ import ShopliveSDKCommon
             
             guard shopLiveWindow.frame != mainWindow.frame else {
                 if ShopLiveController.windowStyle == .normal {
-                    liveVc.updateVideoFrame(immeadiately: true, fitTopArea: false)
+                    if onOsPipRestoration == false {
+                        liveVc.updateVideoFrame(immeadiately: true, fitTopArea: false)
+                    }
                 }
                 self.liveStreamViewController?.updateVideoConstraint()
                 self.delegate?.handleCommand("willShopLiveOn", with: nil)
@@ -588,8 +590,9 @@ import ShopliveSDKCommon
             shopLiveWindow.layer.shadowOpacity = 0.0
             shopLiveWindow.layer.shadowOffset = .zero
             shopLiveWindow.layer.shadowRadius = 0
-            
-            liveVc.updateVideoFrame(immeadiately: false, fitTopArea: self.needExecuteFullScreen)
+            if onOsPipRestoration == false {
+                liveVc.updateVideoFrame(immeadiately: false, fitTopArea: self.needExecuteFullScreen)
+            }
             shopLiveWindow.layer.masksToBounds = true
             liveVc.view.layer.masksToBounds = true
             liveVc.setCloseButtonVisible(false)
@@ -1808,6 +1811,12 @@ extension ShopLiveBase: ShopLiveComponent {
                                     if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
                                         vc.updatePlayerFrame(centerCrop : false, playerFrame: playerFrame,immediately: false)
                                     }
+                                    else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait == false {
+                                        vc.updatePlayerFrame(centerCrop : true, playerFrame: playerFrame,immediately: false)
+                                    }
+                                    else if UIScreen.isLandscape {
+                                        vc.updatePlayerFrame(centerCrop : false, playerFrame: playerFrame,immediately: false)
+                                    }
                                     else {
                                         vc.updatePlayerFrame(centerCrop : true, playerFrame: playerFrame,immediately: false)
                                     }
@@ -1944,6 +1953,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
             ShopLiveController.windowStyle = prevWindowStyle
         } else {
             _style = .fullScreen
+            self.liveStreamViewController?.setVideoLayerGravityOnOsPipRestoration()
             ShopLiveController.windowStyle = .normal
         }
         ShopLiveController.shared.willStartPip = false
@@ -1981,7 +1991,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
                 self.startFromCampaignPIP()
             }
             else {
-                self.startFromCampaignFullscreen(animationDuration: 0.1)
+                self.startFromCampaignFullscreen(animationDuration: 0.1,onOsPipRestoration: true)
             }
             self.isWindowChanging = false
         }
@@ -2185,4 +2195,3 @@ extension ShopLiveBase : ShopLiveControllerDelegate {
         self._style = style
     }
 }
-

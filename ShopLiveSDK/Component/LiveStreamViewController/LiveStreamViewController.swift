@@ -424,10 +424,31 @@ internal final class LiveStreamViewController: SLViewController {
             } completion: { _ in
 
             }
-
         }
     }
     
+    /**
+        OsPip에서 올라올때 사용
+     */
+    func setVideoLayerGravityOnOsPipRestoration(){
+        guard let playerView = playerView else { return }
+        if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
+            playerView.playerLayer.videoGravity = .resizeAspect
+        }
+        else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait == false {
+            playerView.playerLayer.videoGravity = .resizeAspectFill
+        }
+        else if UIScreen.isLandscape {
+            playerView.playerLayer.videoGravity = .resizeAspect
+        }
+        else {
+            playerView.playerLayer.videoGravity = .resizeAspectFill
+        }
+    }
+    
+    /**
+     player video gravity 설정과 관련해서는 ShopLiveBase.play() 쪽도 같이
+     */
     func updateVideoFrame(immeadiately: Bool, fitTopArea: Bool = false) {
         guard !ShopLiveController.shared.isPreview else { return }
         
@@ -445,12 +466,20 @@ internal final class LiveStreamViewController: SLViewController {
                 }
             }
         } else {
-            if ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-                self.updateVideoFit(centerCrop: false, immediately: immeadiately)
+            //Ipad는 가로세로 상관 없이 keepOn꺼져 있으면 꽉채우는 방식으로 진행
+            if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
+                self.updateVideoFit(centerCrop: false,immediately: immeadiately)
+            }
+            else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait == false {
+                self.updateVideoFit(centerCrop: true,immediately: immeadiately)
+            }
+            else if UIScreen.isLandscape {
+                self.updateVideoFit(centerCrop: false,immediately: immeadiately)
             }
             else {
-                self.updateVideoFit(centerCrop: true, immediately: immeadiately)
+                self.updateVideoFit(centerCrop: true,immediately: immeadiately)
             }
+            
             if let player = playerView?.playerLayer {
                 player.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
             }

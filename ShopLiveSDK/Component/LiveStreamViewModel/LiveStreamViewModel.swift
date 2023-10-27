@@ -245,7 +245,13 @@ internal final class LiveStreamViewModel: NSObject {
             return nil
         }
         
-        let originX : CGFloat = UIScreen.leftSafeArea
+        var originX : CGFloat = 0
+        if UIDevice.isIpad {
+            originX = UIScreen.leftSafeArea
+        }
+        else {
+            originX = UIScreen.isLandscape ? UIScreen.topSafeArea : UIScreen.leftSafeArea
+        }
         let originY : CGFloat = 0
         
         //playerFrame의 오른쪽 인셋
@@ -362,6 +368,7 @@ extension LiveStreamViewModel {
     }
     
     private func checkLoadedTimeRangeStalled(){
+        if ShopLiveController.isReplayMode { return }
         if let loadedTimeRange = ShopLiveController.playerItem?.loadedTimeRanges.first as? CMTimeRange {
             if self.loadedTimeRangeStalledQueue.isEmpty {
                 self.loadedTimeRangeStalledQueue.append(loadedTimeRange.start.seconds)
@@ -393,6 +400,7 @@ extension LiveStreamViewModel {
     }
     
     private func startLiveStreamKeepUpTimer() {
+        if ShopLiveController.isReplayMode { return  }
         self.removeLiveStreamKeepUpTimer()
         
         let time = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
