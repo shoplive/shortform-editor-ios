@@ -303,7 +303,6 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
                     ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoDurationChanged, CMTimeGetSeconds(duration))
                 }
                 ShopLiveController.retryPlay = false
-                retryManager?.setIsBuffering(isBuffering: false)
                 self.play()
             }
         case .failed:
