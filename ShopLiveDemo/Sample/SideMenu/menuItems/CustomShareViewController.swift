@@ -40,6 +40,7 @@ class CustomShareViewController: UIViewController {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setImage(UIImage(named: "sns_icon_1"), for: .normal)
+        view.imageView?.contentMode = .scaleAspectFit
         return view
     }()
     
@@ -47,6 +48,7 @@ class CustomShareViewController: UIViewController {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setImage(UIImage(named: "sns_icon_2"), for: .normal)
+        view.imageView?.contentMode = .scaleAspectFit
         return view
     }()
     
@@ -54,6 +56,7 @@ class CustomShareViewController: UIViewController {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setImage(UIImage(named: "sns_icon_3"), for: .normal)
+        view.imageView?.contentMode = .scaleAspectFit
         return view
     }()
     
@@ -61,6 +64,7 @@ class CustomShareViewController: UIViewController {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setImage(UIImage(named: "sns_icon_4"), for: .normal)
+        view.imageView?.contentMode = .scaleAspectFit
         return view
     }()
     
