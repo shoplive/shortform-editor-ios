@@ -554,10 +554,27 @@ extension LiveStreamViewModel {
             }
         }
         
+        
         if let adid = ShopLiveCommon.getAdId(), !adid.isEmpty {
             queryItems.append(URLQueryItem(name: "adId", value: adid))
         }
         
+        if let adId = ShopLiveCommon.getAdIdentifier(), !adId.isEmpty {
+            queryItems.append(URLQueryItem(name: "adIdentifier", value: adId))
+        }
+        
+        if let utm_source = ShopLiveCommon.getUtmSource() {
+            queryItems.append(URLQueryItem(name: "utm_source", value: utm_source))
+        }
+        if let utm_content = ShopLiveCommon.getUtmCampaign() {
+            queryItems.append(URLQueryItem(name: "utm_content", value: utm_content))
+        }
+        if let utm_campaign = ShopLiveCommon.getUtmContent() {
+            queryItems.append(URLQueryItem(name: "utm_campaign", value: utm_campaign))
+        }
+        if let utm_medium = ShopLiveCommon.getUtmMedium() {
+            queryItems.append(URLQueryItem(name: "utm_medium", value: utm_medium))
+        }
         
         queryItems.append(URLQueryItem(name: "osType", value: "i"))
         queryItems.append(URLQueryItem(name: "osVersion", value: ShopLiveDefines.osVersion))

@@ -65,6 +65,14 @@ class MainViewController: SideMenuBaseViewController {
 //        }
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let delgate = UIApplication.shared.delegate as! AppDelegate
+        delgate.requestIDFAPermission { result in
+            print("adidentifier result \(ShopLiveCommon.getAdIdentifier())")
+        }
+//        print("adidentifier result \(ShopLiveCommon.getAdIdentifier())")
+    }
     func setupSampleOptions() {
         
         SampleOptions.campaignNaviMoreOptions = ["campaign.menu.write".localized(), "QR code", "Dev-Admin", "Admin", "campaign.menu.deleteall".localized()]
@@ -123,10 +131,10 @@ class MainViewController: SideMenuBaseViewController {
     func setupShopliveSettings() {
         let config = DemoConfiguration.shared
         
-        if let adid = config.adId, !adid.isEmpty {
-            ShopLiveCommon.setAdId(adId: adid)
+        if let utmSource = config.utmSource, !utmSource.isEmpty {
+            ShopLiveCommon.setUtmSource(utmSource: utmSource)
         } else {
-            ShopLiveCommon.setAdId(adId: "")
+            ShopLiveCommon.setUtmSource(utmSource: "")
         }
         
         ShopLive.setAppVersion("3.39.0")

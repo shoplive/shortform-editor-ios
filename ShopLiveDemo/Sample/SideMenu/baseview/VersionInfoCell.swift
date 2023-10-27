@@ -34,11 +34,11 @@ final class VersionInfoCell: SampleBaseCell {
         }
         
         var customAdIdButtonTitle: String {
-            guard let referrer = DemoConfiguration.shared.adId, !referrer.isEmpty else {
-                return "adId 미입력"
+            guard let referrer = DemoConfiguration.shared.utmSource, !referrer.isEmpty else {
+                return "utmSource 미입력"
             }
             
-            return "adId: \(referrer)"
+            return "utmSource: \(referrer)"
         }
     }
     
@@ -209,7 +209,7 @@ final class VersionInfoCell: SampleBaseCell {
     
     @objc
     private func didTapAdIdSetup() {
-        let vc = CustomAdIdAlertController(completion: { [weak self] in
+        let vc = CustomUtmSourceAlertController(completion: { [weak self] in
                 self?.updateAdId()
                 self?.baseDelegate?.updateDatas()
         })

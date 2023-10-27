@@ -8,7 +8,8 @@
 import UIKit
 import ShopLiveSDK
 import ShopliveSDKCommon
-
+import AdSupport
+import AppTrackingTransparency
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -31,8 +32,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                   "playerPhase": "DEV",
                                                   "isGuestMode": true])
         
+
         return true
     }
+    
+    func requestIDFAPermission(completion: @escaping (String)->()) {
+        
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization { (status) in
+                switch status {
+                    
+                case .authorized:
+                    print("Authorized")
+                    completion(ASIdentifierManager.shared().advertisingIdentifier.uuidString)
+                case .denied, .notDetermined, .restricted:
+                    print("Not Authorized")
+                    completion(ASIdentifierManager.shared().advertisingIdentifier.uuidString)
+                @unknown default:
+                    print("UNKNOWN")
+                    completion(ASIdentifierManager.shared().advertisingIdentifier.uuidString)
+                }
+            }
+        } else {
+            print("Under 14.0")
+            completion(ASIdentifierManager.shared().advertisingIdentifier.uuidString)
+        }
+    }
+    
 
     // MARK: UISceneSession Lifecycle
     @available(iOS 13.0, *)

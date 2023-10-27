@@ -300,6 +300,7 @@ public typealias ShopLiveViewController = SLViewController
     @available(iOS, deprecated, message: "Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     @objc static func useCloseButton(_ use: Bool)
     
+    @available(iOS, deprecated, message: "Enable AppTrackingTransparency instead")
     @objc static func setAdId(adId: String?)
     @objc static func addParameter(key: String, value: String)
     @objc static func removeParameter(key: String)

@@ -8,21 +8,21 @@
 import Foundation
 import UIKit
 
-class CustomAdIdAlertController: CustomInputAlertController {
+class CustomUtmSourceAlertController: CustomInputAlertController {
     
-    private var placeHolder: String = "adid.alert.placeholder".localized()
+    private var placeHolder: String = "utmSource.alert.placeholder".localized()
     
     override func setupAlert() {
-        textInputField.text = DemoConfiguration.shared.adId ?? ""
+        textInputField.text = DemoConfiguration.shared.utmSource ?? ""
         textInputField.placeholder = self.placeHolder
         textInputField.setPlaceholderColor(.darkGray)
     }
     
     override func delete() {
-        DemoConfiguration.shared.adId = ""
+        DemoConfiguration.shared.utmSource = ""
     }
     
     override func save() {
-        DemoConfiguration.shared.adId = textInputField.text ?? ""
+        DemoConfiguration.shared.utmSource = textInputField.text ?? ""
     }
 }

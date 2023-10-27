@@ -588,13 +588,13 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var adId: String? {
+    var utmSource: String? {
         set {
-            UserDefaults.standard.set(newValue, forKey: "adId")
+            UserDefaults.standard.set(newValue, forKey: "utmSource")
             UserDefaults.standard.synchronize()
         }
         get {
-            return UserDefaults.standard.string(forKey: "adId")
+            return UserDefaults.standard.string(forKey: "utmSource")
         }
     }
     
