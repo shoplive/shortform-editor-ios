@@ -318,6 +318,7 @@ class MainViewController: SideMenuBaseViewController {
         }
         
         setupShopliveSettings()
+        ShopLiveLogger.debugLog("[HASSAN LOG] Shoplive.viewController \(ShopLive.viewController)")
         ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
         ShopLive.preview(with: currentKey.campaignKey, referrer: DemoConfiguration.shared.customReferrer) {
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
@@ -336,7 +337,7 @@ class MainViewController: SideMenuBaseViewController {
         }
 
         setupShopliveSettings()
-        
+        ShopLiveLogger.debugLog("[HASSAN LOG] Shoplive.viewController \(ShopLive.viewController)")
 //        ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
         ShopLive.configure(with: currentKey.accessKey)
         ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)

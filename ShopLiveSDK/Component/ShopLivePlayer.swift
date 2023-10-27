@@ -19,4 +19,10 @@ final class ShopLivePlayer: AVPlayer {
         super.init()
         self.superview = superview
     }
+    
+    
+    
+    deinit {
+        ShopLiveLogger.debugLog("[HASSAN LOG] ShopLivePlayer deallocated")
+    }
 }

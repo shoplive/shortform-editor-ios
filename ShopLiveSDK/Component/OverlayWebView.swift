@@ -48,6 +48,7 @@ internal class OverlayWebView: SLView {
     }
     
     deinit {
+        ShopLiveLogger.debugLog("[HASSAN LOG] overlayview deallocated")
         teardownOverlayWebView()
     }
     

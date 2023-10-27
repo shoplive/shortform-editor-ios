@@ -97,7 +97,8 @@ extension LiveStreamViewController {
             return
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            guard let self = self else { return }
             if ShopLiveController.timeControlStatus == .paused {
                 if !ShopLiveController.isReplayMode {
                     ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)

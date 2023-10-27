@@ -13,6 +13,7 @@ import WebKit
 extension LiveStreamViewController: OverlayWebViewDelegate {
     
     func didUpdatePlaybackSpeed(speed: Float) {
+        guard let playerView = playerView else { return }
         playerView.player.rate = speed
     }
     
@@ -25,12 +26,13 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
     
     func updatePlayerFrame(centerCrop: Bool = false, playerFrame: CGRect = .zero, immediately: Bool = false) {
+        guard let playerView = playerView else { return }
         guard playerFrame != .zero else {
             updateVideoFit(centerCrop: centerCrop, immediately: immediately)
             return
         }
         
-        self.playerView.playerLayer.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
+        playerView.playerLayer.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
         
         playerTopConstraint.constant = playerFrame.origin.y
         playerLeadingConstraint.constant = playerFrame.origin.x
@@ -39,14 +41,15 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         
         self.updateImageConstraint(from: playerFrame)
         if immediately {
-            self.playerView.setNeedsLayout()
-            self.playerView.layoutIfNeeded()
+            playerView.setNeedsLayout()
+            playerView.layoutIfNeeded()
         }
     }
     
     func updateVideoConstraint() {
         self.chatInputView.updateChattingWriteViewConstraint()
-        self.playerView.layoutIfNeeded()
+        guard let playerView = playerView else { return }
+        playerView.layoutIfNeeded()
     }
     
     func handleReceivedCommand(_ command: String, with payload: Any?) {

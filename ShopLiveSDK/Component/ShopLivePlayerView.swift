@@ -32,4 +32,8 @@ final class ShopLivePlayerView: SLView {
         self.backgroundColor = .clear
         self.playerLayer.backgroundColor = UIColor.clear.cgColor
     }
+    
+    deinit {
+        ShopLiveLogger.debugLog("[HASSAN LOG] ShopLivePlayerView deallocated")
+    }
 }

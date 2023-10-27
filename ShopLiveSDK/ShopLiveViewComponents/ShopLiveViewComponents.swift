@@ -278,6 +278,11 @@ public class  SLActivityViewController: UIActivityViewController {
 public class  SLView: UIView {
     let identity : String = "ShopLiveViewComponents"
     // Custom implementation for SLView
+    
+    
+    deinit {
+        ShopLiveLogger.debugLog("[HASSAN LOG] SLView deallocated")
+    }
 }
 
 // Custom subpublic class  of UIButton
@@ -417,6 +422,10 @@ public class SLWKWebView: WKWebView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        ShopLiveLogger.debugLog("[HASSAN LOG] slwkwebview deallocated")
     }
 }
 

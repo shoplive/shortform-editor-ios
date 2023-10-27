@@ -131,6 +131,10 @@ final class ShopLiveChatView: SLScrollView, UITextViewDelegate {
         self.setupShopLiveChatView()
     }
     
+    deinit {
+        ShopLiveLogger.debugLog("[HASSAN LOG] ShopLiveChatView deallocated")
+    }
+    
     private func initProperties() {
         self.contentInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         self.backgroundColor = .white
@@ -293,6 +297,7 @@ final class ShopLiveChattingView: SLTextView {
     }
     
     deinit {
+        ShopLiveLogger.debugLog("[HASSAN LOG] ShopLiveChattingView deallocated")
         teardownShopLiveChattingView()
     }
     

@@ -37,7 +37,7 @@ internal final class LiveStreamViewController: SLViewController {
     var overlayView: OverlayWebView?
     var backgroundPosterImageWebView: SLWKWebView?
     var snapShotImageView: SLImageView?
-    var playerView: ShopLivePlayerView = .init()
+    var playerView: ShopLivePlayerView?
     
     var playerTopConstraint: NSLayoutConstraint!
     var playerLeadingConstraint: NSLayoutConstraint!
@@ -144,18 +144,18 @@ internal final class LiveStreamViewController: SLViewController {
         }
     }
 
-    var playerLayer: AVPlayerLayer {
-        return playerView.playerLayer
+    var playerLayer: AVPlayerLayer? {
+        return playerView?.playerLayer
     }
     
     override func removeFromParent() {
         super.removeFromParent()
+        self.delegate = nil
         overlayView?.delegate = nil
-
         overlayView?.removeFromSuperview()
         backgroundPosterImageWebView?.removeFromSuperview()
-        playerView.removeFromSuperview()
-
+        playerView?.removeFromSuperview()
+        playerView = nil
         overlayView = nil
         backgroundPosterImageWebView = nil
         
@@ -178,7 +178,7 @@ internal final class LiveStreamViewController: SLViewController {
     }
     
     deinit {
-        
+        ShopLiveLogger.debugLog("[HASSAN LOG] LiveStreamViewController deinited")
     }
     
     func setupLiveStreamViewController() {
@@ -192,6 +192,7 @@ internal final class LiveStreamViewController: SLViewController {
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
         removeObserver()
         teardownAudioConfig()
+        viewModel.teardownLiveStreamViewModel()
     }
 
     func updateChattingWriteView() {
@@ -203,7 +204,9 @@ internal final class LiveStreamViewController: SLViewController {
         setupPlayerView()
         setUpBackgroundPosterImageWebView()
         setupSnapshotView()
-        self.view.bringSubviewToFront(playerView)
+        if let playerView = playerView {
+            self.view.bringSubviewToFront(playerView)
+        }
         setupOverayWebview()
         setupChatInputView()
         setupIndicator()
@@ -296,7 +299,7 @@ internal final class LiveStreamViewController: SLViewController {
                 posterConstraints = .zero
                 snapShotConstraints = .zero
             } else {
-                let videoZoomed: Bool = self.playerView.playerLayer.videoGravity == .resizeAspectFill
+                let videoZoomed: Bool = self.playerView?.playerLayer.videoGravity ?? .resizeAspect == .resizeAspectFill
                 if imageFrameRatio < ratio  {
                     let letterSpacing = (imageFrame.height - (imageFrame.width * (ShopLiveController.shared.videoRatio.height / ShopLiveController.shared.videoRatio.width))) / 2
                     posterConstraints = .init(top: letterSpacing, left: 0, bottom: -letterSpacing, right: 0)
@@ -393,7 +396,9 @@ internal final class LiveStreamViewController: SLViewController {
     }
     
     func updateVideoFit(centerCrop: Bool = false, immediately: Bool = false, imageUpdate: Bool = true) {
-        self.playerView.playerLayer.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
+        if let playerLayer = playerView?.playerLayer {
+            playerLayer.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
+        }
         playerTopConstraint.constant = 0
         playerLeadingConstraint.constant = 0
         playerRightConstraint.constant = 0
@@ -403,8 +408,10 @@ internal final class LiveStreamViewController: SLViewController {
         }
         
         if immediately {
-            self.playerView.setNeedsLayout()
-            self.playerView.layoutIfNeeded()
+            if let playerView = playerView {
+                playerView.setNeedsLayout()
+                playerView.layoutIfNeeded()
+            }
         }
     }
     
@@ -444,8 +451,9 @@ internal final class LiveStreamViewController: SLViewController {
             else {
                 self.updateVideoFit(centerCrop: true, immediately: immeadiately)
             }
-            
-            self.playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
+            if let player = playerView?.playerLayer {
+                player.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
+            }
             self.updateImageConstraint(from: .zero)
         }
     }
@@ -505,7 +513,9 @@ internal final class LiveStreamViewController: SLViewController {
         }
 
         if ShopLiveController.shared.videoOrientation == .portrait {
-            playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
+            if let playerLayer = playerView?.playerLayer {
+                playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
+            }
             ShopLiveController.shared.webInstance?.alpha = 0
         }
         
@@ -610,6 +620,7 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
 //MARK: - ViewSetUp functions
 extension LiveStreamViewController {
     private func setUpBackgroundPosterImageWebView() {
+        guard let playerView = playerView else { return }
         self.backgroundPosterImageWebView = SLWKWebView()
         guard let backgroundPosterImageWebView = self.backgroundPosterImageWebView else { return }
         self.view.addSubview(backgroundPosterImageWebView)
@@ -649,6 +660,7 @@ extension LiveStreamViewController {
     }
     
     private func setupSnapshotView() {
+        guard let playerView = playerView else { return }
         self.snapShotImageView = SLImageView()
         guard let snapShotImageView = self.snapShotImageView else { return }
         self.view.addSubview(snapShotImageView)
@@ -682,6 +694,10 @@ extension LiveStreamViewController {
     }
     
     private func setupPlayerView() {
+        if playerView == nil {
+            playerView = .init()
+        }
+        guard let playerView = playerView else { return }
         view.addSubview(playerView)
         playerView.translatesAutoresizingMaskIntoConstraints = false
         playerView.playerLayer.player = playerView.player
@@ -759,31 +775,32 @@ extension LiveStreamViewController {
     }
 
     private func setupIndicator() {
+        guard let playerView = playerView else { return }
         if ShopLiveConfiguration.UI.isCustomIndicator {
-            self.playerView.addSubviews(customIndicator)
+            playerView.addSubviews(customIndicator)
             let customIndicatorWidth = NSLayoutConstraint.init(item: customIndicator, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
             let customIndicatorHeight = NSLayoutConstraint.init(item: customIndicator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
-            let customIndicatorCenterXConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerX, relatedBy: .equal, toItem: self.playerView, attribute: .centerX, multiplier: 1.0, constant: 0)
-            let customIndicatorCenterYConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerY, relatedBy: .equal, toItem: self.playerView, attribute: .centerY, multiplier: 1.0, constant: 0)
+            let customIndicatorCenterXConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerX, relatedBy: .equal, toItem: playerView, attribute: .centerX, multiplier: 1.0, constant: 0)
+            let customIndicatorCenterYConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerY, relatedBy: .equal, toItem: playerView, attribute: .centerY, multiplier: 1.0, constant: 0)
 
             customIndicator.addConstraints([customIndicatorWidth, customIndicatorHeight])
-            self.playerView.addConstraints([customIndicatorCenterXConstraint, customIndicatorCenterYConstraint])
+            playerView.addConstraints([customIndicatorCenterXConstraint, customIndicatorCenterYConstraint])
 
             customIndicator.configure(images: ShopLiveConfiguration.UI.customIndicatorImages)
         } else {
-            self.playerView.addSubviews(indicatorView)
+            playerView.addSubviews(indicatorView)
             let indicatorWidth = NSLayoutConstraint.init(item: indicatorView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
             let indicatorHeight = NSLayoutConstraint.init(item: indicatorView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
-            let centerXConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerX, relatedBy: .equal, toItem: self.playerView, attribute: .centerX, multiplier: 1.0, constant: 0)
-            let centerYConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerY, relatedBy: .equal, toItem: self.playerView, attribute: .centerY, multiplier: 1.0, constant: 0)
+            let centerXConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerX, relatedBy: .equal, toItem: playerView, attribute: .centerX, multiplier: 1.0, constant: 0)
+            let centerYConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerY, relatedBy: .equal, toItem: playerView, attribute: .centerY, multiplier: 1.0, constant: 0)
 
             indicatorView.addConstraints([indicatorWidth, indicatorHeight])
-            self.playerView.addConstraints([centerXConstraint, centerYConstraint])
+            playerView.addConstraints([centerXConstraint, centerYConstraint])
             indicatorView.color = ShopLiveConfiguration.UI.color
 
         }
         
-        self.playerView.bringSubviewToFront(indicatorView)
+        playerView.bringSubviewToFront(indicatorView)
     }
     
 }

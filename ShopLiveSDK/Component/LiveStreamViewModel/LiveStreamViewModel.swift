@@ -25,7 +25,7 @@ internal final class LiveStreamViewModel: NSObject {
     
     var campaignKey: String?
     
-    var liveStreamViewController : LiveStreamViewController?
+    weak var liveStreamViewController : LiveStreamViewController?
     
     private var urlAsset: AVURLAsset?
     private var playerItem: AVPlayerItem?
@@ -47,6 +47,7 @@ internal final class LiveStreamViewModel: NSObject {
     private var isUpdatePictureInPictureNeedInSetConfInitialized : Bool = false
     
     deinit {
+        ShopLiveLogger.debugLog("[HASSAN LOG] LiveStreamViewModel deinited")
         teardownLiveStreamViewModel()
     }
     
@@ -62,12 +63,18 @@ internal final class LiveStreamViewModel: NSObject {
         retryManager = LiveStreamRetryManager()
         retryManager?.delegate = self
         isAlreadyPlayedOnce = false
+        self.liveStreamViewController = nil
     }
     
-    private func teardownLiveStreamViewModel() {
+    func teardownLiveStreamViewModel() {
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
+        inAppPipConfiguration = nil
+        playerErrorObserver = nil
+        retryManager = nil
         removePlaytimeObserver()
+        removeLiveStreamKeepUpTimer()
         resetPlayer()
+        self.delegate = nil
         
         overayUrl = nil
         campaignKey = nil
@@ -157,6 +164,7 @@ internal final class LiveStreamViewModel: NSObject {
         if ShopLiveController.player?.currentItem == nil {
             return
         }
+        self.playerItem = nil
         ShopLiveController.videoUrl = nil
         ShopLiveController.player?.currentItem?.asset.cancelLoading()
         ShopLiveController.player?.cancelPendingPrerolls()

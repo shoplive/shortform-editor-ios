@@ -318,6 +318,7 @@ import ShopliveSDKCommon
         self.videoPinchGestureRecognizer = nil
         self.osPictureInPictureController = nil
         
+        
         self.liveStreamViewController?.removeFromParent()
         self.liveStreamViewController?.viewModel.stop()
         self.liveStreamViewController?.delegate = nil
@@ -516,7 +517,7 @@ import ShopliveSDKCommon
                 shopLiveWindow.layoutIfNeeded()
             } completion: { (isCompleted) in
                 ShopLiveController.shared.pipAnimating = false
-                shopLiveWindow.backgroundColor = .black
+                shopLiveWindow.backgroundColor = .clear
                 liveVc.view.backgroundColor = .black
                 shopLiveWindow.layer.masksToBounds = false
                 liveVc.setCloseButtonVisible(true)
@@ -664,7 +665,7 @@ import ShopliveSDKCommon
                 shopLiveWindow.rootViewController?.view.backgroundColor = .black
                 ShopLiveController.webInstance?.isHidden = false
                 print("[HASSAN LOG] webInstance.isHidden \(ShopLiveController.webInstance?.isHidden) stopCustomPictureInPicture animation end")
-                shopLiveWindow.backgroundColor = .black
+                shopLiveWindow.backgroundColor = .clear
                 ShopLiveController.shared.pipAnimating = false
                 self.liveStreamViewController?.showBackgroundPoster()
                 if self.windowChangeCommand != .none {
@@ -686,7 +687,7 @@ import ShopliveSDKCommon
                 shopLiveWindow.rootViewController?.view.backgroundColor = .black
                 ShopLiveController.webInstance?.isHidden = false
                 print("[HASSAN LOG] webInstance.isHidden \(ShopLiveController.webInstance?.isHidden) stopCustomPictureInPicture animation end")
-                shopLiveWindow.backgroundColor = .black
+                shopLiveWindow.backgroundColor = .clear
                 ShopLiveController.shared.pipAnimating = false
                 self.liveStreamViewController?.showBackgroundPoster()
                 if self.windowChangeCommand != .none {

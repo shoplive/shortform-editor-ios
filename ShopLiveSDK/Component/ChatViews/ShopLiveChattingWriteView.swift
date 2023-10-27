@@ -114,7 +114,10 @@ final class ShopLiveChattingWriteView: SLView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupChattingWriteView()
-        
+    }
+    
+    deinit {
+        ShopLiveLogger.debugLog("[HASSAN LOG] ShopLiveChattingWriteView deallocated")
     }
     private var sendButtonTrailing: NSLayoutConstraint!
     private var chatViewLeading: NSLayoutConstraint!
@@ -208,7 +211,8 @@ final class ShopLiveChattingWriteView: SLView {
     }
     
     func focus() {
-        throttle {
+        throttle { [ weak self] in
+            guard let self = self else { return }
             guard self.isFocus == false else { return }
             self.isFocus = true
             self.chatInputViewTopBorder.isHidden = !(!UIScreen.isLandscape && ShopLiveController.shared.videoOrientation == .landscape)

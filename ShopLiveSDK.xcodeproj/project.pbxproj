@@ -41,6 +41,7 @@
 		2F1CBD6C2A52A3CD0060B29D /* ShopLiveViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */; };
 		2F1CBD6D2A52A8B40060B29D /* ShopLiveViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */; };
 		2F1CBD6E2A52A8B40060B29D /* ShopLiveViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */; };
+		2F4923DF2AE7A2F500FCA402 /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; };
 		2F57B78D2A3B2ACA00946B6E /* ShopLiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */; };
 		2F57B78E2A3B2ACB00946B6E /* ShopLiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */; };
 		2F7A6DFD2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
@@ -69,7 +70,6 @@
 		2FDF15652AE1401100F5E5A9 /* LiveFetchUrlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDF15622AE1401100F5E5A9 /* LiveFetchUrlModel.swift */; };
 		2FE099222A3C47C500D077F6 /* ShopLiveThrottle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */; };
 		2FFBD3452AA9958B00B2A8BB /* ShopLiveInAppPipConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFBD3442AA9958B00B2A8BB /* ShopLiveInAppPipConfiguration.swift */; };
-		2FFBD34B2AAA86F200B2A8BB /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; };
 		2FFBD3502AAA8F0A00B2A8BB /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34F2AAA8F0A00B2A8BB /* ShopliveSDKCommon.framework */; };
 		2FFBD3542AAA8F1300B2A8BB /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD3532AAA8F1300B2A8BB /* ShopliveSDKCommon.framework */; };
 		2FFBD36F2AAA93B100B2A8BB /* ShopLiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; };
@@ -652,7 +652,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2FFBD34B2AAA86F200B2A8BB /* ShopliveSDKCommon.framework in Frameworks */,
+				2F4923DF2AE7A2F500FCA402 /* ShopliveSDKCommon.framework in Frameworks */,
 				BFF8477E2897E0230075A0AA /* ReplayKit.framework in Frameworks */,
 				BF1C0804272797C400F6B2E1 /* CoreTelephony.framework in Frameworks */,
 				BFD645E3270C37FD00B0B74F /* VideoToolbox.framework in Frameworks */,
