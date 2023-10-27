@@ -52,7 +52,7 @@ internal final class ShopLiveConfiguration: NSObject {
     class AppPreference {
         static var endpoint: String? = nil
         static var landingUrl: String {
-            endpoint ?? ShopLiveDefines.url
+            return (endpoint ?? "") == "" ? ShopLiveDefines.url : endpoint!
         }
         static var appVersion: String? = nil
     }
