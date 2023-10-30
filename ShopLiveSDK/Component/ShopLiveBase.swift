@@ -501,10 +501,9 @@ import ShopliveSDKCommon
             
             ShopLiveController.webInstance?.isHidden = true
             print("[HASSAN LOG] webInstance.isHidden \(ShopLiveController.webInstance?.isHidden) startcustompip")
-            
-            liveVc.takeSnapShot()
             liveVc.updateVideoFit(centerCrop: true, immediately: false,targetWindowStyle: .inAppPip)
             liveVc.updateVideoConstraint()
+            liveVc.takeSnapShot()
             self.shopLiveWindow?.layer.removeAllAnimations()
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
                 shopLiveWindow.frame = pipPosition
@@ -515,6 +514,7 @@ import ShopliveSDKCommon
                 shopLiveWindow.setNeedsLayout()
                 shopLiveWindow.layoutIfNeeded()
             } completion: { (isCompleted) in
+                
                 ShopLiveController.shared.pipAnimating = false
                 shopLiveWindow.backgroundColor = .clear
                 liveVc.view.backgroundColor = .black

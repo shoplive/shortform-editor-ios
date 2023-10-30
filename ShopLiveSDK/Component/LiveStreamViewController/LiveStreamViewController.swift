@@ -234,8 +234,6 @@ internal final class LiveStreamViewController: SLViewController {
         self.view.bringSubviewToFront(inAppPipView)
     }
     
-    
-    
     func updateImageConstraint(from: CGRect,targetWindowStyle : ShopLiveWindowStyle) {
         guard let bgImageView = self.backgroundPosterImageWebView else { return }
         let ratio = ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height
@@ -249,6 +247,8 @@ internal final class LiveStreamViewController: SLViewController {
         guard targetWindowStyle != .inAppPip else {
             posterConstraints = .zero
             snapShotConstraints = .zero
+            ShopLiveLogger.debugLog("[HASSAN LOG] self.view.size \(self.view.frame) snapShotFrame \(self.snapShotImageView?.frame)")
+            
             return
         }
         
