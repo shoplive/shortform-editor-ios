@@ -10,7 +10,7 @@ import UIKit
 import CoreMedia
 
 @objc internal final class ShopLiveDefines: NSObject {
-    static let sdkVersion: String = "1.5.0"
+    static let sdkVersion: String = "1.5.1"
     
     /*
     static var phase: ShopLive.Phase = .REAL {
