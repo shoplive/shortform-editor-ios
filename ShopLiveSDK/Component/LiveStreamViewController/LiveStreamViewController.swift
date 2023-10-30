@@ -180,7 +180,7 @@ internal final class LiveStreamViewController: SLViewController {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("[HASSAN LOG] LiveStreamViewController deinited")
+        ShopLiveLogger.debugLog("LiveStreamViewController deinited")
     }
     
     func setupLiveStreamViewController() {
@@ -247,8 +247,6 @@ internal final class LiveStreamViewController: SLViewController {
         guard targetWindowStyle != .inAppPip else {
             posterConstraints = .zero
             snapShotConstraints = .zero
-            ShopLiveLogger.debugLog("[HASSAN LOG] self.view.size \(self.view.frame) snapShotFrame \(self.snapShotImageView?.frame)")
-            
             return
         }
         
@@ -485,10 +483,6 @@ internal final class LiveStreamViewController: SLViewController {
             let isCenterCrop = self.getVideoLayerGravityForCurrentVideoType() == .resizeAspectFill ? true : false
             self.updateVideoFit(centerCrop: isCenterCrop,immediately: immeadiately,targetWindowStyle: targetWindowStyle)
             
-            
-            if let player = playerView?.playerLayer {
-                player.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
-            }
             self.updateImageConstraint(from: .zero,targetWindowStyle: targetWindowStyle)
         }
     }
@@ -576,7 +570,6 @@ internal final class LiveStreamViewController: SLViewController {
 
 extension LiveStreamViewController {
     func hideSnapShotView(){
-        print("[HASSAN LOG] hideSnapShotView")
         self.snapShotImageView?.isHidden = true
     }
     

@@ -48,7 +48,7 @@ internal final class LiveStreamViewModel: NSObject {
     private var isUpdatePictureInPictureNeedInSetConfInitialized : Bool = false
     
     deinit {
-        ShopLiveLogger.debugLog("[HASSAN LOG] LiveStreamViewModel deinited")
+        ShopLiveLogger.debugLog("iveStreamViewModel deinited")
         teardownLiveStreamViewModel()
     }
     
@@ -387,7 +387,6 @@ extension LiveStreamViewModel {
         }
         if ShopLiveController.timeControlStatus == .playing && self.loadedTimeRangeStalledQueue.count >= 16 {
             self.loadedTimeRangeStalledQueue.removeAll()
-            print("[HASSAN LOG] checkLoadedTimeRangeStalled hideSnapShot")
             self.delegate?.requestTakeSnapShotView()
             self.retryManager?.setIsBuffering(isBuffering: true)
             self.retryManager?.reserveRetry(waitSecond: 0)
@@ -619,7 +618,6 @@ extension LiveStreamViewModel {
 
             return URL(string: urlString)
         }
-        print("[HASSAN LOG] url \(url.absoluteString)")
 
         return url
     }
@@ -648,7 +646,6 @@ extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {
                 self.retryManager?.reserveRetry(waitSecond: 0)
                 if ShopLiveController.player?.timeControlStatus == .playing {
                     ShopLiveController.player?.pause()
-                    print("[HASSAN LOG] onLiveStreamDisconnect hideSnapShot")
                     self.delegate?.requestTakeSnapShotView()
                     if ShopLiveController.shared.campaignStatus != .close {
                         self.delegate?.requestHideOrShowLoading(hide: false)
@@ -680,7 +677,6 @@ extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {
         if retryManager.getIsBuffering() == true {
             return
         }
-        print("[HASSAN LOG] onMatchingMediaFileFound hideSnapShot")
         self.delegate?.requestTakeSnapShotView()
         if ShopLiveController.shared.campaignStatus != .close {
             if ShopLiveController.windowStyle != .osPip {

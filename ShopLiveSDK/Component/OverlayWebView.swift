@@ -48,7 +48,7 @@ internal class OverlayWebView: SLView {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("[HASSAN LOG] overlayview deallocated")
+        ShopLiveLogger.debugLog("overlayview deallocated")
         teardownOverlayWebView()
     }
     
@@ -68,7 +68,6 @@ internal class OverlayWebView: SLView {
         removeObserver()
         webView = nil
         ShopLiveController.shared.webInstance = nil
-        print("[HASSAN LOG] webInstance = nil in teaderDown overlay view")
         delegate = nil
     }
     
@@ -99,7 +98,6 @@ internal class OverlayWebView: SLView {
         let webView = ShopLiveWebView(frame: CGRect.zero, configuration: configuration)
         webView.scrollView.delegate = self
         ShopLiveController.webInstance = webView
-        print("[HASSAN LOG] allocate webInstance in initWebView")
         addSubview(webView)
         webView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([webView.topAnchor.constraint(equalTo: self.topAnchor),

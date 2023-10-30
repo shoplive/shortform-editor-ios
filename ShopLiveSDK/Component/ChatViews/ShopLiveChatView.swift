@@ -132,7 +132,7 @@ final class ShopLiveChatView: SLScrollView, UITextViewDelegate {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("[HASSAN LOG] ShopLiveChatView deallocated")
+        ShopLiveLogger.debugLog("ShopLiveChatView deallocated")
     }
     
     private func initProperties() {
@@ -297,7 +297,7 @@ final class ShopLiveChattingView: SLTextView {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("[HASSAN LOG] ShopLiveChattingView deallocated")
+        ShopLiveLogger.debugLog("ShopLiveChattingView deallocated")
         teardownShopLiveChattingView()
     }
     

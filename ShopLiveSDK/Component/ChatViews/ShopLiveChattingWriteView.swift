@@ -117,7 +117,7 @@ final class ShopLiveChattingWriteView: SLView {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("[HASSAN LOG] ShopLiveChattingWriteView deallocated")
+        ShopLiveLogger.debugLog("ShopLiveChattingWriteView deallocated")
     }
     private var sendButtonTrailing: NSLayoutConstraint!
     private var chatViewLeading: NSLayoutConstraint!

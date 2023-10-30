@@ -137,10 +137,6 @@ import ShopliveSDKCommon
     }
     
     func showShopLiveView(with overlayUrl: URL, isPreview : Bool, _ completion: (() -> Void)? = nil) {
-        print("[HASSAN LOG] showShopLiveView Start \(isPreview ? "preview" : "play") style \(_style.name)")
-        print("[HASSAN LOG] windowAllocated \(shopLiveWindow == nil ? "nil" : "allocated") vc allocated \(self.liveStreamViewController == nil ? "nil" : "allocated")")
-        print("[HASSAN LOG] self.needExecuteFullScreen \(self.needExecuteFullScreen)")
-        
         UIApplication.shared.isIdleTimerDisabled = true
         if !ShopLiveController.shared.isSameCampaign {
             ShopLiveController.shared.resetVideoDatas()
@@ -500,7 +496,6 @@ import ShopliveSDKCommon
             self.videoWindowSwipeDownGestureRecognizer?.isEnabled = false
             
             ShopLiveController.webInstance?.isHidden = true
-            print("[HASSAN LOG] webInstance.isHidden \(ShopLiveController.webInstance?.isHidden) startcustompip")
             liveVc.updateVideoFit(centerCrop: true, immediately: false,targetWindowStyle: .inAppPip)
             liveVc.updateVideoConstraint()
             liveVc.takeSnapShot()
@@ -546,7 +541,6 @@ import ShopliveSDKCommon
             
             guard let shopLiveWindow = self.shopLiveWindow,
                   let liveVc = self.liveStreamViewController else {
-                print("[HASSAN LOG] startFromCampaignFullScreen view is not allocated")
                 return
             }
             
@@ -604,7 +598,6 @@ import ShopliveSDKCommon
             } completion: { done in
                 self._style = .fullScreen
                 ShopLiveController.webInstance?.isHidden = false
-                print("[HASSAN LOG] webInstance.isHidden \(ShopLiveController.webInstance?.isHidden) startcampaing full screen animation end")
                 shopLiveWindow.rootViewController?.view.backgroundColor = .black
                 ShopLiveController.shared.pipAnimating = false
                 if self.needExecuteFullScreen == true {
@@ -667,7 +660,6 @@ import ShopliveSDKCommon
                 self.onStopCustomPictureInPictureAnimationComplete()
                 shopLiveWindow.rootViewController?.view.backgroundColor = .black
                 ShopLiveController.webInstance?.isHidden = false
-                print("[HASSAN LOG] webInstance.isHidden \(ShopLiveController.webInstance?.isHidden) stopCustomPictureInPicture animation end")
                 shopLiveWindow.backgroundColor = .clear
                 ShopLiveController.shared.pipAnimating = false
                 self.liveStreamViewController?.showBackgroundPoster()
@@ -689,7 +681,6 @@ import ShopliveSDKCommon
                 self.onStopCustomPictureInPictureAnimationComplete()
                 shopLiveWindow.rootViewController?.view.backgroundColor = .black
                 ShopLiveController.webInstance?.isHidden = false
-                print("[HASSAN LOG] webInstance.isHidden \(ShopLiveController.webInstance?.isHidden) stopCustomPictureInPicture animation end")
                 shopLiveWindow.backgroundColor = .clear
                 ShopLiveController.shared.pipAnimating = false
                 self.liveStreamViewController?.showBackgroundPoster()
@@ -733,7 +724,6 @@ import ShopliveSDKCommon
             }
             
             ShopLiveController.webInstance?.isHidden = true
-            print("[HASSAN LOG] webInstance.isHidden \(ShopLiveController.webInstance?.isHidden) updatePip ")
             
             ShopLiveController.shared.pipAnimating = true
             let pipSize: CGRect = self.pipPosition(with: self.pipScale, position: self.getPipPosition())
@@ -786,7 +776,6 @@ import ShopliveSDKCommon
             shopLiveWindow.rootViewController?.view.layer.masksToBounds = true
             
             ShopLiveController.webInstance?.isHidden = true
-            print("[HASSAN LOG] webInstance.isHidden \(ShopLiveController.webInstance?.isHidden) startfromCampaignPip")
             self.videoWindowPanGestureRecognizer?.isEnabled = true
             self.videoWindowTapGestureRecognizer?.isEnabled = true
             self.videoWindowSwipeDownGestureRecognizer?.isEnabled = false
@@ -818,7 +807,6 @@ import ShopliveSDKCommon
             
             guard let slWindow = self.shopLiveWindow,
                   let liveVC = self.liveStreamViewController else {
-                print("[HASSAN LOG] willChangePreview returned cause no view allocated")
                 return
             }
             
@@ -839,7 +827,6 @@ import ShopliveSDKCommon
             if self.needAnimateToChangePreivew {
                 self.liveStreamViewController?.hideBackgroundPoster()
                 ShopLiveController.webInstance?.isHidden = false
-                print("[HASSAN LOG] webInstance.isHidden \(ShopLiveController.webInstance?.isHidden) willChangePreview")
             } else {
                 self.shopLiveWindow?.isHidden = true
             }
@@ -878,7 +865,6 @@ import ShopliveSDKCommon
                         liveVC.setupOverayWebview()
                     }
                     ShopLiveController.shared.webInstance?.isHidden = true
-                    print("[HASSAN LOG] webInstance.isHidden \(ShopLiveController.webInstance?.isHidden) willChangePreview animation end 1")
                 }
             } else {
                 liveVC.updateVideoFit(centerCrop: true, imageUpdate: false, targetWindowStyle: .inAppPip)
@@ -909,7 +895,6 @@ import ShopliveSDKCommon
                         liveVC.setupOverayWebview()
                     }
                     ShopLiveController.shared.webInstance?.isHidden = true
-                    print("[HASSAN LOG] webInstance.isHidden \(ShopLiveController.webInstance?.isHidden) willChangePReview animation end 2")
                 }
             }
         }
@@ -2225,7 +2210,6 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
 
 extension ShopLiveBase : ShopLiveControllerDelegate {
     func setPresentationStyle(style: ShopLive.PresentationStyle) {
-        print("[HASSAN LOG] setPresentationStyle to unknown")
         self._style = style
     }
 }

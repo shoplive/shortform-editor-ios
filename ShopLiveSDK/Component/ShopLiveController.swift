@@ -271,7 +271,6 @@ final class ShopLiveController: NSObject {
         isSuccessCampaignJoin = false
         campaignStatus = .close
         webInstance = nil
-        print("[HASSAN LOG] webInstance = nil in resetOnlyFinished")
         prevWindowStyle = .none
         
         isMuted = ShopLiveConfiguration.SoundPolicy.isMuted

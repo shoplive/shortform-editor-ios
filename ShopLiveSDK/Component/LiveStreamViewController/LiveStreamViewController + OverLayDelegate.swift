@@ -213,7 +213,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
                 delegate?.updatePictureInPicture()
             }
             else if ShopLiveController.shared.isPreview == false  {
-                print("[HASSAN LOG] delegate?.updatePictureInPicture")
                 delegate?.updatePictureInPicture()
             }
             
