@@ -32,7 +32,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             return
         }
         
-        playerView.playerLayer.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
+        playerView.playerLayer?.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
         
         playerTopConstraint.constant = playerFrame.origin.y
         playerLeadingConstraint.constant = playerFrame.origin.x

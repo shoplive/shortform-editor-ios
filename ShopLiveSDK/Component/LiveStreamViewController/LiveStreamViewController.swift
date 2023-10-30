@@ -39,6 +39,10 @@ internal final class LiveStreamViewController: SLViewController {
     var snapShotImageView: SLImageView?
     var playerView: ShopLivePlayerView?
     
+    var playerLayer: AVPlayerLayer? {
+        return playerView?.playerLayer
+    }
+    
     var playerTopConstraint: NSLayoutConstraint!
     var playerLeadingConstraint: NSLayoutConstraint!
     var playerRightConstraint: NSLayoutConstraint!
@@ -144,9 +148,7 @@ internal final class LiveStreamViewController: SLViewController {
         }
     }
 
-    var playerLayer: AVPlayerLayer? {
-        return playerView?.playerLayer
-    }
+    
     
     override func removeFromParent() {
         super.removeFromParent()
@@ -299,7 +301,7 @@ internal final class LiveStreamViewController: SLViewController {
                 posterConstraints = .zero
                 snapShotConstraints = .zero
             } else {
-                let videoZoomed: Bool = self.playerView?.playerLayer.videoGravity ?? .resizeAspect == .resizeAspectFill
+                let videoZoomed: Bool = self.playerView?.playerLayer?.videoGravity ?? .resizeAspect == .resizeAspectFill
                 if imageFrameRatio < ratio  {
                     let letterSpacing = (imageFrame.height - (imageFrame.width * (ShopLiveController.shared.videoRatio.height / ShopLiveController.shared.videoRatio.width))) / 2
                     posterConstraints = .init(top: letterSpacing, left: 0, bottom: -letterSpacing, right: 0)
@@ -438,17 +440,24 @@ internal final class LiveStreamViewController: SLViewController {
      */
     func setVideoLayerGravityOnOsPipRestoration(){
         guard let playerView = playerView else { return }
+        playerView.playerLayer?.videoGravity = self.getVideoLayerGravityForCurrentVideoType()
+    }
+    
+    /**
+        현재 디바이스, 디바이스 상태, 옵션에 맞는 videoGravity를 가지고 옴
+     */
+    func getVideoLayerGravityForCurrentVideoType() -> AVLayerVideoGravity {
         if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-            playerView.playerLayer.videoGravity = .resizeAspect
+            return .resizeAspect
         }
         else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait == false {
-            playerView.playerLayer.videoGravity = .resizeAspectFill
+            return .resizeAspectFill
         }
         else if UIScreen.isLandscape {
-            playerView.playerLayer.videoGravity = .resizeAspect
+            return .resizeAspect
         }
         else {
-            playerView.playerLayer.videoGravity = .resizeAspectFill
+            return .resizeAspectFill
         }
     }
     
@@ -473,18 +482,9 @@ internal final class LiveStreamViewController: SLViewController {
             }
         } else {
             //Ipad는 가로세로 상관 없이 keepOn꺼져 있으면 꽉채우는 방식으로 진행
-            if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-                self.updateVideoFit(centerCrop: false,immediately: immeadiately,targetWindowStyle: targetWindowStyle)
-            }
-            else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait == false {
-                self.updateVideoFit(centerCrop: true,immediately: immeadiately,targetWindowStyle: targetWindowStyle)
-            }
-            else if UIScreen.isLandscape {
-                self.updateVideoFit(centerCrop: false,immediately: immeadiately,targetWindowStyle: targetWindowStyle)
-            }
-            else {
-                self.updateVideoFit(centerCrop: true,immediately: immeadiately,targetWindowStyle: targetWindowStyle)
-            }
+            let isCenterCrop = self.getVideoLayerGravityForCurrentVideoType() == .resizeAspectFill ? true : false
+            self.updateVideoFit(centerCrop: isCenterCrop,immediately: immeadiately,targetWindowStyle: targetWindowStyle)
+            
             
             if let player = playerView?.playerLayer {
                 player.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
@@ -659,6 +659,19 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
     func reloadWebView(with url: URL) {
         self.overlayView?.reload(with: url)
     }
+    
+    func refreshAvPlayerLayer() {
+        if let previousVideoGravity = self.playerLayer?.videoGravity {
+            playerView?.refreshLayer(videoGravity: previousVideoGravity)
+        }
+        else {
+            playerView?.refreshLayer(videoGravity: self.getVideoLayerGravityForCurrentVideoType())
+        }
+    }
+    
+    func setIsOsPipFailedHasOccured(hasOccured : Bool) {
+        viewModel.setIsOsPipFailedHasOccured(hasOccured: hasOccured)
+    }
 }
 //MARK: - ViewSetUp functions
 extension LiveStreamViewController {
@@ -736,36 +749,39 @@ extension LiveStreamViewController {
         NSLayoutConstraint.activate([ topConstraint, leftConstraint, rightConstraint, bottomConstraint, centerXConstraint, centerYConstraint ])
     }
     
-    private func setupPlayerView() {
+    func setupPlayerView() {
         if playerView == nil {
             playerView = .init()
         }
         guard let playerView = playerView else { return }
         view.addSubview(playerView)
         playerView.translatesAutoresizingMaskIntoConstraints = false
-        playerView.playerLayer.player = playerView.player
-        playerView.playerLayer.needsDisplayOnBoundsChange = true
+        playerView.playerLayer?.player = playerView.player
+        playerView.playerLayer?.needsDisplayOnBoundsChange = true
         
         if ShopLiveController.shared.videoOrientation == .portrait {
             if UIScreen.isLandscape {
-                playerView.playerLayer.videoGravity = .resizeAspect
+                playerView.playerLayer?.videoGravity = .resizeAspect
             }
             else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-                playerView.playerLayer.videoGravity = .resizeAspect
+                playerView.playerLayer?.videoGravity = .resizeAspect
             }
             else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait == false {
-                playerView.playerLayer.videoGravity = .resizeAspectFill
+                playerView.playerLayer?.videoGravity = .resizeAspectFill
             }
             else {
-                playerView.playerLayer.videoGravity = .resizeAspectFill
+                playerView.playerLayer?.videoGravity = .resizeAspectFill
             }
         } else {
-            playerView.playerLayer.videoGravity = .resizeAspect
+            playerView.playerLayer?.videoGravity = .resizeAspect
         }
         
         
         ShopLiveController.shared.playerItem?.player = playerView.player
-        ShopLiveController.shared.playerItem?.playerLayer = playerLayer
+        if let playerLayer = playerView.playerLayer {
+            ShopLiveController.shared.playerItem?.playerLayer? = playerLayer
+        }
+        
        
         playerTopConstraint     = playerView.topAnchor.constraint(equalTo: view.topAnchor)
         playerLeadingConstraint = playerView.leftAnchor.constraint(equalTo: view.leftAnchor)
@@ -775,6 +791,10 @@ extension LiveStreamViewController {
         NSLayoutConstraint.activate([playerTopConstraint, playerLeadingConstraint, playerRightConstraint, playerBottomConstraint])
     }
     
+    
+    func resetPlayerLayer(){
+        
+    }
     
     func setupOverayWebview() {
 

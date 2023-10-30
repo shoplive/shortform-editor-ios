@@ -361,7 +361,6 @@ import ShopliveSDKCommon
         }
         
         guard let playerLayer = liveStreamViewController?.playerLayer else { return }
-        playerLayer.frame = CGRect(x: 100, y: 100, width: 320, height: 180)
         if AVPictureInPictureController.isPictureInPictureSupported() {
             osPictureInPictureController = SLPictureInPictureController(playerLayer: playerLayer)
             osPictureInPictureController?.delegate = self
@@ -1488,7 +1487,7 @@ import ShopliveSDKCommon
             }
             break
         case UIApplication.willResignActiveNotification:
-            self.startOsPictureInPicture()
+//            self.startOsPictureInPicture()
             break
         case UIApplication.didEnterBackgroundNotification:
             self.startOsPictureInPicture()
@@ -1970,6 +1969,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
         if !ShopLiveConfiguration.UI.keepWindowStyleOnReturnFromOsPip {
             didChangeOSPIP()
         }
+        self.liveStreamViewController?.setIsOsPipFailedHasOccured(hasOccured: false)
     }
     
     public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
@@ -2034,6 +2034,8 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     
     func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, failedToStartPictureInPictureWithError error: Error) {
         ShopLiveLogger.debugLog("AVPictureInPicture failed to start with error -> \(error)")
+        self.liveStreamViewController?.setIsOsPipFailedHasOccured(hasOccured: true)
+        self.osPictureInPictureController = nil
     }
     
     private func resetQueryParameters() {
@@ -2042,6 +2044,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
 }
 
 extension ShopLiveBase: LiveStreamViewControllerDelegate {
+    
     func resetPictureInPicture() {
         if osPictureInPictureController == nil {
             setupOsPictureInPicture()

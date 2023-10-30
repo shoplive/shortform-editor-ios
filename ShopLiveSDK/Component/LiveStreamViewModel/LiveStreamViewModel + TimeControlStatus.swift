@@ -35,7 +35,7 @@ extension LiveStreamViewModel {
     }
     
     func handleTimeControlStatusPaused() {
-        ShopLiveLogger.debugLog("timeControlStatu.paused")
+//        ShopLiveLogger.debugLog("timeControlStatu.paused")
         self.delegate?.requestTakeSnapShotView()
         if ShopLiveController.isReplayMode {
             ShopLiveController.isPlaying = false

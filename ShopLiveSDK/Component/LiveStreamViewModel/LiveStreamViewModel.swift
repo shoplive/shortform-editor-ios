@@ -41,6 +41,7 @@ internal final class LiveStreamViewModel: NSObject {
     private var lastPipPosition : ShopLive.PipPosition?
     private var isWebViewDidCompleteLoading : Bool = false
     var isAlreadyPlayedOnce : Bool = false
+    private var osPipFailedErrorHasOccured : Bool = false
     /**
      api에서 아무데이터 없거나 할때 쓰임 setConf에서 updatePictureInPicture하기 위해서 있음
      */
@@ -527,6 +528,14 @@ extension LiveStreamViewModel {
     
     func setVc(vc : LiveStreamViewController){
         self.liveStreamViewController = vc
+    }
+    
+    func setIsOsPipFailedHasOccured(hasOccured : Bool) {
+        self.osPipFailedErrorHasOccured = hasOccured
+    }
+    
+    func getIsOsPipFailedHasOccured() -> Bool {
+        return self.osPipFailedErrorHasOccured
     }
     
     /**

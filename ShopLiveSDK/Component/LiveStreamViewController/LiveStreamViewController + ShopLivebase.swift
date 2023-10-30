@@ -97,6 +97,15 @@ extension LiveStreamViewController {
             return
         }
 
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            if self.viewModel.getIsOsPipFailedHasOccured() {
+                self.refreshAvPlayerLayer()
+                self.delegate?.resetPictureInPicture()
+                self.viewModel.setIsOsPipFailedHasOccured(hasOccured: false)
+            }
+        }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             guard let self = self else { return }
             if ShopLiveController.timeControlStatus == .paused {
