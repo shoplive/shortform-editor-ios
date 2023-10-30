@@ -127,7 +127,10 @@ final class ShopLiveController: NSObject {
     var keyboardHeight: CGFloat = .zero
     var lastPipPlaying: Bool = false
     var screenLock: Bool = false
-    
+    /**
+     가로 모드 방송에서 stopCustomPictureInPicture실핼될때 setVideoPosition받아서 애니메이션 처리 필요, 자세한 이유는 pr:  https://github.com/shoplive/matrix-sdk-ios/pull/318  댓글 참조
+     */
+    var needForceSetVideoPositionUpdate : Bool = false
     var keepOrientationWhenPlayStart: Bool = false
 
     var snapShot: UIImage? = nil

@@ -25,10 +25,10 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         self.changeOrientation(toLandscape: toLandscape)
     }
     
-    func updatePlayerFrame(centerCrop: Bool = false, playerFrame: CGRect = .zero, immediately: Bool = false) {
+    func updatePlayerFrame(centerCrop: Bool = false, playerFrame: CGRect = .zero, immediately: Bool = false, targetWindowStyle : ShopLiveWindowStyle?) {
         guard let playerView = playerView else { return }
         guard playerFrame != .zero else {
-            updateVideoFit(centerCrop: centerCrop, immediately: immediately)
+            updateVideoFit(centerCrop: centerCrop, immediately: immediately,targetWindowStyle: targetWindowStyle)
             return
         }
         
@@ -39,7 +39,13 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         playerRightConstraint.constant = -playerFrame.size.width
         playerBottomConstraint.constant = -playerFrame.size.height
         
-        self.updateImageConstraint(from: playerFrame)
+        if let targetWindowStyle = targetWindowStyle {
+            self.updateImageConstraint(from: playerFrame,targetWindowStyle: targetWindowStyle)
+        }
+        else {
+            self.updateImageConstraint(from: playerFrame,targetWindowStyle: ShopLiveController.windowStyle)
+        }
+       
         if immediately {
             playerView.setNeedsLayout()
             playerView.layoutIfNeeded()

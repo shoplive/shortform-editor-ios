@@ -234,7 +234,7 @@ internal final class LiveStreamViewController: SLViewController {
     
     
     
-    func updateImageConstraint(from: CGRect) {
+    func updateImageConstraint(from: CGRect,targetWindowStyle : ShopLiveWindowStyle) {
         guard let bgImageView = self.backgroundPosterImageWebView else { return }
         let ratio = ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height
         let screenSize = UIScreen.main.bounds
@@ -244,7 +244,7 @@ internal final class LiveStreamViewController: SLViewController {
         var posterConstraints : UIEdgeInsets = .zero
         var snapShotConstraints : UIEdgeInsets = .zero
         
-        guard ShopLiveController.windowStyle != .inAppPip else {
+        guard targetWindowStyle != .inAppPip else {
             posterConstraints = .zero
             snapShotConstraints = .zero
             return
@@ -395,7 +395,7 @@ internal final class LiveStreamViewController: SLViewController {
         self.snapShotImageView?.layoutIfNeeded()
     }
     
-    func updateVideoFit(centerCrop: Bool = false, immediately: Bool = false, imageUpdate: Bool = true) {
+    func updateVideoFit(centerCrop: Bool = false, immediately: Bool = false, imageUpdate: Bool = true, targetWindowStyle : ShopLiveWindowStyle?) {
         if let playerLayer = playerView?.playerLayer {
             playerLayer.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
         }
@@ -404,7 +404,13 @@ internal final class LiveStreamViewController: SLViewController {
         playerRightConstraint.constant = 0
         playerBottomConstraint.constant = 0
         if imageUpdate {
-            self.updateImageConstraint(from: .zero)
+            if let targetWindowStyle = targetWindowStyle {
+                self.updateImageConstraint(from: .zero,targetWindowStyle: targetWindowStyle)
+            }
+            else {
+                self.updateImageConstraint(from: .zero,targetWindowStyle: ShopLiveController.windowStyle)
+            }
+            
         }
         
         if immediately {
@@ -417,7 +423,7 @@ internal final class LiveStreamViewController: SLViewController {
     
     func changeVideoGravity(centerCrop: Bool) {
         if let playerFrame = UIScreen.isLandscape ? ( ShopLiveController.shared.videoExpanded ? ShopLiveController.shared.videoFrame.landscape.expanded : ShopLiveController.shared.videoFrame.landscape.standard) : ShopLiveController.shared.videoFrame.portrait {
-            self.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: false)
+            self.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: false,targetWindowStyle: nil)
 
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) { [weak self] in
                 self?.updateVideoConstraint()
@@ -449,12 +455,12 @@ internal final class LiveStreamViewController: SLViewController {
     /**
      player video gravity 설정과 관련해서는 ShopLiveBase.play() 쪽도 같이
      */
-    func updateVideoFrame(immeadiately: Bool, fitTopArea: Bool = false) {
+    func updateVideoFrame(immeadiately: Bool, fitTopArea: Bool = false, targetWindowStyle : ShopLiveWindowStyle) {
         guard !ShopLiveController.shared.isPreview else { return }
         
         if ShopLiveController.shared.videoOrientation == .landscape {
-            if ShopLiveController.windowStyle == .inAppPip {
-                self.updateVideoFit(centerCrop: true, immediately: immeadiately)
+            if targetWindowStyle == .inAppPip {
+                self.updateVideoFit(centerCrop: true, immediately: immeadiately,targetWindowStyle: targetWindowStyle)
             } else {
                 if fitTopArea {
                     setVideoDefaultFrame()
@@ -462,28 +468,28 @@ internal final class LiveStreamViewController: SLViewController {
                 }
                 if let playerFrame = UIScreen.isLandscape ? ( ShopLiveController.shared.videoExpanded ? ShopLiveController.shared.videoFrame.landscape.expanded : ShopLiveController.shared.videoFrame.landscape.standard) : ShopLiveController.shared.videoFrame.portrait {
                     
-                    self.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: immeadiately)
+                    self.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: immeadiately,targetWindowStyle: targetWindowStyle)
                 }
             }
         } else {
             //Ipad는 가로세로 상관 없이 keepOn꺼져 있으면 꽉채우는 방식으로 진행
             if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-                self.updateVideoFit(centerCrop: false,immediately: immeadiately)
+                self.updateVideoFit(centerCrop: false,immediately: immeadiately,targetWindowStyle: targetWindowStyle)
             }
             else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait == false {
-                self.updateVideoFit(centerCrop: true,immediately: immeadiately)
+                self.updateVideoFit(centerCrop: true,immediately: immeadiately,targetWindowStyle: targetWindowStyle)
             }
             else if UIScreen.isLandscape {
-                self.updateVideoFit(centerCrop: false,immediately: immeadiately)
+                self.updateVideoFit(centerCrop: false,immediately: immeadiately,targetWindowStyle: targetWindowStyle)
             }
             else {
-                self.updateVideoFit(centerCrop: true,immediately: immeadiately)
+                self.updateVideoFit(centerCrop: true,immediately: immeadiately,targetWindowStyle: targetWindowStyle)
             }
             
             if let player = playerView?.playerLayer {
                 player.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
             }
-            self.updateImageConstraint(from: .zero)
+            self.updateImageConstraint(from: .zero,targetWindowStyle: targetWindowStyle)
         }
     }
     
@@ -527,7 +533,7 @@ internal final class LiveStreamViewController: SLViewController {
         super.viewWillTransition(to: size, with: coordinator)
         let currentOrientation: ShopLiveDefines.ShopLiveOrientaion = UIScreen.isLandscape ? .landscape : .portrait
         if ShopLiveController.shared.supportOrientation == .landscape && !ShopLiveController.shared.willStartPip {
-            self.updatePlayerFrame()
+            self.updatePlayerFrame(targetWindowStyle: nil)
         }
         self.chatInputView.orientationChattingWritrViewConstraint()
         guard ShopLiveController.windowStyle != .osPip else {

@@ -103,7 +103,7 @@ protocol OverlayWebViewDelegate: AnyObject {
     func handleCommand(_ command: String, with payload: Any?)
     func onSetUserName(_ payload: [String : Any])
     func handleReceivedCommand(_ command: String, with payload: Any?)
-    func updatePlayerFrame(centerCrop: Bool, playerFrame: CGRect, immediately: Bool)
+    func updatePlayerFrame(centerCrop: Bool, playerFrame: CGRect, immediately: Bool, targetWindowStyle : ShopLiveWindowStyle?)
     func updateOrientation(toLandscape: Bool)
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any])
     func didFailToLoadWebViewWithNetworkUnreachable()

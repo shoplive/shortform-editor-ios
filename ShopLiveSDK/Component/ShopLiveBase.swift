@@ -504,7 +504,7 @@ import ShopliveSDKCommon
             print("[HASSAN LOG] webInstance.isHidden \(ShopLiveController.webInstance?.isHidden) startcustompip")
             
             liveVc.takeSnapShot()
-            liveVc.updateVideoFit(centerCrop: true, immediately: false)
+            liveVc.updateVideoFit(centerCrop: true, immediately: false,targetWindowStyle: .inAppPip)
             liveVc.updateVideoConstraint()
             self.shopLiveWindow?.layer.removeAllAnimations()
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
@@ -557,7 +557,7 @@ import ShopliveSDKCommon
             guard shopLiveWindow.frame != mainWindow.frame else {
                 if ShopLiveController.windowStyle == .normal {
                     if onOsPipRestoration == false {
-                        liveVc.updateVideoFrame(immeadiately: true, fitTopArea: false)
+                        liveVc.updateVideoFrame(immeadiately: true, fitTopArea: false,targetWindowStyle: .normal)
                     }
                 }
                 self.liveStreamViewController?.updateVideoConstraint()
@@ -591,7 +591,7 @@ import ShopliveSDKCommon
             shopLiveWindow.layer.shadowOffset = .zero
             shopLiveWindow.layer.shadowRadius = 0
             if onOsPipRestoration == false {
-                liveVc.updateVideoFrame(immeadiately: false, fitTopArea: self.needExecuteFullScreen)
+                liveVc.updateVideoFrame(immeadiately: false, fitTopArea: self.needExecuteFullScreen,targetWindowStyle: .normal)
             }
             shopLiveWindow.layer.masksToBounds = true
             liveVc.view.layer.masksToBounds = true
@@ -650,11 +650,12 @@ import ShopliveSDKCommon
         shopLiveWindow.layer.shadowOffset = .zero
         shopLiveWindow.layer.shadowRadius = 0
         
+        ShopLiveController.shared.needForceSetVideoPositionUpdate = true
+        self.liveStreamViewController?.updatePipStyle(with: .fullScreen)
         
         shopLiveWindow.invalidateBlockAddSubViewTimer()
         if self.needExecuteFullScreen {
-            self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true)
-            
+            self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true,targetWindowStyle: .normal)
             shopLiveWindow.startBlockAddSubViewTimer()
             shopLiveWindow.layer.removeAllAnimations()
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
@@ -677,7 +678,7 @@ import ShopliveSDKCommon
             }
         } else {
             shopLiveWindow.startBlockAddSubViewTimer()
-            self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true)
+            self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true,targetWindowStyle: .normal)
             shopLiveWindow.layer.removeAllAnimations()
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
                 shopLiveWindow.frame = mainWindow.bounds
@@ -705,8 +706,9 @@ import ShopliveSDKCommon
         if let shopLiveWindow = shopLiveWindow {
             shopLiveWindow.makeKey()
         }
-        ShopLiveController.windowStyle = .normal
         _style = .fullScreen
+        ShopLiveController.windowStyle = .normal
+        ShopLiveController.shared.needForceSetVideoPositionUpdate = false
         self.liveStreamViewController?.updateVideoConstraint()
         delegate?.handleCommand("didShopLiveOn", with: nil)
         delegate?.log?(name: "pip_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
@@ -737,7 +739,8 @@ import ShopliveSDKCommon
             ShopLiveController.shared.pipAnimating = true
             let pipSize: CGRect = self.pipPosition(with: self.pipScale, position: self.getPipPosition())
             
-            self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
+            
+            self.liveStreamViewController?.updateVideoFrame(immeadiately: false, targetWindowStyle: ShopLiveController.windowStyle)
             self.shopLiveWindow?.layer.masksToBounds = true
             self.liveStreamViewController?.view.layer.masksToBounds = true
             self.liveStreamViewController?.setCloseDimLayerVisible(false)
@@ -766,7 +769,7 @@ import ShopliveSDKCommon
     func startFromCampaignPIP() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.liveStreamViewController?.updateVideoFit(centerCrop: true)
+            self.liveStreamViewController?.updateVideoFit(centerCrop: true,targetWindowStyle: .inAppPip)
             self.delegate?.handleCommand("willShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             guard !ShopLiveController.shared.pipAnimating else { return }
             guard let shopLiveWindow = self.shopLiveWindow else { return }
@@ -849,7 +852,7 @@ import ShopliveSDKCommon
             self.videoWindowSwipeDownGestureRecognizer?.isEnabled = false
             
             if !self.needAnimateToChangePreivew {
-                liveVC.updateVideoFit(centerCrop: true, immediately: false)
+                liveVC.updateVideoFit(centerCrop: true, immediately: false, targetWindowStyle: .inAppPip)
                 self.shopLiveWindow?.layer.removeAllAnimations()
                 UIView.animate(withDuration: 0, delay: 0, options: .transitionCrossDissolve) {
                     liveVC.updateVideoConstraint()
@@ -879,7 +882,7 @@ import ShopliveSDKCommon
                     print("[HASSAN LOG] webInstance.isHidden \(ShopLiveController.webInstance?.isHidden) willChangePreview animation end 1")
                 }
             } else {
-                liveVC.updateVideoFit(centerCrop: true, imageUpdate: false)
+                liveVC.updateVideoFit(centerCrop: true, imageUpdate: false, targetWindowStyle: .inAppPip)
                 slWindow.layer.removeAllAnimations()
                 UIView.animate(withDuration: 0.3, delay: 0, options: []) {
                     liveVC.updateVideoConstraint()
@@ -1837,20 +1840,19 @@ extension ShopLiveBase: ShopLiveComponent {
                 vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
                                                                  campaignKey: ShopLiveController.shared.campaignKey,
                                                                  isPreview: false) {
-                    
                     guard let playerFrame = vc.viewModel.getEstimatedPlayerFrameForFullScreenOnInitalize() else { return }
                     DispatchQueue.main.async {
                         if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-                            vc.updatePlayerFrame(centerCrop : false, playerFrame: playerFrame,immediately: false)
+                            vc.updatePlayerFrame(centerCrop : false, playerFrame: playerFrame,immediately: false,targetWindowStyle: .normal)
                         }
                         else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait == false {
-                            vc.updatePlayerFrame(centerCrop : true, playerFrame: playerFrame,immediately: false)
+                            vc.updatePlayerFrame(centerCrop : true, playerFrame: playerFrame,immediately: false,targetWindowStyle: .normal)
                         }
                         else if UIScreen.isLandscape {
-                            vc.updatePlayerFrame(centerCrop : false, playerFrame: playerFrame,immediately: false)
+                            vc.updatePlayerFrame(centerCrop : false, playerFrame: playerFrame,immediately: false,targetWindowStyle: .normal)
                         }
                         else {
-                            vc.updatePlayerFrame(centerCrop : true, playerFrame: playerFrame,immediately: false)
+                            vc.updatePlayerFrame(centerCrop : true, playerFrame: playerFrame,immediately: false,targetWindowStyle: .normal)
                         }
                     }
                 }
@@ -2071,7 +2073,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
             
             self.liveStreamViewController?.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
             
-            self.liveStreamViewController?.updateVideoFrame(immeadiately: false)
+            self.liveStreamViewController?.updateVideoFrame(immeadiately: false,targetWindowStyle: ShopLiveController.windowStyle)
             self.shopLiveWindow?.layer.removeAllAnimations()
             UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut) {
                 
