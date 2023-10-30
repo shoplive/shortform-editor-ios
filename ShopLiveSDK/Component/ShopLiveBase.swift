@@ -1074,20 +1074,12 @@ import ShopliveSDKCommon
             let minYLimit = pipFloatingOffset.top + pipEdgeInsets.top + safeAreaInset.top
             let maxYLimit = (mainWindowHeight - (safeAreaInset.bottom + pipFloatingOffset.bottom + pipEdgeInsets.bottom)) + (isKeyboardShow ? liveWindow.frame.height * 0.2 : 0)
             
-            let minXOffset = max(centerX - minXLimit,0)
-            let maxXOffset = max(maxXLimit - centerX,0)
-            let minYOffset = max(centerY - minYLimit,0)
-            let maxYOffset = max(maxYLimit - centerY,0)
-            let xOffset = min(minXOffset,maxXOffset)
-            let yOffset = min(minYOffset,maxYOffset)
+            let minXOff : Bool = minXLimit - centerX >= 0
+            let maxXOff : Bool = centerX - maxXLimit >= 0
+            let minYOff : Bool = minYLimit - centerY >= 0
+            let maxYOff : Bool = centerY - maxYLimit >= 0
             
-            var alpha : CGFloat = 1
-            if xOffset < yOffset {
-                alpha = max(xOffset / (pipSize.width / 2),0.5)
-            }
-            else {
-                alpha = max(yOffset / (pipSize.height / 2),0.5)
-            }
+            let alpha : CGFloat = (minXOff || maxXOff || minYOff || maxYOff) ? 0.5 : 1
             
             if alpha >= 1 {
                 blockLiveWindowPangestureHapticSound = false
