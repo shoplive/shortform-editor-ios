@@ -36,6 +36,7 @@ extension LiveStreamViewModel {
     
     func handleTimeControlStatusPaused() {
         ShopLiveLogger.debugLog("timeControlStatu.paused")
+        self.delegate?.requestTakeSnapShotView()
         if ShopLiveController.isReplayMode {
             ShopLiveController.isPlaying = false
         }
@@ -60,6 +61,7 @@ extension LiveStreamViewModel {
     func handleTimeControlStatusWaitingToPlay() {
         ShopLiveLogger.debugLog("waitingToPlayAtSpecificRate")
         guard let reason = ShopLiveController.player?.reasonForWaitingToPlay else { return }
+        self.delegate?.requestTakeSnapShotView()
         switch reason {
         case .toMinimizeStalls:
             self.handleToMinimizeStall()
@@ -88,7 +90,6 @@ extension LiveStreamViewModel {
         ShopLiveLogger.debugLog("toMinimizeStall")
         guard let retryManager = retryManager else { return }
         guard retryManager.getIsBuffering() == false else { return }
-        self.delegate?.requestTakeSnapShotView()
         
         if ShopLiveController.shared.campaignStatus != .close {
             if NetworkReachability().connectionStatus() == .Offline {

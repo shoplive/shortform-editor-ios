@@ -144,6 +144,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         if let streamUrl = ShopLiveController.streamUrl, streamUrl.absoluteString == url.absoluteString {
             return
         }
+        self.takeSnapShot()
         ShopLiveController.streamUrl = url
         if ShopLiveController.isReplayMode, let time = ShopLiveController.shared.currentPlayTime {
             ShopLiveController.player?.seek(to: time)

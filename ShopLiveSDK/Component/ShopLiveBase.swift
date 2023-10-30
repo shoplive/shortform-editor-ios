@@ -1663,8 +1663,13 @@ extension ShopLiveBase: ShopLiveComponent {
     }
     
     func preview(with campaignKey: String?, referrer: String? = nil, completion: (() -> Void)?) {
-        
         guard !ShopLiveController.shared.pipAnimating else { return }
+        
+        if ShopLiveController.shared.isPreview == true && ShopLiveController.windowStyle == .inAppPip &&
+            campaignKey == ShopLiveController.shared.campaignKey &&
+            ShopLiveController.timeControlStatus == .playing {
+            return
+        }
         
         ShopLiveController.shared._playerMode = .preview
         debouncer.renewInterval()
@@ -1708,37 +1713,66 @@ extension ShopLiveBase: ShopLiveComponent {
                     }
                 }
                 
+                
+                
                 ShopLiveController.shared.isPreview = true
                 
                 self.previewCallback = completion
                 self.campaignKey = campaignKey
                 self.fetchPreviewUrl(with: campaignKey) { [weak self] url in
-                    guard let url = url else {
+                    guard let url = url,
+                          let self = self else {
                         self?.removeObserver()
                         return
                     }
-                    self?.windowChangeCommand = .none
-                    self?.isWindowChanging = false
+                    self.windowChangeCommand = .none
+                    self.isWindowChanging = false
                     
-                    self?.showShopLiveView(with: url,isPreview: true) { [weak self] in
-                        guard let self = self else { return }
-                        ShopLiveController.shared.setSoundMute(isMuted: true)
-                        if let ak = ShopLiveCommon.getAccessKey(),
-                           let vc = self.liveStreamViewController,
-                           ShopLiveController.shared.isPreview {
-                            vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
-                                                                             campaignKey: ShopLiveController.shared.campaignKey,
-                                                                             isPreview: true) {
-                                
-                                self.updatePictureInPicture()
-                            }
-                        }
+                    if ShopLiveController.windowStyle == .inAppPip {
+                        self.changePlayerItemOnlyInPreview()
+                    }
+                    else {
+                        self.callShopLiveViewFromPreview(url: url)
                     }
                 }
             }
         }
-        
     }
+    
+    private func changePlayerItemOnlyInPreview() {
+        guard let ak = ShopLiveCommon.getAccessKey(),
+              let vc = self.liveStreamViewController,
+              ShopLiveController.shared.isPreview else { return }
+        ShopLiveController.shared.setSoundMute(isMuted: true)
+        
+        videoWindowPanGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? true : false
+        videoWindowTapGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? true : false
+        videoWindowSwipeDownGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? false : true
+        videoPinchGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? false : true
+        
+        vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
+                                                         campaignKey: ShopLiveController.shared.campaignKey,
+                                                         isPreview: true) { }
+    }
+    
+    private func callShopLiveViewFromPreview(url : URL){
+        self.showShopLiveView(with: url,isPreview: true) { [weak self] in
+            guard let self = self else { return }
+            ShopLiveController.shared.setSoundMute(isMuted: true)
+            if let ak = ShopLiveCommon.getAccessKey(),
+               let vc = self.liveStreamViewController,
+               ShopLiveController.shared.isPreview {
+                
+                vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
+                                                                 campaignKey: ShopLiveController.shared.campaignKey,
+                                                                 isPreview: true) {
+                    
+                    self.updatePictureInPicture()
+                }
+            }
+        }
+    }
+    
     
     @objc func play(with campaignKey: String?, referrer: String? = nil) {
         guard !ShopLiveController.shared.pipAnimating else { return }
@@ -1788,32 +1822,35 @@ extension ShopLiveBase: ShopLiveComponent {
                     
                     self?.windowChangeCommand = .none
                     self?.isWindowChanging = false
+                    self?.callShowShopLiveViewFromPlay(url: url)
+                }
+            }
+        }
+    }
+    
+    private func callShowShopLiveViewFromPlay(url : URL) {
+        self.showShopLiveView(with: url,isPreview: false) { [weak self] in
+            guard let self = self else { return }
+            if let ak = ShopLiveCommon.getAccessKey(),
+               let vc = self.liveStreamViewController,
+               ShopLiveController.shared.isPreview == false {
+                vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
+                                                                 campaignKey: ShopLiveController.shared.campaignKey,
+                                                                 isPreview: false) {
                     
-                    self?.showShopLiveView(with: url,isPreview: false) { [weak self] in
-                        guard let self = self else { return }
-                        if let ak = ShopLiveCommon.getAccessKey(),
-                           let vc = self.liveStreamViewController,
-                           ShopLiveController.shared.isPreview == false {
-                            vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
-                                                                             campaignKey: ShopLiveController.shared.campaignKey,
-                                                                             isPreview: false) {
-                                
-                                guard let playerFrame = vc.viewModel.getEstimatedPlayerFrameForFullScreenOnInitalize() else { return }
-                                DispatchQueue.main.async {
-                                    if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-                                        vc.updatePlayerFrame(centerCrop : false, playerFrame: playerFrame,immediately: false)
-                                    }
-                                    else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait == false {
-                                        vc.updatePlayerFrame(centerCrop : true, playerFrame: playerFrame,immediately: false)
-                                    }
-                                    else if UIScreen.isLandscape {
-                                        vc.updatePlayerFrame(centerCrop : false, playerFrame: playerFrame,immediately: false)
-                                    }
-                                    else {
-                                        vc.updatePlayerFrame(centerCrop : true, playerFrame: playerFrame,immediately: false)
-                                    }
-                                }
-                            }
+                    guard let playerFrame = vc.viewModel.getEstimatedPlayerFrameForFullScreenOnInitalize() else { return }
+                    DispatchQueue.main.async {
+                        if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
+                            vc.updatePlayerFrame(centerCrop : false, playerFrame: playerFrame,immediately: false)
+                        }
+                        else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait == false {
+                            vc.updatePlayerFrame(centerCrop : true, playerFrame: playerFrame,immediately: false)
+                        }
+                        else if UIScreen.isLandscape {
+                            vc.updatePlayerFrame(centerCrop : false, playerFrame: playerFrame,immediately: false)
+                        }
+                        else {
+                            vc.updatePlayerFrame(centerCrop : true, playerFrame: playerFrame,immediately: false)
                         }
                     }
                 }

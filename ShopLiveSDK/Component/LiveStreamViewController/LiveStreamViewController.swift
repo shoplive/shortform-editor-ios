@@ -578,6 +578,14 @@ extension LiveStreamViewController {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             ShopLiveController.shared.getSnapShot { image in
+                if let imageWidth = image?.size.width {
+                    if imageWidth < self.view.frame.size.width {
+                        self.snapShotImageView?.contentMode = .scaleAspectFill
+                    }
+                    else {
+                        self.snapShotImageView?.contentMode = .scaleAspectFit
+                    }
+                }
                 self.snapShotImageView?.image = image
                 self.snapShotImageView?.isHidden = false
                 completion?()

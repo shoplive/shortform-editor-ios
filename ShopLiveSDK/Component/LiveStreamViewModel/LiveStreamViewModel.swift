@@ -310,6 +310,7 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
                 }
                 ShopLiveController.retryPlay = false
                 self.play()
+                self.delegate?.requestTakeSnapShotView()
             }
         case .failed:
             ShopLiveLogger.debugLog("playerItem Status failed setting retry = true")
