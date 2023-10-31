@@ -236,11 +236,13 @@ class MainViewController: SideMenuBaseViewController {
         
         // Pip padding setting
         let padding = config.pipPadding
-        ShopLive.setPictureInPicturePadding(padding: .init(top: padding.top, left: padding.left, bottom: padding.bottom, right: padding.right))
+        let paddingSuccessed = ShopLive.setPictureInPicturePadding(padding: .init(top: padding.top, left: padding.left, bottom: padding.bottom, right: padding.right))
         
         // Pip floating offset setting
         let floatingOffset = config.pipFloatingOffset
-        ShopLive.setPictureInPictureFloatingOffset(offset: .init(top: floatingOffset.top, left: floatingOffset.left, bottom: floatingOffset.bottom, right: floatingOffset.right))
+        let floatingSuccessed = ShopLive.setPictureInPictureFloatingOffset(offset: .init(top: floatingOffset.top, left: floatingOffset.left, bottom: floatingOffset.bottom, right: floatingOffset.right))
+        
+        
         
         // Mute Sound Setting
         ShopLive.setMuteWhenPlayStart(config.isMuted)

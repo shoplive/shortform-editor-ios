@@ -3,13 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		1BA5155725CBDCD100070181 /* ShopLiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; };
 		1BA5155C25CBDCD100070181 /* ShopLiveSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5155B25CBDCD100070181 /* ShopLiveSDKTests.swift */; };
-		1BA5155E25CBDCD200070181 /* ShopLiveSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BA5155025CBDCD100070181 /* ShopLiveSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1BA5155E25CBDCD200070181 /* ShopLiveSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BA5155025CBDCD100070181 /* ShopLiveSDK.h */; };
 		1BA5156A25CBDD3F00070181 /* ShopLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5156925CBDD3F00070181 /* ShopLive.swift */; };
 		2F071E402AD5320A004616A6 /* ShopLivePlayerErrorObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F071E3F2AD5320A004616A6 /* ShopLivePlayerErrorObserver.swift */; };
 		2F071E412AD53220004616A6 /* ShopLivePlayerErrorObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F071E3F2AD5320A004616A6 /* ShopLivePlayerErrorObserver.swift */; };
@@ -41,6 +41,7 @@
 		2F1CBD6C2A52A3CD0060B29D /* ShopLiveViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */; };
 		2F1CBD6D2A52A8B40060B29D /* ShopLiveViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */; };
 		2F1CBD6E2A52A8B40060B29D /* ShopLiveViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */; };
+		2F40180B2AF0BBA400C5D3ED /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; };
 		2F4923DF2AE7A2F500FCA402 /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; };
 		2F57B78D2A3B2ACA00946B6E /* ShopLiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */; };
 		2F57B78E2A3B2ACB00946B6E /* ShopLiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */; };
@@ -55,8 +56,6 @@
 		2F8DDD192AAAF394005FA074 /* ShopliveSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2F8DDD1A2AAAF396005FA074 /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; };
 		2F8DDD1B2AAAF396005FA074 /* ShopliveSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		2F8DDD1C2AAAF39A005FA074 /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; };
-		2F8DDD1D2AAAF39A005FA074 /* ShopliveSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2F9EB2EF2ABA983000C3CE9A /* LiveUrlFetchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9EB2EE2ABA983000C3CE9A /* LiveUrlFetchAPI.swift */; };
 		2FCC70452AC3F577002CCA4F /* SLQRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCC70442AC3F577002CCA4F /* SLQRReaderViewController.swift */; };
 		2FCC70462AC3F577002CCA4F /* SLQRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCC70442AC3F577002CCA4F /* SLQRReaderViewController.swift */; };
@@ -69,6 +68,8 @@
 		2FDF15642AE1401100F5E5A9 /* LiveFetchUrlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDF15622AE1401100F5E5A9 /* LiveFetchUrlModel.swift */; };
 		2FDF15652AE1401100F5E5A9 /* LiveFetchUrlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDF15622AE1401100F5E5A9 /* LiveFetchUrlModel.swift */; };
 		2FE099222A3C47C500D077F6 /* ShopLiveThrottle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE099212A3C47C500D077F6 /* ShopLiveThrottle.swift */; };
+		2FE52D4E2AF0A1E3007FF20B /* LiveUrlFetchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9EB2EE2ABA983000C3CE9A /* LiveUrlFetchAPI.swift */; };
+		2FE52D4F2AF0A1E4007FF20B /* LiveUrlFetchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9EB2EE2ABA983000C3CE9A /* LiveUrlFetchAPI.swift */; };
 		2FFBD3452AA9958B00B2A8BB /* ShopLiveInAppPipConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFBD3442AA9958B00B2A8BB /* ShopLiveInAppPipConfiguration.swift */; };
 		2FFBD3502AAA8F0A00B2A8BB /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34F2AAA8F0A00B2A8BB /* ShopliveSDKCommon.framework */; };
 		2FFBD3542AAA8F1300B2A8BB /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD3532AAA8F1300B2A8BB /* ShopliveSDKCommon.framework */; };
@@ -472,7 +473,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				2F8DDD1D2AAAF39A005FA074 /* ShopliveSDKCommon.framework in Embed Frameworks */,
 				2FFBD3702AAA93B100B2A8BB /* ShopLiveSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -515,7 +515,6 @@
 		2F8736182AEA3A8900100218 /* ShopLiveDemo for QA copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ShopLiveDemo for QA copy-Info.plist"; sourceTree = SOURCE_ROOT; };
 		2F8DDD0B2AAAEFEF005FA074 /* ShopLiveBase + CommonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShopLiveBase + CommonDelegate.swift"; sourceTree = "<group>"; };
 		2F9EB2EE2ABA983000C3CE9A /* LiveUrlFetchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveUrlFetchAPI.swift; sourceTree = "<group>"; };
-		2F9EB2F12ABA98A600C3CE9A /* LiveFetchUrlModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveFetchUrlModel.swift; sourceTree = "<group>"; };
 		2FCC70442AC3F577002CCA4F /* SLQRReaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLQRReaderViewController.swift; sourceTree = "<group>"; };
 		2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchOptionCell.swift; sourceTree = "<group>"; };
 		2FD7691F2A5F86D30092C73F /* NetworkReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
@@ -728,8 +727,8 @@
 			files = (
 				BFE2195F276B35C000900FB1 /* Toast in Frameworks */,
 				BF60E1DC276F97040060531C /* CryptoSwift in Frameworks */,
+				2F40180B2AF0BBA400C5D3ED /* ShopliveSDKCommon.framework in Frameworks */,
 				2FFBD36F2AAA93B100B2A8BB /* ShopLiveSDK.framework in Frameworks */,
-				2F8DDD1C2AAAF39A005FA074 /* ShopliveSDKCommon.framework in Frameworks */,
 				BF4719A927687C7E00522F6F /* DropDown in Frameworks */,
 				BFE14B66272F6E9200C6624B /* CoreTelephony.framework in Frameworks */,
 				BF47196B2765F40700522F6F /* SideMenu in Frameworks */,
@@ -878,7 +877,6 @@
 		2FDF15602AE13FEC00F5E5A9 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				2F9EB2F12ABA98A600C3CE9A /* LiveFetchUrlModel.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1465,7 +1463,7 @@
 				};
 			};
 			buildConfigurationList = 1BA5154725CBDCD100070181 /* Build configuration list for PBXProject "ShopLiveSDK" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -1677,6 +1675,7 @@
 				BF34F2E328125F8600114DBF /* ShopLiveSDKInterface.swift in Sources */,
 				2F071E632AD54FFA004616A6 /* LiveStreamViewController + ShopLivebase.swift in Sources */,
 				BF34F2E428125F8600114DBF /* HapticManager.swift in Sources */,
+				2FE52D4E2AF0A1E3007FF20B /* LiveUrlFetchAPI.swift in Sources */,
 				BF34F2E528125F8600114DBF /* ShopLiveController.swift in Sources */,
 				2F071E412AD53220004616A6 /* ShopLivePlayerErrorObserver.swift in Sources */,
 				BF34F2E628125F8600114DBF /* PerfMeasurements.swift in Sources */,
@@ -1727,6 +1726,7 @@
 				BF5111F12824464A00E36175 /* ShopLiveSDKInterface.swift in Sources */,
 				2F071E622AD54FFA004616A6 /* LiveStreamViewController + ShopLivebase.swift in Sources */,
 				BF5111F22824464A00E36175 /* HapticManager.swift in Sources */,
+				2FE52D4F2AF0A1E4007FF20B /* LiveUrlFetchAPI.swift in Sources */,
 				BF5111F32824464A00E36175 /* ShopLiveController.swift in Sources */,
 				2F071E422AD53221004616A6 /* ShopLivePlayerErrorObserver.swift in Sources */,
 				BF5111F42824464A00E36175 /* PerfMeasurements.swift in Sources */,
@@ -2197,7 +2197,9 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = ShopLiveSDK/Info.plist;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2223,14 +2225,17 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = D237UGRPX6;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = ShopLiveSDK/Info.plist;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (

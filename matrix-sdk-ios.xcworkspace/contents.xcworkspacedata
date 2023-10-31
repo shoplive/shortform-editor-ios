@@ -5,6 +5,6 @@
       location = "group:matrix-common-ios/matrix-common-ios.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:ShopLiveSDK.xcodeproj">
+      location = "group:matrix-sdk-ios/ShopLiveSDK.xcodeproj">
    </FileRef>
 </Workspace>

@@ -239,12 +239,32 @@ extension ShopLive: ShopLiveSDKInterface {
         ShopLiveConfiguration.Data.useLocalStorage = use
     }
     
-    public static func setPictureInPictureFloatingOffset(offset: UIEdgeInsets) {
+    public static func setPictureInPictureFloatingOffset(offset: UIEdgeInsets) -> Bool {
+        let padding = ShopLiveConfiguration.UI.pipPadding
+        let xRangeOverlapped = (offset.left + padding.left) >= (UIScreen.main.bounds.width - offset.right - padding.right)
+        let yRangeOverlapped = (offset.top + padding.top) >= (UIScreen.main.bounds.height - offset.bottom - padding.bottom)
+        
+        
+        if xRangeOverlapped || yRangeOverlapped {
+            return false
+        }
         ShopLiveConfiguration.UI.pipFloatingOffset = offset
+        
+        return true
     }
     
-    public static func setPictureInPicturePadding(padding: UIEdgeInsets) {
+    public static func setPictureInPicturePadding(padding: UIEdgeInsets) -> Bool {
+        let offset = ShopLiveConfiguration.UI.pipFloatingOffset
+        let xRangeOverlapped = (offset.left + padding.left) >= (UIScreen.main.bounds.width - offset.right - padding.right)
+        let yRangeOverlapped = (offset.top + padding.top) >= (UIScreen.main.bounds.height - offset.bottom - padding.bottom)
+        
+        
+        if xRangeOverlapped || yRangeOverlapped {
+            return false
+        }
         ShopLiveConfiguration.UI.pipPadding = padding
+        
+        return true
     }
 
     public static func sendCommandMessage(command: String, payload: [String : Any]?) {

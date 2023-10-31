@@ -284,8 +284,8 @@ public typealias ShopLiveViewController = SLViewController
     @objc static func sendCommandMessage(command: String, payload: [String:Any]?)
     @objc static func setMuteWhenPlayStart(_ mute: Bool)
 
-    @objc static func setPictureInPicturePadding(padding: UIEdgeInsets)
-    @objc static func setPictureInPictureFloatingOffset(offset: UIEdgeInsets)
+    @objc static func setPictureInPicturePadding(padding: UIEdgeInsets) -> Bool
+    @objc static func setPictureInPictureFloatingOffset(offset: UIEdgeInsets) -> Bool
     
     @objc static func setUsingLocalStorage(_ use: Bool)
     @objc static func setAppVersion(_ appVersion: String)
