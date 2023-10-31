@@ -61,7 +61,7 @@ internal final class ShopLiveConfiguration: NSObject {
         static var keepPlayVideoOnHeadphoneUnplugged: Bool = false
         static var onHeadphoneUnpluggedIsMute: Bool = false
         static var autoResumeVideoOnCallEnded: Bool = false
-        static var isMuted: Bool = false
+        static var isMutedWhenStart: Bool = false
         static var useMixWithOthers: Bool = true
     }
 

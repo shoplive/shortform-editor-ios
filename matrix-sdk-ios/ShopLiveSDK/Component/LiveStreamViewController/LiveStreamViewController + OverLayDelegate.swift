@@ -201,7 +201,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             let sendText = payload?["chatInputSendText"] as? String
             let chatInputMaxLength = payload?["chatInputMaxLength"] as? Int
             let campaignInfo = payload?["campaignInfo"] as? [String : Any]
-            let isMuted = ShopLiveController.shared.isPreview ? true : ShopLiveConfiguration.SoundPolicy.isMuted
+            let isMuted = ShopLiveController.shared.isPreview ? true : ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
             ShopLiveController.shared.setSoundMute(isMuted: isMuted)
             
             self.viewModel.parseRatioStringAndSetData(ratio: payload?["videoAspectRatio"] as? String)

@@ -21,9 +21,6 @@
 		2F071E4D2AD5489F004616A6 /* LiveStreamViewController + Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F071E4C2AD5489F004616A6 /* LiveStreamViewController + Audio.swift */; };
 		2F071E4E2AD54903004616A6 /* LiveStreamViewController + Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F071E4C2AD5489F004616A6 /* LiveStreamViewController + Audio.swift */; };
 		2F071E4F2AD54903004616A6 /* LiveStreamViewController + Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F071E4C2AD5489F004616A6 /* LiveStreamViewController + Audio.swift */; };
-		2F071E512AD54967004616A6 /* LiveStreamViewController + Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F071E502AD54967004616A6 /* LiveStreamViewController + Notification.swift */; };
-		2F071E522AD54A5A004616A6 /* LiveStreamViewController + Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F071E502AD54967004616A6 /* LiveStreamViewController + Notification.swift */; };
-		2F071E532AD54A5A004616A6 /* LiveStreamViewController + Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F071E502AD54967004616A6 /* LiveStreamViewController + Notification.swift */; };
 		2F071E552AD54DF6004616A6 /* LiveStreamViewModel + PlayControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F071E542AD54DF6004616A6 /* LiveStreamViewModel + PlayControl.swift */; };
 		2F071E572AD54E27004616A6 /* LiveStreamViewModel + TimeControlStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F071E562AD54E27004616A6 /* LiveStreamViewModel + TimeControlStatus.swift */; };
 		2F071E582AD54E50004616A6 /* LiveStreamViewModel + TimeControlStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F071E562AD54E27004616A6 /* LiveStreamViewModel + TimeControlStatus.swift */; };
@@ -504,7 +501,6 @@
 		2F071E442AD537C2004616A6 /* LiveStreamRetryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveStreamRetryManager.swift; sourceTree = "<group>"; };
 		2F071E482AD546A8004616A6 /* LiveStreamViewController + observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveStreamViewController + observer.swift"; sourceTree = "<group>"; };
 		2F071E4C2AD5489F004616A6 /* LiveStreamViewController + Audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveStreamViewController + Audio.swift"; sourceTree = "<group>"; };
-		2F071E502AD54967004616A6 /* LiveStreamViewController + Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveStreamViewController + Notification.swift"; sourceTree = "<group>"; };
 		2F071E542AD54DF6004616A6 /* LiveStreamViewModel + PlayControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveStreamViewModel + PlayControl.swift"; sourceTree = "<group>"; };
 		2F071E562AD54E27004616A6 /* LiveStreamViewModel + TimeControlStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveStreamViewModel + TimeControlStatus.swift"; sourceTree = "<group>"; };
 		2F071E5C2AD54F34004616A6 /* LiveStreamViewController + ChattingWriteDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveStreamViewController + ChattingWriteDelegate.swift"; sourceTree = "<group>"; };
@@ -832,7 +828,6 @@
 				BF37D98327F5742D004C2785 /* LiveStreamViewController.swift */,
 				2F071E482AD546A8004616A6 /* LiveStreamViewController + observer.swift */,
 				2F071E4C2AD5489F004616A6 /* LiveStreamViewController + Audio.swift */,
-				2F071E502AD54967004616A6 /* LiveStreamViewController + Notification.swift */,
 				2F071E5C2AD54F34004616A6 /* LiveStreamViewController + ChattingWriteDelegate.swift */,
 				2F071E602AD54FF7004616A6 /* LiveStreamViewController + ShopLivebase.swift */,
 				2F071E642AD551D4004616A6 /* LiveStreamViewController + OverLayDelegate.swift */,
@@ -1622,7 +1617,6 @@
 				2F071E492AD546A8004616A6 /* LiveStreamViewController + observer.swift in Sources */,
 				BF37D9CF27F5742D004C2785 /* ShopLiveDefines.swift in Sources */,
 				BFC73CDB2901791900D9BC8A /* Throttle.swift in Sources */,
-				2F071E512AD54967004616A6 /* LiveStreamViewController + Notification.swift in Sources */,
 				2F071E4D2AD5489F004616A6 /* LiveStreamViewController + Audio.swift in Sources */,
 				2FE099222A3C47C500D077F6 /* ShopLiveThrottle.swift in Sources */,
 				BF37D9D827F5742D004C2785 /* ShopLiveViewLoggerController.swift in Sources */,
@@ -1703,7 +1697,6 @@
 				BF34F2F328125F8600114DBF /* ShopLiveChattingWriteView.swift in Sources */,
 				2F8DDD0D2AAAEFEF005FA074 /* ShopLiveBase + CommonDelegate.swift in Sources */,
 				BF34F2F428125F8600114DBF /* SoundManager.swift in Sources */,
-				2F071E522AD54A5A004616A6 /* LiveStreamViewController + Notification.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1754,7 +1747,6 @@
 				BF5112012824464A00E36175 /* ShopLiveChattingWriteView.swift in Sources */,
 				2F8DDD0E2AAAEFEF005FA074 /* ShopLiveBase + CommonDelegate.swift in Sources */,
 				BF5112022824464A00E36175 /* SoundManager.swift in Sources */,
-				2F071E532AD54A5A004616A6 /* LiveStreamViewController + Notification.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

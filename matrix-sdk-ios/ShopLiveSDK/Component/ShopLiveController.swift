@@ -110,7 +110,7 @@ final class ShopLiveController: NSObject {
     @objc dynamic var retryPlay: Bool = false
     @objc dynamic var releasePlayer: Bool = false
     @objc dynamic var isPreview: Bool = false
-    @objc dynamic var isMuted: Bool = ShopLiveConfiguration.SoundPolicy.isMuted
+    @objc dynamic var isMuted: Bool = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
 
     var playerResumeCount: Int = 0
     
@@ -273,7 +273,7 @@ final class ShopLiveController: NSObject {
         webInstance = nil
         prevWindowStyle = .none
         
-        isMuted = ShopLiveConfiguration.SoundPolicy.isMuted
+        isMuted = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
         ShopLiveConfiguration.UI.color = .white
         ShopLiveConfiguration.UI.customIndicatorImages.removeAll()
         _playerMode = .none
@@ -294,7 +294,7 @@ final class ShopLiveController: NSObject {
         pipAnimating = false
         windowStyle = .none
         needReload = false
-        isMuted = ShopLiveConfiguration.SoundPolicy.isMuted
+        isMuted = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
         
         resetVideoDatas()
     }

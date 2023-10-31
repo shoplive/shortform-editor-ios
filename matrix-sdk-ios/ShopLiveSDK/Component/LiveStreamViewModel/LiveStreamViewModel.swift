@@ -42,6 +42,7 @@ internal final class LiveStreamViewModel: NSObject {
     private var isWebViewDidCompleteLoading : Bool = false
     var isAlreadyPlayedOnce : Bool = false
     private var osPipFailedErrorHasOccured : Bool = false
+//    private var 
     /**
      api에서 아무데이터 없거나 할때 쓰임 setConf에서 updatePictureInPicture하기 위해서 있음
      */

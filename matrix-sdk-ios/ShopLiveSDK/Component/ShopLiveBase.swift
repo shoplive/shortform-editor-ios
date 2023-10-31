@@ -1821,6 +1821,7 @@ extension ShopLiveBase: ShopLiveComponent {
             if let ak = ShopLiveCommon.getAccessKey(),
                let vc = self.liveStreamViewController,
                ShopLiveController.shared.isPreview == false {
+                ShopLiveController.shared.setSoundMute(isMuted: ShopLiveConfiguration.SoundPolicy.isMutedWhenStart)
                 vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
                                                                  campaignKey: ShopLiveController.shared.campaignKey,
                                                                  isPreview: false) {

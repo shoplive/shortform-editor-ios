@@ -465,10 +465,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             ShopLiveController.shared.initialize()
             self.webView?.sendEventToWeb(event: .videoInitialized)
             if !ShopLiveController.shared.isPreview {
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                    self.webView?.sendEventToWeb(event: .setVideoMute(isMuted: ShopLiveConfiguration.SoundPolicy.isMuted), ShopLiveConfiguration.SoundPolicy.isMuted)
-                }
-                
+                self.webView?.sendEventToWeb(event: .setVideoMute(isMuted: ShopLiveConfiguration.SoundPolicy.isMutedWhenStart), ShopLiveConfiguration.SoundPolicy.isMutedWhenStart)
                 let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("top", UIScreen.safeArea.top), ("left", UIScreen.safeArea.left),
                                                                      ("right", UIScreen.safeArea.right), ("bottom", UIScreen.safeArea.bottom), ("orientation", UIScreen.currentOrientation.angle))
                 

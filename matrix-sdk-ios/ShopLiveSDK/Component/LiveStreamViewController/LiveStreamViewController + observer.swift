@@ -46,13 +46,13 @@ extension LiveStreamViewController {
         case "outputVolume":
             if audioSession.outputVolume > audioLevel {
                 ShopLiveLogger.debugLog("volume up")
-                ShopLiveController.shared.setSoundMute(isMuted: false)
             }
             if audioSession.outputVolume < audioLevel {
                 ShopLiveLogger.debugLog("volume down")
-                ShopLiveController.shared.setSoundMute(isMuted: false)
             }
             audioLevel = audioSession.outputVolume
+            ShopLiveController.shared.isMuted = false
+            ShopLiveController.shared.setSoundMute(isMuted: false)
             break
         case "captured":
             guard !ShopLiveController.shared.isPreview else { return }

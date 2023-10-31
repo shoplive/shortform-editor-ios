@@ -281,7 +281,7 @@ extension ShopLive: ShopLiveSDKInterface {
     }
     
     public static func setMuteWhenPlayStart(_ mute: Bool) {
-        ShopLiveConfiguration.SoundPolicy.isMuted = mute
+        ShopLiveConfiguration.SoundPolicy.isMutedWhenStart = mute
     }
     
     public static func setNextActionOnHandleNavigation(actionType: ActionType) {
