@@ -1334,9 +1334,6 @@ import ShopliveSDKCommon
 #else
         queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
 #endif
-#if DEMO
-        queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
-#endif
         
         self.queryParameters.forEach { param in
             queryItems.append(URLQueryItem(name: param.key, value: param.value))

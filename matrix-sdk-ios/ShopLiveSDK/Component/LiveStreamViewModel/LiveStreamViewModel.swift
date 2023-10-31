@@ -719,7 +719,7 @@ extension LiveStreamViewModel : LiveStreamRetryManagerDelegate {
     }
     
     func retryOnNetworkDisconnected(){
-        guard let overayUrl = overayUrl else { return }
+        guard let overayUrl = getOverLayUrlWithInfosAttached() else { return }
         retryManager?.retryOnNetworkDisconnected(with: overayUrl)
     }
     
