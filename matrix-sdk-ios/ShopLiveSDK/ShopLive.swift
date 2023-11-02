@@ -196,7 +196,7 @@ extension ShopLive {
 
 extension ShopLive: ShopLiveSDKInterface {
    
-    
+    @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     public static func setEnabledPipSwipeOut(_ enabled: Bool) {
         ShopLiveConfiguration.UI.enablePipSwipeOut = enabled
     }
@@ -209,6 +209,7 @@ extension ShopLive: ShopLiveSDKInterface {
         ShopLiveConfiguration.Data.customParameters[key] = value
     }
     
+    @available(iOS, deprecated, message: "Will be deprecated soon please Enable AppTrackingTransparency instead")
     public static func setAdId(adId: String?) {
         ShopLiveCommon.setAdId(adId: adId)
     }
@@ -217,6 +218,7 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.setMixWithOthers(isMixAudio: isMixAudio)
     }
     
+    @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     public static func useCloseButton(_ use: Bool) {
         ShopLiveConfiguration.UI.closeButton = use
     }
@@ -359,6 +361,7 @@ extension ShopLive: ShopLiveSDKInterface {
         return shared.instance?.playerWindow
     }
     
+    @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     public static var fixedPipWidth: NSNumber? {
         get {
             return shared.instance?.fixedPipWidth
@@ -384,6 +387,7 @@ extension ShopLive: ShopLiveSDKInterface {
         return shared.instance?.style ?? .unknown
     }
 
+    @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     public static var pipPosition: PipPosition {
         get {
             return ShopLiveController.shared.initialPipPosition
@@ -392,7 +396,7 @@ extension ShopLive: ShopLiveSDKInterface {
             ShopLiveController.shared.initialPipPosition = newValue
         }
     }
-
+    @available(iOS, deprecated, message: "Will be deprecated soon Use pipMaxSize in setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     public static var pipScale: CGFloat {
         get {
             shared.instance?.pipScale ?? ShopLiveController.shared.lastPipScale
