@@ -565,6 +565,10 @@ extension LiveStreamViewModel {
             if let age = user.age, age > 0 {
                 queryItems.append(URLQueryItem(name: "age", value: String(age)))
             }
+            if let userScore = user.userScore {
+                queryItems.append(URLQueryItem(name: "userScore", value: String(userScore)))
+            }
+        
             
             if let additional = user.custom, !additional.isEmpty {
                 additional.forEach { (key: String, value: Any) in
