@@ -311,6 +311,9 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
                     ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoDurationChanged, CMTimeGetSeconds(duration))
                 }
                 ShopLiveController.retryPlay = false
+                if isAlreadyPlayedOnce == false {
+                    ShopLiveController.shared.setSoundMute(isMuted: ShopLiveConfiguration.SoundPolicy.isMutedWhenStart)
+                }
                 self.play()
                 self.delegate?.requestTakeSnapShotView()
             }
