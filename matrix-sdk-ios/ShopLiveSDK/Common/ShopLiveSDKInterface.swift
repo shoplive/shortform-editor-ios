@@ -310,14 +310,13 @@ public typealias ShopLiveViewController = SLViewController
     
     //MARK: - will be deprecated in v2
     //실제 값이 저장되는 곳은 ShopLiveCommon에 저장됨
-//    @available(*, deprecated, message: "use ShopLiveCommon.setUserJWT(userJWT: String?) instead")
+//    @available(*, deprecated, message: "Will be deprecated in v2, use ShopLiveCommon.setUserJWT(userJWT: String?) instead")
     @objc static var authToken : String? { get set }
 //    @available(*, deprecated, message: "use ShopLiveCommon.setUser(user: ShopLiveCommonUser?) instead")
     @objc static var user : ShopLiveCommonUser? { get set }
 //    @available(*, deprecated, message: "use ShopLiveCommon.setAccessKey(accessKey: String) instead")
     @objc static func configure(with accessKey : String)
     @objc static func setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration)
-    
     
     @objc static func setUtmSource(utmSource : String?)
     @objc static func setUtmCampaign(utmCampaign : String?)
@@ -328,5 +327,4 @@ public typealias ShopLiveViewController = SLViewController
     @objc static func getUtmCampaign() -> String?
     @objc static func getUtmMedium() -> String?
     @objc static func getUtmContent() -> String?
-    
 }

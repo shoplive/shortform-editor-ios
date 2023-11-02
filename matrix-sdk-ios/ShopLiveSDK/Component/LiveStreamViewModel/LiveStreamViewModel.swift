@@ -568,17 +568,27 @@ extension LiveStreamViewModel {
             if let userScore = user.userScore {
                 queryItems.append(URLQueryItem(name: "userScore", value: String(userScore)))
             }
-        
             
+      
             if let additional = user.custom, !additional.isEmpty {
-                additional.forEach { (key: String, value: Any) in
-                    if let value = value as? String {
-                        queryItems.append(URLQueryItem(name: key, value: value))
+                let nilAvoided = (additional  as [String : Any?]).filter({ $0.value != nil })
+                nilAvoided.forEach { (key: String, value: Any?) in
+                    guard let value = value else { return }
+                    if value is [Any] {
+                        let resultValue = "\"" + String(describing: value) + "\""
+                        if resultValue.isEmpty == false {
+                            queryItems.append(URLQueryItem(name: key, value: resultValue ))
+                        }
+                    }
+                    else {
+                        let resultValue = String(describing: value)
+                        if resultValue.isEmpty == false {
+                            queryItems.append(URLQueryItem(name: key, value: resultValue ))
+                        }
                     }
                 }
             }
         }
-        
         
         if let adid = ShopLiveCommon.getAdId(), !adid.isEmpty {
             queryItems.append(URLQueryItem(name: "adId", value: adid))

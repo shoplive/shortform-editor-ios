@@ -153,6 +153,7 @@ class MainViewController: SideMenuBaseViewController {
             ShopLive.user = nil
         }
         
+        
         DemoConfiguration.shared.customParameters.forEach { customParam in
             if customParam.isUseParam, let value = customParam.paramValue {
                 ShopLive.addParameter(key: customParam.paramKey, value: value)
