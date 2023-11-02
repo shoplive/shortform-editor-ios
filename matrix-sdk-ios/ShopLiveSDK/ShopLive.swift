@@ -195,6 +195,38 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    static func setUtmSource(utmSource: String?) {
+        ShopLiveCommon.setUtmSource(utmSource: utmSource)
+    }
+    
+    static func setUtmCampaign(utmCampaign: String?) {
+        ShopLiveCommon.setUtmCampaign(utmCampaign: utmCampaign)
+    }
+    
+    static func setUtmMedium(utmMedium: String?) {
+        ShopLiveCommon.setUtmMedium(utmMedium: utmMedium)
+    }
+    
+    static func setUtmContent(utmContent: String?) {
+        ShopLiveCommon.setUtmContent(utmContent: utmContent)
+    }
+    
+    static func getUtmSource() -> String? {
+        return ShopLiveCommon.getUtmSource()
+    }
+    
+    static func getUtmCampaign() -> String? {
+        return ShopLiveCommon.getUtmCampaign()
+    }
+    
+    static func getUtmMedium() -> String? {
+        return ShopLiveCommon.getUtmMedium()
+    }
+    
+    static func getUtmContent() -> String? {
+        return ShopLiveCommon.getUtmContent()
+    }
+    
     public static func setEnabledPipSwipeOut(_ enabled: Bool) {
         ShopLiveConfiguration.UI.enablePipSwipeOut = enabled
     }
