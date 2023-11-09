@@ -42,7 +42,7 @@ class SettingCustomParameterViewController: UIViewController {
     
     @objc func handleNaviBack() {
         self.saveParameterList()
-        shopliveHideKeyboard()
+        shopliveHideKeyboard_SL()
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -66,7 +66,7 @@ class SettingCustomParameterViewController: UIViewController {
         guard gesture.state == .recognized else {
             return
         }
-        shopliveHideKeyboard()
+        shopliveHideKeyboard_SL()
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -74,7 +74,7 @@ class SettingCustomParameterViewController: UIViewController {
         guard gesture.state == .recognized else {
             return
         }
-        shopliveHideKeyboard()
+        shopliveHideKeyboard_SL()
     }
 
     private func setupTapGesture() {

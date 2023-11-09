@@ -262,7 +262,7 @@ import ShopliveSDKCommon
             self.liveStreamViewController?.updateStatusBarToDefault()
             ShopLiveController.windowStyle = .inAppPip
         } else {
-            mainWindow?.rootViewController?.shopliveHideKeyboard()
+            mainWindow?.rootViewController?.shopliveHideKeyboard_SL()
             ShopLiveController.windowStyle = .normal
             _style = .fullScreen
         }
@@ -477,7 +477,7 @@ import ShopliveSDKCommon
             shopLiveWindow.layer.cornerRadius = 10
             shopLiveWindow.rootViewController?.view.backgroundColor = .clear
             
-            liveVc.shopliveHideKeyboard()
+            liveVc.shopliveHideKeyboard_SL()
             liveVc.showBackgroundPoster()
             
             let pipPosition: CGRect = self.pipPosition(with: scale, position: position)
@@ -567,7 +567,7 @@ import ShopliveSDKCommon
                 self.setupOsPictureInPicture()
             }
             
-            mainWindow.rootViewController?.shopliveHideKeyboard()
+            mainWindow.rootViewController?.shopliveHideKeyboard_SL()
             self.liveStreamViewController?.showBackgroundPoster()
             
             self.delegate?.handleCommand("willShopLiveOn", with: nil)
@@ -629,7 +629,7 @@ import ShopliveSDKCommon
         shopLiveWindow.layer.cornerRadius = 10
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
         
-        mainWindow.rootViewController?.shopliveHideKeyboard()
+        mainWindow.rootViewController?.shopliveHideKeyboard_SL()
         
         delegate?.handleCommand("willShopLiveOn", with: nil)
         ShopLiveController.shared.pipAnimating = true
@@ -768,7 +768,7 @@ import ShopliveSDKCommon
             shopLiveWindow.layer.cornerRadius = 10
             shopLiveWindow.rootViewController?.view.backgroundColor = .clear
             
-            self.liveStreamViewController?.shopliveHideKeyboard()
+            self.liveStreamViewController?.shopliveHideKeyboard_SL()
             
             ShopLiveController.windowStyle = .inAppPip
             
@@ -918,7 +918,7 @@ import ShopliveSDKCommon
                 shopLiveWindow.frame = mainWindow.bounds
             }
             
-            self.liveStreamViewController?.shopliveHideKeyboard()
+            self.liveStreamViewController?.shopliveHideKeyboard_SL()
             
             self.videoWindowPanGestureRecognizer?.isEnabled = false
             self.videoWindowTapGestureRecognizer?.isEnabled = false
@@ -1941,7 +1941,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
         ShopLiveController.shared.needReload = false
         ShopLiveController.windowStyle = .osPip
         ShopLiveController.shared.lastPipPlaying = ShopLiveController.timeControlStatus == .playing
-        self.liveStreamViewController?.shopliveHideKeyboard()
+        self.liveStreamViewController?.shopliveHideKeyboard_SL()
     }
     
     public func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {

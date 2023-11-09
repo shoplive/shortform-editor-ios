@@ -111,7 +111,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didTouchBlockView() {
-        shopliveHideKeyboard()
+        shopliveHideKeyboard_SL()
     }
 
     func replay(with size: CGSize) {

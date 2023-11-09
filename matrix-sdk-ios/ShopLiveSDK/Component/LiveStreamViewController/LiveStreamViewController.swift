@@ -359,7 +359,7 @@ internal final class LiveStreamViewController: SLViewController {
 
     func hideBackgroundPoster() {
         backgroundPosterImageWebView?.isHidden = true
-        shopliveHideKeyboard()
+        shopliveHideKeyboard_SL()
     }
     
     func showBackgroundPoster() {
@@ -372,8 +372,8 @@ internal final class LiveStreamViewController: SLViewController {
         self.pipDimLayer.masksToBounds = !visible
     }
 
-    override func shopliveHideKeyboard() {
-        super.shopliveHideKeyboard()
+    override func shopliveHideKeyboard_SL() {
+        super.shopliveHideKeyboard_SL()
         self.chatInputView.resignFirstResponder()
         self.chatInputView.isHidden = true
         self.chatInputBG.isHidden = true
@@ -549,7 +549,7 @@ internal final class LiveStreamViewController: SLViewController {
         }
         
         if ShopLiveController.shared.lastOrientaion.direction != currentOrientation {
-            self.shopliveHideKeyboard()
+            self.shopliveHideKeyboard_SL()
         }
         
         if UIScreen.currentOrientation.deviceOrientation.isLandscape {
