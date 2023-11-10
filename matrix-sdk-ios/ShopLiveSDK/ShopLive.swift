@@ -437,6 +437,12 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.preview(with: campaignKey, referrer: referrer, completion: completion)
     }
 
+    public static func play(data : ShopLivePlayerData) {
+        ShopLiveConfiguration.UI.keepWindowStateOnPlayExecuted = data.keepWindowStateOnPlayExecuted
+        shared.instance?.play(with: data.campaignKey, referrer: data.referrer)
+    }
+    
+    @available(iOS, deprecated, message: "Use play(data : ShopLivePlayerData) instead")
     public static func play(with campaignKey: String?, keepWindowStateOnPlayExecuted: Bool = false, referrer: String? = nil) {
         ShopLiveConfiguration.UI.keepWindowStateOnPlayExecuted = keepWindowStateOnPlayExecuted
         shared.instance?.play(with: campaignKey, referrer: referrer)

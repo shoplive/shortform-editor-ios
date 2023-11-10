@@ -280,6 +280,15 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     func requestHideOrShowLoading(hide: Bool) {
         self.processLoadingIndicator(hide: hide)
     }
+    
+    func requestNetworkCapabilityOnSystemInit() {
+        self.sendNetworkCapabilityChangedToWeb(capability: viewModel.getCurrentNetworkType())
+    }
+}
+extension LiveStreamViewController {
+    func sendNetworkCapabilityChangedToWeb(capability : String){
+        self.sendCommandMessage(command: WebInterface.onNetworkChangeCapability.functionString, payload: ["capability" : capability])
+    }
 }
 extension LiveStreamViewController: WKUIDelegate {
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {

@@ -15,6 +15,7 @@ protocol LiveStreamViewModelDelegate : NSObjectProtocol {
     func requestTakeSnapShotView()
     func requestHideOrShowLoading(hide : Bool)
     func reloadWebView(with url : URL)
+    func sendNetworkCapabilityOnChanged(networkCapability : String)
 }
 
 internal final class LiveStreamViewModel: NSObject {
@@ -27,6 +28,7 @@ internal final class LiveStreamViewModel: NSObject {
     
     weak var liveStreamViewController : LiveStreamViewController?
     
+    private var networkMonitor : NetworkMonitor?
     private var urlAsset: AVURLAsset?
     private var playerItem: AVPlayerItem?
     private var perfMeasurements: PerfMeasurements?
@@ -42,7 +44,8 @@ internal final class LiveStreamViewModel: NSObject {
     private var isWebViewDidCompleteLoading : Bool = false
     var isAlreadyPlayedOnce : Bool = false
     private var osPipFailedErrorHasOccured : Bool = false
-//    private var 
+    private var currentNetworkCapability : String = ""
+//    private var
     /**
      api에서 아무데이터 없거나 할때 쓰임 setConf에서 updatePictureInPicture하기 위해서 있음
      */
@@ -56,8 +59,6 @@ internal final class LiveStreamViewModel: NSObject {
     override init() {
         super.init()
         setupLiveStreamViewModel()
-        
-        
     }
 
     private func setupLiveStreamViewModel() {
@@ -65,6 +66,7 @@ internal final class LiveStreamViewModel: NSObject {
         retryManager = LiveStreamRetryManager()
         retryManager?.delegate = self
         isAlreadyPlayedOnce = false
+        self.setUpNetworkMonitor()
         self.liveStreamViewController = nil
     }
     
@@ -81,8 +83,33 @@ internal final class LiveStreamViewModel: NSObject {
         overayUrl = nil
         campaignKey = nil
         isWebViewDidCompleteLoading = false
+        networkMonitor = nil 
     }
     
+    
+    private func setUpNetworkMonitor() {
+        self.networkMonitor = nil
+        self.networkMonitor = NetworkMonitor()
+        guard let nw = self.networkMonitor else { return }
+        nw.resultHandler = { [weak self] result in
+            guard let self = self else { return }
+            if case .statusChanged(let type ) = result {
+                switch type {
+                case .cellular:
+                    self.currentNetworkCapability = "CELLULAR"
+                    break
+                case .wifi:
+                    self.currentNetworkCapability = "WIFI"
+                    break
+                case .disconnected, .none:
+                    self.currentNetworkCapability = "NONE"
+                    break
+                }
+                self.delegate?.sendNetworkCapabilityOnChanged(networkCapability: self.currentNetworkCapability)
+            }
+        }
+        
+    }
     
     func updatePlayerItemWithLiveUrlFetchAPI(accessKey : String, campaignKey : String,isPreview : Bool, completion : @escaping(() -> ())) {
         LiveUrlFetchAPI(campaignKey: campaignKey)
@@ -541,6 +568,9 @@ extension LiveStreamViewModel {
         return self.osPipFailedErrorHasOccured
     }
     
+    func getCurrentNetworkType() -> String {
+        return self.currentNetworkCapability
+    }
     /**
         Initialize web client
             - Sending the required data using URL for Web Client initialization

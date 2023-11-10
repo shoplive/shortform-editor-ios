@@ -1,0 +1,21 @@
+//
+//  ShopLivePlayerData.swift
+//  ShopLiveSDK
+//
+//  Created by sangmin han on 11/9/23.
+//
+
+import Foundation
+import UIKit
+
+public final class ShopLivePlayerData : NSObject {
+    public var campaignKey : String
+    public var keepWindowStateOnPlayExecuted : Bool = false
+    public var referrer : String? = nil
+    
+    public init(campaignKey: String, keepWindowStateOnPlayExecuted: Bool = false, referrer: String? = nil) {
+        self.campaignKey = campaignKey
+        self.keepWindowStateOnPlayExecuted = keepWindowStateOnPlayExecuted
+        self.referrer = referrer
+    }
+}

@@ -109,6 +109,7 @@ protocol OverlayWebViewDelegate: AnyObject {
     func didFailToLoadWebViewWithNetworkUnreachable()
     func webViewDidFinishedLoading()
     func requestHideOrShowLoading(hide : Bool)
+    func requestNetworkCapabilityOnSystemInit()
 
 }
 

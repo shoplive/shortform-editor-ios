@@ -66,6 +66,7 @@ enum WebInterface {
     case command(command: String, payload: Any?)
     case sendCommandMessage
     case setSafeAreaMargin
+    case onNetworkChangeCapability
 
     var functionString: String {
         switch self {
@@ -167,6 +168,8 @@ enum WebInterface {
             return WebFunction.sendCommandMessage.rawValue
         case .setSafeAreaMargin:
             return WebFunction.setSafeAreaMargin.rawValue
+        case .onNetworkChangeCapability:
+            return WebFunction.onNetworkChangeCapability.rawValue
         }
     }
     
@@ -222,6 +225,7 @@ enum WebInterface {
         case error = "ERROR"
         case sendCommandMessage = "SEND_COMMAND_MESSAGE"
         case setSafeAreaMargin = "SET_SAFE_AREA_MARGIN"
+        case onNetworkChangeCapability = "ON_CHANGED_NETWORK_CAPABILITY"
     }
 }
 
@@ -385,6 +389,8 @@ extension WebInterface {
             self = .sendCommandMessage
         case .setSafeAreaMargin:
             self = .setSafeAreaMargin
+        case .onNetworkChangeCapability:
+            self = .onNetworkChangeCapability
         }
     }
 }

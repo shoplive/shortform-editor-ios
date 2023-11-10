@@ -472,6 +472,7 @@ extension OverlayWebView: WKScriptMessageHandler {
                 self.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
                 
             }
+            self.delegate?.requestNetworkCapabilityOnSystemInit()
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
                 self.webView?.sendEventToWeb(event: .onPipModeChanged, self.isPipMode)
             }

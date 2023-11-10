@@ -665,6 +665,11 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
     func setIsOsPipFailedHasOccured(hasOccured : Bool) {
         viewModel.setIsOsPipFailedHasOccured(hasOccured: hasOccured)
     }
+    
+    func sendNetworkCapabilityOnChanged(networkCapability: String) {
+        self.sendNetworkCapabilityChangedToWeb(capability: networkCapability)
+    }
+    
 }
 //MARK: - ViewSetUp functions
 extension LiveStreamViewController {
