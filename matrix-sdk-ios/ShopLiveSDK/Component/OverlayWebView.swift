@@ -79,6 +79,10 @@ internal class OverlayWebView: SLView {
         self.webView?.isHidden = toHidden
     }
     
+    func getCurrentUrl() -> URL? {
+        return self.webView?.url
+    }
+    
     private lazy var blockTouchView: SLView = {
         let view = SLView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -260,6 +264,7 @@ extension OverlayWebView: WKNavigationDelegate {
         guard !ShopLiveController.shared.isPreview else { return }
         guard !ShopLiveController.shared.isSameCampaign else { return }
         delegate?.requestHideOrShowLoading(hide: false)
+        
     }
     
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
@@ -273,15 +278,27 @@ extension OverlayWebView: WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        delegate?.requestHideOrShowLoading(hide: true)
-        delegate?.webViewDidFinishedLoading()
+        if webView.url?.absoluteString == "about:blank" {
+            delegate?.requestHideOrShowLoading(hide: false)
+            delegate?.didFailToLoadWebViewWithNetworkUnreachable()
+        }
+        else {
+            delegate?.requestHideOrShowLoading(hide: true)
+            delegate?.webViewDidFinishedLoading()
+        }
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        if let blankUrl = URL(string: "about:blank") {
+            self.webView?.load(URLRequest(url: blankUrl))
+        }
         delegate?.requestHideOrShowLoading(hide: true)
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        if let blankUrl = URL(string: "about:blank") {
+            self.webView?.load(URLRequest(url: blankUrl))
+        }
         if NetworkReachability().connectionStatus() == .Offline {
             delegate?.didFailToLoadWebViewWithNetworkUnreachable()
         }

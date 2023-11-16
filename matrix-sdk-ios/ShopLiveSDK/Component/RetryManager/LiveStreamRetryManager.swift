@@ -12,6 +12,7 @@ protocol LiveStreamRetryManagerDelegate {
     func updatePlayerItemInRetry(with url : URL)
     func reloadWebViewInRetry(with url : URL)
     func requestHideOrShowLoading(hide : Bool)
+    func getCurrentWebViewUrl() -> URL?
 }
 
 class LiveStreamRetryManager {
@@ -106,7 +107,7 @@ class LiveStreamRetryManager {
             }
             self.delegate?.requestHideOrShowLoading(hide: false)
             guard let player = ShopLiveController.player else { return }
-            if player.timeControlStatus != .playing {
+            if player.timeControlStatus != .playing && (self.delegate?.getCurrentWebViewUrl()?.absoluteString ?? "about:blank") == "about:blank" {
                 self.delegate?.reloadWebViewInRetry(with: url)
             }
             else if player.timeControlStatus == .playing {

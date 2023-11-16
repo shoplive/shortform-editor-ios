@@ -650,7 +650,12 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
     }
     
     func reloadWebView(with url: URL) {
-        self.overlayView?.reload(with: url)
+        if let currentUrl = overlayView?.getCurrentUrl(), currentUrl == url {
+            return
+        }
+        else {
+            self.overlayView?.reload(with: url)
+        }
     }
     
     func refreshAvPlayerLayer() {
@@ -668,6 +673,10 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
     
     func sendNetworkCapabilityOnChanged(networkCapability: String) {
         self.sendNetworkCapabilityChangedToWeb(capability: networkCapability)
+    }
+    
+    func getCurrentWebViewUrl() -> URL? {
+        return self.overlayView?.getCurrentUrl()
     }
     
 }

@@ -16,6 +16,7 @@ protocol LiveStreamViewModelDelegate : NSObjectProtocol {
     func requestHideOrShowLoading(hide : Bool)
     func reloadWebView(with url : URL)
     func sendNetworkCapabilityOnChanged(networkCapability : String)
+    func getCurrentWebViewUrl() -> URL?
 }
 
 internal final class LiveStreamViewModel: NSObject {
@@ -772,5 +773,9 @@ extension LiveStreamViewModel : LiveStreamRetryManagerDelegate {
     
     func getInBuffering() -> Bool {
         return retryManager?.getIsBuffering() ?? false
+    }
+    
+    func getCurrentWebViewUrl() -> URL? {
+        return delegate?.getCurrentWebViewUrl()
     }
 }
