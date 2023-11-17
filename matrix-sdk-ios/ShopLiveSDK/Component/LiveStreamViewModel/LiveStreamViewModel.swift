@@ -629,16 +629,16 @@ extension LiveStreamViewModel {
             queryItems.append(URLQueryItem(name: "adIdentifier", value: adId))
         }
         
-        if let utm_source = ShopLiveCommon.getUtmSource() {
+        if let utm_source = ShopLiveCommon.getUtmSource(), utm_source.isEmpty == false{
             queryItems.append(URLQueryItem(name: "utm_source", value: utm_source))
         }
-        if let utm_content = ShopLiveCommon.getUtmCampaign() {
+        if let utm_content = ShopLiveCommon.getUtmCampaign(), utm_content.isEmpty == false {
             queryItems.append(URLQueryItem(name: "utm_content", value: utm_content))
         }
-        if let utm_campaign = ShopLiveCommon.getUtmContent() {
+        if let utm_campaign = ShopLiveCommon.getUtmContent(), utm_campaign.isEmpty == false {
             queryItems.append(URLQueryItem(name: "utm_campaign", value: utm_campaign))
         }
-        if let utm_medium = ShopLiveCommon.getUtmMedium() {
+        if let utm_medium = ShopLiveCommon.getUtmMedium(), utm_medium.isEmpty == false {
             queryItems.append(URLQueryItem(name: "utm_medium", value: utm_medium))
         }
         
@@ -646,7 +646,7 @@ extension LiveStreamViewModel {
         queryItems.append(URLQueryItem(name: "osVersion", value: ShopLiveDefines.osVersion))
         queryItems.append(URLQueryItem(name: "device", value: ShopLiveDefines.deviceIdentifier))
 
-        if let scm: String = ShopLiveController.shared.shareScheme {
+        if let scm: String = ShopLiveController.shared.shareScheme, scm.isEmpty == false {
             queryItems.append(URLQueryItem(name: "shareUrl", value: scm))
         }
         
