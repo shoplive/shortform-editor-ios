@@ -36,9 +36,13 @@ final class DeepLinkManager {
                 parameters[item.name] = item.value?.removingPercentEncoding
             }
             else {
-                parameters[item.name] = item.value
+                if let value = item.value?.removingPercentEncoding {
+                    parameters[item.name] = value.base64Decoded
+                }
+                else {
+                    parameters[item.name] = ""
+                }
             }
-            
         })
 
         switch command {
@@ -47,7 +51,9 @@ final class DeepLinkManager {
             ShopLiveDemoKeyTools.shared.save(key: .init(alias: alias, campaignKey: ck, accessKey: ak))
             ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: alias)
             ShopLive.configure(with: ak)
-            ShopLive.preview(with: ck) { }
+            ShopLive.preview(with: ck) {
+                ShopLive.play(data: ShopLivePlayerData(campaignKey: ck))
+            }
             break
         case .product:
             ShopLive.startPictureInPicture()
