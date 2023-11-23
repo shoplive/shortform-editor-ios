@@ -1251,9 +1251,15 @@ import ShopliveSDKCommon
             self.blockWindowTapGesture = false
         }
         if ShopLiveController.shared.isPreview {
-            previewCallback?()
+            if let previewCallback = self.previewCallback {
+                previewCallback()
+            }
+            else if let campaignKey = self.campaignKey {
+                self.play(with: campaignKey)
+            }
             return
         }
+        
         guard _style == .pip else { return }
         stopShopLivePictureInPicture()
     }
