@@ -481,10 +481,6 @@ import ShopliveSDKCommon
             self.mainWindow?.makeKey()
             
             shopLiveWindow.backgroundColor = .clear
-            shopLiveWindow.layer.cornerRadius = 10
-            shopLiveWindow.rootViewController?.view.backgroundColor = .clear
-            shopLiveWindow.rootViewController?.view.layer.cornerRadius = 10
-            shopLiveWindow.rootViewController?.view.layer.masksToBounds = true
             shopLiveWindow.layer.masksToBounds = true
             
             shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
@@ -518,6 +514,11 @@ import ShopliveSDKCommon
                 shopLiveWindow.frame = pipPosition
                 liveVc.updateVideoFit(centerCrop: true, immediately: false,targetWindowStyle: .inAppPip)
                 liveVc.updateVideoConstraint()
+                
+                shopLiveWindow.layer.cornerRadius = 10
+                shopLiveWindow.rootViewController?.view.backgroundColor = .clear
+                shopLiveWindow.rootViewController?.view.layer.cornerRadius = 10
+                shopLiveWindow.rootViewController?.view.layer.masksToBounds = true
             }
             windowAnimator?.addCompletion({ [weak self] position in
                 guard let self = self, position == .end else { return }
@@ -576,7 +577,6 @@ import ShopliveSDKCommon
             }
             
             shopLiveWindow.backgroundColor = .clear
-            shopLiveWindow.layer.cornerRadius = 10
             shopLiveWindow.rootViewController?.view.backgroundColor = .clear
             
             if self.osPictureInPictureController == nil {
@@ -614,10 +614,11 @@ import ShopliveSDKCommon
             windowAnimator?.addAnimations { [weak self] in
                 guard let self = self else { return }
                 liveVc.setStatusBarVisiblityOnFullScreen(isVisible: statusBarVisibility)
-                liveVc?.updateVideoConstraint()
+                liveVc.updateVideoConstraint()
                 shopLiveWindow.frame = mainWindow.bounds
                 shopLiveWindow.layer.cornerRadius = 0
                 shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
+                shopLiveWindow.layer.cornerRadius = 0
             }
             windowAnimator?.addCompletion({ [weak self] position in
                 guard let self = self, position == .end else { return }
