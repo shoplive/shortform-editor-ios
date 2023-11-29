@@ -641,6 +641,16 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.variantPreferences_scalabilityToLosslessAudio.optionKey)
         }
     }
+    
+    var statusBarVisibility : Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.statusBarVisibility.optionKey)
+            notifyObservers(key: SDKOptionType.statusBarVisibility.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.statusBarVisibility.optionKey)
+        }
+    }
 }
 
 

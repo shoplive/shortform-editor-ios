@@ -147,7 +147,11 @@ internal final class LiveStreamViewController: SLViewController {
             return .default
         }
     }
-
+    private var statusBarVisibility : Bool = true
+    override var prefersStatusBarHidden: Bool {
+        return !statusBarVisibility
+    }
+    
     
     
     override func removeFromParent() {
@@ -608,6 +612,15 @@ extension LiveStreamViewController {
     func updateStatusBarToDefault(){
         self.forceStatusBarLightContent = false
         self.setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    func setStatusBarVisiblityOnFullScreen(isVisible : Bool) {
+        self.statusBarVisibility = isVisible
+        self.setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    func getStatusBarVisibilityOnFullScreen() -> Bool {
+        return self.statusBarVisibility
     }
 }
 extension LiveStreamViewController : ShopLivePlayerDelegate {

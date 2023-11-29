@@ -202,6 +202,8 @@ class SwitchOptionCell: UITableViewCell {
         case .variantPreferences_scalabilityToLosslessAudio:
             useOption = DemoConfiguration.shared.useVariantPreferencesScalabilityToLosslessAudio
             break
+        case .statusBarVisibility:
+            useOption = DemoConfiguration.shared.statusBarVisibility
         default:
             break
         }
@@ -272,6 +274,9 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .variantPreferences_scalabilityToLosslessAudio:
             DemoConfiguration.shared.useVariantPreferencesScalabilityToLosslessAudio = useOption
+            break
+        case .statusBarVisibility:
+            DemoConfiguration.shared.statusBarVisibility = useOption
             break
         default:
             break

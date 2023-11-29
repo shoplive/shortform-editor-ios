@@ -295,6 +295,8 @@ class MainViewController: SideMenuBaseViewController {
         
         ShopLive.setKeepWindowStyleOnReturnFromOsPip(config.usePipKeepWindowStyle)
         ShopLive.setEnabledPipSwipeOut(config.pipEnableSwipeOut)
+        
+        ShopLive.setVisibleStatusBar(isVisible: DemoConfiguration.shared.statusBarVisibility)
     }
 
     // 하나 은행 프레임 워크 재현을 위한 더미 뷰

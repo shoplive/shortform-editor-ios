@@ -52,6 +52,10 @@ import ShopliveSDKCommon
     @objc func setMixWithOthers(isMixAudio: Bool)
     
     @objc func setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration)
+    
+    
+    @objc func setStatusBarVisibility(isVisible : Bool)
+    @objc func getStatusBarVisibility() -> Bool
 }
 
 enum ShopLiveCampaignStatus: String, CaseIterable {
@@ -195,6 +199,7 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    
    
     @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     public static func setEnabledPipSwipeOut(_ enabled: Bool) {
@@ -529,6 +534,14 @@ extension ShopLive: ShopLiveSDKInterface {
     
     public static func getUtmContent() -> String? {
         return ShopLiveCommon.getUtmContent()
+    }
+    
+    
+    public static func setVisibleStatusBar(isVisible : Bool) {
+        shared.instance?.setStatusBarVisibility(isVisible: isVisible)
+    }
+    public  static func isVisibleStatusBar() -> Bool {
+        return shared.instance?.getStatusBarVisibility() ?? true
     }
     
 }

@@ -28,9 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.synchronize()
         }
         
-        UserDefaults.standard.register(defaults: [SDKOptionType.enablePictureInPictureMode.optionKey: true, SDKOptionType.pipEnableSwipeOut.optionKey: true,
+        UserDefaults.standard.register(defaults: [SDKOptionType.enablePictureInPictureMode.optionKey: true,
+                                                  SDKOptionType.pipEnableSwipeOut.optionKey: true,
                                                   "playerPhase": "DEV",
-                                                  "isGuestMode": true])
+                                                  "isGuestMode": true,
+                                                  SDKOptionType.statusBarVisibility.optionKey : true])
         
 
         return true

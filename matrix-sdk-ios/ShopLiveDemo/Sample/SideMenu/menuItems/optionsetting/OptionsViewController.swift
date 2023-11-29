@@ -59,7 +59,8 @@ final class OptionsViewController: SideMenuItemViewController {
         let keepWindowStateOnPlayExecutedOption = SDKOptionItem(name: "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.title".localized(), optionDescription: "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.description".localized(), optionType: .keepWindowStateOnPlayExecuted)
         let mixAudioOption = SDKOptionItem(name: "sdkoption.setupPlayer.mixAudio.title".localized(), optionDescription: "sdkoption.setupPlayer.mixAudio.description".localized(), optionType: .mixAudio)
         let nextActionOption = SDKOptionItem(name: "sdkoption.nextActionTypeOnNavigation.title".localized(), optionDescription: "sdkoption.nextActionTypeOnNavigation.description".localized(), optionType: .nextActionOnHandleNavigation)
-        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption, mixAudioOption, nextActionOption])
+        let statusBarVisibilityOption = SDKOptionItem(name: "sdkoption.statusbarvisibility.title".localized(), optionDescription: "sdkoption.statusbarvisibility.description".localized(), optionType: .statusBarVisibility)
+        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption, mixAudioOption, nextActionOption, statusBarVisibilityOption])
         
         items.append(setupPlayerOptions)
         

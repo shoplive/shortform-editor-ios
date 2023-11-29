@@ -335,4 +335,8 @@ public typealias ShopLiveViewController = SLViewController
     @objc static func getUtmCampaign() -> String?
     @objc static func getUtmMedium() -> String?
     @objc static func getUtmContent() -> String?
+    
+    
+    @objc static func setVisibleStatusBar(isVisible : Bool)
+    @objc static func isVisibleStatusBar() -> Bool
 }

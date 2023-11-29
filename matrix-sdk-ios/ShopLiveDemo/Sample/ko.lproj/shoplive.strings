@@ -110,6 +110,8 @@
 "sdkoption.nextActionTypeOnNavigation.item1" = "PIP 모드 전환";
 "sdkoption.nextActionTypeOnNavigation.item2" = "변경 없음";
 "sdkoption.nextActionTypeOnNavigation.item3" = "종료";
+"sdkoption.statusbarvisibility.title" = "Player statusBar visibility 옵션";
+"sdkoption.statusbarvisibility.description" = "Player의 status bar가 보입니다. (기본값 on)";
 "sdkoption.pipKeepWindowStyle.title" = "OS PIP에서 앱으로 복귀할 때 윈도우스타일 유지 여부 설정";
 "sdkoption.pipKeepWindowStyle.description" = "OS PIP에서 앱으로 복귀할때 옵션을 true로 설정 할 경우 마지막 실행 중이던 상태(앱 내 PIP 또는 Fullscreen)로 복귀되도록 설정. (기본은 유지안함)";
 "sdkoption.enablePictureInPictureMode.title" = "PIP 모드 활성화";

@@ -53,6 +53,7 @@ enum SDKOptionType: String, CaseIterable {
     case automaticallyPreservesTimeOffsetFromLive
     case startsOnFirstEligibleVariant
     case variantPreferences_scalabilityToLosslessAudio
+    case statusBarVisibility
 
     enum SettingType: Int {
         case showAlert

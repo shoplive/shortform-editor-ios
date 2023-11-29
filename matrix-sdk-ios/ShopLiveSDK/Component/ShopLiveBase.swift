@@ -30,6 +30,8 @@ import ShopliveSDKCommon
     private var blockWindowTapGesture : Bool = false
     private var inAppPipConfiguration : ShopLiveInAppPipConfiguration?
     private var blockLiveWindowPangestureHapticSound : Bool = false
+    private var statusBarVisibility : Bool = false
+    
     
     
 #if EBAY
@@ -206,6 +208,14 @@ import ShopliveSDKCommon
         liveStreamViewController?.delegate = self
         liveStreamViewController?.webViewConfiguration = _webViewConfiguration
         liveStreamViewController?.viewModel.overayUrl = overlayUrl
+        
+        if isPreview {
+            self.liveStreamViewController?.setStatusBarVisiblityOnFullScreen(isVisible: true)
+        }
+        else {
+            self.liveStreamViewController?.setStatusBarVisiblityOnFullScreen(isVisible: statusBarVisibility)
+        }
+       
         
         mainWindow = (UIApplication.shared.windows.first(where: { $0.isKeyWindow }))
         
@@ -499,6 +509,8 @@ import ShopliveSDKCommon
             liveVc.updateVideoFit(centerCrop: true, immediately: false,targetWindowStyle: .inAppPip)
             liveVc.updateVideoConstraint()
             liveVc.takeSnapShot()
+            liveVc.setStatusBarVisiblityOnFullScreen(isVisible: true)
+            
             self.shopLiveWindow?.layer.removeAllAnimations()
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
                 shopLiveWindow.frame = pipPosition
@@ -589,6 +601,7 @@ import ShopliveSDKCommon
             shopLiveWindow.layer.masksToBounds = true
             liveVc.view.layer.masksToBounds = true
             liveVc.setCloseButtonVisible(false)
+            liveVc.setStatusBarVisiblityOnFullScreen(isVisible: statusBarVisibility)
             shopLiveWindow.layer.removeAllAnimations()
             UIView.animate(withDuration: animationDuration, delay: 0, options: [.allowUserInteraction, .curveEaseInOut]) {
                 self.liveStreamViewController?.updateVideoConstraint()
@@ -644,7 +657,7 @@ import ShopliveSDKCommon
         
         ShopLiveController.shared.needForceSetVideoPositionUpdate = true
         self.liveStreamViewController?.updatePipStyle(with: .fullScreen)
-        
+        self.liveStreamViewController?.setStatusBarVisiblityOnFullScreen(isVisible: statusBarVisibility)
         shopLiveWindow.invalidateBlockAddSubViewTimer()
         if self.needExecuteFullScreen {
             self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true,targetWindowStyle: .normal)
@@ -794,7 +807,7 @@ import ShopliveSDKCommon
             
             shopLiveWindow.backgroundColor = .black
             self.liveStreamViewController?.setCloseButtonVisible(true)
-            
+            self.liveStreamViewController?.setStatusBarVisiblityOnFullScreen(isVisible: true)
             self.sendCommandChangeToPip()
             self.delegate?.handleCommand?("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
             self.handleWindowChangeCommand()
@@ -836,7 +849,7 @@ import ShopliveSDKCommon
             self.videoWindowPanGestureRecognizer?.isEnabled = true
             self.videoWindowTapGestureRecognizer?.isEnabled = true
             self.videoWindowSwipeDownGestureRecognizer?.isEnabled = false
-            
+            self.liveStreamViewController?.setStatusBarVisiblityOnFullScreen(isVisible: true)
             if !self.needAnimateToChangePreivew {
                 liveVC.updateVideoFit(centerCrop: true, immediately: false, targetWindowStyle: .inAppPip)
                 self.shopLiveWindow?.layer.removeAllAnimations()
@@ -1545,6 +1558,13 @@ import ShopliveSDKCommon
 }
 
 extension ShopLiveBase: ShopLiveComponent {
+    func setStatusBarVisibility(isVisible : Bool) {
+        self.statusBarVisibility = isVisible
+    }
+    func getStatusBarVisibility() -> Bool {
+        return self.statusBarVisibility
+    }
+    
     func getPipPosition() -> ShopLive.PipPosition {
         if let liveStreamViewController = self.liveStreamViewController {
             return liveStreamViewController.viewModel.getPipPosition()
