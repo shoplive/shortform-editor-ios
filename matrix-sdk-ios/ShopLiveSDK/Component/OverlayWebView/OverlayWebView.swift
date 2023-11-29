@@ -9,72 +9,58 @@ import UIKit
 import WebKit
 
 internal class OverlayWebView: SLView {
-    @objc dynamic var isPipMode: Bool = false
-    
-    private var isSystemInitialized: Bool = false
-    private weak var webView: ShopLiveWebView?
-    
+    private var _isPipMode : Bool = false
+    var isPipMode: Bool  {
+        set {
+            self.setIsPipMode(isPipMode: newValue)
+        }
+        get {
+            return _isPipMode
+        }
+    }
+    var isSystemInitialized: Bool = false
+    weak var webView: ShopLiveWebView?
     weak var delegate: OverlayWebViewDelegate?
     weak var webviewUIDelegate: WKUIDelegate? {
         didSet {
             webView?.uiDelegate = webviewUIDelegate
         }
     }
-
-    private var inBuffering: Bool = false
     
-    private var needSeek: Bool = false
-    
-    override func removeFromSuperview() {
-        super.removeFromSuperview()
-    }
-    
+    /**
+     must call setupOverlayWebView
+     */
     init(with webViewConfiguration: WKWebViewConfiguration? =  nil) {
         super.init(frame: .zero)
-        initWebView(with: webViewConfiguration)
-        setupOverlayWebView()
+        setUpWebView(with: webViewConfiguration)
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        initWebView()
-        setupOverlayWebView()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        initWebView()
-        setupOverlayWebView()
+        fatalError("init(coder:) has not been implemented")
     }
     
     deinit {
         ShopLiveLogger.debugLog("overlayview deallocated")
-        teardownOverlayWebView()
     }
     
-    private func setupOverlayWebView() {
-        addObserver()
+    func setupOverlayWebView() {
+        ShopLiveController.shared.addPlayerDelegate(delegate: self)
     }
     
-    private func teardownOverlayWebView() {
+    func teardownOverlayWebView() {
         webView?.stopLoading()
         webView?.configuration.userContentController.removeAllUserScripts()
         if #available(iOS 14.0, *) {
             webView?.configuration.userContentController.removeAllScriptMessageHandlers()
-        } 
+        }
         webView?.configuration.userContentController.removeScriptMessageHandler(forName: ShopLiveDefines.webInterface)
         webView?.removeFromSuperview()
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
-        removeObserver()
         webView = nil
         ShopLiveController.shared.webInstance = nil
         delegate = nil
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-
     func setHidden(toHidden: Bool) {
         self.webView?.isHidden = toHidden
     }
@@ -83,33 +69,19 @@ internal class OverlayWebView: SLView {
         return self.webView?.url
     }
     
-    private lazy var blockTouchView: SLView = {
-        let view = SLView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.isHidden = true
-        return view
-    }()
-
-    private func initWebView(with webViewConfiguration: WKWebViewConfiguration? = nil) {
-        ShopLiveController.shared.addPlayerDelegate(delegate: self)
-        let configuration = webViewConfiguration ?? WKWebViewConfiguration()
-        
-        configuration.allowsInlineMediaPlayback = true
-        configuration.allowsPictureInPictureMediaPlayback = false
-        configuration.mediaTypesRequiringUserActionForPlayback = []
-        configuration.preferences.javaScriptEnabled = true
-
-        let webView = ShopLiveWebView(frame: CGRect.zero, configuration: configuration)
+    private func setUpWebView(with webViewConfiguration: WKWebViewConfiguration? = nil) {
+        let webView = ShopLiveWebView(frame: CGRect.zero, configuration: self.setWebConfiguration())
+        self.webView = webView
         webView.scrollView.delegate = self
         ShopLiveController.webInstance = webView
         addSubview(webView)
         webView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([webView.topAnchor.constraint(equalTo: self.topAnchor),
-                                     webView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-                                     webView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-                                     webView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+        NSLayoutConstraint.activate([
+            webView.topAnchor.constraint(equalTo: self.topAnchor),
+            webView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            webView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
-                
         webView.navigationDelegate = self
         webView.isOpaque = false
         webView.backgroundColor = UIColor.clear
@@ -118,45 +90,39 @@ internal class OverlayWebView: SLView {
         webView.scrollView.contentInsetAdjustmentBehavior = .never
         webView.allowsLinkPreview = false
         webView.scrollView.layer.masksToBounds = false
-
+        
         self.clipsToBounds = true
-
-        webView.evaluateJavaScript("navigator.userAgent") { [weak webView] (result, error) in
-            if let webView = webView, let defaultUserAgent = result as? String {
-                webView.customUserAgent = defaultUserAgent + " shoplive/\(ShopLiveDefines.sdkVersion)"
-                ShopLiveLogger.debugLog("userAgent: "+defaultUserAgent + " shoplive/\(ShopLiveDefines.sdkVersion)")
-                ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "userAgent: "+defaultUserAgent + " shoplive/\(ShopLiveDefines.sdkVersion)"))
-            }
+        sendUserAgentToWeb()
+        webView.configuration.userContentController.add(SLLeakAvoider(delegate: self), name: ShopLiveDefines.webInterface)
+    }
+    
+    private func setWebConfiguration(with webViewConfiguration : WKWebViewConfiguration? = nil) -> WKWebViewConfiguration {
+        let configuration = webViewConfiguration ?? WKWebViewConfiguration()
+        configuration.allowsInlineMediaPlayback = true
+        configuration.allowsPictureInPictureMediaPlayback = false
+        configuration.mediaTypesRequiringUserActionForPlayback = []
+        configuration.preferences.javaScriptEnabled = true
+        
+        return configuration
+    }
+    
+    private func sendUserAgentToWeb(){
+        guard let webView = webView else { return }
+        webView.evaluateJavaScript("navigator.userAgent") { [weak self] (result, error) in
+            guard let self = self else { return }
+            guard let defaultUserAgent = result as? String else { return }
+            webView.customUserAgent = defaultUserAgent + " shoplive/\(ShopLiveDefines.sdkVersion)"
+            
+            ShopLiveLogger.debugLog("userAgent: "+defaultUserAgent + " shoplive/\(ShopLiveDefines.sdkVersion)")
+            ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "userAgent: "+defaultUserAgent + " shoplive/\(ShopLiveDefines.sdkVersion)"))
         }
-        webView.configuration.userContentController.add(LeakAvoider(delegate: self), name: ShopLiveDefines.webInterface)
-        self.webView = webView
-        // setupBlockTouchView()
     }
-
-    private func setupBlockTouchView() {
-        self.addSubview(blockTouchView)
-        self.bringSubviewToFront(blockTouchView)
-        NSLayoutConstraint.activate([blockTouchView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-                                     blockTouchView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-                                     blockTouchView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-                                     blockTouchView.widthAnchor.constraint(equalTo: self.widthAnchor)
-        ])
-
-        self.blockTouchView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(tapBLockTouchView)))
-    }
-
-    func setBlockView(show: Bool) {
-        self.blockTouchView.isHidden = !show
-    }
-
-    @objc private func tapBLockTouchView() {
-        delegate?.didTouchBlockView()
-    }
+    
     
     private func loadOverlay(with url: URL) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            ShopLiveLogger.debugLog("this is called \(url.absoluteString)")
+            ShopLiveLogger.debugLog("loadOverlay with \(url.absoluteString)")
             self.webView?.load(URLRequest(url: url))
         }
     }
@@ -168,95 +134,16 @@ internal class OverlayWebView: SLView {
     func reload() {
         webView?.reload()
     }
-    
-    func sendCommandMessage(command: String, payload: [String : Any]?) {
-        guard let payload = payload else {
-            return
-        }
-
-        var message: [String : Any] = [:]
-
-        message["command"] = command
-        message["payload"] = payload
-
-        self.webView?.sendEventToWeb(event: .sendCommandMessage, message.toJson() ?? "", false)
-        }
-
-    func didCompleteDownloadCoupon(with couponId: String) {
-            self.webView?.sendEventToWeb(event: .completeDownloadCoupon, couponId, true)
-        }
-
-    
-    func didCompleteDownloadCoupon(with couponResult: ShopLiveCouponResult) {
-        guard let couponResultJson = couponResult.toJson() else {
-            return
-        }
-
-        self.webView?.sendEventToWeb(event: .downloadCouponResult, couponResultJson)
-    }
-    
-    @available(*, deprecated, message: "use didCompleteDownloadCoupon(with couponResult: ShopLiveCouponResult) instead")
-    func didCompleteDownloadCoupon(with couponResult: CouponResult) {
-        guard let couponResultJson = couponResult.toJson() else {
-            return
-        }
-
-        self.webView?.sendEventToWeb(event: .downloadCouponResult, couponResultJson)
-    }
-
-    func didCompleteCustomAction(with customActionResult: ShopLiveCustomActionResult) {
-        guard let customActionResultJson = customActionResult.toJson() else {
-            return
-        }
-
-        self.webView?.sendEventToWeb(event: .customActionResult, customActionResultJson)
-    }
-    
-    @available(*, deprecated, message: "use didCompleteCustomAction(with customActionResult: ShopLiveCustomActionResult) instead")
-    func didCompleteCustomAction(with customActionResult: CustomActionResult) {
-        guard let customActionResultJson = customActionResult.toJson() else {
-            return
-        }
-
-        self.webView?.sendEventToWeb(event: .customActionResult, customActionResultJson)
-    }
-
-    func didCompleteCustomAction(with id: String) {
-        self.webView?.sendEventToWeb(event: .completeCustomAction, id)
-    }
-
-    func closeWebSocket() {
-        ShopLiveBase.sessionState = .terminated
-        self.sendEventToWeb(event: .onTerminated)
-    }
 
     func updatePipStyle(with style: ShopLive.PresentationStyle) {
         isPipMode = style == .pip
     }
-
-    func sendEventToWeb(event: WebInterface, _ param: Any? = nil, _ wrapping: Bool = false) {
-        self.webView?.sendEventToWeb(event: event, param, wrapping)
+    
+    private func setIsPipMode(isPipMode : Bool) {
+        self.isPipMode = isPipMode
+        guard self.isSystemInitialized else { return }
+        self.webView?.sendEventToWeb(event: .onPipModeChanged, self.isPipMode)
     }
-
-     func addObserver() {
-        self.addObserver(self, forKeyPath: "isPipMode", options: [.initial, .old, .new], context: nil)
-     }
-
-     func removeObserver() {
-        self.safeRemoveObserver(self, forKeyPath: "isPipMode")
-     }
-
-     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-         switch keyPath {
-         case "isPipMode":
-             guard let newValue: Bool = change?[.newKey] as? Bool else { return }
-             guard self.isSystemInitialized else { return }
-             self.webView?.sendEventToWeb(event: .onPipModeChanged, newValue)
-             break
-         default:
-             break
-         }
-     }
 }
 
 extension OverlayWebView: WKNavigationDelegate {
@@ -314,13 +201,13 @@ extension OverlayWebView: WKNavigationDelegate {
 
 extension OverlayWebView: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-//        ShopLiveLogger.debugLog("interface: \(WebInterface(message: message)?.functionString)")
-
+        //        ShopLiveLogger.debugLog("interface: \(WebInterface(message: message)?.functionString)")
+        
         /**
-            Receive data from web client
-                - Receiving the data from Web Client
+         Receive data from web client
+         - Receiving the data from Web Client
          */
-//        ShopLiveLogger.debugLog("web receive message.name: \(message.name) message.body: \(message.body)")
+        //        ShopLiveLogger.debugLog("web receive message.name: \(message.name) message.body: \(message.body)")
         
         guard message.name == ShopLiveDefines.webInterface else { return }
         if let body = message.body as? [String: Any],
@@ -328,11 +215,11 @@ extension OverlayWebView: WKScriptMessageHandler {
            let metadata = shopliveEvent["metadata"] as? [String : String],
            let type = metadata["type"],
            let name = shopliveEvent["name"] as? String {
-
+            
             let parameters = body["payload"] as? [String: Any]
             if type == "USER_IMPLEMENTS_CALLBACK" {
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))"))
-//                ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))")
+                //                ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))")
                 var passToReceivedCommand: Bool = true
                 switch name {
                 case "WILL_REDIRECT_CAMPAIGN":
@@ -345,8 +232,8 @@ extension OverlayWebView: WKScriptMessageHandler {
                     break
                 case "EVENT_LOG":
                     guard let feature = parameters?["feature"] as? String,
-                            let featureType = ShopLiveLog.Feature.featureFrom(type: feature),
-                            let name = parameters?["name"] as? String else { return }
+                          let featureType = ShopLiveLog.Feature.featureFrom(type: feature),
+                          let name = parameters?["name"] as? String else { return }
                     
                     var logPayload: [String: Any] = (parameters?["parameter"] as? [String : Any]) ?? [:]
                     var logParameter: [String: String] = [:]
@@ -367,7 +254,7 @@ extension OverlayWebView: WKScriptMessageHandler {
                 if passToReceivedCommand {
                     delegate?.handleReceivedCommand(name, with: parameters)
                 }
-
+                
                 
             } else {
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))"))
@@ -404,8 +291,8 @@ extension OverlayWebView: WKScriptMessageHandler {
                 case "OPEN_DEEPLINK":
                     if let scheme = parameters?["scheme"] as? String {
                         guard let schemeUrl = URL(string: scheme),
-                                UIApplication.shared.canOpenURL(schemeUrl) else { return }
-
+                              UIApplication.shared.canOpenURL(schemeUrl) else { return }
+                        
                         UIApplication.shared.open(schemeUrl, options: [:], completionHandler: nil)
                     }
                     break
@@ -421,33 +308,33 @@ extension OverlayWebView: WKScriptMessageHandler {
                           let centerCrop = parameters?["centerCrop"] as? Int, let isCenterCrop = String(describing: centerCrop).boolValue else { return }
                     
                     if ShopLiveController.shared.supportOrientation == .landscape {
-//                        let SET_VIDEO_POSITION_LOG = CGRect(x: x, y: y, width: width, height: height)
-
+                        //                        let SET_VIDEO_POSITION_LOG = CGRect(x: x, y: y, width: width, height: height)
+                        
                         let right = (self.window?.frame.width ?? UIWindow.mainWindowFrame.frame.width) - x - width
                         let bottom = (self.window?.frame.height ?? UIWindow.mainWindowFrame.frame.height) - y - height
-            
+                        
                         let playerFrame = CGRect(x: x, y: y, width: right, height: bottom)
-                            if UIScreen.isLandscape {
-                                if ShopLiveController.shared.videoExpanded {
-                                    ShopLiveController.shared.videoFrame.landscape.expanded = playerFrame
-                                    if ShopLiveController.windowStyle == .normal || ShopLiveController.shared.needForceSetVideoPositionUpdate == true  {
-                                        ShopLiveLogger.debugLog("update frame expanded")
-                                        delegate?.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: true,targetWindowStyle: .normal)
-                                    }
-                                } else {
-                                    ShopLiveController.shared.videoFrame.landscape.standard = playerFrame
-                                    if ShopLiveController.windowStyle == .normal || ShopLiveController.shared.needForceSetVideoPositionUpdate == true  {
-                                        ShopLiveLogger.debugLog("update frame standard")
-                                        delegate?.updatePlayerFrame(centerCrop: isCenterCrop, playerFrame: playerFrame, immediately: true,targetWindowStyle: .normal)
-                                    }
+                        if UIScreen.isLandscape {
+                            if ShopLiveController.shared.videoExpanded {
+                                ShopLiveController.shared.videoFrame.landscape.expanded = playerFrame
+                                if ShopLiveController.windowStyle == .normal || ShopLiveController.shared.needForceSetVideoPositionUpdate == true  {
+                                    ShopLiveLogger.debugLog("update frame expanded")
+                                    delegate?.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: true,targetWindowStyle: .normal)
                                 }
                             } else {
-                                ShopLiveController.shared.videoFrame.portrait = playerFrame
-                                if ShopLiveController.windowStyle == .normal || ShopLiveController.shared.needForceSetVideoPositionUpdate == true {
-                                    ShopLiveLogger.debugLog("update frame portrait")
+                                ShopLiveController.shared.videoFrame.landscape.standard = playerFrame
+                                if ShopLiveController.windowStyle == .normal || ShopLiveController.shared.needForceSetVideoPositionUpdate == true  {
+                                    ShopLiveLogger.debugLog("update frame standard")
                                     delegate?.updatePlayerFrame(centerCrop: isCenterCrop, playerFrame: playerFrame, immediately: true,targetWindowStyle: .normal)
                                 }
                             }
+                        } else {
+                            ShopLiveController.shared.videoFrame.portrait = playerFrame
+                            if ShopLiveController.windowStyle == .normal || ShopLiveController.shared.needForceSetVideoPositionUpdate == true {
+                                ShopLiveLogger.debugLog("update frame portrait")
+                                delegate?.updatePlayerFrame(centerCrop: isCenterCrop, playerFrame: playerFrame, immediately: true,targetWindowStyle: .normal)
+                            }
+                        }
                     }
                     break
                 case "SET_SCREEN_ORIENTATION":
@@ -473,7 +360,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             }
             return
         }
-
+        
         guard let interface = WebInterface(message: message) else { return }
         switch interface {
         case .systemInit:
@@ -590,15 +477,15 @@ extension OverlayWebView: ShopLivePlayerDelegate {
             self.isHidden = true
             return
         }
-
-            self.alpha = 1.0
-            self.isHidden = false
+        
+        self.alpha = 1.0
+        self.isHidden = false
     }
-
+    
     var identifier: String {
         return "OverlayWebView"
     }
-
+    
     func updatedValue(key: ShopLivePlayerObserveValue) {
         switch key {
         case .isHiddenOverlay:
@@ -620,28 +507,6 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         default:
             break
         }
-    }
-
-
-}
-
-class LeakAvoider : NSObject, WKScriptMessageHandler {
-    weak var delegate : WKScriptMessageHandler?
-    init(delegate:WKScriptMessageHandler) {
-        self.delegate = delegate
-        super.init()
-    }
-    func userContentController(_ userContentController: WKUserContentController,
-                               didReceive message: WKScriptMessage) {
-        self.delegate?.userContentController(
-            userContentController, didReceive: message)
-    }
-}
-
-extension NSObject {
-    func propertyNames() -> [String] {
-        let mirror = Mirror(reflecting: self)
-        return mirror.children.compactMap{ $0.label }
     }
 }
 

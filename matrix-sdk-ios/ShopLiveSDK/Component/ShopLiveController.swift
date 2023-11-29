@@ -111,6 +111,7 @@ final class ShopLiveController: NSObject {
     @objc dynamic var releasePlayer: Bool = false
     @objc dynamic var isPreview: Bool = false
     @objc dynamic var isMuted: Bool = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
+    
 
     var playerResumeCount: Int = 0
     
@@ -150,7 +151,7 @@ final class ShopLiveController: NSObject {
             }
         }
     }
-    var pipAnimating: Bool = false
+    
     var swipeEnabled: Bool = true
     
     @available(iOS,deprecated, message:"레거시 용도로 곧 없앨거고 inAppPipConfiguration으로 모든걸 대체 할 계획")
@@ -228,20 +229,18 @@ final class ShopLiveController: NSObject {
 
     func addPlayerDelegate(delegate: ShopLivePlayerDelegate) {
         guard self.playerDelegates.filter({ $0?.identifier == delegate.identifier }).isEmpty else { return }
-
-        if playerDelegates.isEmpty {
-            addPlayerObserver()
+        if self.playerDelegates.isEmpty {
+            self.addPlayerObserver()
         }
-
-        playerDelegates.append(delegate)
+        self.playerDelegates.append(delegate)
     }
 
 
     func removePlayerDelegate(delegate: ShopLivePlayerDelegate) {
         guard let index = self.playerDelegates.firstIndex(where: { $0?.identifier == delegate.identifier }) else { return }
         self.playerDelegates.remove(at: index)
-        if playerDelegates.isEmpty {
-            removePlayerObserver()
+        if self.playerDelegates.isEmpty {
+            self.removePlayerObserver()
         }
     }
 
@@ -291,7 +290,6 @@ final class ShopLiveController: NSObject {
         retryPlay = false
         streamUrl = nil
         releasePlayer = false
-        pipAnimating = false
         windowStyle = .none
         needReload = false
         isMuted = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart

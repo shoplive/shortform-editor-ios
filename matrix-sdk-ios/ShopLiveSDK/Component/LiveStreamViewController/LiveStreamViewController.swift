@@ -73,10 +73,8 @@ internal final class LiveStreamViewController: SLViewController {
           UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor
         ]
 
-        layer0.locations = [0, 1]
-        layer0.startPoint = CGPoint(x: 0.25, y: 0.5)
-        layer0.endPoint = CGPoint(x: 0.75, y: 0.5)
-        layer0.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
+        layer0.startPoint = CGPoint(x: 0.5, y: 0)
+        layer0.endPoint = CGPoint(x: 0.5, y: 0.9)
         return layer0
     }()
     lazy var pipDim: SLLabel = {
@@ -147,28 +145,12 @@ internal final class LiveStreamViewController: SLViewController {
             return .default
         }
     }
+    
     private var statusBarVisibility : Bool = true
     override var prefersStatusBarHidden: Bool {
         return !statusBarVisibility
     }
     
-    
-    
-    override func removeFromParent() {
-        super.removeFromParent()
-        self.delegate = nil
-        overlayView?.delegate = nil
-        overlayView?.removeFromSuperview()
-        backgroundPosterImageWebView?.removeFromSuperview()
-        playerView?.removeFromSuperview()
-        playerView = nil
-        overlayView = nil
-        backgroundPosterImageWebView = nil
-        
-        tearDownLiveStreamViewController()
-    }
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.delegate = self
@@ -181,6 +163,20 @@ internal final class LiveStreamViewController: SLViewController {
         super.viewDidLayoutSubviews()
         guard viewModel.getUseCloseBtnIsEnabled() else { return }
         updateCloseButtonDim()
+    }
+    
+    override func removeFromParent() {
+        super.removeFromParent()
+        self.delegate = nil
+        overlayView?.delegate = nil
+        overlayView?.removeFromSuperview()
+        overlayView?.teardownOverlayWebView()
+        backgroundPosterImageWebView?.removeFromSuperview()
+        playerView?.removeFromSuperview()
+        playerView = nil
+        overlayView = nil
+        backgroundPosterImageWebView = nil
+        tearDownLiveStreamViewController()
     }
     
     deinit {
@@ -337,8 +333,7 @@ internal final class LiveStreamViewController: SLViewController {
 
     
     func updateCloseButtonDim() {
-        pipDimLayer.bounds = inAppPipView.bounds.insetBy(dx: -0.5*inAppPipView.bounds.size.width, dy: -0.5*inAppPipView.bounds.size.height)
-        pipDimLayer.position = inAppPipView.center
+        pipDimLayer.frame = pipDim.frame
     }
     
     func setCloseButtonVisible(_ visible: Bool) {
@@ -428,12 +423,14 @@ internal final class LiveStreamViewController: SLViewController {
     func changeVideoGravity(centerCrop: Bool) {
         if let playerFrame = UIScreen.isLandscape ? ( ShopLiveController.shared.videoExpanded ? ShopLiveController.shared.videoFrame.landscape.expanded : ShopLiveController.shared.videoFrame.landscape.standard) : ShopLiveController.shared.videoFrame.portrait {
             self.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: false,targetWindowStyle: nil)
-
-            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) { [weak self] in
-                self?.updateVideoConstraint()
-            } completion: { _ in
-
+            
+            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut)
+            animator.addAnimations { [weak self] in
+                guard let self = self else { return }
+                self.updateVideoConstraint()
             }
+            
+            animator.startAnimation()
         }
     }
     
@@ -817,8 +814,8 @@ extension LiveStreamViewController {
     }
     
     func setupOverayWebview() {
-
         let overlayView = OverlayWebView(with: webViewConfiguration)
+        overlayView.setupOverlayWebView()
         overlayView.webviewUIDelegate = self
         overlayView.delegate = self
 

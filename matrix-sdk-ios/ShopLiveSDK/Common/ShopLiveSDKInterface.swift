@@ -257,6 +257,9 @@ public typealias ShopLiveViewController = SLViewController
 
     @objc static func isSuccessCampaignJoin() -> Bool
     
+    @objc static func preview(data : ShopLivePlayerData,completion : (() -> Void)?)
+    
+    @available(iOS, deprecated, message: "Use preview(data : ShopLivePlayerData) instead")
     @objc static func preview(with campaignKey: String?, referrer: String?, completion:  (() -> Void)?)
     
     @objc static func play(data : ShopLivePlayerData)

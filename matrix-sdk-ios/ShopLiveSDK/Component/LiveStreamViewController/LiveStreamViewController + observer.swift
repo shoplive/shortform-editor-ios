@@ -100,7 +100,7 @@ extension LiveStreamViewController {
     func setKeyboard(notification: Notification) {
         guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
               let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
-              let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt,
+              let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber,
               let bottomPadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom else { return }
 
         let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
@@ -136,17 +136,22 @@ extension LiveStreamViewController {
         default:
             break
         }
-        let options = UIView.AnimationOptions(rawValue: curve << 16)
-        UIView.animate(withDuration: duration, delay: 0, options: options) { [weak self] in
+        let animateCurve = UIView.AnimationCurve(rawValue: curve.intValue)!
+        let animator = UIViewPropertyAnimator(duration: duration, curve: animateCurve)
+        animator.addAnimations { [weak self] in
+            guard let self = self else { return }
             if isHiddenView {
-                self?.chatInputView.isHidden = isHiddenView
-                self?.chatInputBG.isHidden = isHiddenView
+                self.chatInputView.isHidden = isHiddenView
+                self.chatInputBG.isHidden = isHiddenView
             }
-            self?.view.layoutIfNeeded()
-        } completion: { [weak self] (isComplete) in
-            if isComplete {
-                self?.chatInputView.focusOut()
-            }
+            self.view.layoutIfNeeded()
         }
+        
+        animator.addCompletion { [weak self] position in
+            guard let self = self, position == .end else { return }
+            self.chatInputView.focusOut()
+        }
+
+        animator.startAnimation()
     }
 }

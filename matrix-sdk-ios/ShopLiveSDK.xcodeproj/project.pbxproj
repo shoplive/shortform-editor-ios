@@ -39,6 +39,12 @@
 		2F1CBD6D2A52A8B40060B29D /* ShopLiveViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */; };
 		2F1CBD6E2A52A8B40060B29D /* ShopLiveViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */; };
 		2F40180B2AF0BBA400C5D3ED /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; };
+		2F46529F2B158DCD006B7FB8 /* SLLeakAvoider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F46529E2B158DCD006B7FB8 /* SLLeakAvoider.swift */; };
+		2F4652A02B158DCD006B7FB8 /* SLLeakAvoider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F46529E2B158DCD006B7FB8 /* SLLeakAvoider.swift */; };
+		2F4652A12B158DCD006B7FB8 /* SLLeakAvoider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F46529E2B158DCD006B7FB8 /* SLLeakAvoider.swift */; };
+		2F4652A32B15AFA7006B7FB8 /* OverLayWebView + WebSendFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4652A22B15AFA7006B7FB8 /* OverLayWebView + WebSendFunc.swift */; };
+		2F4652A42B15AFA7006B7FB8 /* OverLayWebView + WebSendFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4652A22B15AFA7006B7FB8 /* OverLayWebView + WebSendFunc.swift */; };
+		2F4652A52B15AFA7006B7FB8 /* OverLayWebView + WebSendFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F4652A22B15AFA7006B7FB8 /* OverLayWebView + WebSendFunc.swift */; };
 		2F4923DF2AE7A2F500FCA402 /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; };
 		2F57B78D2A3B2ACA00946B6E /* ShopLiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */; };
 		2F57B78E2A3B2ACB00946B6E /* ShopLiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */; };
@@ -511,6 +517,8 @@
 		2F071E642AD551D4004616A6 /* LiveStreamViewController + OverLayDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveStreamViewController + OverLayDelegate.swift"; sourceTree = "<group>"; };
 		2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveWindow.swift; sourceTree = "<group>"; };
 		2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveViewComponents.swift; sourceTree = "<group>"; };
+		2F46529E2B158DCD006B7FB8 /* SLLeakAvoider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLLeakAvoider.swift; sourceTree = "<group>"; };
+		2F4652A22B15AFA7006B7FB8 /* OverLayWebView + WebSendFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OverLayWebView + WebSendFunc.swift"; sourceTree = "<group>"; };
 		2F8736182AEA3A8900100218 /* ShopLiveDemo for QA copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ShopLiveDemo for QA copy-Info.plist"; sourceTree = SOURCE_ROOT; };
 		2F8DDD0B2AAAEFEF005FA074 /* ShopLiveBase + CommonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShopLiveBase + CommonDelegate.swift"; sourceTree = "<group>"; };
 		2F9EB2EE2ABA983000C3CE9A /* LiveUrlFetchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveUrlFetchAPI.swift; sourceTree = "<group>"; };
@@ -857,6 +865,16 @@
 			path = ShopLiveViewComponents;
 			sourceTree = "<group>";
 		};
+		2F46529D2B158DAE006B7FB8 /* OverlayWebView */ = {
+			isa = PBXGroup;
+			children = (
+				BF37D98727F5742D004C2785 /* OverlayWebView.swift */,
+				2F46529E2B158DCD006B7FB8 /* SLLeakAvoider.swift */,
+				2F4652A22B15AFA7006B7FB8 /* OverLayWebView + WebSendFunc.swift */,
+			);
+			path = OverlayWebView;
+			sourceTree = "<group>";
+		};
 		2F9EB2E72ABA968900C3CE9A /* APIService */ = {
 			isa = PBXGroup;
 			children = (
@@ -910,6 +928,7 @@
 		BF37D98227F5742D004C2785 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				2F46529D2B158DAE006B7FB8 /* OverlayWebView */,
 				2FE3E7972AE8A5F70041C480 /* ChatViews */,
 				2F071E472AD5468E004616A6 /* LiveStreamViewModel */,
 				2F071E462AD54682004616A6 /* LiveStreamViewController */,
@@ -919,7 +938,6 @@
 				BF37D98427F5742D004C2785 /* ShopLiveBase.swift */,
 				2F8DDD0B2AAAEFEF005FA074 /* ShopLiveBase + CommonDelegate.swift */,
 				BF37D98527F5742D004C2785 /* ShopLiveController.swift */,
-				BF37D98727F5742D004C2785 /* OverlayWebView.swift */,
 				BF37D98827F5742D004C2785 /* ShopLivePlayItem.swift */,
 				BF37D98927F5742D004C2785 /* ShopLivePlayerItem.swift */,
 				BF37D98A27F5742D004C2785 /* ShopLivePlayer.swift */,
@@ -1599,9 +1617,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FDF15632AE1401100F5E5A9 /* LiveFetchUrlModel.swift in Sources */,
+				2F4652A32B15AFA7006B7FB8 /* OverLayWebView + WebSendFunc.swift in Sources */,
 				2F071E5D2AD54F34004616A6 /* LiveStreamViewController + ChattingWriteDelegate.swift in Sources */,
 				BF37D9E427F5742D004C2785 /* Extensions.swift in Sources */,
 				BF37D9B127F5742D004C2785 /* OverlayWebView.swift in Sources */,
+				2F46529F2B158DCD006B7FB8 /* SLLeakAvoider.swift in Sources */,
 				BFDC8B6728A169050055C4DA /* Debouncer.swift in Sources */,
 				2F071E612AD54FF7004616A6 /* LiveStreamViewController + ShopLivebase.swift in Sources */,
 				BFCB03312A32FEB300E130CC /* PlayerSessionState.swift in Sources */,
@@ -1699,10 +1719,12 @@
 				BF34F2F028125F8600114DBF /* LiveStreamViewModel.swift in Sources */,
 				BF34F2F128125F8600114DBF /* ShopLiveChatView.swift in Sources */,
 				BF34F2F228125F8600114DBF /* ShopLivePlayer.swift in Sources */,
+				2F4652A42B15AFA7006B7FB8 /* OverLayWebView + WebSendFunc.swift in Sources */,
 				2FDF15642AE1401100F5E5A9 /* LiveFetchUrlModel.swift in Sources */,
 				2FD769212A5F86D30092C73F /* NetworkReachability.swift in Sources */,
 				BF34F2F328125F8600114DBF /* ShopLiveChattingWriteView.swift in Sources */,
 				2F8DDD0D2AAAEFEF005FA074 /* ShopLiveBase + CommonDelegate.swift in Sources */,
+				2F4652A02B158DCD006B7FB8 /* SLLeakAvoider.swift in Sources */,
 				BF34F2F428125F8600114DBF /* SoundManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1750,10 +1772,12 @@
 				BF5111FE2824464A00E36175 /* LiveStreamViewModel.swift in Sources */,
 				BF5111FF2824464A00E36175 /* ShopLiveChatView.swift in Sources */,
 				BF5112002824464A00E36175 /* ShopLivePlayer.swift in Sources */,
+				2F4652A52B15AFA7006B7FB8 /* OverLayWebView + WebSendFunc.swift in Sources */,
 				2FDF15652AE1401100F5E5A9 /* LiveFetchUrlModel.swift in Sources */,
 				2FD769222A5F86D30092C73F /* NetworkReachability.swift in Sources */,
 				BF5112012824464A00E36175 /* ShopLiveChattingWriteView.swift in Sources */,
 				2F8DDD0E2AAAEFEF005FA074 /* ShopLiveBase + CommonDelegate.swift in Sources */,
+				2F4652A12B158DCD006B7FB8 /* SLLeakAvoider.swift in Sources */,
 				BF5112022824464A00E36175 /* SoundManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

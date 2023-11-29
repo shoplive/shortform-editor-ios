@@ -401,8 +401,8 @@ extension MainViewController: ShopLiveSDKDelegate {
         @unknown default:
             break
         }
-
-        guard url.absoluteString.hasPrefix("http") else {
+        
+        if url.absoluteString.hasPrefix("http") == false && url.absoluteString.hasPrefix("shoplive") == false {
             let alert = UIAlertController(title: nil, message: "campaign.msg.wrongurl".localized() + "[\(url.absoluteString)]", preferredStyle: .alert)
             alert.addAction(.init(title: "alert.msg.confirm".localized(), style: .default, handler: nil))
             presenter?.present(alert, animated: true, completion: nil)
@@ -410,6 +410,10 @@ extension MainViewController: ShopLiveSDKDelegate {
         }
 
         if #available(iOS 13, *) {
+            if url.absoluteString.hasPrefix("shoplive") {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                return
+            }
             if let browser = self.safari {
                 browser.dismiss(animated: false, completion: nil)
             }

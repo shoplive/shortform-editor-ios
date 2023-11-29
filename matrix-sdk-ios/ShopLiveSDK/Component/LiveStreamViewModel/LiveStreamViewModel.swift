@@ -54,7 +54,6 @@ internal final class LiveStreamViewModel: NSObject {
     
     deinit {
         ShopLiveLogger.debugLog("iveStreamViewModel deinited")
-        teardownLiveStreamViewModel()
     }
     
     override init() {
