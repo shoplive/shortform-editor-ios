@@ -290,6 +290,12 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     func requestNetworkCapabilityOnSystemInit() {
         self.sendNetworkCapabilityChangedToWeb(capability: viewModel.getCurrentNetworkType())
     }
+    
+    func requestReloadWebView() {
+        guard let overlayUrl = viewModel.getOverLayUrlWithInfosAttached() else { return }
+        self.overlayView?.reload(with: overlayUrl)
+    }
+    
 }
 extension LiveStreamViewController {
     func sendNetworkCapabilityChangedToWeb(capability : String){

@@ -100,9 +100,11 @@ protocol OverlayWebViewDelegate: AnyObject {
     func updateOrientation(toLandscape: Bool)
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any])
     func didFailToLoadWebViewWithNetworkUnreachable()
+    func requestReloadWebView()
     func webViewDidFinishedLoading()
     func requestHideOrShowLoading(hide : Bool)
     func requestNetworkCapabilityOnSystemInit()
+    
 
 }
 

@@ -108,8 +108,7 @@ internal class OverlayWebView: SLView {
     
     private func sendUserAgentToWeb(){
         guard let webView = webView else { return }
-        webView.evaluateJavaScript("navigator.userAgent") { [weak self] (result, error) in
-            guard let self = self else { return }
+        webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
             guard let defaultUserAgent = result as? String else { return }
             webView.customUserAgent = defaultUserAgent + " shoplive/\(ShopLiveDefines.sdkVersion)"
             
@@ -186,19 +185,59 @@ extension OverlayWebView: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         ShopLiveLogger.debugLog("[HASSAN LOG \(Date())] didFailProvisionalNavigation WebView  error \(error.localizedDescription)")
-        if let err = error as? NSError, err.code == -999 { // 웹뷰 컴포넌트가 rendering fail 할때
-            self.reload()
-            return
-        }
+        
         if let blankUrl = URL(string: "about:blank") {
             self.webView?.load(URLRequest(url: blankUrl))
+        }
+        
+        if let nsError = error as NSError? {
+            switch nsError.domain {
+            case NSURLErrorDomain:
+                self.handleNSUrlDomainError(errorCode: nsError.code)
+            case WKErrorDomain:
+                self.handleWKErrorDomain(errorCode: nsError.code)
+            case NSCocoaErrorDomain:
+                self.handleNSCocoaErrorDomain(errorCode: nsError.code)
+            default:
+                break
+            }
         }
         
         if NetworkReachability().connectionStatus() == .Offline {
             delegate?.didFailToLoadWebViewWithNetworkUnreachable()
         }
         else {
+            delegate?.requestReloadWebView()
             delegate?.requestHideOrShowLoading(hide: true)
+        }
+    }
+    
+    private func handleNSUrlDomainError(errorCode : Int) {
+        switch errorCode {
+        case NSURLErrorNotConnectedToInternet:
+            ShopLiveLogger.debugLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_URLDOMAIN] No internet connection")
+        case NSURLErrorCannotFindHost:
+            ShopLiveLogger.debugLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_URLDOMAIN] Cannot find host.")
+        default:
+            ShopLiveLogger.debugLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_URLDOMAIN] unknownError \(errorCode).")
+        }
+    }
+    
+    private func handleWKErrorDomain(errorCode : Int) {
+        switch errorCode {
+        case WKError.javaScriptExceptionOccurred.rawValue:
+            ShopLiveLogger.debugLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_WKERRORDOMAIN] JavaScript exception occurred.")
+        default:
+            ShopLiveLogger.debugLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_WKERRORDOMAIN] unknownError \(errorCode)")
+        }
+    }
+    
+    private func handleNSCocoaErrorDomain(errorCode : Int) {
+        switch errorCode {
+        case NSUserCancelledError:
+            ShopLiveLogger.debugLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_COCOERROR] User cancelled the operation.")
+        default:
+            ShopLiveLogger.debugLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_COCOERROR] unknownError \(errorCode)")
         }
     }
     
