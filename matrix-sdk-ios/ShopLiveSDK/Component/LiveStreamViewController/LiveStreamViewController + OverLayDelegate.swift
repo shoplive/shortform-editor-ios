@@ -32,24 +32,28 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             return
         }
         
-        playerView.playerLayer?.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .linear) { [weak self] in
+            guard let self = self else { return }
+            playerView.playerLayer?.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
+            self.playerTopConstraint.constant = playerFrame.origin.y
+            self.playerLeadingConstraint.constant = playerFrame.origin.x
+            self.playerRightConstraint.constant = -playerFrame.size.width
+            self.playerBottomConstraint.constant = -playerFrame.size.height
+            
+            if let targetWindowStyle = targetWindowStyle {
+                self.updateImageConstraint(from: playerFrame,targetWindowStyle: targetWindowStyle)
+            }
+            else {
+                self.updateImageConstraint(from: playerFrame,targetWindowStyle: ShopLiveController.windowStyle)
+            }
+            
+            if immediately {
+                playerView.setNeedsLayout()
+                playerView.layoutIfNeeded()
+            }
+        }
         
-        playerTopConstraint.constant = playerFrame.origin.y
-        playerLeadingConstraint.constant = playerFrame.origin.x
-        playerRightConstraint.constant = -playerFrame.size.width
-        playerBottomConstraint.constant = -playerFrame.size.height
-        
-        if let targetWindowStyle = targetWindowStyle {
-            self.updateImageConstraint(from: playerFrame,targetWindowStyle: targetWindowStyle)
-        }
-        else {
-            self.updateImageConstraint(from: playerFrame,targetWindowStyle: ShopLiveController.windowStyle)
-        }
-       
-        if immediately {
-            playerView.setNeedsLayout()
-            playerView.layoutIfNeeded()
-        }
+        animator.startAnimation()
     }
     
     func updateVideoConstraint() {
