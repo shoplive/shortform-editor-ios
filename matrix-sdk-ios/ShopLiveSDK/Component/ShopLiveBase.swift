@@ -1438,6 +1438,8 @@ import ShopliveSDKCommon
         animator.startAnimation()
     }
     
+
+    
     
     private var backgroundPlayerBlockTimer : Timer?
     private func setBackgroundPlayerBlockTimer(){
@@ -1741,7 +1743,9 @@ extension ShopLiveBase: ShopLiveComponent {
                     self.windowChangeCommand = .none
                     self.isWindowChanging = false
                     
-                    if ShopLiveController.windowStyle == .inAppPip {
+                    
+                    //가로에서 세로, 세로에서 가로로 갈때도 분기를 쳐줘야 함.
+                    if ShopLiveController.windowStyle == .inAppPip && (windowAnimator?.isRunning ?? false) == false {
                         self.changePlayerItemOnlyInPreview(url: url)
                     }
                     else {
@@ -1753,7 +1757,7 @@ extension ShopLiveBase: ShopLiveComponent {
     }
     
     private func changePlayerItemOnlyInPreview(url : URL) {
-        guard let _ = ShopLiveCommon.getAccessKey(),
+        guard let accessKey = ShopLiveCommon.getAccessKey(),
               let vc = self.liveStreamViewController,
               ShopLiveController.shared.isPreview else { return }
         ShopLiveController.shared.setSoundMute(isMuted: true)
@@ -1762,10 +1766,24 @@ extension ShopLiveBase: ShopLiveComponent {
         videoWindowTapGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? true : false
         videoWindowSwipeDownGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? false : true
         videoPinchGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? false : true
+        let oldVideoRatio = ShopLiveController.shared.videoRatio
         
         self.osPictureInPictureController = nil
-        vc.viewModel.overayUrl = url
-        vc.reload()
+        vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: accessKey, campaignKey: ShopLiveController.shared.campaignKey, isPreview: true) { [weak self] _ in
+            guard let self = self else { return }
+            vc.viewModel.overayUrl = url
+            vc.reload()
+            
+            //오리엔테이션이 변형되었으면 shopLiveWindow의 frame을 계산해서 다시 세팅해줘야함
+            if oldVideoRatio.width != ShopLiveController.shared.videoRatio.width {
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    let pipPosition: CGRect = self.pipPosition(with: self.pipScale, position: self.getPipPosition())
+                    self.shopLiveWindow?.frame = pipPosition
+                }
+            }
+        }
+        
     }
     
     private func callShopLiveViewFromPreview(url : URL){
@@ -1777,8 +1795,8 @@ extension ShopLiveBase: ShopLiveComponent {
                ShopLiveController.shared.isPreview {
                 vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
                                                                  campaignKey: ShopLiveController.shared.campaignKey,
-                                                                 isPreview: true) {
-                    
+                                                                 isPreview: true) { isSuccess in
+                    guard isSuccess else { return }
                     self.updatePictureInPicture()
                 }
             }
@@ -1852,8 +1870,8 @@ extension ShopLiveBase: ShopLiveComponent {
                ShopLiveController.shared.isPreview == false {
                 vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
                                                                  campaignKey: ShopLiveController.shared.campaignKey,
-                                                                 isPreview: false) {
-                    guard let playerFrame = vc.viewModel.getEstimatedPlayerFrameForFullScreenOnInitalize() else { return }
+                                                                 isPreview: false) { isSuccess in
+                    guard let playerFrame = vc.viewModel.getEstimatedPlayerFrameForFullScreenOnInitalize(), isSuccess else { return }
                     DispatchQueue.main.async {
                         if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
                             vc.updatePlayerFrame(centerCrop : false, playerFrame: playerFrame,immediately: false,targetWindowStyle: .normal)

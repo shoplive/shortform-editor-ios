@@ -232,6 +232,8 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             ShopLiveConfiguration.UI.chatInputMaxLength = chatInputMaxLength ?? 200
             updateChattingWriteView()
             delegate?.campaignInfo(campaignInfo: campaignInfo ?? [:])
+            
+            
             break
         case .showChatInput:
             chatInputView.focus()

@@ -111,7 +111,7 @@ internal final class LiveStreamViewModel: NSObject {
         
     }
     
-    func updatePlayerItemWithLiveUrlFetchAPI(accessKey : String, campaignKey : String,isPreview : Bool, completion : @escaping(() -> ())) {
+    func updatePlayerItemWithLiveUrlFetchAPI(accessKey : String, campaignKey : String,isPreview : Bool, completion : @escaping((Bool) -> ())) {
         LiveUrlFetchAPI(campaignKey: campaignKey)
             .request { [weak self] result in
                 guard let self = self else { return }
@@ -136,11 +136,14 @@ internal final class LiveStreamViewModel: NSObject {
                     
                     DispatchQueue.main.async {
                         ShopLiveController.streamUrl = url
-                        completion()
+                        completion(true)
                     }
                     break
                 case .failure(_):
                     self.isUpdatePictureInPictureNeedInSetConfInitialized = true
+                    DispatchQueue.main.async {
+                        completion(false)
+                    }
                     break
                 }
         }
