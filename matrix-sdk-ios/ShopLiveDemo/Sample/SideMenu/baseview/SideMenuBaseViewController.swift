@@ -64,37 +64,20 @@ class SideMenuBaseViewController: UIViewController {
     }
     
     private func setKeyboard(notification: Notification) {
-        /*
-            guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-            let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
-            let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
-            let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt,
-            let bottomPadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom
-
-            let keyboard = self.view.convert(keyboardScreenEndFrame, from: self.view.window)
-            let height = self.view.frame.size.height
-         */
+        guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
         
         switch notification.name.rawValue {
         case "UIKeyboardWillHideNotification":
-            NSLayoutConstraint.activate([
-                tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
-                tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-                tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-                tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-            ])
-//            self.tableView.snp.remakeConstraints {
-//                $0.left.right.top.equalToSuperview()
-//                $0.bottom.equalToSuperview()
-//            }
+            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             break
         case "UIKeyboardWillShowNotification":
+            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardScreenEndFrame.height, right: 0)
             break
         default:
             break
         }
         scrollToBottom()
-        
     }
     
     func scrollToBottom(){
