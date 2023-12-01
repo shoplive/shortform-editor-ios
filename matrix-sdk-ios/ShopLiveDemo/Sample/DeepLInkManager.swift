@@ -15,7 +15,7 @@ final class DeepLinkManager {
     var isSendBackStatue: Bool = false
 
     enum DeepLink: String, CaseIterable {
-        case video
+        case live
         case product
         case pip
         case fullscreen
@@ -26,7 +26,7 @@ final class DeepLinkManager {
     }
      
     //ex deep link용 테스트 링크
-    //shopliveqa://video?ak=q3hZYwpJ1xukW8bTDsxj&ck=67331853a0c9&showType=preview&alias=deeplinkTest
+    //shopliveqa://live?ak=q3hZYwpJ1xukW8bTDsxj&ck=67331853a0c9&showType=preview&alias=deeplinkTest
 
     func handleDeepLink(_ url: URL?) {
         guard let url = url else { return }
@@ -49,7 +49,7 @@ final class DeepLinkManager {
         })
 
         switch command {
-        case .video:
+        case .live:
             guard let alias = parameters["alias"] as? String, let ak = parameters["ak"] as? String, let ck = parameters["ck"] as? String else { return }
             ShopLiveDemoKeyTools.shared.save(key: .init(alias: alias, campaignKey: ck, accessKey: ak))
             ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: alias)
