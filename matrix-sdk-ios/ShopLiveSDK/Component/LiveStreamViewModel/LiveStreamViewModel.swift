@@ -9,7 +9,7 @@ import Foundation
 import AVKit
 import Network
 import ShopliveSDKCommon
-
+import MediaPlayer
 
 protocol LiveStreamViewModelDelegate : NSObjectProtocol {
     func requestTakeSnapShotView()
@@ -20,7 +20,7 @@ protocol LiveStreamViewModelDelegate : NSObjectProtocol {
 }
 
 internal final class LiveStreamViewModel: NSObject {
-
+    
     weak var delegate : LiveStreamViewModelDelegate?
     
     var overayUrl: URL?
@@ -36,17 +36,35 @@ internal final class LiveStreamViewModel: NSObject {
     private var playerErrorObserver : ShopLiveAVPlayerErrorObserver?
     var retryManager : LiveStreamRetryManager?
     private var playTimeObserver: Any?
+    
     private var loadedTimeRangeStalledQueue : [Double] = []
+    
     private var liveKeepUpTimer : Any?
-    private var blockLiveKeeupTimer : Bool = false
-    private var liveKeepUpTimerBlockDuration : Double = 2.0
+    private var isLLHLS : Bool = true
+    
+    private var liveKeepUpBufferEndurance : Double = 5
+    private var useLiveKeepUpTimerOnInApp : Bool = true
+    private var useLiveKeepUpTimerOnOsPip : Bool = true
+    private var liveKeepUpBufferStack : [Double] = []
+    private var liveKeepUpBufferSize : Int = 3
+    private var liveKeepUpTimerFrequency : Double = 3
+    private var liveKeepUpTimerBaseFrequency : Double = 0
+    private var liveKeepUpTimerPreviousCurrentTime : Double?
+    private var liveKeepUpSeekOccured : Bool = false
+    
+    
+    
+    
     private var inAppPipConfiguration : ShopLiveInAppPipConfiguration?
     private var lastPipPosition : ShopLive.PipPosition?
     private var isWebViewDidCompleteLoading : Bool = false
     var isAlreadyPlayedOnce : Bool = false
     private var osPipFailedErrorHasOccured : Bool = false
     private var currentNetworkCapability : String = ""
-//    private var
+    
+    
+    
+    //    private var
     /**
      api에서 아무데이터 없거나 할때 쓰임 setConf에서 updatePictureInPicture하기 위해서 있음
      */
@@ -60,7 +78,7 @@ internal final class LiveStreamViewModel: NSObject {
         super.init()
         setupLiveStreamViewModel()
     }
-
+    
     private func setupLiveStreamViewModel() {
         ShopLiveController.shared.addPlayerDelegate(delegate: self)
         retryManager = LiveStreamRetryManager()
@@ -83,7 +101,7 @@ internal final class LiveStreamViewModel: NSObject {
         overayUrl = nil
         campaignKey = nil
         isWebViewDidCompleteLoading = false
-        networkMonitor = nil 
+        networkMonitor = nil
     }
     
     
@@ -146,15 +164,15 @@ internal final class LiveStreamViewModel: NSObject {
                     }
                     break
                 }
-        }
+            }
     }
     
     
     func updatePlayerItem(with url: URL) {
         guard ShopLiveController.player != nil else { return }
         resetPlayer()
-
-        let asset = AVURLAsset(url: url)
+        
+        let asset = AVURLAsset(url: url )
         let playerItem = AVPlayerItem(asset: asset)
         if asset.isPlayable {
             ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
@@ -175,7 +193,10 @@ internal final class LiveStreamViewModel: NSObject {
                 playerItem.variantPreferences = .scalabilityToLosslessAudio
             }
             
-            playerItem.preferredForwardBufferDuration = 2.5
+            
+            if ShopLiveController.isReplayMode {
+                playerItem.preferredForwardBufferDuration = 2.5
+            }
             playerItem.audioTimePitchAlgorithm = .timeDomain
             
             ShopLiveController.playerItem = playerItem
@@ -186,11 +207,12 @@ internal final class LiveStreamViewModel: NSObject {
             ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
             playerErrorObserver = ShopLiveAVPlayerErrorObserver(player: ShopLiveController.player!)
             playerErrorObserver?.delegate = self
-            startLiveStreamKeepUpTimer()
             addPlayTimeObserver()
         }
     }
-
+    
+    
+    
     func resetPlayer() {
         guard ShopLiveController.player != nil else { return }
         if ShopLiveController.player?.currentItem == nil {
@@ -204,13 +226,13 @@ internal final class LiveStreamViewModel: NSObject {
         ShopLiveController.playerItem = nil
         ShopLiveController.urlAsset = nil
         ShopLiveController.shared.playItem?.perfMeasurements = nil
-
+        
         ShopLiveController.perfMeasurements?.playbackEnded()
         ShopLiveController.perfMeasurements = nil
-
+        
         NotificationCenter.default.removeObserver(self, name: .TimebaseEffectiveRateChangedNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: .AVPlayerItemPlaybackStalled, object: nil)
-
+        
         ShopLiveController.playControl = .none
     }
     
@@ -222,12 +244,12 @@ internal final class LiveStreamViewModel: NSObject {
         }
         updatePlayerItem(with: url)
     }
-
+    
     func seek(to: CMTime) {
         ShopLiveController.shared.currentPlayTime = to
         ShopLiveController.player?.seek(to: to)
     }
-
+    
     @objc func handleNotification(_ notification: Notification) {
         switch notification.name {
         case .TimebaseEffectiveRateChangedNotification:
@@ -245,7 +267,7 @@ internal final class LiveStreamViewModel: NSObject {
             break
         }
     }
-
+    
     func parseRatioStringAndSetData(ratio : String?) {
         if let ratio = ratio {
             let parseRatio = ratio.split(separator: ":")
@@ -304,7 +326,7 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
     var identifier: String {
         return "LiveStreamViewModel"
     }
-
+    
     func updatedValue(key: ShopLivePlayerObserveValue) {
         switch key {
         case .videoUrl:
@@ -333,7 +355,9 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
         switch ShopLiveController.playerItemStatus {
         case .readyToPlay:
             ShopLiveLogger.debugLog("playerItem Status readyToPlay")
-            ShopLiveController.playerItem?.preferredForwardBufferDuration = 5
+            if ShopLiveController.isReplayMode {
+                ShopLiveController.playerItem?.preferredForwardBufferDuration = 5
+            }
             if ShopLiveController.playControl != .pause, ShopLiveController.playControl != .play, ShopLiveController.windowStyle != .osPip {
                 if ShopLiveController.isReplayMode && ShopLiveController.playControl == .resume { return }
                 if ShopLiveController.isReplayMode, let duration = ShopLiveController.duration {
@@ -394,38 +418,39 @@ extension LiveStreamViewModel {
     private func addPlayTimeObserver() {
         removePlaytimeObserver()
         let time = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        playTimeObserver = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: nil) { [weak self] (time) in
-            guard let self = self else { return }
+        playTimeObserver = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: nil) { (time) in
             let curTime = CMTimeGetSeconds(time)
-            self.checkLoadedTimeRangeStalled()
+            //            self.checkLoadedTimeRangeStalled()
             ShopLiveController.shared.currentPlayTime = time
             ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoTimeUpdated, curTime)
         }
     }
     
-    private func checkLoadedTimeRangeStalled(){
-        if ShopLiveController.isReplayMode { return }
-        if let loadedTimeRange = ShopLiveController.playerItem?.loadedTimeRanges.first as? CMTimeRange {
-            if self.loadedTimeRangeStalledQueue.isEmpty {
-                self.loadedTimeRangeStalledQueue.append(loadedTimeRange.start.seconds)
-            }
-            else if let last = loadedTimeRangeStalledQueue.last {
-                if last != loadedTimeRange.start.seconds {
-                    self.loadedTimeRangeStalledQueue.removeAll()
-                    self.loadedTimeRangeStalledQueue.append(loadedTimeRange.start.seconds)
-                }
-                else {
-                    self.loadedTimeRangeStalledQueue.append(loadedTimeRange.start.seconds)
-                }
-            }
-        }
-        if ShopLiveController.timeControlStatus == .playing && self.loadedTimeRangeStalledQueue.count >= 16 {
-            self.loadedTimeRangeStalledQueue.removeAll()
-            self.delegate?.requestTakeSnapShotView()
-            self.retryManager?.setIsBuffering(isBuffering: true)
-            self.retryManager?.reserveRetry(waitSecond: 0)
-        }
-    }
+    // ts 파일 개수 변화에 따른 사이드 이펙트가 너무 큰 로직이라 제거
+    // replay 7초 무한 새로고침 현상 원인코드
+    //    private func checkLoadedTimeRangeStalled(){
+    //        if ShopLiveController.isReplayMode { return }
+    //        if let loadedTimeRange = ShopLiveController.playerItem?.loadedTimeRanges.first as? CMTimeRange {
+    //            if self.loadedTimeRangeStalledQueue.isEmpty {
+    //                self.loadedTimeRangeStalledQueue.append(loadedTimeRange.start.seconds)
+    //            }
+    //            else if let last = loadedTimeRangeStalledQueue.last {
+    //                if last != loadedTimeRange.start.seconds {
+    //                    self.loadedTimeRangeStalledQueue.removeAll()
+    //                    self.loadedTimeRangeStalledQueue.append(loadedTimeRange.start.seconds)
+    //                }
+    //                else {
+    //                    self.loadedTimeRangeStalledQueue.append(loadedTimeRange.start.seconds)
+    //                }
+    //            }
+    //        }
+    //        if ShopLiveController.timeControlStatus == .playing && self.loadedTimeRangeStalledQueue.count >= 16 {
+    //            self.loadedTimeRangeStalledQueue.removeAll()
+    //            self.delegate?.requestTakeSnapShotView()
+    //            self.retryManager?.setIsBuffering(isBuffering: true)
+    //            self.retryManager?.reserveRetry(waitSecond: 0)
+    //        }
+    //    }
     
     private func removePlaytimeObserver() {
         if let playTimeObserver = self.playTimeObserver {
@@ -434,48 +459,148 @@ extension LiveStreamViewModel {
         }
     }
     
-    private func startLiveStreamKeepUpTimer() {
+    func startLiveStreamKeepUpTimer() {
+        if self.useLiveKeepUpTimerOnInApp == false && ShopLiveController.windowStyle != .osPip { return }
+        if self.useLiveKeepUpTimerOnOsPip == false && ShopLiveController.windowStyle == .osPip { return }
         if ShopLiveController.isReplayMode { return  }
         self.removeLiveStreamKeepUpTimer()
         
-        let time = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        liveKeepUpTimer = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: nil) { [weak self] time in
+        
+        ShopLiveLogger.debugLog("[HASSAN LOG \(Date())] liveKeepUpTimerFrequency \(liveKeepUpTimerFrequency)")
+        
+        let time = CMTime(seconds: liveKeepUpTimerFrequency, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        liveKeepUpTimer = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: DispatchQueue.global(qos: .background)) { [weak self] time in
             guard let self = self else { return }
+            guard self.checkLiveKeepUpTimerFiredMultipleTime() else { return }
             if ShopLiveController.player?.timeControlStatus != .playing {
-                self.blockLiveKeeupTimer = true
-                if ShopLiveController.windowStyle == .osPip {
-                    self.liveKeepUpTimerBlockDuration = 10
-                }
-                else {
-                    self.liveKeepUpTimerBlockDuration = 2
-                }
                 return
             }
-            if self.blockLiveKeeupTimer == true {
-                self.liveKeepUpTimerBlockDuration -= 0.5
-                if self.liveKeepUpTimerBlockDuration <= 0 {
-                    self.blockLiveKeeupTimer = false
-                    if ShopLiveController.windowStyle == .osPip {
-                        self.liveKeepUpTimerBlockDuration = 10
-                    }
-                    else {
-                        self.liveKeepUpTimerBlockDuration = 2
-                    }
-                }
+            guard let (loadedStartTime ,loadedEndTime, seekableEndTime, currenTime, averageBuffer ) = self.getInfosForLiveKeepUpTimer() else { return }
+            if self.isLLHLS {
+                self.liveKeepUpTimerForLLHLS(loadStartTime: loadedStartTime, seekEndTime: seekableEndTime, currentTime: currenTime)
             }
             else {
-                if let loadedTimeRange = ShopLiveController.playerItem?.loadedTimeRanges.first as? CMTimeRange,
-                   let currentTime = ShopLiveController.player?.currentTime().seconds {
-                    let startTime = loadedTimeRange.start.seconds
-                    if currentTime - startTime <= 0 && ShopLiveController.player?.timeControlStatus != .paused {
-                        self.blockLiveKeeupTimer = true
-                        DispatchQueue.main.async {
-                            ShopLiveController.player?.seek(to: .positiveInfinity)
-                        }
-                    }
-                }
+                self.liveKeepUpTimerForHLS(loadEndTime: loadedEndTime, seekEndTime: seekableEndTime, currentTime: currenTime, averageBuffer: averageBuffer)
             }
         }
+    }
+    
+    private func checkLiveKeepUpTimerFiredMultipleTime() -> Bool {
+        guard let player = ShopLiveController.player else { return false }
+        let currentTime = floor(player.currentTime().seconds)
+        if self.liveKeepUpTimerPreviousCurrentTime == nil {
+            self.liveKeepUpTimerPreviousCurrentTime = currentTime
+        }
+        else if let prevCurrentTime = self.liveKeepUpTimerPreviousCurrentTime, prevCurrentTime == currentTime {
+            return false
+        }
+        else if let prevCurrentTime = self.liveKeepUpTimerPreviousCurrentTime, prevCurrentTime != currentTime {
+            self.liveKeepUpTimerPreviousCurrentTime = currentTime
+        }
+        return true
+    }
+    
+    private func getInfosForLiveKeepUpTimer() -> (loadeStartTime : CMTime, loadedEndTime : CMTime, seekableEndTime : CMTime, currentTime : Double, averageBuffer : Double)? {
+        guard let loadedTimeRange = ShopLiveController.playerItem?.loadedTimeRanges.first as? CMTimeRange,
+              let currentTime = ShopLiveController.player?.currentTime().seconds,
+              let seekableTimeRange = ShopLiveController.playerItem?.seekableTimeRanges.first as? CMTimeRange else { return nil }
+        
+        let loadedStartTime = loadedTimeRange.start.seconds
+        let loadedEndTime = loadedTimeRange.end.seconds
+        let seekableStartTime = seekableTimeRange.start.seconds
+        let seekableEndTime = seekableTimeRange.end.seconds
+        let averageBufferEndurance = caculateLiveKeepUpBufferAverage(buffer: loadedEndTime - currentTime) ?? -1
+        ShopLiveLogger.debugLog("[HASSAN LOG \(Date())] l_s \(String(format: "%.02f",loadedStartTime)) l_e \(String(format: "%.02f",loadedEndTime))  s_s \(String(format: "%.02f",seekableStartTime)) s_e \(String(format: "%.02f",seekableEndTime)) current \(String(format: "%.02f",currentTime)) av \(String(format: "%.02f",averageBufferEndurance))  loadedTimeRange \( String(format: "%.02f",loadedEndTime - loadedStartTime))")
+        
+        //MARK: -개발용 코드 삭제 필요
+        DispatchQueue.main.async {
+            ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "averageBuffer \(averageBufferEndurance) "))
+        }
+        
+        return (loadedTimeRange.start, loadedTimeRange.end, seekableTimeRange.end, currentTime, averageBufferEndurance)
+    }
+    
+    //loadedTimeRange, seekableTimeRange, currentTime을 비교해서 보면 1초짜리 ts파일의 경우 3개 정도를 seekable하게 갖고 있고 그 뒤의 3개를 loadedTimeRange로 접근이 가능한 것으로 확인
+    //currentTime을 참조하면 대략 m3u8에서 2 ~ 3 번째 ts파일을 재생하고 있는 것을 알 수 있음
+    //이때 loadedTimeRange.end - currentTime이 평상시면 2 ~ 3초사이의 버퍼를 가지고 있고 (딜레이 5 ~ 6 초 기준)
+    // 딜레이가 8 ~ 이상 넘어가면 loadedTimeRange.end - currentTime 5초 이상 차이가 남
+    // 즉 avPlayer가 추가적으로 ts 파일을  2 ~ 3개 정도 들고 있으면 하나의 m3u8의 파일이 차이난다 볼수 있고 seekableRange.end값으로 seeking하여 delay를 줄임
+    // ts파일이 6개보다 많이 올 경우 버퍼를 가지고 가는 양상이 다르게 보이는 문제가 있음
+    // loadedTimeRangeStart     current         loadedTimeRangeEnd
+    //    |                       |                    |
+    // (184.465)              (186.010)            (189.671)
+    //    |      (1.545)          |                    |
+    //--------------------------------------------------
+    //    |                           (1.822)   |   (1.739)
+    //    |                                 (187.832)
+    //    |                                     |
+    // seekStart                             seekEnd
+    private func liveKeepUpTimerForHLS(loadEndTime : CMTime, seekEndTime : CMTime, currentTime : Double, averageBuffer : Double) {
+        guard averageBuffer >= self.liveKeepUpBufferEndurance && ShopLiveController.player?.timeControlStatus != .paused && seekEndTime.seconds > currentTime else {
+            if averageBuffer != -1 {
+                self.liveKeepUpSeekOccured = false
+            }
+            return
+        }
+        self.liveKeepUpBufferStack.removeAll()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            ShopLiveLogger.debugLog("[HASSAN LOG \(Date())] seekStart")
+            ShopLiveController.player?.seek(to: seekEndTime, toleranceBefore: .init(seconds: 1, preferredTimescale: 44100), toleranceAfter: .init(seconds: 1, preferredTimescale: 44100), completionHandler: { [weak self] _ in
+                self?.delegate?.requestTakeSnapShotView()
+            })
+        }
+        if self.liveKeepUpSeekOccured {
+            if self.liveKeepUpTimerFrequency >= 180 {
+                self.liveKeepUpTimerFrequency = self.liveKeepUpTimerBaseFrequency
+            }
+            else {
+                self.liveKeepUpTimerFrequency = min(180, liveKeepUpTimerFrequency * 2 )
+            }
+            self.liveKeepUpSeekOccured = false
+            self.startLiveStreamKeepUpTimer()
+        }
+        else {
+            self.liveKeepUpSeekOccured = true
+        }
+    }
+    
+    private func liveKeepUpTimerForLLHLS(loadStartTime : CMTime, seekEndTime : CMTime, currentTime : Double) {
+        if  loadStartTime.seconds - currentTime < 0 && ShopLiveController.player?.timeControlStatus != .paused {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                ShopLiveController.player?.seek(to: seekEndTime, toleranceBefore: .init(seconds: 1, preferredTimescale: 44100), toleranceAfter: .init(seconds: 1, preferredTimescale: 44100), completionHandler: { [weak self] _ in
+                    self?.delegate?.requestTakeSnapShotView()
+                })
+            }
+            if self.liveKeepUpSeekOccured {
+                if liveKeepUpTimerFrequency >= 180 {
+                    self.liveKeepUpTimerFrequency = self.liveKeepUpTimerBaseFrequency
+                }
+                else {
+                    self.liveKeepUpTimerFrequency = min(180, liveKeepUpTimerFrequency * 2 )
+                }
+                self.liveKeepUpSeekOccured = false
+                self.startLiveStreamKeepUpTimer()
+            }
+            else {
+                self.liveKeepUpSeekOccured = true
+            }
+        }
+        else {
+            self.liveKeepUpSeekOccured = false
+        }
+    }
+    
+    private func caculateLiveKeepUpBufferAverage(buffer : Double) -> Double? {
+        if liveKeepUpBufferStack.count >= liveKeepUpBufferSize {
+            liveKeepUpBufferStack.remove(at: 0)
+        }
+        liveKeepUpBufferStack.append(buffer)
+        if liveKeepUpBufferStack.count < liveKeepUpBufferSize {
+            return nil
+        }
+        return liveKeepUpBufferStack.reduce(0, +) / Double(liveKeepUpBufferSize)
     }
     
     private func removeLiveStreamKeepUpTimer() {
@@ -483,31 +608,35 @@ extension LiveStreamViewModel {
             ShopLiveController.player?.removeTimeObserver(liveKeepUpTimer!)
             liveKeepUpTimer = nil
         }
+        self.liveKeepUpTimerPreviousCurrentTime = nil
+    }
+    
+    func blockLiveStreamKeepUpTimerWhenAppTransitioningToBackground() {
+        self.liveKeepUpBufferStack.removeAll()
     }
     
 }
 extension LiveStreamViewModel: AVPlayerItemMetadataOutputPushDelegate {
     func metadataOutput(_ output: AVPlayerItemMetadataOutput, didOutputTimedMetadataGroups groups: [AVTimedMetadataGroup], from track: AVPlayerItemTrack?) {
-
+        
         let payloads: NSMutableDictionary = .init()
         var timedMeta: String = "[timedMeta]\n"
         groups.forEach { group in
             group.items.forEach { item in
-
+                
                 if let key = item.key as? String, let datav = item.value as? Data {
                     timedMeta += "\(key): \(String(describing: item.value)) \n"
                     payloads[key] = datav.base64EncodedString()
                 }
             }
         }
-
+        
         if payloads.count > 0 {
             ShopLiveController.shared.webInstance?.sendEventToWeb(event: .onVideoMetadataUpdated, payloads.toJson())
         }
     }
 }
 extension LiveStreamViewModel {
-    
     func setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration?) {
         self.inAppPipConfiguration = config
     }
@@ -547,7 +676,7 @@ extension LiveStreamViewModel {
         }
     }
     
-    func setWebViewLoadingCompleted(isCompleted : Bool){
+    func setWebViewLoadingCompleted(isCompleted : Bool) {
         self.isWebViewDidCompleteLoading = isCompleted
     }
     
@@ -559,7 +688,7 @@ extension LiveStreamViewModel {
         return self.isUpdatePictureInPictureNeedInSetConfInitialized
     }
     
-    func setVc(vc : LiveStreamViewController){
+    func setVc(vc : LiveStreamViewController) {
         self.liveStreamViewController = vc
     }
     
@@ -574,15 +703,41 @@ extension LiveStreamViewModel {
     func getCurrentNetworkType() -> String {
         return self.currentNetworkCapability
     }
+    
+    func setIsLLHls(isLLHLs : Bool) {
+        self.isLLHLS = isLLHLs
+    }
+    
+    func setLiveKeepUpBufferEndurance(value : Double) {
+        self.liveKeepUpBufferEndurance = value
+    }
+    
+    func setUseLiveKeepUpTimerOnInApp(isUsed : Bool) {
+        self.useLiveKeepUpTimerOnInApp = isUsed
+    }
+    
+    func setUseLiveKeepUpTimerOnOsPip(isUsed : Bool) {
+        self.useLiveKeepUpTimerOnOsPip = isUsed
+    }
+    
+    func setUseLiveKeepUpTimerBufferSize(size : Int){
+        self.liveKeepUpBufferSize = size
+    }
+    
+    func setLiveKeepUpTimerFrequency(frequency : Double) {
+        self.liveKeepUpTimerFrequency = frequency
+        self.liveKeepUpTimerBaseFrequency = frequency
+    }
+    
     /**
-        Initialize web client
-            - Sending the required data using URL for Web Client initialization
+     Initialize web client
+     - Sending the required data using URL for Web Client initialization
      */
     func getOverLayUrlWithInfosAttached() -> URL? {
         guard let baseUrl = overayUrl else { return nil }
         let urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
-
+        
         if let authToken = ShopLiveCommon.getUserJWT(), !authToken.isEmpty {
             queryItems.append(URLQueryItem(name: "tk", value: authToken))
         }
@@ -602,7 +757,7 @@ extension LiveStreamViewModel {
                 queryItems.append(URLQueryItem(name: "userScore", value: String(userScore)))
             }
             
-      
+            
             if let additional = user.custom, !additional.isEmpty {
                 let nilAvoided = (additional  as [String : Any?]).filter({ $0.value != nil })
                 nilAvoided.forEach { (key: String, value: Any?) in
@@ -631,7 +786,7 @@ extension LiveStreamViewModel {
             queryItems.append(URLQueryItem(name: "adIdentifier", value: adId))
         }
         
-        if let utm_source = ShopLiveCommon.getUtmSource(), utm_source.isEmpty == false{
+        if let utm_source = ShopLiveCommon.getUtmSource(), utm_source.isEmpty == false {
             queryItems.append(URLQueryItem(name: "utm_source", value: utm_source))
         }
         if let utm_content = ShopLiveCommon.getUtmCampaign(), utm_content.isEmpty == false {
@@ -647,13 +802,13 @@ extension LiveStreamViewModel {
         queryItems.append(URLQueryItem(name: "osType", value: "i"))
         queryItems.append(URLQueryItem(name: "osVersion", value: ShopLiveDefines.osVersion))
         queryItems.append(URLQueryItem(name: "device", value: ShopLiveDefines.deviceIdentifier))
-
+        
         if let scm: String = ShopLiveController.shared.shareScheme, scm.isEmpty == false {
             queryItems.append(URLQueryItem(name: "shareUrl", value: scm))
         }
         
         queryItems.append(URLQueryItem(name: "appVersion", value: ShopLiveConfiguration.AppPreference.appVersion ?? UIApplication.appVersion()))
-    
+        
         queryItems.append(URLQueryItem(name: "manualRotation", value: "false"))
         
         ShopLiveConfiguration.Data.customParameters.forEach { (key: String, value: Any) in
@@ -664,12 +819,12 @@ extension LiveStreamViewModel {
         guard let params = URLUtil.query(queryItems) else {
             return URL(string: urlString)
         }
-
+        
         guard let url = URL(string: urlString + "?" + params) else {
-
+            
             return URL(string: urlString)
         }
-
+        
         return url
     }
 }
@@ -708,14 +863,14 @@ extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {
     
     func onPlayListParseError() {
         guard let player = ShopLiveController.player,
-                      let playerItem = player.currentItem,
-                      let urlAsset = (playerItem.asset as? AVURLAsset) else { return }
-                if ShopLiveController.windowStyle != .osPip {
-                    self.updatePlayerItem(with: urlAsset.url)
-                }
-                else {
-                    self.resetPlayer()
-                }
+              let playerItem = player.currentItem,
+              let urlAsset = (playerItem.asset as? AVURLAsset) else { return }
+        if ShopLiveController.windowStyle != .osPip {
+            self.updatePlayerItem(with: urlAsset.url)
+        }
+        else {
+            self.resetPlayer()
+        }
     }
     
     func onBandWidthExceeds() {

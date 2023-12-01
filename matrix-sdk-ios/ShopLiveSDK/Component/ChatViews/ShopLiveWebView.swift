@@ -7,6 +7,7 @@
 
 import Foundation
 import WebKit
+import ShopliveSDKCommon
 
 /**
     Send data to web client

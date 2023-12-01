@@ -382,6 +382,7 @@ final class DemoConfiguration: NSObject {
         }
     }
     
+    
     var isGuestMode: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: "isGuestMode")

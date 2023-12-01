@@ -7,6 +7,7 @@
 
 import Foundation
 import AVKit
+import ShopliveSDKCommon
 
 
 
@@ -19,6 +20,7 @@ extension LiveStreamViewModel {
         if let retryManager = retryManager {
             retryManager.setRequiredRetryCheck(isRequired: false)
             retryManager.setIsBuffering(isBuffering: false)
+            retryManager.setIsInRetry(isInRetry: false)
         }
         
         ShopLiveController.shared.lastPipPlaying = true
@@ -59,16 +61,21 @@ extension LiveStreamViewModel {
     }
     
     func handleTimeControlStatusWaitingToPlay() {
-        ShopLiveLogger.debugLog("waitingToPlayAtSpecificRate")
+        ShopLiveLogger.debugLog("waitingToPlayAtSpecificRate ")
+        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "waitingToPlayAtSpecificRate currentTime \(ShopLiveController.player?.currentTime().seconds)"))
         guard let reason = ShopLiveController.player?.reasonForWaitingToPlay else { return }
+        guard let retryManager = retryManager else { return }
         self.delegate?.requestTakeSnapShotView()
         switch reason {
         case .toMinimizeStalls:
             self.handleToMinimizeStall()
+            retryManager.setIsBuffering(isBuffering: true)
         case .evaluatingBufferingRate:
             ShopLiveLogger.debugLog("evaluatingBufferingRate")
+            ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "evaluatingBufferingRate"))
         case .noItemToPlay:
-            ShopLiveLogger.debugLog("k")
+            ShopLiveLogger.debugLog("noItemToPlay")
+            ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "noItemToPlay"))
         default:
             break
         }
@@ -81,13 +88,11 @@ extension LiveStreamViewModel {
                 ShopLiveLogger.debugLog("waitingForCoordinatedPlayback")
             }
         }
-        
-        guard let retryManager = retryManager else { return }
-        retryManager.setIsBuffering(isBuffering: true)
     }
     
     private func handleToMinimizeStall() {
         ShopLiveLogger.debugLog("toMinimizeStall")
+        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "toMinimizeStall"))
         guard let retryManager = retryManager else { return }
         guard retryManager.getIsBuffering() == false else { return }
         
@@ -97,6 +102,7 @@ extension LiveStreamViewModel {
             }
             else {
                 if ShopLiveController.windowStyle != .osPip {
+                    ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "retry / currentTime \(ShopLiveController.player?.currentTime().seconds)"))
                     retryManager.reserveRetry(waitSecond: 0)
                 }
                 else {
@@ -105,6 +111,4 @@ extension LiveStreamViewModel {
             }
         }
     }
-    
-    
 }

@@ -7,6 +7,8 @@
 
 
 import UIKit
+import ShopliveSDKCommon
+
 
 protocol ShopLiveChattingWriteDelegate: AnyObject {
     func didTouchSendButton()

@@ -10,6 +10,7 @@ import AVKit
 import WebKit
 import UIKit
 import VideoToolbox
+import ShopliveSDKCommon
 
 enum ShopLivePlayerObserveValue: String {
     case videoUrl = "videoUrl"
@@ -333,14 +334,11 @@ final class ShopLiveController: NSObject {
     func seekToLatest() {
         guard let player = ShopLiveController.player else { return }
         guard let seekableRange = player.currentItem?.seekableTimeRanges.last?.timeRangeValue else { return }
-
-        let seekableStart = CMTimeGetSeconds(seekableRange.start)
-        let seekableDuration = CMTimeGetSeconds(seekableRange.duration)
-        let livePosition = seekableStart + seekableDuration
-
-        if livePosition > 0 {
-            ShopLiveLogger.debugLog("time paused seekToLatest \(livePosition)")
-            player.seek(to: CMTime(seconds: floor(livePosition), preferredTimescale: 1))
+        let currentTime = player.currentTime()
+        let seekEndTime = seekableRange.end
+        
+        if seekEndTime > currentTime && seekEndTime.isValid {
+            player.seek(to: seekEndTime, toleranceBefore: .init(seconds: 1, preferredTimescale: 44100), toleranceAfter: .init(seconds: 1, preferredTimescale: 44100))
         }
     }
 

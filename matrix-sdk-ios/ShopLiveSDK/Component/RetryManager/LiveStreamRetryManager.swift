@@ -22,6 +22,7 @@ class LiveStreamRetryManager {
     private var retryTimer : Timer?
     private var retryCount : Int = 0
     private var isTryingToRecoverFormNetworkDisconnected : Bool = false
+    private var isInRetry : Bool = false
     
     
     var delegate : LiveStreamRetryManagerDelegate?
@@ -40,6 +41,7 @@ class LiveStreamRetryManager {
     }
     
     func reserveRetry(waitSecond: Int = 5) {
+        guard isInRetry == false else { return }
         self.requireRetryCheck = true
         ShopLiveController.playerItem?.cancelPendingSeeks()
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(waitSecond)) {
@@ -57,11 +59,13 @@ class LiveStreamRetryManager {
         retryTimer?.invalidate()
         retryTimer = nil
         retryCount = 0
+        isInRetry = false
     }
     
     func handleRetryPlay() {
         resetRetry()
         if ShopLiveController.retryPlay {
+            isInRetry = true
             retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
                 guard let self = self else {
                     timer.invalidate()
@@ -94,6 +98,9 @@ class LiveStreamRetryManager {
                 }
             }
         }
+        else {
+            isInRetry = false
+        }
     }
     
     
@@ -115,7 +122,12 @@ class LiveStreamRetryManager {
                 timer.invalidate()
                 self.retryTimer = nil
                 self.delegate?.requestHideOrShowLoading(hide: true)
+                self.isInRetry = false
             }
         })
+    }
+    
+    func setIsInRetry(isInRetry : Bool) {
+        self.isInRetry = isInRetry
     }
 }

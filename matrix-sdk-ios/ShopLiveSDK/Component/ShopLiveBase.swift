@@ -1488,7 +1488,7 @@ import ShopliveSDKCommon
             }
             break
         case UIApplication.willResignActiveNotification:
-//            self.setupOsPictureInPicture()
+            self.liveStreamViewController?.viewModel.blockLiveStreamKeepUpTimerWhenAppTransitioningToBackground()
             break
         case UIApplication.didEnterBackgroundNotification:
             self.liveStreamViewController?.onBackground()
@@ -1643,10 +1643,6 @@ extension ShopLiveBase: ShopLiveComponent {
     }
     
     func onTerminated() {
-#if DEMO
-        ShopLiveDevConfiguration.shared.useAppLog = false
-#endif
-        
         liveStreamViewController?.onTerminated()
     }
     

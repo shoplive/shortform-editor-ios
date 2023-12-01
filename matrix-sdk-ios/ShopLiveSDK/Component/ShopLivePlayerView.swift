@@ -6,7 +6,7 @@
 //
 
 import AVKit
-
+import ShopliveSDKCommon
 
 fileprivate class PlayerLayerContainerView : UIView {
     var playerLayer: AVPlayerLayer {

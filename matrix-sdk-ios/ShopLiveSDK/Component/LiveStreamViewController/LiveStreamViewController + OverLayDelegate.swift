@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 import AVKit
 import WebKit
+import ShopliveSDKCommon
+
 
 extension LiveStreamViewController: OverlayWebViewDelegate {
     
@@ -220,10 +222,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
                 delegate?.updatePictureInPicture()
             }
             
-            
-            
             ShopLiveController.shared.swipeEnabled = true
-            
             if let isReplay = payload?["isReplay"] as? Bool {
                 ShopLiveController.isReplayMode = isReplay
             }
@@ -231,6 +230,43 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             ShopLiveConfiguration.UI.chatInputSendString = sendText ?? "chat.send.title".localizedString()
             ShopLiveConfiguration.UI.chatInputMaxLength = chatInputMaxLength ?? 200
             updateChattingWriteView()
+            
+            if let configJson = payload?["configJson"] as? [String: Any], let streamEdgeType = configJson["streamEdgeType"] as? String {
+                if streamEdgeType == "<null>" || streamEdgeType == "TS_BROADCAST" {
+                    viewModel.setIsLLHls(isLLHLs: false)
+                }
+                else {
+                    viewModel.setIsLLHls(isLLHLs: true)
+                }
+            }
+            else {
+                viewModel.setIsLLHls(isLLHLs: false)
+            }
+            
+            if let sdkClientSetting = payload?["sdkClientSettings"] as? [String : Any] {
+                if let liveKeepUpBufferEndurance = sdkClientSetting["liveKeepUpBufferEndurance"] as? Double {
+                    viewModel.setLiveKeepUpBufferEndurance(value: liveKeepUpBufferEndurance)
+                }
+                
+                if let liveKeepUpTimerFrequency = sdkClientSetting["liveKeepUpTimerFrequency"] as? Double {
+                    viewModel.setLiveKeepUpTimerFrequency(frequency: liveKeepUpTimerFrequency)
+                }
+                
+                if let useLiveKeepUpTimerInApp = sdkClientSetting["useLiveKeepUpTimerOnInApp"] as? Bool {
+                    viewModel.setUseLiveKeepUpTimerOnInApp(isUsed: useLiveKeepUpTimerInApp)
+                }
+                
+                if let useLiveKeepUpTimerOnOsPip = sdkClientSetting["useLiveKeepUpTimerOnOsPip"] as? Bool {
+                    viewModel.setUseLiveKeepUpTimerOnOsPip(isUsed: useLiveKeepUpTimerOnOsPip)
+                }
+                
+                if let liveKeepUpBufferSize  = sdkClientSetting["liveKeepUpBufferSize"] as? Int, liveKeepUpBufferSize != 0 {
+                    viewModel.setUseLiveKeepUpTimerBufferSize(size: liveKeepUpBufferSize)
+                }
+                
+                viewModel.startLiveStreamKeepUpTimer()
+            }
+            
             delegate?.campaignInfo(campaignInfo: campaignInfo ?? [:])
             
             

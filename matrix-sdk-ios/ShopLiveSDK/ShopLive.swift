@@ -159,43 +159,6 @@ extension ShopLive {
             }
         }
     }
-    /*
-    @objc enum Phase: Int {
-        #if DEMO
-        case DEV
-        #endif
-        case STAGE
-        case REAL
-
-        public var name: String {
-            switch self {
-            #if DEMO
-            case .DEV:
-                return "DEV"
-            #endif
-            case .STAGE:
-                return "STAGE"
-            case .REAL:
-                return "REAL"
-            }
-        }
-
-        public init?(name: String) {
-            switch name {
-            #if DEMO
-            case Phase.DEV.name:
-                self = .DEV
-            #endif
-            case Phase.STAGE.name:
-                self = .STAGE
-            case Phase.REAL.name:
-                self = .REAL
-            default:
-                return nil
-            }
-        }
-    }
-     */
 }
 
 extension ShopLive: ShopLiveSDKInterface {

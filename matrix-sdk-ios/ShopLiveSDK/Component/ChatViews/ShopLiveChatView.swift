@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import ShopliveSDKCommon
 
 protocol ShopLiveChatViewDelegate: AnyObject {
     func numberOfLinesChanged(lines: Int)

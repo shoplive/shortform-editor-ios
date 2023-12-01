@@ -83,12 +83,6 @@
 		2FFBD3702AAA93B100B2A8BB /* ShopLiveSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2FFBD3742AAA93B800B2A8BB /* ShopLiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; };
 		2FFBD3752AAA93B800B2A8BB /* ShopLiveSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		2FFBD3792AAAA36700B2A8BB /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99727F5742D004C2785 /* ShopLiveViewLoggerController.swift */; };
-		2FFBD37A2AAAA36800B2A8BB /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99727F5742D004C2785 /* ShopLiveViewLoggerController.swift */; };
-		2FFBD37B2AAAA37100B2A8BB /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99727F5742D004C2785 /* ShopLiveViewLoggerController.swift */; };
-		2FFBD37C2AAAA44B00B2A8BB /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99827F5742D004C2785 /* ShopLiveLogger.swift */; };
-		2FFBD37D2AAAA44B00B2A8BB /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99827F5742D004C2785 /* ShopLiveLogger.swift */; };
-		2FFBD37E2AAAA44B00B2A8BB /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99827F5742D004C2785 /* ShopLiveLogger.swift */; };
 		BF1B57BA276983600002EBB5 /* CustomBaseAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */; };
 		BF1B57BC2769844F0002EBB5 /* CampaignInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */; };
 		BF1C0804272797C400F6B2E1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */; };
@@ -105,7 +99,6 @@
 		BF34F2DE28125F8600114DBF /* SLLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D98C27F5742D004C2785 /* SLLoadingIndicator.swift */; };
 		BF34F2DF28125F8600114DBF /* ShopLivePlayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D98927F5742D004C2785 /* ShopLivePlayerItem.swift */; };
 		BF34F2E028125F8600114DBF /* LiveStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D98327F5742D004C2785 /* LiveStreamViewController.swift */; };
-		BF34F2E128125F8600114DBF /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99827F5742D004C2785 /* ShopLiveLogger.swift */; };
 		BF34F2E228125F8600114DBF /* ShopLivePlayItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D98827F5742D004C2785 /* ShopLivePlayItem.swift */; };
 		BF34F2E328125F8600114DBF /* ShopLiveSDKInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99527F5742D004C2785 /* ShopLiveSDKInterface.swift */; };
 		BF34F2E428125F8600114DBF /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99A27F5742D004C2785 /* HapticManager.swift */; };
@@ -113,7 +106,6 @@
 		BF34F2E628125F8600114DBF /* PerfMeasurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D98B27F5742D004C2785 /* PerfMeasurements.swift */; };
 		BF34F2E728125F8600114DBF /* ShopLiveWebInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99927F5742D004C2785 /* ShopLiveWebInterface.swift */; };
 		BF34F2E828125F8600114DBF /* ShopLiveDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99327F5742D004C2785 /* ShopLiveDefines.swift */; };
-		BF34F2E928125F8600114DBF /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99727F5742D004C2785 /* ShopLiveViewLoggerController.swift */; };
 		BF34F2EA28125F8600114DBF /* ShopLiveBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D98427F5742D004C2785 /* ShopLiveBase.swift */; };
 		BF34F2EB28125F8600114DBF /* ShopLiveConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99D27F5742D004C2785 /* ShopLiveConfiguration.swift */; };
 		BF34F2EC28125F8600114DBF /* ShopLiveWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D98F27F5742D004C2785 /* ShopLiveWebView.swift */; };
@@ -143,8 +135,6 @@
 		BF37D9CF27F5742D004C2785 /* ShopLiveDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99327F5742D004C2785 /* ShopLiveDefines.swift */; };
 		BF37D9D227F5742D004C2785 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99427F5742D004C2785 /* SoundManager.swift */; };
 		BF37D9D527F5742D004C2785 /* ShopLiveSDKInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99527F5742D004C2785 /* ShopLiveSDKInterface.swift */; };
-		BF37D9D827F5742D004C2785 /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99727F5742D004C2785 /* ShopLiveViewLoggerController.swift */; };
-		BF37D9DB27F5742D004C2785 /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99827F5742D004C2785 /* ShopLiveLogger.swift */; };
 		BF37D9DE27F5742D004C2785 /* ShopLiveWebInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99927F5742D004C2785 /* ShopLiveWebInterface.swift */; };
 		BF37D9E127F5742D004C2785 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99A27F5742D004C2785 /* HapticManager.swift */; };
 		BF37D9E427F5742D004C2785 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99C27F5742D004C2785 /* Extensions.swift */; };
@@ -208,7 +198,6 @@
 		BF5111EC2824464A00E36175 /* SLLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D98C27F5742D004C2785 /* SLLoadingIndicator.swift */; };
 		BF5111ED2824464A00E36175 /* ShopLivePlayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D98927F5742D004C2785 /* ShopLivePlayerItem.swift */; };
 		BF5111EE2824464A00E36175 /* LiveStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D98327F5742D004C2785 /* LiveStreamViewController.swift */; };
-		BF5111EF2824464A00E36175 /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99827F5742D004C2785 /* ShopLiveLogger.swift */; };
 		BF5111F02824464A00E36175 /* ShopLivePlayItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D98827F5742D004C2785 /* ShopLivePlayItem.swift */; };
 		BF5111F12824464A00E36175 /* ShopLiveSDKInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99527F5742D004C2785 /* ShopLiveSDKInterface.swift */; };
 		BF5111F22824464A00E36175 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99A27F5742D004C2785 /* HapticManager.swift */; };
@@ -216,7 +205,6 @@
 		BF5111F42824464A00E36175 /* PerfMeasurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D98B27F5742D004C2785 /* PerfMeasurements.swift */; };
 		BF5111F52824464A00E36175 /* ShopLiveWebInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99927F5742D004C2785 /* ShopLiveWebInterface.swift */; };
 		BF5111F62824464A00E36175 /* ShopLiveDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99327F5742D004C2785 /* ShopLiveDefines.swift */; };
-		BF5111F72824464A00E36175 /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99727F5742D004C2785 /* ShopLiveViewLoggerController.swift */; };
 		BF5111F82824464A00E36175 /* ShopLiveBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D98427F5742D004C2785 /* ShopLiveBase.swift */; };
 		BF5111F92824464A00E36175 /* ShopLiveConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D99D27F5742D004C2785 /* ShopLiveConfiguration.swift */; };
 		BF5111FA2824464A00E36175 /* ShopLiveWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D98F27F5742D004C2785 /* ShopLiveWebView.swift */; };
@@ -558,8 +546,6 @@
 		BF37D99327F5742D004C2785 /* ShopLiveDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveDefines.swift; sourceTree = "<group>"; };
 		BF37D99427F5742D004C2785 /* SoundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		BF37D99527F5742D004C2785 /* ShopLiveSDKInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveSDKInterface.swift; sourceTree = "<group>"; };
-		BF37D99727F5742D004C2785 /* ShopLiveViewLoggerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveViewLoggerController.swift; sourceTree = "<group>"; };
-		BF37D99827F5742D004C2785 /* ShopLiveLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveLogger.swift; sourceTree = "<group>"; };
 		BF37D99927F5742D004C2785 /* ShopLiveWebInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveWebInterface.swift; sourceTree = "<group>"; };
 		BF37D99A27F5742D004C2785 /* HapticManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		BF37D99C27F5742D004C2785 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -955,7 +941,6 @@
 			isa = PBXGroup;
 			children = (
 				2FFBD3472AA9961000B2A8BB /* InterfaceModel */,
-				BF37D99627F5742D004C2785 /* logger */,
 				BF37D99B27F5742D004C2785 /* Extensions */,
 				BF37D99F27F5742D004C2785 /* Resource */,
 				BF37D99327F5742D004C2785 /* ShopLiveDefines.swift */,
@@ -970,15 +955,6 @@
 				BF4B3594299B4EC2008BCA5A /* AudioSessionManager.swift */,
 			);
 			path = Common;
-			sourceTree = "<group>";
-		};
-		BF37D99627F5742D004C2785 /* logger */ = {
-			isa = PBXGroup;
-			children = (
-				BF37D99727F5742D004C2785 /* ShopLiveViewLoggerController.swift */,
-				BF37D99827F5742D004C2785 /* ShopLiveLogger.swift */,
-			);
-			path = logger;
 			sourceTree = "<group>";
 		};
 		BF37D99B27F5742D004C2785 /* Extensions */ = {
@@ -1629,7 +1605,6 @@
 				BF37D9C027F5742D004C2785 /* SLLoadingIndicator.swift in Sources */,
 				BF37D9B727F5742D004C2785 /* ShopLivePlayerItem.swift in Sources */,
 				BF37D9A527F5742D004C2785 /* LiveStreamViewController.swift in Sources */,
-				BF37D9DB27F5742D004C2785 /* ShopLiveLogger.swift in Sources */,
 				2F071E452AD537C2004616A6 /* LiveStreamRetryManager.swift in Sources */,
 				BF37D9B427F5742D004C2785 /* ShopLivePlayItem.swift in Sources */,
 				BF37D9D527F5742D004C2785 /* ShopLiveSDKInterface.swift in Sources */,
@@ -1645,7 +1620,6 @@
 				BFC73CDB2901791900D9BC8A /* Throttle.swift in Sources */,
 				2F071E4D2AD5489F004616A6 /* LiveStreamViewController + Audio.swift in Sources */,
 				2FE099222A3C47C500D077F6 /* ShopLiveThrottle.swift in Sources */,
-				BF37D9D827F5742D004C2785 /* ShopLiveViewLoggerController.swift in Sources */,
 				BF37D9A827F5742D004C2785 /* ShopLiveBase.swift in Sources */,
 				BF37D9E727F5742D004C2785 /* ShopLiveConfiguration.swift in Sources */,
 				BF4B3595299B4EC2008BCA5A /* AudioSessionManager.swift in Sources */,
@@ -1689,7 +1663,6 @@
 				BF34F2DE28125F8600114DBF /* SLLoadingIndicator.swift in Sources */,
 				BF34F2DF28125F8600114DBF /* ShopLivePlayerItem.swift in Sources */,
 				BF34F2E028125F8600114DBF /* LiveStreamViewController.swift in Sources */,
-				BF34F2E128125F8600114DBF /* ShopLiveLogger.swift in Sources */,
 				BF34F2E228125F8600114DBF /* ShopLivePlayItem.swift in Sources */,
 				2F071E5E2AD54F7C004616A6 /* LiveStreamViewController + ChattingWriteDelegate.swift in Sources */,
 				BF34F2E328125F8600114DBF /* ShopLiveSDKInterface.swift in Sources */,
@@ -1705,7 +1678,6 @@
 				BF3D15E62A3D69680033561D /* ShopLiveThrottle.swift in Sources */,
 				2F071E5A2AD54E54004616A6 /* LiveStreamViewModel + PlayControl.swift in Sources */,
 				2F071E582AD54E50004616A6 /* LiveStreamViewModel + TimeControlStatus.swift in Sources */,
-				BF34F2E928125F8600114DBF /* ShopLiveViewLoggerController.swift in Sources */,
 				2F071E4E2AD54903004616A6 /* LiveStreamViewController + Audio.swift in Sources */,
 				BF34F2EA28125F8600114DBF /* ShopLiveBase.swift in Sources */,
 				2FB0212E2AFCE56B00ED1D4A /* ShopLivePlayerData.swift in Sources */,
@@ -1742,7 +1714,6 @@
 				BF5111EC2824464A00E36175 /* SLLoadingIndicator.swift in Sources */,
 				BF5111ED2824464A00E36175 /* ShopLivePlayerItem.swift in Sources */,
 				BF5111EE2824464A00E36175 /* LiveStreamViewController.swift in Sources */,
-				BF5111EF2824464A00E36175 /* ShopLiveLogger.swift in Sources */,
 				BF5111F02824464A00E36175 /* ShopLivePlayItem.swift in Sources */,
 				2F071E5F2AD54F7C004616A6 /* LiveStreamViewController + ChattingWriteDelegate.swift in Sources */,
 				BF5111F12824464A00E36175 /* ShopLiveSDKInterface.swift in Sources */,
@@ -1758,7 +1729,6 @@
 				BF3D15E72A3D69690033561D /* ShopLiveThrottle.swift in Sources */,
 				2F071E5B2AD54E54004616A6 /* LiveStreamViewModel + PlayControl.swift in Sources */,
 				2F071E592AD54E50004616A6 /* LiveStreamViewModel + TimeControlStatus.swift in Sources */,
-				BF5111F72824464A00E36175 /* ShopLiveViewLoggerController.swift in Sources */,
 				2F071E4F2AD54903004616A6 /* LiveStreamViewController + Audio.swift in Sources */,
 				BF5111F82824464A00E36175 /* ShopLiveBase.swift in Sources */,
 				2FB0212F2AFCE56B00ED1D4A /* ShopLivePlayerData.swift in Sources */,
@@ -1804,7 +1774,6 @@
 				BF5F506828F7D1E1008B79D9 /* AddParameterCell.swift in Sources */,
 				BF5F506928F7D1E1008B79D9 /* DemoConfiguration.swift in Sources */,
 				BF5F506C28F7D1E1008B79D9 /* DemoAppUtility.swift in Sources */,
-				2FFBD37E2AAAA44B00B2A8BB /* ShopLiveLogger.swift in Sources */,
 				BF5F506D28F7D1E1008B79D9 /* GuideTitleButton.swift in Sources */,
 				BF5F506E28F7D1E1008B79D9 /* AppDelegate.swift in Sources */,
 				BF5F507128F7D1E1008B79D9 /* SecretKeyInputAlertController.swift in Sources */,
@@ -1817,7 +1786,6 @@
 				BF5F507A28F7D1E1008B79D9 /* ShopliveSideMenuNavagation.swift in Sources */,
 				BF5F507B28F7D1E1008B79D9 /* SampleExtensions.swift in Sources */,
 				BF5F507C28F7D1E1008B79D9 /* MainViewController.swift in Sources */,
-				2FFBD37A2AAAA36800B2A8BB /* ShopLiveViewLoggerController.swift in Sources */,
 				BF4B35A1299B73E1008BCA5A /* CustomReferrerAlertController.swift in Sources */,
 				BF43A29D29E40B440062143C /* CustomParamValue.swift in Sources */,
 				BF5F507F28F7D1E1008B79D9 /* CustomShareViewController.swift in Sources */,
@@ -1873,7 +1841,6 @@
 				BF60E2012771CECA0060531C /* DemoConfiguration.swift in Sources */,
 				2F7A6DFD2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */,
 				BF85BA8D2886FB3000E48A22 /* DemoAppUtility.swift in Sources */,
-				2FFBD37D2AAAA44B00B2A8BB /* ShopLiveLogger.swift in Sources */,
 				BF60E2062771CECA0060531C /* GuideTitleButton.swift in Sources */,
 				BF60E2092771CECA0060531C /* AppDelegate.swift in Sources */,
 				BF60E20A2771CECA0060531C /* SecretKeyInputAlertController.swift in Sources */,
@@ -1885,7 +1852,6 @@
 				BF60E2142771CECA0060531C /* ShopliveSideMenuNavagation.swift in Sources */,
 				BF60E2162771CECA0060531C /* SampleExtensions.swift in Sources */,
 				BF60E2172771CECA0060531C /* MainViewController.swift in Sources */,
-				2FFBD3792AAAA36700B2A8BB /* ShopLiveViewLoggerController.swift in Sources */,
 				BF69333127BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */,
 				BF60E21B2771CECA0060531C /* UserInfoViewController.swift in Sources */,
 				BF263096288DDA980071C8BE /* LoginTextField.swift in Sources */,
@@ -1941,7 +1907,6 @@
 				BF47199F2768570100522F6F /* DemoConfiguration.swift in Sources */,
 				BF85BA8C2886FB3000E48A22 /* DemoAppUtility.swift in Sources */,
 				BF4719A127685D8E00522F6F /* GuideTitleButton.swift in Sources */,
-				2FFBD37C2AAAA44B00B2A8BB /* ShopLiveLogger.swift in Sources */,
 				BFAD8EAD265A23FD00202160 /* AppDelegate.swift in Sources */,
 				BF60E1D9276F8D970060531C /* SecretKeyInputAlertController.swift in Sources */,
 				BFBBB03C2670ECB10025ED1D /* ShopLiveKeySet.swift in Sources */,
@@ -1953,7 +1918,6 @@
 				BF47197827660CF500522F6F /* SampleExtensions.swift in Sources */,
 				BF4719712765F4E800522F6F /* MainViewController.swift in Sources */,
 				BF69333027BF6A3E00B2DEDB /* CustomShareViewController.swift in Sources */,
-				2FFBD37B2AAAA37100B2A8BB /* ShopLiveViewLoggerController.swift in Sources */,
 				BF47198627663BE100522F6F /* UserInfoViewController.swift in Sources */,
 				BF263095288DDA980071C8BE /* LoginTextField.swift in Sources */,
 				BFAD8EAF265A23FD00202160 /* SceneDelegate.swift in Sources */,
@@ -2236,7 +2200,7 @@
 				PRODUCT_NAME = ShopLiveSDK;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEMO DEBUG";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2342,7 +2306,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG EBAY";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG EBAY DEMO";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2407,7 +2371,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG EBAY";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG EBAY DEMO";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2455,6 +2419,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 12;
 				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
@@ -2487,6 +2452,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 12;
 				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;

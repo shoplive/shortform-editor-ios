@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import AVKit
 import MediaPlayer
+import ShopliveSDKCommon
 
 extension LiveStreamViewController {
     func setupAudioConfig() {
