@@ -43,7 +43,7 @@ class SoundManager: NSObject {
         self.players.forEach { player in
             player.stop()
         }
-        
+        self.items.removeAll()
         self.players.removeAll()
     }
     
