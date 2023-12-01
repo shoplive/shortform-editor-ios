@@ -165,7 +165,6 @@ extension OverlayWebView: WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        ShopLiveLogger.debugLog("[HASSAN LOG \(Date())] didFinishLoading WebView ")
         if webView.url?.absoluteString == "about:blank" {
             delegate?.requestHideOrShowLoading(hide: false)
             delegate?.didFailToLoadWebViewWithNetworkUnreachable()
@@ -177,7 +176,6 @@ extension OverlayWebView: WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        ShopLiveLogger.debugLog("[HASSAN LOG \(Date())] didFailed to load WebView ")
         if let blankUrl = URL(string: "about:blank") {
             self.webView?.load(URLRequest(url: blankUrl))
         }
@@ -185,7 +183,6 @@ extension OverlayWebView: WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        ShopLiveLogger.debugLog("[HASSAN LOG \(Date())] didFailProvisionalNavigation WebView  error \(error.localizedDescription)")
         
         if let blankUrl = URL(string: "about:blank") {
             self.webView?.load(URLRequest(url: blankUrl))
@@ -243,7 +240,6 @@ extension OverlayWebView: WKNavigationDelegate {
     }
     
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
-        ShopLiveLogger.debugLog("[HASSAN LOG \(Date())] webViewWebContentProcessDidTerminate ")
         delegate?.requestHideOrShowLoading(hide: true)
     }
 }

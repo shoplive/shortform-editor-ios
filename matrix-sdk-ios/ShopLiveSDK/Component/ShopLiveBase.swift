@@ -545,11 +545,9 @@ import ShopliveSDKCommon
                 self.delegate?.handleCommand?("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
                 
                 self.windowAnimator = nil
-                ShopLiveLogger.debugLog("[HASSAN LOG \(Date())] startCustomPictureInPicture animation end")
             })
             
             windowAnimator?.startAnimation()
-            ShopLiveLogger.debugLog("[HASSAN LOG \(Date())] startCustomPictureInPicture animation start")
         }
     }
     

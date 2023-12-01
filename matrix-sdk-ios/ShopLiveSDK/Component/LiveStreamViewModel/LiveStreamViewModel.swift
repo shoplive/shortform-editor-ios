@@ -465,9 +465,6 @@ extension LiveStreamViewModel {
         if ShopLiveController.isReplayMode { return  }
         self.removeLiveStreamKeepUpTimer()
         
-        
-        ShopLiveLogger.debugLog("[HASSAN LOG \(Date())] liveKeepUpTimerFrequency \(liveKeepUpTimerFrequency)")
-        
         let time = CMTime(seconds: liveKeepUpTimerFrequency, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         liveKeepUpTimer = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: DispatchQueue.global(qos: .background)) { [weak self] time in
             guard let self = self else { return }
@@ -510,12 +507,6 @@ extension LiveStreamViewModel {
         let seekableStartTime = seekableTimeRange.start.seconds
         let seekableEndTime = seekableTimeRange.end.seconds
         let averageBufferEndurance = caculateLiveKeepUpBufferAverage(buffer: loadedEndTime - currentTime) ?? -1
-        ShopLiveLogger.debugLog("[HASSAN LOG \(Date())] l_s \(String(format: "%.02f",loadedStartTime)) l_e \(String(format: "%.02f",loadedEndTime))  s_s \(String(format: "%.02f",seekableStartTime)) s_e \(String(format: "%.02f",seekableEndTime)) current \(String(format: "%.02f",currentTime)) av \(String(format: "%.02f",averageBufferEndurance))  loadedTimeRange \( String(format: "%.02f",loadedEndTime - loadedStartTime))")
-        
-        //MARK: -개발용 코드 삭제 필요
-        DispatchQueue.main.async {
-            ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "averageBuffer \(averageBufferEndurance) "))
-        }
         
         return (loadedTimeRange.start, loadedTimeRange.end, seekableTimeRange.end, currentTime, averageBufferEndurance)
     }
@@ -545,7 +536,6 @@ extension LiveStreamViewModel {
         self.liveKeepUpBufferStack.removeAll()
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            ShopLiveLogger.debugLog("[HASSAN LOG \(Date())] seekStart")
             ShopLiveController.player?.seek(to: seekEndTime, toleranceBefore: .init(seconds: 1, preferredTimescale: 44100), toleranceAfter: .init(seconds: 1, preferredTimescale: 44100), completionHandler: { [weak self] _ in
                 self?.delegate?.requestTakeSnapShotView()
             })
