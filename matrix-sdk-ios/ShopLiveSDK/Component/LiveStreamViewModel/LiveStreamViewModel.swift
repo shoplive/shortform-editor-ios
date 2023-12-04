@@ -536,6 +536,7 @@ extension LiveStreamViewModel {
         self.liveKeepUpBufferStack.removeAll()
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            ShopLiveLogger.debugLog("LiveKeepUpTimer seek fired")
             ShopLiveController.player?.seek(to: seekEndTime, toleranceBefore: .init(seconds: 1, preferredTimescale: 44100), toleranceAfter: .init(seconds: 1, preferredTimescale: 44100), completionHandler: { [weak self] _ in
                 self?.delegate?.requestTakeSnapShotView()
             })
@@ -894,6 +895,7 @@ extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {
 extension LiveStreamViewModel : LiveStreamRetryManagerDelegate {
     //MARK: -delegate functions
     func updatePlayerItemInRetry(with url: URL) {
+        ShopLiveLogger.debugLog("updatePlayerItemInRetry")
         self.updatePlayerItem(with: url)
     }
     
@@ -924,5 +926,10 @@ extension LiveStreamViewModel : LiveStreamRetryManagerDelegate {
     
     func getCurrentWebViewUrl() -> URL? {
         return delegate?.getCurrentWebViewUrl()
+    }
+    
+    
+    func setBlockRetry(block : Bool) {
+        retryManager?.setBlockRetry(block: block)
     }
 }

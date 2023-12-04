@@ -21,6 +21,7 @@ extension LiveStreamViewModel {
             retryManager.setRequiredRetryCheck(isRequired: false)
             retryManager.setIsBuffering(isBuffering: false)
             retryManager.setIsInRetry(isInRetry: false)
+            retryManager.setBlockRetry(block: false)
         }
         
         ShopLiveController.shared.lastPipPlaying = true

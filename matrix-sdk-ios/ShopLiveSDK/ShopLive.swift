@@ -329,7 +329,7 @@ extension ShopLive: ShopLiveSDKInterface {
         return shared.instance?.playerWindow
     }
     
-    @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
+    @available(iOS, deprecated, message: "Will be deprecated soon use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     public static var fixedPipWidth: NSNumber? {
         get {
             return shared.instance?.fixedPipWidth
@@ -355,7 +355,7 @@ extension ShopLive: ShopLiveSDKInterface {
         return shared.instance?.style ?? .unknown
     }
 
-    @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
+    @available(iOS, deprecated, message: "Will be deprecated soon use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     public static var pipPosition: PipPosition {
         get {
             return ShopLiveController.shared.initialPipPosition
@@ -364,7 +364,7 @@ extension ShopLive: ShopLiveSDKInterface {
             ShopLiveController.shared.initialPipPosition = newValue
         }
     }
-    @available(iOS, deprecated, message: "Will be deprecated soon Use pipMaxSize in setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
+    @available(iOS, deprecated, message: "Will be deprecated soon use pipMaxSize in setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     public static var pipScale: CGFloat {
         get {
             shared.instance?.pipScale ?? ShopLiveController.shared.lastPipScale
@@ -405,7 +405,7 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.preview(with: data.campaignKey, referrer: data.referrer, completion: completion)
     }
     
-    @available(iOS, deprecated, message: "Use play(data : ShopLivePlayerData) instead")
+    @available(iOS, deprecated, message: "Use preview(data : ShopLivePlayerData) instead")
     public static func preview(with campaignKey: String?, referrer: String? = nil, completion: (() -> Void)? = nil) {
         shared.instance?.preview(with: campaignKey, referrer: referrer, completion: completion)
     }
@@ -467,6 +467,7 @@ extension ShopLive: ShopLiveSDKInterface {
     public static func configure(with accessKey: String) {
         ShopLiveCommon.setAccessKey(accessKey: accessKey)
     }
+    // --end
     
     public static func setInAppPipConfiguration(config: ShopLiveInAppPipConfiguration) {
         shared.instance?.setInAppPipConfiguration(config: config)

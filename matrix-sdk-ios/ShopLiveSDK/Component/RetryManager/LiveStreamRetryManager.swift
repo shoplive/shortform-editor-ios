@@ -23,6 +23,7 @@ class LiveStreamRetryManager {
     private var retryCount : Int = 0
     private var isTryingToRecoverFormNetworkDisconnected : Bool = false
     private var isInRetry : Bool = false
+    private var blockRetry : Bool = false
     
     
     var delegate : LiveStreamRetryManagerDelegate?
@@ -64,10 +65,18 @@ class LiveStreamRetryManager {
     
     func handleRetryPlay() {
         resetRetry()
+        if self.blockRetry == true {
+            return
+        }
         if ShopLiveController.retryPlay {
             isInRetry = true
             retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
                 guard let self = self else {
+                    timer.invalidate()
+                    return
+                }
+                
+                if self.blockRetry == true {
                     timer.invalidate()
                     return
                 }
@@ -129,5 +138,9 @@ class LiveStreamRetryManager {
     
     func setIsInRetry(isInRetry : Bool) {
         self.isInRetry = isInRetry
+    }
+    
+    func setBlockRetry(block : Bool) {
+        self.blockRetry = block
     }
 }

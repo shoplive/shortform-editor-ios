@@ -157,11 +157,13 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             return
         }
         self.takeSnapShot()
+        self.viewModel.setBlockRetry(block: true)
         ShopLiveController.streamUrl = url
         if ShopLiveController.isReplayMode, let time = ShopLiveController.shared.currentPlayTime {
             ShopLiveController.player?.seek(to: time)
         }
         showBackgroundPoster()
+        
     }
 
     func didTouchPlayButton() {
