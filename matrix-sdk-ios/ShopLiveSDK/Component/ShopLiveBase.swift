@@ -33,7 +33,7 @@ import ShopliveSDKCommon
     
     private var windowAnimator : UIViewPropertyAnimator?
     private var reservedPlayInfo : (playStyle : ShopLiveWindowStyle, campaignKey : String, referrer : String?)?
-    private var statusBarVisibility : Bool = false
+    private var statusBarVisibility : Bool = true
     
 #if EBAY
 #else
