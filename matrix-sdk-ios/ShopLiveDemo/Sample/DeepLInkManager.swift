@@ -20,6 +20,7 @@ final class DeepLinkManager {
         case product
         case pip
         case fullscreen
+        case video
 
         var command: String {
             return self.rawValue
@@ -37,11 +38,23 @@ final class DeepLinkManager {
         var parameters: [String: Any] = [:]
         urlComponent.queryItems?.forEach({ item in
             if command == .product {
-                parameters[item.name] = item.value?.removingPercentEncoding
+                if let value = item.value?.removingPercentEncoding {
+                    if let _ = NSData(base64Encoded: value) {
+                        parameters[item.name] = value.base64Decoded
+                    }
+                    else {
+                        parameters[item.name] = value
+                    }
+                }
             }
             else {
                 if let value = item.value?.removingPercentEncoding {
-                    parameters[item.name] = value
+                    if let _ = NSData(base64Encoded: value) {
+                        parameters[item.name] = value.base64Decoded
+                    }
+                    else {
+                        parameters[item.name] = value
+                    }
                 }
                 else {
                     parameters[item.name] = ""
@@ -50,7 +63,7 @@ final class DeepLinkManager {
         })
 
         switch command {
-        case .live:
+        case .live, .video:
             guard let alias = parameters["alias"] as? String, let ak = parameters["ak"] as? String, let ck = parameters["ck"] as? String else { return }
             ShopLiveDemoKeyTools.shared.save(key: .init(alias: alias, campaignKey: ck, accessKey: ak))
             ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: alias)
