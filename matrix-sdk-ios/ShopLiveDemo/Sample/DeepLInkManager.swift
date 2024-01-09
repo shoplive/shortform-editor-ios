@@ -26,6 +26,9 @@ final class DeepLinkManager {
             return self.rawValue
         }
     }
+    
+    
+    
      
     //ex deep link용 테스트 링크
     //shopliveqa://live?ak=q3hZYwpJ1xukW8bTDsxj&ck=67331853a0c9&showType=preview&alias=deeplinkTest
@@ -39,7 +42,7 @@ final class DeepLinkManager {
         urlComponent.queryItems?.forEach({ item in
             if command == .product {
                 if let value = item.value?.removingPercentEncoding {
-                    if let _ = NSData(base64Encoded: value) {
+                    if self.isBase64Encoded(value) {
                         parameters[item.name] = value.base64Decoded
                     }
                     else {
@@ -49,7 +52,7 @@ final class DeepLinkManager {
             }
             else {
                 if let value = item.value?.removingPercentEncoding {
-                    if let _ = NSData(base64Encoded: value) {
+                    if self.isBase64Encoded(value) {
                         parameters[item.name] = value.base64Decoded
                     }
                     else {
@@ -61,6 +64,8 @@ final class DeepLinkManager {
                 }
             }
         })
+        
+        
 
         switch command {
         case .live, .video:
@@ -70,11 +75,9 @@ final class DeepLinkManager {
             ShopLive.configure(with: ak)
             if let showType = parameters["showType"] as? String {
                 if showType == "preview" {
-                    ShopLiveLogger.debugLog("[HASSAN LOG \(Date())] deeplink show preview")
                     ShopLive.preview(data: ShopLivePlayerData(campaignKey: ck), completion: nil)
                 }
                 else {
-                    ShopLiveLogger.debugLog("[HASSAN LOG \(Date())] deeplink show full")
                     ShopLive.play(data: ShopLivePlayerData(campaignKey: ck))
                 }
             }
@@ -107,6 +110,16 @@ final class DeepLinkManager {
         UIApplication.shared.open(schemeUrl, options: [:], completionHandler: nil)
     }
 
+    
+    private func isBase64Encoded(_ input: String) -> Bool {
+        if let inputData = Data(base64Encoded: input) {
+            if let decodedString = String(data: inputData, encoding: .utf8) {
+                return decodedString == input
+            }
+        }
+        return false
+    }
+    
     func reset() {
 
     }
