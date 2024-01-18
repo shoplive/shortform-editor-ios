@@ -1293,68 +1293,24 @@ import ShopliveSDKCommon
         }
     }
     
-    func fetchPreviewUrl(with campaignKey: String?, completionHandler: @escaping ((URL?) -> Void)) {
-        let urlComponents = URLComponents(string: ShopLiveConfiguration.AppPreference.landingUrl)
-        var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
-        queryItems.append(URLQueryItem(name: "ak", value: ShopLiveCommon.getAccessKey() ?? ""))
-        if let ck = campaignKey {
-            queryItems.append(URLQueryItem(name: "ck", value: ck))
-        }
-        
-        queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
-        queryItems.append(URLQueryItem(name: "preview", value: "1"))
-        
-        self.queryParameters.forEach { param in
-            queryItems.append(URLQueryItem(name: param.key, value: param.value))
-        }
-        
-        let baseUrl = URL(string: ShopLiveConfiguration.AppPreference.landingUrl)
-        guard let params = URLUtil.query(queryItems) else {
-            completionHandler(baseUrl)
-            return
-        }
-        
-        guard let url = URL(string: ShopLiveConfiguration.AppPreference.landingUrl + "?" + params) else {
-            completionHandler(baseUrl)
-            return
-        }
-        
-        completionHandler(url)
-    }
     
-    func fetchOverlayUrl(with campaignKey: String?, completionHandler: ((URL?) -> Void)) {
-        guard let accessKey = ShopLiveCommon.getAccessKey() else {
-            completionHandler(nil)
-            return
-        }
-        
+    func fetchOverlayUrl(with campaignKey : String?, isPreview : Bool, completionHandler : @escaping ((URL?) -> Void)) {
         let urlComponents = URLComponents(string: ShopLiveConfiguration.AppPreference.landingUrl)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
-#if DEMO
-        if UserDefaults.standard.bool(forKey: "useWebLog") {
-            queryItems.append(URLQueryItem(name: "__debug", value: "true"))
-        }
-#endif
-        queryItems.append(URLQueryItem(name: "ak", value: accessKey))
-        if let ck = campaignKey {
-            queryItems.append(URLQueryItem(name: "ck", value: ck))
-        }
-        queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
-#if EBAY
-        queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "false"))
-#else
-        queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
-#endif
         
-        self.queryParameters.forEach { param in
-            queryItems.append(URLQueryItem(name: param.key, value: param.value))
+        if isPreview {
+            queryItems.append(URLQueryItem(name: "preview", value: "1"))
+        }
+        else {
+            queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
+            if let localStorage = UserDefaults.standard.string(forKey: ShopLiveDefines.shopliveData), ShopLiveConfiguration.Data.useLocalStorage {
+                queryItems.append(URLQueryItem(name: ShopLiveDefines.shopliveData, value: localStorage))
+            }
         }
         
-        if let localStorage = UserDefaults.standard.string(forKey: ShopLiveDefines.shopliveData), ShopLiveConfiguration.Data.useLocalStorage {
-            queryItems.append(URLQueryItem(name: ShopLiveDefines.shopliveData, value: localStorage))
+        self.queryParameters.forEach { (key, value) in
+            queryItems.append(URLQueryItem(name: key, value: value))
         }
-        
-        UserDefaults.standard.synchronize()
         
         let baseUrl = URL(string: ShopLiveConfiguration.AppPreference.landingUrl)
         guard let params = URLUtil.query(queryItems) else {
@@ -1372,9 +1328,7 @@ import ShopliveSDKCommon
     
     func addObserver() {
         removeObserver()
-        
         self.addObserver(self, forKeyPath: "_style", options: [.initial, .old, .new], context: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.willChangeStatusBarOrientationNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
@@ -1445,8 +1399,7 @@ import ShopliveSDKCommon
         if ShopLiveController.windowStyle == .osPip {
             return
         }
-        backgroundPlayerBlockTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [weak self] timer in
-            guard let self = self else { return }
+        backgroundPlayerBlockTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
             guard let player = ShopLiveController.player else {
                 timer.invalidate()
                 return
@@ -1728,7 +1681,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 
                 self.previewCallback = completion
                 self.campaignKey = campaignKey
-                self.fetchPreviewUrl(with: campaignKey) { [weak self] url in
+                self.fetchOverlayUrl(with: campaignKey,isPreview: true) { [weak self] url in
                     guard let url = url,
                           let self = self else {
                         self?.removeObserver()
@@ -1842,12 +1795,11 @@ extension ShopLiveBase: ShopLiveComponent {
                 self.campaignChanged = (campaignKey != self.campaignKey)
                 self.campaignKey = campaignKey
                 
-                self.fetchOverlayUrl(with: campaignKey) { [weak self] url in
+                self.fetchOverlayUrl(with: campaignKey,isPreview: false) { [weak self] url in
                     guard let url = url else {
                         self?.removeObserver()
                         return
                     }
-                    
                     self?.windowChangeCommand = .none
                     self?.isWindowChanging = false
                     self?.callShowShopLiveViewFromPlay(url: url)

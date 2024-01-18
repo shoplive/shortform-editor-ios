@@ -25,8 +25,6 @@ internal final class LiveStreamViewModel: NSObject {
     
     var overayUrl: URL?
     
-    var campaignKey: String?
-    
     weak var liveStreamViewController : LiveStreamViewController?
     
     private var networkMonitor : NetworkMonitor?
@@ -99,7 +97,6 @@ internal final class LiveStreamViewModel: NSObject {
         self.delegate = nil
         
         overayUrl = nil
-        campaignKey = nil
         isWebViewDidCompleteLoading = false
         networkMonitor = nil
     }
@@ -729,6 +726,15 @@ extension LiveStreamViewModel {
         let urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
         
+#if DEMO
+        if UserDefaults.standard.bool(forKey: "useWebLog") {
+            queryItems.append(URLQueryItem(name: "__debug", value: "true"))
+        }
+#endif
+        
+        queryItems.append(URLQueryItem(name: "ak", value: ShopLiveCommon.getAccessKey()))
+        queryItems.append(URLQueryItem(name: "ck", value: ShopLiveController.shared.campaignKey))
+        
         if let authToken = ShopLiveCommon.getUserJWT(), !authToken.isEmpty {
             queryItems.append(URLQueryItem(name: "tk", value: authToken))
         }
@@ -793,6 +799,8 @@ extension LiveStreamViewModel {
         queryItems.append(URLQueryItem(name: "osType", value: "i"))
         queryItems.append(URLQueryItem(name: "osVersion", value: ShopLiveDefines.osVersion))
         queryItems.append(URLQueryItem(name: "device", value: ShopLiveDefines.deviceIdentifier))
+        queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
+        
         
         if let scm: String = ShopLiveController.shared.shareScheme, scm.isEmpty == false {
             queryItems.append(URLQueryItem(name: "shareUrl", value: scm))
@@ -812,7 +820,6 @@ extension LiveStreamViewModel {
         }
         
         guard let url = URL(string: urlString + "?" + params) else {
-            
             return URL(string: urlString)
         }
         
