@@ -102,9 +102,8 @@ protocol OverlayWebViewDelegate: AnyObject {
     func didFailToLoadWebViewWithNetworkUnreachable()
     func requestReloadWebView()
     func webViewDidFinishedLoading()
-    func requestHideOrShowLoading(hide : Bool)
+    func requestHideOrShowLoadingFromWebView(isHidden : Bool)
     func requestNetworkCapabilityOnSystemInit()
-    
     func requestHandleShare(data : ShopLivePlayerShareData)
 }
 

@@ -13,7 +13,7 @@ import MediaPlayer
 
 protocol LiveStreamViewModelDelegate : NSObjectProtocol {
     func requestTakeSnapShotView()
-    func requestHideOrShowLoading(hide : Bool)
+    func requestHideOrShowLoading(isHidden : Bool)
     func reloadWebView(with url : URL)
     func sendNetworkCapabilityOnChanged(networkCapability : String)
     func getCurrentWebViewUrl() -> URL?
@@ -60,6 +60,9 @@ internal final class LiveStreamViewModel: NSObject {
     private var osPipFailedErrorHasOccured : Bool = false
     private var currentNetworkCapability : String = ""
     
+    private var playerLoadingStartTime : Double = 0
+    private var playerLoadingAvailableCheckSourceTimer : DispatchSourceTimer?
+    
     
     
     //    private var
@@ -99,6 +102,8 @@ internal final class LiveStreamViewModel: NSObject {
         overayUrl = nil
         isWebViewDidCompleteLoading = false
         networkMonitor = nil
+        playerLoadingStartTime = 0
+        playerLoadingAvailableCheckSourceTimer = nil
     }
     
     
@@ -168,7 +173,7 @@ internal final class LiveStreamViewModel: NSObject {
     func updatePlayerItem(with url: URL) {
         guard ShopLiveController.player != nil else { return }
         resetPlayer()
-        
+        playerLoadingStartTime = Date().timeIntervalSince1970
         let asset = AVURLAsset(url: url )
         let playerItem = AVPlayerItem(asset: asset)
         if asset.isPlayable {
@@ -317,6 +322,32 @@ internal final class LiveStreamViewModel: NSObject {
         return .init(x: originX, y: originY, width: width, height: height)
     }
     
+    //첫 로딩 후1초 이후에 프로그래스바를 보여달라는 지그재그 요청 사항 반영 함수
+    func checkIsLoadingAvailable(isHidden : Bool) {
+        let currentTime = Date().timeIntervalSince1970
+        
+        if isHidden == true {
+            self.playerLoadingAvailableCheckSourceTimer?.cancel()
+            self.playerLoadingAvailableCheckSourceTimer = nil
+        }
+        
+        if playerLoadingStartTime != 0 && Int(currentTime) - Int(playerLoadingStartTime) >= 1 {
+            self.delegate?.requestHideOrShowLoading(isHidden: isHidden)
+        }
+        else if self.playerLoadingAvailableCheckSourceTimer == nil && isHidden == false {
+            self.playerLoadingAvailableCheckSourceTimer = DispatchSource.makeTimerSource()
+            self.playerLoadingAvailableCheckSourceTimer?.schedule(deadline: .now() + .seconds(1))
+            self.playerLoadingAvailableCheckSourceTimer?.setEventHandler(handler: { [weak self] in
+                guard let starTime = self?.playerLoadingStartTime else { return }
+                let currentTime = Date().timeIntervalSince1970
+                if Int(currentTime) - Int(starTime) >= 1 && self?.playerLoadingAvailableCheckSourceTimer != nil {
+                    self?.delegate?.requestHideOrShowLoading(isHidden: false)
+                    self?.playerLoadingAvailableCheckSourceTimer = nil
+                }
+            })
+            self.playerLoadingAvailableCheckSourceTimer?.activate()
+        }
+    }
 }
 
 extension LiveStreamViewModel: ShopLivePlayerDelegate {
@@ -852,7 +883,7 @@ extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {
                     ShopLiveController.player?.pause()
                     self.delegate?.requestTakeSnapShotView()
                     if ShopLiveController.shared.campaignStatus != .close {
-                        self.delegate?.requestHideOrShowLoading(hide: false)
+                        self.delegate?.requestHideOrShowLoading(isHidden: false)
                     }
                 }
             }
@@ -884,7 +915,7 @@ extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {
         self.delegate?.requestTakeSnapShotView()
         if ShopLiveController.shared.campaignStatus != .close {
             if ShopLiveController.windowStyle != .osPip {
-                self.delegate?.requestHideOrShowLoading(hide: false)
+                self.delegate?.requestHideOrShowLoading(isHidden: false)
             }
             self.retryManager?.setIsBuffering(isBuffering: true)
             self.retryManager?.reserveRetry(waitSecond: 0)
@@ -909,8 +940,8 @@ extension LiveStreamViewModel : LiveStreamRetryManagerDelegate {
     func reloadWebViewInRetry(with url: URL) {
         delegate?.reloadWebView(with: url)
     }
-    func requestHideOrShowLoading(hide: Bool) {
-        self.delegate?.requestHideOrShowLoading(hide: hide)
+    func requestHideOrShowLoading(isHidden: Bool) {
+        self.delegate?.requestHideOrShowLoading(isHidden: isHidden)
     }
     //End
     

@@ -126,6 +126,7 @@ class MainViewController: SideMenuBaseViewController {
     }
 
     func setupShopliveSettings() {
+        
         let config = DemoConfiguration.shared
         
         if let utmSource = config.utmSource, !utmSource.isEmpty {

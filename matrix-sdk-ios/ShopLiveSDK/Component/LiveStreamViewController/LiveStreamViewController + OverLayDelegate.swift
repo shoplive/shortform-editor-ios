@@ -296,8 +296,8 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         viewModel.resetRetry(triggerFromWebView: true)
     }
     
-    func requestHideOrShowLoading(hide: Bool) {
-        self.processLoadingIndicator(hide: hide)
+    func requestHideOrShowLoadingFromWebView(isHidden : Bool) {
+        viewModel.checkIsLoadingAvailable(isHidden: isHidden)
     }
     
     func requestNetworkCapabilityOnSystemInit() {

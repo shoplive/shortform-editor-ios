@@ -32,8 +32,7 @@ extension LiveStreamViewModel {
         else {
             ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn,false,false)
         }
-        
-        self.delegate?.requestHideOrShowLoading(hide: true)
+        self.delegate?.requestHideOrShowLoading(isHidden: true)
         ShopLiveController.isPlaying = true
     }
     

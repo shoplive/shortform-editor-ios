@@ -921,6 +921,7 @@
 				2F600EA52B68D52300B61C44 /* ShopLivePlayerShareCampaign.swift */,
 				2F1930952B4E53D600222D04 /* ShopLiveInAppConfigurationObjc.swift */,
 				2F1930972B4E566400222D04 /* ShopLivePlayerDataObjc.swift */,
+				2F600EA72B68E2B800B61C44 /* ShopLivePlayerShareDelegate.swift */,
 			);
 			path = InterfaceModel;
 			sourceTree = "<group>";
@@ -967,7 +968,6 @@
 				BFDC8B6628A169050055C4DA /* Debouncer.swift */,
 				BFC73CDA2901791900D9BC8A /* Throttle.swift */,
 				BF4B3594299B4EC2008BCA5A /* AudioSessionManager.swift */,
-				2F600EA72B68E2B800B61C44 /* ShopLivePlayerShareDelegate.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";

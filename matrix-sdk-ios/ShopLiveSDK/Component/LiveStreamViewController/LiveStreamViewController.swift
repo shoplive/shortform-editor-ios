@@ -646,31 +646,6 @@ extension LiveStreamViewController : ShopLivePlayerDelegate {
     func updatedValue(key: ShopLivePlayerObserveValue) {
         
     }
-    
-    func processLoadingIndicator(hide : Bool){
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            if hide == false {
-                guard ShopLiveController.shared.isPreview == false else  { return }
-                if ShopLiveConfiguration.UI.isCustomIndicator {
-                    self.customIndicator.configure(images: ShopLiveConfiguration.UI.customIndicatorImages)
-                    self.customIndicator.startAnimating()
-                }
-                else {
-                    self.indicatorView.isHidden = false
-                    self.indicatorView.color = ShopLiveConfiguration.UI.color
-                    self.indicatorView.startAnimating()
-                }
-            }
-            else {
-                if ShopLiveConfiguration.UI.isCustomIndicator {
-                    self.customIndicator.stopAnimating()
-                } else {
-                    self.indicatorView.stopAnimating()
-                }
-            }
-        }
-    }
 }
 extension LiveStreamViewController : LiveStreamViewModelDelegate {
     func requestTakeSnapShotView() {
@@ -705,6 +680,35 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
     
     func getCurrentWebViewUrl() -> URL? {
         return self.overlayView?.getCurrentUrl()
+    }
+    
+    func requestHideOrShowLoading(isHidden: Bool) {
+        self.processLoadingIndicator(isHidden: isHidden)
+    }
+    
+    private func processLoadingIndicator(isHidden : Bool){
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            if isHidden == false {
+                guard ShopLiveController.shared.isPreview == false else  { return }
+                if ShopLiveConfiguration.UI.isCustomIndicator {
+                    self.customIndicator.configure(images: ShopLiveConfiguration.UI.customIndicatorImages)
+                    self.customIndicator.startAnimating()
+                }
+                else {
+                    self.indicatorView.isHidden = false
+                    self.indicatorView.color = ShopLiveConfiguration.UI.color
+                    self.indicatorView.startAnimating()
+                }
+            }
+            else {
+                if ShopLiveConfiguration.UI.isCustomIndicator {
+                    self.customIndicator.stopAnimating()
+                } else {
+                    self.indicatorView.stopAnimating()
+                }
+            }
+        }
     }
     
 }

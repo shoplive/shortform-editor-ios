@@ -150,14 +150,13 @@ extension OverlayWebView: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         guard !ShopLiveController.shared.isPreview else { return }
         guard !ShopLiveController.shared.isSameCampaign else { return }
-        delegate?.requestHideOrShowLoading(hide: false)
-        
+        delegate?.requestHideOrShowLoadingFromWebView(isHidden: false)
     }
     
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         guard !ShopLiveController.shared.isPreview else { return }
         guard !ShopLiveController.shared.isSameCampaign else { return }
-        delegate?.requestHideOrShowLoading(hide: false)
+        delegate?.requestHideOrShowLoadingFromWebView(isHidden: false)
     }
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
@@ -166,11 +165,11 @@ extension OverlayWebView: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         if webView.url?.absoluteString == "about:blank" {
-            delegate?.requestHideOrShowLoading(hide: false)
+            delegate?.requestHideOrShowLoadingFromWebView(isHidden: false)
             delegate?.didFailToLoadWebViewWithNetworkUnreachable()
         }
         else {
-            delegate?.requestHideOrShowLoading(hide: true)
+            delegate?.requestHideOrShowLoadingFromWebView(isHidden: true)
             delegate?.webViewDidFinishedLoading()
         }
     }
@@ -179,7 +178,7 @@ extension OverlayWebView: WKNavigationDelegate {
         if let blankUrl = URL(string: "about:blank") {
             self.webView?.load(URLRequest(url: blankUrl))
         }
-        delegate?.requestHideOrShowLoading(hide: true)
+        delegate?.requestHideOrShowLoadingFromWebView(isHidden: true)
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
@@ -206,7 +205,7 @@ extension OverlayWebView: WKNavigationDelegate {
         }
         else {
             delegate?.requestReloadWebView()
-            delegate?.requestHideOrShowLoading(hide: true)
+            delegate?.requestHideOrShowLoadingFromWebView(isHidden: true)
         }
     }
     
@@ -240,7 +239,7 @@ extension OverlayWebView: WKNavigationDelegate {
     }
     
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
-        delegate?.requestHideOrShowLoading(hide: true)
+        delegate?.requestHideOrShowLoadingFromWebView(isHidden: true)
     }
 }
 
