@@ -411,19 +411,26 @@ import ShopliveSDKCommon
     private func pipSize(with scale: CGFloat) -> CGSize {
         guard self.mainWindow != nil else { return .zero }
         let defSize = ShopLiveController.shared.videoRatio
-        if let config = inAppPipConfiguration, let pipMaxSize = config.pipMaxSize {
-            if defSize.width > defSize.height { //가로모드 방송에서는 세로를 기준으로 가로를 맞추고
-                return CGSize(width: pipMaxSize, height: pipMaxSize * ( defSize.height / defSize.width))
+        if let config = inAppPipConfiguration, let pipSize = config.pipSize {
+            if let pipMaxSize = pipSize.pipMaxSize {
+                if defSize.width > defSize.height { //가로모드 방송에서는 세로를 기준으로 가로를 맞추고
+                    return CGSize(width: pipMaxSize, height: pipMaxSize * ( defSize.height / defSize.width))
+                }
+                else { //세로 모드 방송에서는 가로를 기준으로 세로를 맞춤
+                    return CGSize(width: pipMaxSize * (defSize.width / defSize.height ), height: pipMaxSize)
+                }
             }
-            else { //세로 모드 방송에서는 가로를 기준으로 세로를 맞춤
-                return CGSize(width: pipMaxSize * (defSize.width / defSize.height ), height: pipMaxSize)
+            else if let pipFixedheightSize = pipSize.pipFixedheight {
+                return CGSize(width: pipFixedheightSize * (defSize.width / defSize.height), height: pipFixedheightSize)
+            }
+            else if let pipFixedWidthSize = pipSize.pipFixedWidth {
+                return CGSize(width: pipFixedWidthSize, height: pipFixedWidthSize * (defSize.height / defSize.width))
             }
         }
-        else {
-            let width =  (UIScreen.isLandscape ? UIScreen.main.bounds.height : UIScreen.main.bounds.width) * scale
-            let height = (defSize.height / defSize.width) * width
-            return CGSize(width: width, height: height)
-        }
+        let width =  (UIScreen.isLandscape ? UIScreen.main.bounds.height : UIScreen.main.bounds.width) * scale
+        let height = (defSize.height / defSize.width) * width
+        
+        return CGSize(width: width, height: height)
     }
     
     private func pipPosition(with scale: CGFloat = 2/5, position: ShopLive.PipPosition = .default) -> CGRect {

@@ -8,18 +8,38 @@
 import Foundation
 import UIKit
 
+@objc public class ShopLiveInAppPipSize : NSObject {
+    private(set) public var pipMaxSize : CGFloat?
+    private(set) public var pipFixedWidth : CGFloat?
+    private(set) public var pipFixedheight : CGFloat?
+    
+    public init(pipMaxSize : CGFloat?){
+        self.pipMaxSize = pipMaxSize
+    }
+    
+    public init(pipFixedWidth : CGFloat?) {
+        self.pipFixedWidth = pipFixedWidth
+    }
+    
+    public init(pipFixedHeight : CGFloat?){
+        self.pipFixedheight = pipFixedHeight
+    }
+}
 
-public class ShopLiveInAppPipConfiguration : NSObject {
-    public var pipMaxSize : CGFloat?
+
+
+@objc public class ShopLiveInAppPipConfiguration : NSObject {
     public var useCloseButton : Bool?
     public var pipPosition : ShopLive.PipPosition?
     public var enableSwipeOut : Bool?
+    public var pipSize : ShopLiveInAppPipSize?
     
-    public init(pipMaxSize: CGFloat?, useCloseButton: Bool?,pipPosition : ShopLive.PipPosition?, enableSwipeOut : Bool?) {
-        self.pipMaxSize = pipMaxSize
+    public init(useCloseButton: Bool?,pipPosition : ShopLive.PipPosition?, enableSwipeOut : Bool?,pipSize : ShopLiveInAppPipSize?) {
         self.useCloseButton = useCloseButton
         self.pipPosition = pipPosition
         self.enableSwipeOut = enableSwipeOut
+        self.pipSize = pipSize
     }
+    
         
 }

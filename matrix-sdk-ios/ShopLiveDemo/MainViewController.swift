@@ -269,10 +269,12 @@ class MainViewController: SideMenuBaseViewController {
         
         ShopLive.setKeepAspectOnTabletPortrait(config.useAspectOnTablet)
         
-        let inAppPipConfig = ShopLiveInAppPipConfiguration(pipMaxSize: DemoConfiguration.shared.maxPipSize,
-                                                           useCloseButton: DemoConfiguration.shared.useCloseButton,
+        
+        let inAppPipConfig = ShopLiveInAppPipConfiguration(useCloseButton: DemoConfiguration.shared.useCloseButton,
                                                            pipPosition: config.pipPosition,
-                                                           enableSwipeOut: nil)
+                                                           enableSwipeOut: config.pipEnableSwipeOut,
+                                                           pipSize: .init(pipMaxSize: DemoConfiguration.shared.maxPipSize))
+        
         ShopLive.setInAppPipConfiguration(config: inAppPipConfig)
         
         ShopLive.setEnabledPictureInPictureMode(isEnabled: DemoConfiguration.shared.enablePictureInPictureMode)
