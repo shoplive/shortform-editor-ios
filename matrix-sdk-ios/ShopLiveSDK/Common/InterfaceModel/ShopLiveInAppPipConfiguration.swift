@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-@objc public class ShopLiveInAppPipConfiguration : NSObject {
+public class ShopLiveInAppPipConfiguration : NSObject {
     public var pipMaxSize : CGFloat?
     public var useCloseButton : Bool?
     public var pipPosition : ShopLive.PipPosition?

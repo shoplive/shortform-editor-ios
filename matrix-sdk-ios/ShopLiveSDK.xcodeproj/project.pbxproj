@@ -35,6 +35,8 @@
 		2F071E632AD54FFA004616A6 /* LiveStreamViewController + ShopLivebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F071E602AD54FF7004616A6 /* LiveStreamViewController + ShopLivebase.swift */; };
 		2F071E652AD551D4004616A6 /* LiveStreamViewController + OverLayDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F071E642AD551D4004616A6 /* LiveStreamViewController + OverLayDelegate.swift */; };
 		2F10CCE12A3B15A500D41EC6 /* ShopLiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */; };
+		2F1930962B4E53D600222D04 /* ShopLiveInAppConfigurationObjc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1930952B4E53D600222D04 /* ShopLiveInAppConfigurationObjc.swift */; };
+		2F1930982B4E566400222D04 /* ShopLivePlayerDataObjc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1930972B4E566400222D04 /* ShopLivePlayerDataObjc.swift */; };
 		2F1CBD6C2A52A3CD0060B29D /* ShopLiveViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */; };
 		2F1CBD6D2A52A8B40060B29D /* ShopLiveViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */; };
 		2F1CBD6E2A52A8B40060B29D /* ShopLiveViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */; };
@@ -504,6 +506,8 @@
 		2F071E602AD54FF7004616A6 /* LiveStreamViewController + ShopLivebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveStreamViewController + ShopLivebase.swift"; sourceTree = "<group>"; };
 		2F071E642AD551D4004616A6 /* LiveStreamViewController + OverLayDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveStreamViewController + OverLayDelegate.swift"; sourceTree = "<group>"; };
 		2F10CCE02A3B15A500D41EC6 /* ShopLiveWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveWindow.swift; sourceTree = "<group>"; };
+		2F1930952B4E53D600222D04 /* ShopLiveInAppConfigurationObjc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveInAppConfigurationObjc.swift; sourceTree = "<group>"; };
+		2F1930972B4E566400222D04 /* ShopLivePlayerDataObjc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLivePlayerDataObjc.swift; sourceTree = "<group>"; };
 		2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveViewComponents.swift; sourceTree = "<group>"; };
 		2F46529E2B158DCD006B7FB8 /* SLLeakAvoider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLLeakAvoider.swift; sourceTree = "<group>"; };
 		2F4652A22B15AFA7006B7FB8 /* OverLayWebView + WebSendFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OverLayWebView + WebSendFunc.swift"; sourceTree = "<group>"; };
@@ -907,6 +911,8 @@
 			children = (
 				2FFBD3442AA9958B00B2A8BB /* ShopLiveInAppPipConfiguration.swift */,
 				2FB0212C2AFCE56B00ED1D4A /* ShopLivePlayerData.swift */,
+				2F1930952B4E53D600222D04 /* ShopLiveInAppConfigurationObjc.swift */,
+				2F1930972B4E566400222D04 /* ShopLivePlayerDataObjc.swift */,
 			);
 			path = InterfaceModel;
 			sourceTree = "<group>";
@@ -1598,7 +1604,9 @@
 				BF37D9E427F5742D004C2785 /* Extensions.swift in Sources */,
 				BF37D9B127F5742D004C2785 /* OverlayWebView.swift in Sources */,
 				2F46529F2B158DCD006B7FB8 /* SLLeakAvoider.swift in Sources */,
+				2F1930982B4E566400222D04 /* ShopLivePlayerDataObjc.swift in Sources */,
 				BFDC8B6728A169050055C4DA /* Debouncer.swift in Sources */,
+				2F1930962B4E53D600222D04 /* ShopLiveInAppConfigurationObjc.swift in Sources */,
 				2F071E612AD54FF7004616A6 /* LiveStreamViewController + ShopLivebase.swift in Sources */,
 				BFCB03312A32FEB300E130CC /* PlayerSessionState.swift in Sources */,
 				BF37D9C327F5742D004C2785 /* ShopLivePlayerView.swift in Sources */,

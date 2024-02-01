@@ -423,7 +423,6 @@ import ShopliveSDKCommon
             let height = (defSize.height / defSize.width) * width
             return CGSize(width: width, height: height)
         }
-        
     }
     
     private func pipPosition(with scale: CGFloat = 2/5, position: ShopLive.PipPosition = .default) -> CGRect {

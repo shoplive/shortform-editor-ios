@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-public final class ShopLivePlayerData : NSObject {
+public class ShopLivePlayerData : NSObject {
     public var campaignKey : String
     public var keepWindowStateOnPlayExecuted : Bool = false
     public var referrer : String? = nil

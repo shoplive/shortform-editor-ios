@@ -59,10 +59,7 @@ class MainViewController: SideMenuBaseViewController {
             tabbar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             tabbar.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
-//        tabbar.snp.makeConstraints {
-//            $0.leading.trailing.equalToSuperview()
-//            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
-//        }
+        
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -71,7 +68,6 @@ class MainViewController: SideMenuBaseViewController {
         delgate.requestIDFAPermission { result in
             print("adidentifier result \(ShopLiveCommon.getAdIdentifier())")
         }
-//        print("adidentifier result \(ShopLiveCommon.getAdIdentifier())")
     }
     func setupSampleOptions() {
         
@@ -187,8 +183,6 @@ class MainViewController: SideMenuBaseViewController {
             ShopLive.indicatorColor = UIColor(progressColor)
         }
         
-         
-//        // Share URL/Scheme Setting
         if let scheme = config.shareScheme {
             if config.useCustomShare {
                 // Custom Share Setting
@@ -228,6 +222,7 @@ class MainViewController: SideMenuBaseViewController {
         }
         
         // Picture in Picture Setting
+        // legacy type setting
 //        ShopLive.pipScale = config.pipScale ?? 2/5
 //        ShopLive.pipPosition = config.pipPosition
 
@@ -249,7 +244,6 @@ class MainViewController: SideMenuBaseViewController {
         
         // Phase Setting
         #if DEMO
-//        ShopLiveDefines.phase = ShopLiveDevConfiguration.shared.phaseType
         let phase = ShopLiveDevConfiguration.shared.phase
         
         var landingUrl: String = "https://www.shoplive.show/v1/sdk.html"
@@ -296,6 +290,7 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.setEnabledPipSwipeOut(config.pipEnableSwipeOut)
         
         ShopLive.setVisibleStatusBar(isVisible: DemoConfiguration.shared.statusBarVisibility)
+        
     }
 
     // 하나 은행 프레임 워크 재현을 위한 더미 뷰
@@ -352,7 +347,6 @@ class MainViewController: SideMenuBaseViewController {
 
         setupShopliveSettings()
         ShopLiveLogger.debugLog("Shoplive.viewController \(ShopLive.viewController)")
-//        ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
         ShopLive.configure(with: currentKey.accessKey)
         ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
