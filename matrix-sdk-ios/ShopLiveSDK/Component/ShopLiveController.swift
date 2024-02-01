@@ -61,10 +61,6 @@ extension ShopLivePlayerDelegate where Self: Equatable {
         return self == other
     }
 }
-
-struct CustomShare {
-    var custom: (() -> Void)?
-}
  
 protocol ShopLiveControllerDelegate : NSObjectProtocol {
     func setPresentationStyle(style : ShopLive.PresentationStyle )
@@ -143,7 +139,6 @@ final class ShopLiveController: NSObject {
     }
     private var windowStyle: ShopLiveWindowStyle = .normal
     var prevWindowStyle: ShopLiveWindowStyle = .none
-    var customShareAction: CustomShare?
     var hookNavigation: ((URL) -> Void)?
     var webInstance: ShopLiveWebView? {
         didSet {

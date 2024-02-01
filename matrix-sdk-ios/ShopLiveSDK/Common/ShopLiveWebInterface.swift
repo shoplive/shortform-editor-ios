@@ -31,7 +31,6 @@ enum WebInterface {
     case coupon(id: String)
     case playVideo
     case pauseVideo
-    case clickShareButton(url: URL?)
     case replay(width: CGFloat, height: CGFloat)
     case downKeyboard
     case onPipModeChanged
@@ -96,8 +95,6 @@ enum WebInterface {
             return WebFunction.playVideo.rawValue
         case .pauseVideo:
             return WebFunction.pauseVideo.rawValue
-        case .clickShareButton:
-            return WebFunction.clickShareButton.rawValue
         case .replay:
             return WebFunction.replay.rawValue
         case .downKeyboard:
@@ -190,7 +187,6 @@ enum WebInterface {
         case coupon = "DOWNLOAD_COUPON"
         case playVideo = "PLAY_VIDEO"
         case pauseVideo = "PAUSE_VIDEO"
-        case clickShareButton = "CLICK_SHARE_BTN"
         case replay = "REPLAY"
         case downKeyboard = "DOWN_KEYBOARD"
         case onPipModeChanged = "ON_PIP_MODE_CHANGED"
@@ -293,12 +289,6 @@ extension WebInterface {
             self = .playVideo
         case .pauseVideo:
             self = .pauseVideo
-        case .clickShareButton:
-            var shareUrl:URL? = nil
-            if let urlString = parameters?["url"] as? String, let url = URL(string: urlString) {
-                shareUrl = url
-            }
-            self = .clickShareButton(url:  shareUrl)
         case .replay:
             guard let width = parameters?["width"] as? CGFloat else { return nil }
             guard let height = parameters?["height"] as? CGFloat else { return nil }

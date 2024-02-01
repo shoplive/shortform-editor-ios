@@ -30,10 +30,11 @@ import ShopliveSDKCommon
     private var blockWindowTapGesture : Bool = false
     private var inAppPipConfiguration : ShopLiveInAppPipConfiguration?
     private var blockLiveWindowPangestureHapticSound : Bool = false
-    
+
     private var windowAnimator : UIViewPropertyAnimator?
     private var reservedPlayInfo : (playStyle : ShopLiveWindowStyle, campaignKey : String, referrer : String?)?
     private var statusBarVisibility : Bool = true
+    lazy private var shareDelegate : ShopLivePlayerShareDelegate = self
     
 #if EBAY
 #else
@@ -1508,9 +1509,26 @@ import ShopliveSDKCommon
 }
 
 extension ShopLiveBase: ShopLiveComponent {
+    func setShareScheme(_ scheme: String?, shareDelegate: ShopLivePlayerShareDelegate?) {
+        if scheme == nil {
+            guard shareDelegate != nil else {
+                print("When `scheme` not used, `custom` must be used, `custom` can not be null")
+                return
+            }
+        }
+        if let shareDelegate = shareDelegate {
+            self.shareDelegate = shareDelegate
+        }
+        else {
+            self.shareDelegate = self
+        }
+        ShopLiveController.shared.shareScheme = scheme
+    }
+    
     func setStatusBarVisibility(isVisible : Bool) {
         self.statusBarVisibility = isVisible
     }
+    
     func getStatusBarVisibility() -> Bool {
         return self.statusBarVisibility
     }
@@ -1576,20 +1594,6 @@ extension ShopLiveBase: ShopLiveComponent {
     func hookNavigation(navigation: @escaping ((URL) -> Void)) {
         ShopLiveController.shared.hookNavigation = nil
         ShopLiveController.shared.hookNavigation = navigation
-    }
-    
-    func setShareScheme(_ scheme: String? = nil, custom: (() -> Void)?) {
-        
-        ShopLiveController.shared.customShareAction = nil
-        if scheme == nil {
-            guard custom != nil else {
-                print("When `scheme` not used, `custom` must be used, `custom` can not be null")
-                return
-            }
-        }
-        
-        ShopLiveController.shared.shareScheme = scheme
-        ShopLiveController.shared.customShareAction = .init(custom: custom)
     }
     
     func onTerminated() {
@@ -2031,6 +2035,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
 }
 
 extension ShopLiveBase: LiveStreamViewControllerDelegate {
+   
     
     func resetPictureInPicture() {
         if osPictureInPictureController == nil {
@@ -2205,10 +2210,25 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     func handleCommand(_ command: String, with payload: Any?) {
         _delegate?.handleCommand?(command, with: payload)
     }
+    
+    func requestHandleShare(data: ShopLivePlayerShareData) {
+        //고객이 ShopLivePlayerShareDelegate를 채택하면 고객쪽으로 이벤트가 내려감
+        shareDelegate.handleShare(data: data)
+    }
 }
 
 extension ShopLiveBase : ShopLiveControllerDelegate {
     func setPresentationStyle(style: ShopLive.PresentationStyle) {
         self._style = style
+    }
+}
+//고객이 ShopLivePlayerShareDelegate를 채택하면 고객쪽으로 이벤트가 내려감
+extension ShopLiveBase : ShopLivePlayerShareDelegate {
+    func handleShare(data: ShopLivePlayerShareData) {
+        guard let url = data.url else {
+            onError(code: "9001", message: "share.url.empty.error".localizedString())
+            return
+        }
+        liveStreamViewController?.openOSShareSheet(url: URL(string: url))
     }
 }

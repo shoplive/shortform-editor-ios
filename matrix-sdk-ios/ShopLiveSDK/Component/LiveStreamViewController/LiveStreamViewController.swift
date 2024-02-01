@@ -27,9 +27,8 @@ internal final class LiveStreamViewController: SLViewController {
     var minimumPipViewWidth: CGFloat = 60
     var hasKeyboard: Bool = false
     var lastKeyboardHeight: CGFloat = 0
-    
     weak var popoverController: UIPopoverPresentationController?
-    
+
     //뷰 계층
     //playerView
     // - backgroundPosterImageView
@@ -566,7 +565,25 @@ internal final class LiveStreamViewController: SLViewController {
             ShopLiveController.shared.inRotating = false
             self.delegate?.finishRotation()
         }
+    }
+    
+    func openOSShareSheet(url : URL?) {
+        guard let urlString = url?.absoluteString, !urlString.isEmpty else {
+            delegate?.onError(code: "9001", message: "share.url.empty.error".localizedString())
+            return
+        }
         
+        guard let originUrl = urlString as? NSString, let decodeUrl = originUrl.trimmingCharacters(in: .whitespacesAndNewlines).removingPercentEncoding, let shareUrl = URL(string: decodeUrl) else { return }
+
+        let shareAll:[Any] = [shareUrl]
+        let activityViewController = SLActivityViewController(activityItems: shareAll , applicationActivities: nil)
+        popoverController = activityViewController.popoverPresentationController
+        popoverController?.sourceView = self.view
+        if UIDevice.isIpad {
+            popoverController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController?.permittedArrowDirections = []
+        }
+        self.present(activityViewController, animated: true, completion: nil)
     }
 }
 

@@ -300,10 +300,12 @@ extension OverlayWebView: WKScriptMessageHandler {
                     delegate?.handleReceivedCommand(name, with: parameters)
                 }
                 
-                
+               
             } else {
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))"))
                 switch name {
+                case "ON_CLICK_SHARE_BUTTON":
+                    self.handleON_CLICK_SHARE_BUTTON(payload: parameters)
                 case "SHOW_NATIVE_DEBUG":
                     ShopLiveViewLogger.shared.setVisible(show: true)
                     break
@@ -466,9 +468,6 @@ extension OverlayWebView: WKScriptMessageHandler {
             ShopLiveLogger.debugLog("navigation")
             self.delegate?.didTouchPauseButton()
             ShopLiveController.isPlaying = false
-        case .clickShareButton(let url):
-            ShopLiveLogger.debugLog("clickShareButton(\(String(describing: url)))")
-            self.delegate?.didTouchShareButton(with: url)
         case .replay(let width, let height):
             ShopLiveLogger.debugLog("replay")
             self.delegate?.replay(with: CGSize(width: width, height: height))
@@ -512,6 +511,12 @@ extension OverlayWebView: WKScriptMessageHandler {
         default:
             break
         }
+    }
+    
+    private func handleON_CLICK_SHARE_BUTTON(payload : [String : Any]?) {
+        guard let payload = payload else { return }
+        let shareUrl = ShopLiveController.shared.shareScheme
+        delegate?.requestHandleShare(data: .init(campaign: .init(payload: payload), url: shareUrl))
     }
 }
 

@@ -43,7 +43,7 @@ import ShopliveSDKCommon
     @objc func onTerminated()
 
     @objc func hookNavigation(navigation: @escaping ((URL) -> Void))
-    @objc func setShareScheme(_ scheme: String?, custom: (() -> Void)?)
+    @objc func setShareScheme(_ scheme: String?, shareDelegate : ShopLivePlayerShareDelegate?)
     @objc func setChatViewFont(inputBoxFont: UIFont?, sendButtonFont: UIFont?)
     @objc func close()
     
@@ -162,7 +162,6 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
-    
    
     @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     public static func setEnabledPipSwipeOut(_ enabled: Bool) {
@@ -288,9 +287,9 @@ extension ShopLive: ShopLiveSDKInterface {
     public static func setChatViewFont(inputBoxFont: UIFont?, sendButtonFont: UIFont?) {
         shared.instance?.setChatViewFont(inputBoxFont: inputBoxFont, sendButtonFont: sendButtonFont)
     }
-
-    public static func setShareScheme(_ scheme: String? = nil, custom: (() -> Void)?) {
-        shared.instance?.setShareScheme(scheme, custom: custom)
+    
+    public static func setShareScheme(_ scheme: String? = nil , shareDelegate : ShopLivePlayerShareDelegate?) {
+        shared.instance?.setShareScheme(scheme, shareDelegate: shareDelegate)
     }
 
     public static func hookNavigation(navigation: @escaping ((URL) -> Void)) {
@@ -505,12 +504,11 @@ extension ShopLive: ShopLiveSDKInterface {
         return ShopLiveCommon.getUtmContent()
     }
     
-    
     public static func setVisibleStatusBar(isVisible : Bool) {
         shared.instance?.setStatusBarVisibility(isVisible: isVisible)
     }
+    
     public  static func isVisibleStatusBar() -> Bool {
         return shared.instance?.getStatusBarVisibility() ?? true
     }
-    
 }

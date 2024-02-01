@@ -71,6 +71,7 @@ protocol LiveStreamViewControllerDelegate: AnyObject {
     func resetPictureInPicture()
     
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any])
+    func requestHandleShare(data : ShopLivePlayerShareData)
 }
 
 protocol OverlayWebViewDelegate: AnyObject {
@@ -82,7 +83,6 @@ protocol OverlayWebViewDelegate: AnyObject {
     func setVideoCurrentTime(to: CMTime)
     func didTouchBlockView()
 
-    func didTouchShareButton(with url: URL?)
     func didTouchCustomAction(id: String, type: String, payload: Any?)
     func didTouchPlayButton()
     func didTouchPauseButton()
@@ -105,7 +105,7 @@ protocol OverlayWebViewDelegate: AnyObject {
     func requestHideOrShowLoading(hide : Bool)
     func requestNetworkCapabilityOnSystemInit()
     
-
+    func requestHandleShare(data : ShopLivePlayerShareData)
 }
 
 extension Notification.Name {

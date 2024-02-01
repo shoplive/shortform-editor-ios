@@ -13,6 +13,9 @@ import ShopliveSDKCommon
 
 
 extension LiveStreamViewController: OverlayWebViewDelegate {
+    func requestHandleShare(data: ShopLivePlayerShareData) {
+        delegate?.requestHandleShare(data: data)
+    }
     
     func didUpdatePlaybackSpeed(speed: Float) {
         guard let playerView = playerView else { return }
@@ -87,35 +90,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         ShopLiveLogger.debugLog("id \(id) type \(type) payload: \(String(describing: payload))")
         delegate?.didTouchCustomAction(id: id, type: type, payload: payload)
     }
-
-    func shareAction(url: URL?) {
-        guard let urlString = url?.absoluteString, !urlString.isEmpty else {
-            delegate?.onError(code: "9001", message: "share.url.empty.error".localizedString())
-            return
-        }
-                
-        guard let originUrl = urlString as? NSString, let decodeUrl = originUrl.trimmingCharacters(in: .whitespacesAndNewlines).removingPercentEncoding, let shareUrl = URL(string: decodeUrl) else { return }
-
-        let shareAll:[Any] = [shareUrl]
-        let activityViewController = SLActivityViewController(activityItems: shareAll , applicationActivities: nil)
-        popoverController = activityViewController.popoverPresentationController
-        popoverController?.sourceView = self.view
-        if UIDevice.isIpad {
-            popoverController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-            popoverController?.permittedArrowDirections = []
-        }
-       
-        self.present(activityViewController, animated: true, completion: nil)
-    }
-
-    func didTouchShareButton(with url: URL?) {
-        guard let custom = ShopLiveController.shared.customShareAction?.custom else {
-            shareAction(url: url)
-            return
-        }
-        custom()
-    }
-
+    
     func didTouchBlockView() {
         shopliveHideKeyboard_SL()
     }

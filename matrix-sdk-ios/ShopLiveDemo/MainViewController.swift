@@ -16,7 +16,8 @@ class MainViewController: SideMenuBaseViewController {
     
     static var instance: UIViewController?
     var safari: SFSafariViewController? = nil
-
+    weak var popoverController: UIPopoverPresentationController?
+    
     lazy var tabbar: UITabBar = {
         let view = UITabBar()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -186,31 +187,21 @@ class MainViewController: SideMenuBaseViewController {
         if let scheme = config.shareScheme {
             if config.useCustomShare {
                 // Custom Share Setting
-                ShopLive.setShareScheme(scheme, custom: {
-                    let customShareVC = CustomShareViewController()
-                    customShareVC.modalPresentationStyle = .overFullScreen
-                    ShopLive.viewController?.present(customShareVC, animated: false, completion: nil)
-                })
+                ShopLive.setShareScheme(scheme, shareDelegate: self)
+                
             } else {
                 // Default iOS Share
-                ShopLive.setShareScheme(scheme, custom: nil)
+                ShopLive.setShareScheme(scheme, shareDelegate: nil)
             }
         } else {
             if config.useCustomShare {
-                // Custom Share Setting
-
-                ShopLive.setShareScheme(nil, custom: {
-                    let customShareVC = CustomShareViewController()
-                    customShareVC.modalPresentationStyle = .overFullScreen
-                    ShopLive.viewController?.present(customShareVC, animated: false, completion: nil)
-                })
+                ShopLive.setShareScheme(nil, shareDelegate: self)
             } else {
                 // Default iOS Share
-                ShopLive.setShareScheme(nil, custom: nil)
+                ShopLive.setShareScheme(nil, shareDelegate: self)
             }
-
         }
-
+    
         // Custom Font Setting
         if let customFont = config.customFont {
             ShopLive.setChatViewFont(inputBoxFont: config.useChatInputCustomFont ? customFont : nil, sendButtonFont: config.useChatSendButtonCustomFont ? customFont : nil)
@@ -357,6 +348,7 @@ class MainViewController: SideMenuBaseViewController {
 }
 
 extension MainViewController: ShopLiveSDKDelegate {
+    
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
         ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) payload(String:Any) \(payload)")
         let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, payload: payload)
@@ -625,4 +617,29 @@ extension MainViewController: QRKeyReaderDelegate {
     }
     
     
+}
+extension MainViewController : ShopLivePlayerShareDelegate {
+    func handleShare(data: ShopLivePlayerShareData) {
+        var log = "ShopLivePlayerShareData \n";
+        log += "url : \(data.url ?? "null") \n"
+        log += "campaignKey : \(data.campaign?.campaignKey ?? "null") \n"
+        log += "title : \(data.campaign?.title ?? "null") \n"
+        log += "descriptions : \(data.campaign?.descriptions ?? "null") \n"
+        log += "thumbnail : \(data.campaign?.thumbnail ?? "null") \n"
+        ShopLiveLogger.debugLog(log)
+        
+        if let urlString = data.url , let url = URL(string: urlString) {
+            let shareAll:[Any] = [url]
+            let activityViewController = UIActivityViewController(activityItems: shareAll , applicationActivities: nil)
+            popoverController = activityViewController.popoverPresentationController
+            popoverController?.sourceView = self.view
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                popoverController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                popoverController?.permittedArrowDirections = []
+            }
+            if let vc = ShopLive.viewController {
+                vc.present(activityViewController, animated: true, completion: nil)
+            }
+        }
+    }
 }
