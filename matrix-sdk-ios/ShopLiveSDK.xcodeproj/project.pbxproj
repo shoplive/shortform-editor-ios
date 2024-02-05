@@ -40,7 +40,6 @@
 		2F1CBD6C2A52A3CD0060B29D /* ShopLiveViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */; };
 		2F1CBD6D2A52A8B40060B29D /* ShopLiveViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */; };
 		2F1CBD6E2A52A8B40060B29D /* ShopLiveViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1CBD6B2A52A3CD0060B29D /* ShopLiveViewComponents.swift */; };
-		2F40180B2AF0BBA400C5D3ED /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; };
 		2F46529F2B158DCD006B7FB8 /* SLLeakAvoider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F46529E2B158DCD006B7FB8 /* SLLeakAvoider.swift */; };
 		2F4652A02B158DCD006B7FB8 /* SLLeakAvoider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F46529E2B158DCD006B7FB8 /* SLLeakAvoider.swift */; };
 		2F4652A12B158DCD006B7FB8 /* SLLeakAvoider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F46529E2B158DCD006B7FB8 /* SLLeakAvoider.swift */; };
@@ -53,6 +52,8 @@
 		2F600EA42B68D51900B61C44 /* ShopLivePlayerShareData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F600EA32B68D51900B61C44 /* ShopLivePlayerShareData.swift */; };
 		2F600EA62B68D52300B61C44 /* ShopLivePlayerShareCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F600EA52B68D52300B61C44 /* ShopLivePlayerShareCampaign.swift */; };
 		2F600EA82B68E2B800B61C44 /* ShopLivePlayerShareDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F600EA72B68E2B800B61C44 /* ShopLivePlayerShareDelegate.swift */; };
+		2F6812BF2B6B5DA1007E163C /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; };
+		2F6812C02B6B5DA1007E163C /* ShopliveSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2F7A6DFD2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
 		2F7A6DFE2A03961A0001EC7C /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD062B22A03804B004841D2 /* SwitchOptionCell.swift */; };
 		2F8DDD0C2AAAEFEF005FA074 /* ShopLiveBase + CommonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8DDD0B2AAAEFEF005FA074 /* ShopLiveBase + CommonDelegate.swift */; };
@@ -60,14 +61,14 @@
 		2F8DDD0E2AAAEFEF005FA074 /* ShopLiveBase + CommonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8DDD0B2AAAEFEF005FA074 /* ShopLiveBase + CommonDelegate.swift */; };
 		2F8DDD152AAAF392005FA074 /* ShopLiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; };
 		2F8DDD162AAAF392005FA074 /* ShopLiveSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		2F8DDD182AAAF393005FA074 /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; };
-		2F8DDD192AAAF394005FA074 /* ShopliveSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2F8DDD1A2AAAF396005FA074 /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; };
 		2F8DDD1B2AAAF396005FA074 /* ShopliveSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2F9EB2EF2ABA983000C3CE9A /* LiveUrlFetchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9EB2EE2ABA983000C3CE9A /* LiveUrlFetchAPI.swift */; };
 		2FB0212D2AFCE56B00ED1D4A /* ShopLivePlayerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB0212C2AFCE56B00ED1D4A /* ShopLivePlayerData.swift */; };
 		2FB0212E2AFCE56B00ED1D4A /* ShopLivePlayerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB0212C2AFCE56B00ED1D4A /* ShopLivePlayerData.swift */; };
 		2FB0212F2AFCE56B00ED1D4A /* ShopLivePlayerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB0212C2AFCE56B00ED1D4A /* ShopLivePlayerData.swift */; };
+		2FB822A22B6B5F3B0089CC74 /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; };
+		2FB822A32B6B5F3B0089CC74 /* ShopliveSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2FCC70452AC3F577002CCA4F /* SLQRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCC70442AC3F577002CCA4F /* SLQRReaderViewController.swift */; };
 		2FCC70462AC3F577002CCA4F /* SLQRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCC70442AC3F577002CCA4F /* SLQRReaderViewController.swift */; };
 		2FCC70472AC3F577002CCA4F /* SLQRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCC70442AC3F577002CCA4F /* SLQRReaderViewController.swift */; };
@@ -460,7 +461,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				2F8DDD192AAAF394005FA074 /* ShopliveSDKCommon.framework in Embed Frameworks */,
+				2F6812C02B6B5DA1007E163C /* ShopliveSDKCommon.framework in Embed Frameworks */,
 				2F8DDD162AAAF392005FA074 /* ShopLiveSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -472,6 +473,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				2FB822A32B6B5F3B0089CC74 /* ShopliveSDKCommon.framework in Embed Frameworks */,
 				2FFBD3702AAA93B100B2A8BB /* ShopLiveSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -697,11 +699,11 @@
 			files = (
 				BF5F509F28F7D1E1008B79D9 /* ReplayKit.framework in Frameworks */,
 				BF5F50A028F7D1E1008B79D9 /* Toast in Frameworks */,
+				2F6812BF2B6B5DA1007E163C /* ShopliveSDKCommon.framework in Frameworks */,
 				BF5F50A128F7D1E1008B79D9 /* CryptoSwift in Frameworks */,
 				BF5F50A328F7D1E1008B79D9 /* DropDown in Frameworks */,
 				BF5F50A428F7D1E1008B79D9 /* CoreTelephony.framework in Frameworks */,
 				BF5F50A528F7D1E1008B79D9 /* SideMenu in Frameworks */,
-				2F8DDD182AAAF393005FA074 /* ShopliveSDKCommon.framework in Frameworks */,
 				2F8DDD152AAAF392005FA074 /* ShopLiveSDK.framework in Frameworks */,
 				BF5F50A628F7D1E1008B79D9 /* SafariServices.framework in Frameworks */,
 				BF5F50A728F7D1E1008B79D9 /* SwiftyJWT in Frameworks */,
@@ -731,7 +733,7 @@
 			files = (
 				BFE2195F276B35C000900FB1 /* Toast in Frameworks */,
 				BF60E1DC276F97040060531C /* CryptoSwift in Frameworks */,
-				2F40180B2AF0BBA400C5D3ED /* ShopliveSDKCommon.framework in Frameworks */,
+				2FB822A22B6B5F3B0089CC74 /* ShopliveSDKCommon.framework in Frameworks */,
 				2FFBD36F2AAA93B100B2A8BB /* ShopLiveSDK.framework in Frameworks */,
 				BF4719A927687C7E00522F6F /* DropDown in Frameworks */,
 				BFE14B66272F6E9200C6624B /* CoreTelephony.framework in Frameworks */,

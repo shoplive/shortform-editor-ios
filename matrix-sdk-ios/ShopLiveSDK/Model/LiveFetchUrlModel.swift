@@ -26,4 +26,18 @@ struct LiveFetchUrlModel : BaseResponsable {
         case campaignStatus = "campaignStatus"
         case startHorizontalViewOnLandscapeVideo = "startHorizontalViewOnLandscapeVideo"
     }
+    
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let parser = SLFlexibleParser(container: container)
+        self._s = try parser.parse(targetType: Int.self, key: CodingKeys._s)
+        self._e = try parser.parse(targetType: String.self, key: CodingKeys._e)
+        self.campaignId = try parser.parse(targetType: Int.self, key: CodingKeys.campaignId) ?? -1
+        self.liveUrl = try parser.parse(targetType: String.self, key: CodingKeys.liveUrl)
+        self.previewLiveUrl = try parser.parse(targetType: String.self, key: CodingKeys.previewLiveUrl)
+        self.videoAspectRatio = try parser.parse(targetType: String.self, key: CodingKeys.videoAspectRatio)
+        self.campaignStatus = try parser.parse(targetType: String.self, key: CodingKeys.campaignStatus)
+        self.startHorizontalViewOnLandscapeVideo = try parser.parse(targetType: Bool.self, key: CodingKeys.startHorizontalViewOnLandscapeVideo)
+    }
 }
