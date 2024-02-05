@@ -879,6 +879,15 @@
 			path = APIService;
 			sourceTree = "<group>";
 		};
+		2FC4CE622B6B59D40069749F /* ObjcWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				2F1930952B4E53D600222D04 /* ShopLiveInAppConfigurationObjc.swift */,
+				2F1930972B4E566400222D04 /* ShopLivePlayerDataObjc.swift */,
+			);
+			path = ObjcWrapper;
+			sourceTree = "<group>";
+		};
 		2FD7691E2A5F86D30092C73F /* NetworkReachability */ = {
 			isa = PBXGroup;
 			children = (
@@ -915,12 +924,11 @@
 		2FFBD3472AA9961000B2A8BB /* InterfaceModel */ = {
 			isa = PBXGroup;
 			children = (
+				2FC4CE622B6B59D40069749F /* ObjcWrapper */,
 				2FFBD3442AA9958B00B2A8BB /* ShopLiveInAppPipConfiguration.swift */,
 				2FB0212C2AFCE56B00ED1D4A /* ShopLivePlayerData.swift */,
 				2F600EA32B68D51900B61C44 /* ShopLivePlayerShareData.swift */,
 				2F600EA52B68D52300B61C44 /* ShopLivePlayerShareCampaign.swift */,
-				2F1930952B4E53D600222D04 /* ShopLiveInAppConfigurationObjc.swift */,
-				2F1930972B4E566400222D04 /* ShopLivePlayerDataObjc.swift */,
 				2F600EA72B68E2B800B61C44 /* ShopLivePlayerShareDelegate.swift */,
 			);
 			path = InterfaceModel;

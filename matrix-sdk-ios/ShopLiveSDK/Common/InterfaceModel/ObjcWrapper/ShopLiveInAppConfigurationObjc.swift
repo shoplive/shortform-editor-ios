@@ -9,12 +9,13 @@ import Foundation
 import UIKit
 
 @objc public class ShopLiveInAppConfigurationObjc : ShopLiveInAppPipConfiguration {
-    @objc public var _pipMaxsize : Float {
+    
+    @objc public var _pipSize : ShopLiveInAppPipSize? {
         set {
-            super.pipMaxSize = CGFloat(newValue)
+            super.pipSize = newValue
         }
-        get{
-            return Float(super.pipMaxSize ?? 0)
+        get {
+            return super.pipSize
         }
     }
     
@@ -47,9 +48,8 @@ import UIKit
         
     }
     
-    @objc public init(pipMaxSize : Float, userCloseButton : Bool, pipPosition : ShopLive.PipPosition, enableSwipeOut : Bool) {
-        super.init(pipMaxSize: CGFloat(pipMaxSize) , useCloseButton: userCloseButton, pipPosition: pipPosition, enableSwipeOut: enableSwipeOut)
+    @objc public init(useCloseButton : Bool, pipPosition : ShopLive.PipPosition, enableSwipeOut : Bool,pipSize : ShopLiveInAppPipSize) {
+        super.init(useCloseButton: useCloseButton, pipPosition: pipPosition, enableSwipeOut: enableSwipeOut, pipSize: pipSize)
     }
-    
     
 }
