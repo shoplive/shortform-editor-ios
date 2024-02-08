@@ -329,6 +329,7 @@ internal final class LiveStreamViewModel: NSObject {
         if isHidden == true {
             self.playerLoadingAvailableCheckSourceTimer?.cancel()
             self.playerLoadingAvailableCheckSourceTimer = nil
+            self.delegate?.requestHideOrShowLoading(isHidden: isHidden)
         }
         
         if playerLoadingStartTime != 0 && Int(currentTime) - Int(playerLoadingStartTime) >= 1 {
@@ -766,7 +767,7 @@ extension LiveStreamViewModel {
         queryItems.append(URLQueryItem(name: "ak", value: ShopLiveCommon.getAccessKey()))
         queryItems.append(URLQueryItem(name: "ck", value: ShopLiveController.shared.campaignKey))
         
-        if let authToken = ShopLiveCommon.getUserJWT(), !authToken.isEmpty {
+        if let authToken = ShopLiveCommon.getAuthToken(), !authToken.isEmpty {
             queryItems.append(URLQueryItem(name: "tk", value: authToken))
         }
         

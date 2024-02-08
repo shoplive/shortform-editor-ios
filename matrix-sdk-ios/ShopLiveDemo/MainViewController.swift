@@ -271,10 +271,21 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.setKeepAspectOnTabletPortrait(config.useAspectOnTablet)
         
         
+        let pipSize : ShopLiveInAppPipSize
+        if let max = DemoConfiguration.shared.maxPipSize {
+            pipSize = .init(pipMaxSize: max)
+        }
+        else if let fixedHeight = DemoConfiguration.shared.fixedHeightPipSize {
+            pipSize = .init(pipFixedHeight: fixedHeight)
+        }
+        else {
+            pipSize = .init(pipFixedWidth: DemoConfiguration.shared.fixedWidthPipSize ?? 100)
+        }
+        
         let inAppPipConfig = ShopLiveInAppPipConfiguration(useCloseButton: DemoConfiguration.shared.useCloseButton,
                                                            pipPosition: config.pipPosition,
                                                            enableSwipeOut: config.pipEnableSwipeOut,
-                                                           pipSize: .init(pipMaxSize: DemoConfiguration.shared.maxPipSize))
+                                                           pipSize: pipSize )
         
         ShopLive.setInAppPipConfiguration(config: inAppPipConfig)
         
@@ -321,7 +332,6 @@ class MainViewController: SideMenuBaseViewController {
         setupShopliveSettings()
         ShopLiveLogger.debugLog("Shoplive.viewController \(ShopLive.viewController)")
         ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
-        
         
         ShopLive.preview(with: currentKey.campaignKey, referrer: DemoConfiguration.shared.customReferrer) {
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
@@ -508,7 +518,13 @@ extension MainViewController: ShopLiveSDKDelegate {
     }
 
     func handleCommand(_ command: String, with payload: Any?) {
+        
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleCommand \(command)"))
+        
+        if ShopLiveViewTrackEvent.allCases.map({ $0.name }).contains(where: { $0 == command }) {
+            guard let payload = payload as? [String : Any] else { return }
+            ShopLiveLogger.debugLog("[HASSSAN LOG] \(command) - currentStyle = \((payload["currentStyle"] as? String) ?? "null"), lastStyle = \((payload["lastStyle"] as? String) ?? "null")")
+        }
         
         if command == "didTapCloseButton" {
             

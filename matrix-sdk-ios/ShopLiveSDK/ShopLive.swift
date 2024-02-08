@@ -447,10 +447,10 @@ extension ShopLive: ShopLiveSDKInterface {
     //MARK: - will be deprecated in v2
     public static var authToken: String? {
         set {
-            ShopLiveCommon.setUserJWT(userJWT: newValue)
+            ShopLiveCommon.setAuthToken(authToken: newValue)
         }
         get {
-            ShopLiveCommon.getUserJWT()
+            ShopLiveCommon.getAuthToken()
         }
     }
     

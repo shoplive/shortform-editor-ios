@@ -89,6 +89,7 @@
 		2FFBD3702AAA93B100B2A8BB /* ShopLiveSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2FFBD3742AAA93B800B2A8BB /* ShopLiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; };
 		2FFBD3752AAA93B800B2A8BB /* ShopLiveSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2FFF974C2B71FA0F006826C9 /* ShopLiveViewTrackEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFF974B2B71FA0F006826C9 /* ShopLiveViewTrackEvent.swift */; };
 		BF1B57BA276983600002EBB5 /* CustomBaseAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */; };
 		BF1B57BC2769844F0002EBB5 /* CampaignInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */; };
 		BF1C0804272797C400F6B2E1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */; };
@@ -532,6 +533,7 @@
 		2FFBD34A2AAA86F200B2A8BB /* ShopliveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ShopliveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FFBD34F2AAA8F0A00B2A8BB /* ShopliveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ShopliveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FFBD3532AAA8F1300B2A8BB /* ShopliveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ShopliveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FFF974B2B71FA0F006826C9 /* ShopLiveViewTrackEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveViewTrackEvent.swift; sourceTree = "<group>"; };
 		BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBaseAlertController.swift; sourceTree = "<group>"; };
 		BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignInputAlertController.swift; sourceTree = "<group>"; };
 		BF1B57C0276B19600002EBB5 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -932,6 +934,7 @@
 				2F600EA32B68D51900B61C44 /* ShopLivePlayerShareData.swift */,
 				2F600EA52B68D52300B61C44 /* ShopLivePlayerShareCampaign.swift */,
 				2F600EA72B68E2B800B61C44 /* ShopLivePlayerShareDelegate.swift */,
+				2FFF974B2B71FA0F006826C9 /* ShopLiveViewTrackEvent.swift */,
 			);
 			path = InterfaceModel;
 			sourceTree = "<group>";
@@ -1638,6 +1641,7 @@
 				BF37D9E127F5742D004C2785 /* HapticManager.swift in Sources */,
 				2F071E402AD5320A004616A6 /* ShopLivePlayerErrorObserver.swift in Sources */,
 				2F071E572AD54E27004616A6 /* LiveStreamViewModel + TimeControlStatus.swift in Sources */,
+				2FFF974C2B71FA0F006826C9 /* ShopLiveViewTrackEvent.swift in Sources */,
 				BF37D9AB27F5742D004C2785 /* ShopLiveController.swift in Sources */,
 				BF37D9BD27F5742D004C2785 /* PerfMeasurements.swift in Sources */,
 				2FB0212D2AFCE56B00ED1D4A /* ShopLivePlayerData.swift in Sources */,
@@ -2449,7 +2453,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
@@ -2459,7 +2463,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.4;
+				MARKETING_VERSION = 1.5.5;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo;
 				PRODUCT_NAME = "DEMO QA";
@@ -2481,7 +2485,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
@@ -2491,7 +2495,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.4;
+				MARKETING_VERSION = 1.5.5;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo;
 				PRODUCT_NAME = "DEMO QA";

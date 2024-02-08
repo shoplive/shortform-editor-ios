@@ -292,6 +292,7 @@ import ShopliveSDKCommon
         
         ShopLiveController.webInstance?.sendEventToWeb(event: .onTerminated)
         delegate?.handleCommand?("willShopLiveOff", with: ["style" : self.style.rawValue])
+        delegate?.handleCommand?( ShopLiveViewTrackEvent.viewWillDisAppear.name, with: ["lastStyle" : self.lastStyle.name , "currentStyle" : self.style.name])
         if let originAudioSessionCategory = self.originAudioSessionCategory {
             let audioSessionManager = AudioSessionManager.shared
             audioSessionManager.setCategory(category: originAudioSessionCategory, options: audioSessionManager.customerAudioCategoryOptions)
@@ -341,6 +342,7 @@ import ShopliveSDKCommon
         delegate?.log?(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
         delegate?.log?(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type" : (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
         self.delegate?.handleCommand?("didShopLiveOff", with: ["style" : self.style.rawValue])
+        self.delegate?.handleCommand?(ShopLiveViewTrackEvent.viewDidDisAppear.name, with: ["lastStyle" : self.lastStyle.name, "currentStyle" : self.style.name])
         self._style = .unknown
         self.lastStyle = .unknown
         ShopLiveBase.sessionState = .terminated
@@ -485,6 +487,8 @@ import ShopliveSDKCommon
             guard shopLiveWindow.frame.size != .zero else { return }
             liveVc.updateStatusBarToDefault()
             self.delegate?.handleCommand?("willShopLiveOff", with: ["style" : self.lastStyle.rawValue])
+            self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipWillAppear.name, with: ["lastStyle" : self.lastStyle.name, "currentStyle" : self.style.name])
+            
             self.mainWindow?.makeKey()
             
             shopLiveWindow.backgroundColor = .clear
@@ -550,7 +554,7 @@ import ShopliveSDKCommon
                 self.delegate?.log?(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
                 self.sendCommandChangeToPip()
                 self.delegate?.handleCommand?("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
-                
+                self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipDidAppear.name, with: ["lastStyle" : self.lastStyle.name, "currentStyle" : self.style.name ])
                 self.windowAnimator = nil
             })
             
@@ -578,6 +582,9 @@ import ShopliveSDKCommon
                 self.liveStreamViewController?.updateVideoConstraint()
                 self.delegate?.handleCommand?("willShopLiveOn", with: nil)
                 self.delegate?.handleCommand?("didShopLiveOn", with: self.lastStyle)
+                self.delegate?.handleCommand?( ShopLiveViewTrackEvent.fullScreenWillAppear.name, with: ["lastStyle" : self.lastStyle.name, "currentStyle" : self.style.name])
+                self.lastStyle = .fullScreen
+                self.delegate?.handleCommand?( ShopLiveViewTrackEvent.fullScreenDidAppear.name, with: ["lastStyle" : self.lastStyle.name, "currentStyle" : self.style.name])
                 return
             }
             
@@ -592,6 +599,7 @@ import ShopliveSDKCommon
             self.liveStreamViewController?.showBackgroundPoster()
             
             self.delegate?.handleCommand?("willShopLiveOn", with: nil)
+            self.delegate?.handleCommand?(ShopLiveViewTrackEvent.fullScreenWillAppear.name, with: ["lastStyle" : self.lastStyle.name, "currentStyle" : self.style.name])
             
             self.videoWindowPanGestureRecognizer?.isEnabled = false
             self.videoWindowTapGestureRecognizer?.isEnabled = false
@@ -638,6 +646,7 @@ import ShopliveSDKCommon
                 else {
                     self.delegate?.handleCommand?("didShopLiveOn", with: self.style)
                 }
+                self.delegate?.handleCommand?( ShopLiveViewTrackEvent.fullScreenDidAppear.name, with: ["lastStyle" : self.lastStyle.name, "currentStyle" : self.style.name])
                 self.handleWindowChangeCommand()
                 self.needExecuteFullScreen = false
                 self.windowAnimator = nil
@@ -664,6 +673,7 @@ import ShopliveSDKCommon
         mainWindow.rootViewController?.shopliveHideKeyboard_SL()
         
         delegate?.handleCommand?("willShopLiveOn", with: nil)
+        self.delegate?.handleCommand?(ShopLiveViewTrackEvent.fullScreenWillAppear.name, with: ["lastStyle" : self.lastStyle.name, "currentStyle" : self.style.name])
         
         videoWindowPanGestureRecognizer?.isEnabled = false
         videoWindowTapGestureRecognizer?.isEnabled = false
@@ -720,6 +730,7 @@ import ShopliveSDKCommon
         ShopLiveController.shared.needForceSetVideoPositionUpdate = false
         self.liveStreamViewController?.updateVideoConstraint()
         delegate?.handleCommand?("didShopLiveOn", with: nil)
+        self.delegate?.handleCommand?( ShopLiveViewTrackEvent.fullScreenDidAppear.name, with: ["lastStyle" : self.lastStyle.name, "currentStyle" : self.style.name])
         delegate?.log?(name: "pip_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
         delegate?.log?(name: "pip_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
     }
@@ -739,6 +750,7 @@ import ShopliveSDKCommon
                 self.liveStreamViewController?.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
             } else {
                 self.delegate?.handleCommand?("willShopLiveOff", with: nil)
+                self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipWillAppear.name, with: ["lastStyle" : self.lastStyle.name , "currentStyle" : self.style.name])
             }
             
             ShopLiveController.webInstance?.isHidden = true
@@ -777,6 +789,7 @@ import ShopliveSDKCommon
                 if !isRotation {
                     self.sendCommandChangeToPip()
                     self.delegate?.handleCommand?("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
+                    self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipDidAppear.name, with: ["lastStyle" : self.lastStyle.name , "currentStyle" : self.style.name])
                     self.shopLiveWindow?.layer.masksToBounds = false
                 }
                 self.handleWindowChangeCommand()
@@ -791,6 +804,7 @@ import ShopliveSDKCommon
             guard let self = self else { return }
             self.liveStreamViewController?.updateVideoFit(centerCrop: true,targetWindowStyle: .inAppPip)
             self.delegate?.handleCommand?("willShopLiveOff", with: ["style" : self.lastStyle.rawValue])
+            self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipWillAppear.name, with: ["lastStyle" : self.lastStyle.name , "currentStyle" : self.style.name])
             guard let shopLiveWindow = self.shopLiveWindow else { return }
             
             shopLiveWindow.backgroundColor = .clear
@@ -825,6 +839,7 @@ import ShopliveSDKCommon
             self.liveStreamViewController?.setStatusBarVisiblityOnFullScreen(isVisible: true)
             self.sendCommandChangeToPip()
             self.delegate?.handleCommand?("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
+            self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipDidAppear.name, with: ["lastStyle" : self.lastStyle.name, "currentStyle" : self.style.name])
             self.handleWindowChangeCommand()
         }
     }
@@ -847,6 +862,7 @@ import ShopliveSDKCommon
             
             ShopLiveController.windowStyle = .inAppPip
             self.delegate?.handleCommand?("willShopLiveOff", with: ["style" : self.lastStyle.rawValue])
+            self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipWillAppear.name, with: ["lastStyle" : self.lastStyle.rawValue , "currentStyle" : self.style.rawValue])
             
             liveVC.view.backgroundColor = .clear
             
@@ -898,11 +914,13 @@ import ShopliveSDKCommon
                 if self.needAnimateToChangePreivew {
                     ShopLiveController.shared.playControl = .play
                 }
-                self.delegate?.handleCommand?("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
+                
                 ShopLiveController.shared.videoExpanded = true
                 self.needAnimateToChangePreivew = false
                 self.handleWindowChangeCommand()
                 self._style = .pip
+                self.delegate?.handleCommand?("didShopLiveOff", with: ["style" : self.lastStyle.rawValue])
+                self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipDidAppear.name, with: ["lastStyle" : self.lastStyle.name, "currentStyle" : self.style.name])
                 if ShopLiveController.shared.webInstance == nil {
                     liveVC.setupOverayWebview()
                 }
@@ -1555,6 +1573,17 @@ extension ShopLiveBase: ShopLiveComponent {
     }
     
     func setInAppPipConfiguration(config: ShopLiveInAppPipConfiguration) {
+        if let pipSize = config.pipSize {
+            if let maxSize = pipSize.pipMaxSize, maxSize >= UIScreen.main.bounds.width {
+                config.pipSize = .init(pipMaxSize: 200)
+            }
+            else if let fixHeight = pipSize.pipFixedheight, fixHeight >= UIScreen.main.bounds.height {
+                config.pipSize = .init(pipFixedWidth: 200)
+            }
+            else if let fixWidth = pipSize.pipFixedWidth, fixWidth >= UIScreen.main.bounds.width {
+                config.pipSize = .init(pipFixedWidth: 200)
+            }
+        }
         self.inAppPipConfiguration = config
     }
     

@@ -13,15 +13,21 @@ import UIKit
     private(set) public var pipFixedWidth : CGFloat?
     private(set) public var pipFixedheight : CGFloat?
     
-    public init(pipMaxSize : CGFloat?){
+    @objc public init(pipMaxSize : CGFloat) {
         self.pipMaxSize = pipMaxSize
+        self.pipFixedWidth = nil
+        self.pipFixedheight = nil
     }
     
-    public init(pipFixedWidth : CGFloat?) {
+    @objc public init(pipFixedWidth : CGFloat) {
+        self.pipMaxSize = nil
         self.pipFixedWidth = pipFixedWidth
+        self.pipFixedheight = nil
     }
     
-    public init(pipFixedHeight : CGFloat?){
+    @objc public init(pipFixedHeight : CGFloat) {
+        self.pipMaxSize = nil
+        self.pipFixedWidth = nil
         self.pipFixedheight = pipFixedHeight
     }
 }

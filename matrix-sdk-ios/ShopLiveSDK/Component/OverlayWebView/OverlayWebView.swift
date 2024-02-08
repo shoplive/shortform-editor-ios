@@ -451,7 +451,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             ShopLiveLogger.debugLog("startPictureInPicture")
             self.delegate?.didTouchPipButton()
         case .close:
-            ShopLiveLogger.debugLog("close")
+            ShopLiveLogger.debugLog("webView back btn close")
             self.delegate?.didTouchCloseButton()
         case .navigation(let navigationUrl):
             ShopLiveLogger.debugLog("navigationUrl")
