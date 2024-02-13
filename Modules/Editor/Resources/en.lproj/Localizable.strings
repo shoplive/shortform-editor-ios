@@ -1,0 +1,38 @@
+/* 
+  Localizable.strings
+  matrix-shortform-upload-ios
+
+  Created by sangmin han on 2023/07/26.
+  
+*/
+"alert.yes" = "Ok";
+"alert.no" = "Cancel";
+"toast.cancel.encoding.title" = "Video encoding canceled.";
+"editor.page.title" = "Edit";
+
+"editor.time.gap.sec.label" = "%ds";
+"editor.time.gap.min.sec.label" = "%dm%ds";
+
+"editor.next.title" = "Next";
+"editor.encoding.cancel.alert.title" = "Encoding in progressing.\nAre you sure cancel encode video?";
+"uploadinfo.page.title" = "Add detail";
+"uploadinfo.title.placeholder" = "Title";
+"uploadinfo.title.title" = "Title";
+"uploadinfo.description.title" = "Description";
+"uploadinfo.description.placeholder" = "Description";
+"uploadinfo.tag.title" = "Tag";
+"uploadinfo.tag.placeholder" = "#Tag";
+"uploadinfo.upload.title" = "Upload";
+"loading.inprocessing.title" = "Processing";
+"loading.preparing.title" = "Preparing";
+"picker.warning.duration.min.title" = "Unsupported video under 0.1s.";
+
+//Alert
+"alert.permission.denied.title" = "Permission request";
+"alert.permission.denied.description" = "Please grant camera and photo library usage permission to upload videos";
+"alert.permission.denied.cancel" = "Cancel";
+"alert.permission.denied.setting" = "Setting";
+
+//ToastMessage
+"toast.uploadinfo.empty_video_title" = "please insert video title";
+"toast.codec.notvalid" = "Unsupported media";
