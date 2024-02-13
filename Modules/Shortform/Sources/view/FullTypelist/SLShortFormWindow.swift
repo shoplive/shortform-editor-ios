@@ -1,0 +1,640 @@
+//
+//  SLShortsWindow.swift
+//  matrix-shortform-ios
+//
+//  Created by 김우현 on 2/22/23.
+//
+
+import Foundation
+import UIKit
+import ShopLiveSDKCommon
+
+protocol SLShortsWindowItemViewable {
+    var itemView: ShopLiveWindowItemView { get }
+}
+
+class ShopLiveWindowItemView: UIView {}
+
+extension ShopLiveShortform {
+    class SLShortsWindow {
+        
+        class ShortsWindowModel {
+            var enablePanGesture: Bool {
+                return shortsMode == .preview
+            }
+            
+            var enableTapExplicit: Bool = false
+            
+            var enableTapGesture: Bool {
+                return shortsMode == .preview && enableTapExplicit
+            }
+            
+            var enableKeyboardEvent: Bool {
+                return shortsMode == .preview
+            }
+            
+            var isKeyboardShow: Bool = false
+            var keyboardHeight: CGFloat = 0
+            
+            private let defaultPanGestureInitialCenter: CGPoint = .zero
+            
+            private var lastPreviewPosition: ShopLiveShortform.PreviewPosition?
+            
+            var previewPosition: ShopLiveShortform.PreviewPosition {
+                set {
+                    lastPreviewPosition = newValue
+                }
+                
+                get {
+                    if let lastPreviewPosition = self.lastPreviewPosition {
+                        return lastPreviewPosition
+                    }
+                    return ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewPosition
+                }
+            }
+            
+            var previewScale: CGFloat {
+                return ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewScale
+            }
+            
+            var previewEdgeInsets: UIEdgeInsets {
+                return ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewEdgeInsets
+            }
+            
+            var previewFloatingOffset: UIEdgeInsets {
+                return ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewFloatingOffset
+            }
+            
+            var shortsMode: ShopLiveShortform.ShortsMode = .detail
+            
+            private var _panGestureInitialCenter: CGPoint?
+            
+            var panGestureInitialCenter: CGPoint {
+                set {
+                    self._panGestureInitialCenter = newValue
+                }
+                
+                get {
+                    guard let panGestureInitialCenter = self._panGestureInitialCenter else {
+                        return defaultPanGestureInitialCenter
+                    }
+                    
+                    return panGestureInitialCenter
+                }
+            }
+            
+            var panGestureRecognizer: UIPanGestureRecognizer?
+            var tapGestureRecognizer: UITapGestureRecognizer?
+            
+            func resetProperties() {
+                shortsMode = .detail
+                
+                lastPreviewPosition = nil
+                
+                _panGestureInitialCenter = nil
+                enableTapExplicit = false
+            }
+        }
+        
+//        weak var shortsCollectionView: ShopLiveShortform.ShortsCollectionView?
+        weak var shortsCollectionView : ShortsCollectionBaseView?
+        
+        private lazy var rootViewController: ShortFormFullTypeRootViewController = {
+            let viewController = ShortFormFullTypeRootViewController()
+            viewController.delegate = self
+            return viewController
+        }()
+        
+        private var shortsWindowModel = ShortsWindowModel()
+        
+        private var isCurrentOrientationLandScape : Bool = UIScreen.isLandscape_SL
+        
+        init() {
+            customerWindow = UIApplication.shared.keyWindow
+            setupWindow()
+        }
+        
+        deinit {
+            self.shortformWindow.resignKey()
+            self.customerWindow?.makeKey()
+            teardownGesture()
+        }
+        
+        
+        private func setupWindow() {
+            setupGesture()
+            setupObserver()
+        }
+        
+        private func teardownWindow() {
+            shortsWindowModel.resetProperties()
+            teardownGesture()
+            teardownObserver()
+        }
+        
+       
+        
+        private func setupGesture() {
+            let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureHandler))
+            shortsWindowModel.panGestureRecognizer = panGesture
+            shortformWindow.addGestureRecognizer(panGesture)
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler))
+            tapGesture.cancelsTouchesInView = false
+            tapGesture.delegate = shortformWindow
+            shortsWindowModel.tapGestureRecognizer = tapGesture
+            shortformWindow.addGestureRecognizer(tapGesture)
+        }
+        
+        private func teardownGesture() {
+            if let panGestureRecognizer = self.shortsWindowModel.panGestureRecognizer {
+                shortformWindow.removeGestureRecognizer(panGestureRecognizer)
+                shortsWindowModel.panGestureRecognizer = nil
+                shortsWindowModel.panGestureInitialCenter = .zero
+            }
+            
+            if let tapGestureRecognizer = self.shortsWindowModel.tapGestureRecognizer {
+                shortformWindow.removeGestureRecognizer(tapGestureRecognizer)
+                shortsWindowModel.tapGestureRecognizer = nil
+            }
+        }
+        
+        @objc func tapGestureHandler(_ recognizer: UITapGestureRecognizer) {
+            guard shortsWindowModel.enableTapGesture else { return }
+            NotificationCenter.default.post(Notification(name: Notification.Name("clickPreview"), object: nil, userInfo: ["shorts": self.shortsCollectionView?.getCurrentShortsModel() as Any]))
+            if shortsCollectionView?.getCurrentShowType() == .related && shortsCollectionView?.getIsFullNative() == true {
+                //preview -> detail 들어갈때 새로 발급받아서 preview_click_show 페이로드에 담아서 보내줘야 함
+                let shopLiveSessionId = ShopLiveCommon.makeShopLiveSessionId()
+                ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: self.shortsCollectionView?.getPreviewEventTraceSrn(), isShown: false, isClick: true, shopliveSessionId: shopLiveSessionId)
+                let shortsId = self.shortsCollectionView?.getCurrentShortsId()
+                let shortsDetail = self.shortsCollectionView?.getCurrentShortsDetail()
+                ShortformNativeOnEventsManager.sendNativeOnEvents(command: .preview_click_show, payload: nil, shortsId: shortsId, shortsDetail: shortsDetail)
+                ShortformNativeOnEventsManager.sendNativeOnEvents(command: .preview_hidden, payload: nil, shortsId: shortsId, shortsDetail: shortsDetail)
+                shortsCollectionView?.setShopLiveSessionId(sessionId: shopLiveSessionId)
+            }
+            fullScreen(animated: true, reset: true)
+        }
+        
+        @objc func panGestureHandler(_ recognizer: UIPanGestureRecognizer) {
+            guard let liveWindow = recognizer.view else { return }
+            guard self.shortsWindowModel.enablePanGesture else { return }
+            
+            liveWindow.layer.masksToBounds = true
+            let translation = recognizer.translation(in: liveWindow)
+            
+            switch recognizer.state {
+            case .began:
+                self.shortsWindowModel.panGestureInitialCenter = liveWindow.center
+            case .changed:
+                let centerX = self.shortsWindowModel.panGestureInitialCenter.x + translation.x
+                let centerY = self.shortsWindowModel.panGestureInitialCenter.y + translation.y
+                liveWindow.center = CGPoint(x: centerX, y: centerY)
+            case .ended:
+                guard let mainWindow = UIApplication.topWindow_SL else { return }
+                liveWindow.layer.masksToBounds = true
+                let velocity = recognizer.velocity(in: liveWindow)
+                
+                let safeAreaInset = mainWindow.safeAreaInsets
+                let previewFloatingOffsetBottom: CGFloat = self.shortsWindowModel.isKeyboardShow ? 0 : self.shortsWindowModel.previewFloatingOffset.bottom
+                
+                let isKeyboardShow: Bool = self.shortsWindowModel.isKeyboardShow
+                let keyboardHeight: CGFloat = self.shortsWindowModel.keyboardHeight
+                
+                let previewEdgeInsets: UIEdgeInsets = self.shortsWindowModel.previewEdgeInsets
+                let previewFloatingOffset: UIEdgeInsets = self.shortsWindowModel.previewFloatingOffset
+                let panGestureInitialCenter: CGPoint = self.shortsWindowModel.panGestureInitialCenter
+                
+                let previewPosition: ShopLiveShortform.PreviewPosition = self.shortsWindowModel.previewPosition
+                
+                let mainWindowHeight: CGFloat = mainWindow.bounds.height - (isKeyboardShow ? keyboardHeight : 0)
+                let minX = (liveWindow.bounds.width / 2.0) + previewEdgeInsets.left + safeAreaInset.left + liveWindow.bounds.origin.x + previewFloatingOffset.left
+                let maxX = mainWindow.bounds.width - ((liveWindow.bounds.width / 2.0) + previewEdgeInsets.right + safeAreaInset.right + previewFloatingOffset.right)
+                let minY = liveWindow.bounds.height / 2.0 + previewEdgeInsets.top + safeAreaInset.top + previewFloatingOffset.top + liveWindow.bounds.origin.y - (isKeyboardShow ? keyboardHeight : 0)
+                let maxY = mainWindowHeight - ((liveWindow.bounds.height / 2.0) + previewEdgeInsets.bottom + previewFloatingOffsetBottom + safeAreaInset.bottom)
+                
+                var centerX = panGestureInitialCenter.x + translation.x
+                var centerY = panGestureInitialCenter.y + translation.y
+                
+                let xRange = (previewFloatingOffset.left + previewEdgeInsets.left)...(mainWindow.bounds.width - previewFloatingOffset.right - previewEdgeInsets.right)
+                let yRange = (previewFloatingOffset.top + previewEdgeInsets.top + safeAreaInset.top)...(mainWindowHeight - (safeAreaInset.bottom + previewFloatingOffset.bottom + previewEdgeInsets.bottom)) + (isKeyboardShow ? liveWindow.frame.height * 0.2 : 0)
+                
+                //범위밖으로 나가면 stop
+                var checkCenterX = centerX
+                var checkCenterY = centerY
+                
+                if previewPosition == .topLeft || previewPosition == .bottomLeft {
+                    if velocity.x < 0 {
+                        if velocity.x.magnitude > 600 {
+                            if checkCenterX + velocity.x < minX {
+                                checkCenterX = minX - liveWindow.frame.width
+                            }
+                        }
+                    }
+                } else if previewPosition == .topRight || previewPosition == .bottomRight {
+                    if velocity.x > 0 {
+                        if velocity.x.magnitude > 600 {
+                            if checkCenterX + velocity.x > maxX {
+                                checkCenterX = maxX + liveWindow.frame.width
+                            }
+                        }
+                    }
+                }
+
+                if previewPosition == .topLeft || previewPosition == .topRight {
+                    if velocity.y > 0 {
+                        if velocity.y.magnitude > 600 {
+                            if checkCenterY + velocity.y < minY {
+                                checkCenterY = minY - liveWindow.frame.height
+                            }
+                        }
+                    }
+                } else if previewPosition == .bottomLeft || previewPosition == .bottomRight {
+                    if velocity.y < 0 {
+                        if velocity.y.magnitude > 600 {
+                            if checkCenterY + velocity.y > maxY {
+                                checkCenterY = maxY + liveWindow.frame.height
+                            }
+                        }
+                    }
+                }
+                
+                if ShortFormConfigurationInfosManager.shared.shortsConfiguration.enabledSwipeOut {
+                    guard xRange.contains(checkCenterX), yRange.contains(checkCenterY) else {
+                        if shortsCollectionView?.getCurrentShowType() == .related && shortsCollectionView?.getIsFullNative() == true {
+                            ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: self.shortsCollectionView?.getPreviewEventTraceSrn(),isShown: false, isClick: false, shopliveSessionId: nil)
+                            let shortsId = self.shortsCollectionView?.getCurrentShortsId()
+                            let shortsDetail = self.shortsCollectionView?.getCurrentShortsDetail()
+                            ShortformNativeOnEventsManager.sendNativeOnEvents(command: .preview_hidden, payload: nil, shortsId: shortsId, shortsDetail: shortsDetail)
+                        }
+                        ShopLiveShortform.close()
+                        return
+                    }
+                }
+                
+                let animationDuration: CGFloat = 0.7
+                
+                if velocity.x.magnitude > 600 {
+                    if centerX + velocity.x < minX {
+                        centerX = minX
+                    } else if centerX + velocity.x > maxX {
+                        centerX = maxX
+                    }
+                }
+                
+                if velocity.y.magnitude > 600 {
+                    if centerY + velocity.y < minY {
+                        centerY = minY
+                    } else if centerY + velocity.y > maxY {
+                        centerY = maxY
+                    }
+                }
+                
+                switch alignPreviewPosion(previewCenter: .init(x: centerX, y: centerY)) {
+                case .bottomLeft:
+                    centerX = minX
+                    centerY = maxY
+                    break
+                case .topLeft:
+                    centerX = minX
+                    centerY = minY
+                case .topRight:
+                    centerX = maxX
+                    centerY = minY
+                    break
+                case .bottomRight:
+                    centerX = maxX
+                    centerY = maxY
+                    break
+                case .default:
+                    centerX = maxX
+                    centerY = maxY
+                    break
+                }
+                
+                let destination = CGPoint(x: centerX, y: centerY)
+                let parameters = UISpringTimingParameters(dampingRatio: 1, initialVelocity: .init(dx: 0, dy: 0))
+                let animator = UIViewPropertyAnimator(duration: TimeInterval(animationDuration), timingParameters: parameters)
+
+                animator.addAnimations {
+                    liveWindow.center = destination
+                    self.alignPreviewView()
+                }
+
+                animator.startAnimation()
+            default:
+                break
+            }
+            
+        }
+        
+        private func setupObserver() {
+            NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("presentViewController"), object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("enableTap"), object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        }
+        
+        private func teardownObserver() {
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name("presentViewController"), object: nil)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name("enableTap"), object: nil)
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+            NotificationCenter.default.removeObserver(self)
+        }
+        
+        @objc func handleNotification(_ notification: Notification) {
+            switch notification.name {
+            case UIResponder.keyboardWillShowNotification:
+                guard self.shortsWindowModel.enableKeyboardEvent else { return }
+                self.shortsWindowModel.isKeyboardShow = true
+                self.handleKeyboardNoti(notification: notification)
+                break
+            case UIResponder.keyboardWillHideNotification:
+                guard self.shortsWindowModel.enableKeyboardEvent else { return }
+                self.shortsWindowModel.isKeyboardShow = false
+                self.handleKeyboardNoti(notification: notification)
+                break
+            case Notification.Name("presentViewController"):
+                guard let vc = notification.userInfo?["vc"] as? UIViewController else {
+                    return
+                }
+                vc.modalPresentationStyle = .overFullScreen
+                rootViewController.present(vc, animated: false)
+                break
+            case Notification.Name("enableTap"):
+                guard let enable = notification.userInfo?["enable"] as? Bool else {
+                    return
+                }
+                self.shortsWindowModel.enableTapExplicit = enable
+                break
+            default:
+                break
+            }
+        }
+        
+        private func handleKeyboardNoti(notification: Notification? = nil) {
+            
+            if let notification = notification, let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
+                    
+                let bottomPadding = UIApplication.topWindow_SL?.safeAreaInsets.bottom ?? 0
+            
+                self.shortsWindowModel.keyboardHeight = keyboardScreenEndFrame.height - bottomPadding
+            }
+            
+            let previewPosition: CGRect = self.previewPosition(with: self.shortsWindowModel.previewScale, position: self.shortsWindowModel.previewPosition)
+            
+            UIView.animate(withDuration: 0.3, delay: 0, options: []) { [weak self] in
+                guard let self = self else { return }
+                self.shortformWindow.frame = previewPosition
+                self.shortformWindow.setNeedsLayout()
+                self.shortformWindow.layoutIfNeeded()
+            }
+        }
+        
+        private func fullScreen(animated: Bool = false, reset: Bool = false) {
+            self.shortsWindowModel.shortsMode = .detail
+            if animated {
+                UIView.animate(withDuration: 0.3, delay: 0) { [weak self] in
+                    guard let self = self else { return }
+                    self.shortsCollectionView?.takeSnapShot()
+                    self.shortsCollectionView?.updateItemSize(UIScreen.main.bounds.size)
+                    self.shortformWindow.frame = UIScreen.main.bounds
+                    self.shortformWindow.isHidden  = false
+                    self.shortsCollectionView?.modeChange(mode: .detail)
+                    self.shortformWindow.layer.cornerRadius = 0
+                    self.shortformWindow.layoutIfNeeded()
+                } completion : { [weak self] _ in
+                    guard let self = self else { return }
+                    self.shortsCollectionView?.viewTappedInPreviewMode(reset: reset, shortsId: self.shortsCollectionView?.getCurrentShortsId(), srn: self.shortsCollectionView?.getCurrentShortsSrn())  {
+                        self.shortsCollectionView?.setAudioSessionManager()
+                        ShortformNativeOnEventsManager.sendNativeOnEvents(command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
+                        ShopLiveShortform.ShortsReceiveInterface.receiveHandler.delegate?.onDidAppear?()
+                        DispatchQueue.main.async {
+                            self.shortsCollectionView?.hideSnapshot(animate: true)
+                        }
+                    }
+                }
+            }
+            else {
+                self.shortsCollectionView?.updateItemSize(UIScreen.main.bounds.size)
+                self.shortformWindow.frame = UIScreen.main.bounds
+                self.shortformWindow.isHidden  = false
+                self.shortformWindow.layer.cornerRadius = 0
+                self.shortformWindow.layoutIfNeeded()
+                ShortformNativeOnEventsManager.sendNativeOnEvents(command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
+                ShopLiveShortform.ShortsReceiveInterface.receiveHandler.delegate?.onDidAppear?()
+            }
+            
+        }
+        
+        private func preview() {
+            self.shortsCollectionView?.updateItemSize(self.previewPosition().size)
+            self.shortsWindowModel.shortsMode = .preview
+            self.shortsCollectionView?.viewModel.isMuted = true
+            self.shortformWindow.frame = self.previewPosition()
+            self.shortformWindow.isHidden  = false
+            self.shortformWindow.layer.cornerRadius = 10
+            self.shortformWindow.layoutIfNeeded()
+
+        }
+        
+        func showPreview(_ item: ShortsCollectionBaseView?) {
+            guard let item = item else { return }
+            self.shortformWindow.resignKey()
+            self.customerWindow?.makeKey()
+            setItem(item) { [weak self] in
+                self?.preview()
+            }
+        }
+        
+        func showPlay(_ item: ShortsCollectionBaseView?) {
+            guard let item = item else { return }
+            self.shortformWindow.makeKey()
+            setItem(item) { [weak self] in
+                self?.fullScreen()
+            }
+        }
+        
+        func hide() {
+            if self.shortsWindowModel.shortsMode == .preview {
+                NotificationCenter.default.post(Notification(name: Notification.Name("previewHidden"), object: nil, userInfo: ["shorts": self.shortsCollectionView?.getCurrentShortsModel() ?? ""]))
+            }
+            shortsCollectionView?.close()
+            shortsWindowModel.resetProperties()
+            self.shortsCollectionView = nil
+            self.shortformWindow.isHidden = true
+            ShopLiveShortform.ShortsReceiveInterface.receiveHandler.delegate?.onDidDisAppear?()
+        }
+        
+        private func clearPreviewItem() {
+            rootViewController.view.subviews.compactMap { $0 as? ShopLiveWindowItemView }.forEach { $0.removeFromSuperview() }
+        }
+        
+        func setItem(_ item: ShortsCollectionBaseView, completion: @escaping ()->Void) {
+            // preview에 보여지고 있는 itemView 전체 제거
+            clearPreviewItem()
+            shortsCollectionView = item
+            rootViewController.view.addSubview(item.itemView)
+            item.itemView.fit_SL()
+            rootViewController.view.bringSubviewToFront(item.itemView)
+            item.itemView.translatesAutoresizingMaskIntoConstraints = false
+            completion()
+        }
+        
+        private var customerWindow : UIWindow?
+        
+        private lazy var shortformWindow: SLWindow = {
+            let window = SLWindow()
+            if #available(iOS 13.0, *) {
+                window.windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+            }
+            window.backgroundColor = .clear
+            window.windowLevel = .statusBar - 1
+            window.layer.masksToBounds = true
+            window.frame = UIScreen.main.bounds
+            window.center = self.previewPosition().center_SL
+            window.rootViewController = rootViewController
+            window.isHidden = true
+            return window
+        }()
+        
+        func getCurrentWindow() -> UIWindow {
+            return self.shortformWindow
+        }
+        
+        private func alignPreviewView() {
+            guard let mainWindow = UIApplication.topWindow_SL else { return }
+            let currentCenter = shortformWindow.center
+            let center = mainWindow.center
+            let isKeyboardShow = self.shortsWindowModel.isKeyboardShow
+            let keyboardHeight = self.shortsWindowModel.keyboardHeight
+            let _keyboardHeight: CGFloat = isKeyboardShow ? keyboardHeight : 0
+            let rate = (mainWindow.frame.height - _keyboardHeight) / mainWindow.frame.height
+            let isPositiveDiffX = center.x - currentCenter.x > 0
+            let isPositiveDiffY = (center.y * rate) - currentCenter.y > 0
+            let position: ShopLiveShortform.PreviewPosition = {
+                switch (isPositiveDiffX, isPositiveDiffY) {
+                case (true, true):
+                    return .topLeft
+                case (true, false):
+                    return .bottomLeft
+                case (false, true):
+                    return .topRight
+                case (false, false):
+                    return .bottomRight
+                }
+            }()
+
+            self.shortsWindowModel.previewPosition = position
+            self.handleKeyboardNoti()
+        }
+        
+        private func alignPreviewPosion(previewCenter: CGPoint) -> ShopLiveShortform.PreviewPosition {
+            guard let mainWindow = UIApplication.topWindow_SL else { return .bottomRight }
+            let center = mainWindow.center
+            let isKeyboardShow = self.shortsWindowModel.isKeyboardShow
+            let keyboardHeight = self.shortsWindowModel.keyboardHeight
+            let _keyboardHeight: CGFloat = isKeyboardShow ? keyboardHeight : 0
+            let rate = (mainWindow.frame.height - _keyboardHeight) / mainWindow.frame.height
+            let isPositiveDiffX = center.x - previewCenter.x > 0
+            let isPositiveDiffY = (center.y * rate) - previewCenter.y > 0
+            let position: ShopLiveShortform.PreviewPosition = {
+                switch (isPositiveDiffX, isPositiveDiffY) {
+                case (true, true):
+                    return .topLeft
+                case (true, false):
+                    return .bottomLeft
+                case (false, true):
+                    return .topRight
+                case (false, false):
+                    return .bottomRight
+                }
+            }()
+            
+            
+            return position
+        }
+        
+        private func previewPosition(with scale: CGFloat = ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewScale,
+                                     position: ShopLiveShortform.PreviewPosition = ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewPosition) -> CGRect {
+            guard let mainWindow = UIApplication.topWindow_SL else { return .zero }
+            var previewPosition: CGRect = .zero
+            var origin = CGPoint.zero
+            let isKeyboardShow = self.shortsWindowModel.isKeyboardShow
+            let safeAreaInsets = mainWindow.safeAreaInsets
+            let previewSize = self.previewSize(with: scale)
+            let previewFloatingOffset = self.shortsWindowModel.previewFloatingOffset
+            let previewEdgeInsets = self.shortsWindowModel.previewEdgeInsets
+            let previewFloatingOffsetBottom: CGFloat = previewFloatingOffset.bottom
+            let keyboardHeight: CGFloat = isKeyboardShow ? self.shortsWindowModel.keyboardHeight : 0
+            
+            let standardSize: CGSize = UIScreen.main.bounds.size
+            
+            switch position {
+            case .bottomRight, .default:
+                origin.x = standardSize.width - safeAreaInsets.right - previewEdgeInsets.right - previewSize.width - previewFloatingOffset.right
+                origin.y = standardSize.height - safeAreaInsets.bottom - previewEdgeInsets.bottom - previewSize.height - keyboardHeight - previewFloatingOffsetBottom
+            case .bottomLeft:
+                origin.x = safeAreaInsets.left + previewEdgeInsets.left + previewFloatingOffset.left
+                origin.y = standardSize.height - safeAreaInsets.bottom - previewEdgeInsets.bottom - previewSize.height - keyboardHeight - previewFloatingOffsetBottom
+            case .topRight:
+                origin.x = standardSize.width - safeAreaInsets.right - previewEdgeInsets.right - previewSize.width - previewFloatingOffset.right
+                
+                let isOutOfScreen = (standardSize.height - keyboardHeight - (safeAreaInsets.top + previewEdgeInsets.top + previewFloatingOffset.top)) < previewSize.height
+                origin.y = isOutOfScreen ? standardSize.height - safeAreaInsets.bottom - previewEdgeInsets.bottom - previewSize.height - keyboardHeight - previewFloatingOffsetBottom : safeAreaInsets.top + previewEdgeInsets.top + previewFloatingOffset.top
+            case .topLeft:
+                origin.x = safeAreaInsets.left + previewEdgeInsets.left + previewFloatingOffset.left
+                
+                let isOutOfScreen = (standardSize.height - keyboardHeight - (safeAreaInsets.top + previewEdgeInsets.top + previewFloatingOffset.top)) < previewSize.height
+                origin.y = isOutOfScreen ? standardSize.height - safeAreaInsets.bottom - previewEdgeInsets.bottom - previewSize.height - keyboardHeight - previewFloatingOffsetBottom : safeAreaInsets.top + previewEdgeInsets.top + previewFloatingOffset.top
+            }
+
+            previewPosition = CGRect(origin: origin, size: previewSize)
+
+            return previewPosition
+        }
+        
+        private func previewSize(with scale: CGFloat) -> CGSize {
+            let width =  (UIScreen.isLandscape_SL ? UIScreen.main.bounds.height : UIScreen.main.bounds.width) * scale
+            let height = (16 / 9) * width
+            return CGSize(width: width, height: height)
+        }
+    }
+}
+extension ShopLiveShortform.SLShortsWindow : ShortFormFullTypeRootViewControllerDelegate {
+    func onStartRotation(to size : CGSize) {
+        guard let collectionView = self.shortsCollectionView else { return }
+        if collectionView.getCurrentShortsMode() == .detail {
+            collectionView.onStartRotation(to: size)
+        }
+    }
+    
+    func onChangingRotation(to size : CGSize) {
+        guard let collectionView = self.shortsCollectionView else { return }
+        if collectionView.getCurrentShortsMode() == .preview {
+            self.alignPreviewView()
+        }
+        else {
+            collectionView.onChangingRotation(to: size)
+        }
+    }
+    
+    func onFinishedRotation(on size : CGSize) {
+        guard let collectionView = self.shortsCollectionView else { return }
+        if collectionView.getCurrentShortsMode() == .preview {
+            collectionView.redrawPreviewDimLayer()
+        }
+        else {
+            collectionView.onFinishedRotation(on: size)
+        }
+    }
+}
+extension ShopLiveShortform {
+    class SLWindow: UIWindow, UIGestureRecognizerDelegate {
+        func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+            return !(touch.view is UIButton)
+        }
+    }
+}
+

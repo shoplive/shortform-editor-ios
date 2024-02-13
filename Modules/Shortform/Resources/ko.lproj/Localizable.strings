@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  matrix-shortform-ios
+
+  Created by sangmin han on 2023/07/21.
+  
+*/
+
+
+//ShortformEmptyCell
+"shortform_list_empty_data" = "관련된 영상이 없습니다.";
+

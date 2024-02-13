@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  matrix-shortform-ios
+
+  Created by sangmin han on 2023/07/21.
+  
+*/
+
+//ShortformEmptyCell
+"shortform_list_empty_data" = "No content available";

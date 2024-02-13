@@ -94,8 +94,9 @@ iOSInjectionProject/
 Icon?
 ehthumbs.db
 Thumbs.db
-!default.xcworkspace
 profile
 .idea/
 
 *.xcframework
+*.xcodeproj
+*.xcworkspace
