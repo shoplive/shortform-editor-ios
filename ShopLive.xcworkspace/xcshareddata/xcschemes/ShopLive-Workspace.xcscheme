@@ -126,6 +126,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CD0A8EEB5C6686386F2B2A16"
+               BuildableName = "ShopLiveShortformEditorSDK_ShopLiveShortformEditorSDK.bundle"
+               BlueprintName = "ShopLiveShortformEditorSDK_ShopLiveShortformEditorSDK"
+               ReferencedContainer = "container:Modules/Editor/ShopLiveShortformEditorSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "8CE8861AC8A88868A87F8C52"
                BuildableName = "ShopLiveShortformSDK.framework"
                BlueprintName = "ShopLiveShortformSDK"

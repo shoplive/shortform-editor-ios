@@ -18,7 +18,14 @@ let deployTarget = Target(name: "ShopLiveShortformEditorSDK",
                           resources: ["Resources/**"],
                           dependencies: [
                             .project(target: "ShopLiveSDKCommon",
-                                     path: .relativeToRoot("Modules/Common"))
+                                     path: .relativeToRoot("Modules/Common")),
+                            .xcframework(path: .relativeToRoot("Modules/Editor/Framework/ffmpegkit.xcframework")),
+                            .xcframework(path: .relativeToRoot("Modules/Editor/Framework/libavcodec.xcframework")),
+                            .xcframework(path: .relativeToRoot("Modules/Editor/Framework/libavdevice.xcframework")),
+                            .xcframework(path: .relativeToRoot("Modules/Editor/Framework/libavfilter.xcframework")),
+                            .xcframework(path: .relativeToRoot("Modules/Editor/Framework/libavformat.xcframework")),
+                            .xcframework(path: .relativeToRoot("Modules/Editor/Framework/libswresample.xcframework")),
+                            .xcframework(path: .relativeToRoot("Modules/Editor/Framework/libswscale.xcframework"))
                           ])
 
 let project = Project.makeModule(name: "ShopLiveShortformEditorSDK",

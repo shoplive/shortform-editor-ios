@@ -7,7 +7,7 @@
 
 import UIKit
 import AVKit
-import ShopliveSDKCommon
+import ShopLiveSDKCommon
 
 protocol SLVideoEditorViewControllerDelegate: AnyObject {
     func cancelConvertVideo()

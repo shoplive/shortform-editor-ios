@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ShopliveSDKCommon
+import ShopLiveSDKCommon
 
 extension String {
     func localizedString(from: String = "Localizable", bundle: Bundle, comment: String = "") -> String {

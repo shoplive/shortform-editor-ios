@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ShopliveSDKCommon
+import ShopLiveSDKCommon
 import UIKit
 
 public struct ShortsModel: BaseResponsable, Equatable {

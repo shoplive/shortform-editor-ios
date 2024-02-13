@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ShopliveSDKCommon
+import ShopLiveSDKCommon
 
 // MARK: - UploadResponse
 struct SLUploadResponse: BaseResponsable {

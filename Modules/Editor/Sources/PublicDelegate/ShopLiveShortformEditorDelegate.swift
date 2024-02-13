@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ShopliveSDKCommon
+import ShopLiveSDKCommon
 
 
 public protocol ShopLiveShortformEditorDelegate : AnyObject {

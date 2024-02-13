@@ -8,7 +8,7 @@
 
 import UIKit
 import PhotosUI
-import ShopliveSDKCommon
+import ShopLiveSDKCommon
 
 open class SLPlayerView: UIView {
     @objc open var player: AVPlayer? {

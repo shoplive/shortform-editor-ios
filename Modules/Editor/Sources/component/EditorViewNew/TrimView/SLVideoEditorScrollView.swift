@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import ShopliveSDKCommon
+import ShopLiveSDKCommon
 
 class SLDimView: UIView {
     

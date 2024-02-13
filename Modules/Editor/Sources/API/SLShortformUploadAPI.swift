@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ShopliveSDKCommon
+import ShopLiveSDKCommon
 
 struct SLShortformUploadAPI: APIDefinition {
     typealias ResultType = SLUploadResponse

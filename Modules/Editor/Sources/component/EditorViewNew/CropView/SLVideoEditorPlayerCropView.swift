@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-import ShopliveSDKCommon
+import ShopLiveSDKCommon
 
 enum SLVideoCropHandlePosition {
     case topLeft

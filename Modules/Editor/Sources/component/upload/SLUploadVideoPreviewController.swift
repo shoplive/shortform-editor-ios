@@ -9,7 +9,7 @@ import Foundation
 import AVKit
 import UIKit
 import AVKit
-import ShopliveSDKCommon
+import ShopLiveSDKCommon
 
 class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDelegate {
     

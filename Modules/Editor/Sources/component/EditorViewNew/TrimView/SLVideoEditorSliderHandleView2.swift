@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import AVKit
-import ShopliveSDKCommon
+import ShopLiveSDKCommon
 
 protocol SLVideoEditorSliderHandleDelegate: AnyObject {
     func updatedCurrentHandlePosition(offset: CGFloat, handleType: SLVideoEditorSliderHandleType)

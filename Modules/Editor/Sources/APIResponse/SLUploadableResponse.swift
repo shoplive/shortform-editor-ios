@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ShopliveSDKCommon
+import ShopLiveSDKCommon
 
 struct SLUploadableResponse: BaseResponsable {
     var _s: Int?

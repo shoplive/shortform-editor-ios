@@ -10,7 +10,7 @@ import UIKit
 import Photos
 import PhotosUI
 import MobileCoreServices
-import ShopliveSDKCommon
+import ShopLiveSDKCommon
 
 public struct SLPhotosPickerConfigure {
     public var customLocalizedTitle: [String: String] = ["Camera Roll": "Camera Roll"]

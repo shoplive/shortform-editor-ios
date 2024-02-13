@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -761,6 +761,8 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				ORGANIZATIONNAME = com.app;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = A8226E0EC4C8457D1C26FB0D /* Build configuration list for PBXProject "ShopLiveShortformSDK" */;
 			compatibilityVersion = "Xcode 14.0";
