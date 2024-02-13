@@ -8,13 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		323344AC90FC561C10D15C85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A33FC50B6B829A959B0950 /* AppDelegate.swift */; };
+		36053DCC8FB3613D496FC500 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C9DE0FC29BE91C8A2C405854 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */; };
 		914BEBD8A5EFEE2C62728C07 /* ShopLiveSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E93984B0A52162731775F1C9 /* ShopLiveSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		99A3F228F4FAEB4783EAE167 /* SceneDeleate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C368D52E95DDEAA22A7BBDF7 /* SceneDeleate.swift */; };
+		A264C0CACE4F0750D3FE9831 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle in Dependencies */ = {isa = PBXBuildFile; fileRef = C9DE0FC29BE91C8A2C405854 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */; };
 		A3CF91706D373E2654B107CA /* ShopLiveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E93984B0A52162731775F1C9 /* ShopLiveSDKCommon.framework */; };
 		BCF36304D82C2638CBDC9E68 /* ShopLiveShortformSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5491D6DD05B8CA45717BF021 /* ShopLiveShortformSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		39E808329675F808ADD3EB1B /* Dependencies */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstSubfolderSpec = 16;
+			files = (
+				A264C0CACE4F0750D3FE9831 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle in Dependencies */,
+			);
+			name = Dependencies;
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		A09DC8884EFD756E1930C047 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -34,6 +46,7 @@
 		7C1EC35D800F6C6FFAEDD4DA /* ShortformDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShortformDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C368D52E95DDEAA22A7BBDF7 /* SceneDeleate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDeleate.swift; sourceTree = "<group>"; };
 		C4A33FC50B6B829A959B0950 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C9DE0FC29BE91C8A2C405854 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShopLiveShortformSDK_ShopLiveShortformSDK.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		E93984B0A52162731775F1C9 /* ShopLiveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -104,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				E93984B0A52162731775F1C9 /* ShopLiveSDKCommon.framework */,
+				C9DE0FC29BE91C8A2C405854 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */,
 				5491D6DD05B8CA45717BF021 /* ShopLiveShortformSDK.framework */,
 				7C1EC35D800F6C6FFAEDD4DA /* ShortformDemo.app */,
 			);
@@ -121,6 +135,7 @@
 				64F52E476A3A5706C25496E1 /* Resources */,
 				A09DC8884EFD756E1930C047 /* Embed Frameworks */,
 				315710910691AFDADC8C2ED2 /* Frameworks */,
+				39E808329675F808ADD3EB1B /* Dependencies */,
 			);
 			buildRules = (
 			);
@@ -165,6 +180,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36053DCC8FB3613D496FC500 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
