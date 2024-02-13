@@ -1,0 +1,61 @@
+//
+//  CommonKeys.swift
+//  ShopliveCommon
+//
+//  Created by James Kim on 11/17/22.
+//
+
+import Foundation
+
+public struct CommonKeys {
+    public static let Authorization = "Authorization"
+    public static let Content_Type = "Content-Type"
+    public static let application_x_www_form_urlencdoed = "application/x-www-form-urlencoded"
+    public static let x_sl_ebay_username = "x-sl-ebay-username"
+    public static let x_sl_studio_os_version = "x-sl-studio-os-version"
+    public static let x_sl_studio_app_version = "x-sl-studio-app-version"
+    public static let x_sl_studio_sdk_version = "x-sl-studio-sdk-version"
+    public static let x_sl_player_app_version = "x-sl-player-app-version"
+    public static let x_sl_player_sdk_version = "x-sl-player-sdk-version"
+    public static let x_sl_player_os_version = "x-sl-player-os-version"
+    public static let x_sl_player_os_type = "x-sl-player-os-type"
+    public static let x_sl_player_device = "x-sl-player-device"
+    public static let x_sl_guest_uid = "x-sl-guest-uid"
+    public static let x_sl_ad_identifier = "x-sl-ad-identifier"
+    public static let x_sl_utm_source = "x-sl-utm-source"
+    public static let x_sl_utm_content = "x-sl-utm-content"
+    public static let x_sl_utm_campaign = "x-sl-utm-campaign"
+    public static let x_sl_utm_medium = "x-sl-utm-medium"
+    public static let Bearer = "Bearer"
+    public static let code = "code"
+    public static let ON_CHANGED_VIDEO_EXPANDED = "ON_CHANGED_VIDEO_EXPANDED"
+    public static let SET_VIDEO_POSITION = "SET_VIDEO_POSITION"
+    public static let videoExpanded = "videoExpanded"
+    public static let endCampaign = "endCampaign"
+    public static let startCampaign = "startCampaign"
+    public static let rehearsal = "rehearsal"
+    public static let keyword = "keyword"
+    public static let deviceUuid = "deviceUuid"
+    public static let retry = "retry"
+    public static let resolution = "resolution"
+    public static let bitRate = "bitRate"
+    public static let normal = "normal"
+    public static let description = "description"
+    public static let currentFPS = "currentFPS"
+    public static let customerId = "customerId"
+    public static let page = "page"
+    public static let count = "count"
+    public static let height = "height"
+    public static let width = "width"
+    public static let centerCrop = "centerCrop"
+    public static let x = "x"
+    public static let y = "y"
+    public static let pushType = "pushType"
+    public static let campaignId = "campaignId"
+    public static let campaignStatus = "campaignStatus"
+    public static let id = "id"
+    public static let password = "password"
+    public static let streamApp = "STREAM_APP"
+    public static let source = "source"
+    public static let duration = "duration"
+}

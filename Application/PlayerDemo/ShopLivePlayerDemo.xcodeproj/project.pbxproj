@@ -1,0 +1,825 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		04C2E5AA0BFDCBAD02246438 /* DemoAppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2730805442BD0F58D886F5AE /* DemoAppUtility.swift */; };
+		0781272E90D952F761E9E33B /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D79B851911E44CC56317D458 /* CryptoSwift.framework */; };
+		0F4361AAEA50A0DB1BB7DFD3 /* Toast_Toast.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6B25676FBC5FB8DA5154D913 /* Toast_Toast.bundle */; };
+		13A6B8D1827E08F2D10B8A24 /* shoplive.strings in Resources */ = {isa = PBXBuildFile; fileRef = E2A798D2D2D1A8C509F8DFD6 /* shoplive.strings */; };
+		16BB4680DEE97817234CE5F4 /* ShopLiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438708965B12669B5CAC9FD9 /* ShopLiveSDK.framework */; };
+		17A42B3D41C89AC8D2961F94 /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1D3CC4B5CAE2279F8A109F /* OptionsViewController.swift */; };
+		17D0AE9E3D2233915AC4B3B5 /* CampaignCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E80BA569C06A96829C4672A /* CampaignCell.swift */; };
+		19D17C7702B4BCD222C2EEAF /* GuideTitleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A8B58CF8F67990F8FC0193 /* GuideTitleButton.swift */; };
+		22A2D8865C8683A82A1304D4 /* CampaignInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707F3CBB6C74430A7C89486C /* CampaignInfoCell.swift */; };
+		237DB623A4DF674DDAC6C448 /* ShopLiveSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 438708965B12669B5CAC9FD9 /* ShopLiveSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		244B0A1C3A9C1B39935B7112 /* AddParameterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88ECBE4337D2ECD40041672 /* AddParameterCell.swift */; };
+		250538D96814F9B640860A0B /* Sample.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58BA9B71C757F19B5D29384B /* Sample.storyboard */; };
+		250AB602E2E83B5F06587A50 /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B2EACCCD4108DB3B6F3000 /* UserInfoViewController.swift */; };
+		2833E483418698598676EAA3 /* CampaignInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD4283D9C633E116BCB5977 /* CampaignInputAlertController.swift */; };
+		2B1FA57C0ACC8D69E7996AB2 /* TextItemInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA118A3F12B92659B848A4B1 /* TextItemInputAlertController.swift */; };
+		2DB544DD96EB21D5E2B686B6 /* SettingCustomParameterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56B4A2AA70DA8A911BF4DBB /* SettingCustomParameterViewController.swift */; };
+		2E142BE179A7A62BA9E91C3C /* AddUserParameterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F038C9DF768383A6303D87 /* AddUserParameterCell.swift */; };
+		34E0E51F8AEBD92D40CA0A19 /* SDKSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8133A794562F71F571FB501F /* SDKSettings.swift */; };
+		35C43623790A74D6871D8D65 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81CF06D5218F5C50FE15E67 /* SideMenuViewController.swift */; };
+		366D1B6939EDB2C0B4E463C6 /* SecretKeyInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33B0A7C19FCD1004776871C /* SecretKeyInputAlertController.swift */; };
+		3884C22B3149D685E6B2098E /* NanumBrush.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3983190866A81D20E867906E /* NanumBrush.ttf */; };
+		38DBFDA2EF596BFACA59C951 /* SLQRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89BA1E16F89123224264527 /* SLQRReaderViewController.swift */; };
+		38DE1C775156AA207FE86B7D /* TuistBundle+ShopLivePlayerDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67BE0F93F4A1DA628C0B9497 /* TuistBundle+ShopLivePlayerDemo.swift */; };
+		3A36E27A5A1F417D28ED5FAE /* Toast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972BFCA8E364315AAB96B1A9 /* Toast.framework */; };
+		3A6D728119885820DB4C9F38 /* DevInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52607007273BE76101691AFC /* DevInfoCell.swift */; };
+		3D7AE3D5FA700A3BDCC7A9CD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6A45225D65EFB5E1B6C12F /* SceneDelegate.swift */; };
+		41F3278729B65728A1E6789C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9CC954656073350098A0D7 /* AppDelegate.swift */; };
+		421991AFDA42EBAB1B0433EF /* SideMenuBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F20F68D40899D01A8A34C6E /* SideMenuBaseViewController.swift */; };
+		430BED9B0C6B12B5655534EC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008F8069DAAE9208A004685C /* MainViewController.swift */; };
+		4742F3C6B9E52ED1D24E92D6 /* CouponCallbackSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8E0006FC7264C29F02B183 /* CouponCallbackSettingViewController.swift */; };
+		487A25626C4F4B0F620C646A /* CryptoSwift_CryptoSwift.bundle in Dependencies */ = {isa = PBXBuildFile; fileRef = AAB7333F58EFD3C1DA1B4F84 /* CryptoSwift_CryptoSwift.bundle */; };
+		4B50F33B8AF91881A4B599C5 /* ShopliveSideMenuNavagation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982E41CAFCFB7735CFFCC0A0 /* ShopliveSideMenuNavagation.swift */; };
+		4F5263051EBB7F1D3E78C453 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3E8166DC4459FEBB8A3EBAF /* Main.storyboard */; };
+		4F763D2A285AD1DB36863913 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E8C1D9B02D53E86E4EBBBF /* LoginViewController.swift */; };
+		502FFDBA12BA8AFAEC4C6B50 /* CouponSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6435C09842C43A6904B21879 /* CouponSettingsViewController.swift */; };
+		53F8A3073D7DBC86C2F5A71B /* ButtonOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBAC908A01C362C32225D3D /* ButtonOptionCell.swift */; };
+		5753B954DCADAEAA2E0B2BA1 /* ShopLiveKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279C9A6F5F65E3A8A2D9D42E /* ShopLiveKeySet.swift */; };
+		5890E803D8752D34DD204B95 /* DropDownSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 732A7136F9373057A6B8A978 /* DropDownSDK.framework */; };
+		5FF7AD218A95CFE6C61BC348 /* ShopLiveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAA63DB9F82860BDE5042850 /* ShopLiveSDKCommon.framework */; };
+		601D97DEA178E2CD0A65D7A6 /* SampleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CAF9B202BD915629051F4D /* SampleExtensions.swift */; };
+		62A7B964EE2A9595036ECCEB /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B709D6B12266F3DFBE9CADF /* CustomShareViewController.swift */; };
+		65450B0C7D9E59BCDCAABD68 /* SDKOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D57C7496F732AF2366512B /* SDKOption.swift */; };
+		6B19C30AFB08B1A443BD14F9 /* SecretKeyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 127D37F96FC79FC4F15B15A4 /* SecretKeyCell.swift */; };
+		6CC6A0E2893B5938BD3EB039 /* TuistStrings+ShopLivePlayerDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2E269B419C29CBD867B66F /* TuistStrings+ShopLivePlayerDemo.swift */; };
+		6EC0436EF74534EAAB4C5096 /* ShopLiveCheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED435D6FDD99587BDB5FFD7 /* ShopLiveCheckBoxButton.swift */; };
+		76F2FCF2502D8B9FC47D8CAB /* PipAreaSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68D746A210C54C17007B22C /* PipAreaSettingViewController.swift */; };
+		77F5081F918BDE4261932E20 /* DropDownSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 732A7136F9373057A6B8A978 /* DropDownSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		786C41401440ADC94BDFC556 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65B19957B7928A633B546C2E /* LaunchScreen.storyboard */; };
+		7CF61995F9F146E341BE6AA2 /* Toast_Toast.bundle in Dependencies */ = {isa = PBXBuildFile; fileRef = 6B25676FBC5FB8DA5154D913 /* Toast_Toast.bundle */; };
+		80810105CD2494752A08BA8B /* CustomInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E771E03323AB0F9578AC16 /* CustomInputAlertController.swift */; };
+		86DC899842BA31F03AD14969 /* CustomUtmSourceAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBEB8BA86752F3FE25B228C /* CustomUtmSourceAlertController.swift */; };
+		882A0242D9EED10E91BD5DDB /* SwiftyJWA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D20489FE7715996897FB2BE /* SwiftyJWA.framework */; };
+		8C37B91052949607DF9B1428 /* ShopLiveDevConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AAE4E61A617C6D31B8FD47 /* ShopLiveDevConfiguration.swift */; };
+		8C96F7689FB7CBBBFD0C9ACD /* CustomReferrerAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8EFFF32E6AB427D0FF8F62 /* CustomReferrerAlertController.swift */; };
+		906F1A3D9DA3CE2D8F674223 /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF2681A49CE7BA6CB9478AB /* LoginTextField.swift */; };
+		95681217D568EE8407766232 /* SecretKeysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BB12DAEAD64C678FFEB023 /* SecretKeysViewController.swift */; };
+		95C1E1642414F32817250635 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89BD763FC9C50167120E6614 /* Assets.xcassets */; };
+		97EA9CC6E53D41995C365151 /* VersionInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660CED48EACB764E3C8AC155 /* VersionInfoCell.swift */; };
+		98BD7927532C8C63C130BB1F /* TuistAssets+ShopLivePlayerDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8B244364F657CA3B0D5C2B /* TuistAssets+ShopLivePlayerDemo.swift */; };
+		99389E055C4F3830DAD3E808 /* SideMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AF264C23B015703C35C51B /* SideMenuCell.swift */; };
+		9E63A22359D1E1CBE91B0451 /* CouponResponseSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6195493F5B3A7A350421F2D4 /* CouponResponseSettingView.swift */; };
+		A427A79068E045A787AF8F37 /* CustomParamValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6130A7AA7E31A17B596112D /* CustomParamValue.swift */; };
+		A5838D9B4D36F1A2A3276C98 /* BaseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECADA60EAD63ED623A33AB8 /* BaseTextField.swift */; };
+		A887D10E8641021AC8476BFA /* SampleOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5106FB9FEEA56C3ECC5D22BF /* SampleOptions.swift */; };
+		AC0BE6A950A394D04CCB3E6E /* CustomAppVeersionInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D15A9AC784FDAED12EC5FD /* CustomAppVeersionInputAlertController.swift */; };
+		ACE349A537DE1992DDE2DF17 /* CampaignsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD427F2E730BC2376917AB0 /* CampaignsViewController.swift */; };
+		B2EB3EDB659F1EE54A62DC12 /* SampleBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138C8731904DD68A9ABF4F54 /* SampleBaseCell.swift */; };
+		B38C61A5FA55E7A68CA32EAE /* SwitchOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DA9A1E64D02A26CBE05F20 /* SwitchOptionCell.swift */; };
+		B8101D9B786A6253709672E4 /* CryptoSwift_CryptoSwift.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AAB7333F58EFD3C1DA1B4F84 /* CryptoSwift_CryptoSwift.bundle */; };
+		BA5305481B62C30F8147774D /* UserInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E00031F58F89E2A96751725 /* UserInfoCell.swift */; };
+		BEBD6D77725828CB9F0256C2 /* DemoSecretKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D1A3E230AED86B2F1B1833 /* DemoSecretKeySet.swift */; };
+		C096F16A90A65C96EA6D890B /* CustomBaseAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BF74BC02FA61C354B3D957 /* CustomBaseAlertController.swift */; };
+		C2128555F30CD5653C85896B /* ShopLiveSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DAA63DB9F82860BDE5042850 /* ShopLiveSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C2C5B29C2680237008EFC28F /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82804B45B971BDD02B5F5AF4 /* ShopLiveDemoKeyTools.swift */; };
+		C6AFE0BE8727C33FD0216778 /* ShopLiveRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9632AEABC23533D248375A /* ShopLiveRadioButton.swift */; };
+		C8269A14470F97D4642EE189 /* SideMenu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8908C99464C877AE70726B9 /* SideMenu.framework */; };
+		C9F28B2E7A904E4D5657A4B6 /* DemoConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E07925323B1FF1A240C7405 /* DemoConfiguration.swift */; };
+		CAFD9654511A314A67BA4B03 /* DemoSecretKeyTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E749214080D04132AB81EA8 /* DemoSecretKeyTool.swift */; };
+		D12BB6F3B699DC316A0558C6 /* TuistFonts+ShopLivePlayerDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425EFAD8AFFD7EE51E4D16C4 /* TuistFonts+ShopLivePlayerDemo.swift */; };
+		D53394CD7DF7E470C8969901 /* JWTTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F69988D664EC3D6068427 /* JWTTool.swift */; };
+		E17B3FBD9318F32654643C53 /* OptionSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3505D60C18234A00593AFB94 /* OptionSectionHeader.swift */; };
+		E53990CD08EE7D79D633DD2E /* SwiftyJWT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A7F1E3A855CB7CCD5F2A08E /* SwiftyJWT.framework */; };
+		E585E3A22A8C2AFBA62BD4B4 /* SideMenuItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9418D367F1DC6E50F1122 /* SideMenuItemViewController.swift */; };
+		E74F176481B8A08F5BCC76A2 /* DeepLInkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0916A25579AB9322BC7CA3F3 /* DeepLInkManager.swift */; };
+		F3A230EED278D358788F9076 /* Sample.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CDCC48DCD29CA8DA6BAE00E /* Sample.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		42468317C5E25D950C34FEB1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				77F5081F918BDE4261932E20 /* DropDownSDK.framework in Embed Frameworks */,
+				237DB623A4DF674DDAC6C448 /* ShopLiveSDK.framework in Embed Frameworks */,
+				C2128555F30CD5653C85896B /* ShopLiveSDKCommon.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5175075E91AFC24DF39214E7 /* Dependencies */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstSubfolderSpec = 16;
+			files = (
+				487A25626C4F4B0F620C646A /* CryptoSwift_CryptoSwift.bundle in Dependencies */,
+				7CF61995F9F146E341BE6AA2 /* Toast_Toast.bundle in Dependencies */,
+			);
+			name = Dependencies;
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		008F8069DAAE9208A004685C /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		0916A25579AB9322BC7CA3F3 /* DeepLInkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLInkManager.swift; sourceTree = "<group>"; };
+		0BBAC908A01C362C32225D3D /* ButtonOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonOptionCell.swift; sourceTree = "<group>"; };
+		0C9CC954656073350098A0D7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		10E771E03323AB0F9578AC16 /* CustomInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInputAlertController.swift; sourceTree = "<group>"; };
+		127D37F96FC79FC4F15B15A4 /* SecretKeyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretKeyCell.swift; sourceTree = "<group>"; };
+		138C8731904DD68A9ABF4F54 /* SampleBaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleBaseCell.swift; sourceTree = "<group>"; };
+		16D57C7496F732AF2366512B /* SDKOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDKOption.swift; sourceTree = "<group>"; };
+		1F20F68D40899D01A8A34C6E /* SideMenuBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuBaseViewController.swift; sourceTree = "<group>"; };
+		1F6A45225D65EFB5E1B6C12F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		23CAF9B202BD915629051F4D /* SampleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleExtensions.swift; sourceTree = "<group>"; };
+		2730805442BD0F58D886F5AE /* DemoAppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppUtility.swift; sourceTree = "<group>"; };
+		279C9A6F5F65E3A8A2D9D42E /* ShopLiveKeySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveKeySet.swift; sourceTree = "<group>"; };
+		2B709D6B12266F3DFBE9CADF /* CustomShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShareViewController.swift; sourceTree = "<group>"; };
+		2CDCC48DCD29CA8DA6BAE00E /* Sample.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Sample.xcassets; sourceTree = "<group>"; };
+		2E5171054C8B813BC6C06E13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		30E8C1D9B02D53E86E4EBBBF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		34AF264C23B015703C35C51B /* SideMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuCell.swift; sourceTree = "<group>"; };
+		3505D60C18234A00593AFB94 /* OptionSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionSectionHeader.swift; sourceTree = "<group>"; };
+		3983190866A81D20E867906E /* NanumBrush.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumBrush.ttf; sourceTree = "<group>"; };
+		3E00031F58F89E2A96751725 /* UserInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoCell.swift; sourceTree = "<group>"; };
+		3E80BA569C06A96829C4672A /* CampaignCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignCell.swift; sourceTree = "<group>"; };
+		3ECADA60EAD63ED623A33AB8 /* BaseTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTextField.swift; sourceTree = "<group>"; };
+		425EFAD8AFFD7EE51E4D16C4 /* TuistFonts+ShopLivePlayerDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistFonts+ShopLivePlayerDemo.swift"; sourceTree = "<group>"; };
+		438708965B12669B5CAC9FD9 /* ShopLiveSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5106FB9FEEA56C3ECC5D22BF /* SampleOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleOptions.swift; sourceTree = "<group>"; };
+		52607007273BE76101691AFC /* DevInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevInfoCell.swift; sourceTree = "<group>"; };
+		58A8B58CF8F67990F8FC0193 /* GuideTitleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideTitleButton.swift; sourceTree = "<group>"; };
+		58BA9B71C757F19B5D29384B /* Sample.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Sample.storyboard; sourceTree = "<group>"; };
+		5DBEB8BA86752F3FE25B228C /* CustomUtmSourceAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUtmSourceAlertController.swift; sourceTree = "<group>"; };
+		5E749214080D04132AB81EA8 /* DemoSecretKeyTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSecretKeyTool.swift; sourceTree = "<group>"; };
+		6195493F5B3A7A350421F2D4 /* CouponResponseSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponResponseSettingView.swift; sourceTree = "<group>"; };
+		6435C09842C43A6904B21879 /* CouponSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponSettingsViewController.swift; sourceTree = "<group>"; };
+		65B19957B7928A633B546C2E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		660CED48EACB764E3C8AC155 /* VersionInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionInfoCell.swift; sourceTree = "<group>"; };
+		67BE0F93F4A1DA628C0B9497 /* TuistBundle+ShopLivePlayerDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistBundle+ShopLivePlayerDemo.swift"; sourceTree = "<group>"; };
+		6B25676FBC5FB8DA5154D913 /* Toast_Toast.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Toast_Toast.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		6BD4283D9C633E116BCB5977 /* CampaignInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignInputAlertController.swift; sourceTree = "<group>"; };
+		6F2E269B419C29CBD867B66F /* TuistStrings+ShopLivePlayerDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistStrings+ShopLivePlayerDemo.swift"; sourceTree = "<group>"; };
+		707F3CBB6C74430A7C89486C /* CampaignInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignInfoCell.swift; sourceTree = "<group>"; };
+		732A7136F9373057A6B8A978 /* DropDownSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DropDownSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A7F1E3A855CB7CCD5F2A08E /* SwiftyJWT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyJWT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B884D1464345F8C0B2F6132 /* ShopLivePlayerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShopLivePlayerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8133A794562F71F571FB501F /* SDKSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDKSettings.swift; sourceTree = "<group>"; };
+		82804B45B971BDD02B5F5AF4 /* ShopLiveDemoKeyTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDemoKeyTools.swift; sourceTree = "<group>"; };
+		89B2EACCCD4108DB3B6F3000 /* UserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
+		89BD763FC9C50167120E6614 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8D20489FE7715996897FB2BE /* SwiftyJWA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyJWA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D9632AEABC23533D248375A /* ShopLiveRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveRadioButton.swift; sourceTree = "<group>"; };
+		8E1D3CC4B5CAE2279F8A109F /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
+		90DA9A1E64D02A26CBE05F20 /* SwitchOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchOptionCell.swift; sourceTree = "<group>"; };
+		972BFCA8E364315AAB96B1A9 /* Toast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Toast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		982E41CAFCFB7735CFFCC0A0 /* ShopliveSideMenuNavagation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopliveSideMenuNavagation.swift; sourceTree = "<group>"; };
+		9AB9418D367F1DC6E50F1122 /* SideMenuItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuItemViewController.swift; sourceTree = "<group>"; };
+		9BD427F2E730BC2376917AB0 /* CampaignsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignsViewController.swift; sourceTree = "<group>"; };
+		9E07925323B1FF1A240C7405 /* DemoConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoConfiguration.swift; sourceTree = "<group>"; };
+		9E8E0006FC7264C29F02B183 /* CouponCallbackSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponCallbackSettingViewController.swift; sourceTree = "<group>"; };
+		9F8EFFF32E6AB427D0FF8F62 /* CustomReferrerAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomReferrerAlertController.swift; sourceTree = "<group>"; };
+		A3D1A3E230AED86B2F1B1833 /* DemoSecretKeySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSecretKeySet.swift; sourceTree = "<group>"; };
+		AAB7333F58EFD3C1DA1B4F84 /* CryptoSwift_CryptoSwift.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CryptoSwift_CryptoSwift.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC9F69988D664EC3D6068427 /* JWTTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTTool.swift; sourceTree = "<group>"; };
+		AED435D6FDD99587BDB5FFD7 /* ShopLiveCheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveCheckBoxButton.swift; sourceTree = "<group>"; };
+		AEF503DBBCEE727887C788DE /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/shoplive.strings; sourceTree = "<group>"; };
+		B1BB12DAEAD64C678FFEB023 /* SecretKeysViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretKeysViewController.swift; sourceTree = "<group>"; };
+		B2BF74BC02FA61C354B3D957 /* CustomBaseAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBaseAlertController.swift; sourceTree = "<group>"; };
+		B6130A7AA7E31A17B596112D /* CustomParamValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomParamValue.swift; sourceTree = "<group>"; };
+		B8AAE4E61A617C6D31B8FD47 /* ShopLiveDevConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDevConfiguration.swift; sourceTree = "<group>"; };
+		BCF2681A49CE7BA6CB9478AB /* LoginTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTextField.swift; sourceTree = "<group>"; };
+		C3D15A9AC784FDAED12EC5FD /* CustomAppVeersionInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAppVeersionInputAlertController.swift; sourceTree = "<group>"; };
+		C3E8166DC4459FEBB8A3EBAF /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		C5F038C9DF768383A6303D87 /* AddUserParameterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUserParameterCell.swift; sourceTree = "<group>"; };
+		C88ECBE4337D2ECD40041672 /* AddParameterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddParameterCell.swift; sourceTree = "<group>"; };
+		CA118A3F12B92659B848A4B1 /* TextItemInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextItemInputAlertController.swift; sourceTree = "<group>"; };
+		D79B851911E44CC56317D458 /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D89BA1E16F89123224264527 /* SLQRReaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLQRReaderViewController.swift; sourceTree = "<group>"; };
+		DAA63DB9F82860BDE5042850 /* ShopLiveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF8B244364F657CA3B0D5C2B /* TuistAssets+ShopLivePlayerDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistAssets+ShopLivePlayerDemo.swift"; sourceTree = "<group>"; };
+		E33B0A7C19FCD1004776871C /* SecretKeyInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretKeyInputAlertController.swift; sourceTree = "<group>"; };
+		E68D746A210C54C17007B22C /* PipAreaSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipAreaSettingViewController.swift; sourceTree = "<group>"; };
+		F56B4A2AA70DA8A911BF4DBB /* SettingCustomParameterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCustomParameterViewController.swift; sourceTree = "<group>"; };
+		F81CF06D5218F5C50FE15E67 /* SideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
+		F8908C99464C877AE70726B9 /* SideMenu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SideMenu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDDDAFCC6F90FF48EB865DC7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/shoplive.strings; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		65DE8F03E8E3A0B46474A4C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0781272E90D952F761E9E33B /* CryptoSwift.framework in Frameworks */,
+				5890E803D8752D34DD204B95 /* DropDownSDK.framework in Frameworks */,
+				16BB4680DEE97817234CE5F4 /* ShopLiveSDK.framework in Frameworks */,
+				5FF7AD218A95CFE6C61BC348 /* ShopLiveSDKCommon.framework in Frameworks */,
+				C8269A14470F97D4642EE189 /* SideMenu.framework in Frameworks */,
+				882A0242D9EED10E91BD5DDB /* SwiftyJWA.framework in Frameworks */,
+				E53990CD08EE7D79D633DD2E /* SwiftyJWT.framework in Frameworks */,
+				3A36E27A5A1F417D28ED5FAE /* Toast.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		02A8FDFCF06956B0705EA2EB /* SDKSettings */ = {
+			isa = PBXGroup;
+			children = (
+				2730805442BD0F58D886F5AE /* DemoAppUtility.swift */,
+				9E07925323B1FF1A240C7405 /* DemoConfiguration.swift */,
+				A3D1A3E230AED86B2F1B1833 /* DemoSecretKeySet.swift */,
+				5E749214080D04132AB81EA8 /* DemoSecretKeyTool.swift */,
+				AC9F69988D664EC3D6068427 /* JWTTool.swift */,
+				16D57C7496F732AF2366512B /* SDKOption.swift */,
+				82804B45B971BDD02B5F5AF4 /* ShopLiveDemoKeyTools.swift */,
+				279C9A6F5F65E3A8A2D9D42E /* ShopLiveKeySet.swift */,
+			);
+			path = SDKSettings;
+			sourceTree = "<group>";
+		};
+		280A448FEC320682CC3D3FAD /* couponsetting */ = {
+			isa = PBXGroup;
+			children = (
+				6195493F5B3A7A350421F2D4 /* CouponResponseSettingView.swift */,
+				6435C09842C43A6904B21879 /* CouponSettingsViewController.swift */,
+			);
+			path = couponsetting;
+			sourceTree = "<group>";
+		};
+		2FB4E26331FC8CD99FAB2D16 = {
+			isa = PBXGroup;
+			children = (
+				60EA2F1F77899A843B63D011 /* Project */,
+				BB945930E95BD45051E2F763 /* Compiled */,
+				339EA02A95039BC4C391B9D3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3386901AAE6C5970F3B85B92 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				DF8B244364F657CA3B0D5C2B /* TuistAssets+ShopLivePlayerDemo.swift */,
+				67BE0F93F4A1DA628C0B9497 /* TuistBundle+ShopLivePlayerDemo.swift */,
+				425EFAD8AFFD7EE51E4D16C4 /* TuistFonts+ShopLivePlayerDemo.swift */,
+				6F2E269B419C29CBD867B66F /* TuistStrings+ShopLivePlayerDemo.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		339EA02A95039BC4C391B9D3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AAB7333F58EFD3C1DA1B4F84 /* CryptoSwift_CryptoSwift.bundle */,
+				D79B851911E44CC56317D458 /* CryptoSwift.framework */,
+				732A7136F9373057A6B8A978 /* DropDownSDK.framework */,
+				7B884D1464345F8C0B2F6132 /* ShopLivePlayerDemo.app */,
+				438708965B12669B5CAC9FD9 /* ShopLiveSDK.framework */,
+				DAA63DB9F82860BDE5042850 /* ShopLiveSDKCommon.framework */,
+				F8908C99464C877AE70726B9 /* SideMenu.framework */,
+				8D20489FE7715996897FB2BE /* SwiftyJWA.framework */,
+				7A7F1E3A855CB7CCD5F2A08E /* SwiftyJWT.framework */,
+				6B25676FBC5FB8DA5154D913 /* Toast_Toast.bundle */,
+				972BFCA8E364315AAB96B1A9 /* Toast.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		42F7B305E912B19E4E070EAB /* pipsetting */ = {
+			isa = PBXGroup;
+			children = (
+				E68D746A210C54C17007B22C /* PipAreaSettingViewController.swift */,
+			);
+			path = pipsetting;
+			sourceTree = "<group>";
+		};
+		5EAD95DAE5D28AC93980A2E9 /* campaigns */ = {
+			isa = PBXGroup;
+			children = (
+				3E80BA569C06A96829C4672A /* CampaignCell.swift */,
+				9BD427F2E730BC2376917AB0 /* CampaignsViewController.swift */,
+			);
+			path = campaigns;
+			sourceTree = "<group>";
+		};
+		60EA2F1F77899A843B63D011 /* Project */ = {
+			isa = PBXGroup;
+			children = (
+				76A1067C64722E10F33D13B7 /* Derived */,
+				78A07B9CAEC3389C0E4212EA /* Resources */,
+				FF83D2666E213834AB3CE738 /* Sources */,
+				8BAEF696626B70E6D0D3B6AA /* Support */,
+			);
+			name = Project;
+			sourceTree = "<group>";
+		};
+		67361D903D10582C1AD4FDDD /* Sample */ = {
+			isa = PBXGroup;
+			children = (
+				02A8FDFCF06956B0705EA2EB /* SDKSettings */,
+				B88EEE4D2B134ACB8BD0FE72 /* SideMenu */,
+				3ECADA60EAD63ED623A33AB8 /* BaseTextField.swift */,
+				6BD4283D9C633E116BCB5977 /* CampaignInputAlertController.swift */,
+				C3D15A9AC784FDAED12EC5FD /* CustomAppVeersionInputAlertController.swift */,
+				B2BF74BC02FA61C354B3D957 /* CustomBaseAlertController.swift */,
+				10E771E03323AB0F9578AC16 /* CustomInputAlertController.swift */,
+				0916A25579AB9322BC7CA3F3 /* DeepLInkManager.swift */,
+				BCF2681A49CE7BA6CB9478AB /* LoginTextField.swift */,
+				30E8C1D9B02D53E86E4EBBBF /* LoginViewController.swift */,
+				23CAF9B202BD915629051F4D /* SampleExtensions.swift */,
+				E33B0A7C19FCD1004776871C /* SecretKeyInputAlertController.swift */,
+				AED435D6FDD99587BDB5FFD7 /* ShopLiveCheckBoxButton.swift */,
+				8D9632AEABC23533D248375A /* ShopLiveRadioButton.swift */,
+				D89BA1E16F89123224264527 /* SLQRReaderViewController.swift */,
+				CA118A3F12B92659B848A4B1 /* TextItemInputAlertController.swift */,
+			);
+			path = Sample;
+			sourceTree = "<group>";
+		};
+		6FC34F59EA3DCB02A66C23C8 /* secretkeysetting */ = {
+			isa = PBXGroup;
+			children = (
+				127D37F96FC79FC4F15B15A4 /* SecretKeyCell.swift */,
+				B1BB12DAEAD64C678FFEB023 /* SecretKeysViewController.swift */,
+			);
+			path = secretkeysetting;
+			sourceTree = "<group>";
+		};
+		76A1067C64722E10F33D13B7 /* Derived */ = {
+			isa = PBXGroup;
+			children = (
+				3386901AAE6C5970F3B85B92 /* Sources */,
+			);
+			path = Derived;
+			sourceTree = "<group>";
+		};
+		788208F9A2ACE80600032C32 /* parameter */ = {
+			isa = PBXGroup;
+			children = (
+				F56B4A2AA70DA8A911BF4DBB /* SettingCustomParameterViewController.swift */,
+			);
+			path = parameter;
+			sourceTree = "<group>";
+		};
+		78A07B9CAEC3389C0E4212EA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E2A798D2D2D1A8C509F8DFD6 /* shoplive.strings */,
+				89BD763FC9C50167120E6614 /* Assets.xcassets */,
+				65B19957B7928A633B546C2E /* LaunchScreen.storyboard */,
+				C3E8166DC4459FEBB8A3EBAF /* Main.storyboard */,
+				3983190866A81D20E867906E /* NanumBrush.ttf */,
+				58BA9B71C757F19B5D29384B /* Sample.storyboard */,
+				2CDCC48DCD29CA8DA6BAE00E /* Sample.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		87C827A7E1CBDA1D856BBC69 /* menuItems */ = {
+			isa = PBXGroup;
+			children = (
+				5EAD95DAE5D28AC93980A2E9 /* campaigns */,
+				280A448FEC320682CC3D3FAD /* couponsetting */,
+				ED524927272598402CE71A60 /* optionsetting */,
+				788208F9A2ACE80600032C32 /* parameter */,
+				42F7B305E912B19E4E070EAB /* pipsetting */,
+				6FC34F59EA3DCB02A66C23C8 /* secretkeysetting */,
+				8DBB2401F8BED1F475D3E6E4 /* userinfo */,
+				2B709D6B12266F3DFBE9CADF /* CustomShareViewController.swift */,
+				5DBEB8BA86752F3FE25B228C /* CustomUtmSourceAlertController.swift */,
+			);
+			path = menuItems;
+			sourceTree = "<group>";
+		};
+		8BAEF696626B70E6D0D3B6AA /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				2E5171054C8B813BC6C06E13 /* Info.plist */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		8DBB2401F8BED1F475D3E6E4 /* userinfo */ = {
+			isa = PBXGroup;
+			children = (
+				89B2EACCCD4108DB3B6F3000 /* UserInfoViewController.swift */,
+			);
+			path = userinfo;
+			sourceTree = "<group>";
+		};
+		B88EEE4D2B134ACB8BD0FE72 /* SideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				D02DC2BB5BD0E979FABFAD41 /* baseview */,
+				87C827A7E1CBDA1D856BBC69 /* menuItems */,
+				9F8EFFF32E6AB427D0FF8F62 /* CustomReferrerAlertController.swift */,
+			);
+			path = SideMenu;
+			sourceTree = "<group>";
+		};
+		BB945930E95BD45051E2F763 /* Compiled */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Compiled;
+			sourceTree = "<group>";
+		};
+		D02DC2BB5BD0E979FABFAD41 /* baseview */ = {
+			isa = PBXGroup;
+			children = (
+				707F3CBB6C74430A7C89486C /* CampaignInfoCell.swift */,
+				58A8B58CF8F67990F8FC0193 /* GuideTitleButton.swift */,
+				138C8731904DD68A9ABF4F54 /* SampleBaseCell.swift */,
+				5106FB9FEEA56C3ECC5D22BF /* SampleOptions.swift */,
+				982E41CAFCFB7735CFFCC0A0 /* ShopliveSideMenuNavagation.swift */,
+				1F20F68D40899D01A8A34C6E /* SideMenuBaseViewController.swift */,
+				34AF264C23B015703C35C51B /* SideMenuCell.swift */,
+				9AB9418D367F1DC6E50F1122 /* SideMenuItemViewController.swift */,
+				F81CF06D5218F5C50FE15E67 /* SideMenuViewController.swift */,
+				3E00031F58F89E2A96751725 /* UserInfoCell.swift */,
+				660CED48EACB764E3C8AC155 /* VersionInfoCell.swift */,
+			);
+			path = baseview;
+			sourceTree = "<group>";
+		};
+		ED524927272598402CE71A60 /* optionsetting */ = {
+			isa = PBXGroup;
+			children = (
+				0BBAC908A01C362C32225D3D /* ButtonOptionCell.swift */,
+				3505D60C18234A00593AFB94 /* OptionSectionHeader.swift */,
+				8E1D3CC4B5CAE2279F8A109F /* OptionsViewController.swift */,
+				90DA9A1E64D02A26CBE05F20 /* SwitchOptionCell.swift */,
+			);
+			path = optionsetting;
+			sourceTree = "<group>";
+		};
+		FF83D2666E213834AB3CE738 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				67361D903D10582C1AD4FDDD /* Sample */,
+				C88ECBE4337D2ECD40041672 /* AddParameterCell.swift */,
+				C5F038C9DF768383A6303D87 /* AddUserParameterCell.swift */,
+				0C9CC954656073350098A0D7 /* AppDelegate.swift */,
+				9E8E0006FC7264C29F02B183 /* CouponCallbackSettingViewController.swift */,
+				B6130A7AA7E31A17B596112D /* CustomParamValue.swift */,
+				52607007273BE76101691AFC /* DevInfoCell.swift */,
+				008F8069DAAE9208A004685C /* MainViewController.swift */,
+				1F6A45225D65EFB5E1B6C12F /* SceneDelegate.swift */,
+				8133A794562F71F571FB501F /* SDKSettings.swift */,
+				B8AAE4E61A617C6D31B8FD47 /* ShopLiveDevConfiguration.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		95B63245E039516C5E6DE4AD /* ShopLivePlayerDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DFB151167A0937E3000BA62F /* Build configuration list for PBXNativeTarget "ShopLivePlayerDemo" */;
+			buildPhases = (
+				94611C072494361866174FFB /* Sources */,
+				38851E4F702987205A137A55 /* Resources */,
+				42468317C5E25D950C34FEB1 /* Embed Frameworks */,
+				65DE8F03E8E3A0B46474A4C4 /* Frameworks */,
+				5175075E91AFC24DF39214E7 /* Dependencies */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ShopLivePlayerDemo;
+			productName = ShopLivePlayerDemo;
+			productReference = 7B884D1464345F8C0B2F6132 /* ShopLivePlayerDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9AC47A96954ADEAEB0D20138 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				ORGANIZATIONNAME = com.app;
+			};
+			buildConfigurationList = 0FBB19C0B268F98EE98D6C03 /* Build configuration list for PBXProject "ShopLivePlayerDemo" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+				ko,
+			);
+			mainGroup = 2FB4E26331FC8CD99FAB2D16;
+			productRefGroup = 339EA02A95039BC4C391B9D3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				95B63245E039516C5E6DE4AD /* ShopLivePlayerDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		38851E4F702987205A137A55 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				95C1E1642414F32817250635 /* Assets.xcassets in Resources */,
+				786C41401440ADC94BDFC556 /* LaunchScreen.storyboard in Resources */,
+				4F5263051EBB7F1D3E78C453 /* Main.storyboard in Resources */,
+				3884C22B3149D685E6B2098E /* NanumBrush.ttf in Resources */,
+				250538D96814F9B640860A0B /* Sample.storyboard in Resources */,
+				F3A230EED278D358788F9076 /* Sample.xcassets in Resources */,
+				13A6B8D1827E08F2D10B8A24 /* shoplive.strings in Resources */,
+				B8101D9B786A6253709672E4 /* CryptoSwift_CryptoSwift.bundle in Resources */,
+				0F4361AAEA50A0DB1BB7DFD3 /* Toast_Toast.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		94611C072494361866174FFB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98BD7927532C8C63C130BB1F /* TuistAssets+ShopLivePlayerDemo.swift in Sources */,
+				38DE1C775156AA207FE86B7D /* TuistBundle+ShopLivePlayerDemo.swift in Sources */,
+				D12BB6F3B699DC316A0558C6 /* TuistFonts+ShopLivePlayerDemo.swift in Sources */,
+				6CC6A0E2893B5938BD3EB039 /* TuistStrings+ShopLivePlayerDemo.swift in Sources */,
+				244B0A1C3A9C1B39935B7112 /* AddParameterCell.swift in Sources */,
+				2E142BE179A7A62BA9E91C3C /* AddUserParameterCell.swift in Sources */,
+				41F3278729B65728A1E6789C /* AppDelegate.swift in Sources */,
+				4742F3C6B9E52ED1D24E92D6 /* CouponCallbackSettingViewController.swift in Sources */,
+				A427A79068E045A787AF8F37 /* CustomParamValue.swift in Sources */,
+				3A6D728119885820DB4C9F38 /* DevInfoCell.swift in Sources */,
+				430BED9B0C6B12B5655534EC /* MainViewController.swift in Sources */,
+				34E0E51F8AEBD92D40CA0A19 /* SDKSettings.swift in Sources */,
+				A5838D9B4D36F1A2A3276C98 /* BaseTextField.swift in Sources */,
+				2833E483418698598676EAA3 /* CampaignInputAlertController.swift in Sources */,
+				AC0BE6A950A394D04CCB3E6E /* CustomAppVeersionInputAlertController.swift in Sources */,
+				C096F16A90A65C96EA6D890B /* CustomBaseAlertController.swift in Sources */,
+				80810105CD2494752A08BA8B /* CustomInputAlertController.swift in Sources */,
+				E74F176481B8A08F5BCC76A2 /* DeepLInkManager.swift in Sources */,
+				906F1A3D9DA3CE2D8F674223 /* LoginTextField.swift in Sources */,
+				4F763D2A285AD1DB36863913 /* LoginViewController.swift in Sources */,
+				04C2E5AA0BFDCBAD02246438 /* DemoAppUtility.swift in Sources */,
+				C9F28B2E7A904E4D5657A4B6 /* DemoConfiguration.swift in Sources */,
+				BEBD6D77725828CB9F0256C2 /* DemoSecretKeySet.swift in Sources */,
+				CAFD9654511A314A67BA4B03 /* DemoSecretKeyTool.swift in Sources */,
+				D53394CD7DF7E470C8969901 /* JWTTool.swift in Sources */,
+				65450B0C7D9E59BCDCAABD68 /* SDKOption.swift in Sources */,
+				C2C5B29C2680237008EFC28F /* ShopLiveDemoKeyTools.swift in Sources */,
+				5753B954DCADAEAA2E0B2BA1 /* ShopLiveKeySet.swift in Sources */,
+				38DBFDA2EF596BFACA59C951 /* SLQRReaderViewController.swift in Sources */,
+				601D97DEA178E2CD0A65D7A6 /* SampleExtensions.swift in Sources */,
+				366D1B6939EDB2C0B4E463C6 /* SecretKeyInputAlertController.swift in Sources */,
+				6EC0436EF74534EAAB4C5096 /* ShopLiveCheckBoxButton.swift in Sources */,
+				C6AFE0BE8727C33FD0216778 /* ShopLiveRadioButton.swift in Sources */,
+				8C96F7689FB7CBBBFD0C9ACD /* CustomReferrerAlertController.swift in Sources */,
+				22A2D8865C8683A82A1304D4 /* CampaignInfoCell.swift in Sources */,
+				19D17C7702B4BCD222C2EEAF /* GuideTitleButton.swift in Sources */,
+				B2EB3EDB659F1EE54A62DC12 /* SampleBaseCell.swift in Sources */,
+				A887D10E8641021AC8476BFA /* SampleOptions.swift in Sources */,
+				4B50F33B8AF91881A4B599C5 /* ShopliveSideMenuNavagation.swift in Sources */,
+				421991AFDA42EBAB1B0433EF /* SideMenuBaseViewController.swift in Sources */,
+				99389E055C4F3830DAD3E808 /* SideMenuCell.swift in Sources */,
+				E585E3A22A8C2AFBA62BD4B4 /* SideMenuItemViewController.swift in Sources */,
+				35C43623790A74D6871D8D65 /* SideMenuViewController.swift in Sources */,
+				BA5305481B62C30F8147774D /* UserInfoCell.swift in Sources */,
+				97EA9CC6E53D41995C365151 /* VersionInfoCell.swift in Sources */,
+				62A7B964EE2A9595036ECCEB /* CustomShareViewController.swift in Sources */,
+				86DC899842BA31F03AD14969 /* CustomUtmSourceAlertController.swift in Sources */,
+				17D0AE9E3D2233915AC4B3B5 /* CampaignCell.swift in Sources */,
+				ACE349A537DE1992DDE2DF17 /* CampaignsViewController.swift in Sources */,
+				9E63A22359D1E1CBE91B0451 /* CouponResponseSettingView.swift in Sources */,
+				502FFDBA12BA8AFAEC4C6B50 /* CouponSettingsViewController.swift in Sources */,
+				53F8A3073D7DBC86C2F5A71B /* ButtonOptionCell.swift in Sources */,
+				E17B3FBD9318F32654643C53 /* OptionSectionHeader.swift in Sources */,
+				17A42B3D41C89AC8D2961F94 /* OptionsViewController.swift in Sources */,
+				B38C61A5FA55E7A68CA32EAE /* SwitchOptionCell.swift in Sources */,
+				2DB544DD96EB21D5E2B686B6 /* SettingCustomParameterViewController.swift in Sources */,
+				76F2FCF2502D8B9FC47D8CAB /* PipAreaSettingViewController.swift in Sources */,
+				6B19C30AFB08B1A443BD14F9 /* SecretKeyCell.swift in Sources */,
+				95681217D568EE8407766232 /* SecretKeysViewController.swift in Sources */,
+				250AB602E2E83B5F06587A50 /* UserInfoViewController.swift in Sources */,
+				2B1FA57C0ACC8D69E7996AB2 /* TextItemInputAlertController.swift in Sources */,
+				3D7AE3D5FA700A3BDCC7A9CD /* SceneDelegate.swift in Sources */,
+				8C37B91052949607DF9B1428 /* ShopLiveDevConfiguration.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E2A798D2D2D1A8C509F8DFD6 /* shoplive.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FDDDAFCC6F90FF48EB865DC7 /* en */,
+				AEF503DBBCEE727887C788DE /* ko */,
+			);
+			name = shoplive.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5F101B360D49747695623CCF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D237UGRPX6;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Support/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.5.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.player.demo;
+				PRODUCT_NAME = ShopLivePlayerDemo;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		B3696978893E5ABCCE72D139 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C093AB259226B5E9B747D366 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FF28939FEA045AFBDEAF7D5F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D237UGRPX6;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Support/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.5.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.player.demo;
+				PRODUCT_NAME = ShopLivePlayerDemo;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0FBB19C0B268F98EE98D6C03 /* Build configuration list for PBXProject "ShopLivePlayerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C093AB259226B5E9B747D366 /* Debug */,
+				B3696978893E5ABCCE72D139 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DFB151167A0937E3000BA62F /* Build configuration list for PBXNativeTarget "ShopLivePlayerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5F101B360D49747695623CCF /* Debug */,
+				FF28939FEA045AFBDEAF7D5F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9AC47A96954ADEAEB0D20138 /* Project object */;
+}
