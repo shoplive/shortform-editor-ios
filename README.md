@@ -19,6 +19,16 @@
 
 - iOS 13.0+
 
+## Tuist
+
+- tuist 설치 순서  
+  1. brew install mise  
+  2. mise install tuist  
+
+- tuist 실행 순서  
+  1. tuist fetch(spm관련 디펜덴시 가져오는 작업)  
+  2. tuist generate(프로젝트 생성 커맨드)  
+
 ## Build
 
 ### Archive
