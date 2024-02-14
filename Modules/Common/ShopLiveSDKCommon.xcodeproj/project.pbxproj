@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -25,6 +25,7 @@
 		29003C611472B2D91323AA13 /* SLNVActivityIndicatorAnimationAudioEqualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEC6B65E8D8A20A1D1C7307 /* SLNVActivityIndicatorAnimationAudioEqualizer.swift */; };
 		2ECAA56778A6CC8EDBFCF98B /* SLRequestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F70A099B6F6F41A491A8DB1 /* SLRequestable.swift */; };
 		2F44839F71C4BF293A4687ED /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E78961DD7165DF67FEBD97 /* KeychainItemAccessibility.swift */; };
+		2F7426442B7CA14C00FE2E22 /* SLDynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7426432B7CA14C00FE2E22 /* SLDynamicColor.swift */; };
 		2FE373E74B308377DC02FD1D /* UIEdgetInset+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBF08080D6BDAFE049A85A9 /* UIEdgetInset+extension.swift */; };
 		33075F0B0C2082FBC9001315 /* Int+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D2FE7D6CAB4C68D2AA3C25 /* Int+extensions.swift */; };
 		34F93A5D8B641526267CDC75 /* SLReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211B6AF0E32BA78247809E8A /* SLReachability.swift */; };
@@ -194,6 +195,7 @@
 		292EA7AB669644FE112A6194 /* Array+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+extension.swift"; sourceTree = "<group>"; };
 		29DD43B1C1D81B0159C019E3 /* SLNVActivityIndicatorAnimationBallRotateChase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallRotateChase.swift; sourceTree = "<group>"; };
 		29E5DFD785C5420190582459 /* SLNVActivityIndicatorAnimationCircleStrokeSpin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationCircleStrokeSpin.swift; sourceTree = "<group>"; };
+		2F7426432B7CA14C00FE2E22 /* SLDynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLDynamicColor.swift; sourceTree = "<group>"; };
 		313C6A2C4C2BE32FA5A2E210 /* SLNVActivityIndicatorAnimationBallClipRotate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallClipRotate.swift; sourceTree = "<group>"; };
 		32AB58943DCBE8D3F56DEA94 /* Data+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+extension.swift"; sourceTree = "<group>"; };
 		32FB69F6C434A1730C62DB07 /* SLNVActivityIndicatorAnimationBallGridPulse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallGridPulse.swift; sourceTree = "<group>"; };
@@ -822,6 +824,7 @@
 			isa = PBXGroup;
 			children = (
 				A86F2682381DE435ED41DD4C /* URLUtil.swift */,
+				2F7426432B7CA14C00FE2E22 /* SLDynamicColor.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -855,8 +858,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				ORGANIZATIONNAME = com.app;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 9133A0E6DDCFC96CE0685C98 /* Build configuration list for PBXProject "ShopliveSDKCommon" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -975,6 +976,7 @@
 				485A6AB635A966857380FF29 /* UIWindow+extension.swift in Sources */,
 				94F2F68B2BD1D2C3F90EC0F7 /* WKWebView+extension.swift in Sources */,
 				53E5A60B8D566DEDAA865548 /* KeychainData.swift in Sources */,
+				2F7426442B7CA14C00FE2E22 /* SLDynamicColor.swift in Sources */,
 				B57073E846E6F6D4EB0AD2E3 /* SLKeyChainUtil.swift in Sources */,
 				2F44839F71C4BF293A4687ED /* KeychainItemAccessibility.swift in Sources */,
 				1EEB30F0A48B5AFB65F8BAAA /* KeychainWrapper.swift in Sources */,
