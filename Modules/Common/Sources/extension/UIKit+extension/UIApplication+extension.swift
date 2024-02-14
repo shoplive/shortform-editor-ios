@@ -41,8 +41,8 @@ public extension UIApplication {
     }
     
     class func appVersion_SL() -> String {
-            return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-        }
+        return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+    }
 
     class func appBuild_SL() -> String {
         return Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as! String

@@ -40,13 +40,37 @@
          location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/CryptoSwift/CryptoSwift.xcodeproj">
       </FileRef>
       <FileRef
+         location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleAppMeasurement/GoogleAppMeasurement.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleDataTransport/GoogleDataTransport.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/Parchment/Parchment.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/SideMenu/SideMenu.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/SnapKit/SnapKit.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/SwiftyJWT/SwiftyJWT.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/Toast-Swift/Toast.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/nanopb/nanopb.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Promises.xcodeproj">
       </FileRef>
    </Group>
 </Workspace>

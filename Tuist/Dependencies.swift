@@ -16,16 +16,15 @@ let dependencies = Dependencies(
   carthage: nil,
   swiftPackageManager: SwiftPackageManagerDependencies(
     [
-      .remote(
-        url: "https://github.com/jonkykong/SideMenu.git",
-        requirement: .upToNextMajor(from: "6.0.0")
-      ),
-      .remote(url: "https://github.com/scalessec/Toast-Swift.git",
-              requirement: .upToNextMajor(from: "5.0.0")),
-      .remote(url: "https://github.com/polarcop/SwiftyJWT.git",
-              requirement: .upToNextMajor(from: "1.0.0")),
-      .remote(url: "https://github.com/krzyzanowskim/CryptoSwift.git",
-              requirement: .branch("main"))
+      .remote(url: "https://github.com/jonkykong/SideMenu.git", requirement: .upToNextMajor(from: "6.0.0") ),
+      .remote(url: "https://github.com/scalessec/Toast-Swift.git", requirement: .upToNextMajor(from: "5.0.0")),
+      .remote(url: "https://github.com/polarcop/SwiftyJWT.git", requirement: .upToNextMajor(from: "1.0.0")),
+      .remote(url: "https://github.com/krzyzanowskim/CryptoSwift.git", requirement: .branch("main")),
+      
+      .remote(url: "https://github.com/firebase/firebase-ios-sdk.git", requirement: .upToNextMajor(from: "8.0.0")),
+      .remote(url: "https://github.com/SnapKit/SnapKit.git", requirement: .upToNextMajor(from: "5.0.0")),
+      .remote(url: "https://github.com/rechsteiner/Parchment", requirement: .upToNextMajor(from: "3.2.1"))
+      
       
     ],
     productTypes: [ : ],

@@ -12,17 +12,21 @@ import ProjectDescriptionHelpers
 let demoTarget = Target(name: "ShortformDemo",
                         platform: .iOS,
                         product: .app,
-                        bundleId: "com.app" + ".shortform.demo",
+                        bundleId: "cloud.shoplive.dev.shortform-examples",
                         deploymentTarget: .iOS(targetVersion: "12.0", devices: .iphone),
-                        infoPlist: .extendingDefault(with: [:]),
+                        infoPlist: .file(path: "Support/Info.plist"),
                         sources: ["Sources/**"],
-                        resources: nil,
+                        resources: ["Resources/**"],
                         dependencies: [
                             .project(target: "ShopLiveShortformSDK", path: .relativeToRoot("Modules/Shortform")),
-                            .project(target: "ShopLiveSDKCommon",
-                                     path: .relativeToRoot("Modules/Common"))
+                            .project(target: "ShopLiveShortformEditorSDK", path: .relativeToRoot("Modules/Editor")),
+                            .project(target: "ShopLiveSDKCommon", path: .relativeToRoot("Modules/Common")),
+                            .external(name: "SnapKit"),
+                            .external(name: "Parchment"),
+                            .external(name: "FirebaseAnalytics"),
+                            .external(name: "FirebaseCrashlytics"),
+                            .external(name: "FirebaseDynamicLinks")
                         ])
-
 
 
 let project = Project.makeModule(name: "ShortformDemo",

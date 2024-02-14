@@ -89,6 +89,7 @@
 		E187B033F51FC26B57859E3B /* libavformat.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20282A0F658C2789295F0FC4 /* libavformat.xcframework */; };
 		E7CBD6C3C45D02C001C50899 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2483D5D455682BC518B41026 /* CardModel.swift */; };
 		E8ACB8AA72ED29E7988C5A57 /* BrandModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3645A1B0B9C81DDC45F0762 /* BrandModel.swift */; };
+		EBBA4421402F7FD5F7010372 /* libavutil.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B26A98FD38F37BD861A56956 /* libavutil.xcframework */; };
 		ED737314FF849BE6C592D5FD /* SLUploadInfoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C8B203F54A8C3BF7B6E746 /* SLUploadInfoReactor.swift */; };
 		F19A060B02494583B6EE7E45 /* SLVideoPlayTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395D074444F945D92591430 /* SLVideoPlayTimeView.swift */; };
 		F85EA57B9D528829870B2BD0 /* SLPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B87BC74A98429BF5AEE18C4 /* SLPhotoCollectionViewCell.xib */; };
@@ -194,6 +195,7 @@
 		A8D70A082455794DADE0A059 /* ActivityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityModel.swift; sourceTree = "<group>"; };
 		AD9DBA95742EB4D8E9CD13C1 /* ShopLiveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE49EF998375245870684B9D /* SLImagePicker.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SLImagePicker.storyboard; sourceTree = "<group>"; };
+		B26A98FD38F37BD861A56956 /* libavutil.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = libavutil.xcframework; sourceTree = "<group>"; };
 		B73933BE590A66ED7908C4E8 /* SLBundle+SPM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SLBundle+SPM.swift"; sourceTree = "<group>"; };
 		B77D60190A402DDC7001ECE2 /* SLVideoEditorSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLVideoEditorSliderView.swift; sourceTree = "<group>"; };
 		BA8DABCDBDB867A57224242B /* SLUploadableResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLUploadableResponse.swift; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 				A194C348B77768820E16DCE6 /* libavdevice.xcframework in Frameworks */,
 				36BBBF65A085B33AABB36330 /* libavfilter.xcframework in Frameworks */,
 				E187B033F51FC26B57859E3B /* libavformat.xcframework in Frameworks */,
+				EBBA4421402F7FD5F7010372 /* libavutil.xcframework in Frameworks */,
 				52A9D08BD85F592E84BF84BD /* libswresample.xcframework in Frameworks */,
 				8CCA1C3BF92E5452A08B4EAA /* libswscale.xcframework in Frameworks */,
 			);
@@ -512,6 +515,7 @@
 				A482F26B672356EE9E1C480F /* libavdevice.xcframework */,
 				35086F77BD5FCAE8E4FD4221 /* libavfilter.xcframework */,
 				20282A0F658C2789295F0FC4 /* libavformat.xcframework */,
+				B26A98FD38F37BD861A56956 /* libavutil.xcframework */,
 				EA23BA72E716FF31A1AEABB1 /* libswresample.xcframework */,
 				5212920877F8BF16B62F38B9 /* libswscale.xcframework */,
 			);
