@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,7 +18,6 @@
 		2A63C3C21C42B7422D7CB6DD /* FBLPromises.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2112C882054FD7E249AE13AC /* FBLPromises.framework */; };
 		2C4ED16348F2431AE5C2630C /* libswscale.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 17BBF62EA016C60F903D177F /* libswscale.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2EB26EAA4757E006E32F8723 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCFF2C9AEBB6812C95B51193 /* SystemConfiguration.framework */; };
-		2F456BC575E752A873F56DAF /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFEF2A7ECBCDDC20D68327D0 /* AppKit.framework */; platformFilters = (macos, ); };
 		323344AC90FC561C10D15C85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A33FC50B6B829A959B0950 /* AppDelegate.swift */; };
 		36053DCC8FB3613D496FC500 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C9DE0FC29BE91C8A2C405854 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */; };
 		36764E7D6EFFECD3217C3B7D /* GoogleUtilities_AppDelegateSwizzler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B063912CF6A22174C6B3A514 /* GoogleUtilities_AppDelegateSwizzler.framework */; };
@@ -215,7 +214,6 @@
 		F7D4FF95B11AB85B74F408DA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F9CA211E00628D0B093AFDEA /* third_party_IsAppEncrypted.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = third_party_IsAppEncrypted.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCFF2C9AEBB6812C95B51193 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
-		FFEF2A7ECBCDDC20D68327D0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/AppKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,7 +221,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F456BC575E752A873F56DAF /* AppKit.framework in Frameworks */,
 				DB3532108930EC0A8D81166F /* CoreTelephony.framework in Frameworks */,
 				8192E6E2B922DAE26FE189D1 /* QuartzCore.framework in Frameworks */,
 				643569D267F68072B61F6C8C /* Security.framework in Frameworks */,
@@ -547,7 +544,6 @@
 		E940B38A30FC8D0235ED8F9B /* Compiled */ = {
 			isa = PBXGroup;
 			children = (
-				FFEF2A7ECBCDDC20D68327D0 /* AppKit.framework */,
 				33B122D340D112CA18EFCD5B /* CoreTelephony.framework */,
 				DEFE6ED763633743F9B625A1 /* libc++.tbd */,
 				43BF45C83C685C121DA553E4 /* libsqlite3.tbd */,
@@ -643,8 +639,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				ORGANIZATIONNAME = com.app;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 69B737E5B9629BED2DD45345 /* Build configuration list for PBXProject "ShortformDemo" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -742,6 +736,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -756,6 +752,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.5.5;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleAppMeasurement/GoogleAppMeasurementWrapper/include/GoogleAppMeasurementTarget.modulemap",
@@ -776,43 +773,7 @@
 					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/nanopb/spm_headers/nanopb.modulemap",
 					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Sources/FBLPromises/include/module.modulemap",
 				);
-				OTHER_SWIFT_FLAGS = (
-					"$(inherited)",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleAppMeasurement/GoogleAppMeasurementWrapper/include/GoogleAppMeasurementTarget.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/Public/GoogleUtilities-AppDelegateSwizzler.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Environment/Public/GoogleUtilities-Environment.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Logger/Public/GoogleUtilities-Logger.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/MethodSwizzler/Public/GoogleUtilities-MethodSwizzler.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/NSData+zlib/Public/GoogleUtilities-NSData.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Network/Public/GoogleUtilities-Network.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Reachability/Public/GoogleUtilities-Reachability.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/UserDefaults/Public/GoogleUtilities-UserDefaults.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/third_party/IsAppEncrypted/Public/third-party-IsAppEncrypted.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/CoreOnly/Sources/module.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase/CoreDiagnostics/FIRCDLibrary/FirebaseCoreDiagnostics.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/FirebaseAnalyticsWrapper/include/FirebaseAnalyticsWrapper.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/SwiftPM-PlatformExclude/FirebaseAnalyticsWrap/include/FirebaseAnalyticsTarget.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/SwiftPM-PlatformExclude/FirebaseDynamicLinksWrap/include/FirebaseDynamicLinksTarget.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/nanopb/spm_headers/nanopb.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Sources/FBLPromises/include/module.modulemap",
-				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleAppMeasurement/GoogleAppMeasurementWrapper/include/GoogleAppMeasurementTarget.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/Public/GoogleUtilities-AppDelegateSwizzler.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Environment/Public/GoogleUtilities-Environment.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Logger/Public/GoogleUtilities-Logger.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/MethodSwizzler/Public/GoogleUtilities-MethodSwizzler.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/NSData+zlib/Public/GoogleUtilities-NSData.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Network/Public/GoogleUtilities-Network.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Reachability/Public/GoogleUtilities-Reachability.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/UserDefaults/Public/GoogleUtilities-UserDefaults.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/third_party/IsAppEncrypted/Public/third-party-IsAppEncrypted.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/CoreOnly/Sources/module.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase/CoreDiagnostics/FIRCDLibrary/FirebaseCoreDiagnostics.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/FirebaseAnalyticsWrapper/include/FirebaseAnalyticsWrapper.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/SwiftPM-PlatformExclude/FirebaseAnalyticsWrap/include/FirebaseAnalyticsTarget.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/SwiftPM-PlatformExclude/FirebaseDynamicLinksWrap/include/FirebaseDynamicLinksTarget.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/nanopb/spm_headers/nanopb.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Sources/FBLPromises/include/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "cloud.shoplive.dev.shortform-examples";
 				PRODUCT_NAME = ShortformDemo;
 				SDKROOT = iphoneos;
@@ -832,6 +793,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -846,6 +809,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.5.5;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleAppMeasurement/GoogleAppMeasurementWrapper/include/GoogleAppMeasurementTarget.modulemap",
@@ -866,43 +830,7 @@
 					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/nanopb/spm_headers/nanopb.modulemap",
 					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Sources/FBLPromises/include/module.modulemap",
 				);
-				OTHER_SWIFT_FLAGS = (
-					"$(inherited)",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleAppMeasurement/GoogleAppMeasurementWrapper/include/GoogleAppMeasurementTarget.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/Public/GoogleUtilities-AppDelegateSwizzler.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Environment/Public/GoogleUtilities-Environment.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Logger/Public/GoogleUtilities-Logger.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/MethodSwizzler/Public/GoogleUtilities-MethodSwizzler.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/NSData+zlib/Public/GoogleUtilities-NSData.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Network/Public/GoogleUtilities-Network.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Reachability/Public/GoogleUtilities-Reachability.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/UserDefaults/Public/GoogleUtilities-UserDefaults.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/third_party/IsAppEncrypted/Public/third-party-IsAppEncrypted.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/CoreOnly/Sources/module.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase/CoreDiagnostics/FIRCDLibrary/FirebaseCoreDiagnostics.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/FirebaseAnalyticsWrapper/include/FirebaseAnalyticsWrapper.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/SwiftPM-PlatformExclude/FirebaseAnalyticsWrap/include/FirebaseAnalyticsTarget.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/SwiftPM-PlatformExclude/FirebaseDynamicLinksWrap/include/FirebaseDynamicLinksTarget.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/nanopb/spm_headers/nanopb.modulemap",
-					"-Xcc",
-					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Sources/FBLPromises/include/module.modulemap",
-				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleAppMeasurement/GoogleAppMeasurementWrapper/include/GoogleAppMeasurementTarget.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/AppDelegateSwizzler/Public/GoogleUtilities-AppDelegateSwizzler.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Environment/Public/GoogleUtilities-Environment.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Logger/Public/GoogleUtilities-Logger.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/MethodSwizzler/Public/GoogleUtilities-MethodSwizzler.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/NSData+zlib/Public/GoogleUtilities-NSData.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Network/Public/GoogleUtilities-Network.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/Reachability/Public/GoogleUtilities-Reachability.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/GoogleUtilities/UserDefaults/Public/GoogleUtilities-UserDefaults.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleUtilities/third_party/IsAppEncrypted/Public/third-party-IsAppEncrypted.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/CoreOnly/Sources/module.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/Firebase/CoreDiagnostics/FIRCDLibrary/FirebaseCoreDiagnostics.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/FirebaseAnalyticsWrapper/include/FirebaseAnalyticsWrapper.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/SwiftPM-PlatformExclude/FirebaseAnalyticsWrap/include/FirebaseAnalyticsTarget.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/firebase-ios-sdk/SwiftPM-PlatformExclude/FirebaseDynamicLinksWrap/include/FirebaseDynamicLinksTarget.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/nanopb/spm_headers/nanopb.modulemap -Xcc -fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/promises/Sources/FBLPromises/include/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "cloud.shoplive.dev.shortform-examples";
 				PRODUCT_NAME = ShortformDemo;
 				SDKROOT = iphoneos;

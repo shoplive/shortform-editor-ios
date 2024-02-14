@@ -65,6 +65,34 @@ public class ImageDownLoaderManager {
     }
     
     
-    
+    public func preDownloadImage(imageUrl : URL) {
+        if let imageData = cache.object(forKey: imageUrl.absoluteString as NSString) {
+            return
+        }
+        
+        
+        let task = URLSession.shared.downloadTask(with: imageUrl) { [unowned self] url, response, error in
+            
+            let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
+            if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: nil) {
+                return
+            }
+            
+            
+            guard let url = url else { return }
+            
+            do {
+                let data = try Data(contentsOf: url)
+                self.cache.setObject(data as NSData, forKey: imageUrl.absoluteString as NSString)
+            }
+            catch(_) {
+                
+            }
+        }
+        
+        DispatchQueue.global(qos: .background).async {
+            task.resume()
+        }
+    }
     
 }

@@ -3,107 +3,106 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		018859CD5CE1CE0248397E31 /* ShortsCollectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9688ABAA87EFC19073C70B /* ShortsCollectionModel.swift */; };
 		033193A244FA41A357C47CB1 /* TuistBundle+ShopLiveShortformSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B08195D2DCA33A9B5943B8 /* TuistBundle+ShopLiveShortformSDK.swift */; };
-		04E5648D5D45ED3BA0834D42 /* ShortsCollectionBaseView + ShortsCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C8362B8C4BAAE4042B21B9 /* ShortsCollectionBaseView + ShortsCellDelegate.swift */; };
-		0695C57BDC3CCEA086CE494E /* ShopLiveShortformBaseListTypeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751DC1D1FA63D0DFA5746F88 /* ShopLiveShortformBaseListTypeViewCell.swift */; };
-		0A43058264B2F08417A4D50C /* ShortsConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF289623B8E406004BED1E7A /* ShortsConfiguration.swift */; };
-		0A46FA4028D932BFB67FBAFC /* ShopLiveShortformBaseTypeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448975E9955BC1B82C808B08 /* ShopLiveShortformBaseTypeCardView.swift */; };
-		0B0A37C2758CC4C468065E53 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC6966AEBD26B914AF4CF4 /* Card.swift */; };
-		174669B8985B55ADE8D3B07C /* ShopLiveShortformVisibleFullTypeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09639E560716F80672C51DC /* ShopLiveShortformVisibleFullTypeData.swift */; };
-		17D11624059466E1AB726254 /* ShortsReceiveInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49BB4265C7699ACDF65318B /* ShortsReceiveInterface.swift */; };
-		18926C2E3C154C3CA991F4A9 /* AudioRouteObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121C83500E119F03B99AA965 /* AudioRouteObserver.swift */; };
-		19FF966177C1E0805FFD206A /* FullTypeErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A6ADA9494ACD3EBE5DA6DF /* FullTypeErrorView.swift */; };
-		1A9C66E545A86E48E6555EB7 /* LatestShortsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC9B0D60EDCA0D6C855F6D1 /* LatestShortsCell.swift */; };
-		1ABA98C8AACDC43FE05EC0D9 /* ShopLiveShortCardTypeViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA98725F9327449A23B4EF26 /* ShopLiveShortCardTypeViewReactor.swift */; };
-		1C0FFDDD137CFC8B81ED1030 /* ShopLiveShortformSDKOptionsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4335BE6BABAD81BA71AE38BF /* ShopLiveShortformSDKOptionsData.swift */; };
-		1CFA7C774919D3BCE773FB01 /* ShopLiveShortformCollectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31CB198F422C2E057B1D0F2 /* ShopLiveShortformCollectionData.swift */; };
-		22826157225C1A59D4C8E406 /* ShopLiveShortformBaseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BE0C8588109EFA4DAABE25 /* ShopLiveShortformBaseBuilder.swift */; };
-		23B7E3AE95019BE63C289902 /* ShopLiveShortformIdsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB36D65BFA0F8CE5AFF275C /* ShopLiveShortformIdsData.swift */; };
-		2A365E6658E3BAF429409DAA /* ShortsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6033D0695B535A11098CD011 /* ShortsCell.swift */; };
-		302256C8BA27EA7387C91415 /* VideoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81307B4C11050A67CAA14424 /* VideoCardView.swift */; };
-		337BA9E688A7F1BC97E67412 /* CardViewInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC7775828A05A8AB119A443 /* CardViewInterface.swift */; };
-		37ABB9B0F14D82A40B416217 /* PreloadWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB40A26C48E7A7E3DD6494 /* PreloadWebView.swift */; };
-		384C1FE779849FAF7FFF0469 /* ShortFormConfigurationInfos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE5DD484ACAED930E42E1FE /* ShortFormConfigurationInfos.swift */; };
-		3BEDFB2E5270656DE4F05701 /* ShopLiveShortformBaseEmptyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606026C33CE505547B4AB365 /* ShopLiveShortformBaseEmptyDataView.swift */; };
-		3DB17F41E205AD7DA6D66651 /* ShopLiveShortform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A25BEDF519B4F7E6158E0CF /* ShopLiveShortform.swift */; };
-		3E77A0E4233E88050CBF5AD3 /* ShortsCollectionBaseView + rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D3E78CE7A65EE618D65579 /* ShortsCollectionBaseView + rotation.swift */; };
-		41F6C253F54345309503F3D8 /* ShortsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5770B258E7187520E0D97A /* ShortsType.swift */; };
-		42614CC2BAABD8CF0CB5D37D /* BrandModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EDFED9A9A3D4E2A5AF5637 /* BrandModel.swift */; };
-		43AA42EDDCB95E1687242BB5 /* ProductBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0688FFE389D34E5C63F338 /* ProductBanner.swift */; };
-		46F887594601FC1B20D41C52 /* ShopLiveShortformCardTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4868F9D48B8F35DB3E969E3C /* ShopLiveShortformCardTypeView.swift */; };
+		07E0BBFE5FB9236752C60D3F /* ShortsCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC56A65D0C1778270A06230 /* ShortsCellReactor.swift */; };
+		0D0DD32B152648227220C902 /* ShortsCollectionBaseView + Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952DAC5207A31F3BA9279415 /* ShortsCollectionBaseView + Observer.swift */; };
+		0E0EB701504B5FD78A971AE6 /* ShopLiveShortformCardTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959091AD0A0A3CD8F9AEA556 /* ShopLiveShortformCardTypeView.swift */; };
+		0F3843BBBA955F180100A709 /* ShopLiveChattingWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5097366A6CB3DFA63D7162 /* ShopLiveChattingWriteView.swift */; };
+		118F5418ACADBA4A70936A32 /* ShortsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1CC401FDA2E15C4E621A3B /* ShortsCell.swift */; };
+		12A4F9A4DD72C74862E59B54 /* ShortsVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008AB12FF753A81EE7E9F785 /* ShortsVideoPlayer.swift */; };
+		1362C6171FE2E3F8544F1841 /* ShortsConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A36C77B01A874763B3AFFC /* ShortsConfiguration.swift */; };
+		146B153E46DAB680004956A9 /* ShortsCollectionBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB7F796234AEBD9B729805 /* ShortsCollectionBaseView.swift */; };
+		14E6C3177331A5C5179DAFBA /* FullTypeErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AE147368E4315477D16A14 /* FullTypeErrorView.swift */; };
+		1AD658F7429F1AF17A5AD0A9 /* AudioRouteObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4091D210EDDC908124414F55 /* AudioRouteObserver.swift */; };
+		1B0F2A3B78851A439DCF5E02 /* ShortFormConfigurationInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1FF710EB61E94D6FC1AED2 /* ShortFormConfigurationInfoModel.swift */; };
+		1B1CFFA4DF9BC6BC9512DB8F /* ShopLiveShortformVerticalTypeViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700979ED8A40505455636618 /* ShopLiveShortformVerticalTypeViewReactor.swift */; };
+		1C69C51FDD9A36715FE8040C /* BrandModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFC307C7F1615CF38E0D5A7 /* BrandModel.swift */; };
+		1E9F7CCDDB1C767178721001 /* ShortsReceiveInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7FB7A58E9D115EC40876A4 /* ShortsReceiveInterface.swift */; };
+		29712952BF3D62E3CCDA1C09 /* ShortsIdsListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4159D64E8B6BF866212E1746 /* ShortsIdsListAPI.swift */; };
+		2B8A72EA1EB11740C271E7D3 /* ShortsDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79031DBF33104E9BF2223D5 /* ShortsDetail.swift */; };
+		2BC3921B7A6FC34D2C75CEDD /* ShortsRelatedCollectionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639B0B5E173089DD6EFD9081 /* ShortsRelatedCollectionAPI.swift */; };
+		2EF37FDBD275F24F603CFAE5 /* ShortsWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6757E40AE57DFE6938C90C5B /* ShortsWebView.swift */; };
+		3181265AB70EA9D3093B9EFB /* ShortsVideoPlayerReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C6B7432C94B1528388C4F8 /* ShortsVideoPlayerReactor.swift */; };
+		3253B8FDBE8EEC4C54400989 /* V1ShortsCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040AE4656FA00D931EF38943 /* V1ShortsCollectionViewModel.swift */; };
+		35F2215C2AC3AB0D1F58FAB3 /* ShopLiveShortformIdsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F04B5D918CAC24FED638AC1 /* ShopLiveShortformIdsData.swift */; };
+		371585806EE02432BA679790 /* ShopLiveChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDBB5B50DE89AE303D980E4 /* ShopLiveChatView.swift */; };
+		3AD7DF431CC613F0EE1A625B /* ShortsSettingConfigJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = F291E4EDAFB4AD8A8EF7B98B /* ShortsSettingConfigJson.swift */; };
+		3B2E53AC58B082C1D1F1FD26 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE334475FF6386837CAEB1 /* CardModel.swift */; };
+		40CFE7D722BE14CA6EE1FCA6 /* ShopLiveShareMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454E0A1B74BF2AC740544444 /* ShopLiveShareMetaData.swift */; };
+		4729EC340574BA8D25103B25 /* UIFont + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B7837E921440EC2907B59E /* UIFont + extension.swift */; };
+		4805020C6CDBE9CDD1292ABF /* LatestShortsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B861091EBB911670966CBC3A /* LatestShortsCell.swift */; };
+		48240F70CF74C350587DA69D /* ShopLiveShortformVisibleFullTypeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D53B5FC7C326957A53CF025 /* ShopLiveShortformVisibleFullTypeData.swift */; };
 		484B520960DB46600B7CE702 /* TuistAssets+ShopLiveShortformSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F250ABF5E77CB5B5C1F7A83 /* TuistAssets+ShopLiveShortformSDK.swift */; };
-		4E62450C72360744BE0D7B69 /* ShopLiveShortformListViewInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9181ADE7FB93F919B6E79400 /* ShopLiveShortformListViewInterface.swift */; };
-		4FABE1BE7FBF9053EC459CC4 /* ShopLiveShortformOverlayCardViewType0.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B23A53A12AED8394098770 /* ShopLiveShortformOverlayCardViewType0.swift */; };
-		51629E86B3FA30EA6A7959C1 /* ShortsCollectionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262AE1BBC59C266CFCFF569E /* ShortsCollectionAPI.swift */; };
-		5283A5D92C7FBB2AD9510410 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7DED72281A9AF050112630C /* Product.swift */; };
-		53F45CB69E1C50F6342FF4A7 /* AppStateNotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F25FCDCDB679BAD6C43596E /* AppStateNotificationObserver.swift */; };
+		4CE79441D7708BCA97A9178E /* ShortsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0592249502961CE20CF99832 /* ShortsModel.swift */; };
+		4EF7075C7DACE37D81A7841E /* Double + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A683CA49E9BBBDF1C237AA8 /* Double + Extension.swift */; };
+		4F6A1CAE8558F2C9794FFE56 /* SLShortFormWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A582359CE4051EA9C7F32D94 /* SLShortFormWindow.swift */; };
+		504F52C6B166F2285A42E421 /* ShopLiveShortformCollectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1DC74C626070EB078F19D2 /* ShopLiveShortformCollectionData.swift */; };
+		511B435C939633DA4D921EFD /* ShopLiveShortformOverlayCardViewType0.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D77BA26C9B5A1D179220E2E /* ShopLiveShortformOverlayCardViewType0.swift */; };
+		5169503201D66F110D067F57 /* ShopLiveShortform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D40DDD67D24C5BFE6734ED9 /* ShopLiveShortform.swift */; };
 		55E855414C3F644CC82FF317 /* Test.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF684FCF1D49CFE2CBEB6A40 /* Test.xib */; };
-		58F26C101431C032F9685C68 /* ShortsDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B6BAD35CBF4FA97B11BAD0 /* ShortsDetail.swift */; };
-		5CD18437ABF8B02041FDE626 /* JWTTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43562A06714756B2BE452757 /* JWTTool.swift */; };
-		660634FC86C2738453687BDB /* UIColor + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8053592A5575DA1C549434F6 /* UIColor + extension.swift */; };
-		6DC2671489281C170BA5AA1D /* SLCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87B08EF2EAF9141FEAF321E /* SLCollectionView.swift */; };
-		6FD7384A8269FB065F61FA3C /* ShopLiveShortBaseTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6353DF03F5B9134E63FB70 /* ShopLiveShortBaseTypeView.swift */; };
-		72E37FCA2562128DCA384FF9 /* ShopLiveShortformRelatedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928E4EBCBEDB2D5FEB1229DB /* ShopLiveShortformRelatedData.swift */; };
-		72FE5313EFEB2D5CBE7E9F7E /* SLShortFormWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5D545E2DFCAEF81FE8DF2A /* SLShortFormWindow.swift */; };
-		7CF4ED758808EE0DF274211C /* UserObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5E60EF496D787E5949917B /* UserObject.swift */; };
-		7DC31A1044082513689F32AA /* FullTypeEmptyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB07D6DDC188F15B5E034DF2 /* FullTypeEmptyDataView.swift */; };
+		578F7AA581C49D8D44F75511 /* ShortsCollectionBaseView + ShortsCell2Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DA1D2EA12624CBD26E64F1 /* ShortsCollectionBaseView + ShortsCell2Delegate.swift */; };
+		59A9F9039FF5B4EDA75AE74E /* ShopLiveShortformBaseListTypeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D697DFFCF1F72943FFD61 /* ShopLiveShortformBaseListTypeViewCell.swift */; };
+		5AB6908101AE2DB278EA94F7 /* V2ShortsCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAEBA0B2CA64569D7B3F044 /* V2ShortsCollectionViewModel.swift */; };
+		5C88F58A2B908DAF5C7AF417 /* ShortsEventTraceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052D32E982C5A8FFFE2B75E3 /* ShortsEventTraceAPI.swift */; };
+		6496417B77F0ADC5752F1CD1 /* ListViewHideOptionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DBE33DB2E893A118EA15A73 /* ListViewHideOptionModel.swift */; };
+		6F7B27CBA5271899095CB088 /* ShopLiveShortformBaseListTypeOverlayType1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313DD095D63C9485AA9B2A75 /* ShopLiveShortformBaseListTypeOverlayType1.swift */; };
+		71B30BFDE93B5147CFB1826B /* ShortsCollectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D202D4E12E939C476FFCDA /* ShortsCollectionModel.swift */; };
+		7A976C38A230CB6C5B464D30 /* ShortFormConfigurationInfos.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83AEDB09D9AD49C372BC1B8 /* ShortFormConfigurationInfos.swift */; };
+		7B5B07EF0582024025758255 /* ShortsWebViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B510E818B65957F2DBA023 /* ShortsWebViewReactor.swift */; };
+		7C62D41DA111AB6F27CCBF85 /* ShopLiveShortformIdsMoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF0933CACC653A63E0EAFF1 /* ShopLiveShortformIdsMoreData.swift */; };
+		7DD414645CE9242100FE930F /* JWTTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2994E56222099C8A1528A975 /* JWTTool.swift */; };
 		81B150B7FA22B14F1EFFA602 /* ShortformEventTraceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23041AD97F3FA3B350F803E /* ShortformEventTraceManager.swift */; };
-		826D1DCA05B6F3EB07B9F718 /* ShortsCollectionBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA5E1B4F9ECF14F87E13C09 /* ShortsCollectionBaseView.swift */; };
-		83B1418FFC2B84C986E9CEB6 /* FullTypeRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E93368CE5E67DF6E3CE3E7 /* FullTypeRootViewController.swift */; };
-		87090531B78E6757BF970BB4 /* ShortFormConfigurationInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6EA2FEAE029BEE899AE256 /* ShortFormConfigurationInfoModel.swift */; };
-		8729ACCFF97D92611B766DD7 /* ShopLiveShortformOverlayCardViewType1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389D6D44B12C38EC86D461F3 /* ShopLiveShortformOverlayCardViewType1.swift */; };
-		88DF459106687EDA8630371B /* ShopLiveChattingWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E46FD5D60452E076603917 /* ShopLiveChattingWriteView.swift */; };
-		8B778F90BEC739280C6CDF28 /* ShortsCollectionBaseView + Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6635417210FE4AE55EC466E5 /* ShortsCollectionBaseView + Observer.swift */; };
-		913B5E367D0DDB958F5D80A8 /* ShortsVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36C0474B29A796C66F12D39 /* ShortsVideo.swift */; };
-		935F6BC1DF63000E5A2E148E /* ShopLiveShortformHorizontalTypeViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F64194934F8B57FE013032 /* ShopLiveShortformHorizontalTypeViewReactor.swift */; };
-		9570827F61015E329B1D82B7 /* String + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8416978CD2275F79EA580BAC /* String + extension.swift */; };
-		9A590552330ABB00E32B63BA /* ShopLiveShortformBaseTypePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1551B08EA0D63DA6CA3FC5E8 /* ShopLiveShortformBaseTypePlayerView.swift */; };
-		9A84DACB57EFA314CE1262D7 /* V1ShortsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF2F0E324F012A9EC747028 /* V1ShortsCollectionView.swift */; };
-		9D3BC20FB12C935CAB0293A4 /* Double + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71D86DC430DCF20167BD12A /* Double + Extension.swift */; };
-		9E4EB0E331ECE073DB995670 /* SLAVLoopPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42B3EEF59B306DA70A79C82 /* SLAVLoopPlayer.swift */; };
-		9FF294F809C4E08C838FEED9 /* ShopLiveShortformHorizontalTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDC6DE3593E09694903BC28 /* ShopLiveShortformHorizontalTypeView.swift */; };
+		85C10AB6E4DFD2C42035494C /* ShopLiveShortformHorizontalTypeViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1293F89EB14B167BD29A5B00 /* ShopLiveShortformHorizontalTypeViewReactor.swift */; };
+		8962C8137CD5151D49A15EB3 /* ShortsVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30BA9598E4ECC0719D31D53 /* ShortsVideoPlayerView.swift */; };
+		8AEA86FFC647F64FF7C4655B /* UserObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66FC74687855286CDFF141B /* UserObject.swift */; };
+		90A7D02009F5D8F31BAC77FF /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821C834D81AC2E40C07FE5A5 /* Activity.swift */; };
+		93DC1A48C77987D4863A1584 /* Author.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4143A4BA6C38552E3F70948 /* Author.swift */; };
+		9407CBC6044DCC2F7879149D /* ShopliveShortformListViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49956774CAE8DEE564457A81 /* ShopliveShortformListViewCellDelegate.swift */; };
 		A03281C56F59C361FCF8767F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6846687957BAA35E8FAE872A /* Assets.xcassets */; };
-		A21CB9AFA103F41965296D13 /* ShortsIdsListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B4B43194E7775C870AF57B /* ShortsIdsListAPI.swift */; };
-		A39EDF1CC83A55581A07A684 /* ShopLiveShortformVerticalTypeViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086F9B5CE58A1A34C90A6965 /* ShopLiveShortformVerticalTypeViewReactor.swift */; };
-		A3E487483F84DE073366B6D8 /* ShortsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0D4C01E8E8D9DDDACBA3E4 /* ShortsModel.swift */; };
-		A6E66EF401C200C649247E5A /* ShortsRelatedCollectionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FB28246AC33361AAD1696 /* ShortsRelatedCollectionAPI.swift */; };
-		AB899952045F69491CE68E5E /* CardModel+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41317E26462A3744AAEEA565 /* CardModel+extension.swift */; };
-		AF926C295BB124494A837B13 /* ShopLiveChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAA7EFD481244C7D1994BBEF /* ShopLiveChatView.swift */; };
-		B0446A20B809530F28C7577B /* ShopLiveShareMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F50D191E896B12E6368D1C /* ShopLiveShareMetaData.swift */; };
-		B0B301D71BC59274A4C8877F /* ShortFormAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411BC1835EE5ED78356DB192 /* ShortFormAuthManager.swift */; };
-		B45A2B21D48FFC157471B240 /* ShopLiveShortformVerticalTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE11E282C266633F8DE0893 /* ShopLiveShortformVerticalTypeView.swift */; };
-		B52F0AD180CEE043C72C3082 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1542A09E6D42418BF3886B21 /* Activity.swift */; };
-		B595AA35731252736668AAB4 /* ShopLiveShortformBaseListTypeOverlayType2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464AD053E1C3E62B5BE118CB /* ShopLiveShortformBaseListTypeOverlayType2.swift */; };
-		B5B2ECBBDD2B247C6882133E /* ShortsWebInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20477141BCB3A7F47750EE8 /* ShortsWebInterface.swift */; };
-		BA400F7D2E2B0535DCAAEB0B /* ImageCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73692AD0E8DCD57A8DC58CB5 /* ImageCardView.swift */; };
-		BA66F1916DE1D8C0AFE86A14 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032B64BB87E1819A503F33D9 /* CardModel.swift */; };
-		BC19B7983AB7C5CD39A3AC4B /* ShopLiveShortformIdsMoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57329EDC70374B1ED0335B72 /* ShopLiveShortformIdsMoreData.swift */; };
+		A41D9BECFD39E8ED7B2FAF9B /* SLCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4E223A2213D8AD601DCABD /* SLCollectionView.swift */; };
+		AA3E18D73D47E08981DD4624 /* PreloadWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F617F8CD24ECF4A5353FA98 /* PreloadWebView.swift */; };
+		AB480B50ADA103D42CFDE87D /* ShopLiveShortformBaseEmptyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFED191B332707D634B34FD5 /* ShopLiveShortformBaseEmptyDataView.swift */; };
+		AC71366AF7036EBA9D14543E /* FullTypeEmptyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E92289ECCCC455372258733 /* FullTypeEmptyDataView.swift */; };
+		AD83E853A9E24F196B5AADF2 /* ShopLiveShortformHorizontalTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA0A0399F7E74870494EDCF /* ShopLiveShortformHorizontalTypeView.swift */; };
+		AE2A54F032B02765D4C2C734 /* ShopLiveShortformBaseTypePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D207197734DAEAC2F94ACF0C /* ShopLiveShortformBaseTypePlayerView.swift */; };
+		B2201EC224EDC4773E48B2A8 /* ShortsVideoPlayer2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A059EBB14C949B284AC9801 /* ShortsVideoPlayer2.swift */; };
+		B25D645A15F17273C1E00A7D /* ShopLiveShortformOverlayCardViewType2.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5CDAF8EC4DB310ED8FF781 /* ShopLiveShortformOverlayCardViewType2.swift */; };
+		B65C9BB5733E86C4AEB7632C /* UIColor + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F7EE8A4F96DC6AF61E1386 /* UIColor + extension.swift */; };
+		B81490C53E91DDF81F23A6B3 /* ShopLiveShortCardTypeViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E293CD206E8156F72EEB1A /* ShopLiveShortCardTypeViewReactor.swift */; };
+		BCB6C37EAE8327F37371964F /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD6A6DD76B1F1DF6FE56F81 /* Product.swift */; };
 		C34F28C6E649902BD1408454 /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08AE97A817BCE7781A1C704A /* ShopliveSDKCommon.framework */; };
+		C5E18480DEFD00253A2994FF /* ShortsCollectionBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FDC617C9B4408B48BF2426 /* ShortsCollectionBaseViewModel.swift */; };
+		C629CA2149E1A2BD0E448FB3 /* ShortsWebInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FD71D69BADC857BFFBA0CB /* ShortsWebInterface.swift */; };
+		C72D3D4CA4A3DB145C0F0A11 /* SLAVLoopPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A6F374B242214BBE1C638A /* SLAVLoopPlayer.swift */; };
+		C7ABFF88846B41245BB18AC4 /* ShopLiveShortformCardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0905E5EB72F2CDE7B6E583D3 /* ShopLiveShortformCardViewCell.swift */; };
+		CB4D49707454BB69A7AA9AA0 /* V1ShortsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB3FBA301738DD1404DE312 /* V1ShortsCollectionView.swift */; };
 		CBC624D4C777404DC8ED9890 /* ShortformNativeOnEventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED0B65E0CEAAFE8650DB32 /* ShortformNativeOnEventsManager.swift */; };
-		CC8F31D30721D2B87BDFEA66 /* ShortsVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740B9984F461B2577A97004 /* ShortsVideoPlayer.swift */; };
-		CCD8B683AE78495BD8A4DC38 /* ShopliveShortformListViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD61871322C21F7620C4ECD /* ShopliveShortformListViewCellDelegate.swift */; };
-		D3C77A1859B042BCA644481E /* ShopLiveShortformOverlayCardViewType2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA6AA2440BA48ADD14F524C /* ShopLiveShortformOverlayCardViewType2.swift */; };
+		CBD9969EDE59BF9EBB0D8344 /* ShopLiveShortformOverlayCardViewType1.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8916166554DFA9A39680D3B /* ShopLiveShortformOverlayCardViewType1.swift */; };
+		CD10C8A97D6F039C4AA8C28B /* ShopLiveShortformBaseListTypeOverlayType2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E1A0C4F638FA22D1DA6A32 /* ShopLiveShortformBaseListTypeOverlayType2.swift */; };
+		CFA9745F5274A2AA531F6D59 /* ShopLiveShortformSDKOptionsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DFADFA3645759E4332AC173 /* ShopLiveShortformSDKOptionsData.swift */; };
+		D4A665B5AC88CA2492D37DD5 /* ShopLiveShortBaseTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAF2F945E18A9D21779784E /* ShopLiveShortBaseTypeView.swift */; };
 		D7AFC63DC38F02C1D26192C0 /* TuistStrings+ShopLiveShortformSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1E62669443334F0B927550 /* TuistStrings+ShopLiveShortformSDK.swift */; };
-		DB726CB175394BEC285D01DA /* ListViewHideOptionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FAAC26A95F29DA4989CAA3 /* ListViewHideOptionModel.swift */; };
-		DB9E61E8395F28E6BB96AACE /* ShopLiveShortformCardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C369DD6FBD360A9924371997 /* ShopLiveShortformCardViewCell.swift */; };
-		E0693EDDD3D5F6E8F28F0E8A /* ShortsCollectionBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9847928370D5728D94A868 /* ShortsCollectionBaseViewModel.swift */; };
-		E556BE938CFC5679A7F69EC8 /* V2ShortsCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACC2C7914921C275D1A161E /* V2ShortsCollectionViewModel.swift */; };
-		E596214670A0E69CE3C70360 /* ShopLiveShortformBaseListTypeOverlayType1.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA685F00092DAF2BF0D482A4 /* ShopLiveShortformBaseListTypeOverlayType1.swift */; };
+		D8E40BCD51826013F49E1912 /* ProductBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EED9520CA435D99121ADC2 /* ProductBanner.swift */; };
+		DE5F749D9E31B75A56CE3FE7 /* ShopLiveBridgeInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD26098913531E3DADF4051 /* ShopLiveBridgeInterface.swift */; };
+		DEEC08D9866A72CE7E99839A /* ShortsCollectionBaseView + rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82747CA2D034C0FDE05B09D /* ShortsCollectionBaseView + rotation.swift */; };
+		E1700805156FF6323FAA79E3 /* V2ShortsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16027D2418004592DC4B202 /* V2ShortsCollectionView.swift */; };
+		E397BFBB016B15843BD02F05 /* ShopLiveShortformListViewInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87739612DE619E0B4124FB0F /* ShopLiveShortformListViewInterface.swift */; };
 		E597C3F943B4B8DDA0D58ACF /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30D0A0A75AD58F82CC96CF2 /* Throttle.swift */; };
-		E72FA7E7A6EE175FE9A6DB1A /* V1ShortsCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24695457F6F0ECDB19F6C520 /* V1ShortsCollectionViewModel.swift */; };
+		E6B8661AF0ADE4A85C6ABAFB /* ShopLiveShortformBaseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5048E0AC93FB315554EFFB3 /* ShopLiveShortformBaseBuilder.swift */; };
 		E8E1AC908CEF63A37B757375 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5BA3B3EB798D29541E7A9BD /* Localizable.strings */; };
-		E952AA857BF38958DBF75E4F /* UIFont + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9DC6CFEF2222A983CA6A8D /* UIFont + extension.swift */; };
-		EA372DE3C7631E99C80B4239 /* V2ShortsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7057B6ECF1508B67DFF373 /* V2ShortsCollectionView.swift */; };
-		EE0919E211C85BFA67538F43 /* ShortsSettingConfigJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E9AB1872B375F49476A3BB /* ShortsSettingConfigJson.swift */; };
-		F2E165AC00FD35F8D9A38AED /* ShortsEventTraceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931EFF2389266B7A467299AE /* ShortsEventTraceAPI.swift */; };
-		F63DE56E33180840D17571A3 /* ShopLiveBridgeInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15F994B950B11A820D2DE87 /* ShopLiveBridgeInterface.swift */; };
-		FA258A922E957231ADABEF35 /* ShortsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87AEB7D533823DFD95ADD82 /* ShortsView.swift */; };
-		FD1A24D20EE21DF057644487 /* Author.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9531B21DE04AADB7E00553 /* Author.swift */; };
+		E948946A32EC48788004D01E /* ShopLiveShortformVerticalTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4ED977FCF10EF608D75774 /* ShopLiveShortformVerticalTypeView.swift */; };
+		E984151E2C7B2EF416B075A1 /* String + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0656080F18F435E909CABC /* String + extension.swift */; };
+		EBC112AC582E6F6E2CDEE295 /* ShopLiveShortformRelatedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9838D856D1F46CDB42DC9E /* ShopLiveShortformRelatedData.swift */; };
+		F1728D392B5FAF92FA048972 /* ShortsCollectionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7A1FC975763A549F0420D1 /* ShortsCollectionAPI.swift */; };
+		F1DD2A87CCEF2CFB55B7AA35 /* AppStateNotificationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAAC44F04172ABE34E8BD74 /* AppStateNotificationObserver.swift */; };
+		F65AA68B89A2BD5C834B1251 /* ShortsVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694E6A44351A8C72E9558275 /* ShortsVideo.swift */; };
+		F6ED9E0AC0C89F59EBCFFF6A /* ShortFormAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE008D8859E6D526094A26E /* ShortFormAuthManager.swift */; };
+		FCF0794240EB11EF1FC79F7B /* ShopLiveShortformBaseTypeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7A5FFB2707A300E63E9865 /* ShopLiveShortformBaseTypeCardView.swift */; };
+		FEB55BCA092FB100CAFD8D6A /* FullTypeRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072CEE4D791A696CF55F3439 /* FullTypeRootViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,108 +139,108 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		008AB12FF753A81EE7E9F785 /* ShortsVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsVideoPlayer.swift; sourceTree = "<group>"; };
 		00B08195D2DCA33A9B5943B8 /* TuistBundle+ShopLiveShortformSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistBundle+ShopLiveShortformSDK.swift"; sourceTree = "<group>"; };
-		00E9AB1872B375F49476A3BB /* ShortsSettingConfigJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsSettingConfigJson.swift; sourceTree = "<group>"; };
-		032B64BB87E1819A503F33D9 /* CardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
-		086F9B5CE58A1A34C90A6965 /* ShopLiveShortformVerticalTypeViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformVerticalTypeViewReactor.swift; sourceTree = "<group>"; };
+		03A6F374B242214BBE1C638A /* SLAVLoopPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLAVLoopPlayer.swift; sourceTree = "<group>"; };
+		040AE4656FA00D931EF38943 /* V1ShortsCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V1ShortsCollectionViewModel.swift; sourceTree = "<group>"; };
+		052D32E982C5A8FFFE2B75E3 /* ShortsEventTraceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsEventTraceAPI.swift; sourceTree = "<group>"; };
+		0592249502961CE20CF99832 /* ShortsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsModel.swift; sourceTree = "<group>"; };
+		072CEE4D791A696CF55F3439 /* FullTypeRootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullTypeRootViewController.swift; sourceTree = "<group>"; };
 		08AE97A817BCE7781A1C704A /* ShopliveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopliveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		08B6BAD35CBF4FA97B11BAD0 /* ShortsDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsDetail.swift; sourceTree = "<group>"; };
-		0F25FCDCDB679BAD6C43596E /* AppStateNotificationObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateNotificationObserver.swift; sourceTree = "<group>"; };
-		10E93368CE5E67DF6E3CE3E7 /* FullTypeRootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullTypeRootViewController.swift; sourceTree = "<group>"; };
-		121C83500E119F03B99AA965 /* AudioRouteObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRouteObserver.swift; sourceTree = "<group>"; };
+		0905E5EB72F2CDE7B6E583D3 /* ShopLiveShortformCardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformCardViewCell.swift; sourceTree = "<group>"; };
+		09FD71D69BADC857BFFBA0CB /* ShortsWebInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsWebInterface.swift; sourceTree = "<group>"; };
+		1293F89EB14B167BD29A5B00 /* ShopLiveShortformHorizontalTypeViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformHorizontalTypeViewReactor.swift; sourceTree = "<group>"; };
 		1461494AFA7D6D55669087E7 /* ShopLiveShortformSDK_ShopLiveShortformSDK-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ShopLiveShortformSDK_ShopLiveShortformSDK-Info.plist"; sourceTree = "<group>"; };
-		1542A09E6D42418BF3886B21 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
-		1551B08EA0D63DA6CA3FC5E8 /* ShopLiveShortformBaseTypePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformBaseTypePlayerView.swift; sourceTree = "<group>"; };
-		15B23A53A12AED8394098770 /* ShopLiveShortformOverlayCardViewType0.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformOverlayCardViewType0.swift; sourceTree = "<group>"; };
-		1ACC2C7914921C275D1A161E /* V2ShortsCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2ShortsCollectionViewModel.swift; sourceTree = "<group>"; };
-		1DA6AA2440BA48ADD14F524C /* ShopLiveShortformOverlayCardViewType2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformOverlayCardViewType2.swift; sourceTree = "<group>"; };
-		24695457F6F0ECDB19F6C520 /* V1ShortsCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V1ShortsCollectionViewModel.swift; sourceTree = "<group>"; };
-		24A6ADA9494ACD3EBE5DA6DF /* FullTypeErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullTypeErrorView.swift; sourceTree = "<group>"; };
-		262AE1BBC59C266CFCFF569E /* ShortsCollectionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsCollectionAPI.swift; sourceTree = "<group>"; };
-		27D3E78CE7A65EE618D65579 /* ShortsCollectionBaseView + rotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShortsCollectionBaseView + rotation.swift"; sourceTree = "<group>"; };
-		2B6353DF03F5B9134E63FB70 /* ShopLiveShortBaseTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortBaseTypeView.swift; sourceTree = "<group>"; };
-		2BB36D65BFA0F8CE5AFF275C /* ShopLiveShortformIdsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformIdsData.swift; sourceTree = "<group>"; };
-		2FCB40A26C48E7A7E3DD6494 /* PreloadWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadWebView.swift; sourceTree = "<group>"; };
+		14B7837E921440EC2907B59E /* UIFont + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont + extension.swift"; sourceTree = "<group>"; };
+		1A683CA49E9BBBDF1C237AA8 /* Double + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double + Extension.swift"; sourceTree = "<group>"; };
+		1C9838D856D1F46CDB42DC9E /* ShopLiveShortformRelatedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformRelatedData.swift; sourceTree = "<group>"; };
+		1D1FF710EB61E94D6FC1AED2 /* ShortFormConfigurationInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormConfigurationInfoModel.swift; sourceTree = "<group>"; };
+		1D77BA26C9B5A1D179220E2E /* ShopLiveShortformOverlayCardViewType0.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformOverlayCardViewType0.swift; sourceTree = "<group>"; };
+		1E4ED977FCF10EF608D75774 /* ShopLiveShortformVerticalTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformVerticalTypeView.swift; sourceTree = "<group>"; };
+		2994E56222099C8A1528A975 /* JWTTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTTool.swift; sourceTree = "<group>"; };
+		2B1DC74C626070EB078F19D2 /* ShopLiveShortformCollectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformCollectionData.swift; sourceTree = "<group>"; };
+		2DFADFA3645759E4332AC173 /* ShopLiveShortformSDKOptionsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformSDKOptionsData.swift; sourceTree = "<group>"; };
+		2EB3FBA301738DD1404DE312 /* V1ShortsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V1ShortsCollectionView.swift; sourceTree = "<group>"; };
+		2F7426412B7C9F2300FE2E22 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/VideoToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		313DD095D63C9485AA9B2A75 /* ShopLiveShortformBaseListTypeOverlayType1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformBaseListTypeOverlayType1.swift; sourceTree = "<group>"; };
 		34FE9B8E6B0060F3DDBCE4C9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
-		3740B9984F461B2577A97004 /* ShortsVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsVideoPlayer.swift; sourceTree = "<group>"; };
-		389D6D44B12C38EC86D461F3 /* ShopLiveShortformOverlayCardViewType1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformOverlayCardViewType1.swift; sourceTree = "<group>"; };
+		3A0656080F18F435E909CABC /* String + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + extension.swift"; sourceTree = "<group>"; };
 		3B8D5F143A9863A0DDAA6EAF /* ShopLiveShortformSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveShortformSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3C5E60EF496D787E5949917B /* UserObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserObject.swift; sourceTree = "<group>"; };
 		3E1E62669443334F0B927550 /* TuistStrings+ShopLiveShortformSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistStrings+ShopLiveShortformSDK.swift"; sourceTree = "<group>"; };
-		3E7057B6ECF1508B67DFF373 /* V2ShortsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2ShortsCollectionView.swift; sourceTree = "<group>"; };
-		40EDFED9A9A3D4E2A5AF5637 /* BrandModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandModel.swift; sourceTree = "<group>"; };
-		411BC1835EE5ED78356DB192 /* ShortFormAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormAuthManager.swift; sourceTree = "<group>"; };
-		41317E26462A3744AAEEA565 /* CardModel+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CardModel+extension.swift"; sourceTree = "<group>"; };
-		4335BE6BABAD81BA71AE38BF /* ShopLiveShortformSDKOptionsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformSDKOptionsData.swift; sourceTree = "<group>"; };
-		43562A06714756B2BE452757 /* JWTTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTTool.swift; sourceTree = "<group>"; };
-		448975E9955BC1B82C808B08 /* ShopLiveShortformBaseTypeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformBaseTypeCardView.swift; sourceTree = "<group>"; };
-		464AD053E1C3E62B5BE118CB /* ShopLiveShortformBaseListTypeOverlayType2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformBaseListTypeOverlayType2.swift; sourceTree = "<group>"; };
-		4868F9D48B8F35DB3E969E3C /* ShopLiveShortformCardTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformCardTypeView.swift; sourceTree = "<group>"; };
-		4FE5DD484ACAED930E42E1FE /* ShortFormConfigurationInfos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormConfigurationInfos.swift; sourceTree = "<group>"; };
-		52BE0C8588109EFA4DAABE25 /* ShopLiveShortformBaseBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformBaseBuilder.swift; sourceTree = "<group>"; };
-		57329EDC70374B1ED0335B72 /* ShopLiveShortformIdsMoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformIdsMoreData.swift; sourceTree = "<group>"; };
+		3E92289ECCCC455372258733 /* FullTypeEmptyDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullTypeEmptyDataView.swift; sourceTree = "<group>"; };
+		3F04B5D918CAC24FED638AC1 /* ShopLiveShortformIdsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformIdsData.swift; sourceTree = "<group>"; };
+		3FC56A65D0C1778270A06230 /* ShortsCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsCellReactor.swift; sourceTree = "<group>"; };
+		4091D210EDDC908124414F55 /* AudioRouteObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRouteObserver.swift; sourceTree = "<group>"; };
+		40E293CD206E8156F72EEB1A /* ShopLiveShortCardTypeViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortCardTypeViewReactor.swift; sourceTree = "<group>"; };
+		4159D64E8B6BF866212E1746 /* ShortsIdsListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsIdsListAPI.swift; sourceTree = "<group>"; };
+		454E0A1B74BF2AC740544444 /* ShopLiveShareMetaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShareMetaData.swift; sourceTree = "<group>"; };
+		49956774CAE8DEE564457A81 /* ShopliveShortformListViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopliveShortformListViewCellDelegate.swift; sourceTree = "<group>"; };
+		5BF0933CACC653A63E0EAFF1 /* ShopLiveShortformIdsMoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformIdsMoreData.swift; sourceTree = "<group>"; };
+		5CD26098913531E3DADF4051 /* ShopLiveBridgeInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveBridgeInterface.swift; sourceTree = "<group>"; };
 		5F250ABF5E77CB5B5C1F7A83 /* TuistAssets+ShopLiveShortformSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistAssets+ShopLiveShortformSDK.swift"; sourceTree = "<group>"; };
-		6033D0695B535A11098CD011 /* ShortsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsCell.swift; sourceTree = "<group>"; };
-		606026C33CE505547B4AB365 /* ShopLiveShortformBaseEmptyDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformBaseEmptyDataView.swift; sourceTree = "<group>"; };
-		6635417210FE4AE55EC466E5 /* ShortsCollectionBaseView + Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShortsCollectionBaseView + Observer.swift"; sourceTree = "<group>"; };
+		639B0B5E173089DD6EFD9081 /* ShortsRelatedCollectionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsRelatedCollectionAPI.swift; sourceTree = "<group>"; };
+		6757E40AE57DFE6938C90C5B /* ShortsWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsWebView.swift; sourceTree = "<group>"; };
 		6846687957BAA35E8FAE872A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		689C08DE47C12BA36D04D78B /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShopLiveShortformSDK_ShopLiveShortformSDK.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		6AF2F0E324F012A9EC747028 /* V1ShortsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V1ShortsCollectionView.swift; sourceTree = "<group>"; };
-		6B5D545E2DFCAEF81FE8DF2A /* SLShortFormWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLShortFormWindow.swift; sourceTree = "<group>"; };
-		6E9847928370D5728D94A868 /* ShortsCollectionBaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsCollectionBaseViewModel.swift; sourceTree = "<group>"; };
-		73692AD0E8DCD57A8DC58CB5 /* ImageCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCardView.swift; sourceTree = "<group>"; };
-		751DC1D1FA63D0DFA5746F88 /* ShopLiveShortformBaseListTypeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformBaseListTypeViewCell.swift; sourceTree = "<group>"; };
-		79F50D191E896B12E6368D1C /* ShopLiveShareMetaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShareMetaData.swift; sourceTree = "<group>"; };
-		7A6EA2FEAE029BEE899AE256 /* ShortFormConfigurationInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormConfigurationInfoModel.swift; sourceTree = "<group>"; };
-		8053592A5575DA1C549434F6 /* UIColor + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + extension.swift"; sourceTree = "<group>"; };
-		81307B4C11050A67CAA14424 /* VideoCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCardView.swift; sourceTree = "<group>"; };
-		82FAAC26A95F29DA4989CAA3 /* ListViewHideOptionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewHideOptionModel.swift; sourceTree = "<group>"; };
-		8416978CD2275F79EA580BAC /* String + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + extension.swift"; sourceTree = "<group>"; };
-		8A25BEDF519B4F7E6158E0CF /* ShopLiveShortform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortform.swift; sourceTree = "<group>"; };
+		694E6A44351A8C72E9558275 /* ShortsVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsVideo.swift; sourceTree = "<group>"; };
+		6A7A1FC975763A549F0420D1 /* ShortsCollectionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsCollectionAPI.swift; sourceTree = "<group>"; };
+		6D53B5FC7C326957A53CF025 /* ShopLiveShortformVisibleFullTypeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformVisibleFullTypeData.swift; sourceTree = "<group>"; };
+		6F617F8CD24ECF4A5353FA98 /* PreloadWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadWebView.swift; sourceTree = "<group>"; };
+		700979ED8A40505455636618 /* ShopLiveShortformVerticalTypeViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformVerticalTypeViewReactor.swift; sourceTree = "<group>"; };
+		72FE334475FF6386837CAEB1 /* CardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
+		7A059EBB14C949B284AC9801 /* ShortsVideoPlayer2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsVideoPlayer2.swift; sourceTree = "<group>"; };
+		7C1CC401FDA2E15C4E621A3B /* ShortsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsCell.swift; sourceTree = "<group>"; };
+		7DFB7F796234AEBD9B729805 /* ShortsCollectionBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsCollectionBaseView.swift; sourceTree = "<group>"; };
+		821C834D81AC2E40C07FE5A5 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
+		87739612DE619E0B4124FB0F /* ShopLiveShortformListViewInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformListViewInterface.swift; sourceTree = "<group>"; };
+		8C7A5FFB2707A300E63E9865 /* ShopLiveShortformBaseTypeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformBaseTypeCardView.swift; sourceTree = "<group>"; };
 		910E646A5CC25FBED49C3CD9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		9181ADE7FB93F919B6E79400 /* ShopLiveShortformListViewInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformListViewInterface.swift; sourceTree = "<group>"; };
-		918FB28246AC33361AAD1696 /* ShortsRelatedCollectionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsRelatedCollectionAPI.swift; sourceTree = "<group>"; };
-		928E4EBCBEDB2D5FEB1229DB /* ShopLiveShortformRelatedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformRelatedData.swift; sourceTree = "<group>"; };
-		931EFF2389266B7A467299AE /* ShortsEventTraceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsEventTraceAPI.swift; sourceTree = "<group>"; };
+		952DAC5207A31F3BA9279415 /* ShortsCollectionBaseView + Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShortsCollectionBaseView + Observer.swift"; sourceTree = "<group>"; };
+		959091AD0A0A3CD8F9AEA556 /* ShopLiveShortformCardTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformCardTypeView.swift; sourceTree = "<group>"; };
+		95D202D4E12E939C476FFCDA /* ShortsCollectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsCollectionModel.swift; sourceTree = "<group>"; };
 		95ED0B65E0CEAAFE8650DB32 /* ShortformNativeOnEventsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortformNativeOnEventsManager.swift; sourceTree = "<group>"; };
-		A2B4B43194E7775C870AF57B /* ShortsIdsListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsIdsListAPI.swift; sourceTree = "<group>"; };
-		AB9DC6CFEF2222A983CA6A8D /* UIFont + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont + extension.swift"; sourceTree = "<group>"; };
-		B09639E560716F80672C51DC /* ShopLiveShortformVisibleFullTypeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformVisibleFullTypeData.swift; sourceTree = "<group>"; };
+		9AFC307C7F1615CF38E0D5A7 /* BrandModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandModel.swift; sourceTree = "<group>"; };
+		9D40DDD67D24C5BFE6734ED9 /* ShopLiveShortform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortform.swift; sourceTree = "<group>"; };
+		9D5097366A6CB3DFA63D7162 /* ShopLiveChattingWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveChattingWriteView.swift; sourceTree = "<group>"; };
+		9DBE33DB2E893A118EA15A73 /* ListViewHideOptionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewHideOptionModel.swift; sourceTree = "<group>"; };
+		9EA0A0399F7E74870494EDCF /* ShopLiveShortformHorizontalTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformHorizontalTypeView.swift; sourceTree = "<group>"; };
+		A16027D2418004592DC4B202 /* V2ShortsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2ShortsCollectionView.swift; sourceTree = "<group>"; };
+		A1E1A0C4F638FA22D1DA6A32 /* ShopLiveShortformBaseListTypeOverlayType2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformBaseListTypeOverlayType2.swift; sourceTree = "<group>"; };
+		A5048E0AC93FB315554EFFB3 /* ShopLiveShortformBaseBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformBaseBuilder.swift; sourceTree = "<group>"; };
+		A582359CE4051EA9C7F32D94 /* SLShortFormWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLShortFormWindow.swift; sourceTree = "<group>"; };
+		A8916166554DFA9A39680D3B /* ShopLiveShortformOverlayCardViewType1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformOverlayCardViewType1.swift; sourceTree = "<group>"; };
+		A9A36C77B01A874763B3AFFC /* ShortsConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsConfiguration.swift; sourceTree = "<group>"; };
+		A9B510E818B65957F2DBA023 /* ShortsWebViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsWebViewReactor.swift; sourceTree = "<group>"; };
+		A9F7EE8A4F96DC6AF61E1386 /* UIColor + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + extension.swift"; sourceTree = "<group>"; };
+		ACAEBA0B2CA64569D7B3F044 /* V2ShortsCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2ShortsCollectionViewModel.swift; sourceTree = "<group>"; };
+		AF4E223A2213D8AD601DCABD /* SLCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLCollectionView.swift; sourceTree = "<group>"; };
+		B1C6B7432C94B1528388C4F8 /* ShortsVideoPlayerReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsVideoPlayerReactor.swift; sourceTree = "<group>"; };
 		B23041AD97F3FA3B350F803E /* ShortformEventTraceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortformEventTraceManager.swift; sourceTree = "<group>"; };
+		B2FDC617C9B4408B48BF2426 /* ShortsCollectionBaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsCollectionBaseViewModel.swift; sourceTree = "<group>"; };
 		B30D0A0A75AD58F82CC96CF2 /* Throttle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Throttle.swift; sourceTree = "<group>"; };
-		B42B3EEF59B306DA70A79C82 /* SLAVLoopPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLAVLoopPlayer.swift; sourceTree = "<group>"; };
-		B49BB4265C7699ACDF65318B /* ShortsReceiveInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsReceiveInterface.swift; sourceTree = "<group>"; };
-		BA5770B258E7187520E0D97A /* ShortsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsType.swift; sourceTree = "<group>"; };
-		BA98725F9327449A23B4EF26 /* ShopLiveShortCardTypeViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortCardTypeViewReactor.swift; sourceTree = "<group>"; };
-		BB07D6DDC188F15B5E034DF2 /* FullTypeEmptyDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullTypeEmptyDataView.swift; sourceTree = "<group>"; };
-		BD0688FFE389D34E5C63F338 /* ProductBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductBanner.swift; sourceTree = "<group>"; };
-		BF289623B8E406004BED1E7A /* ShortsConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsConfiguration.swift; sourceTree = "<group>"; };
-		C0F64194934F8B57FE013032 /* ShopLiveShortformHorizontalTypeViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformHorizontalTypeViewReactor.swift; sourceTree = "<group>"; };
-		C369DD6FBD360A9924371997 /* ShopLiveShortformCardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformCardViewCell.swift; sourceTree = "<group>"; };
-		C36C0474B29A796C66F12D39 /* ShortsVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsVideo.swift; sourceTree = "<group>"; };
-		C71D86DC430DCF20167BD12A /* Double + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double + Extension.swift"; sourceTree = "<group>"; };
+		B4143A4BA6C38552E3F70948 /* Author.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Author.swift; sourceTree = "<group>"; };
+		B861091EBB911670966CBC3A /* LatestShortsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestShortsCell.swift; sourceTree = "<group>"; };
+		BD2D697DFFCF1F72943FFD61 /* ShopLiveShortformBaseListTypeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformBaseListTypeViewCell.swift; sourceTree = "<group>"; };
+		BF5CDAF8EC4DB310ED8FF781 /* ShopLiveShortformOverlayCardViewType2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformOverlayCardViewType2.swift; sourceTree = "<group>"; };
+		C4DA1D2EA12624CBD26E64F1 /* ShortsCollectionBaseView + ShortsCell2Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShortsCollectionBaseView + ShortsCell2Delegate.swift"; sourceTree = "<group>"; };
+		C83AEDB09D9AD49C372BC1B8 /* ShortFormConfigurationInfos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormConfigurationInfos.swift; sourceTree = "<group>"; };
 		C9A29E96D2C577BA19EBECDA /* ShopLiveShortformSDK-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ShopLiveShortformSDK-Info.plist"; sourceTree = "<group>"; };
-		CDD61871322C21F7620C4ECD /* ShopliveShortformListViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopliveShortformListViewCellDelegate.swift; sourceTree = "<group>"; };
-		CFDC6966AEBD26B914AF4CF4 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
-		D87B08EF2EAF9141FEAF321E /* SLCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLCollectionView.swift; sourceTree = "<group>"; };
-		DCA5E1B4F9ECF14F87E13C09 /* ShortsCollectionBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsCollectionBaseView.swift; sourceTree = "<group>"; };
-		DCC9B0D60EDCA0D6C855F6D1 /* LatestShortsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestShortsCell.swift; sourceTree = "<group>"; };
-		DCE11E282C266633F8DE0893 /* ShopLiveShortformVerticalTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformVerticalTypeView.swift; sourceTree = "<group>"; };
-		DF9688ABAA87EFC19073C70B /* ShortsCollectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsCollectionModel.swift; sourceTree = "<group>"; };
-		E15F994B950B11A820D2DE87 /* ShopLiveBridgeInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveBridgeInterface.swift; sourceTree = "<group>"; };
-		E20477141BCB3A7F47750EE8 /* ShortsWebInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsWebInterface.swift; sourceTree = "<group>"; };
-		E31CB198F422C2E057B1D0F2 /* ShopLiveShortformCollectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformCollectionData.swift; sourceTree = "<group>"; };
-		E87AEB7D533823DFD95ADD82 /* ShortsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsView.swift; sourceTree = "<group>"; };
-		EA685F00092DAF2BF0D482A4 /* ShopLiveShortformBaseListTypeOverlayType1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformBaseListTypeOverlayType1.swift; sourceTree = "<group>"; };
-		EAA7EFD481244C7D1994BBEF /* ShopLiveChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveChatView.swift; sourceTree = "<group>"; };
-		EC0D4C01E8E8D9DDDACBA3E4 /* ShortsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsModel.swift; sourceTree = "<group>"; };
+		CCD6A6DD76B1F1DF6FE56F81 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		D207197734DAEAC2F94ACF0C /* ShopLiveShortformBaseTypePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformBaseTypePlayerView.swift; sourceTree = "<group>"; };
+		D30BA9598E4ECC0719D31D53 /* ShortsVideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsVideoPlayerView.swift; sourceTree = "<group>"; };
+		D79031DBF33104E9BF2223D5 /* ShortsDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsDetail.swift; sourceTree = "<group>"; };
+		D82747CA2D034C0FDE05B09D /* ShortsCollectionBaseView + rotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShortsCollectionBaseView + rotation.swift"; sourceTree = "<group>"; };
+		DBDBB5B50DE89AE303D980E4 /* ShopLiveChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveChatView.swift; sourceTree = "<group>"; };
+		EEAAC44F04172ABE34E8BD74 /* AppStateNotificationObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateNotificationObserver.swift; sourceTree = "<group>"; };
+		EEE008D8859E6D526094A26E /* ShortFormAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormAuthManager.swift; sourceTree = "<group>"; };
 		EF684FCF1D49CFE2CBEB6A40 /* Test.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Test.xib; sourceTree = "<group>"; };
-		F1E46FD5D60452E076603917 /* ShopLiveChattingWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveChattingWriteView.swift; sourceTree = "<group>"; };
-		F3C8362B8C4BAAE4042B21B9 /* ShortsCollectionBaseView + ShortsCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShortsCollectionBaseView + ShortsCellDelegate.swift"; sourceTree = "<group>"; };
-		F7DED72281A9AF050112630C /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
-		FBC7775828A05A8AB119A443 /* CardViewInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewInterface.swift; sourceTree = "<group>"; };
-		FCDC6DE3593E09694903BC28 /* ShopLiveShortformHorizontalTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformHorizontalTypeView.swift; sourceTree = "<group>"; };
-		FF9531B21DE04AADB7E00553 /* Author.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Author.swift; sourceTree = "<group>"; };
+		EFED191B332707D634B34FD5 /* ShopLiveShortformBaseEmptyDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformBaseEmptyDataView.swift; sourceTree = "<group>"; };
+		F1EED9520CA435D99121ADC2 /* ProductBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductBanner.swift; sourceTree = "<group>"; };
+		F291E4EDAFB4AD8A8EF7B98B /* ShortsSettingConfigJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsSettingConfigJson.swift; sourceTree = "<group>"; };
+		F5AE147368E4315477D16A14 /* FullTypeErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullTypeErrorView.swift; sourceTree = "<group>"; };
+		F66FC74687855286CDFF141B /* UserObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserObject.swift; sourceTree = "<group>"; };
+		FC7FB7A58E9D115EC40876A4 /* ShortsReceiveInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsReceiveInterface.swift; sourceTree = "<group>"; };
+		FFAF2F945E18A9D21779784E /* ShopLiveShortBaseTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortBaseTypeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,98 +262,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		034D14AD3BADF0227456856E /* FullTypelist */ = {
+		048B887084BD916D12167A1D /* api */ = {
 			isa = PBXGroup;
 			children = (
-				A8D555651334B5E99B865700 /* Base */,
-				38DC3F0EFB31FEDF3E83CD1D /* V1 */,
-				40EF4840584089ED0AADAEDA /* V2 */,
-				DCC9B0D60EDCA0D6C855F6D1 /* LatestShortsCell.swift */,
-				6033D0695B535A11098CD011 /* ShortsCell.swift */,
-				E87AEB7D533823DFD95ADD82 /* ShortsView.swift */,
-				D87B08EF2EAF9141FEAF321E /* SLCollectionView.swift */,
-				6B5D545E2DFCAEF81FE8DF2A /* SLShortFormWindow.swift */,
+				7AE6EEE26ADA18706E749229 /* model */,
+				0B72703C46B7C8DCEE94E072 /* request */,
+				66909182D58F709D08C496EB /* RequestModels */,
 			);
-			path = FullTypelist;
-			sourceTree = "<group>";
-		};
-		05AE604866F32A739E93BB70 /* ConfigAndAuth */ = {
-			isa = PBXGroup;
-			children = (
-				411BC1835EE5ED78356DB192 /* ShortFormAuthManager.swift */,
-				7A6EA2FEAE029BEE899AE256 /* ShortFormConfigurationInfoModel.swift */,
-				4FE5DD484ACAED930E42E1FE /* ShortFormConfigurationInfos.swift */,
-			);
-			path = ConfigAndAuth;
-			sourceTree = "<group>";
-		};
-		06312635D60200BBBC68478E /* baseview */ = {
-			isa = PBXGroup;
-			children = (
-				2B6353DF03F5B9134E63FB70 /* ShopLiveShortBaseTypeView.swift */,
-				606026C33CE505547B4AB365 /* ShopLiveShortformBaseEmptyDataView.swift */,
-				EA685F00092DAF2BF0D482A4 /* ShopLiveShortformBaseListTypeOverlayType1.swift */,
-				464AD053E1C3E62B5BE118CB /* ShopLiveShortformBaseListTypeOverlayType2.swift */,
-				751DC1D1FA63D0DFA5746F88 /* ShopLiveShortformBaseListTypeViewCell.swift */,
-				448975E9955BC1B82C808B08 /* ShopLiveShortformBaseTypeCardView.swift */,
-				1551B08EA0D63DA6CA3FC5E8 /* ShopLiveShortformBaseTypePlayerView.swift */,
-			);
-			path = baseview;
+			path = api;
 			sourceTree = "<group>";
 		};
 		06E6AAFCCBF21994B11EFD06 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				F713805FEB88792FB4C7005E /* api */,
 				A7D752925FD45D3C2EC2BB27 /* common */,
-				ADBDE8EC15C5CAF8E69E27D3 /* data */,
-				BD4E7F74545B1174298043CF /* interface */,
+				6E156F9ACE12FC2D84FDE389 /* component */,
 				A882CD15D7B4F55FDE70E7B7 /* Manager */,
-				FBB1CD6BAC0B8F751F744F92 /* view */,
-				0F25FCDCDB679BAD6C43596E /* AppStateNotificationObserver.swift */,
-				121C83500E119F03B99AA965 /* AudioRouteObserver.swift */,
-				41317E26462A3744AAEEA565 /* CardModel+extension.swift */,
-				43562A06714756B2BE452757 /* JWTTool.swift */,
-				2FCB40A26C48E7A7E3DD6494 /* PreloadWebView.swift */,
-				79F50D191E896B12E6368D1C /* ShopLiveShareMetaData.swift */,
-				BF289623B8E406004BED1E7A /* ShortsConfiguration.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		0B1B33B9199D3CE36EE06DE4 /* model */ = {
+		0B72703C46B7C8DCEE94E072 /* request */ = {
 			isa = PBXGroup;
 			children = (
-				1542A09E6D42418BF3886B21 /* Activity.swift */,
-				FF9531B21DE04AADB7E00553 /* Author.swift */,
-				40EDFED9A9A3D4E2A5AF5637 /* BrandModel.swift */,
-				032B64BB87E1819A503F33D9 /* CardModel.swift */,
-				F7DED72281A9AF050112630C /* Product.swift */,
-				BD0688FFE389D34E5C63F338 /* ProductBanner.swift */,
-				DF9688ABAA87EFC19073C70B /* ShortsCollectionModel.swift */,
-				08B6BAD35CBF4FA97B11BAD0 /* ShortsDetail.swift */,
-				EC0D4C01E8E8D9DDDACBA3E4 /* ShortsModel.swift */,
-				00E9AB1872B375F49476A3BB /* ShortsSettingConfigJson.swift */,
-				3C5E60EF496D787E5949917B /* UserObject.swift */,
+				6A7A1FC975763A549F0420D1 /* ShortsCollectionAPI.swift */,
+				052D32E982C5A8FFFE2B75E3 /* ShortsEventTraceAPI.swift */,
+				4159D64E8B6BF866212E1746 /* ShortsIdsListAPI.swift */,
+				639B0B5E173089DD6EFD9081 /* ShortsRelatedCollectionAPI.swift */,
 			);
-			path = model;
+			path = request;
 			sourceTree = "<group>";
 		};
-		0DB826E0F338DC1DF2329B6B /* reactor */ = {
+		13B9F8B0A105A67E9A507248 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C0F64194934F8B57FE013032 /* ShopLiveShortformHorizontalTypeViewReactor.swift */,
+				952DAC5207A31F3BA9279415 /* ShortsCollectionBaseView + Observer.swift */,
+				D82747CA2D034C0FDE05B09D /* ShortsCollectionBaseView + rotation.swift */,
+				C4DA1D2EA12624CBD26E64F1 /* ShortsCollectionBaseView + ShortsCell2Delegate.swift */,
+				7DFB7F796234AEBD9B729805 /* ShortsCollectionBaseView.swift */,
 			);
-			path = reactor;
-			sourceTree = "<group>";
-		};
-		16F16DE7C06A0E17C17725E5 /* HorizontalTypeView */ = {
-			isa = PBXGroup;
-			children = (
-				0DB826E0F338DC1DF2329B6B /* reactor */,
-				4471851C156C125D094ECDAF /* view */,
-			);
-			path = HorizontalTypeView;
+			path = View;
 			sourceTree = "<group>";
 		};
 		2323A7209DA84498C6D18409 = {
@@ -363,18 +310,26 @@
 				5A4845C7144473D681807EA1 /* Project */,
 				AE7F069E6B4D0F711B65EBD9 /* Compiled */,
 				54F228BB2730B764BC381ABB /* Products */,
+				2F7426402B7C9F2300FE2E22 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		304D267538CC20BA7F01367A /* extension */ = {
+		2AC122E6B1CF198493205825 /* RenewalView */ = {
 			isa = PBXGroup;
 			children = (
-				C71D86DC430DCF20167BD12A /* Double + Extension.swift */,
-				8416978CD2275F79EA580BAC /* String + extension.swift */,
-				8053592A5575DA1C549434F6 /* UIColor + extension.swift */,
-				AB9DC6CFEF2222A983CA6A8D /* UIFont + extension.swift */,
+				61716A69ED0FD74B5CCD420C /* ShortsCell2 */,
+				BB3C324C64895E8B9E65975D /* ShortsVideoPlayer2 */,
+				BBE3EFACB28A959CDA50FE1C /* ShortsWebView */,
 			);
-			path = extension;
+			path = RenewalView;
+			sourceTree = "<group>";
+		};
+		2F7426402B7C9F2300FE2E22 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2F7426412B7C9F2300FE2E22 /* VideoToolbox.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		311F5EDDA6EFC3A4FE47CFA0 /* Resources */ = {
@@ -387,58 +342,20 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		36339B9F5D934F9EB5FA0020 /* card */ = {
+		32D6562106440BA4865B47AD /* reactor */ = {
 			isa = PBXGroup;
 			children = (
-				73692AD0E8DCD57A8DC58CB5 /* ImageCardView.swift */,
-				81307B4C11050A67CAA14424 /* VideoCardView.swift */,
+				1293F89EB14B167BD29A5B00 /* ShopLiveShortformHorizontalTypeViewReactor.swift */,
 			);
-			path = card;
+			path = reactor;
 			sourceTree = "<group>";
 		};
-		38DC3F0EFB31FEDF3E83CD1D /* V1 */ = {
+		4EA8DF379C53E6EA71A699E3 /* component */ = {
 			isa = PBXGroup;
 			children = (
-				6AF2F0E324F012A9EC747028 /* V1ShortsCollectionView.swift */,
-				24695457F6F0ECDB19F6C520 /* V1ShortsCollectionViewModel.swift */,
+				49956774CAE8DEE564457A81 /* ShopliveShortformListViewCellDelegate.swift */,
 			);
-			path = V1;
-			sourceTree = "<group>";
-		};
-		40EF4840584089ED0AADAEDA /* V2 */ = {
-			isa = PBXGroup;
-			children = (
-				3E7057B6ECF1508B67DFF373 /* V2ShortsCollectionView.swift */,
-				1ACC2C7914921C275D1A161E /* V2ShortsCollectionViewModel.swift */,
-			);
-			path = V2;
-			sourceTree = "<group>";
-		};
-		4471851C156C125D094ECDAF /* view */ = {
-			isa = PBXGroup;
-			children = (
-				FCDC6DE3593E09694903BC28 /* ShopLiveShortformHorizontalTypeView.swift */,
-			);
-			path = view;
-			sourceTree = "<group>";
-		};
-		4F5993D929CCE5A9827DD86B /* player */ = {
-			isa = PBXGroup;
-			children = (
-				C36C0474B29A796C66F12D39 /* ShortsVideo.swift */,
-				3740B9984F461B2577A97004 /* ShortsVideoPlayer.swift */,
-				B42B3EEF59B306DA70A79C82 /* SLAVLoopPlayer.swift */,
-			);
-			path = player;
-			sourceTree = "<group>";
-		};
-		503774806361EBD2D94A105E /* chat */ = {
-			isa = PBXGroup;
-			children = (
-				F1E46FD5D60452E076603917 /* ShopLiveChattingWriteView.swift */,
-				EAA7EFD481244C7D1994BBEF /* ShopLiveChatView.swift */,
-			);
-			path = chat;
+			path = component;
 			sourceTree = "<group>";
 		};
 		52910ABADBA41192D50F73BC /* InfoPlists */ = {
@@ -460,6 +377,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		563091F139CEC6D733F19BFE /* interface */ = {
+			isa = PBXGroup;
+			children = (
+				ECBCF35DD42CFA24A564496F /* ConfigAndAuth */,
+				86BAAB121D167E6A5CDA098F /* ListViewInterface */,
+				5CD26098913531E3DADF4051 /* ShopLiveBridgeInterface.swift */,
+				9D40DDD67D24C5BFE6734ED9 /* ShopLiveShortform.swift */,
+				FC7FB7A58E9D115EC40876A4 /* ShortsReceiveInterface.swift */,
+				09FD71D69BADC857BFFBA0CB /* ShortsWebInterface.swift */,
+			);
+			path = interface;
+			sourceTree = "<group>";
+		};
 		5A4845C7144473D681807EA1 /* Project */ = {
 			isa = PBXGroup;
 			children = (
@@ -470,13 +400,34 @@
 			name = Project;
 			sourceTree = "<group>";
 		};
-		61BFD2B959684917EEB806CD /* Subview */ = {
+		61716A69ED0FD74B5CCD420C /* ShortsCell2 */ = {
 			isa = PBXGroup;
 			children = (
-				BB07D6DDC188F15B5E034DF2 /* FullTypeEmptyDataView.swift */,
-				24A6ADA9494ACD3EBE5DA6DF /* FullTypeErrorView.swift */,
+				7C1CC401FDA2E15C4E621A3B /* ShortsCell.swift */,
+				3FC56A65D0C1778270A06230 /* ShortsCellReactor.swift */,
 			);
-			path = Subview;
+			path = ShortsCell2;
+			sourceTree = "<group>";
+		};
+		66909182D58F709D08C496EB /* RequestModels */ = {
+			isa = PBXGroup;
+			children = (
+				2B1DC74C626070EB078F19D2 /* ShopLiveShortformCollectionData.swift */,
+				3F04B5D918CAC24FED638AC1 /* ShopLiveShortformIdsData.swift */,
+				5BF0933CACC653A63E0EAFF1 /* ShopLiveShortformIdsMoreData.swift */,
+				1C9838D856D1F46CDB42DC9E /* ShopLiveShortformRelatedData.swift */,
+				2DFADFA3645759E4332AC173 /* ShopLiveShortformSDKOptionsData.swift */,
+			);
+			path = RequestModels;
+			sourceTree = "<group>";
+		};
+		6BC8F712DFBFB6A5E173894C /* VerticalTypeView */ = {
+			isa = PBXGroup;
+			children = (
+				D4732B88A9299E5DFE6C1717 /* reactor */,
+				D9E8FB6B8FEF4CBB3FD2172D /* view */,
+			);
+			path = VerticalTypeView;
 			sourceTree = "<group>";
 		};
 		6D5DFD8D593F80245F73724A /* Sources */ = {
@@ -489,39 +440,106 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		7BEACAC478EF0DC987F1405C /* view */ = {
+		6E156F9ACE12FC2D84FDE389 /* component */ = {
 			isa = PBXGroup;
 			children = (
-				DCE11E282C266633F8DE0893 /* ShopLiveShortformVerticalTypeView.swift */,
+				048B887084BD916D12167A1D /* api */,
+				563091F139CEC6D733F19BFE /* interface */,
+				E5425D96678F70965298E775 /* view */,
+				EEAAC44F04172ABE34E8BD74 /* AppStateNotificationObserver.swift */,
+				4091D210EDDC908124414F55 /* AudioRouteObserver.swift */,
+				2994E56222099C8A1528A975 /* JWTTool.swift */,
+				6F617F8CD24ECF4A5353FA98 /* PreloadWebView.swift */,
+				454E0A1B74BF2AC740544444 /* ShopLiveShareMetaData.swift */,
+				A9A36C77B01A874763B3AFFC /* ShortsConfiguration.swift */,
+			);
+			path = component;
+			sourceTree = "<group>";
+		};
+		71F1B63150A7ACA87E45FEB4 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				959091AD0A0A3CD8F9AEA556 /* ShopLiveShortformCardTypeView.swift */,
+				0905E5EB72F2CDE7B6E583D3 /* ShopLiveShortformCardViewCell.swift */,
+				1D77BA26C9B5A1D179220E2E /* ShopLiveShortformOverlayCardViewType0.swift */,
+				A8916166554DFA9A39680D3B /* ShopLiveShortformOverlayCardViewType1.swift */,
+				BF5CDAF8EC4DB310ED8FF781 /* ShopLiveShortformOverlayCardViewType2.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
 		};
-		83AC7FBE013BE89D2032683D /* ListViewInterface */ = {
+		7AE6EEE26ADA18706E749229 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				52BE0C8588109EFA4DAABE25 /* ShopLiveShortformBaseBuilder.swift */,
-				9181ADE7FB93F919B6E79400 /* ShopLiveShortformListViewInterface.swift */,
+				821C834D81AC2E40C07FE5A5 /* Activity.swift */,
+				B4143A4BA6C38552E3F70948 /* Author.swift */,
+				9AFC307C7F1615CF38E0D5A7 /* BrandModel.swift */,
+				72FE334475FF6386837CAEB1 /* CardModel.swift */,
+				CCD6A6DD76B1F1DF6FE56F81 /* Product.swift */,
+				F1EED9520CA435D99121ADC2 /* ProductBanner.swift */,
+				95D202D4E12E939C476FFCDA /* ShortsCollectionModel.swift */,
+				D79031DBF33104E9BF2223D5 /* ShortsDetail.swift */,
+				0592249502961CE20CF99832 /* ShortsModel.swift */,
+				F291E4EDAFB4AD8A8EF7B98B /* ShortsSettingConfigJson.swift */,
+				F66FC74687855286CDFF141B /* UserObject.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		86BAAB121D167E6A5CDA098F /* ListViewInterface */ = {
+			isa = PBXGroup;
+			children = (
+				A5048E0AC93FB315554EFFB3 /* ShopLiveShortformBaseBuilder.swift */,
+				87739612DE619E0B4124FB0F /* ShopLiveShortformListViewInterface.swift */,
 			);
 			path = ListViewInterface;
 			sourceTree = "<group>";
 		};
-		8DD2B9A8F1D3A7156D4B9B03 /* ViewOptionModel */ = {
+		8A9710CD1529C9B196AD6AF7 /* HorizontalTypeView */ = {
 			isa = PBXGroup;
 			children = (
-				82FAAC26A95F29DA4989CAA3 /* ListViewHideOptionModel.swift */,
-				B09639E560716F80672C51DC /* ShopLiveShortformVisibleFullTypeData.swift */,
+				32D6562106440BA4865B47AD /* reactor */,
+				F80DBE82C260937D2672CD75 /* view */,
 			);
-			path = ViewOptionModel;
+			path = HorizontalTypeView;
 			sourceTree = "<group>";
 		};
-		A07C9E4AA2C68E6A58A3CF28 /* cardTypeView */ = {
+		9E2A078FD4B1B1BBEF59ACCB /* chat */ = {
 			isa = PBXGroup;
 			children = (
-				FD2491FE422C65C940016AA2 /* reactor */,
-				E7E8A96D687D9D91EA12F991 /* view */,
+				9D5097366A6CB3DFA63D7162 /* ShopLiveChattingWriteView.swift */,
+				DBDBB5B50DE89AE303D980E4 /* ShopLiveChatView.swift */,
 			);
-			path = cardTypeView;
+			path = chat;
+			sourceTree = "<group>";
+		};
+		A040487C8CE711FFBBC1222D /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				1A683CA49E9BBBDF1C237AA8 /* Double + Extension.swift */,
+				3A0656080F18F435E909CABC /* String + extension.swift */,
+				A9F7EE8A4F96DC6AF61E1386 /* UIColor + extension.swift */,
+				14B7837E921440EC2907B59E /* UIFont + extension.swift */,
+			);
+			path = extension;
+			sourceTree = "<group>";
+		};
+		A0CA50AC60E1DD8E4023C581 /* V2 */ = {
+			isa = PBXGroup;
+			children = (
+				A16027D2418004592DC4B202 /* V2ShortsCollectionView.swift */,
+				ACAEBA0B2CA64569D7B3F044 /* V2ShortsCollectionViewModel.swift */,
+			);
+			path = V2;
+			sourceTree = "<group>";
+		};
+		A529DB65560007D3F2272D9B /* Subview */ = {
+			isa = PBXGroup;
+			children = (
+				3E92289ECCCC455372258733 /* FullTypeEmptyDataView.swift */,
+				F5AE147368E4315477D16A14 /* FullTypeErrorView.swift */,
+			);
+			path = Subview;
 			sourceTree = "<group>";
 		};
 		A7D752925FD45D3C2EC2BB27 /* common */ = {
@@ -541,23 +559,26 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
-		A8D555651334B5E99B865700 /* Base */ = {
+		AA83F17841B950B7DED24754 /* baseview */ = {
 			isa = PBXGroup;
 			children = (
-				61BFD2B959684917EEB806CD /* Subview */,
-				DE83E605C1B5B529AB3FD539 /* View */,
-				B5EDC1F696EDA07E1E65B522 /* ViewModel */,
+				FFAF2F945E18A9D21779784E /* ShopLiveShortBaseTypeView.swift */,
+				EFED191B332707D634B34FD5 /* ShopLiveShortformBaseEmptyDataView.swift */,
+				313DD095D63C9485AA9B2A75 /* ShopLiveShortformBaseListTypeOverlayType1.swift */,
+				A1E1A0C4F638FA22D1DA6A32 /* ShopLiveShortformBaseListTypeOverlayType2.swift */,
+				BD2D697DFFCF1F72943FFD61 /* ShopLiveShortformBaseListTypeViewCell.swift */,
+				8C7A5FFB2707A300E63E9865 /* ShopLiveShortformBaseTypeCardView.swift */,
+				D207197734DAEAC2F94ACF0C /* ShopLiveShortformBaseTypePlayerView.swift */,
 			);
-			path = Base;
+			path = baseview;
 			sourceTree = "<group>";
 		};
-		ADBDE8EC15C5CAF8E69E27D3 /* data */ = {
+		ADFAC047E350FF91C2D5C8DD /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				CFDC6966AEBD26B914AF4CF4 /* Card.swift */,
-				BA5770B258E7187520E0D97A /* ShortsType.swift */,
+				B2FDC617C9B4408B48BF2426 /* ShortsCollectionBaseViewModel.swift */,
 			);
-			path = data;
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		AE7F069E6B4D0F711B65EBD9 /* Compiled */ = {
@@ -567,113 +588,152 @@
 			name = Compiled;
 			sourceTree = "<group>";
 		};
-		B23A5284BE85F5D1BD110299 /* request */ = {
+		B995FC1361CA373E98FA093B /* reactor */ = {
 			isa = PBXGroup;
 			children = (
-				262AE1BBC59C266CFCFF569E /* ShortsCollectionAPI.swift */,
-				931EFF2389266B7A467299AE /* ShortsEventTraceAPI.swift */,
-				A2B4B43194E7775C870AF57B /* ShortsIdsListAPI.swift */,
-				918FB28246AC33361AAD1696 /* ShortsRelatedCollectionAPI.swift */,
-			);
-			path = request;
-			sourceTree = "<group>";
-		};
-		B5EDC1F696EDA07E1E65B522 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				6E9847928370D5728D94A868 /* ShortsCollectionBaseViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		B90DC092628C7FA8114EB620 /* shortformList */ = {
-			isa = PBXGroup;
-			children = (
-				06312635D60200BBBC68478E /* baseview */,
-				A07C9E4AA2C68E6A58A3CF28 /* cardTypeView */,
-				FA6DADD166101137AE3EFAD3 /* component */,
-				304D267538CC20BA7F01367A /* extension */,
-				16F16DE7C06A0E17C17725E5 /* HorizontalTypeView */,
-				B97C2BE63CCBDC9F88447574 /* VerticalTypeView */,
-				8DD2B9A8F1D3A7156D4B9B03 /* ViewOptionModel */,
-			);
-			path = shortformList;
-			sourceTree = "<group>";
-		};
-		B97C2BE63CCBDC9F88447574 /* VerticalTypeView */ = {
-			isa = PBXGroup;
-			children = (
-				E35B8988E939253A53C8E118 /* reactor */,
-				7BEACAC478EF0DC987F1405C /* view */,
-			);
-			path = VerticalTypeView;
-			sourceTree = "<group>";
-		};
-		BD4E7F74545B1174298043CF /* interface */ = {
-			isa = PBXGroup;
-			children = (
-				05AE604866F32A739E93BB70 /* ConfigAndAuth */,
-				83AC7FBE013BE89D2032683D /* ListViewInterface */,
-				FBC7775828A05A8AB119A443 /* CardViewInterface.swift */,
-				E15F994B950B11A820D2DE87 /* ShopLiveBridgeInterface.swift */,
-				8A25BEDF519B4F7E6158E0CF /* ShopLiveShortform.swift */,
-				B49BB4265C7699ACDF65318B /* ShortsReceiveInterface.swift */,
-				E20477141BCB3A7F47750EE8 /* ShortsWebInterface.swift */,
-			);
-			path = interface;
-			sourceTree = "<group>";
-		};
-		D4DB97BEBB92749288A41100 /* RequestModels */ = {
-			isa = PBXGroup;
-			children = (
-				E31CB198F422C2E057B1D0F2 /* ShopLiveShortformCollectionData.swift */,
-				2BB36D65BFA0F8CE5AFF275C /* ShopLiveShortformIdsData.swift */,
-				57329EDC70374B1ED0335B72 /* ShopLiveShortformIdsMoreData.swift */,
-				928E4EBCBEDB2D5FEB1229DB /* ShopLiveShortformRelatedData.swift */,
-				4335BE6BABAD81BA71AE38BF /* ShopLiveShortformSDKOptionsData.swift */,
-			);
-			path = RequestModels;
-			sourceTree = "<group>";
-		};
-		DE83E605C1B5B529AB3FD539 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				6635417210FE4AE55EC466E5 /* ShortsCollectionBaseView + Observer.swift */,
-				27D3E78CE7A65EE618D65579 /* ShortsCollectionBaseView + rotation.swift */,
-				F3C8362B8C4BAAE4042B21B9 /* ShortsCollectionBaseView + ShortsCellDelegate.swift */,
-				DCA5E1B4F9ECF14F87E13C09 /* ShortsCollectionBaseView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		E35B8988E939253A53C8E118 /* reactor */ = {
-			isa = PBXGroup;
-			children = (
-				086F9B5CE58A1A34C90A6965 /* ShopLiveShortformVerticalTypeViewReactor.swift */,
+				40E293CD206E8156F72EEB1A /* ShopLiveShortCardTypeViewReactor.swift */,
 			);
 			path = reactor;
 			sourceTree = "<group>";
 		};
-		E7E8A96D687D9D91EA12F991 /* view */ = {
+		BA9C81AD507E2B5F6146B188 /* ViewOptionModel */ = {
 			isa = PBXGroup;
 			children = (
-				4868F9D48B8F35DB3E969E3C /* ShopLiveShortformCardTypeView.swift */,
-				C369DD6FBD360A9924371997 /* ShopLiveShortformCardViewCell.swift */,
-				15B23A53A12AED8394098770 /* ShopLiveShortformOverlayCardViewType0.swift */,
-				389D6D44B12C38EC86D461F3 /* ShopLiveShortformOverlayCardViewType1.swift */,
-				1DA6AA2440BA48ADD14F524C /* ShopLiveShortformOverlayCardViewType2.swift */,
+				9DBE33DB2E893A118EA15A73 /* ListViewHideOptionModel.swift */,
+				6D53B5FC7C326957A53CF025 /* ShopLiveShortformVisibleFullTypeData.swift */,
+			);
+			path = ViewOptionModel;
+			sourceTree = "<group>";
+		};
+		BB3C324C64895E8B9E65975D /* ShortsVideoPlayer2 */ = {
+			isa = PBXGroup;
+			children = (
+				B1C6B7432C94B1528388C4F8 /* ShortsVideoPlayerReactor.swift */,
+				D30BA9598E4ECC0719D31D53 /* ShortsVideoPlayerView.swift */,
+			);
+			path = ShortsVideoPlayer2;
+			sourceTree = "<group>";
+		};
+		BB5240B05AE8B91F1B3A793B /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				A529DB65560007D3F2272D9B /* Subview */,
+				13B9F8B0A105A67E9A507248 /* View */,
+				ADFAC047E350FF91C2D5C8DD /* ViewModel */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		BBE3EFACB28A959CDA50FE1C /* ShortsWebView */ = {
+			isa = PBXGroup;
+			children = (
+				6757E40AE57DFE6938C90C5B /* ShortsWebView.swift */,
+				A9B510E818B65957F2DBA023 /* ShortsWebViewReactor.swift */,
+			);
+			path = ShortsWebView;
+			sourceTree = "<group>";
+		};
+		C1463CEACE2B74AEECF2EA3C /* V1 */ = {
+			isa = PBXGroup;
+			children = (
+				2EB3FBA301738DD1404DE312 /* V1ShortsCollectionView.swift */,
+				040AE4656FA00D931EF38943 /* V1ShortsCollectionViewModel.swift */,
+			);
+			path = V1;
+			sourceTree = "<group>";
+		};
+		C7FCF1A59CB6F963DD267A26 /* fullTypelist */ = {
+			isa = PBXGroup;
+			children = (
+				BB5240B05AE8B91F1B3A793B /* Base */,
+				2AC122E6B1CF198493205825 /* RenewalView */,
+				C1463CEACE2B74AEECF2EA3C /* V1 */,
+				A0CA50AC60E1DD8E4023C581 /* V2 */,
+				B861091EBB911670966CBC3A /* LatestShortsCell.swift */,
+				AF4E223A2213D8AD601DCABD /* SLCollectionView.swift */,
+				A582359CE4051EA9C7F32D94 /* SLShortFormWindow.swift */,
+			);
+			path = fullTypelist;
+			sourceTree = "<group>";
+		};
+		C8FD443A454612D1B045362E /* cardTypeView */ = {
+			isa = PBXGroup;
+			children = (
+				B995FC1361CA373E98FA093B /* reactor */,
+				71F1B63150A7ACA87E45FEB4 /* view */,
+			);
+			path = cardTypeView;
+			sourceTree = "<group>";
+		};
+		D4732B88A9299E5DFE6C1717 /* reactor */ = {
+			isa = PBXGroup;
+			children = (
+				700979ED8A40505455636618 /* ShopLiveShortformVerticalTypeViewReactor.swift */,
+			);
+			path = reactor;
+			sourceTree = "<group>";
+		};
+		D9E8FB6B8FEF4CBB3FD2172D /* view */ = {
+			isa = PBXGroup;
+			children = (
+				1E4ED977FCF10EF608D75774 /* ShopLiveShortformVerticalTypeView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
 		};
-		F713805FEB88792FB4C7005E /* api */ = {
+		E5425D96678F70965298E775 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				0B1B33B9199D3CE36EE06DE4 /* model */,
-				B23A5284BE85F5D1BD110299 /* request */,
-				D4DB97BEBB92749288A41100 /* RequestModels */,
+				9E2A078FD4B1B1BBEF59ACCB /* chat */,
+				C7FCF1A59CB6F963DD267A26 /* fullTypelist */,
+				F0ABD546169766CA5179D431 /* player */,
+				EE219FC35D0519F7F2B77D8F /* shortformList */,
+				072CEE4D791A696CF55F3439 /* FullTypeRootViewController.swift */,
 			);
-			path = api;
+			path = view;
+			sourceTree = "<group>";
+		};
+		ECBCF35DD42CFA24A564496F /* ConfigAndAuth */ = {
+			isa = PBXGroup;
+			children = (
+				EEE008D8859E6D526094A26E /* ShortFormAuthManager.swift */,
+				1D1FF710EB61E94D6FC1AED2 /* ShortFormConfigurationInfoModel.swift */,
+				C83AEDB09D9AD49C372BC1B8 /* ShortFormConfigurationInfos.swift */,
+			);
+			path = ConfigAndAuth;
+			sourceTree = "<group>";
+		};
+		EE219FC35D0519F7F2B77D8F /* shortformList */ = {
+			isa = PBXGroup;
+			children = (
+				AA83F17841B950B7DED24754 /* baseview */,
+				C8FD443A454612D1B045362E /* cardTypeView */,
+				4EA8DF379C53E6EA71A699E3 /* component */,
+				A040487C8CE711FFBBC1222D /* extension */,
+				8A9710CD1529C9B196AD6AF7 /* HorizontalTypeView */,
+				6BC8F712DFBFB6A5E173894C /* VerticalTypeView */,
+				BA9C81AD507E2B5F6146B188 /* ViewOptionModel */,
+			);
+			path = shortformList;
+			sourceTree = "<group>";
+		};
+		F0ABD546169766CA5179D431 /* player */ = {
+			isa = PBXGroup;
+			children = (
+				694E6A44351A8C72E9558275 /* ShortsVideo.swift */,
+				008AB12FF753A81EE7E9F785 /* ShortsVideoPlayer.swift */,
+				7A059EBB14C949B284AC9801 /* ShortsVideoPlayer2.swift */,
+				03A6F374B242214BBE1C638A /* SLAVLoopPlayer.swift */,
+			);
+			path = player;
+			sourceTree = "<group>";
+		};
+		F80DBE82C260937D2672CD75 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				9EA0A0399F7E74870494EDCF /* ShopLiveShortformHorizontalTypeView.swift */,
+			);
+			path = view;
 			sourceTree = "<group>";
 		};
 		F833C38E5D2D8656288B6507 /* Derived */ = {
@@ -683,35 +743,6 @@
 				6D5DFD8D593F80245F73724A /* Sources */,
 			);
 			path = Derived;
-			sourceTree = "<group>";
-		};
-		FA6DADD166101137AE3EFAD3 /* component */ = {
-			isa = PBXGroup;
-			children = (
-				CDD61871322C21F7620C4ECD /* ShopliveShortformListViewCellDelegate.swift */,
-			);
-			path = component;
-			sourceTree = "<group>";
-		};
-		FBB1CD6BAC0B8F751F744F92 /* view */ = {
-			isa = PBXGroup;
-			children = (
-				36339B9F5D934F9EB5FA0020 /* card */,
-				503774806361EBD2D94A105E /* chat */,
-				034D14AD3BADF0227456856E /* FullTypelist */,
-				4F5993D929CCE5A9827DD86B /* player */,
-				B90DC092628C7FA8114EB620 /* shortformList */,
-				10E93368CE5E67DF6E3CE3E7 /* FullTypeRootViewController.swift */,
-			);
-			path = view;
-			sourceTree = "<group>";
-		};
-		FD2491FE422C65C940016AA2 /* reactor */ = {
-			isa = PBXGroup;
-			children = (
-				BA98725F9327449A23B4EF26 /* ShopLiveShortCardTypeViewReactor.swift */,
-			);
-			path = reactor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -761,8 +792,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				ORGANIZATIONNAME = com.app;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = A8226E0EC4C8457D1C26FB0D /* Build configuration list for PBXProject "ShopLiveShortformSDK" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -812,96 +841,95 @@
 				484B520960DB46600B7CE702 /* TuistAssets+ShopLiveShortformSDK.swift in Sources */,
 				033193A244FA41A357C47CB1 /* TuistBundle+ShopLiveShortformSDK.swift in Sources */,
 				D7AFC63DC38F02C1D26192C0 /* TuistStrings+ShopLiveShortformSDK.swift in Sources */,
-				53F45CB69E1C50F6342FF4A7 /* AppStateNotificationObserver.swift in Sources */,
-				18926C2E3C154C3CA991F4A9 /* AudioRouteObserver.swift in Sources */,
-				AB899952045F69491CE68E5E /* CardModel+extension.swift in Sources */,
-				5CD18437ABF8B02041FDE626 /* JWTTool.swift in Sources */,
 				81B150B7FA22B14F1EFFA602 /* ShortformEventTraceManager.swift in Sources */,
 				CBC624D4C777404DC8ED9890 /* ShortformNativeOnEventsManager.swift in Sources */,
-				37ABB9B0F14D82A40B416217 /* PreloadWebView.swift in Sources */,
-				B0446A20B809530F28C7577B /* ShopLiveShareMetaData.swift in Sources */,
-				0A43058264B2F08417A4D50C /* ShortsConfiguration.swift in Sources */,
-				1CFA7C774919D3BCE773FB01 /* ShopLiveShortformCollectionData.swift in Sources */,
-				23B7E3AE95019BE63C289902 /* ShopLiveShortformIdsData.swift in Sources */,
-				BC19B7983AB7C5CD39A3AC4B /* ShopLiveShortformIdsMoreData.swift in Sources */,
-				72E37FCA2562128DCA384FF9 /* ShopLiveShortformRelatedData.swift in Sources */,
-				1C0FFDDD137CFC8B81ED1030 /* ShopLiveShortformSDKOptionsData.swift in Sources */,
-				B52F0AD180CEE043C72C3082 /* Activity.swift in Sources */,
-				FD1A24D20EE21DF057644487 /* Author.swift in Sources */,
-				42614CC2BAABD8CF0CB5D37D /* BrandModel.swift in Sources */,
-				BA66F1916DE1D8C0AFE86A14 /* CardModel.swift in Sources */,
-				5283A5D92C7FBB2AD9510410 /* Product.swift in Sources */,
-				43AA42EDDCB95E1687242BB5 /* ProductBanner.swift in Sources */,
-				018859CD5CE1CE0248397E31 /* ShortsCollectionModel.swift in Sources */,
-				58F26C101431C032F9685C68 /* ShortsDetail.swift in Sources */,
-				A3E487483F84DE073366B6D8 /* ShortsModel.swift in Sources */,
-				EE0919E211C85BFA67538F43 /* ShortsSettingConfigJson.swift in Sources */,
-				7CF4ED758808EE0DF274211C /* UserObject.swift in Sources */,
-				51629E86B3FA30EA6A7959C1 /* ShortsCollectionAPI.swift in Sources */,
-				F2E165AC00FD35F8D9A38AED /* ShortsEventTraceAPI.swift in Sources */,
-				A21CB9AFA103F41965296D13 /* ShortsIdsListAPI.swift in Sources */,
-				A6E66EF401C200C649247E5A /* ShortsRelatedCollectionAPI.swift in Sources */,
 				E597C3F943B4B8DDA0D58ACF /* Throttle.swift in Sources */,
-				0B0A37C2758CC4C468065E53 /* Card.swift in Sources */,
-				41F6C253F54345309503F3D8 /* ShortsType.swift in Sources */,
-				337BA9E688A7F1BC97E67412 /* CardViewInterface.swift in Sources */,
-				B0B301D71BC59274A4C8877F /* ShortFormAuthManager.swift in Sources */,
-				87090531B78E6757BF970BB4 /* ShortFormConfigurationInfoModel.swift in Sources */,
-				384C1FE779849FAF7FFF0469 /* ShortFormConfigurationInfos.swift in Sources */,
-				22826157225C1A59D4C8E406 /* ShopLiveShortformBaseBuilder.swift in Sources */,
-				4E62450C72360744BE0D7B69 /* ShopLiveShortformListViewInterface.swift in Sources */,
-				F63DE56E33180840D17571A3 /* ShopLiveBridgeInterface.swift in Sources */,
-				3DB17F41E205AD7DA6D66651 /* ShopLiveShortform.swift in Sources */,
-				17D11624059466E1AB726254 /* ShortsReceiveInterface.swift in Sources */,
-				B5B2ECBBDD2B247C6882133E /* ShortsWebInterface.swift in Sources */,
-				83B1418FFC2B84C986E9CEB6 /* FullTypeRootViewController.swift in Sources */,
-				7DC31A1044082513689F32AA /* FullTypeEmptyDataView.swift in Sources */,
-				19FF966177C1E0805FFD206A /* FullTypeErrorView.swift in Sources */,
-				8B778F90BEC739280C6CDF28 /* ShortsCollectionBaseView + Observer.swift in Sources */,
-				04E5648D5D45ED3BA0834D42 /* ShortsCollectionBaseView + ShortsCellDelegate.swift in Sources */,
-				3E77A0E4233E88050CBF5AD3 /* ShortsCollectionBaseView + rotation.swift in Sources */,
-				826D1DCA05B6F3EB07B9F718 /* ShortsCollectionBaseView.swift in Sources */,
-				E0693EDDD3D5F6E8F28F0E8A /* ShortsCollectionBaseViewModel.swift in Sources */,
-				1A9C66E545A86E48E6555EB7 /* LatestShortsCell.swift in Sources */,
-				6DC2671489281C170BA5AA1D /* SLCollectionView.swift in Sources */,
-				72FE5313EFEB2D5CBE7E9F7E /* SLShortFormWindow.swift in Sources */,
-				2A365E6658E3BAF429409DAA /* ShortsCell.swift in Sources */,
-				FA258A922E957231ADABEF35 /* ShortsView.swift in Sources */,
-				9A84DACB57EFA314CE1262D7 /* V1ShortsCollectionView.swift in Sources */,
-				E72FA7E7A6EE175FE9A6DB1A /* V1ShortsCollectionViewModel.swift in Sources */,
-				EA372DE3C7631E99C80B4239 /* V2ShortsCollectionView.swift in Sources */,
-				E556BE938CFC5679A7F69EC8 /* V2ShortsCollectionViewModel.swift in Sources */,
-				BA400F7D2E2B0535DCAAEB0B /* ImageCardView.swift in Sources */,
-				302256C8BA27EA7387C91415 /* VideoCardView.swift in Sources */,
-				AF926C295BB124494A837B13 /* ShopLiveChatView.swift in Sources */,
-				88DF459106687EDA8630371B /* ShopLiveChattingWriteView.swift in Sources */,
-				9E4EB0E331ECE073DB995670 /* SLAVLoopPlayer.swift in Sources */,
-				913B5E367D0DDB958F5D80A8 /* ShortsVideo.swift in Sources */,
-				CC8F31D30721D2B87BDFEA66 /* ShortsVideoPlayer.swift in Sources */,
-				935F6BC1DF63000E5A2E148E /* ShopLiveShortformHorizontalTypeViewReactor.swift in Sources */,
-				9FF294F809C4E08C838FEED9 /* ShopLiveShortformHorizontalTypeView.swift in Sources */,
-				A39EDF1CC83A55581A07A684 /* ShopLiveShortformVerticalTypeViewReactor.swift in Sources */,
-				B45A2B21D48FFC157471B240 /* ShopLiveShortformVerticalTypeView.swift in Sources */,
-				DB726CB175394BEC285D01DA /* ListViewHideOptionModel.swift in Sources */,
-				174669B8985B55ADE8D3B07C /* ShopLiveShortformVisibleFullTypeData.swift in Sources */,
-				6FD7384A8269FB065F61FA3C /* ShopLiveShortBaseTypeView.swift in Sources */,
-				3BEDFB2E5270656DE4F05701 /* ShopLiveShortformBaseEmptyDataView.swift in Sources */,
-				E596214670A0E69CE3C70360 /* ShopLiveShortformBaseListTypeOverlayType1.swift in Sources */,
-				B595AA35731252736668AAB4 /* ShopLiveShortformBaseListTypeOverlayType2.swift in Sources */,
-				0695C57BDC3CCEA086CE494E /* ShopLiveShortformBaseListTypeViewCell.swift in Sources */,
-				0A46FA4028D932BFB67FBAFC /* ShopLiveShortformBaseTypeCardView.swift in Sources */,
-				9A590552330ABB00E32B63BA /* ShopLiveShortformBaseTypePlayerView.swift in Sources */,
-				1ABA98C8AACDC43FE05EC0D9 /* ShopLiveShortCardTypeViewReactor.swift in Sources */,
-				46F887594601FC1B20D41C52 /* ShopLiveShortformCardTypeView.swift in Sources */,
-				DB9E61E8395F28E6BB96AACE /* ShopLiveShortformCardViewCell.swift in Sources */,
-				4FABE1BE7FBF9053EC459CC4 /* ShopLiveShortformOverlayCardViewType0.swift in Sources */,
-				8729ACCFF97D92611B766DD7 /* ShopLiveShortformOverlayCardViewType1.swift in Sources */,
-				D3C77A1859B042BCA644481E /* ShopLiveShortformOverlayCardViewType2.swift in Sources */,
-				CCD8B683AE78495BD8A4DC38 /* ShopliveShortformListViewCellDelegate.swift in Sources */,
-				9D3BC20FB12C935CAB0293A4 /* Double + Extension.swift in Sources */,
-				9570827F61015E329B1D82B7 /* String + extension.swift in Sources */,
-				660634FC86C2738453687BDB /* UIColor + extension.swift in Sources */,
-				E952AA857BF38958DBF75E4F /* UIFont + extension.swift in Sources */,
+				F1DD2A87CCEF2CFB55B7AA35 /* AppStateNotificationObserver.swift in Sources */,
+				1AD658F7429F1AF17A5AD0A9 /* AudioRouteObserver.swift in Sources */,
+				7DD414645CE9242100FE930F /* JWTTool.swift in Sources */,
+				AA3E18D73D47E08981DD4624 /* PreloadWebView.swift in Sources */,
+				40CFE7D722BE14CA6EE1FCA6 /* ShopLiveShareMetaData.swift in Sources */,
+				1362C6171FE2E3F8544F1841 /* ShortsConfiguration.swift in Sources */,
+				504F52C6B166F2285A42E421 /* ShopLiveShortformCollectionData.swift in Sources */,
+				35F2215C2AC3AB0D1F58FAB3 /* ShopLiveShortformIdsData.swift in Sources */,
+				7C62D41DA111AB6F27CCBF85 /* ShopLiveShortformIdsMoreData.swift in Sources */,
+				EBC112AC582E6F6E2CDEE295 /* ShopLiveShortformRelatedData.swift in Sources */,
+				CFA9745F5274A2AA531F6D59 /* ShopLiveShortformSDKOptionsData.swift in Sources */,
+				90A7D02009F5D8F31BAC77FF /* Activity.swift in Sources */,
+				93DC1A48C77987D4863A1584 /* Author.swift in Sources */,
+				1C69C51FDD9A36715FE8040C /* BrandModel.swift in Sources */,
+				3B2E53AC58B082C1D1F1FD26 /* CardModel.swift in Sources */,
+				BCB6C37EAE8327F37371964F /* Product.swift in Sources */,
+				D8E40BCD51826013F49E1912 /* ProductBanner.swift in Sources */,
+				71B30BFDE93B5147CFB1826B /* ShortsCollectionModel.swift in Sources */,
+				2B8A72EA1EB11740C271E7D3 /* ShortsDetail.swift in Sources */,
+				4CE79441D7708BCA97A9178E /* ShortsModel.swift in Sources */,
+				3AD7DF431CC613F0EE1A625B /* ShortsSettingConfigJson.swift in Sources */,
+				8AEA86FFC647F64FF7C4655B /* UserObject.swift in Sources */,
+				F1728D392B5FAF92FA048972 /* ShortsCollectionAPI.swift in Sources */,
+				5C88F58A2B908DAF5C7AF417 /* ShortsEventTraceAPI.swift in Sources */,
+				29712952BF3D62E3CCDA1C09 /* ShortsIdsListAPI.swift in Sources */,
+				2BC3921B7A6FC34D2C75CEDD /* ShortsRelatedCollectionAPI.swift in Sources */,
+				F6ED9E0AC0C89F59EBCFFF6A /* ShortFormAuthManager.swift in Sources */,
+				1B0F2A3B78851A439DCF5E02 /* ShortFormConfigurationInfoModel.swift in Sources */,
+				7A976C38A230CB6C5B464D30 /* ShortFormConfigurationInfos.swift in Sources */,
+				E6B8661AF0ADE4A85C6ABAFB /* ShopLiveShortformBaseBuilder.swift in Sources */,
+				E397BFBB016B15843BD02F05 /* ShopLiveShortformListViewInterface.swift in Sources */,
+				DE5F749D9E31B75A56CE3FE7 /* ShopLiveBridgeInterface.swift in Sources */,
+				5169503201D66F110D067F57 /* ShopLiveShortform.swift in Sources */,
+				1E9F7CCDDB1C767178721001 /* ShortsReceiveInterface.swift in Sources */,
+				C629CA2149E1A2BD0E448FB3 /* ShortsWebInterface.swift in Sources */,
+				FEB55BCA092FB100CAFD8D6A /* FullTypeRootViewController.swift in Sources */,
+				371585806EE02432BA679790 /* ShopLiveChatView.swift in Sources */,
+				0F3843BBBA955F180100A709 /* ShopLiveChattingWriteView.swift in Sources */,
+				AC71366AF7036EBA9D14543E /* FullTypeEmptyDataView.swift in Sources */,
+				14E6C3177331A5C5179DAFBA /* FullTypeErrorView.swift in Sources */,
+				0D0DD32B152648227220C902 /* ShortsCollectionBaseView + Observer.swift in Sources */,
+				578F7AA581C49D8D44F75511 /* ShortsCollectionBaseView + ShortsCell2Delegate.swift in Sources */,
+				DEEC08D9866A72CE7E99839A /* ShortsCollectionBaseView + rotation.swift in Sources */,
+				146B153E46DAB680004956A9 /* ShortsCollectionBaseView.swift in Sources */,
+				C5E18480DEFD00253A2994FF /* ShortsCollectionBaseViewModel.swift in Sources */,
+				4805020C6CDBE9CDD1292ABF /* LatestShortsCell.swift in Sources */,
+				118F5418ACADBA4A70936A32 /* ShortsCell.swift in Sources */,
+				07E0BBFE5FB9236752C60D3F /* ShortsCellReactor.swift in Sources */,
+				3181265AB70EA9D3093B9EFB /* ShortsVideoPlayerReactor.swift in Sources */,
+				8962C8137CD5151D49A15EB3 /* ShortsVideoPlayerView.swift in Sources */,
+				2EF37FDBD275F24F603CFAE5 /* ShortsWebView.swift in Sources */,
+				7B5B07EF0582024025758255 /* ShortsWebViewReactor.swift in Sources */,
+				A41D9BECFD39E8ED7B2FAF9B /* SLCollectionView.swift in Sources */,
+				4F6A1CAE8558F2C9794FFE56 /* SLShortFormWindow.swift in Sources */,
+				CB4D49707454BB69A7AA9AA0 /* V1ShortsCollectionView.swift in Sources */,
+				3253B8FDBE8EEC4C54400989 /* V1ShortsCollectionViewModel.swift in Sources */,
+				E1700805156FF6323FAA79E3 /* V2ShortsCollectionView.swift in Sources */,
+				5AB6908101AE2DB278EA94F7 /* V2ShortsCollectionViewModel.swift in Sources */,
+				C72D3D4CA4A3DB145C0F0A11 /* SLAVLoopPlayer.swift in Sources */,
+				F65AA68B89A2BD5C834B1251 /* ShortsVideo.swift in Sources */,
+				12A4F9A4DD72C74862E59B54 /* ShortsVideoPlayer.swift in Sources */,
+				B2201EC224EDC4773E48B2A8 /* ShortsVideoPlayer2.swift in Sources */,
+				85C10AB6E4DFD2C42035494C /* ShopLiveShortformHorizontalTypeViewReactor.swift in Sources */,
+				AD83E853A9E24F196B5AADF2 /* ShopLiveShortformHorizontalTypeView.swift in Sources */,
+				1B1CFFA4DF9BC6BC9512DB8F /* ShopLiveShortformVerticalTypeViewReactor.swift in Sources */,
+				E948946A32EC48788004D01E /* ShopLiveShortformVerticalTypeView.swift in Sources */,
+				6496417B77F0ADC5752F1CD1 /* ListViewHideOptionModel.swift in Sources */,
+				48240F70CF74C350587DA69D /* ShopLiveShortformVisibleFullTypeData.swift in Sources */,
+				D4A665B5AC88CA2492D37DD5 /* ShopLiveShortBaseTypeView.swift in Sources */,
+				AB480B50ADA103D42CFDE87D /* ShopLiveShortformBaseEmptyDataView.swift in Sources */,
+				6F7B27CBA5271899095CB088 /* ShopLiveShortformBaseListTypeOverlayType1.swift in Sources */,
+				CD10C8A97D6F039C4AA8C28B /* ShopLiveShortformBaseListTypeOverlayType2.swift in Sources */,
+				59A9F9039FF5B4EDA75AE74E /* ShopLiveShortformBaseListTypeViewCell.swift in Sources */,
+				FCF0794240EB11EF1FC79F7B /* ShopLiveShortformBaseTypeCardView.swift in Sources */,
+				AE2A54F032B02765D4C2C734 /* ShopLiveShortformBaseTypePlayerView.swift in Sources */,
+				B81490C53E91DDF81F23A6B3 /* ShopLiveShortCardTypeViewReactor.swift in Sources */,
+				0E0EB701504B5FD78A971AE6 /* ShopLiveShortformCardTypeView.swift in Sources */,
+				C7ABFF88846B41245BB18AC4 /* ShopLiveShortformCardViewCell.swift in Sources */,
+				511B435C939633DA4D921EFD /* ShopLiveShortformOverlayCardViewType0.swift in Sources */,
+				CBD9969EDE59BF9EBB0D8344 /* ShopLiveShortformOverlayCardViewType1.swift in Sources */,
+				B25D645A15F17273C1E00A7D /* ShopLiveShortformOverlayCardViewType2.swift in Sources */,
+				9407CBC6044DCC2F7879149D /* ShopliveShortformListViewCellDelegate.swift in Sources */,
+				4EF7075C7DACE37D81A7841E /* Double + Extension.swift in Sources */,
+				E984151E2C7B2EF416B075A1 /* String + extension.swift in Sources */,
+				B65C9BB5733E86C4AEB7632C /* UIColor + extension.swift in Sources */,
+				4729EC340574BA8D25103B25 /* UIFont + extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
