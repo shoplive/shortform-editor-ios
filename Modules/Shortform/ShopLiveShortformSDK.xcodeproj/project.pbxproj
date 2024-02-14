@@ -24,7 +24,6 @@
 		1CFA7C774919D3BCE773FB01 /* ShopLiveShortformCollectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31CB198F422C2E057B1D0F2 /* ShopLiveShortformCollectionData.swift */; };
 		22826157225C1A59D4C8E406 /* ShopLiveShortformBaseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BE0C8588109EFA4DAABE25 /* ShopLiveShortformBaseBuilder.swift */; };
 		23B7E3AE95019BE63C289902 /* ShopLiveShortformIdsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB36D65BFA0F8CE5AFF275C /* ShopLiveShortformIdsData.swift */; };
-		268221FF2489BEFC9986AF66 /* ShopLiveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32A06CEBD610DA996E8C4298 /* ShopLiveSDKCommon.framework */; };
 		2A365E6658E3BAF429409DAA /* ShortsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6033D0695B535A11098CD011 /* ShortsCell.swift */; };
 		302256C8BA27EA7387C91415 /* VideoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81307B4C11050A67CAA14424 /* VideoCardView.swift */; };
 		337BA9E688A7F1BC97E67412 /* CardViewInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC7775828A05A8AB119A443 /* CardViewInterface.swift */; };
@@ -84,6 +83,7 @@
 		BA400F7D2E2B0535DCAAEB0B /* ImageCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73692AD0E8DCD57A8DC58CB5 /* ImageCardView.swift */; };
 		BA66F1916DE1D8C0AFE86A14 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032B64BB87E1819A503F33D9 /* CardModel.swift */; };
 		BC19B7983AB7C5CD39A3AC4B /* ShopLiveShortformIdsMoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57329EDC70374B1ED0335B72 /* ShopLiveShortformIdsMoreData.swift */; };
+		C34F28C6E649902BD1408454 /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08AE97A817BCE7781A1C704A /* ShopliveSDKCommon.framework */; };
 		CBC624D4C777404DC8ED9890 /* ShortformNativeOnEventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ED0B65E0CEAAFE8650DB32 /* ShortformNativeOnEventsManager.swift */; };
 		CC8F31D30721D2B87BDFEA66 /* ShortsVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3740B9984F461B2577A97004 /* ShortsVideoPlayer.swift */; };
 		CCD8B683AE78495BD8A4DC38 /* ShopliveShortformListViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD61871322C21F7620C4ECD /* ShopliveShortformListViewCellDelegate.swift */; };
@@ -144,6 +144,7 @@
 		00E9AB1872B375F49476A3BB /* ShortsSettingConfigJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsSettingConfigJson.swift; sourceTree = "<group>"; };
 		032B64BB87E1819A503F33D9 /* CardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
 		086F9B5CE58A1A34C90A6965 /* ShopLiveShortformVerticalTypeViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformVerticalTypeViewReactor.swift; sourceTree = "<group>"; };
+		08AE97A817BCE7781A1C704A /* ShopliveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopliveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08B6BAD35CBF4FA97B11BAD0 /* ShortsDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsDetail.swift; sourceTree = "<group>"; };
 		0F25FCDCDB679BAD6C43596E /* AppStateNotificationObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateNotificationObserver.swift; sourceTree = "<group>"; };
 		10E93368CE5E67DF6E3CE3E7 /* FullTypeRootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullTypeRootViewController.swift; sourceTree = "<group>"; };
@@ -161,7 +162,6 @@
 		2B6353DF03F5B9134E63FB70 /* ShopLiveShortBaseTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortBaseTypeView.swift; sourceTree = "<group>"; };
 		2BB36D65BFA0F8CE5AFF275C /* ShopLiveShortformIdsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformIdsData.swift; sourceTree = "<group>"; };
 		2FCB40A26C48E7A7E3DD6494 /* PreloadWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadWebView.swift; sourceTree = "<group>"; };
-		32A06CEBD610DA996E8C4298 /* ShopLiveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		34FE9B8E6B0060F3DDBCE4C9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3740B9984F461B2577A97004 /* ShortsVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsVideoPlayer.swift; sourceTree = "<group>"; };
 		389D6D44B12C38EC86D461F3 /* ShopLiveShortformOverlayCardViewType1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformOverlayCardViewType1.swift; sourceTree = "<group>"; };
@@ -256,7 +256,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				268221FF2489BEFC9986AF66 /* ShopLiveSDKCommon.framework in Frameworks */,
+				C34F28C6E649902BD1408454 /* ShopliveSDKCommon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,7 +453,7 @@
 		54F228BB2730B764BC381ABB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				32A06CEBD610DA996E8C4298 /* ShopLiveSDKCommon.framework */,
+				08AE97A817BCE7781A1C704A /* ShopliveSDKCommon.framework */,
 				689C08DE47C12BA36D04D78B /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */,
 				3B8D5F143A9863A0DDAA6EAF /* ShopLiveShortformSDK.framework */,
 			);
@@ -947,7 +947,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.shoplive.shortform.sdk;
+				PRODUCT_BUNDLE_IDENTIFIER = "cloud.shoplive.matrix-shortform-ios";
 				PRODUCT_NAME = ShopLiveShortformSDK;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1030,7 +1030,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Derived/InfoPlists/ShopLiveShortformSDK_ShopLiveShortformSDK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.shoplive.shortform.sdk.resources;
+				PRODUCT_BUNDLE_IDENTIFIER = "cloud.shoplive.matrix-shortform-ios.resources";
 				PRODUCT_NAME = ShopLiveShortformSDK_ShopLiveShortformSDK;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
@@ -1062,7 +1062,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.shoplive.shortform.sdk;
+				PRODUCT_BUNDLE_IDENTIFIER = "cloud.shoplive.matrix-shortform-ios";
 				PRODUCT_NAME = ShopLiveShortformSDK;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1085,7 +1085,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Derived/InfoPlists/ShopLiveShortformSDK_ShopLiveShortformSDK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.shoplive.shortform.sdk.resources;
+				PRODUCT_BUNDLE_IDENTIFIER = "cloud.shoplive.matrix-shortform-ios.resources";
 				PRODUCT_NAME = ShopLiveShortformSDK_ShopLiveShortformSDK;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;

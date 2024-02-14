@@ -7,7 +7,7 @@
 
 import Foundation
 import AVKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 
 

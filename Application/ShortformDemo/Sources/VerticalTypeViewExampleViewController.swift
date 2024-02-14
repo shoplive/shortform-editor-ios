@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import ShopLiveShortformSDK
 import FirebaseDynamicLinks
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 class VerticalTypeViewExampleViewController : UIViewController {
    

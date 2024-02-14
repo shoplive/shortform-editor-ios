@@ -8,7 +8,7 @@
 import Foundation
 import WebKit
 import UIKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 @objc public enum ResultStatus: Int, CaseIterable {
     case SHOW

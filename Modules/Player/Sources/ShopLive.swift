@@ -8,7 +8,7 @@
 import UIKit
 import AVKit
 import WebKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 @objc internal protocol ShopLiveComponent: AnyObject {
     @objc var playerWindow: ShopliveWindow? { get }

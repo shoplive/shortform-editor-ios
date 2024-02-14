@@ -7,150 +7,150 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0292F6636C01ECC162A2638C /* KeychainData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4D5F45D803407058B7301 /* KeychainData.swift */; };
-		033CF24EBF8B8D93BD311400 /* SLNVActivityIndicatorAnimationBallSpinFadeLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4117E81570BC11718D43C65C /* SLNVActivityIndicatorAnimationBallSpinFadeLoader.swift */; };
-		0384A11E44B7619B08A0283A /* UITextView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF039D3D768F2B0F24AD396C /* UITextView+extension.swift */; };
-		0B29082804E3B78EEB925D49 /* SLNVActivityIndicatorAnimationBlank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E4370B9443E96D600EBB22 /* SLNVActivityIndicatorAnimationBlank.swift */; };
-		0E6F775203826479EE332D84 /* Collection+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148EBCC2075222498CA99402 /* Collection+extension.swift */; };
-		0EDF046DF2D20AACDAC482BC /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593CAF0E4EB77DC93117D275 /* UIColor+extension.swift */; };
-		12F5AAB820399C0DD035B2C1 /* SLNVActivityIndicatorAnimationBallGridBeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69BF5A42BE8C487D4730F95 /* SLNVActivityIndicatorAnimationBallGridBeat.swift */; };
-		1438C8989D9F4153152057DD /* SLNVActivityIndicatorAnimationBallRotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C154DC3CDF2ABB34516FE31B /* SLNVActivityIndicatorAnimationBallRotate.swift */; };
-		156135F58EF0DB0483321EE5 /* SLNVActivityIndicatorShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A426935EFD78637EF1BDF2 /* SLNVActivityIndicatorShape.swift */; };
-		159F4024D6E8DCC5FE5581B0 /* SLNVActivityIndicatorAnimationBallGridPulse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288C900D58A804C2AF858A24 /* SLNVActivityIndicatorAnimationBallGridPulse.swift */; };
-		15DD822C3E4167A5B95F35C3 /* SLNVActivityIndicatorAnimationTriangleSkewSpin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B0D75C2C53B5CE3369B68B /* SLNVActivityIndicatorAnimationTriangleSkewSpin.swift */; };
-		191BDCFE79C856F7E165764E /* ShopLiveHapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500C282AE60019DC925732D1 /* ShopLiveHapticManager.swift */; };
-		1CA4250586024817007B4288 /* ShopLiveUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1AD3ED08125931DCC605A3 /* ShopLiveUserDefaults.swift */; };
-		1EBF26225BDDDC5A860DEEB7 /* SLNVActivityIndicatorAnimationSemiCircleSpin.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90E0CA19DBC8DA58556DCBE /* SLNVActivityIndicatorAnimationSemiCircleSpin.swift */; };
-		21F00D63F6EB6AE3F664A08A /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C19C04C5674588388EB127 /* KeychainItemAccessibility.swift */; };
-		2250D1D054103C66CFA28F91 /* SLFlexibleParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98332355BC2D745443C03C34 /* SLFlexibleParser.swift */; };
-		22D23D7D5C79F416E4CF67E7 /* ShopLiveDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB25C3B871C1E3CC228149B6 /* ShopLiveDefines.swift */; };
-		2421EF2F5B638B2B08DF30A5 /* UIScreen+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B42C78F955844D65CC61132 /* UIScreen+extension.swift */; };
-		2898609776BCE17D511FC1C3 /* CommonKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2139C64A6F14E957062A36A7 /* CommonKeys.swift */; };
-		29C3204E459F37A20D429A2A /* UIDeviceOrientation+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D36B2D6E594DED5DED4C3CF /* UIDeviceOrientation+extension.swift */; };
-		2A3E108D2CEB8BB89F8584BB /* ShopLiveSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C040E50036A71C9C11C2BCA /* ShopLiveSession.swift */; };
-		2A4B0037814C593F3695EAE8 /* CGFloat+extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B69C265636F56F3FF0C835 /* CGFloat+extention.swift */; };
-		2C2A64C732919FD0377A0EBC /* ShopLiveCommonUserObjc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5411A6270F477E84217CF39F /* ShopLiveCommonUserObjc.swift */; };
-		2C31C841EEABB6CE2E261623 /* JSONNull.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D98B1B6B344A7F158012044 /* JSONNull.swift */; };
-		2D84232BC8C94300AF8D025C /* SLNVActivityIndicatorAnimationBallBeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB027CA71C2FDB4782DFB81D /* SLNVActivityIndicatorAnimationBallBeat.swift */; };
-		2DB96B9E326CC077443FA3FE /* UIWindow+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11517997192EAC3242EC6A49 /* UIWindow+extension.swift */; };
-		2F70ECDA3791F4D741007215 /* UIEdgetInset+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F896B716F7AEC3C04C6C95C2 /* UIEdgetInset+extension.swift */; };
-		31B4CB0053A56C2323EEACB5 /* UIDevice+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4802A18ED8B3BC1D5D55C4B7 /* UIDevice+extension.swift */; };
-		32FD3612AAE0B15BA0687DA6 /* Int+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6AE0648F61A5B74598B867E /* Int+extensions.swift */; };
-		35A06655423E280527F68BB8 /* UIStackView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8D381DE53FD63C04015BDB /* UIStackView+extension.swift */; };
-		36834D2B02D8FA2AD17EC3B6 /* AssociatedObjectStore+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26266D11C02E421D6724F139 /* AssociatedObjectStore+extension.swift */; };
-		36DD83B9C74029B1FA42087C /* NotificationCenter+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9EE8393D94CC81A65FC690 /* NotificationCenter+extension.swift */; };
-		3846712491BD0FC1CD5CA533 /* UIImage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3400DCF8CCA58D92A4D263C8 /* UIImage+extension.swift */; };
-		39C8557440072289D8136675 /* UIInterfaceOrientation+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5077C2E11E8F0940EBE68C7 /* UIInterfaceOrientation+extension.swift */; };
-		3D335C1595D28538AB24C148 /* SLCircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640FABFBB9C8BDAD837723B9 /* SLCircularProgressView.swift */; };
-		3F52EE054574395F6809D748 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617DB67976900B550A271C55 /* PermissionManager.swift */; };
-		41998B4A0373E147A5883702 /* SLNVActivityIndicatorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9994BFED182BA1BC7260D9FA /* SLNVActivityIndicatorPresenter.swift */; };
-		44036C48F70BF5478BEF09DD /* SLNVActivityIndicatorAnimationBallPulseSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA77C2C5CE3A4101133955B7 /* SLNVActivityIndicatorAnimationBallPulseSync.swift */; };
-		45817B32362CDE35369BF81E /* UINavigationController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7DDB63F615D1DE46D58941 /* UINavigationController+extension.swift */; };
-		474ABED077293E3F27A6F3E5 /* SLNVActivityIndicatorAnimationBallTrianglePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070D19CAF44F7C4565272181 /* SLNVActivityIndicatorAnimationBallTrianglePath.swift */; };
-		48F9B4E480EF7F9B516CFD8A /* SLNVActivityIndicatorAnimationBallPulseRise.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CFD6D8F13561170FF68C4C /* SLNVActivityIndicatorAnimationBallPulseRise.swift */; };
-		49DA953B1BA086E5ADFD077C /* ShopLiveJWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA1C028C15409694FC18345 /* ShopLiveJWT.swift */; };
-		4F40D56680E8397D253ED335 /* SLWebview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894DDE3F58416F039B38B7D0 /* SLWebview.swift */; };
-		4FAB7F3DA7EC31C26447A849 /* AudioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2C0697F4CD9DA02A53F9FC /* AudioSessionManager.swift */; };
-		5100A26399BC10C0D2158910 /* ShopLiveCommonError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F482805F1102B1785DB850DA /* ShopLiveCommonError.swift */; };
-		5184752136D1DF0421D32BAD /* Float64+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263351091467C5EB059A0860 /* Float64+extension.swift */; };
-		5422DA53C304FF696CF71BE8 /* URL+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B4D484F3CD7B9EC7BA4697B /* URL+extension.swift */; };
-		5429CF8D7B06941C6B593BDB /* ShopLiveCommonAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510FBD108A9922604EC1F8D3 /* ShopLiveCommonAuth.swift */; };
-		5567BBF3245A9C46F27834BC /* ShopLiveCommonUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D1EA6BBDACA1D9E9521975 /* ShopLiveCommonUser.swift */; };
-		5692C9E44E20403814772B9B /* SLBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8B3CB3840046061725CE1C /* SLBaseViewController.swift */; };
-		5A0B171BF33A663D96DDD04E /* UIApplication+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238E19236F263802E19546C8 /* UIApplication+extension.swift */; };
-		5B33EEF6154BC8785EA04115 /* SLToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68268A1C2AAA9D065C10F22B /* SLToast.swift */; };
-		5BC95A5328F546E2CC593A39 /* CGSize + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9485CAB5376C4CCEE08F7C /* CGSize + extension.swift */; };
-		5CCBEC950DFF87651BAB5064 /* CommonStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB3BAC28155DA51719C9550 /* CommonStrings.swift */; };
-		5E6BFD9C1CA7CABC37D560E5 /* CGPoint + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6A8E6D9B64678C15402A00 /* CGPoint + extension.swift */; };
-		5E8224DE5C217E2D06B6534A /* SLNVActivityIndicatorAnimationBallClipRotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89273BC77AD1A6A008EEA2C3 /* SLNVActivityIndicatorAnimationBallClipRotate.swift */; };
-		5EA1F87D36A08F7075034EC7 /* SLTextFieldWithPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB0FB6D3CE9C863C441909B /* SLTextFieldWithPadding.swift */; };
-		5F0DA5034E28055DCD2CD2B2 /* MPVolumeView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337FD129D23FD41C18858CEC /* MPVolumeView+extension.swift */; };
-		600C1036C6AE00269E89CF37 /* WKWebView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3F957F2666F61BE52A5FC8 /* WKWebView+extension.swift */; };
-		627668759AED95FF301C64CC /* UITextField+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF832E1F3BFEFFEF2E18E10 /* UITextField+extension.swift */; };
-		663F64D292679360C8FC4E45 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3DB88670390DCD618A81C4 /* String+extension.swift */; };
-		688893CB16A413434172E756 /* SLNVActivityIndicatorAnimationLineSpinFadeLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F010B9289CADC6B97F44CDC7 /* SLNVActivityIndicatorAnimationLineSpinFadeLoader.swift */; };
-		6D395028AD6883BFA1556F44 /* AVPlayer+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA5E15EFF8471F206B95F4F /* AVPlayer+extension.swift */; };
-		6ED0111BBC257E636AEACB48 /* IndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44C5918BE9953DDC2EC2F31B /* IndicatorView.swift */; };
-		6F561D26A33821D18A1A2DFE /* SLNVActivityIndicatorAnimationOrbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8325BD3E898013D547109367 /* SLNVActivityIndicatorAnimationOrbit.swift */; };
-		7047979E0880C0A3FC290703 /* SLNVActivityIndicatorAnimationLineScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B0BA3230E8986774082E9E /* SLNVActivityIndicatorAnimationLineScale.swift */; };
-		73AA667C7BC1C52BB598270D /* SLNVActivityIndicatorAnimationAudioEqualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78930086B2A66685DB7D41 /* SLNVActivityIndicatorAnimationAudioEqualizer.swift */; };
-		74F66CC877DB475E9D7EB0B5 /* URLUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8415F94A9CEB32C68C8DAE3E /* URLUtil.swift */; };
-		76CE9B29D27B51EFDF00A2FF /* SLNVActivityIndicatorAnimationCubeTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F309A5404165E96B3691EF28 /* SLNVActivityIndicatorAnimationCubeTransition.swift */; };
-		7FA9D29EB87310ABDF77EEB4 /* Array+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DA8A9E2A0B9B0E21C632CE /* Array+extension.swift */; };
-		8177002DEFA246C6781B4491 /* ShopLiveThrottle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924F128DD171E72DA6B87DCB /* ShopLiveThrottle.swift */; };
-		81B271BF19C020DC932A78D7 /* SLNVActivityIndicatorAnimationBallZigZag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71878FCA7203D382B1F30E37 /* SLNVActivityIndicatorAnimationBallZigZag.swift */; };
-		824C4A8EF06B2686BEF1FF29 /* UserDefaults+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3A5E5E56949D71D04DCDD0 /* UserDefaults+extension.swift */; };
-		84ED197399CD00C90BDC8667 /* SLNVActivityIndicatorAnimationSquareSpin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39526AA4D7CF0FAEAF8C057 /* SLNVActivityIndicatorAnimationSquareSpin.swift */; };
-		86228D9F0CCDB0D0BAB5EB72 /* SLNVActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE81CC44FF60482715F4762 /* SLNVActivityIndicatorView.swift */; };
-		866C02A5AC5EA2EB571845BE /* SLKeyChainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D343A3690B126B8D8CDD3BD /* SLKeyChainUtil.swift */; };
-		877D9DF878DD11B9CF12984E /* SLNVActivityIndicatorAnimationCircleStrokeSpin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4310E0E1AEE32F8C3D6BCCB /* SLNVActivityIndicatorAnimationCircleStrokeSpin.swift */; };
-		87D4B7FDC7ABA100AEEAEBC1 /* SLReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C036D14589140A08F9EECEE /* SLReachability.swift */; };
-		8C7A23BA3178D082892C0F9A /* SLNVActivityIndicatorAnimationBallZigZagDeflect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1CF5F2FF4A8BAAB6353540 /* SLNVActivityIndicatorAnimationBallZigZagDeflect.swift */; };
-		9152040B1E8318E9C98FAD8F /* SLLoadingAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0891EACB58D3B0EB1706AB39 /* SLLoadingAlertController.swift */; };
-		9181D63364185A490C12AC0C /* SLNVActivityIndicatorAnimationLineScalePulseOutRapid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D507320C0F4413FB53E30528 /* SLNVActivityIndicatorAnimationLineScalePulseOutRapid.swift */; };
-		95AED3FFD052FFF0E2AB05BA /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F706DCB691E6CB25860F2522 /* ShopLiveLogger.swift */; };
-		97BC4E36BCD8FCC896E510E3 /* SLNVActivityIndicatorAnimationBallScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = D790CFC40CF2BDB92D9FC44F /* SLNVActivityIndicatorAnimationBallScale.swift */; };
-		9A096241522F5E04431086EA /* SLResultObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CBF06FE688F6D57696E58C /* SLResultObservable.swift */; };
-		9BEC02270BE380017E96F32B /* Dictionary+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F63599E2F1C453297BF8AA /* Dictionary+extension.swift */; };
-		A125800BE27E4FEBA4463641 /* SLNVActivityIndicatorAnimationBallClipRotatePulse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CBB36D789312F5DCCAE556 /* SLNVActivityIndicatorAnimationBallClipRotatePulse.swift */; };
-		A2B635A0FCA70BB26EB3B2DE /* ShopLivePublicEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5946C450D5DDBB985582EE1F /* ShopLivePublicEnums.swift */; };
-		A4825A8D3C7283CFB031C53B /* SLNVActivityIndicatorAnimationBallPulse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FD23C803B4872239F14A6B /* SLNVActivityIndicatorAnimationBallPulse.swift */; };
-		A4A9AB40BE7F22E1A7B3C0B8 /* AVCaptureDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDAA2B63EDEB62599D9307F /* AVCaptureDevice.swift */; };
-		A6E1C47E93307D0248112E9A /* SLBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB580CEB6EE7F53A9D141C7 /* SLBaseView.swift */; };
-		A7C568F09493CB2017F592E2 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C5BFFC76BA364E75E337A7 /* NetworkMonitor.swift */; };
-		A897C09A93E9CB182ACA9906 /* CMTime+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B334B69A3D194D6ECA22AC0F /* CMTime+extension.swift */; };
-		A8B85C29DDC75DC47997C446 /* Encodable+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3437D0296ADE1A8DB513FA2 /* Encodable+extension.swift */; };
-		AA4537F0682FDDB7F9E8B098 /* SLNVActivityIndicatorAnimationBallScaleRipple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DDD4F70EEDD17F0A1D4359A /* SLNVActivityIndicatorAnimationBallScaleRipple.swift */; };
-		AAC0910179EED49B1DFDB401 /* SLNVActivityIndicatorAnimationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1BDB9BF86077B25894EF0F /* SLNVActivityIndicatorAnimationDelegate.swift */; };
-		ABC4BDD895C772F052F2E928 /* NSLayoutConstraint+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82E5E35044EFE28D8BDF26F /* NSLayoutConstraint+extension.swift */; };
-		ACF6ABBFDDD49CCF526555A9 /* UIViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDD65468425A4B6BEDD5994 /* UIViewController+extension.swift */; };
-		ADC93B19C3985306212DEE2A /* CALayer+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1553DC893F5341FD6038B0 /* CALayer+extension.swift */; };
-		AF10E7D8E9A71EBC506A2E9A /* ImageDownLoadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15AE31C029CB0D5D39AC6F3 /* ImageDownLoadManager.swift */; };
-		B43E191472A6F25617DCA242 /* Date+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96768343708F3936AD6D8618 /* Date+extension.swift */; };
-		B73A87EA5C90941A17C34BEF /* AvAudioSession + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA1235C76FEEAD7AC4FF39 /* AvAudioSession + extension.swift */; };
-		B91B35CF67071C5EC7748F35 /* KeyBoardNotificationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C801EFEAE59FEF1111D85A /* KeyBoardNotificationProtocol.swift */; };
-		BFBAAF92D98B6C44A97FD46E /* ShopliveSDKCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02847258059AA4909D32802 /* ShopliveSDKCommon.swift */; };
-		C01139E0A15A8218CAF807ED /* NSAttributedString+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB1A442BBC530022653A5C5 /* NSAttributedString+extension.swift */; };
-		C1482EF14B27403759736C18 /* SLNVActivityIndicatorAnimationLineScalePulseOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8154B04F95C1B1B3FF5767D /* SLNVActivityIndicatorAnimationLineScalePulseOut.swift */; };
-		C2159880A5144AFCC0938AB6 /* ShopLivePermissionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965CC392894796177E38694F /* ShopLivePermissionHandler.swift */; };
-		C36BE5CBBD947D8D76E0E0BE /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0E87EA9FA5005C7812FD5B /* UIImageView+extension.swift */; };
-		C4A2D927686B366817C349AA /* SLNVActivityIndicatorAnimationBallRotateChase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5DEBF5EACF7025B9FFC52B /* SLNVActivityIndicatorAnimationBallRotateChase.swift */; };
-		C4D54708C87640A12CF98F32 /* UIView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D2C8080E58E68AB14D9FD5 /* UIView+extension.swift */; };
-		C54FEBDA65FF7378EECE3DE7 /* SLRequestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D9FDED4C43A6817EF0BA7 /* SLRequestable.swift */; };
-		C6A9A04C6E02D977A6D089D0 /* SLVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13EE96BBF16382666577036C /* SLVideoPlayerView.swift */; };
-		C6B38F95605820CF6FC6FEEF /* ShopLiveLoggerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01755503BD5CABF26D289A7D /* ShopLiveLoggerViewController.swift */; };
-		C7D05C6B2A0A3AA673501606 /* Data+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8545C589387F17191DF911 /* Data+extension.swift */; };
-		C984ED09D457AAD59F277707 /* UIButton+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D323A3A3AC318AB0AF1FFA0 /* UIButton+extension.swift */; };
-		CAEB376340BBA4825EDF9DA5 /* SLVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C4CFEF361AE3D3CD1267CA /* SLVideoPlayer.swift */; };
-		D3DF953058F41DEF5EC66E02 /* SLNVActivityIndicatorAnimationBallDoubleBounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE6F954918B8E3542249491 /* SLNVActivityIndicatorAnimationBallDoubleBounce.swift */; };
-		D4BEC30A2448CACCA8143DFB /* APIDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E3B1C70CBEBE9E847FA8D /* APIDefinition.swift */; };
-		DBCDCB152170652813ABB9E3 /* Reactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1699FE937634202430229B /* Reactor.swift */; };
-		DC7C97A71D21860C8180B229 /* MicroPhonePermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391724A562AD622E3E2FD176 /* MicroPhonePermission.swift */; };
-		DC8DE2F6B2AE2C4189305F6D /* Double+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6321F5CC2F30D7B9447FC02A /* Double+extension.swift */; };
-		E0C85B07247C8C0EAF45930C /* ShopLiveDebouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CA3D4794D7D9B6A911F65E /* ShopLiveDebouncer.swift */; };
-		E44B130F32AFFFF104CAE630 /* KeychainWrapperSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A79F7CCC312ECFB675C2595 /* KeychainWrapperSubscript.swift */; };
-		E56F45F4E1244B1D83337F5B /* ShopLiveAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B1DA03FA1DDAC52D9FDC2D /* ShopLiveAppDelegate.swift */; };
-		E60E4F991BEC5EC4C1AD248D /* SLNVActivityIndicatorAnimationBallScaleRippleMultiple.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60F4A4C877328DA9345E868 /* SLNVActivityIndicatorAnimationBallScaleRippleMultiple.swift */; };
-		E76BD9794660D28D75AE4116 /* UIPanGestureRecognizer+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C8059826B9963902D9AE0F /* UIPanGestureRecognizer+extension.swift */; };
-		E85ABDD5DDB915F0162BDEDD /* ShopLiveSDKCommon + AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22579D583FF41ACD502AE5E9 /* ShopLiveSDKCommon + AppDelegate.swift */; };
-		E92BA0BF5EF9042F6379A95A /* NSMutableDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08B81E56C2D9A79BE499EE8 /* NSMutableDictionary.swift */; };
-		E946F4D277983B151FDEFBD3 /* SLNVActivityIndicatorAnimationBallClipRotateMultiple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF6135DF31D7C4F5FD6AC8F /* SLNVActivityIndicatorAnimationBallClipRotateMultiple.swift */; };
-		EA00545BD7BDC1F9AB62D960 /* ShopLiveNetworkBaseErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D8672EBDA9C0E6AF230EBB /* ShopLiveNetworkBaseErrorResponse.swift */; };
-		EA24649ABEA9ADE1E8CFBF93 /* CGRect+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6BECC609008808C53A8C1D /* CGRect+extension.swift */; };
-		EB5B2CCABF4084B5751E6661 /* SLNVActivityIndicatorViewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A07D0D4E53A59DC4367AB52 /* SLNVActivityIndicatorViewable.swift */; };
-		ED3BFA7D93812798C36FA041 /* UIFont+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D9B5B4E953AE026A639103 /* UIFont+extension.swift */; };
-		F4706E5E6A110007A2A033D5 /* CameraPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBF94BE547A31E158CFF83D /* CameraPermission.swift */; };
-		F600566C814BFBF79AD369F6 /* SLNVActivityIndicatorAnimationLineScaleParty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC5CB7A864B3220AA43F566 /* SLNVActivityIndicatorAnimationLineScaleParty.swift */; };
-		F694C551505BA74EF6AE054D /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C134DE12A2C8A73E3869BD /* KeychainWrapper.swift */; };
-		F6DB73E8F9422B5796255BC3 /* NSObject+extensiton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59B6933A38E2E08A2363F54 /* NSObject+extensiton.swift */; };
-		F91AAFFF9B8C6F56D2D44552 /* SLNVActivityIndicatorAnimationPacman.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9C40B5825C1D3BD62C8153 /* SLNVActivityIndicatorAnimationPacman.swift */; };
-		FD5ADD7943D76BC5D343232B /* SLNVActivityIndicatorAnimationBallScaleMultiple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589F9CEBB1DA0B39EFE0BD01 /* SLNVActivityIndicatorAnimationBallScaleMultiple.swift */; };
-		FF1786AA8025233EBAEED04A /* Error+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DDB1E5E37DEDA770FEDC12 /* Error+extension.swift */; };
-		FFF3BBF5EF647A816D5BE8A3 /* PHAsset+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6607E76FF2575C789225B42F /* PHAsset+extension.swift */; };
+		05E164D54E348350CF18772B /* SLNVActivityIndicatorAnimationLineScalePulseOutRapid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15625AF6A60A89705130E97B /* SLNVActivityIndicatorAnimationLineScalePulseOutRapid.swift */; };
+		0759249B209A75AF0D2E1853 /* URL+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A3F8C9A0FB22F66A831D0A /* URL+extension.swift */; };
+		097BF560F5E8CEED86B50F93 /* UIImage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFC5E612E019657A57FA810 /* UIImage+extension.swift */; };
+		0A29A15F94A1A96DDA1D2623 /* ShopLiveDebouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FEAAA4ABAD52CBD0784181 /* ShopLiveDebouncer.swift */; };
+		0DD9D47F3CBEC3C82B4FDD50 /* UserDefaults+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0B57D8CC367C1BA57914D2 /* UserDefaults+extension.swift */; };
+		0EB0D74ECFEAB12D5CAB6582 /* SLNVActivityIndicatorAnimationBallGridBeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF953ED148F4C6DCD741BB3 /* SLNVActivityIndicatorAnimationBallGridBeat.swift */; };
+		0F2B15BD93038BABFE8AF570 /* SLNVActivityIndicatorAnimationLineScaleParty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56864E3FA005BBD824B41ED6 /* SLNVActivityIndicatorAnimationLineScaleParty.swift */; };
+		12F191F68AA8548C4A07485A /* UIViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5E623F3645A0F9FEE1AD5B /* UIViewController+extension.swift */; };
+		14D15395A3FF784809EF8D1C /* SLNVActivityIndicatorAnimationBallZigZagDeflect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2062C15BE55449527C1A3CEA /* SLNVActivityIndicatorAnimationBallZigZagDeflect.swift */; };
+		17A0787C4DF2C44DBAE62A8C /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A3688BB4D9ABC51AB5E68 /* ShopLiveLogger.swift */; };
+		1E06F0ADD7C9AEF8471E10E0 /* ShopLiveSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1633724F33DF44FA4F2230A0 /* ShopLiveSession.swift */; };
+		1EEB30F0A48B5AFB65F8BAAA /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D751068D853CE4E41254046 /* KeychainWrapper.swift */; };
+		1F657CC9E755AE127CD5A6A7 /* SLNVActivityIndicatorAnimationBallTrianglePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEEEC2E52BAC489110D6B70 /* SLNVActivityIndicatorAnimationBallTrianglePath.swift */; };
+		23F0B68B75B6EACA688E2439 /* UIDevice+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0DCC0B43C71D0D1294DAF0 /* UIDevice+extension.swift */; };
+		2662399CC913B5A105612D33 /* ShopLiveHapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6EB3B9122BEA8C59D17227 /* ShopLiveHapticManager.swift */; };
+		29003C611472B2D91323AA13 /* SLNVActivityIndicatorAnimationAudioEqualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEC6B65E8D8A20A1D1C7307 /* SLNVActivityIndicatorAnimationAudioEqualizer.swift */; };
+		2ECAA56778A6CC8EDBFCF98B /* SLRequestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F70A099B6F6F41A491A8DB1 /* SLRequestable.swift */; };
+		2F44839F71C4BF293A4687ED /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E78961DD7165DF67FEBD97 /* KeychainItemAccessibility.swift */; };
+		2FE373E74B308377DC02FD1D /* UIEdgetInset+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBF08080D6BDAFE049A85A9 /* UIEdgetInset+extension.swift */; };
+		33075F0B0C2082FBC9001315 /* Int+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D2FE7D6CAB4C68D2AA3C25 /* Int+extensions.swift */; };
+		34F93A5D8B641526267CDC75 /* SLReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211B6AF0E32BA78247809E8A /* SLReachability.swift */; };
+		361C12E67F9FF8DE6EFA21B1 /* SLNVActivityIndicatorAnimationBallScaleRipple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122895F27B333379D474ED52 /* SLNVActivityIndicatorAnimationBallScaleRipple.swift */; };
+		36FFB3D287423F8F9D4982E0 /* SLNVActivityIndicatorAnimationLineScalePulseOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA420904A9111EECF5F3F141 /* SLNVActivityIndicatorAnimationLineScalePulseOut.swift */; };
+		40B9AA3099FE5FB1DEC31866 /* UIPanGestureRecognizer+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB3F39B42E293BFC2DC5399 /* UIPanGestureRecognizer+extension.swift */; };
+		43AD6E059953C617E9B1FB4E /* JSONNull.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B6DD392A44F65948298C02 /* JSONNull.swift */; };
+		4651EF277963781C79DFB3BD /* SLNVActivityIndicatorAnimationBallPulse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F3D1BD528A55CD05059BE3 /* SLNVActivityIndicatorAnimationBallPulse.swift */; };
+		481225B58D2E8A65DBE57E88 /* UIStackView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283DAE0E1C757A67F86F4516 /* UIStackView+extension.swift */; };
+		485A6AB635A966857380FF29 /* UIWindow+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1C4C57F21BF163F09F2B2D /* UIWindow+extension.swift */; };
+		487775B6A6EF303EC47C9B1B /* ShopLiveCommonError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38BBFD2EE5CE7614B173942 /* ShopLiveCommonError.swift */; };
+		4ACD17A654E01047388E394F /* AVCaptureDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7CB57B0F782ABACFED9351 /* AVCaptureDevice.swift */; };
+		4B096CA37374A20E359F6A55 /* SLNVActivityIndicatorAnimationPacman.swift in Sources */ = {isa = PBXBuildFile; fileRef = E835EEC51BC0F2E8161D1E50 /* SLNVActivityIndicatorAnimationPacman.swift */; };
+		4C6817E452C8F88BBBE04A84 /* UITextView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF870C614283FE838B630D9 /* UITextView+extension.swift */; };
+		4D4BE080DA9D2F7ACD193BD8 /* URLUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86F2682381DE435ED41DD4C /* URLUtil.swift */; };
+		4EF326A2F54C97841FDBD974 /* SLLoadingAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE64E4FD6CDF353A16A6D1BC /* SLLoadingAlertController.swift */; };
+		51D423F89EA6347C457DD87E /* ShopLiveAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED1FEFB3E985DBD36C7D7A /* ShopLiveAppDelegate.swift */; };
+		52D8C378FF4E444C56250240 /* CGPoint + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EFC5A98497B14DDC8554F8 /* CGPoint + extension.swift */; };
+		53600EC702FCCE5B941E9579 /* CGSize + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B427D1B052883EDBA0942B /* CGSize + extension.swift */; };
+		53E5A60B8D566DEDAA865548 /* KeychainData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6521DDF114DA1A16AF9D020B /* KeychainData.swift */; };
+		575C90DD42AEC8813ABE87C4 /* UINavigationController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94209ADC4E073C8045A86901 /* UINavigationController+extension.swift */; };
+		57CFA9E4E5B646C9DA9A27CF /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1077C025F96106F9F227E16 /* String+extension.swift */; };
+		607F805F0E49BF42D81B64D2 /* SLBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B2B240523FFD7F1C9812A6 /* SLBaseViewController.swift */; };
+		6134C65CB49D88BADE92FAA3 /* UIScreen+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C218923158884ECDD8F39C1 /* UIScreen+extension.swift */; };
+		62CC87A1E04E0E2BCC268442 /* UIApplication+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E9C44F730264CA8AF1793C /* UIApplication+extension.swift */; };
+		633684C686F478DBD871A252 /* AVPlayer+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE37F2ED693DA8E3C6305B6 /* AVPlayer+extension.swift */; };
+		6361545AC9B6B0241ABF4C3F /* SLNVActivityIndicatorAnimationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97382368BE242B9C8B6EED4B /* SLNVActivityIndicatorAnimationDelegate.swift */; };
+		63626767BD59AAFFE226ED2F /* Double+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190F1E85B601B7B9D3258556 /* Double+extension.swift */; };
+		63F9E69E7CAA3235EBE001D2 /* Collection+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5CBB97E5CFC10B44BE20FE /* Collection+extension.swift */; };
+		688888F316CBCEA6635C3CB9 /* SLFlexibleParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A53EC8B62DB41FCDA44622 /* SLFlexibleParser.swift */; };
+		6894EFA5EAB55C9271079047 /* UITextField+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FF1D3CF2F2D9DF8840D482 /* UITextField+extension.swift */; };
+		6AB4EFE0D57D5F74560A1E76 /* SLNVActivityIndicatorAnimationOrbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A85297C067B2147CC7B66A0 /* SLNVActivityIndicatorAnimationOrbit.swift */; };
+		6F5A61F6D6F52E1B821B1A98 /* ShopLiveThrottle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84615112C9F77A50CA179EEC /* ShopLiveThrottle.swift */; };
+		73C07B22F778F4E43067FE40 /* NSAttributedString+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1D112F956FB6EFADC15119 /* NSAttributedString+extension.swift */; };
+		74AC6533ADCEC5A44DF0EE8F /* ShopLiveLoggerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134417E0BEF9BABB01D6ECAE /* ShopLiveLoggerViewController.swift */; };
+		74CB58C2FE605878CD0F3F14 /* SLToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AFFE480F976A103FBF4D69 /* SLToast.swift */; };
+		771AA5757B3BC01E032E2E7C /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5B12E52CF20BFE290CC3FF /* UIImageView+extension.swift */; };
+		773B0D5D39F5BA7F9B72F85F /* APIDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = E211D441E5FA9768240E1FB6 /* APIDefinition.swift */; };
+		77E813B7D6F05E30D5CE5A35 /* CommonKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB670196B4F4B762F9A2E7F /* CommonKeys.swift */; };
+		7807D335B73BFD417C11C5A6 /* CALayer+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C097EEE38C61A2B34932F48A /* CALayer+extension.swift */; };
+		78B155DC89051A77E96A35D9 /* CommonStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3009B4A776BC93526F14BE9 /* CommonStrings.swift */; };
+		791A3B2C367D4ACF8A1491B9 /* SLNVActivityIndicatorAnimationBallPulseSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DB2D77B85617F0B8D4909B /* SLNVActivityIndicatorAnimationBallPulseSync.swift */; };
+		7CD2CFCE1CA017189CB23636 /* SLCircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5560BFC2F4E53C1269316AAB /* SLCircularProgressView.swift */; };
+		80607F1468347BD9D1979160 /* SLNVActivityIndicatorAnimationLineSpinFadeLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D85622DA5E09569154A6068 /* SLNVActivityIndicatorAnimationLineSpinFadeLoader.swift */; };
+		8088242F11421921DA31BA09 /* Reactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3939806D24FE1593F832FB3 /* Reactor.swift */; };
+		863F9224E6152F0812BE3E4C /* SLNVActivityIndicatorAnimationBallClipRotatePulse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E399B2624775D33B1C0FE7E0 /* SLNVActivityIndicatorAnimationBallClipRotatePulse.swift */; };
+		868F06CC82FA770479586EF5 /* ShopLiveCommonUserObjc.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE58A0044CEAEFDEFF401226 /* ShopLiveCommonUserObjc.swift */; };
+		8849BC8A704FE13AEBABFA8E /* ShopLiveCommonAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D85C5330672B326D3D09240 /* ShopLiveCommonAuth.swift */; };
+		88B03019911384874469A7C0 /* SLNVActivityIndicatorAnimationBlank.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A015999C714272DEC8FD69 /* SLNVActivityIndicatorAnimationBlank.swift */; };
+		8994AFD9C62800E8CC75BA1F /* NSObject+extensiton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7366E3EB4847C81961223E03 /* NSObject+extensiton.swift */; };
+		8CBA6A2E2B4548CD652EA11F /* ShopLiveDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA4F849C5BBC23CF4AE99E91 /* ShopLiveDefines.swift */; };
+		8CC7F330D2893498E70AA89D /* ShopLiveUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C8BEB0F48D77C609A1BFC0 /* ShopLiveUserDefaults.swift */; };
+		9254D51F8A10C4256E131CD7 /* SLNVActivityIndicatorAnimationBallSpinFadeLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9BCD522A8970E80FFA8DA6 /* SLNVActivityIndicatorAnimationBallSpinFadeLoader.swift */; };
+		94F2F68B2BD1D2C3F90EC0F7 /* WKWebView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D14D44985A0BC0CB063B6E2 /* WKWebView+extension.swift */; };
+		98191634A9F27F6A3715864E /* PHAsset+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D022357399ECFF256D87C6C /* PHAsset+extension.swift */; };
+		9A07349816F115735938C4E4 /* ShopLivePermissionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DECAEF61AB5FD9AF8D68FC5 /* ShopLivePermissionHandler.swift */; };
+		9AB7C73270A45274A07A938C /* SLNVActivityIndicatorAnimationSquareSpin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281230AF64CA18D05E58F224 /* SLNVActivityIndicatorAnimationSquareSpin.swift */; };
+		A076FBE713C27068CA319652 /* SLNVActivityIndicatorAnimationSemiCircleSpin.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27D6ACBD316AB81BFC87BAD /* SLNVActivityIndicatorAnimationSemiCircleSpin.swift */; };
+		A1290889E4BF9FBC02057B55 /* NotificationCenter+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED84719C1EF79535923BA05 /* NotificationCenter+extension.swift */; };
+		A15DB99E4BC37491079A3FC5 /* SLBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4807343314342DBD9D57F247 /* SLBaseView.swift */; };
+		A182859BDF1B73018AA6E6A6 /* CameraPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83F4CDFBFF1F72A952785E3 /* CameraPermission.swift */; };
+		A5E5DCD1F960E2EF92B370C6 /* SLNVActivityIndicatorAnimationBallRotateChase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DD43B1C1D81B0159C019E3 /* SLNVActivityIndicatorAnimationBallRotateChase.swift */; };
+		A704AB04FE45819F4B44E657 /* SLNVActivityIndicatorAnimationBallScaleMultiple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EF5B6298E818038E8CD501 /* SLNVActivityIndicatorAnimationBallScaleMultiple.swift */; };
+		A743E01FF54671A3A4EF0E67 /* KeychainWrapperSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FA76862484C73861197CE8 /* KeychainWrapperSubscript.swift */; };
+		A8493B6E0734F164CCF3FB2D /* Dictionary+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E0BE34EF821FA6CFCA109E /* Dictionary+extension.swift */; };
+		A8C00B56D046FCC7574035CD /* Array+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292EA7AB669644FE112A6194 /* Array+extension.swift */; };
+		AAB6530385BD7B14E054FD83 /* MPVolumeView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260E63F45C09F28D08D13DBD /* MPVolumeView+extension.swift */; };
+		AB459B39426CB03DD460372D /* CGFloat+extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03DB4E8961CC994EBCF6CC1B /* CGFloat+extention.swift */; };
+		ABE5B40FCCB62E765771D1CE /* SLNVActivityIndicatorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E91A695066C1A1781753FD2 /* SLNVActivityIndicatorPresenter.swift */; };
+		AC6A11D87127E44161D16AB3 /* UIInterfaceOrientation+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D4DEEDD8E1E796A6EBAFC7 /* UIInterfaceOrientation+extension.swift */; };
+		AD7579A1BA0FBBC3D1ED322D /* SLNVActivityIndicatorAnimationCubeTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87A34162F5907A4F9BB37DC /* SLNVActivityIndicatorAnimationCubeTransition.swift */; };
+		B0B712AFC374031A6F4714C4 /* ImageDownLoadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928A54FF286761B82DE9CB4A /* ImageDownLoadManager.swift */; };
+		B107BA529D49F114BD15A99F /* Float64+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34843374DBF7FC9BD1432686 /* Float64+extension.swift */; };
+		B44E0D72B16569854DC1B58E /* ShopLiveJWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D191EB88A2B3C1F1294BCC2 /* ShopLiveJWT.swift */; };
+		B535F05989FE64EC56538CD6 /* SLNVActivityIndicatorAnimationBallClipRotateMultiple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADFB3DCF9EC74B3D51D4DA4 /* SLNVActivityIndicatorAnimationBallClipRotateMultiple.swift */; };
+		B57073E846E6F6D4EB0AD2E3 /* SLKeyChainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EE8782534660CEC09EE2A4 /* SLKeyChainUtil.swift */; };
+		B6399DF2EACBCC3592B00482 /* Error+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD3E43A2194F2E1849606A8 /* Error+extension.swift */; };
+		BA2FBBCE71974959D8B0DBEE /* SLNVActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BA803058E4678AAECE0FA1 /* SLNVActivityIndicatorView.swift */; };
+		BFDCD9957C8EF26A20522FAA /* UIFont+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC81850B52E0CAF9C8762F7 /* UIFont+extension.swift */; };
+		C0F4B51B5775DA9CC85BB043 /* SLNVActivityIndicatorAnimationLineScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF490AA01A27153D82E7F5B3 /* SLNVActivityIndicatorAnimationLineScale.swift */; };
+		C32DD2F045349E04E9525C5A /* UIDeviceOrientation+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4757C50C5690C946AD5EA3FD /* UIDeviceOrientation+extension.swift */; };
+		C38DF60B9A27550B05DA1BB1 /* AssociatedObjectStore+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2FE7F5FCC8E73798B133E2 /* AssociatedObjectStore+extension.swift */; };
+		C471364D325C25EBFE99BA11 /* SLResultObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336645EF34CCA084851643B1 /* SLResultObservable.swift */; };
+		C4850B44F7A98FAD019510F5 /* Date+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FCF11096074C035341D1C3 /* Date+extension.swift */; };
+		C90AA5C5C11BA9D9AF209526 /* CMTime+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE208CB78683DEB06542B31B /* CMTime+extension.swift */; };
+		CA101557E66139D8E110E164 /* ShopLiveSDKCommon + AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B6118F39C7A2D0DFD2CDD9 /* ShopLiveSDKCommon + AppDelegate.swift */; };
+		CE05A5F9E9B1DABECC92F18E /* NSLayoutConstraint+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED77284FF7B144D1790AEB58 /* NSLayoutConstraint+extension.swift */; };
+		CE115512ECC1662E8F1DEF45 /* SLNVActivityIndicatorAnimationTriangleSkewSpin.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54D44638FD44EE57A1E896F /* SLNVActivityIndicatorAnimationTriangleSkewSpin.swift */; };
+		CE878463AE7D9AAED9B2719F /* SLVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7B61F1D3284BCEA1C13F33 /* SLVideoPlayer.swift */; };
+		CF91C32F74839A83305897DF /* SLTextFieldWithPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA91D8536757C0B6E701FF7B /* SLTextFieldWithPadding.swift */; };
+		CFB022A61377E28CA300BA9D /* SLNVActivityIndicatorViewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED904F4B5E5F156F69A9672 /* SLNVActivityIndicatorViewable.swift */; };
+		CFBEE99E1E4BB5263F7C44D3 /* Data+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AB58943DCBE8D3F56DEA94 /* Data+extension.swift */; };
+		D367DC8FB8D8B1C3F3663C7C /* AudioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B982E4C8894A8554D54D6E /* AudioSessionManager.swift */; };
+		D4E4F9DE0503C45B9C040D4A /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA150DF45A10E566E3CACD0E /* PermissionManager.swift */; };
+		D5CF91D26F0AA7F64FB8869D /* UIView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16A7331504C5353BAF538AE /* UIView+extension.swift */; };
+		D72F0012F5AB72E6A45B49A6 /* SLNVActivityIndicatorAnimationBallDoubleBounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E3CAB7300B8937AFA9F7E6 /* SLNVActivityIndicatorAnimationBallDoubleBounce.swift */; };
+		D8E143615A1BB77774F01B70 /* SLNVActivityIndicatorShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27712AE991915F9AA5D9A5DC /* SLNVActivityIndicatorShape.swift */; };
+		D961CE885252C59EC979A23D /* Encodable+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E9C3F258E551B358EE465F /* Encodable+extension.swift */; };
+		D9BF9C8B397694EFC2E8486E /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4F66994743B344E7279136 /* NetworkMonitor.swift */; };
+		DA0E0E8E04F2A377A2E5C0BC /* SLNVActivityIndicatorAnimationBallScaleRippleMultiple.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D38A0106A1D647D3CE4407 /* SLNVActivityIndicatorAnimationBallScaleRippleMultiple.swift */; };
+		DA3087BD600664385C3A4F86 /* ShopLiveNetworkBaseErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDD824FA760599DB828D6D4 /* ShopLiveNetworkBaseErrorResponse.swift */; };
+		DA58C18CBA86336C7F487F87 /* ShopLiveCommonUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB3693E6C717A012372861A /* ShopLiveCommonUser.swift */; };
+		DC4EE479557094D33BA2D749 /* ShopLivePublicEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0624342038654E8A071F5812 /* ShopLivePublicEnums.swift */; };
+		DD4D857D3762490D582EA4B2 /* SLNVActivityIndicatorAnimationCircleStrokeSpin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29E5DFD785C5420190582459 /* SLNVActivityIndicatorAnimationCircleStrokeSpin.swift */; };
+		E04E710C6D8A50788AB39BC5 /* KeyBoardNotificationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD46147B984830EC0CC7D8E8 /* KeyBoardNotificationProtocol.swift */; };
+		E2BE1C4F6E5CFE26634B6254 /* SLNVActivityIndicatorAnimationBallRotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5F78086D7F5EEC323A2809 /* SLNVActivityIndicatorAnimationBallRotate.swift */; };
+		E59BF5CD17B88FC7AE71AE56 /* NSMutableDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2474CF98D92C730F2117B4 /* NSMutableDictionary.swift */; };
+		E7C38B08F6722D13FE15648E /* AvAudioSession + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2E42DD9EA69918DADFB32A /* AvAudioSession + extension.swift */; };
+		EA95E11177368DC1F3BB9256 /* UIButton+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFFEF76675219EE7BE0E0EC /* UIButton+extension.swift */; };
+		EB4A0D7E1D2C59EC8D8CE4B1 /* SLNVActivityIndicatorAnimationBallPulseRise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AA1C98BC58601CBCD634A9 /* SLNVActivityIndicatorAnimationBallPulseRise.swift */; };
+		ECBF5FC26C10C95CC0C07CA5 /* ShopliveSDKCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38E5F6EF58DEC997D5DCAC0 /* ShopliveSDKCommon.swift */; };
+		EDC3B2E5A88C4376FFC3851A /* SLNVActivityIndicatorAnimationBallZigZag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5164B27903E4C17955D17C46 /* SLNVActivityIndicatorAnimationBallZigZag.swift */; };
+		EDD1CC4BE5A8629E00BBD688 /* MicroPhonePermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BC9DA6D19FF712A9EC449E /* MicroPhonePermission.swift */; };
+		EE0BBAD365C9F8C9550EA3B4 /* SLNVActivityIndicatorAnimationBallGridPulse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB69F6C434A1730C62DB07 /* SLNVActivityIndicatorAnimationBallGridPulse.swift */; };
+		EF0C6C3407FC1E854B120AED /* SLNVActivityIndicatorAnimationBallScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BA1430AEF1E3CAA2E3B8A4 /* SLNVActivityIndicatorAnimationBallScale.swift */; };
+		EF55439E5C51C214C077A529 /* SLNVActivityIndicatorAnimationBallClipRotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313C6A2C4C2BE32FA5A2E210 /* SLNVActivityIndicatorAnimationBallClipRotate.swift */; };
+		EFC371B4C49349A056ACF26F /* IndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F837E10344E400C7065048EE /* IndicatorView.swift */; };
+		F12C9BEE6706873E53A89700 /* SLWebview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A183FA3D93FFA355419BB86 /* SLWebview.swift */; };
+		F45FD5396C998EAB2284CADB /* SLVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C569409E2B5E1FD8FE7A60 /* SLVideoPlayerView.swift */; };
+		F638BDD436E41093DA8B7D85 /* CGRect+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D73EAC8F17117CEAB11EAD5 /* CGRect+extension.swift */; };
+		FB37CCB3017961C6F21BE933 /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF10F89E35229D7FD0D4EB80 /* UIColor+extension.swift */; };
+		FC4CE28BBFB634DDA3C3E2B2 /* SLNVActivityIndicatorAnimationBallBeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851A7B66AC6E38E7B0ADC749 /* SLNVActivityIndicatorAnimationBallBeat.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		961B2A818BD54E9E444970FF /* Embed Frameworks */ = {
+		938F9FEC94991AC01DF824CD /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -163,152 +163,152 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		00D9B5B4E953AE026A639103 /* UIFont+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+extension.swift"; sourceTree = "<group>"; };
-		00DA8A9E2A0B9B0E21C632CE /* Array+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+extension.swift"; sourceTree = "<group>"; };
-		01755503BD5CABF26D289A7D /* ShopLiveLoggerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveLoggerViewController.swift; sourceTree = "<group>"; };
-		070D19CAF44F7C4565272181 /* SLNVActivityIndicatorAnimationBallTrianglePath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallTrianglePath.swift; sourceTree = "<group>"; };
-		07B0BA3230E8986774082E9E /* SLNVActivityIndicatorAnimationLineScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationLineScale.swift; sourceTree = "<group>"; };
-		0891EACB58D3B0EB1706AB39 /* SLLoadingAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLLoadingAlertController.swift; sourceTree = "<group>"; };
-		0C3A5E5E56949D71D04DCDD0 /* UserDefaults+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+extension.swift"; sourceTree = "<group>"; };
-		0D98B1B6B344A7F158012044 /* JSONNull.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONNull.swift; sourceTree = "<group>"; };
-		0F1553DC893F5341FD6038B0 /* CALayer+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+extension.swift"; sourceTree = "<group>"; };
-		11517997192EAC3242EC6A49 /* UIWindow+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+extension.swift"; sourceTree = "<group>"; };
-		13EE96BBF16382666577036C /* SLVideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLVideoPlayerView.swift; sourceTree = "<group>"; };
-		148EBCC2075222498CA99402 /* Collection+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+extension.swift"; sourceTree = "<group>"; };
-		17CA3D4794D7D9B6A911F65E /* ShopLiveDebouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDebouncer.swift; sourceTree = "<group>"; };
-		17D1EA6BBDACA1D9E9521975 /* ShopLiveCommonUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveCommonUser.swift; sourceTree = "<group>"; };
-		17E4370B9443E96D600EBB22 /* SLNVActivityIndicatorAnimationBlank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBlank.swift; sourceTree = "<group>"; };
-		19C134DE12A2C8A73E3869BD /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
-		1A07D0D4E53A59DC4367AB52 /* SLNVActivityIndicatorViewable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorViewable.swift; sourceTree = "<group>"; };
-		1B4D484F3CD7B9EC7BA4697B /* URL+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+extension.swift"; sourceTree = "<group>"; };
-		2139C64A6F14E957062A36A7 /* CommonKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonKeys.swift; sourceTree = "<group>"; };
-		22579D583FF41ACD502AE5E9 /* ShopLiveSDKCommon + AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShopLiveSDKCommon + AppDelegate.swift"; sourceTree = "<group>"; };
-		22C801EFEAE59FEF1111D85A /* KeyBoardNotificationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBoardNotificationProtocol.swift; sourceTree = "<group>"; };
-		22C8059826B9963902D9AE0F /* UIPanGestureRecognizer+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPanGestureRecognizer+extension.swift"; sourceTree = "<group>"; };
-		238E19236F263802E19546C8 /* UIApplication+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+extension.swift"; sourceTree = "<group>"; };
-		26266D11C02E421D6724F139 /* AssociatedObjectStore+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AssociatedObjectStore+extension.swift"; sourceTree = "<group>"; };
-		263351091467C5EB059A0860 /* Float64+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float64+extension.swift"; sourceTree = "<group>"; };
-		288C900D58A804C2AF858A24 /* SLNVActivityIndicatorAnimationBallGridPulse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallGridPulse.swift; sourceTree = "<group>"; };
-		2C036D14589140A08F9EECEE /* SLReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLReachability.swift; sourceTree = "<group>"; };
-		2D343A3690B126B8D8CDD3BD /* SLKeyChainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLKeyChainUtil.swift; sourceTree = "<group>"; };
-		2D8B3CB3840046061725CE1C /* SLBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLBaseViewController.swift; sourceTree = "<group>"; };
-		2DDD4F70EEDD17F0A1D4359A /* SLNVActivityIndicatorAnimationBallScaleRipple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallScaleRipple.swift; sourceTree = "<group>"; };
-		2EB580CEB6EE7F53A9D141C7 /* SLBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLBaseView.swift; sourceTree = "<group>"; };
-		337FD129D23FD41C18858CEC /* MPVolumeView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MPVolumeView+extension.swift"; sourceTree = "<group>"; };
-		3400DCF8CCA58D92A4D263C8 /* UIImage+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+extension.swift"; sourceTree = "<group>"; };
-		391724A562AD622E3E2FD176 /* MicroPhonePermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicroPhonePermission.swift; sourceTree = "<group>"; };
-		3BE81CC44FF60482715F4762 /* SLNVActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorView.swift; sourceTree = "<group>"; };
-		3C1AD3ED08125931DCC605A3 /* ShopLiveUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveUserDefaults.swift; sourceTree = "<group>"; };
-		3F9EE8393D94CC81A65FC690 /* NotificationCenter+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+extension.swift"; sourceTree = "<group>"; };
-		40C5BFFC76BA364E75E337A7 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
-		4117E81570BC11718D43C65C /* SLNVActivityIndicatorAnimationBallSpinFadeLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallSpinFadeLoader.swift; sourceTree = "<group>"; };
-		44B69C265636F56F3FF0C835 /* CGFloat+extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+extention.swift"; sourceTree = "<group>"; };
-		44C5918BE9953DDC2EC2F31B /* IndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorView.swift; sourceTree = "<group>"; };
-		4802A18ED8B3BC1D5D55C4B7 /* UIDevice+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+extension.swift"; sourceTree = "<group>"; };
-		49F63599E2F1C453297BF8AA /* Dictionary+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+extension.swift"; sourceTree = "<group>"; };
-		4B42C78F955844D65CC61132 /* UIScreen+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+extension.swift"; sourceTree = "<group>"; };
-		4C2C0697F4CD9DA02A53F9FC /* AudioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionManager.swift; sourceTree = "<group>"; };
-		4D36B2D6E594DED5DED4C3CF /* UIDeviceOrientation+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDeviceOrientation+extension.swift"; sourceTree = "<group>"; };
-		4EA5E15EFF8471F206B95F4F /* AVPlayer+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+extension.swift"; sourceTree = "<group>"; };
-		4F7DDB63F615D1DE46D58941 /* UINavigationController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+extension.swift"; sourceTree = "<group>"; };
-		500C282AE60019DC925732D1 /* ShopLiveHapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveHapticManager.swift; sourceTree = "<group>"; };
-		510FBD108A9922604EC1F8D3 /* ShopLiveCommonAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveCommonAuth.swift; sourceTree = "<group>"; };
-		5411A6270F477E84217CF39F /* ShopLiveCommonUserObjc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveCommonUserObjc.swift; sourceTree = "<group>"; };
-		589F9CEBB1DA0B39EFE0BD01 /* SLNVActivityIndicatorAnimationBallScaleMultiple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallScaleMultiple.swift; sourceTree = "<group>"; };
-		593CAF0E4EB77DC93117D275 /* UIColor+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
-		5946C450D5DDBB985582EE1F /* ShopLivePublicEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLivePublicEnums.swift; sourceTree = "<group>"; };
-		59CBF06FE688F6D57696E58C /* SLResultObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLResultObservable.swift; sourceTree = "<group>"; };
-		5B1CF5F2FF4A8BAAB6353540 /* SLNVActivityIndicatorAnimationBallZigZagDeflect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallZigZagDeflect.swift; sourceTree = "<group>"; };
-		5B9C40B5825C1D3BD62C8153 /* SLNVActivityIndicatorAnimationPacman.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationPacman.swift; sourceTree = "<group>"; };
-		5CF6135DF31D7C4F5FD6AC8F /* SLNVActivityIndicatorAnimationBallClipRotateMultiple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallClipRotateMultiple.swift; sourceTree = "<group>"; };
-		5DC5CB7A864B3220AA43F566 /* SLNVActivityIndicatorAnimationLineScaleParty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationLineScaleParty.swift; sourceTree = "<group>"; };
-		5DF832E1F3BFEFFEF2E18E10 /* UITextField+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+extension.swift"; sourceTree = "<group>"; };
-		60C19C04C5674588388EB127 /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
-		617DB67976900B550A271C55 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
-		6321F5CC2F30D7B9447FC02A /* Double+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+extension.swift"; sourceTree = "<group>"; };
-		640FABFBB9C8BDAD837723B9 /* SLCircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLCircularProgressView.swift; sourceTree = "<group>"; };
-		64A426935EFD78637EF1BDF2 /* SLNVActivityIndicatorShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorShape.swift; sourceTree = "<group>"; };
-		6607E76FF2575C789225B42F /* PHAsset+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHAsset+extension.swift"; sourceTree = "<group>"; };
-		68268A1C2AAA9D065C10F22B /* SLToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLToast.swift; sourceTree = "<group>"; };
-		6A1D9FDED4C43A6817EF0BA7 /* SLRequestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLRequestable.swift; sourceTree = "<group>"; };
-		6A79F7CCC312ECFB675C2595 /* KeychainWrapperSubscript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapperSubscript.swift; sourceTree = "<group>"; };
-		6B6BECC609008808C53A8C1D /* CGRect+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+extension.swift"; sourceTree = "<group>"; };
-		71878FCA7203D382B1F30E37 /* SLNVActivityIndicatorAnimationBallZigZag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallZigZag.swift; sourceTree = "<group>"; };
-		79CBB36D789312F5DCCAE556 /* SLNVActivityIndicatorAnimationBallClipRotatePulse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallClipRotatePulse.swift; sourceTree = "<group>"; };
-		7C040E50036A71C9C11C2BCA /* ShopLiveSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveSession.swift; sourceTree = "<group>"; };
-		7F1BDB9BF86077B25894EF0F /* SLNVActivityIndicatorAnimationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationDelegate.swift; sourceTree = "<group>"; };
-		8325BD3E898013D547109367 /* SLNVActivityIndicatorAnimationOrbit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationOrbit.swift; sourceTree = "<group>"; };
-		8415F94A9CEB32C68C8DAE3E /* URLUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLUtil.swift; sourceTree = "<group>"; };
-		88DDB1E5E37DEDA770FEDC12 /* Error+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+extension.swift"; sourceTree = "<group>"; };
-		89273BC77AD1A6A008EEA2C3 /* SLNVActivityIndicatorAnimationBallClipRotate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallClipRotate.swift; sourceTree = "<group>"; };
-		894DDE3F58416F039B38B7D0 /* SLWebview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLWebview.swift; sourceTree = "<group>"; };
-		8B5DEBF5EACF7025B9FFC52B /* SLNVActivityIndicatorAnimationBallRotateChase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallRotateChase.swift; sourceTree = "<group>"; };
-		8C3DB88670390DCD618A81C4 /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
-		8E8D381DE53FD63C04015BDB /* UIStackView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+extension.swift"; sourceTree = "<group>"; };
-		924F128DD171E72DA6B87DCB /* ShopLiveThrottle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveThrottle.swift; sourceTree = "<group>"; };
-		965CC392894796177E38694F /* ShopLivePermissionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLivePermissionHandler.swift; sourceTree = "<group>"; };
-		96768343708F3936AD6D8618 /* Date+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+extension.swift"; sourceTree = "<group>"; };
-		98332355BC2D745443C03C34 /* SLFlexibleParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLFlexibleParser.swift; sourceTree = "<group>"; };
-		9994BFED182BA1BC7260D9FA /* SLNVActivityIndicatorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorPresenter.swift; sourceTree = "<group>"; };
-		9B0E87EA9FA5005C7812FD5B /* UIImageView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
-		9B3E3B1C70CBEBE9E847FA8D /* APIDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIDefinition.swift; sourceTree = "<group>"; };
-		9CE6F954918B8E3542249491 /* SLNVActivityIndicatorAnimationBallDoubleBounce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallDoubleBounce.swift; sourceTree = "<group>"; };
-		9D323A3A3AC318AB0AF1FFA0 /* UIButton+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+extension.swift"; sourceTree = "<group>"; };
-		9D78930086B2A66685DB7D41 /* SLNVActivityIndicatorAnimationAudioEqualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationAudioEqualizer.swift; sourceTree = "<group>"; };
-		A02847258059AA4909D32802 /* ShopliveSDKCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopliveSDKCommon.swift; sourceTree = "<group>"; };
-		A3FD23C803B4872239F14A6B /* SLNVActivityIndicatorAnimationBallPulse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallPulse.swift; sourceTree = "<group>"; };
-		A4B0D75C2C53B5CE3369B68B /* SLNVActivityIndicatorAnimationTriangleSkewSpin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationTriangleSkewSpin.swift; sourceTree = "<group>"; };
-		A5077C2E11E8F0940EBE68C7 /* UIInterfaceOrientation+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIInterfaceOrientation+extension.swift"; sourceTree = "<group>"; };
-		A60F4A4C877328DA9345E868 /* SLNVActivityIndicatorAnimationBallScaleRippleMultiple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallScaleRippleMultiple.swift; sourceTree = "<group>"; };
-		A82E5E35044EFE28D8BDF26F /* NSLayoutConstraint+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+extension.swift"; sourceTree = "<group>"; };
-		AB027CA71C2FDB4782DFB81D /* SLNVActivityIndicatorAnimationBallBeat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallBeat.swift; sourceTree = "<group>"; };
-		AD3F957F2666F61BE52A5FC8 /* WKWebView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+extension.swift"; sourceTree = "<group>"; };
-		B2B1DA03FA1DDAC52D9FDC2D /* ShopLiveAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveAppDelegate.swift; sourceTree = "<group>"; };
-		B334B69A3D194D6ECA22AC0F /* CMTime+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMTime+extension.swift"; sourceTree = "<group>"; };
-		B8154B04F95C1B1B3FF5767D /* SLNVActivityIndicatorAnimationLineScalePulseOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationLineScalePulseOut.swift; sourceTree = "<group>"; };
-		BB25C3B871C1E3CC228149B6 /* ShopLiveDefines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDefines.swift; sourceTree = "<group>"; };
-		BC9485CAB5376C4CCEE08F7C /* CGSize + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize + extension.swift"; sourceTree = "<group>"; };
-		BCB0FB6D3CE9C863C441909B /* SLTextFieldWithPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLTextFieldWithPadding.swift; sourceTree = "<group>"; };
-		BDDD65468425A4B6BEDD5994 /* UIViewController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+extension.swift"; sourceTree = "<group>"; };
-		C154DC3CDF2ABB34516FE31B /* SLNVActivityIndicatorAnimationBallRotate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallRotate.swift; sourceTree = "<group>"; };
-		C39526AA4D7CF0FAEAF8C057 /* SLNVActivityIndicatorAnimationSquareSpin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationSquareSpin.swift; sourceTree = "<group>"; };
-		C4310E0E1AEE32F8C3D6BCCB /* SLNVActivityIndicatorAnimationCircleStrokeSpin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationCircleStrokeSpin.swift; sourceTree = "<group>"; };
-		C5CA1235C76FEEAD7AC4FF39 /* AvAudioSession + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AvAudioSession + extension.swift"; sourceTree = "<group>"; };
-		CA6A8E6D9B64678C15402A00 /* CGPoint + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint + extension.swift"; sourceTree = "<group>"; };
-		CAB1A442BBC530022653A5C5 /* NSAttributedString+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+extension.swift"; sourceTree = "<group>"; };
-		CD8545C589387F17191DF911 /* Data+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+extension.swift"; sourceTree = "<group>"; };
-		CF658F74A300A2EF1E1749F8 /* ShopLiveSDKCommon-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ShopLiveSDKCommon-Info.plist"; sourceTree = "<group>"; };
-		D15AE31C029CB0D5D39AC6F3 /* ImageDownLoadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownLoadManager.swift; sourceTree = "<group>"; };
-		D1D2C8080E58E68AB14D9FD5 /* UIView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+extension.swift"; sourceTree = "<group>"; };
-		D3437D0296ADE1A8DB513FA2 /* Encodable+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+extension.swift"; sourceTree = "<group>"; };
-		D3D8672EBDA9C0E6AF230EBB /* ShopLiveNetworkBaseErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveNetworkBaseErrorResponse.swift; sourceTree = "<group>"; };
-		D507320C0F4413FB53E30528 /* SLNVActivityIndicatorAnimationLineScalePulseOutRapid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationLineScalePulseOutRapid.swift; sourceTree = "<group>"; };
-		D69BF5A42BE8C487D4730F95 /* SLNVActivityIndicatorAnimationBallGridBeat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallGridBeat.swift; sourceTree = "<group>"; };
-		D790CFC40CF2BDB92D9FC44F /* SLNVActivityIndicatorAnimationBallScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallScale.swift; sourceTree = "<group>"; };
-		D8CFD6D8F13561170FF68C4C /* SLNVActivityIndicatorAnimationBallPulseRise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallPulseRise.swift; sourceTree = "<group>"; };
-		E08B81E56C2D9A79BE499EE8 /* NSMutableDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMutableDictionary.swift; sourceTree = "<group>"; };
-		E3C4CFEF361AE3D3CD1267CA /* SLVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLVideoPlayer.swift; sourceTree = "<group>"; };
-		E59B6933A38E2E08A2363F54 /* NSObject+extensiton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+extensiton.swift"; sourceTree = "<group>"; };
-		E5A4D5F45D803407058B7301 /* KeychainData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainData.swift; sourceTree = "<group>"; };
-		E90E0CA19DBC8DA58556DCBE /* SLNVActivityIndicatorAnimationSemiCircleSpin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationSemiCircleSpin.swift; sourceTree = "<group>"; };
-		EA77C2C5CE3A4101133955B7 /* SLNVActivityIndicatorAnimationBallPulseSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallPulseSync.swift; sourceTree = "<group>"; };
-		EC364AF5E9FFB8D21A730FB1 /* ShopLiveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		ECA1C028C15409694FC18345 /* ShopLiveJWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveJWT.swift; sourceTree = "<group>"; };
-		EDB3BAC28155DA51719C9550 /* CommonStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonStrings.swift; sourceTree = "<group>"; };
-		EF1699FE937634202430229B /* Reactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reactor.swift; sourceTree = "<group>"; };
-		EFDAA2B63EDEB62599D9307F /* AVCaptureDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureDevice.swift; sourceTree = "<group>"; };
-		F010B9289CADC6B97F44CDC7 /* SLNVActivityIndicatorAnimationLineSpinFadeLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationLineSpinFadeLoader.swift; sourceTree = "<group>"; };
-		F309A5404165E96B3691EF28 /* SLNVActivityIndicatorAnimationCubeTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationCubeTransition.swift; sourceTree = "<group>"; };
-		F482805F1102B1785DB850DA /* ShopLiveCommonError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveCommonError.swift; sourceTree = "<group>"; };
-		F6AE0648F61A5B74598B867E /* Int+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+extensions.swift"; sourceTree = "<group>"; };
-		F706DCB691E6CB25860F2522 /* ShopLiveLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveLogger.swift; sourceTree = "<group>"; };
-		F896B716F7AEC3C04C6C95C2 /* UIEdgetInset+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIEdgetInset+extension.swift"; sourceTree = "<group>"; };
-		FCBF94BE547A31E158CFF83D /* CameraPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermission.swift; sourceTree = "<group>"; };
-		FF039D3D768F2B0F24AD396C /* UITextView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+extension.swift"; sourceTree = "<group>"; };
+		01EE8782534660CEC09EE2A4 /* SLKeyChainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLKeyChainUtil.swift; sourceTree = "<group>"; };
+		01FF1D3CF2F2D9DF8840D482 /* UITextField+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+extension.swift"; sourceTree = "<group>"; };
+		03DB4E8961CC994EBCF6CC1B /* CGFloat+extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+extention.swift"; sourceTree = "<group>"; };
+		0624342038654E8A071F5812 /* ShopLivePublicEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLivePublicEnums.swift; sourceTree = "<group>"; };
+		0A31189AFE2114BB738482E5 /* ShopliveSDKCommon-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ShopliveSDKCommon-Info.plist"; sourceTree = "<group>"; };
+		0D4F66994743B344E7279136 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		11F3D1BD528A55CD05059BE3 /* SLNVActivityIndicatorAnimationBallPulse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallPulse.swift; sourceTree = "<group>"; };
+		122895F27B333379D474ED52 /* SLNVActivityIndicatorAnimationBallScaleRipple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallScaleRipple.swift; sourceTree = "<group>"; };
+		134417E0BEF9BABB01D6ECAE /* ShopLiveLoggerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveLoggerViewController.swift; sourceTree = "<group>"; };
+		15625AF6A60A89705130E97B /* SLNVActivityIndicatorAnimationLineScalePulseOutRapid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationLineScalePulseOutRapid.swift; sourceTree = "<group>"; };
+		1633724F33DF44FA4F2230A0 /* ShopLiveSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveSession.swift; sourceTree = "<group>"; };
+		190F1E85B601B7B9D3258556 /* Double+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+extension.swift"; sourceTree = "<group>"; };
+		19B2B240523FFD7F1C9812A6 /* SLBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLBaseViewController.swift; sourceTree = "<group>"; };
+		19B6DD392A44F65948298C02 /* JSONNull.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONNull.swift; sourceTree = "<group>"; };
+		19FCF11096074C035341D1C3 /* Date+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+extension.swift"; sourceTree = "<group>"; };
+		1D751068D853CE4E41254046 /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
+		1DECAEF61AB5FD9AF8D68FC5 /* ShopLivePermissionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLivePermissionHandler.swift; sourceTree = "<group>"; };
+		1FDD824FA760599DB828D6D4 /* ShopLiveNetworkBaseErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveNetworkBaseErrorResponse.swift; sourceTree = "<group>"; };
+		1FF953ED148F4C6DCD741BB3 /* SLNVActivityIndicatorAnimationBallGridBeat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallGridBeat.swift; sourceTree = "<group>"; };
+		2062C15BE55449527C1A3CEA /* SLNVActivityIndicatorAnimationBallZigZagDeflect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallZigZagDeflect.swift; sourceTree = "<group>"; };
+		211B6AF0E32BA78247809E8A /* SLReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLReachability.swift; sourceTree = "<group>"; };
+		25C8BEB0F48D77C609A1BFC0 /* ShopLiveUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveUserDefaults.swift; sourceTree = "<group>"; };
+		260E63F45C09F28D08D13DBD /* MPVolumeView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MPVolumeView+extension.swift"; sourceTree = "<group>"; };
+		26B6118F39C7A2D0DFD2CDD9 /* ShopLiveSDKCommon + AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShopLiveSDKCommon + AppDelegate.swift"; sourceTree = "<group>"; };
+		27712AE991915F9AA5D9A5DC /* SLNVActivityIndicatorShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorShape.swift; sourceTree = "<group>"; };
+		27FA76862484C73861197CE8 /* KeychainWrapperSubscript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapperSubscript.swift; sourceTree = "<group>"; };
+		281230AF64CA18D05E58F224 /* SLNVActivityIndicatorAnimationSquareSpin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationSquareSpin.swift; sourceTree = "<group>"; };
+		283DAE0E1C757A67F86F4516 /* UIStackView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+extension.swift"; sourceTree = "<group>"; };
+		292EA7AB669644FE112A6194 /* Array+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+extension.swift"; sourceTree = "<group>"; };
+		29DD43B1C1D81B0159C019E3 /* SLNVActivityIndicatorAnimationBallRotateChase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallRotateChase.swift; sourceTree = "<group>"; };
+		29E5DFD785C5420190582459 /* SLNVActivityIndicatorAnimationCircleStrokeSpin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationCircleStrokeSpin.swift; sourceTree = "<group>"; };
+		313C6A2C4C2BE32FA5A2E210 /* SLNVActivityIndicatorAnimationBallClipRotate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallClipRotate.swift; sourceTree = "<group>"; };
+		32AB58943DCBE8D3F56DEA94 /* Data+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+extension.swift"; sourceTree = "<group>"; };
+		32FB69F6C434A1730C62DB07 /* SLNVActivityIndicatorAnimationBallGridPulse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallGridPulse.swift; sourceTree = "<group>"; };
+		336645EF34CCA084851643B1 /* SLResultObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLResultObservable.swift; sourceTree = "<group>"; };
+		34843374DBF7FC9BD1432686 /* Float64+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float64+extension.swift"; sourceTree = "<group>"; };
+		38E3CAB7300B8937AFA9F7E6 /* SLNVActivityIndicatorAnimationBallDoubleBounce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallDoubleBounce.swift; sourceTree = "<group>"; };
+		3A2E42DD9EA69918DADFB32A /* AvAudioSession + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AvAudioSession + extension.swift"; sourceTree = "<group>"; };
+		3AFFEF76675219EE7BE0E0EC /* UIButton+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+extension.swift"; sourceTree = "<group>"; };
+		3B5F78086D7F5EEC323A2809 /* SLNVActivityIndicatorAnimationBallRotate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallRotate.swift; sourceTree = "<group>"; };
+		3BF870C614283FE838B630D9 /* UITextView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+extension.swift"; sourceTree = "<group>"; };
+		3C218923158884ECDD8F39C1 /* UIScreen+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+extension.swift"; sourceTree = "<group>"; };
+		3D85C5330672B326D3D09240 /* ShopLiveCommonAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveCommonAuth.swift; sourceTree = "<group>"; };
+		40D4DEEDD8E1E796A6EBAFC7 /* UIInterfaceOrientation+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIInterfaceOrientation+extension.swift"; sourceTree = "<group>"; };
+		42B982E4C8894A8554D54D6E /* AudioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionManager.swift; sourceTree = "<group>"; };
+		468D2E83BC454B805F288EB1 /* ShopliveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopliveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4757C50C5690C946AD5EA3FD /* UIDeviceOrientation+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDeviceOrientation+extension.swift"; sourceTree = "<group>"; };
+		4807343314342DBD9D57F247 /* SLBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLBaseView.swift; sourceTree = "<group>"; };
+		4A2474CF98D92C730F2117B4 /* NSMutableDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMutableDictionary.swift; sourceTree = "<group>"; };
+		4A85297C067B2147CC7B66A0 /* SLNVActivityIndicatorAnimationOrbit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationOrbit.swift; sourceTree = "<group>"; };
+		4B2FE7F5FCC8E73798B133E2 /* AssociatedObjectStore+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AssociatedObjectStore+extension.swift"; sourceTree = "<group>"; };
+		4E5CBB97E5CFC10B44BE20FE /* Collection+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+extension.swift"; sourceTree = "<group>"; };
+		5164B27903E4C17955D17C46 /* SLNVActivityIndicatorAnimationBallZigZag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallZigZag.swift; sourceTree = "<group>"; };
+		5560BFC2F4E53C1269316AAB /* SLCircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLCircularProgressView.swift; sourceTree = "<group>"; };
+		56864E3FA005BBD824B41ED6 /* SLNVActivityIndicatorAnimationLineScaleParty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationLineScaleParty.swift; sourceTree = "<group>"; };
+		57AA1C98BC58601CBCD634A9 /* SLNVActivityIndicatorAnimationBallPulseRise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallPulseRise.swift; sourceTree = "<group>"; };
+		5AC81850B52E0CAF9C8762F7 /* UIFont+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+extension.swift"; sourceTree = "<group>"; };
+		5CEC6B65E8D8A20A1D1C7307 /* SLNVActivityIndicatorAnimationAudioEqualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationAudioEqualizer.swift; sourceTree = "<group>"; };
+		5F5E623F3645A0F9FEE1AD5B /* UIViewController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+extension.swift"; sourceTree = "<group>"; };
+		5F7CB57B0F782ABACFED9351 /* AVCaptureDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureDevice.swift; sourceTree = "<group>"; };
+		60E0BE34EF821FA6CFCA109E /* Dictionary+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+extension.swift"; sourceTree = "<group>"; };
+		6521DDF114DA1A16AF9D020B /* KeychainData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainData.swift; sourceTree = "<group>"; };
+		6D191EB88A2B3C1F1294BCC2 /* ShopLiveJWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveJWT.swift; sourceTree = "<group>"; };
+		6D73EAC8F17117CEAB11EAD5 /* CGRect+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+extension.swift"; sourceTree = "<group>"; };
+		6D85622DA5E09569154A6068 /* SLNVActivityIndicatorAnimationLineSpinFadeLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationLineSpinFadeLoader.swift; sourceTree = "<group>"; };
+		71B427D1B052883EDBA0942B /* CGSize + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize + extension.swift"; sourceTree = "<group>"; };
+		7366E3EB4847C81961223E03 /* NSObject+extensiton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+extensiton.swift"; sourceTree = "<group>"; };
+		73DB2D77B85617F0B8D4909B /* SLNVActivityIndicatorAnimationBallPulseSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallPulseSync.swift; sourceTree = "<group>"; };
+		78D2FE7D6CAB4C68D2AA3C25 /* Int+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+extensions.swift"; sourceTree = "<group>"; };
+		7A183FA3D93FFA355419BB86 /* SLWebview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLWebview.swift; sourceTree = "<group>"; };
+		7A5B12E52CF20BFE290CC3FF /* UIImageView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
+		7D022357399ECFF256D87C6C /* PHAsset+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHAsset+extension.swift"; sourceTree = "<group>"; };
+		7D14D44985A0BC0CB063B6E2 /* WKWebView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+extension.swift"; sourceTree = "<group>"; };
+		7E0DCC0B43C71D0D1294DAF0 /* UIDevice+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+extension.swift"; sourceTree = "<group>"; };
+		7E91A695066C1A1781753FD2 /* SLNVActivityIndicatorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorPresenter.swift; sourceTree = "<group>"; };
+		81AFFE480F976A103FBF4D69 /* SLToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLToast.swift; sourceTree = "<group>"; };
+		84615112C9F77A50CA179EEC /* ShopLiveThrottle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveThrottle.swift; sourceTree = "<group>"; };
+		851A7B66AC6E38E7B0ADC749 /* SLNVActivityIndicatorAnimationBallBeat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallBeat.swift; sourceTree = "<group>"; };
+		8CBF08080D6BDAFE049A85A9 /* UIEdgetInset+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIEdgetInset+extension.swift"; sourceTree = "<group>"; };
+		928A54FF286761B82DE9CB4A /* ImageDownLoadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownLoadManager.swift; sourceTree = "<group>"; };
+		92EF5B6298E818038E8CD501 /* SLNVActivityIndicatorAnimationBallScaleMultiple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallScaleMultiple.swift; sourceTree = "<group>"; };
+		94209ADC4E073C8045A86901 /* UINavigationController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+extension.swift"; sourceTree = "<group>"; };
+		95A53EC8B62DB41FCDA44622 /* SLFlexibleParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLFlexibleParser.swift; sourceTree = "<group>"; };
+		97382368BE242B9C8B6EED4B /* SLNVActivityIndicatorAnimationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationDelegate.swift; sourceTree = "<group>"; };
+		9ADFB3DCF9EC74B3D51D4DA4 /* SLNVActivityIndicatorAnimationBallClipRotateMultiple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallClipRotateMultiple.swift; sourceTree = "<group>"; };
+		9D2A3688BB4D9ABC51AB5E68 /* ShopLiveLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveLogger.swift; sourceTree = "<group>"; };
+		9F70A099B6F6F41A491A8DB1 /* SLRequestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLRequestable.swift; sourceTree = "<group>"; };
+		A1077C025F96106F9F227E16 /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
+		A16A7331504C5353BAF538AE /* UIView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+extension.swift"; sourceTree = "<group>"; };
+		A4C569409E2B5E1FD8FE7A60 /* SLVideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLVideoPlayerView.swift; sourceTree = "<group>"; };
+		A86F2682381DE435ED41DD4C /* URLUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLUtil.swift; sourceTree = "<group>"; };
+		AA150DF45A10E566E3CACD0E /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
+		AA9BCD522A8970E80FFA8DA6 /* SLNVActivityIndicatorAnimationBallSpinFadeLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallSpinFadeLoader.swift; sourceTree = "<group>"; };
+		ACB3693E6C717A012372861A /* ShopLiveCommonUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveCommonUser.swift; sourceTree = "<group>"; };
+		AF10F89E35229D7FD0D4EB80 /* UIColor+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
+		B4E78961DD7165DF67FEBD97 /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
+		BBEEEC2E52BAC489110D6B70 /* SLNVActivityIndicatorAnimationBallTrianglePath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallTrianglePath.swift; sourceTree = "<group>"; };
+		BED904F4B5E5F156F69A9672 /* SLNVActivityIndicatorViewable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorViewable.swift; sourceTree = "<group>"; };
+		BF7B61F1D3284BCEA1C13F33 /* SLVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLVideoPlayer.swift; sourceTree = "<group>"; };
+		BFE37F2ED693DA8E3C6305B6 /* AVPlayer+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AVPlayer+extension.swift"; sourceTree = "<group>"; };
+		C097EEE38C61A2B34932F48A /* CALayer+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+extension.swift"; sourceTree = "<group>"; };
+		C3009B4A776BC93526F14BE9 /* CommonStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonStrings.swift; sourceTree = "<group>"; };
+		C38E5F6EF58DEC997D5DCAC0 /* ShopliveSDKCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopliveSDKCommon.swift; sourceTree = "<group>"; };
+		C4E9C44F730264CA8AF1793C /* UIApplication+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+extension.swift"; sourceTree = "<group>"; };
+		C87A34162F5907A4F9BB37DC /* SLNVActivityIndicatorAnimationCubeTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationCubeTransition.swift; sourceTree = "<group>"; };
+		CC1C4C57F21BF163F09F2B2D /* UIWindow+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+extension.swift"; sourceTree = "<group>"; };
+		CD46147B984830EC0CC7D8E8 /* KeyBoardNotificationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBoardNotificationProtocol.swift; sourceTree = "<group>"; };
+		CE64E4FD6CDF353A16A6D1BC /* SLLoadingAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLLoadingAlertController.swift; sourceTree = "<group>"; };
+		CED84719C1EF79535923BA05 /* NotificationCenter+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+extension.swift"; sourceTree = "<group>"; };
+		CFB3F39B42E293BFC2DC5399 /* UIPanGestureRecognizer+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPanGestureRecognizer+extension.swift"; sourceTree = "<group>"; };
+		D27D6ACBD316AB81BFC87BAD /* SLNVActivityIndicatorAnimationSemiCircleSpin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationSemiCircleSpin.swift; sourceTree = "<group>"; };
+		D38BBFD2EE5CE7614B173942 /* ShopLiveCommonError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveCommonError.swift; sourceTree = "<group>"; };
+		D3939806D24FE1593F832FB3 /* Reactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reactor.swift; sourceTree = "<group>"; };
+		D8BC9DA6D19FF712A9EC449E /* MicroPhonePermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicroPhonePermission.swift; sourceTree = "<group>"; };
+		DA420904A9111EECF5F3F141 /* SLNVActivityIndicatorAnimationLineScalePulseOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationLineScalePulseOut.swift; sourceTree = "<group>"; };
+		DA91D8536757C0B6E701FF7B /* SLTextFieldWithPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLTextFieldWithPadding.swift; sourceTree = "<group>"; };
+		DAB670196B4F4B762F9A2E7F /* CommonKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonKeys.swift; sourceTree = "<group>"; };
+		DC1D112F956FB6EFADC15119 /* NSAttributedString+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+extension.swift"; sourceTree = "<group>"; };
+		DE208CB78683DEB06542B31B /* CMTime+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMTime+extension.swift"; sourceTree = "<group>"; };
+		DE58A0044CEAEFDEFF401226 /* ShopLiveCommonUserObjc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveCommonUserObjc.swift; sourceTree = "<group>"; };
+		DE6EB3B9122BEA8C59D17227 /* ShopLiveHapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveHapticManager.swift; sourceTree = "<group>"; };
+		DF490AA01A27153D82E7F5B3 /* SLNVActivityIndicatorAnimationLineScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationLineScale.swift; sourceTree = "<group>"; };
+		E211D441E5FA9768240E1FB6 /* APIDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIDefinition.swift; sourceTree = "<group>"; };
+		E399B2624775D33B1C0FE7E0 /* SLNVActivityIndicatorAnimationBallClipRotatePulse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallClipRotatePulse.swift; sourceTree = "<group>"; };
+		E835EEC51BC0F2E8161D1E50 /* SLNVActivityIndicatorAnimationPacman.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationPacman.swift; sourceTree = "<group>"; };
+		EA4F849C5BBC23CF4AE99E91 /* ShopLiveDefines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDefines.swift; sourceTree = "<group>"; };
+		EAD3E43A2194F2E1849606A8 /* Error+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+extension.swift"; sourceTree = "<group>"; };
+		EBFC5E612E019657A57FA810 /* UIImage+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+extension.swift"; sourceTree = "<group>"; };
+		ED77284FF7B144D1790AEB58 /* NSLayoutConstraint+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+extension.swift"; sourceTree = "<group>"; };
+		F1A015999C714272DEC8FD69 /* SLNVActivityIndicatorAnimationBlank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBlank.swift; sourceTree = "<group>"; };
+		F2D38A0106A1D647D3CE4407 /* SLNVActivityIndicatorAnimationBallScaleRippleMultiple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallScaleRippleMultiple.swift; sourceTree = "<group>"; };
+		F3BA803058E4678AAECE0FA1 /* SLNVActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorView.swift; sourceTree = "<group>"; };
+		F4EFC5A98497B14DDC8554F8 /* CGPoint + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint + extension.swift"; sourceTree = "<group>"; };
+		F4FEAAA4ABAD52CBD0784181 /* ShopLiveDebouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDebouncer.swift; sourceTree = "<group>"; };
+		F54D44638FD44EE57A1E896F /* SLNVActivityIndicatorAnimationTriangleSkewSpin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationTriangleSkewSpin.swift; sourceTree = "<group>"; };
+		F6A3F8C9A0FB22F66A831D0A /* URL+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+extension.swift"; sourceTree = "<group>"; };
+		F837E10344E400C7065048EE /* IndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorView.swift; sourceTree = "<group>"; };
+		F83F4CDFBFF1F72A952785E3 /* CameraPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermission.swift; sourceTree = "<group>"; };
+		F8E9C3F258E551B358EE465F /* Encodable+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+extension.swift"; sourceTree = "<group>"; };
+		F9BA1430AEF1E3CAA2E3B8A4 /* SLNVActivityIndicatorAnimationBallScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallScale.swift; sourceTree = "<group>"; };
+		FCED1FEFB3E985DBD36C7D7A /* ShopLiveAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveAppDelegate.swift; sourceTree = "<group>"; };
+		FE0B57D8CC367C1BA57914D2 /* UserDefaults+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		E9414B01ED901B5F52F7D309 /* Frameworks */ = {
+		E99730F2157FB5824669C6EC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -318,539 +318,539 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		054AC982B46DB2BDA18158BD /* player */ = {
+		01AE6CD45A57070743AE670E /* WebKit+extension */ = {
 			isa = PBXGroup;
 			children = (
-				E3C4CFEF361AE3D3CD1267CA /* SLVideoPlayer.swift */,
-				13EE96BBF16382666577036C /* SLVideoPlayerView.swift */,
+				7D14D44985A0BC0CB063B6E2 /* WKWebView+extension.swift */,
 			);
-			path = player;
+			path = "WebKit+extension";
 			sourceTree = "<group>";
 		};
-		09E8131812015965F64D6308 /* CommonKeys */ = {
+		04EE36D22CE35754228747B8 /* UIKit+extension */ = {
 			isa = PBXGroup;
 			children = (
-				2139C64A6F14E957062A36A7 /* CommonKeys.swift */,
+				C097EEE38C61A2B34932F48A /* CALayer+extension.swift */,
+				ED77284FF7B144D1790AEB58 /* NSLayoutConstraint+extension.swift */,
+				C4E9C44F730264CA8AF1793C /* UIApplication+extension.swift */,
+				3AFFEF76675219EE7BE0E0EC /* UIButton+extension.swift */,
+				AF10F89E35229D7FD0D4EB80 /* UIColor+extension.swift */,
+				7E0DCC0B43C71D0D1294DAF0 /* UIDevice+extension.swift */,
+				4757C50C5690C946AD5EA3FD /* UIDeviceOrientation+extension.swift */,
+				8CBF08080D6BDAFE049A85A9 /* UIEdgetInset+extension.swift */,
+				5AC81850B52E0CAF9C8762F7 /* UIFont+extension.swift */,
+				EBFC5E612E019657A57FA810 /* UIImage+extension.swift */,
+				40D4DEEDD8E1E796A6EBAFC7 /* UIInterfaceOrientation+extension.swift */,
+				94209ADC4E073C8045A86901 /* UINavigationController+extension.swift */,
+				CFB3F39B42E293BFC2DC5399 /* UIPanGestureRecognizer+extension.swift */,
+				3C218923158884ECDD8F39C1 /* UIScreen+extension.swift */,
+				283DAE0E1C757A67F86F4516 /* UIStackView+extension.swift */,
+				01FF1D3CF2F2D9DF8840D482 /* UITextField+extension.swift */,
+				3BF870C614283FE838B630D9 /* UITextView+extension.swift */,
+				A16A7331504C5353BAF538AE /* UIView+extension.swift */,
+				5F5E623F3645A0F9FEE1AD5B /* UIViewController+extension.swift */,
+				CC1C4C57F21BF163F09F2B2D /* UIWindow+extension.swift */,
 			);
-			path = CommonKeys;
+			path = "UIKit+extension";
 			sourceTree = "<group>";
 		};
-		1484A4F7ADA69C1DA6C49EA0 /* permission */ = {
+		16C8CDFC24B9153CC30E795D /* Project */ = {
 			isa = PBXGroup;
 			children = (
-				FCBF94BE547A31E158CFF83D /* CameraPermission.swift */,
-				391724A562AD622E3E2FD176 /* MicroPhonePermission.swift */,
-				617DB67976900B550A271C55 /* PermissionManager.swift */,
-				965CC392894796177E38694F /* ShopLivePermissionHandler.swift */,
-			);
-			path = permission;
-			sourceTree = "<group>";
-		};
-		17A115161E0C512C7C955ED1 /* webview */ = {
-			isa = PBXGroup;
-			children = (
-				894DDE3F58416F039B38B7D0 /* SLWebview.swift */,
-			);
-			path = webview;
-			sourceTree = "<group>";
-		};
-		1AA8D8A6B710DE4407797D10 /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				E0D6855F85741BAAFEB848F8 /* Animations */,
-				7F1BDB9BF86077B25894EF0F /* SLNVActivityIndicatorAnimationDelegate.swift */,
-				64A426935EFD78637EF1BDF2 /* SLNVActivityIndicatorShape.swift */,
-				3BE81CC44FF60482715F4762 /* SLNVActivityIndicatorView.swift */,
-			);
-			path = Base;
-			sourceTree = "<group>";
-		};
-		1F42C3501A8552ED67933CB7 /* BaseView */ = {
-			isa = PBXGroup;
-			children = (
-				2EB580CEB6EE7F53A9D141C7 /* SLBaseView.swift */,
-				2D8B3CB3840046061725CE1C /* SLBaseViewController.swift */,
-			);
-			path = BaseView;
-			sourceTree = "<group>";
-		};
-		21C048F93CEC64D4BC37F9ED /* uitextfield */ = {
-			isa = PBXGroup;
-			children = (
-				BCB0FB6D3CE9C863C441909B /* SLTextFieldWithPadding.swift */,
-			);
-			path = uitextfield;
-			sourceTree = "<group>";
-		};
-		2781BE6427D74F23D1060B47 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				D3D0EC8E5F594FB26245BECB /* AppDelegate */,
-				4F6E477DE24A37624ED5B54B /* Auth */,
-				09E8131812015965F64D6308 /* CommonKeys */,
-				2F4E45F03626CB5203534670 /* DevicePhysics */,
-				FD3B0F8F9B6CD312E92492C3 /* Enum */,
-				F534E73587622435B72E2978 /* Error */,
-				6C68457ECC863D33DCAF6B09 /* extension */,
-				517567488CE94CD2BB8A6D66 /* FlexibleParser */,
-				88A0130F3CED91CEEF489B96 /* keychain */,
-				698D47A0FE9138927CCAB73A /* Logger */,
-				B102ACCE5E6563DF3CD9BEA0 /* model */,
-				A5CDBB68711745386A092BCA /* network */,
-				5970EDFAC9B6B8BA91F2D007 /* Operator */,
-				1484A4F7ADA69C1DA6C49EA0 /* permission */,
-				054AC982B46DB2BDA18158BD /* player */,
-				2D100A392CD46417664516CF /* Protocol */,
-				D20924B01291176A0DE9B277 /* resource */,
-				5243122D847BE1A01281D037 /* SLReactor */,
-				7C8026370D3AE021D2F41972 /* thirdparty */,
-				DD6C635B7ACD2ADD699D68D1 /* Utils */,
-				C27C4C41DB96FBA687236B73 /* View */,
-				4C2C0697F4CD9DA02A53F9FC /* AudioSessionManager.swift */,
-				22579D583FF41ACD502AE5E9 /* ShopLiveSDKCommon + AppDelegate.swift */,
-				A02847258059AA4909D32802 /* ShopliveSDKCommon.swift */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
-		28FB4CF90C0BFA1928C470A3 /* Project */ = {
-			isa = PBXGroup;
-			children = (
-				B2D5282D0C7C12881DD3B6B4 /* Derived */,
-				2781BE6427D74F23D1060B47 /* Sources */,
+				22FD5915AB398873E4599A8C /* Derived */,
+				B126179045B5D148AE68AED7 /* Sources */,
 			);
 			name = Project;
 			sourceTree = "<group>";
 		};
-		2D100A392CD46417664516CF /* Protocol */ = {
+		1737AEC163035AE16C50A48D /* Enum */ = {
 			isa = PBXGroup;
 			children = (
-				22C801EFEAE59FEF1111D85A /* KeyBoardNotificationProtocol.swift */,
+				0624342038654E8A071F5812 /* ShopLivePublicEnums.swift */,
 			);
-			path = Protocol;
+			path = Enum;
 			sourceTree = "<group>";
 		};
-		2F4E45F03626CB5203534670 /* DevicePhysics */ = {
+		1ED28177D1FE3D311F122D0A /* network */ = {
 			isa = PBXGroup;
 			children = (
-				500C282AE60019DC925732D1 /* ShopLiveHapticManager.swift */,
-			);
-			path = DevicePhysics;
-			sourceTree = "<group>";
-		};
-		2FE5376EA807A02C902A4631 /* alertcontroller */ = {
-			isa = PBXGroup;
-			children = (
-				640FABFBB9C8BDAD837723B9 /* SLCircularProgressView.swift */,
-				0891EACB58D3B0EB1706AB39 /* SLLoadingAlertController.swift */,
-			);
-			path = alertcontroller;
-			sourceTree = "<group>";
-		};
-		3AA5FEC6AD6F1CFB31C112F4 /* AVKit+extension */ = {
-			isa = PBXGroup;
-			children = (
-				C5CA1235C76FEEAD7AC4FF39 /* AvAudioSession + extension.swift */,
-				EFDAA2B63EDEB62599D9307F /* AVCaptureDevice.swift */,
-				4EA5E15EFF8471F206B95F4F /* AVPlayer+extension.swift */,
-				B334B69A3D194D6ECA22AC0F /* CMTime+extension.swift */,
-			);
-			path = "AVKit+extension";
-			sourceTree = "<group>";
-		};
-		43DDED4DB777DCAA8B8C9D7F /* Alamofire+extension */ = {
-			isa = PBXGroup;
-			children = (
-				9B0E87EA9FA5005C7812FD5B /* UIImageView+extension.swift */,
-			);
-			path = "Alamofire+extension";
-			sourceTree = "<group>";
-		};
-		45FD04DA9C95420AE986F340 /* toast */ = {
-			isa = PBXGroup;
-			children = (
-				68268A1C2AAA9D065C10F22B /* SLToast.swift */,
-			);
-			path = toast;
-			sourceTree = "<group>";
-		};
-		4F6E477DE24A37624ED5B54B /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				510FBD108A9922604EC1F8D3 /* ShopLiveCommonAuth.swift */,
-				17D1EA6BBDACA1D9E9521975 /* ShopLiveCommonUser.swift */,
-				5411A6270F477E84217CF39F /* ShopLiveCommonUserObjc.swift */,
-				ECA1C028C15409694FC18345 /* ShopLiveJWT.swift */,
-				7C040E50036A71C9C11C2BCA /* ShopLiveSession.swift */,
-				3C1AD3ED08125931DCC605A3 /* ShopLiveUserDefaults.swift */,
-			);
-			path = Auth;
-			sourceTree = "<group>";
-		};
-		517567488CE94CD2BB8A6D66 /* FlexibleParser */ = {
-			isa = PBXGroup;
-			children = (
-				98332355BC2D745443C03C34 /* SLFlexibleParser.swift */,
-			);
-			path = FlexibleParser;
-			sourceTree = "<group>";
-		};
-		5243122D847BE1A01281D037 /* SLReactor */ = {
-			isa = PBXGroup;
-			children = (
-				EF1699FE937634202430229B /* Reactor.swift */,
-				6A1D9FDED4C43A6817EF0BA7 /* SLRequestable.swift */,
-				59CBF06FE688F6D57696E58C /* SLResultObservable.swift */,
-			);
-			path = SLReactor;
-			sourceTree = "<group>";
-		};
-		5970EDFAC9B6B8BA91F2D007 /* Operator */ = {
-			isa = PBXGroup;
-			children = (
-				17CA3D4794D7D9B6A911F65E /* ShopLiveDebouncer.swift */,
-				924F128DD171E72DA6B87DCB /* ShopLiveThrottle.swift */,
-			);
-			path = Operator;
-			sourceTree = "<group>";
-		};
-		604787EED77FE0D7146D76D3 /* Photos+extension */ = {
-			isa = PBXGroup;
-			children = (
-				6607E76FF2575C789225B42F /* PHAsset+extension.swift */,
-			);
-			path = "Photos+extension";
-			sourceTree = "<group>";
-		};
-		6953FF7A4AD1FC22BBFE27B9 /* Extended */ = {
-			isa = PBXGroup;
-			children = (
-				9994BFED182BA1BC7260D9FA /* SLNVActivityIndicatorPresenter.swift */,
-				1A07D0D4E53A59DC4367AB52 /* SLNVActivityIndicatorViewable.swift */,
-			);
-			path = Extended;
-			sourceTree = "<group>";
-		};
-		698D47A0FE9138927CCAB73A /* Logger */ = {
-			isa = PBXGroup;
-			children = (
-				F706DCB691E6CB25860F2522 /* ShopLiveLogger.swift */,
-				01755503BD5CABF26D289A7D /* ShopLiveLoggerViewController.swift */,
-			);
-			path = Logger;
-			sourceTree = "<group>";
-		};
-		6C68457ECC863D33DCAF6B09 /* extension */ = {
-			isa = PBXGroup;
-			children = (
-				43DDED4DB777DCAA8B8C9D7F /* Alamofire+extension */,
-				3AA5FEC6AD6F1CFB31C112F4 /* AVKit+extension */,
-				908102FBF36753143AA37392 /* Foundation+extension */,
-				B3A08B49E4851DAF6CAF4C57 /* MediaPlayer+extension */,
-				604787EED77FE0D7146D76D3 /* Photos+extension */,
-				C5E42482CF0503BED4DD82CD /* UIKit+extension */,
-				E6EE1A4317180363C8AD8BA6 /* WebKit+extension */,
-			);
-			path = extension;
-			sourceTree = "<group>";
-		};
-		74231A4FC3C912388172D380 /* LoadingIndicator */ = {
-			isa = PBXGroup;
-			children = (
-				44C5918BE9953DDC2EC2F31B /* IndicatorView.swift */,
-			);
-			path = LoadingIndicator;
-			sourceTree = "<group>";
-		};
-		7C8026370D3AE021D2F41972 /* thirdparty */ = {
-			isa = PBXGroup;
-			children = (
-				FEAC0BDEC8449A62E247D596 /* NVActivityIndicatorView */,
-			);
-			path = thirdparty;
-			sourceTree = "<group>";
-		};
-		88A0130F3CED91CEEF489B96 /* keychain */ = {
-			isa = PBXGroup;
-			children = (
-				CA5262A6A5D9CCF6CFFD1499 /* wrapper */,
-				E5A4D5F45D803407058B7301 /* KeychainData.swift */,
-				2D343A3690B126B8D8CDD3BD /* SLKeyChainUtil.swift */,
-			);
-			path = keychain;
-			sourceTree = "<group>";
-		};
-		908102FBF36753143AA37392 /* Foundation+extension */ = {
-			isa = PBXGroup;
-			children = (
-				00DA8A9E2A0B9B0E21C632CE /* Array+extension.swift */,
-				26266D11C02E421D6724F139 /* AssociatedObjectStore+extension.swift */,
-				44B69C265636F56F3FF0C835 /* CGFloat+extention.swift */,
-				CA6A8E6D9B64678C15402A00 /* CGPoint + extension.swift */,
-				6B6BECC609008808C53A8C1D /* CGRect+extension.swift */,
-				BC9485CAB5376C4CCEE08F7C /* CGSize + extension.swift */,
-				148EBCC2075222498CA99402 /* Collection+extension.swift */,
-				CD8545C589387F17191DF911 /* Data+extension.swift */,
-				96768343708F3936AD6D8618 /* Date+extension.swift */,
-				49F63599E2F1C453297BF8AA /* Dictionary+extension.swift */,
-				6321F5CC2F30D7B9447FC02A /* Double+extension.swift */,
-				D3437D0296ADE1A8DB513FA2 /* Encodable+extension.swift */,
-				88DDB1E5E37DEDA770FEDC12 /* Error+extension.swift */,
-				263351091467C5EB059A0860 /* Float64+extension.swift */,
-				F6AE0648F61A5B74598B867E /* Int+extensions.swift */,
-				3F9EE8393D94CC81A65FC690 /* NotificationCenter+extension.swift */,
-				CAB1A442BBC530022653A5C5 /* NSAttributedString+extension.swift */,
-				E08B81E56C2D9A79BE499EE8 /* NSMutableDictionary.swift */,
-				E59B6933A38E2E08A2363F54 /* NSObject+extensiton.swift */,
-				8C3DB88670390DCD618A81C4 /* String+extension.swift */,
-				1B4D484F3CD7B9EC7BA4697B /* URL+extension.swift */,
-				0C3A5E5E56949D71D04DCDD0 /* UserDefaults+extension.swift */,
-			);
-			path = "Foundation+extension";
-			sourceTree = "<group>";
-		};
-		A5CDBB68711745386A092BCA /* network */ = {
-			isa = PBXGroup;
-			children = (
-				9B3E3B1C70CBEBE9E847FA8D /* APIDefinition.swift */,
-				D15AE31C029CB0D5D39AC6F3 /* ImageDownLoadManager.swift */,
-				40C5BFFC76BA364E75E337A7 /* NetworkMonitor.swift */,
-				BB25C3B871C1E3CC228149B6 /* ShopLiveDefines.swift */,
-				2C036D14589140A08F9EECEE /* SLReachability.swift */,
+				E211D441E5FA9768240E1FB6 /* APIDefinition.swift */,
+				928A54FF286761B82DE9CB4A /* ImageDownLoadManager.swift */,
+				0D4F66994743B344E7279136 /* NetworkMonitor.swift */,
+				EA4F849C5BBC23CF4AE99E91 /* ShopLiveDefines.swift */,
+				211B6AF0E32BA78247809E8A /* SLReachability.swift */,
 			);
 			path = network;
 			sourceTree = "<group>";
 		};
-		AF51380919D91F11C6932C88 /* Products */ = {
+		1FD416F1732733EEF8A91779 /* Error */ = {
 			isa = PBXGroup;
 			children = (
-				EC364AF5E9FFB8D21A730FB1 /* ShopLiveSDKCommon.framework */,
+				D38BBFD2EE5CE7614B173942 /* ShopLiveCommonError.swift */,
+				1FDD824FA760599DB828D6D4 /* ShopLiveNetworkBaseErrorResponse.swift */,
 			);
-			name = Products;
+			path = Error;
 			sourceTree = "<group>";
 		};
-		B102ACCE5E6563DF3CD9BEA0 /* model */ = {
+		22FD5915AB398873E4599A8C /* Derived */ = {
 			isa = PBXGroup;
 			children = (
-				0D98B1B6B344A7F158012044 /* JSONNull.swift */,
-			);
-			path = model;
-			sourceTree = "<group>";
-		};
-		B2D5282D0C7C12881DD3B6B4 /* Derived */ = {
-			isa = PBXGroup;
-			children = (
-				B90DE1056DEB5D1FDAB30363 /* InfoPlists */,
+				A9A02B8AE2BE8B705690138F /* InfoPlists */,
 			);
 			path = Derived;
 			sourceTree = "<group>";
 		};
-		B3A08B49E4851DAF6CAF4C57 /* MediaPlayer+extension */ = {
+		240D37701A0850497FA7F3FE /* Logger */ = {
 			isa = PBXGroup;
 			children = (
-				337FD129D23FD41C18858CEC /* MPVolumeView+extension.swift */,
+				9D2A3688BB4D9ABC51AB5E68 /* ShopLiveLogger.swift */,
+				134417E0BEF9BABB01D6ECAE /* ShopLiveLoggerViewController.swift */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
+		28142D278A4063C7992EE152 /* AVKit+extension */ = {
+			isa = PBXGroup;
+			children = (
+				3A2E42DD9EA69918DADFB32A /* AvAudioSession + extension.swift */,
+				5F7CB57B0F782ABACFED9351 /* AVCaptureDevice.swift */,
+				BFE37F2ED693DA8E3C6305B6 /* AVPlayer+extension.swift */,
+				DE208CB78683DEB06542B31B /* CMTime+extension.swift */,
+			);
+			path = "AVKit+extension";
+			sourceTree = "<group>";
+		};
+		2CDBBA0A00F85F3F80B7A6D3 /* uitextfield */ = {
+			isa = PBXGroup;
+			children = (
+				DA91D8536757C0B6E701FF7B /* SLTextFieldWithPadding.swift */,
+			);
+			path = uitextfield;
+			sourceTree = "<group>";
+		};
+		2EA3A71868181DC912E28C2B /* Alamofire+extension */ = {
+			isa = PBXGroup;
+			children = (
+				7A5B12E52CF20BFE290CC3FF /* UIImageView+extension.swift */,
+			);
+			path = "Alamofire+extension";
+			sourceTree = "<group>";
+		};
+		2FBF6FFD78DAE294B825863C /* thirdparty */ = {
+			isa = PBXGroup;
+			children = (
+				89CBA2FAE1151E8BA9C7659F /* NVActivityIndicatorView */,
+			);
+			path = thirdparty;
+			sourceTree = "<group>";
+		};
+		32D80AA2A1C0B051B3698C54 /* LoadingIndicator */ = {
+			isa = PBXGroup;
+			children = (
+				F837E10344E400C7065048EE /* IndicatorView.swift */,
+			);
+			path = LoadingIndicator;
+			sourceTree = "<group>";
+		};
+		34BFB4C1637093A3A424857A /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				C3009B4A776BC93526F14BE9 /* CommonStrings.swift */,
+			);
+			path = resource;
+			sourceTree = "<group>";
+		};
+		39FA02853285DE9276CE2FDF /* toast */ = {
+			isa = PBXGroup;
+			children = (
+				81AFFE480F976A103FBF4D69 /* SLToast.swift */,
+			);
+			path = toast;
+			sourceTree = "<group>";
+		};
+		3AE1D9D3734D66296CD2C9AA /* Operator */ = {
+			isa = PBXGroup;
+			children = (
+				F4FEAAA4ABAD52CBD0784181 /* ShopLiveDebouncer.swift */,
+				84615112C9F77A50CA179EEC /* ShopLiveThrottle.swift */,
+			);
+			path = Operator;
+			sourceTree = "<group>";
+		};
+		3F84BD2898541C82E0D50528 /* permission */ = {
+			isa = PBXGroup;
+			children = (
+				F83F4CDFBFF1F72A952785E3 /* CameraPermission.swift */,
+				D8BC9DA6D19FF712A9EC449E /* MicroPhonePermission.swift */,
+				AA150DF45A10E566E3CACD0E /* PermissionManager.swift */,
+				1DECAEF61AB5FD9AF8D68FC5 /* ShopLivePermissionHandler.swift */,
+			);
+			path = permission;
+			sourceTree = "<group>";
+		};
+		491045A650F84669C6CD5C5A /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				F131F7FC38217D377B5B7655 /* Animations */,
+				97382368BE242B9C8B6EED4B /* SLNVActivityIndicatorAnimationDelegate.swift */,
+				27712AE991915F9AA5D9A5DC /* SLNVActivityIndicatorShape.swift */,
+				F3BA803058E4678AAECE0FA1 /* SLNVActivityIndicatorView.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		5FC5EC95E60330DB8B5CBD13 /* Foundation+extension */ = {
+			isa = PBXGroup;
+			children = (
+				292EA7AB669644FE112A6194 /* Array+extension.swift */,
+				4B2FE7F5FCC8E73798B133E2 /* AssociatedObjectStore+extension.swift */,
+				03DB4E8961CC994EBCF6CC1B /* CGFloat+extention.swift */,
+				F4EFC5A98497B14DDC8554F8 /* CGPoint + extension.swift */,
+				6D73EAC8F17117CEAB11EAD5 /* CGRect+extension.swift */,
+				71B427D1B052883EDBA0942B /* CGSize + extension.swift */,
+				4E5CBB97E5CFC10B44BE20FE /* Collection+extension.swift */,
+				32AB58943DCBE8D3F56DEA94 /* Data+extension.swift */,
+				19FCF11096074C035341D1C3 /* Date+extension.swift */,
+				60E0BE34EF821FA6CFCA109E /* Dictionary+extension.swift */,
+				190F1E85B601B7B9D3258556 /* Double+extension.swift */,
+				F8E9C3F258E551B358EE465F /* Encodable+extension.swift */,
+				EAD3E43A2194F2E1849606A8 /* Error+extension.swift */,
+				34843374DBF7FC9BD1432686 /* Float64+extension.swift */,
+				78D2FE7D6CAB4C68D2AA3C25 /* Int+extensions.swift */,
+				CED84719C1EF79535923BA05 /* NotificationCenter+extension.swift */,
+				DC1D112F956FB6EFADC15119 /* NSAttributedString+extension.swift */,
+				4A2474CF98D92C730F2117B4 /* NSMutableDictionary.swift */,
+				7366E3EB4847C81961223E03 /* NSObject+extensiton.swift */,
+				A1077C025F96106F9F227E16 /* String+extension.swift */,
+				F6A3F8C9A0FB22F66A831D0A /* URL+extension.swift */,
+				FE0B57D8CC367C1BA57914D2 /* UserDefaults+extension.swift */,
+			);
+			path = "Foundation+extension";
+			sourceTree = "<group>";
+		};
+		637F5637765FB57D17B95092 /* Extended */ = {
+			isa = PBXGroup;
+			children = (
+				7E91A695066C1A1781753FD2 /* SLNVActivityIndicatorPresenter.swift */,
+				BED904F4B5E5F156F69A9672 /* SLNVActivityIndicatorViewable.swift */,
+			);
+			path = Extended;
+			sourceTree = "<group>";
+		};
+		74C2F5EB14EEC4CF12BB1D99 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				3D85C5330672B326D3D09240 /* ShopLiveCommonAuth.swift */,
+				ACB3693E6C717A012372861A /* ShopLiveCommonUser.swift */,
+				DE58A0044CEAEFDEFF401226 /* ShopLiveCommonUserObjc.swift */,
+				6D191EB88A2B3C1F1294BCC2 /* ShopLiveJWT.swift */,
+				1633724F33DF44FA4F2230A0 /* ShopLiveSession.swift */,
+				25C8BEB0F48D77C609A1BFC0 /* ShopLiveUserDefaults.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		7DFE38A4FD538F4604061B4B /* CommonKeys */ = {
+			isa = PBXGroup;
+			children = (
+				DAB670196B4F4B762F9A2E7F /* CommonKeys.swift */,
+			);
+			path = CommonKeys;
+			sourceTree = "<group>";
+		};
+		7FBC3F042E86A30DBF6B21F0 /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				2EA3A71868181DC912E28C2B /* Alamofire+extension */,
+				28142D278A4063C7992EE152 /* AVKit+extension */,
+				5FC5EC95E60330DB8B5CBD13 /* Foundation+extension */,
+				8649D3853B5477E851C702E5 /* MediaPlayer+extension */,
+				A17E7CF2ADC3C71D5E22AE13 /* Photos+extension */,
+				04EE36D22CE35754228747B8 /* UIKit+extension */,
+				01AE6CD45A57070743AE670E /* WebKit+extension */,
+			);
+			path = extension;
+			sourceTree = "<group>";
+		};
+		813B2D6F362013D5FD173542 /* wrapper */ = {
+			isa = PBXGroup;
+			children = (
+				B4E78961DD7165DF67FEBD97 /* KeychainItemAccessibility.swift */,
+				1D751068D853CE4E41254046 /* KeychainWrapper.swift */,
+				27FA76862484C73861197CE8 /* KeychainWrapperSubscript.swift */,
+			);
+			path = wrapper;
+			sourceTree = "<group>";
+		};
+		8589F95E5D3CD3E410E830A7 /* DevicePhysics */ = {
+			isa = PBXGroup;
+			children = (
+				DE6EB3B9122BEA8C59D17227 /* ShopLiveHapticManager.swift */,
+			);
+			path = DevicePhysics;
+			sourceTree = "<group>";
+		};
+		8649D3853B5477E851C702E5 /* MediaPlayer+extension */ = {
+			isa = PBXGroup;
+			children = (
+				260E63F45C09F28D08D13DBD /* MPVolumeView+extension.swift */,
 			);
 			path = "MediaPlayer+extension";
 			sourceTree = "<group>";
 		};
-		B6B4344193667ED79B6931AF /* Compiled */ = {
+		89CBA2FAE1151E8BA9C7659F /* NVActivityIndicatorView */ = {
+			isa = PBXGroup;
+			children = (
+				491045A650F84669C6CD5C5A /* Base */,
+				637F5637765FB57D17B95092 /* Extended */,
+			);
+			path = NVActivityIndicatorView;
+			sourceTree = "<group>";
+		};
+		8C66EED604F04B189AA63CCB /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				FCED1FEFB3E985DBD36C7D7A /* ShopLiveAppDelegate.swift */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		939A9CF52ED69B5F4A48FC9A /* BaseView */ = {
+			isa = PBXGroup;
+			children = (
+				4807343314342DBD9D57F247 /* SLBaseView.swift */,
+				19B2B240523FFD7F1C9812A6 /* SLBaseViewController.swift */,
+			);
+			path = BaseView;
+			sourceTree = "<group>";
+		};
+		9602D15245C7EF6DCC2403D0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B19D61DBF43B751D97F7B52E /* alertcontroller */,
+				939A9CF52ED69B5F4A48FC9A /* BaseView */,
+				32D80AA2A1C0B051B3698C54 /* LoadingIndicator */,
+				39FA02853285DE9276CE2FDF /* toast */,
+				2CDBBA0A00F85F3F80B7A6D3 /* uitextfield */,
+				DD2D12C81B1EADFC32111EDC /* webview */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9D0743FB72B1DE5401310253 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				468D2E83BC454B805F288EB1 /* ShopliveSDKCommon.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A1375351F8B91B414E68C4A5 /* Compiled */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Compiled;
 			sourceTree = "<group>";
 		};
-		B90DE1056DEB5D1FDAB30363 /* InfoPlists */ = {
+		A17E7CF2ADC3C71D5E22AE13 /* Photos+extension */ = {
 			isa = PBXGroup;
 			children = (
-				CF658F74A300A2EF1E1749F8 /* ShopLiveSDKCommon-Info.plist */,
+				7D022357399ECFF256D87C6C /* PHAsset+extension.swift */,
+			);
+			path = "Photos+extension";
+			sourceTree = "<group>";
+		};
+		A9A02B8AE2BE8B705690138F /* InfoPlists */ = {
+			isa = PBXGroup;
+			children = (
+				0A31189AFE2114BB738482E5 /* ShopliveSDKCommon-Info.plist */,
 			);
 			path = InfoPlists;
 			sourceTree = "<group>";
 		};
-		C27C4C41DB96FBA687236B73 /* View */ = {
+		B126179045B5D148AE68AED7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				2FE5376EA807A02C902A4631 /* alertcontroller */,
-				1F42C3501A8552ED67933CB7 /* BaseView */,
-				74231A4FC3C912388172D380 /* LoadingIndicator */,
-				45FD04DA9C95420AE986F340 /* toast */,
-				21C048F93CEC64D4BC37F9ED /* uitextfield */,
-				17A115161E0C512C7C955ED1 /* webview */,
+				8C66EED604F04B189AA63CCB /* AppDelegate */,
+				74C2F5EB14EEC4CF12BB1D99 /* Auth */,
+				7DFE38A4FD538F4604061B4B /* CommonKeys */,
+				8589F95E5D3CD3E410E830A7 /* DevicePhysics */,
+				1737AEC163035AE16C50A48D /* Enum */,
+				1FD416F1732733EEF8A91779 /* Error */,
+				7FBC3F042E86A30DBF6B21F0 /* extension */,
+				E215A5317A00608EA50053F0 /* FlexibleParser */,
+				CF1383B0AB19D8B32F75C99D /* keychain */,
+				240D37701A0850497FA7F3FE /* Logger */,
+				C018DA154645844E0E4387B5 /* model */,
+				1ED28177D1FE3D311F122D0A /* network */,
+				3AE1D9D3734D66296CD2C9AA /* Operator */,
+				3F84BD2898541C82E0D50528 /* permission */,
+				BB87584D0641F5269B0E3122 /* player */,
+				B204E4B6D4D269D75AAF30BF /* Protocol */,
+				34BFB4C1637093A3A424857A /* resource */,
+				E1D2AC300401BEA798844845 /* SLReactor */,
+				2FBF6FFD78DAE294B825863C /* thirdparty */,
+				F8CBF80845AF16B5FC0CC163 /* Utils */,
+				9602D15245C7EF6DCC2403D0 /* View */,
+				42B982E4C8894A8554D54D6E /* AudioSessionManager.swift */,
+				26B6118F39C7A2D0DFD2CDD9 /* ShopLiveSDKCommon + AppDelegate.swift */,
+				C38E5F6EF58DEC997D5DCAC0 /* ShopliveSDKCommon.swift */,
 			);
-			path = View;
+			path = Sources;
 			sourceTree = "<group>";
 		};
-		C5E42482CF0503BED4DD82CD /* UIKit+extension */ = {
+		B19D61DBF43B751D97F7B52E /* alertcontroller */ = {
 			isa = PBXGroup;
 			children = (
-				0F1553DC893F5341FD6038B0 /* CALayer+extension.swift */,
-				A82E5E35044EFE28D8BDF26F /* NSLayoutConstraint+extension.swift */,
-				238E19236F263802E19546C8 /* UIApplication+extension.swift */,
-				9D323A3A3AC318AB0AF1FFA0 /* UIButton+extension.swift */,
-				593CAF0E4EB77DC93117D275 /* UIColor+extension.swift */,
-				4802A18ED8B3BC1D5D55C4B7 /* UIDevice+extension.swift */,
-				4D36B2D6E594DED5DED4C3CF /* UIDeviceOrientation+extension.swift */,
-				F896B716F7AEC3C04C6C95C2 /* UIEdgetInset+extension.swift */,
-				00D9B5B4E953AE026A639103 /* UIFont+extension.swift */,
-				3400DCF8CCA58D92A4D263C8 /* UIImage+extension.swift */,
-				A5077C2E11E8F0940EBE68C7 /* UIInterfaceOrientation+extension.swift */,
-				4F7DDB63F615D1DE46D58941 /* UINavigationController+extension.swift */,
-				22C8059826B9963902D9AE0F /* UIPanGestureRecognizer+extension.swift */,
-				4B42C78F955844D65CC61132 /* UIScreen+extension.swift */,
-				8E8D381DE53FD63C04015BDB /* UIStackView+extension.swift */,
-				5DF832E1F3BFEFFEF2E18E10 /* UITextField+extension.swift */,
-				FF039D3D768F2B0F24AD396C /* UITextView+extension.swift */,
-				D1D2C8080E58E68AB14D9FD5 /* UIView+extension.swift */,
-				BDDD65468425A4B6BEDD5994 /* UIViewController+extension.swift */,
-				11517997192EAC3242EC6A49 /* UIWindow+extension.swift */,
+				5560BFC2F4E53C1269316AAB /* SLCircularProgressView.swift */,
+				CE64E4FD6CDF353A16A6D1BC /* SLLoadingAlertController.swift */,
 			);
-			path = "UIKit+extension";
+			path = alertcontroller;
 			sourceTree = "<group>";
 		};
-		CA5262A6A5D9CCF6CFFD1499 /* wrapper */ = {
+		B204E4B6D4D269D75AAF30BF /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				60C19C04C5674588388EB127 /* KeychainItemAccessibility.swift */,
-				19C134DE12A2C8A73E3869BD /* KeychainWrapper.swift */,
-				6A79F7CCC312ECFB675C2595 /* KeychainWrapperSubscript.swift */,
+				CD46147B984830EC0CC7D8E8 /* KeyBoardNotificationProtocol.swift */,
 			);
-			path = wrapper;
+			path = Protocol;
 			sourceTree = "<group>";
 		};
-		CBCA61C78F04269671394062 = {
+		BB87584D0641F5269B0E3122 /* player */ = {
 			isa = PBXGroup;
 			children = (
-				28FB4CF90C0BFA1928C470A3 /* Project */,
-				B6B4344193667ED79B6931AF /* Compiled */,
-				AF51380919D91F11C6932C88 /* Products */,
+				BF7B61F1D3284BCEA1C13F33 /* SLVideoPlayer.swift */,
+				A4C569409E2B5E1FD8FE7A60 /* SLVideoPlayerView.swift */,
+			);
+			path = player;
+			sourceTree = "<group>";
+		};
+		C018DA154645844E0E4387B5 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				19B6DD392A44F65948298C02 /* JSONNull.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		CF1383B0AB19D8B32F75C99D /* keychain */ = {
+			isa = PBXGroup;
+			children = (
+				813B2D6F362013D5FD173542 /* wrapper */,
+				6521DDF114DA1A16AF9D020B /* KeychainData.swift */,
+				01EE8782534660CEC09EE2A4 /* SLKeyChainUtil.swift */,
+			);
+			path = keychain;
+			sourceTree = "<group>";
+		};
+		DD2D12C81B1EADFC32111EDC /* webview */ = {
+			isa = PBXGroup;
+			children = (
+				7A183FA3D93FFA355419BB86 /* SLWebview.swift */,
+			);
+			path = webview;
+			sourceTree = "<group>";
+		};
+		E1D2AC300401BEA798844845 /* SLReactor */ = {
+			isa = PBXGroup;
+			children = (
+				D3939806D24FE1593F832FB3 /* Reactor.swift */,
+				9F70A099B6F6F41A491A8DB1 /* SLRequestable.swift */,
+				336645EF34CCA084851643B1 /* SLResultObservable.swift */,
+			);
+			path = SLReactor;
+			sourceTree = "<group>";
+		};
+		E215A5317A00608EA50053F0 /* FlexibleParser */ = {
+			isa = PBXGroup;
+			children = (
+				95A53EC8B62DB41FCDA44622 /* SLFlexibleParser.swift */,
+			);
+			path = FlexibleParser;
+			sourceTree = "<group>";
+		};
+		E773E1CDB1162067FDE36E48 = {
+			isa = PBXGroup;
+			children = (
+				16C8CDFC24B9153CC30E795D /* Project */,
+				A1375351F8B91B414E68C4A5 /* Compiled */,
+				9D0743FB72B1DE5401310253 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		D20924B01291176A0DE9B277 /* resource */ = {
+		F131F7FC38217D377B5B7655 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
-				EDB3BAC28155DA51719C9550 /* CommonStrings.swift */,
-			);
-			path = resource;
-			sourceTree = "<group>";
-		};
-		D3D0EC8E5F594FB26245BECB /* AppDelegate */ = {
-			isa = PBXGroup;
-			children = (
-				B2B1DA03FA1DDAC52D9FDC2D /* ShopLiveAppDelegate.swift */,
-			);
-			path = AppDelegate;
-			sourceTree = "<group>";
-		};
-		DD6C635B7ACD2ADD699D68D1 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				8415F94A9CEB32C68C8DAE3E /* URLUtil.swift */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		E0D6855F85741BAAFEB848F8 /* Animations */ = {
-			isa = PBXGroup;
-			children = (
-				9D78930086B2A66685DB7D41 /* SLNVActivityIndicatorAnimationAudioEqualizer.swift */,
-				AB027CA71C2FDB4782DFB81D /* SLNVActivityIndicatorAnimationBallBeat.swift */,
-				89273BC77AD1A6A008EEA2C3 /* SLNVActivityIndicatorAnimationBallClipRotate.swift */,
-				5CF6135DF31D7C4F5FD6AC8F /* SLNVActivityIndicatorAnimationBallClipRotateMultiple.swift */,
-				79CBB36D789312F5DCCAE556 /* SLNVActivityIndicatorAnimationBallClipRotatePulse.swift */,
-				9CE6F954918B8E3542249491 /* SLNVActivityIndicatorAnimationBallDoubleBounce.swift */,
-				D69BF5A42BE8C487D4730F95 /* SLNVActivityIndicatorAnimationBallGridBeat.swift */,
-				288C900D58A804C2AF858A24 /* SLNVActivityIndicatorAnimationBallGridPulse.swift */,
-				A3FD23C803B4872239F14A6B /* SLNVActivityIndicatorAnimationBallPulse.swift */,
-				D8CFD6D8F13561170FF68C4C /* SLNVActivityIndicatorAnimationBallPulseRise.swift */,
-				EA77C2C5CE3A4101133955B7 /* SLNVActivityIndicatorAnimationBallPulseSync.swift */,
-				C154DC3CDF2ABB34516FE31B /* SLNVActivityIndicatorAnimationBallRotate.swift */,
-				8B5DEBF5EACF7025B9FFC52B /* SLNVActivityIndicatorAnimationBallRotateChase.swift */,
-				D790CFC40CF2BDB92D9FC44F /* SLNVActivityIndicatorAnimationBallScale.swift */,
-				589F9CEBB1DA0B39EFE0BD01 /* SLNVActivityIndicatorAnimationBallScaleMultiple.swift */,
-				2DDD4F70EEDD17F0A1D4359A /* SLNVActivityIndicatorAnimationBallScaleRipple.swift */,
-				A60F4A4C877328DA9345E868 /* SLNVActivityIndicatorAnimationBallScaleRippleMultiple.swift */,
-				4117E81570BC11718D43C65C /* SLNVActivityIndicatorAnimationBallSpinFadeLoader.swift */,
-				070D19CAF44F7C4565272181 /* SLNVActivityIndicatorAnimationBallTrianglePath.swift */,
-				71878FCA7203D382B1F30E37 /* SLNVActivityIndicatorAnimationBallZigZag.swift */,
-				5B1CF5F2FF4A8BAAB6353540 /* SLNVActivityIndicatorAnimationBallZigZagDeflect.swift */,
-				17E4370B9443E96D600EBB22 /* SLNVActivityIndicatorAnimationBlank.swift */,
-				C4310E0E1AEE32F8C3D6BCCB /* SLNVActivityIndicatorAnimationCircleStrokeSpin.swift */,
-				F309A5404165E96B3691EF28 /* SLNVActivityIndicatorAnimationCubeTransition.swift */,
-				07B0BA3230E8986774082E9E /* SLNVActivityIndicatorAnimationLineScale.swift */,
-				5DC5CB7A864B3220AA43F566 /* SLNVActivityIndicatorAnimationLineScaleParty.swift */,
-				B8154B04F95C1B1B3FF5767D /* SLNVActivityIndicatorAnimationLineScalePulseOut.swift */,
-				D507320C0F4413FB53E30528 /* SLNVActivityIndicatorAnimationLineScalePulseOutRapid.swift */,
-				F010B9289CADC6B97F44CDC7 /* SLNVActivityIndicatorAnimationLineSpinFadeLoader.swift */,
-				8325BD3E898013D547109367 /* SLNVActivityIndicatorAnimationOrbit.swift */,
-				5B9C40B5825C1D3BD62C8153 /* SLNVActivityIndicatorAnimationPacman.swift */,
-				E90E0CA19DBC8DA58556DCBE /* SLNVActivityIndicatorAnimationSemiCircleSpin.swift */,
-				C39526AA4D7CF0FAEAF8C057 /* SLNVActivityIndicatorAnimationSquareSpin.swift */,
-				A4B0D75C2C53B5CE3369B68B /* SLNVActivityIndicatorAnimationTriangleSkewSpin.swift */,
+				5CEC6B65E8D8A20A1D1C7307 /* SLNVActivityIndicatorAnimationAudioEqualizer.swift */,
+				851A7B66AC6E38E7B0ADC749 /* SLNVActivityIndicatorAnimationBallBeat.swift */,
+				313C6A2C4C2BE32FA5A2E210 /* SLNVActivityIndicatorAnimationBallClipRotate.swift */,
+				9ADFB3DCF9EC74B3D51D4DA4 /* SLNVActivityIndicatorAnimationBallClipRotateMultiple.swift */,
+				E399B2624775D33B1C0FE7E0 /* SLNVActivityIndicatorAnimationBallClipRotatePulse.swift */,
+				38E3CAB7300B8937AFA9F7E6 /* SLNVActivityIndicatorAnimationBallDoubleBounce.swift */,
+				1FF953ED148F4C6DCD741BB3 /* SLNVActivityIndicatorAnimationBallGridBeat.swift */,
+				32FB69F6C434A1730C62DB07 /* SLNVActivityIndicatorAnimationBallGridPulse.swift */,
+				11F3D1BD528A55CD05059BE3 /* SLNVActivityIndicatorAnimationBallPulse.swift */,
+				57AA1C98BC58601CBCD634A9 /* SLNVActivityIndicatorAnimationBallPulseRise.swift */,
+				73DB2D77B85617F0B8D4909B /* SLNVActivityIndicatorAnimationBallPulseSync.swift */,
+				3B5F78086D7F5EEC323A2809 /* SLNVActivityIndicatorAnimationBallRotate.swift */,
+				29DD43B1C1D81B0159C019E3 /* SLNVActivityIndicatorAnimationBallRotateChase.swift */,
+				F9BA1430AEF1E3CAA2E3B8A4 /* SLNVActivityIndicatorAnimationBallScale.swift */,
+				92EF5B6298E818038E8CD501 /* SLNVActivityIndicatorAnimationBallScaleMultiple.swift */,
+				122895F27B333379D474ED52 /* SLNVActivityIndicatorAnimationBallScaleRipple.swift */,
+				F2D38A0106A1D647D3CE4407 /* SLNVActivityIndicatorAnimationBallScaleRippleMultiple.swift */,
+				AA9BCD522A8970E80FFA8DA6 /* SLNVActivityIndicatorAnimationBallSpinFadeLoader.swift */,
+				BBEEEC2E52BAC489110D6B70 /* SLNVActivityIndicatorAnimationBallTrianglePath.swift */,
+				5164B27903E4C17955D17C46 /* SLNVActivityIndicatorAnimationBallZigZag.swift */,
+				2062C15BE55449527C1A3CEA /* SLNVActivityIndicatorAnimationBallZigZagDeflect.swift */,
+				F1A015999C714272DEC8FD69 /* SLNVActivityIndicatorAnimationBlank.swift */,
+				29E5DFD785C5420190582459 /* SLNVActivityIndicatorAnimationCircleStrokeSpin.swift */,
+				C87A34162F5907A4F9BB37DC /* SLNVActivityIndicatorAnimationCubeTransition.swift */,
+				DF490AA01A27153D82E7F5B3 /* SLNVActivityIndicatorAnimationLineScale.swift */,
+				56864E3FA005BBD824B41ED6 /* SLNVActivityIndicatorAnimationLineScaleParty.swift */,
+				DA420904A9111EECF5F3F141 /* SLNVActivityIndicatorAnimationLineScalePulseOut.swift */,
+				15625AF6A60A89705130E97B /* SLNVActivityIndicatorAnimationLineScalePulseOutRapid.swift */,
+				6D85622DA5E09569154A6068 /* SLNVActivityIndicatorAnimationLineSpinFadeLoader.swift */,
+				4A85297C067B2147CC7B66A0 /* SLNVActivityIndicatorAnimationOrbit.swift */,
+				E835EEC51BC0F2E8161D1E50 /* SLNVActivityIndicatorAnimationPacman.swift */,
+				D27D6ACBD316AB81BFC87BAD /* SLNVActivityIndicatorAnimationSemiCircleSpin.swift */,
+				281230AF64CA18D05E58F224 /* SLNVActivityIndicatorAnimationSquareSpin.swift */,
+				F54D44638FD44EE57A1E896F /* SLNVActivityIndicatorAnimationTriangleSkewSpin.swift */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
 		};
-		E6EE1A4317180363C8AD8BA6 /* WebKit+extension */ = {
+		F8CBF80845AF16B5FC0CC163 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				AD3F957F2666F61BE52A5FC8 /* WKWebView+extension.swift */,
+				A86F2682381DE435ED41DD4C /* URLUtil.swift */,
 			);
-			path = "WebKit+extension";
-			sourceTree = "<group>";
-		};
-		F534E73587622435B72E2978 /* Error */ = {
-			isa = PBXGroup;
-			children = (
-				F482805F1102B1785DB850DA /* ShopLiveCommonError.swift */,
-				D3D8672EBDA9C0E6AF230EBB /* ShopLiveNetworkBaseErrorResponse.swift */,
-			);
-			path = Error;
-			sourceTree = "<group>";
-		};
-		FD3B0F8F9B6CD312E92492C3 /* Enum */ = {
-			isa = PBXGroup;
-			children = (
-				5946C450D5DDBB985582EE1F /* ShopLivePublicEnums.swift */,
-			);
-			path = Enum;
-			sourceTree = "<group>";
-		};
-		FEAC0BDEC8449A62E247D596 /* NVActivityIndicatorView */ = {
-			isa = PBXGroup;
-			children = (
-				1AA8D8A6B710DE4407797D10 /* Base */,
-				6953FF7A4AD1FC22BBFE27B9 /* Extended */,
-			);
-			path = NVActivityIndicatorView;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		22B3401F030457958BD334F3 /* ShopLiveSDKCommon */ = {
+		332C15920041A378665A76DD /* ShopliveSDKCommon */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 093D49318E7FCF3B2C9D945A /* Build configuration list for PBXNativeTarget "ShopLiveSDKCommon" */;
+			buildConfigurationList = AF00A965CA8CD673D518142B /* Build configuration list for PBXNativeTarget "ShopliveSDKCommon" */;
 			buildPhases = (
-				86228C2C2628EB5A4F2520A9 /* Sources */,
-				0208156E2DDA94994E752949 /* Resources */,
-				961B2A818BD54E9E444970FF /* Embed Frameworks */,
-				E9414B01ED901B5F52F7D309 /* Frameworks */,
+				8032080CE12E0D3D5DF87D88 /* Sources */,
+				2A9B8BC86DCE70B52E2409A4 /* Resources */,
+				938F9FEC94991AC01DF824CD /* Embed Frameworks */,
+				E99730F2157FB5824669C6EC /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = ShopLiveSDKCommon;
-			productName = ShopLiveSDKCommon;
-			productReference = EC364AF5E9FFB8D21A730FB1 /* ShopLiveSDKCommon.framework */;
+			name = ShopliveSDKCommon;
+			productName = ShopliveSDKCommon;
+			productReference = 468D2E83BC454B805F288EB1 /* ShopliveSDKCommon.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		D4C91A7BCCDB2139B104CC35 /* Project object */ = {
+		F1F3F38FE99126D26CDECF73 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
@@ -858,7 +858,7 @@
 				TargetAttributes = {
 				};
 			};
-			buildConfigurationList = 2DF792EDEA99E4ACA22FF209 /* Build configuration list for PBXProject "ShopLiveSDKCommon" */;
+			buildConfigurationList = 9133A0E6DDCFC96CE0685C98 /* Build configuration list for PBXProject "ShopliveSDKCommon" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -866,18 +866,18 @@
 				Base,
 				en,
 			);
-			mainGroup = CBCA61C78F04269671394062;
-			productRefGroup = AF51380919D91F11C6932C88 /* Products */;
+			mainGroup = E773E1CDB1162067FDE36E48;
+			productRefGroup = 9D0743FB72B1DE5401310253 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				22B3401F030457958BD334F3 /* ShopLiveSDKCommon */,
+				332C15920041A378665A76DD /* ShopliveSDKCommon */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		0208156E2DDA94994E752949 /* Resources */ = {
+		2A9B8BC86DCE70B52E2409A4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -887,157 +887,277 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		86228C2C2628EB5A4F2520A9 /* Sources */ = {
+		8032080CE12E0D3D5DF87D88 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E56F45F4E1244B1D83337F5B /* ShopLiveAppDelegate.swift in Sources */,
-				4FAB7F3DA7EC31C26447A849 /* AudioSessionManager.swift in Sources */,
-				5429CF8D7B06941C6B593BDB /* ShopLiveCommonAuth.swift in Sources */,
-				5567BBF3245A9C46F27834BC /* ShopLiveCommonUser.swift in Sources */,
-				2C2A64C732919FD0377A0EBC /* ShopLiveCommonUserObjc.swift in Sources */,
-				49DA953B1BA086E5ADFD077C /* ShopLiveJWT.swift in Sources */,
-				2A3E108D2CEB8BB89F8584BB /* ShopLiveSession.swift in Sources */,
-				1CA4250586024817007B4288 /* ShopLiveUserDefaults.swift in Sources */,
-				2898609776BCE17D511FC1C3 /* CommonKeys.swift in Sources */,
-				191BDCFE79C856F7E165764E /* ShopLiveHapticManager.swift in Sources */,
-				A2B635A0FCA70BB26EB3B2DE /* ShopLivePublicEnums.swift in Sources */,
-				5100A26399BC10C0D2158910 /* ShopLiveCommonError.swift in Sources */,
-				EA00545BD7BDC1F9AB62D960 /* ShopLiveNetworkBaseErrorResponse.swift in Sources */,
-				2250D1D054103C66CFA28F91 /* SLFlexibleParser.swift in Sources */,
-				95AED3FFD052FFF0E2AB05BA /* ShopLiveLogger.swift in Sources */,
-				C6B38F95605820CF6FC6FEEF /* ShopLiveLoggerViewController.swift in Sources */,
-				E0C85B07247C8C0EAF45930C /* ShopLiveDebouncer.swift in Sources */,
-				8177002DEFA246C6781B4491 /* ShopLiveThrottle.swift in Sources */,
-				B91B35CF67071C5EC7748F35 /* KeyBoardNotificationProtocol.swift in Sources */,
-				DBCDCB152170652813ABB9E3 /* Reactor.swift in Sources */,
-				C54FEBDA65FF7378EECE3DE7 /* SLRequestable.swift in Sources */,
-				9A096241522F5E04431086EA /* SLResultObservable.swift in Sources */,
-				E85ABDD5DDB915F0162BDEDD /* ShopLiveSDKCommon + AppDelegate.swift in Sources */,
-				BFBAAF92D98B6C44A97FD46E /* ShopliveSDKCommon.swift in Sources */,
-				74F66CC877DB475E9D7EB0B5 /* URLUtil.swift in Sources */,
-				A6E1C47E93307D0248112E9A /* SLBaseView.swift in Sources */,
-				5692C9E44E20403814772B9B /* SLBaseViewController.swift in Sources */,
-				6ED0111BBC257E636AEACB48 /* IndicatorView.swift in Sources */,
-				3D335C1595D28538AB24C148 /* SLCircularProgressView.swift in Sources */,
-				9152040B1E8318E9C98FAD8F /* SLLoadingAlertController.swift in Sources */,
-				5B33EEF6154BC8785EA04115 /* SLToast.swift in Sources */,
-				5EA1F87D36A08F7075034EC7 /* SLTextFieldWithPadding.swift in Sources */,
-				4F40D56680E8397D253ED335 /* SLWebview.swift in Sources */,
-				A4A9AB40BE7F22E1A7B3C0B8 /* AVCaptureDevice.swift in Sources */,
-				6D395028AD6883BFA1556F44 /* AVPlayer+extension.swift in Sources */,
-				B73A87EA5C90941A17C34BEF /* AvAudioSession + extension.swift in Sources */,
-				A897C09A93E9CB182ACA9906 /* CMTime+extension.swift in Sources */,
-				C36BE5CBBD947D8D76E0E0BE /* UIImageView+extension.swift in Sources */,
-				7FA9D29EB87310ABDF77EEB4 /* Array+extension.swift in Sources */,
-				36834D2B02D8FA2AD17EC3B6 /* AssociatedObjectStore+extension.swift in Sources */,
-				2A4B0037814C593F3695EAE8 /* CGFloat+extention.swift in Sources */,
-				5E6BFD9C1CA7CABC37D560E5 /* CGPoint + extension.swift in Sources */,
-				EA24649ABEA9ADE1E8CFBF93 /* CGRect+extension.swift in Sources */,
-				5BC95A5328F546E2CC593A39 /* CGSize + extension.swift in Sources */,
-				0E6F775203826479EE332D84 /* Collection+extension.swift in Sources */,
-				C7D05C6B2A0A3AA673501606 /* Data+extension.swift in Sources */,
-				B43E191472A6F25617DCA242 /* Date+extension.swift in Sources */,
-				9BEC02270BE380017E96F32B /* Dictionary+extension.swift in Sources */,
-				DC8DE2F6B2AE2C4189305F6D /* Double+extension.swift in Sources */,
-				A8B85C29DDC75DC47997C446 /* Encodable+extension.swift in Sources */,
-				FF1786AA8025233EBAEED04A /* Error+extension.swift in Sources */,
-				5184752136D1DF0421D32BAD /* Float64+extension.swift in Sources */,
-				32FD3612AAE0B15BA0687DA6 /* Int+extensions.swift in Sources */,
-				C01139E0A15A8218CAF807ED /* NSAttributedString+extension.swift in Sources */,
-				E92BA0BF5EF9042F6379A95A /* NSMutableDictionary.swift in Sources */,
-				F6DB73E8F9422B5796255BC3 /* NSObject+extensiton.swift in Sources */,
-				36DD83B9C74029B1FA42087C /* NotificationCenter+extension.swift in Sources */,
-				663F64D292679360C8FC4E45 /* String+extension.swift in Sources */,
-				5422DA53C304FF696CF71BE8 /* URL+extension.swift in Sources */,
-				824C4A8EF06B2686BEF1FF29 /* UserDefaults+extension.swift in Sources */,
-				5F0DA5034E28055DCD2CD2B2 /* MPVolumeView+extension.swift in Sources */,
-				FFF3BBF5EF647A816D5BE8A3 /* PHAsset+extension.swift in Sources */,
-				ADC93B19C3985306212DEE2A /* CALayer+extension.swift in Sources */,
-				ABC4BDD895C772F052F2E928 /* NSLayoutConstraint+extension.swift in Sources */,
-				5A0B171BF33A663D96DDD04E /* UIApplication+extension.swift in Sources */,
-				C984ED09D457AAD59F277707 /* UIButton+extension.swift in Sources */,
-				0EDF046DF2D20AACDAC482BC /* UIColor+extension.swift in Sources */,
-				31B4CB0053A56C2323EEACB5 /* UIDevice+extension.swift in Sources */,
-				29C3204E459F37A20D429A2A /* UIDeviceOrientation+extension.swift in Sources */,
-				2F70ECDA3791F4D741007215 /* UIEdgetInset+extension.swift in Sources */,
-				ED3BFA7D93812798C36FA041 /* UIFont+extension.swift in Sources */,
-				3846712491BD0FC1CD5CA533 /* UIImage+extension.swift in Sources */,
-				39C8557440072289D8136675 /* UIInterfaceOrientation+extension.swift in Sources */,
-				45817B32362CDE35369BF81E /* UINavigationController+extension.swift in Sources */,
-				E76BD9794660D28D75AE4116 /* UIPanGestureRecognizer+extension.swift in Sources */,
-				2421EF2F5B638B2B08DF30A5 /* UIScreen+extension.swift in Sources */,
-				35A06655423E280527F68BB8 /* UIStackView+extension.swift in Sources */,
-				627668759AED95FF301C64CC /* UITextField+extension.swift in Sources */,
-				0384A11E44B7619B08A0283A /* UITextView+extension.swift in Sources */,
-				C4D54708C87640A12CF98F32 /* UIView+extension.swift in Sources */,
-				ACF6ABBFDDD49CCF526555A9 /* UIViewController+extension.swift in Sources */,
-				2DB96B9E326CC077443FA3FE /* UIWindow+extension.swift in Sources */,
-				600C1036C6AE00269E89CF37 /* WKWebView+extension.swift in Sources */,
-				0292F6636C01ECC162A2638C /* KeychainData.swift in Sources */,
-				866C02A5AC5EA2EB571845BE /* SLKeyChainUtil.swift in Sources */,
-				21F00D63F6EB6AE3F664A08A /* KeychainItemAccessibility.swift in Sources */,
-				F694C551505BA74EF6AE054D /* KeychainWrapper.swift in Sources */,
-				E44B130F32AFFFF104CAE630 /* KeychainWrapperSubscript.swift in Sources */,
-				2C31C841EEABB6CE2E261623 /* JSONNull.swift in Sources */,
-				D4BEC30A2448CACCA8143DFB /* APIDefinition.swift in Sources */,
-				AF10E7D8E9A71EBC506A2E9A /* ImageDownLoadManager.swift in Sources */,
-				A7C568F09493CB2017F592E2 /* NetworkMonitor.swift in Sources */,
-				87D4B7FDC7ABA100AEEAEBC1 /* SLReachability.swift in Sources */,
-				22D23D7D5C79F416E4CF67E7 /* ShopLiveDefines.swift in Sources */,
-				F4706E5E6A110007A2A033D5 /* CameraPermission.swift in Sources */,
-				DC7C97A71D21860C8180B229 /* MicroPhonePermission.swift in Sources */,
-				3F52EE054574395F6809D748 /* PermissionManager.swift in Sources */,
-				C2159880A5144AFCC0938AB6 /* ShopLivePermissionHandler.swift in Sources */,
-				CAEB376340BBA4825EDF9DA5 /* SLVideoPlayer.swift in Sources */,
-				C6A9A04C6E02D977A6D089D0 /* SLVideoPlayerView.swift in Sources */,
-				5CCBEC950DFF87651BAB5064 /* CommonStrings.swift in Sources */,
-				73AA667C7BC1C52BB598270D /* SLNVActivityIndicatorAnimationAudioEqualizer.swift in Sources */,
-				2D84232BC8C94300AF8D025C /* SLNVActivityIndicatorAnimationBallBeat.swift in Sources */,
-				5E8224DE5C217E2D06B6534A /* SLNVActivityIndicatorAnimationBallClipRotate.swift in Sources */,
-				E946F4D277983B151FDEFBD3 /* SLNVActivityIndicatorAnimationBallClipRotateMultiple.swift in Sources */,
-				A125800BE27E4FEBA4463641 /* SLNVActivityIndicatorAnimationBallClipRotatePulse.swift in Sources */,
-				D3DF953058F41DEF5EC66E02 /* SLNVActivityIndicatorAnimationBallDoubleBounce.swift in Sources */,
-				12F5AAB820399C0DD035B2C1 /* SLNVActivityIndicatorAnimationBallGridBeat.swift in Sources */,
-				159F4024D6E8DCC5FE5581B0 /* SLNVActivityIndicatorAnimationBallGridPulse.swift in Sources */,
-				A4825A8D3C7283CFB031C53B /* SLNVActivityIndicatorAnimationBallPulse.swift in Sources */,
-				48F9B4E480EF7F9B516CFD8A /* SLNVActivityIndicatorAnimationBallPulseRise.swift in Sources */,
-				44036C48F70BF5478BEF09DD /* SLNVActivityIndicatorAnimationBallPulseSync.swift in Sources */,
-				1438C8989D9F4153152057DD /* SLNVActivityIndicatorAnimationBallRotate.swift in Sources */,
-				C4A2D927686B366817C349AA /* SLNVActivityIndicatorAnimationBallRotateChase.swift in Sources */,
-				97BC4E36BCD8FCC896E510E3 /* SLNVActivityIndicatorAnimationBallScale.swift in Sources */,
-				FD5ADD7943D76BC5D343232B /* SLNVActivityIndicatorAnimationBallScaleMultiple.swift in Sources */,
-				AA4537F0682FDDB7F9E8B098 /* SLNVActivityIndicatorAnimationBallScaleRipple.swift in Sources */,
-				E60E4F991BEC5EC4C1AD248D /* SLNVActivityIndicatorAnimationBallScaleRippleMultiple.swift in Sources */,
-				033CF24EBF8B8D93BD311400 /* SLNVActivityIndicatorAnimationBallSpinFadeLoader.swift in Sources */,
-				474ABED077293E3F27A6F3E5 /* SLNVActivityIndicatorAnimationBallTrianglePath.swift in Sources */,
-				81B271BF19C020DC932A78D7 /* SLNVActivityIndicatorAnimationBallZigZag.swift in Sources */,
-				8C7A23BA3178D082892C0F9A /* SLNVActivityIndicatorAnimationBallZigZagDeflect.swift in Sources */,
-				0B29082804E3B78EEB925D49 /* SLNVActivityIndicatorAnimationBlank.swift in Sources */,
-				877D9DF878DD11B9CF12984E /* SLNVActivityIndicatorAnimationCircleStrokeSpin.swift in Sources */,
-				76CE9B29D27B51EFDF00A2FF /* SLNVActivityIndicatorAnimationCubeTransition.swift in Sources */,
-				7047979E0880C0A3FC290703 /* SLNVActivityIndicatorAnimationLineScale.swift in Sources */,
-				F600566C814BFBF79AD369F6 /* SLNVActivityIndicatorAnimationLineScaleParty.swift in Sources */,
-				C1482EF14B27403759736C18 /* SLNVActivityIndicatorAnimationLineScalePulseOut.swift in Sources */,
-				9181D63364185A490C12AC0C /* SLNVActivityIndicatorAnimationLineScalePulseOutRapid.swift in Sources */,
-				688893CB16A413434172E756 /* SLNVActivityIndicatorAnimationLineSpinFadeLoader.swift in Sources */,
-				6F561D26A33821D18A1A2DFE /* SLNVActivityIndicatorAnimationOrbit.swift in Sources */,
-				F91AAFFF9B8C6F56D2D44552 /* SLNVActivityIndicatorAnimationPacman.swift in Sources */,
-				1EBF26225BDDDC5A860DEEB7 /* SLNVActivityIndicatorAnimationSemiCircleSpin.swift in Sources */,
-				84ED197399CD00C90BDC8667 /* SLNVActivityIndicatorAnimationSquareSpin.swift in Sources */,
-				15DD822C3E4167A5B95F35C3 /* SLNVActivityIndicatorAnimationTriangleSkewSpin.swift in Sources */,
-				AAC0910179EED49B1DFDB401 /* SLNVActivityIndicatorAnimationDelegate.swift in Sources */,
-				156135F58EF0DB0483321EE5 /* SLNVActivityIndicatorShape.swift in Sources */,
-				86228D9F0CCDB0D0BAB5EB72 /* SLNVActivityIndicatorView.swift in Sources */,
-				41998B4A0373E147A5883702 /* SLNVActivityIndicatorPresenter.swift in Sources */,
-				EB5B2CCABF4084B5751E6661 /* SLNVActivityIndicatorViewable.swift in Sources */,
+				51D423F89EA6347C457DD87E /* ShopLiveAppDelegate.swift in Sources */,
+				D367DC8FB8D8B1C3F3663C7C /* AudioSessionManager.swift in Sources */,
+				8849BC8A704FE13AEBABFA8E /* ShopLiveCommonAuth.swift in Sources */,
+				DA58C18CBA86336C7F487F87 /* ShopLiveCommonUser.swift in Sources */,
+				868F06CC82FA770479586EF5 /* ShopLiveCommonUserObjc.swift in Sources */,
+				B44E0D72B16569854DC1B58E /* ShopLiveJWT.swift in Sources */,
+				1E06F0ADD7C9AEF8471E10E0 /* ShopLiveSession.swift in Sources */,
+				8CC7F330D2893498E70AA89D /* ShopLiveUserDefaults.swift in Sources */,
+				77E813B7D6F05E30D5CE5A35 /* CommonKeys.swift in Sources */,
+				2662399CC913B5A105612D33 /* ShopLiveHapticManager.swift in Sources */,
+				DC4EE479557094D33BA2D749 /* ShopLivePublicEnums.swift in Sources */,
+				487775B6A6EF303EC47C9B1B /* ShopLiveCommonError.swift in Sources */,
+				DA3087BD600664385C3A4F86 /* ShopLiveNetworkBaseErrorResponse.swift in Sources */,
+				688888F316CBCEA6635C3CB9 /* SLFlexibleParser.swift in Sources */,
+				17A0787C4DF2C44DBAE62A8C /* ShopLiveLogger.swift in Sources */,
+				74AC6533ADCEC5A44DF0EE8F /* ShopLiveLoggerViewController.swift in Sources */,
+				0A29A15F94A1A96DDA1D2623 /* ShopLiveDebouncer.swift in Sources */,
+				6F5A61F6D6F52E1B821B1A98 /* ShopLiveThrottle.swift in Sources */,
+				E04E710C6D8A50788AB39BC5 /* KeyBoardNotificationProtocol.swift in Sources */,
+				8088242F11421921DA31BA09 /* Reactor.swift in Sources */,
+				2ECAA56778A6CC8EDBFCF98B /* SLRequestable.swift in Sources */,
+				C471364D325C25EBFE99BA11 /* SLResultObservable.swift in Sources */,
+				CA101557E66139D8E110E164 /* ShopLiveSDKCommon + AppDelegate.swift in Sources */,
+				ECBF5FC26C10C95CC0C07CA5 /* ShopliveSDKCommon.swift in Sources */,
+				4D4BE080DA9D2F7ACD193BD8 /* URLUtil.swift in Sources */,
+				A15DB99E4BC37491079A3FC5 /* SLBaseView.swift in Sources */,
+				607F805F0E49BF42D81B64D2 /* SLBaseViewController.swift in Sources */,
+				EFC371B4C49349A056ACF26F /* IndicatorView.swift in Sources */,
+				7CD2CFCE1CA017189CB23636 /* SLCircularProgressView.swift in Sources */,
+				4EF326A2F54C97841FDBD974 /* SLLoadingAlertController.swift in Sources */,
+				74CB58C2FE605878CD0F3F14 /* SLToast.swift in Sources */,
+				CF91C32F74839A83305897DF /* SLTextFieldWithPadding.swift in Sources */,
+				F12C9BEE6706873E53A89700 /* SLWebview.swift in Sources */,
+				4ACD17A654E01047388E394F /* AVCaptureDevice.swift in Sources */,
+				633684C686F478DBD871A252 /* AVPlayer+extension.swift in Sources */,
+				E7C38B08F6722D13FE15648E /* AvAudioSession + extension.swift in Sources */,
+				C90AA5C5C11BA9D9AF209526 /* CMTime+extension.swift in Sources */,
+				771AA5757B3BC01E032E2E7C /* UIImageView+extension.swift in Sources */,
+				A8C00B56D046FCC7574035CD /* Array+extension.swift in Sources */,
+				C38DF60B9A27550B05DA1BB1 /* AssociatedObjectStore+extension.swift in Sources */,
+				AB459B39426CB03DD460372D /* CGFloat+extention.swift in Sources */,
+				52D8C378FF4E444C56250240 /* CGPoint + extension.swift in Sources */,
+				F638BDD436E41093DA8B7D85 /* CGRect+extension.swift in Sources */,
+				53600EC702FCCE5B941E9579 /* CGSize + extension.swift in Sources */,
+				63F9E69E7CAA3235EBE001D2 /* Collection+extension.swift in Sources */,
+				CFBEE99E1E4BB5263F7C44D3 /* Data+extension.swift in Sources */,
+				C4850B44F7A98FAD019510F5 /* Date+extension.swift in Sources */,
+				A8493B6E0734F164CCF3FB2D /* Dictionary+extension.swift in Sources */,
+				63626767BD59AAFFE226ED2F /* Double+extension.swift in Sources */,
+				D961CE885252C59EC979A23D /* Encodable+extension.swift in Sources */,
+				B6399DF2EACBCC3592B00482 /* Error+extension.swift in Sources */,
+				B107BA529D49F114BD15A99F /* Float64+extension.swift in Sources */,
+				33075F0B0C2082FBC9001315 /* Int+extensions.swift in Sources */,
+				73C07B22F778F4E43067FE40 /* NSAttributedString+extension.swift in Sources */,
+				E59BF5CD17B88FC7AE71AE56 /* NSMutableDictionary.swift in Sources */,
+				8994AFD9C62800E8CC75BA1F /* NSObject+extensiton.swift in Sources */,
+				A1290889E4BF9FBC02057B55 /* NotificationCenter+extension.swift in Sources */,
+				57CFA9E4E5B646C9DA9A27CF /* String+extension.swift in Sources */,
+				0759249B209A75AF0D2E1853 /* URL+extension.swift in Sources */,
+				0DD9D47F3CBEC3C82B4FDD50 /* UserDefaults+extension.swift in Sources */,
+				AAB6530385BD7B14E054FD83 /* MPVolumeView+extension.swift in Sources */,
+				98191634A9F27F6A3715864E /* PHAsset+extension.swift in Sources */,
+				7807D335B73BFD417C11C5A6 /* CALayer+extension.swift in Sources */,
+				CE05A5F9E9B1DABECC92F18E /* NSLayoutConstraint+extension.swift in Sources */,
+				62CC87A1E04E0E2BCC268442 /* UIApplication+extension.swift in Sources */,
+				EA95E11177368DC1F3BB9256 /* UIButton+extension.swift in Sources */,
+				FB37CCB3017961C6F21BE933 /* UIColor+extension.swift in Sources */,
+				23F0B68B75B6EACA688E2439 /* UIDevice+extension.swift in Sources */,
+				C32DD2F045349E04E9525C5A /* UIDeviceOrientation+extension.swift in Sources */,
+				2FE373E74B308377DC02FD1D /* UIEdgetInset+extension.swift in Sources */,
+				BFDCD9957C8EF26A20522FAA /* UIFont+extension.swift in Sources */,
+				097BF560F5E8CEED86B50F93 /* UIImage+extension.swift in Sources */,
+				AC6A11D87127E44161D16AB3 /* UIInterfaceOrientation+extension.swift in Sources */,
+				575C90DD42AEC8813ABE87C4 /* UINavigationController+extension.swift in Sources */,
+				40B9AA3099FE5FB1DEC31866 /* UIPanGestureRecognizer+extension.swift in Sources */,
+				6134C65CB49D88BADE92FAA3 /* UIScreen+extension.swift in Sources */,
+				481225B58D2E8A65DBE57E88 /* UIStackView+extension.swift in Sources */,
+				6894EFA5EAB55C9271079047 /* UITextField+extension.swift in Sources */,
+				4C6817E452C8F88BBBE04A84 /* UITextView+extension.swift in Sources */,
+				D5CF91D26F0AA7F64FB8869D /* UIView+extension.swift in Sources */,
+				12F191F68AA8548C4A07485A /* UIViewController+extension.swift in Sources */,
+				485A6AB635A966857380FF29 /* UIWindow+extension.swift in Sources */,
+				94F2F68B2BD1D2C3F90EC0F7 /* WKWebView+extension.swift in Sources */,
+				53E5A60B8D566DEDAA865548 /* KeychainData.swift in Sources */,
+				B57073E846E6F6D4EB0AD2E3 /* SLKeyChainUtil.swift in Sources */,
+				2F44839F71C4BF293A4687ED /* KeychainItemAccessibility.swift in Sources */,
+				1EEB30F0A48B5AFB65F8BAAA /* KeychainWrapper.swift in Sources */,
+				A743E01FF54671A3A4EF0E67 /* KeychainWrapperSubscript.swift in Sources */,
+				43AD6E059953C617E9B1FB4E /* JSONNull.swift in Sources */,
+				773B0D5D39F5BA7F9B72F85F /* APIDefinition.swift in Sources */,
+				B0B712AFC374031A6F4714C4 /* ImageDownLoadManager.swift in Sources */,
+				D9BF9C8B397694EFC2E8486E /* NetworkMonitor.swift in Sources */,
+				34F93A5D8B641526267CDC75 /* SLReachability.swift in Sources */,
+				8CBA6A2E2B4548CD652EA11F /* ShopLiveDefines.swift in Sources */,
+				A182859BDF1B73018AA6E6A6 /* CameraPermission.swift in Sources */,
+				EDD1CC4BE5A8629E00BBD688 /* MicroPhonePermission.swift in Sources */,
+				D4E4F9DE0503C45B9C040D4A /* PermissionManager.swift in Sources */,
+				9A07349816F115735938C4E4 /* ShopLivePermissionHandler.swift in Sources */,
+				CE878463AE7D9AAED9B2719F /* SLVideoPlayer.swift in Sources */,
+				F45FD5396C998EAB2284CADB /* SLVideoPlayerView.swift in Sources */,
+				78B155DC89051A77E96A35D9 /* CommonStrings.swift in Sources */,
+				29003C611472B2D91323AA13 /* SLNVActivityIndicatorAnimationAudioEqualizer.swift in Sources */,
+				FC4CE28BBFB634DDA3C3E2B2 /* SLNVActivityIndicatorAnimationBallBeat.swift in Sources */,
+				EF55439E5C51C214C077A529 /* SLNVActivityIndicatorAnimationBallClipRotate.swift in Sources */,
+				B535F05989FE64EC56538CD6 /* SLNVActivityIndicatorAnimationBallClipRotateMultiple.swift in Sources */,
+				863F9224E6152F0812BE3E4C /* SLNVActivityIndicatorAnimationBallClipRotatePulse.swift in Sources */,
+				D72F0012F5AB72E6A45B49A6 /* SLNVActivityIndicatorAnimationBallDoubleBounce.swift in Sources */,
+				0EB0D74ECFEAB12D5CAB6582 /* SLNVActivityIndicatorAnimationBallGridBeat.swift in Sources */,
+				EE0BBAD365C9F8C9550EA3B4 /* SLNVActivityIndicatorAnimationBallGridPulse.swift in Sources */,
+				4651EF277963781C79DFB3BD /* SLNVActivityIndicatorAnimationBallPulse.swift in Sources */,
+				EB4A0D7E1D2C59EC8D8CE4B1 /* SLNVActivityIndicatorAnimationBallPulseRise.swift in Sources */,
+				791A3B2C367D4ACF8A1491B9 /* SLNVActivityIndicatorAnimationBallPulseSync.swift in Sources */,
+				E2BE1C4F6E5CFE26634B6254 /* SLNVActivityIndicatorAnimationBallRotate.swift in Sources */,
+				A5E5DCD1F960E2EF92B370C6 /* SLNVActivityIndicatorAnimationBallRotateChase.swift in Sources */,
+				EF0C6C3407FC1E854B120AED /* SLNVActivityIndicatorAnimationBallScale.swift in Sources */,
+				A704AB04FE45819F4B44E657 /* SLNVActivityIndicatorAnimationBallScaleMultiple.swift in Sources */,
+				361C12E67F9FF8DE6EFA21B1 /* SLNVActivityIndicatorAnimationBallScaleRipple.swift in Sources */,
+				DA0E0E8E04F2A377A2E5C0BC /* SLNVActivityIndicatorAnimationBallScaleRippleMultiple.swift in Sources */,
+				9254D51F8A10C4256E131CD7 /* SLNVActivityIndicatorAnimationBallSpinFadeLoader.swift in Sources */,
+				1F657CC9E755AE127CD5A6A7 /* SLNVActivityIndicatorAnimationBallTrianglePath.swift in Sources */,
+				EDC3B2E5A88C4376FFC3851A /* SLNVActivityIndicatorAnimationBallZigZag.swift in Sources */,
+				14D15395A3FF784809EF8D1C /* SLNVActivityIndicatorAnimationBallZigZagDeflect.swift in Sources */,
+				88B03019911384874469A7C0 /* SLNVActivityIndicatorAnimationBlank.swift in Sources */,
+				DD4D857D3762490D582EA4B2 /* SLNVActivityIndicatorAnimationCircleStrokeSpin.swift in Sources */,
+				AD7579A1BA0FBBC3D1ED322D /* SLNVActivityIndicatorAnimationCubeTransition.swift in Sources */,
+				C0F4B51B5775DA9CC85BB043 /* SLNVActivityIndicatorAnimationLineScale.swift in Sources */,
+				0F2B15BD93038BABFE8AF570 /* SLNVActivityIndicatorAnimationLineScaleParty.swift in Sources */,
+				36FFB3D287423F8F9D4982E0 /* SLNVActivityIndicatorAnimationLineScalePulseOut.swift in Sources */,
+				05E164D54E348350CF18772B /* SLNVActivityIndicatorAnimationLineScalePulseOutRapid.swift in Sources */,
+				80607F1468347BD9D1979160 /* SLNVActivityIndicatorAnimationLineSpinFadeLoader.swift in Sources */,
+				6AB4EFE0D57D5F74560A1E76 /* SLNVActivityIndicatorAnimationOrbit.swift in Sources */,
+				4B096CA37374A20E359F6A55 /* SLNVActivityIndicatorAnimationPacman.swift in Sources */,
+				A076FBE713C27068CA319652 /* SLNVActivityIndicatorAnimationSemiCircleSpin.swift in Sources */,
+				9AB7C73270A45274A07A938C /* SLNVActivityIndicatorAnimationSquareSpin.swift in Sources */,
+				CE115512ECC1662E8F1DEF45 /* SLNVActivityIndicatorAnimationTriangleSkewSpin.swift in Sources */,
+				6361545AC9B6B0241ABF4C3F /* SLNVActivityIndicatorAnimationDelegate.swift in Sources */,
+				D8E143615A1BB77774F01B70 /* SLNVActivityIndicatorShape.swift in Sources */,
+				BA2FBBCE71974959D8B0DBEE /* SLNVActivityIndicatorView.swift in Sources */,
+				ABE5B40FCCB62E765771D1CE /* SLNVActivityIndicatorPresenter.swift in Sources */,
+				CFB022A61377E28CA300BA9D /* SLNVActivityIndicatorViewable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		07612B5890FB11C58D29DD43 /* Debug */ = {
+		13359002829997BECE1C17C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Derived/InfoPlists/ShopliveSDKCommon-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "cloud.shoplive.matrix-common-ios";
+				PRODUCT_NAME = ShopliveSDKCommon;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_COMPILATION_MODE = singlefile;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		15BADE4B008D8E1B42A52A80 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Derived/InfoPlists/ShopliveSDKCommon-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "cloud.shoplive.matrix-common-ios";
+				PRODUCT_NAME = ShopliveSDKCommon;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		569D0857ADF8FADD8B3092B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A9D77154BAEDAC3E760B7349 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1096,148 +1216,28 @@
 			};
 			name = Debug;
 		};
-		07E766BD462278758C1FAFAD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Derived/InfoPlists/ShopLiveSDKCommon-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.shoplive.common.sdk;
-				PRODUCT_NAME = ShopLiveSDKCommon;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		2E277AE30F2B4BE45F648F21 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Derived/InfoPlists/ShopLiveSDKCommon-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.shoplive.common.sdk;
-				PRODUCT_NAME = ShopLiveSDKCommon;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_COMPILATION_MODE = singlefile;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		C139342388ABFF86E0304C0E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		093D49318E7FCF3B2C9D945A /* Build configuration list for PBXNativeTarget "ShopLiveSDKCommon" */ = {
+		9133A0E6DDCFC96CE0685C98 /* Build configuration list for PBXProject "ShopliveSDKCommon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2E277AE30F2B4BE45F648F21 /* Debug */,
-				07E766BD462278758C1FAFAD /* Release */,
+				A9D77154BAEDAC3E760B7349 /* Debug */,
+				569D0857ADF8FADD8B3092B9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2DF792EDEA99E4ACA22FF209 /* Build configuration list for PBXProject "ShopLiveSDKCommon" */ = {
+		AF00A965CA8CD673D518142B /* Build configuration list for PBXNativeTarget "ShopliveSDKCommon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				07612B5890FB11C58D29DD43 /* Debug */,
-				C139342388ABFF86E0304C0E /* Release */,
+				13359002829997BECE1C17C4 /* Debug */,
+				15BADE4B008D8E1B42A52A80 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = D4C91A7BCCDB2139B104CC35 /* Project object */;
+	rootObject = F1F3F38FE99126D26CDECF73 /* Project object */;
 }

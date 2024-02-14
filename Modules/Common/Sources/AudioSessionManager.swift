@@ -1,6 +1,6 @@
 //
 //  AudioSessionManager.swift
-//  ShopLiveSDKCommon
+//  ShopliveSDKCommon
 //
 //  Created by 김우현 on 3/20/23.
 //

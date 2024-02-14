@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 protocol SLVideoEditorPlayerViewDelegate: AnyObject {
     func didTapPlayerView()

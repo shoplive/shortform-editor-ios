@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 public struct Product: Codable {
     public let brand: String?

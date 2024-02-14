@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import ShopLiveSDK
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 @objc protocol DemoConfigurationObserver {
     var identifier: String { get }

@@ -7,7 +7,7 @@
 
 import Foundation
 import WebKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 @objc public protocol ShopLiveShortformReceiveHandlerDelegate: AnyObject {
     @objc optional func handleShare(shareUrl: String)

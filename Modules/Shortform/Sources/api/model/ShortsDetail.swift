@@ -1,5 +1,5 @@
 import Foundation
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 
 public struct ShortsDetail : Codable {

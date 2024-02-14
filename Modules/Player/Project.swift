@@ -13,14 +13,13 @@ import ProjectDescriptionHelpers
 let deployTarget = Target(name: "ShopLiveSDK",
                           platform: .iOS,
                           product: .framework,
-                          bundleId: "com.app" + ".shoplive.player.sdk",
+                          bundleId: "cloud.shoplive.sdk",
                           deploymentTarget: .iOS(targetVersion: "11.0", devices: .iphone),
                           infoPlist: .extendingDefault(with: [:]),
                           sources: ["Sources/**"],
                           resources: nil,
                           dependencies: [
-                            
-                            .project(target: "ShopLiveSDKCommon",
+                            .project(target: "ShopliveSDKCommon",
                                      path: .relativeToRoot("Modules/Common"))
                           ])
 

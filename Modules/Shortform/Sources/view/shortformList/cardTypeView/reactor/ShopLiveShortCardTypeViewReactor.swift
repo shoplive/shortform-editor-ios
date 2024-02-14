@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 //import ShopLiveSDK
 import AVFoundation
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 /**
  카드 타입  뷰 리액터

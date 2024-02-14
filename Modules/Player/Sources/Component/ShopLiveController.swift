@@ -10,7 +10,7 @@ import AVKit
 import WebKit
 import UIKit
 import VideoToolbox
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 enum ShopLivePlayerObserveValue: String {
     case videoUrl = "videoUrl"

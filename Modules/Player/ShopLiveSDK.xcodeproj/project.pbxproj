@@ -12,7 +12,6 @@
 		08ADB59BC456732394CE4AF5 /* ShopLiveWebInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2293F900635B00D54331A95B /* ShopLiveWebInterface.swift */; };
 		0ED4618D39B775C455DC7928 /* ShopLivePlayerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEE733B9C3E45CAE83905DB /* ShopLivePlayerData.swift */; };
 		11E11A26ABFDEA19726CE7E4 /* LiveStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13BB758D3EE384B4F72FD89 /* LiveStreamViewModel.swift */; };
-		13988C0E0D220A9032A05C0C /* ShopLiveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 702AA5761DE8F28A44F54DB2 /* ShopLiveSDKCommon.framework */; };
 		13A29A656A0909E39252E209 /* ShopLiveViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82324DBC07B585973B34AC /* ShopLiveViewComponents.swift */; };
 		16B7F7DFD043B15EA825E272 /* ShopLivePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF84B55E5F6994ED900571B /* ShopLivePlayer.swift */; };
 		1D05C32DCB40A5C0761D1A02 /* LiveStreamViewModel + TimeControlStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5811DFC20150DCE5FB6542 /* LiveStreamViewModel + TimeControlStatus.swift */; };
@@ -45,6 +44,7 @@
 		9590100880D27A808D54245F /* ShopLiveDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DA85E1A1F333BE39F4B3EB2 /* ShopLiveDefines.swift */; };
 		98E71601D7C17C4CD9479BFC /* ShopLivePlayerErrorObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F89C7160B1EB669DE2C872A4 /* ShopLivePlayerErrorObserver.swift */; };
 		9D48CB2C8EEA1281DA588A00 /* ShopLiveChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF107098D99FF896BB4264B /* ShopLiveChatView.swift */; };
+		9D6A70D9159FB7FD2C5A9818 /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBE8D278AF70B1C4413EF7C1 /* ShopliveSDKCommon.framework */; };
 		9FA07972526D839E0101A774 /* LiveStreamViewController + Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671175D0DE60D8BCA5692EC0 /* LiveStreamViewController + Audio.swift */; };
 		B0807F0BBB0FEF5DBC7CF0AE /* ShopLiveConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B83088F07FB737A779789E /* ShopLiveConfiguration.swift */; };
 		B1B9221DD14D5BBC02783C05 /* ShopLiveViewTrackEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E933FFA92E69AC08252976C7 /* ShopLiveViewTrackEvent.swift */; };
@@ -104,7 +104,6 @@
 		6DC5941C9FCCA75C3D387D2C /* ShopLiveThrottle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveThrottle.swift; sourceTree = "<group>"; };
 		6FB1BD7B564B49FB829BD2BC /* ShopLivePlayerShareCampaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLivePlayerShareCampaign.swift; sourceTree = "<group>"; };
 		6FC58FD79E6FF0EB0AD79963 /* LiveStreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveStreamViewController.swift; sourceTree = "<group>"; };
-		702AA5761DE8F28A44F54DB2 /* ShopLiveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7310CAC814245A956458385E /* ShopLiveInAppPipConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveInAppPipConfiguration.swift; sourceTree = "<group>"; };
 		7C007E2192057E114C348250 /* LiveStreamViewController + ShopLivebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveStreamViewController + ShopLivebase.swift"; sourceTree = "<group>"; };
 		92A8C5D292EAC319DDDF86F1 /* OverLayWebView + WebSendFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OverLayWebView + WebSendFunc.swift"; sourceTree = "<group>"; };
@@ -132,6 +131,7 @@
 		F89C7160B1EB669DE2C872A4 /* ShopLivePlayerErrorObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLivePlayerErrorObserver.swift; sourceTree = "<group>"; };
 		FA82324DBC07B585973B34AC /* ShopLiveViewComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveViewComponents.swift; sourceTree = "<group>"; };
 		FBE8A84B467F4CA859372AB9 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		FBE8D278AF70B1C4413EF7C1 /* ShopliveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopliveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFA4FE459CEEA4DB90FF9C9 /* ShopLivePlayerShareData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLivePlayerShareData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -140,7 +140,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13988C0E0D220A9032A05C0C /* ShopLiveSDKCommon.framework in Frameworks */,
+				9D6A70D9159FB7FD2C5A9818 /* ShopliveSDKCommon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,7 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				B29AF93D46BA3B73F85F192F /* ShopLiveSDK.framework */,
-				702AA5761DE8F28A44F54DB2 /* ShopLiveSDKCommon.framework */,
+				FBE8D278AF70B1C4413EF7C1 /* ShopliveSDKCommon.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -518,7 +518,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.shoplive.player.sdk;
+				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk;
 				PRODUCT_NAME = ShopLiveSDK;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -610,7 +610,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.shoplive.player.sdk;
+				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk;
 				PRODUCT_NAME = ShopLiveSDK;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;

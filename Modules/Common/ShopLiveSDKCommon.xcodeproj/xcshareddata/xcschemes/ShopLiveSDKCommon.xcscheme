@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "22B3401F030457958BD334F3"
-               BuildableName = "ShopLiveSDKCommon.framework"
-               BlueprintName = "ShopLiveSDKCommon"
-               ReferencedContainer = "container:ShopLiveSDKCommon.xcodeproj">
+               BlueprintIdentifier = "332C15920041A378665A76DD"
+               BuildableName = "ShopliveSDKCommon.framework"
+               BlueprintName = "ShopliveSDKCommon"
+               ReferencedContainer = "container:ShopliveSDKCommon.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,20 +34,20 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "22B3401F030457958BD334F3"
-               BuildableName = "ShopLiveSDKCommon.framework"
-               BlueprintName = "ShopLiveSDKCommon"
-               ReferencedContainer = "container:ShopLiveSDKCommon.xcodeproj">
+               BlueprintIdentifier = "332C15920041A378665A76DD"
+               BuildableName = "ShopliveSDKCommon.framework"
+               BlueprintName = "ShopliveSDKCommon"
+               ReferencedContainer = "container:ShopliveSDKCommon.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "22B3401F030457958BD334F3"
-            BuildableName = "ShopLiveSDKCommon.framework"
-            BlueprintName = "ShopLiveSDKCommon"
-            ReferencedContainer = "container:ShopLiveSDKCommon.xcodeproj">
+            BlueprintIdentifier = "332C15920041A378665A76DD"
+            BuildableName = "ShopliveSDKCommon.framework"
+            BlueprintName = "ShopliveSDKCommon"
+            ReferencedContainer = "container:ShopliveSDKCommon.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
    </TestAction>
@@ -65,10 +65,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "22B3401F030457958BD334F3"
-            BuildableName = "ShopLiveSDKCommon.framework"
-            BlueprintName = "ShopLiveSDKCommon"
-            ReferencedContainer = "container:ShopLiveSDKCommon.xcodeproj">
+            BlueprintIdentifier = "332C15920041A378665A76DD"
+            BuildableName = "ShopliveSDKCommon.framework"
+            BlueprintName = "ShopliveSDKCommon"
+            ReferencedContainer = "container:ShopliveSDKCommon.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </LaunchAction>
@@ -81,10 +81,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "22B3401F030457958BD334F3"
-            BuildableName = "ShopLiveSDKCommon.framework"
-            BlueprintName = "ShopLiveSDKCommon"
-            ReferencedContainer = "container:ShopLiveSDKCommon.xcodeproj">
+            BlueprintIdentifier = "332C15920041A378665A76DD"
+            BuildableName = "ShopliveSDKCommon.framework"
+            BlueprintName = "ShopliveSDKCommon"
+            ReferencedContainer = "container:ShopliveSDKCommon.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

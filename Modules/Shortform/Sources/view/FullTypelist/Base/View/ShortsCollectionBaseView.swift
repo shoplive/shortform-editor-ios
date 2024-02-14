@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewable {
     typealias ShortsCell = ShopLiveShortform.ShortsCell

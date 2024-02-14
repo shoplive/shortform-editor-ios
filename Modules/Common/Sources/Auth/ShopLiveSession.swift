@@ -1,6 +1,6 @@
 //
 //  ShopLiveSession.swift
-//  ShopLiveSDKCommon
+//  ShopliveSDKCommon
 //
 //  Created by sangmin han on 12/1/23.
 //

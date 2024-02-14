@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 extension ShopLiveShortform {
     public struct ShortsModel: BaseResponsable, Equatable {

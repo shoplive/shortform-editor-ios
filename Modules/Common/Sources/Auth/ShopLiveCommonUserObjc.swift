@@ -1,6 +1,6 @@
 //
 //  ShopLiveCommonUserObjc.swift
-//  ShopLiveSDKCommon
+//  ShopliveSDKCommon
 //
 //  Created by sangmin han on 1/10/24.
 //

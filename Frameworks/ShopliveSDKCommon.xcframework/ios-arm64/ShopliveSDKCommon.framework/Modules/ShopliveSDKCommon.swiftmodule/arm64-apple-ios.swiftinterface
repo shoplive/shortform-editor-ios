@@ -1,0 +1,1531 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.8.1 (swiftlang-5.8.0.124.5 clang-1403.0.22.11.100)
+// swift-module-flags: -target arm64-apple-ios11.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name ShopliveSDKCommon
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import AVFoundation
+import AVKit
+import AdSupport
+import AppTrackingTransparency
+import Combine
+import CoreGraphics
+import Foundation
+import MediaPlayer
+import Photos
+import QuartzCore
+import Security
+import Swift
+import SystemConfiguration
+import UIKit
+import WebKit
+import _Concurrency
+import _StringProcessing
+import os.log
+import os
+@objc public protocol ShopLiveAppDelegateHandler {
+  @objc optional func application(_ application: UIKit.UIApplication, _ window: UIKit.UIWindow?, _ orientation: UIKit.UIInterfaceOrientationMask)
+}
+@_hasMissingDesignatedInitializers final public class AudioSessionManager {
+  public static var shared: ShopliveSDKCommon.AudioSessionManager
+  final public var customerAudioCategoryOptions: AVFAudio.AVAudioSession.CategoryOptions
+  final public var currentCategoryOptions: AVFAudio.AVAudioSession.CategoryOptions {
+    get
+  }
+  final public func setCategory(category: AVFAudio.AVAudioSession.Category, options: AVFAudio.AVAudioSession.CategoryOptions)
+  @objc deinit
+}
+public struct ShopLiveCommonAuth {
+}
+@objc public class ShopLiveCommonUser : ObjectiveC.NSObject {
+  public var userId: Swift.String
+  public var name: Swift.String?
+  public var age: Swift.Int?
+  public var gender: ShopliveSDKCommon.ShopliveCommonUserGender?
+  public var userScore: Swift.Int?
+  public var custom: [Swift.String : Any]?
+  public init(userId: Swift.String, name: Swift.String? = nil, age: Swift.Int? = nil, gender: ShopliveSDKCommon.ShopliveCommonUserGender? = nil, userScore: Swift.Int? = nil, custom: [Swift.String : Any]? = nil)
+  public init(userId: Swift.String, name: Swift.String?, age: Foundation.NSNumber?, gender: Swift.String?, userScore: Foundation.NSNumber?, custom: Swift.Dictionary<Swift.String, Any>?)
+  @objc deinit
+}
+public enum ShopliveCommonUserGender : Swift.String, Swift.CaseIterable {
+  case male
+  case female
+  case netural
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [ShopliveSDKCommon.ShopliveCommonUserGender]
+  public typealias RawValue = Swift.String
+  public static var allCases: [ShopliveSDKCommon.ShopliveCommonUserGender] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc public class ShopLiveCommonUserObjc : ShopliveSDKCommon.ShopLiveCommonUser {
+  @objc public var _userId: Swift.String {
+    @objc get
+    @objc set
+  }
+  @objc public var _name: Swift.String {
+    @objc get
+    @objc set
+  }
+  @objc public var _age: Foundation.NSNumber {
+    @objc get
+    @objc set
+  }
+  @objc public var _gender: Swift.String {
+    @objc get
+    @objc set
+  }
+  @objc public var _userScore: Foundation.NSNumber {
+    @objc get
+    @objc set
+  }
+  @objc public var _custom: [Swift.String : Any]? {
+    @objc get
+    @objc set
+  }
+  @objc override public init(userId: Swift.String, name: Swift.String?, age: Foundation.NSNumber?, gender: Swift.String?, userScore: Foundation.NSNumber?, custom: Swift.Dictionary<Swift.String, Any>?)
+  @objc deinit
+}
+public struct CommonKeys {
+  public static let Authorization: Swift.String
+  public static let Content_Type: Swift.String
+  public static let application_x_www_form_urlencdoed: Swift.String
+  public static let x_sl_ebay_username: Swift.String
+  public static let x_sl_studio_os_version: Swift.String
+  public static let x_sl_studio_app_version: Swift.String
+  public static let x_sl_studio_sdk_version: Swift.String
+  public static let x_sl_player_app_version: Swift.String
+  public static let x_sl_player_sdk_version: Swift.String
+  public static let x_sl_player_os_version: Swift.String
+  public static let x_sl_player_os_type: Swift.String
+  public static let x_sl_player_device: Swift.String
+  public static let x_sl_guest_uid: Swift.String
+  public static let x_sl_ad_identifier: Swift.String
+  public static let x_sl_utm_source: Swift.String
+  public static let x_sl_utm_content: Swift.String
+  public static let x_sl_utm_campaign: Swift.String
+  public static let x_sl_utm_medium: Swift.String
+  public static let Bearer: Swift.String
+  public static let code: Swift.String
+  public static let ON_CHANGED_VIDEO_EXPANDED: Swift.String
+  public static let SET_VIDEO_POSITION: Swift.String
+  public static let videoExpanded: Swift.String
+  public static let endCampaign: Swift.String
+  public static let startCampaign: Swift.String
+  public static let rehearsal: Swift.String
+  public static let keyword: Swift.String
+  public static let deviceUuid: Swift.String
+  public static let retry: Swift.String
+  public static let resolution: Swift.String
+  public static let bitRate: Swift.String
+  public static let normal: Swift.String
+  public static let description: Swift.String
+  public static let currentFPS: Swift.String
+  public static let customerId: Swift.String
+  public static let page: Swift.String
+  public static let count: Swift.String
+  public static let height: Swift.String
+  public static let width: Swift.String
+  public static let centerCrop: Swift.String
+  public static let x: Swift.String
+  public static let y: Swift.String
+  public static let pushType: Swift.String
+  public static let campaignId: Swift.String
+  public static let campaignStatus: Swift.String
+  public static let id: Swift.String
+  public static let password: Swift.String
+  public static let streamApp: Swift.String
+  public static let source: Swift.String
+  public static let duration: Swift.String
+}
+@_hasMissingDesignatedInitializers public class ShopLiveHapticManager {
+  public static func impact(style: UIKit.UIImpactFeedbackGenerator.FeedbackStyle)
+  @objc deinit
+}
+public enum ShopLiveHapticStyle : Swift.String {
+  case LIGHT
+  case MEDIUM
+  case HEAVY
+  public var style: UIKit.UIImpactFeedbackGenerator.FeedbackStyle {
+    get
+  }
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum UIScreenDirection {
+  case top
+  case left
+  case right
+  case bottom
+  public static func == (a: ShopliveSDKCommon.UIScreenDirection, b: ShopliveSDKCommon.UIScreenDirection) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum ShopLiveErrorCases {
+  case AuthenticationFailed
+  case GuestLoginNotAllowed
+  case CustomAccountNotFound
+  case CustomAccountExpired
+  case InvalidSignature
+  case ExpiredSession
+  case ServerError
+  case CampaignNotFound
+  case CampaignNotOnAir
+  case DuplicateSession
+  case NotInitializedAccessKey
+  case NotInitializedShareURL
+  case NotInitializedShortformConfig
+  case FailedEncoding
+  case RemovedVideo
+  case UnsupportedMedia
+  case UnsupportedOSpipMode
+  case FailedNetwork
+  case FailedJSONParsing
+  case UnexpectedError
+  public static func == (a: ShopliveSDKCommon.ShopLiveErrorCases, b: ShopliveSDKCommon.ShopLiveErrorCases) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public class ShopLiveCommonError : Swift.Error {
+  public var code: Swift.Int
+  public var message: Swift.String?
+  public var error: (any Swift.Error)?
+  public init(code: Swift.Int, message: Swift.String?, error: (any Swift.Error)?)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ShopLiveCommonErrorGenerator {
+  public class func generateError(errorCase: ShopliveSDKCommon.ShopLiveErrorCases, error: (any Swift.Error)?, message: Swift.String?) -> ShopliveSDKCommon.ShopLiveCommonError
+  public class func generateErrorFromNetwork(statusCode: Swift.Int, error: (any Swift.Error)?, responseData: Foundation.Data?) -> ShopliveSDKCommon.ShopLiveCommonError?
+  @objc deinit
+}
+public class ShopLiveCommonNetworkBaseErrorResponse : Swift.Codable {
+  @objc deinit
+  public func encode(to encoder: any Swift.Encoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
+}
+public struct SLFlexibleParser<K> where K : Swift.CodingKey {
+  public init(container: Swift.KeyedDecodingContainer<K>)
+  public func parse<T>(targetType: T.Type, key: any Swift.CodingKey) throws -> T?
+}
+@_hasMissingDesignatedInitializers public class ShopLiveLogger {
+  public static func debugLog(_ log: Swift.String)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers final public class ShopLiveViewLogger {
+  public static var shared: ShopliveSDKCommon.ShopLiveViewLogger
+  final public func setVisible(show: Swift.Bool)
+  final public func isVisible() -> Swift.Bool
+  final public func addLog(log: ShopliveSDKCommon.ShopLiveViewLog)
+  final public func clearLog()
+  @objc deinit
+}
+final public class ShopLiveViewLog {
+  public enum LogType {
+    case callback
+    case interface
+    case applog
+    case normal
+    case inbound
+    public static func == (a: ShopliveSDKCommon.ShopLiveViewLog.LogType, b: ShopliveSDKCommon.ShopLiveViewLog.LogType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public init(logType: ShopliveSDKCommon.ShopLiveViewLog.LogType, log: Swift.String)
+  @objc deinit
+}
+public class ShopLiveDebouncer {
+  public typealias Handler = () -> Swift.Void
+  public var handler: ShopliveSDKCommon.ShopLiveDebouncer.Handler?
+  public init(timeInterval: Foundation.TimeInterval)
+  public func renewInterval()
+  @objc deinit
+}
+public class ShopLiveThrottle {
+  public init(queue: Dispatch.DispatchQueue, delay: Swift.Double)
+  public func callAsFunction(action: @escaping () -> Swift.Void, onCancel: @escaping () -> Swift.Void)
+  @objc deinit
+}
+@objc public protocol KeyboardNotificationProtocol {
+  @objc func keyboardWillShow(notification: Foundation.Notification)
+  @objc func keyboardWillHide(notification: Foundation.Notification)
+  @objc func keyboardWillChangeFrame(notification: Foundation.Notification)
+}
+extension ShopliveSDKCommon.KeyboardNotificationProtocol {
+  public func registerKeyboardNoti()
+  public func removeKeyboardNoti()
+}
+public protocol ActionReceivable {
+  associatedtype Action
+  func action(_ action: Self.Action)
+}
+public protocol SLReactor : ShopliveSDKCommon.ActionReceivable, ShopliveSDKCommon.SLResultObservable {
+}
+public protocol SLRequestable {
+  associatedtype Request
+  func request(_ request: Self.Request)
+}
+public protocol SLResultObservable {
+  associatedtype Result
+  var resultHandler: ((Self.Result) -> ())? { get set }
+}
+extension ShopliveSDKCommon.ShopLiveCommon {
+  public static func setShopLiveOrientation(orientation: UIKit.UIInterfaceOrientationMask)
+  public static func setEnabledShopLiveOrientationLock(enable: Swift.Bool)
+  public static func getEnabledShopLiveOrientationLock() -> Swift.Bool
+  public static func setShopLiveAppDelegateHandler(handler: (any ShopliveSDKCommon.ShopLiveAppDelegateHandler)?)
+}
+public protocol ShopLiveCommonDelegate : ObjectiveC.NSObject {
+  var identifier: Swift.String { get }
+  func onChangedShopLiveUserJWT(to: Swift.String?)
+  func onChangeShopLiveUser(to: ShopliveSDKCommon.ShopLiveCommonUser?)
+}
+@_inheritsConvenienceInitializers @objc final public class ShopLiveCommon : ObjectiveC.NSObject {
+  public static func setDelegate(delegate: any ShopliveSDKCommon.ShopLiveCommonDelegate)
+  public static func removeDelegate(delegate: any ShopliveSDKCommon.ShopLiveCommonDelegate)
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension ShopliveSDKCommon.ShopLiveCommon {
+  @objc(setAuthToken:) public static func setAuthToken(authToken: Swift.String?)
+  @objc public static func getAuthToken() -> Swift.String?
+  @objc public static func getUser() -> ShopliveSDKCommon.ShopLiveCommonUser?
+  @objc(setUser:) public static func setUser(user: ShopliveSDKCommon.ShopLiveCommonUser?)
+  @available(iOS, deprecated, message: "Enable AppTrackingTransparency instead")
+  @objc public static func setAdId(adId: Swift.String?)
+  @available(iOS, deprecated, message: "nable AppTrackingTransparency instead")
+  @objc public static func getAdId() -> Swift.String?
+  @objc public static func getAdIdentifier() -> Swift.String?
+  @objc(setUtmSource:) public static func setUtmSource(utmSource: Swift.String?)
+  @objc(setUtmMedium:) public static func setUtmMedium(utmMedium: Swift.String?)
+  @objc(setUtmCampaign:) public static func setUtmCampaign(utmCampaign: Swift.String?)
+  @objc(setUtmContent:) public static func setUtmContent(utmContent: Swift.String?)
+  @objc public static func getUtmSource() -> Swift.String?
+  @objc public static func getUtmMedium() -> Swift.String?
+  @objc public static func getUtmCampaign() -> Swift.String?
+  @objc public static func getUtmContent() -> Swift.String?
+  @objc(setAccessKey:) public static func setAccessKey(accessKey: Swift.String?)
+  @objc public static func getAccessKey() -> Swift.String?
+  @objc(setGuestUid:) public static func setGuestUid(guestUid: Swift.String?)
+  @objc public static func getGuestUid() -> Swift.String?
+  @objc public static func clearAuth()
+  @objc public static func isLoggedIn() -> Swift.Bool
+}
+extension ShopliveSDKCommon.ShopLiveCommon {
+  @objc public static func makeShopLiveSessionId() -> Swift.String
+}
+extension ShopliveSDKCommon.ShopLiveCommon {
+  @objc public static var sdkVersion: Swift.String {
+    @objc get
+  }
+}
+@_hasMissingDesignatedInitializers final public class URLUtil_SL {
+  public static func query(_ params: [Foundation.URLQueryItem]?) -> Swift.String?
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class SLBaseView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) open func layout()
+  @_Concurrency.MainActor(unsafe) open func attributes()
+  @_Concurrency.MainActor(unsafe) open func bindView()
+  @_Concurrency.MainActor(unsafe) open func bindData()
+  @_Concurrency.MainActor(unsafe) open var touchEventHandler: ((Swift.Set<UIKit.UITouch>, UIKit.UIEvent?) -> ())?
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func touchesEnded(_ touches: Swift.Set<UIKit.UITouch>, with event: UIKit.UIEvent?)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class SLBaseViewController : UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) public var useOrientationLock: Swift.Bool
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewWillDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) final public class LoadingIndicatorView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) public static func show(isDimmed: Swift.Bool = true, key: Swift.String = "general", delay: Foundation.TimeInterval = 0)
+  @_Concurrency.MainActor(unsafe) public static func hide(key: Swift.String = "general")
+  @objc deinit
+}
+@objc public protocol SLLoadingAlertControllerDelegate {
+  @objc func didCancelLoading()
+  @objc func didFinishLoading()
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLLoadingAlertController : UIKit.UIViewController, UIKit.UIGestureRecognizerDelegate {
+  @_Concurrency.MainActor(unsafe) weak public var delegate: (any ShopliveSDKCommon.SLLoadingAlertControllerDelegate)?
+  @_Concurrency.MainActor(unsafe) public var cancelLoading: Swift.Bool
+  @_Concurrency.MainActor(unsafe) public func setLoadingText(_ text: Swift.String)
+  @_Concurrency.MainActor(unsafe) public var useProgress: Swift.Bool
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) public func resetProgress()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) public func setProgress(_ progress: CoreFoundation.CGFloat)
+  @_Concurrency.MainActor(unsafe) public func finishLoading()
+  @_Concurrency.MainActor(unsafe) public func finishLoadingWithOutDelegateEvent()
+  @_Concurrency.MainActor(unsafe) public func cancal()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+public enum SLToastDuration {
+  case short
+  case middle
+  case long
+  public static func == (a: ShopliveSDKCommon.SLToastDuration, b: ShopliveSDKCommon.SLToastDuration) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) public func showToastAlert(messgae: Swift.String)
+  @_Concurrency.MainActor(unsafe) public func showToast(message: Swift.String, duration: ShopliveSDKCommon.SLToastDuration = .middle)
+}
+extension UIKit.UIWindow {
+  @_Concurrency.MainActor(unsafe) public func showToast(message: Swift.String, duration: ShopliveSDKCommon.SLToastDuration = .middle)
+}
+@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class SLTextFieldWithPadding : UIKit.UITextField {
+  @_Concurrency.MainActor(unsafe) public init(textPadding: UIKit.UIEdgeInsets)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func textRect(forBounds bounds: CoreFoundation.CGRect) -> CoreFoundation.CGRect
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func editingRect(forBounds bounds: CoreFoundation.CGRect) -> CoreFoundation.CGRect
+  @objc deinit
+}
+@objc public protocol SLWebviewScrollDelegate {
+  @objc optional func scrollViewDidScroll()
+}
+@objc public protocol SLWebviewResponseDelegate {
+  @objc optional func handleShopliveEvent(_ command: Swift.String, with payload: [Swift.String : Any]?, userImplements: Swift.Bool)
+  @objc optional func handleEventMessage(message: WebKit.WKScriptMessage)
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) final public class SLWebView : ShopliveSDKCommon.SLBaseView {
+  @_Concurrency.MainActor(unsafe) weak final public var slWebResponseDelegate: (any ShopliveSDKCommon.SLWebviewResponseDelegate)?
+  @_Concurrency.MainActor(unsafe) weak final public var slWebScrollDelegate: (any ShopliveSDKCommon.SLWebviewScrollDelegate)?
+  @_Concurrency.MainActor(unsafe) weak final public var webViewNavigationDelegate: (any WebKit.WKNavigationDelegate)? {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) override final public func layout()
+  @_Concurrency.MainActor(unsafe) final public func load(_ request: Foundation.URLRequest)
+  @_Concurrency.MainActor(unsafe) final public func reload()
+  @_Concurrency.MainActor(unsafe) final public var url: Swift.String? {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) override final public func attributes()
+  @_Concurrency.MainActor(unsafe) override final public func bindView()
+  @objc deinit
+  @_Concurrency.MainActor(unsafe) final public func close()
+  @_Concurrency.MainActor(unsafe) final public func setScrollable(_ scrollable: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) final public func configure(url: Swift.String)
+  @_Concurrency.MainActor(unsafe) final public func configure(html: Swift.String)
+  @_Concurrency.MainActor(unsafe) final public func sendEventToWeb(event: Swift.String, parameter: Any? = nil, wrapping: Swift.Bool = false)
+  @_Concurrency.MainActor(unsafe) final public func sendShortsEvent(event: Swift.String, parameter: [Swift.String : Any]? = nil, completion: @escaping () -> Swift.Void)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+extension ShopliveSDKCommon.SLWebView : WebKit.WKScriptMessageHandler {
+  @_Concurrency.MainActor(unsafe) @objc final public func userContentController(_ userContentController: WebKit.WKUserContentController, didReceive message: WebKit.WKScriptMessage)
+}
+extension ShopliveSDKCommon.SLWebView : UIKit.UIScrollViewDelegate {
+  @_Concurrency.MainActor(unsafe) @objc final public func scrollViewDidScroll(_ scrollView: UIKit.UIScrollView)
+}
+@objc public class LeakAvoider : ObjectiveC.NSObject, WebKit.WKScriptMessageHandler {
+  public init(delegate: any WebKit.WKScriptMessageHandler)
+  @objc public func userContentController(_ userContentController: WebKit.WKUserContentController, didReceive message: WebKit.WKScriptMessage)
+  @objc deinit
+}
+extension AVFoundation.AVCaptureDevice {
+  public var baseZoomFactor_SL: CoreFoundation.CGFloat {
+    get
+  }
+  public func getInitZoomFactor_SL(forDevice camera: AVFoundation.AVCaptureDevice) -> CoreFoundation.CGFloat
+}
+extension AVFoundation.AVPlayer.TimeControlStatus {
+  public var name_SL: Swift.String {
+    get
+  }
+}
+extension AVFAudio.AVAudioSession {
+  public func safeRemoveObserver_SL(_ observer: Any, forKeyPath keyPath: Swift.String, observeInfo: Swift.UnsafeMutableRawPointer?, completion: @escaping (Swift.Bool) -> Swift.Void)
+}
+extension CoreMedia.CMTime {
+  public var timeSeconds_SL: Swift.Float64? {
+    get
+  }
+  public var isValid_SL: Swift.Bool {
+    get
+  }
+  public var roundedSeconds_SL: Foundation.TimeInterval {
+    get
+  }
+  public var hours_SL: Swift.Int {
+    get
+  }
+  public var minute_SL: Swift.Int {
+    get
+  }
+  public var second_SL: Swift.Int {
+    get
+  }
+  public var positionalTime_SL: Swift.String {
+    get
+  }
+}
+extension UIKit.UIImageView {
+  @_Concurrency.MainActor(unsafe) public func loadImage_SL(from url: Foundation.URL?, placeHolderImage: UIKit.UIImage? = nil, completion: ((UIKit.UIImage?) -> ())? = nil)
+}
+extension Swift.Array {
+  public subscript(safe index: Swift.Int) -> Element? {
+    get
+  }
+  public subscript(safe range: Swift.Range<Swift.Array<Element>.Index>) -> Swift.ArraySlice<Element> {
+    get
+  }
+  public func chunked_SL(into size: Swift.Int) -> [[Element]]
+  public func chunks_SL(size chunksize: Swift.Int) -> Swift.Array<Swift.Array<Element>>
+}
+extension Swift.Array where Element == Swift.String {
+  public func reducedWithComma_SL() -> Swift.String
+}
+public protocol AssociatedObjectStore {
+}
+extension ShopliveSDKCommon.AssociatedObjectStore {
+  public func associatedObject<T>(forKey key: Swift.UnsafeRawPointer) -> T?
+  public func associatedObject<T>(forKey key: Swift.UnsafeRawPointer, default: @autoclosure () -> T) -> T
+  public func setAssociatedObject<T>(_ object: T?, forKey key: Swift.UnsafeRawPointer)
+}
+extension CoreFoundation.CGFloat {
+  public var toInt_SL: Swift.Int {
+    get
+  }
+}
+extension CoreFoundation.CGPoint {
+  public var transpolate_SL: CoreFoundation.CGPoint {
+    get
+  }
+}
+extension CoreFoundation.CGRect {
+  public var center_SL: CoreFoundation.CGPoint {
+    get
+  }
+}
+extension CoreFoundation.CGSize {
+  public var transpolate_SL: CoreFoundation.CGSize {
+    get
+  }
+}
+extension Swift.Collection {
+  public subscript(safe index: Self.Index) -> Self.Element? {
+    get
+  }
+  public var isNotEmpty_SL: Swift.Bool {
+    get
+  }
+}
+public struct HexEncodingOptions : Swift.OptionSet {
+  public let rawValue: Swift.Int
+  public init(rawValue: Swift.Int)
+  public typealias ArrayLiteralElement = ShopliveSDKCommon.HexEncodingOptions
+  public typealias Element = ShopliveSDKCommon.HexEncodingOptions
+  public typealias RawValue = Swift.Int
+}
+extension Foundation.Data {
+  public func hexEncodedString(options: ShopliveSDKCommon.HexEncodingOptions = []) -> Swift.String
+  public func convert_SL<T>(to type: T.Type) -> T? where T : Swift.Decodable, T : Swift.Encodable
+}
+extension Foundation.Date {
+  public static var expiredTime_SL: Swift.Int {
+    get
+  }
+  public static var createdTime_SL: Swift.Int {
+    get
+  }
+}
+extension Swift.Dictionary {
+  public func toJson_SL() -> Swift.String?
+  public var jsonData_SL: Foundation.Data? {
+    get
+  }
+  public func toJSONString_SL() -> Swift.String?
+}
+extension Swift.Double {
+  public func formattedString_SL(by format: Swift.String) -> Swift.String
+  public var validDateFromTimestamp_SL: Swift.Bool {
+    get
+  }
+  public func elapsedTimeString_SL() -> Swift.String
+  public func elapsedTimeString_SL(with date: Foundation.Date) -> Swift.String
+  public var numberOfDigit_SL: Swift.Int {
+    get
+  }
+}
+extension Swift.Encodable {
+  public func toDictionary_SL(_ encoder: Foundation.JSONEncoder = JSONEncoder()) throws -> [Swift.String : Any]
+  public var dictionary_SL: [Swift.String : Any]? {
+    get
+  }
+}
+extension Swift.Decodable {
+  public static func decode_SL<T>(dictionary: [Swift.String : Any]) throws -> T where T : Swift.Decodable
+}
+extension Swift.Error {
+  public var errorCode_SL: Swift.Int {
+    get
+  }
+  public func getErrorMsg_SL() -> Swift.String
+  public var userInfoString_SL: Swift.String {
+    get
+  }
+}
+extension Swift.Double {
+  public var seconds_SL: Swift.Double {
+    get
+  }
+  public var isValid_SL: Swift.Bool {
+    get
+  }
+  public var timeHourMinuteSeconds_SL: Swift.String {
+    get
+  }
+}
+extension Swift.Int {
+  public func addCommas_SL() -> Swift.String
+  public var toJsonValue_SL: Swift.String {
+    get
+  }
+}
+extension Foundation.NSAttributedString {
+  public var fullRange_SL: Foundation.NSRange {
+    get
+  }
+}
+extension Foundation.NSMutableDictionary {
+  public func toJson_SL() -> Swift.String?
+}
+extension ObjectiveC.NSObject {
+  public func safeRemoveObserver_SL(_ observer: Any, forKeyPath keyPath: Swift.String)
+}
+public protocol AnyNameable {
+  static func className() -> Swift.String
+}
+extension ShopliveSDKCommon.AnyNameable {
+  public static func className() -> Swift.String
+}
+extension ObjectiveC.NSObject : ShopliveSDKCommon.AnyNameable {
+}
+extension Foundation.NotificationCenter {
+  public func safeRemoveObserver_SL(_ observer: Any, name aName: Foundation.NSNotification.Name?, object anObject: Any?)
+}
+extension Swift.String {
+  public func versionCompare_SL(_ otherVersion: Swift.String) -> Foundation.ComparisonResult
+  public var trimmed_SL: Swift.String {
+    get
+  }
+  public var isEmptyText_SL: Swift.Bool {
+    get
+  }
+  public var isSingleWordEmptyText_SL: Swift.Bool {
+    get
+  }
+  public var trimWhiteSpacing_SL: Swift.String {
+    get
+  }
+  public var boolValue_SL: Swift.Bool? {
+    get
+  }
+  public func removeJWTPadding_SL() -> Swift.String
+  public var urlEncodedString_SL: Swift.String? {
+    get
+  }
+  public var urlEncodedStringRFC3986_SL: Swift.String? {
+    get
+  }
+  public var dictionary_SL: [Swift.AnyHashable : Any]? {
+    get
+  }
+  public func localizedString_SL(from: Swift.String = "Localizable", bundle: Foundation.Bundle = Bundle.main, comment: Swift.String = "") -> Swift.String
+  public func fotmattedString_SL() -> Swift.String
+  public func CGFloatValue_SL() -> CoreFoundation.CGFloat?
+  public var cgfloatValue_SL: CoreFoundation.CGFloat? {
+    get
+  }
+  public var toJsonValue_SL: Swift.String {
+    get
+  }
+  public var base64Decoded_SL: Swift.String? {
+    get
+  }
+  public var base64Encoded_SL: Swift.String? {
+    get
+  }
+  public func convert_SL<T>(to type: T.Type) -> T? where T : Swift.Decodable, T : Swift.Encodable
+}
+extension Foundation.URL {
+  public func withScheme_SL(_ scheme: Swift.String) -> Foundation.URL?
+}
+extension Foundation.UserDefaults {
+  public func set_SL(_ value: UIKit.UIEdgeInsets, forKey key: Swift.String)
+  public func cgRect_SL(forKey key: Swift.String) -> UIKit.UIEdgeInsets?
+}
+extension MediaPlayer.MPVolumeView {
+  @_Concurrency.MainActor(unsafe) public static func setVolume_SL(_ volume: Swift.Float)
+}
+extension Photos.PHAsset {
+  public func getURL_SL(completionHandler: @escaping ((_ responseURL: Foundation.URL?) -> Swift.Void))
+}
+extension QuartzCore.CALayer {
+  public func fitToSuperView_SL(superview: UIKit.UIView)
+}
+extension UIKit.NSLayoutConstraint {
+  @_Concurrency.MainActor(unsafe) public func updateConstraint_SL(value: UIKit.NSLayoutConstraint?)
+  @_Concurrency.MainActor(unsafe) public func setMultiplier_SL(multiplier: CoreFoundation.CGFloat) -> UIKit.NSLayoutConstraint
+}
+extension UIKit.UIApplication {
+  @_Concurrency.MainActor(unsafe) public static var isLandscape_SL: Swift.Bool {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static func openSettings_SL()
+  @_Concurrency.MainActor(unsafe) public static func openBrowser_SL(url: Swift.String)
+  @_Concurrency.MainActor(unsafe) public static func openAppstore_SL(appId: Swift.String)
+  @_Concurrency.MainActor(unsafe) public class func appVersion_SL() -> Swift.String
+  @_Concurrency.MainActor(unsafe) public class func appBuild_SL() -> Swift.String
+  @_Concurrency.MainActor(unsafe) public class func versionBuild_SL() -> Swift.String
+  @_Concurrency.MainActor(unsafe) public static var topWindow_SL: UIKit.UIWindow? {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var firstWindow_SL: UIKit.UIWindow? {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var windowList_SL: [UIKit.UIWindow]? {
+    get
+  }
+}
+extension UIKit.UIButton {
+  @_Concurrency.MainActor(unsafe) public func setBackgroundColor_SL(_ color: UIKit.UIColor, for state: UIKit.UIControl.State)
+}
+extension UIKit.UIColor {
+  convenience public init(red: Swift.Int, green: Swift.Int, blue: Swift.Int, a: Swift.Int = 0xFF)
+  convenience public init(rgb: Swift.Int)
+  convenience public init(argb: Swift.Int)
+  convenience public init(_ hex: Swift.String, alpha: CoreFoundation.CGFloat = 1.0)
+}
+extension UIKit.UIDevice {
+  @_Concurrency.MainActor(unsafe) public static var isIpad_SL: Swift.Bool {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var deviceIdentifier_sl: Swift.String {
+    get
+  }
+}
+extension UIKit.UIDeviceOrientation {
+  public var interfaceOrientation_SL: UIKit.UIInterfaceOrientation {
+    get
+  }
+  public var orientationMask_SL: UIKit.UIInterfaceOrientationMask {
+    get
+  }
+}
+extension UIKit.UIEdgeInsets {
+  public static var leastMargin_SL: UIKit.UIEdgeInsets {
+    get
+  }
+}
+extension UIKit.UIFont {
+  public func findAvailableFont_SL() -> UIKit.UIFont
+  public func lineHeightMultiple_SL(_ lineHeight: CoreFoundation.CGFloat = 20) -> CoreFoundation.CGFloat
+}
+extension UIKit.UIImage {
+  public func resizeWithWidth_SL(width: CoreFoundation.CGFloat) -> UIKit.UIImage?
+  public func imageWithTint_SL(_ color: UIKit.UIColor, alpha: CoreFoundation.CGFloat = 1.0) -> UIKit.UIImage
+  public func resizeImageTo_SL(size: CoreFoundation.CGSize) -> UIKit.UIImage?
+  public func scalePreservingAspectRatio_SL(targetSize: CoreFoundation.CGSize) -> UIKit.UIImage
+  public func changeScale_SL(to: CoreFoundation.CGFloat) -> UIKit.UIImage?
+  public func resizeWith_SL(width: CoreFoundation.CGFloat) -> UIKit.UIImage?
+  public func toBlackAndWhite_SL() -> UIKit.UIImage?
+  public enum Quality {
+    case uncompressed
+    case highest
+    case high
+    case medium
+    case low
+    case lowest
+    public static func == (a: UIKit.UIImage.Quality, b: UIKit.UIImage.Quality) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public var uncompressedPNGData_SL: Foundation.Data? {
+    get
+  }
+  public var highestQualityJPEGNSData_SL: Foundation.Data? {
+    get
+  }
+  public var highQualityJPEGNSData_SL: Foundation.Data? {
+    get
+  }
+  public var mediumQualityJPEGNSData_SL: Foundation.Data? {
+    get
+  }
+  public var lowQualityJPEGNSData_SL: Foundation.Data? {
+    get
+  }
+  public var lowestQualityJPEGNSData_SL: Foundation.Data? {
+    get
+  }
+  public func toNSTextAttachment_SL(_ width: CoreFoundation.CGFloat? = nil, _ height: CoreFoundation.CGFloat? = nil, _ yPos: CoreFoundation.CGFloat = -8) -> UIKit.NSTextAttachment
+  public func toNSTextAttachment_SL(yPos: CoreFoundation.CGFloat = -8) -> UIKit.NSTextAttachment
+  convenience public init?(color: UIKit.UIColor, size: CoreFoundation.CGSize = CGSize(width: 1, height: 1))
+  public func saveThumbnail_SL()
+}
+extension UIKit.UIInterfaceOrientation {
+  public var angl_SLe: CoreFoundation.CGFloat {
+    get
+  }
+  public var deviceOrientation_SL: UIKit.UIDeviceOrientation {
+    get
+  }
+}
+extension UIKit.UINavigationController {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var childForStatusBarStyle: UIKit.UIViewController? {
+    @objc get
+  }
+}
+public enum PanDirection : Swift.Int {
+  case up, down, left, right
+  public var isVertical: Swift.Bool {
+    get
+  }
+  public var isHorizontal: Swift.Bool {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension UIKit.UIPanGestureRecognizer {
+  @_Concurrency.MainActor(unsafe) public var direction: ShopliveSDKCommon.PanDirection? {
+    get
+  }
+}
+extension UIKit.UIScreen {
+  @_Concurrency.MainActor(unsafe) public static var currentOrientation_SL: UIKit.UIInterfaceOrientation {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var isLandscape_SL: Swift.Bool {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var concreteWidth_SL: CoreFoundation.CGFloat {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var concreteHeight_SL: CoreFoundation.CGFloat {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var landscapeWidth_SL: CoreFoundation.CGFloat {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var landscapeHeight_SL: CoreFoundation.CGFloat {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var screenWidth_SL: CoreFoundation.CGFloat {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var screenHeight_SL: CoreFoundation.CGFloat {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var concreteTopSafeArea_SL: CoreFoundation.CGFloat {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var topSafeArea_SL: CoreFoundation.CGFloat {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var leftSafeArea_SL: CoreFoundation.CGFloat {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var rightSafeArea_SL: CoreFoundation.CGFloat {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var bottomSafeArea_SL: CoreFoundation.CGFloat {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var safeArea_SL: UIKit.UIEdgeInsets {
+    get
+  }
+}
+extension UIKit.UIStackView {
+  @_Concurrency.MainActor(unsafe) public func addArrangedSubviews_SL(_ views: UIKit.UIView...)
+}
+extension UIKit.UITextField {
+  @_Concurrency.MainActor(unsafe) public func setPlaceholderColor_SL(_ placeholderColor: UIKit.UIColor)
+  @_Concurrency.MainActor(unsafe) public func addUnderLine_SL()
+}
+extension UIKit.UITextView {
+  @_Concurrency.MainActor(unsafe) public func numberOfLines_SL(lineHeight: CoreFoundation.CGFloat = 20) -> Swift.Int
+}
+extension UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) public func fit_SL()
+  @_Concurrency.MainActor(unsafe) public func fitTop30_SL()
+  @_Concurrency.MainActor(unsafe) public func animateSizeChange_SL(from: CoreFoundation.CGSize, to: CoreFoundation.CGSize, duration: Swift.Double)
+  @_Concurrency.MainActor(unsafe) public func changeScale_SL(to: CoreFoundation.CGFloat)
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) dynamic public var cornerRadiusV_SL: CoreFoundation.CGFloat {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) dynamic public var borderWidthV_SL: CoreFoundation.CGFloat {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) dynamic public var borderColorV_SL: UIKit.UIColor? {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor(unsafe) public var ratio_SL: CoreFoundation.CGFloat {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public var showsUp_SL: Swift.Bool {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public var parentViewController_SL: UIKit.UIViewController? {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public func addAndFitToParent_SL(view: UIKit.UIView, belowSubview: UIKit.UIView)
+  @_Concurrency.MainActor(unsafe) public func fitToParent_SL()
+  @_Concurrency.MainActor(unsafe) public func clearConstraints_SL()
+  @_Concurrency.MainActor(unsafe) public func roundCorners_SL(corners: UIKit.UIRectCorner, radius: CoreFoundation.CGFloat)
+  @_Concurrency.MainActor(unsafe) public func asImage_SL() -> UIKit.UIImage
+  @_Concurrency.MainActor(unsafe) public class func fromNib_SL<T>() -> T where T : UIKit.UIView
+  @_Concurrency.MainActor(unsafe) public func makeDashedBorderLine_SL(lineDashWidth: CoreFoundation.CGFloat, pattern: [Foundation.NSNumber])
+  @discardableResult
+  @_Concurrency.MainActor(unsafe) public func setGradientBackground_SL(bottom: UIKit.UIColor = UIColor.black.withAlphaComponent(0.5), top: UIKit.UIColor = UIColor.clear) -> QuartzCore.CAGradientLayer
+  @_Concurrency.MainActor(unsafe) public func removeGradientBackground_SL()
+  @_Concurrency.MainActor(unsafe) public func constrainCentered_SL(_ subview: UIKit.UIView)
+  @_Concurrency.MainActor(unsafe) public func constrainToEdges_SL(_ subview: UIKit.UIView)
+  @_Concurrency.MainActor(unsafe) public func addBlurEffect_SL()
+  @_Concurrency.MainActor(unsafe) public func addSubviews_SL(_ views: UIKit.UIView...)
+  @_Concurrency.MainActor(unsafe) public var globalPoint_SL: CoreFoundation.CGPoint? {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public var globalFrame_SL: CoreFoundation.CGRect? {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public func snapshot_SL(afterScreenUpdates: Swift.Bool = false, completion: @escaping (UIKit.UIImage?) -> Swift.Void)
+  @_Concurrency.MainActor(unsafe) public func fitToSuperView_SL()
+  public enum ViewSide {
+    case Left, Right, Top, Bottom
+    public static func == (a: UIKit.UIView.ViewSide, b: UIKit.UIView.ViewSide) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  @_Concurrency.MainActor(unsafe) public func addBorder_SL(toSide side: UIKit.UIView.ViewSide, withColor color: CoreGraphics.CGColor, andThickness thickness: CoreFoundation.CGFloat)
+}
+extension UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) public func transition_SL(with window: UIKit.UIWindow)
+  @objc @_Concurrency.MainActor(unsafe) dynamic open func shopliveHideKeyboard_SL()
+  @_Concurrency.MainActor(unsafe) public func hideKeyboard_SL()
+  @_Concurrency.MainActor(unsafe) public func showShareSheet_SL(url: Swift.String?)
+  @_Concurrency.MainActor(unsafe) public func didChangeOrientation_SL() -> UIKit.UIInterfaceOrientationMask
+}
+extension UIKit.UIWindow {
+  @_Concurrency.MainActor(unsafe) public static var mainWindowFrame_SL: UIKit.UIWindow {
+    get
+  }
+}
+extension WebKit.WKWebView {
+  @_Concurrency.MainActor(unsafe) public static let progressKeypath_SL: Swift.String
+  @_Concurrency.MainActor(unsafe) public static var urlErrors_SL: [Swift.Int] {
+    get
+  }
+}
+public struct KeychainData : Swift.Equatable {
+  public static func == (lhs: ShopliveSDKCommon.KeychainData, rhs: ShopliveSDKCommon.KeychainData) -> Swift.Bool
+}
+@_hasMissingDesignatedInitializers final public class SLKeyChainUtil {
+  public static func save(keychainData: ShopliveSDKCommon.KeychainData, value: Swift.String)
+  public static func save(service: Swift.String, account: Swift.String, value: Swift.String)
+  public static func load(keychainData: ShopliveSDKCommon.KeychainData) -> Swift.String?
+  public static func load(service: Swift.String, account: Swift.String) -> Swift.String?
+  public static func delete(service: Swift.String, account: Swift.String)
+  public static func resetKeychain()
+  @objc deinit
+}
+public enum KeychainItemAccessibility {
+  @available(iOS 4, *)
+  case afterFirstUnlock
+  @available(iOS 4, *)
+  case afterFirstUnlockThisDeviceOnly
+  @available(iOS 4, *)
+  case always
+  @available(iOS 8, *)
+  case whenPasscodeSetThisDeviceOnly
+  @available(iOS 4, *)
+  case alwaysThisDeviceOnly
+  @available(iOS 4, *)
+  case whenUnlocked
+  @available(iOS 4, *)
+  case whenUnlockedThisDeviceOnly
+  public static func == (a: ShopliveSDKCommon.KeychainItemAccessibility, b: ShopliveSDKCommon.KeychainItemAccessibility) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+open class KeychainWrapper {
+  @available(*, deprecated, message: "KeychainWrapper.defaultKeychainWrapper is deprecated since version 2.2.1, use KeychainWrapper.standard instead")
+  public static let defaultKeychainWrapper: ShopliveSDKCommon.KeychainWrapper
+  public static let standard: ShopliveSDKCommon.KeychainWrapper
+  public var serviceName: Swift.String {
+    get
+  }
+  public var accessGroup: Swift.String? {
+    get
+  }
+  public init(serviceName: Swift.String, accessGroup: Swift.String? = nil)
+  open func hasValue(forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
+  open func accessibilityOfKey(_ key: Swift.String) -> ShopliveSDKCommon.KeychainItemAccessibility?
+  open func allKeys() -> Swift.Set<Swift.String>
+  open func integer(forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Int?
+  open func float(forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Float?
+  open func double(forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Double?
+  open func bool(forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool?
+  open func string(forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.String?
+  open func object<T>(forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false, ofClass: T.Type) -> T? where T : ObjectiveC.NSObject, T : Foundation.NSCoding
+  open func data(forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Foundation.Data?
+  open func dataRef(forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Foundation.Data?
+  @discardableResult
+  open func set(_ value: Swift.Int, forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
+  @discardableResult
+  open func set(_ value: Swift.Float, forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
+  @discardableResult
+  open func set(_ value: Swift.Double, forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
+  @discardableResult
+  open func set(_ value: Swift.Bool, forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
+  @discardableResult
+  open func set(_ value: Swift.String, forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
+  @discardableResult
+  open func set(_ value: any Foundation.NSCoding, forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
+  @discardableResult
+  open func set(_ value: Foundation.Data, forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
+  @available(*, deprecated, message: "remove is deprecated since version 2.2.1, use removeObject instead")
+  @discardableResult
+  open func remove(key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
+  @discardableResult
+  open func removeObject(forKey key: Swift.String, withAccessibility accessibility: ShopliveSDKCommon.KeychainItemAccessibility? = nil, isSynchronizable: Swift.Bool = false) -> Swift.Bool
+  @discardableResult
+  open func removeAllKeys() -> Swift.Bool
+  open class func wipeKeychain()
+  @objc deinit
+}
+extension ShopliveSDKCommon.KeychainWrapper {
+  public func remove(forKey key: ShopliveSDKCommon.KeychainWrapper.Key)
+}
+extension ShopliveSDKCommon.KeychainWrapper {
+  public subscript(key: ShopliveSDKCommon.KeychainWrapper.Key) -> Swift.String? {
+    get
+    set
+  }
+  public subscript(key: ShopliveSDKCommon.KeychainWrapper.Key) -> Swift.Bool? {
+    get
+    set
+  }
+  public subscript(key: ShopliveSDKCommon.KeychainWrapper.Key) -> Swift.Int? {
+    get
+    set
+  }
+  public subscript(key: ShopliveSDKCommon.KeychainWrapper.Key) -> Swift.Double? {
+    get
+    set
+  }
+  public subscript(key: ShopliveSDKCommon.KeychainWrapper.Key) -> Swift.Float? {
+    get
+    set
+  }
+  public subscript(key: ShopliveSDKCommon.KeychainWrapper.Key) -> CoreFoundation.CGFloat? {
+    get
+    set
+  }
+  public subscript(key: ShopliveSDKCommon.KeychainWrapper.Key) -> Foundation.Data? {
+    get
+    set
+  }
+}
+extension ShopliveSDKCommon.KeychainWrapper {
+  public func data(forKey key: ShopliveSDKCommon.KeychainWrapper.Key) -> Foundation.Data?
+  public func bool(forKey key: ShopliveSDKCommon.KeychainWrapper.Key) -> Swift.Bool?
+  public func integer(forKey key: ShopliveSDKCommon.KeychainWrapper.Key) -> Swift.Int?
+  public func float(forKey key: ShopliveSDKCommon.KeychainWrapper.Key) -> Swift.Float?
+  public func cgFloat(forKey key: ShopliveSDKCommon.KeychainWrapper.Key) -> CoreFoundation.CGFloat?
+  public func double(forKey key: ShopliveSDKCommon.KeychainWrapper.Key) -> Swift.Double?
+  public func string(forKey key: ShopliveSDKCommon.KeychainWrapper.Key) -> Swift.String?
+}
+extension ShopliveSDKCommon.KeychainWrapper {
+  public struct Key : Swift.Hashable, Swift.RawRepresentable, Swift.ExpressibleByStringLiteral {
+    public var rawValue: Swift.String
+    public init(rawValue: Swift.String)
+    public init(stringLiteral value: Swift.String)
+    public typealias ExtendedGraphemeClusterLiteralType = Swift.String
+    public typealias RawValue = Swift.String
+    public typealias StringLiteralType = Swift.String
+    public typealias UnicodeScalarLiteralType = Swift.String
+  }
+}
+public class JSONNull : Swift.Codable, Swift.Hashable {
+  public static func == (lhs: ShopliveSDKCommon.JSONNull, rhs: ShopliveSDKCommon.JSONNull) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init()
+  required public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  @objc deinit
+}
+public protocol BaseResponsable : Swift.Decodable, Swift.Encodable {
+  var _s: Swift.Int? { get set }
+  var _e: Swift.String? { get set }
+}
+extension ShopliveSDKCommon.BaseResponsable {
+  public var isBaseModel: Swift.Bool {
+    get
+  }
+  public var isSuccess: Swift.Bool {
+    get
+  }
+}
+public struct BaseResponse : ShopliveSDKCommon.BaseResponsable {
+  public var _s: Swift.Int?
+  public var _e: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum HTTPVersion : Swift.String {
+  case v1, v2
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum SLHTTPMethod {
+  case get
+  case post
+  case put
+  case delete
+  public static func == (a: ShopliveSDKCommon.SLHTTPMethod, b: ShopliveSDKCommon.SLHTTPMethod) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol APIDefinition {
+  associatedtype ResultType : ShopliveSDKCommon.BaseResponsable
+  var baseUrl: Swift.String { get }
+  var urlPath: Swift.String { get }
+  var method: ShopliveSDKCommon.SLHTTPMethod { get }
+  var parameters: [Swift.String : Any]? { get }
+  var uploadParameters: [Swift.String : Any] { get }
+  var timeoutInterval: Swift.Double { get }
+  var headers: [Swift.String : Swift.String] { get }
+  var version: ShopliveSDKCommon.HTTPVersion { get }
+  var needToShowLoadingIndicator: Swift.Bool { get }
+}
+extension ShopliveSDKCommon.APIDefinition {
+  public var method: ShopliveSDKCommon.SLHTTPMethod {
+    get
+  }
+  public var baseUrl: Swift.String {
+    get
+  }
+  public var parameters: [Swift.String : Any]? {
+    get
+  }
+  public var timeoutInterval: Swift.Double {
+    get
+  }
+  public var headers: [Swift.String : Swift.String] {
+    get
+  }
+  public var version: ShopliveSDKCommon.HTTPVersion {
+    get
+  }
+  public var needToShowLoadingIndicator: Swift.Bool {
+    get
+  }
+  public var uploadParameters: [Swift.String : Any] {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers final public class APIDefinitionCancellable {
+  final public func cancel()
+  @objc deinit
+}
+extension ShopliveSDKCommon.APIDefinition {
+  public func request(handler: ((Swift.Result<Self.ResultType, ShopliveSDKCommon.ShopLiveCommonError>) -> ())? = nil)
+  public func upload(handler: ((Swift.Result<Self.ResultType, ShopliveSDKCommon.ShopLiveCommonError>) -> ())? = nil)
+  public func createBody(boundary: Swift.String) -> Foundation.Data
+}
+@_hasMissingDesignatedInitializers public class ImageDownLoaderManager {
+  public static let shared: ShopliveSDKCommon.ImageDownLoaderManager
+  public func download(imageUrl: Foundation.URL, completion: @escaping ((Swift.Result<Foundation.Data, ShopliveSDKCommon.ShopLiveCommonError>) -> ()))
+  @objc deinit
+}
+final public class NetworkMonitor : ShopliveSDKCommon.SLResultObservable {
+  public enum ConnectionType {
+    case wifi
+    case cellular
+    case disconnected
+    case none
+    public var isConnected: Swift.Bool {
+      get
+    }
+    public var isInitialzed: Swift.Bool {
+      get
+    }
+    public static func == (a: ShopliveSDKCommon.NetworkMonitor.ConnectionType, b: ShopliveSDKCommon.NetworkMonitor.ConnectionType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum Result {
+    case statusChanged(ShopliveSDKCommon.NetworkMonitor.ConnectionType)
+  }
+  final public var resultHandler: ((ShopliveSDKCommon.NetworkMonitor.Result) -> ())?
+  public init()
+  @objc deinit
+  final public var isConnected: Swift.Bool {
+    get
+  }
+}
+public enum SLReachabilityError : Swift.Error {
+  case failedToCreateWithAddress(Darwin.sockaddr, Swift.Int32)
+  case failedToCreateWithHostname(Swift.String, Swift.Int32)
+  case unableToSetCallback(Swift.Int32)
+  case unableToSetDispatchQueue(Swift.Int32)
+  case unableToGetFlags(Swift.Int32)
+}
+@available(*, unavailable, renamed: "Notification.Name.reachabilityChanged")
+public let SLReachabilityChangedNotification: Foundation.NSNotification.Name
+extension Foundation.NSNotification.Name {
+  public static let reachabilityChanged: Foundation.Notification.Name
+}
+public class SLReachability {
+  public typealias NetworkReachable = (ShopliveSDKCommon.SLReachability) -> ()
+  public typealias NetworkUnreachable = (ShopliveSDKCommon.SLReachability) -> ()
+  @available(*, unavailable, renamed: "Connection")
+  public enum NetworkStatus : Swift.CustomStringConvertible {
+    case notReachable, reachableViaWiFi, reachableViaWWAN
+    public var description: Swift.String {
+      get
+    }
+    public static func == (a: ShopliveSDKCommon.SLReachability.NetworkStatus, b: ShopliveSDKCommon.SLReachability.NetworkStatus) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum Connection : Swift.CustomStringConvertible {
+    case unavailable, wifi, cellular
+    public var description: Swift.String {
+      get
+    }
+    @available(*, deprecated, renamed: "unavailable")
+    public static let none: ShopliveSDKCommon.SLReachability.Connection
+    public static func == (a: ShopliveSDKCommon.SLReachability.Connection, b: ShopliveSDKCommon.SLReachability.Connection) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public var whenReachable: ShopliveSDKCommon.SLReachability.NetworkReachable?
+  public var whenUnreachable: ShopliveSDKCommon.SLReachability.NetworkUnreachable?
+  @available(*, deprecated, renamed: "allowsCellularConnection")
+  final public let reachableOnWWAN: Swift.Bool
+  public var allowsCellularConnection: Swift.Bool
+  public var notificationCenter: Foundation.NotificationCenter
+  @available(*, deprecated, renamed: "connection.description")
+  public var currentReachabilityString: Swift.String {
+    get
+  }
+  @available(*, unavailable, renamed: "connection")
+  public var currentReachabilityStatus: ShopliveSDKCommon.SLReachability.Connection {
+    get
+  }
+  public var connection: ShopliveSDKCommon.SLReachability.Connection {
+    get
+  }
+  required public init(reachabilityRef: SystemConfiguration.SCNetworkReachability, queueQoS: Dispatch.DispatchQoS = .default, targetQueue: Dispatch.DispatchQueue? = nil, notificationQueue: Dispatch.DispatchQueue? = .main)
+  convenience public init(hostname: Swift.String, queueQoS: Dispatch.DispatchQoS = .default, targetQueue: Dispatch.DispatchQueue? = nil, notificationQueue: Dispatch.DispatchQueue? = .main) throws
+  convenience public init(queueQoS: Dispatch.DispatchQoS = .default, targetQueue: Dispatch.DispatchQueue? = nil, notificationQueue: Dispatch.DispatchQueue? = .main) throws
+  @objc deinit
+}
+extension ShopliveSDKCommon.SLReachability {
+  public func startNotifier() throws
+  public func stopNotifier()
+  @available(*, deprecated, message: "Please use `connection != .none`")
+  public var isReachable: Swift.Bool {
+    get
+  }
+  @available(*, deprecated, message: "Please use `connection == .cellular`")
+  public var isReachableViaWWAN: Swift.Bool {
+    get
+  }
+  @available(*, deprecated, message: "Please use `connection == .wifi`")
+  public var isReachableViaWiFi: Swift.Bool {
+    get
+  }
+  public var description: Swift.String {
+    get
+  }
+}
+@objc public enum PermissionType : Swift.Int {
+  case camera
+  case microphone
+  case idfa
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum PermissionStatus : Swift.Int {
+  case authorized
+  case denied
+  case notDetermined
+  case notSupported
+  case limited
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public enum PermissionError : Swift.Error {
+  case denied
+  case notSupported
+  public static func == (a: ShopliveSDKCommon.PermissionError, b: ShopliveSDKCommon.PermissionError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+final public class PermissionManager : ShopliveSDKCommon.SLRequestable, ShopliveSDKCommon.SLResultObservable {
+  public enum Request {
+    case checkEveryPermission
+    public static func == (a: ShopliveSDKCommon.PermissionManager.Request, b: ShopliveSDKCommon.PermissionManager.Request) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum Result {
+    case authorizationResult(camera: ShopliveSDKCommon.PermissionStatus, audio: ShopliveSDKCommon.PermissionStatus)
+  }
+  final public func request(_ request: ShopliveSDKCommon.PermissionManager.Request)
+  public init()
+  final public var resultHandler: ((ShopliveSDKCommon.PermissionManager.Result) -> ())?
+  final public var deviceAuthorized: Swift.Bool {
+    get
+  }
+  final public var deviceChecked: Swift.Bool {
+    get
+  }
+  final public var cameraAuthorized: Swift.Bool {
+    get
+  }
+  final public var audioAuthorized: Swift.Bool {
+    get
+  }
+  @objc deinit
+}
+@objc public protocol ShopLivePermissionHandler {
+  @objc optional func handleCameraPermission(status: ShopliveSDKCommon.PermissionStatus)
+  @objc optional func handleMicroPhonePermission(status: ShopliveSDKCommon.PermissionStatus)
+  @objc optional func handleMediaLibraryUsagePermission(status: ShopliveSDKCommon.PermissionStatus)
+  @objc optional func handlePhotoLibraryUsagePermission(status: ShopliveSDKCommon.PermissionStatus)
+}
+public enum Strings_SL {
+  public enum Error {
+    public enum Msg {
+      public static let base: Swift.String
+      public static let empty: Swift.String
+      public static let login: Swift.String
+      public static let noInternet: Swift.String
+      public enum Server {
+        public static let timeout: Swift.String
+        public static let unknown: Swift.String
+      }
+    }
+  }
+}
+public enum NVActivityIndicatorType : Swift.CaseIterable {
+  case blank
+  case ballPulse
+  case ballGridPulse
+  case ballClipRotate
+  case squareSpin
+  case ballClipRotatePulse
+  case ballClipRotateMultiple
+  case ballPulseRise
+  case ballRotate
+  case cubeTransition
+  case ballZigZag
+  case ballZigZagDeflect
+  case ballTrianglePath
+  case ballScale
+  case lineScale
+  case lineScaleParty
+  case ballScaleMultiple
+  case ballPulseSync
+  case ballBeat
+  case ballDoubleBounce
+  case lineScalePulseOut
+  case lineScalePulseOutRapid
+  case ballScaleRipple
+  case ballScaleRippleMultiple
+  case ballSpinFadeLoader
+  case lineSpinFadeLoader
+  case triangleSkewSpin
+  case pacman
+  case ballGridBeat
+  case semiCircleSpin
+  case ballRotateChase
+  case orbit
+  case audioEqualizer
+  case circleStrokeSpin
+  public static func == (a: ShopliveSDKCommon.NVActivityIndicatorType, b: ShopliveSDKCommon.NVActivityIndicatorType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public typealias AllCases = [ShopliveSDKCommon.NVActivityIndicatorType]
+  public static var allCases: [ShopliveSDKCommon.NVActivityIndicatorType] {
+    get
+  }
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public typealias FadeInAnimation = (UIKit.UIView) -> Swift.Void
+public typealias FadeOutAnimation = (UIKit.UIView, @escaping () -> Swift.Void) -> Swift.Void
+@objc @_Concurrency.MainActor(unsafe) final public class SLSLNVActivityIndicatorView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) public static var DEFAULT_TYPE: ShopliveSDKCommon.NVActivityIndicatorType
+  @_Concurrency.MainActor(unsafe) public static var DEFAULT_COLOR: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) public static var DEFAULT_TEXT_COLOR: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) public static var DEFAULT_PADDING: CoreFoundation.CGFloat
+  @_Concurrency.MainActor(unsafe) public static var DEFAULT_BLOCKER_SIZE: CoreFoundation.CGSize
+  @_Concurrency.MainActor(unsafe) public static var DEFAULT_BLOCKER_DISPLAY_TIME_THRESHOLD: Swift.Int
+  @_Concurrency.MainActor(unsafe) public static var DEFAULT_BLOCKER_MINIMUM_DISPLAY_TIME: Swift.Int
+  @_Concurrency.MainActor(unsafe) public static var DEFAULT_BLOCKER_MESSAGE: Swift.String?
+  @_Concurrency.MainActor(unsafe) public static var DEFAULT_BLOCKER_MESSAGE_SPACING: CoreFoundation.CGFloat
+  @_Concurrency.MainActor(unsafe) public static var DEFAULT_BLOCKER_MESSAGE_FONT: UIKit.UIFont
+  @_Concurrency.MainActor(unsafe) public static var DEFAULT_BLOCKER_BACKGROUND_COLOR: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) public static var DEFAULT_FADE_IN_ANIMATION: (_ view: UIKit.UIView) -> Swift.Void
+  @_Concurrency.MainActor(unsafe) public static var DEFAULT_FADE_OUT_ANIMATION: (_ view: UIKit.UIView, _ complete: @escaping () -> Swift.Void) -> Swift.Void
+  @_Concurrency.MainActor(unsafe) final public var type: ShopliveSDKCommon.NVActivityIndicatorType
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) final public var color: UIKit.UIColor
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) final public var padding: CoreFoundation.CGFloat
+  @available(*, deprecated)
+  @_Concurrency.MainActor(unsafe) final public var animating: Swift.Bool {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) final public var isAnimating: Swift.Bool {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) public init(frame: CoreFoundation.CGRect, type: ShopliveSDKCommon.NVActivityIndicatorType? = nil, color: UIKit.UIColor? = nil, padding: CoreFoundation.CGFloat? = nil)
+  @_Concurrency.MainActor(unsafe) @objc override final public var intrinsicContentSize: CoreFoundation.CGSize {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override final public var bounds: CoreFoundation.CGRect {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor(unsafe) final public func startAnimating()
+  @_Concurrency.MainActor(unsafe) final public func stopAnimating()
+  @objc deinit
+}
+@available(*, deprecated)
+final public class ActivityData {
+  public init(size: CoreFoundation.CGSize? = nil, message: Swift.String? = nil, messageFont: UIKit.UIFont? = nil, messageSpacing: CoreFoundation.CGFloat? = nil, type: ShopliveSDKCommon.NVActivityIndicatorType? = nil, color: UIKit.UIColor? = nil, padding: CoreFoundation.CGFloat? = nil, displayTimeThreshold: Swift.Int? = nil, minimumDisplayTime: Swift.Int? = nil, backgroundColor: UIKit.UIColor? = nil, textColor: UIKit.UIColor? = nil)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @available(*, deprecated)
+final public class NVActivityIndicatorPresenter {
+  public static let sharedInstance: ShopliveSDKCommon.NVActivityIndicatorPresenter
+  final public var isAnimating: Swift.Bool {
+    get
+  }
+  final public func startAnimating(_ data: ShopliveSDKCommon.ActivityData, _ fadeInAnimation: ShopliveSDKCommon.FadeInAnimation? = nil)
+  final public func stopAnimating(_ fadeOutAnimation: ShopliveSDKCommon.FadeOutAnimation? = nil)
+  final public func setMessage(_ message: Swift.String?)
+  @objc deinit
+}
+@available(*, deprecated)
+public protocol SLSLNVActivityIndicatorViewable {
+}
+@available(*, deprecated)
+extension ShopliveSDKCommon.SLSLNVActivityIndicatorViewable where Self : UIKit.UIViewController {
+  public var isAnimating: Swift.Bool {
+    get
+  }
+  public func startAnimating(_ size: CoreFoundation.CGSize? = nil, message: Swift.String? = nil, messageFont: UIKit.UIFont? = nil, type: ShopliveSDKCommon.NVActivityIndicatorType? = nil, color: UIKit.UIColor? = nil, padding: CoreFoundation.CGFloat? = nil, displayTimeThreshold: Swift.Int? = nil, minimumDisplayTime: Swift.Int? = nil, backgroundColor: UIKit.UIColor? = nil, textColor: UIKit.UIColor? = nil, fadeInAnimation: ShopliveSDKCommon.FadeInAnimation? = SLSLNVActivityIndicatorView.DEFAULT_FADE_IN_ANIMATION)
+  public func stopAnimating(_ fadeOutAnimation: ShopliveSDKCommon.FadeOutAnimation? = SLSLNVActivityIndicatorView.DEFAULT_FADE_OUT_ANIMATION)
+}
+extension ShopliveSDKCommon.ShopliveCommonUserGender : Swift.Equatable {}
+extension ShopliveSDKCommon.ShopliveCommonUserGender : Swift.Hashable {}
+extension ShopliveSDKCommon.ShopliveCommonUserGender : Swift.RawRepresentable {}
+extension ShopliveSDKCommon.ShopLiveHapticStyle : Swift.Equatable {}
+extension ShopliveSDKCommon.ShopLiveHapticStyle : Swift.Hashable {}
+extension ShopliveSDKCommon.ShopLiveHapticStyle : Swift.RawRepresentable {}
+extension ShopliveSDKCommon.UIScreenDirection : Swift.Equatable {}
+extension ShopliveSDKCommon.UIScreenDirection : Swift.Hashable {}
+extension ShopliveSDKCommon.ShopLiveErrorCases : Swift.Equatable {}
+extension ShopliveSDKCommon.ShopLiveErrorCases : Swift.Hashable {}
+extension ShopliveSDKCommon.ShopLiveViewLog.LogType : Swift.Equatable {}
+extension ShopliveSDKCommon.ShopLiveViewLog.LogType : Swift.Hashable {}
+extension ShopliveSDKCommon.SLToastDuration : Swift.Equatable {}
+extension ShopliveSDKCommon.SLToastDuration : Swift.Hashable {}
+extension UIKit.UIImage.Quality : Swift.Equatable {}
+extension UIKit.UIImage.Quality : Swift.Hashable {}
+extension ShopliveSDKCommon.PanDirection : Swift.Equatable {}
+extension ShopliveSDKCommon.PanDirection : Swift.Hashable {}
+extension ShopliveSDKCommon.PanDirection : Swift.RawRepresentable {}
+extension UIKit.UIView.ViewSide : Swift.Equatable {}
+extension UIKit.UIView.ViewSide : Swift.Hashable {}
+extension ShopliveSDKCommon.KeychainItemAccessibility : Swift.Equatable {}
+extension ShopliveSDKCommon.KeychainItemAccessibility : Swift.Hashable {}
+extension ShopliveSDKCommon.HTTPVersion : Swift.Equatable {}
+extension ShopliveSDKCommon.HTTPVersion : Swift.Hashable {}
+extension ShopliveSDKCommon.HTTPVersion : Swift.RawRepresentable {}
+extension ShopliveSDKCommon.SLHTTPMethod : Swift.Equatable {}
+extension ShopliveSDKCommon.SLHTTPMethod : Swift.Hashable {}
+extension ShopliveSDKCommon.NetworkMonitor.ConnectionType : Swift.Equatable {}
+extension ShopliveSDKCommon.NetworkMonitor.ConnectionType : Swift.Hashable {}
+@available(*, unavailable, renamed: "Connection")
+extension ShopliveSDKCommon.SLReachability.NetworkStatus : Swift.Equatable {}
+@available(*, unavailable, renamed: "Connection")
+extension ShopliveSDKCommon.SLReachability.NetworkStatus : Swift.Hashable {}
+extension ShopliveSDKCommon.SLReachability.Connection : Swift.Equatable {}
+extension ShopliveSDKCommon.SLReachability.Connection : Swift.Hashable {}
+extension ShopliveSDKCommon.PermissionType : Swift.Equatable {}
+extension ShopliveSDKCommon.PermissionType : Swift.Hashable {}
+extension ShopliveSDKCommon.PermissionType : Swift.RawRepresentable {}
+extension ShopliveSDKCommon.PermissionStatus : Swift.Equatable {}
+extension ShopliveSDKCommon.PermissionStatus : Swift.Hashable {}
+extension ShopliveSDKCommon.PermissionStatus : Swift.RawRepresentable {}
+extension ShopliveSDKCommon.PermissionError : Swift.Equatable {}
+extension ShopliveSDKCommon.PermissionError : Swift.Hashable {}
+extension ShopliveSDKCommon.PermissionManager.Request : Swift.Equatable {}
+extension ShopliveSDKCommon.PermissionManager.Request : Swift.Hashable {}
+extension ShopliveSDKCommon.NVActivityIndicatorType : Swift.Equatable {}
+extension ShopliveSDKCommon.NVActivityIndicatorType : Swift.Hashable {}

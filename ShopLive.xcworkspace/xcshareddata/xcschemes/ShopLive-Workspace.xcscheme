@@ -392,20 +392,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "22B3401F030457958BD334F3"
-               BuildableName = "ShopLiveSDKCommon.framework"
-               BlueprintName = "ShopLiveSDKCommon"
-               ReferencedContainer = "container:Modules/Common/ShopLiveSDKCommon.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E8C6ED68865C3D0B1D40EF2F"
                BuildableName = "ShopLiveShortformEditorSDK.framework"
                BlueprintName = "ShopLiveShortformEditorSDK"
@@ -452,6 +438,20 @@
                BuildableName = "ShopLiveShortformSDK_ShopLiveShortformSDK.bundle"
                BlueprintName = "ShopLiveShortformSDK_ShopLiveShortformSDK"
                ReferencedContainer = "container:Modules/Shortform/ShopLiveShortformSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "332C15920041A378665A76DD"
+               BuildableName = "ShopliveSDKCommon.framework"
+               BlueprintName = "ShopliveSDKCommon"
+               ReferencedContainer = "container:Modules/Common/ShopliveSDKCommon.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

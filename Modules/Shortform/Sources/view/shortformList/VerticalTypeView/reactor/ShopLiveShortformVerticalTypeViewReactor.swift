@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import AVKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 /**
  버티컬 타입  뷰 리액터

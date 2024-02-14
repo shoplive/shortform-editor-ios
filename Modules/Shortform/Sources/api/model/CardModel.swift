@@ -1,5 +1,5 @@
 import Foundation
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 struct CardModel : Codable {
     let duration, playCount, playDuration: Int?

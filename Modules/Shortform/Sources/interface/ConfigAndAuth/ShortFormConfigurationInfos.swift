@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 public class ShortFormConfigurationInfosManager {
     public static let shared = ShortFormConfigurationInfosManager()

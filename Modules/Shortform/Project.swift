@@ -12,13 +12,13 @@ import ProjectDescriptionHelpers
 let deployTarget = Target(name: "ShopLiveShortformSDK",
                           platform: .iOS,
                           product: .staticFramework,
-                          bundleId: "com.app" + ".shoplive.shortform.sdk",
+                          bundleId: "cloud.shoplive.matrix-shortform-ios",
                           deploymentTarget: .iOS(targetVersion: "11.0", devices: .iphone),
                           infoPlist: .extendingDefault(with: [:]),
                           sources: ["Sources/**"],
                           resources: ["Resources/**"],
                           dependencies: [
-                            .project(target: "ShopLiveSDKCommon",
+                            .project(target: "ShopliveSDKCommon",
                                      path: .relativeToRoot("Modules/Common"))
                           ])
 

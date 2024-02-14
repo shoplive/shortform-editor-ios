@@ -39,13 +39,13 @@
 		4742F3C6B9E52ED1D24E92D6 /* CouponCallbackSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8E0006FC7264C29F02B183 /* CouponCallbackSettingViewController.swift */; };
 		487A25626C4F4B0F620C646A /* CryptoSwift_CryptoSwift.bundle in Dependencies */ = {isa = PBXBuildFile; fileRef = AAB7333F58EFD3C1DA1B4F84 /* CryptoSwift_CryptoSwift.bundle */; };
 		4B50F33B8AF91881A4B599C5 /* ShopliveSideMenuNavagation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982E41CAFCFB7735CFFCC0A0 /* ShopliveSideMenuNavagation.swift */; };
+		4D5D71B1ACBE68B93403FAA2 /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40D6556B6AD5EFB76970E4A1 /* ShopliveSDKCommon.framework */; };
 		4F5263051EBB7F1D3E78C453 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3E8166DC4459FEBB8A3EBAF /* Main.storyboard */; };
 		4F763D2A285AD1DB36863913 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E8C1D9B02D53E86E4EBBBF /* LoginViewController.swift */; };
 		502FFDBA12BA8AFAEC4C6B50 /* CouponSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6435C09842C43A6904B21879 /* CouponSettingsViewController.swift */; };
 		53F8A3073D7DBC86C2F5A71B /* ButtonOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BBAC908A01C362C32225D3D /* ButtonOptionCell.swift */; };
 		5753B954DCADAEAA2E0B2BA1 /* ShopLiveKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279C9A6F5F65E3A8A2D9D42E /* ShopLiveKeySet.swift */; };
 		5890E803D8752D34DD204B95 /* DropDownSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 732A7136F9373057A6B8A978 /* DropDownSDK.framework */; };
-		5FF7AD218A95CFE6C61BC348 /* ShopLiveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAA63DB9F82860BDE5042850 /* ShopLiveSDKCommon.framework */; };
 		601D97DEA178E2CD0A65D7A6 /* SampleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CAF9B202BD915629051F4D /* SampleExtensions.swift */; };
 		62A7B964EE2A9595036ECCEB /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B709D6B12266F3DFBE9CADF /* CustomShareViewController.swift */; };
 		65450B0C7D9E59BCDCAABD68 /* SDKOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D57C7496F732AF2366512B /* SDKOption.swift */; };
@@ -79,7 +79,6 @@
 		BA5305481B62C30F8147774D /* UserInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E00031F58F89E2A96751725 /* UserInfoCell.swift */; };
 		BEBD6D77725828CB9F0256C2 /* DemoSecretKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D1A3E230AED86B2F1B1833 /* DemoSecretKeySet.swift */; };
 		C096F16A90A65C96EA6D890B /* CustomBaseAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BF74BC02FA61C354B3D957 /* CustomBaseAlertController.swift */; };
-		C2128555F30CD5653C85896B /* ShopLiveSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DAA63DB9F82860BDE5042850 /* ShopLiveSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2C5B29C2680237008EFC28F /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82804B45B971BDD02B5F5AF4 /* ShopLiveDemoKeyTools.swift */; };
 		C6AFE0BE8727C33FD0216778 /* ShopLiveRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9632AEABC23533D248375A /* ShopLiveRadioButton.swift */; };
 		C8269A14470F97D4642EE189 /* SideMenu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8908C99464C877AE70726B9 /* SideMenu.framework */; };
@@ -92,6 +91,7 @@
 		E585E3A22A8C2AFBA62BD4B4 /* SideMenuItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9418D367F1DC6E50F1122 /* SideMenuItemViewController.swift */; };
 		E74F176481B8A08F5BCC76A2 /* DeepLInkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0916A25579AB9322BC7CA3F3 /* DeepLInkManager.swift */; };
 		F3A230EED278D358788F9076 /* Sample.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CDCC48DCD29CA8DA6BAE00E /* Sample.xcassets */; };
+		F893E15C48B0CDFBCB05AA83 /* ShopliveSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40D6556B6AD5EFB76970E4A1 /* ShopliveSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -103,7 +103,7 @@
 			files = (
 				77F5081F918BDE4261932E20 /* DropDownSDK.framework in Embed Frameworks */,
 				237DB623A4DF674DDAC6C448 /* ShopLiveSDK.framework in Embed Frameworks */,
-				C2128555F30CD5653C85896B /* ShopLiveSDKCommon.framework in Embed Frameworks */,
+				F893E15C48B0CDFBCB05AA83 /* ShopliveSDKCommon.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -145,6 +145,7 @@
 		3E00031F58F89E2A96751725 /* UserInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoCell.swift; sourceTree = "<group>"; };
 		3E80BA569C06A96829C4672A /* CampaignCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignCell.swift; sourceTree = "<group>"; };
 		3ECADA60EAD63ED623A33AB8 /* BaseTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTextField.swift; sourceTree = "<group>"; };
+		40D6556B6AD5EFB76970E4A1 /* ShopliveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopliveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		425EFAD8AFFD7EE51E4D16C4 /* TuistFonts+ShopLivePlayerDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistFonts+ShopLivePlayerDemo.swift"; sourceTree = "<group>"; };
 		438708965B12669B5CAC9FD9 /* ShopLiveSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5106FB9FEEA56C3ECC5D22BF /* SampleOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleOptions.swift; sourceTree = "<group>"; };
@@ -197,7 +198,6 @@
 		CA118A3F12B92659B848A4B1 /* TextItemInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextItemInputAlertController.swift; sourceTree = "<group>"; };
 		D79B851911E44CC56317D458 /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D89BA1E16F89123224264527 /* SLQRReaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLQRReaderViewController.swift; sourceTree = "<group>"; };
-		DAA63DB9F82860BDE5042850 /* ShopLiveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF8B244364F657CA3B0D5C2B /* TuistAssets+ShopLivePlayerDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistAssets+ShopLivePlayerDemo.swift"; sourceTree = "<group>"; };
 		E33B0A7C19FCD1004776871C /* SecretKeyInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretKeyInputAlertController.swift; sourceTree = "<group>"; };
 		E68D746A210C54C17007B22C /* PipAreaSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipAreaSettingViewController.swift; sourceTree = "<group>"; };
@@ -215,7 +215,7 @@
 				0781272E90D952F761E9E33B /* CryptoSwift.framework in Frameworks */,
 				5890E803D8752D34DD204B95 /* DropDownSDK.framework in Frameworks */,
 				16BB4680DEE97817234CE5F4 /* ShopLiveSDK.framework in Frameworks */,
-				5FF7AD218A95CFE6C61BC348 /* ShopLiveSDKCommon.framework in Frameworks */,
+				4D5D71B1ACBE68B93403FAA2 /* ShopliveSDKCommon.framework in Frameworks */,
 				C8269A14470F97D4642EE189 /* SideMenu.framework in Frameworks */,
 				882A0242D9EED10E91BD5DDB /* SwiftyJWA.framework in Frameworks */,
 				E53990CD08EE7D79D633DD2E /* SwiftyJWT.framework in Frameworks */,
@@ -278,7 +278,7 @@
 				732A7136F9373057A6B8A978 /* DropDownSDK.framework */,
 				7B884D1464345F8C0B2F6132 /* ShopLivePlayerDemo.app */,
 				438708965B12669B5CAC9FD9 /* ShopLiveSDK.framework */,
-				DAA63DB9F82860BDE5042850 /* ShopLiveSDKCommon.framework */,
+				40D6556B6AD5EFB76970E4A1 /* ShopliveSDKCommon.framework */,
 				F8908C99464C877AE70726B9 /* SideMenu.framework */,
 				8D20489FE7715996897FB2BE /* SwiftyJWA.framework */,
 				7A7F1E3A855CB7CCD5F2A08E /* SwiftyJWT.framework */,

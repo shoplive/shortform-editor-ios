@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 protocol SLUploadInfoControllerDelegate: AnyObject {
     func temporaryUploadInfo(uploadInfo: SLUploadAttachmentInfo)

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 protocol ShortsCellDelegate: AnyObject {
     func didFinishdPlayingShorts(cell: ShopLiveShortform.ShortsCell, item: ShopLiveShortform.ShortsModel?)

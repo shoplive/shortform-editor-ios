@@ -7,7 +7,7 @@
 
 import Foundation
 import WebKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 
 /**

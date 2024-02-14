@@ -7,11 +7,11 @@
 
 import Foundation
 import UIKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 
 public class ShopLiveShortformEditor { 
-    public static var sdkVersion = "1.5.5"
+    public static var sdkVersion = "1.5.5-tuist-test"
     
     
     internal static let shared = ShopLiveShortformEditor()

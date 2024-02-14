@@ -8,7 +8,7 @@
 import Foundation
 import AVKit
 import Network
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 import MediaPlayer
 
 protocol LiveStreamViewModelDelegate : NSObjectProtocol {

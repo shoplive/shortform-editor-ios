@@ -1,6 +1,6 @@
 //
 //  ShopLiveNetworkBaseErrorResponse.swift
-//  ShopLiveSDKCommon
+//  ShopliveSDKCommon
 //
 //  Created by sangmin han on 11/13/23.
 //

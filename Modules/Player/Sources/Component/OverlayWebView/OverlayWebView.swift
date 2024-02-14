@@ -7,7 +7,7 @@
 
 import UIKit
 import WebKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 internal class OverlayWebView: SLView {
     private var _isPipMode : Bool = false

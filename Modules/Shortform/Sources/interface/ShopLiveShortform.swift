@@ -7,11 +7,11 @@
 
 import Foundation
 import UIKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 public class ShopLiveShortform {
     
-    public static var sdkVersion: String = "1.5.5"
+    public static var sdkVersion: String = "1.5.5-tuist-test"
     
     private static var shortsCollection: ShortsCollectionBaseView?
     private static var shortformWindow: SLShortsWindow?

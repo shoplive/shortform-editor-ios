@@ -1,6 +1,6 @@
 //
-//  ShopLiveSDKCommon + AppDelegate.swift
-//  ShopLiveSDKCommon
+//  ShopliveSDKCommon + AppDelegate.swift
+//  ShopliveSDKCommon
 //
 //  Created by sangmin han on 2023/06/01.
 //

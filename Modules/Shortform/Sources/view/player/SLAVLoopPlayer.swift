@@ -7,7 +7,7 @@
 
 import Foundation
 import AVFoundation
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 protocol SLAVLoopPlayerDelegate {
     func onSLAVLoopPlayerError(error : Error)

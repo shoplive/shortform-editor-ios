@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 extension ShopLiveBase : ShopLiveCommonDelegate {
     var identifier: String {
@@ -19,7 +19,7 @@ extension ShopLiveBase : ShopLiveCommonDelegate {
         /** no op */
     }
     
-    func onChangeShopLiveUser(to: ShopLiveSDKCommon.ShopLiveCommonUser?) {
+    func onChangeShopLiveUser(to: ShopliveSDKCommon.ShopLiveCommonUser?) {
         /** no op */
     }
     

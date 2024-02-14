@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 
 class SLUploadInfoReactor : NSObject, SLReactor {

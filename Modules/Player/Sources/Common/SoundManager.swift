@@ -7,7 +7,7 @@
 
 import Foundation
 import AVFAudio
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 class SoundManager: NSObject {
     

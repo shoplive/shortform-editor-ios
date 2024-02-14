@@ -61,6 +61,7 @@
 		96D2323D441652045E6F3E6B /* ActivityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D70A082455794DADE0A059 /* ActivityModel.swift */; };
 		970A3B845CA4959BA9B1FA13 /* SLUploadableResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8DABCDBDB867A57224242B /* SLUploadableResponse.swift */; };
 		99649506D1B38CEFF2FEF2C0 /* SLCropInnerGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDAB834AF490072E7CB8BD0 /* SLCropInnerGridView.swift */; };
+		9C8B786291043B65955D930C /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 143AC40CB9E2D06A0D269F04 /* ShopliveSDKCommon.framework */; };
 		9CDF296E4BF68A834C493F87 /* SLWSTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1A98164CB0FDFA59B35A21 /* SLWSTagView.swift */; };
 		9F47D46D90A772412287002D /* SLThumbnailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4563C7F357D7EFC9C3EDB4 /* SLThumbnailManager.swift */; };
 		A194C348B77768820E16DCE6 /* libavdevice.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A482F26B672356EE9E1C480F /* libavdevice.xcframework */; };
@@ -93,7 +94,6 @@
 		ED737314FF849BE6C592D5FD /* SLUploadInfoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C8B203F54A8C3BF7B6E746 /* SLUploadInfoReactor.swift */; };
 		F19A060B02494583B6EE7E45 /* SLVideoPlayTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F395D074444F945D92591430 /* SLVideoPlayTimeView.swift */; };
 		F85EA57B9D528829870B2BD0 /* SLPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B87BC74A98429BF5AEE18C4 /* SLPhotoCollectionViewCell.xib */; };
-		FD3BBC3AEE63D7F56DA5B6A9 /* ShopLiveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD9DBA95742EB4D8E9CD13C1 /* ShopLiveSDKCommon.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,6 +136,7 @@
 		06994A201C06B0ADFD714430 /* SLVideoEditorViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLVideoEditorViewReactor.swift; sourceTree = "<group>"; };
 		0DDF82BD23DFA1187C303E3F /* ShopLiveShortformEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformEditor.swift; sourceTree = "<group>"; };
 		12DAEB5F0447BD7BCA3C1CE9 /* SLShortformRegisterAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLShortformRegisterAPI.swift; sourceTree = "<group>"; };
+		143AC40CB9E2D06A0D269F04 /* ShopliveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopliveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		144738ECBA04185A6A8D9C89 /* SLVideoConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLVideoConverter.swift; sourceTree = "<group>"; };
 		150F160353B0AFB37705EA94 /* SLPhotosPickerViewController + EditorViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SLPhotosPickerViewController + EditorViewDelegate.swift"; sourceTree = "<group>"; };
 		1B3228ED6AF61BA346330FDA /* ShopLiveShortformEditorSDK_ShopLiveShortformEditorSDK-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ShopLiveShortformEditorSDK_ShopLiveShortformEditorSDK-Info.plist"; sourceTree = "<group>"; };
@@ -193,7 +194,6 @@
 		A47A08E3EC2411896BB650AE /* ShortsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsModel.swift; sourceTree = "<group>"; };
 		A482F26B672356EE9E1C480F /* libavdevice.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = libavdevice.xcframework; sourceTree = "<group>"; };
 		A8D70A082455794DADE0A059 /* ActivityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityModel.swift; sourceTree = "<group>"; };
-		AD9DBA95742EB4D8E9CD13C1 /* ShopLiveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE49EF998375245870684B9D /* SLImagePicker.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SLImagePicker.storyboard; sourceTree = "<group>"; };
 		B26A98FD38F37BD861A56956 /* libavutil.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = libavutil.xcframework; sourceTree = "<group>"; };
 		B73933BE590A66ED7908C4E8 /* SLBundle+SPM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SLBundle+SPM.swift"; sourceTree = "<group>"; };
@@ -236,7 +236,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD3BBC3AEE63D7F56DA5B6A9 /* ShopLiveSDKCommon.framework in Frameworks */,
+				9C8B786291043B65955D930C /* ShopliveSDKCommon.framework in Frameworks */,
 				127C37BC5B1015CFF696E13F /* ffmpegkit.xcframework in Frameworks */,
 				C1ED23E18A6E43C13D8ACDCE /* libavcodec.xcframework in Frameworks */,
 				A194C348B77768820E16DCE6 /* libavdevice.xcframework in Frameworks */,
@@ -390,7 +390,7 @@
 		4F39BA747B77F3604AF69470 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AD9DBA95742EB4D8E9CD13C1 /* ShopLiveSDKCommon.framework */,
+				143AC40CB9E2D06A0D269F04 /* ShopliveSDKCommon.framework */,
 				1E0AA589148DC67EA872028B /* ShopLiveShortformEditorSDK_ShopLiveShortformEditorSDK.bundle */,
 				035A6D0B77C8F8FA4886F39E /* ShopLiveShortformEditorSDK.framework */,
 			);
@@ -863,7 +863,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.shoplive.shortform.editor.sdk;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.app.matrix-shortform-editor-ios";
 				PRODUCT_NAME = ShopLiveShortformEditorSDK;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -886,7 +886,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Derived/InfoPlists/ShopLiveShortformEditorSDK_ShopLiveShortformEditorSDK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.shoplive.shortform.editor.sdk.resources;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.app.matrix-shortform-editor-ios.resources";
 				PRODUCT_NAME = ShopLiveShortformEditorSDK_ShopLiveShortformEditorSDK;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
@@ -907,7 +907,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Derived/InfoPlists/ShopLiveShortformEditorSDK_ShopLiveShortformEditorSDK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.shoplive.shortform.editor.sdk.resources;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.app.matrix-shortform-editor-ios.resources";
 				PRODUCT_NAME = ShopLiveShortformEditorSDK_ShopLiveShortformEditorSDK;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
@@ -995,7 +995,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				PRODUCT_BUNDLE_IDENTIFIER = com.app.shoplive.shortform.editor.sdk;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.app.matrix-shortform-editor-ios";
 				PRODUCT_NAME = ShopLiveShortformEditorSDK;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;

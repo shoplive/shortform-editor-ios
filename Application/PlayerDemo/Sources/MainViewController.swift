@@ -10,7 +10,7 @@ import SideMenu
 import SafariServices
 import Toast
 import ShopLiveSDK
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 class MainViewController: SideMenuBaseViewController {
     

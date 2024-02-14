@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Parchment
 import ShopLiveShortformSDK
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 import ShopLiveShortformEditorSDK
 
 class ViewController: UIViewController {

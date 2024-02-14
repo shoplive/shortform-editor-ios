@@ -20,7 +20,7 @@ let demoTarget = Target(name: "ShortformDemo",
                         dependencies: [
                             .project(target: "ShopLiveShortformSDK", path: .relativeToRoot("Modules/Shortform")),
                             .project(target: "ShopLiveShortformEditorSDK", path: .relativeToRoot("Modules/Editor")),
-                            .project(target: "ShopLiveSDKCommon", path: .relativeToRoot("Modules/Common")),
+                            .project(target: "ShopliveSDKCommon", path: .relativeToRoot("Modules/Common")),
                             .external(name: "SnapKit"),
                             .external(name: "Parchment"),
                             .external(name: "FirebaseAnalytics"),

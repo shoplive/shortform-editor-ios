@@ -7,7 +7,7 @@
 
 import Foundation
 import WebKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 protocol ShopLiveBridgeInterfaceHandlerDelegate: AnyObject {
     func sendShortsEvent(event: String, parameter: [String: Any]?, completion: @escaping ()->Void)

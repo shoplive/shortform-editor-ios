@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import ShopLiveSDK
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 final class DeepLinkManager {
     static let shared = DeepLinkManager()

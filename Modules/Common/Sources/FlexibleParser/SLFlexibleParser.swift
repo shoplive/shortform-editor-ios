@@ -1,6 +1,6 @@
 //
 //  SLFlexibleParser.swift
-//  ShopLiveSDKCommon
+//  ShopliveSDKCommon
 //
 //  Created by sangmin han on 1/24/24.
 //

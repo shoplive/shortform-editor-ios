@@ -20,7 +20,7 @@ let demoTarget = Target(name: "ShopLiveDemo",
                         dependencies: [
                             .project(target: "ShopLiveShortformSDK", path: .relativeToRoot("Modules/Shortform")),
                             .project(target: "ShopLiveSDK", path: .relativeToRoot("Modules/Player")),
-                            .project(target: "ShopLiveSDKCommon",
+                            .project(target: "ShopliveSDKCommon",
                                      path: .relativeToRoot("Modules/Common"))
                         ])
 

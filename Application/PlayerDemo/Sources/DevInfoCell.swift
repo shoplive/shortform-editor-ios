@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 final class DevInfoCell: SampleBaseCell {
 

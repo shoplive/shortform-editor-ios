@@ -8,10 +8,10 @@
 import Foundation
 import UIKit
 import Photos
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 extension SLPhotosPickerViewController {
-    func handleAlbumPermissions(picker: SLPhotosPickerViewController, status: ShopLiveSDKCommon.PermissionStatus) {
+    func handleAlbumPermissions(picker: SLPhotosPickerViewController, status: ShopliveSDKCommon.PermissionStatus) {
         if let permissionDelegate = shoplivePermissionDelegate, let handler = permissionDelegate.handlePhotoLibraryUsagePermission?(status: status) {
             handler
         }
@@ -20,7 +20,7 @@ extension SLPhotosPickerViewController {
         }
     }
     
-    func handleCameraPermissions(picker: SLPhotosPickerViewController, status: ShopLiveSDKCommon.PermissionStatus) {
+    func handleCameraPermissions(picker: SLPhotosPickerViewController, status: ShopliveSDKCommon.PermissionStatus) {
         if let permissionDelegate = shoplivePermissionDelegate, let handler = permissionDelegate.handleCameraPermission?(status: status) {
             handler
         }

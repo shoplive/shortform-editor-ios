@@ -1,6 +1,6 @@
 //
 //  CGFloat+extention.swift
-//  ShopLiveSDKCommon
+//  ShopliveSDKCommon
 //
 //  Created by 김우현 on 5/9/23.
 //

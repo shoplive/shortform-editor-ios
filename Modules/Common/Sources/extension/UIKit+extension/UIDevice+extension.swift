@@ -1,6 +1,6 @@
 //
 //  UIDevice+extension.swift
-//  ShopLiveSDKCommon
+//  ShopliveSDKCommon
 //
 //  Created by Vincent on 1/24/23.
 //

@@ -6,7 +6,7 @@
 //
 
 import AVKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 
 final class ShopLivePlayer: AVPlayer {

@@ -1,5 +1,5 @@
 import Foundation
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 struct Activity: Codable {
     let viewCount, likeCount, commentCount, bookmarkCount: Int?

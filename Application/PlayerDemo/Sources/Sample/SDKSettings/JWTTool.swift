@@ -8,7 +8,7 @@
 import Foundation
 import SwiftyJWT
 import ShopLiveSDK
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 
 class JWTTool {

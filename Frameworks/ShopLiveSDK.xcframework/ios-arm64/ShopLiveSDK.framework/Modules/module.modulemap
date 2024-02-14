@@ -1,0 +1,4 @@
+framework module ShopLiveSDK {
+  header "ShopLiveSDK-Swift.h"
+  requires objc
+}

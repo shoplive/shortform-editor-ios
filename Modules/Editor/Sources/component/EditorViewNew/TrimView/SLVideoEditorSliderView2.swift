@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import AVKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 
 class SLVideoEditorSliderView2 : UIView {

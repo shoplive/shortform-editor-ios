@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import AVKit
 import WebKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 
 extension LiveStreamViewController: OverlayWebViewDelegate {

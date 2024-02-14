@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 /**
  숏폼 목록 기본 뷰 

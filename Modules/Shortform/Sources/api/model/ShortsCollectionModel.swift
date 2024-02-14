@@ -1,5 +1,5 @@
 import Foundation
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 extension ShopLiveShortform {
     public struct ShortsCollectionModel : BaseResponsable {

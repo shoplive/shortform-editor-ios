@@ -1,5 +1,5 @@
 import Foundation
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 struct Author : Codable {
 	let name : String?

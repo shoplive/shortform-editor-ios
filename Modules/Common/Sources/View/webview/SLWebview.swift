@@ -1,6 +1,6 @@
 //
 //  SLWebview.swift
-//  ShopLiveSDKCommon
+//  ShopliveSDKCommon
 //
 //  Created by Vincent on 1/26/23.
 //

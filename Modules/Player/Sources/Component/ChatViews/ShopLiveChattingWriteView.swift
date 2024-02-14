@@ -7,7 +7,7 @@
 
 
 import UIKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 
 protocol ShopLiveChattingWriteDelegate: AnyObject {

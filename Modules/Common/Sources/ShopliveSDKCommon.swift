@@ -1,6 +1,6 @@
 //
-//  ShopLiveSDKCommon.swift
-//  ShopLiveSDKCommon
+//  ShopliveSDKCommon.swift
+//  ShopliveSDKCommon
 //
 //  Created by Vincent on 1/24/23.
 //

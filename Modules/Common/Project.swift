@@ -8,10 +8,10 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let deployTarget = Target(name: "ShopLiveSDKCommon",
+let deployTarget = Target(name: "ShopliveSDKCommon",
                           platform: .iOS,
                           product: .framework,
-                          bundleId: "com.app" + ".shoplive.common.sdk",
+                          bundleId: "cloud.shoplive.matrix-common-ios",
                           deploymentTarget: .iOS(targetVersion: "11.0", devices: .iphone),
                           infoPlist: .extendingDefault(with: [:]),
                           sources: ["Sources/**"],
@@ -19,6 +19,6 @@ let deployTarget = Target(name: "ShopLiveSDKCommon",
                           dependencies: [
                           ])
 
-let project = Project.makeModule(name: "ShopLiveSDKCommon",
+let project = Project.makeModule(name: "ShopliveSDKCommon",
                                  targets: [deployTarget])
 

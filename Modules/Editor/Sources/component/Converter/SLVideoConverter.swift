@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import ffmpegkit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 struct SLVideoInfo {
     var videoPath: String

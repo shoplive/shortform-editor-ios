@@ -7,7 +7,7 @@
 
 import UIKit
 import ShopLiveSDK
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 final class UserInfoCell: SampleBaseCell {
 

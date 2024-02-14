@@ -11,7 +11,7 @@ import AVKit
 import MediaPlayer
 import ExternalAccessory
 import Foundation
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 internal final class LiveStreamViewController: SLViewController {
 

@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 protocol SLShortsWindowItemViewable {
     var itemView: ShopLiveWindowItemView { get }

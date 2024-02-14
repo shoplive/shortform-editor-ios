@@ -8,7 +8,7 @@
 import UIKit
 import AVKit
 import WebKit
-import ShopLiveSDKCommon
+import ShopliveSDKCommon
 
 @objc internal final class ShopLiveBase: NSObject {
     private var inRotating: Bool = false

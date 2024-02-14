@@ -1,6 +1,6 @@
 //
 //  AvAudioSession + extension.swift
-//  ShopLiveSDKCommon
+//  ShopliveSDKCommon
 //
 //  Created by sangmin han on 2023/05/24.
 //

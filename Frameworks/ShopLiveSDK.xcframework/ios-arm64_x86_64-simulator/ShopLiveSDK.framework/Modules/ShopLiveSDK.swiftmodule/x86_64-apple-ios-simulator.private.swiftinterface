@@ -1,0 +1,706 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.8.1 (swiftlang-5.8.0.124.5 clang-1403.0.22.11.100)
+// swift-module-flags: -target x86_64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name ShopLiveSDK
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import AVFAudio
+import AVFoundation
+import AVKit
+import SystemConfiguration.CaptiveNetwork
+import CoreMedia
+import ExternalAccessory
+import Foundation
+import MediaPlayer
+import Network
+import ShopliveSDKCommon
+import Swift
+import SystemConfiguration
+import UIKit
+import VideoToolbox
+import WebKit
+import _Concurrency
+import _StringProcessing
+import os.log
+import os
+extension AVFAudio.AVAudioSession {
+  public func safeRemoveObserver(_ observer: Any, forKeyPath keyPath: Swift.String, observeInfo: Swift.UnsafeMutableRawPointer?, completion: @escaping (Swift.Bool) -> Swift.Void)
+}
+extension ObjectiveC.NSObject {
+  public func safeRemoveObserver(_ observer: Any, forKeyPath keyPath: Swift.String)
+}
+extension Foundation.NotificationCenter {
+  public func safeRemoveObserver(_ observer: Any, name aName: Foundation.NSNotification.Name?, object anObject: Any?)
+}
+@objc public class ShopLiveInAppConfigurationObjc : ShopLiveSDK.ShopLiveInAppPipConfiguration {
+  @objc public var _pipSize: ShopLiveSDK.ShopLiveInAppPipSize? {
+    @objc get
+    @objc set
+  }
+  @objc public var _useCloseButton: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc public var _pipPosition: ShopLiveSDK.ShopLive.PipPosition {
+    @objc get
+    @objc set
+  }
+  @objc public var _enableSwipeOut: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc public init(useCloseButton: Swift.Bool, pipPosition: ShopLiveSDK.ShopLive.PipPosition, enableSwipeOut: Swift.Bool, pipSize: ShopLiveSDK.ShopLiveInAppPipSize)
+  @objc deinit
+}
+@objc public class ShopLivePlayerDataObjc : ShopLiveSDK.ShopLivePlayerData {
+  @objc public var _campaignKey: Swift.String {
+    @objc get
+    @objc set
+  }
+  @objc public var _keepWindowStateOnPlayExecuted: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc public var _referrer: Swift.String {
+    @objc get
+    @objc set
+  }
+  @objc public init(campaignKey: Swift.String, keepWindowStateonPlayExecuted: Swift.Bool, referrer: Swift.String)
+  @objc deinit
+}
+@objc public class ShopLiveInAppPipSize : ObjectiveC.NSObject {
+  public var pipMaxSize: CoreFoundation.CGFloat? {
+    get
+  }
+  public var pipFixedWidth: CoreFoundation.CGFloat? {
+    get
+  }
+  public var pipFixedheight: CoreFoundation.CGFloat? {
+    get
+  }
+  @objc public init(pipMaxSize: CoreFoundation.CGFloat)
+  @objc public init(pipFixedWidth: CoreFoundation.CGFloat)
+  @objc public init(pipFixedHeight: CoreFoundation.CGFloat)
+  @objc deinit
+}
+@objc public class ShopLiveInAppPipConfiguration : ObjectiveC.NSObject {
+  public var useCloseButton: Swift.Bool?
+  public var pipPosition: ShopLiveSDK.ShopLive.PipPosition?
+  public var enableSwipeOut: Swift.Bool?
+  public var pipSize: ShopLiveSDK.ShopLiveInAppPipSize?
+  public init(useCloseButton: Swift.Bool? = nil, pipPosition: ShopLiveSDK.ShopLive.PipPosition? = nil, enableSwipeOut: Swift.Bool? = nil, pipSize: ShopLiveSDK.ShopLiveInAppPipSize? = nil)
+  @objc deinit
+}
+@objc public class ShopLivePlayerData : ObjectiveC.NSObject {
+  public var campaignKey: Swift.String
+  public var keepWindowStateOnPlayExecuted: Swift.Bool
+  public var referrer: Swift.String?
+  public init(campaignKey: Swift.String, keepWindowStateOnPlayExecuted: Swift.Bool = false, referrer: Swift.String? = nil)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc public class ShopLivePlayerShareCampaign : ObjectiveC.NSObject {
+  @objc final public let campaignKey: Swift.String?
+  @objc final public let title: Swift.String?
+  @objc final public let descriptions: Swift.String?
+  @objc final public let thumbnail: Swift.String?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objc public class ShopLivePlayerShareData : ObjectiveC.NSObject {
+  @objc final public let campaign: ShopLiveSDK.ShopLivePlayerShareCampaign?
+  @objc final public let url: Swift.String?
+  @objc deinit
+}
+@objc public protocol ShopLivePlayerShareDelegate {
+  @objc func handleShare(data: ShopLiveSDK.ShopLivePlayerShareData)
+}
+@objc public enum ShopLiveViewTrackEvent : Swift.Int, Swift.CaseIterable {
+  case viewWillDisAppear
+  case viewDidDisAppear
+  case pipWillAppear
+  case pipDidAppear
+  case fullScreenWillAppear
+  case fullScreenDidAppear
+  public var name: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [ShopLiveSDK.ShopLiveViewTrackEvent]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [ShopLiveSDK.ShopLiveViewTrackEvent] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum ResultStatus : Swift.Int, Swift.CaseIterable {
+  case SHOW
+  case HIDE
+  case KEEP
+  public var name: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [ShopLiveSDK.ResultStatus]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [ShopLiveSDK.ResultStatus] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum ResultAlertType : Swift.Int, Swift.CaseIterable {
+  case ALERT
+  case TOAST
+  public var name: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [ShopLiveSDK.ResultAlertType]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [ShopLiveSDK.ResultAlertType] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public class CouponResult : ObjectiveC.NSObject {
+  public init(couponId: Swift.String, success: Swift.Bool, message: Swift.String?, status: ShopLiveSDK.ResultStatus, alertType: ShopLiveSDK.ResultAlertType)
+  @objc deinit
+}
+@objc public class CustomActionResult : ObjectiveC.NSObject {
+  public init(id: Swift.String, success: Swift.Bool, message: Swift.String?, status: ShopLiveSDK.ResultStatus, alertType: ShopLiveSDK.ResultAlertType)
+  @objc deinit
+}
+@objc public enum ShopLiveResultStatus : Swift.Int, Swift.CaseIterable {
+  case SHOW
+  case HIDE
+  case KEEP
+  public var name: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [ShopLiveSDK.ShopLiveResultStatus]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [ShopLiveSDK.ShopLiveResultStatus] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum ShopLiveResultAlertType : Swift.Int, Swift.CaseIterable {
+  case ALERT
+  case TOAST
+  public var name: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [ShopLiveSDK.ShopLiveResultAlertType]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [ShopLiveSDK.ShopLiveResultAlertType] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public class ShopLiveCouponResult : ObjectiveC.NSObject {
+  public init(couponId: Swift.String, success: Swift.Bool, message: Swift.String?, status: ShopLiveSDK.ShopLiveResultStatus, alertType: ShopLiveSDK.ShopLiveResultAlertType)
+  @objc deinit
+}
+@objc public class ShopLiveCustomActionResult : ObjectiveC.NSObject {
+  public init(id: Swift.String, success: Swift.Bool, message: Swift.String?, status: ShopLiveSDK.ShopLiveResultStatus, alertType: ShopLiveSDK.ShopLiveResultAlertType)
+  @objc deinit
+}
+@objc public class ShopLiveLog : ObjectiveC.NSObject {
+  @objc public enum Feature : Swift.Int, Swift.CaseIterable {
+    case CLICK, SHOW, ACTION
+    public var name: Swift.String {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+    public typealias AllCases = [ShopLiveSDK.ShopLiveLog.Feature]
+    public typealias RawValue = Swift.Int
+    public static var allCases: [ShopLiveSDK.ShopLiveLog.Feature] {
+      get
+    }
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public var name: Swift.String
+  public var campaign: Swift.String
+  public var feature: ShopLiveSDK.ShopLiveLog.Feature
+  @available(*, deprecated, message: "use payload: [String : Any] instead")
+  public var parameter: [Swift.String : Swift.String]
+  public var payload: [Swift.String : Any]
+  public init(name: Swift.String, feature: ShopLiveSDK.ShopLiveLog.Feature, campaign: Swift.String, parameter: [Swift.String : Swift.String])
+  public init(name: Swift.String, feature: ShopLiveSDK.ShopLiveLog.Feature, campaign: Swift.String, payload: [Swift.String : Any])
+  @objc deinit
+}
+@objc public enum ActionType : Swift.Int {
+  case PIP
+  case KEEP
+  case CLOSE
+  public var name: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public protocol ShopLiveSDKDelegate {
+  @objc func handleNavigation(with url: Foundation.URL)
+  @available(*, deprecated, message: "use handleDownloadCoupon(with couponId: String, result: @escaping (ShopLiveCouponResult) -> Void) instead")
+  @objc optional func handleDownloadCouponResult(with couponId: Swift.String, completion: @escaping (ShopLiveSDK.CouponResult) -> Swift.Void)
+  @objc optional func handleDownloadCoupon(with couponId: Swift.String, result: @escaping (ShopLiveSDK.ShopLiveCouponResult) -> Swift.Void)
+  @available(*, deprecated, message: "use handleDownloadCoupon(with couponId: String, result: @escaping (ShopLiveCouponResult) -> Void) instead")
+  @objc optional func handleDownloadCoupon(with couponId: Swift.String, completion: @escaping () -> Swift.Void)
+  @available(*, deprecated, message: "use handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLiveCustomActionResult) -> Void) instead")
+  @objc optional func handleCustomActionResult(with id: Swift.String, type: Swift.String, payload: Any?, completion: @escaping (ShopLiveSDK.CustomActionResult) -> Swift.Void)
+  @available(*, deprecated, message: "use handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLiveCustomActionResult) -> Void) instead")
+  @objc optional func handleCustomAction(with id: Swift.String, type: Swift.String, payload: Any?, completion: @escaping () -> Swift.Void)
+  @objc optional func handleCustomAction(with id: Swift.String, type: Swift.String, payload: Any?, result: @escaping (ShopLiveSDK.ShopLiveCustomActionResult) -> Swift.Void)
+  @objc optional func handleChangeCampaignStatus(status: Swift.String)
+  @objc optional func handleChangedPlayerStatus(status: Swift.String)
+  @objc optional func handleError(code: Swift.String, message: Swift.String)
+  @objc optional func handleCampaignInfo(campaignInfo: [Swift.String : Any])
+  @objc optional func handleCommand(_ command: Swift.String, with payload: Any?)
+  @objc optional func onSetUserName(_ payload: [Swift.String : Any])
+  @objc optional func handleReceivedCommand(_ command: Swift.String, with payload: Any?)
+  @objc optional func playerPanGesture(state: UIKit.UIGestureRecognizer.State, position: CoreFoundation.CGPoint)
+  @available(*, deprecated, message: "use log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) instead")
+  @objc optional func log(name: Swift.String, feature: ShopLiveSDK.ShopLiveLog.Feature, campaign: Swift.String, parameter: [Swift.String : Swift.String])
+  @objc optional func log(name: Swift.String, feature: ShopLiveSDK.ShopLiveLog.Feature, campaign: Swift.String, payload: [Swift.String : Any])
+}
+public typealias ShopLiveViewController = ShopLiveSDK.SLViewController
+public let ReachabilityStatusChangedNotification: Swift.String
+public enum ReachabilityType : Swift.CustomStringConvertible {
+  case WWAN
+  case WiFi
+  public var description: Swift.String {
+    get
+  }
+  public static func == (a: ShopLiveSDK.ReachabilityType, b: ShopLiveSDK.ReachabilityType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum ReachabilityStatus : Swift.CustomStringConvertible, Swift.Equatable {
+  case Offline
+  case Online(ShopLiveSDK.ReachabilityType)
+  case Unknown
+  public var description: Swift.String {
+    get
+  }
+  public static func == (lhs: ShopLiveSDK.ReachabilityStatus, rhs: ShopLiveSDK.ReachabilityStatus) -> Swift.Bool
+}
+@_hasMissingDesignatedInitializers public class NetworkReachability {
+  @objc deinit
+}
+extension ShopLiveSDK.ReachabilityStatus {
+  public init(reachabilityFlags flags: SystemConfiguration.SCNetworkReachabilityFlags)
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class ShopliveWindow : ShopLiveSDK.SLWindow {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func addSubview(_ view: UIKit.UIView)
+  @_Concurrency.MainActor(unsafe) public func forceAddSubView(_ view: UIKit.UIView)
+  @available(iOS 13.0, *)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(windowScene: UIKit.UIWindowScene)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc final public class ShopLive : ObjectiveC.NSObject {
+  @objc deinit
+}
+extension ShopLiveSDK.ShopLive {
+  @objc public enum PlayerMode : Swift.Int {
+    case play
+    case preview
+    case none
+    public var name: Swift.String {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  @objc public enum VideoOrientation : Swift.Int {
+    case portrait
+    case landscape
+    case unknown
+    public var name: Swift.String {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+}
+extension ShopLiveSDK.ShopLive {
+  @objc public enum PipPosition : Swift.Int {
+    case topLeft
+    case topRight
+    case bottomLeft
+    case bottomRight
+    case `default`
+    public var name: Swift.String {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  @objc public enum PresentationStyle : Swift.Int {
+    case unknown
+    case fullScreen
+    case pip
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+}
+extension ShopLiveSDK.ShopLive {
+  @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
+  @objc public static func setEnabledPipSwipeOut(_ enabled: Swift.Bool)
+  @objc public static func removeParameter(key: Swift.String)
+  @objc public static func addParameter(key: Swift.String, value: Swift.String)
+  @available(iOS, deprecated, message: "Will be deprecated soon please Enable AppTrackingTransparency instead")
+  @objc public static func setAdId(adId: Swift.String?)
+  @objc public static func setMixWithOthers(isMixAudio: Swift.Bool)
+  @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
+  @objc public static func useCloseButton(_ use: Swift.Bool)
+  @objc public static func awakePlayer()
+  @objc public static func setKeepWindowStyleOnReturnFromOsPip(_ keep: Swift.Bool = false)
+  @objc public static func isKeepWindowStyleOnReturnFromOsPip() -> Swift.Bool
+  @objc public static func setAppVersion(_ appVersion: Swift.String)
+  @objc public static func setUsingLocalStorage(_ use: Swift.Bool)
+  @objc public static func setPictureInPictureFloatingOffset(offset: UIKit.UIEdgeInsets) -> Swift.Bool
+  @objc public static func setPictureInPicturePadding(padding: UIKit.UIEdgeInsets) -> Swift.Bool
+  @objc public static func sendCommandMessage(command: Swift.String, payload: [Swift.String : Any]?)
+  @objc public static func setMuteWhenPlayStart(_ mute: Swift.Bool)
+  @objc public static func setNextActionOnHandleNavigation(actionType: ShopLiveSDK.ActionType)
+  @objc public static func getNextActionTypeOnHandleNavigation() -> ShopLiveSDK.ActionType
+  @objc public static func setEndpoint(_ url: Swift.String?)
+  @objc public static func isSuccessCampaignJoin() -> Swift.Bool
+  @objc public static func setKeepAspectOnTabletPortrait(_ keep: Swift.Bool = true)
+  @objc public static var viewController: ShopLiveSDK.ShopLiveViewController? {
+    @objc get
+  }
+  @objc public static func close()
+  @objc public static func setChatViewFont(inputBoxFont: UIKit.UIFont?, sendButtonFont: UIKit.UIFont?)
+  @objc public static func setShareScheme(_ scheme: Swift.String? = nil, shareDelegate: (any ShopLiveSDK.ShopLivePlayerShareDelegate)?)
+  @objc public static func hookNavigation(navigation: @escaping ((Foundation.URL) -> Swift.Void))
+  @objc public static func onTerminated()
+  @objc public static func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Swift.Bool, isMute: Swift.Bool = false)
+  @objc public static func isKeepPlayVideoOnHeadPhoneUnplugged() -> Swift.Bool
+  @objc public static func setAutoResumeVideoOnCallEnded(_ autoResume: Swift.Bool)
+  @objc public static func isAutoResumeVideoOnCallEnded() -> Swift.Bool
+  @objc public static var sdkVersion: Swift.String {
+    @objc get
+  }
+  @objc public static var playerMode: ShopLiveSDK.ShopLive.PlayerMode {
+    @objc get
+  }
+  @objc public static var playerWindow: ShopLiveSDK.ShopliveWindow? {
+    @objc get
+  }
+  @available(iOS, deprecated, message: "Will be deprecated soon use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
+  @objc public static var fixedPipWidth: Foundation.NSNumber? {
+    @objc get
+    @objc set
+  }
+  @objc public static func mute()
+  @objc public static func unmute()
+  @objc public static var orientationMode: ShopLiveSDK.ShopLive.VideoOrientation {
+    @objc get
+  }
+  @objc public static var style: ShopLiveSDK.ShopLive.PresentationStyle {
+    @objc get
+  }
+  @available(iOS, deprecated, message: "Will be deprecated soon use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
+  @objc public static var pipPosition: ShopLiveSDK.ShopLive.PipPosition {
+    @objc get
+    @objc set
+  }
+  @available(iOS, deprecated, message: "Will be deprecated soon use pipMaxSize in setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
+  @objc public static var pipScale: CoreFoundation.CGFloat {
+    @objc get
+    @objc set
+  }
+  @objc public static var indicatorColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc public static var webViewConfiguration: WebKit.WKWebViewConfiguration? {
+    @objc get
+    @objc set
+  }
+  @objc public static var delegate: (any ShopLiveSDK.ShopLiveSDKDelegate)? {
+    @objc get
+    @objc set
+  }
+  @objc public static func preview(data: ShopLiveSDK.ShopLivePlayerData, completion: (() -> Swift.Void)? = nil)
+  @available(iOS, deprecated, message: "Use preview(data : ShopLivePlayerData) instead")
+  @objc public static func preview(with campaignKey: Swift.String?, referrer: Swift.String? = nil, completion: (() -> Swift.Void)? = nil)
+  @objc public static func play(data: ShopLiveSDK.ShopLivePlayerData)
+  @available(iOS, deprecated, message: "Use play(data : ShopLivePlayerData) instead")
+  @objc public static func play(with campaignKey: Swift.String?, keepWindowStateOnPlayExecuted: Swift.Bool = false, referrer: Swift.String? = nil)
+  @objc public static func startPictureInPicture(with position: ShopLiveSDK.ShopLive.PipPosition, scale: CoreFoundation.CGFloat)
+  @objc public static func startPictureInPicture()
+  @objc public static func stopPictureInPicture()
+  @objc public static func setLoadingAnimation(images: [UIKit.UIImage])
+  @objc public static func reloadLive()
+  @objc public static func setEnabledPictureInPictureMode(isEnabled: Swift.Bool)
+  @objc public static var authToken: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc public static var user: ShopliveSDKCommon.ShopLiveCommonUser? {
+    @objc get
+    @objc set
+  }
+  @objc public static func configure(with accessKey: Swift.String)
+  @objc public static func setInAppPipConfiguration(config: ShopLiveSDK.ShopLiveInAppPipConfiguration)
+  @objc public static func setUtmSource(utmSource: Swift.String?)
+  @objc public static func setUtmCampaign(utmCampaign: Swift.String?)
+  @objc public static func setUtmMedium(utmMedium: Swift.String?)
+  @objc public static func setUtmContent(utmContent: Swift.String?)
+  @objc public static func getUtmSource() -> Swift.String?
+  @objc public static func getUtmCampaign() -> Swift.String?
+  @objc public static func getUtmMedium() -> Swift.String?
+  @objc public static func getUtmContent() -> Swift.String?
+  @objc public static func setVisibleStatusBar(isVisible: Swift.Bool)
+  @objc public static func isVisibleStatusBar() -> Swift.Bool
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLWindow : UIKit.UIWindow {
+  @available(iOS 13.0, *)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(windowScene: UIKit.UIWindowScene)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLViewController : UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func present(_ viewControllerToPresent: UIKit.UIViewController, animated flag: Swift.Bool, completion: (() -> Swift.Void)? = nil)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func show(_ vc: UIKit.UIViewController, sender: Any?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func showDetailViewController(_ vc: UIKit.UIViewController, sender: Any?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLNavigationController : UIKit.UINavigationController {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func pushViewController(_ viewController: UIKit.UIViewController, animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func present(_ viewControllerToPresent: UIKit.UIViewController, animated flag: Swift.Bool, completion: (() -> Swift.Void)? = nil)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func show(_ vc: UIKit.UIViewController, sender: Any?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func showDetailViewController(_ vc: UIKit.UIViewController, sender: Any?)
+  @available(iOS 5.0, *)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(navigationBarClass: Swift.AnyClass?, toolbarClass: Swift.AnyClass?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(rootViewController: UIKit.UIViewController)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLTabBarController : UIKit.UITabBarController {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func present(_ viewControllerToPresent: UIKit.UIViewController, animated flag: Swift.Bool, completion: (() -> Swift.Void)? = nil)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func show(_ vc: UIKit.UIViewController, sender: Any?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func showDetailViewController(_ vc: UIKit.UIViewController, sender: Any?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLSplitViewController : UIKit.UISplitViewController {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func present(_ viewControllerToPresent: UIKit.UIViewController, animated flag: Swift.Bool, completion: (() -> Swift.Void)? = nil)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func show(_ vc: UIKit.UIViewController, sender: Any?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func showDetailViewController(_ vc: UIKit.UIViewController, sender: Any?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @available(iOS 14.0, *)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(style: UIKit.UISplitViewController.Style)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLPageViewController : UIKit.UIPageViewController {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func present(_ viewControllerToPresent: UIKit.UIViewController, animated flag: Swift.Bool, completion: (() -> Swift.Void)? = nil)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func show(_ vc: UIKit.UIViewController, sender: Any?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func showDetailViewController(_ vc: UIKit.UIViewController, sender: Any?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(transitionStyle style: UIKit.UIPageViewController.TransitionStyle, navigationOrientation: UIKit.UIPageViewController.NavigationOrientation, options: [UIKit.UIPageViewController.OptionsKey : Any]? = nil)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class SLAlertController : UIKit.UIAlertController {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) convenience public init(myTitle: Swift.String?, myMessage: Swift.String?, preferredStyle: UIKit.UIAlertController.Style)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func present(_ viewControllerToPresent: UIKit.UIViewController, animated flag: Swift.Bool, completion: (() -> Swift.Void)? = nil)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func show(_ vc: UIKit.UIViewController, sender: Any?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func showDetailViewController(_ vc: UIKit.UIViewController, sender: Any?)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLActivityViewController : UIKit.UIActivityViewController {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(activityItems: [Any], applicationActivities: [UIKit.UIActivity]?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func present(_ viewControllerToPresent: UIKit.UIViewController, animated flag: Swift.Bool, completion: (() -> Swift.Void)? = nil)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func show(_ vc: UIKit.UIViewController, sender: Any?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func showDetailViewController(_ vc: UIKit.UIViewController, sender: Any?)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLButton : UIKit.UIButton {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLLabel : UIKit.UILabel {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLTextField : UIKit.UITextField {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLImageView : UIKit.UIImageView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(image: UIKit.UIImage?)
+  @available(iOS 3.0, *)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(image: UIKit.UIImage?, highlightedImage: UIKit.UIImage?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLTableView : UIKit.UITableView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect, style: UIKit.UITableView.Style)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLCollectionView : UIKit.UICollectionView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect, collectionViewLayout layout: UIKit.UICollectionViewLayout)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLStackView : UIKit.UIStackView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLSegmentedControl : UIKit.UISegmentedControl {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(items: [Any]?)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLSlider : UIKit.UISlider {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLProgressView : UIKit.UIProgressView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLActivityIndicatorView : UIKit.UIActivityIndicatorView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(style: UIKit.UIActivityIndicatorView.Style)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLSwitch : UIKit.UISwitch {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLDatePicker : UIKit.UIDatePicker {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLPickerView : UIKit.UIPickerView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLPageControl : UIKit.UIPageControl {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLSearchBar : UIKit.UISearchBar {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class SLAVPlayerViewController : AVKit.AVPlayerViewController {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func present(_ viewControllerToPresent: UIKit.UIViewController, animated flag: Swift.Bool, completion: (() -> Swift.Void)? = nil)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func show(_ vc: UIKit.UIViewController, sender: Any?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func showDetailViewController(_ vc: UIKit.UIViewController, sender: Any?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class SLWKWebView : WebKit.WKWebView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect, configuration: WebKit.WKWebViewConfiguration)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class SLPictureInPictureController : AVKit.AVPictureInPictureController {
+  @available(iOS 15.0, *)
+  @objc override dynamic public init(contentSource: AVKit.AVPictureInPictureController.ContentSource)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class SLScrollView : UIKit.UIScrollView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class SLTextView : UIKit.UITextView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect, textContainer: UIKit.NSTextContainer?)
+  @objc deinit
+}
+extension ShopLiveSDK.ShopLiveViewTrackEvent : Swift.Equatable {}
+extension ShopLiveSDK.ShopLiveViewTrackEvent : Swift.Hashable {}
+extension ShopLiveSDK.ShopLiveViewTrackEvent : Swift.RawRepresentable {}
+extension ShopLiveSDK.ResultStatus : Swift.Equatable {}
+extension ShopLiveSDK.ResultStatus : Swift.Hashable {}
+extension ShopLiveSDK.ResultStatus : Swift.RawRepresentable {}
+extension ShopLiveSDK.ResultAlertType : Swift.Equatable {}
+extension ShopLiveSDK.ResultAlertType : Swift.Hashable {}
+extension ShopLiveSDK.ResultAlertType : Swift.RawRepresentable {}
+extension ShopLiveSDK.ShopLiveResultStatus : Swift.Equatable {}
+extension ShopLiveSDK.ShopLiveResultStatus : Swift.Hashable {}
+extension ShopLiveSDK.ShopLiveResultStatus : Swift.RawRepresentable {}
+extension ShopLiveSDK.ShopLiveResultAlertType : Swift.Equatable {}
+extension ShopLiveSDK.ShopLiveResultAlertType : Swift.Hashable {}
+extension ShopLiveSDK.ShopLiveResultAlertType : Swift.RawRepresentable {}
+extension ShopLiveSDK.ShopLiveLog.Feature : Swift.Equatable {}
+extension ShopLiveSDK.ShopLiveLog.Feature : Swift.Hashable {}
+extension ShopLiveSDK.ShopLiveLog.Feature : Swift.RawRepresentable {}
+extension ShopLiveSDK.ActionType : Swift.Equatable {}
+extension ShopLiveSDK.ActionType : Swift.Hashable {}
+extension ShopLiveSDK.ActionType : Swift.RawRepresentable {}
+extension ShopLiveSDK.ReachabilityType : Swift.Equatable {}
+extension ShopLiveSDK.ReachabilityType : Swift.Hashable {}
+extension ShopLiveSDK.ShopLive.PlayerMode : Swift.Equatable {}
+extension ShopLiveSDK.ShopLive.PlayerMode : Swift.Hashable {}
+extension ShopLiveSDK.ShopLive.PlayerMode : Swift.RawRepresentable {}
+extension ShopLiveSDK.ShopLive.VideoOrientation : Swift.Equatable {}
+extension ShopLiveSDK.ShopLive.VideoOrientation : Swift.Hashable {}
+extension ShopLiveSDK.ShopLive.VideoOrientation : Swift.RawRepresentable {}
+extension ShopLiveSDK.ShopLive.PipPosition : Swift.Equatable {}
+extension ShopLiveSDK.ShopLive.PipPosition : Swift.Hashable {}
+extension ShopLiveSDK.ShopLive.PipPosition : Swift.RawRepresentable {}
+extension ShopLiveSDK.ShopLive.PresentationStyle : Swift.Equatable {}
+extension ShopLiveSDK.ShopLive.PresentationStyle : Swift.Hashable {}
+extension ShopLiveSDK.ShopLive.PresentationStyle : Swift.RawRepresentable {}
