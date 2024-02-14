@@ -6,6 +6,677 @@
     "children": [
       {
         "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "ShopLiveSDK"
+      },
+      {
+        "kind": "Import",
+        "name": "SwiftUI",
+        "printedName": "SwiftUI",
+        "declKind": "Import",
+        "moduleName": "ShopLiveSDK"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "ShopLiveSDKAsset",
+        "printedName": "ShopLiveSDKAsset",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "closebutton",
+            "printedName": "closebutton",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "ShopLiveSDKImages",
+                "printedName": "ShopLiveSDK.ShopLiveSDKImages",
+                "usr": "s:11ShopLiveSDK0aB9SDKImagesV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:11ShopLiveSDK0aB8SDKAssetO11closebuttonAA0aB9SDKImagesVvpZ",
+            "mangledName": "$s11ShopLiveSDK0aB8SDKAssetO11closebuttonAA0aB9SDKImagesVvpZ",
+            "moduleName": "ShopLiveSDK",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "ShopLiveSDKImages",
+                    "printedName": "ShopLiveSDK.ShopLiveSDKImages",
+                    "usr": "s:11ShopLiveSDK0aB9SDKImagesV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11ShopLiveSDK0aB8SDKAssetO11closebuttonAA0aB9SDKImagesVvgZ",
+                "mangledName": "$s11ShopLiveSDK0aB8SDKAssetO11closebuttonAA0aB9SDKImagesVvgZ",
+                "moduleName": "ShopLiveSDK",
+                "static": true,
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:11ShopLiveSDK0aB8SDKAssetO",
+        "mangledName": "$s11ShopLiveSDK0aB8SDKAssetO",
+        "moduleName": "ShopLiveSDK",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "ShopLiveSDKImages",
+        "printedName": "ShopLiveSDKImages",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "name",
+            "printedName": "name",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:11ShopLiveSDK0aB9SDKImagesV4nameSSvp",
+            "mangledName": "$s11ShopLiveSDK0aB9SDKImagesV4nameSSvp",
+            "moduleName": "ShopLiveSDK",
+            "declAttributes": [
+              "HasStorage",
+              "SetterAccess",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11ShopLiveSDK0aB9SDKImagesV4nameSSvg",
+                "mangledName": "$s11ShopLiveSDK0aB9SDKImagesV4nameSSvg",
+                "moduleName": "ShopLiveSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "image",
+            "printedName": "image",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "UIImage",
+                "printedName": "UIKit.UIImage",
+                "usr": "c:objc(cs)UIImage"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:11ShopLiveSDK0aB9SDKImagesV5imageSo7UIImageCvp",
+            "mangledName": "$s11ShopLiveSDK0aB9SDKImagesV5imageSo7UIImageCvp",
+            "moduleName": "ShopLiveSDK",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIImage",
+                    "printedName": "UIKit.UIImage",
+                    "usr": "c:objc(cs)UIImage"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11ShopLiveSDK0aB9SDKImagesV5imageSo7UIImageCvg",
+                "mangledName": "$s11ShopLiveSDK0aB9SDKImagesV5imageSo7UIImageCvg",
+                "moduleName": "ShopLiveSDK",
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "swiftUIImage",
+            "printedName": "swiftUIImage",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Image",
+                "printedName": "SwiftUI.Image",
+                "usr": "s:7SwiftUI5ImageV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:11ShopLiveSDK0aB9SDKImagesV12swiftUIImage7SwiftUI5ImageVvp",
+            "mangledName": "$s11ShopLiveSDK0aB9SDKImagesV12swiftUIImage7SwiftUI5ImageVvp",
+            "moduleName": "ShopLiveSDK",
+            "intro_Macosx": "10.15",
+            "intro_iOS": "13.0",
+            "intro_tvOS": "13.0",
+            "intro_watchOS": "6.0",
+            "declAttributes": [
+              "AccessControl",
+              "Available",
+              "Available",
+              "Available",
+              "Available"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Image",
+                    "printedName": "SwiftUI.Image",
+                    "usr": "s:7SwiftUI5ImageV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:11ShopLiveSDK0aB9SDKImagesV12swiftUIImage7SwiftUI5ImageVvg",
+                "mangledName": "$s11ShopLiveSDK0aB9SDKImagesV12swiftUIImage7SwiftUI5ImageVvg",
+                "moduleName": "ShopLiveSDK",
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:11ShopLiveSDK0aB9SDKImagesV",
+        "mangledName": "$s11ShopLiveSDK0aB9SDKImagesV",
+        "moduleName": "ShopLiveSDK",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ShopLiveSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "ShopLiveSDKResources",
+        "printedName": "ShopLiveSDKResources",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "bundle",
+            "printedName": "bundle",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bundle",
+                "printedName": "Foundation.Bundle",
+                "usr": "c:objc(cs)NSBundle"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@ShopLiveSDK@objc(cs)ShopLiveSDKResources(cpy)bundle",
+            "mangledName": "$s11ShopLiveSDK0aB12SDKResourcesC6bundleSo8NSBundleCvpZ",
+            "moduleName": "ShopLiveSDK",
+            "static": true,
+            "declAttributes": [
+              "AccessControl",
+              "ObjC"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bundle",
+                    "printedName": "Foundation.Bundle",
+                    "usr": "c:objc(cs)NSBundle"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@ShopLiveSDK@objc(cs)ShopLiveSDKResources(cm)bundle",
+                "mangledName": "$s11ShopLiveSDK0aB12SDKResourcesC6bundleSo8NSBundleCvgZ",
+                "moduleName": "ShopLiveSDK",
+                "static": true,
+                "declAttributes": [
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "ShopLiveSDKResources",
+                "printedName": "ShopLiveSDK.ShopLiveSDKResources",
+                "usr": "c:@M@ShopLiveSDK@objc(cs)ShopLiveSDKResources"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@ShopLiveSDK@objc(cs)ShopLiveSDKResources(im)init",
+            "mangledName": "$s11ShopLiveSDK0aB12SDKResourcesCACycfc",
+            "moduleName": "ShopLiveSDK",
+            "overriding": true,
+            "implicit": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Override"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@ShopLiveSDK@objc(cs)ShopLiveSDKResources",
+        "mangledName": "$s11ShopLiveSDK0aB12SDKResourcesC",
+        "moduleName": "ShopLiveSDK",
+        "declAttributes": [
+          "AccessControl",
+          "ObjC",
+          "RawDocComment"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "inheritsConvenienceInitializers": true,
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "AnyNameable",
+            "printedName": "AnyNameable",
+            "usr": "s:17ShopliveSDKCommon11AnyNameableP",
+            "mangledName": "$s17ShopliveSDKCommon11AnyNameableP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ShopLiveSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "ShopLiveSDKStrings",
+        "printedName": "ShopLiveSDKStrings",
+        "children": [
+          {
+            "kind": "TypeDecl",
+            "name": "Chat",
+            "printedName": "Chat",
+            "children": [
+              {
+                "kind": "Var",
+                "name": "placeholder",
+                "printedName": "placeholder",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:11ShopLiveSDK0aB10SDKStringsO4ChatO11placeholderSSvpZ",
+                "mangledName": "$s11ShopLiveSDK0aB10SDKStringsO4ChatO11placeholderSSvpZ",
+                "moduleName": "ShopLiveSDK",
+                "static": true,
+                "declAttributes": [
+                  "HasInitialValue",
+                  "HasStorage",
+                  "AccessControl",
+                  "RawDocComment"
+                ],
+                "isLet": true,
+                "hasStorage": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:11ShopLiveSDK0aB10SDKStringsO4ChatO11placeholderSSvgZ",
+                    "mangledName": "$s11ShopLiveSDK0aB10SDKStringsO4ChatO11placeholderSSvgZ",
+                    "moduleName": "ShopLiveSDK",
+                    "static": true,
+                    "implicit": true,
+                    "accessorKind": "get"
+                  }
+                ]
+              },
+              {
+                "kind": "TypeDecl",
+                "name": "Send",
+                "printedName": "Send",
+                "children": [
+                  {
+                    "kind": "Var",
+                    "name": "title",
+                    "printedName": "title",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Var",
+                    "usr": "s:11ShopLiveSDK0aB10SDKStringsO4ChatO4SendO5titleSSvpZ",
+                    "mangledName": "$s11ShopLiveSDK0aB10SDKStringsO4ChatO4SendO5titleSSvpZ",
+                    "moduleName": "ShopLiveSDK",
+                    "static": true,
+                    "declAttributes": [
+                      "HasInitialValue",
+                      "HasStorage",
+                      "AccessControl",
+                      "RawDocComment"
+                    ],
+                    "isLet": true,
+                    "hasStorage": true,
+                    "accessors": [
+                      {
+                        "kind": "Accessor",
+                        "name": "Get",
+                        "printedName": "Get()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          }
+                        ],
+                        "declKind": "Accessor",
+                        "usr": "s:11ShopLiveSDK0aB10SDKStringsO4ChatO4SendO5titleSSvgZ",
+                        "mangledName": "$s11ShopLiveSDK0aB10SDKStringsO4ChatO4SendO5titleSSvgZ",
+                        "moduleName": "ShopLiveSDK",
+                        "static": true,
+                        "implicit": true,
+                        "accessorKind": "get"
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "Enum",
+                "usr": "s:11ShopLiveSDK0aB10SDKStringsO4ChatO4SendO",
+                "mangledName": "$s11ShopLiveSDK0aB10SDKStringsO4ChatO4SendO",
+                "moduleName": "ShopLiveSDK",
+                "declAttributes": [
+                  "AccessControl"
+                ]
+              }
+            ],
+            "declKind": "Enum",
+            "usr": "s:11ShopLiveSDK0aB10SDKStringsO4ChatO",
+            "mangledName": "$s11ShopLiveSDK0aB10SDKStringsO4ChatO",
+            "moduleName": "ShopLiveSDK",
+            "declAttributes": [
+              "AccessControl"
+            ]
+          },
+          {
+            "kind": "TypeDecl",
+            "name": "Share",
+            "printedName": "Share",
+            "children": [
+              {
+                "kind": "TypeDecl",
+                "name": "Url",
+                "printedName": "Url",
+                "children": [
+                  {
+                    "kind": "TypeDecl",
+                    "name": "Empty",
+                    "printedName": "Empty",
+                    "children": [
+                      {
+                        "kind": "Var",
+                        "name": "error",
+                        "printedName": "error",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          }
+                        ],
+                        "declKind": "Var",
+                        "usr": "s:11ShopLiveSDK0aB10SDKStringsO5ShareO3UrlO5EmptyO5errorSSvpZ",
+                        "mangledName": "$s11ShopLiveSDK0aB10SDKStringsO5ShareO3UrlO5EmptyO5errorSSvpZ",
+                        "moduleName": "ShopLiveSDK",
+                        "static": true,
+                        "declAttributes": [
+                          "HasInitialValue",
+                          "HasStorage",
+                          "AccessControl",
+                          "RawDocComment"
+                        ],
+                        "isLet": true,
+                        "hasStorage": true,
+                        "accessors": [
+                          {
+                            "kind": "Accessor",
+                            "name": "Get",
+                            "printedName": "Get()",
+                            "children": [
+                              {
+                                "kind": "TypeNominal",
+                                "name": "String",
+                                "printedName": "Swift.String",
+                                "usr": "s:SS"
+                              }
+                            ],
+                            "declKind": "Accessor",
+                            "usr": "s:11ShopLiveSDK0aB10SDKStringsO5ShareO3UrlO5EmptyO5errorSSvgZ",
+                            "mangledName": "$s11ShopLiveSDK0aB10SDKStringsO5ShareO3UrlO5EmptyO5errorSSvgZ",
+                            "moduleName": "ShopLiveSDK",
+                            "static": true,
+                            "implicit": true,
+                            "accessorKind": "get"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "Var",
+                        "name": "message",
+                        "printedName": "message",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          }
+                        ],
+                        "declKind": "Var",
+                        "usr": "s:11ShopLiveSDK0aB10SDKStringsO5ShareO3UrlO5EmptyO7messageSSvpZ",
+                        "mangledName": "$s11ShopLiveSDK0aB10SDKStringsO5ShareO3UrlO5EmptyO7messageSSvpZ",
+                        "moduleName": "ShopLiveSDK",
+                        "static": true,
+                        "declAttributes": [
+                          "HasInitialValue",
+                          "HasStorage",
+                          "AccessControl",
+                          "RawDocComment"
+                        ],
+                        "isLet": true,
+                        "hasStorage": true,
+                        "accessors": [
+                          {
+                            "kind": "Accessor",
+                            "name": "Get",
+                            "printedName": "Get()",
+                            "children": [
+                              {
+                                "kind": "TypeNominal",
+                                "name": "String",
+                                "printedName": "Swift.String",
+                                "usr": "s:SS"
+                              }
+                            ],
+                            "declKind": "Accessor",
+                            "usr": "s:11ShopLiveSDK0aB10SDKStringsO5ShareO3UrlO5EmptyO7messageSSvgZ",
+                            "mangledName": "$s11ShopLiveSDK0aB10SDKStringsO5ShareO3UrlO5EmptyO7messageSSvgZ",
+                            "moduleName": "ShopLiveSDK",
+                            "static": true,
+                            "implicit": true,
+                            "accessorKind": "get"
+                          }
+                        ]
+                      }
+                    ],
+                    "declKind": "Enum",
+                    "usr": "s:11ShopLiveSDK0aB10SDKStringsO5ShareO3UrlO5EmptyO",
+                    "mangledName": "$s11ShopLiveSDK0aB10SDKStringsO5ShareO3UrlO5EmptyO",
+                    "moduleName": "ShopLiveSDK",
+                    "declAttributes": [
+                      "AccessControl"
+                    ]
+                  }
+                ],
+                "declKind": "Enum",
+                "usr": "s:11ShopLiveSDK0aB10SDKStringsO5ShareO3UrlO",
+                "mangledName": "$s11ShopLiveSDK0aB10SDKStringsO5ShareO3UrlO",
+                "moduleName": "ShopLiveSDK",
+                "declAttributes": [
+                  "AccessControl"
+                ]
+              }
+            ],
+            "declKind": "Enum",
+            "usr": "s:11ShopLiveSDK0aB10SDKStringsO5ShareO",
+            "mangledName": "$s11ShopLiveSDK0aB10SDKStringsO5ShareO",
+            "moduleName": "ShopLiveSDK",
+            "declAttributes": [
+              "AccessControl"
+            ]
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:11ShopLiveSDK0aB10SDKStringsO",
+        "mangledName": "$s11ShopLiveSDK0aB10SDKStringsO",
+        "moduleName": "ShopLiveSDK",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
@@ -21106,6 +21777,312 @@
       },
       {
         "kind": "TypeDecl",
+        "name": "UIImage",
+        "printedName": "UIImage",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(asset:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "UIKit.UIImage?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIImage",
+                    "printedName": "UIKit.UIImage",
+                    "usr": "c:objc(cs)UIImage"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ShopLiveSDKImages",
+                "printedName": "ShopLiveSDK.ShopLiveSDKImages",
+                "usr": "s:11ShopLiveSDK0aB9SDKImagesV"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:So7UIImageC11ShopLiveSDKE5assetABSgAC0bC9SDKImagesV_tcfc",
+            "mangledName": "$sSo7UIImageC11ShopLiveSDKE5assetABSgAC0bC9SDKImagesV_tcfc",
+            "moduleName": "ShopLiveSDK",
+            "declAttributes": [
+              "Convenience",
+              "Available"
+            ],
+            "isFromExtension": true,
+            "init_kind": "Convenience"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:objc(cs)UIImage",
+        "moduleName": "UIKit",
+        "isOpen": true,
+        "intro_iOS": "2.0",
+        "objc_name": "UIImage",
+        "declAttributes": [
+          "Available",
+          "ObjC",
+          "SynthesizedProtocol",
+          "NonSendable",
+          "Sendable",
+          "Dynamic"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "isExternal": true,
+        "inheritsConvenienceInitializers": true,
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "AnyNameable",
+            "printedName": "AnyNameable",
+            "usr": "s:17ShopliveSDKCommon11AnyNameableP",
+            "mangledName": "$s17ShopliveSDKCommon11AnyNameableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_ExpressibleByImageLiteral",
+            "printedName": "_ExpressibleByImageLiteral",
+            "usr": "s:s26_ExpressibleByImageLiteralP",
+            "mangledName": "$ss26_ExpressibleByImageLiteralP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "Image",
+        "printedName": "Image",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(asset:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Image",
+                "printedName": "SwiftUI.Image",
+                "usr": "s:7SwiftUI5ImageV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ShopLiveSDKImages",
+                "printedName": "ShopLiveSDK.ShopLiveSDKImages",
+                "usr": "s:11ShopLiveSDK0aB9SDKImagesV"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:7SwiftUI5ImageV11ShopLiveSDKE5assetAcD0dE9SDKImagesV_tcfc",
+            "mangledName": "$s7SwiftUI5ImageV11ShopLiveSDKE5assetAcD0dE9SDKImagesV_tcfc",
+            "moduleName": "ShopLiveSDK",
+            "isFromExtension": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(asset:label:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Image",
+                "printedName": "SwiftUI.Image",
+                "usr": "s:7SwiftUI5ImageV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ShopLiveSDKImages",
+                "printedName": "ShopLiveSDK.ShopLiveSDKImages",
+                "usr": "s:11ShopLiveSDK0aB9SDKImagesV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Text",
+                "printedName": "SwiftUI.Text",
+                "usr": "s:7SwiftUI4TextV"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:7SwiftUI5ImageV11ShopLiveSDKE5asset5labelAcD0dE9SDKImagesV_AA4TextVtcfc",
+            "mangledName": "$s7SwiftUI5ImageV11ShopLiveSDKE5asset5labelAcD0dE9SDKImagesV_AA4TextVtcfc",
+            "moduleName": "ShopLiveSDK",
+            "isFromExtension": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(decorative:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Image",
+                "printedName": "SwiftUI.Image",
+                "usr": "s:7SwiftUI5ImageV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "ShopLiveSDKImages",
+                "printedName": "ShopLiveSDK.ShopLiveSDKImages",
+                "usr": "s:11ShopLiveSDK0aB9SDKImagesV"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:7SwiftUI5ImageV11ShopLiveSDKE10decorativeAcD0dE9SDKImagesV_tcfc",
+            "mangledName": "$s7SwiftUI5ImageV11ShopLiveSDKE10decorativeAcD0dE9SDKImagesV_tcfc",
+            "moduleName": "ShopLiveSDK",
+            "isFromExtension": true,
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:7SwiftUI5ImageV",
+        "mangledName": "$s7SwiftUI5ImageV",
+        "moduleName": "SwiftUI",
+        "intro_Macosx": "10.15",
+        "intro_iOS": "13.0",
+        "intro_tvOS": "13.0",
+        "intro_watchOS": "6.0",
+        "declAttributes": [
+          "Frozen",
+          "Available",
+          "Available",
+          "Available",
+          "Available"
+        ],
+        "isExternal": true,
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Transferable",
+            "printedName": "Transferable",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "Representation",
+                "printedName": "Representation",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "OpaqueTypeArchetype",
+                    "printedName": "some CoreTransferable.TransferRepresentation",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "TransferRepresentation",
+                        "printedName": "CoreTransferable.TransferRepresentation",
+                        "usr": "s:16CoreTransferable22TransferRepresentationP"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Sendable",
+                        "printedName": "Swift.Sendable",
+                        "usr": "s:s8SendableP"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "usr": "s:16CoreTransferable0B0P",
+            "mangledName": "$s16CoreTransferable0B0P"
+          },
+          {
+            "kind": "Conformance",
+            "name": "View",
+            "printedName": "View",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "Body",
+                "printedName": "Body",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Never",
+                    "printedName": "Swift.Never",
+                    "usr": "s:s5NeverO"
+                  }
+                ]
+              }
+            ],
+            "usr": "s:7SwiftUI4ViewP",
+            "mangledName": "$s7SwiftUI4ViewP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
         "name": "AVAudioSession",
         "printedName": "AVAudioSession",
         "children": [
@@ -21499,6 +22476,83 @@
     "json_format_version": 8
   },
   "ConstValues": [
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Derived\/Sources\/TuistAssets+ShopLiveSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 582,
+      "length": 13,
+      "value": "\"closebutton\""
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Derived\/Sources\/TuistAssets+ShopLiveSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 1313,
+      "length": 43,
+      "value": "\"Unable to load image asset named \""
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Derived\/Sources\/TuistAssets+ShopLiveSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 1354,
+      "length": 1,
+      "value": "\".\""
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Derived\/Sources\/TuistStrings+ShopLiveSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 554,
+      "length": 13,
+      "value": "\"Localizable\""
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Derived\/Sources\/TuistStrings+ShopLiveSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 569,
+      "length": 18,
+      "value": "\"chat.placeholder\""
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Derived\/Sources\/TuistStrings+ShopLiveSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 680,
+      "length": 13,
+      "value": "\"Localizable\""
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Derived\/Sources\/TuistStrings+ShopLiveSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 695,
+      "length": 17,
+      "value": "\"chat.send.title\""
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Derived\/Sources\/TuistStrings+ShopLiveSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 887,
+      "length": 13,
+      "value": "\"Localizable\""
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Derived\/Sources\/TuistStrings+ShopLiveSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 902,
+      "length": 23,
+      "value": "\"share.url.empty.error\""
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Derived\/Sources\/TuistStrings+ShopLiveSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 1086,
+      "length": 13,
+      "value": "\"Localizable\""
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Derived\/Sources\/TuistStrings+ShopLiveSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 1101,
+      "length": 25,
+      "value": "\"share.url.empty.message\""
+    },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/APIService\/LiveUrlFetchAPI.swift",
       "kind": "StringLiteral",
@@ -27164,794 +28218,780 @@
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
-      "kind": "StringLiteral",
-      "offset": 3001,
-      "length": 13,
-      "value": "\"closebutton\""
-    },
-    {
-      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 3522,
+      "offset": 3544,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 3572,
+      "offset": 3594,
       "length": 1,
       "value": "0"
-    },
-    {
-      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
-      "kind": "IntegerLiteral",
-      "offset": 3578,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
-      "kind": "IntegerLiteral",
-      "offset": 3588,
-      "length": 2,
-      "value": "60"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
       "offset": 3600,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
+      "kind": "IntegerLiteral",
+      "offset": 3610,
+      "length": 2,
+      "value": "60"
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
+      "kind": "IntegerLiteral",
+      "offset": 3622,
       "length": 2,
       "value": "60"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 3701,
+      "offset": 3723,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 4086,
+      "offset": 4108,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 4306,
+      "offset": 4328,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 4372,
+      "offset": 4394,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 4569,
+      "offset": 4591,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 4641,
+      "offset": 4663,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 4739,
+      "offset": 4761,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 5007,
+      "offset": 5029,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "StringLiteral",
-      "offset": 6018,
+      "offset": 6040,
       "length": 35,
       "value": "\"LiveStreamViewController deinited\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 7206,
+      "offset": 7228,
       "length": 2,
       "value": "60"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 7221,
+      "offset": 7243,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 7313,
+      "offset": 7335,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 7327,
+      "offset": 7349,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 7421,
+      "offset": 7443,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 7435,
+      "offset": 7457,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 7519,
+      "offset": 7541,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 7533,
+      "offset": 7555,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 7715,
+      "offset": 7737,
       "length": 1,
       "value": "8"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 7767,
+      "offset": 7789,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 7883,
+      "offset": 7905,
       "length": 1,
       "value": "8"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 7931,
+      "offset": 7953,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 7996,
+      "offset": 8018,
       "length": 2,
       "value": "24"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 8011,
+      "offset": 8033,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 8077,
+      "offset": 8099,
       "length": 2,
       "value": "24"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 8092,
+      "offset": 8114,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 9250,
+      "offset": 9272,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 9332,
+      "offset": 9354,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 9513,
+      "offset": 9535,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 9566,
+      "offset": 9588,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 9598,
+      "offset": 9620,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 9677,
+      "offset": 9699,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 9709,
+      "offset": 9731,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 9831,
+      "offset": 9853,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 9914,
+      "offset": 9936,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 10117,
+      "offset": 10139,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 10170,
+      "offset": 10192,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 10202,
+      "offset": 10224,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 10281,
+      "offset": 10303,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 10313,
+      "offset": 10335,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 10596,
+      "offset": 10618,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 10649,
+      "offset": 10671,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 10681,
+      "offset": 10703,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 10760,
+      "offset": 10782,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 10792,
+      "offset": 10814,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 11204,
+      "offset": 11226,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 11261,
+      "offset": 11283,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 11293,
+      "offset": 11315,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 11376,
+      "offset": 11398,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 11408,
+      "offset": 11430,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 11682,
+      "offset": 11704,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 11741,
+      "offset": 11763,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 11829,
+      "offset": 11851,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 11884,
+      "offset": 11906,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 11991,
+      "offset": 12013,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 12065,
+      "offset": 12087,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 12562,
+      "offset": 12584,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 12636,
+      "offset": 12658,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 12670,
+      "offset": 12692,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 12804,
+      "offset": 12826,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 12894,
+      "offset": 12916,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 13010,
+      "offset": 13032,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 13103,
+      "offset": 13125,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 13328,
+      "offset": 13350,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 13381,
+      "offset": 13403,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 13413,
+      "offset": 13435,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 13492,
+      "offset": 13514,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 13606,
+      "offset": 13628,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 13698,
+      "offset": 13720,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 13813,
+      "offset": 13835,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 14680,
+      "offset": 14702,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 14869,
+      "offset": 14891,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 14967,
+      "offset": 14989,
       "length": 2,
       "value": "25"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 14992,
+      "offset": 15014,
       "length": 1,
       "value": "4"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 15013,
+      "offset": 15035,
       "length": 1,
       "value": "4"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 15017,
+      "offset": 15039,
       "length": 1,
       "value": "4"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 15382,
+      "offset": 15404,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 15515,
+      "offset": 15537,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 15923,
+      "offset": 15945,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 15964,
+      "offset": 15986,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 16052,
+      "offset": 16074,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 16096,
+      "offset": 16118,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 16138,
+      "offset": 16160,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 16181,
+      "offset": 16203,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 16233,
+      "offset": 16255,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 16279,
+      "offset": 16301,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 16323,
+      "offset": 16345,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 16368,
+      "offset": 16390,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 16542,
+      "offset": 16564,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 16569,
+      "offset": 16591,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 16596,
+      "offset": 16618,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 16836,
+      "offset": 16858,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 16881,
+      "offset": 16903,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 16924,
+      "offset": 16946,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 16968,
+      "offset": 16990,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 17963,
+      "offset": 17985,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "FloatLiteral",
-      "offset": 18066,
+      "offset": 18088,
       "length": 3,
       "value": "0.3"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 19003,
+      "offset": 19025,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 19380,
+      "offset": 19402,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 19672,
+      "offset": 19694,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 20616,
+      "offset": 20638,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 20623,
+      "offset": 20645,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 21280,
+      "offset": 21302,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 21286,
+      "offset": 21308,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 21296,
+      "offset": 21318,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "StringLiteral",
-      "offset": 22630,
+      "offset": 22652,
       "length": 13,
       "value": "\"orientation\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "StringLiteral",
-      "offset": 22903,
+      "offset": 22925,
       "length": 13,
       "value": "\"orientation\""
-    },
-    {
-      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
-      "kind": "FloatLiteral",
-      "offset": 23989,
-      "length": 3,
-      "value": "0.5"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
@@ -27962,484 +29002,491 @@
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
+      "kind": "FloatLiteral",
+      "offset": 24033,
+      "length": 3,
+      "value": "0.5"
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 24023,
+      "offset": 24045,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 24034,
+      "offset": 24056,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "Array",
-      "offset": 24094,
+      "offset": 24116,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 24521,
+      "offset": 24543,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 25096,
+      "offset": 25118,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 25250,
+      "offset": 25272,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "StringLiteral",
-      "offset": 25474,
+      "offset": 25496,
       "length": 6,
       "value": "\"9001\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "StringLiteral",
-      "offset": 25491,
+      "offset": 25513,
       "length": 23,
       "value": "\"share.url.empty.error\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 26206,
+      "offset": 26228,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 26217,
+      "offset": 26239,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "Array",
-      "offset": 26278,
+      "offset": 26300,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 26346,
+      "offset": 26368,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 26487,
+      "offset": 26509,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 27192,
+      "offset": 27214,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 27386,
+      "offset": 27408,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 27571,
+      "offset": 27593,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 27715,
+      "offset": 27737,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "StringLiteral",
-      "offset": 28159,
+      "offset": 28181,
       "length": 26,
       "value": "\"LiveStreamViewController\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 29671,
+      "offset": 29693,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 29740,
+      "offset": 29762,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 30083,
+      "offset": 30105,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 31007,
+      "offset": 31029,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 31061,
+      "offset": 31083,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 31261,
+      "offset": 31283,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 31319,
+      "offset": 31341,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 31611,
+      "offset": 31633,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 31679,
+      "offset": 31701,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 32482,
+      "offset": 32504,
       "length": 3,
       "value": "999"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 32537,
+      "offset": 32559,
       "length": 3,
       "value": "999"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 32593,
+      "offset": 32615,
       "length": 3,
       "value": "999"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 32650,
+      "offset": 32672,
       "length": 3,
       "value": "999"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 33347,
+      "offset": 33369,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 33458,
+      "offset": 33480,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 33505,
+      "offset": 33527,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 33598,
+      "offset": 33620,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 34331,
+      "offset": 34353,
       "length": 3,
       "value": "999"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 34386,
+      "offset": 34408,
       "length": 3,
       "value": "999"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 34442,
+      "offset": 34464,
       "length": 3,
       "value": "999"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 34499,
+      "offset": 34521,
       "length": 3,
       "value": "999"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 35138,
+      "offset": 35160,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 35264,
+      "offset": 35286,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 35738,
+      "offset": 35760,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 37179,
+      "offset": 37201,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "FloatLiteral",
-      "offset": 37908,
+      "offset": 37930,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 37923,
+      "offset": 37945,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "FloatLiteral",
-      "offset": 38089,
+      "offset": 38111,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 38104,
+      "offset": 38126,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "FloatLiteral",
-      "offset": 38273,
+      "offset": 38295,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 38288,
+      "offset": 38310,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 38875,
+      "offset": 38897,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 38888,
+      "offset": 38910,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 39032,
+      "offset": 39054,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 39045,
+      "offset": 39067,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "FloatLiteral",
-      "offset": 39527,
+      "offset": 39549,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 39542,
+      "offset": 39564,
       "length": 2,
       "value": "60"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "FloatLiteral",
-      "offset": 39725,
+      "offset": 39747,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 39740,
+      "offset": 39762,
       "length": 2,
       "value": "60"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "FloatLiteral",
-      "offset": 39935,
+      "offset": 39957,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 39950,
+      "offset": 39972,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "FloatLiteral",
-      "offset": 40144,
+      "offset": 40166,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 40159,
+      "offset": 40181,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "FloatLiteral",
-      "offset": 40692,
+      "offset": 40714,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 40707,
+      "offset": 40729,
       "length": 2,
       "value": "60"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "FloatLiteral",
-      "offset": 40882,
+      "offset": 40904,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 40897,
+      "offset": 40919,
       "length": 2,
       "value": "60"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "FloatLiteral",
-      "offset": 41075,
+      "offset": 41097,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 41090,
+      "offset": 41112,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "FloatLiteral",
-      "offset": 41267,
+      "offset": 41289,
       "length": 3,
       "value": "1.0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Player\/Sources\/Component\/LiveStreamViewController\/LiveStreamViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 41282,
+      "offset": 41304,
       "length": 1,
       "value": "0"
     },

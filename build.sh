@@ -23,8 +23,7 @@
 #cp -rf "${WORKING_DIR}/build/${SDK_FILENAME}" "${DIST_DIR}${DIST_SDK_DIR}${SDK_FILENAME}"
 
 WORKING_DIR=$(pwd)
-CONFIG_FILES=("config/common/build.config" "config/player/build.config" "config/shortform/build.config")
-
+CONFIG_FILES=("config/player/build.config" "config/common/build.config"  "config/shortform/build.config" )
 
 rm -rf "Frameworks"
 mkdir "Frameworks"
@@ -60,4 +59,5 @@ for config in ${CONFIG_FILES[@]}; do
   -output "${WORKING_DIR}/${DIST_DIR}/build/$SDK_FILENAME"
 
   cp -rf "${WORKING_DIR}/${DIST_DIR}/build/${SDK_FILENAME}" "${WORKING_DIR}${DIST_SDK_DIR}/${SDK_FILENAME}"
+  
 done

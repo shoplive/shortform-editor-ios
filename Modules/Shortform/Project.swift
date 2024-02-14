@@ -11,7 +11,7 @@ import ProjectDescriptionHelpers
 
 let deployTarget = Target(name: "ShopLiveShortformSDK",
                           platform: .iOS,
-                          product: .staticFramework,
+                          product: .framework,
                           bundleId: "cloud.shoplive.matrix-shortform-ios",
                           deploymentTarget: .iOS(targetVersion: "11.0", devices: .iphone),
                           infoPlist: .extendingDefault(with: [:]),

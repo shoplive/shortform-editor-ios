@@ -89,9 +89,9 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     lazy var closeButton: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        let bundle = Bundle(for: type(of: self))
-        let closebuttonImage = UIImage(named: "sl_closebutton", in: bundle, compatibleWith: nil)
-        view.setImage(closebuttonImage, for: .normal)
+//        let bundle = Bundle(for: type(of: self))
+//        let closebuttonImage = UIImage(named: "sl_closebutton", in: bundle, compatibleWith: nil)
+        view.setImage(ShopLiveShortformSDKAsset.slClosebutton.image, for: .normal)
         view.addTarget(self, action: #selector(didTouchCloseButton), for: .touchUpInside)
         return view
     }()

@@ -46,9 +46,9 @@ class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDeleg
     private lazy var closeButton: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        let bundle = Bundle(for: type(of: self))
-        let closeImage = UIImage(named: "sl_closebutton", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
-        view.setImage(closeImage, for: .normal)
+//        let bundle = Bundle(for: type(of: self))
+//        let closeImage = UIImage(named: "sl_closebutton", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
+        view.setImage(ShopLiveShortformEditorSDKAsset.slClosebutton.image, for: .normal)
         view.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
         view.imageView?.tintColor = .white
         return view
@@ -57,9 +57,9 @@ class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDeleg
     private lazy var playBtnImageView : UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        let bundle = Bundle(for: type(of: self))
-        let playImage = UIImage(named: "sl_editor_play_button", in: bundle, compatibleWith: nil)
-        imageView.image = playImage
+//        let bundle = Bundle(for: type(of: self))
+//        let playImage = UIImage(named: "sl_editor_play_button", in: bundle, compatibleWith: nil)
+        imageView.image = ShopLiveShortformEditorSDKAsset.slEditorPlayButton.image
         imageView.isHidden = true
         imageView.backgroundColor = .clear
         imageView.isUserInteractionEnabled = false
@@ -122,9 +122,9 @@ class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDeleg
     private lazy var timeSlider: UISlider = {
         let view = UISlider()
         view.translatesAutoresizingMaskIntoConstraints = false
-        let bundle = Bundle(for: type(of: self))
-        let timeSliderThumb = UIImage(named: "sl_timeSliderThumb", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
-        view.setThumbImage(timeSliderThumb, for: .normal)
+//        let bundle = Bundle(for: type(of: self))
+//        let timeSliderThumb = UIImage(named: "sl_timeSliderThumb", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
+        view.setThumbImage(ShopLiveShortformEditorSDKAsset.slTimeSliderThumb.image, for: .normal)
         view.minimumTrackTintColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
         view.maximumTrackTintColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
         return view

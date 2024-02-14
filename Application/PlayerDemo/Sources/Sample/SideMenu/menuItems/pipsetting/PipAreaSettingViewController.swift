@@ -183,7 +183,7 @@ final class PipAreaSettingViewController: UIViewController {
     }
     
     func setupBackButton() {
-        let backButton = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(handleNaviBack)
+        let backButton = UIBarButtonItem(image: ShopLivePlayerDemoAsset.back.image, style: .plain, target: self, action: #selector(handleNaviBack)
         )
         backButton.tintColor = .white
         self.navigationItem.leftBarButtonItem = backButton
@@ -198,11 +198,8 @@ final class PipAreaSettingViewController: UIViewController {
 
     func setupNaviItems() {
         self.title = "sdkoption.pipFloatingOffset.page.title".localized()
-
         let save = UIBarButtonItem(title: "sdk.user.save".localized(from: "shoplive"), style: .plain, target: self, action: #selector(saveAct))
-
         save.tintColor = .white
-
         self.navigationItem.rightBarButtonItem = save
         
         setupBackButton()

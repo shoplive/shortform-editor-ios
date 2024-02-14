@@ -26,9 +26,9 @@ class SLVideoEditorPlayerView: UIView, UIGestureRecognizerDelegate, SLVideoEdito
     private lazy var playButton: UIButton = {
         let view = UIButton(type: .custom)
         view.translatesAutoresizingMaskIntoConstraints = false
-        let bundle = Bundle(for: type(of: self))
-        let closebuttonImage = UIImage(named: "sl_editor_play_button", in: bundle, compatibleWith: nil)
-        view.setImage(closebuttonImage, for: .normal)
+//        let bundle = Bundle(for: type(of: self))
+//        let closebuttonImage = UIImage(named: "sl_editor_play_button", in: bundle, compatibleWith: nil)
+        view.setImage(ShopLiveShortformEditorSDKAsset.slEditorPlayButton.image, for: .normal)
         view.isUserInteractionEnabled = false
         return view
     }()

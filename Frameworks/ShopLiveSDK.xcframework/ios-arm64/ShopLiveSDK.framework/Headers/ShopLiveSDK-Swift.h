@@ -295,6 +295,7 @@ typedef SWIFT_ENUM(NSInteger, ActionType, open) {
 
 
 
+
 SWIFT_CLASS("_TtC11ShopLiveSDK12CouponResult")
 @interface CouponResult : NSObject
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -857,6 +858,14 @@ SWIFT_PROTOCOL("_TtP11ShopLiveSDK19ShopLiveSDKDelegate_")
 - (void)logWithName:(NSString * _Nonnull)name feature:(enum Feature)feature campaign:(NSString * _Nonnull)campaign payload:(NSDictionary<NSString *, id> * _Nonnull)payload;
 @end
 
+
+SWIFT_CLASS("_TtC11ShopLiveSDK20ShopLiveSDKResources")
+@interface ShopLiveSDKResources : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) NSBundle * _Nonnull bundle;)
++ (NSBundle * _Nonnull)bundle SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 typedef SWIFT_ENUM(NSInteger, ShopLiveViewTrackEvent, open) {
   ShopLiveViewTrackEventViewWillDisAppear = 0,
   ShopLiveViewTrackEventViewDidDisAppear = 1,
@@ -874,6 +883,7 @@ SWIFT_CLASS("_TtC11ShopLiveSDK14ShopliveWindow")
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
+
 
 
 

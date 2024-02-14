@@ -276,10 +276,11 @@ class SLVideoEditorViewController: UIViewController {
     }
        
     private func configureNavigationButton(){
-        let bundle = Bundle(for: type(of: self))
-        let backImage = UIImage(named: "back_arrow", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
+//        let bundle = Bundle(for: type(of: self))
+//        let backImage = UIImage(named: "back_arrow", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
         naviItem.titleView = titleView
-        let backButton = UIBarButtonItem(image: backImage, style: .plain, target: self, action: #selector(self.back))
+        
+        let backButton = UIBarButtonItem(image: ShopLiveShortformEditorSDKAsset.slBackArrow.image, style: .plain, target: self, action: #selector(self.back))
         naviItem.leftBarButtonItem = backButton
         self.navibar.setItems([naviItem], animated: false)
     }

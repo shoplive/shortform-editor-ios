@@ -28,7 +28,9 @@ class ShopLiveShortformBaseTypeCardView : UIView {
         view.backgroundColor = .white
         view.layer.cornerRadius = 10
         let bundle = Bundle(for: type(of: self))
-        let imageView = UIImageView(image: UIImage(named: "sl_ic_media_filled",in: bundle, compatibleWith: nil))
+        
+//        let imageView = UIImageView(image: UIImage(named: "sl_ic_media_filled",in: bundle, compatibleWith: nil))
+        let imageView = UIImageView(image: ShopLiveShortformSDKAsset.slIcMediaFilled.image)
         imageView.contentMode = .scaleAspectFit
         let stack = UIStackView(arrangedSubviews: [imageView])
         view.addSubview(stack)
@@ -49,7 +51,8 @@ class ShopLiveShortformBaseTypeCardView : UIView {
     
     lazy private var personIcon : UIImageView = {
         let bundle = Bundle(for: type(of: self))
-        let imageView = UIImageView(image: UIImage(named: "sl_ic_person",in: bundle, compatibleWith: nil))
+//        let imageView = UIImageView(image: UIImage(named: "sl_ic_person",in: bundle, compatibleWith: nil))
+        let imageView = UIImageView(image: ShopLiveShortformSDKAsset.slIcPerson.image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView

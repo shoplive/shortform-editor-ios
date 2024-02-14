@@ -13,6 +13,7 @@ import MediaPlayer
 import Network
 import ShopliveSDKCommon
 import Swift
+import SwiftUI
 import SystemConfiguration
 import UIKit
 import VideoToolbox
@@ -21,6 +22,55 @@ import _Concurrency
 import _StringProcessing
 import os.log
 import os
+public enum ShopLiveSDKAsset {
+  public static let closebutton: ShopLiveSDK.ShopLiveSDKImages
+}
+public struct ShopLiveSDKImages {
+  public var name: Swift.String {
+    get
+  }
+  public typealias Image = UIKit.UIImage
+  public var image: ShopLiveSDK.ShopLiveSDKImages.Image {
+    get
+  }
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public var swiftUIImage: SwiftUI.Image {
+    get
+  }
+}
+extension UIKit.UIImage {
+  @available(macOS, deprecated, message: "This initializer is unsafe on macOS, please use the ShopLiveSDKImages.image property")
+  convenience public init?(asset: ShopLiveSDK.ShopLiveSDKImages)
+}
+@available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+extension SwiftUI.Image {
+  public init(asset: ShopLiveSDK.ShopLiveSDKImages)
+  public init(asset: ShopLiveSDK.ShopLiveSDKImages, label: SwiftUI.Text)
+  public init(decorative asset: ShopLiveSDK.ShopLiveSDKImages)
+}
+@_inheritsConvenienceInitializers @objc public class ShopLiveSDKResources : ObjectiveC.NSObject {
+  @objc public class var bundle: Foundation.Bundle {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+public enum ShopLiveSDKStrings {
+  public enum Chat {
+    public static let placeholder: Swift.String
+    public enum Send {
+      public static let title: Swift.String
+    }
+  }
+  public enum Share {
+    public enum Url {
+      public enum Empty {
+        public static let error: Swift.String
+        public static let message: Swift.String
+      }
+    }
+  }
+}
 extension AVFAudio.AVAudioSession {
   public func safeRemoveObserver(_ observer: Any, forKeyPath keyPath: Swift.String, observeInfo: Swift.UnsafeMutableRawPointer?, completion: @escaping (Swift.Bool) -> Swift.Void)
 }

@@ -10,11 +10,13 @@
 		06DD7A0810066FE5E7BF0CBA /* PerfMeasurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0317326A922156C89A9509E8 /* PerfMeasurements.swift */; };
 		085247273F9887A9825C20E8 /* ShopLivePlayerShareCampaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB1BD7B564B49FB829BD2BC /* ShopLivePlayerShareCampaign.swift */; };
 		08ADB59BC456732394CE4AF5 /* ShopLiveWebInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2293F900635B00D54331A95B /* ShopLiveWebInterface.swift */; };
+		0E579393FC30E0F13A41C407 /* TuistStrings+ShopLiveSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9285EBA8AE0C95B90C6ED716 /* TuistStrings+ShopLiveSDK.swift */; };
 		0ED4618D39B775C455DC7928 /* ShopLivePlayerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEE733B9C3E45CAE83905DB /* ShopLivePlayerData.swift */; };
 		11E11A26ABFDEA19726CE7E4 /* LiveStreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13BB758D3EE384B4F72FD89 /* LiveStreamViewModel.swift */; };
 		13A29A656A0909E39252E209 /* ShopLiveViewComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA82324DBC07B585973B34AC /* ShopLiveViewComponents.swift */; };
 		16B7F7DFD043B15EA825E272 /* ShopLivePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF84B55E5F6994ED900571B /* ShopLivePlayer.swift */; };
 		1D05C32DCB40A5C0761D1A02 /* LiveStreamViewModel + TimeControlStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5811DFC20150DCE5FB6542 /* LiveStreamViewModel + TimeControlStatus.swift */; };
+		20BC3FD399714E7FB789E1F4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBE6A946A8FC1F705B82BBAA /* Images.xcassets */; };
 		2A32817B8EDF958F0958AE56 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329E9DE1BDBB166FF644C774 /* HapticManager.swift */; };
 		2C373E8BD4318563575E8FEB /* ShopLiveBase + CommonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300996239976DA808679E158 /* ShopLiveBase + CommonDelegate.swift */; };
 		322E86091F3965A78E041B7A /* ShopLiveBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48870811F7983AA97F167B9E /* ShopLiveBase.swift */; };
@@ -24,6 +26,7 @@
 		3BF98EC04C3EF2A1F6F819B0 /* ShopLivePlayerShareData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFA4FE459CEEA4DB90FF9C9 /* ShopLivePlayerShareData.swift */; };
 		3DEC2365814BD22FD1157891 /* ShopLiveThrottle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC5941C9FCCA75C3D387D2C /* ShopLiveThrottle.swift */; };
 		420730D0E926A325A3C6F495 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33749B92458FAB3C411D50D3 /* NetworkReachability.swift */; };
+		4447F2B6889032D2BEA3E337 /* TuistBundle+ShopLiveSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5E636AA1383E7F7508044F /* TuistBundle+ShopLiveSDK.swift */; };
 		47F3031ADA6B0EBE499A2580 /* SLLeakAvoider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41EE4532CCA467A78EE531D7 /* SLLeakAvoider.swift */; };
 		48D4504B4C84A17A1436C62F /* ShopLivePlayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2FF00A10A5E595D5B75CED /* ShopLivePlayerItem.swift */; };
 		4B79A043246AA3D859C8031D /* ShopLivePlayerShareDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35FD60A00B7C359370E1145 /* ShopLivePlayerShareDelegate.swift */; };
@@ -32,6 +35,7 @@
 		5911B1467EBA06469D53B026 /* LiveStreamViewController + ShopLivebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C007E2192057E114C348250 /* LiveStreamViewController + ShopLivebase.swift */; };
 		67C669AC7CB2911E92A7CA7F /* LiveStreamViewModel + PlayControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E990606E9A1F6D35B9ADB9 /* LiveStreamViewModel + PlayControl.swift */; };
 		7872B484CF4F3DB345DEB56F /* ShopLivePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7D17025B59B272AF745EB2 /* ShopLivePlayerView.swift */; };
+		78F4316EFA6398CEE8758415 /* TuistAssets+ShopLiveSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616E832DABABB5ED8E2C63E0 /* TuistAssets+ShopLiveSDK.swift */; };
 		7A8C1C99A1BB87C20AF83054 /* ShopLivePlayerDataObjc.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E4D02EC30D46566A176546 /* ShopLivePlayerDataObjc.swift */; };
 		7B11C67075C29C556E34F385 /* AudioSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF142433646E4391C5673E9A /* AudioSessionManager.swift */; };
 		7E614FFC2611911F88E0A4FF /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9BED200B56E82A097CA952 /* Debouncer.swift */; };
@@ -49,6 +53,7 @@
 		B0807F0BBB0FEF5DBC7CF0AE /* ShopLiveConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B83088F07FB737A779789E /* ShopLiveConfiguration.swift */; };
 		B1B9221DD14D5BBC02783C05 /* ShopLiveViewTrackEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E933FFA92E69AC08252976C7 /* ShopLiveViewTrackEvent.swift */; };
 		B813CC6774C4035DA720B23C /* ShopLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E1D8CCA4889F260ABE79CC /* ShopLive.swift */; };
+		C5095918E79C62E8A7CA2DED /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 10A68E5A3452AF79AB5CD887 /* Localizable.strings */; };
 		C7399F6D388578A47FD88FE7 /* ShopLiveWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5E8FF0595BDD384A4838E2 /* ShopLiveWindow.swift */; };
 		CA3208BE99015685B1CE4438 /* LiveStreamViewController + ChattingWriteDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EE263B98412D51093DE258 /* LiveStreamViewController + ChattingWriteDelegate.swift */; };
 		CA4D09F9970F1868858B5124 /* ShopLiveInAppConfigurationObjc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298E4B8F69998F1597E60E84 /* ShopLiveInAppConfigurationObjc.swift */; };
@@ -92,12 +97,14 @@
 		33749B92458FAB3C411D50D3 /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
 		3B7D17025B59B272AF745EB2 /* ShopLivePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLivePlayerView.swift; sourceTree = "<group>"; };
 		41EE4532CCA467A78EE531D7 /* SLLeakAvoider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLLeakAvoider.swift; sourceTree = "<group>"; };
+		424DE906D219DAC4AFD9DCD0 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		44EE263B98412D51093DE258 /* LiveStreamViewController + ChattingWriteDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveStreamViewController + ChattingWriteDelegate.swift"; sourceTree = "<group>"; };
 		48870811F7983AA97F167B9E /* ShopLiveBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveBase.swift; sourceTree = "<group>"; };
 		4C2FF00A10A5E595D5B75CED /* ShopLivePlayerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLivePlayerItem.swift; sourceTree = "<group>"; };
 		53DC29D8AFDDD4F4D6119E00 /* ShopLiveSDK-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ShopLiveSDK-Info.plist"; sourceTree = "<group>"; };
 		565BAC33196CA603D12432EA /* LiveStreamRetryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveStreamRetryManager.swift; sourceTree = "<group>"; };
 		5EF107098D99FF896BB4264B /* ShopLiveChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveChatView.swift; sourceTree = "<group>"; };
+		616E832DABABB5ED8E2C63E0 /* TuistAssets+ShopLiveSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistAssets+ShopLiveSDK.swift"; sourceTree = "<group>"; };
 		61CF0D277FE694AA11745415 /* ShopLiveSDKInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveSDKInterface.swift; sourceTree = "<group>"; };
 		671175D0DE60D8BCA5692EC0 /* LiveStreamViewController + Audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveStreamViewController + Audio.swift"; sourceTree = "<group>"; };
 		69E990606E9A1F6D35B9ADB9 /* LiveStreamViewModel + PlayControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveStreamViewModel + PlayControl.swift"; sourceTree = "<group>"; };
@@ -106,6 +113,8 @@
 		6FC58FD79E6FF0EB0AD79963 /* LiveStreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveStreamViewController.swift; sourceTree = "<group>"; };
 		7310CAC814245A956458385E /* ShopLiveInAppPipConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveInAppPipConfiguration.swift; sourceTree = "<group>"; };
 		7C007E2192057E114C348250 /* LiveStreamViewController + ShopLivebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveStreamViewController + ShopLivebase.swift"; sourceTree = "<group>"; };
+		7C5E636AA1383E7F7508044F /* TuistBundle+ShopLiveSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistBundle+ShopLiveSDK.swift"; sourceTree = "<group>"; };
+		9285EBA8AE0C95B90C6ED716 /* TuistStrings+ShopLiveSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistStrings+ShopLiveSDK.swift"; sourceTree = "<group>"; };
 		92A8C5D292EAC319DDDF86F1 /* OverLayWebView + WebSendFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OverLayWebView + WebSendFunc.swift"; sourceTree = "<group>"; };
 		9A5811DFC20150DCE5FB6542 /* LiveStreamViewModel + TimeControlStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveStreamViewModel + TimeControlStatus.swift"; sourceTree = "<group>"; };
 		9DE6DA5CD3DE8C73FC1BA67B /* Throttle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Throttle.swift; sourceTree = "<group>"; };
@@ -124,12 +133,14 @@
 		E15B498E21242C241F10DA3F /* PlayerSessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSessionState.swift; sourceTree = "<group>"; };
 		E9088EC3CB89D940A6BC3ED0 /* LiveStreamViewController + observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveStreamViewController + observer.swift"; sourceTree = "<group>"; };
 		E933FFA92E69AC08252976C7 /* ShopLiveViewTrackEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveViewTrackEvent.swift; sourceTree = "<group>"; };
+		EBF2A86813C6A77BF04E25FA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ED8DE34E45375E21681F1095 /* LiveUrlFetchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveUrlFetchAPI.swift; sourceTree = "<group>"; };
 		EE5E8FF0595BDD384A4838E2 /* ShopLiveWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveWindow.swift; sourceTree = "<group>"; };
 		F13BB758D3EE384B4F72FD89 /* LiveStreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveStreamViewModel.swift; sourceTree = "<group>"; };
 		F4E1D8CCA4889F260ABE79CC /* ShopLive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLive.swift; sourceTree = "<group>"; };
 		F89C7160B1EB669DE2C872A4 /* ShopLivePlayerErrorObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLivePlayerErrorObserver.swift; sourceTree = "<group>"; };
 		FA82324DBC07B585973B34AC /* ShopLiveViewComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveViewComponents.swift; sourceTree = "<group>"; };
+		FBE6A946A8FC1F705B82BBAA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FBE8A84B467F4CA859372AB9 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		FBE8D278AF70B1C4413EF7C1 /* ShopliveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopliveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFA4FE459CEEA4DB90FF9C9 /* ShopLivePlayerShareData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLivePlayerShareData.swift; sourceTree = "<group>"; };
@@ -147,6 +158,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0451AB242B7612FD7514CF82 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				10A68E5A3452AF79AB5CD887 /* Localizable.strings */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
 		0735757A9BF88FC07712C374 /* ObjcWrapper */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,6 +180,16 @@
 			children = (
 			);
 			name = Compiled;
+			sourceTree = "<group>";
+		};
+		0DA5EC6F83427407CC79EE43 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				616E832DABABB5ED8E2C63E0 /* TuistAssets+ShopLiveSDK.swift */,
+				7C5E636AA1383E7F7508044F /* TuistBundle+ShopLiveSDK.swift */,
+				9285EBA8AE0C95B90C6ED716 /* TuistStrings+ShopLiveSDK.swift */,
+			);
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		3479DCF64CE931BED892EF47 /* PlayerErrorObserver */ = {
@@ -209,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				AB8F0ECD59F22E6E567099A9 /* InfoPlists */,
+				0DA5EC6F83427407CC79EE43 /* Sources */,
 			);
 			path = Derived;
 			sourceTree = "<group>";
@@ -248,6 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				7402AE15604820519A6589FA /* Derived */,
+				BB0B89966985833CDA4D14F2 /* Resources */,
 				880ED1621A9CAB9B96085F1C /* Sources */,
 			);
 			name = Project;
@@ -275,6 +306,15 @@
 				53DC29D8AFDDD4F4D6119E00 /* ShopLiveSDK-Info.plist */,
 			);
 			path = InfoPlists;
+			sourceTree = "<group>";
+		};
+		BB0B89966985833CDA4D14F2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F9F7EFDFBE28236A47E660DF /* strings */,
+				FBE6A946A8FC1F705B82BBAA /* Images.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		C12CDE17ACDF76125B784445 /* LiveStreamViewModel */ = {
@@ -336,6 +376,14 @@
 				565BAC33196CA603D12432EA /* LiveStreamRetryManager.swift */,
 			);
 			path = RetryManager;
+			sourceTree = "<group>";
+		};
+		F9F7EFDFBE28236A47E660DF /* strings */ = {
+			isa = PBXGroup;
+			children = (
+				0451AB242B7612FD7514CF82 /* common */,
+			);
+			path = strings;
 			sourceTree = "<group>";
 		};
 		FAD283ACA9AC4B58DBDC33F0 /* LiveStreamViewController */ = {
@@ -416,6 +464,7 @@
 			knownRegions = (
 				Base,
 				en,
+				ko,
 			);
 			mainGroup = 68DBE10DAA841C462108609B;
 			productRefGroup = 364DF261D3F0891BF003361B /* Products */;
@@ -432,6 +481,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20BC3FD399714E7FB789E1F4 /* Images.xcassets in Resources */,
+				C5095918E79C62E8A7CA2DED /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,6 +493,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78F4316EFA6398CEE8758415 /* TuistAssets+ShopLiveSDK.swift in Sources */,
+				4447F2B6889032D2BEA3E337 /* TuistBundle+ShopLiveSDK.swift in Sources */,
+				0E579393FC30E0F13A41C407 /* TuistStrings+ShopLiveSDK.swift in Sources */,
 				4EF4AB50B507E87C357B8F39 /* LiveUrlFetchAPI.swift in Sources */,
 				7B11C67075C29C556E34F385 /* AudioSessionManager.swift in Sources */,
 				7E614FFC2611911F88E0A4FF /* Debouncer.swift in Sources */,
@@ -499,6 +553,18 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		10A68E5A3452AF79AB5CD887 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EBF2A86813C6A77BF04E25FA /* en */,
+				424DE906D219DAC4AFD9DCD0 /* ko */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		2FE6A22865A3BEEED9B80430 /* Release */ = {

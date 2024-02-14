@@ -14,9 +14,9 @@ open class SLWSTagView: UIView, UITextInputTraits {
     
     private lazy var closeButton: UIButton = {
         let view = UIButton()
-        let bundle = Bundle(for: type(of: self))
-        let closebuttonImage = UIImage(named: "sl_closebutton", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
-        view.setImage(closebuttonImage, for: .normal)
+//        let bundle = Bundle(for: type(of: self))
+//        let closebuttonImage = UIImage(named: "sl_closebutton", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+        view.setImage(ShopLiveShortformEditorSDKAsset.slClosebutton.image.withRenderingMode(.alwaysTemplate), for: .normal)
         view.tintColor = .black
         return view
     }()

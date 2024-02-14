@@ -24,9 +24,8 @@ final class ShopLiveCheckBoxButton: UIView {
     lazy var checkButton: UIButton = {
         let view = UIButton(type: .custom)
         view.translatesAutoresizingMaskIntoConstraints = false
-
-        view.setImage(UIImage(named: "check_not_selected"), for: .normal)
-        view.setImage(UIImage(named: "check_selected"), for: .selected)
+        view.setImage(ShopLivePlayerDemoAsset.checkNotSelected.image, for: .normal)
+        view.setImage(ShopLivePlayerDemoAsset.checkSelected.image, for: .selected)
         return view
     }()
 

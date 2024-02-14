@@ -58,8 +58,8 @@ class SLVideoEditorSliderHandleView2 : UIView {
     lazy private var timeIndicatorView : UISlider = {
         let view = UISlider()
         view.translatesAutoresizingMaskIntoConstraints = false
-        let playbar = UIImage(named: "sl_playbar", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
-        view.setThumbImage(playbar, for: .normal)
+//        let playbar = UIImage(named: "sl_playbar", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
+        view.setThumbImage(ShopLiveShortformEditorSDKAsset.slPlaybar.image, for: .normal)
         view.backgroundColor = .clear
         view.minimumTrackTintColor = .clear
         view.maximumTrackTintColor = .clear
@@ -80,8 +80,8 @@ class SLVideoEditorSliderHandleView2 : UIView {
     private lazy var leftHandle: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = true
-        let image = UIImage(named: "sl_editor_handle_left", in: bundle, compatibleWith: nil)
-        view.image = image
+//        let image = UIImage(named: "sl_editor_handle_left", in: bundle, compatibleWith: nil)
+        view.image = ShopLiveShortformEditorSDKAsset.slEditorHandleLeft.image
         view.backgroundColor = .clear
         return view
     }()
@@ -89,8 +89,8 @@ class SLVideoEditorSliderHandleView2 : UIView {
     private lazy var rightHandle: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = true
-        let image = UIImage(named: "sl_editor_handle_right", in: bundle, compatibleWith: nil)
-        view.image = image
+//        let image = UIImage(named: "sl_editor_handle_right", in: bundle, compatibleWith: nil)
+        view.image = ShopLiveShortformEditorSDKAsset.slEditorHandleRight.image
         view.backgroundColor = .clear
         return view
     }()

@@ -19,7 +19,6 @@
 		2C4ED16348F2431AE5C2630C /* libswscale.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 17BBF62EA016C60F903D177F /* libswscale.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2EB26EAA4757E006E32F8723 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCFF2C9AEBB6812C95B51193 /* SystemConfiguration.framework */; };
 		323344AC90FC561C10D15C85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A33FC50B6B829A959B0950 /* AppDelegate.swift */; };
-		36053DCC8FB3613D496FC500 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C9DE0FC29BE91C8A2C405854 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */; };
 		36764E7D6EFFECD3217C3B7D /* GoogleUtilities_AppDelegateSwizzler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B063912CF6A22174C6B3A514 /* GoogleUtilities_AppDelegateSwizzler.framework */; };
 		38B1F583497FCCE177CF80A6 /* ShopLiveShortformEditorSDK_ShopLiveShortformEditorSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 358EDCF5D882B9C3F1AEC0B5 /* ShopLiveShortformEditorSDK_ShopLiveShortformEditorSDK.bundle */; };
 		38FD00F5EE181550156DB9C7 /* libavfilter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9E2D0A591FAA16EB5452F9B /* libavfilter.xcframework */; };
@@ -30,6 +29,7 @@
 		425DFD76FF5ED0A20D3DA29B /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 43BF45C83C685C121DA553E4 /* libsqlite3.tbd */; };
 		449BA9151273460FFD0FC0B5 /* CommonUserSetUpBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EAADCFB838285C1000E20C /* CommonUserSetUpBox.swift */; };
 		4A9B57B1E30E53CB38963345 /* libavformat.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31A05F0F56ACE27282D17DB3 /* libavformat.xcframework */; };
+		509B5FA7FBA8BB0B8BD7C024 /* ShopLiveShortformSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5491D6DD05B8CA45717BF021 /* ShopLiveShortformSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		540E5517A807E3167460DF95 /* libavcodec.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBEA819F6D8A0D2B75CA5EE9 /* libavcodec.xcframework */; };
 		547D1A2C6EEB2AEEF670A471 /* libswscale.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17BBF62EA016C60F903D177F /* libswscale.xcframework */; };
 		5C872A251CB9C1CF382BDD35 /* OptionSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA80807A184463CD30C3679 /* OptionSettingModel.swift */; };
@@ -62,7 +62,6 @@
 		9E0EC713F2110CFF97EEE340 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EC5C9B95A7F289484BA11C2 /* Firebase.framework */; };
 		9FEF42C5B1A77C52975CEC8A /* CommonUserInputBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0FB6233C43C0A85F469704 /* CommonUserInputBox.swift */; };
 		A14F753948C887B1DBC4579A /* FirebaseAnalyticsTarget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8DB6FA10F661B6343946B37 /* FirebaseAnalyticsTarget.framework */; };
-		A264C0CACE4F0750D3FE9831 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle in Dependencies */ = {isa = PBXBuildFile; fileRef = C9DE0FC29BE91C8A2C405854 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */; };
 		A2D32CEC723B539A131524F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7D4FF95B11AB85B74F408DA /* Assets.xcassets */; };
 		A60430E414D2105CEC07AF66 /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AEBFB24364BB5BFEF129A52 /* ShopliveSDKCommon.framework */; };
 		A70E50F206580D930D1E540E /* TuistPlists+ShortformDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E41F289608AFA6704B04E9A /* TuistPlists+ShortformDemo.swift */; };
@@ -105,7 +104,6 @@
 			dstSubfolderSpec = 16;
 			files = (
 				F5963FB191A17003F3E0E249 /* ShopLiveShortformEditorSDK_ShopLiveShortformEditorSDK.bundle in Dependencies */,
-				A264C0CACE4F0750D3FE9831 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle in Dependencies */,
 			);
 			name = Dependencies;
 			runOnlyForDeploymentPostprocessing = 1;
@@ -116,6 +114,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				509B5FA7FBA8BB0B8BD7C024 /* ShopLiveShortformSDK.framework in Embed Frameworks */,
 				F3EDB5DE214CD6389E29D499 /* ShopliveSDKCommon.framework in Embed Frameworks */,
 				E22019077386D772BCE8245C /* SnapKit.framework in Embed Frameworks */,
 				0CA6B4CCB88C28A439535DBB /* ffmpegkit.xcframework in Embed Frameworks */,
@@ -198,7 +197,6 @@
 		C3627B7FF53B68BF1DB11E1D /* V2ShortformExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2ShortformExample.swift; sourceTree = "<group>"; };
 		C4A33FC50B6B829A959B0950 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C8DB6FA10F661B6343946B37 /* FirebaseAnalyticsTarget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FirebaseAnalyticsTarget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9DE0FC29BE91C8A2C405854 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShopLiveShortformSDK_ShopLiveShortformSDK.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		D60881F77E6DB394B852118A /* FirebaseAnalytics.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = FirebaseAnalytics.xcframework; sourceTree = "<group>"; };
 		D7EAADCFB838285C1000E20C /* CommonUserSetUpBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUserSetUpBox.swift; sourceTree = "<group>"; };
 		D9E88229F360ACB005CBD0E8 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -600,7 +598,6 @@
 				7AEBFB24364BB5BFEF129A52 /* ShopliveSDKCommon.framework */,
 				358EDCF5D882B9C3F1AEC0B5 /* ShopLiveShortformEditorSDK_ShopLiveShortformEditorSDK.bundle */,
 				05572951C14AD762074B0D5B /* ShopLiveShortformEditorSDK.framework */,
-				C9DE0FC29BE91C8A2C405854 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */,
 				5491D6DD05B8CA45717BF021 /* ShopLiveShortformSDK.framework */,
 				7C1EC35D800F6C6FFAEDD4DA /* ShortformDemo.app */,
 				DBBB73F28DD5CF9CF951A842 /* SnapKit.framework */,
@@ -669,7 +666,6 @@
 				DEE8BE86AFA53B3D20C35C31 /* LaunchScreen.storyboard in Resources */,
 				EA7579B34C5675E8515BBFFE /* Main.storyboard in Resources */,
 				38B1F583497FCCE177CF80A6 /* ShopLiveShortformEditorSDK_ShopLiveShortformEditorSDK.bundle in Resources */,
-				36053DCC8FB3613D496FC500 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -736,7 +732,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -752,7 +747,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.5;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleAppMeasurement/GoogleAppMeasurementWrapper/include/GoogleAppMeasurementTarget.modulemap",
@@ -793,7 +787,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -809,7 +802,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.5;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-fmodule-map-file=$(SRCROOT)/../../Tuist/Dependencies/SwiftPackageManager/.build/checkouts/GoogleAppMeasurement/GoogleAppMeasurementWrapper/include/GoogleAppMeasurementTarget.modulemap",

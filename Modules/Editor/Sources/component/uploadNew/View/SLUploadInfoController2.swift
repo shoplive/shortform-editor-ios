@@ -29,7 +29,8 @@ class SLUploadInfoController2 : UIViewController {
     lazy private var backBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setImage(UIImage(named: "sl_back_arrow", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate), for: .normal)
+//        btn.setImage(UIImage(named: "sl_back_arrow", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate), for: .normal)
+        btn.setImage(ShopLiveShortformEditorSDKAsset.slBackArrow.image.withRenderingMode(.alwaysTemplate), for: .normal)
         btn.imageView?.tintColor = .black
         return btn
     }()

@@ -41,7 +41,8 @@ public struct SLPhotosPickerConfigure {
     public var fetchCollectionOption: [FetchCollectionType: PHFetchOptions] = [:]
     public var selectedColor = UIColor(red: 88/255, green: 144/255, blue: 255/255, alpha: 1.0)
     public var cameraBgColor = UIColor(red: 221/255, green: 223/255, blue: 226/255, alpha: 1)
-    public var cameraIcon = UIImage(named: "sl_camera")
+    public var cameraIcon = ShopLiveShortformEditorSDKAsset.slCamera.image
+    //UIImage(named: "sl_camera")
     public var groupByFetch: PHFetchedResultGroupedBy? = nil
     public var supportedInterfaceOrientations: UIInterfaceOrientationMask = .portrait
     public var popup: [PopupConfigure] = []
@@ -166,9 +167,9 @@ open class SLPhotosPickerViewController: UIViewController {
     private func updateUserInterfaceStyle() {
         if #available(iOS 13.0, *) {
             let userInterfaceStyle = self.traitCollection.userInterfaceStyle
-            let bundle = Bundle(for: type(of: self))
-            let image = UIImage(named: "sl_pop_arrow", in: bundle, compatibleWith: nil)
-            let subImage = UIImage(named: "sl_arrow", in: bundle, compatibleWith: nil)
+//            let bundle = Bundle(for: type(of: self))
+//            let image = UIImage(named: "sl_pop_arrow", in: bundle, compatibleWith: nil)
+//            let subImage = UIImage(named: "sl_arrow", in: bundle, compatibleWith: nil)
             
             self.view.backgroundColor = .white
             self.collectionView.backgroundColor = .white
@@ -218,8 +219,9 @@ open class SLPhotosPickerViewController: UIViewController {
     
     private func setupPicker() {
         var configure = SLPhotosPickerConfigure()
-        let bundle = Bundle(for: type(of: self))
-        configure.cameraIcon = UIImage(named: "sl_camera", in: bundle, compatibleWith: nil)
+//        let bundle = Bundle(for: type(of: self))
+//        UIImage(named: "sl_camera", in: bundle, compatibleWith: nil)
+        configure.cameraIcon = ShopLiveShortformEditorSDKAsset.slCamera.image
         configure.mediaType = .video
         configure.numberOfColumn = 3
         configure.singleSelectedMode = true
@@ -388,9 +390,9 @@ extension SLPhotosPickerViewController {
         guard self.focusedCollection != nil else { return }
         let titleAttributedString = NSMutableAttributedString(string: self.focusedCollection?.title ?? "")
         
-        let arrowImage = UIImage(named: "sl_arrow", in: Bundle(for: type(of: self)), compatibleWith: nil)
+//        let arrowImage = UIImage(named: "sl_arrow", in: Bundle(for: type(of: self)), compatibleWith: nil)
         let arrowAttachment = NSTextAttachment()
-        arrowAttachment.image = arrowImage
+        arrowAttachment.image = ShopLiveShortformEditorSDKAsset.slArrow.image
         arrowAttachment.bounds = CGRectMake(0, -5, 20, 20)
         let arrowString = NSAttributedString(attachment: arrowAttachment)
 

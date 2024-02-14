@@ -17,8 +17,9 @@ class ShopLiveShortformBaseEmptyDataView : UIView {
     
     lazy private var emptyIconView : UIImageView = {
         let imageView = UIImageView()
-        let bundle = Bundle(for: type(of: self))
-        imageView.image =  UIImage(named: "ic_shortform_empty",in: bundle, compatibleWith: nil)
+//        let bundle = Bundle(for: type(of: self))
+//        imageView.image =  UIImage(named: "ic_shortform_empty",in: bundle, compatibleWith: nil)
+        imageView.image = ShopLiveShortformSDKAsset.slIcShortformEmpty.image
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()

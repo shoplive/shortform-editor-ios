@@ -25,7 +25,7 @@ class LoginTextField: BaseTextField {
 
     private lazy var clearButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "clearall"), for: .normal)
+        button.setImage(ShopLivePlayerDemoAsset.close.image, for: .normal)
         button.addTarget(self, action: #selector(didTapClearButton), for: .touchUpInside)
         return button
     }()

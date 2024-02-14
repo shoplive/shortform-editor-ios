@@ -88,9 +88,9 @@ internal final class LiveStreamViewController: SLViewController {
     lazy var closeButton: SLButton = {
         let view = SLButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        let bundle = Bundle(for: type(of: self))
-        let closebuttonImage = UIImage(named: "closebutton", in: bundle, compatibleWith: nil)
-        view.setImage(closebuttonImage, for: .normal)
+//        let bundle = Bundle(for: type(of: self))
+//        let closebuttonImage = UIImage(named: "closebutton", in: bundle, compatibleWith: nil)
+        view.setImage(ShopLiveSDKAsset.closebutton.image, for: .normal)
         view.addTarget(self, action: #selector(didTouchCloseButton), for: .touchUpInside)
         return view
     }()

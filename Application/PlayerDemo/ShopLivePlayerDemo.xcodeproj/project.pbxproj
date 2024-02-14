@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -90,7 +90,6 @@
 		E53990CD08EE7D79D633DD2E /* SwiftyJWT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A7F1E3A855CB7CCD5F2A08E /* SwiftyJWT.framework */; };
 		E585E3A22A8C2AFBA62BD4B4 /* SideMenuItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9418D367F1DC6E50F1122 /* SideMenuItemViewController.swift */; };
 		E74F176481B8A08F5BCC76A2 /* DeepLInkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0916A25579AB9322BC7CA3F3 /* DeepLInkManager.swift */; };
-		F3A230EED278D358788F9076 /* Sample.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CDCC48DCD29CA8DA6BAE00E /* Sample.xcassets */; };
 		F893E15C48B0CDFBCB05AA83 /* ShopliveSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40D6556B6AD5EFB76970E4A1 /* ShopliveSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -136,7 +135,6 @@
 		2730805442BD0F58D886F5AE /* DemoAppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppUtility.swift; sourceTree = "<group>"; };
 		279C9A6F5F65E3A8A2D9D42E /* ShopLiveKeySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveKeySet.swift; sourceTree = "<group>"; };
 		2B709D6B12266F3DFBE9CADF /* CustomShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShareViewController.swift; sourceTree = "<group>"; };
-		2CDCC48DCD29CA8DA6BAE00E /* Sample.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Sample.xcassets; sourceTree = "<group>"; };
 		2E5171054C8B813BC6C06E13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		30E8C1D9B02D53E86E4EBBBF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		34AF264C23B015703C35C51B /* SideMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuCell.swift; sourceTree = "<group>"; };
@@ -373,7 +371,6 @@
 				C3E8166DC4459FEBB8A3EBAF /* Main.storyboard */,
 				3983190866A81D20E867906E /* NanumBrush.ttf */,
 				58BA9B71C757F19B5D29384B /* Sample.storyboard */,
-				2CDCC48DCD29CA8DA6BAE00E /* Sample.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -504,6 +501,8 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				ORGANIZATIONNAME = com.app;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = 0FBB19C0B268F98EE98D6C03 /* Build configuration list for PBXProject "ShopLivePlayerDemo" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -534,7 +533,6 @@
 				4F5263051EBB7F1D3E78C453 /* Main.storyboard in Resources */,
 				3884C22B3149D685E6B2098E /* NanumBrush.ttf in Resources */,
 				250538D96814F9B640860A0B /* Sample.storyboard in Resources */,
-				F3A230EED278D358788F9076 /* Sample.xcassets in Resources */,
 				13A6B8D1827E08F2D10B8A24 /* shoplive.strings in Resources */,
 				B8101D9B786A6253709672E4 /* CryptoSwift_CryptoSwift.bundle in Resources */,
 				0F4361AAEA50A0DB1BB7DFD3 /* Toast_Toast.bundle in Resources */,
@@ -634,7 +632,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Support/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -773,7 +770,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = D237UGRPX6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Support/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;

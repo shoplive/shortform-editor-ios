@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -25,7 +25,6 @@
 		29003C611472B2D91323AA13 /* SLNVActivityIndicatorAnimationAudioEqualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEC6B65E8D8A20A1D1C7307 /* SLNVActivityIndicatorAnimationAudioEqualizer.swift */; };
 		2ECAA56778A6CC8EDBFCF98B /* SLRequestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F70A099B6F6F41A491A8DB1 /* SLRequestable.swift */; };
 		2F44839F71C4BF293A4687ED /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E78961DD7165DF67FEBD97 /* KeychainItemAccessibility.swift */; };
-		2F7426442B7CA14C00FE2E22 /* SLDynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7426432B7CA14C00FE2E22 /* SLDynamicColor.swift */; };
 		2FE373E74B308377DC02FD1D /* UIEdgetInset+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CBF08080D6BDAFE049A85A9 /* UIEdgetInset+extension.swift */; };
 		33075F0B0C2082FBC9001315 /* Int+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D2FE7D6CAB4C68D2AA3C25 /* Int+extensions.swift */; };
 		34F93A5D8B641526267CDC75 /* SLReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211B6AF0E32BA78247809E8A /* SLReachability.swift */; };
@@ -99,6 +98,7 @@
 		AD7579A1BA0FBBC3D1ED322D /* SLNVActivityIndicatorAnimationCubeTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87A34162F5907A4F9BB37DC /* SLNVActivityIndicatorAnimationCubeTransition.swift */; };
 		B0B712AFC374031A6F4714C4 /* ImageDownLoadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928A54FF286761B82DE9CB4A /* ImageDownLoadManager.swift */; };
 		B107BA529D49F114BD15A99F /* Float64+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34843374DBF7FC9BD1432686 /* Float64+extension.swift */; };
+		B400EE26B9A7D7F64CD9BC55 /* SLDynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072DEB15ADE27C78EA9B32E9 /* SLDynamicColor.swift */; };
 		B44E0D72B16569854DC1B58E /* ShopLiveJWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D191EB88A2B3C1F1294BCC2 /* ShopLiveJWT.swift */; };
 		B535F05989FE64EC56538CD6 /* SLNVActivityIndicatorAnimationBallClipRotateMultiple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADFB3DCF9EC74B3D51D4DA4 /* SLNVActivityIndicatorAnimationBallClipRotateMultiple.swift */; };
 		B57073E846E6F6D4EB0AD2E3 /* SLKeyChainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EE8782534660CEC09EE2A4 /* SLKeyChainUtil.swift */; };
@@ -168,6 +168,7 @@
 		01FF1D3CF2F2D9DF8840D482 /* UITextField+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+extension.swift"; sourceTree = "<group>"; };
 		03DB4E8961CC994EBCF6CC1B /* CGFloat+extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+extention.swift"; sourceTree = "<group>"; };
 		0624342038654E8A071F5812 /* ShopLivePublicEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLivePublicEnums.swift; sourceTree = "<group>"; };
+		072DEB15ADE27C78EA9B32E9 /* SLDynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLDynamicColor.swift; sourceTree = "<group>"; };
 		0A31189AFE2114BB738482E5 /* ShopliveSDKCommon-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ShopliveSDKCommon-Info.plist"; sourceTree = "<group>"; };
 		0D4F66994743B344E7279136 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		11F3D1BD528A55CD05059BE3 /* SLNVActivityIndicatorAnimationBallPulse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallPulse.swift; sourceTree = "<group>"; };
@@ -195,7 +196,6 @@
 		292EA7AB669644FE112A6194 /* Array+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+extension.swift"; sourceTree = "<group>"; };
 		29DD43B1C1D81B0159C019E3 /* SLNVActivityIndicatorAnimationBallRotateChase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallRotateChase.swift; sourceTree = "<group>"; };
 		29E5DFD785C5420190582459 /* SLNVActivityIndicatorAnimationCircleStrokeSpin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationCircleStrokeSpin.swift; sourceTree = "<group>"; };
-		2F7426432B7CA14C00FE2E22 /* SLDynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLDynamicColor.swift; sourceTree = "<group>"; };
 		313C6A2C4C2BE32FA5A2E210 /* SLNVActivityIndicatorAnimationBallClipRotate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallClipRotate.swift; sourceTree = "<group>"; };
 		32AB58943DCBE8D3F56DEA94 /* Data+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+extension.swift"; sourceTree = "<group>"; };
 		32FB69F6C434A1730C62DB07 /* SLNVActivityIndicatorAnimationBallGridPulse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLNVActivityIndicatorAnimationBallGridPulse.swift; sourceTree = "<group>"; };
@@ -823,8 +823,8 @@
 		F8CBF80845AF16B5FC0CC163 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				072DEB15ADE27C78EA9B32E9 /* SLDynamicColor.swift */,
 				A86F2682381DE435ED41DD4C /* URLUtil.swift */,
-				2F7426432B7CA14C00FE2E22 /* SLDynamicColor.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -858,6 +858,8 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				ORGANIZATIONNAME = com.app;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = 9133A0E6DDCFC96CE0685C98 /* Build configuration list for PBXProject "ShopliveSDKCommon" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -916,6 +918,7 @@
 				C471364D325C25EBFE99BA11 /* SLResultObservable.swift in Sources */,
 				CA101557E66139D8E110E164 /* ShopLiveSDKCommon + AppDelegate.swift in Sources */,
 				ECBF5FC26C10C95CC0C07CA5 /* ShopliveSDKCommon.swift in Sources */,
+				B400EE26B9A7D7F64CD9BC55 /* SLDynamicColor.swift in Sources */,
 				4D4BE080DA9D2F7ACD193BD8 /* URLUtil.swift in Sources */,
 				A15DB99E4BC37491079A3FC5 /* SLBaseView.swift in Sources */,
 				607F805F0E49BF42D81B64D2 /* SLBaseViewController.swift in Sources */,
@@ -976,7 +979,6 @@
 				485A6AB635A966857380FF29 /* UIWindow+extension.swift in Sources */,
 				94F2F68B2BD1D2C3F90EC0F7 /* WKWebView+extension.swift in Sources */,
 				53E5A60B8D566DEDAA865548 /* KeychainData.swift in Sources */,
-				2F7426442B7CA14C00FE2E22 /* SLDynamicColor.swift in Sources */,
 				B57073E846E6F6D4EB0AD2E3 /* SLKeyChainUtil.swift in Sources */,
 				2F44839F71C4BF293A4687ED /* KeychainItemAccessibility.swift in Sources */,
 				1EEB30F0A48B5AFB65F8BAAA /* KeychainWrapper.swift in Sources */,

@@ -7,28 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0911585F5BD97FEAD84B2C94 /* ShopLiveShortformSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B4DB09C93108AC8C307524BD /* ShopLiveShortformSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1713E63A19770C2F9FD78C53 /* ShopliveSDKCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 33E3B6C0026AA9F7B72BAB21 /* ShopliveSDKCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1E7819BAD4EC094BDF4E8601 /* ShopliveSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33E3B6C0026AA9F7B72BAB21 /* ShopliveSDKCommon.framework */; };
 		2B719CE069A81D8668795339 /* ShopLiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DD487C1FC1F33A87CF2FC97 /* ShopLiveSDK.framework */; };
 		3B657ADCE4B66EA624F93FB6 /* ShopLiveShortformSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4DB09C93108AC8C307524BD /* ShopLiveShortformSDK.framework */; };
-		3ECB873CEAD08372BD8355EC /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle in Dependencies */ = {isa = PBXBuildFile; fileRef = 227D1F221AD87E4BBC351802 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */; };
 		5B3E659EAEEBCAC5CB5F7C48 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F362CAA93BBFA4BEDD5B08 /* SceneDelegate.swift */; };
-		9E5356DC4B0607D7342B9953 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 227D1F221AD87E4BBC351802 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */; };
 		A9AF357C3D91DB20004F48AA /* ShopLiveSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0DD487C1FC1F33A87CF2FC97 /* ShopLiveSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BFC9DF95729CA75C00A61ED7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE0E8C3D94E68AE245926AC /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		DDD7A71329CCB93A2739F93A /* Dependencies */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
-			dstSubfolderSpec = 16;
-			files = (
-				3ECB873CEAD08372BD8355EC /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle in Dependencies */,
-			);
-			name = Dependencies;
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		F1A257552F90C8E9D77794C9 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -36,6 +25,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				A9AF357C3D91DB20004F48AA /* ShopLiveSDK.framework in Embed Frameworks */,
+				0911585F5BD97FEAD84B2C94 /* ShopLiveShortformSDK.framework in Embed Frameworks */,
 				1713E63A19770C2F9FD78C53 /* ShopliveSDKCommon.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -46,7 +36,6 @@
 /* Begin PBXFileReference section */
 		0DD487C1FC1F33A87CF2FC97 /* ShopLiveSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16F362CAA93BBFA4BEDD5B08 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		227D1F221AD87E4BBC351802 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShopLiveShortformSDK_ShopLiveShortformSDK.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		33E3B6C0026AA9F7B72BAB21 /* ShopliveSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopliveSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		798BE44A8D49143BA2B2754B /* ShopLiveDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ShopLiveDemo-Info.plist"; sourceTree = "<group>"; };
 		AC2778A3EB02BC1A13EA22AA /* ShopLiveDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShopLiveDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,7 +88,6 @@
 				AC2778A3EB02BC1A13EA22AA /* ShopLiveDemo.app */,
 				0DD487C1FC1F33A87CF2FC97 /* ShopLiveSDK.framework */,
 				33E3B6C0026AA9F7B72BAB21 /* ShopliveSDKCommon.framework */,
-				227D1F221AD87E4BBC351802 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */,
 				B4DB09C93108AC8C307524BD /* ShopLiveShortformSDK.framework */,
 			);
 			name = Products;
@@ -141,7 +129,6 @@
 				1636C5C0C7BE4B99ABD37871 /* Resources */,
 				F1A257552F90C8E9D77794C9 /* Embed Frameworks */,
 				22895903E3F2F61369EB2773 /* Frameworks */,
-				DDD7A71329CCB93A2739F93A /* Dependencies */,
 			);
 			buildRules = (
 			);
@@ -186,7 +173,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9E5356DC4B0607D7342B9953 /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

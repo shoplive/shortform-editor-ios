@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     private var settingMoreBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setImage(UIImage(named: "shortform_ic_three-dot"), for: .normal)
+        btn.setImage(ShortformDemoAsset.shortformIcThreeDot.image, for: .normal)
         btn.imageView?.contentMode = .scaleAspectFit
         return btn
     }()

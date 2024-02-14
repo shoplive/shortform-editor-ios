@@ -120,7 +120,8 @@ class ShopLiveShortformOverlayCardViewType0 : UIView {
             }
             
             if let url = URL(string: userThumbnail) {
-                userImage.image = UIImage(named: "ic_shoplive_user-fill")
+//                userImage.image = UIImage(named: "ic_shoplive_user-fill")
+                userImage.image = ShopLiveShortformSDKAsset.slIcShopliveUserFill.image
                 ImageDownLoaderManager.shared.download(imageUrl: url) { [weak self] result in
                     guard let self = self else { return }
                     switch result {

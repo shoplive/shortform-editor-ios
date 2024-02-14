@@ -26,7 +26,8 @@ class SLVideoEditorViewController2 : UIViewController {
     lazy private var backBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setImage(UIImage(named: "sl_back_arrow", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate), for: .normal)
+//        UIImage(named: "sl_back_arrow", in: bundle, compatibleWith: nil)
+        btn.setImage(ShopLiveShortformEditorSDKAsset.slBackArrow.image.withRenderingMode(.alwaysTemplate), for: .normal)
         btn.imageView?.tintColor = .white
         return btn
     }()

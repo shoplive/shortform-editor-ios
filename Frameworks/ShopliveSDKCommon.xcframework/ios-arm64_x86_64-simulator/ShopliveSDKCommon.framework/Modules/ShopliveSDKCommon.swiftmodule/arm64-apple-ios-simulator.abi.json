@@ -10047,6 +10047,78 @@
         ]
       },
       {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "ShopliveSDKCommon"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "SLDynamicColor",
+        "printedName": "SLDynamicColor",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "wrappedValue",
+            "printedName": "wrappedValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "UIColor",
+                "printedName": "UIKit.UIColor",
+                "usr": "c:objc(cs)UIColor"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:17ShopliveSDKCommon14SLDynamicColorV12wrappedValueSo7UIColorCvp",
+            "mangledName": "$s17ShopliveSDKCommon14SLDynamicColorV12wrappedValueSo7UIColorCvp",
+            "moduleName": "ShopliveSDKCommon",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIColor",
+                    "printedName": "UIKit.UIColor",
+                    "usr": "c:objc(cs)UIColor"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:17ShopliveSDKCommon14SLDynamicColorV12wrappedValueSo7UIColorCvg",
+                "mangledName": "$s17ShopliveSDKCommon14SLDynamicColorV12wrappedValueSo7UIColorCvg",
+                "moduleName": "ShopliveSDKCommon",
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:17ShopliveSDKCommon14SLDynamicColorV",
+        "mangledName": "$s17ShopliveSDKCommon14SLDynamicColorV",
+        "moduleName": "ShopliveSDKCommon",
+        "declAttributes": [
+          "AccessControl",
+          "PropertyWrapper"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ShopliveSDKCommon",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
         "kind": "TypeDecl",
         "name": "URLUtil_SL",
         "printedName": "URLUtil_SL",
@@ -21407,6 +21479,32 @@
             "declKind": "Func",
             "usr": "s:17ShopliveSDKCommon22ImageDownLoaderManagerC8download8imageUrl10completiony10Foundation3URLV_ys6ResultOyAG4DataVAA19ShopLiveCommonErrorCGctF",
             "mangledName": "$s17ShopliveSDKCommon22ImageDownLoaderManagerC8download8imageUrl10completiony10Foundation3URLV_ys6ResultOyAG4DataVAA19ShopLiveCommonErrorCGctF",
+            "moduleName": "ShopliveSDKCommon",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "preDownloadImage",
+            "printedName": "preDownloadImage(imageUrl:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "URL",
+                "printedName": "Foundation.URL",
+                "usr": "s:10Foundation3URLV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17ShopliveSDKCommon22ImageDownLoaderManagerC011preDownloadC08imageUrly10Foundation3URLV_tF",
+            "mangledName": "$s17ShopliveSDKCommon22ImageDownLoaderManagerC011preDownloadC08imageUrly10Foundation3URLV_tF",
             "moduleName": "ShopliveSDKCommon",
             "declAttributes": [
               "AccessControl"
@@ -52243,6 +52341,13 @@
       "offset": 1961,
       "length": 29,
       "value": "\"failed to get data from url\""
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Common\/Sources\/network\/ImageDownLoadManager.swift",
+      "kind": "IntegerLiteral",
+      "offset": 2629,
+      "length": 2,
+      "value": "-1"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Common\/Sources\/network\/NetworkMonitor.swift",

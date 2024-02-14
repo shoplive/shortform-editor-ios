@@ -1,9 +1,0 @@
-/* 
-  Localizable.strings
-  ShopLiveSDK
-
-  Created by ShopLive on 2021/07/07.
-  
-*/
-"chat.placeholder" = "Add comment...";
-"chat.send.title" = "Send";

@@ -69,9 +69,9 @@ class SLVideoEditorSliderHandleView: SLBaseView, UIGestureRecognizerDelegate {
     private lazy var leftHandle: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = true
-        let bundle = Bundle(for: type(of: self))
-        let image = UIImage(named: "sl_editor_handle_left", in: bundle, compatibleWith: nil)
-        view.image = image
+//        let bundle = Bundle(for: type(of: self))
+//        let image = UIImage(named: "sl_editor_handle_left", in: bundle, compatibleWith: nil)
+        view.image = ShopLiveShortformEditorSDKAsset.slEditorHandleLeft.image
         view.backgroundColor = .clear
         view.isUserInteractionEnabled = true
         return view
@@ -94,9 +94,9 @@ class SLVideoEditorSliderHandleView: SLBaseView, UIGestureRecognizerDelegate {
     private lazy var rightHandle: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = true
-        let bundle = Bundle(for: type(of: self))
-        let image = UIImage(named: "sl_editor_handle_right", in: bundle, compatibleWith: nil)
-        view.image = image
+//        let bundle = Bundle(for: type(of: self))
+//        let image = UIImage(named: "sl_editor_handle_right", in: bundle, compatibleWith: nil)
+        view.image = ShopLiveShortformEditorSDKAsset.slEditorHandleRight.image
         view.backgroundColor = .clear
         view.isUserInteractionEnabled = true
         return view
@@ -105,9 +105,9 @@ class SLVideoEditorSliderHandleView: SLBaseView, UIGestureRecognizerDelegate {
     private lazy var timeSlider: UISlider = {
         let view = UISlider()
         view.translatesAutoresizingMaskIntoConstraints = false
-        let bundle = Bundle(for: type(of: self))
-        let playbar = UIImage(named: "sl_playbar", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
-        view.setThumbImage(playbar, for: .normal)
+//        let bundle = Bundle(for: type(of: self))
+//        let playbar = UIImage(named: "sl_playbar", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
+        view.setThumbImage(ShopLiveShortformEditorSDKAsset.slPlaybar.image, for: .normal)
         view.addTarget(self, action: #selector(timeSliderValueChanged), for: UIControl.Event.valueChanged)
         view.backgroundColor = .clear
         view.minimumTrackTintColor = .clear

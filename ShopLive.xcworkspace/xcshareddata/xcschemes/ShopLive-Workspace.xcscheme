@@ -434,20 +434,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "39EF557508BA9A1F6538964D"
-               BuildableName = "ShopLiveShortformSDK_ShopLiveShortformSDK.bundle"
-               BlueprintName = "ShopLiveShortformSDK_ShopLiveShortformSDK"
-               ReferencedContainer = "container:Modules/Shortform/ShopLiveShortformSDK.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "332C15920041A378665A76DD"
                BuildableName = "ShopliveSDKCommon.framework"
                BlueprintName = "ShopliveSDKCommon"

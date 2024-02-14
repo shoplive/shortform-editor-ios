@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -33,6 +33,7 @@
 		3AD7DF431CC613F0EE1A625B /* ShortsSettingConfigJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = F291E4EDAFB4AD8A8EF7B98B /* ShortsSettingConfigJson.swift */; };
 		3B2E53AC58B082C1D1F1FD26 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE334475FF6386837CAEB1 /* CardModel.swift */; };
 		40CFE7D722BE14CA6EE1FCA6 /* ShopLiveShareMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454E0A1B74BF2AC740544444 /* ShopLiveShareMetaData.swift */; };
+		431D39B2119EFA95A7314132 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6846687957BAA35E8FAE872A /* Assets.xcassets */; };
 		4729EC340574BA8D25103B25 /* UIFont + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B7837E921440EC2907B59E /* UIFont + extension.swift */; };
 		4805020C6CDBE9CDD1292ABF /* LatestShortsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B861091EBB911670966CBC3A /* LatestShortsCell.swift */; };
 		48240F70CF74C350587DA69D /* ShopLiveShortformVisibleFullTypeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D53B5FC7C326957A53CF025 /* ShopLiveShortformVisibleFullTypeData.swift */; };
@@ -43,7 +44,6 @@
 		504F52C6B166F2285A42E421 /* ShopLiveShortformCollectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1DC74C626070EB078F19D2 /* ShopLiveShortformCollectionData.swift */; };
 		511B435C939633DA4D921EFD /* ShopLiveShortformOverlayCardViewType0.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D77BA26C9B5A1D179220E2E /* ShopLiveShortformOverlayCardViewType0.swift */; };
 		5169503201D66F110D067F57 /* ShopLiveShortform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D40DDD67D24C5BFE6734ED9 /* ShopLiveShortform.swift */; };
-		55E855414C3F644CC82FF317 /* Test.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF684FCF1D49CFE2CBEB6A40 /* Test.xib */; };
 		578F7AA581C49D8D44F75511 /* ShortsCollectionBaseView + ShortsCell2Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DA1D2EA12624CBD26E64F1 /* ShortsCollectionBaseView + ShortsCell2Delegate.swift */; };
 		59A9F9039FF5B4EDA75AE74E /* ShopLiveShortformBaseListTypeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2D697DFFCF1F72943FFD61 /* ShopLiveShortformBaseListTypeViewCell.swift */; };
 		5AB6908101AE2DB278EA94F7 /* V2ShortsCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAEBA0B2CA64569D7B3F044 /* V2ShortsCollectionViewModel.swift */; };
@@ -62,7 +62,8 @@
 		90A7D02009F5D8F31BAC77FF /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821C834D81AC2E40C07FE5A5 /* Activity.swift */; };
 		93DC1A48C77987D4863A1584 /* Author.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4143A4BA6C38552E3F70948 /* Author.swift */; };
 		9407CBC6044DCC2F7879149D /* ShopliveShortformListViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49956774CAE8DEE564457A81 /* ShopliveShortformListViewCellDelegate.swift */; };
-		A03281C56F59C361FCF8767F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6846687957BAA35E8FAE872A /* Assets.xcassets */; };
+		9C339719C57E341D0F818A7C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5BA3B3EB798D29541E7A9BD /* Localizable.strings */; };
+		9C8D5F1BB3B8EA839CE28897 /* Test.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF684FCF1D49CFE2CBEB6A40 /* Test.xib */; };
 		A41D9BECFD39E8ED7B2FAF9B /* SLCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4E223A2213D8AD601DCABD /* SLCollectionView.swift */; };
 		AA3E18D73D47E08981DD4624 /* PreloadWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F617F8CD24ECF4A5353FA98 /* PreloadWebView.swift */; };
 		AB480B50ADA103D42CFDE87D /* ShopLiveShortformBaseEmptyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFED191B332707D634B34FD5 /* ShopLiveShortformBaseEmptyDataView.swift */; };
@@ -93,7 +94,6 @@
 		E397BFBB016B15843BD02F05 /* ShopLiveShortformListViewInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87739612DE619E0B4124FB0F /* ShopLiveShortformListViewInterface.swift */; };
 		E597C3F943B4B8DDA0D58ACF /* Throttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30D0A0A75AD58F82CC96CF2 /* Throttle.swift */; };
 		E6B8661AF0ADE4A85C6ABAFB /* ShopLiveShortformBaseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5048E0AC93FB315554EFFB3 /* ShopLiveShortformBaseBuilder.swift */; };
-		E8E1AC908CEF63A37B757375 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5BA3B3EB798D29541E7A9BD /* Localizable.strings */; };
 		E948946A32EC48788004D01E /* ShopLiveShortformVerticalTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4ED977FCF10EF608D75774 /* ShopLiveShortformVerticalTypeView.swift */; };
 		E984151E2C7B2EF416B075A1 /* String + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0656080F18F435E909CABC /* String + extension.swift */; };
 		EBC112AC582E6F6E2CDEE295 /* ShopLiveShortformRelatedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9838D856D1F46CDB42DC9E /* ShopLiveShortformRelatedData.swift */; };
@@ -105,27 +105,7 @@
 		FEB55BCA092FB100CAFD8D6A /* FullTypeRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072CEE4D791A696CF55F3439 /* FullTypeRootViewController.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		AEB6C51764015182669D6BF5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 694983368A64303CB65AA393 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 39EF557508BA9A1F6538964D;
-			remoteInfo = ShopLiveShortformSDK_ShopLiveShortformSDK;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
-		3F0FE5796E5651B2EFD86901 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E6D5AEA3C0FD1F33D85C488A /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -150,7 +130,6 @@
 		0905E5EB72F2CDE7B6E583D3 /* ShopLiveShortformCardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformCardViewCell.swift; sourceTree = "<group>"; };
 		09FD71D69BADC857BFFBA0CB /* ShortsWebInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsWebInterface.swift; sourceTree = "<group>"; };
 		1293F89EB14B167BD29A5B00 /* ShopLiveShortformHorizontalTypeViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformHorizontalTypeViewReactor.swift; sourceTree = "<group>"; };
-		1461494AFA7D6D55669087E7 /* ShopLiveShortformSDK_ShopLiveShortformSDK-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ShopLiveShortformSDK_ShopLiveShortformSDK-Info.plist"; sourceTree = "<group>"; };
 		14B7837E921440EC2907B59E /* UIFont + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont + extension.swift"; sourceTree = "<group>"; };
 		1A683CA49E9BBBDF1C237AA8 /* Double + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double + Extension.swift"; sourceTree = "<group>"; };
 		1C9838D856D1F46CDB42DC9E /* ShopLiveShortformRelatedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformRelatedData.swift; sourceTree = "<group>"; };
@@ -161,7 +140,6 @@
 		2B1DC74C626070EB078F19D2 /* ShopLiveShortformCollectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformCollectionData.swift; sourceTree = "<group>"; };
 		2DFADFA3645759E4332AC173 /* ShopLiveShortformSDKOptionsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformSDKOptionsData.swift; sourceTree = "<group>"; };
 		2EB3FBA301738DD1404DE312 /* V1ShortsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V1ShortsCollectionView.swift; sourceTree = "<group>"; };
-		2F7426412B7C9F2300FE2E22 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/System/Library/Frameworks/VideoToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		313DD095D63C9485AA9B2A75 /* ShopLiveShortformBaseListTypeOverlayType1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformBaseListTypeOverlayType1.swift; sourceTree = "<group>"; };
 		34FE9B8E6B0060F3DDBCE4C9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3A0656080F18F435E909CABC /* String + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + extension.swift"; sourceTree = "<group>"; };
@@ -181,7 +159,6 @@
 		639B0B5E173089DD6EFD9081 /* ShortsRelatedCollectionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsRelatedCollectionAPI.swift; sourceTree = "<group>"; };
 		6757E40AE57DFE6938C90C5B /* ShortsWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsWebView.swift; sourceTree = "<group>"; };
 		6846687957BAA35E8FAE872A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		689C08DE47C12BA36D04D78B /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShopLiveShortformSDK_ShopLiveShortformSDK.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		694E6A44351A8C72E9558275 /* ShortsVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsVideo.swift; sourceTree = "<group>"; };
 		6A7A1FC975763A549F0420D1 /* ShortsCollectionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortsCollectionAPI.swift; sourceTree = "<group>"; };
 		6D53B5FC7C326957A53CF025 /* ShopLiveShortformVisibleFullTypeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveShortformVisibleFullTypeData.swift; sourceTree = "<group>"; };
@@ -244,13 +221,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		1F009AE932A9B171E76BF358 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A5C085A3003B45ACD66CB987 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -310,7 +280,6 @@
 				5A4845C7144473D681807EA1 /* Project */,
 				AE7F069E6B4D0F711B65EBD9 /* Compiled */,
 				54F228BB2730B764BC381ABB /* Products */,
-				2F7426402B7C9F2300FE2E22 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -322,14 +291,6 @@
 				BBE3EFACB28A959CDA50FE1C /* ShortsWebView */,
 			);
 			path = RenewalView;
-			sourceTree = "<group>";
-		};
-		2F7426402B7C9F2300FE2E22 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				2F7426412B7C9F2300FE2E22 /* VideoToolbox.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		311F5EDDA6EFC3A4FE47CFA0 /* Resources */ = {
@@ -361,7 +322,6 @@
 		52910ABADBA41192D50F73BC /* InfoPlists */ = {
 			isa = PBXGroup;
 			children = (
-				1461494AFA7D6D55669087E7 /* ShopLiveShortformSDK_ShopLiveShortformSDK-Info.plist */,
 				C9A29E96D2C577BA19EBECDA /* ShopLiveShortformSDK-Info.plist */,
 			);
 			path = InfoPlists;
@@ -371,7 +331,6 @@
 			isa = PBXGroup;
 			children = (
 				08AE97A817BCE7781A1C704A /* ShopliveSDKCommon.framework */,
-				689C08DE47C12BA36D04D78B /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */,
 				3B8D5F143A9863A0DDAA6EAF /* ShopLiveShortformSDK.framework */,
 			);
 			name = Products;
@@ -748,23 +707,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		39EF557508BA9A1F6538964D /* ShopLiveShortformSDK_ShopLiveShortformSDK */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E129224274CEBCF5373CDB47 /* Build configuration list for PBXNativeTarget "ShopLiveShortformSDK_ShopLiveShortformSDK" */;
-			buildPhases = (
-				16ECC2FE2679E9D3E514B192 /* Resources */,
-				3F0FE5796E5651B2EFD86901 /* Embed Frameworks */,
-				1F009AE932A9B171E76BF358 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = ShopLiveShortformSDK_ShopLiveShortformSDK;
-			productName = ShopLiveShortformSDK_ShopLiveShortformSDK;
-			productReference = 689C08DE47C12BA36D04D78B /* ShopLiveShortformSDK_ShopLiveShortformSDK.bundle */;
-			productType = "com.apple.product-type.bundle";
-		};
 		8CE8861AC8A88868A87F8C52 /* ShopLiveShortformSDK */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DDC7F939DF07B961031F5235 /* Build configuration list for PBXNativeTarget "ShopLiveShortformSDK" */;
@@ -777,7 +719,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				1B7004C1414C18A149CFF31B /* PBXTargetDependency */,
 			);
 			name = ShopLiveShortformSDK;
 			productName = ShopLiveShortformSDK;
@@ -792,6 +733,8 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				ORGANIZATIONNAME = com.app;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = A8226E0EC4C8457D1C26FB0D /* Build configuration list for PBXProject "ShopLiveShortformSDK" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -808,26 +751,18 @@
 			projectRoot = "";
 			targets = (
 				8CE8861AC8A88868A87F8C52 /* ShopLiveShortformSDK */,
-				39EF557508BA9A1F6538964D /* ShopLiveShortformSDK_ShopLiveShortformSDK */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		16ECC2FE2679E9D3E514B192 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A03281C56F59C361FCF8767F /* Assets.xcassets in Resources */,
-				55E855414C3F644CC82FF317 /* Test.xib in Resources */,
-				E8E1AC908CEF63A37B757375 /* Localizable.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F48D0239D5DE772CAAB1C8BD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				431D39B2119EFA95A7314132 /* Assets.xcassets in Resources */,
+				9C8D5F1BB3B8EA839CE28897 /* Test.xib in Resources */,
+				9C339719C57E341D0F818A7C /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -935,15 +870,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		1B7004C1414C18A149CFF31B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ShopLiveShortformSDK_ShopLiveShortformSDK;
-			target = 39EF557508BA9A1F6538964D /* ShopLiveShortformSDK_ShopLiveShortformSDK */;
-			targetProxy = AEB6C51764015182669D6BF5 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		A5BA3B3EB798D29541E7A9BD /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
@@ -974,7 +900,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = "cloud.shoplive.matrix-shortform-ios";
 				PRODUCT_NAME = ShopLiveShortformSDK;
 				SDKROOT = iphoneos;
@@ -1051,27 +976,6 @@
 			};
 			name = Debug;
 		};
-		A03CACC8E14678275E932475 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				INFOPLIST_FILE = "Derived/InfoPlists/ShopLiveShortformSDK_ShopLiveShortformSDK-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "cloud.shoplive.matrix-shortform-ios.resources";
-				PRODUCT_NAME = ShopLiveShortformSDK_ShopLiveShortformSDK;
-				SDKROOT = iphoneos;
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_COMPILATION_MODE = singlefile;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Debug;
-		};
 		B3E8E1642FCAEEB11EF888F5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1089,7 +993,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = "cloud.shoplive.matrix-shortform-ios";
 				PRODUCT_NAME = ShopLiveShortformSDK;
 				SDKROOT = iphoneos;
@@ -1103,26 +1006,6 @@
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		D4C9D394DE9613A0796B6364 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				INFOPLIST_FILE = "Derived/InfoPlists/ShopLiveShortformSDK_ShopLiveShortformSDK-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "cloud.shoplive.matrix-shortform-ios.resources";
-				PRODUCT_NAME = ShopLiveShortformSDK_ShopLiveShortformSDK;
-				SDKROOT = iphoneos;
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1196,15 +1079,6 @@
 			buildConfigurations = (
 				55FF5E93B9FCE7E63A0A0874 /* Debug */,
 				B3E8E1642FCAEEB11EF888F5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E129224274CEBCF5373CDB47 /* Build configuration list for PBXNativeTarget "ShopLiveShortformSDK_ShopLiveShortformSDK" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A03CACC8E14678275E932475 /* Debug */,
-				D4C9D394DE9613A0796B6364 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

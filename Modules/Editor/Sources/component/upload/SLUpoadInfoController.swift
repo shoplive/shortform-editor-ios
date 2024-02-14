@@ -129,8 +129,8 @@ class SLUploadInfoController: UIViewController, UIGestureRecognizerDelegate, UIT
     
     private lazy var videoThumbnailPlayIcon: UIImageView = {
         let bundle = Bundle(for: type(of: self))
-        let playpreviewImage = UIImage(named: "sl_playpreview", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
-        let view = UIImageView(image: playpreviewImage)
+//        let playpreviewImage = UIImage(named: "sl_playpreview", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
+        let view = UIImageView(image: ShopLiveShortformEditorSDKAsset.slPlaypreview.image)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.contentMode = .scaleAspectFill
         return view
@@ -285,11 +285,11 @@ class SLUploadInfoController: UIViewController, UIGestureRecognizerDelegate, UIT
     }()
     
     private func configureNavigationButton(){
-        let bundle = Bundle(for: type(of: self))
-        let backImage = UIImage(named: "sl_back_arrow", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+//        let bundle = Bundle(for: type(of: self))
+//        let backImage = UIImage(named: "sl_back_arrow", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
 
         naviItem.titleView = titleView
-        let backButton = UIBarButtonItem(image: backImage, style: .plain, target: self, action: #selector(self.back))
+        let backButton = UIBarButtonItem(image: ShopLiveShortformEditorSDKAsset.slBackArrow.image, style: .plain, target: self, action: #selector(self.back))
         
         naviItem.leftBarButtonItem = backButton
         naviItem.leftBarButtonItem?.tintColor = .baseLabelColor
