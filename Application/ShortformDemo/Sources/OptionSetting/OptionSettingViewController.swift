@@ -179,7 +179,6 @@ extension OptionSettingViewController {
         if var activeField = activeFields {
             let converted = activeField.convert(activeField.frame.origin, to: self.scrollView)
             if vcRect.contains(converted) == false {
-                print("[HASSAN LOG] converted.y \(converted.y) origin \(activeField.frame.origin)")
                 let scrollPoint = CGPoint(x: 0, y: converted.y - keyBoardRect.height)
                 scrollView.setContentOffset(scrollPoint, animated: true)
             }

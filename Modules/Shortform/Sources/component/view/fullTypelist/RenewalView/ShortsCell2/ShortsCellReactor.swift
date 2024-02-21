@@ -225,7 +225,7 @@ class ShortsCellReactor : NSObject, SLReactor {
             self.isActive = srn == currentSrn
         }
         
-        self.sendOnChangedSessionInfoToWe(shopLiveSessionId: shopLiveSessionId, sessionId: nil)
+        self.sendOnChangedSessionInfoToWeb(shopLiveSessionId: shopLiveSessionId, sessionId: shopLiveSessionId)
         
         if let shortsList = shortsList {
             self.sendV2ActivePageToWeb(srn: srn, shortsList: shortsList, previousSrn : previousSrn)
@@ -561,7 +561,7 @@ extension ShortsCellReactor {
         let payload : [String : Any] = [
             "srn" : currentSrn,
             "index" : currentIndexPath.row,
-            "shortsList" : shortsList,
+            "shortsList" : shortsListJson,
             "previousSrn" : previousSrn
         ]
         
@@ -585,7 +585,7 @@ extension ShortsCellReactor {
         resultHandler?( .requestEvaluateJS([request]) )
     }
     
-    private func sendOnChangedSessionInfoToWe (shopLiveSessionId : String?, sessionId : String?) {
+    private func sendOnChangedSessionInfoToWeb(shopLiveSessionId : String?, sessionId : String?) {
         let payload : [String : Any] = [
             "shopLiveSessionId" : shopLiveSessionId,
             "sessionId" : sessionId
@@ -598,7 +598,7 @@ extension ShortsCellReactor {
     private func sendVideoLoopedToWeb() {
         let payload : [String : Any] = [
             "videoUrl" : currentVideoUrl ?? "",
-            "srn" : currentSrn ?? ""
+            "srn" : currentSrn ?? "",
         ]
         
         let request : JSRequest = (.ON_VIDEO_LOOPED, payload)

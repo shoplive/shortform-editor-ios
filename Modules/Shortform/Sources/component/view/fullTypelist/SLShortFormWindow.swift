@@ -165,7 +165,9 @@ extension ShopLiveShortform {
             if shortsCollectionView?.getCurrentShowType() == .related && shortsCollectionView?.getIsFullNative() == true {
                 //preview -> detail 들어갈때 새로 발급받아서 preview_click_show 페이로드에 담아서 보내줘야 함
                 let shopLiveSessionId = ShopLiveCommon.makeShopLiveSessionId()
+                let previewEventTraceSrn = self.shortsCollectionView?.getPreviewEventTraceSrn()
                 ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: self.shortsCollectionView?.getPreviewEventTraceSrn(), isShown: false, isClick: true, shopliveSessionId: shopLiveSessionId)
+                ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: previewEventTraceSrn, isShown: false, isClick: false, shopliveSessionId: shopLiveSessionId)
                 let shortsId = self.shortsCollectionView?.getCurrentShortsId()
                 let shortsDetail = self.shortsCollectionView?.getCurrentShortsDetail()
                 ShortformNativeOnEventsManager.sendNativeOnEvents(command: .preview_click_show, payload: nil, shortsId: shortsId, shortsDetail: shortsDetail)

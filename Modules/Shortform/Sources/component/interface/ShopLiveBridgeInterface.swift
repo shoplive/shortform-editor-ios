@@ -417,7 +417,6 @@ extension ShopLiveShortform {
         }
         
         private func showShortFormPreview(model : ShortsBridgeModel){
-            dump(model)
             let requestModel = InternalShortformRelatedData()
             requestModel.tags = model.relatedQuery?.tags
             requestModel.tagSearchOperator = model.relatedQuery?.tagSearchOperator

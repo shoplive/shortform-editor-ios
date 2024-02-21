@@ -181,7 +181,10 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     @objc func didTouchCloseButton() {
         guard ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewUseCloseButton else { return }
         if viewModel.currentApiType == .related && viewModel.isFullNative {
-            ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: self.getPreviewEventTraceSrn() ,isShown: false, isClick: true, shopliveSessionId: nil )
+            let previewEventTraceSrn = self.getPreviewEventTraceSrn()
+            ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: previewEventTraceSrn ,isShown: false, isClick: true, shopliveSessionId: nil )
+            ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: previewEventTraceSrn, isShown: false, isClick: false, shopliveSessionId: nil)
+            
             ShortformNativeOnEventsManager.sendNativeOnEvents(command: .preview_click_close, payload: nil, shortsId: viewModel.currentShortsId, shortsDetail: viewModel.currentShorts?.shortsDetail)
             ShortformNativeOnEventsManager.sendNativeOnEvents(command: .preview_hidden, payload: nil, shortsId: viewModel.currentShortsId, shortsDetail: viewModel.currentShorts?.shortsDetail)
         }

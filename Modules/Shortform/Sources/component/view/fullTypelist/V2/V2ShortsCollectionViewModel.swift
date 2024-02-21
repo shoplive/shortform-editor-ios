@@ -146,7 +146,6 @@ extension V2ShortsCollectionViewModel {
             ShortsIdsListAPI(ids: ids).request { result in
                 switch result {
                 case .success(let response):
-                    dump(response)
                     guard let shortsList = response.shortsList else {
                         return
                     }

@@ -30,6 +30,11 @@ public struct BaseResponse: BaseResponsable {
     public var _e: String?
 }
 
+public struct EmptyResponse : BaseResponsable {
+    public var _s : Int?
+    public var _e : String?
+}
+
 public enum HTTPVersion: String {
     case v1, v2
 }
@@ -199,18 +204,26 @@ public extension APIDefinition {
                 return
             }
             
-            do {
-                let decoded = try JSONDecoder().decode(ResultType.self, from: data)
+            if ResultType.self == EmptyResponse.self {
+                let emptyResponse = EmptyResponse(_s: 0, _e: nil)
                 DispatchQueue.main.async {
-                    handler?(.success(decoded))
+                    handler?(.success(emptyResponse as! Self.ResultType))
                 }
             }
-            catch( let error) {
-                let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedJSONParsing, error: error, message: nil)
-                DispatchQueue.main.async {
-                    handler?( .failure(commonError) )
+            else {
+                do {
+                    let decoded = try JSONDecoder().decode(ResultType.self, from: data)
+                    DispatchQueue.main.async {
+                        handler?(.success(decoded))
+                    }
                 }
-                return
+                catch( let error) {
+                    let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedJSONParsing, error: error, message: nil)
+                    DispatchQueue.main.async {
+                        handler?( .failure(commonError) )
+                    }
+                    return
+                }
             }
 
             Self.parseHeaders(headers: (response as? HTTPURLResponse)?.allHeaderFields)

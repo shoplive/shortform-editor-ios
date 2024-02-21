@@ -33,7 +33,7 @@ struct ShortsEventTraceAPI : APIDefinition {
         case UI
     }
     
-    typealias ResultType = ShopLiveShortform.ShortsCollectionModel
+    typealias ResultType = EmptyResponse
     
     var baseUrl: String {
         ShortFormConfigurationInfosManager.shared.shortsConfiguration.eventTraceEndpoint
