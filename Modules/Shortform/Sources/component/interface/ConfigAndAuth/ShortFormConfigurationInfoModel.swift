@@ -41,6 +41,7 @@ struct ShortFormConfigurationInfoModel {
     var detailCollectionListAll : Bool = true
     var eventTraceEndpoint : String = ""
     var isCached : Bool = false
+    var previewRadius : CGFloat = 10
     
     
     
@@ -63,18 +64,23 @@ struct ShortFormConfigurationInfoModel {
                   previewMaxSize: datas?.previewMaxSize,
                   detailCollectionListAll : datas?.detailCollectionListAll,
                   eventTraceEndpoint: datas?.eventTraceEndpoint,
-                  isCached: datas?.isCached)
+                  isCached: datas?.isCached,
+                  previewRadius: datas?.previewRadius)
     }
     
     init(detailUrl: String?, shortformApiEndPoint : String?, previewEdgeInsets: (left : CGFloat?, top : CGFloat?, right : CGFloat?, bottom :CGFloat?),
         previewPosition: String?, detailApiInitializeCount: Int?, detailApiPaginationCount: Int?,
          listApiInitializeCount: Int?, listApiPaginationCount: Int?, previewUseCloseButton: Bool?, enabledSwipeOut: Bool?,
-         mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?,detailCollectionListAll : Bool?,eventTraceEndpoint : String?,isCached : Bool?) {
+         mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?,detailCollectionListAll : Bool?,eventTraceEndpoint : String?,isCached : Bool?,previewRadius : CGFloat?) {
         if let detailUrl = detailUrl {
             self.detailUrl = detailUrl
         }
         if let shortformApiEndPoint = shortformApiEndPoint {
             self.shortformApiEndpoint = shortformApiEndPoint
+        }
+        
+        if let previewRadius = previewRadius {
+            self.previewRadius = previewRadius
         }
         
         var _previewEdgeInset = self.previewEdgeInsets

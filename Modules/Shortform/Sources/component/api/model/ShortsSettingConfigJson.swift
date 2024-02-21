@@ -46,6 +46,7 @@ struct ShortsSettingConfigSDK: Codable {
     let detailCollectionListAll : Bool?
     let eventTraceEndpoint : String?
     let isCached : Bool?
+    let previewRadius : CGFloat?
     
     
     public init(from decoder: Decoder) throws {
@@ -67,6 +68,7 @@ struct ShortsSettingConfigSDK: Codable {
         self.detailCollectionListAll = try? parser.parse(targetType: Bool.self, key: CodingKeys.detailCollectionListAll)
         self.eventTraceEndpoint = try? parser.parse(targetType: String.self, key: CodingKeys.eventTraceEndpoint)
         self.isCached = try? parser.parse(targetType: Bool.self, key: CodingKeys.isCached)
+        self.previewRadius = try? parser.parse(targetType: CGFloat.self, key: CodingKeys.previewRadius)
     }
 }
 

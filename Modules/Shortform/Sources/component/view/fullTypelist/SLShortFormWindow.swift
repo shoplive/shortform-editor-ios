@@ -436,7 +436,7 @@ extension ShopLiveShortform {
             self.shortsCollectionView?.viewModel.isMuted = true
             self.shortformWindow.frame = self.previewPosition()
             self.shortformWindow.isHidden  = false
-            self.shortformWindow.layer.cornerRadius = 10
+            self.shortformWindow.layer.cornerRadius = ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewRadius
             self.shortformWindow.layoutIfNeeded()
 
         }
