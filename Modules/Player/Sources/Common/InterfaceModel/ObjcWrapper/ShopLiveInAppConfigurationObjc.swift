@@ -34,7 +34,7 @@ import UIKit
             super.pipPosition = newValue
         }
         get {
-            return pipPosition ?? .bottomRight
+            return super.pipPosition ?? .bottomRight
         }
     }
     
@@ -43,13 +43,21 @@ import UIKit
             super.enableSwipeOut = newValue
         }
         get {
-            return self.enableSwipeOut ?? false
+            return super.enableSwipeOut ?? false
         }
-        
     }
     
-    @objc public init(useCloseButton : Bool, pipPosition : ShopLive.PipPosition, enableSwipeOut : Bool,pipSize : ShopLiveInAppPipSize) {
-        super.init(useCloseButton: useCloseButton, pipPosition: pipPosition, enableSwipeOut: enableSwipeOut, pipSize: pipSize)
+    @objc public var _pipRadius : CGFloat {
+        set {
+            super.pipRadius = newValue
+        }
+        get {
+            return super.pipRadius
+        }
+    }
+    
+    @objc public init(useCloseButton : Bool, pipPosition : ShopLive.PipPosition, enableSwipeOut : Bool,pipSize : ShopLiveInAppPipSize, pipRadius : CGFloat = 10) {
+        super.init(useCloseButton: useCloseButton, pipPosition: pipPosition, enableSwipeOut: enableSwipeOut, pipSize: pipSize,pipRadius: pipRadius)
     }
     
 }

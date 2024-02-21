@@ -10,7 +10,7 @@ import UIKit
 import CoreMedia
 
 @objc internal final class ShopLiveDefines: NSObject {
-    static let sdkVersion: String = "1.5.5-tuist-test"
+    static let sdkVersion: String = "1.5.5.4"
     
     /*
     static var phase: ShopLive.Phase = .REAL {
@@ -73,6 +73,8 @@ protocol LiveStreamViewControllerDelegate: AnyObject {
     
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any])
     func requestHandleShare(data : ShopLivePlayerShareData)
+    func handleShopLivePlayerCampaign(campaign : ShopLivePlayerCampaign)
+    func handleShopLivePlayerBrand(brand : ShopLivePlayerBrand)
 }
 
 protocol OverlayWebViewDelegate: AnyObject {

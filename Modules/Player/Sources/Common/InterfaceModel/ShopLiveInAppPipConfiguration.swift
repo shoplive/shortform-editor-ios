@@ -39,11 +39,13 @@ import UIKit
     public var pipPosition : ShopLive.PipPosition?
     public var enableSwipeOut : Bool?
     public var pipSize : ShopLiveInAppPipSize?
-    
-    public init(useCloseButton: Bool? = nil, pipPosition: ShopLive.PipPosition? = nil, enableSwipeOut: Bool? = nil, pipSize: ShopLiveInAppPipSize? = nil) {
+    public var pipRadius : CGFloat = 10
+
+    public init(useCloseButton: Bool? = nil, pipPosition: ShopLive.PipPosition? = nil, enableSwipeOut: Bool? = nil, pipSize: ShopLiveInAppPipSize? = nil,pipRadius : CGFloat = 10) {
         self.useCloseButton = useCloseButton
         self.pipPosition = pipPosition
         self.enableSwipeOut = enableSwipeOut
         self.pipSize = pipSize
+        self.pipRadius = pipRadius
     }
 }

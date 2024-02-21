@@ -24,8 +24,8 @@ import ShopliveSDKCommon
     
     @objc func isSuccessCampaignJoin() -> Bool
 
-    @objc func preview(with campaignKey: String?, referrer: String?,  completion: (() -> Void)?)
-    @objc func play(with campaignKey: String?, referrer: String?)
+    @objc func preview(with campaignKey: String?, referrer: String?, campaignHandler : ((ShopLivePlayerCampaign) ->())?, brandHandler : ((ShopLivePlayerBrand) -> ())?,  completion: (() -> Void)?)
+    @objc func play(with campaignKey: String?, referrer: String?, campaignHandler : ((ShopLivePlayerCampaign) ->())?, brandHandler : ((ShopLivePlayerBrand) -> ())?)
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
     @objc func startPictureInPicture()
     @objc func stopPictureInPicture()
@@ -45,7 +45,8 @@ import ShopliveSDKCommon
     @objc func hookNavigation(navigation: @escaping ((URL) -> Void))
     @objc func setShareScheme(_ scheme: String?, shareDelegate : ShopLivePlayerShareDelegate?)
     @objc func setChatViewFont(inputBoxFont: UIFont?, sendButtonFont: UIFont?)
-    @objc func close()
+    @objc func close(actionType : ShopLiveViewHiddenActionType)
+
     
     @objc func awakePlayer()
     
@@ -56,6 +57,10 @@ import ShopliveSDKCommon
     
     @objc func setStatusBarVisibility(isVisible : Bool)
     @objc func getStatusBarVisibility() -> Bool
+    
+    
+    @objc func addSubViewToPreview(subView : UIView)
+    @objc func getPreviewSize(inAppPipConfiguration : ShopLiveInAppPipConfiguration, videoRatio : CGSize) -> CGSize
 }
 
 enum ShopLiveCampaignStatus: String, CaseIterable {
@@ -279,9 +284,9 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.viewController
     }
 
-    public static func close() {
+    public static func close(actionType : ShopLiveViewHiddenActionType = .onClose) {
         ShopLiveController.shared.execusedClose = true
-        shared.instance?.close()
+        shared.instance?.close(actionType: actionType)
     }
 
     public static func setChatViewFont(inputBoxFont: UIFont?, sendButtonFont: UIFont?) {
@@ -401,23 +406,23 @@ extension ShopLive: ShopLiveSDKInterface {
     }
 
     public static func preview(data: ShopLivePlayerData,completion : (() -> Void)? = nil) {
-        shared.instance?.preview(with: data.campaignKey, referrer: data.referrer, completion: completion)
+        shared.instance?.preview(with: data.campaignKey, referrer: data.referrer, campaignHandler: data.campaignHandler, brandHandler: data.brandHandler, completion: completion)
     }
     
     @available(iOS, deprecated, message: "Use preview(data : ShopLivePlayerData) instead")
     public static func preview(with campaignKey: String?, referrer: String? = nil, completion: (() -> Void)? = nil) {
-        shared.instance?.preview(with: campaignKey, referrer: referrer, completion: completion)
+        shared.instance?.preview(with: campaignKey, referrer: referrer, campaignHandler: nil, brandHandler: nil, completion: completion)
     }
 
     public static func play(data : ShopLivePlayerData) {
         ShopLiveConfiguration.UI.keepWindowStateOnPlayExecuted = data.keepWindowStateOnPlayExecuted
-        shared.instance?.play(with: data.campaignKey, referrer: data.referrer)
+        shared.instance?.play(with: data.campaignKey, referrer: data.referrer, campaignHandler: data.campaignHandler, brandHandler: data.brandHandler)
     }
     
     @available(iOS, deprecated, message: "Use play(data : ShopLivePlayerData) instead")
     public static func play(with campaignKey: String?, keepWindowStateOnPlayExecuted: Bool = false, referrer: String? = nil) {
         ShopLiveConfiguration.UI.keepWindowStateOnPlayExecuted = keepWindowStateOnPlayExecuted
-        shared.instance?.play(with: campaignKey, referrer: referrer)
+        shared.instance?.play(with: campaignKey, referrer: referrer,campaignHandler: nil, brandHandler: nil)
     }
 
     public static func startPictureInPicture(with position: PipPosition, scale: CGFloat) {
@@ -510,5 +515,16 @@ extension ShopLive: ShopLiveSDKInterface {
     
     public  static func isVisibleStatusBar() -> Bool {
         return shared.instance?.getStatusBarVisibility() ?? true
+    }
+    
+    public static func addSubViewToPreview(subView: UIView) {
+        shared.instance?.addSubViewToPreview(subView: subView)
+    }
+    
+    public static func getPreviewSize(inAppPipConfiguration: ShopLiveInAppPipConfiguration, videoRatio: CGSize) -> CGSize {
+        guard let instance = shared.instance else {
+            return .zero
+        }
+        return instance.getPreviewSize(inAppPipConfiguration: inAppPipConfiguration, videoRatio: videoRatio)
     }
 }

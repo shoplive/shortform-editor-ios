@@ -73,7 +73,7 @@ class MainViewController: SideMenuBaseViewController {
     func setupSampleOptions() {
         
         SampleOptions.campaignNaviMoreOptions = ["campaign.menu.write".localized(), "QR code", "Dev-Admin", "Admin", "campaign.menu.deleteall".localized()]
-        SampleOptions.campaignNaviMoreSelectionAction = { (index: Int, item: String) in
+        SampleOptions.campaignNaviMoreSelectionAction = { (item : String, index: Int, id: Int) in
             print("selected item: \(item) index: \(index)")
             var sourceScheme = ""
             #if DEMO
@@ -285,7 +285,8 @@ class MainViewController: SideMenuBaseViewController {
         let inAppPipConfig = ShopLiveInAppPipConfiguration(useCloseButton: DemoConfiguration.shared.useCloseButton,
                                                            pipPosition: config.pipPosition,
                                                            enableSwipeOut: config.pipEnableSwipeOut,
-                                                           pipSize: pipSize )
+                                                           pipSize: pipSize,
+                                                           pipRadius: 0)
         
         ShopLive.setInAppPipConfiguration(config: inAppPipConfig)
         
@@ -295,49 +296,12 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.setEnabledPipSwipeOut(config.pipEnableSwipeOut)
         
         ShopLive.setVisibleStatusBar(isVisible: DemoConfiguration.shared.statusBarVisibility)
-        setCustomerPreviewCoverView()
+//        previewConverViewMaker.setCustomerPreviewCoverView()
+        
+        ShopLiveLogger.debugLog("[HASSAN LOG] getPreviewSize before being appeared \(ShopLive.getPreviewSize(inAppPipConfiguration: inAppPipConfig, videoRatio: CGSize(width: 9, height: 16)))")
     }
-
-    var previewViewCoverView : UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
     
-    var previewCoverViewTagView : UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .red
-        return view
-    }()
-    
-    var previewCoverViewTitleView : UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 15,weight: .regular)
-        label.text = " test title"
-        return label
-    }()
-    
-    func setCustomerPreviewCoverView() {
-        previewViewCoverView.addSubview(previewCoverViewTagView)
-        previewViewCoverView.addSubview(previewCoverViewTitleView)
-        NSLayoutConstraint.activate([
-            previewCoverViewTagView.topAnchor.constraint(equalTo: previewViewCoverView.topAnchor),
-            previewCoverViewTagView.trailingAnchor.constraint(equalTo: previewViewCoverView.trailingAnchor),
-            previewCoverViewTagView.widthAnchor.constraint(equalToConstant: 70),
-            previewCoverViewTagView.heightAnchor.constraint(equalToConstant: 30),
-            
-            
-            previewCoverViewTitleView.bottomAnchor.constraint(equalTo: previewViewCoverView.bottomAnchor),
-            previewCoverViewTitleView.leadingAnchor.constraint(equalTo: previewViewCoverView.leadingAnchor),
-            previewCoverViewTitleView.trailingAnchor.constraint(equalTo: previewViewCoverView.trailingAnchor),
-            previewCoverViewTitleView.heightAnchor.constraint(equalToConstant: 40),
-            
-        ])
-//        ShopLive.addSubViewToPreview(subView: previewViewCoverView)
-    }
+    let previewConverViewMaker = PreviewCoverViewMaker()
     
     // 하나 은행 프레임 워크 재현을 위한 더미 뷰
     var dummyView : UIView = {
@@ -347,6 +311,7 @@ class MainViewController: SideMenuBaseViewController {
         view.alpha = 0.1
         return view
     }()
+    
     var hanaBankTimer : Double = 0
     
     private func regenerateHanaBankFrameworkIssue(){
@@ -371,15 +336,19 @@ class MainViewController: SideMenuBaseViewController {
         }
         
         setupShopliveSettings()
-        ShopLiveLogger.debugLog("Shoplive.viewController \(ShopLive.viewController)")
         ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
         
-        ShopLive.preview(with: currentKey.campaignKey, referrer: DemoConfiguration.shared.customReferrer) {
+        let playerData = ShopLivePlayerData(campaignKey: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer) { campaign in
+            ShopLiveLogger.debugLog(" campaign callBack campaign Title : \(campaign.title)")
+        } brandHandler: { brand in
+            ShopLiveLogger.debugLog(" brand callback brand Name : \(brand.name) \n brand Image : \(brand.imageUrl) \n brand Identifier : \(brand.identifier)")
+        }
+        
+        ShopLive.preview(data: playerData) {
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
                 ShopLive.play(with: currentKey.campaignKey,keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,referrer: DemoConfiguration.shared.customReferrer)
             }
         }
-        
     }
     
     override func play() {
@@ -391,7 +360,6 @@ class MainViewController: SideMenuBaseViewController {
         }
 
         setupShopliveSettings()
-        ShopLiveLogger.debugLog("Shoplive.viewController \(ShopLive.viewController)")
         ShopLive.configure(with: currentKey.accessKey)
         ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
@@ -564,7 +532,7 @@ extension MainViewController: ShopLiveSDKDelegate {
         
         if ShopLiveViewTrackEvent.allCases.map({ $0.name }).contains(where: { $0 == command }) {
             guard let payload = payload as? [String : Any] else { return }
-            ShopLiveLogger.debugLog("[HASSSAN LOG] \(command) - currentStyle = \((payload["currentStyle"] as? String) ?? "null"), lastStyle = \((payload["lastStyle"] as? String) ?? "null")")
+            ShopLiveLogger.debugLog("[SHOPLIVEVIEWTRACKEVENT] viewTrack \(command) - currentStyle = \((payload["currentStyle"] as? String) ?? "null"), lastStyle = \((payload["lastStyle"] as? String) ?? "null"), isPreview \(payload["isPreview"] as? Bool), viewHiddenActionType = \((payload["viewHiddenActionType"] as? String))")
         }
         
         if command == "didTapCloseButton" {
@@ -572,6 +540,7 @@ extension MainViewController: ShopLiveSDKDelegate {
         } else if command == "CLOSE_FROM_PIP" {
             
         } else if command == "didShopLiveOff" {
+            
         }
     }
 

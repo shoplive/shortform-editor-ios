@@ -18,13 +18,13 @@ let demoTarget = Target(name: "ShopLivePlayerDemo",
                         sources: ["Sources/**","../../XCConfigs/version.xcconfig"],
                         resources: ["Resources/**"],
                         dependencies: [
-                            .project(target: "DropDownSDK", path: .relativeToRoot("Modules/DropDown")),
                             .project(target: "ShopLiveSDK", path: .relativeToRoot("Modules/Player")),
                             .project(target: "ShopliveSDKCommon", path: .relativeToRoot("Modules/Common")),
                             .external(name: "SideMenu"),
                             .external(name: "Toast"),
                             .external(name: "SwiftyJWT"),
-                            .external(name: "CryptoSwift")
+                            .external(name: "CryptoSwift"),
+                            .external(name: "iOSDropDown")
                         ])
 
 

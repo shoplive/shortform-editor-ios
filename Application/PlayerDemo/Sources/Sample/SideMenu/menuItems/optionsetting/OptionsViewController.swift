@@ -6,12 +6,32 @@
 //
 
 import UIKit
-import DropDownSDK
+import iOSDropDown
 import ShopLiveSDK
 
 final class OptionsViewController: SideMenuItemViewController {
 
     var items: [SDKOption] = []
+    
+    lazy private var dropdown : DropDown = {
+        let dropdown = DropDown()
+//        dropdown.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(dropdown)
+        
+        dropdown.listWillAppear {
+            dropdown.isHidden = false
+        }
+        dropdown.listDidAppear {
+            dropdown.isHidden = false
+        }
+        dropdown.listWillDisappear {
+            dropdown.isHidden = true
+        }
+        dropdown.listDidDisappear {
+            dropdown.isHidden = true
+        }
+        return dropdown
+    }()
 
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .plain)
@@ -255,34 +275,30 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
             self.view.addSubview(anchorView)
 
             anchorView.frame = CGRect(origin: .init(x: 20, y: cellRect.origin.y + cell.frame.height), size: anchorView.frame.size)
-
-            let dropdown = DropDown()
-            dropdown.anchorView = anchorView
+            dropdown.frame = CGRect(origin: .init(x: 20, y: cellRect.origin.y + cell.frame.height), size: CGSize(width: 200, height: 20))
             
             switch item.optionType {
             case .nextActionOnHandleNavigation:
-                dropdown.width = 200
-                dropdown.dataSource = ["sdkoption.nextActionTypeOnNavigation.item1".localized(), "sdkoption.nextActionTypeOnNavigation.item2".localized(), "sdkoption.nextActionTypeOnNavigation.item3".localized()]
-                dropdown.selectionAction = { (index: Int, item: String) in
+                dropdown.optionArray = ["sdkoption.nextActionTypeOnNavigation.item1".localized(), "sdkoption.nextActionTypeOnNavigation.item2".localized(), "sdkoption.nextActionTypeOnNavigation.item3".localized()]
+                dropdown.didSelect { [weak self] selectedText, index, id in
                     DemoConfiguration.shared.nextActionTypeOnHandleNavigation = ActionType(rawValue: index) ?? .PIP
                     anchorView.removeFromSuperview()
-                    self.tableView.reloadData()
+                    self?.tableView.reloadData()
                 }
                 break
             case .pipPosition:
-                dropdown.width = 150
-                dropdown.dataSource = ["topLeft", "topRight", "bottomLeft","bottomRight"]
-                dropdown.selectionAction = { (index: Int, item: String) in
+                dropdown.optionArray = ["topLeft", "topRight", "bottomLeft","bottomRight"]
+                dropdown.didSelect { [weak self] selectedText, index, id in
                     DemoConfiguration.shared.pipPosition = ShopLive.PipPosition(rawValue: index) ?? .bottomRight
                     anchorView.removeFromSuperview()
-                    self.tableView.reloadData()
+                    self?.tableView.reloadData()
                 }
                 break
             default:
                     break
             }
 
-            dropdown.show()
+            dropdown.showList()
             break
         case .routeTo:
             switch item.optionType {

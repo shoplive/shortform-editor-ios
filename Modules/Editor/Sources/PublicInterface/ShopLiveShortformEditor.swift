@@ -11,7 +11,7 @@ import ShopliveSDKCommon
 
 
 public class ShopLiveShortformEditor { 
-    public static var sdkVersion = "1.5.5-tuist-test"
+    public static var sdkVersion = "1.5.5.4"
     
     
     internal static let shared = ShopLiveShortformEditor()

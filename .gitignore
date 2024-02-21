@@ -104,4 +104,11 @@ xcuserdata
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
 
+### ignore xcframeworks ###
+SLXCFrameworks/*
+PlayerBuild/*
+CommonBuild/*
+ShortformBuild/*
+
+
 # End of https://www.toptal.com/developers/gitignore/api/xcode,swift,swiftpackagemanager

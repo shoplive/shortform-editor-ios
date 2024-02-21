@@ -33,3 +33,30 @@ import Foundation
         }
     }
 }
+
+@objc public enum ShopLiveViewHiddenActionType : Int {
+    case onSwipeOut
+    case onBtnTapped
+    case onClose
+    case onError
+    case onRestoringPip
+    case onNavigationHandleClose
+    
+    public var name : String {
+        switch self {
+        case .onBtnTapped:
+            return "onBtnTapped"
+        case .onSwipeOut:
+            return "onSwipeOut"
+        case .onClose:
+            return "onClose"
+        case .onError:
+            return "onError"
+        case .onRestoringPip:
+            return "onRestoringPip"
+        case .onNavigationHandleClose:
+            return "onNavigationHandleClose"
+        }
+    }
+    
+}

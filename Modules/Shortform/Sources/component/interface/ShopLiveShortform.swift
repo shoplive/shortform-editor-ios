@@ -11,7 +11,7 @@ import ShopliveSDKCommon
 
 public class ShopLiveShortform {
     
-    public static var sdkVersion: String = "1.5.5"
+    public static var sdkVersion: String = "1.5.5.4"
     
     private static var shortsCollection: ShortsCollectionBaseView?
     private static var shortformWindow: SLShortsWindow?

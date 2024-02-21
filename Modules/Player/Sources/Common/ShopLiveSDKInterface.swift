@@ -223,6 +223,7 @@ import ShopliveSDKCommon
     @available(*, deprecated, message: "use log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) instead")
     @objc optional func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String: String])
     @objc optional func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any])
+    
 }
 
 public typealias ShopLiveViewController = SLViewController
@@ -282,7 +283,7 @@ public typealias ShopLiveViewController = SLViewController
     @objc static func hookNavigation(navigation: @escaping  ((URL) -> Void))
     @objc static func setShareScheme(_ scheme: String?, shareDelegate: ShopLivePlayerShareDelegate?)
     @objc static func setChatViewFont(inputBoxFont: UIFont?, sendButtonFont: UIFont?)
-    @objc static func close()
+    @objc static func close(actionType : ShopLiveViewHiddenActionType)
     
     @objc static func setEndpoint(_ url: String?)
     
@@ -339,4 +340,7 @@ public typealias ShopLiveViewController = SLViewController
     
     @objc static func setVisibleStatusBar(isVisible : Bool)
     @objc static func isVisibleStatusBar() -> Bool
+    
+    @objc static func addSubViewToPreview(subView : UIView)
+    @objc static func getPreviewSize(inAppPipConfiguration : ShopLiveInAppPipConfiguration, videoRatio : CGSize) -> CGSize
 }

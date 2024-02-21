@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import DropDownSDK
+import iOSDropDown
 
 final class CampaignsViewController: SideMenuItemViewController {
 
@@ -29,16 +29,17 @@ final class CampaignsViewController: SideMenuItemViewController {
         removeTapGesture()
         ShopLiveDemoKeyTools.shared.addKeysetObserver(observer: self)
         items = ShopLiveDemoKeyTools.shared.keysets
-        setupNaviItems()
+        self.view.backgroundColor = .white
         setupViews()
+        setupNaviItems()
         self.title = "menu.campaigns".localized()
-
     }
+    
 
     lazy var dropdown: DropDown = {
         let dropdown = DropDown()
-
-        dropdown.width = 150
+//        dropdown.width = 150
+        dropdown.translatesAutoresizingMaskIntoConstraints = false
         return dropdown
     }()
 
@@ -51,9 +52,6 @@ final class CampaignsViewController: SideMenuItemViewController {
             tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
         
-//        tableView.snp.makeConstraints {
-//            $0.edges.equalToSuperview()
-//        }
     }
 
     func setupNaviItems() {
@@ -67,27 +65,25 @@ final class CampaignsViewController: SideMenuItemViewController {
         dropdownAnchor.translatesAutoresizingMaskIntoConstraints = false
         dropdownAnchor.backgroundColor = .clear
         self.view.addSubview(dropdownAnchor)
-        
+        self.view.addSubview(dropdown)
         
         NSLayoutConstraint.activate([
             dropdownAnchor.topAnchor.constraint(equalTo: self.view.topAnchor),
             dropdownAnchor.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             dropdownAnchor.widthAnchor.constraint(equalToConstant: 1),
-            dropdownAnchor.heightAnchor.constraint(equalToConstant: 1)
+            dropdownAnchor.heightAnchor.constraint(equalToConstant: 1),
+            
+            dropdown.topAnchor.constraint(equalTo: dropdownAnchor.bottomAnchor),
+            dropdown.trailingAnchor.constraint(equalTo: dropdownAnchor.trailingAnchor),
+            dropdown.widthAnchor.constraint(equalToConstant: 150),
+            dropdown.heightAnchor.constraint(equalToConstant: 20),
         ])
-        
-//        dropdownAnchor.snp.makeConstraints {
-//            $0.top.trailing.equalToSuperview()
-//            $0.width.height.equalTo(1)
-//        }
-
-        dropdown.anchorView = dropdownAnchor
-        dropdown.dataSource = SampleOptions.campaignNaviMoreOptions
-        dropdown.selectionAction = SampleOptions.campaignNaviMoreSelectionAction
+        dropdown.optionArray = SampleOptions.campaignNaviMoreOptions
+        dropdown.didSelect(completion: SampleOptions.campaignNaviMoreSelectionAction)
     }
 
     @objc func moreMenus() {
-        dropdown.show()
+        dropdown.showList()
     }
 
     func updateTableView() {

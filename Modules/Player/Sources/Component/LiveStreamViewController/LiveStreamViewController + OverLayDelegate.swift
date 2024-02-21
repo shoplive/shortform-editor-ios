@@ -245,7 +245,12 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             }
             
             delegate?.campaignInfo(campaignInfo: campaignInfo ?? [:])
-            
+            let campaignData = ShopLivePlayerCampaign()
+            campaignData.parse(payload: payload)
+            delegate?.handleShopLivePlayerCampaign(campaign: campaignData)
+            let brandData = ShopLivePlayerBrand()
+            brandData.parse(payload: payload)
+            delegate?.handleShopLivePlayerBrand(brand: brandData)
             
             break
         case .showChatInput:

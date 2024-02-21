@@ -6,10 +6,12 @@
 //
 
 import Foundation
-import DropDownSDK
+//import DropDownSDK
+import iOSDropDown
+
 
 
 class SampleOptions {
     static var campaignNaviMoreOptions: [String] = []
-    static var campaignNaviMoreSelectionAction: SelectionClosure = {_,_ in }
+    static var campaignNaviMoreSelectionAction: ( (String,Int,Int) -> Void ) = { _,_,_ in }
 }
