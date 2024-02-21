@@ -18,7 +18,7 @@ import ShopliveSDKCommon
     @objc optional func onDidAppear()
 }
 
-public protocol ShopLiveShortformNativeHandlerDelegate: AnyObject {
+public protocol ShopLiveShortformDetailHandlerDelegate: AnyObject {
     func handleProductItem(shortsId : String, shortsSrn : String, product : Product)
     func handleProductBanner(shortsId : String, shortsSrn : String, scheme : String, shortsDetail : ShortsDetail)
 }
@@ -32,7 +32,7 @@ extension ShopLiveShortform {
             receiveHandler.setHandler(handler)
         }
         
-        public static func setNativeHandler(_ handler: ShopLiveShortformNativeHandlerDelegate?) {
+        public static func setNativeHandler(_ handler: ShopLiveShortformDetailHandlerDelegate?) {
             receiveHandler.setNativeHandler(handler)
         }
         
@@ -40,7 +40,7 @@ extension ShopLiveShortform {
         class ShopLiveShortformReceiveHandler {
             
             weak var delegate: ShopLiveShortformReceiveHandlerDelegate? = nil
-            weak var nativeDelegate: ShopLiveShortformNativeHandlerDelegate? = nil
+            weak var nativeDelegate: ShopLiveShortformDetailHandlerDelegate? = nil
             
             init() {
                 setupObserver()
@@ -54,7 +54,7 @@ extension ShopLiveShortform {
                 delegate = handler
             }
             
-            func setNativeHandler(_ handler: ShopLiveShortformNativeHandlerDelegate?) {
+            func setNativeHandler(_ handler: ShopLiveShortformDetailHandlerDelegate?) {
                 nativeDelegate = handler
             }
             

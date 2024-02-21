@@ -101,10 +101,10 @@ class ViewController: UIViewController {
         pagingViewController!.select(index: 0)
         
         setObserver()
-        var option = ShopLiveShortformVisibleFullTypeData()
+        var option = ShopLiveShortformVisibleDetailData()
         option.isBookMarkVisible = true
         option.isShareButtonVisible = true
-        ShopLiveShortform.setVisibileFullTypeViews(options: option)
+        ShopLiveShortform.setVisibileDetailViews(options: option)
         
         settingMoreBtn.addTarget(self, action: #selector(didTapSettingMoreBtn(sender: )), for: .touchUpInside)
         v2PlayBtn.addTarget(self, action: #selector(v2PlayBtnTapped(sender: )), for: .touchUpInside)

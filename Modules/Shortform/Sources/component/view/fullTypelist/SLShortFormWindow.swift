@@ -99,8 +99,8 @@ extension ShopLiveShortform {
 //        weak var shortsCollectionView: ShopLiveShortform.ShortsCollectionView?
         weak var shortsCollectionView : ShortsCollectionBaseView?
         
-        private lazy var rootViewController: ShortFormFullTypeRootViewController = {
-            let viewController = ShortFormFullTypeRootViewController()
+        private lazy var rootViewController: ShortFormDetailRootViewController = {
+            let viewController = ShortFormDetailRootViewController()
             viewController.delegate = self
             return viewController
         }()
@@ -604,7 +604,7 @@ extension ShopLiveShortform {
         }
     }
 }
-extension ShopLiveShortform.SLShortsWindow : ShortFormFullTypeRootViewControllerDelegate {
+extension ShopLiveShortform.SLShortsWindow : ShortFormDetailRootViewControllerDelegate {
     func onStartRotation(to size : CGSize) {
         guard let collectionView = self.shortsCollectionView else { return }
         if collectionView.getCurrentShortsMode() == .detail {

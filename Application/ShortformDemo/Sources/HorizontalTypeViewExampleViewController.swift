@@ -445,7 +445,7 @@ extension HorizontalTypeViewExampleViewController {
 }
 
 
-extension HorizontalTypeViewExampleViewController: ShopLiveShortformNativeHandlerDelegate {
+extension HorizontalTypeViewExampleViewController: ShopLiveShortformDetailHandlerDelegate {
     func handleProductItem(shortsId : String, shortsSrn : String, product : Product) {
 //        print("[HASSAN LOG] srn \(shortsSrn)")
 //        print("[HASSAN LOG] shortsId \(shortsId)")

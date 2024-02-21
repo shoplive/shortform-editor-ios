@@ -16,7 +16,7 @@ public class ShopLiveShortform {
     private static var shortsCollection: ShortsCollectionBaseView?
     private static var shortformWindow: SLShortsWindow?
     
-    internal static var detailWebViewViewHideOptionData = ShopLiveShortformVisibleFullTypeData()
+    internal static var detailWebViewViewHideOptionData = ShopLiveShortformVisibleDetailData()
     
     public static func play(requestData : ShopLiveShortformCollectionData?){
         let internalShortFormRequestData = InternalShortformCollectionData()
@@ -100,7 +100,7 @@ public class ShopLiveShortform {
         ShortFormAuthManager.shared.setReferrer(referrer: referrer)
     }
     
-    public static func setVisibileFullTypeViews(options : ShopLiveShortformVisibleFullTypeData){
+    public static func setVisibileDetailViews(options : ShopLiveShortformVisibleDetailData){
         self.detailWebViewViewHideOptionData = options
     }
     
@@ -114,7 +114,7 @@ public class ShopLiveShortform {
             shortformWindow = SLShortsWindow()
         }
         
-        shortsCollection = V1ShortsFullTypeCollectionView(reference : reference, shortsMode: .detail, showType: .normal, shortsId: shortsId, shortsSrn: shortsSrn, normalRequestParameterModel: requestModel, viewProvideType: .window,shopliveSessionId: shopliveSessionId)
+        shortsCollection = V1ShortsDetailCollectionView(reference : reference, shortsMode: .detail, showType: .normal, shortsId: shortsId, shortsSrn: shortsSrn, normalRequestParameterModel: requestModel, viewProvideType: .window,shopliveSessionId: shopliveSessionId)
         
         shortformWindow?.showPlay(shortsCollection)
     }
@@ -143,7 +143,7 @@ public class ShopLiveShortform {
             shortformWindow = SLShortsWindow()
         }
         
-        shortsCollection = V1ShortsFullTypeCollectionView(shortsMode: .detail, showType: .related, reference: reference, shortsId: shortsId, shortsSrn: shortsSrn,relatedRequestModel: requestModel,shortsList: [], shortsCollection: nil,viewProvideType: .window,shopliveSessionId: shopliveSessionId)
+        shortsCollection = V1ShortsDetailCollectionView(shortsMode: .detail, showType: .related, reference: reference, shortsId: shortsId, shortsSrn: shortsSrn,relatedRequestModel: requestModel,shortsList: [], shortsCollection: nil,viewProvideType: .window,shopliveSessionId: shopliveSessionId)
         
         shortformWindow?.showPlay(shortsCollection)
     }
@@ -153,7 +153,7 @@ public class ShopLiveShortform {
             shortformWindow = SLShortsWindow()
         }
         
-        shortsCollection = V1ShortsFullTypeCollectionView(shortsMode : .preview, showType : .related, reference : reference, shortsId : shortsId, shortsSrn : shortsSrn, relatedRequestModel : requestModel,shortsList: shortsList,shortsCollection: shortsCollectionModel,viewProvideType: .window,shopliveSessionId: shopliveSessionId)
+        shortsCollection = V1ShortsDetailCollectionView(shortsMode : .preview, showType : .related, reference : reference, shortsId : shortsId, shortsSrn : shortsSrn, relatedRequestModel : requestModel,shortsList: shortsList,shortsCollection: shortsCollectionModel,viewProvideType: .window,shopliveSessionId: shopliveSessionId)
         
         shortformWindow?.showPreview(shortsCollection)
     }

@@ -8,7 +8,7 @@
 import Foundation
 
 
-public struct ShopLiveShortformVisibleFullTypeData {
+public struct ShopLiveShortformVisibleDetailData {
     public var isBookMarkVisible : Bool = true
     public var isShareButtonVisible : Bool = true
     public var isCommentButtonVisible : Bool = true

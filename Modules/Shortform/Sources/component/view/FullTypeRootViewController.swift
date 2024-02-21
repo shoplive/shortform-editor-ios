@@ -10,17 +10,17 @@ import UIKit
 import ShopliveSDKCommon
 
 
-protocol ShortFormFullTypeRootViewControllerDelegate {
+protocol ShortFormDetailRootViewControllerDelegate {
     func onStartRotation(to size : CGSize)
     func onChangingRotation(to size : CGSize)
     func onFinishedRotation(on size : CGSize)
     
 }
 
-class ShortFormFullTypeRootViewController : UIViewController {
+class ShortFormDetailRootViewController : UIViewController {
     
     
-    var delegate : ShortFormFullTypeRootViewControllerDelegate?
+    var delegate : ShortFormDetailRootViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()

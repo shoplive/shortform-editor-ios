@@ -12,7 +12,7 @@ import ShopliveSDKCommon
 
 
 
-class V1ShortsFullTypeCollectionView : ShortsCollectionBaseView {
+class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
     typealias ShortsApiType = V1ShortsCollectionViewModel.ShortsApiType
     typealias ShortsModel = ShopLiveShortform.ShortsModel
     typealias ShortsCollectionModel = ShopLiveShortform.ShortsCollectionModel
@@ -158,7 +158,7 @@ class V1ShortsFullTypeCollectionView : ShortsCollectionBaseView {
     }
     
 }
-extension V1ShortsFullTypeCollectionView {
+extension V1ShortsDetailCollectionView {
     override func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         super.collectionView(collectionView, prefetchItemsAt: indexPaths)
         viewmodel.prefetchItems(at: indexPaths)

@@ -116,7 +116,7 @@ extension CardTypeExampleViewController : ShopLiveShortformListViewDelegate {
         }
     }
 }
-extension CardTypeExampleViewController : ShopLiveShortformNativeHandlerDelegate {
+extension CardTypeExampleViewController : ShopLiveShortformDetailHandlerDelegate {
     func handleProductItem(shortsId : String, shortsSrn : String, product : Product) {
         print("[HASSAN LOG] srn \(shortsSrn)")
         print("[HASSAN LOG] shortsId \(shortsId)")

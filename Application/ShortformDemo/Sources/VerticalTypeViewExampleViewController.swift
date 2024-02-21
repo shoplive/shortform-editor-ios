@@ -105,7 +105,7 @@ extension VerticalTypeViewExampleViewController : ShopLiveShortformListViewDeleg
         
     }
 }
-extension VerticalTypeViewExampleViewController : ShopLiveShortformNativeHandlerDelegate {
+extension VerticalTypeViewExampleViewController : ShopLiveShortformDetailHandlerDelegate {
     func handleProductItem(shortsId : String, shortsSrn : String, product : Product) {
 //        print("[HASSAN LOG] srn \(shortsSrn)")
 //        print("[HASSAN LOG] shortsId \(shortsId)")

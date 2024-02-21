@@ -30,7 +30,7 @@ class DetailWebViewOptionBox : UIView {
     private let commentBtnBox = OptionSetSwitchBox(title: "댓글 버튼 보이기",type: .detailWebViewCommentBtn)
     private let likeBtnBox = OptionSetSwitchBox(title: "좋아요 버튼 보이기",type: .detailWebViewLikeBtn)
     
-    private var detailViewOptionModel = ShopLiveShortformVisibleFullTypeData()
+    private var detailViewOptionModel = ShopLiveShortformVisibleDetailData()
     
     
     override init(frame : CGRect) {
@@ -54,7 +54,7 @@ class DetailWebViewOptionBox : UIView {
     
     
     func applyOption() {
-        ShopLiveShortform.setVisibileFullTypeViews(options: detailViewOptionModel)
+        ShopLiveShortform.setVisibileDetailViews(options: detailViewOptionModel)
     }
     
     
