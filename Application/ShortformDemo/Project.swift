@@ -30,4 +30,8 @@ let demoTarget = Target(name: "ShortformDemo",
 
 
 let project = Project.makeModule(name: "ShortformDemo",
+                                 configurations: [
+                                    .debug(name: .debug, xcconfig: .relativeToRoot("XCConfigs/ShortformDemoConfig.xcconfig")),
+                                    .release(name: .release, xcconfig: .relativeToRoot("XCConfigs/ShortformDemoConfig.xcconfig"))
+                                 ],
                                  targets: [demoTarget])

@@ -1,4 +1,0 @@
-framework module ShopliveSDKCommon {
-  header "ShopliveSDKCommon-Swift.h"
-  requires objc
-}

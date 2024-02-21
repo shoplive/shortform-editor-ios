@@ -12,10 +12,10 @@ import ProjectDescriptionHelpers
 let demoTarget = Target(name: "ShopLivePlayerDemo",
                         platform: .iOS,
                         product: .app,
-                        bundleId: "com.app" + ".player.demo",
+                        bundleId: "cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo",
                         deploymentTarget: .iOS(targetVersion: "12.0", devices: .iphone),
                         infoPlist: .file(path: "Support/Info.plist"),
-                        sources: ["Sources/**"],
+                        sources: ["Sources/**","../../XCConfigs/version.xcconfig"],
                         resources: ["Resources/**"],
                         dependencies: [
                             .project(target: "DropDownSDK", path: .relativeToRoot("Modules/DropDown")),
@@ -28,6 +28,10 @@ let demoTarget = Target(name: "ShopLivePlayerDemo",
                         ])
 
 
-
 let project = Project.makeModule(name: "ShopLivePlayerDemo",
+                                 configurations: [
+                                    .debug(name: .debug, xcconfig: .relativeToRoot("XCConfigs/PlayerDemoConfig.xcconfig")),
+                                    .release(name: .release, xcconfig: .relativeToRoot("XCConfigs/PlayerDemoConfig.xcconfig"))
+                                 ],
                                  targets: [demoTarget])
+
