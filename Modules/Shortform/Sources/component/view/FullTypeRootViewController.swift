@@ -10,7 +10,7 @@ import UIKit
 import ShopliveSDKCommon
 
 
-protocol ShortFormDetailRootViewControllerDelegate {
+protocol ShortFormDetailRootViewControllerDelegate : AnyObject {
     func onStartRotation(to size : CGSize)
     func onChangingRotation(to size : CGSize)
     func onFinishedRotation(on size : CGSize)
@@ -20,10 +20,14 @@ protocol ShortFormDetailRootViewControllerDelegate {
 class ShortFormDetailRootViewController : UIViewController {
     
     
-    var delegate : ShortFormDetailRootViewControllerDelegate?
+    weak var delegate : ShortFormDetailRootViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    deinit {
+        ShopLiveLogger.debugLog("ShortformDetailRootViewController deinited")
     }
     
     

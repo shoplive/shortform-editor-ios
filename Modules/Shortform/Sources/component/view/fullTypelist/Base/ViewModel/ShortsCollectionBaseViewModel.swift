@@ -170,9 +170,17 @@ class ShortsCollectionBaseViewModel {
     }
     
     deinit {
+        ShopLiveLogger.debugLog("shortscollectionBaseView deinted")
         self.latestCell.setLatest()
-        self.webViewLists.removeAll()
+        clearWebViewLists()
         appStateObserver.delegate = nil
+    }
+    
+    private func clearWebViewLists() {
+        self.webViewLists.forEach { (key, view) in
+            view.webview.removeFromSuperview()
+        }
+        self.webViewLists.removeAll()
     }
     
     private func bindNetworkMonitorResult() {
@@ -270,7 +278,7 @@ extension ShortsCollectionBaseViewModel {
     func getOverlayUrl(at indexPath : IndexPath, shortsModel : ShortsModel?) -> URL? {
         var payload: String = ""
         do {
-            let shortsDict = try shortsModel.toDictionary_SL()
+            let shortsDict = try shortsModel?.getRawDataDict()
             var payloadDict: [String: Any] = ["shorts": shortsDict]
             
             if let userJWT = ShortFormAuthManager.shared.getuserJWT() {
@@ -450,9 +458,7 @@ extension ShortsCollectionBaseViewModel {
     }
     
     func postOnForegroundNotification() {
-        //TODO: cell로 바로 명령어 꽂아야 됨
         guard let srn = currentShortsSrn else { return }
-//        NotificationCenter.default.post(Notification(name: Notification.Name("onChangedAppState"), object: nil, userInfo: ["srn": srn, "state": "foreground"]))
         guard let indexPath = delegate?.getCurrentIndexPath(),
               let cells = delegate?.getLoadedCells(from: indexPath.row - 1, to: indexPath.row + 1) else { return }
         cells.forEach { cell in
@@ -461,9 +467,7 @@ extension ShortsCollectionBaseViewModel {
     }
     
     func postOnBackGroundNotification() {
-        //TODO: cell로 바로 명령어 꽂아야 됨
         guard let srn = currentShortsSrn else { return }
-//        NotificationCenter.default.post(Notification(name: Notification.Name("onChangedAppState"), object: nil, userInfo: ["srn": srn, "state": "background"]))
         guard let indexPath = delegate?.getCurrentIndexPath(),
               let cells = delegate?.getLoadedCells(from: indexPath.row - 1, to: indexPath.row + 1) else { return }
         cells.forEach { cell in
@@ -476,8 +480,6 @@ extension ShortsCollectionBaseViewModel {
     }
     
     func postStopVideoNotification() {
-        //TODO: cell로 바로 명령어 꽂아야 됨
-//        NotificationCenter.default.post(Notification(name: Notification.Name("stopVideo")))
         guard let indexPath = delegate?.getCurrentIndexPath(),
               let cell = delegate?.getCellForAt(indexPath: indexPath) as? ShortsCell else { return }
         cell.stop()
@@ -487,23 +489,18 @@ extension ShortsCollectionBaseViewModel {
      cell을 위한 스냅샷이 아니라 컬렉션뷰 자체를 위한 스냅샷
      */
     func postTakeSnapShotForWindowNotification() {
-        //TODO: cell로 바로 명령어 꽂아야 됨
-//        NotificationCenter.default.post(Notification(name: Notification.Name("takeSnapshot"), object: nil, userInfo: ["srn": (self.currentShortsSrn ?? nil) as Any ]))
         guard let indexPath = delegate?.getCurrentIndexPath(),
               let cell = delegate?.getCellForAt(indexPath: indexPath) as? ShortsCell else { return }
         cell.takeSnapShotForWindow(srn: self.currentShortsSrn)
     }
     
     func postModeChangeNotification() {
-        //TODO: cell로 바로 명령어 꽂아야 됨
-//        NotificationCenter.default.post(Notification(name: Notification.Name("modeChange"), object: nil, userInfo: ["mode": shortsMode]))
         guard let indexPath = delegate?.getCurrentIndexPath(),
               let cell = delegate?.getCellForAt(indexPath: indexPath) as? ShortsCell else { return }
         cell.setShortsMode(shortsMode)
     }
     
     func postActivePageNotification(forceIsActive : Bool? = nil, srn : String?, index : Int,isFromAppState : Bool = false) {
-//        NotificationCenter.default.post(Notification(name: Notification.Name("activePage"), object: nil, userInfo: ["srn": srn, "index": index]))
         guard let cells = delegate?.getLoadedCells(from: index - 1, to: index + 1) else { return }
         var previousSrn : String? = nil
         if isFromAppState == false {
@@ -524,8 +521,6 @@ extension ShortsCollectionBaseViewModel {
     }
     
     func postCloseShortsDetail(srn : String?){
-        //TODO: - closeShortsDetail notifiation receiver 없어짐 바로 bridgeInterface로 꽂아줘야 함
-//        NotificationCenter.default.post(Notification(name: Notification.Name("closeShortsDetail"), userInfo: ["srn" :srn]))
         ShopLiveShortform.BridgeInterface.closeShortsDetail(srn: srn)
     }
     

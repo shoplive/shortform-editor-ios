@@ -107,6 +107,7 @@ class HorizontalTypeViewExampleViewController : UIViewController {
     private var scrollView = UIScrollView()
     private var scrollStack = UIStackView()
     
+    var delegate : ExampleViewControllerBaseDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -300,6 +301,7 @@ extension HorizontalTypeViewExampleViewController : ShopLiveShortformReceiveHand
         builder?.enablePlayVideos()
         builder2?.enablePlayVideos()
         builder3?.enablePlayVideos()
+        delegate?.onFullTypeViewDisappeared()
     }
     
     func onError(error: Error) {

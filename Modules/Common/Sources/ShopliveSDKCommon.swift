@@ -174,7 +174,7 @@ extension ShopLiveCommon {
 }
 public extension ShopLiveCommon {
     @objc static var sdkVersion: String {
-        return "1.5.5.4"
+        return "1.5.6"
     }
 }
 

@@ -106,7 +106,9 @@ final class OptionsViewController: SideMenuItemViewController {
                                                optionDescription: "sdkoption.enablePictureInPictureMode.description".localized(), optionType: .enablePictureInPictureMode)
         let pipAreaOption = SDKOptionItem(name: "sdkoption.pipFloatingOffset.title".localized(), optionDescription: "sdkoption.pipFloatingOffset.description".localized(), optionType: .pipFloatingOffset)
         let pipEnableSwipeOutOption = SDKOptionItem(name: "sdkoption.pipEnableSwipeOutOption.title".localized(), optionDescription: "sdkoption.pipEnableSwipeOutOption.description".localized(), optionType: .pipEnableSwipeOut)
-        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, pipMaxSizeOption,pipFixedHeightOption,pipFixedWidthOption, pipKeepWindowStyle, pipModelEnableSetting, pipEnableSwipeOutOption, pipAreaOption])
+        let pipCornerRadius = SDKOptionItem(name: "sdkoption.pipCornerRadius.title".localized(), optionDescription: "sdkoption.pipCornerRadius.description".localized(), optionType: .pipCornerRadius)
+        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, pipMaxSizeOption,pipFixedHeightOption,pipFixedWidthOption, pipKeepWindowStyle, pipModelEnableSetting, pipEnableSwipeOutOption, pipAreaOption,pipCornerRadius])
+        
 
         items.append(pipOptions)
 
@@ -261,6 +263,14 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 alert.modalPresentationStyle = .overCurrentContext
                 self.navigationController?.present(alert, animated: false, completion: nil)
                 break
+            case .pipCornerRadius:
+                let size = DemoConfiguration.shared.pipCornerRadius == nil ? "" : String(format: "%.0f",  DemoConfiguration.shared.pipCornerRadius!)
+                let alert = TextItemInputAlertController(header: "sdkOption.pipCornerRadius.title".localized(), data: size, placeHolder: "ex) 10") { size in
+                    DemoConfiguration.shared.pipCornerRadius = size.cgfloatValue
+                    self.tableView.reloadData()
+                }
+                alert.modalPresentationStyle = .overCurrentContext
+                self.navigationController?.present(alert, animated: false, completion: nil)
             default:
                 break
             }

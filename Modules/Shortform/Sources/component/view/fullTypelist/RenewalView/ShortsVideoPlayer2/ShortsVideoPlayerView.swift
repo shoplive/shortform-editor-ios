@@ -59,6 +59,10 @@ class ShortsVideoPlayerView : UIView, SLReactor {
         fatalError()
     }
     
+    deinit {
+        ShopLiveLogger.debugLog("shortsvideoplayerview deinited")
+    }
+    
     
 }
 //MARK: - getter

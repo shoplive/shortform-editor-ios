@@ -10,6 +10,12 @@ import UIKit
 
 
 
+public protocol RawDataRepresantable {
+    var rawData: Data? { set get }
+    
+    func getRawDataDict() -> [String : Any]?
+}
+
 public protocol BaseResponsable: Codable {
     var _s: Int? { set get }
     var _e: String? { set get }
@@ -212,7 +218,13 @@ public extension APIDefinition {
             }
             else {
                 do {
-                    let decoded = try JSONDecoder().decode(ResultType.self, from: data)
+                    var decoder = JSONDecoder()
+                    if let userInfoKey = CodingUserInfoKey(rawValue: "rawData") {
+                        decoder.userInfo = [ userInfoKey: data]
+                    }
+
+                    var decoded = try decoder.decode(ResultType.self, from: data)
+
                     DispatchQueue.main.async {
                         handler?(.success(decoded))
                     }

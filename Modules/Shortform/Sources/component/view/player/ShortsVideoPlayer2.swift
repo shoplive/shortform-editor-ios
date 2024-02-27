@@ -32,6 +32,7 @@ class ShortsVideoPlayer2 {
         playerItem = nil
         videoAsset = nil
         player = nil
+        ShopLiveLogger.debugLog("ShortsVideoPlayer2 deinited")
     }
     
     func configure(videoUrl : URL){

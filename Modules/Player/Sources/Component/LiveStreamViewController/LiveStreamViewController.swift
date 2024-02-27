@@ -81,15 +81,12 @@ internal final class LiveStreamViewController: SLViewController {
         let view = SLLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.addSublayer(pipDimLayer)
-        view.layer.cornerRadius = 10
         return view
     }()
     
     lazy var closeButton: SLButton = {
         let view = SLButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-//        let bundle = Bundle(for: type(of: self))
-//        let closebuttonImage = UIImage(named: "closebutton", in: bundle, compatibleWith: nil)
         view.setImage(ShopLiveSDKAsset.closebutton.image, for: .normal)
         view.addTarget(self, action: #selector(didTouchCloseButton), for: .touchUpInside)
         return view
@@ -162,6 +159,7 @@ internal final class LiveStreamViewController: SLViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         guard viewModel.getUseCloseBtnIsEnabled() else { return }
+        pipDim.layer.cornerRadius = viewModel.getPipCornerRadius()
         updateCloseButtonDim()
     }
     

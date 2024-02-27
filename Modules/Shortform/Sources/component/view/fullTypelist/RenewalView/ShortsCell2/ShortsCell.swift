@@ -118,6 +118,10 @@ class ShortsCell : UICollectionViewCell {
         fatalError()
     }
     
+    deinit {
+        ShopLiveLogger.debugLog("shortscell deinited")
+    }
+    
     func configureCell(webView : SLWebView,
                        model : ShortsModel,
                        delegate : ShortsCellDelegate,

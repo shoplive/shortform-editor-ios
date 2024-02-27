@@ -115,10 +115,9 @@ extension ShopLiveShortform {
         }
         
         deinit {
-            self.shortformWindow.resignKey()
-            self.customerWindow?.makeKey()
-            teardownGesture()
+            ShopLiveLogger.debugLog("SLShortsWindow deinited")
         }
+        
         
         
         private func setupWindow() {
@@ -126,8 +125,10 @@ extension ShopLiveShortform {
             setupObserver()
         }
         
-        private func teardownWindow() {
+        func teardownWindow() {
             shortsWindowModel.resetProperties()
+            self.shortformWindow.resignKey()
+            self.customerWindow?.makeKey()
             teardownGesture()
             teardownObserver()
         }

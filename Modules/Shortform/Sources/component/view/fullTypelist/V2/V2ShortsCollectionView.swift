@@ -11,7 +11,7 @@ import ShopliveSDKCommon
 
 
 
-public protocol ShortsCollectionViewDataSourcRequestDelegate {
+public protocol ShortsCollectionViewDataSourcRequestDelegate : AnyObject {
     func onShortformListPagination(completion : @escaping(((ShopLiveShortformIdsMoreData?,Error?)) -> ()))
     func onShortformListPaginationError(error : Error)
     
@@ -30,7 +30,7 @@ class V2ShortsCollectionView : ShortsCollectionBaseView {
         return viewModel as! V2ShortsCollectionViewModel
     }
     
-    var requestDelegate : ShortsCollectionViewDataSourcRequestDelegate
+    weak var requestDelegate : ShortsCollectionViewDataSourcRequestDelegate?
     
     init(shortformIdsData : ShopLiveShortformIdsData, requestDelegate : ShortsCollectionViewDataSourcRequestDelegate){
         self.requestDelegate = requestDelegate
@@ -42,9 +42,14 @@ class V2ShortsCollectionView : ShortsCollectionBaseView {
         viewmodel.shortsMode = .detail
     }
     
+    deinit {
+        ShopLiveLogger.debugLog("V2ShortsCollectionView")
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     override func layout() {
         super.layout()
@@ -61,7 +66,7 @@ class V2ShortsCollectionView : ShortsCollectionBaseView {
 }
 extension V2ShortsCollectionView : V2ShortsCollectioViewModelDelegate {
     func requestForMoreData() {
-        requestDelegate.onShortformListPagination { [weak self] moreData,error in
+        requestDelegate?.onShortformListPagination { [weak self] moreData,error in
             if let error = error {
                 self?.viewmodel.setShortformIdsMoreDataCustomerError(error: error)
             }
@@ -72,7 +77,7 @@ extension V2ShortsCollectionView : V2ShortsCollectioViewModelDelegate {
     }
     
     func onV2ListAPIError(error: Error) {
-        requestDelegate.onShortformListPaginationError(error: error)
+        requestDelegate?.onShortformListPaginationError(error: error)
     }
     
     func hideEmptyDataView(hide: Bool) {

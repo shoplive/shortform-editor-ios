@@ -133,6 +133,7 @@ class LandingSelectBox : UIView {
         label.layer.cornerRadius = 10
         label.leftView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 10, height: 10)))
         label.leftViewMode = .always
+        label.text = Defaults.customAccessKey
         return label
     }()
     
@@ -208,7 +209,9 @@ class LandingSelectBox : UIView {
             return  realLabel.text ?? ""
         }
         else if customBtn.isSelected == true {
-            return  customTextField.text ?? ""
+            let result = customTextField.text ?? ""
+            Defaults.customAccessKey = result
+            return result
         }
         return self.selectedAccessKey
     }

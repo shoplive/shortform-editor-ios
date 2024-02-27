@@ -19,6 +19,8 @@ class CardTypeExampleViewController : UIViewController {
     private var currentSnap = false
     private var shareURLStorage : [String : URL] = [:]
     
+    var delegate : ExampleViewControllerBaseDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -172,6 +174,7 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
     func onDidDisAppear() {
         print("[HASSAN LOG] shortformplayer on CardTypeViewExampleViewController DidDisAppear")
         builder?.enablePlayVideos()
+        delegate?.onFullTypeViewDisappeared()
     }
     
     

@@ -33,15 +33,7 @@ class MainViewController: SideMenuBaseViewController {
 
         self.view.backgroundColor = .white
 
-        #if QA
-            #if EBAY
-            self.title = "Demo QA"
-            #else
-            self.title = "Demo QA"
-            #endif
-        #else
-            self.title = "SDK Demo"
-        #endif
+        self.title = "Demo QA"
 
         ShopLive.delegate = self
 
@@ -75,17 +67,7 @@ class MainViewController: SideMenuBaseViewController {
         SampleOptions.campaignNaviMoreOptions = ["campaign.menu.write".localized(), "QR code", "Dev-Admin", "Admin", "campaign.menu.deleteall".localized()]
         SampleOptions.campaignNaviMoreSelectionAction = { (item : String, index: Int, id: Int) in
             print("selected item: \(item) index: \(index)")
-            var sourceScheme = ""
-            #if DEMO
-                #if QA
-                    sourceScheme = "shopliveqa"
-                    #if EBAY
-                    sourceScheme = "shopliveqa"//"shoplivesample"
-                    #endif
-                #else
-                    sourceScheme = "shoplive"
-                #endif
-            #endif
+            let sourceScheme = "shopliveplayer"
             switch index {
             case 0: // Direct input
                 let vc = CampaignInputAlertController()
@@ -235,7 +217,6 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.setMuteWhenPlayStart(config.isMuted)
         
         // Phase Setting
-        #if DEMO
         let phase = ShopLiveDevConfiguration.shared.phase
         
         var landingUrl: String = "https://www.shoplive.show/v1/sdk.html"
@@ -266,7 +247,6 @@ class MainViewController: SideMenuBaseViewController {
         } else {
             ShopLive.setEndpoint(nil)
         }
-        #endif
         
         ShopLive.setKeepAspectOnTabletPortrait(config.useAspectOnTablet)
         
@@ -286,7 +266,7 @@ class MainViewController: SideMenuBaseViewController {
                                                            pipPosition: config.pipPosition,
                                                            enableSwipeOut: config.pipEnableSwipeOut,
                                                            pipSize: pipSize,
-                                                           pipRadius: 0)
+                                                           pipRadius: DemoConfiguration.shared.pipCornerRadius ?? 10)
         
         ShopLive.setInAppPipConfiguration(config: inAppPipConfig)
         
@@ -298,7 +278,6 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.setVisibleStatusBar(isVisible: DemoConfiguration.shared.statusBarVisibility)
 //        previewConverViewMaker.setCustomerPreviewCoverView()
         
-        ShopLiveLogger.debugLog("[HASSAN LOG] getPreviewSize before being appeared \(ShopLive.getPreviewSize(inAppPipConfiguration: inAppPipConfig, videoRatio: CGSize(width: 9, height: 16)))")
     }
     
     let previewConverViewMaker = PreviewCoverViewMaker()

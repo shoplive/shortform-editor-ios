@@ -1,7 +1,7 @@
 ##/bin/bash
 
 WORKING_DIR=$(pwd)
-CONFIG_FILES=("config/player/build.config" "config/common/build.config"  "config/shortform/build.config" )
+CONFIG_FILES=("config/player/build.config" "config/common/build.config"  "config/shortform/build.config" "config/editor/build.config" )
 
 rm -rf "SLXCFrameworks"
 mkdir "SLXCFrameworks"

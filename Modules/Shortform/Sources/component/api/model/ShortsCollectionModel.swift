@@ -2,7 +2,7 @@ import Foundation
 import ShopliveSDKCommon
 
 extension ShopLiveShortform {
-    public struct ShortsCollectionModel : BaseResponsable {
+    public struct ShortsCollectionModel : BaseResponsable, RawDataRepresantable {
         typealias Model = ShopLiveShortform.ShortsCollectionModel
         public var _s: Int?
         public var _e: String?
@@ -11,8 +11,13 @@ extension ShopLiveShortform {
         public let shortsList: [ShortsModel]?
         public let reference: String?
         public let hasMore: Bool?
+        public var rawData: Data?
         
         public init(from decoder: Decoder) throws {
+            if let userInfoKey = CodingUserInfoKey(rawValue: "rawData") {
+                self.rawData = decoder.userInfo[userInfoKey] as? Data
+            }
+        
             let container: KeyedDecodingContainer<Model.CodingKeys> = try decoder.container(keyedBy: Model.CodingKeys.self)
             let parser = SLFlexibleParser(container: container)
             
@@ -24,5 +29,17 @@ extension ShopLiveShortform {
             self.reference = try? parser.parse(targetType: String.self, key: Model.CodingKeys.reference)
             self.hasMore = try? parser.parse(targetType: Bool.self, key: Model.CodingKeys.hasMore)
         }
+        
+        public func getRawDataDict() -> [String : Any]? {
+            guard let data = rawData else { return nil }
+            do {
+                let json = try JSONSerialization.jsonObject(with: data) as? [String : Any]
+                return json
+            }
+            catch(_) {
+                return nil
+            }
+        }
+        
     }
 }

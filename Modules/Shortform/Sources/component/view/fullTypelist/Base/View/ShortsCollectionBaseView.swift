@@ -89,8 +89,6 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     lazy var closeButton: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-//        let bundle = Bundle(for: type(of: self))
-//        let closebuttonImage = UIImage(named: "sl_closebutton", in: bundle, compatibleWith: nil)
         view.setImage(ShopLiveShortformSDKAsset.slClosebutton.image, for: .normal)
         view.addTarget(self, action: #selector(didTouchCloseButton), for: .touchUpInside)
         return view
@@ -544,7 +542,13 @@ extension ShortsCollectionBaseView : ShortsCollectionBaseViewModelDelegate {
     }
     
     func getCurrentIndexPath() -> IndexPath? {
-        return shortsListView.indexPathsForVisibleItems.first
+        let contentOffsety = shortsListView.contentOffset.y
+        let contentHeight = shortsListView.frame.size.height
+        guard contentHeight > 0 else {
+            return nil
+        }
+        let index = Int(contentOffsety / contentHeight)
+        return IndexPath(row: index, section: 0)
     }
     
     func getCellForAt(indexPath: IndexPath) -> UICollectionViewCell? {

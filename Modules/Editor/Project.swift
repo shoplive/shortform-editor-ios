@@ -10,7 +10,7 @@ import ProjectDescriptionHelpers
 
 let deployTarget = Target(name: "ShopLiveShortformEditorSDK",
                           platform: .iOS,
-                          product: .staticFramework,
+                          product: .framework,
                           bundleId: "com.app.matrix-shortform-editor-ios",
                           deploymentTarget: .iOS(targetVersion: "12.0", devices: .iphone),
                           infoPlist: .extendingDefault(with: [:]),

@@ -22,10 +22,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>cloud.shoplive.sdk.demo</string>
+			<string>cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>shoplive</string>
+				<string>shopliveplayer</string>
 			</array>
 		</dict>
 	</array>

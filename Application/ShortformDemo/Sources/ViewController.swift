@@ -12,6 +12,10 @@ import ShopLiveShortformSDK
 import ShopliveSDKCommon
 import ShopLiveShortformEditorSDK
 
+protocol ExampleViewControllerBaseDelegate {
+    func onFullTypeViewDisappeared()
+}
+
 class ViewController: UIViewController {
 
     private var navBox : UIView = {
@@ -45,16 +49,19 @@ class ViewController: UIViewController {
     
     lazy var cardTypeExampleViewController : CardTypeExampleViewController = {
         let vc = CardTypeExampleViewController()
+        vc.delegate = self
         return vc
     }()
     
     lazy var verticalTypeExamplViewController : VerticalTypeViewExampleViewController = {
         let vc = VerticalTypeViewExampleViewController()
+        vc.delegate = self
         return vc
     }()
 
     lazy var horizontalTypeExamplViewController : HorizontalTypeViewExampleViewController = {
         let vc = HorizontalTypeViewExampleViewController()
+        vc.delegate = self
         return vc
     }()
     
@@ -82,7 +89,7 @@ class ViewController: UIViewController {
     
     var latestItem: PagingItem?
     private var observerAdded : Bool = false
-    let v2Shorts = V2ShortformExample()
+    var v2Shorts : V2ShortformExample?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         if #available(iOS 13.0, *) {
@@ -191,7 +198,8 @@ class ViewController: UIViewController {
     }
     
     @objc func v2PlayBtnTapped(sender : UIButton){
-        v2Shorts.play()
+        v2Shorts = V2ShortformExample()
+        v2Shorts?.play()
     }
     
     private func setObserver(){
@@ -329,3 +337,8 @@ extension ViewController: LandingSelectProtocol {
     func didChangedLanding() {}
 }
 #endif
+extension ViewController : ExampleViewControllerBaseDelegate {
+    func onFullTypeViewDisappeared() {
+        v2Shorts = nil
+    }
+}

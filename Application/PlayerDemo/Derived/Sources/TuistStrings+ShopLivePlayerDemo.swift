@@ -385,6 +385,13 @@ public enum ShopLivePlayerDemoStrings {
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.nextActionTypeOnNavigation.title")
     }
 
+    public enum PipCornerRadius {
+    /// InAppPip의 모서리 반경을 설정합니다.(기본 10)
+      public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipCornerRadius.description")
+      /// InAppPip 모서리 반경
+      public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipCornerRadius.title")
+    }
+
     public enum PipEnableSwipeOutOption {
     /// 화면 밖으로 PIP를 SWIPE 하는 경우 플레이어를 종료시킬지 여부를 설정합니다. preview는 해당없음. in-app pip만 적용되는 옵션입니다. (기본은 종료, 설정해제 시 종료되지 않음.)
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipEnableSwipeOutOption.description")

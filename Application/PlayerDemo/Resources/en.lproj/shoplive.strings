@@ -104,12 +104,12 @@
 
 "sdkOption.pipMaxSize.title" = "PIP Max Size 설정";
 "sdkOption.pipMaxSize.description" = "설정된 길이의 정사각형 안에서 영상이 잘리지 않도록 최대한 크게 보여줍니다." ;
-
 "sdkOption.pipFixedHeight.title" = "PIP 고정 높이 설정";
 "sdkOption.pipFixedHeight.description" = "서로 다른 해상도의 단말에서 세로사이즈를 동일하게 유지하도록 고정 세로 길이를 설정할 수 있습니다." ;
-
 "sdkOption.pipFixedWidth.title" = "PIP 고정 넓이 설정";
 "sdkOption.pipFixedWidth.description" = "서로 다른 해상도의 단말에서 가로사이즈를 동일하게 유지하도록 고정 가로 길이를 설정할 수 있습니다." ;
+"sdkoption.pipCornerRadius.title" = "InAppPip 모서리 반경";
+"sdkoption.pipCornerRadius.description" = "InAppPip의 모서리 반경을 설정합니다.(기본 10)";
 
 
 

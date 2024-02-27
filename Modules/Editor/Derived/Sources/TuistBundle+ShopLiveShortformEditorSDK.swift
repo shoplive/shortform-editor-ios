@@ -8,24 +8,8 @@ import Foundation
 private class BundleFinder {}
 
 extension Foundation.Bundle {
-/// Since ShopLiveShortformEditorSDK is a staticFramework, the bundle containing the resources is copied into the final product.
-static let module: Bundle = {
-    let bundleName = "ShopLiveShortformEditorSDK_ShopLiveShortformEditorSDK"
-
-    let candidates = [
-        Bundle.main.resourceURL,
-        Bundle(for: BundleFinder.self).resourceURL,
-        Bundle.main.bundleURL,
-    ]
-
-    for candidate in candidates {
-        let bundlePath = candidate?.appendingPathComponent(bundleName + ".bundle")
-        if let bundle = bundlePath.flatMap(Bundle.init(url:)) {
-            return bundle
-        }
-    }
-    fatalError("unable to find bundle named ShopLiveShortformEditorSDK_ShopLiveShortformEditorSDK")
-}()
+/// Since ShopLiveShortformEditorSDK is a framework, the bundle for classes within this module can be used directly.
+static let module = Bundle(for: BundleFinder.self)
 }
 
 // MARK: - Objective-C Bundle Accessor

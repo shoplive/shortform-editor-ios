@@ -418,6 +418,23 @@ final class DemoConfiguration: NSObject {
         }
     }
     
+    var pipCornerRadius : CGFloat? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipCornerRadius.optionKey)
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            guard let pipCornerRadius = UserDefaults.standard.string(forKey:  SDKOptionType.pipCornerRadius.optionKey), !pipCornerRadius.isEmpty else {
+                return nil
+            }
+
+            if let pipCornerRadius = pipCornerRadius.cgfloatValue, pipCornerRadius < 0.0 {
+                return nil
+            }
+
+            return pipCornerRadius.cgfloatValue
+        }
+    }
     
     var isGuestMode: Bool {
         set {

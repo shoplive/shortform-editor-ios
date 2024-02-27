@@ -293,7 +293,18 @@ import ShopliveSDKCommon
         
         ShopLiveController.webInstance?.sendEventToWeb(event: .onTerminated)
         delegate?.handleCommand?("willShopLiveOff", with: ["style" : self.style.rawValue])
-        delegate?.handleCommand?( ShopLiveViewTrackEvent.viewWillDisAppear.name, with: ["lastStyle" : self._lastStyle.name , "currentStyle" : self.style.name, "isPreview" : ShopLiveController.shared.isPreview])
+        
+        //inAppPip일때 lastStyle이 fullScreen으로 나오는점 때문에
+        //나중에 완전히 갈아 엎으면서 style, lastStyle 다시 재정의 필요
+        if ShopLiveController.windowStyle == .inAppPip && ShopLiveController.shared.isPreview == false {
+            delegate?.handleCommand?( ShopLiveViewTrackEvent.viewWillDisAppear.name, with: ["lastStyle" : ShopLive.PresentationStyle.pip.name ,
+                                                                                            "currentStyle" : self.style.name,
+                                                                                            "isPreview" : ShopLiveController.shared.isPreview])
+        }
+        else {
+            delegate?.handleCommand?( ShopLiveViewTrackEvent.viewWillDisAppear.name, with: ["lastStyle" : self._lastStyle.name , "currentStyle" : self.style.name, "isPreview" : ShopLiveController.shared.isPreview])
+        }
+        
         if let originAudioSessionCategory = self.originAudioSessionCategory {
             let audioSessionManager = AudioSessionManager.shared
             audioSessionManager.setCategory(category: originAudioSessionCategory, options: audioSessionManager.customerAudioCategoryOptions)
@@ -506,7 +517,7 @@ import ShopliveSDKCommon
             shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
             shopLiveWindow.layer.shadowOpacity = 0.5
             shopLiveWindow.layer.shadowOffset = .zero
-            shopLiveWindow.layer.shadowRadius = 10
+            shopLiveWindow.layer.shadowRadius = inAppPipConfiguration?.pipRadius ?? 10
             
             self.videoWindowPanGestureRecognizer?.isEnabled = true
             self.videoWindowTapGestureRecognizer?.isEnabled = true
@@ -850,7 +861,7 @@ import ShopliveSDKCommon
             shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
             shopLiveWindow.layer.shadowOpacity = 0.5
             shopLiveWindow.layer.shadowOffset = .zero
-            shopLiveWindow.layer.shadowRadius = 10
+            shopLiveWindow.layer.shadowRadius = inAppPipConfiguration?.pipRadius ?? 10
             shopLiveWindow.setNeedsLayout()
             shopLiveWindow.layoutIfNeeded()
             

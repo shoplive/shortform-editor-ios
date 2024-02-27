@@ -18,6 +18,8 @@ class VerticalTypeViewExampleViewController : UIViewController {
     private var currentSnap = false
     private var shareURLStorage : [String : URL] = [:]
     
+    var delegate : ExampleViewControllerBaseDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -130,6 +132,7 @@ extension VerticalTypeViewExampleViewController : ShopLiveShortformReceiveHandle
     func onDidDisAppear() {
         print("[HASSAN LOG] shortformplayer on VerticalTypeExampleViewConroller DidDisAppear")
         builder?.enablePlayVideos()
+        delegate?.onFullTypeViewDisappeared()
     }
     
     func onError(error: Error) {

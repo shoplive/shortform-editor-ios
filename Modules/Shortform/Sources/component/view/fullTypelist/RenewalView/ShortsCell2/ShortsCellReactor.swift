@@ -115,6 +115,11 @@ class ShortsCellReactor : NSObject, SLReactor {
     var resultHandler: ((Result) -> ())?
     
     
+    deinit {
+        ShopLiveLogger.debugLog("shortscellreactor deinited")
+    }
+    
+    
     func action(_ action: Action) {
         switch action {
         case .initializeCell:
@@ -488,8 +493,7 @@ extension ShortsCellReactor {
     
     private func onCloseShortformDetail() {
         guard let currentSrn = self.currentSrn else { return }
-        self.isActive = false
-        self.onSendActivePageState(forceIsActive: nil, srn: currentSrn, shortsList: nil, previousSrn: nil)
+        self.onSendActivePageState(forceIsActive: false, srn: currentSrn, shortsList: nil, previousSrn: nil)
         if ShopLiveShortform.BridgeInterface.isBridgeConnected() == false {
             resultHandler?( .requestCloseShortform )
         }
@@ -557,7 +561,8 @@ extension ShortsCellReactor {
     private func sendV2ActivePageToWeb(srn : String, shortsList : [ShortsModel],previousSrn : String?) {
         guard shortsMode == .detail,
             let currentSrn = self.currentSrn else { return }
-        let shortsListJson = try? shortsList.toDictionary_SL().toJSONString_SL() ?? "[]"
+        let shortsListJson = SLJSONUtil.toJsonString(shortsList) ?? "[]"
+        
         let payload : [String : Any] = [
             "srn" : currentSrn,
             "index" : currentIndexPath.row,
@@ -571,6 +576,7 @@ extension ShortsCellReactor {
         }
         else {
             request = (.ON_SHORTFORM_DETAIL_PAGE_INACTIVE, payload)
+            resultHandler?( .requestStopVideo )
         }
         resultHandler?( .requestEvaluateJS([request]))
     }

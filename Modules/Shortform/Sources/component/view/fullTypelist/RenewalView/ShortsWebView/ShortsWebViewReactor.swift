@@ -35,6 +35,10 @@ class ShortsWebViewReactor : SLReactor {
     var resultHandler: ((Result) -> ())?
     
     
+    deinit {
+        ShopLiveLogger.debugLog("shortswebviewreactor deinited")
+    }
+    
     func action(_ action: Action) {
         switch action {
         case .setisWebViewLoaded(let isWebViewLoaded):

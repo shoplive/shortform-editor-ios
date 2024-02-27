@@ -695,6 +695,10 @@ extension LiveStreamViewModel {
         }
     }
     
+    func getPipCornerRadius() -> CGFloat {
+        return inAppPipConfiguration?.pipRadius ?? 10
+    }
+    
     func setWebViewLoadingCompleted(isCompleted : Bool) {
         self.isWebViewDidCompleteLoading = isCompleted
     }

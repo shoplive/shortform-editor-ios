@@ -33,6 +33,14 @@ final class CampaignsViewController: SideMenuItemViewController {
         setupViews()
         setupNaviItems()
         self.title = "menu.campaigns".localized()
+        
+        dropdown.listDidDisappear { [weak self] in
+            self?.dropdown.isHidden = true
+        }
+        
+        dropdown.listWillAppear { [weak self] in
+            self?.dropdown.isHidden = false
+        }
     }
     
 
@@ -66,6 +74,8 @@ final class CampaignsViewController: SideMenuItemViewController {
         dropdownAnchor.backgroundColor = .clear
         self.view.addSubview(dropdownAnchor)
         self.view.addSubview(dropdown)
+        dropdown.isHidden = true
+        
         
         NSLayoutConstraint.activate([
             dropdownAnchor.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -73,7 +83,7 @@ final class CampaignsViewController: SideMenuItemViewController {
             dropdownAnchor.widthAnchor.constraint(equalToConstant: 1),
             dropdownAnchor.heightAnchor.constraint(equalToConstant: 1),
             
-            dropdown.topAnchor.constraint(equalTo: dropdownAnchor.bottomAnchor),
+            dropdown.topAnchor.constraint(equalTo: dropdownAnchor.topAnchor,constant: -20),
             dropdown.trailingAnchor.constraint(equalTo: dropdownAnchor.trailingAnchor),
             dropdown.widthAnchor.constraint(equalToConstant: 150),
             dropdown.heightAnchor.constraint(equalToConstant: 20),

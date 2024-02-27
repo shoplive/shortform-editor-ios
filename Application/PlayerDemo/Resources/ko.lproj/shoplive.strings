@@ -126,6 +126,12 @@
 "sdkoption.pipEnableSwipeOutOption.description" = "화면 밖으로 PIP를 SWIPE 하는 경우 플레이어를 종료시킬지 여부를 설정합니다. preview는 해당없음. in-app pip만 적용되는 옵션입니다. (기본은 종료, 설정해제 시 종료되지 않음.)";
 "sdkoption.pipFloatingOffset.title" = "PIP 영역 설정";
 "sdkoption.pipFloatingOffset.description" = "PIP의 영역을 설정합니다.";
+"sdkoption.pipCornerRadius.title" = "InAppPip 모서리 반경";
+"sdkoption.pipCornerRadius.description" = "InAppPip의 모서리 반경을 설정합니다.(기본 10)";
+
+
+
+
 "sdkoption.headphoneOption1.title" = "이어폰/헤드셋 옵션";
 "sdkoption.headphoneOption1.description" = "이어폰/헤드셋 연결이 끊기면 영상을 멈추지 않습니다.";
 "sdkoption.headphoneOption2.title" = "이어폰/헤드셋 연결이 끊겼을 때 음소거";

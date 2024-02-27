@@ -11,8 +11,8 @@ import ShopliveSDKCommon
 import ShopLiveShortformSDK
 
 
-
-class V2ShortformExample {
+ 
+class V2ShortformExample  {
     
     var reference : String? = nil
     var hasMore : Bool? = nil
@@ -21,9 +21,10 @@ class V2ShortformExample {
     func play() {
         reference = nil
         hasMore = nil
-        callShortsCollectionAPI { data,error  in
+        callShortsCollectionAPI { [weak self] data,error  in
+            guard let self = self else { return }
             if let data = data {
-                ShopLiveShortform.play(shortformIdsData: ShopLiveShortformIdsData(ids : data.ids, currentId: data.ids?.last ?? ""), delegate: self)
+                ShopLiveShortform.play(shortformIdsData: ShopLiveShortformIdsData(ids : data.ids, currentId: data.ids?.first ?? ""), delegate: self)
             }
         }
     }

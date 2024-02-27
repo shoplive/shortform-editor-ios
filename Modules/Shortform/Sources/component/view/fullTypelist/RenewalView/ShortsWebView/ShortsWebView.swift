@@ -50,6 +50,10 @@ class ShortsWebView : UIView, SLReactor {
         fatalError()
     }
     
+    deinit {
+        ShopLiveLogger.debugLog("shortswebview deinited")
+    }
+    
     
     func action(_ action: Action) {
         switch action {

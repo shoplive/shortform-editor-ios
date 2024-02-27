@@ -3,7 +3,7 @@ import UIKit
 import ShopliveSDKCommon
 
 extension ShopLiveShortform {
-    public struct ShortsModel: BaseResponsable, Equatable {
+    public struct ShortsModel: BaseResponsable, RawDataRepresantable,  Equatable {
         
         typealias Model = ShopLiveShortform.ShortsModel
         
@@ -23,9 +23,13 @@ extension ShopLiveShortform {
         public let traceId: String?
         public let url: String?
         public let reasonKey : String?
-        
+        public var rawData: Data?
         
         public init(from decoder: Decoder) throws {
+            if let userInfoKey = CodingUserInfoKey(rawValue: "rawData") {
+                self.rawData = decoder.userInfo[userInfoKey] as? Data
+            }
+            
             let container: KeyedDecodingContainer<Model.CodingKeys> = try decoder.container(keyedBy: Model.CodingKeys.self)
             let parser = SLFlexibleParser(container: container)
             
@@ -57,6 +61,27 @@ extension ShopLiveShortform {
                   }
             
             return true
+        }
+        
+        
+        public func getRawDataDict() -> [String : Any]? {
+            guard let data = rawData else { return nil }
+            do {
+                guard let json = try JSONSerialization.jsonObject(with: data) as? [String : Any],
+                      let shortsList = json["shortsList"] as? [[String : Any]] else { return nil }
+                
+                for shortsDetail in shortsList {
+                    if let shortsIdFromArr = shortsDetail["shortsId"] as? String,
+                       let currentShortsId = self.shortsId,
+                       shortsIdFromArr == currentShortsId {
+                        return shortsDetail
+                    }
+                }
+                return nil
+            }
+            catch(_) {
+                return nil
+            }
         }
     }
 

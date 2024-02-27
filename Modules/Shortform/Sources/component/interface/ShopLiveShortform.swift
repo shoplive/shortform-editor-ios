@@ -11,7 +11,7 @@ import ShopliveSDKCommon
 
 public class ShopLiveShortform {
     
-    public static var sdkVersion: String = "1.5.5.4"
+    public static var sdkVersion: String = "1.5.6"
     
     private static var shortsCollection: ShortsCollectionBaseView?
     private static var shortformWindow: SLShortsWindow?
@@ -78,7 +78,7 @@ public class ShopLiveShortform {
                 shortsCollection?.removeFromSuperview()
                 shortsCollection = nil
             }
-            
+            shortformWindow?.teardownWindow()
             shortformWindow = nil
         }
     }

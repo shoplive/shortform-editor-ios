@@ -18,11 +18,11 @@ protocol V2ShortsCollectioViewModelDelegate : ShortsCollectionBaseViewModelDeleg
 class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
     
     var shortFormIdsList : [String] = []
-    var shortFormIdsMoreData : ShopLiveShortformIdsMoreData?
+    weak var shortFormIdsMoreData : ShopLiveShortformIdsMoreData?
     var isLoadingMoreData : Bool = false
     
     
-    var v2delegate : V2ShortsCollectioViewModelDelegate?
+    weak var v2delegate : V2ShortsCollectioViewModelDelegate?
     var customerHasMore : Bool = true
     override var hasMore: Bool {
         return customerHasMore
@@ -33,6 +33,10 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
     var scrollViewDidScrollPaginationBlockDuration : Double = 0.8
     var blockScrollViewDidScrollPagination : Bool = false
     
+    
+    deinit {
+        ShopLiveLogger.debugLog("v2shortscollectionviewmodel deinited")
+    }
     
     func setshortFormIdsData(shortformIdsData : ShopLiveShortformIdsData){
         if let ids = shortformIdsData.ids {
