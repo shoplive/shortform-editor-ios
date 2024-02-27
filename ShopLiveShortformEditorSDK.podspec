@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
                  LICENSE
               }
   s.author           = { 'hassan0424' => 'hassan@shoplive.cloud' }
-  s.source           = { :git => 'https://github.com/shoplive/shortform-editor-ios', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/shoplive/shortform-editor-ios.git', :tag => s.version.to_s }
 
   s.platform     = :ios
   s.ios.deployment_target = '12.1'
