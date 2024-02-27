@@ -1,0 +1,868 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.8.1 (swiftlang-5.8.0.124.5 clang-1403.0.22.11.100)
+// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name ShopLiveShortformEditorSDK
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import AVKit
+import Foundation
+import MobileCoreServices
+import Photos
+import PhotosUI
+import ShopliveSDKCommon
+import Swift
+import SwiftUI
+import UIKit
+import VideoToolbox
+import _Concurrency
+import _StringProcessing
+import ffmpegkit
+public enum ShopLiveShortformEditorSDKAsset {
+  public static let slArrow: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
+  public static let slBackArrow: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
+  public static let slCamera: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
+  public static let slCloseButton: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
+  public static let slClosebutton: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
+  public static let slEditorHandleLeft: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
+  public static let slEditorHandleRight: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
+  public static let slEditorPlayButton: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
+  public static let slIcMediaFilled: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
+  public static let slIcPerson: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
+  public static let slIcShopliveLogo: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
+  public static let slInsertPhotoMaterial: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
+  public static let slPlaybar: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
+  public static let slPlaypreview: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
+  public static let slPopArrow: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
+  public static let slTimeSliderThumb: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
+}
+public struct ShopLiveShortformEditorSDKImages {
+  public var name: Swift.String {
+    get
+  }
+  public typealias Image = UIKit.UIImage
+  public var image: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages.Image {
+    get
+  }
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public var swiftUIImage: SwiftUI.Image {
+    get
+  }
+}
+extension UIKit.UIImage {
+  @available(macOS, deprecated, message: "This initializer is unsafe on macOS, please use the ShopLiveShortformEditorSDKImages.image property")
+  convenience public init?(asset: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages)
+}
+@available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+extension SwiftUI.Image {
+  public init(asset: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages)
+  public init(asset: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages, label: SwiftUI.Text)
+  public init(decorative asset: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages)
+}
+@_inheritsConvenienceInitializers @objc public class ShopLiveShortformEditorSDKResources : ObjectiveC.NSObject {
+  @objc public class var bundle: Foundation.Bundle {
+    @objc get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+public enum ShopLiveShortformEditorSDKStrings {
+  public enum Alert {
+    public static let no: Swift.String
+    public static let yes: Swift.String
+    public enum Permission {
+      public enum Denied {
+        public static let cancel: Swift.String
+        public static let description: Swift.String
+        public static let setting: Swift.String
+        public static let title: Swift.String
+      }
+    }
+  }
+  public enum Editor {
+    public enum Encoding {
+      public enum Cancel {
+        public enum Alert {
+          public static let title: Swift.String
+        }
+      }
+    }
+    public enum Next {
+      public static let title: Swift.String
+    }
+    public enum Page {
+      public static let title: Swift.String
+    }
+    public enum Time {
+      public enum Gap {
+        public enum Min {
+          public enum Sec {
+            public static func label(_ p1: Swift.Int, _ p2: Swift.Int) -> Swift.String
+          }
+        }
+        public enum Sec {
+          public static func label(_ p1: Swift.Int) -> Swift.String
+        }
+      }
+    }
+  }
+  public enum Loading {
+    public enum Inprocessing {
+      public static let title: Swift.String
+    }
+    public enum Preparing {
+      public static let title: Swift.String
+    }
+  }
+  public enum Picker {
+    public enum Warning {
+      public enum Duration {
+        public enum Min {
+          public static let title: Swift.String
+        }
+      }
+    }
+  }
+  public enum Toast {
+    public enum Cancel {
+      public enum Encoding {
+        public static let title: Swift.String
+      }
+    }
+    public enum Codec {
+      public static let notvalid: Swift.String
+    }
+    public enum Uploadinfo {
+      public static let emptyVideoTitle: Swift.String
+    }
+  }
+  public enum Uploadinfo {
+    public enum Description {
+      public static let placeholder: Swift.String
+      public static let title: Swift.String
+    }
+    public enum Page {
+      public static let title: Swift.String
+    }
+    public enum Tag {
+      public static let placeholder: Swift.String
+      public static let title: Swift.String
+    }
+    public enum Title {
+      public static let placeholder: Swift.String
+      public static let title: Swift.String
+    }
+    public enum Upload {
+      public static let title: Swift.String
+    }
+  }
+}
+@_hasMissingDesignatedInitializers public class ShortFormUploadConfigurationInfosManager {
+  public static let shared: ShopLiveShortformEditorSDK.ShortFormUploadConfigurationInfosManager
+  public func getBaseUrl() -> Swift.String
+  @objc deinit
+}
+public struct BrandModel : Swift.Codable {
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct ShortsModel : ShopliveSDKCommon.BaseResponsable, Swift.Equatable {
+  public var _s: Swift.Int?
+  public var _e: Swift.String?
+  public var _d: Swift.String?
+  public init(from decoder: any Swift.Decoder) throws
+  public static func == (lhs: ShopLiveShortformEditorSDK.ShortsModel, rhs: ShopLiveShortformEditorSDK.ShortsModel) -> Swift.Bool
+  public var validate: Swift.Bool {
+    get
+  }
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public protocol ShopLiveShortformEditorDelegate : AnyObject {
+  func onShortformUploadError(error: ShopliveSDKCommon.ShopLiveCommonError)
+  func onShortformEditorSuccess()
+  func onShortformEditorMediaPickerDismiss()
+}
+final public class ShopLiveShortFormEditorAspectRatio {
+  final public var width: Swift.Int
+  final public var height: Swift.Int
+  final public var isFixed: Swift.Bool
+  public init(width: Swift.Int = 9, height: Swift.Int = 16, isFixed: Swift.Bool = true)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers final public class ShopLiveShortFormEditorTrimOption {
+  final public var maxVideoDuration: CoreFoundation.CGFloat
+  final public var minVideoDuration: CoreFoundation.CGFloat
+  @objc deinit
+}
+final public class ShopLiveShortFormEditorVisibleContent {
+  final public var isDescriptionVisible: Swift.Bool
+  final public var isTagsVisible: Swift.Bool
+  public init(isDescriptionVisible: Swift.Bool = true, isTagsVisible: Swift.Bool = true)
+  @objc deinit
+}
+final public class ShopLiveShortformEditorConfiguration {
+  final public var videoCropOption: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorAspectRatio
+  final public var visibleContents: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorVisibleContent
+  final public var videoTrimOption: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorTrimOption
+  public init(videoCropOption: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorAspectRatio, visibleContents: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorVisibleContent?, minVideoDuration: CoreFoundation.CGFloat? = nil, maxVideoDuration: CoreFoundation.CGFloat? = nil)
+  @objc deinit
+}
+public class ShopLiveShortformEditor {
+  public static var sdkVersion: Swift.String
+  public init()
+  @discardableResult
+  public func setPermissionHandler(_ permissionHandler: (any ShopliveSDKCommon.ShopLivePermissionHandler)?) -> Self
+  @discardableResult
+  public func setConfiguration(_ configuration: ShopLiveShortformEditorSDK.ShopLiveShortformEditorConfiguration?) -> Self
+  @discardableResult
+  public func setShortFormEditorDelegate(delegate: any ShopLiveShortformEditorSDK.ShopLiveShortformEditorDelegate) -> Self
+  public func start(_ vc: UIKit.UIViewController)
+  @objc deinit
+}
+public class ShortsVideo {
+  public var videoUrl: Foundation.URL
+  public var player: AVFoundation.AVPlayer?
+  public var seekNotificationEnabled: Swift.Bool
+  public init(videoUrl: Foundation.URL, maxBufferDuration: Swift.Double = 2)
+  @objc deinit
+  public func getVideoDuration() -> Swift.Double
+  public func seekTo(time: CoreMedia.CMTime)
+  public func getVideoSize() -> CoreFoundation.CGSize?
+}
+@objc @_inheritsConvenienceInitializers open class VideoPlayer : ObjectiveC.NSObject {
+  public var timeUpdateInterval: Swift.Double
+  public func setShortsVideo(video: ShopLiveShortformEditorSDK.ShortsVideo)
+  @objc override dynamic public init()
+  @objc deinit
+  public func setStopTime(time: CoreMedia.CMTime)
+  public func play()
+  public func pause()
+  public func replay()
+  public func stop()
+  public func seekTo(time: CoreMedia.CMTime)
+  public func setVideoGravity(_ videoGravity: AVFoundation.AVLayerVideoGravity)
+  public func attach(parent: UIKit.UIView)
+  public func detach()
+  @objc override dynamic public func observeValue(forKeyPath keyPath: Swift.String?, of object: Any?, change: [Foundation.NSKeyValueChangeKey : Any]?, context: Swift.UnsafeMutableRawPointer?)
+}
+extension ShopLiveShortformEditorSDK.SLPhotosPickerViewController : ShopliveSDKCommon.SLLoadingAlertControllerDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func didCancelLoading()
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func didFinishLoading()
+  @_Concurrency.MainActor(unsafe) public func finishLoading()
+  @_Concurrency.MainActor(unsafe) open func cancelLoading()
+}
+public struct SLPhotosPickerConfigure {
+  public var customLocalizedTitle: [Swift.String : Swift.String]
+  public var tapHereToChange: Swift.String
+  public var cancelTitle: Swift.String
+  public var doneTitle: Swift.String
+  public var emptyMessage: Swift.String
+  public var selectMessage: Swift.String
+  public var deselectMessage: Swift.String
+  public var emptyImage: UIKit.UIImage?
+  public var usedCameraButton: Swift.Bool
+  public var defaultToFrontFacingCamera: Swift.Bool
+  public var usedPrefetch: Swift.Bool
+  public var allowedVideo: Swift.Bool
+  public var allowedAlbumCloudShared: Swift.Bool
+  public var allowedVideoRecording: Swift.Bool
+  public var recordingVideoQuality: UIKit.UIImagePickerController.QualityType
+  public var maxVideoDuration: Foundation.TimeInterval?
+  public var preventAutomaticLimitedAccessAlert: Swift.Bool
+  public var mediaType: Photos.PHAssetMediaType?
+  public var numberOfColumn: Swift.Int
+  public var minimumLineSpacing: CoreFoundation.CGFloat
+  public var minimumInteritemSpacing: CoreFoundation.CGFloat
+  public var singleSelectedMode: Swift.Bool
+  public var singleSelectedDismiss: Swift.Bool
+  public var maxSelectedAssets: Swift.Int?
+  public var fetchOption: Photos.PHFetchOptions?
+  public var fetchCollectionOption: [ShopLiveShortformEditorSDK.FetchCollectionType : Photos.PHFetchOptions]
+  public var selectedColor: UIKit.UIColor
+  public var cameraBgColor: UIKit.UIColor
+  public var cameraIcon: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages.Image
+  public var groupByFetch: ShopLiveShortformEditorSDK.PHFetchedResultGroupedBy?
+  public var supportedInterfaceOrientations: UIKit.UIInterfaceOrientationMask
+  public var popup: [ShopLiveShortformEditorSDK.PopupConfigure]
+  public init()
+}
+public enum FetchCollectionType {
+  case assetCollections(Photos.PHAssetCollectionType)
+  case topLevelUserCollections
+}
+extension ShopLiveShortformEditorSDK.FetchCollectionType : Swift.Hashable {
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: ShopLiveShortformEditorSDK.FetchCollectionType, b: ShopLiveShortformEditorSDK.FetchCollectionType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum PopupConfigure {
+  case animation(Foundation.TimeInterval)
+}
+public struct Platform {
+  public static var isSimulator: Swift.Bool {
+    get
+  }
+}
+@objc @_Concurrency.MainActor(unsafe) open class SLPhotosPickerViewController : UIKit.UIViewController {
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var navigationBar: UIKit.UINavigationBar!
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var titleView: UIKit.UIView!
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var titleLabel: UIKit.UILabel!
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var albumPopView: ShopLiveShortformEditorSDK.SLAlbumPopView!
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var collectionView: UIKit.UICollectionView!
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var indicator: UIKit.UIActivityIndicatorView!
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var popArrowImageView: UIKit.UIImageView!
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var customNavItem: UIKit.UINavigationItem!
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var cancelButton: UIKit.UIBarButtonItem!
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var navigationBarTopConstraint: UIKit.NSLayoutConstraint!
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var emptyView: UIKit.UIView!
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var emptyImageView: UIKit.UIImageView!
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var emptyMessageLabel: UIKit.UILabel!
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var photosButton: UIKit.UIBarButtonItem!
+  @_Concurrency.MainActor(unsafe) public var loadingProgress: ShopliveSDKCommon.SLLoadingAlertController {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) open var selectedAssets: [ShopLiveShortformEditorSDK.SLPHAsset]
+  @_Concurrency.MainActor(unsafe) open var isSelectedFromCamera: Swift.Bool
+  @_Concurrency.MainActor(unsafe) public var configure: ShopLiveShortformEditorSDK.SLPhotosPickerConfigure
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var preferredStatusBarStyle: UIKit.UIStatusBarStyle {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc dynamic public init()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var supportedInterfaceOrientations: UIKit.UIInterfaceOrientationMask {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func traitCollectionDidChange(_ previousTraitCollection: UIKit.UITraitCollection?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidLayoutSubviews()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewWillAppear(_ animated: Swift.Bool)
+  @objc deinit
+  @_Concurrency.MainActor(unsafe) open func deselectWhenUsingSingleSelectedMode()
+  @_Concurrency.MainActor(unsafe) open func maxCheck() -> Swift.Bool
+}
+extension ShopLiveShortformEditorSDK.SLPhotosPickerViewController {
+  @objc @_Concurrency.MainActor(unsafe) dynamic public func registerNib(nibName: Swift.String, bundle: Foundation.Bundle)
+  @objc @_Concurrency.MainActor(unsafe) dynamic open func makeUI()
+  @objc @IBAction @_Concurrency.MainActor(unsafe) dynamic open func cancelButtonTap()
+  @objc @IBAction @_Concurrency.MainActor(unsafe) dynamic open func doneButtonTap()
+  @objc @IBAction @_Concurrency.MainActor(unsafe) dynamic open func limitButtonTap()
+}
+extension ShopLiveShortformEditorSDK.SLPhotosPickerViewController : UIKit.UIImagePickerControllerDelegate, UIKit.UINavigationControllerDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic open func imagePickerControllerDidCancel(_ picker: UIKit.UIImagePickerController)
+  @_Concurrency.MainActor(unsafe) @objc dynamic open func imagePickerController(_ picker: UIKit.UIImagePickerController, didFinishPickingMediaWithInfo info: [UIKit.UIImagePickerController.InfoKey : Any])
+  @_Concurrency.MainActor(unsafe) public func dismissPicker(completion: (() -> ())?)
+}
+extension ShopLiveShortformEditorSDK.SLPhotosPickerViewController : Photos.PHPhotoLibraryChangeObserver {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func photoLibraryDidChange(_ changeInstance: Photos.PHChange)
+}
+extension ShopLiveShortformEditorSDK.SLPhotosPickerViewController : UIKit.UICollectionViewDelegate, UIKit.UICollectionViewDataSource, UIKit.UICollectionViewDataSourcePrefetching {
+  @_Concurrency.MainActor(unsafe) @objc dynamic open func collectionView(_ collectionView: UIKit.UICollectionView, didSelectItemAt indexPath: Foundation.IndexPath)
+  @_Concurrency.MainActor(unsafe) @objc dynamic open func collectionView(_ collectionView: UIKit.UICollectionView, didEndDisplaying cell: UIKit.UICollectionViewCell, forItemAt indexPath: Foundation.IndexPath)
+  @_Concurrency.MainActor(unsafe) @objc dynamic open func collectionView(_ collectionView: UIKit.UICollectionView, cellForItemAt indexPath: Foundation.IndexPath) -> UIKit.UICollectionViewCell
+  @_Concurrency.MainActor(unsafe) @objc dynamic open func numberOfSections(in collectionView: UIKit.UICollectionView) -> Swift.Int
+  @_Concurrency.MainActor(unsafe) @objc dynamic open func collectionView(_ collectionView: UIKit.UICollectionView, numberOfItemsInSection section: Swift.Int) -> Swift.Int
+  @_Concurrency.MainActor(unsafe) @objc dynamic open func collectionView(_ collectionView: UIKit.UICollectionView, prefetchItemsAt indexPaths: [Foundation.IndexPath])
+  @_Concurrency.MainActor(unsafe) @objc dynamic open func collectionView(_ collectionView: UIKit.UICollectionView, cancelPrefetchingForItemsAt indexPaths: [Foundation.IndexPath])
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func collectionView(_ collectionView: UIKit.UICollectionView, willDisplay cell: UIKit.UICollectionViewCell, forItemAt indexPath: Foundation.IndexPath)
+}
+extension ShopLiveShortformEditorSDK.SLPhotosPickerViewController : UIKit.UITableViewDelegate, UIKit.UITableViewDataSource {
+  @_Concurrency.MainActor(unsafe) @objc dynamic open func tableView(_ tableView: UIKit.UITableView, didSelectRowAt indexPath: Foundation.IndexPath)
+  @_Concurrency.MainActor(unsafe) @objc dynamic open func numberOfSections(in tableView: UIKit.UITableView) -> Swift.Int
+  @_Concurrency.MainActor(unsafe) @objc dynamic open func tableView(_ tableView: UIKit.UITableView, numberOfRowsInSection section: Swift.Int) -> Swift.Int
+  @_Concurrency.MainActor(unsafe) @objc dynamic open func tableView(_ tableView: UIKit.UITableView, cellForRowAt indexPath: Foundation.IndexPath) -> UIKit.UITableViewCell
+}
+extension ShopLiveShortformEditorSDK.SLPhotosPickerViewController : UIKit.UINavigationBarDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func position(for bar: any UIKit.UIBarPositioning) -> UIKit.UIBarPosition
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class SLAlbumPopView : UIKit.UIView {
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var bgView: UIKit.UIView!
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var popupView: UIKit.UIView!
+  @_Concurrency.MainActor(unsafe) open var tableView: UIKit.UITableView {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func awakeFromNib()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func hitTest(_ point: CoreFoundation.CGPoint, with event: UIKit.UIEvent?) -> UIKit.UIView?
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+public enum PHFetchedResultGroupedBy {
+  case year
+  case month
+  case week
+  case day
+  case hour
+  case custom(dateFormat: Swift.String)
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class SLAssetPreviewViewController : UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) open var asset: Photos.PHAsset? {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidLayoutSubviews()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: any UIKit.UIViewControllerTransitionCoordinator)
+  @objc deinit
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+public struct SLPHAsset {
+  public enum AssetType {
+    case photo, video, livePhoto
+    public static func == (a: ShopLiveShortformEditorSDK.SLPHAsset.AssetType, b: ShopLiveShortformEditorSDK.SLPHAsset.AssetType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum ImageExtType : Swift.String {
+    case png, jpg, gif, heic
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public var phAsset: Photos.PHAsset?
+  public var isSelectedFromCamera: Swift.Bool
+  public var selectedOrder: Swift.Int
+  public var type: ShopLiveShortformEditorSDK.SLPHAsset.AssetType {
+    get
+  }
+  public var fullResolutionImage: UIKit.UIImage? {
+    get
+  }
+  public func extType(defaultExt: ShopLiveShortformEditorSDK.SLPHAsset.ImageExtType = .png) -> ShopLiveShortformEditorSDK.SLPHAsset.ImageExtType
+  @discardableResult
+  public func cloudImageDownload(progressBlock: @escaping (Swift.Double) -> Swift.Void, completionBlock: @escaping (UIKit.UIImage?) -> Swift.Void) -> Photos.PHImageRequestID?
+  public var originalFileName: Swift.String? {
+    get
+  }
+  public func photoSize(options: Photos.PHImageRequestOptions? = nil, completion: @escaping ((Swift.Int) -> Swift.Void), livePhotoVideoSize: Swift.Bool = false)
+  public func videoSize(options: Photos.PHVideoRequestOptions? = nil, completion: @escaping ((Swift.Int) -> Swift.Void))
+  @discardableResult
+  public func tempCopyMediaFile(videoRequestOptions: Photos.PHVideoRequestOptions? = nil, imageRequestOptions: Photos.PHImageRequestOptions? = nil, livePhotoRequestOptions: Photos.PHLivePhotoRequestOptions? = nil, exportPreset: Swift.String = AVAssetExportPresetHighestQuality, convertLivePhotosToJPG: Swift.Bool = false, progressBlock: ((Swift.Double) -> Swift.Void)? = nil, completionBlock: @escaping ((Foundation.URL, Swift.String) -> Swift.Void)) -> Photos.PHImageRequestID?
+  public func exportVideoFile(options: Photos.PHVideoRequestOptions? = nil, outputURL: Foundation.URL? = nil, outputFileType: AVFoundation.AVFileType = .mov, progressBlock: ((Swift.Double) -> Swift.Void)? = nil, completionBlock: @escaping ((Foundation.URL, Swift.String) -> Swift.Void))
+  public static func asset(with localIdentifier: Swift.String) -> ShopLiveShortformEditorSDK.SLPHAsset?
+}
+extension ShopLiveShortformEditorSDK.SLPHAsset : Swift.Equatable {
+  public static func == (lhs: ShopLiveShortformEditorSDK.SLPHAsset, rhs: ShopLiveShortformEditorSDK.SLPHAsset) -> Swift.Bool
+}
+public struct SLAssetsCollection {
+  public var sections: [(title: Swift.String, assets: [ShopLiveShortformEditorSDK.SLPHAsset])]?
+}
+@_hasMissingDesignatedInitializers open class SLBundle {
+  open class func slPhotoPickerBundleImage() -> UIKit.UIImage?
+  open class func podBundleImage(named: Swift.String) -> UIKit.UIImage?
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class SLCollectionTableViewCell : UIKit.UITableViewCell {
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var thumbImageView: UIKit.UIImageView!
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var titleLabel: UIKit.UILabel!
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var subTitleLabel: UIKit.UILabel!
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func awakeFromNib()
+  @available(iOS 3.0, *)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(style: UIKit.UITableViewCell.CellStyle, reuseIdentifier: Swift.String?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class SLPlayerView : UIKit.UIView {
+  @objc @_Concurrency.MainActor(unsafe) open var player: AVFoundation.AVPlayer? {
+    @objc get
+    @objc set
+  }
+  @objc @_Concurrency.MainActor(unsafe) open var playerLayer: AVFoundation.AVPlayerLayer {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open class var layerClass: Swift.AnyClass {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class SLPhotoCollectionViewCell : UIKit.UICollectionViewCell {
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var imageView: UIKit.UIImageView?
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var playerView: ShopLiveShortformEditorSDK.SLPlayerView?
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var livePhotoView: PhotosUI.PHLivePhotoView?
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var liveBadgeImageView: UIKit.UIImageView?
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var durationView: UIKit.UIView?
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var durationLabel: UIKit.UILabel?
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var indicator: UIKit.UIActivityIndicatorView?
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var selectedView: UIKit.UIView?
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var selectedHeight: UIKit.NSLayoutConstraint?
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var orderLabel: UIKit.UILabel?
+  @objc @IBOutlet @_Concurrency.MainActor(unsafe) open var orderBgView: UIKit.UIView?
+  @_Concurrency.MainActor(unsafe) open var asset: Photos.PHAsset? {
+    get
+  }
+  @objc @_Concurrency.MainActor(unsafe) open var isCameraCell: Swift.Bool
+  @_Concurrency.MainActor(unsafe) open var duration: Foundation.TimeInterval? {
+    get
+    set
+  }
+  @objc @_Concurrency.MainActor(unsafe) open var selectedAsset: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc @_Concurrency.MainActor(unsafe) open func timeFormatted(timeInterval: Foundation.TimeInterval) -> Swift.String
+  @objc @_Concurrency.MainActor(unsafe) open func popScaleAnim()
+  @objc @_Concurrency.MainActor(unsafe) open func update(with phAsset: Photos.PHAsset)
+  @objc @_Concurrency.MainActor(unsafe) open func selectedCell()
+  @objc @_Concurrency.MainActor(unsafe) open func willDisplayCell()
+  @objc @_Concurrency.MainActor(unsafe) open func endDisplayingCell()
+  @objc deinit
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func awakeFromNib()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func prepareForReuse()
+  @_Concurrency.MainActor(unsafe) open func updateImage()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+public protocol SLPhotopickerDataSourcesProtocol {
+  func headerReferenceSize() -> CoreFoundation.CGSize
+  func footerReferenceSize() -> CoreFoundation.CGSize
+  func registerSupplementView(collectionView: UIKit.UICollectionView)
+  func supplementIdentifier(kind: Swift.String) -> Swift.String
+  func configure(supplement view: UIKit.UICollectionReusableView, section: (title: Swift.String, assets: [ShopLiveShortformEditorSDK.SLPHAsset]))
+}
+@_hasMissingDesignatedInitializers public class SLSynchronizedDictionary<K, V> where K : Swift.Hashable {
+  @objc deinit
+  public func removeAll()
+  public func removeValue(forKey: K)
+  public func forEach(_ closure: ((K, V) -> Swift.Void))
+  public subscript(key: K) -> V? {
+    get
+    set
+  }
+}
+@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) open class SLBackspaceDetectingTextField : UIKit.UITextField {
+  @_Concurrency.MainActor(unsafe) open var onDeleteBackwards: (() -> Swift.Void)?
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func deleteBackward()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func paste(_ sender: Any?)
+  @objc deinit
+}
+public struct SLWSTag : Swift.Hashable {
+  public let text: Swift.String
+  public let context: Swift.AnyHashable?
+  public init(_ text: Swift.String, context: Swift.AnyHashable? = nil)
+  public func equals(_ other: ShopLiveShortformEditorSDK.SLWSTag) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public func == (lhs: ShopLiveShortformEditorSDK.SLWSTag, rhs: ShopLiveShortformEditorSDK.SLWSTag) -> Swift.Bool
+@objc @_Concurrency.MainActor(unsafe) open class SLWSTagView : UIKit.UIView, UIKit.UITextInputTraits {
+  @_Concurrency.MainActor(unsafe) open var displayText: Swift.String {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) open var displayDelimiter: Swift.String {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) open var font: UIKit.UIFont? {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) open var cornerRadius: CoreFoundation.CGFloat {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) open var borderWidth: CoreFoundation.CGFloat {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) open var borderColor: UIKit.UIColor? {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var tintColor: UIKit.UIColor! {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor(unsafe) open var selectedColor: UIKit.UIColor? {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) open var textColor: UIKit.UIColor? {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) open var selectedTextColor: UIKit.UIColor? {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) open var selected: Swift.Bool {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) @objc public var autocapitalizationType: UIKit.UITextAutocapitalizationType
+  @_Concurrency.MainActor(unsafe) @objc public var autocorrectionType: UIKit.UITextAutocorrectionType
+  @_Concurrency.MainActor(unsafe) @objc public var spellCheckingType: UIKit.UITextSpellCheckingType
+  @_Concurrency.MainActor(unsafe) @objc public var keyboardType: UIKit.UIKeyboardType
+  @_Concurrency.MainActor(unsafe) @objc public var keyboardAppearance: UIKit.UIKeyboardAppearance
+  @_Concurrency.MainActor(unsafe) @objc public var returnKeyType: UIKit.UIReturnKeyType
+  @_Concurrency.MainActor(unsafe) @objc public var enablesReturnKeyAutomatically: Swift.Bool
+  @_Concurrency.MainActor(unsafe) @objc public var isSecureTextEntry: Swift.Bool
+  @_Concurrency.MainActor(unsafe) public init(tag: ShopLiveShortformEditorSDK.SLWSTag)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var intrinsicContentSize: CoreFoundation.CGSize {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func sizeThatFits(_ size: CoreFoundation.CGSize) -> CoreFoundation.CGSize
+  @_Concurrency.MainActor(unsafe) open func sizeToFit(_ size: CoreFoundation.CGSize) -> CoreFoundation.CGSize
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func layoutSubviews()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var canBecomeFirstResponder: Swift.Bool {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func becomeFirstResponder() -> Swift.Bool
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func resignFirstResponder() -> Swift.Bool
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func hitTest(_ point: CoreFoundation.CGPoint, with event: UIKit.UIEvent?) -> UIKit.UIView?
+  @objc deinit
+}
+extension ShopLiveShortformEditorSDK.SLWSTagView : UIKit.UIKeyInput {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public var hasText: Swift.Bool {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func insertText(_ text: Swift.String)
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func deleteBackward()
+}
+public struct SLWSTagAcceptOption : Swift.OptionSet {
+  public let rawValue: Swift.Int
+  public init(rawValue: Swift.Int)
+  public static let `return`: ShopLiveShortformEditorSDK.SLWSTagAcceptOption
+  public static let comma: ShopLiveShortformEditorSDK.SLWSTagAcceptOption
+  public static let space: ShopLiveShortformEditorSDK.SLWSTagAcceptOption
+  public static let sharp: ShopLiveShortformEditorSDK.SLWSTagAcceptOption
+  public typealias ArrayLiteralElement = ShopLiveShortformEditorSDK.SLWSTagAcceptOption
+  public typealias Element = ShopLiveShortformEditorSDK.SLWSTagAcceptOption
+  public typealias RawValue = Swift.Int
+}
+@objc @_inheritsConvenienceInitializers @IBDesignable @_Concurrency.MainActor(unsafe) open class SLWSTagsField : UIKit.UIScrollView {
+  @_Concurrency.MainActor(unsafe) final public let textField: ShopLiveShortformEditorSDK.SLBackspaceDetectingTextField
+  @_Concurrency.MainActor(unsafe) public var isDisplayMode: Swift.Bool
+  @_Concurrency.MainActor(unsafe) weak open var textDelegate: (any UIKit.UITextFieldDelegate)?
+  @IBInspectable @_Concurrency.MainActor(unsafe) @objc override dynamic open var tintColor: UIKit.UIColor! {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var textColor: UIKit.UIColor? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var selectedColor: UIKit.UIColor? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var selectedTextColor: UIKit.UIColor? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var delimiter: Swift.String {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var isDelimiterVisible: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var shouldTokenizeAfterResigningFirstResponder: Swift.Bool
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var maxHeight: CoreFoundation.CGFloat {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var numberOfLines: Swift.Int {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var enableScrolling: Swift.Bool
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var cornerRadius: CoreFoundation.CGFloat {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var borderWidth: CoreFoundation.CGFloat {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var borderColor: UIKit.UIColor? {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var layoutMargins: UIKit.UIEdgeInsets {
+    @objc get
+    @objc set
+  }
+  @available(*, deprecated, message: "use 'textField.textColor' directly.")
+  @_Concurrency.MainActor(unsafe) open var fieldTextColor: UIKit.UIColor? {
+    get
+    set
+  }
+  @available(iOS 10.0, *)
+  @available(*, deprecated, message: "use 'textField.fieldTextContentType' directly.")
+  @_Concurrency.MainActor(unsafe) open var fieldTextContentType: UIKit.UITextContentType! {
+    get
+    set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var placeholder: Swift.String {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var placeholderColor: UIKit.UIColor? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var placeholderFont: UIKit.UIFont? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var placeholderAlwaysVisible: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor(unsafe) open var font: UIKit.UIFont? {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) open var keyboardAppearance: UIKit.UIKeyboardAppearance {
+    get
+    set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var readOnly: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor(unsafe) open var acceptTagOptions: [ShopLiveShortformEditorSDK.SLWSTagAcceptOption]
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var contentInset: UIKit.UIEdgeInsets {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var spaceBetweenTags: CoreFoundation.CGFloat {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var spaceBetweenLines: CoreFoundation.CGFloat {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var isFirstResponder: Swift.Bool {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) open var tags: [ShopLiveShortformEditorSDK.SLWSTag] {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) open var tagViews: [ShopLiveShortformEditorSDK.SLWSTagView]
+  @_Concurrency.MainActor(unsafe) open var onShouldAcceptTag: ((ShopLiveShortformEditorSDK.SLWSTagsField) -> Swift.Bool)?
+  @_Concurrency.MainActor(unsafe) open var onDidChangeText: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ text: Swift.String?) -> Swift.Void)?
+  @_Concurrency.MainActor(unsafe) open var onDidAddTag: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ tag: ShopLiveShortformEditorSDK.SLWSTag) -> Swift.Void)?
+  @_Concurrency.MainActor(unsafe) open var onDidRemoveTag: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ tag: ShopLiveShortformEditorSDK.SLWSTag) -> Swift.Void)?
+  @_Concurrency.MainActor(unsafe) open var onDidSelectTagView: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ tag: ShopLiveShortformEditorSDK.SLWSTagView) -> Swift.Void)?
+  @_Concurrency.MainActor(unsafe) open var onDidUnselectTagView: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ tag: ShopLiveShortformEditorSDK.SLWSTagView) -> Swift.Void)?
+  @_Concurrency.MainActor(unsafe) open var onValidateTag: ((ShopLiveShortformEditorSDK.SLWSTag, [ShopLiveShortformEditorSDK.SLWSTag]) -> Swift.Bool)?
+  @_Concurrency.MainActor(unsafe) open var onVerifyTag: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ text: Swift.String) -> Swift.Bool)?
+  @_Concurrency.MainActor(unsafe) open var onDidChangeHeightTo: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ height: CoreFoundation.CGFloat) -> Swift.Void)?
+  @_Concurrency.MainActor(unsafe) open var useCloseButton: Swift.Bool
+  @_Concurrency.MainActor(unsafe) open var preferredMaxLayoutWidth: CoreFoundation.CGFloat {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var intrinsicContentSize: CoreFoundation.CGSize {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func sizeThatFits(_ size: CoreFoundation.CGSize) -> CoreFoundation.CGSize
+  @_Concurrency.MainActor(unsafe) open var suggestions: [Swift.String]
+  @_Concurrency.MainActor(unsafe) open var caseSensitiveSuggestions: Swift.Bool
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc deinit
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func willMove(toSuperview newSuperview: UIKit.UIView?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func layoutSubviews()
+  @_Concurrency.MainActor(unsafe) open func setCornerRadius(to cornerRadius: CoreFoundation.CGFloat)
+  @_Concurrency.MainActor(unsafe) open func acceptCurrentTextAsTag()
+  @_Concurrency.MainActor(unsafe) open var isEditing: Swift.Bool {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) open func beginEditing()
+  @_Concurrency.MainActor(unsafe) open func endEditing()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func reloadInputViews()
+  @_Concurrency.MainActor(unsafe) open func addTags(_ tags: [Swift.String])
+  @_Concurrency.MainActor(unsafe) open func addTags(_ tags: [ShopLiveShortformEditorSDK.SLWSTag])
+  @_Concurrency.MainActor(unsafe) open func addTag(_ tag: Swift.String)
+  @_Concurrency.MainActor(unsafe) open func addTag(_ tag: ShopLiveShortformEditorSDK.SLWSTag)
+  @_Concurrency.MainActor(unsafe) open func removeTag(_ tag: Swift.String)
+  @_Concurrency.MainActor(unsafe) open func removeTag(_ tag: ShopLiveShortformEditorSDK.SLWSTag)
+  @_Concurrency.MainActor(unsafe) open func removeTagAtIndex(_ index: Swift.Int)
+  @_Concurrency.MainActor(unsafe) open func removeTags()
+  @discardableResult
+  @_Concurrency.MainActor(unsafe) open func tokenizeTextFieldText() -> ShopLiveShortformEditorSDK.SLWSTag?
+  @objc @_Concurrency.MainActor(unsafe) open func onTextFieldDidChange(_ sender: Swift.AnyObject)
+  @_Concurrency.MainActor(unsafe) open func selectNextTag()
+  @_Concurrency.MainActor(unsafe) open func selectPrevTag()
+  @_Concurrency.MainActor(unsafe) open func selectTagView(_ tagView: ShopLiveShortformEditorSDK.SLWSTagView, animated: Swift.Bool = false)
+  @_Concurrency.MainActor(unsafe) open func unselectAllTagViewsAnimated(_ animated: Swift.Bool = false)
+}
+extension ShopLiveShortformEditorSDK.SLWSTagsField {
+  @available(*, deprecated, message: "use 'textField.keyboardType' directly.")
+  @_Concurrency.MainActor(unsafe) public var keyboardType: UIKit.UIKeyboardType {
+    get
+    set
+  }
+  @available(*, deprecated, message: "use 'textField.returnKeyType' directly.")
+  @_Concurrency.MainActor(unsafe) public var returnKeyType: UIKit.UIReturnKeyType {
+    get
+    set
+  }
+  @available(*, deprecated, message: "use 'textField.spellCheckingType' directly.")
+  @_Concurrency.MainActor(unsafe) public var spellCheckingType: UIKit.UITextSpellCheckingType {
+    get
+    set
+  }
+  @available(*, deprecated, message: "use 'textField.autocapitalizationType' directly.")
+  @_Concurrency.MainActor(unsafe) public var autocapitalizationType: UIKit.UITextAutocapitalizationType {
+    get
+    set
+  }
+  @available(*, deprecated, message: "use 'textField.autocorrectionType' directly.")
+  @_Concurrency.MainActor(unsafe) public var autocorrectionType: UIKit.UITextAutocorrectionType {
+    get
+    set
+  }
+  @available(*, deprecated, message: "use 'textField.enablesReturnKeyAutomatically' directly.")
+  @_Concurrency.MainActor(unsafe) public var enablesReturnKeyAutomatically: Swift.Bool {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) public var text: Swift.String? {
+    get
+    set
+  }
+  @available(*, deprecated, message: "Use 'inputFieldAccessoryView' instead")
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var inputAccessoryView: UIKit.UIView? {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) open var inputFieldAccessoryView: UIKit.UIView? {
+    get
+    set
+  }
+}
+extension ShopLiveShortformEditorSDK.SLWSTagsField : UIKit.UITextFieldDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func textFieldShouldBeginEditing(_ textField: UIKit.UITextField) -> Swift.Bool
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func textFieldDidBeginEditing(_ textField: UIKit.UITextField)
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func textFieldShouldEndEditing(_ textField: UIKit.UITextField) -> Swift.Bool
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func textFieldDidEndEditing(_ textField: UIKit.UITextField)
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func textFieldShouldReturn(_ textField: UIKit.UITextField) -> Swift.Bool
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func textField(_ textField: UIKit.UITextField, shouldChangeCharactersIn range: Foundation.NSRange, replacementString string: Swift.String) -> Swift.Bool
+}
+extension ShopLiveShortformEditorSDK.SLWSTagsField {
+  @_Concurrency.MainActor(unsafe) public static func == (lhs: UIKit.UITextField, rhs: ShopLiveShortformEditorSDK.SLWSTagsField) -> Swift.Bool
+}
+extension ShopLiveShortformEditorSDK.SLWSTagsField {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func hitTest(_ point: CoreFoundation.CGPoint, with event: UIKit.UIEvent?) -> UIKit.UIView?
+}
+extension ShopLiveShortformEditorSDK.SLPHAsset.AssetType : Swift.Equatable {}
+extension ShopLiveShortformEditorSDK.SLPHAsset.AssetType : Swift.Hashable {}
+extension ShopLiveShortformEditorSDK.SLPHAsset.ImageExtType : Swift.Equatable {}
+extension ShopLiveShortformEditorSDK.SLPHAsset.ImageExtType : Swift.Hashable {}
+extension ShopLiveShortformEditorSDK.SLPHAsset.ImageExtType : Swift.RawRepresentable {}
