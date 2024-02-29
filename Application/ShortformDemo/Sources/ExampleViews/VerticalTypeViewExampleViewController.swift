@@ -148,85 +148,16 @@ extension VerticalTypeViewExampleViewController : ShopLiveShortformReceiveHandle
     }
     
     func onEvent(command: String, payload: String?) {}
-    
-    func handleShare(shareUrl: String) {
-        guard let shareURL = URL(string: shareUrl),
-              let components = URLComponents(url: shareURL, resolvingAgainstBaseURL: false),
-              let queryItems = components.queryItems,
-              let payLoad = queryItems.first(where: { $0.name == "payload" })?.value,
-              let data = payLoad.data(using: .utf8),
-              let dict = try? JSONSerialization.jsonObject(with: data) as? [String : Any] else { return }
-
-        let shorts = dict["shorts"] as! [String : Any]
-        let shortsId = shorts["shortsId"] as! String
-
-        let shortDetail = shorts["shortsDetail"] as! [String : Any]
-        let title = shortDetail["title"] as! String
-
-        let card = shorts["cards"] as! [[String : Any]]
-        let imageUrl = card[0]["screenshotUrl"] as! String
-
-        if let cacheUrl = self.shareURLStorage[shortsId] {
-            self.openShareSheet(url: cacheUrl)
-            return
-        }
+   
+    func handleShare(shareMetadata: ShopLiveShareMetaData) {
+        var objectsToShare = [String]()
+        objectsToShare.append(shareMetadata.title ?? "no title")
+       
+        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        activityVC.popoverPresentationController?.sourceView = self.view
         
-        var shareComponents = URLComponents()
-        shareComponents.scheme = "https"
-        shareComponents.host = "shortformdev.page.link"
-        shareComponents.path = "/shortform"
-
-        let shortsIdQuery = URLQueryItem(name: "shortsId", value: shortsId)
-        shareComponents.queryItems = [shortsIdQuery]
-
-        guard let linkParameters = shareComponents.url else {return}
-
-        guard let sharelink = DynamicLinkComponents.init(link: linkParameters, domainURIPrefix: "https://shortformdev.page.link") else {
-            print("dynamic link failed")
-            return
-        }
-
-        //다른 플랫폼 일시 fallback url 설정(선택사항)
-        sharelink.otherPlatformParameters = DynamicLinkOtherPlatformParameters()
-        sharelink.otherPlatformParameters?.fallbackUrl = URL(string: "https://www.shoplive.cloud/kr")
-        //ios 플랫폼 설정
-        sharelink.iOSParameters =  DynamicLinkIOSParameters(bundleID: "cloud.shoplive.dev.shortform-examples")
-        sharelink.iOSParameters?.appStoreID = "6447755168"
-        //android 플랫폼 설정
-        sharelink.androidParameters = DynamicLinkAndroidParameters(packageName: "cloud.shoplive.dev.shortform-examples")
-        //metadata 설정
-        sharelink.socialMetaTagParameters = DynamicLinkSocialMetaTagParameters()
-        //제목 설정
-        sharelink.socialMetaTagParameters?.title = title
-        //이미지 설정
-        if let imageURL = URL(string: imageUrl) {
-            sharelink.socialMetaTagParameters?.imageURL = imageURL
-        }
-
-        sharelink.shorten { [weak self] url, warnings , error  in
-            guard let self = self else { return }
-            if let error = error {
-                print("dynamic link error \(error.localizedDescription)")
-            }
-            guard let shorturl = url else {
-                print("failed to shorten url")
-                return
-            }
-            self.shareURLStorage[shortsId] = shorturl
-            DispatchQueue.main.async {
-                self.openShareSheet(url: shorturl)
-            }
-        }
-    }
-    
-    private func openShareSheet(url : URL){
-        let activityvc = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-        if let window = ShopLiveShortform.getShopliveWindow() {
-            window.rootViewController?.present(activityvc, animated: true)
-        }
-        else {
-            self.present(activityvc, animated: true)
-        }
+        guard let w = ShopLiveShortform.getShopliveWindow() else { return }
+        w.rootViewController?.present(activityVC, animated: true, completion: nil)
     }
 }
 

@@ -344,7 +344,6 @@ extension ShortsCollectionBaseViewModel {
                 payloadDict["startId"] = startId
             }
             
-            
             if let shopliveSessionId = self.shopliveSessionId {
                 payloadDict["shopliveSessionId"] = shopliveSessionId
             }
@@ -356,7 +355,6 @@ extension ShortsCollectionBaseViewModel {
             else {
                 payloadDict["ui"] = ShopLiveShortform.detailWebViewViewHideOptionData.toDict(forceBackBtnVisible: false)
             }
-            
             
             ShortFormAuthManager.shared.getAkAndUserJWTasDict().forEach { payloadDict[$0.key] = $0.value }
             

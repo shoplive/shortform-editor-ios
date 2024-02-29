@@ -101,7 +101,7 @@ class ShortsCellReactor : NSObject, SLReactor {
     private var appState : String = "foreground"
     private var currentIndexPath : IndexPath = IndexPath(row: 0, section: 0)
     private var isActive : Bool = false
-    private var shopLiveSessionId : String?
+    private var shopliveSessionId : String?
     private var isCurrentOrientationLandscape : Bool = UIScreen.isLandscape_SL
     
     //video states
@@ -126,8 +126,8 @@ class ShortsCellReactor : NSObject, SLReactor {
             self.onInitializeCell()
         case .setWebViewUrl(let url):
             self.onSetWebViewUrl(url: url)
-        case .setShopliveSessionId(let shopLiveSessionId):
-            self.onSetShopliveSessionId(id: shopLiveSessionId)
+        case .setShopliveSessionId(let shopliveSessionId):
+            self.onSetShopliveSessionId(id: shopliveSessionId)
         case .setShortsModel(let model):
             self.onSetShortsModel(model: model)
         case .webToSdk(name: let name, payload: let payload):
@@ -197,7 +197,7 @@ class ShortsCellReactor : NSObject, SLReactor {
     }
     
     private func onSetShopliveSessionId(id : String?) {
-        self.shopLiveSessionId = id
+        self.shopliveSessionId = id
     }
     
     private func onSetShortsModel(model : ShortsModel) {
@@ -230,7 +230,7 @@ class ShortsCellReactor : NSObject, SLReactor {
             self.isActive = srn == currentSrn
         }
         
-        self.sendOnChangedSessionInfoToWeb(shopliveSessionId: shopLiveSessionId, sessionId: nil)
+        self.sendOnChangedSessionInfoToWeb(shopliveSessionId: shopliveSessionId)
         
         if let shortsList = shortsList {
             self.sendV2ActivePageToWeb(srn: srn, shortsList: shortsList, previousSrn : previousSrn)
@@ -591,10 +591,9 @@ extension ShortsCellReactor {
         resultHandler?( .requestEvaluateJS([request]) )
     }
     
-    private func sendOnChangedSessionInfoToWeb(shopliveSessionId : String?, sessionId : String?) {
+    private func sendOnChangedSessionInfoToWeb(shopliveSessionId : String?) {
         let payload : [String : Any] = [
-            "shopliveSessionId" : shopliveSessionId,
-            "sessionId" : sessionId
+            "shopliveSessionId" : shopliveSessionId
         ]
         
         let request : JSRequest = (.ON_CHANGED_SESSION_INFO, payload)

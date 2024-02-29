@@ -164,6 +164,15 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
         print("[HASSSSAN LOG] shortsSrn \(shareMetadata.shortsSrn)")
         print("[HASSSSAN LOG] thumbnail \(shareMetadata.thumbnail)")
         print("[HASSSSAN LOG] title \(shareMetadata.title)")
+        var objectsToShare = [String]()
+        objectsToShare.append(shareMetadata.title ?? "no title")
+       
+        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        activityVC.popoverPresentationController?.sourceView = self.view
+        
+        guard let w = ShopLiveShortform.getShopliveWindow() else { return }
+        w.rootViewController?.present(activityVC, animated: true, completion: nil)
+        
     }
     
     func onDidAppear() {
