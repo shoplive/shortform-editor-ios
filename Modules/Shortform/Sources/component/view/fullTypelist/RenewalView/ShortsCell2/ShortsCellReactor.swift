@@ -230,7 +230,7 @@ class ShortsCellReactor : NSObject, SLReactor {
             self.isActive = srn == currentSrn
         }
         
-        self.sendOnChangedSessionInfoToWeb(shopLiveSessionId: shopLiveSessionId, sessionId: "nil")
+        self.sendOnChangedSessionInfoToWeb(shopliveSessionId: shopLiveSessionId, sessionId: "nil")
         
         if let shortsList = shortsList {
             self.sendV2ActivePageToWeb(srn: srn, shortsList: shortsList, previousSrn : previousSrn)
@@ -591,9 +591,9 @@ extension ShortsCellReactor {
         resultHandler?( .requestEvaluateJS([request]) )
     }
     
-    private func sendOnChangedSessionInfoToWeb(shopLiveSessionId : String?, sessionId : String?) {
+    private func sendOnChangedSessionInfoToWeb(shopliveSessionId : String?, sessionId : String?) {
         let payload : [String : Any] = [
-            "shopliveSessionId" : shopLiveSessionId,
+            "shopliveSessionId" : shopliveSessionId,
             "sessionId" : sessionId
         ]
         
