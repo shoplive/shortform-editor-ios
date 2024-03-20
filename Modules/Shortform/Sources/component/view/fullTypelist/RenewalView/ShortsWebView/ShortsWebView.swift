@@ -176,7 +176,11 @@ extension ShortsWebView : SLWebviewResponseDelegate {
 <<<<<<< HEAD
 //        self.parseBodyForLogging(body : body)
 =======
+<<<<<<< HEAD
+//        self.parseBodyForLogging(body : body)
+=======
         
+>>>>>>> dev
 >>>>>>> dev
         //유투브 이벤트는 ShortsYoutubePlayer에서 내려받도록
         guard eventName.contains("YOUTUBE") == false && eventName.contains("YTP") == false else { return }
@@ -187,6 +191,10 @@ extension ShortsWebView : SLWebviewResponseDelegate {
 <<<<<<< HEAD
 //        ShopLiveLogger.debugLog("[HASSAN LOG] body \(body)")
 =======
+<<<<<<< HEAD
+//        ShopLiveLogger.debugLog("[HASSAN LOG] body \(body)")
+=======
+>>>>>>> dev
 >>>>>>> dev
         self.resultHandler?( .shortsCommand((name: eventName, payload: payload)))
     

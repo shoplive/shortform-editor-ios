@@ -53,6 +53,7 @@ class CardTypeExampleViewController : UIViewController {
         builder?.setCellSpacing(spacing: model.cellSpacing)
         builder?.setCellCornerRadius(radius: model.cellCornerRadius)
         builder?.setScrollContentOffset(offset: 0)
+        builder?.setSkus(skus: model.skus)
         if model.snapEnabled {
             builder?.enableSnap()
         }

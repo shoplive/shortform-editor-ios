@@ -66,6 +66,8 @@ class ListViewOptionBox : UIView {
     }()
     
     private let brandBox = OptionTextViewInputBox(title: "Brands")
+    private let skusBox = OptionTextViewInputBox(title: "Skus")
+    
     
     
     private let normalBtnbackgroundColor : UIColor = .white
@@ -144,6 +146,12 @@ class ListViewOptionBox : UIView {
             self?.model?.brands = parsed
         }
         
+        skusBox.textViewValueTracker = { [weak self] text in
+            let trimmed = text.trimWhiteSpacing_SL
+            let parsed = trimmed.components(separatedBy: ",")
+            self?.model?.skus = parsed
+        }
+        
         cellSpacingBox.textViewValueTracker = { [weak self] text in
             if let n = NumberFormatter().number(from: text) {
                 self?.model?.cellSpacing = CGFloat(truncating: n)
@@ -193,7 +201,8 @@ extension ListViewOptionBox {
                                                   cellCornerRadiusBox,
                                                   tagBox,
                                                   tagSearchOperatorStack,
-                                                  brandBox])
+                                                  brandBox,
+                                                  skusBox])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = 10

@@ -90,7 +90,7 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
             requestModel.brands = bridgeModel.relatedQuery?.brands
             requestModel.productId = bridgeModel.relatedQuery?.productId
             requestModel.name = bridgeModel.relatedQuery?.name
-            requestModel.sku = bridgeModel.relatedQuery?.sku
+            requestModel.skus = bridgeModel.relatedQuery?.skus
             requestModel.url = bridgeModel.relatedQuery?.url
             requestModel.shuffle = bridgeModel.relatedQuery?.shuffle
             

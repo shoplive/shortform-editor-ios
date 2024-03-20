@@ -62,7 +62,7 @@ final class ShopLiveShortformHorizontalTypeViewReactor : NSObject, SLReactor {
     private var networkConnectionType : NetworkMonitor.ConnectionType = .cellular
     private var isLoadingMoreContents : Bool = false
     private var playableType : ShopLiveShortform.PlayableType = .FIRST
-    private var tagsAndBrandRequestParameterModel : InternalShortformCollectionData?
+    private var apiRequestParamModel : InternalShortformCollectionData?
     private var isViewCountVisible : Bool = true
     private var cellViewHideOptionModel : ShopLiveListCellViewHideOptionModel = ShopLiveListCellViewHideOptionModel()
     private var cellRadius : CGFloat = 12
@@ -117,7 +117,7 @@ final class ShopLiveShortformHorizontalTypeViewReactor : NSObject, SLReactor {
         case .calculateCellSize:
             self.calculateCellSize()
         case .setTagsAndBrandsParameterModel(let model):
-            self.tagsAndBrandRequestParameterModel = model
+            self.apiRequestParamModel = model
         case .reloadItem:
             self.callShortCollectionAPI(isRefresh: true)
         case .initializeShortsSetting:
@@ -336,7 +336,7 @@ extension ShopLiveShortformHorizontalTypeViewReactor : UICollectionViewDelegate,
         let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
         ShortformEventTraceManager.processCollectionClickItemEventTrace(shortCollectionSrn: shortsCollectionModel?.srn, shortsSrn: model.srn, shopliveSessionId: shopliveSessionId)
         ShortformNativeOnEventsManager.sendNativeOnEvents(command: .collection_click_item, payload: ["position" : indexPath.row], shortsId: model.shortsId, shortsDetail: model.shortsDetail)
-        ShopLiveShortform.playNormalFullScreen(shortsId: model.shortsId, shortsSrn: model.srn, requestModel: self.tagsAndBrandRequestParameterModel,shopliveSessionId: shopliveSessionId)
+        ShopLiveShortform.playNormalFullScreen(shortsId: model.shortsId, shortsSrn: model.srn, requestModel: self.apiRequestParamModel,shopliveSessionId: shopliveSessionId)
         self.pauseAllCell()
     }
     
@@ -526,14 +526,18 @@ extension ShopLiveShortformHorizontalTypeViewReactor {
         }
         
         
-        let tags = tagsAndBrandRequestParameterModel?.tags
-        let tagSearchOperator = tagsAndBrandRequestParameterModel?.tagSearchOperator
-        let brands = tagsAndBrandRequestParameterModel?.brands
-        let shuffle = tagsAndBrandRequestParameterModel?.shuffle
+        let tags = apiRequestParamModel?.tags
+        let tagSearchOperator = apiRequestParamModel?.tagSearchOperator
+        let brands = apiRequestParamModel?.brands
+        let shuffle = apiRequestParamModel?.shuffle
+        let shortsCollectionId = apiRequestParamModel?.shortsCollectionId
+        let skus = apiRequestParamModel?.skus
         
         isLoadingMoreContents = true
         ShortsCollectionAPI(reference: reference,
                             count: count,
+                            shortsCollectionsId: shortsCollectionId,
+                            skus: skus,
                             tags: tags,
                             tagSearchOperator: tagSearchOperator,
                             brands: brands,
@@ -630,7 +634,7 @@ extension ShopLiveShortformHorizontalTypeViewReactor {
                                                                    overlayType: overlayType,
                                                                    isReset: isRefresh,
                                                                    paginationCount: paginationCount,
-                                                                   tagsAndBrandRequestParameterModel: self.tagsAndBrandRequestParameterModel,
+                                                                   tagsAndBrandRequestParameterModel: self.apiRequestParamModel,
                                                                    sdkOptionsData: sdkOptionData,
                                                                    shopliveSessionId: self.shopliveSessionId)
     }

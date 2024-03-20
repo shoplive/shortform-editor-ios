@@ -63,9 +63,7 @@ struct ShortsCollectionAPI: APIDefinition {
         if let shortsCollectionsId = shortsCollectionsId {
             params["shortsCollectionId"] = shortsCollectionsId
         }
-        if let shortsCollectionSrn = shortsCollectionSrn {
-            params["shortsCollectionSrn"] = shortsCollectionSrn
-        }
+        
         if let tags = tags {
             params["tags"] = tags
         }
@@ -86,6 +84,10 @@ struct ShortsCollectionAPI: APIDefinition {
             params["finite"] = finite
         }
         
+        if let skus = skus {
+            params["skus"] = skus
+        }
+        
         return params
     }
     
@@ -99,8 +101,8 @@ struct ShortsCollectionAPI: APIDefinition {
     var shortsId: String?
     var regularOrder: Bool = true
     
-    var shortsCollectionsId : Int?
-    var shortsCollectionSrn : String?
+    var shortsCollectionsId : String?
+    var skus : [String]?
     var tags : [String]?
     var tagSearchOperator : String?
     var brands : [String]?

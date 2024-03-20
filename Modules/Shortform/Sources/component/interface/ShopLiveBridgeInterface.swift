@@ -299,6 +299,7 @@ extension ShopLiveShortform {
         let shortsCollection: ShortsCollectionModel?
         let relatedQuery : RelatedQueryModel?
         let collectionQuery : CollectionQueryModel?
+        
     }
     
     struct RelatedQueryModel : Codable {
@@ -311,7 +312,8 @@ extension ShopLiveShortform {
         var productId : String?
         var customerProductId : String?
         var name : String? // product name
-        var sku : String?
+        var skus : [String]?
+        var shortsId : String?
     }
     
     struct CollectionQueryModel : Codable {
@@ -319,6 +321,8 @@ extension ShopLiveShortform {
         var tags : [String]?
         var tagSearchOperator : String?
         var brands : [String]?
+        var skus : [String]?
+        var shortsCollectionId : String?
     }
     
 }
@@ -423,9 +427,11 @@ extension ShopLiveShortform {
             requestModel.brands = model.relatedQuery?.brands
             requestModel.productId = model.relatedQuery?.productId
             requestModel.name = model.relatedQuery?.name
-            requestModel.sku = model.relatedQuery?.sku
+            requestModel.skus = model.relatedQuery?.skus
             requestModel.url = model.relatedQuery?.url
             requestModel.shuffle = model.relatedQuery?.shuffle
+            requestModel.shortsId = model.relatedQuery?.shortsId
+            
             let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
             ShopLiveShortform.showRelatedPreview(reference: nil, shortsId: model.shorts?.shortsId, shortsSrn: model.shorts?.srn,requestModel: requestModel, shortsList: model.shortsList ?? [] ,shortsCollectionModel: model.shortsCollection,shopliveSessionId: shopliveSessionId)
         }
@@ -438,6 +444,9 @@ extension ShopLiveShortform {
                 requestModel.tagSearchOperator = model.collectionQuery?.tagSearchOperator
                 requestModel.brands = model.collectionQuery?.brands
                 requestModel.shuffle = model.collectionQuery?.shuffle
+                requestModel.shortsCollectionId = model.collectionQuery?.shortsCollectionId
+                requestModel.skus = model.collectionQuery?.skus
+                
                 ShopLiveShortform.playNormalFullScreen(shortsId: model.shorts?.shortsId, shortsSrn: model.shorts?.srn, requestModel: requestModel,shopliveSessionId: shopliveSessionId)
             }
             else {
@@ -447,9 +456,11 @@ extension ShopLiveShortform {
                 requestModel.brands = model.relatedQuery?.brands
                 requestModel.productId = model.relatedQuery?.productId
                 requestModel.name = model.relatedQuery?.name
-                requestModel.sku = model.relatedQuery?.sku
+                requestModel.skus = model.relatedQuery?.skus
                 requestModel.url = model.relatedQuery?.url
                 requestModel.shuffle = model.relatedQuery?.shuffle
+                requestModel.shortsId = model.relatedQuery?.shortsId
+                
         
                 ShopLiveShortform.playRelatedFullScreen(shortsId: model.shorts?.shortsId, shortsSrn: model.shorts?.srn, requestModel: requestModel,shopliveSessionId: shopliveSessionId)
             }

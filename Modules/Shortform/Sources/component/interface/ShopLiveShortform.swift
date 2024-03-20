@@ -24,6 +24,8 @@ public class ShopLiveShortform {
         internalShortFormRequestData.tagSearchOperator = requestData?.tagSearchOperator?.rawValue
         internalShortFormRequestData.brands = requestData?.brands
         internalShortFormRequestData.shuffle = requestData?.shuffle
+        internalShortFormRequestData.shortsCollectionId = requestData?.shortsCollectionId
+        internalShortFormRequestData.skus = requestData?.skus
         
         let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
         self.playNormalFullScreen(reference : requestData?.reference, shortsId: requestData?.shortsId, shortsSrn: requestData?.shortsSrn,requestModel: internalShortFormRequestData,shopliveSessionId: shopliveSessionId)
@@ -41,11 +43,12 @@ public class ShopLiveShortform {
         let internalShortFormRequestData = InternalShortformRelatedData()
         internalShortFormRequestData.productId = requestData?.productId
         internalShortFormRequestData.name = requestData?.name
-        internalShortFormRequestData.sku = requestData?.sku
+        internalShortFormRequestData.skus = requestData?.skus
         internalShortFormRequestData.tags = requestData?.tags
         internalShortFormRequestData.tagSearchOperator = requestData?.tagSearchOperator?.rawValue
         internalShortFormRequestData.brands = requestData?.brands
         internalShortFormRequestData.shuffle = requestData?.shuffle
+        internalShortFormRequestData.shortsId = requestData?.shortsId
         
         let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
         self.playRelatedFullScreen(shortsId: nil, shortsSrn: nil, requestModel: internalShortFormRequestData,shopliveSessionId: shopliveSessionId)
@@ -56,11 +59,12 @@ public class ShopLiveShortform {
         let internalShortFormRequestData = InternalShortformRelatedData()
         internalShortFormRequestData.productId = requestData.productId
         internalShortFormRequestData.name = requestData.name
-        internalShortFormRequestData.sku = requestData.sku
+        internalShortFormRequestData.skus = requestData.skus
         internalShortFormRequestData.tags = requestData.tags
         internalShortFormRequestData.tagSearchOperator = requestData.tagSearchOperator?.rawValue
         internalShortFormRequestData.brands = requestData.brands
         internalShortFormRequestData.shuffle = requestData.shuffle
+        internalShortFormRequestData.shortsId = requestData.shortsId
         
         
         self.showRelatedPreview(reference: requestData.reference, shortsId: nil, shortsSrn: nil, requestModel: internalShortFormRequestData, shortsList: [], shortsCollectionModel: nil,shopliveSessionId: nil)

@@ -54,6 +54,7 @@ class VerticalTypeViewExampleViewController : UIViewController {
         builder?.setVisibleViewCount(isVisible: model.viewCountVisible)
         builder?.setCellSpacing(spacing: model.cellSpacing)
         builder?.setCellCornerRadius(radius: model.cellCornerRadius)
+        builder?.setSkus(skus: model.skus)
         if model.shuffle {
             builder?.enableShuffle()
         }
@@ -112,7 +113,7 @@ extension VerticalTypeViewExampleViewController : ShopLiveShortformDetailHandler
 //        print("[HASSAN LOG] srn \(shortsSrn)")
 //        print("[HASSAN LOG] shortsId \(shortsId)")
 //        print("[HASSAN LOG] productModel \(product.url)")
-        ShopLiveShortform.showPreview(requestData: ShopLiveShortformRelatedData(sku: product.sku))
+        ShopLiveShortform.showPreview(requestData: ShopLiveShortformRelatedData(skus: [product.sku ?? ""]))
         
     }
     

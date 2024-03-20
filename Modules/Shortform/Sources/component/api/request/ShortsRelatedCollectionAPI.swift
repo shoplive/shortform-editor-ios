@@ -63,8 +63,8 @@ struct ShortsRelatedCollectionAPI : APIDefinition {
         if let name = name {
             params["name"] = name
         }
-        if let sku = sku {
-            params["sku"] = sku
+        if let skus = skus {
+            params["skus"] = skus
         }
         if let url = url {
             params["url"] = url
@@ -90,11 +90,10 @@ struct ShortsRelatedCollectionAPI : APIDefinition {
         return params
     }
     
-    
     var shortsCollectionId : Int?
     var productId : String?
     var name : String? // product name
-    var sku : String?
+    var skus : [String]?
     var url : String?
     var tags : [String]?
     var tagSearchOperator : String?

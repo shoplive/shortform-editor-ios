@@ -16,6 +16,7 @@ class OptionSettingModel {
     var tags : [String] = []
     var tagSearchOperate : ShopLiveTagSearchOperator = .OR
     var brands : [String] = []
+    var skus : [String] = []
     var titleVisible : Bool = true
     var descriptionVisible : Bool = true
     var productCountVisible : Bool = true
@@ -25,6 +26,7 @@ class OptionSettingModel {
     var snapEnabled : Bool = false
     var playOnlyWifi : Bool = false
     var cardType : ShopLiveShortform.CardViewType = .type1
+    
     
     
     static var editorMinVideoDuration : Double = 1

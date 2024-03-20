@@ -9,10 +9,12 @@ import Foundation
 
 
 public class ShopLiveShortformRelatedData {
+    
+    public var shortsId : String?
     public var reference : String?
     public var productId : String?
     public var name : String?
-    public var sku : String?
+    public var skus : [String]?
     public var url : String?
     public var tags : [String]?
     public var tagSearchOperator : ShopLiveTagSearchOperator?
@@ -20,11 +22,12 @@ public class ShopLiveShortformRelatedData {
     public var shuffle : Bool?
     
     
-    public init(reference: String? = nil, productId: String? = nil, name: String? = nil, sku: String? = nil, url: String? = nil, tags: [String]? = nil, tagSearchOperator: ShopLiveTagSearchOperator? = nil, brands: [String]? = nil, shuffle: Bool? = nil, referrer : String? = nil) {
+    public init(shortsId : String? = nil , reference: String? = nil, productId: String? = nil, name: String? = nil, skus: [String]? = nil, url: String? = nil, tags: [String]? = nil, tagSearchOperator: ShopLiveTagSearchOperator? = nil, brands: [String]? = nil, shuffle: Bool? = nil, referrer : String? = nil) {
+        self.shortsId = shortsId
         self.reference = reference
         self.productId = productId
         self.name = name
-        self.sku = sku
+        self.skus = skus
         self.url = url
         self.tags = tags
         self.tagSearchOperator = tagSearchOperator
@@ -35,19 +38,21 @@ public class ShopLiveShortformRelatedData {
 }
 
 internal class InternalShortformRelatedData {
+    var shortsId : String?
     var productId : String?
     var name : String?
-    var sku : String?
+    var skus : [String]?
     var url : String?
     var tags : [String]?
     var tagSearchOperator : String?
     var brands : [String]?
     var shuffle : Bool?
     
-    public init(productId: String? = nil, name: String? = nil, sku: String? = nil, url: String? = nil, tags: [String]? = nil, tagSearchOperator: String? = nil, brands: [String]? = nil, shuffle: Bool? = nil) {
+    public init(shortsId : String? = nil, productId: String? = nil, name: String? = nil, skus: [String]? = nil, url: String? = nil, tags: [String]? = nil, tagSearchOperator: String? = nil, brands: [String]? = nil, shuffle: Bool? = nil) {
+        self.shortsId = shortsId
         self.productId = productId
         self.name = name
-        self.sku = sku
+        self.skus = skus
         self.url = url
         self.tags = tags
         self.tagSearchOperator = tagSearchOperator

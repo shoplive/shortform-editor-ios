@@ -26,7 +26,7 @@ protocol ShopLiveShortformListViewSettings {
     func setScrollContentOffset(offset : CGFloat)
     func getScrollContentOffset() -> CGPoint
     func setPlayableType(type : ShopLiveShortform.PlayableType)
-    func setTagsAndBrandParameterModel(model : InternalShortformCollectionData?)
+    func setAPIRequestParamToModel(model : InternalShortformCollectionData?)
     func reloadItems()
     func setVisibleViewCount(isVisible : Bool)
     func setVisibleBrand(isVisible : Bool)
@@ -43,6 +43,8 @@ protocol ShopLiveShortformListViewSettings {
     func disableShuffle()
     func setHashTags(tags : [String]?, tagSearchOperator : ShopLiveTagSearchOperator?)
     func setBrands(brands : [String]?)
+    func setSkus(skus : [String]?)
+    func setShortsCollectionId(shortsCollectionId : String?)
 }
 
 public class ListViewBaseBuilder : ShopLiveShortformListViewSettings {
@@ -152,29 +154,42 @@ extension ListViewBaseBuilder {
     public final func enableShuffle() {
         let model = makeApiRequestModel()
         model.shuffle = true
-        self.setTagsAndBrandParameterModel(model: model)
+        self.setAPIRequestParamToModel(model: model)
     }
     
     public final func disableShuffle(){
         let model = makeApiRequestModel()
         model.shuffle = false
-        self.setTagsAndBrandParameterModel(model: model)
+        self.setAPIRequestParamToModel(model: model)
     }
 
     public final func setHashTags(tags: [String]?, tagSearchOperator: ShopLiveTagSearchOperator?) {
         let model = makeApiRequestModel()
         model.tags = tags
         model.tagSearchOperator = tagSearchOperator?.rawValue
-        self.setTagsAndBrandParameterModel(model: model)
+        self.setAPIRequestParamToModel(model: model)
     }
     
     public final func setBrands(brands: [String]?) {
         let model = makeApiRequestModel()
         model.brands = brands
-        self.setTagsAndBrandParameterModel(model: model)
+        self.setAPIRequestParamToModel(model: model)
     }
     
-    internal func setTagsAndBrandParameterModel(model : InternalShortformCollectionData?){
+    public final func setSkus(skus: [String]?) {
+        let model = makeApiRequestModel()
+        model.skus = skus
+        self.setAPIRequestParamToModel(model: model)
+    }
+    
+    public final func setShortsCollectionId(shortsCollectionId : String?) {
+        let model = makeApiRequestModel()
+        model.shortsCollectionId = shortsCollectionId
+        self.setAPIRequestParamToModel(model: model)
+    }
+    
+    internal func setAPIRequestParamToModel(model : InternalShortformCollectionData?){
         view?.action(.setTagsAndBrandsRequestParameterModel(model))
     }
+    
 }

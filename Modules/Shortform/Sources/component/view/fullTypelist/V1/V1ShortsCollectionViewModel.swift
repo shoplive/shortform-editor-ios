@@ -35,12 +35,14 @@ extension V1ShortsCollectionViewModel {
         let tagSearchOperator = self.collectionRequestData?.tagSearchOperator
         let brands = self.collectionRequestData?.brands
         let shuffle = self.collectionRequestData?.shuffle
+        let shortsCollectionsId = self.collectionRequestData?.shortsCollectionId
+        let skus = self.collectionRequestData?.skus
         
         let count = self.shortsListData.count >= apiInitializeCount ? paginationCount : apiInitializeCount
         self.callShortsConfigurationAPI { [weak self] isSucess in
             guard let self = self else { return }
             if isSucess {
-                ShortsCollectionAPI(reference : reference, count: count, shortsId: shortsId,tags: tags,tagSearchOperator: tagSearchOperator,brands: brands,shuffle: shuffle ).request { [weak self] result in
+                ShortsCollectionAPI(reference : reference, count: count, shortsId: shortsId, shortsCollectionsId: shortsCollectionsId,skus: skus, tags: tags,tagSearchOperator: tagSearchOperator,brands: brands,shuffle: shuffle ).request { [weak self] result in
                     guard let self = self else { return }
                     switch result {
                     case .success(let response):
@@ -78,9 +80,13 @@ extension V1ShortsCollectionViewModel {
             guard let self = self else { return }
             if isSucess == false { return }
             ShortsRelatedCollectionAPI(productId: requestModel?.productId,
-                                       name: requestModel?.name, sku: requestModel?.sku,url: requestModel?.url,
-                                       tags: requestModel?.tags, tagSearchOperator: requestModel?.tagSearchOperator,
-                                       brands: requestModel?.brands,shortsId: shortsId,
+                                       name: requestModel?.name,
+                                       skus: requestModel?.skus,
+                                       url: requestModel?.url,
+                                       tags: requestModel?.tags,
+                                       tagSearchOperator: requestModel?.tagSearchOperator,
+                                       brands: requestModel?.brands,
+                                       shortsId: shortsId,
                                        detailInfo : self.shortsMode == .preview ? nil : true,
                                        count : count,
                                        shuffle: requestModel?.shuffle,

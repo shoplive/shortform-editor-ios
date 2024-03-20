@@ -72,7 +72,7 @@ final class ShopLiveShortCardTypeViewReactor : NSObject, SLReactor {
     private var isPlayOnOnlyWifi : Bool = false
     private var networkConnectionType : NetworkMonitor.ConnectionType = .cellular
     private var isLoadingMoreContents : Bool = false
-    private var tagsAndBrandRequestParameterModel : InternalShortformCollectionData?
+    private var apiRequestParamModel : InternalShortformCollectionData?
     private var cellViewHideOptionModel = ShopLiveListCellViewHideOptionModel()
     private var cellRadius : CGFloat = 16
     private var currentAvAudioSessionCategoryOptions : AVAudioSession.CategoryOptions?
@@ -127,7 +127,7 @@ final class ShopLiveShortCardTypeViewReactor : NSObject, SLReactor {
         case .pullToRefresh, .reloadItem:
             self.callShortCollectionAPI(isRefresh: true)
         case .setTagsAndBrandsRequestParameterModel(let model):
-            self.tagsAndBrandRequestParameterModel = model
+            self.apiRequestParamModel = model
         case .initializeShortsSetting:
             self.initalizeShortsSettings()
         case .setCellViewHideOptionModel(let model):
@@ -361,7 +361,7 @@ extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollect
         ShortformEventTraceManager.processCollectionClickItemEventTrace(shortCollectionSrn: shortsCollectionModel?.srn, shortsSrn: model.srn, shopliveSessionId: shopliveSessionId)
         ShortformNativeOnEventsManager.sendNativeOnEvents(command: .collection_click_item, payload: ["position" : indexPath.row], shortsId: model.shortsId, shortsDetail: model.shortsDetail)
         
-        ShopLiveShortform.playNormalFullScreen(shortsId: model.shortsId, shortsSrn: model.srn, requestModel: self.tagsAndBrandRequestParameterModel, shopliveSessionId: shopliveSessionId)
+        ShopLiveShortform.playNormalFullScreen(shortsId: model.shortsId, shortsSrn: model.srn, requestModel: self.apiRequestParamModel, shopliveSessionId: shopliveSessionId)
         self.pauseAllCell()
     }
     
@@ -507,12 +507,16 @@ extension ShopLiveShortCardTypeViewReactor {
             count = ShortFormConfigurationInfosManager.shared.shortsConfiguration.listApiPaginationCount
         }
         
-        let tags = tagsAndBrandRequestParameterModel?.tags
-        let tagSearchOperator = tagsAndBrandRequestParameterModel?.tagSearchOperator
-        let brands = tagsAndBrandRequestParameterModel?.brands
-        let shuffle = tagsAndBrandRequestParameterModel?.shuffle
+        let tags = apiRequestParamModel?.tags
+        let tagSearchOperator = apiRequestParamModel?.tagSearchOperator
+        let brands = apiRequestParamModel?.brands
+        let shuffle = apiRequestParamModel?.shuffle
+        let shortsCollectionId = apiRequestParamModel?.shortsCollectionId
+        let skus = apiRequestParamModel?.skus
         ShortsCollectionAPI(reference: reference,
                             count: count,
+                            shortsCollectionsId: shortsCollectionId,
+                            skus: skus,
                             tags: tags,
                             tagSearchOperator: tagSearchOperator,
                             brands: brands,
@@ -599,7 +603,7 @@ extension ShopLiveShortCardTypeViewReactor {
                                                                    overlayType: overlayType,
                                                                    isReset: isRefresh,
                                                                    paginationCount: paginationCount,
-                                                                   tagsAndBrandRequestParameterModel: self.tagsAndBrandRequestParameterModel,
+                                                                   tagsAndBrandRequestParameterModel: self.apiRequestParamModel,
                                                                    sdkOptionsData: sdkOptionData,
                                                                    shopliveSessionId: self.shopliveSessionId)
     }
