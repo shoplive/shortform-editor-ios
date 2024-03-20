@@ -32,7 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                   SDKOptionType.pipEnableSwipeOut.optionKey: true,
                                                   "playerPhase": "DEV",
                                                   "isGuestMode": true,
-                                                  SDKOptionType.statusBarVisibility.optionKey : true])
+                                                  SDKOptionType.statusBarVisibility.optionKey : true,
+                                                  SDKOptionType.playWhenPreviewTapped.optionKey : true])
         
 
         return true
