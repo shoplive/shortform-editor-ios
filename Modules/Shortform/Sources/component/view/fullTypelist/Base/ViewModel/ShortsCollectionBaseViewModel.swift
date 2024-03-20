@@ -665,12 +665,12 @@ extension ShortsCollectionBaseViewModel {
             case .success():
                 completion(true)
             case .failure(let error):
+                ShopLiveShortform.close()
                 self.onError(error)
                 completion(false)
             }
         }
     }
-    
 }
 //MARK: -AppStateObserver
 extension ShortsCollectionBaseViewModel : AppStateObserverDelegate {

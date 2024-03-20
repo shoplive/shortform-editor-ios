@@ -173,13 +173,21 @@ extension ShortsWebView : SLWebviewResponseDelegate {
         }
         
         let payload = body["payload"] as? [String : Any]
+<<<<<<< HEAD
+//        self.parseBodyForLogging(body : body)
+=======
         
+>>>>>>> dev
         //유투브 이벤트는 ShortsYoutubePlayer에서 내려받도록
         guard eventName.contains("YOUTUBE") == false && eventName.contains("YTP") == false else { return }
         if type != "INTERNAL_MESSAGE" {
             //고객사에게 주는 이벤트
             self.resultHandler?( .onExternEmitEvent((eventName, payload)))
         }
+<<<<<<< HEAD
+//        ShopLiveLogger.debugLog("[HASSAN LOG] body \(body)")
+=======
+>>>>>>> dev
         self.resultHandler?( .shortsCommand((name: eventName, payload: payload)))
     
         guard let webInterface = ShopLiveShortform.ShortsWebInterface.WebToSdk(rawValue: eventName) else { return }

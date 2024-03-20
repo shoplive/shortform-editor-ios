@@ -55,6 +55,9 @@ extension V1ShortsCollectionViewModel {
                         completion(nil)
                         break
                     case .failure(let error):
+                        if onPagination == false {
+                            ShopLiveShortform.close()
+                        }
                         self.onError(error)
                         completion(error)
                         break
@@ -97,6 +100,9 @@ extension V1ShortsCollectionViewModel {
                     completion(nil)
                     break
                 case .failure(let error):
+                    if onPagination == false {
+                        ShopLiveShortform.close()
+                    }
                     self.onError(error)
                     completion(error)
                 }
