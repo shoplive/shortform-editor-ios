@@ -461,7 +461,7 @@ extension ShopLive: ShopLiveSDKInterface {
     
     public static var user: ShopLiveCommonUser? {
         set {
-            ShopLiveCommon.setUser(user: newValue)
+            ShopLiveCommon.setUser(user: newValue, accessKey: ShopLiveCommon.getAccessKey())
         }
         get {
             ShopLiveCommon.getUser()

@@ -601,19 +601,20 @@ extension MainViewController: LoginDelegate {
             }
             return
         }
+        
         if let name = name, let pwd = pwd {
             var user = ShopLiveCommonUser(userId: name)
             user.name = pwd
             user.gender = .male
             user.age = 20
-            ShopLiveCommon.setUser(user: user )
+            ShopLiveCommon.setUser(user: user,accessKey: currentKey.accessKey )
         }
         else {
             var user = ShopLiveCommonUser(userId: "ShopLive")
             user.name = "loginUser"
             user.gender = .male
             user.age = 20
-            ShopLiveCommon.setUser(user: user )
+            ShopLiveCommon.setUser(user: user,accessKey: currentKey.accessKey )
         }
         
         ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)

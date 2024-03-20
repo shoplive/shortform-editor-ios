@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 
 
 public protocol ShopLiveCommonDelegate : NSObject {
@@ -42,14 +43,11 @@ public protocol ShopLiveCommonDelegate : NSObject {
         if Self.delegate.contains(where: { $0.identifier == delegate.identifier }) == false {
             Self.delegate.append(delegate)
         }
-        
     }
     
     public static func removeDelegate(delegate : ShopLiveCommonDelegate) {
         Self.delegate.removeAll(where: { $0.identifier == delegate.identifier })
     }
-    
-    
     
 }
 //MARK: - common Auth
@@ -73,9 +71,20 @@ extension ShopLiveCommon {
         return _user
     }
     
-    @objc(setUser:)
-    public static func setUser(user : ShopLiveCommonUser?){
+    @objc(setUser:accessKey:)
+    public static func setUser(user : ShopLiveCommonUser?, accessKey : String?){
         _user = user
+        guard let accessKey = accessKey else {
+            os_log("[Shoplive] failed to create authToken because accessKey is not defined", type: .error)
+            return
+        }
+        if let user = user, let jwtToken = ShopLiveJWT.make(accessKey: accessKey, userData: user) {
+            auth?.userJWT = jwtToken
+            Self.delegate.forEach { delegate in
+                delegate.onChangedShopLiveUserJWT(to: jwtToken)
+                delegate.onChangeShopLiveUser(to: user)
+            }
+        }
     }
     
     @available(iOS, deprecated, message: "Enable AppTrackingTransparency instead")
@@ -83,7 +92,7 @@ extension ShopLiveCommon {
         auth?.adId = adId
     }
     
-    @available(iOS, deprecated, message: "nable AppTrackingTransparency instead")
+    @available(iOS, deprecated, message: "Enable AppTrackingTransparency instead")
     @objc public static func getAdId() -> String? {
         return auth?.adId
     }
