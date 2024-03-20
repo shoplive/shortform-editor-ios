@@ -11,7 +11,7 @@ import ShopliveSDKCommon
 
 
 public class ShopLiveShortformEditor { 
-    public static var sdkVersion = "1.5.6"
+    public static var sdkVersion = ShopLiveCommon.videoEditorSdkversion
     
     
     internal static let shared = ShopLiveShortformEditor()

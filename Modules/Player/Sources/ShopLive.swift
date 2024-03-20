@@ -322,7 +322,7 @@ extension ShopLive: ShopLiveSDKInterface {
     }
 
     public static var sdkVersion: String {
-        return ShopLiveDefines.sdkVersion
+        return ShopLiveCommon.playerSdkVersion
     }
     
     public static var playerMode: ShopLive.PlayerMode {

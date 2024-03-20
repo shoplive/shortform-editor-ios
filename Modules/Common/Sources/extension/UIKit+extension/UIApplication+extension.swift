@@ -8,6 +8,10 @@
 import UIKit
 
 public extension UIApplication {
+    class func appVersion() -> String {
+        return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+    }
+    
     static var isLandscape_SL: Bool {
         UIScreen.main.bounds.width > UIScreen.main.bounds.height
     }

@@ -151,18 +151,26 @@ public extension APIDefinition {
             return
         }
         
+        //utm관련된 것들은 모든 api에 query로 붙여서 보냄
+        var utmQueryItems : [URLQueryItem] = []
+        for (key, value) in Self.utmDictionary {
+            let queryItem = URLQueryItem(name: key, value: String(describing: value ))
+            utmQueryItems.append(queryItem)
+        }
+        urlComponents.queryItems = utmQueryItems
+        
         if method == .get || method == .delete {
             var queryItems : [URLQueryItem] = []
             for (key, value) in parameters ?? [:] {
                 let queryItem = URLQueryItem(name: key, value: String(describing: value ))
                 queryItems.append(queryItem)
             }
-            urlComponents.queryItems = queryItems
+            urlComponents.queryItems = utmQueryItems + queryItems
         }
         
-        guard let url = urlComponents.url else {
-            return
-        }
+        guard let urlString = urlComponents.url?.absoluteString,
+              let percentEncoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let url = URL(string: percentEncoded) else { return }
         
         var requestUrl = URLRequest(url: url)
         requestUrl.httpMethod = method.converted
@@ -409,8 +417,37 @@ public extension APIDefinition {
         }
         
         headers[CommonKeys.x_sl_player_device] = UIDevice.deviceIdentifier_sl
+        headers[CommonKeys.x_sl_player_app_version] = UIApplication.appVersion()
+        headers[CommonKeys.x_sl_player_sdk_version] = ShopLiveCommon.playerSdkVersion
+        headers[CommonKeys.x_sl_player_os_version] = ShopLiveDefines.osVersion
+        headers[CommonKeys.x_sl_player_os_type] = "i"
         
+        return headers
+    }
+    
+    private static var utmDictionary : [String : String] {
+        var headers : [String : String] = [:]
         
+        if let adIdentifier = ShopLiveCommon.getAdIdentifier(), adIdentifier.isNotEmpty_SL {
+            headers[CommonKeys.x_sl_ad_identifier] = adIdentifier
+        }
+        
+        if let utmSource = ShopLiveCommon.getUtmSource(), utmSource.isNotEmpty_SL {
+            headers[CommonKeys.x_sl_utm_source] = utmSource
+        }
+        
+        if let utmMedium = ShopLiveCommon.getUtmMedium(), utmMedium.isNotEmpty_SL {
+            headers[CommonKeys.x_sl_utm_medium] = utmMedium
+        }
+        
+        if let utmCampaign = ShopLiveCommon.getUtmCampaign(), utmCampaign.isNotEmpty_SL {
+            headers[CommonKeys.x_sl_utm_campaign] = utmCampaign
+        }
+        
+        if let utmContent = ShopLiveCommon.getUtmContent(), utmContent.isNotEmpty_SL {
+            headers[CommonKeys.x_sl_utm_content] = utmContent
+        }
+
         return headers
     }
     
@@ -448,6 +485,10 @@ public extension APIDefinition {
         }
         
         headers[CommonKeys.x_sl_player_device] = UIDevice.deviceIdentifier_sl
+        headers[CommonKeys.x_sl_player_app_version] = UIApplication.appVersion()
+        headers[CommonKeys.x_sl_player_sdk_version] = ShopLiveCommon.playerSdkVersion
+        headers[CommonKeys.x_sl_player_os_version] = ShopLiveDefines.osVersion
+        headers[CommonKeys.x_sl_player_os_type] = "i"
         
         return headers
     }

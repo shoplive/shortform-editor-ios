@@ -32,14 +32,6 @@ struct LiveUrlFetchAPI : APIDefinition {
         return .get
     }
     
-    var headers: [String : String] {
-        var header : [String : String] = [:]
-        header[CommonKeys.x_sl_player_app_version] = UIApplication.appVersion()
-        header[CommonKeys.x_sl_player_sdk_version] = ShopLive.sdkVersion
-        header[CommonKeys.x_sl_player_os_version] = ShopLiveDefines.osVersion
-        header[CommonKeys.x_sl_player_os_type] = "i"
-        return header
-    }
 }
 
 

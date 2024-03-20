@@ -111,10 +111,10 @@ internal class OverlayWebView: SLView {
         guard let webView = webView else { return }
         webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
             guard let defaultUserAgent = result as? String else { return }
-            webView.customUserAgent = defaultUserAgent + " shoplive/\(ShopLiveDefines.sdkVersion)"
+            webView.customUserAgent = defaultUserAgent + " shoplive/\(ShopLiveCommon.playerSdkVersion)"
             
-            ShopLiveLogger.debugLog("userAgent: "+defaultUserAgent + " shoplive/\(ShopLiveDefines.sdkVersion)")
-            ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "userAgent: "+defaultUserAgent + " shoplive/\(ShopLiveDefines.sdkVersion)"))
+            ShopLiveLogger.debugLog("userAgent: "+defaultUserAgent + " shoplive/\(ShopLiveCommon.playerSdkVersion)")
+            ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "userAgent: "+defaultUserAgent + " shoplive/\(ShopLiveCommon.playerSdkVersion)"))
         }
     }
     

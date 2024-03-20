@@ -53,6 +53,10 @@ class MainViewController: SideMenuBaseViewController {
             tabbar.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
+        
+        ShopLiveCommon.setUtmMedium(utmMedium: "testUtmMedium")
+        ShopLiveCommon.setUtmContent(utmContent: "testUtmContent")
+        ShopLiveCommon.setUtmCampaign(utmCampaign: "testUtmCampaign")
     }
 
     override func viewDidAppear(_ animated: Bool) {

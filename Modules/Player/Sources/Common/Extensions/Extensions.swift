@@ -16,12 +16,12 @@ extension UIApplication {
         if let nav = base as? UINavigationController {
             return topViewController(base: nav.visibleViewController)
         }
-
+        
         if let tab = base as? UITabBarController {
             if let selected = tab.selectedViewController
             { return topViewController(base: selected) }
         }
-
+        
         if let presented = base?.presentedViewController {
             return topViewController(base: presented)
         }
@@ -29,18 +29,18 @@ extension UIApplication {
     }
     
     class func appVersion() -> String {
-            return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-        }
-
-        class func appBuild() -> String {
-            return Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as! String
-        }
-
-        class func versionBuild() -> String {
-            let version = appVersion(), build = appBuild()
-
-            return version == build ? "v\(version)" : "v\(version)(\(build))"
-        }
+        return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+    }
+    
+    class func appBuild() -> String {
+        return Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as! String
+    }
+    
+    class func versionBuild() -> String {
+        let version = appVersion(), build = appBuild()
+        
+        return version == build ? "v\(version)" : "v\(version)(\(build))"
+    }
 }
 
 extension AVAudioSession {
@@ -62,16 +62,16 @@ extension AVAudioSession {
 }
 
 extension NSObject {
-  public func safeRemoveObserver(_ observer: Any, forKeyPath keyPath: String) {
-    guard let obverb: NSObject = observer as? NSObject else { return }
-      if self.observationInfo != nil {
-          do {
-              try self.removeObserver(obverb, forKeyPath: keyPath)
-          } catch {
-              
-          }
-      }
-  }
+    public func safeRemoveObserver(_ observer: Any, forKeyPath keyPath: String) {
+        guard let obverb: NSObject = observer as? NSObject else { return }
+        if self.observationInfo != nil {
+            do {
+                try self.removeObserver(obverb, forKeyPath: keyPath)
+            } catch {
+                
+            }
+        }
+    }
 }
 
 extension NotificationCenter {
@@ -90,11 +90,7 @@ extension NotificationCenter {
 
 extension Array {
     subscript (safe index: Int) -> Element? {
-        // iOS 9 or later
         return indices ~= index ? self[index] : nil
-        // iOS 8 or earlier
-        // return startIndex <= index && index < endIndex ? self[index] : nil
-        // return 0 <= index && index < self.count ? self[index] : nil
     }
 }
 
@@ -110,10 +106,10 @@ extension UIButton {
         guard let context = UIGraphicsGetCurrentContext() else { return }
         context.setFillColor(color.cgColor)
         context.fill(CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0))
-
+        
         let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-
+        
         self.setBackgroundImage(backgroundImage, for: state)
     }
 }
@@ -179,7 +175,7 @@ extension String {
         let customAllowedSet =  NSCharacterSet(charactersIn:"=\"#%/<>?@\\^`{|}+").inverted
         return self.addingPercentEncoding(withAllowedCharacters: customAllowedSet)
     }
-
+    
     var urlEncodedStringRFC3986: String? {
         let unreserved = "-._~"
         let allowed = NSMutableCharacterSet.alphanumeric()
@@ -190,12 +186,12 @@ extension String {
     func versionCompare(_ otherVersion: String) -> ComparisonResult {
         return self.compare(otherVersion, options: .numeric)
     }
-
+    
     func fotmattedString() -> String {
         guard let doubleSelf = Double(self) else {
             return ""
         }
-
+        
         return doubleSelf.formattedString(by: "yyyy.MM.dd (E) HH:mm.ss")
     }
 }
@@ -205,7 +201,7 @@ extension Data {
         let rawValue: Int
         static let upperCase = HexEncodingOptions(rawValue: 1 << 0)
     }
-
+    
     func hexEncodedString(options: HexEncodingOptions = []) -> String {
         let format = options.contains(.upperCase) ? "%02hhX" : "%02hhx"
         return self.map { String(format: format, $0) }.joined()
@@ -218,9 +214,9 @@ extension Double {
         if self.numberOfDigit > 10 {
             fromDate = Double(self / pow(10, Double(self.numberOfDigit - 10)))
         }
-
+        
         let date = Date(timeIntervalSince1970: fromDate)
-
+        
         let dmf = DateFormatter()
         dmf.timeZone = .current
         dmf.locale = Locale(identifier: Locale.current.identifier)
@@ -228,44 +224,35 @@ extension Double {
         dmf.dateFormat = format
         return dmf.string(from: date)
     }
-
+    
     func elapsedTimeString() -> String {
         let now = Date()
         return elapsedTimeString(with: now)
     }
-
+    
     var numberOfDigit: Int {
         guard let str: String = .init("\(Int(self))") else { return 0 }
         return str.count
     }
-
+    
     func elapsedTimeString(with date: Date) -> String {
         var fromDate: Double = self
-
+        
         if self.numberOfDigit > 10 {
             fromDate = Double(self / pow(10, Double(self.numberOfDigit - 10)))
         }
-
+        
         let dateFrom = Date(timeIntervalSince1970: fromDate)
         let dateTo = date
-
-        /*
-         ShopLiveLogger.printLog("from \(dateTo.timeIntervalSince1970))", "")
-
-         ShopLiveLogger.printLog("from \(dateFrom.formattedString(by: "yyyy.MM.dd (E) HH:mm"))", "")
-
-         ShopLiveLogger.printLog("to \(dateTo.formattedString(by: "yyyy.MM.dd (E) HH:mm"))", "")
-
-         */
-
+        
         guard dateFrom.timeIntervalSince1970 < dateTo.timeIntervalSince1970 else {
             return ""
         }
-
+        
         let difference = NSCalendar.current.dateComponents([.hour, .minute, .second], from: dateFrom, to: dateTo)
-
+        
         let elapsedTime: String = ((difference.hour ?? 0 > 0) ? String(format: "%02d:", difference.hour!) : "") + ((difference.minute ?? 0 > 0) ? String(format: "%02d:", difference.minute!) : "00:") + ((difference.second ?? 0 > 0) ? String(format: "%02d", difference.second!) : "00")
-
+        
         return elapsedTime
     }
 }
@@ -273,33 +260,33 @@ extension Double {
 extension String {
     func textWithDownArrow() -> NSAttributedString {
         let downArrow = UIImage(named: "down_arrow")
-
+        
         let attrText: NSMutableAttributedString = .init(string: "\(self) ")
         guard let downArrowImage = downArrow else {
             return attrText
         }
-
+        
         attrText.append(.init(attachment: downArrowImage.toNSTextAttachment(yPos: 3)))
         return attrText
     }
 }
 
 
- extension UIImage {
-     func toNSTextAttachment(_ width: CGFloat? = nil, _ height: CGFloat? = nil, _ yPos: CGFloat = -8) -> NSTextAttachment {
-         let imageAttachment = NSTextAttachment()
-         imageAttachment.bounds = CGRect(x: 0, y: yPos, width: width ?? self.size.width, height: height ?? self.size.height)
-         imageAttachment.image = self
-         return imageAttachment
-     }
-
-     func toNSTextAttachment(yPos: CGFloat = -8) -> NSTextAttachment {
-         let imageAttachment = NSTextAttachment()
-         imageAttachment.bounds = CGRect(x: 0, y: yPos, width:  self.size.width, height: self.size.height)
-         imageAttachment.image = self
-         return imageAttachment
-     }
- }
+extension UIImage {
+    func toNSTextAttachment(_ width: CGFloat? = nil, _ height: CGFloat? = nil, _ yPos: CGFloat = -8) -> NSTextAttachment {
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.bounds = CGRect(x: 0, y: yPos, width: width ?? self.size.width, height: height ?? self.size.height)
+        imageAttachment.image = self
+        return imageAttachment
+    }
+    
+    func toNSTextAttachment(yPos: CGFloat = -8) -> NSTextAttachment {
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.bounds = CGRect(x: 0, y: yPos, width:  self.size.width, height: self.size.height)
+        imageAttachment.image = self
+        return imageAttachment
+    }
+}
 
 internal extension CouponResult {
     func toJson() -> String? {
@@ -369,15 +356,6 @@ extension UIScreen {
     }
     
     static var isLandscape: Bool {
-//        if #available(iOS 13.0, *) {
-//            return UIApplication.shared.windows
-//                .first?
-//                .windowScene?
-//                .interfaceOrientation
-//                .isLandscape ??
-//        } else {
-//            return UIApplication.shared.statusBarOrientation.isLandscape
-//        }
         currentOrientation.isLandscape
     }
     
@@ -491,17 +469,17 @@ extension Dictionary {
             return nil
         }
     }
-
+    
     var jsonData: Data? {
-            return try? JSONSerialization.data(withJSONObject: self, options: [.prettyPrinted])
-        }
-
+        return try? JSONSerialization.data(withJSONObject: self, options: [.prettyPrinted])
+    }
+    
     func toJSONString() -> String? {
         if let jsonData = jsonData {
             let jsonString = String(data: jsonData, encoding: .utf8)
             return jsonString
         }
-
+        
         return nil
     }
 }
@@ -541,14 +519,14 @@ extension NSLayoutConstraint {
     func updateConstraint(value: NSLayoutConstraint?) {
         guard let newConstraint = value else { return }
         NSLayoutConstraint.deactivate([self])
-
+        
         NSLayoutConstraint.activate([newConstraint])
     }
     
     func setMultiplier(multiplier:CGFloat) -> NSLayoutConstraint {
-
+        
         NSLayoutConstraint.deactivate([self])
-
+        
         let newConstraint = NSLayoutConstraint(
             item: firstItem as Any,
             attribute: firstAttribute,
@@ -557,11 +535,11 @@ extension NSLayoutConstraint {
             attribute: secondAttribute,
             multiplier: multiplier,
             constant: constant)
-
+        
         newConstraint.priority = priority
         newConstraint.shouldBeArchived = self.shouldBeArchived
         newConstraint.identifier = self.identifier
-
+        
         NSLayoutConstraint.activate([newConstraint])
         return newConstraint
     }

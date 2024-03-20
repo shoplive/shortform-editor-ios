@@ -834,7 +834,7 @@ extension LiveStreamViewModel {
         queryItems.append(URLQueryItem(name: "osType", value: "i"))
         queryItems.append(URLQueryItem(name: "osVersion", value: ShopLiveDefines.osVersion))
         queryItems.append(URLQueryItem(name: "device", value: ShopLiveDefines.deviceIdentifier))
-        queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
+        queryItems.append(URLQueryItem(name: "version", value: ShopLiveCommon.playerSdkVersion))
         
         
         if let scm: String = ShopLiveController.shared.shareScheme, scm.isEmpty == false {
