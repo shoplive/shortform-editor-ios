@@ -54,6 +54,6 @@ class ShortformNativeOnEventsManager {
             payLoadJsonString = "{}"
         }
         
-        ShopLiveShortform.ShortsReceiveInterface.receiveHandler.delegate?.onEvent?(command: commandString, payload: payLoadJsonString)
+        ShopLiveShortform.Delegate.receiveHandler.delegate?.onEvent?(command: commandString, payload: payLoadJsonString)
     }
 }

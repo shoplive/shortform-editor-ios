@@ -13,14 +13,11 @@ public struct ShortsDetail : Codable {
     public let creator : Creator?
     public let linkButton : LinkButton?
     
-    
 
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let parser = SLFlexibleParser(container: container)
-        
-        
         
         self.title = try? parser.parse(targetType: String.self, key: CodingKeys.title)
         self.description = try? parser.parse(targetType: String.self, key: CodingKeys.description)
@@ -33,44 +30,43 @@ public struct ShortsDetail : Codable {
         self.creator = try container.decodeIfPresent(Creator.self, forKey: .creator)
         self.linkButton = try container.decodeIfPresent(LinkButton.self, forKey: .linkButton)
     }
-}
-
-
-//youtube 한정
-public struct Creator : Codable {
-    
-    var uid : String?
-    var userId : String?
-    var displayUserId : String?
-    var customerCreatorType : String?
     
     
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let parser = SLFlexibleParser(container: container)
+    
+    internal func toShortsDetailData() -> ShortsDetailData {
+        var productBannerData = productBanner?.toProductBannerData()
+        var productsData : [ProductData] = []
+        for product in products ?? [] {
+            productsData.append(product.toProductData())
+        }
+        var brandData = brand?.toBrandData()
         
-        self.uid = try? parser.parse(targetType: String.self, key: CodingKeys.uid)
-        self.userId = try? parser.parse(targetType: String.self, key: CodingKeys.userId)
-        self.displayUserId = try? parser.parse(targetType: String.self, key: CodingKeys.displayUserId)
-        self.customerCreatorType = try? parser.parse(targetType: String.self, key: CodingKeys.customerCreatorType)
+        var data = ShortsDetailData(title: title,descriptions: description,tags: tags,productCount: productCount,productBanner: productBannerData,products: productsData,brand: brandData)
+        return data
     }
-    
 }
 
-//youtube 한정
-public struct LinkButton : Codable {
+
+
+
+@objc public class ShortsDetailData : NSObject {
+    public var title : String?
+    public var descriptions : String?
+    public var tags : [String]?
+    public var productCount : Int?
+    public var productBanner: ProductBannerData?
+    public var products : [ProductData]?
+    public var brand : BrandData?
     
-    var imageUrl : String?
-    var text : String?
-    var scheme : String?
-    
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let parser = SLFlexibleParser(container: container)
-        
-        self.imageUrl = try? parser.parse(targetType: String.self, key: CodingKeys.imageUrl)
-        self.text = try? parser.parse(targetType: String.self, key: CodingKeys.text)
-        self.scheme = try? parser.parse(targetType: String.self, key: CodingKeys.scheme)
+    init(title: String? = nil, descriptions: String? = nil, tags: [String]? = nil, productCount: Int? = nil, productBanner: ProductBannerData? = nil, products: [ProductData]? = nil, brand: BrandData? = nil) {
+        self.title = title
+        self.descriptions = descriptions
+        self.tags = tags
+        self.productCount = productCount
+        self.productBanner = productBanner
+        self.products = products
+        self.brand = brand
     }
-    
 }
+
+

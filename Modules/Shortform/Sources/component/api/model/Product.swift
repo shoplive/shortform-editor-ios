@@ -43,5 +43,49 @@ public struct Product: Codable {
         self.stockStatus = try? parser.parse(targetType: String.self, key: CodingKeys.stockStatus)
         self.customerProductId = try? parser.parse(targetType: String.self, key: CodingKeys.customerProductId)
     }
+    
+    
+    
+    internal func toProductData() -> ProductData {
+        var data = ProductData(brand: brand,productId: productId,customerProductId: customerProductId,
+                               name: name,descriptions : description,
+        url: url,sku: sku,imageUrl: imageUrl, currency: currency,showPrice: showPrice,originalPrice: originalPrice,discountPrice: discountRate,discountRate: discountRate,stockStatus: stockStatus)
+        
+        return data
+    }
 }
 
+
+@objc public class ProductData: NSObject {
+    public var brand: String?
+    public var productId: String?
+    public var customerProductId : String?
+    public var name: String?
+    public var descriptions: String?
+    public var url: String?
+    public var sku: String?
+    public var imageUrl: String?
+    public var currency: String?
+    public var showPrice: Bool?
+    public var originalPrice: Double?
+    public var discountPrice: Double?
+    public var discountRate: Double?
+    public var stockStatus: String?
+    
+    init(brand: String? = nil, productId: String? = nil, customerProductId: String? = nil, name: String? = nil, descriptions: String? = nil, url: String? = nil, sku: String? = nil, imageUrl: String? = nil, currency: String? = nil, showPrice: Bool? = nil, originalPrice: Double? = nil, discountPrice: Double? = nil, discountRate: Double? = nil, stockStatus: String? = nil) {
+        self.brand = brand
+        self.productId = productId
+        self.customerProductId = customerProductId
+        self.name = name
+        self.descriptions = descriptions
+        self.url = url
+        self.sku = sku
+        self.imageUrl = imageUrl
+        self.currency = currency
+        self.showPrice = showPrice
+        self.originalPrice = originalPrice
+        self.discountPrice = discountPrice
+        self.discountRate = discountRate
+        self.stockStatus = stockStatus
+    }
+}

@@ -28,8 +28,7 @@ class VerticalTypeViewExampleViewController : UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        ShopLiveShortform.ShortsReceiveInterface.setHandler(self)
-        ShopLiveShortform.ShortsReceiveInterface.setNativeHandler(self)
+        ShopLiveShortform.Delegate.setDelegate(self)
         setCollectionViewAndBuilder()
         self.builder?.enablePlayVideos()
         
@@ -54,7 +53,6 @@ class VerticalTypeViewExampleViewController : UIViewController {
         builder?.setVisibleViewCount(isVisible: model.viewCountVisible)
         builder?.setCellSpacing(spacing: model.cellSpacing)
         builder?.setCellCornerRadius(radius: model.cellCornerRadius)
-        builder?.setSkus(skus: model.skus)
         if model.shuffle {
             builder?.enableShuffle()
         }
@@ -108,23 +106,27 @@ extension VerticalTypeViewExampleViewController : ShopLiveShortformListViewDeleg
         
     }
 }
-extension VerticalTypeViewExampleViewController : ShopLiveShortformDetailHandlerDelegate {
-    func handleProductItem(shortsId : String, shortsSrn : String, product : Product) {
-//        print("[HASSAN LOG] srn \(shortsSrn)")
-//        print("[HASSAN LOG] shortsId \(shortsId)")
-//        print("[HASSAN LOG] productModel \(product.url)")
-        ShopLiveShortform.showPreview(requestData: ShopLiveShortformRelatedData(skus: [product.sku ?? ""]))
+extension VerticalTypeViewExampleViewController : ShopLiveShortformReceiveHandlerDelegate {
+    
+    func handleProductItem(shortsId : String, shortsSrn : String, product : ProductData) {
+        print("[HASSAN LOG] srn \(shortsSrn)")
+        print("[HASSAN LOG] shortsId \(shortsId)")
+        print("[HASSAN LOG] productModel \(product.sku)")
+        
+        ShopLiveShortform.showPreview(requestData: ShopLiveShortformRelatedData(productId: product.productId))
         
     }
     
-    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShortsDetail) {
-//        print("[HASSAN LOG] srn \(shortsSrn)")
-//        print("[HASSAN LOG] shortsId \(shortsId)")
-//        print("[HASSAN LOG] scheme \(shortsId)")
-//        print("[HASSAN LOG] productModel \(shortsDetail.tags)")
+    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShortsDetailData) {
+        
+        if let url = URL(string: scheme) {
+            
+        }
+        print("[HASSAN LOG] srn \(shortsSrn)")
+        print("[HASSAN LOG] shortsId \(shortsId)")
+        print("[HASSAN LOG] scheme \(scheme)")
+        print("[HASSAN LOG] productModel \(shortsDetail.tags)")
     }
-}
-extension VerticalTypeViewExampleViewController : ShopLiveShortformReceiveHandlerDelegate {
     
     func onDidAppear() {
         print("[HASSAN LOG] shortformplayer on VerticalTypeExampleViewConroller DidAppear")

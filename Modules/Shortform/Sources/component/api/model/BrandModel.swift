@@ -27,4 +27,24 @@ public struct BrandModel : Codable {
         self.traceId = try? parser.parse(targetType: String.self, key: CodingKeys.traceId)
     }
     
+    internal func toBrandData() -> BrandData {
+        return BrandData(id: id,identifier: identifier,imageUrl: imageUrl,name: name,traceId: traceId)
+    }
+    
+}
+
+@objc public class BrandData : NSObject {
+    public var id : Int?
+    public var identifier : String?
+    public var imageUrl : String?
+    public var name : String?
+    public var traceId : String?
+    
+    init(id: Int? = nil, identifier: String? = nil, imageUrl: String? = nil, name: String? = nil, traceId: String? = nil) {
+        self.id = id
+        self.identifier = identifier
+        self.imageUrl = imageUrl
+        self.name = name
+        self.traceId = traceId
+    }
 }

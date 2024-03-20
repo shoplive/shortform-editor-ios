@@ -412,7 +412,7 @@ extension ShopLiveShortform {
                     self.shortsCollectionView?.viewTappedInPreviewMode(reset: reset, shortsId: self.shortsCollectionView?.getCurrentShortsId(), srn: self.shortsCollectionView?.getCurrentShortsSrn())  {
                         self.shortsCollectionView?.setAudioSessionManager()
                         ShortformNativeOnEventsManager.sendNativeOnEvents(command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
-                        ShopLiveShortform.ShortsReceiveInterface.receiveHandler.delegate?.onDidAppear?()
+                        ShopLiveShortform.Delegate.receiveHandler.delegate?.onDidAppear?()
                         DispatchQueue.main.async {
                             self.shortsCollectionView?.hideSnapshot(animate: true)
                         }
@@ -426,7 +426,7 @@ extension ShopLiveShortform {
                 self.shortformWindow.layer.cornerRadius = 0
                 self.shortformWindow.layoutIfNeeded()
                 ShortformNativeOnEventsManager.sendNativeOnEvents(command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
-                ShopLiveShortform.ShortsReceiveInterface.receiveHandler.delegate?.onDidAppear?()
+                ShopLiveShortform.Delegate.receiveHandler.delegate?.onDidAppear?()
             }
             
         }
@@ -467,7 +467,7 @@ extension ShopLiveShortform {
             shortsWindowModel.resetProperties()
             self.shortsCollectionView = nil
             self.shortformWindow.isHidden = true
-            ShopLiveShortform.ShortsReceiveInterface.receiveHandler.delegate?.onDidDisAppear?()
+            ShopLiveShortform.Delegate.receiveHandler.delegate?.onDidDisAppear?()
         }
         
         private func clearPreviewItem() {

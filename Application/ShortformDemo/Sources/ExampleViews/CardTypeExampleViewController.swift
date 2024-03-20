@@ -29,8 +29,7 @@ class CardTypeExampleViewController : UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        ShopLiveShortform.ShortsReceiveInterface.setHandler(self)
-        ShopLiveShortform.ShortsReceiveInterface.setNativeHandler(self)
+        ShopLiveShortform.Delegate.setDelegate(self)
         setCollectionViewAndBuilder()
         self.builder?.enablePlayVideos()
         
@@ -119,8 +118,8 @@ extension CardTypeExampleViewController : ShopLiveShortformListViewDelegate {
         }
     }
 }
-extension CardTypeExampleViewController : ShopLiveShortformDetailHandlerDelegate {
-    func handleProductItem(shortsId : String, shortsSrn : String, product : Product) {
+extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegate {
+    func handleProductItem(shortsId : String, shortsSrn : String, product : ProductData) {
         print("[HASSAN LOG] srn \(shortsSrn)")
         print("[HASSAN LOG] shortsId \(shortsId)")
         print("[HASSAN LOG] productModel \(product.sku)")
@@ -128,7 +127,7 @@ extension CardTypeExampleViewController : ShopLiveShortformDetailHandlerDelegate
         ShopLiveShortform.showPreview(requestData: ShopLiveShortformRelatedData(productId: product.productId))
     }
     
-    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShortsDetail) {
+    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShortsDetailData) {
         
         if let url = URL(string: scheme) {
             
@@ -138,8 +137,7 @@ extension CardTypeExampleViewController : ShopLiveShortformDetailHandlerDelegate
         print("[HASSAN LOG] scheme \(scheme)")
         print("[HASSAN LOG] productModel \(shortsDetail.tags)")
     }
-}
-extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegate {
+    
     func onError(error: Error) {
         if let error = error as? ShopLiveCommonError {
             guard let window = UIApplication.shared.keyWindow else { return }

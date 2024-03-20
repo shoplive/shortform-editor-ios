@@ -26,4 +26,24 @@ public struct ProductBanner: Codable {
         self.type = try? parser.parse(targetType: String.self, key: CodingKeys.type)
     }
     
+    
+    internal func toProductBannerData() -> ProductBannerData {
+        var data = ProductBannerData(title: title,imageUrl: imageUrl,scheme: scheme,traceId: traceId,type: type)
+        return data
+    }
+}
+
+
+@objc public class ProductBannerData : NSObject {
+    public var title: String?
+    public var imageUrl: String?
+    public var scheme, traceId, type: String?
+    
+    init(title: String? = nil, imageUrl: String? = nil, scheme: String? = nil, traceId: String? = nil, type: String? = nil) {
+        self.title = title
+        self.imageUrl = imageUrl
+        self.scheme = scheme
+        self.traceId = traceId
+        self.type = type
+    }
 }

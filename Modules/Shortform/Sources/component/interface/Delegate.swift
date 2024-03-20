@@ -16,31 +16,22 @@ import ShopliveSDKCommon
     @objc optional func onEvent(command: String, payload: String?)
     @objc optional func onDidDisAppear()
     @objc optional func onDidAppear()
-}
-
-public protocol ShopLiveShortformDetailHandlerDelegate: AnyObject {
-    func handleProductItem(shortsId : String, shortsSrn : String, product : Product)
-    func handleProductBanner(shortsId : String, shortsSrn : String, scheme : String, shortsDetail : ShortsDetail)
+    @objc optional func handleProductItem(shortsId : String, shortsSrn : String, product : ProductData)
+    @objc optional func handleProductBanner(shortsId : String, shortsSrn : String, scheme : String, shortsDetail : ShortsDetailData)
 }
 
 extension ShopLiveShortform {
     
-    final public class ShortsReceiveInterface {
+    final public class Delegate {
         internal static let receiveHandler = ShopLiveShortformReceiveHandler()
         
-        public static func setHandler(_ handler: ShopLiveShortformReceiveHandlerDelegate?) {
-            receiveHandler.setHandler(handler)
+        public static func setDelegate(_ delegate: ShopLiveShortformReceiveHandlerDelegate?) {
+            receiveHandler.setDelegate(delegate)
         }
-        
-        public static func setNativeHandler(_ handler: ShopLiveShortformDetailHandlerDelegate?) {
-            receiveHandler.setNativeHandler(handler)
-        }
-        
         
         class ShopLiveShortformReceiveHandler {
             
             weak var delegate: ShopLiveShortformReceiveHandlerDelegate? = nil
-            weak var nativeDelegate: ShopLiveShortformDetailHandlerDelegate? = nil
             
             init() {
                 setupObserver()
@@ -50,13 +41,10 @@ extension ShopLiveShortform {
                 teardownObserver()
             }
             
-            func setHandler(_ handler: ShopLiveShortformReceiveHandlerDelegate?) {
-                delegate = handler
+            func setDelegate(_ delegate: ShopLiveShortformReceiveHandlerDelegate?) {
+                self.delegate = delegate
             }
             
-            func setNativeHandler(_ handler: ShopLiveShortformDetailHandlerDelegate?) {
-                nativeDelegate = handler
-            }
             
             private func setupObserver() {
                 NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("handleShare"), object: nil)
@@ -110,7 +98,7 @@ extension ShopLiveShortform {
                 guard let srn = userInfo?["srn"] as? String,
                       let shortsId = userInfo?["shortsId"] as? String,
                       let productModel = userInfo?["productModel"] as? Product else { return }
-                self.nativeDelegate?.handleProductItem(shortsId: shortsId, shortsSrn: srn, product: productModel)
+                self.delegate?.handleProductItem?(shortsId: shortsId, shortsSrn: srn, product: productModel.toProductData())
             }
             
             private func handlemoveToProductBannerPage(userInfo : [AnyHashable : Any]?){
@@ -120,7 +108,7 @@ extension ShopLiveShortform {
                       let shortsDetail = userInfo?["shortsDetail"] as? ShortsDetail else { return }
                 
                 
-                self.nativeDelegate?.handleProductBanner(shortsId: shortsId, shortsSrn: srn, scheme: scheme, shortsDetail: shortsDetail)
+                self.delegate?.handleProductBanner?(shortsId: shortsId, shortsSrn: srn, scheme: scheme, shortsDetail: shortsDetail.toShortsDetailData())
             }
             
             internal func handleOnEvents(command : String, payLoad : [String : Any]?) {
