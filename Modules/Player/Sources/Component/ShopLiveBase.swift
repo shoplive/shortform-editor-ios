@@ -511,13 +511,7 @@ import ShopliveSDKCommon
             
             self.mainWindow?.makeKey()
             
-            shopLiveWindow.backgroundColor = .clear
-            shopLiveWindow.layer.masksToBounds = true
-            
-            shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
-            shopLiveWindow.layer.shadowOpacity = 0.5
-            shopLiveWindow.layer.shadowOffset = .zero
-            shopLiveWindow.layer.shadowRadius = inAppPipConfiguration?.pipRadius ?? 10
+            self.showShadow()
             
             self.videoWindowPanGestureRecognizer?.isEnabled = true
             self.videoWindowTapGestureRecognizer?.isEnabled = true
@@ -558,7 +552,8 @@ import ShopliveSDKCommon
                 shopLiveWindow.backgroundColor = .clear
                 liveVc.view.backgroundColor = .black
                 liveVc.view.frame = shopLiveWindow.bounds
-                shopLiveWindow.layer.masksToBounds = false
+                shopLiveWindow.layer.masksToBounds = true
+                liveVc.view.layer.masksToBounds = true
                 liveVc.setCloseButtonVisible(true)
                 
                 ShopLiveController.shared.videoExpanded = true
@@ -632,15 +627,12 @@ import ShopliveSDKCommon
             self.videoPinchGestureRecognizer?.isEnabled = true
             ShopLiveController.windowStyle = .normal
             
-            shopLiveWindow.layer.shadowColor = nil
-            shopLiveWindow.layer.shadowOpacity = 0.0
-            shopLiveWindow.layer.shadowOffset = .zero
-            shopLiveWindow.layer.shadowRadius = 0
+            self.hideShadow()
+            
+            
             if onOsPipRestoration == false {
                 liveVc.updateVideoFrame(immeadiately: false, fitTopArea: self.needExecuteFullScreen,targetWindowStyle: .normal)
             }
-            shopLiveWindow.layer.masksToBounds = true
-            liveVc.view.layer.masksToBounds = true
             liveVc.setCloseButtonVisible(false)
             
             if windowAnimator != nil {
@@ -657,7 +649,6 @@ import ShopliveSDKCommon
                 shopLiveWindow.frame = mainWindow.bounds
                 shopLiveWindow.layer.cornerRadius = 0
                 shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
-                shopLiveWindow.layer.cornerRadius = 0
             }
             windowAnimator?.addCompletion({ [weak self] position in
                 guard let self = self, position == .end else { return }
@@ -707,10 +698,8 @@ import ShopliveSDKCommon
         videoWindowPanGestureRecognizer?.isEnabled = false
         videoWindowTapGestureRecognizer?.isEnabled = false
         videoWindowSwipeDownGestureRecognizer?.isEnabled = true
-        shopLiveWindow.layer.shadowColor = nil
-        shopLiveWindow.layer.shadowOpacity = 0.0
-        shopLiveWindow.layer.shadowOffset = .zero
-        shopLiveWindow.layer.shadowRadius = 0
+        
+        self.hideShadow()
         
         
         ShopLiveController.shared.needForceSetVideoPositionUpdate = true
@@ -848,6 +837,9 @@ import ShopliveSDKCommon
             
             shopLiveWindow.rootViewController?.view.layer.cornerRadius = self.inAppPipConfiguration?.pipRadius ?? 10
             shopLiveWindow.rootViewController?.view.layer.masksToBounds = true
+            shopLiveWindow.backgroundColor = .black
+            
+            self.showShadow()
             
             ShopLiveController.webInstance?.isHidden = true
             self.videoWindowPanGestureRecognizer?.isEnabled = true
@@ -857,15 +849,10 @@ import ShopliveSDKCommon
             let pipPosition: CGRect = self.pipPosition(with: self.pipScale, position: self.getPipPosition())
             shopLiveWindow.frame = pipPosition
             
-            shopLiveWindow.layer.masksToBounds = false
-            shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
-            shopLiveWindow.layer.shadowOpacity = 0.5
-            shopLiveWindow.layer.shadowOffset = .zero
-            shopLiveWindow.layer.shadowRadius = inAppPipConfiguration?.pipRadius ?? 10
+            
             shopLiveWindow.setNeedsLayout()
             shopLiveWindow.layoutIfNeeded()
             
-            shopLiveWindow.backgroundColor = .black
             self.liveStreamViewController?.setCloseButtonVisible(true)
             self.liveStreamViewController?.setStatusBarVisiblityOnFullScreen(isVisible: true)
             self.sendCommandChangeToPip()
@@ -907,6 +894,11 @@ import ShopliveSDKCommon
                 self.shopLiveWindow?.isHidden = true
             }
             
+            
+            self.showShadow()
+            slWindow.layer.masksToBounds = true
+            slWindow.rootViewController?.view.layer.masksToBounds = true
+            
             slWindow.layer.cornerRadius = self.inAppPipConfiguration?.pipRadius ?? 10
             
             self.videoWindowPanGestureRecognizer?.isEnabled = true
@@ -926,10 +918,9 @@ import ShopliveSDKCommon
                 liveVC.setStatusBarVisiblityOnFullScreen(isVisible: true)
                 liveVC.updateVideoFit(centerCrop: true, immediately: false, targetWindowStyle: .inAppPip)
                 liveVC.updateVideoConstraint()
-                slWindow.layer.shadowColor = UIColor.black.cgColor
-                slWindow.layer.shadowOpacity = 0.5
-                slWindow.layer.shadowOffset = .zero
+                
                 slWindow.rootViewController?.view.layer.cornerRadius = self.inAppPipConfiguration?.pipRadius ?? 10
+                slWindow.rootViewController?.view.backgroundColor = .clear
                 slWindow.frame = pipSize
                 slWindow.setNeedsLayout()
                 slWindow.layoutIfNeeded()
@@ -938,7 +929,7 @@ import ShopliveSDKCommon
                 guard let self = self, position == .end else { return }
                 liveVC.setCloseButtonVisible(true)
                 slWindow.isHidden = false
-                slWindow.layer.masksToBounds = false
+                slWindow.layer.masksToBounds = true
                 liveVC.view.layer.masksToBounds = true
                 liveVC.view.frame = slWindow.bounds
                 liveVC.showBackgroundPoster()
@@ -989,10 +980,7 @@ import ShopliveSDKCommon
             self.videoWindowSwipeDownGestureRecognizer?.isEnabled = true
             ShopLiveController.webInstance?.isHidden = false
             
-            shopLiveWindow.layer.shadowColor = nil
-            shopLiveWindow.layer.shadowOpacity = 0.0
-            shopLiveWindow.layer.shadowOffset = .zero
-            shopLiveWindow.layer.shadowRadius = 0
+            self.hideShadow()
             
             shopLiveWindow.rootViewController?.view.backgroundColor = .black
             
@@ -1564,6 +1552,33 @@ import ShopliveSDKCommon
         guard !ShopLiveController.shared.isPreview else { return }
         self.delegate?.handleCommand?("CHANGE_TO_PIP", with: nil)
     }
+}
+//MARK: - shadowOnOffFunction
+extension ShopLiveBase {
+    private func showShadow() {
+        guard let slWindow = self.shopLiveWindow,
+              let liveVC = self.liveStreamViewController else { return }
+        slWindow.backgroundColor = .clear
+        slWindow.layer.shadowColor = UIColor.black.cgColor
+        slWindow.layer.shadowOpacity = 0.5
+        slWindow.layer.shadowOffset = .zero
+        slWindow.layer.shadowRadius = inAppPipConfiguration?.pipRadius ?? 10
+        slWindow.layer.masksToBounds = false
+        liveVC.view.layer.masksToBounds = false
+    }
+    
+    private func hideShadow() {
+        guard let slWindow = self.shopLiveWindow,
+              let liveVC = self.liveStreamViewController else { return }
+        slWindow.layer.shadowColor = nil
+        slWindow.layer.shadowOpacity = 0.0
+        slWindow.layer.shadowOffset = .zero
+        slWindow.layer.shadowRadius = 0
+        slWindow.layer.masksToBounds = true
+        liveVC.view.layer.masksToBounds = true
+    }
+    
+    
 }
 //MARK: - customerPreviewConverView
 extension ShopLiveBase {
