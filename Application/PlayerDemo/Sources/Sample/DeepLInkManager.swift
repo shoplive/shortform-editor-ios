@@ -77,7 +77,7 @@ final class DeepLinkManager {
             else {
                 ShopLive.play(data: ShopLivePlayerData(campaignKey: ck))
             }
-            
+        
             break
         case .product:
             ShopLive.startPictureInPicture()

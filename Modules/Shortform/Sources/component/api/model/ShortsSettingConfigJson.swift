@@ -32,6 +32,7 @@ struct ShortsSettingConfigCommon: Codable {
 
 struct ShortsSettingConfigSDK: Codable {
     let detailUrl: String?
+    let youtubeUrl : String?
     let detailApiInitializeCount: Int?
     let detailApiPaginationCount: Int?
     let listApiInitializeCount: Int?
@@ -54,6 +55,7 @@ struct ShortsSettingConfigSDK: Codable {
         let parser = SLFlexibleParser(container: container)
         
         self.detailUrl = try? parser.parse(targetType: String.self, key: CodingKeys.detailUrl)
+        self.youtubeUrl = try? parser.parse(targetType: String.self, key: CodingKeys.youtubeUrl)
         self.detailApiInitializeCount = try? parser.parse(targetType: Int.self, key: CodingKeys.detailApiInitializeCount)
         self.detailApiPaginationCount = try? parser.parse(targetType: Int.self, key: CodingKeys.detailApiPaginationCount)
         self.listApiInitializeCount = try? parser.parse(targetType: Int.self, key: CodingKeys.listApiInitializeCount)

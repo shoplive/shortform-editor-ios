@@ -125,7 +125,6 @@ extension CardTypeExampleViewController : ShopLiveShortformDetailHandlerDelegate
         print("[HASSAN LOG] productModel \(product.sku)")
         
         ShopLiveShortform.showPreview(requestData: ShopLiveShortformRelatedData(productId: product.productId))
-        
     }
     
     func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShortsDetail) {
@@ -164,6 +163,7 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
         print("[HASSSSAN LOG] shortsSrn \(shareMetadata.shortsSrn)")
         print("[HASSSSAN LOG] thumbnail \(shareMetadata.thumbnail)")
         print("[HASSSSAN LOG] title \(shareMetadata.title)")
+        
         var objectsToShare = [String]()
         objectsToShare.append(shareMetadata.title ?? "no title")
        

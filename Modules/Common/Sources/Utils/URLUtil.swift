@@ -19,5 +19,10 @@ public final class URLUtil_SL {
         }).joined(separator: "&")
         return queryStr
     }
+    
+    public static func extractLastPathComponent_SL(from url : URL) -> String? {
+        let lastPathComponent = url.lastPathComponent
+        return lastPathComponent.isEmpty ? nil : lastPathComponent
+    }
 
 }

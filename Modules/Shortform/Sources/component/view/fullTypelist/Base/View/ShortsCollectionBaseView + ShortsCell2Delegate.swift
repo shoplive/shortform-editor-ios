@@ -112,6 +112,16 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
         return viewModel.getShortsListDataForV2ActivePage()
     }
     
+    func getCurrentOnViewIndexPath() -> IndexPath? {
+        if shortsListView.indexPathsForVisibleItems.count == 1 ,
+           let indexPath = shortsListView.indexPathsForVisibleItems.first {
+            return indexPath
+        }
+        else {
+            return nil 
+        }
+    }
+    
 }
 
 extension ShortsCollectionBaseView {

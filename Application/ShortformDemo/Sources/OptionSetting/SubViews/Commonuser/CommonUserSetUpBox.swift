@@ -110,7 +110,9 @@ class CommonUserSetUpBox : UIView {
                                                         name: nameBox.getValue(),
                                                         age: Int(ageBox.getValue()),
                                                         gender: gender,
-                                                        userScore: Int(userScoreBox.getValue())), accessKey: nil)
+                                                        userScore: Int(userScoreBox.getValue())),
+                               accessKey: accessKey)
+
         
         setJWT()
     }

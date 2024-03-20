@@ -248,18 +248,31 @@ extension ShopLiveShortformHorizontalTypeViewReactor : UICollectionViewDelegate,
         var brand = shortsDetailModel.brand?.name ?? ""
         brand = brand.replacingOccurrences(of: " ", with: "\u{00A0}")
         
+        var youtubeWebView : SLWebView? = nil
+        if let shortsId = model.shortsId {
+            youtubeWebView = getYoutubeWebView(for: indexPath)
+        }
+        
+        var posterImageUrl : String? = cardModel.screenshotUrl
+        if let playerType = cardModel.playerType, playerType == "YOUTUBE",
+           let externalVideoThumbnail = cardModel.externalVideoThumbnail {
+            posterImageUrl = externalVideoThumbnail
+        }
+        
         cell.configureCell(title: title,
                            userThumbnail: shortsDetailModel.brand?.imageUrl ?? "",
                            userName: brand,
                            productModel: shortsDetailModel.products?.first,
                            productCount: productCount,
                            viewCount: viewCount,
-                           posterImageUrl: cardModel.screenshotUrl,
+                           posterImageUrl: posterImageUrl,
                            videoURL: videoUrl,
+                           youtubeWebView: youtubeWebView,
                            currentMediaType: cardModel.cardType ?? "VIDEO",
                            viewHideOption: cellViewHideOptionModel,
                            cellCornerRadius: cellRadius,
-                           backgroundColor: currentCellBackgroundColor)
+                           backgroundColor: currentCellBackgroundColor,
+                           currentSrn: model.srn)
         
         cell.delegate = self
         
@@ -329,6 +342,14 @@ extension ShopLiveShortformHorizontalTypeViewReactor : UICollectionViewDelegate,
     
     func onCellError(error: Error) {
         resultHandler?(.onError(error))
+    }
+    
+    private func getYoutubeWebView(for indexPath : IndexPath) -> SLWebView? {
+        guard let data = shortsListModel[safe : indexPath.row],
+              let url = ShopLiveShortformListYoutubeUrlGenerator.getYoutubeUrl(shortsModel: data) else { return nil }
+        let webView = SLWebView()
+        webView.load(URLRequest(url: url))
+        return webView
     }
 }
 extension ShopLiveShortformHorizontalTypeViewReactor {

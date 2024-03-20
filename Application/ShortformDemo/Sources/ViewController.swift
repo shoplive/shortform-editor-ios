@@ -117,6 +117,9 @@ class ViewController: UIViewController {
         v2PlayBtn.addTarget(self, action: #selector(v2PlayBtnTapped(sender: )), for: .touchUpInside)
         
         
+        
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -155,6 +158,7 @@ class ViewController: UIViewController {
          optionSettingViewController.resultCallBack = { [weak self] type, model, accessKey in
              if let accessKey = accessKey {
                  ShopLiveCommon.setAccessKey(accessKey: accessKey)
+                 ShopLiveCommon.setUser(user: .init(userId: "iOStestUser"), accessKey: accessKey)
                  ShortFormConfigurationInfosManager.shared.setConfigurationURLToEmpty()
                  self?.viewControllers.forEach {
                      $0.exampleViewControllable.changeLanding()
@@ -180,7 +184,6 @@ class ViewController: UIViewController {
     private var lastLandingInfo : LandingInfo?
     
     @objc func didTapVideoPicker() {
-        
         let cropOption = ShopLiveShortFormEditorAspectRatio(width: OptionSettingModel.editorWidth,
                                                             height: OptionSettingModel.editorheight,
                                                             isFixed: OptionSettingModel.editorIsFixed)

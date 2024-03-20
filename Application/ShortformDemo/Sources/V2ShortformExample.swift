@@ -55,7 +55,6 @@ extension V2ShortformExample : ShortsCollectionViewDataSourcRequestDelegate {
             guard let self = self else { return }
             switch result {
             case .success(let response):
-                ShopLiveLogger.debugLog("[HASSAN LOG] v2 api success")
                 guard let shortsList = response.shortsList else {
                     completion(nil,nil)
                     return
@@ -66,7 +65,6 @@ extension V2ShortformExample : ShortsCollectionViewDataSourcRequestDelegate {
                 completion(moreData,nil)
                 break
             case .failure(let error):
-                ShopLiveLogger.debugLog("[HASSAN LOG] v2 api failed error \(error.code) \(error.message) \(error.error?.localizedDescription)")
                 completion(nil,error)
                 break
             }

@@ -11,6 +11,7 @@ import UIKit
 
 struct ShortFormConfigurationInfoModel {
     var detailUrl : String = ""
+    var youtubeUrl : String = ""
     var shortformApiEndpoint : String = ""
     var previewEdgeInsets = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     let previewFloatingOffset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -47,6 +48,7 @@ struct ShortFormConfigurationInfoModel {
     
     init(shortformApiEndPoint : String?, datas : ShortsSettingConfigSDK?){
         self.init(detailUrl: datas?.detailUrl,
+                  youtubeUrl: datas?.youtubeUrl,
                   shortformApiEndPoint: shortformApiEndPoint,
                   previewEdgeInsets: (left: datas?.previewMargin?.left,
                                       top: datas?.previewMargin?.top,
@@ -68,13 +70,18 @@ struct ShortFormConfigurationInfoModel {
                   previewRadius: datas?.previewRadius)
     }
     
-    init(detailUrl: String?, shortformApiEndPoint : String?, previewEdgeInsets: (left : CGFloat?, top : CGFloat?, right : CGFloat?, bottom :CGFloat?),
+    init(detailUrl: String?, youtubeUrl : String?, shortformApiEndPoint : String?, previewEdgeInsets: (left : CGFloat?, top : CGFloat?, right : CGFloat?, bottom :CGFloat?),
         previewPosition: String?, detailApiInitializeCount: Int?, detailApiPaginationCount: Int?,
          listApiInitializeCount: Int?, listApiPaginationCount: Int?, previewUseCloseButton: Bool?, enabledSwipeOut: Bool?,
          mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?,detailCollectionListAll : Bool?,eventTraceEndpoint : String?,isCached : Bool?,previewRadius : CGFloat?) {
         if let detailUrl = detailUrl {
             self.detailUrl = detailUrl
         }
+        
+        if let youtubeUrl = youtubeUrl {
+            self.youtubeUrl = youtubeUrl
+        }
+        
         if let shortformApiEndPoint = shortformApiEndPoint {
             self.shortformApiEndpoint = shortformApiEndPoint
         }

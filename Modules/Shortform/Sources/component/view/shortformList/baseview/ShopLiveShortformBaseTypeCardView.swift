@@ -28,8 +28,6 @@ class ShopLiveShortformBaseTypeCardView : UIView {
         view.backgroundColor = .white
         view.layer.cornerRadius = 10
         let bundle = Bundle(for: type(of: self))
-        
-//        let imageView = UIImageView(image: UIImage(named: "sl_ic_media_filled",in: bundle, compatibleWith: nil))
         let imageView = UIImageView(image: ShopLiveShortformSDKAsset.slIcMediaFilled.image)
         imageView.contentMode = .scaleAspectFit
         let stack = UIStackView(arrangedSubviews: [imageView])
@@ -51,7 +49,6 @@ class ShopLiveShortformBaseTypeCardView : UIView {
     
     lazy private var personIcon : UIImageView = {
         let bundle = Bundle(for: type(of: self))
-//        let imageView = UIImageView(image: UIImage(named: "sl_ic_person",in: bundle, compatibleWith: nil))
         let imageView = UIImageView(image: ShopLiveShortformSDKAsset.slIcPerson.image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
@@ -74,6 +71,12 @@ class ShopLiveShortformBaseTypeCardView : UIView {
         return view
     }()
     
+    lazy private var youtubePlayer : ShopLiveShortformBaseTypeYTPlayerView = {
+        let view = ShopLiveShortformBaseTypeYTPlayerView(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private var posterImageView : UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -89,6 +92,7 @@ class ShopLiveShortformBaseTypeCardView : UIView {
     
     init(frame: CGRect,delegate : ShopLiveShortformBaseTypeCardViewDelegate,playIconLeftTopPadding : CGFloat) {
         super.init(frame: frame)
+        bindYoutubePlayer()
         self.delegate = delegate
         self.clipsToBounds = true
         self.playIconLeftTopPadding = playIconLeftTopPadding
@@ -100,7 +104,7 @@ class ShopLiveShortformBaseTypeCardView : UIView {
         fatalError()
     }
     
-    func setContents(viewCount : String, posterImageUrl : String?, videoUrl : String?, currentMediaType : String, viewHideOption : ShopLiveListCellViewHideOptionModel,cornerRadius : CGFloat,backgroundColor : UIColor? ){
+    func setContents(viewCount : String, posterImageUrl : String?, videoUrl : String?, youtubeWebView : SLWebView?, currentMediaType : String, viewHideOption : ShopLiveListCellViewHideOptionModel,cornerRadius : CGFloat,backgroundColor : UIColor?, currentSrn : String? ){
         
         var bgColor : UIColor = .init("#CBCBCB")
         if let backgroundColor = backgroundColor {
@@ -115,9 +119,26 @@ class ShopLiveShortformBaseTypeCardView : UIView {
         self.personIcon.isHidden = viewHideOption.isViewCountVisible ? false : true
         
         self.viewCountLabel.text = viewCount
-        self.videoPlayer.isHidden = !(currentMediaType == "VIDEO")
-        self.videoPlayer.refreshPlayer()
-        self.videoPlayer.setVideoUrl(urlString: videoUrl)
+        if let videoUrl = videoUrl {
+            self.videoPlayer.isHidden = !(currentMediaType == "VIDEO")
+            self.videoPlayer.refreshPlayer()
+            self.videoPlayer.setVideoUrl(urlString: videoUrl)
+            self.videoPlayer.isHidden = false
+            
+            self.youtubePlayer.action( .emptyWebView )
+            self.youtubePlayer.isHidden = true
+            
+        }
+        else if let youtubeWebView = youtubeWebView {
+            self.videoPlayer.refreshPlayer()
+            self.videoPlayer.isHidden = true
+            
+            self.youtubePlayer.action( .setCurrentSrn( currentSrn ) )
+            
+            self.youtubePlayer.action( .setWebView(youtubeWebView) )
+            self.youtubePlayer.isHidden = false
+        }
+        
         self.posterImageView.image = nil
         if let urlString = posterImageUrl, let url = URL(string: urlString) {
             ImageDownLoaderManager.shared.download(imageUrl: url) { [weak self] result  in
@@ -136,20 +157,62 @@ class ShopLiveShortformBaseTypeCardView : UIView {
     
     func stopVideo(){
         self.posterImageView.alpha = 1
-        videoPlayer.pause()
+        if videoPlayer.isHidden == true && youtubePlayer.isHidden == false {
+            youtubePlayer.action(.pause)
+        }
+        else {
+            videoPlayer.pause()
+        }
+        
     }
     
     func playVideo(){
-        if videoPlayer.getIsReadyToPlay() == false { return }
-        videoPlayer.start()
+        if videoPlayer.isHidden == true && youtubePlayer.isHidden == false {
+            self.youtubePlayer.action( .play )
+        }
+        else {
+            if videoPlayer.getIsReadyToPlay() == false { return }
+            videoPlayer.start()
+        }
     }
     
     func refreshPlayer(){
         videoPlayer.refreshPlayer()
+        youtubePlayer.action( .emptyWebView )
+    }
+    
+    private func animateHideOrShowPosterImage(hide : Bool,duration : Double = 1) {
+        if hide {
+            if self.posterImageView.alpha == 0 { return }
+            UIView.animate(withDuration: duration, delay: 0, options: .curveEaseIn) { [weak self] in
+                self?.posterImageView.alpha = 0
+            }
+        }
+        else {
+            UIView.animate(withDuration: 1) { [weak self] in
+                self?.posterImageView.alpha = 1
+            }
+        }
+    }
+}
+extension ShopLiveShortformBaseTypeCardView {
+    private func bindYoutubePlayer() {
+        youtubePlayer.resultHandler = { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .hidePosterImage(let hide):
+                self.onYoutubePlayerHidePosterImage(hide: hide)
+            }
+        }
+    }
+    
+    private func onYoutubePlayerHidePosterImage(hide : Bool) {
+        animateHideOrShowPosterImage(hide: hide)
     }
 }
 extension ShopLiveShortformBaseTypeCardView {
     private func setLayout(){
+        self.addSubview(youtubePlayer)
         self.addSubview(videoPlayer)
         self.addSubview(posterImageView)
         self.addSubview(playIcon)
@@ -158,11 +221,15 @@ extension ShopLiveShortformBaseTypeCardView {
         viewCountBackground.addSubview(viewCountLabel)
         
         NSLayoutConstraint.activate([
+            youtubePlayer.topAnchor.constraint(equalTo: self.topAnchor),
+            youtubePlayer.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            youtubePlayer.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            youtubePlayer.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
             videoPlayer.topAnchor.constraint(equalTo: self.topAnchor),
             videoPlayer.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             videoPlayer.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             videoPlayer.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            
             
             posterImageView.topAnchor.constraint(equalTo: self.topAnchor),
             posterImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
@@ -206,22 +273,14 @@ extension ShopLiveShortformBaseTypeCardView {
 }
 extension ShopLiveShortformBaseTypeCardView : ShopLiveShortformBaseTypePlayerViewDelegate {
     func onPlayerViewError(error: Error) {
-        UIView.animate(withDuration: 1) { [weak self] in
-            self?.posterImageView.alpha = 1
-        }
+        animateHideOrShowPosterImage(hide: false)
         delegate?.onCardViewError(error: error)
     }
     func onPlayerChangedToCacheFile() {
-        self.posterImageView.alpha = 1
-        UIView.animate(withDuration: 0.5) { [weak self] in 
-            self?.posterImageView.alpha = 0
-        }
+        animateHideOrShowPosterImage(hide: true, duration: 0.5)
     }
     
     func onPlayerDidStartPlaying() {
-        if self.posterImageView.alpha == 0 { return }
-        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseIn) { [weak self] in
-            self?.posterImageView.alpha = 0
-        }
+        animateHideOrShowPosterImage(hide: true)
     }
 }

@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import ShopliveSDKCommon
 
 /**
  세로 1단 템플릿 기본 셀
@@ -48,9 +49,9 @@ class ShopLiveShortformCardViewCell : UICollectionViewCell {
     }
     
     
-    func configureCell(title : String, description : String?, userThumbnail : String, userName : String, productModel : Product?, productCount : Int, viewCount : String, posterImageUrl : String?, videoURL : String?, currentMediaType : String, viewHideOption : ShopLiveListCellViewHideOptionModel, cellCornerRadius : CGFloat, backgroundColor : UIColor?){
+    func configureCell(title : String, description : String?, userThumbnail : String, userName : String, productModel : Product?, productCount : Int, viewCount : String, posterImageUrl : String?, videoURL : String?, youtubeWebView : SLWebView?, currentMediaType : String, viewHideOption : ShopLiveListCellViewHideOptionModel, cellCornerRadius : CGFloat, backgroundColor : UIColor?,currentSrn : String?){
         self.currentMediaType = currentMediaType
-        basicCardView.setContents(viewCount: viewCount, posterImageUrl: posterImageUrl, videoUrl: videoURL, currentMediaType: currentMediaType,viewHideOption: viewHideOption,cornerRadius: cellCornerRadius,backgroundColor: backgroundColor)
+        basicCardView.setContents(viewCount: viewCount, posterImageUrl: posterImageUrl, videoUrl: videoURL, youtubeWebView: youtubeWebView, currentMediaType: currentMediaType,viewHideOption: viewHideOption,cornerRadius: cellCornerRadius,backgroundColor: backgroundColor,currentSrn: currentSrn)
         
         if let cardView0 = cardViewType0 {
             cardView0.setContent(title: title, description: description, userThumbnail: userThumbnail, userName: userName ,viewHideOption: viewHideOption,cellCornerRadius: cellCornerRadius)

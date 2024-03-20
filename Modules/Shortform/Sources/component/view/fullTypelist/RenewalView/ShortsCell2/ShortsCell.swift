@@ -27,6 +27,7 @@ protocol ShortsCellDelegate : NSObject {
     func onExternalEmitEvent(name : String, payload : [String : Any]?)
     
     func setSnapShotForWindow(image : UIImage?)
+    func getCurrentOnViewIndexPath() -> IndexPath?
 }
 
 
@@ -43,12 +44,22 @@ protocol ShortsCellInterface {
     func handleDeviceRotation(isLandscape : Bool)
     func sendActivePageStateToWeb(forceIsActive : Bool?, srn : String?, index : Int, shortsListModel : [ShopLiveShortform.ShortsModel]?, previousSrn : String?)
     func getCellIndexPath() -> IndexPath
-    func configureCell(webView : SLWebView, model : ShopLiveShortform.ShortsModel, delegate : ShortsCellDelegate, indexPath : IndexPath, viewProvideype : ShortsCollectionBaseViewModel.ViewProvidedType, shopliveSessionId : String?, shortsMode : ShopLiveShortform.ShortsMode, isLandScape : Bool)
+    func configureCell(webView : SLWebView, youtubeWebView : SLWebView?, model : ShopLiveShortform.ShortsModel, delegate : ShortsCellDelegate, indexPath : IndexPath, viewProvideype : ShortsCollectionBaseViewModel.ViewProvidedType, shopliveSessionId : String?, shortsMode : ShopLiveShortform.ShortsMode, isLandScape : Bool,isMute : Bool)
     func setAppState(srn : String?, state : String)
     func takeSnapShotForWindow(srn : String?)
     
+    func cleanUpMemory()
 }
 
+/**
+ 뷰 구성 hierarchy
+ - ShortsCell
+    - ShortsYoutubePlayerView
+    - ShortsVideoPlayerView
+        - AVPlayerLayer
+    - ShortsWebView
+        - SLWebView
+ */
 class ShortsCell : UICollectionViewCell {
     typealias SdkToWeb = ShopLiveShortform.ShortsWebInterface.SdkToWeb
     typealias JSRequest = (SdkToWeb, [String : Any])
@@ -72,6 +83,19 @@ class ShortsCell : UICollectionViewCell {
         return view
     }()
     
+    private var youtubePlayerView : ShortsYoutubePlayerView = {
+        let view = ShortsYoutubePlayerView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private var youtubePosterImageView : UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    
     private var webView : ShortsWebView = {
         let webView = ShortsWebView()
         webView.translatesAutoresizingMaskIntoConstraints = false
@@ -79,7 +103,6 @@ class ShortsCell : UICollectionViewCell {
     }()
     
     private let reactor = ShortsCellReactor()
-    
     
     lazy private var snapShotVerticalWidthAnc : NSLayoutConstraint = {
         return snapShotImageView.widthAnchor.constraint(equalTo: self.widthAnchor)
@@ -101,16 +124,38 @@ class ShortsCell : UICollectionViewCell {
         return playerView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: ratio)
     }()
     
+    lazy private var youtubePlayerViewVerticalWidthAnc : NSLayoutConstraint = {
+        return youtubePlayerView.widthAnchor.constraint(equalTo: self.widthAnchor)
+    }()
+    
+    lazy private var youtubePlayerViewHorizontalWidthAnc : NSLayoutConstraint = {
+        let resolution = ShortFormConfigurationInfosManager.shared.shortsConfiguration.resolution
+        let ratio = resolution.width / resolution.height
+        return youtubePlayerView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: ratio)
+    }()
+    
+    lazy private var youtubePosterVerticalWidthAnc : NSLayoutConstraint = {
+        return youtubePosterImageView.widthAnchor.constraint(equalTo: self.widthAnchor)
+    }()
+    
+    lazy private var youtubePosterHorizontalWidthAnc : NSLayoutConstraint = {
+        let resolution = ShortFormConfigurationInfosManager.shared.shortsConfiguration.resolution
+        let ratio = resolution.width / resolution.height
+        return youtubePosterImageView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: ratio)
+    }()
     
     weak var delegate : ShortsCellDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.clipsToBounds = true
+        reactor.delegate = self
         bindReactor()
         bindPlayerView()
+        bindShortsYoutubePlayerView()
         bindShortsWebView()
         setLayout()
+        
         
     }
     
@@ -123,23 +168,32 @@ class ShortsCell : UICollectionViewCell {
     }
     
     func configureCell(webView : SLWebView,
+                       youtubeWebView : SLWebView?,
                        model : ShortsModel,
                        delegate : ShortsCellDelegate,
                        indexPath : IndexPath,
                        viewProvideype : ViewProvideType,
                        shopliveSessionId : String?,
                        shortsMode : ShortsMode,
-                       isLandScape : Bool) {
+                       isLandScape : Bool,
+                       isMute : Bool) {
+        
         self.snapShotImageView.image = nil
+        self.youtubePosterImageView.image = nil
+        self.youtubePosterImageView.alpha = 1
         self.webView.action( .setWebView(webView) )
+        self.youtubePlayerView.action( .setWebView(youtubeWebView) )
+        self.youtubePlayerView.action( .setCurrentIndexPath(indexPath) )
         reactor.action( .setShortsModel(model) )
         reactor.action( .setIndexPath(indexPath) )
         reactor.action( .setViewProvideType(viewProvideype) )
         reactor.action( .setShopliveSessionId(shopliveSessionId) )
         reactor.action( .setShortsMode(shortsMode) )
         reactor.action( .handleDeviceRotation(isLandscape: isLandScape) )
+        reactor.action( .setIsMuted(isMute) )
         self.delegate = delegate
         reactor.action( .initializeCell )
+        
     }
     
 }
@@ -151,8 +205,14 @@ extension ShortsCell {
             switch result {
             case .setPosterImage(let image):
                 self.onReactorSetPosterImage(image: image)
+            case .setYoutubePosterImage(let image):
+                self.onReactorSetYoutubePosterImage(image: image)
+            case .hideYoutubePosterImage(let hide):
+                self.onReactorHideYoutubePosterImage(hide: hide)
             case .requestEvaluateJS(let request):
                 self.onReactorRequestEvaluateJS(request: request)
+            case .requestYoutubePlayerEvaluateJS(let request):
+                self.onReactorRequestYoutubePlayerEvaluateJS(request: request)
             case .requestEvaluateJSForExternalWebView(let request): // for hybrid
                 self.onReactorRequestEvaluateJSforExternalWebView(request: request)
             case .requestVideoDuration:
@@ -177,6 +237,10 @@ extension ShortsCell {
                 self.onReactorRequestReplayVideo()
             case .requestSeekToTime(let time):
                 self.onReactorRequestSeekToTime(time: time)
+            case .requestHideVideoPlayer(let hide):
+                self.onReactorRequestHideVideoPlayer(hide : hide)
+            case .requestHideYoutubePlayer(let hide):
+                self.onReactorRequestHideYoutubePlayer(hide: hide)
             case .didFinishPlayingVideo:
                 self.onReactorDidFinishPlayerVideo()
             case .requestSnapShot:
@@ -191,7 +255,8 @@ extension ShortsCell {
                 self.onReactorInvalidateLayout()
             case .setVideoLayerGravity(let gravity):
                 self.onReactorSetVideoGravity(gravity: gravity)
-                
+            case .scrollToNextCell(let data):
+                self.onReactorScrollToNextCell(data : data )
             }
         }
     }
@@ -200,9 +265,30 @@ extension ShortsCell {
         self.snapShotImageView.image = image
     }
     
+    private func onReactorSetYoutubePosterImage(image : UIImage?) {
+        self.youtubePosterImageView.image = image
+    }
+    
+    private func onReactorHideYoutubePosterImage(hide : Bool) {
+        if hide {
+            UIView.animate(withDuration: 0.1) { [weak self] in
+                self?.youtubePosterImageView.alpha = 0
+            }
+        }
+        else {
+            youtubePosterImageView.alpha = 1
+        }
+    }
+    
     private func onReactorRequestEvaluateJS(request : [JSRequest] ) {
         request.forEach { request in
             webView.action( .evaluateJavaScript(request) )
+        }
+    }
+    
+    private func onReactorRequestYoutubePlayerEvaluateJS(request : [JSRequest]) {
+        request.forEach { request in
+            youtubePlayerView.action( .evaluateJavaScript(request) )
         }
     }
     
@@ -257,6 +343,14 @@ extension ShortsCell {
         playerView.action( .seekTo(time) )
     }
     
+    private func onReactorRequestHideVideoPlayer(hide : Bool) {
+        playerView.isHidden = hide
+    }
+    
+    private func onReactorRequestHideYoutubePlayer(hide : Bool) {
+        youtubePlayerView.isHidden = hide
+    }
+    
     private func onReactorDidFinishPlayerVideo() {
         delegate?.didFinishPlayingShorts(cell: self, data: reactor.getShortsModel())
     }
@@ -284,6 +378,11 @@ extension ShortsCell {
     private func onReactorSetVideoGravity(gravity : AVLayerVideoGravity) {
         playerView.action( .setVideoGravity(gravity) )
     }
+    
+    private func onReactorScrollToNextCell(data : ShopLiveShortform.ShortsModel?) {
+        delegate?.didFinishPlayingShorts(cell: self, data: data)
+    }
+    
 }
 //MARK: - bind playerView
 extension ShortsCell {
@@ -368,26 +467,54 @@ extension ShortsCell {
     private func onWebviewOnShortsCommand(name : String, payload : [String : Any]? ) {
         delegate?.shortsCommand(name: name, payload: payload)
     }
-    
+}
+//MARK: - bind ShortsYoutubePlayerView
+extension ShortsCell {
+    private func bindShortsYoutubePlayerView() {
+        youtubePlayerView.resultHandler = { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .handleWebInterface(let webReceivedCommand):
+                self.onWebViewHandleWebInterface(name: webReceivedCommand.name, payload: webReceivedCommand.payload)
+            }
+        }
+    }
 }
 //MARK: - layout
 extension ShortsCell {
     private func setLayout() {
         self.addSubview(snapShotImageView)
         self.addSubview(playerView)
+        self.addSubview(youtubePlayerView)
+        self.addSubview(youtubePosterImageView)
         self.addSubview(webView)
         
         if UIDevice.current.userInterfaceIdiom == .pad || UIScreen.isLandscape_SL {
             snapShotHorizontalWidthAnc.isActive = true
             snapShotVerticalWidthAnc.isActive = false
+            
             playerViewHorizontalWidthAnc.isActive = true
             playerViewVerticalWidthAnc.isActive = false
+            
+            youtubePlayerViewHorizontalWidthAnc.isActive = true
+            youtubePlayerViewVerticalWidthAnc.isActive = false
+            
+            youtubePosterVerticalWidthAnc.isActive = true
+            youtubePosterHorizontalWidthAnc.isActive = false
+            
         }
         else {
             snapShotHorizontalWidthAnc.isActive = false
             snapShotVerticalWidthAnc.isActive = true
+
             playerViewHorizontalWidthAnc.isActive = false
             playerViewVerticalWidthAnc.isActive = true
+            
+            youtubePlayerViewHorizontalWidthAnc.isActive = false
+            youtubePlayerViewVerticalWidthAnc.isActive = true
+            
+            youtubePosterVerticalWidthAnc.isActive = false
+            youtubePosterHorizontalWidthAnc.isActive = true
         }
         
         NSLayoutConstraint.activate([
@@ -399,14 +526,19 @@ extension ShortsCell {
             playerView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             playerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             
+            youtubePlayerView.heightAnchor.constraint(equalTo: self.heightAnchor),
+            youtubePlayerView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            youtubePlayerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            
+            youtubePosterImageView.heightAnchor.constraint(equalTo: self.heightAnchor),
+            youtubePosterImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            youtubePosterImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            
             webView.topAnchor.constraint(equalTo: self.topAnchor),
             webView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            webView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            webView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
         ])
-        
-        
-        
     }
     
     private func invalidateLayout() {
@@ -415,12 +547,20 @@ extension ShortsCell {
             snapShotVerticalWidthAnc.isActive = false
             playerViewHorizontalWidthAnc.isActive = true
             playerViewVerticalWidthAnc.isActive = false
+            youtubePlayerViewHorizontalWidthAnc.isActive = true
+            youtubePlayerViewVerticalWidthAnc.isActive = false
+            youtubePosterVerticalWidthAnc.isActive = true
+            youtubePosterHorizontalWidthAnc.isActive = false
         }
         else {
             snapShotHorizontalWidthAnc.isActive = false
             snapShotVerticalWidthAnc.isActive = true
             playerViewHorizontalWidthAnc.isActive = false
             playerViewVerticalWidthAnc.isActive = true
+            youtubePlayerViewHorizontalWidthAnc.isActive = false
+            youtubePlayerViewVerticalWidthAnc.isActive = true
+            youtubePosterVerticalWidthAnc.isActive = false
+            youtubePosterHorizontalWidthAnc.isActive = true
         }
         
         DispatchQueue.main.async { [weak self] in
@@ -429,89 +569,10 @@ extension ShortsCell {
         }
     }
     
-    
-    
-    private func setIpadLayout() {
-        removeConstraints()
-        let resolution = ShortFormConfigurationInfosManager.shared.shortsConfiguration.resolution
-        
-        NSLayoutConstraint.activate([
-            snapShotImageView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: resolution.width/resolution.height),
-            snapShotImageView.heightAnchor.constraint(equalTo: self.heightAnchor),
-            snapShotImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            snapShotImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            
-            playerView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: resolution.width/resolution.height),
-            playerView.heightAnchor.constraint(equalTo: self.heightAnchor),
-            playerView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            playerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            
-            webView.topAnchor.constraint(equalTo: self.topAnchor),
-            webView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            webView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        ])
-    }
-    
-    private func setIphoneVerticalLayout() {
-        removeConstraints()
-        
-        NSLayoutConstraint.activate([
-            snapShotImageView.heightAnchor.constraint(equalTo: self.heightAnchor),
-            snapShotImageView.widthAnchor.constraint(equalTo: self.heightAnchor),
-            snapShotImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            snapShotImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            
-            playerView.widthAnchor.constraint(equalTo: self.widthAnchor),
-            playerView.heightAnchor.constraint(equalTo: self.heightAnchor),
-            playerView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            playerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            
-            webView.topAnchor.constraint(equalTo: self.topAnchor),
-            webView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            webView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        ])
-    }
-    
-    private func setIphoneHorizontalLayout() {
-        removeConstraints()
-        let resolution = ShortFormConfigurationInfosManager.shared.shortsConfiguration.resolution
-        
-        NSLayoutConstraint.activate([
-            snapShotImageView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: resolution.width / resolution.height),
-            snapShotImageView.heightAnchor.constraint(equalTo: self.heightAnchor),
-            snapShotImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            snapShotImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-           
-            
-            playerView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: resolution.width / resolution.height),
-            playerView.heightAnchor.constraint(equalTo: self.heightAnchor),
-            playerView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            playerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-           
-            webView.topAnchor.constraint(equalTo: self.topAnchor),
-            webView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            webView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        ])
-    }
-    
-    private func removeConstraints() {
-        snapShotImageView.constraints.forEach { constraints in
-            constraints.isActive = false
-        }
-        snapShotImageView.removeConstraints(snapShotImageView.constraints)
-        
-        playerView.constraints.forEach { constraints  in
-            constraints.isActive = false
-        }
-        playerView.removeConstraints(playerView.constraints)
-        
-        webView.constraints.forEach { constraints in
-            constraints.isActive = false
-        }
-        webView.removeConstraints(webView.constraints)
+}
+extension ShortsCell : ShortsCellReactorDelegate {
+    func  getCurrentOnViewIndexPath() -> IndexPath? {
+        return delegate?.getCurrentOnViewIndexPath()
     }
 }
 //MARK: - interface functions
@@ -572,6 +633,10 @@ extension ShortsCell : ShortsCellInterface {
     
     func takeSnapShotForWindow(srn: String?) {
         reactor.action( .requestSnapShot(srn) )
+    }
+    
+    func cleanUpMemory() {
+        reactor.action( .invalidateGetYoutubeCurrentTimer )
     }
 }
 //MARK: - getter

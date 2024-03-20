@@ -126,8 +126,9 @@ public final class SLWebView: SLBaseView {
     
     public func configure(url: String) {
         guard let url = URL(string: url) else { return }
-        
-        webview.load(URLRequest(url: url))
+        var request = URLRequest(url: url)
+        request.cachePolicy = .returnCacheDataElseLoad
+        webview.load(request)
     }
     
     public func configure(html: String) {

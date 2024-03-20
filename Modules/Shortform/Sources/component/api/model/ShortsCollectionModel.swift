@@ -10,6 +10,7 @@ extension ShopLiveShortform {
         public let srn, title: String?
         public let shortsList: [ShortsModel]?
         public let reference: String?
+        public let referenceByType : ReferenceByType?
         public let hasMore: Bool?
         public var rawData: Data?
         
@@ -27,6 +28,7 @@ extension ShopLiveShortform {
             self.title = try? parser.parse(targetType: String.self, key: Model.CodingKeys.title)
             self.shortsList = try? container.decodeIfPresent([ShopLiveShortform.ShortsModel].self, forKey: Model.CodingKeys.shortsList)
             self.reference = try? parser.parse(targetType: String.self, key: Model.CodingKeys.reference)
+            self.referenceByType = try? parser.parse(targetType: ReferenceByType.self, key: Model.CodingKeys.referenceByType)
             self.hasMore = try? parser.parse(targetType: Bool.self, key: Model.CodingKeys.hasMore)
         }
         

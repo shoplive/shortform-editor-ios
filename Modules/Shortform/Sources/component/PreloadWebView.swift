@@ -19,7 +19,9 @@ extension ShopLiveShortform {
         
         func loadWebView() {
             if let url = URL(string: url) {
-                webview.load(URLRequest(url: url))
+                var request = URLRequest(url: url)
+                request.cachePolicy = .returnCacheDataElseLoad
+                webview.load(request)
             }
         }
     }

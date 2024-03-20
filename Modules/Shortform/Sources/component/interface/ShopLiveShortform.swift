@@ -71,6 +71,8 @@ public class ShopLiveShortform {
     
     
     public static func close() {
+        shortsCollection?.cleanUpMemoryLeak()
+        
         DispatchQueue.main.async {
             shortformWindow?.hide()
             

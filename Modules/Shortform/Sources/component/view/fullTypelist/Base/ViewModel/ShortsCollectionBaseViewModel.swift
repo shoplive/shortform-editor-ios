@@ -10,6 +10,7 @@ import UIKit
 import ShopliveSDKCommon
 
 
+
 protocol ShortsCollectionBaseViewModelDelegate : NSObject {
     func reloadData(completion : (() -> ())?)
     func insertItemsWithOutAnimation(updateIndexPaths : [IndexPath])
@@ -23,7 +24,6 @@ protocol ShortsCollectionBaseViewModelDelegate : NSObject {
     func getCellForAt(indexPath : IndexPath) -> UICollectionViewCell?
     func getCurrentIndexPath() -> IndexPath?
 }
-
 
 class ShortsCollectionBaseViewModel {
     enum ShortsApiType {
@@ -73,6 +73,7 @@ class ShortsCollectionBaseViewModel {
         }
     }
     var shortsListData : [ShortsModel] {
+//        return originShortsListData
         return self.shortsMode == .detail ? originShortsListData : originShortsListData.filter{ $0.validate }
     }
     var hasMore: Bool {
@@ -102,7 +103,7 @@ class ShortsCollectionBaseViewModel {
     }
     var currentOverlayUrl: String? {
         guard let currentIndex = latestCell.indexPath,
-              let overlayUrl = self.getOverlayUrl(at: currentIndex, shortsModel: shortsListData[safe: currentIndex.row])  else { return nil }
+              let overlayUrl = self.getOverlayUrl(at: currentIndex, shortsModel: shortsListData[safe: currentIndex.row], isYoutube: false)  else { return nil }
         return overlayUrl.absoluteString
     }
     var currentShortsSrn: String? {
@@ -122,7 +123,7 @@ class ShortsCollectionBaseViewModel {
     //cell state
     var shortsDetailInitialized: Bool = false
     var latestActivePageIndex : Int = -1
-    var isMuted : Bool = false {
+    var isMuted : Bool = ShortFormConfigurationInfosManager.shared.shortsConfiguration.mutedWhenStart {
         didSet {
             self.postMuteShortsNotification()
             self.setLatestCellMuted(isMuted: isMuted)
@@ -152,7 +153,10 @@ class ShortsCollectionBaseViewModel {
     var horizontalCollectionBounds : CGSize = UIScreen.main.bounds.size.transpolate_SL
     
     //webviews
-    private var webViewLists :  [ String : ShopLiveShortform.PreloadWebView] = [:]
+    private var webViewLists :  [ ShopliveWebViewListKey : ShopLiveShortform.PreloadWebView] = [:]
+    private var youtubeWebViewLists : [ShopliveWebViewListKey : ShopLiveShortform.PreloadWebView] = [:]
+    private var youtubeWebViewListKeys: Set<ShopliveWebViewListKey> = []
+    
     
     init(shopliveSessionId : String?) {
         self.shopliveSessionId = shopliveSessionId
@@ -227,6 +231,16 @@ extension ShortsCollectionBaseViewModel {
               let url = URL(string: urlString) else { return }
         ImageDownLoaderManager.shared.preDownloadImage(imageUrl: url)
     }
+    
+    func preDownloadYoutubePosterImage(index : Int) {
+        if let shortsModel = shortsListData[safe : index],
+           let cardModel = shortsModel.cards?.first,
+           let playerType = cardModel.playerType, playerType == "YOUTUBE",
+           let posterUrl = cardModel.externalVideoThumbnail,
+           let url = URL(string: posterUrl) {
+            ImageDownLoaderManager.shared.preDownloadImage(imageUrl: url)
+        }
+    }
 }
 //MARK: - setter functions
 extension ShortsCollectionBaseViewModel {
@@ -240,6 +254,19 @@ extension ShortsCollectionBaseViewModel {
 }
 //MARK: - getter functions
 extension ShortsCollectionBaseViewModel {
+    
+    func getIsMuted() -> Bool {
+        return self.isMuted
+    }
+    
+    func checkIsYoutubePlayer(indexPath : IndexPath) -> Bool {
+        guard let data = shortsListData[safe : indexPath.row],
+              let playerType = data.cards?.first?.playerType else {
+            return false
+        }
+        return playerType == "YOUTUBE" ? true : false
+    }
+    
     func getShortsItemIndex(_ item : ShortsModel?) -> Int? {
         return shortsListData.firstIndex(where:  { $0 == item })
     }
@@ -275,100 +302,107 @@ extension ShortsCollectionBaseViewModel {
         return self.shopliveSessionId
     }
     
-    func getOverlayUrl(at indexPath : IndexPath, shortsModel : ShortsModel?) -> URL? {
+    func getOverlayUrl(at indexPath : IndexPath, shortsModel : ShortsModel?, isYoutube : Bool) -> URL? {
         var payload: String = ""
-        do {
-            let shortsDict = try shortsModel?.getRawDataDict()
-            var payloadDict: [String: Any] = ["shorts": shortsDict]
-            
-            if let userJWT = ShortFormAuthManager.shared.getuserJWT() {
-                payloadDict["userJWT"] = userJWT
-            }
-            else if let guestUid = ShortFormAuthManager.shared.getGuestUId() {
-                payloadDict["guestUid"] = guestUid
-            }
-            
-            if let referrer = ShortFormAuthManager.shared.getReferrer() {
-                payloadDict["referrer"] = referrer
-            }
-            
-            if let adIdentifier = ShopLiveCommon.getAdIdentifier(), !adIdentifier.isEmpty {
-                payloadDict["adIdentifier"] = adIdentifier
-            }
-            
-            if let utm_source = ShopLiveCommon.getUtmSource() {
-                payloadDict["utm_source"] = utm_source
-            }
-            
-            if let utm_content = ShopLiveCommon.getUtmContent() {
-                payloadDict["utm_content"] = utm_content
-            }
-            
-            if let utm_campaign = ShopLiveCommon.getUtmCampaign() {
-                payloadDict["utm_campaign"] = utm_campaign
-            }
-            
-            if let utm_medium = ShopLiveCommon.getUtmMedium() {
-                payloadDict["utm_medium"] = utm_medium
-            }
-            
-            
-            payloadDict["appVersion"] = UIApplication.appVersion_SL()
-            payloadDict["sdkVersion"] = ShopLiveShortform.sdkVersion
-            
-            
-            if self.viewProvideType == .view {
-                payloadDict["safeArea"] = [
-                    "top": 0,
-                    "right": 0,
-                    "bottom": 0,
-                    "left": 0
-                ]
-            }
-            else {
-                payloadDict["safeArea"] = [
-                    "top": UIScreen.topSafeArea_SL,
-                    "right": UIScreen.leftSafeArea_SL,
-                    "bottom": UIScreen.bottomSafeArea_SL,
-                    "left": UIScreen.leftSafeArea_SL
-                ]
-            }
-            
-            //튜토리얼 용 쿼리 파라미터
-            payloadDict["ids"] = self.shortsListData.compactMap({ $0.shortsId }).joined(separator: ",")
-            payloadDict["index"] = indexPath.row
-            if let startId = self.initialTargetShortsId {
-                payloadDict["startId"] = startId
-            }
-            else if let startId = self.shortsListData.first?.shortsId {
-                payloadDict["startId"] = startId
-            }
-            
-            if let shopliveSessionId = self.shopliveSessionId {
-                payloadDict["shopliveSessionId"] = shopliveSessionId
-            }
-            
-            
-            if self.viewProvideType == .window {
-                payloadDict["ui"] = ShopLiveShortform.detailWebViewViewHideOptionData.toDict()
-            }
-            else {
-                payloadDict["ui"] = ShopLiveShortform.detailWebViewViewHideOptionData.toDict(forceBackBtnVisible: false)
-            }
-            
-            ShortFormAuthManager.shared.getAkAndUserJWTasDict().forEach { payloadDict[$0.key] = $0.value }
-            
-            if let shortJson = payloadDict.toJson_SL()  {
-                payload = shortJson
-            } else {
-                return nil
-            }
-        } catch {
-            return nil
+        let shortsDict = shortsModel?.getRawDataDict()
+        var payloadDict: [String: Any] = ["shorts": shortsDict]
+        
+        if let userJWT = ShortFormAuthManager.shared.getuserJWT() {
+            payloadDict["userJWT"] = userJWT
+        }
+        else if let guestUid = ShortFormAuthManager.shared.getGuestUId() {
+            payloadDict["guestUid"] = guestUid
+        }
+        
+        if let referrer = ShortFormAuthManager.shared.getReferrer() {
+            payloadDict["referrer"] = referrer
+        }
+        
+        if let adIdentifier = ShopLiveCommon.getAdIdentifier(), !adIdentifier.isEmpty {
+            payloadDict["adIdentifier"] = adIdentifier
+        }
+        
+        if let utm_source = ShopLiveCommon.getUtmSource() {
+            payloadDict["utm_source"] = utm_source
+        }
+        
+        if let utm_content = ShopLiveCommon.getUtmContent() {
+            payloadDict["utm_content"] = utm_content
+        }
+        
+        if let utm_campaign = ShopLiveCommon.getUtmCampaign() {
+            payloadDict["utm_campaign"] = utm_campaign
+        }
+        
+        if let utm_medium = ShopLiveCommon.getUtmMedium() {
+            payloadDict["utm_medium"] = utm_medium
         }
         
         
-        let urlString: String = ShortFormConfigurationInfosManager.shared.shortsConfiguration.detailUrl
+        payloadDict["appVersion"] = UIApplication.appVersion_SL()
+        payloadDict["sdkVersion"] = ShopLiveShortform.sdkVersion
+        
+        
+        if self.viewProvideType == .view {
+            payloadDict["safeArea"] = [
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+            ]
+        }
+        else {
+            payloadDict["safeArea"] = [
+                "top": UIScreen.topSafeArea_SL,
+                "right": UIScreen.leftSafeArea_SL,
+                "bottom": UIScreen.bottomSafeArea_SL,
+                "left": UIScreen.leftSafeArea_SL
+            ]
+        }
+        
+        //튜토리얼 용 쿼리 파라미터
+        payloadDict["ids"] = self.shortsListData.compactMap({ $0.shortsId }).joined(separator: ",")
+        payloadDict["index"] = indexPath.row
+        if let startId = self.initialTargetShortsId {
+            payloadDict["startId"] = startId
+        }
+        else if let startId = self.shortsListData.first?.shortsId {
+            payloadDict["startId"] = startId
+        }
+        
+        if let shopliveSessionId = self.shopliveSessionId {
+            payloadDict["shopliveSessionId"] = shopliveSessionId
+        }
+        
+        
+        if self.viewProvideType == .window {
+            payloadDict["ui"] = ShopLiveShortform.detailWebViewViewHideOptionData.toDict()
+        }
+        else {
+            payloadDict["ui"] = ShopLiveShortform.detailWebViewViewHideOptionData.toDict(forceBackBtnVisible: false)
+        }
+        
+        if let youtubeId = shortsModel?.cards?.first?.externalVideoId {
+            payloadDict["youtubeId"] = youtubeId
+        }
+        
+        ShortFormAuthManager.shared.getAkAndUserJWTasDict().forEach { payloadDict[$0.key] = $0.value }
+        
+        if let shortJson = payloadDict.toJson_SL()  {
+            payload = shortJson
+        } else {
+            return nil
+        }
+        
+        let urlString : String
+        
+        if isYoutube {
+            urlString = ShortFormConfigurationInfosManager.shared.shortsConfiguration.youtubeUrl
+        }
+        else {
+            urlString = ShortFormConfigurationInfosManager.shared.shortsConfiguration.detailUrl
+        }
+        
         let urlComponents = URLComponents(string: urlString)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
         
@@ -392,7 +426,7 @@ extension ShortsCollectionBaseViewModel {
     func updateWebViewPoolForReconnection(currentIndex : IndexPath) {
         guard let data = shortsListData[safe : currentIndex.row],
               let shortsId = data.shortsId,
-              let webview = self.webViewLists[shortsId] else { return }
+              let webview = self.webViewLists[ShopliveWebViewListKey(shortsId: shortsId, indexPath: currentIndex)] else { return }
         webview.loadWebView()
     }
     
@@ -400,25 +434,50 @@ extension ShortsCollectionBaseViewModel {
         indexPath.forEach { indexpath in
             guard let data = shortsListData[safe : indexpath.row] else { return }
             guard let shortsId = data.shortsId else { return }
-            if webViewLists[shortsId] == nil {
-                if let url = getOverlayUrl(at: indexpath, shortsModel: data) {
-                    let webView = ShopLiveShortform.PreloadWebView()
-                    webView.url = url.absoluteString
-                    webView.loadWebView()
-                    webViewLists[shortsId] = webView
+            let webViewListKey = ShopliveWebViewListKey(shortsId: shortsId, indexPath: indexpath)
+            guard  webViewLists[webViewListKey] == nil else { return }
+            if let url = getOverlayUrl(at: indexpath, shortsModel: data,isYoutube: false) {
+                let webView = ShopLiveShortform.PreloadWebView()
+                webView.url = url.absoluteString
+                webView.loadWebView()
+                webViewLists[webViewListKey] = webView
+                if let playerType = data.cards?.first?.playerType, playerType == "YOUTUBE" {
+                    self.appendYoutubeWebViewList(webViewListKey: webViewListKey,shortsModel: data)
                 }
             }
+        }
+    }
+    
+    private func appendYoutubeWebViewList(webViewListKey : ShopliveWebViewListKey, shortsModel : ShortsModel?) {
+        if let url = getOverlayUrl(at: webViewListKey.indexPath, shortsModel: shortsModel,isYoutube: true) {
+            guard youtubeWebViewLists[webViewListKey] == nil else { return }
+            let webView = ShopLiveShortform.PreloadWebView()
+            webView.url = url.absoluteString
+            webView.loadWebView()
+            youtubeWebViewLists[webViewListKey] = webView
+            youtubeWebViewListKeys.insert(webViewListKey)
         }
     }
     
     func deleteWebViewsWhenCellDidEndDisplaying(indexPath : IndexPath) {
         guard let data = shortsListData[safe : indexPath.row] else { return }
         guard let shortsId = data.shortsId else { return }
-        self.webViewLists.removeValue(forKey: shortsId)
+        let webViewListKey = ShopliveWebViewListKey(shortsId: shortsId, indexPath: indexPath)
+        self.webViewLists.removeValue(forKey: webViewListKey)
+        
+        //youtube의 경우는 좀 느려서 현재 없어지는 index기준으로 위아래로 3 ~ 4개씩은 들고 있는 걸로
+        let minYtIndex : Int = max(0,indexPath.row - 4)
+        let maxYtIndex : Int = min(indexPath.row + 4, shortsListData.count - 1)
+        
+        youtubeWebViewListKeys.forEach { key in
+            if key.indexPath.row < minYtIndex || key.indexPath.row > maxYtIndex {
+                self.youtubeWebViewLists.removeValue(forKey: key)
+            }
+        }
     }
     
-    func getWebview(for shortsId : String) -> SLWebView {
-        if let webView = self.webViewLists[shortsId] {
+    func getWebview(for shortsId : String, indexPath : IndexPath) -> SLWebView {
+        if let webView = self.webViewLists[ShopliveWebViewListKey(shortsId: shortsId, indexPath: indexPath)] {
             return webView.webview
         }
         else {
@@ -426,9 +485,20 @@ extension ShortsCollectionBaseViewModel {
         }
     }
     
+    func getYoutubePlayerView(for shortsId : String, indexPath : IndexPath) -> SLWebView? {
+        if let webView = self.youtubeWebViewLists[ShopliveWebViewListKey(shortsId: shortsId, indexPath: indexPath)] {
+            return webView.webview
+        }
+        else {
+            return nil
+        }
+    }
+    
     func removeAllWebViewLists(){
         self.webViewLists.removeAll()
+        self.youtubeWebViewLists.removeAll()
     }
+    
 }
 //MARK: - Notifications
 extension ShortsCollectionBaseViewModel {

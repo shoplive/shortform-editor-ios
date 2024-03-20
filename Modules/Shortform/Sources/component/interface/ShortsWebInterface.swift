@@ -58,6 +58,10 @@ extension ShopLiveShortform {
             
             case REQUEST_CLIENT_VERSION
             
+            //youtube 전용
+            case SDK_YOUTUBE_PLAYER_SUPPORT
+            
+            
             private var key: String {
                 return self.rawValue
             }
@@ -92,6 +96,18 @@ extension ShopLiveShortform {
             case ON_CHANGED_SESSION_INFO
             case ON_VIDEO_LOOPED
             
+            //youtube 전용
+            case SDK_YTP_PLAY_VIDEO
+            case SDK_YTP_PAUSE_VIDEO
+            case SDK_YTP_MUTE
+            case SDK_YTP_UNMUTE
+            case SDK_YTP_GET_IS_MUTED
+            case SDK_YTP_GET_PLAYER_STATE
+            case SDK_YTP_GET_CURRENT_TIME
+            case SDK_YTP_GET_DURATION
+            case SDK_YTP_DESTROY_AND_RELOAD
+            case SDK_YTP_SEEK_TO
+            
             private var key: String {
                 return self.rawValue
             }
@@ -100,6 +116,16 @@ extension ShopLiveShortform {
                 guard let webInterface = SdkToWeb.allCases.filter({ $0.key == rawValue }).first else { return nil }
                 self = webInterface
             }
+        }
+        
+        enum YoutubeToSdk : String {
+            case SDK_YTP_ON_PLAYER_READY
+            case SDK_YTP_ON_PLAYER_STATE_CHANGE
+            case SDK_YTP_ON_ERROR
+            case SDK_YTP_GET_IS_MUTED
+            case SDK_YTP_GET_PLAYER_STATE
+            case SDK_YTP_GET_CURRENT_TIME
+            case SDK_YTP_GET_DURATION
         }
     }
     

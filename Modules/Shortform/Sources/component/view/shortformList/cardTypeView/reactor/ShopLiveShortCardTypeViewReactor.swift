@@ -91,8 +91,6 @@ final class ShopLiveShortCardTypeViewReactor : NSObject, SLReactor {
     }
     private var shopliveSessionId : String?
     
-    
-    
     override init(){
         super.init()
         self.handleNetworkMonitorResult()
@@ -183,6 +181,7 @@ final class ShopLiveShortCardTypeViewReactor : NSObject, SLReactor {
     private func setCollectionView(cv : UICollectionView){
         self.collectionView = cv
         cv.dataSource = self
+        cv.prefetchDataSource = self
         cv.delegate = self
         cv.register(ShopLiveShortformCardViewCell.self, forCellWithReuseIdentifier: ShopLiveShortformCardViewCell.cellId)
         cv.reloadData()
@@ -234,8 +233,8 @@ final class ShopLiveShortCardTypeViewReactor : NSObject, SLReactor {
     }
     
 }
-extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ShopliveShortformListViewCellDelegate {
-    
+extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDataSourcePrefetching, ShopliveShortformListViewCellDelegate {
+   
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -264,6 +263,18 @@ extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollect
         var brand = shortsDetailModel.brand?.name ?? ""
         brand = brand.replacingOccurrences(of: " ", with: "\u{00A0}")
         
+        var youtubeWebView : SLWebView? = nil
+        if let shortsId = model.shortsId {
+            youtubeWebView = getYoutubeWebView(for: indexPath)
+        }
+        
+        var posterImageUrl : String? = cardModel.screenshotUrl
+        if let playerType = cardModel.playerType, playerType == "YOUTUBE",
+           let externalVideoThumbnail = cardModel.externalVideoThumbnail {
+            posterImageUrl = externalVideoThumbnail
+        }
+        
+        
         cell.configureCell(title: title,
                            description: description,
                            userThumbnail: shortsDetailModel.brand?.imageUrl ?? "",
@@ -271,12 +282,15 @@ extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollect
                            productModel: shortsDetailModel.products?.first,
                            productCount: productCount,
                            viewCount: viewCount,
-                           posterImageUrl: cardModel.screenshotUrl,
+                           posterImageUrl: posterImageUrl,
                            videoURL: videoUrl,
+                           youtubeWebView: youtubeWebView,
                            currentMediaType: cardModel.cardType ?? "VIDEO",
                            viewHideOption: self.cellViewHideOptionModel,
                            cellCornerRadius: cellRadius,
-                           backgroundColor: currentCellBackgroundColor)
+                           backgroundColor: currentCellBackgroundColor,
+                           currentSrn: model.srn)
+        
         
         cell.currentReference = model.reference ?? ""
         
@@ -305,6 +319,7 @@ extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollect
     }
     
     
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         return cellSize
@@ -325,6 +340,7 @@ extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        warmUpYoutubePlayer(for: indexPath)
         if indexPath.row == (self.shortsListModel.count - 1) && serverHasMoreContent && isLoadingMoreContents == false {
             isLoadingMoreContents = true
             throttle.callAsFunction { [weak self] in
@@ -333,6 +349,10 @@ extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollect
                 
             }
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+//        self.loadYoutubeView(for: indexPaths)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -349,6 +369,13 @@ extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollect
         resultHandler?(.onError(error))
     }
     
+    private func getYoutubeWebView(for indexPath : IndexPath) -> SLWebView? {
+        guard let data = shortsListModel[safe : indexPath.row],
+              let url = ShopLiveShortformListYoutubeUrlGenerator.getYoutubeUrl(shortsModel: data) else { return nil }
+        let webView = SLWebView()
+        webView.load(URLRequest(url: url))
+        return webView
+    }
 }
 extension ShopLiveShortCardTypeViewReactor {
     

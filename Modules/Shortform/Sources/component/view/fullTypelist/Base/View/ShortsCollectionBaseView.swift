@@ -243,6 +243,12 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
         viewModel.setShopLiveSessionId(sessionId: sessionId)
     }
     
+    func cleanUpMemoryLeak() {
+        (self.shortsListView.visibleCells as? [ShortsCell])?.forEach({ cell in
+            cell.cleanUpMemory()
+        })
+    }
+    
 }
 extension ShortsCollectionBaseView {
     func getPreviewEventTraceSrn() -> String? {
@@ -367,25 +373,30 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
             latestCell.reloadWebView()
             return latestCell
         }
-        let cell2 = collectionView.dequeueReusableCell(withReuseIdentifier: ShortsCell.cellId, for: indexPath) as! ShortsCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShortsCell.cellId, for: indexPath) as! ShortsCell
+        
+        
+        
         
         if let data = viewModel.shortsListData[safe : indexPath.row] {
-            cell2.configureCell(webView: viewModel.getWebview(for: data.shortsId ?? ""),
+            cell.configureCell(webView: viewModel.getWebview(for: data.shortsId ?? "",indexPath: indexPath),
+                                youtubeWebView: viewModel.getYoutubePlayerView(for: data.shortsId ?? "", indexPath: indexPath),
                                 model: data,
                                 delegate: self,
                                 indexPath: indexPath,
                                 viewProvideype: viewModel.viewProvideType,
                                 shopliveSessionId: viewModel.getCurrentShopliveSessionId(),
                                 shortsMode: viewModel.shortsMode,
-                                isLandScape: UIScreen.isLandscape_SL)
+                                isLandScape: UIScreen.isLandscape_SL,
+                                isMute: viewModel.getIsMuted())
         }
         
         if viewModel.didAnimatePreviewToFullScreen && indexPath.row == 0 {
             viewModel.didAnimatePreviewToFullScreen = false
-            cell2.play(skipIfPaused: false)
+            cell.play(skipIfPaused: false)
         }
         
-        return cell2
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -401,8 +412,8 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
             if self.viewModel.shortsMode != .preview && cell.isWebViewExist() == false {
                 cell.reloadWebView()
             }
+            cell.setMute(viewModel.isMuted)
         }
-        (cell as? ShortsCell)?.setMute(viewModel.isMuted)
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -420,6 +431,7 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         indexPaths.map{ $0.row }.forEach { index in
             viewModel.preDownlaodPosterImage(index: index)
+            viewModel.preDownloadYoutubePosterImage(index: index)
         }
         viewModel.loadWebViewsFor(indexPath: indexPaths)
     }

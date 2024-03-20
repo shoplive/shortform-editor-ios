@@ -95,7 +95,4 @@ public class ShortFormConfigurationInfosManager {
     func setWhenMutedStart(isMuted : Bool){
         self.shortsConfiguration.mutedWhenStart = isMuted
     }
-    
-    
-    
 }

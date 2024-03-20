@@ -238,11 +238,9 @@ open class SLPhotosPickerViewController: UIViewController {
     private func checkAuthorization() {
         if #available(iOS 14.0, *) {
             let status = PHPhotoLibrary.authorizationStatus(for:  .readWrite)
-            print("[HASSAN LOG] status \(status)")
             processAlbumAccessAuthorization(status: status)
         } else {
             let status = PHPhotoLibrary.authorizationStatus()
-            print("[HASSAN LOG] status \(status)")
             processAlbumAccessAuthorization(status: status)
         }
     }

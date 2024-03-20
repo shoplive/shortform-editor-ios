@@ -101,9 +101,30 @@ final class ShopLiveShortformBaseListTypeViewCell : UICollectionViewCell {
     
     
     
-    func configureCell(title : String,userThumbnail : String, userName : String, productModel : Product?, productCount : Int, viewCount : String, posterImageUrl : String?, videoURL : String?, currentMediaType : String, viewHideOption : ShopLiveListCellViewHideOptionModel, cellCornerRadius : CGFloat,backgroundColor : UIColor?){
+    func configureCell(title : String,
+                       userThumbnail : String,
+                       userName : String,
+                       productModel : Product?,
+                       productCount : Int,
+                       viewCount : String,
+                       posterImageUrl : String?,
+                       videoURL : String?,
+                       youtubeWebView : SLWebView?,
+                       currentMediaType : String,
+                       viewHideOption : ShopLiveListCellViewHideOptionModel,
+                       cellCornerRadius : CGFloat,
+                       backgroundColor : UIColor?,
+                       currentSrn : String?){
         self.currentMediaType = currentMediaType
-        basicCardView.setContents(viewCount: viewCount, posterImageUrl: posterImageUrl, videoUrl: videoURL, currentMediaType: currentMediaType,viewHideOption : viewHideOption,cornerRadius: cellCornerRadius,backgroundColor: backgroundColor)
+        basicCardView.setContents(viewCount: viewCount,
+                                  posterImageUrl: posterImageUrl,
+                                  videoUrl: videoURL,
+                                  youtubeWebView: youtubeWebView,
+                                  currentMediaType: currentMediaType,
+                                  viewHideOption : viewHideOption,
+                                  cornerRadius: cellCornerRadius,
+                                  backgroundColor: backgroundColor,
+                                  currentSrn: currentSrn)
         
         if let cardView1 = cardViewType1 {
             cardView1.setContent(productBannerModel: productModel,viewHideOption: viewHideOption)
@@ -136,7 +157,6 @@ final class ShopLiveShortformBaseListTypeViewCell : UICollectionViewCell {
                 userNameLabel.text = userName
             }
             if let url = URL(string: userThumbnail) {
-//                userImage.image = UIImage(named: "ic_shoplive_user-fill")
                 userImage.image = ShopLiveShortformSDKAsset.slIcShopliveUserFill.image
                 ImageDownLoaderManager.shared.download(imageUrl: url) { [weak self] result in
                     guard let self = self else { return }

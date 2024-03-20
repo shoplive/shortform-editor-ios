@@ -81,7 +81,6 @@ class LandingSelectBox : UIView {
         return label
     }()
     
-    
     private var realBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -105,6 +104,53 @@ class LandingSelectBox : UIView {
         return label
     }()
     
+    private var qa11stnBtn : UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("11번가QA", for: .normal)
+        btn.setTitleColor(UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0), for: .normal)
+        btn.setTitleColor(.white, for: .selected)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        btn.backgroundColor = .white
+        btn.layer.cornerRadius = 10
+        btn.layer.borderColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0).cgColor
+        btn.layer.borderWidth = 1
+        btn.tag = 4
+        return btn
+    }()
+    
+    private var qa11stLabel : UILabel = {
+        let label = UILabel()
+        label.text = "RwZi6T7V8NiUScKvlh4W"
+        label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        label.textColor = .black
+        return label
+    }()
+
+    
+    private var qa11stDevBtn : UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("11번가DEV", for: .normal)
+        btn.setTitleColor(UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0), for: .normal)
+        btn.setTitleColor(.white, for: .selected)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        btn.backgroundColor = .white
+        btn.layer.cornerRadius = 10
+        btn.layer.borderColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0).cgColor
+        btn.layer.borderWidth = 1
+        btn.tag = 5
+        return btn
+    }()
+    
+    private var qa11stDevLabel : UILabel = {
+        let label = UILabel()
+        label.text = "cbGFbQ8JoIupsWrOKdcu"
+        label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        label.textColor = .black
+        return label
+    }()
+    
     private var customBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -116,7 +162,7 @@ class LandingSelectBox : UIView {
         btn.layer.cornerRadius = 10
         btn.layer.borderColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0).cgColor
         btn.layer.borderWidth = 1
-        btn.tag = 4
+        btn.tag = 6
         return btn
     }()
     
@@ -155,6 +201,8 @@ class LandingSelectBox : UIView {
         qaBtn.addTarget(self, action: #selector(btnTapped(sender: )), for: .touchUpInside)
         realBtn.addTarget(self, action: #selector(btnTapped(sender: )), for: .touchUpInside)
         customBtn.addTarget(self, action: #selector(btnTapped(sender: )), for: .touchUpInside)
+        qa11stnBtn.addTarget(self, action: #selector(btnTapped(sender: )), for: .touchUpInside)
+        qa11stDevBtn.addTarget(self, action: #selector(btnTapped(sender: )), for: .touchUpInside)
         
     }
     
@@ -170,13 +218,18 @@ class LandingSelectBox : UIView {
         stageBtn.isSelected = sender.tag == 1
         qaBtn.isSelected = sender.tag == 2
         realBtn.isSelected = sender.tag == 3
-        customBtn.isSelected = sender.tag == 4
+        qa11stnBtn.isSelected = sender.tag == 4
+        qa11stDevBtn.isSelected = sender.tag == 5
+        customBtn.isSelected = sender.tag == 6
+        
         
         devBtn.backgroundColor = sender.tag == 0 ? selectedBtnbackgroundColor : normalBtnbackgroundColor
         stageBtn.backgroundColor = sender.tag == 1 ? selectedBtnbackgroundColor : normalBtnbackgroundColor
         qaBtn.backgroundColor = sender.tag == 2 ? selectedBtnbackgroundColor : normalBtnbackgroundColor
         realBtn.backgroundColor = sender.tag == 3 ? selectedBtnbackgroundColor : normalBtnbackgroundColor
-        customBtn.backgroundColor = sender.tag == 4 ? selectedBtnbackgroundColor : normalBtnbackgroundColor
+        qa11stnBtn.backgroundColor = sender.tag == 4 ? selectedBtnbackgroundColor : normalBtnbackgroundColor
+        qa11stDevBtn.backgroundColor = sender.tag == 5 ? selectedBtnbackgroundColor : normalBtnbackgroundColor
+        customBtn.backgroundColor = sender.tag == 6 ? selectedBtnbackgroundColor : normalBtnbackgroundColor
         
         switch sender.tag {
         case 0:
@@ -188,6 +241,10 @@ class LandingSelectBox : UIView {
         case 3:
             self.selectedAccessKey = realLabel.text ?? ""
         case 4:
+            self.selectedAccessKey = qa11stLabel.text ?? ""
+        case 5:
+            self.selectedAccessKey = qa11stDevLabel.text ?? ""
+        case 5:
             self.selectedAccessKey = customTextField.text ?? ""
         default:
             break
@@ -206,7 +263,13 @@ class LandingSelectBox : UIView {
             return  qaLabel.text ?? ""
         }
         else if realBtn.isSelected == true {
-            return  realLabel.text ?? ""
+            return realLabel.text ?? ""
+        }
+        else if qa11stnBtn.isSelected == true {
+            return qa11stLabel.text ?? ""
+        }
+        else if qa11stDevBtn.isSelected == true {
+            return qa11stDevLabel.text ?? ""
         }
         else if customBtn.isSelected == true {
             let result = customTextField.text ?? ""
@@ -240,13 +303,23 @@ extension LandingSelectBox {
         realStack.axis = .horizontal
         realStack.spacing = 10
         
+        let qa11Stack = UIStackView(arrangedSubviews: [qa11stnBtn,qa11stLabel])
+        qa11Stack.translatesAutoresizingMaskIntoConstraints = false
+        qa11Stack.axis = .horizontal
+        qa11Stack.spacing = 10
+        
+        let qa11stDevStack = UIStackView(arrangedSubviews: [qa11stDevBtn,qa11stDevLabel])
+        qa11stDevStack.translatesAutoresizingMaskIntoConstraints = false
+        qa11stDevStack.axis = .horizontal
+        qa11stDevStack.spacing = 10
+        
         let customStack = UIStackView(arrangedSubviews: [customBtn,customTextField])
         customStack.translatesAutoresizingMaskIntoConstraints = false
         customStack.axis = .horizontal
         customStack.spacing = 10
         
         
-        let wholeStack = UIStackView(arrangedSubviews: [devStack,stageStack,qaStack,realStack,customStack])
+        let wholeStack = UIStackView(arrangedSubviews: [devStack,stageStack,qaStack,realStack,qa11Stack,qa11stDevStack,customStack])
         wholeStack.translatesAutoresizingMaskIntoConstraints = false
         wholeStack.axis = .vertical
         wholeStack.spacing = 10
@@ -259,12 +332,16 @@ extension LandingSelectBox {
             stageBtn.widthAnchor.constraint(equalToConstant: 120),
             qaBtn.widthAnchor.constraint(equalToConstant: 120),
             realBtn.widthAnchor.constraint(equalToConstant: 120),
+            qa11stnBtn.widthAnchor.constraint(equalToConstant: 120),
+            qa11stDevBtn.widthAnchor.constraint(equalToConstant: 120),
             customBtn.widthAnchor.constraint(equalToConstant: 120),
-            
+
             devStack.heightAnchor.constraint(equalToConstant: 30),
             stageStack.heightAnchor.constraint(equalToConstant: 30),
             qaStack.heightAnchor.constraint(equalToConstant: 30),
             realStack.heightAnchor.constraint(equalToConstant: 30),
+            qa11Stack.heightAnchor.constraint(equalToConstant: 30),
+            qa11stDevStack.heightAnchor.constraint(equalToConstant: 30),
             customStack.heightAnchor.constraint(equalToConstant: 30),
             
             wholeStack.topAnchor.constraint(equalTo: self.topAnchor),

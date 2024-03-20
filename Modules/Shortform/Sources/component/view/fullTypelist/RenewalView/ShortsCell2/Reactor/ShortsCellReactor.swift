@@ -11,6 +11,10 @@ import AVKit
 import VideoToolbox
 import ShopliveSDKCommon
 
+protocol ShortsCellReactorDelegate : AnyObject {
+    func getCurrentOnViewIndexPath() -> IndexPath?
+}
+
 class ShortsCellReactor : NSObject, SLReactor {
     typealias WebToSdk = ShopLiveShortform.ShortsWebInterface.WebToSdk
     typealias SdkToWeb = ShopLiveShortform.ShortsWebInterface.SdkToWeb
@@ -49,11 +53,18 @@ class ShortsCellReactor : NSObject, SLReactor {
         case handleDeviceRotation(isLandscape : Bool)
         case requestSnapShot(String?)
         case requestSnapShotForWindow(String?)
+        
+        case invalidateGetYoutubeCurrentTimer
     }
     
     enum Result {
         case setPosterImage(UIImage?)
+        case setYoutubePosterImage(UIImage?)
+        case hideYoutubePosterImage(Bool)
+        
         case requestEvaluateJS([JSRequest])
+        case requestYoutubePlayerEvaluateJS([JSRequest])
+        
         case requestEvaluateJSForExternalWebView([JSRequest])
         case requestVideoDuration
         
@@ -69,6 +80,8 @@ class ShortsCellReactor : NSObject, SLReactor {
         case requestStopVideo
         case requestReplayVideo
         case requestSeekToTime(CMTime)
+        case requestHideVideoPlayer(Bool)
+        case requestHideYoutubePlayer(Bool)
         
         case didFinishPlayingVideo
         
@@ -80,6 +93,7 @@ class ShortsCellReactor : NSObject, SLReactor {
         case setWebViewIsHidden(Bool)
         case invalidateLayout
         case setVideoLayerGravity(AVLayerVideoGravity)
+        case scrollToNextCell(ShortsModel?)
     }
     
     //data
@@ -112,10 +126,19 @@ class ShortsCellReactor : NSObject, SLReactor {
     private var isReadyToPlay : Bool = false
     
     
+    lazy private var ytCommandReactor = ShortsCellYoutubeCommandReactor(delegate: self)
+    
     var resultHandler: ((Result) -> ())?
     
+    weak var delegate : ShortsCellReactorDelegate?
+    
+    override init(){
+        super.init()
+        bindYoutubeCommandReactor()
+    }
     
     deinit {
+        ytCommandReactor.action( .invalidateTimer )
         ShopLiveLogger.debugLog("shortscellreactor deinited")
     }
     
@@ -168,28 +191,60 @@ class ShortsCellReactor : NSObject, SLReactor {
             self.onRequestSnapShot(srn: srn)
         case .requestSnapShotForWindow(let srn):
             self.onRequestSnapShotFormWindow(srn: srn)
+        case .invalidateGetYoutubeCurrentTimer:
+            self.onInvalidateYoutubeTimer()
         }
     }
     
     private func onInitializeCell() {
-        self.isReadyToPlay = false
-        if let currentVideoUrl = currentVideoUrl, let videoUrl = URL(string: currentVideoUrl) {
-            resultHandler?( .setVideoPlayer(videoUrl) )
+        if getIsYoutubePlayer() {
+            if let cardModel = shortsModel?.cards?.first,
+               let playerType = cardModel.playerType, playerType == "YOUTUBE",
+               let youtubeId = shortsModel?.cards?.first?.externalVideoId,
+               let posterUrl = URL(string: "https://i.ytimg.com/vi/\(youtubeId)/sddefault.jpg") {
+                ImageDownLoaderManager.shared.download(imageUrl: posterUrl) { [weak self] result  in
+                    switch result {
+                    case .success(let data):
+                        self?.resultHandler?( .setYoutubePosterImage(UIImage(data: data)) )
+                    case .failure(_):
+                        break
+                    }
+                }
+            }
+            if let youtubeId = shortsModel?.cards?.first?.externalVideoId {
+                ytCommandReactor.action( .setCurrentYoutubeId(youtubeId) )
+            }
+            resultHandler?( .hideYoutubePosterImage(false) )
+            resultHandler?( .requestHideVideoPlayer(true) )
+            resultHandler?( .requestStopVideo )
+            resultHandler?( .requestHideYoutubePlayer(false) )
+            ytCommandReactor.action( .resetYoutubeCurrentState )
+            ytCommandReactor.action( .setCurrentSrn(currentSrn) )
+            ytCommandReactor.action( .setCurrentIndexPath(currentIndexPath) )
         }
-        let videoGravity : AVLayerVideoGravity = UIDevice.current.userInterfaceIdiom == .pad ? .resizeAspect : .resizeAspectFill
-        resultHandler?( .setVideoLayerGravity(videoGravity) )
-        
-        if let urlString = shortsModel?.cards?.first?.screenshotUrl, let url = URL(string: urlString) {
-            ImageDownLoaderManager.shared.download(imageUrl: url) { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .success(let data):
-                    self.resultHandler?( .setPosterImage(UIImage(data: data)) )
-                case .failure(_):
-                    break
+        else {
+            self.isReadyToPlay = false
+            resultHandler?( .hideYoutubePosterImage(true) )
+            resultHandler?( .requestHideVideoPlayer(false) )
+            resultHandler?( .requestHideYoutubePlayer(true) )
+            if let currentVideoUrl = currentVideoUrl, let videoUrl = URL(string: currentVideoUrl) {
+                resultHandler?( .setVideoPlayer(videoUrl) )
+            }
+            let videoGravity : AVLayerVideoGravity = UIDevice.current.userInterfaceIdiom == .pad ? .resizeAspect : .resizeAspectFill
+            resultHandler?( .setVideoLayerGravity(videoGravity) )
+            if let urlString = shortsModel?.cards?.first?.screenshotUrl, let url = URL(string: urlString) {
+                ImageDownLoaderManager.shared.download(imageUrl: url) { [weak self] result in
+                    guard let self = self else { return }
+                    switch result {
+                    case .success(let data):
+                        self.resultHandler?( .setPosterImage(UIImage(data: data)) )
+                    case .failure(_):
+                        break
+                    }
                 }
             }
         }
+        ytCommandReactor.action( .setCurrentShortsMode(self.shortsMode) )
     }
     
     private func onSetWebViewUrl(url : URL) {
@@ -206,7 +261,7 @@ class ShortsCellReactor : NSObject, SLReactor {
     
     private func onSetIsMuted(isMuted : Bool) {
         self.isMuted = isMuted
-        self.sendMuteStateToWeb()
+        sendMuteStateToWebOrYoutube()
     }
     
     private func onSetAppState(srn : String?, state : String) {
@@ -239,9 +294,13 @@ class ShortsCellReactor : NSObject, SLReactor {
             self.sendActivePageToWeb(srn: srn, previousSrn : previousSrn)
         }
         
-        if isReadyToPlay == true && isActive == true && (isPausedByUser == false || shortsMode == .preview ) {
+        if isReadyToPlay == true && isActive == true && (isPausedByUser == false || shortsMode == .preview ) && getIsYoutubePlayer() == false {
             resultHandler?( .requestPlayVideo )
         }
+        else if getIsYoutubePlayer() == true {
+            resultHandler?( .requestStopVideo )
+        }
+        
     }
     
     private func onChangedShortsItemTimeControlStatus(status : AVPlayer.TimeControlStatus) {
@@ -304,23 +363,53 @@ class ShortsCellReactor : NSObject, SLReactor {
             return
         }
         isPausedByUser = false
-        self.sendMuteStateToWeb()
-        resultHandler?( .requestPlayVideo )
+        if getIsYoutubePlayer() {
+            if ytCommandReactor.isPlayerOnError() {
+                ytCommandReactor.action( .destroyAndReload )
+            }
+            else if ytCommandReactor.isPlayerReady() {
+                sendMuteStateToWebOrYoutube()
+                ytCommandReactor.action( .playVideo )
+            }
+        }
+        else {
+            sendMuteStateToWebOrYoutube()
+            resultHandler?( .requestPlayVideo )
+        }
     }
     
     private func onPause() {
         isPausedByUser = true
-        resultHandler?( .requestPauseVideo )
+        if getIsYoutubePlayer() {
+            ytCommandReactor.action( .pauseVideo )
+        }
+        else {
+            resultHandler?( .requestPauseVideo )
+        }
+        
     }
     
     private func onStop() {
         isPausedByUser = true
-        resultHandler?( .requestStopVideo )
+        if getIsYoutubePlayer() {
+            resultHandler?( .hideYoutubePosterImage(false))
+            ytCommandReactor.action( .seekTo(0) )
+            ytCommandReactor.action( .pauseVideo )
+            ytCommandReactor.action( .invalidateTimer )
+        }
+        else {
+            resultHandler?( .requestStopVideo )
+        }
     }
     
     private func onReplay() {
         isPausedByUser = false
-        resultHandler?( .requestReplayVideo )
+        if getIsYoutubePlayer() {
+            ytCommandReactor.action( .seekTo(0) )
+        }
+        else {
+            resultHandler?( .requestReplayVideo )
+        }
     }
     
     private func onHandleDeviceRotation(isLandscape : Bool) {
@@ -353,6 +442,81 @@ class ShortsCellReactor : NSObject, SLReactor {
         guard let currentSrn = self.currentSrn,
               let srn = srn , srn == currentSrn else { return }
         resultHandler?( .requestSnapShotForWindow )
+    }
+    
+    private func onInvalidateYoutubeTimer() {
+        ytCommandReactor.action( .invalidateTimer )
+    }
+}
+//MARK: - YoutubeCommandReactor
+extension ShortsCellReactor {
+    private func bindYoutubeCommandReactor() {
+        ytCommandReactor.resultHandler = { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .onVideoDurationChanged(let duration):
+                self.onYTCommandReactorOnVideoDurationChanged(duration: duration)
+            case .onVideoLoopEvent:
+                self.onYTCommandReactorOnVideoLoopEvent()
+            case .onVideoTimeUpdate(let currentTime):
+                self.onYTCommandReactorOnVideoTimeUpdate(currentTime: currentTime)
+            case .requestEvaluateJS(let jsRequestList):
+                self.onYTCommandReactorRequestEvaluateJS(requestList: jsRequestList)
+            case .stateChangedToPlay:
+                self.onYTCommandReactorStateChangedToPlay()
+            case .stateChangedToPause:
+                break
+            case .sendVideoMuteToWeb(let isMute):
+                onYTCommandReactorSendVideoMuteToWeb(isMute: isMute)
+            case .scrollToNextCell:
+                self.onYTCommandReactorScrollToNextCell()
+            case .hideThumbnail(let hide):
+                self.onYTCommandReactorHideThumbnail(hide: hide)
+            }
+        }
+    }
+    
+    private func onYTCommandReactorOnVideoDurationChanged(duration : Double) {
+        self.sendVideoDurationChanged(duration: duration)
+    }
+    
+    private func onYTCommandReactorOnVideoLoopEvent() {
+        self.sendVideoLoopedToWeb()
+    }
+    
+    private func onYTCommandReactorOnVideoTimeUpdate(currentTime : Double) {
+        self.sendVideoTimeUpdated(time: currentTime)
+    }
+    
+    private func onYTCommandReactorRequestEvaluateJS(requestList : [JSRequest]) {
+        resultHandler?( .requestYoutubePlayerEvaluateJS(requestList) )
+    }
+    
+    private func onYTCommandReactorStateChangedToPlay() {
+        resultHandler?( .hideYoutubePosterImage(true) )
+        sendMuteStateToWebOrYoutube()
+    }
+    
+    private func onYTCommandReactorSendVideoMuteToWeb(isMute : Bool) {
+        self.isMuted = isMute
+        sendMuteStateToWebOrYoutube()
+    }
+    
+    private func onYTCommandReactorScrollToNextCell() {
+        resultHandler?( .scrollToNextCell(self.shortsModel) )
+    }
+    
+    private func onYTCommandReactorHideThumbnail(hide : Bool) {
+        resultHandler?( .hideYoutubePosterImage(hide) )
+    }
+}
+//MARK: - not classified functions 잡부 느낌의 함수는 여기에 넣어주세요
+extension ShortsCellReactor {
+    private func sendMuteStateToWebOrYoutube() {
+        if getIsYoutubePlayer() {
+            ytCommandReactor.action( .sendMuteState(isMute: isMuted) )
+        }
+        self.sendMuteStateToWeb()
     }
 }
 //MARK: - webView Event handler
@@ -388,6 +552,12 @@ extension ShortsCellReactor {
             self.onRequestClientVersion()
         case .CLOSE_SHORTFORM_DETAIL:
             self.onCloseShortformDetail()
+        
+            //youtube
+        case .SDK_YOUTUBE_PLAYER_SUPPORT:
+            self.onYoutubePlayerSupport(payload: payload, isMute: isMuted, isActive: isActive, isPausedByUser: isPausedByUser, isPaused: isPaused)
+        case .SET_VIDEO_MUTE:
+            self.onSetVideoMute(payload: payload)
         default:
             break
         }
@@ -421,7 +591,7 @@ extension ShortsCellReactor {
     
     private func onShortformDetailInitialized() {
         sendSafeAreaInfoToWeb()
-        sendMuteStateToWeb()
+        sendMuteStateToWebOrYoutube()
     }
     
     private func onPlayShortformDetail(payload : [String : Any]?) {
@@ -459,21 +629,38 @@ extension ShortsCellReactor {
     }
     
     private func onPlayVideo() {
-        resultHandler?( .requestPlayVideo )
-    }
-    
-    private func onSetVideoPause(payload : [String : Any]?) {
-        guard let payload = payload else { return }
-        guard let isPaused = payload["pause"] as? Bool else { return }
-        self.isPaused = isPaused
-        if isPaused {
-            resultHandler?( .requestPauseVideo )
+        if getIsYoutubePlayer() {
+            ytCommandReactor.action( .playVideo )
         }
         else {
             resultHandler?( .requestPlayVideo )
         }
     }
     
+    private func onSetVideoPause(payload : [String : Any]?) {
+        guard let payload = payload else { return }
+        guard let isPaused = payload["pause"] as? Bool else { return }
+        self.isPaused = isPaused
+        if getIsYoutubePlayer() {
+            if isPaused {
+                ytCommandReactor.action( .pauseVideo )
+            }
+            else {
+                ytCommandReactor.action( .playVideo )
+            }
+        }
+        else {
+            if isPaused {
+                resultHandler?( .requestPauseVideo )
+            }
+            else {
+                resultHandler?( .requestPlayVideo )
+            }
+        }
+        
+    }
+    
+    //TODO: -여기에서 youtube seek 이벤트도 같이 해야 하나?
     private func onSetVideoSeekTime(payload : [String : Any]? ) {
         guard let payload = payload else { return }
         guard let seekTime = payload["seekTime"] as? CGFloat else { return }
@@ -499,15 +686,30 @@ extension ShortsCellReactor {
         }
     }
     
+    private func onYoutubePlayerSupport(payload : [String : Any]?, isMute : Bool, isActive : Bool,isPausedByUser : Bool, isPaused : Bool) {
+        ytCommandReactor.action( .onYoutubePlayerSupport(payload: payload, isMute: isMute, isActive: isActive, isPausedByUser: isPausedByUser, isPaused: isPaused))
+    }
+    
+    private func onSetVideoMute(payload : [String : Any]?) {
+        guard let isMute = payload?["mute"] as? Bool else { return }
+        guard getIsYoutubePlayer() else { return }
+        self.isMuted = isMute
+        ytCommandReactor.action( .sendMuteState(isMute: isMute) )
+    }
+    
 }
 //MARK: - SDK TO WEB COMMAND FUNCTIONS
 extension ShortsCellReactor {
+    /**
+        바로 가져다가 쓰지 말고 sendMuteStateToWebOrYoutube 써야합니다.
+     */
     private func sendMuteStateToWeb() {
-        guard let videoUrl = self.currentVideoUrl else { return }
-        let payload : [String : Any] = [
+        guard let currentVideoUrl = getCurrentVideoUrlByType() else { return }
+        
+        var payload : [String : Any] = [
             "srn" : currentSrn ?? "",
-            "videoUrl" : videoUrl,
-            "muted" : isMuted
+            "muted" : isMuted,
+            "videoUrl" : currentVideoUrl
         ]
         
         let request : JSRequest = ( .ON_VIDEO_MUTED, payload )
@@ -601,8 +803,10 @@ extension ShortsCellReactor {
     }
     
     private func sendVideoLoopedToWeb() {
+        guard let videoUrl = self.getCurrentVideoUrlByType() else { return }
+        
         let payload : [String : Any] = [
-            "videoUrl" : currentVideoUrl ?? "",
+            "videoUrl" : videoUrl,
             "srn" : currentSrn ?? "",
         ]
         
@@ -612,10 +816,11 @@ extension ShortsCellReactor {
     
     private func sendOnVideoPausedToWeb() {
         guard let currentSrn = currentSrn,
-              let videoUrl = currentVideoUrl else { return }
+              let currentVideoUrl = getCurrentVideoUrlByType() else { return }
+        
         var payload : [String : Any] = [
             "srn" : currentSrn,
-            "videoUrl" : videoUrl,
+            "videoUrl" : currentVideoUrl,
             "paused" : isPaused
         ]
         
@@ -627,8 +832,10 @@ extension ShortsCellReactor {
     }
     
     private func sendVideoDurationChanged(duration : Double) {
+        
         guard let currentSrn = currentSrn,
-              let currentVideoUrl = currentVideoUrl else { return }
+              let currentVideoUrl = getCurrentVideoUrlByType() else { return }
+        
         let durationValue : Float64 = (round(1000 * duration) / 1000)
         
         var payload : [String : Any] = [
@@ -647,7 +854,9 @@ extension ShortsCellReactor {
     
     private func sendVideoTimeUpdated(time : Double) {
         guard let currentSrn = currentSrn,
-              let currentVideoUrl = currentVideoUrl else { return }
+              let currentVideoUrl = getCurrentVideoUrlByType() else { return }
+        
+        
         let timeValue : Float64 = (round(1000 * time) / 1000)
         var payload : [String : Any] = [
             "srn" : currentSrn,
@@ -660,6 +869,19 @@ extension ShortsCellReactor {
         let request : JSRequest = ( .ON_VIDEO_TIME_UPDATED, payload )
         
         resultHandler?( .requestEvaluateJS([request]))
+    }
+    
+    
+    /**
+     현재 동영상 타입에 따라 알아서 videoUrl가져오는 함수 
+     */
+    private func getCurrentVideoUrlByType() -> String? {
+        if self.getIsYoutubePlayer() {
+            return shortsModel?.cards?.first?.externalVideoUrl
+        }
+        else {
+            return currentVideoUrl
+        }
     }
 }
 //MARK: Getter
@@ -674,5 +896,25 @@ extension ShortsCellReactor {
     
     func getCurrentIndexPath() -> IndexPath {
         return self.currentIndexPath
+    }
+    
+    func getIsYoutubePlayer() -> Bool {
+        if let playerType = shortsModel?.cards?.first?.playerType, playerType == "YOUTUBE" {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+}
+
+extension ShortsCellReactor : ShortsCellYoutubeCommandReactorDelegate {
+    func getIsActive() -> Bool {
+        return self.isActive
+    }
+    
+    func getCurrentOnViewIndexPath() -> IndexPath? {
+        return delegate?.getCurrentOnViewIndexPath()
     }
 }
