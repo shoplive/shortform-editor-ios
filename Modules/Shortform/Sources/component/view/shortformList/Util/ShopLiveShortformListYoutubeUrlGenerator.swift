@@ -63,7 +63,6 @@ struct ShopLiveShortformListYoutubeUrlGenerator {
         if let youtubeId = shortsModel?.cards?.first?.externalVideoId {
             payloadDict["youtubeId"] = youtubeId
         }
-
         
         ShortFormAuthManager.shared.getAkAndUserJWTasDict().forEach { payloadDict[$0.key] = $0.value }
         
