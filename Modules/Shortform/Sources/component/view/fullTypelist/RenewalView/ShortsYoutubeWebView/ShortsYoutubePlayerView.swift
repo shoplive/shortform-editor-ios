@@ -163,6 +163,9 @@ extension ShortsYoutubePlayerView : SLWebviewResponseDelegate {
         var log : String = "[HASSAN LOG] <-------------- incoming command\n "
         let shopliveEvents = body["shopliveShortsEvent"] as? [String : Any]
         if let name = shopliveEvents?["name"] as? String {
+            if name.contains("SDK_YTP_GET_CURRENT_TIME") {
+                return
+            }
             log += "name : \(name)\n"
         }
         

@@ -705,7 +705,8 @@ extension ShortsCollectionBaseViewModel : AppStateObserverDelegate {
     private func handleAppDidEnterForeground() {
         delegate?.setScrollEnabled(isEnabled: isSwipable)
         guard let currentIndexPath = delegate?.getCurrentIndexPath() else { return }
-        self.postActivePageNotification(srn: shortsListData[currentIndexPath.row].srn, index: currentIndexPath.row,isFromAppState: true)
+        guard let data = shortsListData[safe: currentIndexPath.row] else { return }
+        self.postActivePageNotification(srn: data.srn, index: currentIndexPath.row,isFromAppState: true)
         guard let cell = delegate?.getCellForAt(indexPath: currentIndexPath),
               let currentCell = cell as? ShortsCell else { return }
         currentCell.play(skipIfPaused: false)
@@ -714,7 +715,8 @@ extension ShortsCollectionBaseViewModel : AppStateObserverDelegate {
     private func handleAppWillEnterBackground() {
         postOnBackGroundNotification()
         guard let currentIndexPath = delegate?.getCurrentIndexPath() else { return }
-        self.postActivePageNotification(forceIsActive: false, srn: shortsListData[currentIndexPath.row].srn, index: currentIndexPath.row,isFromAppState: true)
+        guard let data = shortsListData[safe: currentIndexPath.row] else { return }
+        self.postActivePageNotification(forceIsActive: false, srn: data.srn, index: currentIndexPath.row,isFromAppState: true)
         guard let cells = delegate?.getLoadedCells(from: currentIndexPath.row - 1, to: currentIndexPath.row + 1) else { return }
         cells.forEach { cell in
             cell.pause()

@@ -33,15 +33,6 @@ class ShopLiveShortformBaseTypeYTPlayerView : UIView, SLReactor {
     
     private var webView : SLWebView?
     
-    private var youtubeIdLabel : UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .yellow
-        label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        label.textAlignment = .center
-        return label
-    }()
-    
     var resultHandler: ((Result) -> ())?
     
     private let reactor = ShopLiveShortformBaseTypeYTPlayerReactor()
@@ -121,7 +112,6 @@ extension ShopLiveShortformBaseTypeYTPlayerView {
     }
     
     private func onRequestEvaluateJSRequest(requestList : [JSRequest]){
-        youtubeIdLabel.text = " youtubeId : \(reactor.getYoutubeId())"
         requestList.forEach { request in
             webView?.sendShortsEvent(event: request.0.rawValue,parameter: request.1) { }
         }
@@ -135,7 +125,6 @@ extension ShopLiveShortformBaseTypeYTPlayerView {
     private func setLayout() {
         guard let webView = self.webView else { return }
         self.addSubview(webView)
-        self.addSubview(youtubeIdLabel)
         webView.translatesAutoresizingMaskIntoConstraints = false
         
         
@@ -143,12 +132,7 @@ extension ShopLiveShortformBaseTypeYTPlayerView {
             webView.topAnchor.constraint(equalTo: self.topAnchor),
             webView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            webView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            
-            youtubeIdLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            youtubeIdLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            youtubeIdLabel.widthAnchor.constraint(equalToConstant: 200),
-            youtubeIdLabel.heightAnchor.constraint(equalToConstant: 20),
+            webView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
 }

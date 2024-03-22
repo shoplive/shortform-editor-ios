@@ -640,9 +640,8 @@ extension ShortsCellReactor {
     private func onSetVideoPause(payload : [String : Any]?) {
         guard let payload = payload else { return }
         guard let isPaused = payload["pause"] as? Bool else { return }
-        self.isPaused = isPaused
         if getIsYoutubePlayer() {
-            if isPaused {
+            if ytCommandReactor.getYoutubeState() == .playing {
                 ytCommandReactor.action( .pauseVideo )
             }
             else {
@@ -650,6 +649,7 @@ extension ShortsCellReactor {
             }
         }
         else {
+            self.isPaused = isPaused
             if isPaused {
                 resultHandler?( .requestPauseVideo )
             }
@@ -657,7 +657,6 @@ extension ShortsCellReactor {
                 resultHandler?( .requestPlayVideo )
             }
         }
-        
     }
     
     //TODO: -여기에서 youtube seek 이벤트도 같이 해야 하나?

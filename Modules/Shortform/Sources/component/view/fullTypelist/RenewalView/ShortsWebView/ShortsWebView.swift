@@ -30,7 +30,6 @@ class ShortsWebView : UIView, SLReactor {
         case handleWebInterface( (name : WebInterface , payload : [String : Any]?) )
         case didFinishLoadingWebView
         case onExternEmitEvent((command : String, payload : [String : Any]?))
-        
     }
 
     private var overlayWebView : SLWebView?

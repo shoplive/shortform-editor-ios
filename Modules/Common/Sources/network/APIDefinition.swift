@@ -202,6 +202,12 @@ public extension APIDefinition {
             }
         }
         
+//        var log = "[HASSAN LOG] \n"
+//        log += "url : \(requestUrl.url)\n"
+//        log += "param : \(parameters)\n"
+//        log += "header : \(finalHeaders)\n"
+//        log += "=========================="
+//        ShopLiveLogger.debugLog(log)
         
         let task = URLSession.shared.dataTask(with: requestUrl) { data, response, error  in
             

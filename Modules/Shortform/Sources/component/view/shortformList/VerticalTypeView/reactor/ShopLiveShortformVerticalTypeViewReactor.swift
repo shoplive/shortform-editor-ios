@@ -514,7 +514,10 @@ extension ShopLiveShortformVerticalTypeViewReactor {
             switch result {
             case .success(let response):
                 self?.shortsCollectionModel = response
-                guard let shortsListModel = response.shortsList else { return }
+                guard let shortsListModel = response.shortsList else {
+                    self?.resultHandler?( .endPullToRefresh )
+                    return
+                }
                 self?.addShortListModel(dataList: shortsListModel, isRefresh: isRefresh)
                 self?.callCollectionShowEventTrace(shortsListModel: shortsListModel, shortsCollection: response, isRefresh: isRefresh, paginationCount: count)
             case .failure(let error):

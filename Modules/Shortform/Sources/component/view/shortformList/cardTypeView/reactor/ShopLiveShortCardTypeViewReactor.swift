@@ -13,7 +13,6 @@ import ShopliveSDKCommon
 
 /**
  카드 타입  뷰 리액터
- 
  */
 final class ShopLiveShortCardTypeViewReactor : NSObject, SLReactor {
     
@@ -525,7 +524,11 @@ extension ShopLiveShortCardTypeViewReactor {
             switch result {
             case .success(let response):
                 self?.shortsCollectionModel = response
-                guard let shortsListModel = response.shortsList else { return }
+                dump(response)
+                guard let shortsListModel = response.shortsList else {
+                    self?.resultHandler?( .endPullToRefresh )
+                    return
+                }
                 self?.addShortListModel(dataList: shortsListModel, isRefresh: isRefresh)
                 self?.callCollectionShowEventTrace(shortsListModel: shortsListModel, shortsCollection: response, isRefresh: isRefresh, paginationCount: count)
             case .failure(let error):

@@ -69,7 +69,7 @@ class ShortsCellYoutubeCommandReactor : NSObject, SLReactor {
     private var currentYoutubeDuration : Double?
     private var youtubeCurrentTimeTimer : Timer?
     //TODO: - 나중에 0.1 바꿀것
-    private var youtubeCurrentTimeTimerInterval : TimeInterval = 1
+    private var youtubeCurrentTimeTimerInterval : TimeInterval = 0.1
     private var youtubeCurrentPlayState : ShopliveYoutubePlayState = .notReady
     //videoLoop이벤트 측정하기 위해서 있는 변수
     private var youtubePlayerReachedEnd : Bool = false
