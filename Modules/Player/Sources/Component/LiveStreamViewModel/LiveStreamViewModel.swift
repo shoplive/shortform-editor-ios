@@ -173,7 +173,7 @@ internal final class LiveStreamViewModel: NSObject {
         guard ShopLiveController.player != nil else { return }
         resetPlayer()
         playerLoadingStartTime = Date().timeIntervalSince1970
-        let asset = AVURLAsset(url: url )
+        let asset = AVURLAsset(url: URL(string: "http://172.31.14.167:8083/stream/dev-1-2bLzoZnMJPYPUMw-an2/playlist.m3u8")! )
         let playerItem = AVPlayerItem(asset: asset)
         if asset.isPlayable {
             ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)

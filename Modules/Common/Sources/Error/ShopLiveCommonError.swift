@@ -83,15 +83,20 @@ public enum ShopLiveErrorCases {
 
 
 
-public class ShopLiveCommonError : Error {
-    public var code : Int
+@objc public class ShopLiveCommonError : NSError {
+    public var codes : Int
     public var message : String?
     public var error : Error?
     
     public init(code : Int, message : String?, error : Error?){
-        self.code = code
+        self.codes = code
         self.message = message
         self.error = error
+        super.init(domain: message ?? "", code: code)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 

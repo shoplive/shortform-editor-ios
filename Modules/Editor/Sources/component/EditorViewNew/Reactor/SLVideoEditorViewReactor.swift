@@ -12,6 +12,7 @@ import AVKit
 
 
 class SLVideoEditorViewReactor : NSObject,  SLReactor {
+    typealias globalConfig = ShopLiveEditorConfigurationManager
     
     enum Action {
         case viewDidLoad
@@ -23,6 +24,7 @@ class SLVideoEditorViewReactor : NSObject,  SLReactor {
         case requestViewPop
         case resetDataOnViewRotation
         case setShortformEditorDelegate(ShopLiveShortformEditorDelegate?)
+        case setVideoEditorDelegate(ShopLiveVideoEditorDelegate?)
     }
     
     enum Result {
@@ -56,15 +58,16 @@ class SLVideoEditorViewReactor : NSObject,  SLReactor {
     private var cropRect : CGRect = .zero
     private var shortsVideo : ShortsVideo
     private var minTrimTime : CGFloat  {
-        return ShopLiveShortformEditorConfigurationManager.shared.shortformUploadConfiguration?.videoTrimOption.minVideoDuration ?? 1
+        return globalConfig.shared.videoTrimOption.minVideoDuration
     }
     private var maxTrimTime : CGFloat {
-        return ShopLiveShortformEditorConfigurationManager.shared.shortformUploadConfiguration?.videoTrimOption.maxVideoDuration ?? 60
+        return globalConfig.shared.videoTrimOption.maxVideoDuration
     }
     private var isPlaying : Bool = false
     private var isCropTimeUpdated : Bool = false
     private var isViewAppeared : Bool = false
     private weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
+    private weak var videoEditorDelegate : ShopLiveVideoEditorDelegate?
     
     
     var resultHandler: ((Result) -> ())?
@@ -86,6 +89,8 @@ class SLVideoEditorViewReactor : NSObject,  SLReactor {
         switch action {
         case .setShortformEditorDelegate(let delegate):
             self.shortformEditorDelegate = delegate
+        case .setVideoEditorDelegate(let delegate):
+            self.videoEditorDelegate = delegate
         case .resetDataOnViewRotation:
             self.resetDataOnViewRotation()
         case .viewDidLoad:
@@ -122,12 +127,8 @@ class SLVideoEditorViewReactor : NSObject,  SLReactor {
             
             let seconds = CMTimeGetSeconds(duration)
             var initialEndTime : CGFloat = 0
-            if let maxVideoTrimTime = ShopLiveShortformEditorConfigurationManager.shared.shortformUploadConfiguration?.videoTrimOption.maxVideoDuration {
-                initialEndTime = seconds >= maxVideoTrimTime ? maxVideoTrimTime : seconds
-            }
-            else {
-                initialEndTime = seconds >= 60 ? 60 : seconds
-            }
+            let maxVideoTrimTime = globalConfig.shared.videoTrimOption.maxVideoDuration
+            initialEndTime = seconds >= maxVideoTrimTime ? maxVideoTrimTime : seconds
             
             cropTime.end = CMTime(seconds: initialEndTime , preferredTimescale: 44100)
         }
@@ -168,28 +169,49 @@ class SLVideoEditorViewReactor : NSObject,  SLReactor {
             
             switch result {
             case .Success(videoPath: let videoPath):
+                
                 self.onMainQueueResultHandler?( .setNextButtnEnable(true) )
                 self.onMainQueueResultHandler?( .setLoadingVisible(false) )
                 self.onMainQueueResultHandler?( .setPlayBtnVisible(true) )
-                DispatchQueue.main.async {
-                    var vc : SLUploadInfoController2
-                    if let uploadInfo = self.temporaryUploadInfo {
-                        self.temporaryUploadInfo?.videoUrl = videoPath
-                        vc = SLUploadInfoController2(uploadInfo: uploadInfo)
-                    }
-                    else {
-                        vc = SLUploadInfoController2(videoUrl: videoPath )
-                    }
-                    vc.delegate = self
-                    vc.shortformEditorDelegate = self.shortformEditorDelegate
-                    self.onMainQueueResultHandler?( .showUploadInfoViewController(vc) )
+                if let videoEditorDelegate = self.videoEditorDelegate {
+                    self.finishEntireProcess(videoPath: videoPath)
                 }
+                else {
+                    self.showUPloadInfoController(videoPath: videoPath)
+                }
+                
             case .Failed(let e):
                 guard let error = e as? SLVideoConvertError else { return }
                 self.onMainQueueResultHandler?( .setLoadingVisible(false) )
                 self.onMainQueueResultHandler?( .resetLoadingProgress )
                 break
             }
+        }
+    }
+    
+    private func finishEntireProcess(videoPath : String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.videoEditorDelegate?.onShopLiveVideoEditorSuccess?(videoPath: videoPath)
+        }
+        
+    }
+    
+    private func showUPloadInfoController(videoPath : String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            var vc : SLUploadInfoController2
+            if let uploadInfo = self.temporaryUploadInfo {
+                self.temporaryUploadInfo?.videoUrl = videoPath
+                vc = SLUploadInfoController2(uploadInfo: uploadInfo)
+            }
+            else {
+                vc = SLUploadInfoController2(videoUrl: videoPath )
+            }
+            vc.delegate = self
+            vc.shortformEditorDelegate = self.shortformEditorDelegate
+            vc.videoEditorDelegate = self.videoEditorDelegate
+            self.onMainQueueResultHandler?( .showUploadInfoViewController(vc) )
         }
     }
     

@@ -11,7 +11,7 @@ import ShopliveSDKCommon
 
 
 class SLUploadInfoReactor : NSObject, SLReactor {
-    
+    typealias globalConfig = ShopLiveEditorConfigurationManager
     
     enum Action {
         case requestVideoThumbnail
@@ -30,6 +30,7 @@ class SLUploadInfoReactor : NSObject, SLReactor {
         case descriptionDidChange(UITextView)
         case requestPopView
         case setShortformEditorDelegate(ShopLiveShortformEditorDelegate?)
+        case setVideoEditorDelegate(ShopLiveVideoEditorDelegate?)
     }
     
     enum Result {
@@ -98,6 +99,8 @@ class SLUploadInfoReactor : NSObject, SLReactor {
     private var uploadTags : [String] = []
     
     private weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
+    private weak var videoEditorDelegate : ShopLiveVideoEditorDelegate?
+    
     
     var onMainQueueResultHandler : ((Result) -> ())?
     var resultHandler: ((Result) -> ())?
@@ -126,6 +129,8 @@ class SLUploadInfoReactor : NSObject, SLReactor {
         switch action {
         case .setShortformEditorDelegate(let delegate):
             self.shortformEditorDelegate = delegate
+        case .setVideoEditorDelegate(let delegate):
+            self.videoEditorDelegate = delegate
             
         case .requestVideoThumbnail:
             self.makeVideoThumbnail()
@@ -200,10 +205,8 @@ class SLUploadInfoReactor : NSObject, SLReactor {
             onMainQueueResultHandler?( .setTags(tags) )
         }
         
-        if let config = ShopLiveShortformEditorConfigurationManager.shared.shortformUploadConfiguration {
-            onMainQueueResultHandler?( .setDescriptionsFieldsVisibility(config.visibleContents.isDescriptionVisible) )
-            onMainQueueResultHandler?( .setTagsFieldVisibility(config.visibleContents.isTagsVisible) )
-        }
+        onMainQueueResultHandler?( .setDescriptionsFieldsVisibility(globalConfig.shared.visibleContents.isDescriptionVisible) )
+        onMainQueueResultHandler?( .setTagsFieldVisibility(globalConfig.shared.visibleContents.isTagsVisible) )
         
         
         makeVideoThumbnail()
@@ -360,7 +363,8 @@ extension SLUploadInfoReactor {
                 guard let sessionSecret = uploadable.sessionSecret,
                       let uploadAPIEndpoint = uploadable.uploadApiEndpoint else {
                     let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnexpectedError, error: nil, message: "[ShortformEditor] sessionSecrete or updateApiEndPoint missing" )
-                    self.shortformEditorDelegate?.onShortformUploadError(error: commonError )
+                    self.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: commonError )
+                    self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: commonError )
                     self.onMainQueueResultHandler?(.setLoadingVisible(false))
                     return
                 }
@@ -395,7 +399,7 @@ extension SLUploadInfoReactor {
             guard let self = self else { return }
             switch result {
             case .success(_):
-                self.shortformEditorDelegate?.onShortformEditorSuccess()
+                self.shortformEditorDelegate?.onShopLiveShortformEditorUploadSuccess?()
                 self.onMainQueueResultHandler?(.setLoadingVisible(false))
                 self.removeVideoFile()
                 break
@@ -409,11 +413,13 @@ extension SLUploadInfoReactor {
     
     private func passNetworkErrorsToShortformDelegate(error : Error) {
         if let error = error as? ShopLiveCommonError {
-            self.shortformEditorDelegate?.onShortformUploadError(error: error)
+            self.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: error)
+            self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: error)
         }
         else {
             let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnexpectedError, error: error, message: nil)
-            self.shortformEditorDelegate?.onShortformUploadError(error: commonError )
+            self.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: commonError )
+            self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: commonError )
         }
     }
     

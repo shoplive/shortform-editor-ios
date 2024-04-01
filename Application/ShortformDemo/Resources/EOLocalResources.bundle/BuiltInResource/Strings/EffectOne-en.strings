@@ -1,0 +1,169 @@
+//error
+"eo_error_network" = "Network error";
+
+//base
+"eo_base_addsound" = "Add Music";
+"eo_base_addmusic_musiclibrary" = "Music Library";
+"eo_base_item_none" = "None";
+"eo_base_musicvoice_original_sound" = "Original sound";
+"eo_base_musicvoice_music" = "Music";
+"eo_base_musicvoice_volume" = "Volume";
+"eo_base_music_author_unknown" = "UnKnown";
+"eo_base_addsoundeffects_use" = "Use";
+"eo_base_popup_confirmcancel" = "Cancel editing?";
+"eo_base_popout_cancelwarn" = "After cancellation, all editing progress will be lost, confirm cancelling?";
+"eo_base_popout_no" = "No";
+"eo_base_popout_confirm" = "Confirm";
+"eo_base_popup_resetbeauty" = "Confirm resetting all beauty effects?";
+"eo_base_popup_discardclip" = "Discard the last clip?";
+
+//edit
+"eo_previeweditor_pop_discard" = "Discard";
+"eo_previeweditor_pop_discard_change" = "Discard all changes";
+"eo_previeweditor_pop_save_draft" = "Save draft";
+"eo_previeweditor_toast_save_draft_success" = "Save success";
+"eo_previeweditor_edit" = "Edit";
+"eo_previeweditor_text" = "Text";
+"eo_previeweditor_infosticker" = "Info sticker";
+"eo_previeweditor_filter" = "Filter";
+"eo_previeweditor_videoeffect" = "Video effect";
+"eo_previeweditor_voice" = "Voice";
+"eo_previeweditor_effectsticker" = "Effect sticker";
+"eo_previeweditor_next" = "Next";
+"eo_previeweditor_info_sticker_title" = "Info Sticker";
+"eo_previeweditor_filter_title" = "Filter";
+
+"eo_previeweditor_done" = "Done";
+"eo_previeweditor_text_delete" = "Delete";
+"eo_previeweditor_text_duration" = "Set Duration";
+"eo_previeweditor_text_edit" = "Edit";
+"eo_previeweditor_sticker_duration_title" = "Selected sticker last for %ss";
+"eo_previeweditor_text_duration_title" = "Selected text last for %ss";
+
+"eo_previeweditor_duration" = "Duration";
+"eo_previeweditor_cancel" = "Cancel";
+"eo_previeweditor_duration_save" = "Save";
+
+"eo_trackeditor_sound" = "Sound";
+"eo_trackeditor_split" = "Split";
+"eo_trackeditor_speed" = "Speed";
+"eo_trackeditor_volume" = "Volume";
+"eo_trackeditor_rotate" = "Rotate";
+"eo_trackeditor_crop" = "Crop";
+"eo_trackeditor_transition" = "Transition";
+"eo_trackeditor_replace" = "Replace";
+"eo_trackeditor_delete" = "Delete";
+
+"eo_trackeditor_sound_addmusic" = "Add Music";
+"eo_trackeditor_sound_replacemusic" = "Replace Music";
+"eo_trackeditor_sound_addsoundeffects" = "Add Sound Effects";
+"eo_trackeditor_cancel" = "Cancel";
+"eo_trackeditor_done" = "Done";
+"eo_trackeditor_crop_reset" = "Reset";
+"eo_trackeditor_apply_to_all" = "Apply to all";
+"eo_trackeditor_applied_to_all" = "Applied to all";
+"eo_trackeditor_cancel_toast_title" = "Confirm to exit editor?";
+"eo_trackeditor_cancel_toast_content" = "All progress will be lost after exit, confirm to exit?";
+"eo_trackeditor_discard" = "Discard";
+"eo_trackeditor_split_toast" = "Cannot split here";
+"eo_trackeditor_location_can_not_add_sound_effects" = "This location cannot add sound effects";
+"eo_trackeditor_delete_toast" = "Only one fragment left, cannot be deleted";
+"eo_trackeditor_transition_toast1" = "No transition applied";
+"eo_trackeditor_transition_toast2" = "%@ transition applied";
+"eo_trackeditor_transition_toast3" = "Transition cannot be applied";
+"eo_trackeditor_add_sound_effects_limit_tips" = "Sound effects amount cannot exceed %@";
+
+"eo_previeweditor_voice_tip" = "Apply voice changing effects to your recording";
+"eo_previeweditor_voice_record" = "Record";
+"eo_previeweditor_voice_viewing" = "View recording";
+"eo_previeweditor_voice_original_sound" = "Original sound";
+"eo_previeweditor_voice_overlay" = "Add recording before using voice changing effects";
+"eo_previeweditor_voice_volume" = "Volume";
+"eo_previeweditor_voice_volume_cancel" = "Cancel";
+"eo_previeweditor_voice_volume_save" = "Save";
+"eo_previeweditor_none" = "None";
+
+"eo_previeweditor_press_and_hold" = "Press effect and hold";
+"eo_previeweditor_cancel_edit_title" = "Cancel Editing?";
+"eo_previeweditor_cancel_edit_info" = "After canellation, all edit progress will be lost, confirm to cancel?";
+"eo_previeweditor_confirm" = "Confirm";
+"eo_previeweditor_apply_to_all" = "Apply to all";
+
+//record
+"eo_camera_flip" = "Flip";
+"eo_camera_flash" = "Flash";
+"eo_camera_timer" = "Timer";
+"eo_camera_filters" = "Filter";
+"eo_camera_speed" = "Speed";
+"eo_camera_beauty" = "Beauty";
+"eo_camera_effectssticker" = "Effect Sticker";
+"eo_camera_upload" = "Upload";
+"eo_camera_discardclip" = "Discard the last clip?";
+"eo_camera_discardclip_confirm" = "Discard";
+"eo_camera_discardclip_cancel" = "Cancel";
+"eo_camera_discard" = "Discard";
+"eo_camera_startover" = "Start over";
+"eo_camera_cancel" = "Cancel";
+"eo_camera_toast_beauty_items_conflict_with_stick" = "It could be used after effect removed";
+"eo_camera_toast_switch_to_countdown" = "Switch to %1s seconds countdown";
+"eo_camera_modes_2m" = "2m";
+"eo_camera_modes_30s" = "30s";
+"eo_camera_modes_15s" = "15s";
+"eo_camera_modes_photo" = "Photo";
+"eo_camera_album_unauth_alert_title" = "Album permissions are disabled";
+"eo_camera_album_unauth_alert_message" = "Do you want to enable permissions in Settings->Privacy->Album?";
+"eo_camera_unauth_alert_cancel" = "Cancel";
+"eo_camera_unauth_alert_confirm" = "Go to settings";
+"eo_camera_unauth_alert_title" = "The camera permission is disabled";
+"eo_camera_unauth_alert_message" = "Do you want to grant this permission in Settings?";
+"eo_camera_microphone_unauth_alert_title" = "The microphone permission is disabled";
+"eo_camera_microphone_unauth_alert_message" = "Do you want to grant this permission in Settings?";
+"eo_camera_timer_setduration" = "Drag to set recording limit";
+"eo_camera_timer_countdown" = "Start countdown";
+
+//draft
+"eo_draft" = "Draft";
+"eo_draft_confirmdelete_title" = "Confirm deleting?";
+"eo_draft_confirmdelete_message" = "After deleting, these %@ drafts cannot be recovered";
+"eo_draft_delete" = "Delete";
+"eo_draft_manage" = "Manage";
+"eo_draft_cancel" = "Cancel";
+"eo_draft_selectall" = "Select all";
+"eo_draft_unselectall" = "Unselect all";
+"eo_draft_nodraft" = "No draft";
+
+
+//album
+"eo_album_all" = "All";
+"eo_album_photos_videos" = "Video";
+"eo_album_photos" = "Image";
+"eo_album_material_limit_tips" = "The assets amount cannot exceed %@";
+"eo_album_tips_selectedCount" = "%@ item selected";
+"eo_album_confirm" = "Next";
+"eo_album_tips" = "You can select both photos and videos";
+"eo_album_preview_select" = "Select";
+"eo_album_audio_extract_selection" = "Select the video you want to extract";
+"eo_album_add" = "Add";
+"eo_album_no_video" = "No video files found";
+"eo_album_no_image" = "No image files found";
+"eo_album_no_media" = "No video and image files found";
+"eo_album_tips_video_min_duration" = "The video length must be no less than %@s";
+"eo_album_tips_video_max_duration" = "The video length must be no more than %@s";
+"eo_album_title" = "Album";
+"eo_album_gif_tag" = "GIF";
+"eo_album_tips_max_video_count" = "Select up to %@ videos";
+"eo_album_picker_tips_max_material_count" = "Select up to %@ materials";
+"eo_album_audio_extract_audio_import" = "Import";
+"eo_album_picker_tips_allow_photos" = "In order to choose creative materials more freely and obtain richer video effects, it is recommended that you allow access to all photos";
+"eo_album_picker_tips_allow_access" = "Allow access";
+"eo_album_editor_common_cancel" = "Cancel";
+"eo_album_editor_picker_tips_go_shoot" = "Take a photo";
+"eo_album_editor_common_back" = "Back";
+"eo_album_editor_tips_photo_film_one" = "Slideshow movie (1)";
+"eo_album_editor_common_next" = "Next";
+"eo_album_editor_tips_all_photos" = "All photos";
+"eo_album_editor_tips_allow_all_photos" = "Tap %@ to allow access to all photos.";
+"eo_album_editor_common_loading" = "Loading...";
+"eo_album_editor_album_picker_albumImport" = "Album";
+"eo_album_editor_album_picker_material" = "Material";
+"eo_ablum_editor_audio_voiceover_tips_setting" = "Setting";

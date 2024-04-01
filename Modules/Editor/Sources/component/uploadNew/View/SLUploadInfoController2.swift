@@ -11,6 +11,9 @@ import ShopliveSDKCommon
 
 
 
+protocol SLUploadInfoControllerDelegate: AnyObject {
+    func temporaryUploadInfo(uploadInfo: SLUploadAttachmentInfo)
+}
 
 
 class SLUploadInfoController2 : UIViewController {
@@ -199,6 +202,7 @@ class SLUploadInfoController2 : UIViewController {
     
     weak var delegate : SLUploadInfoControllerDelegate?
     weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
+    weak var videoEditorDelegate : ShopLiveVideoEditorDelegate?
     
     private var reactor : SLUploadInfoReactor
     
@@ -234,6 +238,7 @@ class SLUploadInfoController2 : UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         reactor.action( .setShortformEditorDelegate(self.shortformEditorDelegate) )
+        reactor.action( .setVideoEditorDelegate(self.videoEditorDelegate) )
     }
     
     deinit {

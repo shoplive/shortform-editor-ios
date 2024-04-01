@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import AVKit
+import ShopliveSDKCommon
 
 
 
@@ -78,15 +79,15 @@ class ShopLiveAVPlayerErrorObserver {
             let errorDomain = logEntry.errorDomain
             let errorComment = logEntry.errorComment
             if isInErrorRetry == false {
-//                let log = """
-//                ======================================================
-//                errorDate \(errorDate ?? Date())
-//                errorStatusCode \(errorStatusCode)
-//                errorDomain \(errorDomain)
-//                errorComment \(errorComment ?? "")
-//                ======================================================
-//                """
-//                ShopLiveLogger.debugLog("[HASSAN LOG] \n \(log)")
+                let log = """
+                ======================================================
+                errorDate \(errorDate ?? Date())
+                errorStatusCode \(errorStatusCode)
+                errorDomain \(errorDomain)
+                errorComment \(errorComment ?? "")
+                ======================================================
+                """
+                ShopLiveLogger.debugLog("[HASSAN LOG] \n \(log)")
                 let errorCase = getErrorCase(errorStatusCode: errorStatusCode, errorDomain: errorDomain, errorComment: errorComment ?? "")
                 switch errorCase {
                 case .extDiscontinuity:

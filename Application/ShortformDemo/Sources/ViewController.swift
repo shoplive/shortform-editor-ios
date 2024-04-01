@@ -73,6 +73,14 @@ class ViewController: UIViewController {
         .init(title: "ROW", exampleViewControllable: horizontalTypeExamplViewController),
     ]
     
+    lazy private var editorPopUp : EditorOptionPopUp = {
+        let popup = EditorOptionPopUp()
+        popup.translatesAutoresizingMaskIntoConstraints = false
+        popup.alpha = 0
+        popup.vc = self
+        return popup
+    }()
+    
     var pagingViewController: PagingViewController?
     
     lazy var videoPickerButton: UIButton = {
@@ -115,9 +123,6 @@ class ViewController: UIViewController {
         
         settingMoreBtn.addTarget(self, action: #selector(didTapSettingMoreBtn(sender: )), for: .touchUpInside)
         v2PlayBtn.addTarget(self, action: #selector(v2PlayBtnTapped(sender: )), for: .touchUpInside)
-        
-        
-        
         
         
     }
@@ -184,20 +189,8 @@ class ViewController: UIViewController {
     private var lastLandingInfo : LandingInfo?
     
     @objc func didTapVideoPicker() {
-        let cropOption = ShopLiveShortFormEditorAspectRatio(width: OptionSettingModel.editorWidth,
-                                                            height: OptionSettingModel.editorheight,
-                                                            isFixed: OptionSettingModel.editorIsFixed)
-        let visibleContents = ShopLiveShortFormEditorVisibleContent(isDescriptionVisible: OptionSettingModel.editorShowDescription,
-                                                                    isTagsVisible: OptionSettingModel.editorShowTags)
-        
-        ShopLiveShortformEditor()
-            .setPermissionHandler(nil)
-            .setConfiguration(ShopLiveShortformEditorConfiguration(videoCropOption: cropOption ,
-                                                                   visibleContents: visibleContents,
-                                                                    minVideoDuration: OptionSettingModel.editorMinVideoDuration,
-                                                                    maxVideoDuration: OptionSettingModel.editorMaxVideoDuration))
-            .setShortFormEditorDelegate(delegate: self)
-            .start(self)
+
+        editorPopUp.alpha = 1
     }
     
     @objc func v2PlayBtnTapped(sender : UIButton){
@@ -230,23 +223,44 @@ class ViewController: UIViewController {
     }
 }
 extension ViewController : ShopLiveShortformEditorDelegate {
-    func onShortformEditorSuccess() {
+    func onShopliveShortformError(error: ShopliveSDKCommon.ShopLiveCommonError) {
+        //        switch error {
+        //        case .statusCode(let code):
+        //            print("onShortformUploadError statusCodeError \(code)")
+        //        case .invalidConfig:
+        //            print("onShortformUploadError invalidConfig")
+        //        case .other(let error):
+        //            print("onShortformUploadError other \(error.localizedDescription)")
+        //        }
+    }
+    
+    func onShopliveShortformMediaPickerDismiss() {
+        print("onShortformEditorMediaPickerDismiss")
+    }
+    
+    
+    func onShopliveShortformUploadSuccess() {
         print("onShortformEditorSuccess")
+        ShopLiveShortformEditor().close()
     }
     
     func onShortformUploadError(error: ShopLiveCommonError) {
-//        switch error {
-//        case .statusCode(let code):
-//            print("onShortformUploadError statusCodeError \(code)")
-//        case .invalidConfig:
-//            print("onShortformUploadError invalidConfig")
-//        case .other(let error):
-//            print("onShortformUploadError other \(error.localizedDescription)")
-//        }
+
+    }
+}
+extension ViewController : ShopLiveVideoEditorDelegate {
+    func onShopliveVideoEditorError(error: ShopLiveCommonError) {
+        ShopLiveLogger.debugLog("[HASSAN LOG] videoeditor error \(error.codes) \(error.message)")
     }
     
-    func onShortformEditorMediaPickerDismiss() {
-        print("onShortformEditorMediaPickerDismiss")
+    func onShopliveVideoEditorSuccess(videoPath: String) {
+        ShopLiveLogger.debugLog("[HASSAN LOG] videoEditor videoPath \(videoPath)")
+        
+        ShopliveVideoEditor().close()
+    }
+    
+    func onShopliveVideoEditorMediaPickerDismiss() {
+        ShopLiveLogger.debugLog("[HASSAN LOG] videoeditor picker dismiss")
     }
 }
 extension ViewController {
@@ -278,6 +292,7 @@ extension ViewController {
         pagingViewController!.didMove(toParent: self)
         pagingViewController!.view.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(videoPickerButton)
+        self.view.addSubview(editorPopUp)
         
         NSLayoutConstraint.activate([
             navBox.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
@@ -305,6 +320,11 @@ extension ViewController {
             videoPickerButton.widthAnchor.constraint(equalToConstant: 30),
             videoPickerButton.heightAnchor.constraint(equalToConstant: 30),
             
+            
+            editorPopUp.topAnchor.constraint(equalTo: self.view.topAnchor),
+            editorPopUp.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            editorPopUp.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            editorPopUp.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
 }

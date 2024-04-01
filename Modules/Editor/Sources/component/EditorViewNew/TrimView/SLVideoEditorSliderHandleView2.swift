@@ -20,6 +20,7 @@ enum SLVideoEditorSliderHandleType {
 }
 
 class SLVideoEditorSliderHandleView2 : UIView {
+    typealias globalConfig = ShopLiveEditorConfigurationManager
     
     private var bundle : Bundle {
         return  Bundle(for: type(of: self))
@@ -120,7 +121,7 @@ class SLVideoEditorSliderHandleView2 : UIView {
     private var timePerPixel : CGFloat = 0
     private var videoDuration : CGFloat = 0
     private var minimumTrimTime : CGFloat {
-        return ShopLiveShortformEditorConfigurationManager.shared.shortformUploadConfiguration?.videoTrimOption.minVideoDuration ?? 1
+        return globalConfig.shared.videoTrimOption.minVideoDuration
     }
     
     var minimumTrimTimeGap : CGFloat {

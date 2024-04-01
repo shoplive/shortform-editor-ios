@@ -8,7 +8,6 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-
 let demoTarget = Target(name: "ShortformDemo",
                         platform: .iOS,
                         product: .app,
@@ -25,13 +24,16 @@ let demoTarget = Target(name: "ShortformDemo",
                             .external(name: "Parchment"),
                             .external(name: "FirebaseAnalytics"),
                             .external(name: "FirebaseCrashlytics"),
-                            .external(name: "FirebaseDynamicLinks")
+                            .external(name: "FirebaseDynamicLinks"),
+                            .external(name: "Toast")
                         ])
-
 
 let project = Project.makeModule(name: "ShortformDemo",
                                  configurations: [
                                     .debug(name: .debug, xcconfig: .relativeToRoot("XCConfigs/ShortformDemoConfig.xcconfig")),
                                     .release(name: .release, xcconfig: .relativeToRoot("XCConfigs/ShortformDemoConfig.xcconfig"))
                                  ],
-                                 targets: [demoTarget])
+                                 targets: [demoTarget]
+                                 ,headerSearchPaths: ["HEADER_SEARCH_PATHS" : "$(SRCROOT)/Sources/Editor/EOExportUI/Utils $(SRCROOT)/Sources/Editor/EOExportUI/View $(SRCROOT)/Sources/Editor/EOExportUI/ViewController",
+                                                      "SWIFT_OBJC_BRIDGING_HEADER" : "$(SRCROOT)/Sources/ShortformDemo-Bridging-Header.h"])
+

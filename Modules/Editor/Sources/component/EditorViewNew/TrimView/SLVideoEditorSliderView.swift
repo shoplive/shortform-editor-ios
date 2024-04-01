@@ -32,6 +32,8 @@ protocol SLVideoEditorSliderViewDelegate: AnyObject {
 }
 
 class SLVideoEditorSliderView: UIView {
+    typealias globalConfig = ShopLiveEditorConfigurationManager
+    
     weak var delegate: SLVideoEditorSliderViewDelegate?
     
     private var cropTime: (start: CMTime, end: CMTime) = (.zero, .zero)
@@ -58,10 +60,10 @@ class SLVideoEditorSliderView: UIView {
     private var timeForPerFrame: CGFloat = 0
     private var totalFrame: Int = 0
     private var minTrimTime : CGFloat {
-        return ShopLiveShortformEditorConfigurationManager.shared.shortformUploadConfiguration?.videoTrimOption.minVideoDuration ?? 1
+        return globalConfig.shared.videoTrimOption.minVideoDuration
     }
     private var maxTrimTime : CGFloat  {
-        return ShopLiveShortformEditorConfigurationManager.shared.shortformUploadConfiguration?.videoTrimOption.maxVideoDuration ?? 60
+        return globalConfig.shared.videoTrimOption.maxVideoDuration
     }
     
     

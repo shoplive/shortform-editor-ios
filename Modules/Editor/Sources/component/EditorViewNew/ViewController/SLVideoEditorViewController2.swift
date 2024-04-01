@@ -10,6 +10,9 @@ import UIKit
 import ShopliveSDKCommon
 import AVKit
 
+protocol SLVideoEditorViewControllerDelegate: AnyObject {
+    func cancelConvertVideo()
+}
 
 class SLVideoEditorViewController2 : UIViewController {
     private var bundle : Bundle {
@@ -93,6 +96,8 @@ class SLVideoEditorViewController2 : UIViewController {
     private var reactor : SLVideoEditorViewReactor
     weak var delegate : SLVideoEditorViewControllerDelegate?
     weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
+    weak var videoEditorDelegate : ShopLiveVideoEditorDelegate?
+    
     private var layoutForInitalLoad : Bool = true
     lazy private var currentOrientation : UIInterfaceOrientationMask = didChangeOrientation_SL()
     
@@ -135,6 +140,7 @@ class SLVideoEditorViewController2 : UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         reactor.action( .setShortformEditorDelegate(self.shortformEditorDelegate) )
+        reactor.action( .setVideoEditorDelegate(self.videoEditorDelegate) )
     }
     
     deinit {

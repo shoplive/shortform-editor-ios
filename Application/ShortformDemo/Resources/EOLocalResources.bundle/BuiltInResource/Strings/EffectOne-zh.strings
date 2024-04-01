@@ -1,0 +1,169 @@
+//error
+"eo_error_network" = "网络错误";
+
+//base
+"eo_base_addsound" = "添加音乐";
+"eo_base_addmusic_musiclibrary" = "音乐库";
+"eo_base_item_none" = "无";
+"eo_base_musicvoice_original_sound" = "原声";
+"eo_base_musicvoice_music" = "音乐";
+"eo_base_musicvoice_volume" = "音量";
+"eo_base_music_author_unknown" = "未知";
+"eo_base_addsoundeffects_use" = "使用";
+"eo_base_popup_confirmcancel" = "确认退出编辑？";
+"eo_base_popout_cancelwarn" = "退出编辑将丢失当前效果，是否退出？";
+"eo_base_popout_no" = "否";
+"eo_base_popout_confirm" = "是";
+"eo_base_popup_resetbeauty" = "是否恢复全部美颜到默认？";
+"eo_base_popup_discardclip" = "是否删除上一段视频？";
+
+//edit
+"eo_previeweditor_pop_discard" = "丢弃";
+"eo_previeweditor_pop_discard_change" = "丢弃修改";
+"eo_previeweditor_pop_save_draft" = "保存草稿";
+"eo_previeweditor_toast_save_draft_success" = "保存成功";
+"eo_previeweditor_edit" = "剪辑";
+"eo_previeweditor_text" = "文本";
+"eo_previeweditor_infosticker" = "信息贴纸";
+"eo_previeweditor_filter" = "滤镜";
+"eo_previeweditor_videoeffect" = "动画特效";
+"eo_previeweditor_voice" = "录音";
+"eo_previeweditor_effectsticker" = "人脸特效";
+"eo_previeweditor_next" = "下一步";
+"eo_previeweditor_info_sticker_title" = "信息贴纸";
+"eo_previeweditor_filter_title" = "滤镜";
+
+"eo_previeweditor_done" = "完成";
+"eo_previeweditor_text_delete" = "删除";
+"eo_previeweditor_text_duration" = "设置时长";
+"eo_previeweditor_text_edit" = "编辑";
+"eo_previeweditor_sticker_duration_title" = "已选取贴纸持续时间 %ss";
+"eo_previeweditor_text_duration_title" = "已选取文字持续时间 %ss";
+
+"eo_previeweditor_duration" = "时长设置";
+"eo_previeweditor_cancel" = "取消";
+"eo_previeweditor_duration_save" = "保存";
+
+"eo_trackeditor_sound" = "音乐";
+"eo_trackeditor_split" = "分割";
+"eo_trackeditor_speed" = "变速";
+"eo_trackeditor_volume" = "音量";
+"eo_trackeditor_rotate" = "旋转";
+"eo_trackeditor_crop" = "裁剪";
+"eo_trackeditor_transition" = "转场";
+"eo_trackeditor_replace" = "替换";
+"eo_trackeditor_delete" = "删除";
+
+"eo_trackeditor_sound_addmusic" = "添加音乐";
+"eo_trackeditor_sound_replacemusic" = "替换音乐";
+"eo_trackeditor_sound_addsoundeffects" = "添加音效";
+"eo_trackeditor_cancel" = "取消";
+"eo_trackeditor_done" = "完成";
+"eo_trackeditor_crop_reset" = "重置";
+"eo_trackeditor_apply_to_all" = "应用到全部";
+"eo_trackeditor_applied_to_all" = "已应用到全部";
+"eo_trackeditor_cancel_toast_title" = "确认退出编辑？";
+"eo_trackeditor_cancel_toast_content" = "退出编辑将丢失当前效果，是否退出？";
+"eo_trackeditor_discard" = "丢弃";
+"eo_trackeditor_split_toast" = "该位置不可分割";
+"eo_trackeditor_location_can_not_add_sound_effects" = "该位置不可添加音效";
+"eo_trackeditor_delete_toast" = "至少保留一段视频";
+"eo_trackeditor_transition_toast1" = "没有转场效果被应用";
+"eo_trackeditor_transition_toast2" = "%@转场效果被应用";
+"eo_trackeditor_transition_toast3" = "视频片段过短，不可添加转场";
+"eo_trackeditor_add_sound_effects_limit_tips" = "添加音效不能超过%@个";
+
+"eo_previeweditor_voice_tip" = "使用音色来改变你的声音或录音";
+"eo_previeweditor_voice_record" = "录音";
+"eo_previeweditor_voice_viewing" = "浏览录音";
+"eo_previeweditor_voice_original_sound" = "原声";
+"eo_previeweditor_voice_overlay" = "添加录音以便使用音色";
+"eo_previeweditor_voice_volume" = "音量";
+"eo_previeweditor_voice_volume_cancel" = "取消";
+"eo_previeweditor_voice_volume_save" = "保存";
+"eo_previeweditor_none" = "无";
+
+"eo_previeweditor_press_and_hold" = "按住特效使其生效";
+"eo_previeweditor_cancel_edit_title" = "放弃编辑？";
+"eo_previeweditor_cancel_edit_info" = "取消后，编辑的信息将不会保存，是否取消?";
+"eo_previeweditor_confirm" = "确认";
+"eo_previeweditor_apply_to_all" = "应用到全部";
+
+//record
+"eo_camera_flip" = "镜头翻转";
+"eo_camera_flash" = "闪光灯";
+"eo_camera_timer" = "倒计时";
+"eo_camera_filters" = "滤镜";
+"eo_camera_speed" = "倍速";
+"eo_camera_beauty" = "美颜";
+"eo_camera_effectssticker" = "人脸特效";
+"eo_camera_upload" = "相册";
+"eo_camera_discardclip" = "删除上一段视频？";
+"eo_camera_discardclip_confirm" = "删除";
+"eo_camera_discardclip_cancel" = "取消";
+"eo_camera_discard" = "退出拍摄";
+"eo_camera_startover" = "重新拍摄";
+"eo_camera_cancel" = "取消";
+"eo_camera_toast_beauty_items_conflict_with_stick" = "取消特效后再使用";
+"eo_camera_toast_switch_to_countdown" = "已切换到%1s秒倒计时";
+"eo_camera_modes_2m" = "2 分钟";
+"eo_camera_modes_30s" = "30 秒";
+"eo_camera_modes_15s" = "15 秒";
+"eo_camera_modes_photo" = "照片";
+"eo_camera_album_unauth_alert_title" = "相册权限被禁用";
+"eo_camera_album_unauth_alert_message" = "是否去设置中授予该权限？";
+"eo_camera_unauth_alert_cancel" = "取消";
+"eo_camera_unauth_alert_confirm" = "去设置";
+"eo_camera_unauth_alert_title" = "相机权限被禁用";
+"eo_camera_unauth_alert_message" = "是否去设置中授予该权限？";
+"eo_camera_microphone_unauth_alert_title" = "麦克风权限被禁用";
+"eo_camera_microphone_unauth_alert_message" = "是否去设置中授予该权限？";
+"eo_camera_timer_setduration" = "拖动指针确定拍摄时长";
+"eo_camera_timer_countdown" = "开始计时";
+
+//draft
+"eo_draft" = "草稿箱";
+"eo_draft_confirmdelete_title" = "确认删除？";
+"eo_draft_confirmdelete_message" = "删除后，这%@个草稿将无法恢复";
+"eo_draft_delete" = "删除";
+"eo_draft_manage" = "管理";
+"eo_draft_cancel" = "取消";
+"eo_draft_selectall" = "全选";
+"eo_draft_unselectall" = "反选";
+"eo_draft_nodraft" = "暂无草稿";
+
+
+//album
+"eo_album_all" = "全部";
+"eo_album_photos_videos" = "视频";
+"eo_album_photos" = "图片";
+"eo_album_material_limit_tips" = "添加素材不能超过%@个";
+"eo_album_tips_selectedCount" = "已选择%@个素材";
+"eo_album_confirm" = "下一步";
+"eo_album_tips" = "你可以选择图片和视频";
+"eo_album_preview_select" = "选择";
+"eo_album_audio_extract_selection" = "请选择想要提取的视频";
+"eo_album_add" = "添加";
+"eo_album_no_video" = "暂无内容";
+"eo_album_no_image" = "暂无内容";
+"eo_album_no_media" = "暂无内容";
+"eo_album_tips_video_min_duration" = "视频时长不能小于%@s";
+"eo_album_tips_video_max_duration" = "视频时长不能大于%@s";
+"eo_album_title" = "本地相册";
+"eo_album_gif_tag" = "GIF";
+"eo_album_tips_max_video_count" = "最多选择%@个视频";
+"eo_album_picker_tips_max_material_count" = "最多选择%@个素材";
+"eo_album_audio_extract_audio_import" = "导入音频";
+"eo_album_picker_tips_allow_photos" = "为更自由地选择创作素材，获得更丰富的视频效果，建议你允许访问所有照片";
+"eo_album_picker_tips_allow_access" = "开始设置";
+"eo_album_editor_common_cancel" = "取消";
+"eo_album_editor_picker_tips_go_shoot" = "去拍摄";
+"eo_album_editor_common_back" = "返回";
+"eo_album_editor_tips_photo_film_one" = "照片电影(1)";
+"eo_album_editor_common_next" = "下一步";
+"eo_album_editor_tips_all_photos" = "所有照片";
+"eo_album_editor_tips_allow_all_photos" = "点击%@切换至允许访问所有照片";
+"eo_album_editor_common_loading" = "Loading...";
+"eo_album_editor_album_picker_albumImport" = "相册导入";
+"eo_album_editor_album_picker_material" = "素材库";
+"eo_ablum_editor_audio_voiceover_tips_setting" = "设置";

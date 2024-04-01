@@ -45,6 +45,7 @@ class SLVideoCropMoveView: UIView {}
 class SLVideoEditorPlayerCropView: UIView, UIGestureRecognizerDelegate {
     
     typealias FixedInfoType = (fixedPoint: CGPoint, fixedPosition: SLVideoCropHandlePosition)
+    typealias globalConfig = ShopLiveEditorConfigurationManager
     
     private var cropRect: CGRect = .zero
     
@@ -220,25 +221,21 @@ class SLVideoEditorPlayerCropView: UIView, UIGestureRecognizerDelegate {
     }
     
     func isAllowSizeCropRect(_ standardRect: CGRect) -> Bool {
-        if let config = ShopLiveShortformEditorConfigurationManager.shared.shortformUploadConfiguration {
-            if config.videoCropOption.isFixed {
-                let h = config.videoCropOption.height
-                let w = config.videoCropOption.width
-                if w < h {
-                    guard standardRect.width >= handleSize * 3 else { return false }
-                }
-                else {
-                    guard standardRect.height >= handleSize * 3 else { return false }
-                }
+        let config = globalConfig.shared
+        if config.videoCropOption.isFixed {
+            let h = config.videoCropOption.height
+            let w = config.videoCropOption.width
+            if w < h {
+                guard standardRect.width >= handleSize * 3 else { return false }
             }
             else {
-                guard standardRect.height >= handleSize * 3 && standardRect.width >= handleSize * 3 else { return false }
+                guard standardRect.height >= handleSize * 3 else { return false }
             }
-
         }
         else {
-            guard standardRect.height >= handleSize * 3 else { return false }
+            guard standardRect.height >= handleSize * 3 && standardRect.width >= handleSize * 3 else { return false }
         }
+        
         return true
     }
     
@@ -249,41 +246,26 @@ class SLVideoEditorPlayerCropView: UIView, UIGestureRecognizerDelegate {
         var height: CGFloat = .zero
         let curPoint = point
         
-        
-        if let config = ShopLiveShortformEditorConfigurationManager.shared.shortformUploadConfiguration {
-            if config.videoCropOption.isFixed {
-                let h = config.videoCropOption.height
-                let w = config.videoCropOption.width
-                
-                let videoRatio : CGFloat = CGFloat( w ) / CGFloat( h )
-                switch panDirection {
-                case .up, .down:
-                    height = (curPoint.y - fixedInfo.fixedPoint.y).magnitude
-                    width = (videoRatio) * height
-                    break
-                case .left, .right:
-                    width = (curPoint.x - fixedInfo.fixedPoint.x).magnitude
-                    height = ( 1 / videoRatio ) * width
-                    break
-                }
-            }
-            else {
-                height = (curPoint.y - fixedInfo.fixedPoint.y).magnitude
-                width = (curPoint.x - fixedInfo.fixedPoint.x).magnitude
-            }
-        }
-        else {
+        let config = globalConfig.shared
+        if config.videoCropOption.isFixed {
+            let h = config.videoCropOption.height
+            let w = config.videoCropOption.width
             
+            let videoRatio : CGFloat = CGFloat( w ) / CGFloat( h )
             switch panDirection {
             case .up, .down:
                 height = (curPoint.y - fixedInfo.fixedPoint.y).magnitude
-                width = (CGFloat(9)/CGFloat(16)) * height
+                width = (videoRatio) * height
                 break
             case .left, .right:
                 width = (curPoint.x - fixedInfo.fixedPoint.x).magnitude
-                height = (CGFloat(16)/CGFloat(9)) * width
+                height = ( 1 / videoRatio ) * width
                 break
             }
+        }
+        else {
+            height = (curPoint.y - fixedInfo.fixedPoint.y).magnitude
+            width = (curPoint.x - fixedInfo.fixedPoint.x).magnitude
         }
         
         standardRect.size = CGSize(width: width, height: height)
@@ -389,9 +371,8 @@ class SLVideoEditorPlayerCropView: UIView, UIGestureRecognizerDelegate {
         let frameRatio = self.bounds.size.width / self.bounds.size.height
         var videoRatio = 9.0/16.0
         
-        if let config = ShopLiveShortformEditorConfigurationManager.shared.shortformUploadConfiguration {
-            videoRatio = CGFloat( config.videoCropOption.width ) / CGFloat( config.videoCropOption.height )
-        }
+        let videoCropOption = globalConfig.shared.videoCropOption
+        videoRatio = CGFloat( videoCropOption.width ) / CGFloat( videoCropOption.height )
         
         if frameRatio == videoRatio {
             cropRect = self.bounds

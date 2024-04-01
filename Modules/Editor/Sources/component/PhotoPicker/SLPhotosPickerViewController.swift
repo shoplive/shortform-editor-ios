@@ -107,8 +107,11 @@ open class SLPhotosPickerViewController: UIViewController {
     
     private var isViewLoading: Bool = false
     
-    weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
     weak var shoplivePermissionDelegate : ShopLivePermissionHandler?
+    weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
+    weak var videoEditorDelegate : ShopLiveVideoEditorDelegate?
+    
+    
     var video: ShortsVideo? = nil
     open var selectedAssets = [SLPHAsset]()
     open var isSelectedFromCamera: Bool = false
@@ -514,7 +517,8 @@ extension SLPhotosPickerViewController {
     
     private func dismiss(done: Bool) {
         self.video = nil
-        shortformEditorDelegate?.onShortformEditorMediaPickerDismiss()
+        shortformEditorDelegate?.onShopLiveShortformEditorClosed?()
+        videoEditorDelegate?.onShopLiveVideoEditorClosed?()
         self.dismiss(animated: true)
     }
     

@@ -15,27 +15,35 @@ public extension Project {
         organizationName: String = "com.app",
         packages: [Package] = [],
         configurations : [Configuration] = [],
-        targets : [Target]
+        targets : [Target],
+        headerSearchPaths : [String : SettingValue] = [:]
     ) -> Project {
         var settings: Settings
         
         if configurations.isEmpty {
             settings = .settings(
-                base: [:],
+                base: headerSearchPaths,
                 configurations: [
                     .debug(name: .debug),
                     .release(name: .release)
-                ], defaultSettings: .recommended)
+                ],
+                defaultSettings: .recommended)
         }
         else {
         
+            var base : [String : SettingValue] = [
+                "PRODUCT_BUNDLE_IDENTIFIER":"$SL_APP_BUNDLE_ID",
+                "PRODUCT_NAME" : "$SL_APP_NAME",
+                "CURRENT_PROJECT_VERSION" : "$SL_APP_BUILD_VERSION",
+                "MARKETING_VERSION" : "$SL_APP_MARKETING_VERSION"
+                ]
+            
+            for (key, value)  in headerSearchPaths {
+                base[key] = value
+            }
+            
             settings = .settings(
-                base: [
-                    "PRODUCT_BUNDLE_IDENTIFIER":"$SL_APP_BUNDLE_ID",
-                    "PRODUCT_NAME" : "$SL_APP_NAME",
-                    "CURRENT_PROJECT_VERSION" : "$SL_APP_BUILD_VERSION",
-                    "MARKETING_VERSION" : "$SL_APP_MARKETING_VERSION"
-                    ],
+                base: base,
                 configurations: configurations,
                 defaultSettings: .recommended)
         }

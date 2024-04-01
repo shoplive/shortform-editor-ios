@@ -10,10 +10,11 @@ import Foundation
 
 
 
-class ShopLiveShortformEditorConfigurationManager {
-    static let shared = ShopLiveShortformEditorConfigurationManager()
+class ShopLiveEditorConfigurationManager {
+    static let shared = ShopLiveEditorConfigurationManager()
     
-    var shortformUploadConfiguration : ShopLiveShortformEditorConfiguration?
-    
+    var videoCropOption : SLEditorAspectRatio = ShopLiveShortFormEditorAspectRatio()
+    var visibleContents : SLVisibleContent  = ShopLiveShortFormEditorVisibleContent()
+    var videoTrimOption : SLEditorTrimOption = ShopLiveShortFormEditorTrimOption()
     
 }

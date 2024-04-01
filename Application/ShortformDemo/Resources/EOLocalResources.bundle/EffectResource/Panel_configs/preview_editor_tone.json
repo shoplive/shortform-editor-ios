@@ -1,0 +1,80 @@
+{
+    "data": {
+        "tabs": [
+            {
+                "uniqueId": "i0001",
+                "titleDict": {
+                    "en": "Default",
+                    "zh": "默认"
+                },
+                "subItems": [
+                    {
+                        "uniqueId": "i0002",
+                        "titleDict": {
+                            "en": "Chipmunk",
+                            "zh": "花栗鼠"
+                        },
+                        "builtInIcon": "eo_resource_tone_chipmunk.png",
+                        "md5": "84870936EC78E99C95AF697874BB5EEF",
+                        "relativePath": "tone.bundle/chipmunk/chipmunk.dat",
+                        "param": {
+                            "path": "tone.bundle/chipmunk/chipmunk.dat"
+                        }
+                    },
+                    {
+                        "uniqueId": "i0003",
+                        "titleDict": {
+                            "en": "Megaphone",
+                            "zh": "扩音器"
+                        },
+                        "builtInIcon": "eo_resource_tone_metaspeaker.png",
+                        "md5": "8AFBEEC3B701D51186C5126074F0E46C",
+                        "relativePath": "tone.bundle/megaphone/megaphone.dat",
+                        "param": {
+                            "path": "tone.bundle/megaphone/megaphone.dat"
+                        }
+                    },
+                    {
+                        "uniqueId": "i0004",
+                        "titleDict": {
+                            "en": "Minions",
+                            "zh": "小黄人"
+                        },
+                        "builtInIcon": "eo_resource_tone_minions.png",
+                        "md5": "266584330CB686C3447314360DFDCFF3",
+                        "relativePath": "tone.bundle/minions/minions.dat",
+                        "param": {
+                            "path": "tone.bundle/minions/minions.dat"
+                        }
+                    },
+                    {
+                        "uniqueId": "i0005",
+                        "titleDict": {
+                            "en": "Robot",
+                            "zh": "机器人"
+                        },
+                        "builtInIcon": "eo_resource_tone_robot.png",
+                        "md5": "186DCBE5A2D334517F7E498DBD050A11",
+                        "relativePath": "tone.bundle/robot/robot.dat",
+                        "param": {
+                            "path": "tone.bundle/robot/robot.dat"
+                        }
+                    },
+                    {
+                        "uniqueId": "i0006",
+                        "titleDict": {
+                            "en": "Sweet Girl",
+                            "zh": "甜妹"
+                        },
+                        "builtInIcon": "eo_resource_tone_sweetgirl.png",
+                        "md5": "ED5439DC5438D6B7F93C903201CF6C2B",
+                        "relativePath": "tone.bundle/sweet_girl/sweet_girl.dat",
+                        "param": {
+                            "path": "tone.bundle/sweet_girl/sweet_girl.dat"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

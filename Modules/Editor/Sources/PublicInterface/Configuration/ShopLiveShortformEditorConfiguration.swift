@@ -9,8 +9,7 @@ import Foundation
 import UIKit
 
 
-
-public final class ShopLiveShortFormEditorAspectRatio {
+public final class ShopLiveShortFormEditorAspectRatio : SLEditorAspectRatio {
     public var width : Int = 9
     public var height : Int = 16
     public var isFixed : Bool = true
@@ -23,7 +22,7 @@ public final class ShopLiveShortFormEditorAspectRatio {
     }
 }
 
-public final class ShopLiveShortFormEditorTrimOption {
+public final class ShopLiveShortFormEditorTrimOption : SLEditorTrimOption {
     public var maxVideoDuration: CGFloat = 60
     public var minVideoDuration: CGFloat = 1
     
@@ -33,7 +32,7 @@ public final class ShopLiveShortFormEditorTrimOption {
     }
 }
 
-public final class ShopLiveShortFormEditorVisibleContent {
+public final class ShopLiveShortFormEditorVisibleContent : SLVisibleContent {
     public var isDescriptionVisible : Bool = true
     public var isTagsVisible : Bool = true
     
@@ -41,7 +40,6 @@ public final class ShopLiveShortFormEditorVisibleContent {
         self.isDescriptionVisible = isDescriptionVisible
         self.isTagsVisible = isTagsVisible
     }
-    
 }
 
 public final class ShopLiveShortformEditorConfiguration {
@@ -49,10 +47,11 @@ public final class ShopLiveShortformEditorConfiguration {
     public var videoCropOption : ShopLiveShortFormEditorAspectRatio = .init()
     public var visibleContents : ShopLiveShortFormEditorVisibleContent = .init()
     public var videoTrimOption : ShopLiveShortFormEditorTrimOption = .init()
-    //minmax
-    //
     
-    public init(videoCropOption: ShopLiveShortFormEditorAspectRatio, visibleContents : ShopLiveShortFormEditorVisibleContent?, minVideoDuration : CGFloat? = nil , maxVideoDuration : CGFloat? = nil) {
+    public init(videoCropOption: ShopLiveShortFormEditorAspectRatio,
+                visibleContents : ShopLiveShortFormEditorVisibleContent?,
+                minVideoDuration : CGFloat? = nil,
+                maxVideoDuration : CGFloat? = nil) {
         self.videoCropOption = videoCropOption
         if let visibleContents = visibleContents {
             self.visibleContents = visibleContents
@@ -69,5 +68,14 @@ public final class ShopLiveShortformEditorConfiguration {
             }
         }
     }
-    
 }
+
+
+
+
+
+
+// ShopliveShortformEditorConfiguration 2가지 타입으로
+// gallery 우리꺼 쓰냐 고객사꺼 써서 바로 들어오냐
+// 완료된 url 다시 떨어트려주는 delegate
+//complete error cancel,

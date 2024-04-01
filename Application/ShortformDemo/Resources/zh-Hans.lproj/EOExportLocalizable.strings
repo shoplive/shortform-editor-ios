@@ -1,0 +1,27 @@
+/* 
+  EOExportLocalizable.strings
+  Pods
+*/
+"eo_export_cover_album" = "相册导入";
+"eo_export_cover_frame" = "视频帧";
+"eo_export_cover_operation" = "滑动指针选择封面";
+"eo_export_cover_selectagain" = "重新选择";
+"eo_export_cover_tip" = "拖动或双指缩放调整画面";
+"eo_export_cover_confirm" = "确定";
+"eo_export_cover_finish" = "完成";
+"eo_export_main" = "导出";
+"eo_export_cover_editor" = "设置封面";
+"eo_export_resolution" = "分辨率";
+"eo_export_resolution_res" = "分辨率";
+"eo_export_resolution_fps" = "帧率";
+"eo_export_resolution_save" = "保存";
+"eo_export_resolution_reset" = "重置";
+"eo_export_cover_savetolocal" = "已保存到本地相册";
+"eo_export_save_error" = "保存失败";
+"eo_export_exit_export_tip" = "取消导出";
+"eo_export_exit_title" = "确认退出导出？";
+"eo_export_exit_message" = "退出导出将丢失当前效果，是否退出？";
+"eo_export_cancel" = "取消";
+"eo_export_confirm" = "确定";
+"eo_export_nonsupport_4K" = "该机型不支持导出4K";
+"eo_export_nonsupport_1080P" = "该机型不支持导出1080P";

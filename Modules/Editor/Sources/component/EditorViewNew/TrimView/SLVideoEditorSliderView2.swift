@@ -12,7 +12,7 @@ import ShopliveSDKCommon
 
 
 class SLVideoEditorSliderView2 : UIView {
-    
+    typealias globalConfig = ShopLiveEditorConfigurationManager
     
     
     lazy private var frameCollectionView : UICollectionView = {
@@ -64,11 +64,11 @@ class SLVideoEditorSliderView2 : UIView {
     private var videoDuration: CGFloat = 0
     private var currentCropTime : (start: CMTime, end: CMTime) = (.zero, .zero)
     private var minTrimTime : CGFloat  {
-        return ShopLiveShortformEditorConfigurationManager.shared.shortformUploadConfiguration?.videoTrimOption.minVideoDuration ?? 1
+        return globalConfig.shared.videoTrimOption.minVideoDuration
     }
     
     private var maxTrimTime : CGFloat {
-        return ShopLiveShortformEditorConfigurationManager.shared.shortformUploadConfiguration?.videoTrimOption.maxVideoDuration ?? 60
+        return globalConfig.shared.videoTrimOption.maxVideoDuration 
     }
     
     private var imageGenerator : AVAssetImageGenerator

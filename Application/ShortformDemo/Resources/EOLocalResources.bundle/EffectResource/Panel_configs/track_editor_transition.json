@@ -1,0 +1,85 @@
+{
+    "data": {
+        "tabs": [
+            {
+                "uniqueId": "j0001",
+                "titleDict": {
+                    "en": "Default",
+                    "zh": "默认"
+                },
+                "subItems": [
+                    {
+                        "uniqueId": "j0002",
+                        "titleDict": {
+                            "en": "FlashWhite",
+                            "zh": "FlashWhite"
+                        },
+                        "builtInIcon": "eo_resource_flashwhite_7165162435048439810.gif",
+                        "md5": "8DB39CE9D25BF234FCA9A4710C93921A",
+                        "relativePath": "transitions.bundle/Flashwhite_7165162435048439810/Flashwhite_7165162435048439810.zip",
+                        "param": {
+                            "overlap": 0,
+                            "path": "transitions.bundle/Flashwhite_7165162435048439810/Flashwhite_7165162435048439810"
+                        }
+                    },
+                    {
+                        "uniqueId": "j0003",
+                        "titleDict": {
+                            "en": "Pushcloser",
+                            "zh": "Pushcloser"
+                        },
+                        "builtInIcon": "eo_resource_pushcloser_7165162515919699970.gif",
+                        "md5": "9BD48FC86C1828B4D728EA952FEBF41B",
+                        "relativePath": "transitions.bundle/Pushcloser_7165162515919699970/Pushcloser_7165162515919699970.zip",
+                        "param": {
+                            "overlap": 0,
+                            "path": "transitions.bundle/Pushcloser_7165162515919699970/Pushcloser_7165162515919699970"
+                        }
+                    },
+                    {
+                        "uniqueId": "j0004",
+                        "titleDict": {
+                            "en": "RectangleSplit",
+                            "zh": "RectangleSplit"
+                        },
+                        "builtInIcon": "eo_resource_rectanglesplit_7165160993281687553.gif",
+                        "md5": "4CAD4C32A217317FBE554DCF25DC7D0E",
+                        "relativePath": "transitions.bundle/RectangleSplit_7165160993281687553/RectangleSplit_7165160993281687553.zip",
+                        "param": {
+                            "overlap": 0,
+                            "path": "transitions.bundle/RectangleSplit_7165160993281687553/RectangleSplit_7165160993281687553"
+                        }
+                    },
+                    {
+                        "uniqueId": "j0005",
+                        "titleDict": {
+                            "en": "Upright",
+                            "zh": "Upright"
+                        },
+                        "builtInIcon": "eo_resource_upright_7165162212066590722.gif",
+                        "md5": "28B6B25F66BE9170739732EE304AB048",
+                        "relativePath": "transitions.bundle/Upright_7165162212066590722/Upright_7165162212066590722.zip",
+                        "param": {
+                            "overlap": 1,
+                            "path": "transitions.bundle/Upright_7165162212066590722/Upright_7165162212066590722"
+                        }
+                    },
+                    {
+                        "uniqueId": "j0006",
+                        "titleDict": {
+                            "en": "Zoomout",
+                            "zh": "Zoomout"
+                        },
+                        "builtInIcon": "eo_resource_zoomout_7165161386397220865.gif",
+                        "md5": "35242F33A8246D5BD86F7E6828CE3F1E",
+                        "relativePath": "transitions.bundle/Zoomout_7165161386397220865/Zoomout_7165161386397220865.zip",
+                        "param": {
+                            "overlap": 0,
+                            "path": "transitions.bundle/Zoomout_7165161386397220865/Zoomout_7165161386397220865"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

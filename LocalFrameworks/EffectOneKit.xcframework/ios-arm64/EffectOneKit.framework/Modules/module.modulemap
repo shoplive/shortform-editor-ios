@@ -1,0 +1,6 @@
+framework module EffectOneKit {
+  umbrella header "EffectOneKit.h"
+  export *
+
+  module * { export * }
+}
