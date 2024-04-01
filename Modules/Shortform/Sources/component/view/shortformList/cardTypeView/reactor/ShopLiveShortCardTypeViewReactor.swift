@@ -524,7 +524,6 @@ extension ShopLiveShortCardTypeViewReactor {
             switch result {
             case .success(let response):
                 self?.shortsCollectionModel = response
-                dump(response)
                 guard let shortsListModel = response.shortsList else {
                     self?.resultHandler?( .endPullToRefresh )
                     return

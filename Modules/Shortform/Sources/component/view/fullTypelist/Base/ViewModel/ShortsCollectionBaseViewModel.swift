@@ -304,8 +304,52 @@ extension ShortsCollectionBaseViewModel {
     
     func getOverlayUrl(at indexPath : IndexPath, shortsModel : ShortsModel?, isYoutube : Bool) -> URL? {
         var payload: String = ""
+        
+        var payloadDict = self.getOverlayUrlPayload(at: indexPath, shortsModel: shortsModel, isYoutube: isYoutube)
+        
+        if let shortJson = payloadDict.toJson_SL()  {
+            payload = shortJson
+        } else {
+            
+            return nil
+        }
+        
+        let urlString : String
+        
+        if isYoutube {
+            urlString = ShortFormConfigurationInfosManager.shared.shortsConfiguration.youtubeUrl
+        }
+        else {
+            urlString = ShortFormConfigurationInfosManager.shared.shortsConfiguration.detailUrl
+        }
+        
+        let urlComponents = URLComponents(string: urlString)
+        var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
+        
+        queryItems.append(URLQueryItem(name: "payload", value: payload))
+       
+        guard let params = URLUtil_SL.query(queryItems) else {
+            return URL(string: urlString)
+        }
+
+        guard let url = URL(string: urlString + "?" + params) else {
+            return URL(string: urlString)
+        }
+        
+        return url
+    }
+    
+    func getSetShortsSingleDetailViewPayload(at indexPath : IndexPath, shortsModel : ShortsModel?, isYoutube : Bool) -> [String : Any] {
+        var payloadDict = self.getOverlayUrlPayload(at: indexPath, shortsModel: shortsModel, isYoutube: isYoutube)
+        payloadDict["ids"] = self.shortsListData.compactMap({ $0.shortsId }).joined(separator: ",")
         let shortsDict = shortsModel?.getRawDataDict()
-        var payloadDict: [String: Any] = ["shorts": shortsDict]
+        payloadDict["shorts"] = shortsDict
+        return payloadDict
+    }
+    
+    func getOverlayUrlPayload(at indexPath : IndexPath, shortsModel : ShortsModel?, isYoutube : Bool) -> [String : Any] {
+       
+        var payloadDict: [String: Any] = [:]
         
         if let userJWT = ShortFormAuthManager.shared.getuserJWT() {
             payloadDict["userJWT"] = userJWT
@@ -366,7 +410,6 @@ extension ShortsCollectionBaseViewModel {
         }
         
         //튜토리얼 용 쿼리 파라미터
-        payloadDict["ids"] = self.shortsListData.compactMap({ $0.shortsId }).joined(separator: ",")
         payloadDict["index"] = indexPath.row
         if let startId = self.initialTargetShortsId {
             payloadDict["startId"] = startId
@@ -393,37 +436,8 @@ extension ShortsCollectionBaseViewModel {
         
         ShortFormAuthManager.shared.getAkAndUserJWTasDict().forEach { payloadDict[$0.key] = $0.value }
         
-        if let shortJson = payloadDict.toJson_SL()  {
-            payload = shortJson
-        } else {
-            return nil
-        }
-        
-        let urlString : String
-        
-        if isYoutube {
-            urlString = ShortFormConfigurationInfosManager.shared.shortsConfiguration.youtubeUrl
-        }
-        else {
-            urlString = ShortFormConfigurationInfosManager.shared.shortsConfiguration.detailUrl
-        }
-        
-        let urlComponents = URLComponents(string: urlString)
-        var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
-        
-        queryItems.append(URLQueryItem(name: "payload", value: payload))
-       
-        guard let params = URLUtil_SL.query(queryItems) else {
-            return URL(string: urlString)
-        }
-
-        guard let url = URL(string: urlString + "?" + params) else {
-            return URL(string: urlString)
-        }
-        
-        return url
+        return payloadDict
     }
-    
     
 }
 //MARK: - WebViewPool function

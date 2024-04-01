@@ -388,7 +388,8 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
                                 shopliveSessionId: viewModel.getCurrentShopliveSessionId(),
                                 shortsMode: viewModel.shortsMode,
                                 isLandScape: UIScreen.isLandscape_SL,
-                                isMute: viewModel.getIsMuted())
+                               isMute: viewModel.getIsMuted(),
+                               setShortsSingleDetailViewPayload: self.viewModel.getSetShortsSingleDetailViewPayload(at: indexPath, shortsModel: data, isYoutube: viewModel.checkIsYoutubePlayer(indexPath: indexPath)))
         }
         
         if viewModel.didAnimatePreviewToFullScreen && indexPath.row == 0 {

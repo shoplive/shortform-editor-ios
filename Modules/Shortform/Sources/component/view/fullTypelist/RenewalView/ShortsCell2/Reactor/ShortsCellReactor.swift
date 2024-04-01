@@ -26,6 +26,7 @@ class ShortsCellReactor : NSObject, SLReactor {
     enum Action {
         case setShortsModel(ShortsModel)
         case setWebViewUrl(URL)
+        case setSetShortsSingleDetailViewPayload([String : Any]? )
         case webToSdk(name : WebToSdk, payload : [String : Any]? )
         
         case setIsMuted(Bool)
@@ -104,6 +105,7 @@ class ShortsCellReactor : NSObject, SLReactor {
     private var currentSrn : String? {
         shortsModel?.srn
     }
+    private var setShortsSingleDetailViewPayload : [String : Any]?
     
     
     
@@ -149,6 +151,8 @@ class ShortsCellReactor : NSObject, SLReactor {
             self.onInitializeCell()
         case .setWebViewUrl(let url):
             self.onSetWebViewUrl(url: url)
+        case .setSetShortsSingleDetailViewPayload(let payload):
+            self.onSetShortsSingleDetailViewPayload(payload: payload)
         case .setShopliveSessionId(let shopliveSessionId):
             self.onSetShopliveSessionId(id: shopliveSessionId)
         case .setShortsModel(let model):
@@ -249,6 +253,10 @@ class ShortsCellReactor : NSObject, SLReactor {
     
     private func onSetWebViewUrl(url : URL) {
         self.currentWebViewUrl = url
+    }
+    
+    private func onSetShortsSingleDetailViewPayload(payload : [String : Any]?) {
+        self.setShortsSingleDetailViewPayload = payload
     }
     
     private func onSetShopliveSessionId(id : String?) {
@@ -565,6 +573,13 @@ extension ShortsCellReactor {
     
     private func onShortformClientInitialized(payload : [String : Any]?) {
         guard let payload = payload else { return }
+        
+        //SET_SHORTS_SINGLE_DETAIL_VIEW
+        if let setShortsSingleDetailViewPayload = setShortsSingleDetailViewPayload {
+            let jsRequest : [JSRequest] = [(.SET_SHORTS_SINGLE_DETAIL_VIEW, setShortsSingleDetailViewPayload)]
+            resultHandler?( .requestEvaluateJS(jsRequest))
+        }
+        
         if ShortFormAuthManager.shared.getuserJWT() == nil && ShortFormAuthManager.shared.getGuestUId() == nil {
             ShortFormAuthManager.shared.setAuthInfo(payload)
         }

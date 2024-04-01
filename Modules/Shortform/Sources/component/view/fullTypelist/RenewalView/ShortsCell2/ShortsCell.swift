@@ -44,7 +44,17 @@ protocol ShortsCellInterface {
     func handleDeviceRotation(isLandscape : Bool)
     func sendActivePageStateToWeb(forceIsActive : Bool?, srn : String?, index : Int, shortsListModel : [ShopLiveShortform.ShortsModel]?, previousSrn : String?)
     func getCellIndexPath() -> IndexPath
-    func configureCell(webView : SLWebView, youtubeWebView : SLWebView?, model : ShopLiveShortform.ShortsModel, delegate : ShortsCellDelegate, indexPath : IndexPath, viewProvideype : ShortsCollectionBaseViewModel.ViewProvidedType, shopliveSessionId : String?, shortsMode : ShopLiveShortform.ShortsMode, isLandScape : Bool,isMute : Bool)
+    func configureCell(webView : SLWebView,
+                       youtubeWebView : SLWebView?,
+                       model : ShopLiveShortform.ShortsModel,
+                       delegate : ShortsCellDelegate,
+                       indexPath : IndexPath,
+                       viewProvideype : ShortsCollectionBaseViewModel.ViewProvidedType,
+                       shopliveSessionId : String?,
+                       shortsMode : ShopLiveShortform.ShortsMode,
+                       isLandScape : Bool,
+                       isMute : Bool,
+                       setShortsSingleDetailViewPayload : [String : Any]?)
     func setAppState(srn : String?, state : String)
     func takeSnapShotForWindow(srn : String?)
     
@@ -155,8 +165,6 @@ class ShortsCell : UICollectionViewCell {
         bindShortsYoutubePlayerView()
         bindShortsWebView()
         setLayout()
-        
-        
     }
     
     required init?(coder : NSCoder) {
@@ -176,11 +184,13 @@ class ShortsCell : UICollectionViewCell {
                        shopliveSessionId : String?,
                        shortsMode : ShortsMode,
                        isLandScape : Bool,
-                       isMute : Bool) {
-        
+                       isMute : Bool,
+                       setShortsSingleDetailViewPayload : [String : Any]?) {
+        self.webView.indexPath = indexPath
         self.snapShotImageView.image = nil
         self.youtubePosterImageView.image = nil
         self.youtubePosterImageView.alpha = 1
+        reactor.action( .setSetShortsSingleDetailViewPayload(setShortsSingleDetailViewPayload) )
         self.webView.action( .setWebView(webView) )
         self.youtubePlayerView.action( .setWebView(youtubeWebView) )
         self.youtubePlayerView.action( .setCurrentIndexPath(indexPath) )
@@ -193,7 +203,6 @@ class ShortsCell : UICollectionViewCell {
         reactor.action( .setIsMuted(isMute) )
         self.delegate = delegate
         reactor.action( .initializeCell )
-        
     }
     
 }

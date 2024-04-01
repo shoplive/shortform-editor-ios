@@ -37,6 +37,7 @@ class ShortsWebView : UIView, SLReactor {
     private let reactor = ShortsWebViewReactor()
     
     var resultHandler: ((Result) -> ())?
+    var indexPath : IndexPath?
     
     override init(frame : CGRect) {
         super.init(frame: frame)
@@ -51,7 +52,6 @@ class ShortsWebView : UIView, SLReactor {
     deinit {
         ShopLiveLogger.debugLog("shortswebview deinited")
     }
-    
     
     func action(_ action: Action) {
         switch action {
@@ -80,6 +80,12 @@ class ShortsWebView : UIView, SLReactor {
     }
     
     private func onEvaluateJavaScript(request : JSRequest) {
+//        var log = "[HASSAN LOG] outgoing command ---------->\n"
+//        log += "name : \(request.0.rawValue)\n"
+//        log += "value: \(request.1)\n"
+//        log += "==========="
+//        ShopLiveLogger.debugLog(log)
+        
         if let isLoaded = reactor.getIsWebViewLoaded(), isLoaded == true {
             overlayWebView?.sendShortsEvent(event: request.0.rawValue, parameter: request.1) { }
         }
@@ -172,6 +178,7 @@ extension ShortsWebView : SLWebviewResponseDelegate {
         }
         
         let payload = body["payload"] as? [String : Any]
+        
         //유투브 이벤트는 ShortsYoutubePlayer에서 내려받도록
         guard eventName.contains("YOUTUBE") == false && eventName.contains("YTP") == false else { return }
         if type != "INTERNAL_MESSAGE" {
@@ -186,6 +193,7 @@ extension ShortsWebView : SLWebviewResponseDelegate {
         self.resultHandler?( .handleWebInterface((name: webInterface, payload: payload)))
     }
     
+    //webcommand logging용 전용 함수
     private func parseBodyForLogging(body : [String : Any]) {
         var log : String = "[HASSAN LOG] <-------------- incoming command\n "
         

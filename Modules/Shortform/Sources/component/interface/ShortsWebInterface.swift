@@ -108,6 +108,9 @@ extension ShopLiveShortform {
             case SDK_YTP_DESTROY_AND_RELOAD
             case SDK_YTP_SEEK_TO
             
+            //웹뷰 413 에러 대응용 기존 webViewUrl query에 보내던 payload 그냥 보내면 됨
+            case SET_SHORTS_SINGLE_DETAIL_VIEW
+            
             private var key: String {
                 return self.rawValue
             }

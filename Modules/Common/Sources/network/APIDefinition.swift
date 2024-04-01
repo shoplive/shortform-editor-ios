@@ -140,7 +140,6 @@ public extension APIDefinition {
             }
         }
         
-        ShopLiveLogger.debugLog("[HASSAN LOG] url \(urlString)")
         self.processNetworkRequest(urlString: urlString, handler: handler)
     }
     
