@@ -405,6 +405,11 @@ public extension APIDefinition {
         
         if let adIdentifier = ShopLiveCommon.getAdIdentifier(), adIdentifier.isNotEmpty_SL {
             headers[CommonKeys.x_sl_ad_identifier] = adIdentifier
+            headers[CommonKeys.x_sl_idfa] = adIdentifier
+        }
+        
+        if let idfv = UIDevice.idfv_sl, idfv.isNotEmpty_SL {
+            headers[CommonKeys.x_sl_idfv] = idfv
         }
         
         if let utmSource = ShopLiveCommon.getUtmSource(), utmSource.isNotEmpty_SL {
@@ -422,6 +427,7 @@ public extension APIDefinition {
         if let utmContent = ShopLiveCommon.getUtmContent(), utmContent.isNotEmpty_SL {
             headers[CommonKeys.x_sl_utm_content] = utmContent
         }
+        
         
         headers[CommonKeys.x_sl_player_device] = UIDevice.deviceIdentifier_sl
         headers[CommonKeys.x_sl_player_app_version] = UIApplication.appVersion()
@@ -473,6 +479,11 @@ public extension APIDefinition {
         
         if let adIdentifier = ShopLiveCommon.getAdIdentifier(), adIdentifier.isNotEmpty_SL {
             headers[CommonKeys.x_sl_ad_identifier] = adIdentifier
+            headers[CommonKeys.x_sl_idfa] = adIdentifier
+        }
+        
+        if let idfv = UIDevice.idfv_sl, idfv.isNotEmpty_SL {
+            headers[CommonKeys.x_sl_idfv] = idfv
         }
         
         if let utmSource = ShopLiveCommon.getUtmSource(), utmSource.isNotEmpty_SL {

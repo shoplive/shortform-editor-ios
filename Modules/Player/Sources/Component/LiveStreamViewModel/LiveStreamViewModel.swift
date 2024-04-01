@@ -816,6 +816,11 @@ extension LiveStreamViewModel {
         
         if let adId = ShopLiveCommon.getAdIdentifier(), !adId.isEmpty {
             queryItems.append(URLQueryItem(name: "adIdentifier", value: adId))
+            queryItems.append(URLQueryItem(name: "idfa", value: adId))
+        }
+        
+        if let idfv = UIDevice.idfv_sl, idfv.isEmpty == false {
+            queryItems.append(URLQueryItem(name: "idfv", value: idfv))
         }
         
         if let utm_source = ShopLiveCommon.getUtmSource(), utm_source.isEmpty == false {

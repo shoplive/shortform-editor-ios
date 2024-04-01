@@ -16,7 +16,7 @@ struct ShopLiveShortformListYoutubeUrlGenerator {
     static func getYoutubeUrl( shortsModel : ShopLiveShortform.ShortsModel?) -> URL? {
         var payload: String = ""
         let shortsDict = shortsModel?.getRawDataDict()
-        var payloadDict: [String: Any] = ["shorts": shortsDict]
+        var payloadDict: [String: Any] = [:]
         
         if let userJWT = ShortFormAuthManager.shared.getuserJWT() {
             payloadDict["userJWT"] = userJWT
@@ -31,6 +31,11 @@ struct ShopLiveShortformListYoutubeUrlGenerator {
         
         if let adIdentifier = ShopLiveCommon.getAdIdentifier(), !adIdentifier.isEmpty {
             payloadDict["adIdentifier"] = adIdentifier
+            payloadDict["idfa"] = adIdentifier
+        }
+    
+        if let idfv = UIDevice.idfv_sl, idfv.isEmpty == false {
+            payloadDict["idfv"] = idfv
         }
         
         if let utm_source = ShopLiveCommon.getUtmSource() {

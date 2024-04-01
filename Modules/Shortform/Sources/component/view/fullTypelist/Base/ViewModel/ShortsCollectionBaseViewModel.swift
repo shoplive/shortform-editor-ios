@@ -320,6 +320,11 @@ extension ShortsCollectionBaseViewModel {
         
         if let adIdentifier = ShopLiveCommon.getAdIdentifier(), !adIdentifier.isEmpty {
             payloadDict["adIdentifier"] = adIdentifier
+            payloadDict["idfa"] = adIdentifier
+        }
+        
+        if let idfv = UIDevice.idfv_sl, idfv.isEmpty == false {
+            payloadDict["idfv"] = idfv
         }
         
         if let utm_source = ShopLiveCommon.getUtmSource() {

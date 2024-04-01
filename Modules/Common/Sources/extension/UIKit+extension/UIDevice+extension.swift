@@ -24,5 +24,9 @@ public extension UIDevice {
 
         return identifier
     }
+    
+    static var idfv_sl : String? {
+        return Self.current.identifierForVendor?.uuidString
+    }
 }
 
