@@ -85,7 +85,6 @@ extension ShopLiveBytePlus : EORecorderViewControllerDelegate {
             
             guard let parent = self?.parentVC else { return }
             guard let presenter = parent.topMostViewController() else {
-                ShopLiveLogger.debugLog("[HASSAN LOG] no topMostViewController")
                 return
             }
             self?.showEditorViewController(info: info, presenter: presenter)

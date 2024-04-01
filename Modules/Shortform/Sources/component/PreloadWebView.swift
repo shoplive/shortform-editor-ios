@@ -16,7 +16,6 @@ extension ShopLiveShortform {
         
         var url: String = ""
         
-        
         func loadWebView() {
             if let url = URL(string: url) {
                 var request = URLRequest(url: url)
@@ -24,5 +23,6 @@ extension ShopLiveShortform {
                 webview.load(request)
             }
         }
+        
     }
 }

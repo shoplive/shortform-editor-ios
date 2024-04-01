@@ -23,12 +23,10 @@ struct SLCodecValidator {
                   let json = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers),
                   let jsonDict = json as? [String : Any],
                   let streams = jsonDict["streams"] as? [[String : Any]] else {
-                ShopLiveLogger.debugLog("[HASSAN LOG] ffprobe failed")
                 completion(false)
                 return
             }
             for stream in streams {
-                ShopLiveLogger.debugLog("[HASSAN LOG] stream \(stream)")
                 if let codecType = stream["codec_type"] as? String, codecType == "video",
                 let codecName = stream["codec_name"] as? String {
                     completion(Self.checkIfCodecIsValid(codecName: codecName))

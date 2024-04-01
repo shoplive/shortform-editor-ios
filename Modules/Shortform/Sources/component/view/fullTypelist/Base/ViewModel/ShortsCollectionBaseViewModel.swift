@@ -154,8 +154,10 @@ class ShortsCollectionBaseViewModel {
     
     //webviews
     private var webViewLists :  [ ShopliveWebViewListKey : ShopLiveShortform.PreloadWebView] = [:]
+    private var loadFinishedWebViewIndexPaths : Set<IndexPath> = []
     private var youtubeWebViewLists : [ShopliveWebViewListKey : ShopLiveShortform.PreloadWebView] = [:]
     private var youtubeWebViewListKeys: Set<ShopliveWebViewListKey> = []
+    
     
     
     init(shopliveSessionId : String?) {
@@ -310,7 +312,6 @@ extension ShortsCollectionBaseViewModel {
         if let shortJson = payloadDict.toJson_SL()  {
             payload = shortJson
         } else {
-            
             return nil
         }
         
@@ -335,7 +336,6 @@ extension ShortsCollectionBaseViewModel {
         guard let url = URL(string: urlString + "?" + params) else {
             return URL(string: urlString)
         }
-        
         return url
     }
     
@@ -451,10 +451,19 @@ extension ShortsCollectionBaseViewModel {
     
     func loadWebViewsFor(indexPath : [IndexPath]) {
         indexPath.forEach { indexpath in
-            guard let data = shortsListData[safe : indexpath.row] else { return }
-            guard let shortsId = data.shortsId else { return }
+            guard let data = shortsListData[safe : indexpath.row] else {
+                return
+            }
+            guard let shortsId = data.shortsId else {
+                return
+            }
             let webViewListKey = ShopliveWebViewListKey(shortsId: shortsId, indexPath: indexpath)
-            guard  webViewLists[webViewListKey] == nil else { return }
+            guard  webViewLists[webViewListKey] == nil else {
+                if loadFinishedWebViewIndexPaths.contains(indexpath) == false {
+                    webViewLists[webViewListKey]?.loadWebView()
+                }
+                return
+            }
             if let url = getOverlayUrl(at: indexpath, shortsModel: data,isYoutube: false) {
                 let webView = ShopLiveShortform.PreloadWebView()
                 webView.url = url.absoluteString
@@ -483,6 +492,7 @@ extension ShortsCollectionBaseViewModel {
         guard let shortsId = data.shortsId else { return }
         let webViewListKey = ShopliveWebViewListKey(shortsId: shortsId, indexPath: indexPath)
         self.webViewLists.removeValue(forKey: webViewListKey)
+        self.loadFinishedWebViewIndexPaths.remove(indexPath)
         
         //youtube의 경우는 좀 느려서 현재 없어지는 index기준으로 위아래로 3 ~ 4개씩은 들고 있는 걸로
         let minYtIndex : Int = max(0,indexPath.row - 4)
@@ -516,6 +526,10 @@ extension ShortsCollectionBaseViewModel {
     func removeAllWebViewLists(){
         self.webViewLists.removeAll()
         self.youtubeWebViewLists.removeAll()
+    }
+    
+    func webViewLoadedFinished(at indexPath : IndexPath) {
+        self.loadFinishedWebViewIndexPaths.insert(indexPath)
     }
     
 }

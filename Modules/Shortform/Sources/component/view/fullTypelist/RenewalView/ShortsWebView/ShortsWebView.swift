@@ -37,6 +37,7 @@ class ShortsWebView : UIView, SLReactor {
     private let reactor = ShortsWebViewReactor()
     
     var resultHandler: ((Result) -> ())?
+    //로깅용 데이터
     var indexPath : IndexPath?
     
     override init(frame : CGRect) {

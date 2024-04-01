@@ -107,7 +107,7 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
         setupObserver()
         bindData()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -310,7 +310,7 @@ extension ShortsCollectionBaseView {
         previewDimLayer.position = inAppPreviewView.center
     }
     
-   @objc func layout() {
+    @objc func layout() {
         self.addSubview(shortsListView)
         shortsListView.isScrollEnabled = viewModel.isSwipable
         self.addSubview(snapShotView)
@@ -380,14 +380,14 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
         
         if let data = viewModel.shortsListData[safe : indexPath.row] {
             cell.configureCell(webView: viewModel.getWebview(for: data.shortsId ?? "",indexPath: indexPath),
-                                youtubeWebView: viewModel.getYoutubePlayerView(for: data.shortsId ?? "", indexPath: indexPath),
-                                model: data,
-                                delegate: self,
-                                indexPath: indexPath,
-                                viewProvideype: viewModel.viewProvideType,
-                                shopliveSessionId: viewModel.getCurrentShopliveSessionId(),
-                                shortsMode: viewModel.shortsMode,
-                                isLandScape: UIScreen.isLandscape_SL,
+                               youtubeWebView: viewModel.getYoutubePlayerView(for: data.shortsId ?? "", indexPath: indexPath),
+                               model: data,
+                               delegate: self,
+                               indexPath: indexPath,
+                               viewProvideype: viewModel.viewProvideType,
+                               shopliveSessionId: viewModel.getCurrentShopliveSessionId(),
+                               shortsMode: viewModel.shortsMode,
+                               isLandScape: UIScreen.isLandscape_SL,
                                isMute: viewModel.getIsMuted(),
                                setShortsSingleDetailViewPayload: self.viewModel.getSetShortsSingleDetailViewPayload(at: indexPath, shortsModel: data, isYoutube: viewModel.checkIsYoutubePlayer(indexPath: indexPath)))
         }
@@ -407,7 +407,7 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
         }
         
         if let toPlayPage = viewModel.scrollToPage , toPlayPage == indexPath.row, let playCell = cell as? ShortsCell {
-            viewModel.latestCell.setLatest(latestCell: playCell,indexPath: indexPath)
+            viewModel.latestCell.setLatest(latestCell: playCell, indexPath: indexPath)
         }
         if let cell = cell as? ShortsCell {
             if self.viewModel.shortsMode != .preview && cell.isWebViewExist() == false {
@@ -417,7 +417,9 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        didEndDisplaying cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
         viewModel.deleteWebViewsWhenCellDidEndDisplaying(indexPath: indexPath)
         guard let playCell = cell as? ShortsCell else {
             return
@@ -497,7 +499,7 @@ extension ShortsCollectionBaseView {
             guard let centerItem = self.getCenterItem() else {
                 return
             }
-
+            
             guard let latestCell = self.viewModel.latestCell.latestCell, latestCell != centerItem else {
                 return
             }

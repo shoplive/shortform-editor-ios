@@ -186,7 +186,10 @@ class ShortsCell : UICollectionViewCell {
                        isLandScape : Bool,
                        isMute : Bool,
                        setShortsSingleDetailViewPayload : [String : Any]?) {
+        
+        //로깅용
         self.webView.indexPath = indexPath
+        
         self.snapShotImageView.image = nil
         self.youtubePosterImageView.image = nil
         self.youtubePosterImageView.alpha = 1

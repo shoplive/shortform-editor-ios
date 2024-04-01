@@ -36,6 +36,7 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
     }
     
     func didFinishLoadinWebView(indexPath: IndexPath) {
+        viewModel.webViewLoadedFinished(at: indexPath)
         if viewModel.fromPreview == false { return }
         if viewModel.isOnRotation { return }
         DispatchQueue.main.async { [weak self] in

@@ -32,13 +32,8 @@ class ShopLiveEOAuthMaker {
         
         EOAuthorization.sharedInstance().makeAuth(with: config) { isSuccess, errMsg in
             self.isAuthSucceeded = isSuccess
-            
-            ShopLiveLogger.debugLog("[HASSAN LOG] errMsg \(errMsg)")
             if isSuccess {
                 EOSDK.initSDK {
-                    ShopLiveLogger.debugLog("[HASSAN LOG] self.localBundle().bundlePath \(self.localBundle().bundlePath)")
-                    ShopLiveLogger.debugLog("[HASSAN LOG] EOSDK.defaultResourceDir(self.localBundle().bundlePath) \(EOSDK.defaultResourceDir(self.localBundle().bundlePath))")
-                    ShopLiveLogger.debugLog("[HASSAN LOG] EOSDK.defaultPanelConfigDir(self.localBundle().bundlePath) \(EOSDK.defaultPanelConfigDir(self.localBundle().bundlePath))")
                     EOSDK.setResourceBaseDir(EOSDK.defaultResourceDir(self.localBundle().bundlePath))
                     EOSDK.setResourceDefaultBuiltInConfig(EOSDK.defaultPanelConfigDir(self.localBundle().bundlePath))
                     completion()
