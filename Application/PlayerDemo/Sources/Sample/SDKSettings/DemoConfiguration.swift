@@ -37,7 +37,7 @@ final class DemoConfiguration: NSObject {
     var user: ShopLiveCommonUser {
         set {
             userId = newValue.userId
-            userName = newValue.name
+            userName = newValue.userName
             userAge = newValue.age
             userGender = newValue.gender
             userScore = newValue.userScore
@@ -45,7 +45,7 @@ final class DemoConfiguration: NSObject {
         }
         get {
             var user = ShopLiveCommonUser(userId: userId ?? "null")
-            user.name = userName
+            user.userName = userName
             user.age = userAge
             user.gender = userGender
             user.userScore = userScore

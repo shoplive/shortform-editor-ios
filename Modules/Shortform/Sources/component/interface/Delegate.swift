@@ -48,10 +48,13 @@ extension ShopLiveShortform {
             
             private func setupObserver() {
                 NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("handleShare"), object: nil)
-                NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("onError"), object: nil)
+                //baseViewModel에서 사용하고 있음
+                NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("onError"), object: nil) // baseViewModel에서 사용하고 있음
+                
                 NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("onEvent"), object: nil)
-                NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("moveToProductPage"), object: nil)
-                NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("moveToProductBannerPage"), object: nil)
+                // onEvent 사용 안하고 있음 -> ShortformNativeOnEvents로 대체 되었음 -> ShortformNativeOnEvents에서 ShopLiveShortformReceiveHandlerDelegate.onEvent메소드 바로 호출함
+                NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("moveToProductPage"), object: nil) //사용 하고 있음
+                NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("moveToProductBannerPage"), object: nil)// 사용 하고 있음
             }
             
             private func teardownObserver() {

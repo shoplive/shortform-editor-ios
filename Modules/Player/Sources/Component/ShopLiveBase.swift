@@ -1796,7 +1796,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 audioSessionManager.setCategory(category: .playback, options: .mixWithOthers)
                 
                 if let referrer = referrer {
-                    self.queryParameters["referrer"] = referrer
+                    self.queryParameters["referrer"] = String(referrer.prefix(1024))
                 }
                 
                 self.queryParameters["_from"] = "sdk_direct"
@@ -1917,7 +1917,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 guard ShopLiveCommon.getAccessKey() != nil else { return }
                 
                 if let referrer = referrer {
-                    self.queryParameters["referrer"] = referrer
+                    self.queryParameters["referrer"] = String(referrer.prefix(1024))
                 }
                 
                 ShopLiveController.shared.campaignKey = campaignKey ?? ""

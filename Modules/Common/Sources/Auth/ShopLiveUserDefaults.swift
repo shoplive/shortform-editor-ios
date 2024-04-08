@@ -15,5 +15,14 @@ final class ShopLiveUserDefaults {
             UserDefaults.standard.setValue(newValue, forKey: CommonKeys.x_sl_guest_uid)
         }
     }
+    
+    static var ceId : String? {
+        get {
+            return UserDefaults.standard.string(forKey: CommonKeys.x_sl_ce_id)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: CommonKeys.x_sl_ce_id)
+        }
+    }
 }
 

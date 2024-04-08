@@ -158,6 +158,22 @@ extension ShopLiveCommon {
         return auth?.guestUid
     }
     
+    @objc(setAnonId:)
+    public static func setAnonId(anonId : String?) {
+        auth?.anonId = anonId
+    }
+    
+    @objc public static func getAnonId() -> String? {
+        return auth?.anonId
+    }
+    
+    @objc public static func getCeId() -> String? {
+        if ShopLiveUserDefaults.ceId == nil {
+            ShopLiveUserDefaults.ceId = ShopliveCeId.makeShopliveCeId()
+        }
+        return ShopLiveUserDefaults.ceId
+    }
+    
     @objc public static func clearAuth() {
         auth = nil
     }
@@ -184,19 +200,19 @@ extension ShopLiveCommon {
 public extension ShopLiveCommon {
     
     @objc static var sdkVersion: String {
-        return "1.5.6"
+        return "1.5.7"
     }
     
     @objc static var playerSdkVersion : String {
-        return "1.5.6"
+        return "1.5.7"
     }
     
     @objc static var shortformSdkVersion : String {
-        return "1.5.6"
+        return "1.5.7"
     }
     
     @objc static var videoEditorSdkversion : String {
-        return "1.5.6"
+        return "1.5.7"
     }
 }
 

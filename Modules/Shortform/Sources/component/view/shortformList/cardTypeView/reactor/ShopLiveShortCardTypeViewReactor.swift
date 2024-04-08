@@ -42,14 +42,11 @@ final class ShopLiveShortCardTypeViewReactor : NSObject, SLReactor {
         case endPullToRefresh
         case hideEmptyView(Bool)
         case invalidatCVLayout
+        case onShortsSettingsInitializeFinised
     }
-    
-    
     
     var resultHandler: ((Result) -> ())?
     var asyncResultHandler: ((Result) -> ())?
-    
-    
     
     //MARK: -Attributes
     private let networkMonitor = NetworkMonitor()
@@ -482,6 +479,7 @@ extension ShopLiveShortCardTypeViewReactor {
             switch result {
             case .success():
                 self.callShortCollectionAPI(isRefresh: true)
+                self.resultHandler?( .onShortsSettingsInitializeFinised )
                 break
             case .failure(let error):
                 print(" code: \(error.code) message: \(error.message) error : \(error.localizedDescription)")
@@ -554,7 +552,7 @@ extension ShopLiveShortCardTypeViewReactor {
         self.resultHandler?(.hideEmptyView(self.shortsListModel.count == 0 ? false : true))
         
         
-        DispatchQueue.main.async(flags: .barrier) { [weak self] in
+        DispatchQueue.main.async { [weak self] in
             if isRefresh {
                 self?.collectionView?.reloadData()
             }

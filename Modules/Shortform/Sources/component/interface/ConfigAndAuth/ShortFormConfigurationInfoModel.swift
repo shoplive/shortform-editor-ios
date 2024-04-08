@@ -39,7 +39,7 @@ struct ShortFormConfigurationInfoModel {
     var enabledSwipeOut: Bool = true
     var mutedWhenStart : Bool = false
     var mixWithOthers : Bool = true
-    var detailCollectionListAll : Bool = true
+    var previewDetailCollectionListAll : Bool = true
     var eventTraceEndpoint : String = ""
     var isCached : Bool = false
     var previewRadius : CGFloat = 10
@@ -64,7 +64,7 @@ struct ShortFormConfigurationInfoModel {
                   mutedWhenStart: datas?.mutedWhenStart,
                   mixWithOthers: datas?.mixWithOthers,
                   previewMaxSize: datas?.previewMaxSize,
-                  detailCollectionListAll : datas?.detailCollectionListAll,
+                  previewDetailCollectionListAll : datas?.previewDetailCollectionListAll,
                   eventTraceEndpoint: datas?.eventTraceEndpoint,
                   isCached: datas?.isCached,
                   previewRadius: datas?.previewRadius)
@@ -73,7 +73,7 @@ struct ShortFormConfigurationInfoModel {
     init(detailUrl: String?, youtubeUrl : String?, shortformApiEndPoint : String?, previewEdgeInsets: (left : CGFloat?, top : CGFloat?, right : CGFloat?, bottom :CGFloat?),
         previewPosition: String?, detailApiInitializeCount: Int?, detailApiPaginationCount: Int?,
          listApiInitializeCount: Int?, listApiPaginationCount: Int?, previewUseCloseButton: Bool?, enabledSwipeOut: Bool?,
-         mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?,detailCollectionListAll : Bool?,eventTraceEndpoint : String?,isCached : Bool?,previewRadius : CGFloat?) {
+         mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?,previewDetailCollectionListAll : Bool?,eventTraceEndpoint : String?,isCached : Bool?,previewRadius : CGFloat?) {
         if let detailUrl = detailUrl {
             self.detailUrl = detailUrl
         }
@@ -136,8 +136,8 @@ struct ShortFormConfigurationInfoModel {
         if let mixWithOthers = mixWithOthers {
             self.mixWithOthers = mixWithOthers
         }
-        if let detailCollectionListAll = detailCollectionListAll {
-            self.detailCollectionListAll = detailCollectionListAll
+        if let previewDetailCollectionListAll = previewDetailCollectionListAll {
+            self.previewDetailCollectionListAll = previewDetailCollectionListAll
         }
         if let eventTraceEndpoint = eventTraceEndpoint {
             self.eventTraceEndpoint = eventTraceEndpoint

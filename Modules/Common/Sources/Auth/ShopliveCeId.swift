@@ -1,26 +1,25 @@
 //
-//  ShopLiveSession.swift
+//  ShopliveCeId.swift
 //  ShopliveSDKCommon
 //
-//  Created by sangmin han on 12/1/23.
+//  Created by sangmin han on 4/2/24.
+//  Copyright © 2024 com.app. All rights reserved.
 //
 
 import Foundation
 
-
-struct ShopLiveSession {
+struct ShopliveCeId {
     
     
-    static func makeShopLiveSessionId() -> String {
+    static func makeShopliveCeId() -> String {
         
         let currentMilliSeconds = Date().timeIntervalSince1970 * 1000 // 현재 시간 current milliseconds로
         
         let prefix = String(Int(currentMilliSeconds) ,radix: 36)
-        let suffix = Self.generateRandomString(length: 8)
+        let suffix = Self.generateRandomString(length: 16)
         
         return prefix + suffix
     }
-    
     
     
     static func generateRandomString(length: Int) -> String {

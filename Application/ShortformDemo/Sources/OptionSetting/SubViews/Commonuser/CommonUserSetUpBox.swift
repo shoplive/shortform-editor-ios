@@ -55,14 +55,22 @@ class CommonUserSetUpBox : UIView {
         super.init(frame: frame)
         self.translatesAutoresizingMaskIntoConstraints = false
         self.setLayout()
+        setInitialValue()
         setJWT()
-        
         
         setBtn.addTarget(self, action: #selector(setBtnTapped(_: )), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setInitialValue() {
+        userIdBox.setInitialValue(value: Defaults.userId)
+        nameBox.setInitialValue(value: Defaults.userName)
+        ageBox.setInitialValue(value: String(Defaults.userAge))
+        genderBox.setInitialValue(value: Defaults.userGender)
+        userScoreBox.setInitialValue(value: String(Defaults.userScore))
     }
     
     private func setJWT(){
@@ -76,6 +84,7 @@ class CommonUserSetUpBox : UIView {
             userJWTValuelabel.isHidden = true
         }
     }
+    
     @objc func setBtnTapped(_ : UIButton){
         guard let accessKey = ShopLiveCommon.getAccessKey() else {
             userJWTValuelabel.text = "랜딩을 선택하여 accessKey를 설정해 주세요"
@@ -106,14 +115,20 @@ class CommonUserSetUpBox : UIView {
         }
         
         ShopLiveCommon.setAccessKey(accessKey: accessKey)
-        ShopLiveCommon.setUser(user: ShopLiveCommonUser(userId: userIdBox.getValue(),
-                                                        name: nameBox.getValue(),
-                                                        age: Int(ageBox.getValue()),
-                                                        gender: gender,
-                                                        userScore: Int(userScoreBox.getValue())),
-                               accessKey: accessKey)
-
+        let user = ShopLiveCommonUser(userId: userIdBox.getValue(),
+                                      userName: nameBox.getValue(),
+                                      age: Int(ageBox.getValue()),
+                                      gender: gender,
+                                      userScore: Int(userScoreBox.getValue()))
         
+        ShopLiveCommon.setUser(user: user,
+                               accessKey: accessKey)
+        
+        Defaults.userId = userIdBox.getValue()
+        Defaults.userName = nameBox.getValue()
+        Defaults.userAge = Int(ageBox.getValue()) ?? 10
+        Defaults.userGender = gender.rawValue
+        Defaults.userScore = Int(userScoreBox.getValue()) ?? 0
         setJWT()
     }
     

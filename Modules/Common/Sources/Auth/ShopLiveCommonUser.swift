@@ -9,7 +9,7 @@ import Foundation
 
 public class ShopLiveCommonUser : NSObject  {
     public var userId : String
-    public var name : String?
+    public var userName : String?
     public var age : Int?
     public var gender : ShopliveCommonUserGender?
     public var userScore : Int?
@@ -19,13 +19,13 @@ public class ShopLiveCommonUser : NSObject  {
     
     
     
-    func toDictionary() -> [String : Any]{
+    public func toDictionary() -> [String : Any]{
         var dict : [String : Any] = [:]
         
         dict["userId"] = userId
         
-        if let name = name {
-            dict["name"] = name
+        if let name = userName {
+            dict["userName"] = name
         }
         if let age = age {
             dict["age"] = age
@@ -44,19 +44,18 @@ public class ShopLiveCommonUser : NSObject  {
         return dict
     }
     
-    public init(userId: String, name: String? = nil, age: Int? = nil, gender: ShopliveCommonUserGender? = nil, userScore: Int? = nil, custom: [String : Any]? = nil) {
+    public init(userId: String, userName: String? = nil, age: Int? = nil, gender: ShopliveCommonUserGender? = nil, userScore: Int? = nil, custom: [String : Any]? = nil) {
         self.userId = userId
-        self.name = name
+        self.userName = userName
         self.age = age
         self.gender = gender
         self.userScore = userScore
         self.custom = custom
     }
     
-    
-    public init(userId : String, name : String?, age : NSNumber?, gender : String?, userScore : NSNumber?, custom : Dictionary<String,Any>? ) {
+    public init(userId : String, userName : String?, age : NSNumber?, gender : String?, userScore : NSNumber?, custom : Dictionary<String,Any>? ) {
         self.userId = userId
-        self.name = name
+        self.userName = userName
         self.age = age?.intValue
         if let gender = gender {
             switch gender {

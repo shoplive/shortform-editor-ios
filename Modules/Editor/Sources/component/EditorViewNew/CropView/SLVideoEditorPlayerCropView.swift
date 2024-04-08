@@ -374,25 +374,38 @@ class SLVideoEditorPlayerCropView: UIView, UIGestureRecognizerDelegate {
         let videoCropOption = globalConfig.shared.videoCropOption
         videoRatio = CGFloat( videoCropOption.width ) / CGFloat( videoCropOption.height )
         
+        
         if frameRatio == videoRatio {
             cropRect = self.bounds
-        } else {
-            if videoRatio >= 1 { //세로가 가로보다 작은 경우
-                let height = self.bounds.width / videoRatio
-                cropRect.origin = CGPoint(x: 0 , y: floor(self.bounds.height / 2) - floor( height / 2 ))
-                cropRect.size = CGSize(width: self.bounds.width, height: height)
+        } 
+        else if videoRatio >= 1 { //가로모드
+            let height = self.bounds.width / videoRatio
+            cropRect.origin = CGPoint(x: 0 , y: floor(self.bounds.height / 2) - floor( height / 2 ))
+            cropRect.size = CGSize(width: self.bounds.width, height: height)
+        }
+        else { //세로모드
+            let width : CGFloat
+            let height : CGFloat
+            var yPos : CGFloat = 0
+            var xPos : CGFloat = 0
+            if frameRatio < videoRatio {
+                //세로모드 이면서 실제 비디오 비율이 사용자가 설정해 놓은 비율(defaul 9:16) 보다 ex) 5 : 16일 경우
+                //가로가 더 작으므로 가로를 작은 비율에 맞춰서 딱 맞게 설정
+                width = self.bounds.height * frameRatio
             }
             else {
-                let width = self.bounds.height * videoRatio
-                cropRect.origin = CGPoint(x: floor(self.bounds.width / 2) - floor(width / 2) , y: 0)
-                cropRect.size = CGSize(width: width, height: self.bounds.height)
+                width = self.bounds.height * videoRatio
             }
+            height = width / videoRatio
+            xPos = floor(self.bounds.width / 2) - floor(width / 2)
+            yPos = floor(self.bounds.height / 2) - floor(height / 2)
+            cropRect.origin = CGPoint(x: xPos , y: yPos)
+            cropRect.size = CGSize(width: width, height: height )
         }
+        
         updateHandleViews()
         drawCropView()
     }
-    
-    
     
     private func drawCropView() {
         let rBounds = self.bounds

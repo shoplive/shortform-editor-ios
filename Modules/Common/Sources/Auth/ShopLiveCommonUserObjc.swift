@@ -18,12 +18,12 @@ import Foundation
         }
     }
     
-    @objc public var _name : String {
+    @objc public var _userName : String {
         set {
-            super.name = newValue
+            super.userName = newValue
         }
         get{
-            return super.name ?? ""
+            return super.userName ?? ""
         }
     }
     
@@ -64,8 +64,8 @@ import Foundation
     }
     
     
-    @objc public override init(userId : String, name : String?, age : NSNumber?, gender : String?, userScore : NSNumber?, custom : Dictionary<String,Any>?) {
-        super.init(userId: userId, name: name, age: age, gender: gender, userScore: userScore, custom: custom)
+    @objc public override init(userId : String, userName : String?, age : NSNumber?, gender : String?, userScore : NSNumber?, custom : Dictionary<String,Any>?) {
+        super.init(userId: userId, userName: userName, age: age, gender: gender, userScore: userScore, custom: custom)
     }
     
     

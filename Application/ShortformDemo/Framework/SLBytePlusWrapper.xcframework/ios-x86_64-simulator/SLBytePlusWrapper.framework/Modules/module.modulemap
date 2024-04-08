@@ -1,6 +1,0 @@
-framework module SLBytePlusWrapper {
-  umbrella header "SLBytePlusWrapper.h"
-
-  export *
-  module * { export * }
-}

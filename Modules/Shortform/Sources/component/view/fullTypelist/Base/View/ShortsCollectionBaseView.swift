@@ -115,6 +115,7 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     deinit {
         if viewModel.shortsMode == .detail {
             ShortformNativeOnEventsManager.sendNativeOnEvents(command: .detail_on_player_dismiss, payload: nil, shortsId: nil, shortsDetail: nil)
+            ShortformEventTraceManager.processDetailOnPlayerDismiss(shortsCollectionSrn: self.getCurrentShortsSrn(), shopliveSessionId: self.getCurrentShopliveSessionId())
         }
         teardownObserver()
     }
@@ -134,7 +135,6 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
         updateCloseButtonDim()
     }
     
-    
     override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
         if let superView = newSuperview {
@@ -148,7 +148,6 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
         viewModel.horizontalCollectionBounds = size.transpolate_SL
         viewModel.superviewSize = size
     }
-    
     
     func setAudioSessionManager() {
         let audioSessionManager = AudioSessionManager.shared
@@ -199,7 +198,6 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
                 self.snapShotView.isHidden = true
                 self.snapShotView.alpha = 1
             }
-            
         }
         else {
             snapShotView.isHidden = true

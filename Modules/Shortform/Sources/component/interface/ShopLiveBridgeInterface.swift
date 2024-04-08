@@ -9,10 +9,6 @@ import Foundation
 import WebKit
 import ShopliveSDKCommon
 
-protocol ShopLiveBridgeInterfaceHandlerDelegate: AnyObject {
-    func sendShortsEvent(event: String, parameter: [String: Any]?, completion: @escaping ()->Void)
-}
-
 
 extension ShopLiveShortform {
     final public class BridgeInterface {
@@ -31,7 +27,6 @@ extension ShopLiveShortform {
         public static func disconnect() {
             bridge.releaseWebview()
         }
-        
         
         internal static func isBridgeConnected() -> Bool {
             return bridge.isWebViewConnected()
@@ -347,6 +342,11 @@ extension ShopLiveShortform {
     }
 }
 
+
+protocol ShopLiveBridgeInterfaceHandlerDelegate: AnyObject {
+    func sendShortsEvent(event: String, parameter: [String: Any]?, completion: @escaping ()->Void)
+}
+
 extension ShopLiveShortform {
     class ShopLiveBridgeInterfaceHandler: ShopLiveMessageHandler {
         weak var delegate: ShopLiveBridgeInterfaceHandlerDelegate?
@@ -420,7 +420,7 @@ extension ShopLiveShortform {
             }
         }
         
-        private func showShortFormPreview(model : ShortsBridgeModel){
+        private func showShortFormPreview(model : ShortsBridgeModel) {
             let requestModel = InternalShortformRelatedData()
             requestModel.tags = model.relatedQuery?.tags
             requestModel.tagSearchOperator = model.relatedQuery?.tagSearchOperator
@@ -436,9 +436,9 @@ extension ShopLiveShortform {
             ShopLiveShortform.showRelatedPreview(reference: nil, shortsId: model.shorts?.shortsId, shortsSrn: model.shorts?.srn,requestModel: requestModel, shortsList: model.shortsList ?? [] ,shortsCollectionModel: model.shortsCollection,shopliveSessionId: shopliveSessionId)
         }
         
-        private func showShortFormFullScreen(model : ShortsBridgeModel){
+        private func showShortFormFullScreen(model : ShortsBridgeModel) {
             let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
-            if ShortFormConfigurationInfosManager.shared.shortsConfiguration.detailCollectionListAll {
+            if ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewDetailCollectionListAll {
                 let requestModel = InternalShortformCollectionData()
                 requestModel.tags = model.collectionQuery?.tags
                 requestModel.tagSearchOperator = model.collectionQuery?.tagSearchOperator

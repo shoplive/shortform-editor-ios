@@ -44,7 +44,7 @@ struct ShortsSettingConfigSDK: Codable {
     let enabledSwipeOut: Bool?
     let mutedWhenStart : Bool?
     let mixWithOthers : Bool?
-    let detailCollectionListAll : Bool?
+    let previewDetailCollectionListAll : Bool?
     let eventTraceEndpoint : String?
     let isCached : Bool?
     let previewRadius : CGFloat?
@@ -67,7 +67,7 @@ struct ShortsSettingConfigSDK: Codable {
         self.enabledSwipeOut = try? parser.parse(targetType: Bool.self, key: CodingKeys.enabledSwipeOut)
         self.mutedWhenStart = try? parser.parse(targetType: Bool.self, key: CodingKeys.mutedWhenStart)
         self.mixWithOthers = try? parser.parse(targetType: Bool.self, key: CodingKeys.mixWithOthers)
-        self.detailCollectionListAll = try? parser.parse(targetType: Bool.self, key: CodingKeys.detailCollectionListAll)
+        self.previewDetailCollectionListAll = try? parser.parse(targetType: Bool.self, key: CodingKeys.previewDetailCollectionListAll)
         self.eventTraceEndpoint = try? parser.parse(targetType: String.self, key: CodingKeys.eventTraceEndpoint)
         self.isCached = try? parser.parse(targetType: Bool.self, key: CodingKeys.isCached)
         self.previewRadius = try? parser.parse(targetType: CGFloat.self, key: CodingKeys.previewRadius)

@@ -39,6 +39,9 @@ public struct ShopLiveCommonAuth {
     var utmMedium : String? = nil
     var utmCampaign : String? = nil
     var utmContent : String? = nil
+    
+    var anonId : String? = nil
+    
 }
 
 

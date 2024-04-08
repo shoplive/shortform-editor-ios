@@ -18,6 +18,7 @@ class CardTypeExampleViewController : UIViewController {
     private var collectionView : UIView?
     private var currentSnap = false
     private var shareURLStorage : [String : URL] = [:]
+    private var optionModels : OptionSettingModel?
     
     var delegate : ExampleViewControllerBaseDelegate?
     
@@ -25,6 +26,7 @@ class CardTypeExampleViewController : UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         setLayout()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -43,6 +45,7 @@ class CardTypeExampleViewController : UIViewController {
     
     //MARK: - public func
     func setOptionsFromOptionSettingVC(model : OptionSettingModel) {
+        ShopLiveLogger.debugLog("[HASSAN LOG] 4")
         builder?.setBrands(brands: model.brands)
         builder?.setVisibleBrand(isVisible: model.brandVisible)
         builder?.setVisibleTitle(isVisisble: model.titleVisible)
@@ -116,6 +119,17 @@ extension CardTypeExampleViewController : ShopLiveShortformListViewDelegate {
             guard let window = UIApplication.shared.windows.first else { return }
             window.rootViewController?.present(alert, animated: true)
         }
+    }
+    
+    func onShortsSettingsInitialized() {
+        ShopLiveLogger.debugLog("[HASSAN LOG] 3")
+        if let model = self.optionModels {
+            self.setOptionsFromOptionSettingVC(model: model)
+        }
+    }
+    
+    func applyShortsSettings(model : OptionSettingModel) {
+        self.optionModels = model
     }
 }
 extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegate {

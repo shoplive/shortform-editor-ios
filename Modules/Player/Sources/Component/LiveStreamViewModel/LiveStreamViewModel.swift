@@ -173,7 +173,7 @@ internal final class LiveStreamViewModel: NSObject {
         guard ShopLiveController.player != nil else { return }
         resetPlayer()
         playerLoadingStartTime = Date().timeIntervalSince1970
-        let asset = AVURLAsset(url: URL(string: "http://172.31.14.167:8083/stream/dev-1-2bLzoZnMJPYPUMw-an2/playlist.m3u8")! )
+        let asset = AVURLAsset(url: url )
         let playerItem = AVPlayerItem(asset: asset)
         if asset.isPlayable {
             ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
@@ -776,7 +776,7 @@ extension LiveStreamViewModel {
         
         if let user = ShopLiveCommon.getUser() {
             queryItems.append(URLQueryItem(name: "userId", value: user.userId))
-            if let name = user.name, !name.isEmpty {
+            if let name = user.userName, !name.isEmpty {
                 queryItems.append(URLQueryItem(name: "userName", value: name))
             }
             if let gender = user.gender {
@@ -819,8 +819,16 @@ extension LiveStreamViewModel {
             queryItems.append(URLQueryItem(name: "idfa", value: adId))
         }
         
+        if let ceId = ShopLiveCommon.getCeId(), !ceId.isEmpty {
+            queryItems.append(URLQueryItem(name: "ceId", value: ceId))
+        }
+        
         if let idfv = UIDevice.idfv_sl, idfv.isEmpty == false {
             queryItems.append(URLQueryItem(name: "idfv", value: idfv))
+        }
+        
+        if let anondId = ShopLiveCommon.getAnonId(), !anondId.isEmpty {
+            queryItems.append(URLQueryItem(name: "anondId", value: anondId))
         }
         
         if let utm_source = ShopLiveCommon.getUtmSource(), utm_source.isEmpty == false {

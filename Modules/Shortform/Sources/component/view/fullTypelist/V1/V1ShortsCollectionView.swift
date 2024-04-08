@@ -48,6 +48,7 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
             }
             self.shortsListView.isScrollEnabled = self.viewModel.isSwipable
             ShortformNativeOnEventsManager.sendNativeOnEvents(command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
+            ShortformEventTraceManager.processDetailOnPlayerShow(shortsCollectionSrn: self.getCurrentShortsSrn(), shopliveSessionId: shopliveSessionId)
         }
     }
     
@@ -85,6 +86,7 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
                     return
                 }
                 ShortformNativeOnEventsManager.sendNativeOnEvents(command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
+                ShortformEventTraceManager.processDetailOnPlayerShow(shortsCollectionSrn: self?.getCurrentShortsSrn(), shopliveSessionId: shopliveSessionId)
             }
         }
     }
@@ -102,7 +104,7 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
         viewModel.latestCell.setLatest()
         viewModel.didAnimatePreviewToFullScreen = true
         self.viewModel.latestActivePageIndex = -1
-        if config.detailCollectionListAll {
+        if config.previewDetailCollectionListAll {
             viewModel.currentApiType = .normal
             self.viewmodel.loadShortsPlayCollection(reference: nil,onPagination: false, shortsId: shortsId, reset: true) { [weak self] _ in
                 guard let self = self else { return }

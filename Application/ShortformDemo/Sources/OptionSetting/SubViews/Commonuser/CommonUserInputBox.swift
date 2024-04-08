@@ -56,6 +56,10 @@ class CommonUserInputBox : UIView {
     }
     
     
+    func setInitialValue(value : String?) {
+        textField.text = value
+    }
+    
 }
 extension CommonUserInputBox {
     private func setLayout(){

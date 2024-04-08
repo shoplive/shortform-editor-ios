@@ -26,8 +26,8 @@ class JWTTool {
         claims.issuedAt = Date()
         claims["userId"] = user.userId
 
-        if let name = user.name {
-            claims["name"] = name
+        if let name = user.userName {
+            claims["userName"] = name
         }
 
         if let gender = user.gender?.rawValue, gender == "f" || gender == "m" {
@@ -58,7 +58,7 @@ class JWTTool {
         }
 
         if let name = config.userName {
-            claims["name"] = name
+            claims["userName"] = name
         }
 
         if let gender = config.userGender?.rawValue, gender == "f" || gender == "m" {

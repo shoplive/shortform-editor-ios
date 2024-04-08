@@ -65,7 +65,7 @@ struct CardModel : Codable {
         
         switch cardType {
         case "VIDEO":
-            if let videoUrl = videoId, videoUrl.isEmpty == false {
+            if let videoUrl = videoUrl, videoUrl.isEmpty == false {
                 return true
             }
             else if let externalVideoUrl = externalVideoUrl, externalVideoUrl.isEmpty == false {

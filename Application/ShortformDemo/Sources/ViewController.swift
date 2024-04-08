@@ -163,24 +163,31 @@ class ViewController: UIViewController {
          optionSettingViewController.resultCallBack = { [weak self] type, model, accessKey in
              if let accessKey = accessKey {
                  ShopLiveCommon.setAccessKey(accessKey: accessKey)
-                 ShopLiveCommon.setUser(user: .init(userId: "iOStestUser"), accessKey: accessKey)
                  ShortFormConfigurationInfosManager.shared.setConfigurationURLToEmpty()
-                 self?.viewControllers.forEach {
-                     $0.exampleViewControllable.changeLanding()
-                 }
-             }
-             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                 
                  switch type {
                  case .card:
-                     self?.cardTypeExampleViewController.setOptionsFromOptionSettingVC(model: model)
+                     self?.cardTypeExampleViewController.changeLanding()
                  case .vertical:
-                     self?.verticalTypeExamplViewController.setOptionsFromOptionSettingVC(model: model)
+                     self?.verticalTypeExamplViewController.changeLanding()
                  case .horizontal:
-                     self?.horizontalTypeExamplViewController.setOptionsFromOptionSettingVC(model: model)
+                     self?.horizontalTypeExamplViewController.changeLanding()
                  case .web:
                      break
                  }
              }
+             
+             switch type {
+             case .card:
+                 self?.cardTypeExampleViewController.applyShortsSettings(model: model)
+             case .horizontal:
+                 self?.horizontalTypeExamplViewController.applyShortsSettings(model: model)
+             case .vertical:
+                 self?.verticalTypeExamplViewController.applyShortsSettings(model: model)
+             case .web:
+                 break
+             }
+             
          }
          self.present(optionSettingViewController, animated: true)
     }

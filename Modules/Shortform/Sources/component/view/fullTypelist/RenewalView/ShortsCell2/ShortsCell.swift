@@ -80,6 +80,13 @@ class ShortsCell : UICollectionViewCell {
     
     static let cellId = "shortscell2Id"
     
+    private var backBtn : UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.backgroundColor = .red
+        return btn
+    }()
+    
     private var snapShotImageView : UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -165,10 +172,17 @@ class ShortsCell : UICollectionViewCell {
         bindShortsYoutubePlayerView()
         bindShortsWebView()
         setLayout()
+        
+        backBtn.addTarget(self, action: #selector(backBtnTapped(sender: )), for: .touchUpInside)
     }
     
     required init?(coder : NSCoder) {
         fatalError()
+    }
+    
+    
+    @objc func backBtnTapped(sender : UIButton) {
+        ShopLiveShortform.close()
     }
     
     deinit {
@@ -500,6 +514,7 @@ extension ShortsCell {
         self.addSubview(youtubePlayerView)
         self.addSubview(youtubePosterImageView)
         self.addSubview(webView)
+//        self.addSubview(backBtn)
         
         if UIDevice.current.userInterfaceIdiom == .pad || UIScreen.isLandscape_SL {
             snapShotHorizontalWidthAnc.isActive = true
@@ -550,7 +565,13 @@ extension ShortsCell {
             webView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             webView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+//            backBtn.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+//            backBtn.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+//            backBtn.widthAnchor.constraint(equalToConstant: 100),
+//            backBtn.heightAnchor.constraint(equalToConstant: 100)
         ])
+        
     }
     
     private func invalidateLayout() {

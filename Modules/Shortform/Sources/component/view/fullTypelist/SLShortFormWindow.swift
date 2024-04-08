@@ -96,7 +96,7 @@ extension ShopLiveShortform {
             }
         }
         
-//        weak var shortsCollectionView: ShopLiveShortform.ShortsCollectionView?
+        
         weak var shortsCollectionView : ShortsCollectionBaseView?
         
         private lazy var rootViewController: ShortFormDetailRootViewController = {
@@ -133,8 +133,6 @@ extension ShopLiveShortform {
             teardownObserver()
         }
         
-       
-        
         private func setupGesture() {
             let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureHandler))
             shortsWindowModel.panGestureRecognizer = panGesture
@@ -167,7 +165,8 @@ extension ShopLiveShortform {
                 //preview -> detail 들어갈때 새로 발급받아서 preview_click_show 페이로드에 담아서 보내줘야 함
                 let shopLiveSessionId = ShopLiveCommon.makeShopLiveSessionId()
                 let previewEventTraceSrn = self.shortsCollectionView?.getPreviewEventTraceSrn()
-                ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: self.shortsCollectionView?.getPreviewEventTraceSrn(), isShown: false, isClick: true, shopliveSessionId: shopLiveSessionId)
+                //MARK: -TODO 나중에 preview_SHOWN/HIDDEN 이랑 PREVIEW_CLICK_SHOW/CLOSE랑 이벤트 분리해서 호출해야 함
+                ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: self.shortsCollectionView?.getPreviewEventTraceSrn(), isShown: true, isClick: true, shopliveSessionId: shopLiveSessionId)
                 ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: previewEventTraceSrn, isShown: false, isClick: false, shopliveSessionId: shopLiveSessionId)
                 let shortsId = self.shortsCollectionView?.getCurrentShortsId()
                 let shortsDetail = self.shortsCollectionView?.getCurrentShortsDetail()
@@ -292,7 +291,7 @@ extension ShopLiveShortform {
                     }
                 }
                 
-                switch alignPreviewPosion(previewCenter: .init(x: centerX, y: centerY)) {
+                switch alignPreviewPosition(previewCenter: .init(x: centerX, y: centerY)) {
                 case .bottomLeft:
                     centerX = minX
                     centerY = maxY
@@ -397,7 +396,7 @@ extension ShopLiveShortform {
         
         private func fullScreen(animated: Bool = false, reset: Bool = false) {
             self.shortsWindowModel.shortsMode = .detail
-            if animated {
+            if animated { // animated 가 true면 preview click해서 전체 화면 진입
                 UIView.animate(withDuration: 0.3, delay: 0) { [weak self] in
                     guard let self = self else { return }
                     self.shortsCollectionView?.takeSnapShot()
@@ -411,6 +410,8 @@ extension ShopLiveShortform {
                     guard let self = self else { return }
                     self.shortsCollectionView?.viewTappedInPreviewMode(reset: reset, shortsId: self.shortsCollectionView?.getCurrentShortsId(), srn: self.shortsCollectionView?.getCurrentShortsSrn())  {
                         self.shortsCollectionView?.setAudioSessionManager()
+                        let sessionId = self.shortsCollectionView?.getCurrentShopliveSessionId()
+                        ShortformEventTraceManager.processDetailOnPlayerShow(shortsCollectionSrn: self.shortsCollectionView?.getCurrentShortsSrn(), shopliveSessionId: sessionId)
                         ShortformNativeOnEventsManager.sendNativeOnEvents(command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
                         ShopLiveShortform.Delegate.receiveHandler.delegate?.onDidAppear?()
                         DispatchQueue.main.async {
@@ -425,10 +426,8 @@ extension ShopLiveShortform {
                 self.shortformWindow.isHidden  = false
                 self.shortformWindow.layer.cornerRadius = 0
                 self.shortformWindow.layoutIfNeeded()
-                ShortformNativeOnEventsManager.sendNativeOnEvents(command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
                 ShopLiveShortform.Delegate.receiveHandler.delegate?.onDidAppear?()
             }
-            
         }
         
         private func preview() {
@@ -451,6 +450,8 @@ extension ShopLiveShortform {
             }
         }
         
+        //showPlay 불리는 조건이 무조건 ShortsCollectionBaseView init()임
+        //따라서 fullScreen(aniamted : false)에서 eventTrace를 날릴 필요가 없음
         func showPlay(_ item: ShortsCollectionBaseView?) {
             guard let item = item else { return }
             self.shortformWindow.makeKey()
@@ -533,7 +534,7 @@ extension ShopLiveShortform {
             self.handleKeyboardNoti()
         }
         
-        private func alignPreviewPosion(previewCenter: CGPoint) -> ShopLiveShortform.PreviewPosition {
+        private func alignPreviewPosition(previewCenter: CGPoint) -> ShopLiveShortform.PreviewPosition {
             guard let mainWindow = UIApplication.topWindow_SL else { return .bottomRight }
             let center = mainWindow.center
             let isKeyboardShow = self.shortsWindowModel.isKeyboardShow

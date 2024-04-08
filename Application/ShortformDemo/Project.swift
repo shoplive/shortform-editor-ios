@@ -27,13 +27,16 @@ let demoTarget = Target(name: "ShortformDemo",
                             .external(name: "FirebaseDynamicLinks"),
                             .external(name: "Toast")
                         ])
+// .xcframework(path: .relativeToRoot("Modules/Editor/Framework/EffectOneKit.xcframework"))
 
 let project = Project.makeModule(name: "ShortformDemo",
                                  configurations: [
                                     .debug(name: .debug, xcconfig: .relativeToRoot("XCConfigs/ShortformDemoConfig.xcconfig")),
                                     .release(name: .release, xcconfig: .relativeToRoot("XCConfigs/ShortformDemoConfig.xcconfig"))
                                  ],
-                                 targets: [demoTarget]
-                                 ,headerSearchPaths: ["HEADER_SEARCH_PATHS" : "$(SRCROOT)/Sources/Editor/EOExportUI/Utils $(SRCROOT)/Sources/Editor/EOExportUI/View $(SRCROOT)/Sources/Editor/EOExportUI/ViewController",
-                                                      "SWIFT_OBJC_BRIDGING_HEADER" : "$(SRCROOT)/Sources/ShortformDemo-Bridging-Header.h"])
+                                 targets: [demoTarget])
 
+
+
+//,headerSearchPaths: ["HEADER_SEARCH_PATHS" : "$(SRCROOT)/Sources/Editor/EOExportUI/Utils $(SRCROOT)/Sources/Editor/EOExportUI/View $(SRCROOT)/Sources/Editor/EOExportUI/ViewController",
+//                     "SWIFT_OBJC_BRIDGING_HEADER" : "$(SRCROOT)/Sources/ShortformDemo-Bridging-Header.h"]

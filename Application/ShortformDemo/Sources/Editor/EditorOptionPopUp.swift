@@ -13,7 +13,7 @@ import ShopLiveShortformEditorSDK
 import UniformTypeIdentifiers
 import MobileCoreServices
 import Photos
-import EffectOneKit
+//import EffectOneKit
 import Toast
 
 
@@ -78,18 +78,6 @@ class EditorOptionPopUp : UIView {
         return btn
     }()
     
-    private var bytePlusBtn : UIButton = {
-        let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setTitle("BytePlus", for: .normal)
-        btn.setTitleColor(.black, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        btn.layer.cornerRadius = 10
-        btn.layer.borderWidth = 1
-        btn.layer.borderColor = UIColor.black.cgColor
-        return btn
-    }()
-    
     
     weak var vc : ViewController?
     let picker = UIImagePickerController()
@@ -102,7 +90,7 @@ class EditorOptionPopUp : UIView {
         shortformEditorBtn.addTarget(self, action: #selector(shortformBtnTapped(sender: )), for: .touchUpInside)
         galleryAndEditorBtn.addTarget(self, action: #selector(galleryAndEditorBtnTapped(sender: )), for: .touchUpInside)
         onlyEditorBtn.addTarget(self, action: #selector(editorBtnTapped(sender: )), for: .touchUpInside)
-        bytePlusBtn.addTarget(self, action: #selector(bytePlusBtnTapped(sender: )), for: .touchUpInside)
+//        bytePlusBtn.addTarget(self, action: #selector(bytePlusBtnTapped(sender: )), for: .touchUpInside)
         picker.delegate = self
     }
     
@@ -157,8 +145,8 @@ class EditorOptionPopUp : UIView {
     
     @objc func bytePlusBtnTapped(sender : UIButton) {
         guard let vc = self.vc else { return }
-        ShopLiveBytePlus.shared
-            .start(vc: vc,delegate: self)
+//        ShopLiveBytePlus.shared
+//            .start(vc: vc,delegate: self)
     }
     
 }
@@ -170,7 +158,7 @@ extension EditorOptionPopUp {
         stack.addArrangedSubview(shortformEditorBtn)
         stack.addArrangedSubview(galleryAndEditorBtn)
         stack.addArrangedSubview(onlyEditorBtn)
-        stack.addArrangedSubview(bytePlusBtn)
+//        stack.addArrangedSubview(bytePlusBtn)
         
         NSLayoutConstraint.activate([
             dimBtn.topAnchor.constraint(equalTo: self.topAnchor),
@@ -187,14 +175,13 @@ extension EditorOptionPopUp {
             shortformEditorBtn.heightAnchor.constraint(equalToConstant: 40),
             galleryAndEditorBtn.heightAnchor.constraint(equalToConstant: 40),
             onlyEditorBtn.heightAnchor.constraint(equalToConstant: 40),
-            bytePlusBtn.heightAnchor.constraint(equalToConstant: 40),
-            
+//            bytePlusBtn.heightAnchor.constraint(equalToConstant: 40),
+        
             boxView.topAnchor.constraint(equalTo: stack.topAnchor,constant: -20),
             boxView.leadingAnchor.constraint(equalTo: stack.leadingAnchor,constant: -20),
             boxView.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 20),
             boxView.bottomAnchor.constraint(equalTo: stack.bottomAnchor,constant: 20),
         ])
-        
     }
 }
 extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -243,17 +230,15 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
     
     
 }
-extension EditorOptionPopUp : ShopLiveBytePlusDelegate {
-    func videoEditorViewControllerTapNext(_ exportModel: EOExportModel, presentVC viewController: UIViewController) {
-        EOExportViewController.startExport(with: exportModel, presentVC: viewController, delegate: self)
-    }
-}
-extension EditorOptionPopUp : EOExportViewControllerDelegate {
-    func exportVideoPath(_ videoPath: String, videoImage videoImg: UIImage) {
-        guard let vc = self.vc else { return }
-        vc.view.makeToast("VideoPath \(videoPath)")
-        ShopLiveLogger.debugLog("[HASSAN LOG] bytePlusExportVideoPath \(videoPath)")
-    }
-    
-    
-}
+//extension EditorOptionPopUp : ShopLiveBytePlusDelegate {
+//    func videoEditorViewControllerTapNext(_ exportModel: EOExportModel, presentVC viewController: UIViewController) {
+//        EOExportViewController.startExport(with: exportModel, presentVC: viewController, delegate: self)
+//    }
+//}
+//extension EditorOptionPopUp : EOExportViewControllerDelegate {
+//    func exportVideoPath(_ videoPath: String, videoImage videoImg: UIImage) {
+//        guard let vc = self.vc else { return }
+//        vc.view.makeToast("VideoPath \(videoPath)")
+//        ShopLiveLogger.debugLog("[HASSAN LOG] bytePlusExportVideoPath \(videoPath)")
+//    }
+//}

@@ -24,7 +24,7 @@ final class UserInfoCell: SampleBaseCell {
     private var userDescription: String {
 
         let id = user.userId ?? ""
-        let name = user.name ?? ""
+        let name = user.userName ?? ""
         let gender = user.gender?.rawValue ?? ""
         let age = user.age
         let score = user.userScore
@@ -34,7 +34,7 @@ final class UserInfoCell: SampleBaseCell {
         }
 
         var description: String = "userId: \(id)\n"
-        description += "userName: \(user.name ?? "userName: ")\n"
+        description += "userName: \(user.userName ?? "userName: ")\n"
         description += "age: \(user.age ?? 0)\n"
         description += "userScore: \(user.userScore ?? 0)\n"
 
@@ -271,7 +271,7 @@ final class UserInfoCell: SampleBaseCell {
             return false
         }
 
-        if let name = user.name, !name.isEmpty {
+        if let name = user.userName, !name.isEmpty {
             return false
         }
 

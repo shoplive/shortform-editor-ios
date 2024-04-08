@@ -21,11 +21,16 @@ struct ShortsEventTraceAPI : APIDefinition {
         case PREVIEW_HIDDEN
         case PREVIEW_CLICK_CLOSE
         case PREVIEW_CLICK_SHOW
+        
+        //24.04.04 추가
+        case DETAIL_ON_PLAYER_DISMISS
+        case DETAIL_ON_PLAYER_SHOW
     }
     
     enum EventCategory : String {
         case COLLECTION
         case PREVIEW
+        case DETAIL
     }
     
     enum EventType : String {

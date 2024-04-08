@@ -28,6 +28,8 @@ public struct CommonKeys {
     public static let x_sl_utm_medium = "x-sl-utm-medium"
     public static let x_sl_idfa = "x-sl-idfa"
     public static let x_sl_idfv = "x-sl-idfv"
+    public static let x_sl_ce_id = "x-sl-ce-id"
+    public static let x_sl_anon_id = "x-sl-anon-id"
     public static let Bearer = "Bearer"
     public static let code = "code"
     public static let ON_CHANGED_VIDEO_EXPANDED = "ON_CHANGED_VIDEO_EXPANDED"

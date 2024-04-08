@@ -17,6 +17,7 @@ class VerticalTypeViewExampleViewController : UIViewController {
     private var collectionView : UIView?
     private var currentSnap = false
     private var shareURLStorage : [String : URL] = [:]
+    private var optionModels : OptionSettingModel?
     
     var delegate : ExampleViewControllerBaseDelegate?
     
@@ -104,6 +105,16 @@ class VerticalTypeViewExampleViewController : UIViewController {
 extension VerticalTypeViewExampleViewController : ShopLiveShortformListViewDelegate {
     func onListViewError(error: Error) {
         
+    }
+    
+    func onShortsSettingsInitialized() {
+        if let model = self.optionModels {
+            self.setOptionsFromOptionSettingVC(model: model)
+        }
+    }
+    
+    func applyShortsSettings(model : OptionSettingModel) {
+        self.optionModels = model
     }
 }
 extension VerticalTypeViewExampleViewController : ShopLiveShortformReceiveHandlerDelegate {

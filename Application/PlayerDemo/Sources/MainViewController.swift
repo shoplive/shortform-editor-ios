@@ -604,14 +604,14 @@ extension MainViewController: LoginDelegate {
         
         if let name = name, let pwd = pwd {
             var user = ShopLiveCommonUser(userId: name)
-            user.name = pwd
+            user.userName = pwd
             user.gender = .male
             user.age = 20
             ShopLiveCommon.setUser(user: user,accessKey: currentKey.accessKey )
         }
         else {
             var user = ShopLiveCommonUser(userId: "ShopLive")
-            user.name = "loginUser"
+            user.userName = "loginUser"
             user.gender = .male
             user.age = 20
             ShopLiveCommon.setUser(user: user,accessKey: currentKey.accessKey )

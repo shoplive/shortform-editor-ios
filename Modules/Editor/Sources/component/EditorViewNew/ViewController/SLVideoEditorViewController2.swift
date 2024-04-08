@@ -118,6 +118,7 @@ class SLVideoEditorViewController2 : UIViewController {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
         self.view.backgroundColor = .black
+        self.view.clipsToBounds = true
         shortsPlayer = VideoPlayer()
         shortsPlayer?.timeUpdateInterval = 0.001
         shortsPlayer?.attach(parent: playerView)

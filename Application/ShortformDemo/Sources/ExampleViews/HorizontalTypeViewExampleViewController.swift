@@ -103,6 +103,7 @@ class HorizontalTypeViewExampleViewController : UIViewController {
     
     private var currentSnap : Bool = false
     private var shareURLStorage : [String : URL] = [:]
+    private var optionModels : OptionSettingModel?
     
     private var scrollView = UIScrollView()
     private var scrollStack = UIStackView()
@@ -290,6 +291,17 @@ extension HorizontalTypeViewExampleViewController : ShopLiveShortformListViewDel
             window.rootViewController?.present(alert, animated: true)
         }
     }
+    
+    func onShortsSettingsInitialized() {
+        if let model = self.optionModels {
+            self.setOptionsFromOptionSettingVC(model: model)
+        }
+    }
+    
+    func applyShortsSettings(model : OptionSettingModel) {
+        self.optionModels = model
+    }
+    
     func handleShare(shareMetadata: ShopLiveShareMetaData) {
         var objectsToShare = [String]()
         objectsToShare.append(shareMetadata.title ?? "no title")

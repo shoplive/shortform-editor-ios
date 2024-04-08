@@ -51,6 +51,8 @@ final class ShopLiveShortformCardTypeView : ShopLiveShortformBaseTypeView  {
     
     private func handleResultHandlers(_ result : ShopLiveShortCardTypeViewReactor.Result){
         switch result {
+        case .onShortsSettingsInitializeFinised:
+            self.delegate?.onShortsSettingsInitialized()
         case .setSectionInset(let edgeInset):
             self.collectionViewFlowLayout.sectionInset = edgeInset
         case .setCellSize(let cellSize):

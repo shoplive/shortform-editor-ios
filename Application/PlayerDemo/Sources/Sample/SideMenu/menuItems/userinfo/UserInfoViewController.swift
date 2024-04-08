@@ -472,7 +472,7 @@ final class UserInfoViewController: SideMenuItemViewController {
 
     private func save() {
         user.userId = userIdInputField.text ?? ""
-        user.name = userNameInputField.text
+        user.userName = userNameInputField.text
         user.gender = selectedGender()
         if let ageText = ageInputField.text, !ageText.isEmpty, let age = Int(ageText), age >= 0 {
             user.age = age
@@ -548,7 +548,7 @@ final class UserInfoViewController: SideMenuItemViewController {
     private func updateUserInfo() {
         user = DemoConfiguration.shared.user
         userIdInputField.text = user.userId
-        userNameInputField.text = user.name ?? ""
+        userNameInputField.text = user.userName ?? ""
         let age = user.age ?? -1
         ageInputField.text = age >= 0 ? "\(age)" : ""
         updateGender(identifier: user.gender?.rawValue ?? "unknown")
@@ -569,7 +569,7 @@ final class UserInfoViewController: SideMenuItemViewController {
     @objc func makeJWT(completion: @escaping (Bool) -> Void) {
         shopliveHideKeyboard_SL()
         var makeUser = ShopLiveCommonUser(userId: userIdInputField.text ?? "")
-        makeUser.name = userNameInputField.text
+        makeUser.userName = userNameInputField.text
         makeUser.gender = selectedGender()
         if let ageText = ageInputField.text, !ageText.isEmpty, let age = Int(ageText), age >= 0 {
             makeUser.age = age
@@ -614,7 +614,7 @@ final class UserInfoViewController: SideMenuItemViewController {
 
         if let curUser = newUser,
             curUser.userId == user.userId &&
-            curUser.name == user.name &&
+            curUser.userName == user.userName &&
             curUser.age == user.age &&
             curUser.userScore == user.userScore &&
             curUser.gender == user.gender {

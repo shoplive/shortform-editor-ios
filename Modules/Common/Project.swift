@@ -15,7 +15,7 @@ let deployTarget = Target(name: "ShopliveSDKCommon",
                           deploymentTarget: .iOS(targetVersion: "11.0", devices: .iphone),
                           infoPlist: .extendingDefault(with: [:]),
                           sources: ["Sources/**"],
-                          resources: nil,
+                          resources: ["Resources/**"],
                           dependencies: [
                           ])
 

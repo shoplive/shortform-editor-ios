@@ -34,7 +34,6 @@ class ShortFormAuthManager {
             ShopLiveCommon.setGuestUid(guestUid: guestUid)
         }
         
-        
         if let utm_source = info["utm_source"] as? String {
             ShopLiveCommon.setUtmSource(utmSource: utm_source)
         }
@@ -49,9 +48,7 @@ class ShortFormAuthManager {
         if let utm_medium = info["utm_medium"] as? String {
             ShopLiveCommon.setUtmMedium(utmMedium: utm_medium)
         }
-
     }
-    
 
     
     func getAkAndUserJWTasDict() -> [String : Any] {
@@ -77,6 +74,12 @@ class ShortFormAuthManager {
         if let utm_medium = ShopLiveCommon.getUtmMedium() {
             dict["utm_medium"] =  utm_medium
         }
+        if let user = ShopLiveCommon.getUser() {
+            for (key, value ) in user.toDictionary() {
+                dict[key] = value
+            }
+        }
+        
         return dict
     }
     

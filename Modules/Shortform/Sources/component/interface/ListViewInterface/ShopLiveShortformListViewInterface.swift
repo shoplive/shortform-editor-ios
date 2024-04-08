@@ -11,6 +11,7 @@ import AVKit
 
 public protocol ShopLiveShortformListViewDelegate : NSObject {
     func onListViewError(error : Error)
+    func onShortsSettingsInitialized()
 }
 
 

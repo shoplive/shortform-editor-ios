@@ -407,6 +407,14 @@ public extension APIDefinition {
             headers[CommonKeys.x_sl_idfa] = adIdentifier
         }
         
+        if let ceId = ShopLiveCommon.getCeId(), !ceId.isEmpty {
+            headers[CommonKeys.x_sl_ce_id] = ceId
+        }
+        
+        if let anonId = ShopLiveCommon.getAnonId(), !anonId.isEmpty {
+            headers[CommonKeys.x_sl_anon_id] = anonId
+        }
+        
         if let idfv = UIDevice.idfv_sl, idfv.isNotEmpty_SL {
             headers[CommonKeys.x_sl_idfv] = idfv
         }
@@ -479,6 +487,14 @@ public extension APIDefinition {
         if let adIdentifier = ShopLiveCommon.getAdIdentifier(), adIdentifier.isNotEmpty_SL {
             headers[CommonKeys.x_sl_ad_identifier] = adIdentifier
             headers[CommonKeys.x_sl_idfa] = adIdentifier
+        }
+        
+        if let ceId = ShopLiveCommon.getCeId(), !ceId.isEmpty {
+            headers[CommonKeys.x_sl_ce_id] = ceId
+        }
+        
+        if let anonId = ShopLiveCommon.getAnonId(), !anonId.isEmpty {
+            headers[CommonKeys.x_sl_anon_id] = anonId
         }
         
         if let idfv = UIDevice.idfv_sl, idfv.isNotEmpty_SL {

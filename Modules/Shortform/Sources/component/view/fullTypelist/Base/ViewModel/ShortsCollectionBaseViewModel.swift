@@ -336,7 +336,9 @@ extension ShortsCollectionBaseViewModel {
         guard let url = URL(string: urlString + "?" + params) else {
             return URL(string: urlString)
         }
+        
         return url
+        //URL(string: "https://m.naver.com")
     }
     
     func getSetShortsSingleDetailViewPayload(at indexPath : IndexPath, shortsModel : ShortsModel?, isYoutube : Bool) -> [String : Any] {
@@ -359,12 +361,20 @@ extension ShortsCollectionBaseViewModel {
         }
         
         if let referrer = ShortFormAuthManager.shared.getReferrer() {
-            payloadDict["referrer"] = referrer
+            payloadDict["referrer"] = referrer.prefix(1024)
         }
         
         if let adIdentifier = ShopLiveCommon.getAdIdentifier(), !adIdentifier.isEmpty {
             payloadDict["adIdentifier"] = adIdentifier
             payloadDict["idfa"] = adIdentifier
+        }
+        
+        if let ceId = ShopLiveCommon.getCeId(), !ceId.isEmpty {
+            payloadDict["ceId"] = ceId
+        }
+        
+        if let anondId = ShopLiveCommon.getAnonId(), !anondId.isEmpty {
+            payloadDict["anondId"] = anondId
         }
         
         if let idfv = UIDevice.idfv_sl, idfv.isEmpty == false {

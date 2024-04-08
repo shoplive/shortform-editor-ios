@@ -14,6 +14,8 @@ protocol SLVideoEditorPlayerViewDelegate: AnyObject {
 }
 
 class SLVideoEditorPlayerView: UIView, UIGestureRecognizerDelegate, SLVideoEditorPlayerCropViewDelegate {
+    typealias globalConfig = ShopLiveEditorConfigurationManager
+    
     weak var delegate: SLVideoEditorPlayerViewDelegate?
     
     private lazy var cropView: SLVideoEditorPlayerCropView = {
@@ -89,7 +91,10 @@ class SLVideoEditorPlayerView: UIView, UIGestureRecognizerDelegate, SLVideoEdito
         videoResolution = videoSize
         cropView.videoResolution = videoSize
         let frameRatio = self.frame.width / self.frame.height
-        let videoRatio = videoSize.width / videoSize.height
+        
+        var videoRatio = videoSize.width / videoSize.height
+        let videoCropOption = globalConfig.shared.videoCropOption
+        videoRatio = CGFloat( videoCropOption.width ) / CGFloat( videoCropOption.height )
         
         if frameRatio == videoRatio {
             cropView.frame = self.frame
@@ -102,6 +107,7 @@ class SLVideoEditorPlayerView: UIView, UIGestureRecognizerDelegate, SLVideoEdito
                 cropView.frame = CGRect(x: letterSpacing, y: 0, width: self.frame.width - (letterSpacing * 2), height: self.frame.height)
             }
         }
+        
         
         self.bringSubviewToFront(self.cropView)
         self.bringSubviewToFront(playButton)

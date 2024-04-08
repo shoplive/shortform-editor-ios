@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ShopliveSDKCommon
 
 @propertyWrapper
 struct UserDefault<T> {
@@ -32,9 +33,30 @@ struct UserDefault<T> {
 
 enum DefaultsKey: String {
     case customAccessKey = "customAccessKey"
+    case userId = "userId"
+    case userName = "userName"
+    case userAge = "userAge"
+    case userGender = "userGender"
+    case userScore = "userScore"
 }
 
 struct Defaults {
     @UserDefault(key: DefaultsKey.customAccessKey.rawValue, defaultValue: "")
     static var customAccessKey: String
+    
+    @UserDefault(key: DefaultsKey.userId.rawValue, defaultValue: "testiOSUser")
+    static var userId : String
+    
+    @UserDefault(key: DefaultsKey.userName.rawValue, defaultValue: "testiOSUser")
+    static var userName : String
+    
+    @UserDefault(key: DefaultsKey.userAge.rawValue, defaultValue: 10)
+    static var userAge : Int
+    
+    @UserDefault(key: DefaultsKey.userGender.rawValue, defaultValue: "m")
+    static var userGender : String
+    
+    @UserDefault(key: DefaultsKey.userScore.rawValue, defaultValue: 0)
+    static var userScore : Int
+    
 }

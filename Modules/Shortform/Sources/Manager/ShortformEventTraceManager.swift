@@ -50,6 +50,9 @@ class ShortformEventTraceManager {
     }
     
     
+    //MARK: -TODO 나중에 preview_SHOWN/HIDDEN 이랑 PREVIEW_CLICK_SHOW/CLOSE랑 이벤트 분리해서 호출해야 함
+    //click_close -> pip btn close
+    //click_show -> pip tap해서 detail 들어갔을떄 
     class func processPreviewShownHidden(shortsCollectionSrn : String?, isShown : Bool, isClick : Bool,shopliveSessionId : String?){
         
         if isClick {
@@ -62,7 +65,16 @@ class ShortformEventTraceManager {
         }
     }
     
+    class func processDetailOnPlayerShow(shortsCollectionSrn : String?, shopliveSessionId : String?) {
+        let eventName : ShortsEventTraceAPI.EventName = .DETAIL_ON_PLAYER_SHOW
+        self.callEventTraceAPI(eventName: eventName, eventCategory: .DETAIL, eventType: .VIEW, srn: shortsCollectionSrn, referrer: nil, shopliveSessionId: shopliveSessionId, val1: nil, val2: nil, val3: nil, val4: nil, val5: nil)
+    }
     
+    
+    class func processDetailOnPlayerDismiss(shortsCollectionSrn : String?, shopliveSessionId : String?) {
+        let eventName : ShortsEventTraceAPI.EventName = .DETAIL_ON_PLAYER_DISMISS
+        self.callEventTraceAPI(eventName: eventName, eventCategory: .DETAIL, eventType: .VIEW, srn: shortsCollectionSrn, referrer: nil, shopliveSessionId: shopliveSessionId, val1: nil, val2: nil, val3: nil, val4: nil, val5: nil)
+    }
 
     private class func callEventTraceAPI(eventName : ShortsEventTraceAPI.EventName, eventCategory : ShortsEventTraceAPI.EventCategory, eventType : ShortsEventTraceAPI.EventType,srn : String?, referrer : String?, shopliveSessionId : String?, val1 : Any?, val2 : Any?, val3 : Any?, val4 : Any?,val5 : Any?) {
         
