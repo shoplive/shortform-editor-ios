@@ -164,7 +164,6 @@ class ViewController: UIViewController {
              if let accessKey = accessKey {
                  ShopLiveCommon.setAccessKey(accessKey: accessKey)
                  ShortFormConfigurationInfosManager.shared.setConfigurationURLToEmpty()
-                 
                  switch type {
                  case .card:
                      self?.cardTypeExampleViewController.changeLanding()

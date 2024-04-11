@@ -147,7 +147,7 @@ extension ShortsYoutubePlayerView : SLWebviewResponseDelegate {
         
         let payload = body["payload"] as? [String : Any]
         
-        self.parseBodyForLogging(body: body)
+//        self.parseBodyForLogging(body: body)
         
         //youtube 관련 이벤트만 내려보내도록
         guard eventName.contains("YOUTUBE") || eventName.contains("YTP") else { return }

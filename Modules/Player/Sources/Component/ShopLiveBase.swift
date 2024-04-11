@@ -828,7 +828,7 @@ import ShopliveSDKCommon
             guard let shopLiveWindow = self.shopLiveWindow else { return }
             
             shopLiveWindow.backgroundColor = .clear
-            shopLiveWindow.layer.cornerRadius = self.inAppPipConfiguration?.pipRadius ?? 10
+            shopLiveWindow.rootViewController?.view.layer.cornerRadius = self.inAppPipConfiguration?.pipRadius ?? 10
             shopLiveWindow.rootViewController?.view.backgroundColor = .clear
             
             self.liveStreamViewController?.shopliveHideKeyboard_SL()

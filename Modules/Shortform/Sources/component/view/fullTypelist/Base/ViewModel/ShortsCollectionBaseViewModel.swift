@@ -338,7 +338,6 @@ extension ShortsCollectionBaseViewModel {
         }
         
         return url
-        //URL(string: "https://m.naver.com")
     }
     
     func getSetShortsSingleDetailViewPayload(at indexPath : IndexPath, shortsModel : ShortsModel?, isYoutube : Bool) -> [String : Any] {
