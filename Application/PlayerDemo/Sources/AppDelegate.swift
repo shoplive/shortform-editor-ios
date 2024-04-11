@@ -82,8 +82,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ShopLive.onTerminated()
     }
     
-//    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-//        return self.orientationLock
-//    }
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return self.orientationLock
+    }
     
 }
