@@ -7,9 +7,9 @@
 
 import UIKit
 import Firebase
-#if(canImport(IQKeyboardManagerSwift))
-import IQKeyboardManagerSwift
-#endif
+//#if(canImport(IQKeyboardManagerSwift))
+//import IQKeyboardManagerSwift
+//#endif
 import ShopliveSDKCommon
 import AdSupport
 import AppTrackingTransparency

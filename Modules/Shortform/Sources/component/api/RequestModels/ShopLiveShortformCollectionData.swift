@@ -10,7 +10,6 @@ import Foundation
 public class ShopLiveShortformCollectionData {
     public var reference : String?
     public var shortsId : String?
-    public var shortsSrn : String?
     public var tags : [String]?
     public var tagSearchOperator : ShopLiveTagSearchOperator?
     public var brands : [String]?
@@ -18,10 +17,9 @@ public class ShopLiveShortformCollectionData {
     public var skus : [String]?
     public var shortsCollectionId : String?
     
-    public init(reference: String? = nil, shortsId: String? = nil, shortsSrn: String? = nil, tags: [String]? = nil, tagSearchOperator: ShopLiveTagSearchOperator? = nil, brands: [String]? = nil, shuffle: Bool? = nil,referrer : String? = nil, skus : [String]? = nil, shortsCollectionId : String?) {
+    public init(reference: String? = nil, shortsId: String? = nil, tags: [String]? = nil, tagSearchOperator: ShopLiveTagSearchOperator? = nil, brands: [String]? = nil, shuffle: Bool? = nil,referrer : String? = nil, skus : [String]? = nil, shortsCollectionId : String?) {
         self.reference = reference
         self.shortsId = shortsId
-        self.shortsSrn = shortsSrn
         self.tags = tags
         self.tagSearchOperator = tagSearchOperator
         self.brands = brands

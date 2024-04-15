@@ -28,9 +28,8 @@ public class ShopLiveShortform {
         internalShortFormRequestData.skus = requestData?.skus
         
         let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
-        self.playNormalFullScreen(reference : requestData?.reference, shortsId: requestData?.shortsId, shortsSrn: requestData?.shortsSrn,requestModel: internalShortFormRequestData,shopliveSessionId: shopliveSessionId)
+        self.playNormalFullScreen(reference : requestData?.reference, shortsId: requestData?.shortsId, shortsSrn: nil,requestModel: internalShortFormRequestData,shopliveSessionId: shopliveSessionId)
     }
-    
     
     
     public static func play(shortformIdsData : ShopLiveShortformIdsData, delegate : ShortsCollectionViewDataSourcRequestDelegate){
