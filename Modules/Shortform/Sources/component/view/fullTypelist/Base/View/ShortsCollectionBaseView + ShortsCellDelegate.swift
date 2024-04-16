@@ -14,7 +14,11 @@ import ShopliveSDKCommon
 extension ShortsCollectionBaseView : ShortsCellDelegate {
     
     func onExternalEmitEvent(name: String, payload: [String : Any]?) {
-        ShopLiveShortform.Delegate.receiveHandler.handleOnEvents(command: name, payLoad: payload)
+        var jsonString : String?
+        if let payload = payload {
+            jsonString = payload.toJSONString_SL()
+        }
+        ShopLiveShortform.Delegate.receiveHandler.delegate?.onEvent?(command: name, payload: jsonString)
     }
     
     func didFinishPlayingShorts(cell: ShortsCell, data: ShopLiveShortform.ShortsModel?) {

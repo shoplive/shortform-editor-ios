@@ -13,8 +13,7 @@ import ShopliveSDKCommon
 extension ShortsCollectionBaseView {
     func setupObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("closePreview"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("osShareSheet"), object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("setWindowSnapshot"), object: nil)
+
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("configUpdated"), object: nil)
         
         self.addObserver(self, forKeyPath: "frame", options: .new, context: nil)
@@ -22,8 +21,7 @@ extension ShortsCollectionBaseView {
     
     func teardownObserver() {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("closePreview"), object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("osShareSheet"), object: nil)
-//        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("setWindowSnapshot"), object: nil)
+
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("configUpdated"), object: nil)
         NotificationCenter.default.removeObserver(self)
         self.safeRemoveObserver_SL(self, forKeyPath: "frame")
@@ -35,20 +33,6 @@ extension ShortsCollectionBaseView {
             guard viewModel.shortsMode == .preview else { return }
             ShopLiveShortform.close()
             break
-        case NSNotification.Name("osShareSheet"):
-            guard let url = notification.userInfo?["url"] as? String else {
-                return
-            }
-            guard let parent = self.parentViewController_SL else { return }
-            parent.showShareSheet_SL(url: url)
-            break
-//        case NSNotification.Name("setWindowSnapshot"):
-//            guard let snapshot = notification.userInfo?["snapshot"] as? UIImage else {
-//                return
-//            }
-//            snapShotView.image = snapshot
-//            snapShotView.isHidden = false
-//            break
             
         case NSNotification.Name("configUpdated"):
             DispatchQueue.main.async {
@@ -61,3 +45,13 @@ extension ShortsCollectionBaseView {
     }
     
 }
+//        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("setWindowSnapshot"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("setWindowSnapshot"), object: nil)
+//        case NSNotification.Name("setWindowSnapshot"):
+//            guard let snapshot = notification.userInfo?["snapshot"] as? UIImage else {
+//                return
+//            }
+//            snapShotView.image = snapshot
+//            snapShotView.isHidden = false
+//            break
+

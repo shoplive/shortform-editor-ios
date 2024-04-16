@@ -52,6 +52,16 @@ extension ShopLiveShortform {
             }
             bridge.sendShortsEvent(event: "ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN", parameter: payLoad) {}
         }
+        
+        internal static func handleMoveToProductPage(shortsId : String?, srn : String?, product : Product) {
+            guard let shortsId = shortsId,
+                  let srn = srn else { return }
+            bridge.handleMoveToProductPage(shortsId: shortsId, srn: srn, product: product)
+        }
+        
+        internal static func handleMoveToProductBannerPage(shortsId : String, srn : String, scheme : String, shortsDetail : ShortsDetail) {
+            bridge.handleMoveToProductBannerPage(shortsId: shortsId, srn: srn, scheme: scheme, shortsDetail: shortsDetail)
+        }
     }
 }
 extension ShopLiveShortform {
@@ -104,8 +114,6 @@ extension ShopLiveShortform {
         }
         
         private func setupObserver() {
-            NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("moveToProductPage"), object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("moveToProductBannerPage"), object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("onChangedUserAuthSdk"), object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("requestShortsPreview"), object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("previewShown"), object: nil)
@@ -117,7 +125,6 @@ extension ShopLiveShortform {
                 
         private func teardownObserver() {
             self.webview?.removeObserver(self, forKeyPath: "URL")
-            NotificationCenter.default.removeObserver(self, name: NSNotification.Name("moveToProductPage"), object: nil)
             NotificationCenter.default.removeObserver(self, name: NSNotification.Name("onChangedUserAuthSdk"), object: nil)
             NotificationCenter.default.removeObserver(self, name: NSNotification.Name("requestShortsPreview"), object: nil)
             NotificationCenter.default.removeObserver(self, name: NSNotification.Name("previewShown"), object: nil)
@@ -213,29 +220,6 @@ extension ShopLiveShortform {
                 self.sendShortsEvent(event: "ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN", parameter: ["isShown": false, "srn" : srn ]) {}
                 sendWebToRequestPreview(url: overlayUrl) { }
                 break
-            case Notification.Name("moveToProductPage"):
-                let userInfo = notification.userInfo
-                guard let srn = userInfo?["srn"] as? String,
-                      let productModel = userInfo?["productModel"] as? Product,
-                      let urlString = productModel.url,
-                      let productUrl = URL(string: urlString) else { return }
-                if let webView = webview {
-                    self.webview?.load(URLRequest(url: productUrl))
-                    ShopLiveShortform.close()
-                }
-                self.sendShortsEvent(event: "ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN", parameter: ["isShown": false,"srn" : srn]) {}
-               break
-            case Notification.Name("moveToProductBannerPage"):
-                let userInfo = notification.userInfo
-                guard let scheme = userInfo?["scheme"] as? String,
-                      let srn = userInfo?["srn"] as? String,
-                      let url = URL(string: scheme) else { return }
-                if let webView = webview {
-                    self.webview?.load(URLRequest(url: url))
-                    ShopLiveShortform.close()
-                }
-                self.sendShortsEvent(event: "ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN", parameter: ["isShown": false, "srn" : srn]) {}
-                break
             case Notification.Name("onChangedUserAuthSdk"):
                 let userJWT = ShortFormAuthManager.shared.getuserJWT()
                 let guestUid = ShortFormAuthManager.shared.getGuestUId()
@@ -285,6 +269,27 @@ extension ShopLiveShortform {
                 break
             }
             
+        }
+        
+        
+        func handleMoveToProductPage(shortsId : String, srn : String, product : Product) {
+            guard let urlString = product.url,
+                  let productUrl = URL(string: urlString) else { return }
+            
+            if let webView = webview {
+                self.webview?.load(URLRequest(url: productUrl))
+                ShopLiveShortform.close()
+            }
+            self.sendShortsEvent(event: "ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN", parameter: ["isShown": false,"srn" : srn]) {}
+        }
+        
+        func handleMoveToProductBannerPage(shortsId : String, srn : String, scheme : String, shortsDetail : ShortsDetail) {
+            guard let url = URL(string: scheme) else { return }
+            if let webView = webview {
+                self.webview?.load(URLRequest(url: url))
+                ShopLiveShortform.close()
+            }
+            self.sendShortsEvent(event: "ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN", parameter: ["isShown": false, "srn" : srn]) {}
         }
     }
     
@@ -367,7 +372,7 @@ extension ShopLiveShortform {
         }
         
         private func onError(_ error: ShopLiveCommonError) {
-            NotificationCenter.default.post(Notification(name: Notification.Name("onError"), object: nil, userInfo: ["error": error]))
+            ShopLiveShortform.Delegate.receiveHandler.delegate?.onError?(error: error)
         }
         
         private func onWebToSdkInternalMessageHandler(name : ShopLiveShortform.ShortsWebInterface.WebToSdk, body : Any ){

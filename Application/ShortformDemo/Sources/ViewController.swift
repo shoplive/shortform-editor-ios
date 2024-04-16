@@ -115,7 +115,6 @@ class ViewController: UIViewController {
         setLayout()
         pagingViewController!.select(index: 0)
         
-        setObserver()
         var option = ShopLiveShortformVisibleDetailData()
         option.isBookMarkVisible = true
         option.isShareButtonVisible = true
@@ -204,29 +203,6 @@ class ViewController: UIViewController {
         v2Shorts?.play()
     }
     
-    private func setObserver(){
-        if self.observerAdded == false {
-            self.observerAdded = true
-            NotificationCenter.default.addObserver(self, selector: #selector(handleNotifcation(_:)), name: NSNotification.Name("moveToProductPage"), object: nil)
-        }
-      
-    }
-    
-    private func tearDownObserver(){
-        self.observerAdded = false
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("moveToProductPage"), object: nil)
-    }
-    
-    @objc private func handleNotifcation(_ notification : Notification){
-        switch notification.name {
-        case Notification.Name("moveToProductPage"):
-            break
-            guard let product = notification.userInfo?["product"] as? Product, let urlString = product.url, let url = URL(string: urlString) else { return }
-            pagingViewController?.select(index: 3)
-        default:
-            break
-        }
-    }
 }
 extension ViewController : ShopLiveShortformEditorDelegate {
     func onShopliveShortformError(error: ShopliveSDKCommon.ShopLiveCommonError) {
@@ -352,12 +328,7 @@ extension ViewController: PagingViewControllerDataSource {
 
 extension ViewController: PagingViewControllerDelegate {
     func pagingViewController(_ pagingViewController: PagingViewController, didSelectItem pagingItem: PagingItem) {
-        if pagingItem.identifier == 3 {
-            tearDownObserver()
-        }
-        else {
-            setObserver()
-        }
+        
     }
 
 }

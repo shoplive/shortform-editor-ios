@@ -19,14 +19,15 @@ class V2ShortformExample  {
     
     
     func play() {
-        reference = nil
-        hasMore = nil
-        callShortsCollectionAPI { [weak self] data,error  in
-            guard let self = self else { return }
-            if let data = data {
-                ShopLiveShortform.play(shortformIdsData: ShopLiveShortformIdsData(ids : data.ids, currentId: data.ids?.first ?? ""), delegate: self)
-            }
-        }
+        ShopLiveShortform.play(shortformIdsData: ShopLiveShortformIdsData(ids : [], currentId:  ""), delegate: self)
+//        reference = nil
+//        hasMore = nil
+//        callShortsCollectionAPI { [weak self] data,error  in
+//            guard let self = self else { return }
+//            if let data = data {
+//                ShopLiveShortform.play(shortformIdsData: ShopLiveShortformIdsData(ids : [data.ids], currentId: data.ids?.first ?? ""), delegate: self)
+//            }
+//        }
     }
     
     

@@ -567,5 +567,10 @@ extension ShortsCollectionBaseView : ShortsCollectionBaseViewModelDelegate {
     func getCellForAt(indexPath: IndexPath) -> UICollectionViewCell? {
         return shortsListView.cellForItem(at: indexPath)
     }
+    
+    func openOsShareSheet(url: String) {
+        guard let parent = self.parentViewController_SL else { return }
+        parent.showShareSheet_SL(url: url)
+    }
 }
 

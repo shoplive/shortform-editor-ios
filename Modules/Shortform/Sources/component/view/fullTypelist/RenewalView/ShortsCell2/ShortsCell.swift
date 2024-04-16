@@ -21,11 +21,7 @@ protocol ShortsCellDelegate : NSObject {
     func requestShowShortsDetailForHybrid(srn : String)
     func requestShowNewShortformFullScreen(bridgeModel : ShopLiveShortform.ShortsBridgeModel)
     func requestCloseShortform()
-    /**
-        구 Notification.Name("onEvent")
-     */
     func onExternalEmitEvent(name : String, payload : [String : Any]?)
-    
     func setSnapShotForWindow(image : UIImage?)
     func getCurrentOnViewIndexPath() -> IndexPath?
 }
