@@ -153,7 +153,7 @@ public extension APIDefinition {
         
         //utm관련된 것들은 모든 api에 query로 붙여서 보냄
         var utmQueryItems : [URLQueryItem] = []
-        for (key, value) in Self.utmDictionary {
+        for (key, value) in Self.commonQueries {
             let queryItem = URLQueryItem(name: key, value: String(describing: value ))
             utmQueryItems.append(queryItem)
         }
@@ -445,30 +445,31 @@ public extension APIDefinition {
         return headers
     }
     
-    private static var utmDictionary : [String : String] {
-        var headers : [String : String] = [:]
+    private static var commonQueries : [String : String] {
+        var queries : [String : String] = [:]
         
         if let adIdentifier = ShopLiveCommon.getAdIdentifier(), adIdentifier.isNotEmpty_SL {
-            headers[CommonKeys.x_sl_ad_identifier] = adIdentifier
+            queries["adIdentifier"] = adIdentifier
+            queries["adId"] = adIdentifier
         }
         
         if let utmSource = ShopLiveCommon.getUtmSource(), utmSource.isNotEmpty_SL {
-            headers[CommonKeys.x_sl_utm_source] = utmSource
+            queries["utmSource"] = utmSource
         }
         
         if let utmMedium = ShopLiveCommon.getUtmMedium(), utmMedium.isNotEmpty_SL {
-            headers[CommonKeys.x_sl_utm_medium] = utmMedium
+            queries["utmMedium"] = utmMedium
         }
         
         if let utmCampaign = ShopLiveCommon.getUtmCampaign(), utmCampaign.isNotEmpty_SL {
-            headers[CommonKeys.x_sl_utm_campaign] = utmCampaign
+            queries["utmCampaign"] = utmCampaign
         }
         
         if let utmContent = ShopLiveCommon.getUtmContent(), utmContent.isNotEmpty_SL {
-            headers[CommonKeys.x_sl_utm_content] = utmContent
+            queries["utmContent"] = utmContent
         }
 
-        return headers
+        return queries
     }
     
     private static var postHeaders: [String: String] {
