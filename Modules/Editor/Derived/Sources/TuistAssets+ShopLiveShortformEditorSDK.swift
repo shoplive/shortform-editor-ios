@@ -28,6 +28,8 @@ public enum ShopLiveShortformEditorSDKAsset {
   public static let slEditorHandleLeft = ShopLiveShortformEditorSDKImages(name: "sl_editor_handle_left")
   public static let slEditorHandleRight = ShopLiveShortformEditorSDKImages(name: "sl_editor_handle_right")
   public static let slEditorPlayButton = ShopLiveShortformEditorSDKImages(name: "sl_editor_play_button")
+  public static let slIcFilter = ShopLiveShortformEditorSDKImages(name: "sl_ic_filter")
+  public static let slIcHotAirBallon = ShopLiveShortformEditorSDKImages(name: "sl_ic_hot_air_ballon")
   public static let slIcMediaFilled = ShopLiveShortformEditorSDKImages(name: "sl_ic_media_filled")
   public static let slIcPerson = ShopLiveShortformEditorSDKImages(name: "sl_ic_person")
   public static let slIcShopliveLogo = ShopLiveShortformEditorSDKImages(name: "sl_ic_shoplive_logo")

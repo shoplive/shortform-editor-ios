@@ -16,9 +16,7 @@ class VideoThumbnailBtn : UIButton {
         let imgView = UIImageView()
         imgView.translatesAutoresizingMaskIntoConstraints = false
         imgView.contentMode = .scaleAspectFit
-//        let bundle = Bundle(for: type(of: self))
-//        imgView.image = UIImage(named: "sl_playpreview", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
-        imgView.image = ShopLiveShortformEditorSDKAsset.slPlaypreview.image
+        imgView.image = ShopLiveShortformEditorSDKAsset.slPlaypreview.image.withRenderingMode(.alwaysOriginal)
         return imgView
     }()
     

@@ -25,4 +25,5 @@ struct SLShortformRegisterAPI: APIDefinition {
     }
     
     var parameters: [String : Any]?
+    
 }

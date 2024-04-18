@@ -11,12 +11,18 @@ import ShopliveSDKCommon
 
 
 
-protocol SLUploadInfoControllerDelegate: AnyObject {
-    func temporaryUploadInfo(uploadInfo: SLUploadAttachmentInfo)
-}
 
 
 class SLUploadInfoController2 : UIViewController {
+    
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if #available(iOS 13.0, *) {
+            return .darkContent
+        } else {
+            return .default
+        }
+    }
     
     private var bundle : Bundle {
         return Bundle(for: type(of: self))
@@ -32,7 +38,6 @@ class SLUploadInfoController2 : UIViewController {
     lazy private var backBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-//        btn.setImage(UIImage(named: "sl_back_arrow", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate), for: .normal)
         btn.setImage(ShopLiveShortformEditorSDKAsset.slBackArrow.image.withRenderingMode(.alwaysTemplate), for: .normal)
         btn.imageView?.tintColor = .black
         return btn
@@ -192,7 +197,6 @@ class SLUploadInfoController2 : UIViewController {
     private lazy var loadingProgress: SLLoadingAlertController = {
         let vc = SLLoadingAlertController()
         vc.view.translatesAutoresizingMaskIntoConstraints = false
-        vc.delegate = self
         vc.view.isHidden = true
         let bundle = Bundle(for: type(of: self))
         vc.setLoadingText("loading.inprocessing.title".localizedString(bundle: bundle))
@@ -553,23 +557,6 @@ extension SLUploadInfoController2 {
             loadingProgress.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
         
-        
-    }
-}
-extension SLUploadInfoController2 : SLLoadingAlertControllerDelegate {
-    func didCancelLoading() {
-        //필터 관련 브랜치 머지하면서 구체화 될 예정 그전까지는 no - op으로 설정
-    }
-    
-    func didFinishLoading() {
-        //필터 관련 브랜치 머지하면서 구체화 될 예정 그전까지는 no - op으로 설정
-    }
-    
-    func cancelLoading() {
-        
-    }
-    
-    func finishLoading() {
         
     }
 }

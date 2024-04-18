@@ -11,6 +11,7 @@ import Photos
 import PhotosUI
 import MobileCoreServices
 import ShopliveSDKCommon
+import ffmpegkit
 
 public struct SLPhotosPickerConfigure {
     public var customLocalizedTitle: [String: String] = ["Camera Roll": "Camera Roll"]
@@ -42,7 +43,6 @@ public struct SLPhotosPickerConfigure {
     public var selectedColor = UIColor(red: 88/255, green: 144/255, blue: 255/255, alpha: 1.0)
     public var cameraBgColor = UIColor(red: 221/255, green: 223/255, blue: 226/255, alpha: 1)
     public var cameraIcon = ShopLiveShortformEditorSDKAsset.slCamera.image
-    //UIImage(named: "sl_camera")
     public var groupByFetch: PHFetchedResultGroupedBy? = nil
     public var supportedInterfaceOrientations: UIInterfaceOrientationMask = .portrait
     public var popup: [PopupConfigure] = []
@@ -107,11 +107,9 @@ open class SLPhotosPickerViewController: UIViewController {
     
     private var isViewLoading: Bool = false
     
-    weak var shoplivePermissionDelegate : ShopLivePermissionHandler?
     weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
     weak var videoEditorDelegate : ShopLiveVideoEditorDelegate?
-    
-    
+    weak var shoplivePermissionDelegate : ShopLivePermissionHandler?
     var video: ShortsVideo? = nil
     open var selectedAssets = [SLPHAsset]()
     open var isSelectedFromCamera: Bool = false
@@ -142,6 +140,7 @@ open class SLPhotosPickerViewController: UIViewController {
     private var thumbnailSize = CGSize.zero
     private var cameraImage: UIImage? = nil
     
+    
     open override var preferredStatusBarStyle: UIStatusBarStyle {
         if #available(iOS 13, *) {
             return .darkContent
@@ -169,11 +168,6 @@ open class SLPhotosPickerViewController: UIViewController {
     
     private func updateUserInterfaceStyle() {
         if #available(iOS 13.0, *) {
-            let userInterfaceStyle = self.traitCollection.userInterfaceStyle
-//            let bundle = Bundle(for: type(of: self))
-//            let image = UIImage(named: "sl_pop_arrow", in: bundle, compatibleWith: nil)
-//            let subImage = UIImage(named: "sl_arrow", in: bundle, compatibleWith: nil)
-            
             self.view.backgroundColor = .white
             self.collectionView.backgroundColor = .white
         }
@@ -222,8 +216,6 @@ open class SLPhotosPickerViewController: UIViewController {
     
     private func setupPicker() {
         var configure = SLPhotosPickerConfigure()
-//        let bundle = Bundle(for: type(of: self))
-//        UIImage(named: "sl_camera", in: bundle, compatibleWith: nil)
         configure.cameraIcon = ShopLiveShortformEditorSDKAsset.slCamera.image
         configure.mediaType = .video
         configure.numberOfColumn = 3
@@ -358,7 +350,6 @@ extension SLPhotosPickerViewController {
         self.titleLabel.text = self.configure.customLocalizedTitle["Camera Roll"]
         self.cancelButton.title = self.configure.cancelTitle
         
-        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)]
         self.emptyView.isHidden = true
         self.emptyImageView.image = self.configure.emptyImage
         self.emptyMessageLabel.text = self.configure.emptyMessage
@@ -390,8 +381,6 @@ extension SLPhotosPickerViewController {
     private func updateTitle() {
         guard self.focusedCollection != nil else { return }
         let titleAttributedString = NSMutableAttributedString(string: self.focusedCollection?.title ?? "")
-        
-//        let arrowImage = UIImage(named: "sl_arrow", in: Bundle(for: type(of: self)), compatibleWith: nil)
         let arrowAttachment = NSTextAttachment()
         arrowAttachment.image = ShopLiveShortformEditorSDKAsset.slArrow.image
         arrowAttachment.bounds = CGRectMake(0, -5, 20, 20)
@@ -610,14 +599,6 @@ extension SLPhotosPickerViewController: UIImagePickerControllerDelegate, UINavig
         isViewLoading = true
         self.present(picker, animated: true, completion: nil)
     }
-
-//    private func handleDeniedAlbumsAuthorization() {
-//        self.delegate?.handleAlbumPermissions(picker: self,status: .denied)
-//    }
-    
-//    private func handleDeniedCameraAuthorization() {
-//        self.delegate?.handleCameraPermissions(picker: self,status: .denied)
-//    }
     
     open func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
@@ -834,7 +815,7 @@ extension SLPhotosPickerViewController: UICollectionViewDelegate,UICollectionVie
             return cell
         }
         let nibName = "SLPhotoCollectionViewCell"
-        var cell = makeCell(nibName: nibName)
+        let cell = makeCell(nibName: nibName)
         guard let collection = self.focusedCollection else { return cell }
         cell.isCameraCell = collection.useCameraButton && indexPath.section == 0 && indexPath.row == 0
         if cell.isCameraCell {
@@ -1025,7 +1006,7 @@ extension SLPhotosPickerViewController {
     }
     
     func toggleSelection(for cell: SLPhotoCollectionViewCell, at indexPath: IndexPath) {
-        guard let collection = focusedCollection, var asset = collection.getSLAsset(at: indexPath), let phAsset = asset.phAsset else { return }
+        guard let collection = focusedCollection, var asset = collection.getSLAsset(at: indexPath), let _ = asset.phAsset else { return }
         
         cell.popScaleAnim()
         

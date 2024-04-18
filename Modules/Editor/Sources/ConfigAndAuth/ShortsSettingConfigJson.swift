@@ -9,6 +9,7 @@ import Foundation
 
 struct ShortsSettingConfigJson: Codable {
     let apiEndpoint: String?
+    let shortformApiEndpoint : String?
     let common: ShortsSettingConfigCommon?
     let sdk: ShortsSettingConfigSDK?
 }

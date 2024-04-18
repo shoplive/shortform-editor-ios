@@ -82,7 +82,9 @@ class SLUploadInfoReactor : NSObject, SLReactor {
     private var iqKeyboardManagerIsInstalled : Bool = false
     
     
-    private var thumbnailPath: String { FileManager.default.temporaryDirectory.appendingPathComponent("shortform-thumbnail.jpg").absoluteString }
+    private var thumbnailPath : String {
+        FileManager.default.temporaryDirectory.appendingPathComponent("shortform-thumbnail.jpg").absoluteString
+    }
     private var temporaryUploadInfo: SLUploadAttachmentInfo?
     private var videoUrl : String?
     private var videoData : ShortsVideo?
@@ -100,7 +102,6 @@ class SLUploadInfoReactor : NSObject, SLReactor {
     
     private weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
     private weak var videoEditorDelegate : ShopLiveVideoEditorDelegate?
-    
     
     var onMainQueueResultHandler : ((Result) -> ())?
     var resultHandler: ((Result) -> ())?
@@ -130,7 +131,7 @@ class SLUploadInfoReactor : NSObject, SLReactor {
         case .setShortformEditorDelegate(let delegate):
             self.shortformEditorDelegate = delegate
         case .setVideoEditorDelegate(let delegate):
-            self.videoEditorDelegate = delegate
+                    self.videoEditorDelegate = delegate
             
         case .requestVideoThumbnail:
             self.makeVideoThumbnail()
@@ -180,7 +181,7 @@ class SLUploadInfoReactor : NSObject, SLReactor {
     }
     
     private func onViewDidLoad() {
-        if let title = self.temporaryUploadInfo?.title {
+        if let title = self.temporaryUploadInfo?.title, title.isEmpty == false {
             self.uploadTitle = title
             onMainQueueResultHandler?( .setTitle(title) )
             onMainQueueResultHandler?( .setTitleTextColor(title == titleTextFieldPlaceHolderText ? textFieldPlaceHolderColor : textFieldTextColor) )
@@ -190,7 +191,7 @@ class SLUploadInfoReactor : NSObject, SLReactor {
             onMainQueueResultHandler?( .setTitleTextColor(textFieldPlaceHolderColor) )
         }
         
-        if let desc = self.temporaryUploadInfo?.description {
+        if let desc = self.temporaryUploadInfo?.description, desc.isEmpty == false {
             self.uploadDescription = desc
             onMainQueueResultHandler?( .setDescription(desc) )
             onMainQueueResultHandler?( .setDescriptionTextColor(desc == descriptionTextFieldPlaceHolderText ? textFieldPlaceHolderColor : textFieldTextColor) )
@@ -208,9 +209,7 @@ class SLUploadInfoReactor : NSObject, SLReactor {
         onMainQueueResultHandler?( .setDescriptionsFieldsVisibility(globalConfig.shared.visibleContents.isDescriptionVisible) )
         onMainQueueResultHandler?( .setTagsFieldVisibility(globalConfig.shared.visibleContents.isTagsVisible) )
         
-        
         makeVideoThumbnail()
-        
         
         #if(canImport(IQKeyboardManagerSwift))
         self.iqKeyboardManagerIsInstalled = true
@@ -353,8 +352,7 @@ extension SLUploadInfoReactor {
             }
         }
     }
-    
-    
+
     private func processUploadCheckAPI() {
         SLShortformUploadCheckAPI().request { [weak self] result in
             guard let self = self else { return }
@@ -402,6 +400,7 @@ extension SLUploadInfoReactor {
                 self.shortformEditorDelegate?.onShopLiveShortformEditorUploadSuccess?()
                 self.onMainQueueResultHandler?(.setLoadingVisible(false))
                 self.removeVideoFile()
+                ShopLiveShortformEditor().close()
                 break
             case .failure(let error):
                 onMainQueueResultHandler?(.setLoadingVisible(false))
@@ -450,7 +449,6 @@ extension SLUploadInfoReactor {
             guard let self = self, let videoUrl = self.videoUrl else { return }
             try? FileManager.default.removeItem(atPath: videoUrl)
         }
-        
     }
     
     private func removeThumbnail() {
@@ -459,5 +457,4 @@ extension SLUploadInfoReactor {
             try? FileManager.default.removeItem(atPath: self.thumbnailPath)
         }
     }
-    
 }

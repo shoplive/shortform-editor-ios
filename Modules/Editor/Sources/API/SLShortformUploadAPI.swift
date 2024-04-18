@@ -40,7 +40,7 @@ struct SLShortformUploadAPI: APIDefinition {
             params["video"] = (path: videoUrl, name: videoFileName)
         }
         
-        params["sessionSecret"] = sessionSecret
+//        params["sessionSecret"] = sessionSecret
         return params
     }
     

@@ -11,6 +11,7 @@ import UIKit
 
 struct ShortFormUploadConfigurationInfoModel {
     var baseUrl : String = ""
+    var shortformApiEndpoint : String = ""
     var detailUrl : String = ""
     var previewEdgeInsets = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     let previewFloatingOffset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -43,8 +44,10 @@ struct ShortFormUploadConfigurationInfoModel {
     
     
     
-    init(apiEndPoint : String?, datas : ShortsSettingConfigSDK?){
-        self.init(baseUrl: apiEndPoint, detailUrl: datas?.detailUrl, previewEdgeInsets: (left: datas?.previewMargin?.left, top: datas?.previewMargin?.top, right: datas?.previewMargin?.right, bottom: datas?.previewMargin?.bottom),
+    init(shortformApiEndPoint : String?, datas : ShortsSettingConfigSDK?){
+        self.init(detailUrl: datas?.detailUrl,
+                  shortformApiEndPoint: shortformApiEndPoint,
+                  previewEdgeInsets: (left: datas?.previewMargin?.left, top: datas?.previewMargin?.top, right: datas?.previewMargin?.right, bottom: datas?.previewMargin?.bottom),
                   previewPosition: datas?.previewPosition,
                   detailApiInitializeCount: datas?.detailApiInitializeCount,
                   detailApiPaginationCount: datas?.detailApiPaginationCount,
@@ -59,16 +62,19 @@ struct ShortFormUploadConfigurationInfoModel {
                   eventTraceEndpoint: datas?.eventTraceEndpoint)
     }
     
-    init(baseUrl: String?, detailUrl: String?, previewEdgeInsets: (left : CGFloat?, top : CGFloat?, right : CGFloat?, bottom :CGFloat?),
+    init(detailUrl: String?, shortformApiEndPoint : String?, previewEdgeInsets: (left : CGFloat?, top : CGFloat?, right : CGFloat?, bottom :CGFloat?),
         previewPosition: String?, detailApiInitializeCount: Int?, detailApiPaginationCount: Int?,
          listApiInitializeCount: Int?, listApiPaginationCount: Int?, previewUseCloseButton: Bool?, enabledSwipeOut: Bool?,
          mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?,detailCollectionListAll : Bool?,eventTraceEndpoint : String?) {
-        if let baseUrl = baseUrl {
-            self.baseUrl = baseUrl
-        }
+        
         if let detailUrl = detailUrl {
             self.detailUrl = detailUrl
         }
+        
+        if let shortformApiEndPoint = shortformApiEndPoint {
+            self.shortformApiEndpoint = shortformApiEndPoint
+        }
+        
         var _previewEdgeInset = self.previewEdgeInsets
         
         if let top = previewEdgeInsets.top {

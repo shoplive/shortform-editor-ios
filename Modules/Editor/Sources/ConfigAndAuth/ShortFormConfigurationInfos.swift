@@ -13,10 +13,11 @@ public class ShortFormUploadConfigurationInfosManager {
     public static let shared = ShortFormUploadConfigurationInfosManager()
     private init() { }
     
-    private(set) var shortsConfiguration = ShortFormUploadConfigurationInfoModel(apiEndPoint: nil, datas: nil)
+    private(set) var shortsConfiguration = ShortFormUploadConfigurationInfoModel(shortformApiEndPoint: nil, datas: nil)
     
     public func getBaseUrl() -> String {
-        return shortsConfiguration.baseUrl
+        ShopLiveLogger.debugLog("[HASSAN LOG] shortformAPIEndPoint \(shortsConfiguration.shortformApiEndpoint)")
+        return shortsConfiguration.shortformApiEndpoint
     }
     
     func setConfigurationURLToEmpty() {
@@ -51,7 +52,9 @@ public class ShortFormUploadConfigurationInfosManager {
             }
             
             if let data = data {
+                ShopLiveLogger.debugLog("[HASSAN LOG] editor config.json \(String(data: data, encoding: .utf8)!)")
                 if self.validateShortsConfigurationResponse(data: data) {
+                    ShopLiveLogger.debugLog("[HASSAN LOG] 1")
                     completion(.success(()))
                 }
                 else {
@@ -78,19 +81,16 @@ public class ShortFormUploadConfigurationInfosManager {
         guard let configData = String(data: data, encoding: .utf8)?.convert_SL(to: ShortsSettingConfigJson.self) else {
             return false
         }
-        guard let sdkConfiguration = configData.sdk, let apiEndpoint = configData.apiEndpoint, let _ = sdkConfiguration.detailUrl else {
+        guard let sdkConfiguration = configData.sdk, let _ = sdkConfiguration.detailUrl else {
             return false
         }
-        self.setConfiguration(apiEndPoint: apiEndpoint, settingData: sdkConfiguration)
+        self.setConfiguration(shortformApiEndPoint: configData.shortformApiEndpoint,
+                              settingData: sdkConfiguration)
         return true
     }
     
-    private func setConfiguration(apiEndPoint : String?, settingData : ShortsSettingConfigSDK?){
-        shortsConfiguration = ShortFormUploadConfigurationInfoModel(apiEndPoint: apiEndPoint, datas: settingData)
+    private func setConfiguration(shortformApiEndPoint : String?, settingData : ShortsSettingConfigSDK?){
+        shortsConfiguration = ShortFormUploadConfigurationInfoModel(shortformApiEndPoint: shortformApiEndPoint, datas: settingData)
     }
-    
-    
-    
-    
     
 }

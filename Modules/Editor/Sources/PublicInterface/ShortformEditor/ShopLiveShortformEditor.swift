@@ -13,13 +13,11 @@ import ShopliveSDKCommon
 
 public class ShopLiveShortformEditor {
     public static var sdkVersion = ShopLiveCommon.videoEditorSdkversion
-    
-    
-    internal static let shared = ShopLiveShortformEditor()
+    public static let shared = ShopLiveShortformEditor()
     
     private var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
     private var permissionHandler : ShopLivePermissionHandler?
-    private static weak var navigationController : SLPickerNavigationController?
+    private weak var navigationController : SLPickerNavigationController?
     
     
     public init(){ }
@@ -27,7 +25,7 @@ public class ShopLiveShortformEditor {
     
     @discardableResult
     public func setPermissionHandler(_ permissionHandler : ShopLivePermissionHandler?) -> Self {
-        self.permissionHandler = permissionHandler
+        Self.shared.permissionHandler = permissionHandler
         return self
     }
     
@@ -50,7 +48,7 @@ public class ShopLiveShortformEditor {
     
     @discardableResult
     public func setDelegate(delegate : ShopLiveShortformEditorDelegate) -> Self{
-        self.shortformEditorDelegate = delegate
+        Self.shared.shortformEditorDelegate = delegate
         return self
     }
     
@@ -63,17 +61,17 @@ public class ShopLiveShortformEditor {
                     self.presentUpload(vc: vc)
                 }
             case .failure(let error):
-                shortformEditorDelegate?.onShopLiveShortformEditorError?(error: error)
+                Self.shared.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: error)
             }
         }
     }
     
     private func presentUpload(vc : UIViewController) {
         let videoPicker = SLPhotosPickerViewController()
-        videoPicker.shoplivePermissionDelegate = permissionHandler
-        videoPicker.shortformEditorDelegate = shortformEditorDelegate
+        videoPicker.shoplivePermissionDelegate = Self.shared.permissionHandler
+        videoPicker.shortformEditorDelegate = Self.shared.shortformEditorDelegate
         let navi = SLPickerNavigationController(rootViewController: videoPicker)
-        Self.navigationController = navi
+        Self.shared.navigationController = navi
         navi.isNavigationBarHidden = true
         navi.modalPresentationCapturesStatusBarAppearance = true
         navi.modalPresentationStyle = .overFullScreen
@@ -82,8 +80,8 @@ public class ShopLiveShortformEditor {
     
     
     public func close() {
-        Self.navigationController?.dismiss(animated: true)
-        Self.navigationController = nil
+        Self.shared.navigationController?.dismiss(animated: true)
+        Self.shared.navigationController = nil
     }
     
 }

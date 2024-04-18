@@ -112,7 +112,7 @@ class EditorOptionPopUp : UIView {
         let visibleContents = ShopLiveShortFormEditorVisibleContent(isDescriptionVisible: OptionSettingModel.editorShowDescription,
                                                                     isTagsVisible: OptionSettingModel.editorShowTags)
         
-        ShopLiveShortformEditor()
+        ShopLiveShortformEditor.shared
             .setPermissionHandler(nil)
             .setConfiguration(ShopLiveShortformEditorConfiguration(videoCropOption: cropOption ,
                                                                    visibleContents: visibleContents,
@@ -129,7 +129,7 @@ class EditorOptionPopUp : UIView {
                                                         height: OptionSettingModel.editorheight,
                                                         isFixed: OptionSettingModel.editorIsFixed)
         
-        ShopliveVideoEditor()
+        ShopliveVideoEditor.shared
             .setPermissionHandler(nil)
             .setConfiguration(.init(videoCropOption: cropOption))
             .setDelegate(vc)

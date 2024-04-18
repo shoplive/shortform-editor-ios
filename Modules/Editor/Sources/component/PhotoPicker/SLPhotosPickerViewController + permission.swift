@@ -15,7 +15,7 @@ extension SLPhotosPickerViewController {
         if let permissionDelegate = shoplivePermissionDelegate, let handler = permissionDelegate.handlePhotoLibraryUsagePermission?(status: status) {
             handler
         }
-        else if status == .denied || status == .notDetermined {
+        else if status != .authorized && status != .limited {
             openAlertController()
         }
     }
@@ -24,7 +24,7 @@ extension SLPhotosPickerViewController {
         if let permissionDelegate = shoplivePermissionDelegate, let handler = permissionDelegate.handleCameraPermission?(status: status) {
             handler
         }
-        else if status == .denied || status == .notDetermined {
+        else if status != .authorized && status != .limited {
             openAlertController()
         }
     }

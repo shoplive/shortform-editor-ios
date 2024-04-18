@@ -25,7 +25,8 @@ let deployTarget = Target(name: "ShopLiveShortformEditorSDK",
                             .xcframework(path: .relativeToRoot("Modules/Editor/Framework/libavformat.xcframework")),
                             .xcframework(path: .relativeToRoot("Modules/Editor/Framework/libswresample.xcframework")),
                             .xcframework(path: .relativeToRoot("Modules/Editor/Framework/libswscale.xcframework")),
-                            .xcframework(path: .relativeToRoot("Modules/Editor/Framework/libavutil.xcframework"))
+                            .xcframework(path: .relativeToRoot("Modules/Editor/Framework/libavutil.xcframework")),
+                            .xcframework(path: .relativeToRoot("Modules/Editor/Framework/ShopliveFilterSDK.xcframework"))
                           ])
 
 let project = Project.makeModule(name: "ShopLiveShortformEditorSDK",

@@ -13,16 +13,15 @@ import ShopliveSDKCommon
 
 extension SLPhotosPickerViewController : SLLoadingAlertControllerDelegate {
     public func didCancelLoading() {
-        //필터 관련 브랜치 머지하면서 구체화 될 예정 그전까지는 no - op으로 설정
+        loadingProgress.cancelLoading = false
     }
     
     public func didFinishLoading() {
-        //필터 관련 브랜치 머지하면서 구체화 될 예정 그전까지는 no - op으로 설정
+        
     }
     
     func startLoading() {
         guard !self.isSelectedFromCamera else { return }
-        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.loadingProgress.modalPresentationStyle = .overFullScreen
@@ -33,14 +32,10 @@ extension SLPhotosPickerViewController : SLLoadingAlertControllerDelegate {
         }
     }
     
-    public func finishLoading() {
+    func finishLoading() {
         DispatchQueue.main.async { [weak self] in
-            self?.loadingProgress.finishLoading()
-            self?.loadingProgress.dismiss(animated: false)
+            guard let self = self else { return }
+            self.loadingProgress.finishLoading()
         }
-    }
-    
-    open func cancelLoading() {
-        loadingProgress.cancelLoading = false
     }
 }

@@ -9,6 +9,25 @@ import Foundation
 import UIKit
 import ffmpegkit
 import ShopliveSDKCommon
+import ShopliveFilterSDK
+import AVKit
+
+
+struct FFMpegTextInfo {
+    var text : String
+    var textColor : String
+    var textSize : Int
+    var frame : CGRect
+    var textBackgroundColor : String
+    var timeRange : CMTimeRange
+   
+}
+
+struct SLFilterConfig {
+    var filterConfig : String
+    var filterIntensity : Float
+}
+
 
 struct SLVideoInfo {
     var videoPath: String
@@ -16,40 +35,106 @@ struct SLVideoInfo {
     var videoSize: CGSize
     var timeRange: (start: Float64, end: Float64)
     var fileName: String
+    var filterConfig : SLFilterConfig?
+    var ffmpegFilterConfig : String? {
+        let parser = CGERootParser()
+        guard let filter = filterConfig else { return nil }
+        return parser.parseCommand(cgeCommand: filter.filterConfig,intensity: filter.filterIntensity, size: videoSize )
+    }
+    var ffmpegTextInfo : FFMpegTextInfo?
 }
 
+
 extension SLVideoInfo {
-    var scaleSize720: Int {
-        return Int(ceil((min(self.cropRect.width, self.cropRect.height) / 720.0) * 100000.0) / 100000.0) * 720
-    }
-    
-    var scaleValue: String {
-        return self.cropRect.width < self.cropRect.height ? "\(scaleSize720):-1" : "-1:\(scaleSize720)"
+    typealias globalConfig = ShopLiveEditorConfigurationManager
+    var scaleValue : String {
+        var videoRatio : CGFloat = ( 9 / 16)
+        if globalConfig.shared.videoCropOption.isFixed {
+            let h = globalConfig.shared.videoCropOption.height
+            let w = globalConfig.shared.videoCropOption.width
+            videoRatio = CGFloat( h ) / CGFloat( w )
+        }
+        if cropRect.width < cropRect.height {
+            return "-1:\(ceil(720 * videoRatio))"
+        }
+        else {
+            return "720:-1"
+            
+        }
     }
     
     var totalDuration: Float64 {
         return (timeRange.end - timeRange.start)
     }
     
-    var outputVideoPath: String {
-        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let cachepath = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
-        let documents = path[0]
-        let caches = cachepath[0]
-        let cacheoutput = caches.appendingPathComponent("\(fileName)").deletingPathExtension().appendingPathExtension("mp4")
+    var filterVideoPath: String {
+        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let cacheoutput = path.appendingPathComponent("filtered_\(fileName)").deletingPathExtension().appendingPathExtension("mp4")
         return cacheoutput.absoluteString
     }
     
+    var ffmpegOutPutVideoPath : String {
+        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let cacheoutput = path.appendingPathComponent("ffmpeg_\(fileName)").deletingPathExtension().appendingPathExtension("mp4")
+        return cacheoutput.absoluteString
+    }
+    
+    var drawTextCommand : String {
+        guard let textInfo = ffmpegTextInfo else { return "" }
+        
+        //  1080 * 1920, UIFont 15 적정 ffmpegTextSize -> 60
+        let preferredFFmpegTextSize : Double = Double(textInfo.textSize * 4)
+        let ffmpegTextSize = Int((sqrt(videoSize.width*videoSize.width + videoSize.height*videoSize.height) / 2202.0) * preferredFFmpegTextSize)
+        
+        let startTime = Int(textInfo.timeRange.start.seconds)
+        let endTime = Int(textInfo.timeRange.end.seconds)
+        
+        return """
+        drawtext=fontcolor=\(textInfo.textColor):box=1:boxcolor=\(textInfo.textBackgroundColor):text='\(textInfo.text)':x=\(textInfo.frame.minX):y=\(textInfo.frame.minY):fontsize=\(ffmpegTextSize)
+        """
+        //:enable='between(t,\(startTime),\(endTime))'
+    }
+    
+    
+//    -c:v h264_videotoolbox -c:a aac \
+//    -r 24 \
+//    -compression_level 1 \
+//    화질이 너무 나쁨
     var command720p: String {
-        "-ss \(timeRange.start.timeHourMinuteSeconds_SL) -to \(timeRange.end.timeHourMinuteSeconds_SL) -i \(videoPath) -vf crop=\(cropRect.width):\(cropRect.height):\(cropRect.origin.x):\(cropRect.origin.y),scale=\(scaleValue) -y \(outputVideoPath)"
+        
+        if let filterConfig = ffmpegFilterConfig, filterConfig.isEmpty == false {
+            return """
+    -ss \(timeRange.start.timeHourMinuteSeconds_SL) \
+    -to \(timeRange.end.timeHourMinuteSeconds_SL) \
+    -i \(videoPath) \
+    -filter_complex "\(filterConfig)[filter]; \
+    [filter]crop=\(cropRect.width):\(cropRect.height):\(cropRect.origin.x):\(cropRect.origin.y)[crop]; \
+    [crop]\( drawTextCommand == "" ? "" : "\(drawTextCommand)," )scale=\(scaleValue)[out]" \
+    -map "[out]" \
+    -q:v 8 \
+    -y \(ffmpegOutPutVideoPath)
+    """
+        }
+        else {
+            return """
+-ss \(timeRange.start.timeHourMinuteSeconds_SL) \
+-to \(timeRange.end.timeHourMinuteSeconds_SL) \
+-i \(videoPath) \
+-filter_complex "crop=\(cropRect.width):\(cropRect.height):\(cropRect.origin.x):\(cropRect.origin.y)[crop]; \
+[crop]\( drawTextCommand == "" ? "" : "\(drawTextCommand)," )scale=\(scaleValue)[out]" \
+-map "[out]" \
+-q:v 8 \
+-y \(ffmpegOutPutVideoPath)
+"""
+        }
     }
     
     var commandRemoveScale: String {
-        "-ss \(timeRange.start.timeHourMinuteSeconds_SL) -to \(timeRange.end.timeHourMinuteSeconds_SL) -i \(videoPath) -filter:v crop='\(cropRect.width):\(cropRect.height):\(cropRect.origin.x):\(cropRect.origin.y)' -y \(outputVideoPath)"
+        "-ss \(timeRange.start.timeHourMinuteSeconds_SL) -to \(timeRange.end.timeHourMinuteSeconds_SL) -i \(videoPath) -filter:v crop='\(cropRect.width):\(cropRect.height):\(cropRect.origin.x):\(cropRect.origin.y)' -y \(ffmpegOutPutVideoPath)"
     }
     
     var commandDefault: String {
-        "-ss \(timeRange.start.timeHourMinuteSeconds_SL) -to \(timeRange.end.timeHourMinuteSeconds_SL) -i \(videoPath) -filter:v crop='\(cropRect.width):\(cropRect.height):\(cropRect.origin.x):\(cropRect.origin.y)' -y \(outputVideoPath)"
+        "-ss \(timeRange.start.timeHourMinuteSeconds_SL) -to \(timeRange.end.timeHourMinuteSeconds_SL) -i \(videoPath) -filter:v crop='\(cropRect.width):\(cropRect.height):\(cropRect.origin.x):\(cropRect.origin.y)' -y \(ffmpegOutPutVideoPath)"
     }
 }
 
@@ -72,40 +157,43 @@ protocol SLVideoConverterDelegate: AnyObject {
     func updateConvertPercent(percent: Int)
 }
 
-class SLVideoConverter {
+class SLVideoConverter : NSObject {
     
     weak var delegate: SLVideoConverterDelegate?
     
     private var videoInfo: SLVideoInfo?
+    private var frameRecorder : ShopliveFilterSDKVideoFrameRecorder?
+    private var convertCompletion : ( (SLVideoConvertResult) -> Void )?
     
     private(set) var inConvert: Bool = false
     
     func convertVideo(videoInfo: SLVideoInfo, completion: @escaping (SLVideoConvertResult) -> Void) {
+        convertCompletion = completion
         self.setDeviceIdleTimer(true)
         inConvert = true
         self.videoInfo = videoInfo
         runFfmpegCommand(command: videoInfo.command720p) { [weak self] result in
             switch result {
             case .Success():
-                self?.inConvert = false
                 self?.setDeviceIdleTimer(false)
-                completion(.Success(videoPath: videoInfo.outputVideoPath))
+                self?.inConvert = false
+                completion(.Success(videoPath: videoInfo.ffmpegOutPutVideoPath))
                 break
             case .Failed(_):
                 self?.runFfmpegCommand(command: videoInfo.commandRemoveScale) { [weak self] result in
                     switch result {
                     case .Success():
-                        self?.inConvert = false
                         self?.setDeviceIdleTimer(false)
-                        completion(.Success(videoPath: videoInfo.outputVideoPath))
+                        self?.inConvert = false
+                        completion(.Success(videoPath: videoInfo.ffmpegOutPutVideoPath))
                         break
                     case .Failed(_):
                         self?.runFfmpegCommand(command: videoInfo.commandDefault) { [weak self] result in
-                            self?.setDeviceIdleTimer(false)
                             switch result {
                             case .Success():
+                                self?.setDeviceIdleTimer(false)
                                 self?.inConvert = false
-                                completion(.Success(videoPath: videoInfo.outputVideoPath))
+                                completion(.Success(videoPath: videoInfo.ffmpegOutPutVideoPath))
                                 break
                             case .Failed(let error):
                                 self?.inConvert = false
@@ -117,15 +205,18 @@ class SLVideoConverter {
                         break
                     }
                 }
-                break
             }
         }
     }
-    
+
     private var ffmpegSession: FFmpegSession?
     func cancelConvert() {
         inConvert = false
+        if let session = ffmpegSession {
+            FFmpegKit.cancel(session.getId())
+        }
         FFmpegKit.cancel()
+        ffmpegSession = nil
     }
     
     private func runFfmpegCommand(command: String, completion: @escaping (SLVideoFFMpegExecuteResult) -> Void) {
@@ -153,7 +244,12 @@ class SLVideoConverter {
             let current: Float64 = Float64(convertTime)
             let percent = (current / total) * 100
             
-            self.delegate?.updateConvertPercent(percent: min(100,Int(percent)))
+            if percent > Double(Int.max) {
+                self.delegate?.updateConvertPercent(percent: 100)
+            }
+            else {
+                self.delegate?.updateConvertPercent(percent: min(100,Int(percent)))
+            }
         }
         
     }
@@ -163,4 +259,42 @@ class SLVideoConverter {
             UIApplication.shared.isIdleTimerDisabled = isEnabled
         }
     }
+    
+    
+    private func processFilterFrameRecording(urlString : String,filterConfig : String) {
+        guard let videoInfo = videoInfo else {
+            convertCompletion?(.Failed(error: SLVideoConvertError.error))
+            return
+        }
+        let dict : [AnyHashable : Any] = [
+            "sourceURL" : URL(string: urlString)!,
+            "filterConfig" : String(cString: filterConfig),
+            "filterIntensity" : 1.0
+        ]
+        let destUrl = URL(string: videoInfo.filterVideoPath)!
+        
+        
+        self.frameRecorder = ShopliveFilterSDKVideoFrameRecorder.generateVideo(withFilter: destUrl, size: .zero, with: self, videoConfig: dict)
+    }
+    
 }
+extension SLVideoConverter : ShopliveFilterSDKVideoFrameRecorderDelegate {
+    func videoReadingComplete(_ videoFrameRecorder: ShopliveFilterSDKVideoFrameRecorder!) {
+        guard let recorder = self.frameRecorder else {
+            convertCompletion?(.Failed(error: SLVideoConvertError.error))
+            return
+        }
+        recorder.endRecording { [weak self] in
+            self?.convertCompletion?(.Success(videoPath: recorder.outputVideoURL.absoluteString))
+            self?.setDeviceIdleTimer(false)
+            self?.inConvert = false
+            
+            self?.frameRecorder?.clear()
+            self?.frameRecorder = nil
+        }
+    }
+}
+// ffmpeg -i gizmo.mp4 -filter_complex "[0]drawtext=fontcolor=#000000:text='나라말싸미':x=145.0:y=321.0[out]" -map "[out]" -y test20.mp4
+
+
+
