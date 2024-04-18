@@ -12,28 +12,17 @@ import ShopliveSDKCommon
 
 extension ShortsCollectionBaseView {
     func setupObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("closePreview"), object: nil)
-
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("configUpdated"), object: nil)
         
-        self.addObserver(self, forKeyPath: "frame", options: .new, context: nil)
     }
     
     func teardownObserver() {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("closePreview"), object: nil)
-
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("configUpdated"), object: nil)
         NotificationCenter.default.removeObserver(self)
-        self.safeRemoveObserver_SL(self, forKeyPath: "frame")
     }
 
     @objc func handleNotification(_ notification: Notification) {
         switch notification.name {
-        case NSNotification.Name("closePreview"):
-            guard viewModel.shortsMode == .preview else { return }
-            ShopLiveShortform.close()
-            break
-            
         case NSNotification.Name("configUpdated"):
             DispatchQueue.main.async {
                 self.viewModel.setShortsConfiguration()

@@ -160,7 +160,9 @@ extension ShopLiveShortform {
         
         @objc func tapGestureHandler(_ recognizer: UITapGestureRecognizer) {
             guard shortsWindowModel.enableTapGesture else { return }
-            NotificationCenter.default.post(Notification(name: Notification.Name("clickPreview"), object: nil, userInfo: ["shorts": self.shortsCollectionView?.getCurrentShortsModel() as Any]))
+            if let shorts = self.shortsCollectionView?.getCurrentShortsModel() {
+                ShopLiveShortform.BridgeInterface.clickPreview(shorts: shorts)
+            }
             if shortsCollectionView?.getCurrentShowType() == .related && shortsCollectionView?.getIsFullNative() == true {
                 //preview -> detail 들어갈때 새로 발급받아서 preview_click_show 페이로드에 담아서 보내줘야 함
                 let shopLiveSessionId = ShopLiveCommon.makeShopLiveSessionId()
@@ -461,8 +463,8 @@ extension ShopLiveShortform {
         }
         
         func hide() {
-            if self.shortsWindowModel.shortsMode == .preview {
-                NotificationCenter.default.post(Notification(name: Notification.Name("previewHidden"), object: nil, userInfo: ["shorts": self.shortsCollectionView?.getCurrentShortsModel() ?? ""]))
+            if self.shortsWindowModel.shortsMode == .preview,let shortsModel = self.shortsCollectionView?.getCurrentShortsModel() {
+                ShopLiveShortform.BridgeInterface.previewHidden(shorts: shortsModel)
             }
             shortsCollectionView?.close()
             shortsWindowModel.resetProperties()

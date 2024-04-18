@@ -163,6 +163,11 @@ public class ShopLiveShortform {
         shortformWindow?.showPreview(shortsCollection)
     }
     
+    internal static func closeShortformPreview() {
+        guard shortsCollection?.viewModel.shortsMode == .preview else { return }
+        Self.close()
+    }
+    
 }
 
 extension ShopLiveShortform {

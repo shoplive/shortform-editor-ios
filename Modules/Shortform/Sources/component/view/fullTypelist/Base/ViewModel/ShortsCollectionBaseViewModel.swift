@@ -556,7 +556,8 @@ extension ShortsCollectionBaseViewModel {
     }
     
     func postPreviewShowNotification() {
-        NotificationCenter.default.post(Notification(name: Notification.Name("previewShown"), object: nil, userInfo: ["shorts": self.currentShorts as Any]))
+        guard let shorts = self.currentShorts else { return }
+        ShopLiveShortform.BridgeInterface.previewShown(shorts: shorts)
     }
     
     func postMuteShortsNotification() {
@@ -588,7 +589,8 @@ extension ShortsCollectionBaseViewModel {
     }
     
     func postPreviewCloseNotification() {
-        NotificationCenter.default.post(Notification(name: Notification.Name("previewClose"), object: nil, userInfo: ["shorts": self.currentShorts as  Any]))
+        guard let shortsModel = self.currentShorts else { return }
+        ShopLiveShortform.BridgeInterface.previewClose(shorts: shortsModel)
     }
     
     func postStopVideoNotification() {
@@ -636,7 +638,7 @@ extension ShortsCollectionBaseViewModel {
     }
     
     func postRequestShortsPreview(url : String?, srn : String?){
-        NotificationCenter.default.post(Notification(name: Notification.Name("requestShortsPreview"), userInfo: ["url": url, "srn" : srn]))
+        ShopLiveShortform.BridgeInterface.requestShortsPreview(url: url, srn: srn)
     }
     
     func postCloseShortsDetail(srn : String?){
