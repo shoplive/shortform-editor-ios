@@ -13,7 +13,6 @@ import ShopliveSDKCommon
 
 public protocol ShortsCollectionViewDataSourcRequestDelegate : AnyObject {
     func onShortformListPagination(completion : @escaping(((ShopLiveShortformIdsMoreData?,Error?)) -> ()))
-    func onShortformListPaginationError(error : Error)
     
 }
 
@@ -74,10 +73,6 @@ extension V2ShortsCollectionView : V2ShortsCollectioViewModelDelegate {
                 self?.viewmodel.setShortformIdsMoreData(moreData: moreData)
             }
         }
-    }
-    
-    func onV2ListAPIError(error: Error) {
-        requestDelegate?.onShortformListPaginationError(error: error)
     }
     
     func hideEmptyDataView(hide: Bool) {

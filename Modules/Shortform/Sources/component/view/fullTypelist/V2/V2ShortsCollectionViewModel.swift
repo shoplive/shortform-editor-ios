@@ -11,7 +11,6 @@ import ShopliveSDKCommon
 
 protocol V2ShortsCollectioViewModelDelegate : ShortsCollectionBaseViewModelDelegate {
     func requestForMoreData()
-    func onV2ListAPIError(error : Error)
     func hideEmptyDataView(hide : Bool)
 }
 
@@ -158,7 +157,7 @@ extension V2ShortsCollectionViewModel {
                     self.v2delegate?.hideEmptyDataView(hide: (shortsList.count == 0 && reset == true) ? false : true)
                     completion()
                 case .failure(let error):
-                    self.v2delegate?.onV2ListAPIError(error: error)
+                    ShopLiveShortform.Delegate.receiveHandler.delegate?.onError?(error: error)
                     completion()
                     break
                 }
