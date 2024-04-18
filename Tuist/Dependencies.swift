@@ -23,7 +23,8 @@ let dependencies = Dependencies(
       .remote(url: "https://github.com/firebase/firebase-ios-sdk.git", requirement: .upToNextMajor(from: "8.0.0")),
       .remote(url: "https://github.com/SnapKit/SnapKit.git", requirement: .upToNextMajor(from: "5.0.0")),
       .remote(url: "https://github.com/rechsteiner/Parchment", requirement: .upToNextMajor(from: "3.2.1")),
-      .remote(url: "https://github.com/jriosdev/iOSDropDown.git", requirement: .upToNextMajor(from: "0.4.0"))
+      .remote(url: "https://github.com/jriosdev/iOSDropDown.git", requirement: .upToNextMajor(from: "0.4.0")),
+      .remote(url: "https://github.com/hackiftekhar/IQKeyboardManager.git", requirement: .upToNextMajor(from: "7.0.2"))
     ],
     productTypes: [ : ],
     baseSettings: .settings(

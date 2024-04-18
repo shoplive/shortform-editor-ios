@@ -132,6 +132,7 @@ public extension APIDefinition {
         var urlString = baseUrl
         
         if urlPath.isNotEmpty_SL {
+            
             if  urlPath.starts(with: "/") {
                 urlString += urlPath
             }
@@ -139,6 +140,7 @@ public extension APIDefinition {
                 urlString += "/\(urlPath)"
             }
         }
+        ShopLiveLogger.debugLog("[HASSAN LOG] urlString \(urlString)")
         
         self.processNetworkRequest(urlString: urlString, handler: handler)
     }
@@ -193,6 +195,7 @@ public extension APIDefinition {
             do {
                 let httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
                 requestUrl.httpBody = httpBody
+                
             }
             catch(let error) {
                 let err = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedJSONParsing, error: error, message: nil)
@@ -202,7 +205,7 @@ public extension APIDefinition {
         }
         
 //        var log = "[HASSAN LOG] \n"
-//        log += "url : \(requestUrl.url)\n"
+//        log += "url : \(requestUrl.url?.absoluteString)\n"
 //        log += "param : \(parameters)\n"
 //        log += "header : \(finalHeaders)\n"
 //        log += "=========================="
@@ -411,10 +414,6 @@ public extension APIDefinition {
             headers[CommonKeys.x_sl_ce_id] = ceId
         }
         
-        if let anonId = ShopLiveCommon.getAnonId(), !anonId.isEmpty {
-            headers[CommonKeys.x_sl_anon_id] = anonId
-        }
-        
         if let idfv = UIDevice.idfv_sl, idfv.isNotEmpty_SL {
             headers[CommonKeys.x_sl_idfv] = idfv
         }
@@ -470,6 +469,32 @@ public extension APIDefinition {
         }
 
         return queries
+    }
+    
+    private static var queryUtmDictionary : [String : String] {
+        var headers : [String : String] = [:]
+        
+        if let adIdentifier = ShopLiveCommon.getAdIdentifier(), adIdentifier.isNotEmpty_SL {
+            headers["adIdentifier"] = adIdentifier
+        }
+        
+        if let utmSource = ShopLiveCommon.getUtmSource(), utmSource.isNotEmpty_SL {
+            headers["utmSource"] = utmSource
+        }
+        
+        if let utmMedium = ShopLiveCommon.getUtmMedium(), utmMedium.isNotEmpty_SL {
+            headers["utmMedium"] = utmMedium
+        }
+        
+        if let utmCampaign = ShopLiveCommon.getUtmCampaign(), utmCampaign.isNotEmpty_SL {
+            headers["utmCampaign"] = utmCampaign
+        }
+        
+        if let utmContent = ShopLiveCommon.getUtmContent(), utmContent.isNotEmpty_SL {
+            headers["utmContent"] = utmContent
+        }
+
+        return headers
     }
     
     private static var postHeaders: [String: String] {

@@ -1,0 +1,9 @@
+
+
+#include "./version.xcconfig"
+SL_APP_NAME = Conversion Tracking Demo
+SL_APP_BUNDLE_ID = cloud.shoplive.sdk.conversion.tracking.demo
+
+
+
+
