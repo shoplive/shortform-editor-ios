@@ -120,6 +120,7 @@ class ListViewOptionBox : UIView {
         snapBox.setSwitchIsOn(isOn: model.snapEnabled)
         wifiBox.setSwitchIsOn(isOn: model.playOnlyWifi)
         cardTypeBox.setCardTypeOnInit(type: model.cardType)
+        
     }
     
     

@@ -1,19 +1,18 @@
 //
-//  AppStateObserver.swift
-//  matrix-shortform-ios
+//  SLAppStateObserver.swift
+//  ShopliveSDKCommon
 //
-//  Created by 김우현 on 2/23/23.
+//  Created by sangmin han on 3/22/24.
+//  Copyright © 2024 com.app. All rights reserved.
 //
 
 import Foundation
 import UIKit
-import ShopliveSDKCommon
-
-protocol AppStateObserverDelegate: AnyObject {
+public protocol ShopliveAppStateObserverDelegate: AnyObject {
     func handleAppStateNotification(appState: SLAppState)
 }
 
-enum SLAppState {
+public enum SLAppState {
     case none
     case orientationDidChange
     case enterLockScreen
@@ -24,11 +23,11 @@ enum SLAppState {
     case willEnterBackground
 }
 
-final class AppStateObserver: NSObject {
+final public class ShopliveAppStateObserver: NSObject {
     
-    weak var delegate: AppStateObserverDelegate?
+    public weak var delegate: ShopliveAppStateObserverDelegate?
     
-    override init() {
+    public override init() {
         super.init()
         self.setupObserver()
     }

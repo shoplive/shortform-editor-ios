@@ -12,6 +12,16 @@ import VideoToolbox
 import ShopliveSDKCommon
 
 
+
+enum SLShortsVideoPlayerObserveValue: String {
+    case playerItemStatus = "status"
+    case timeControlStatus = "timeControlStatus"
+
+    var keyPath: String {
+        return self.rawValue
+    }
+}
+
 class ShortsVideoPlayer2 {
     
     private var videoUrl : URL
@@ -36,14 +46,30 @@ class ShortsVideoPlayer2 {
     }
     
     func configure(videoUrl : URL){
-        self.setVideoAsset(videoUrl: videoUrl)
-        self.setPlayerItem(asset: videoAsset)
-        self.setVideoOutput()
-        if self.player == nil {
-            self.player = AVPlayer(playerItem: playerItem)
+        if ShopliveMP4CachingManager.shared.isVideoMP4(url: videoUrl) {
+            ShopliveMP4CachingManager.shared.downloadVideo(url: videoUrl) { [weak self] playerItem in
+                guard let self = self else { return }
+                self.videoAsset = playerItem.asset as? AVURLAsset
+                self.setPlayerItem(asset: self.videoAsset)
+                self.setVideoOutput()
+                if self.player == nil {
+                    self.player = AVPlayer(playerItem: playerItem)
+                }
+                else {
+                    self.player?.replaceCurrentItem(with: playerItem)
+                }
+            }
         }
         else {
-            self.player?.replaceCurrentItem(with: playerItem)
+            self.setVideoAsset(videoUrl: videoUrl)
+            self.setPlayerItem(asset: videoAsset)
+            self.setVideoOutput()
+            if self.player == nil {
+                self.player = AVPlayer(playerItem: playerItem)
+            }
+            else {
+                self.player?.replaceCurrentItem(with: playerItem)
+            }
         }
     }
     

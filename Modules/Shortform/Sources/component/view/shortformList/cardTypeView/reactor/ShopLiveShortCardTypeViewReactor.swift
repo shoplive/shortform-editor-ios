@@ -103,7 +103,6 @@ final class ShopLiveShortCardTypeViewReactor : NSObject, SLReactor {
     }
     
     
-    
     func action(_ action : Action){
         switch action {
         case .setCardViewType(let cardViewType):
@@ -228,6 +227,7 @@ final class ShopLiveShortCardTypeViewReactor : NSObject, SLReactor {
         self.calculateCellSize()
     }
     
+    
 }
 extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDataSourcePrefetching, ShopliveShortformListViewCellDelegate {
    
@@ -269,7 +269,6 @@ extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollect
            let externalVideoThumbnail = cardModel.externalVideoThumbnail {
             posterImageUrl = externalVideoThumbnail
         }
-        
         
         cell.configureCell(title: title,
                            description: description,

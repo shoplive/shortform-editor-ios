@@ -76,7 +76,6 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
             self.onPause()
         case .stop:
             self.onStop()
-            
         case .initPlayer(let url):
             self.onInitPlayer(videoUrl: url)
         case .setVideoUrl(let url):
@@ -98,7 +97,7 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
         shortsVideoPlayer?.getAVPlayer()?.play()
     }
     
-    private func onReplay() {
+    private func onReplay() { 
         shortsVideoPlayer?.seekTo(time: .zero, toleranceBefore: .zero, toleranceAfter: .zero, completionHandler: { _ in
         })
         shortsVideoPlayer?.getAVPlayer()?.play()
@@ -165,7 +164,7 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
         shortsVideoPlayer?.setMute(isMuted: isMute)
     }
 }
-//MARK: -Getter
+//MARK: - Getter
 extension ShortsVideoPlayerReactor {
     func getVideoDuration() -> Double {
         return shortsVideoPlayer?.getVideoDuration() ?? -1

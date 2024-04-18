@@ -123,6 +123,10 @@ class ViewController: UIViewController {
         settingMoreBtn.addTarget(self, action: #selector(didTapSettingMoreBtn(sender: )), for: .touchUpInside)
         v2PlayBtn.addTarget(self, action: #selector(v2PlayBtnTapped(sender: )), for: .touchUpInside)
         
+//        ShopliveMP4CachingManager.shared.removeCaches()
+//        ShopliveMP4CachingManager.shared.setCacheType(type: .memory)
+//        let cacheSize = ShopliveMP4CachingManager.shared.getCachedSize()
+//        ShopLiveLogger.debugLog("[HASSAN LOG] cacheSize \(cacheSize)")
         
     }
     
@@ -134,6 +138,7 @@ class ViewController: UIViewController {
                 print("adidentifier result \(ShopLiveCommon.getAdIdentifier())")
             }
         }
+
         
     }
     

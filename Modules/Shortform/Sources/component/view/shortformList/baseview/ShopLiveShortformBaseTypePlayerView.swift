@@ -72,13 +72,16 @@ class ShopLiveShortformBaseTypePlayerView : UIView {
     func setVideoUrl(urlString : String?){
         self.playerLayer.player = player
         guard let urlString = urlString, var url = URL(string: urlString) else { return }
-        let asset = AVURLAsset(url: url)
-        let playerItem = AVPlayerItem(asset: asset)
-        self.player.replaceCurrentItem(with: playerItem)
-        self.isPlaying = false
-        self.isReadyToPlay = true
-        self.removeAvPlayerObserver()
-        self.setupAvPlayerObserver()
+        ShopliveMP4CachingManager.shared.downloadVideo(url: url) { [weak self] playerItem in
+            guard let self = self else { return }
+//            let asset = AVURLAsset(url: url)
+//            let playerItem = AVPlayerItem(asset: asset)
+            self.player.replaceCurrentItem(with: playerItem)
+            self.isPlaying = false
+            self.isReadyToPlay = true
+            self.removeAvPlayerObserver()
+            self.setupAvPlayerObserver()
+        }
     }
     
     func start()  {
@@ -123,7 +126,7 @@ class ShopLiveShortformBaseTypePlayerView : UIView {
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "timeControlStatus" {
-            if player.timeControlStatus == .playing &&  previousPlayerTimeControlStatus != .playing &&
+            if player.timeControlStatus == .playing && previousPlayerTimeControlStatus != .playing &&
                 self.isReadyToPlay && self.isPlaying {
                 previousPlayerTimeControlStatus = .playing
                 delegate?.onPlayerDidStartPlaying()

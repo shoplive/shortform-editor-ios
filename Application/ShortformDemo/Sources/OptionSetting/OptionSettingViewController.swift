@@ -21,6 +21,7 @@ class OptionSettingViewController : UIViewController {
     
     private var landingBox = LandingSelectBox()
     private var commonUserSetupBox = CommonUserSetUpBox()
+    private var cacheBox = CacheOptionBox()
     private var listViewOptionBox = ListViewOptionBox()
     private var detailWebViewOptionsBox = DetailWebViewOptionBox()
     private var editorOptionBox = EditorViewOptionBox()
@@ -66,6 +67,7 @@ class OptionSettingViewController : UIViewController {
     
     func setViewType(type : ViewType){
         editorOptionBox.setOptions()
+        cacheBox.reloadCacheSize()
         self.viewType = type
         switch type {
         case .card:
@@ -110,6 +112,7 @@ extension OptionSettingViewController {
         stack.axis = .vertical
         stack.addArrangedSubview(landingBox)
         stack.addArrangedSubview(commonUserSetupBox)
+        stack.addArrangedSubview(cacheBox)
         stack.addArrangedSubview(listViewOptionBox)
         stack.addArrangedSubview(detailWebViewOptionsBox)
         stack.addArrangedSubview(editorOptionBox)

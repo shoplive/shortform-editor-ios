@@ -52,7 +52,7 @@ class ShortsCollectionBaseViewModel {
     var networkAvailable: Bool? = true
     var latestCell: LatestShortsCell = LatestShortsCell()
     var scrollToPage : Int? = nil
-    let appStateObserver = AppStateObserver()
+    let appStateObserver = ShopliveAppStateObserver()
     
     
     //for relatedShorts
@@ -760,7 +760,7 @@ extension ShortsCollectionBaseViewModel {
     }
 }
 //MARK: -AppStateObserver
-extension ShortsCollectionBaseViewModel : AppStateObserverDelegate {
+extension ShortsCollectionBaseViewModel : ShopliveAppStateObserverDelegate {
     func handleAppStateNotification(appState: SLAppState) {
         // print("appState \(appState)")
         switch appState {
