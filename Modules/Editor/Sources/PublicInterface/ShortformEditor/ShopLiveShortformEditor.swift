@@ -53,6 +53,7 @@ public class ShopLiveShortformEditor {
     }
     
     public func start(_ vc : UIViewController) {
+        ShortFormUploadConfigurationInfosManager.shared.setConfigurationURLToEmpty()
         ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -70,6 +71,7 @@ public class ShopLiveShortformEditor {
         let videoPicker = SLPhotosPickerViewController()
         videoPicker.shoplivePermissionDelegate = Self.shared.permissionHandler
         videoPicker.shortformEditorDelegate = Self.shared.shortformEditorDelegate
+        self.callFilterListAPI()
         let navi = SLPickerNavigationController(rootViewController: videoPicker)
         Self.shared.navigationController = navi
         navi.isNavigationBarHidden = true
@@ -78,6 +80,13 @@ public class ShopLiveShortformEditor {
         vc.present(navi, animated: true)
     }
     
+    private func callFilterListAPI() {
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self = self else { return }
+            ShopLiveShortformEditorFilterListManager.shared.shortformEditorDelegate = Self.shared.shortformEditorDelegate
+            ShopLiveShortformEditorFilterListManager.shared.callFilterListAPI { }
+        }
+    }
     
     public func close() {
         Self.shared.navigationController?.dismiss(animated: true)
