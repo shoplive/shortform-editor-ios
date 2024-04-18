@@ -707,7 +707,8 @@ extension ShortsCollectionBaseViewModel {
         }
     }
     
-    func reloadData(){
+    //v2 overrided
+    @objc func reloadData(){
         guard self.lastShortsCount == 0 else { return }
         delegate?.reloadData(completion: { [weak self] in
             guard let self = self else { return }
@@ -720,6 +721,7 @@ extension ShortsCollectionBaseViewModel {
         })
     }
     
+    //v2 override
     @objc func appendCells() {
         guard let latestIndex = latestCell.indexPath?.row else { return }
         if latestIndex != self.lastShortsCount - 1 { return }

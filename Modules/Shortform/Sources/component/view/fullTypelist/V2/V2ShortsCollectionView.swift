@@ -87,6 +87,9 @@ extension V2ShortsCollectionView : V2ShortsCollectioViewModelDelegate {
         
     }
     
+    func insertCells(at indexPaths: [IndexPath]) {
+        self.shortsListView.insertItems(at: indexPaths)
+    }
 }
 extension V2ShortsCollectionView {
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -94,6 +97,10 @@ extension V2ShortsCollectionView {
         if indexPath.row >= self.viewmodel.getShortsListDataCount() - 2 &&
             self.viewmodel.getScrollViewDidScrollPaginationIsBlocked() == false {
             viewmodel.requestForPagination()
+            viewmodel.startScrollViewDidScrollPaginationBlockTimer()
+        }
+        else if indexPath.row == 0 {
+            viewmodel.requestPaginationUpward()
             viewmodel.startScrollViewDidScrollPaginationBlockTimer()
         }
     }
@@ -113,6 +120,13 @@ extension V2ShortsCollectionView {
                 self.viewmodel.getScrollViewDidScrollPaginationIsBlocked() == false {
                 viewmodel.requestForPagination()
                 viewmodel.startScrollViewDidScrollPaginationBlockTimer()
+            }
+            else if currentIndexPath.row == 0 &&
+                contentOffset <= -50 &&
+                self.viewmodel.getScrollViewDidScrollPaginationIsBlocked() == false {
+                viewmodel.requestPaginationUpward()
+                viewmodel.startScrollViewDidScrollPaginationBlockTimer()
+
             }
         }
     }
