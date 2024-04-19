@@ -501,6 +501,17 @@ final class DemoConfiguration: NSObject {
         }
     }
     
+    var enablePreviewSound: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.enablePreviewSound.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.enablePreviewSound.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.enablePreviewSound.optionKey)
+        }
+    }
+    
     var pipPadding: UIEdgeInsets {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipPadding.optionKey)

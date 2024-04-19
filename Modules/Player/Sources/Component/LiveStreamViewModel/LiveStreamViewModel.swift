@@ -394,7 +394,9 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
                 }
                 ShopLiveController.retryPlay = false
                 if isAlreadyPlayedOnce == false {
-                    ShopLiveController.shared.setSoundMute(isMuted: ShopLiveConfiguration.SoundPolicy.isMutedWhenStart)
+                    //TODO: - enablePreviewSound
+                    let isMuted = ShopLiveController.shared.isPreview ? !ShopLiveConfiguration.SoundPolicy.previewSoundEnabled : ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
+                    ShopLiveController.shared.setSoundMute(isMuted: isMuted)
                 }
                 self.play()
                 self.delegate?.requestTakeSnapShotView()

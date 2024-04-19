@@ -18,27 +18,27 @@ public enum ShopLivePlayerDemoStrings {
     public enum Login {
 
       public enum Required {
-      /// 로그인이 필요합니다. 로그인 화면으로 \n 이동하시겠습니까?
+      /// Login is required. Would you like to go to the login screen?
         public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "alert.login.required.description")
       }
     }
 
     public enum Msg {
-    /// 취소
+    /// Cancel
       public static let cancel = ShopLivePlayerDemoStrings.tr("shoplive", "alert.msg.cancel")
-      /// 확인
+      /// Confirm
       public static let confirm = ShopLivePlayerDemoStrings.tr("shoplive", "alert.msg.confirm")
-      /// 삭제
+      /// Delete
       public static let delete = ShopLivePlayerDemoStrings.tr("shoplive", "alert.msg.delete")
-      /// 실패
+      /// Failed
       public static let failed = ShopLivePlayerDemoStrings.tr("shoplive", "alert.msg.failed")
-      /// 아니오
+      /// No
       public static let no = ShopLivePlayerDemoStrings.tr("shoplive", "alert.msg.no")
-      /// 예
+      /// Yes
       public static let ok = ShopLivePlayerDemoStrings.tr("shoplive", "alert.msg.ok")
-      /// 저장
+      /// Save
       public static let save = ShopLivePlayerDemoStrings.tr("shoplive", "alert.msg.save")
-      /// 성공
+      /// Success
       public static let success = ShopLivePlayerDemoStrings.tr("shoplive", "alert.msg.success")
     }
   }
@@ -46,7 +46,7 @@ public enum ShopLivePlayerDemoStrings {
   public enum Appversion {
 
     public enum Alert {
-    /// 예) 1.0.0
+    /// e.g., 1.0.0
       public static let placeholder = ShopLivePlayerDemoStrings.tr("shoplive", "appversion.alert.placeholder")
     }
   }
@@ -56,31 +56,28 @@ public enum ShopLivePlayerDemoStrings {
     public enum Section {
 
       public enum CampaignInfo {
-      /// 방송정보
+      /// Campaign Info
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "base.section.campaignInfo.title")
+
+        public enum Button {
+
+          public enum ChooseCampaign {
+          /// Select Campaign
+            public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "base.section.campaignInfo.button.chooseCampaign.title")
+          }
+        }
 
         public enum Campaign {
 
           public enum None {
-          /// 선택된 방송이 없습니다.
+          /// No campaign selected.
             public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "base.section.campaignInfo.campaign.none.title")
           }
         }
       }
 
-      public enum CampaignInof {
-
-        public enum Button {
-
-          public enum ChooseCampaign {
-          /// 방송 선택
-            public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "base.section.campaignInof.button.chooseCampaign.title")
-          }
-        }
-      }
-
       public enum Userinfo {
-      /// 유저정보
+      /// User Info
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "base.section.userinfo.title")
 
         public enum Button {
@@ -88,19 +85,19 @@ public enum ShopLivePlayerDemoStrings {
           public enum ChooseCampaign {
 
             public enum Change {
-            /// 변경
+            /// Change
               public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "base.section.userinfo.button.chooseCampaign.change.title")
             }
 
             public enum Input {
-            /// 입력
+            /// Input
               public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "base.section.userinfo.button.chooseCampaign.input.title")
             }
           }
         }
 
         public enum None {
-        /// 유저 정보를 입력해 보세요.
+        /// Enter user information.
           public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "base.section.userinfo.none.title")
         }
       }
@@ -123,18 +120,18 @@ public enum ShopLivePlayerDemoStrings {
     }
 
     public enum Menu {
-    /// 전체삭제
+    /// Delete All
       public static let deleteall = ShopLivePlayerDemoStrings.tr("shoplive", "campaign.menu.deleteall")
-      /// 직접 입력
+      /// Write Manually
       public static let write = ShopLivePlayerDemoStrings.tr("shoplive", "campaign.menu.write")
     }
 
     public enum Msg {
-    /// 잘못된 url 입니다.
+    /// Invalid URL.
       public static let wrongurl = ShopLivePlayerDemoStrings.tr("shoplive", "campaign.msg.wrongurl")
 
       public enum DeleteAll {
-      /// 캠페인을 모두 삭제 하시겠습니까?
+      /// Would you like to delete all campaigns?
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "campaign.msg.deleteAll.title")
       }
     }
@@ -143,7 +140,7 @@ public enum ShopLivePlayerDemoStrings {
   public enum Couponresponse {
 
     public enum Failed {
-    /// 쿠폰 다운로드에 실패 했습니다.
+    /// Failed to download coupon.
       public static let `default` = ShopLivePlayerDemoStrings.tr("shoplive", "couponresponse.failed.default")
       /// * Setting Action for Failed
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "couponresponse.failed.title")
@@ -159,7 +156,7 @@ public enum ShopLivePlayerDemoStrings {
     }
 
     public enum Success {
-    /// 쿠폰 다운로드에 성공 했습니다.
+    /// Successfully downloaded coupon.
       public static let `default` = ShopLivePlayerDemoStrings.tr("shoplive", "couponresponse.success.default")
       /// * Setting Action for Success
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "couponresponse.success.title")
@@ -194,21 +191,21 @@ public enum ShopLivePlayerDemoStrings {
   }
 
   public enum Menu {
-  /// 방송 목록 관리
+  /// Manage Campaign List
     public static let campaigns = ShopLivePlayerDemoStrings.tr("shoplive", "menu.campaigns")
-    /// 쿠폰 응답 설정
+    /// Set Coupon Response
     public static let coupon = ShopLivePlayerDemoStrings.tr("shoplive", "menu.coupon")
-    /// 방송 나가기(PIP 종료)
+    /// Exit Broadcast (End PIP)
     public static let exit = ShopLivePlayerDemoStrings.tr("shoplive", "menu.exit")
-    /// 옵션 설정
+    /// Options
     public static let options = ShopLivePlayerDemoStrings.tr("shoplive", "menu.options")
-    /// 웹 스토리지 데이터 삭제
+    /// Delete Web Storage Data
     public static let removeCache = ShopLivePlayerDemoStrings.tr("shoplive", "menu.removeCache")
-    /// 유저 정보 입력
+    /// Enter User Info
     public static let userinfo = ShopLivePlayerDemoStrings.tr("shoplive", "menu.userinfo")
 
     public enum Msg {
-    /// 웹 스토리지 데이터를 삭제 했습니다.
+    /// Web storage data has been deleted.
       public static let removeCache = ShopLivePlayerDemoStrings.tr("shoplive", "menu.msg.removeCache")
     }
 
@@ -221,7 +218,7 @@ public enum ShopLivePlayerDemoStrings {
   public enum Referrer {
 
     public enum Alert {
-    /// 예) shoplive
+    /// e.g., shoplive
       public static let placeholder = ShopLivePlayerDemoStrings.tr("shoplive", "referrer.alert.placeholder")
     }
   }
@@ -243,31 +240,31 @@ public enum ShopLivePlayerDemoStrings {
     public static let preview = ShopLivePlayerDemoStrings.tr("shoplive", "sdk.preview")
 
     public enum Menu {
-    /// 추가
+    /// Add
       public static let add = ShopLivePlayerDemoStrings.tr("shoplive", "sdk.menu.add")
     }
 
     public enum Msg {
-    /// 선택된 키가 없습니다.
+    /// No key selected.
       public static let nonekey = ShopLivePlayerDemoStrings.tr("shoplive", "sdk.msg.nonekey")
     }
 
     public enum Page {
 
       public enum AddParam {
-      /// 파라미터 설정
+      /// Set Parameter
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdk.page.addParam.title")
       }
     }
 
     public enum User {
-    /// 지우기
+    /// Delete
       public static let delete = ShopLivePlayerDemoStrings.tr("shoplive", "sdk.user.delete")
-      /// 저장
+      /// Save
       public static let save = ShopLivePlayerDemoStrings.tr("shoplive", "sdk.user.save")
 
       public enum Secret {
-      /// 추가
+      /// Add
         public static let add = ShopLivePlayerDemoStrings.tr("shoplive", "sdk.user.secret.add")
       }
     }
@@ -276,23 +273,23 @@ public enum ShopLivePlayerDemoStrings {
   public enum SdkOption {
 
     public enum PipFixedHeight {
-    /// 서로 다른 해상도의 단말에서 세로사이즈를 동일하게 유지하도록 고정 세로 길이를 설정할 수 있습니다.
+    /// Set a fixed vertical size to maintain the same vertical size across different resolutions.
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkOption.pipFixedHeight.description")
-      /// PIP 고정 높이 설정
+      /// PIP Fixed Height Setting
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkOption.pipFixedHeight.title")
     }
 
     public enum PipFixedWidth {
-    /// 서로 다른 해상도의 단말에서 가로사이즈를 동일하게 유지하도록 고정 가로 길이를 설정할 수 있습니다.
+    /// Set a fixed horizontal size to maintain the same horizontal size across different resolutions.
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkOption.pipFixedWidth.description")
-      /// PIP 고정 넓이 설정
+      /// PIP Fixed Width Setting
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkOption.pipFixedWidth.title")
     }
 
     public enum PipMaxSize {
-    /// 설정된 길이의 정사각형 안에서 영상이 잘리지 않도록 최대한 크게 보여줍니다.
+    /// Displays the video as large as possible within a square of set length without cutting off.
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkOption.pipMaxSize.description")
-      /// PIP Max Size 설정
+      /// PIP Max Size Setting
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkOption.pipMaxSize.title")
     }
   }
@@ -300,49 +297,49 @@ public enum ShopLivePlayerDemoStrings {
   public enum Sdkoption {
 
     public enum AddParameter {
-    /// 커스텀 파라미터 추가
+    /// Add Custom Parameter
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.addParameter.title")
     }
 
     public enum CallOption {
-    /// 통화 종료 후, 영상을 자동으로 재생합니다.
+    /// Automatically resumes video after a call ends.
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.callOption.description")
-      /// 통화 옵션
+      /// Call Option
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.callOption.title")
     }
 
     public enum ChatInputCustomFont {
-    /// 미사용시, 시스템 기본 폰트가 사용됨
+    /// If not used, system default font is used
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.chatInputCustomFont.description")
-      /// 채팅 입력창 커스텀 폰트 사용하기
+      /// Use Custom Font for Chat Input
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.chatInputCustomFont.title")
     }
 
     public enum ChatSendButtonCustomFont {
-    /// 미사용시, 시스템 기본 폰트가 사용됨
+    /// If not used, system default font is used
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.chatSendButtonCustomFont.description")
-      /// 채팅 전송 버튼 커스텀 폰트 사용하기
+      /// Use Custom Font for Chat Send Button
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.chatSendButtonCustomFont.title")
     }
 
     public enum Clicklog {
-    /// Click log 를 Toast 로 나타냅니다.
+    /// Display Click log as Toast.
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.clicklog.description")
-      /// Click log Toast 옵션
+      /// Click Log Toast Option
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.clicklog.title")
     }
 
     public enum CustomProgress {
-    /// 사용시, 로딩 프로그레스 색상 적용 안됨
+    /// If used, loading progress color will not be applied
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.customProgress.description")
-      /// 로딩 프로그레스 이미지 애니메이션 사용하기
+      /// Use Loading Progress Image Animation
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.customProgress.title")
     }
 
     public enum CustomShare {
-    /// 공유하기 UI를 직접 구현 합니다.
+    /// Implement your own share UI.
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.customShare.description")
-      /// 커스텀 공유하기 사용
+      /// Use Custom Share
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.customShare.title")
     }
 
@@ -366,9 +363,9 @@ public enum ShopLivePlayerDemoStrings {
     }
 
     public enum HeadphoneOption2 {
-    /// 이 옵션을 활성화 하면 이어폰/헤드셋 연결이 끊겼을 때 음소거 상태로 처리할 수 있습니다. 기본 : false 볼륨 유지, true 음소거 처리.
+    /// If this option is enabled, the video will be muted if the earphone/headset is disconnected. Default: false keep volume, true mute.
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.headphoneOption2.description")
-      /// 이어폰/헤드셋 연결이 끊겼을 때 음소거
+      /// Mute when earphone/headset is disconnected
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.headphoneOption2.title")
     }
 
@@ -386,40 +383,40 @@ public enum ShopLivePlayerDemoStrings {
     }
 
     public enum PipCornerRadius {
-    /// InAppPip의 모서리 반경을 설정합니다.(기본 10)
+    /// Set the corner radius of InAppPip. (default 10)
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipCornerRadius.description")
-      /// InAppPip 모서리 반경
+      /// InAppPip Corner Radius
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipCornerRadius.title")
     }
 
     public enum PipEnableSwipeOutOption {
-    /// 화면 밖으로 PIP를 SWIPE 하는 경우 플레이어를 종료시킬지 여부를 설정합니다. preview는 해당없음. in-app pip만 적용되는 옵션입니다. (기본은 종료, 설정해제 시 종료되지 않음.)
+    /// Set whether to terminate the player when PIP is swiped out of the screen. No application for preview. in-app pip only. (default is to terminate, if not set then will not terminate)
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipEnableSwipeOutOption.description")
-      /// 화면 밖으로 PIP를 SWIPE하는 경우 종료 여부 설정
+      /// Set whether to exit player when PIP is swiped out of the screen
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipEnableSwipeOutOption.title")
     }
 
     public enum PipFloatingOffset {
-    /// PIP의 영역을 설정합니다.
+    /// Set the area of PIP.
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipFloatingOffset.description")
-      /// PIP 영역 설정
+      /// PIP Area Setting
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipFloatingOffset.title")
 
       public enum Page {
-      /// PIP 영역 설정
+      /// PIP Area Setting
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipFloatingOffset.page.title")
       }
     }
 
     public enum PipKeepWindowStyle {
-    /// OS PIP에서 앱으로 복귀할때 옵션을 true로 설정 할 경우 마지막 실행 중이던 상태(앱 내 PIP 또는 Fullscreen)로 복귀되도록 설정. (기본은 유지안함)
+    /// Set the option to true if you want to return to the last state running (in-app PIP or Fullscreen) when returning from OS PIP. (default is not maintained)
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipKeepWindowStyle.description")
-      /// OS PIP에서 앱으로 복귀할 때 윈도우스타일 유지 여부 설정
+      /// Maintain Window Style when returning to app from OS PIP
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipKeepWindowStyle.title")
     }
 
     public enum PipPosition {
-    /// PIP 모드가 시작될 때 위치입니다. (기본은 bottomRight)
+    /// Position of PIP mode when it starts. (default is bottomRight)
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipPosition.description")
       /// PIP Position
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipPosition.title")
@@ -428,50 +425,57 @@ public enum ShopLivePlayerDemoStrings {
     public enum PipScale {
     /// PIP view size.\nDisplays the scaled size based on the View width. (value between 0.1 and 1.0)
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipScale.description")
-      /// View size
+      /// View Size
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipScale.title")
     }
 
     public enum Preview {
-    /// Play When Preview Tapped
+    /// Play when preview tapped
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.preview.description")
       /// Preview Tap to Play
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.preview.title")
 
       public enum Closebutton {
-      /// Preview 와 Inapp PIP에서 닫기버튼 사용여부를 설정합니다.(기본은 사용안함)
+      /// Set whether to use the close button in preview and in-app PIP (default is not to use)
         public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.preview.closebutton.description")
-        /// Use close button
+        /// Use Close Button
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.preview.closebutton.title")
+      }
+
+      public enum EnableSound {
+      /// Set whether to mute in Preview. (Default is true)
+        public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.preview.enableSound.description")
+        /// Preview muted
+        public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.preview.enableSound.title")
       }
     }
 
     public enum ProgressColor {
-    /// 설정 안함(기본값 #FFFFFF)
+    /// None set (default #FFFFFF)
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.progressColor.description")
-      /// 로딩 프로그레스 색상(#hex값)
+      /// Loading Progress Color (#hex value)
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.progressColor.title")
     }
 
     public enum Section {
 
       public enum AutoPlay {
-      /// 자동재생
+      /// Auto Play
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.section.autoPlay.title")
       }
 
       public enum ChatFont {
-      /// 채팅 폰트
+      /// Chat Font
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.section.chatFont.title")
       }
 
       public enum Clicklog {
-      /// Click log
+      /// Click Log
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.section.clicklog.title")
       }
 
       public enum CustomOption {
-      /// 커스텀 설정
+      /// Custom Setting
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.section.customOption.title")
       }
 
@@ -486,7 +490,7 @@ public enum ShopLivePlayerDemoStrings {
       }
 
       public enum Progress {
-      /// 로딩 프로그레스
+      /// Loading Progress
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.section.progress.title")
       }
 
@@ -496,7 +500,7 @@ public enum ShopLivePlayerDemoStrings {
       }
 
       public enum Share {
-      /// 공유하기
+      /// Share
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.section.share.title")
       }
 
@@ -509,38 +513,38 @@ public enum ShopLivePlayerDemoStrings {
     public enum SetupPlayer {
 
       public enum AspectOnTablet {
-      /// 영상을 화면을 꽉 채우기(off) / 영상 사이즈에 맞추기(on)
+      /// Fill screen with video (off) / Fit video size (on)
         public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.aspectOnTablet.description")
-        /// 태블릿 PC에서 영상 화면 비율 설정
+        /// Set Video Aspect Ratio on Tablet PC
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.aspectOnTablet.title")
       }
 
       public enum KeepWindowStateOnPlayExecuted {
-      /// 항상 전체화면으로 실행(false) / 항상 현재 화면 상태를 유지(true) 기본값 false 다른 방송으로 변경시에는 전체화면으로 실행됩니다.
+      /// Always launch in full screen (false) / Always keep current window state (true) Default is false, when changing to another broadcast, it is executed in full screen.
         public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.description")
-        /// 플레이어가 실행 중일때 Play 호출시 화면 상태 유지 여부 설정
+        /// Keep Window State when Play is Executed
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.title")
       }
 
       public enum ManualRotation {
-      /// 가로방송에서 회전 버튼이 눌렸을 때 SDK에서 화면 회전을 직접 컨트롤(false - 기본값), 회전 버튼이 눌렸을 때 고객사 앱에서 직접 회전에 대한 처리(true)
+      /// Control screen rotation directly in SDK when rotation button is pressed in horizontal broadcast (false - default), Handle rotation directly in client app when rotation button is pressed (true)
         public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.manualRotation.description")
-        /// 가로방송에서 회전 버튼에 대한 화면 회전 컨트롤을 직접 설정
+        /// Manual Rotation Control in Horizontal Broadcast
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.manualRotation.title")
       }
 
       public enum MixAudio {
-      /// Player의 audio와 다른 audio와 혼용가능합니다.
+      /// Allows mixing of player's audio with other audio.
         public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.mixAudio.description")
-        /// Player mix audio 옵션
+        /// Player Mix Audio Option
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.mixAudio.title")
       }
     }
 
     public enum ShareScheme {
-    /// 공유하기에 사용할 scheme 또는 url을 입력하세요
+    /// Enter the scheme or url to use for sharing
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.shareScheme.description")
-      /// 공유하기 scheme 또는 URL
+      /// Share Scheme or URL
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.shareScheme.title")
     }
 
@@ -549,7 +553,7 @@ public enum ShopLivePlayerDemoStrings {
       public enum Mute {
       /// Muted when play starts video
         public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.sound.mute.description")
-        /// Muted play starts
+        /// Muted Play Starts
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.sound.mute.title")
       }
     }
@@ -557,7 +561,7 @@ public enum ShopLivePlayerDemoStrings {
     public enum Statusbarvisibility {
     /// Visible player's status bar (default : on)
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.statusbarvisibility.description")
-      /// Player statusBar Visibility Option
+      /// Player StatusBar Visibility Option
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.statusbarvisibility.title")
     }
   }
@@ -569,12 +573,12 @@ public enum ShopLivePlayerDemoStrings {
       public enum Parameter {
 
         public enum Button {
-        /// 파라미터 추가
+        /// Add Parameter
           public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.add.parameter.button.title")
         }
 
         public enum Delete {
-        /// 삭제
+        /// Delete
           public static let placeholder = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.add.parameter.delete.placeholder")
         }
 
@@ -614,11 +618,11 @@ public enum ShopLivePlayerDemoStrings {
     public enum Auth {
 
       public enum `Type` {
-      /// 일반 인증
+      /// Common Authentication
         public static let common = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.auth.type.common")
         /// Guest
         public static let guest = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.auth.type.guest")
-        /// JWT 토큰 인증
+        /// JWT Token Authentication
         public static let jwt = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.auth.type.jwt")
       }
     }
@@ -633,23 +637,23 @@ public enum ShopLivePlayerDemoStrings {
       public enum ChooseSecret {
 
         public enum Change {
-        /// 변경
+        /// Change
           public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.button.chooseSecret.change.title")
         }
 
         public enum Input {
-        /// 입력
+        /// Input
           public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.button.chooseSecret.input.title")
         }
       }
     }
 
     public enum Gender {
-    /// 여
+    /// Female
       public static let female = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.gender.female")
-      /// 남
+      /// Male
       public static let male = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.gender.male")
-      /// 선택안함
+      /// Do Not Select
       public static let `none` = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.gender.none")
     }
 
@@ -658,7 +662,7 @@ public enum ShopLivePlayerDemoStrings {
       public enum Button {
       /// JWT Generate & Save
         public static let generate = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.jwt.button.generate")
-        /// 유저정보 저장하기
+        /// Save User Info
         public static let usersave = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.jwt.button.usersave")
       }
 
@@ -671,30 +675,30 @@ public enum ShopLivePlayerDemoStrings {
     public enum Msg {
 
       public enum DeleteAll {
-      /// 유저 정보를 모두 삭제 하시겠습니까?
+      /// Would you like to delete all user information?
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.msg.deleteAll.title")
       }
 
       public enum Save {
-      /// 저장 되었습니다.
+      /// Saved successfully.
         public static let success = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.msg.save.success")
 
         public enum Failed {
-        /// userId는 필수 입니다.
+        /// userId is required.
           public static let noneId = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.msg.save.failed.noneId")
-          /// 생성된 토큰이 없습니다.
+          /// No token generated.
           public static let noneToken = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.msg.save.failed.noneToken")
-          /// 이미 생성된 토큰입니다.
+          /// Token already generated.
           public static let sameInfo = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.msg.save.failed.sameInfo")
 
           public enum Secret {
-          /// 선택된 시크릿키가 없습니다.
+          /// No secret key selected.
             public static let notselected = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.msg.save.failed.secret.notselected")
           }
         }
 
         public enum Parameter {
-        /// key:value를 다시입력해주세요
+        /// Please re-enter key:value
           public static let error = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.msg.save.parameter.error")
         }
       }
@@ -719,7 +723,7 @@ public enum ShopLivePlayerDemoStrings {
     }
 
     public enum Userid {
-    /// userId(필수)
+    /// userId (required)
       public static let placeholder = ShopLivePlayerDemoStrings.tr("shoplive", "userinfo.userid.placeholder")
     }
   }
@@ -727,7 +731,7 @@ public enum ShopLivePlayerDemoStrings {
   public enum UtmSource {
 
     public enum Alert {
-    /// 예) shoplive
+    /// e.g., shoplive
       public static let placeholder = ShopLivePlayerDemoStrings.tr("shoplive", "utmSource.alert.placeholder")
     }
   }

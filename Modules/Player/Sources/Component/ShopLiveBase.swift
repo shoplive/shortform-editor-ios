@@ -1852,7 +1852,8 @@ extension ShopLiveBase: ShopLiveComponent {
         guard let accessKey = ShopLiveCommon.getAccessKey(),
               let vc = self.liveStreamViewController,
               ShopLiveController.shared.isPreview else { return }
-        ShopLiveController.shared.setSoundMute(isMuted: true)
+        //TODO: - enablePreviewSound
+        ShopLiveController.shared.setSoundMute(isMuted: !ShopLiveConfiguration.SoundPolicy.previewSoundEnabled)
         
         videoWindowPanGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? true : false
         videoWindowTapGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? true : false
@@ -1881,7 +1882,8 @@ extension ShopLiveBase: ShopLiveComponent {
     private func callShopLiveViewFromPreview(url : URL){
         self.showShopLiveView(with: url,isPreview: true) { [weak self] in
             guard let self = self else { return }
-            ShopLiveController.shared.setSoundMute(isMuted: true)
+            //TODO: - enablePreviewSound
+            ShopLiveController.shared.setSoundMute(isMuted: !ShopLiveConfiguration.SoundPolicy.previewSoundEnabled)
             if let ak = ShopLiveCommon.getAccessKey(),
                let vc = self.liveStreamViewController,
                ShopLiveController.shared.isPreview {

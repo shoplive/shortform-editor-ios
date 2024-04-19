@@ -204,6 +204,8 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .statusBarVisibility:
             useOption = DemoConfiguration.shared.statusBarVisibility
+        case .enablePreviewSound:
+            useOption = !DemoConfiguration.shared.enablePreviewSound
         default:
             break
         }
@@ -277,6 +279,8 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .statusBarVisibility:
             DemoConfiguration.shared.statusBarVisibility = useOption
+        case .enablePreviewSound:
+            DemoConfiguration.shared.enablePreviewSound = !useOption
             break
         default:
             break

@@ -220,6 +220,7 @@ class MainViewController: SideMenuBaseViewController {
         // Mute Sound Setting
         ShopLive.setMuteWhenPlayStart(config.isMuted)
         
+        
         // Phase Setting
         let phase = ShopLiveDevConfiguration.shared.phase
         
@@ -321,7 +322,10 @@ class MainViewController: SideMenuBaseViewController {
         setupShopliveSettings()
         ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
         
-        let playerData = ShopLivePlayerData(campaignKey: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer) { campaign in
+        let playerData = ShopLivePlayerData(campaignKey: currentKey.campaignKey,
+                                            keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
+                                            referrer: DemoConfiguration.shared.customReferrer,
+                                            isMuted: !DemoConfiguration.shared.enablePreviewSound) { campaign in
             ShopLiveLogger.debugLog(" campaign callBack campaign Title : \(campaign.title)")
         } brandHandler: { brand in
             ShopLiveLogger.debugLog(" brand callback brand Name : \(brand.name) \n brand Image : \(brand.imageUrl) \n brand Identifier : \(brand.identifier)")

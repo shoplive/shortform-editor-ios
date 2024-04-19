@@ -91,9 +91,11 @@ final class OptionsViewController: SideMenuItemViewController {
         
         let previewOption = SDKOptionItem(name: "sdkoption.preview.title".localized(), optionDescription: "sdkoption.preview.description".localized(), optionType: .playWhenPreviewTapped)
         let closeButtonOption = SDKOptionItem(name: "sdkoption.preview.closebutton.title".localized(), optionDescription: "sdkoption.preview.closebutton.description".localized(), optionType: .useCloseButton)
-        let previewOptions = SDKOption(optionTitle: "sdkoption.section.preview.title".localized(), optionItems: [previewOption, closeButtonOption])
+        let previewSoundOption = SDKOptionItem(name: "sdkoption.preview.enableSound.title".localized(), optionDescription: "sdkoption.preview.enableSound.description".localized(), optionType: .enablePreviewSound)
+        let previewOptions = SDKOption(optionTitle: "sdkoption.section.preview.title".localized(), optionItems: [previewOption, closeButtonOption,previewSoundOption])
         
         items.append(previewOptions)
+        
         
         let pipPositionOption = SDKOptionItem(name: "sdkoption.pipPosition.title".localized(), optionDescription: "sdkoption.pipPosition.description".localized(), optionType: .pipPosition)
         let pipScaleOption = SDKOptionItem(name: "sdkoption.pipScale.title".localized(), optionDescription: "sdkoption.pipScale.description".localized(), optionType: .pipScale)

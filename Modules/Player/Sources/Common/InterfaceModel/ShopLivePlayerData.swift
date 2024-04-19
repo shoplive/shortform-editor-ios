@@ -14,13 +14,15 @@ public class ShopLivePlayerData : NSObject {
     public var referrer : String? = nil
     public var campaignHandler : ((ShopLivePlayerCampaign) -> ())?
     public var brandHandler : ((ShopLivePlayerBrand) -> ())?
+    public var isMuted : Bool?
     
     
-    public init(campaignKey: String, keepWindowStateOnPlayExecuted: Bool = true, referrer: String? = nil, campaignHandler : ((ShopLivePlayerCampaign) -> ())? = nil, brandHandler : ((ShopLivePlayerBrand) -> ())? = nil) {
+    public init(campaignKey: String, keepWindowStateOnPlayExecuted: Bool = true, referrer: String? = nil,isMuted : Bool? = nil, campaignHandler : ((ShopLivePlayerCampaign) -> ())? = nil, brandHandler : ((ShopLivePlayerBrand) -> ())? = nil) {
         self.campaignKey = campaignKey
         self.keepWindowStateOnPlayExecuted = keepWindowStateOnPlayExecuted
         self.referrer = referrer
         self.campaignHandler = campaignHandler
         self.brandHandler = brandHandler
+        self.isMuted = isMuted
     }
 }

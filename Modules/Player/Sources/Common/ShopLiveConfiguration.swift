@@ -63,6 +63,7 @@ internal final class ShopLiveConfiguration: NSObject {
         static var autoResumeVideoOnCallEnded: Bool = false
         static var isMutedWhenStart: Bool = false
         static var useMixWithOthers: Bool = true
+        static var previewSoundEnabled : Bool = false
     }
 
     class Data {

@@ -179,79 +179,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         let interface = WebInterface.WebFunction.init(rawValue: command)
         switch interface  {
         case .setConf:
-            let payload = payload as? [String : Any]
-            let placeHolder = payload?["chatInputPlaceholderText"] as? String
-            let sendText = payload?["chatInputSendText"] as? String
-            let chatInputMaxLength = payload?["chatInputMaxLength"] as? Int
-            let campaignInfo = payload?["campaignInfo"] as? [String : Any]
-            let isMuted = ShopLiveController.shared.isPreview ? true : ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
-            ShopLiveController.shared.setSoundMute(isMuted: isMuted)
-            
-            self.viewModel.parseRatioStringAndSetData(ratio: payload?["videoAspectRatio"] as? String)
-            
-            ShopLiveController.shared._playerMode = ShopLiveController.shared.isPreview ? .preview : .play
-            
-            if viewModel.getIsUpdatePictureInPictureNeedInSetConfInitialized() {
-                viewModel.setIsUpdatePictureInPictureNeedInSetConfInitialized(isNeeded: false)
-                delegate?.updatePictureInPicture()
-            }
-            else if ShopLiveController.shared.isPreview == false  {
-                delegate?.updatePictureInPicture()
-            }
-            
-            ShopLiveController.shared.swipeEnabled = true
-            if let isReplay = payload?["isReplay"] as? Bool {
-                ShopLiveController.isReplayMode = isReplay
-            }
-            ShopLiveConfiguration.UI.chatInputPlaceholderString = placeHolder ?? "chat.placeholder".localizedString()
-            ShopLiveConfiguration.UI.chatInputSendString = sendText ?? "chat.send.title".localizedString()
-            ShopLiveConfiguration.UI.chatInputMaxLength = chatInputMaxLength ?? 200
-            updateChattingWriteView()
-            
-            if let configJson = payload?["configJson"] as? [String: Any], let streamEdgeType = configJson["streamEdgeType"] as? String {
-                if streamEdgeType == "<null>" || streamEdgeType == "TS_BROADCAST" {
-                    viewModel.setIsLLHls(isLLHLs: false)
-                }
-                else {
-                    viewModel.setIsLLHls(isLLHLs: true)
-                }
-            }
-            else {
-                viewModel.setIsLLHls(isLLHLs: false)
-            }
-            
-            if let sdkClientSetting = payload?["sdkClientSettings"] as? [String : Any] {
-                if let liveKeepUpBufferEndurance = sdkClientSetting["liveKeepUpBufferEndurance"] as? Double {
-                    viewModel.setLiveKeepUpBufferEndurance(value: liveKeepUpBufferEndurance)
-                }
-                
-                if let liveKeepUpTimerFrequency = sdkClientSetting["liveKeepUpTimerFrequency"] as? Double {
-                    viewModel.setLiveKeepUpTimerFrequency(frequency: liveKeepUpTimerFrequency)
-                }
-                
-                if let useLiveKeepUpTimerInApp = sdkClientSetting["useLiveKeepUpTimerOnInApp"] as? Bool {
-                    viewModel.setUseLiveKeepUpTimerOnInApp(isUsed: useLiveKeepUpTimerInApp)
-                }
-                
-                if let useLiveKeepUpTimerOnOsPip = sdkClientSetting["useLiveKeepUpTimerOnOsPip"] as? Bool {
-                    viewModel.setUseLiveKeepUpTimerOnOsPip(isUsed: useLiveKeepUpTimerOnOsPip)
-                }
-                
-                if let liveKeepUpBufferSize  = sdkClientSetting["liveKeepUpBufferSize"] as? Int, liveKeepUpBufferSize != 0 {
-                    viewModel.setUseLiveKeepUpTimerBufferSize(size: liveKeepUpBufferSize)
-                }
-                
-                viewModel.startLiveStreamKeepUpTimer()
-            }
-            
-            delegate?.campaignInfo(campaignInfo: campaignInfo ?? [:])
-            let campaignData = ShopLivePlayerCampaign()
-            campaignData.parse(payload: payload)
-            delegate?.handleShopLivePlayerCampaign(campaign: campaignData)
-            let brandData = ShopLivePlayerBrand()
-            brandData.parse(payload: payload)
-            delegate?.handleShopLivePlayerBrand(brand: brandData)
-            
+            self.handleSetConf(payload: payload)
             break
         case .showChatInput:
             chatInputView.focus()
@@ -263,6 +191,82 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             delegate?.handleCommand(command, with: payload)
             break
         }
+    }
+    
+    private func handleSetConf(payload : Any?) {
+        let payload = payload as? [String : Any]
+        let placeHolder = payload?["chatInputPlaceholderText"] as? String
+        let sendText = payload?["chatInputSendText"] as? String
+        let chatInputMaxLength = payload?["chatInputMaxLength"] as? Int
+        let campaignInfo = payload?["campaignInfo"] as? [String : Any]
+        let isMuted = ShopLiveController.shared.isPreview ? !ShopLiveConfiguration.SoundPolicy.previewSoundEnabled : ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
+        //TODO: - enablePreviewSound
+        ShopLiveController.shared.setSoundMute(isMuted: isMuted)
+        
+        self.viewModel.parseRatioStringAndSetData(ratio: payload?["videoAspectRatio"] as? String)
+        
+        ShopLiveController.shared._playerMode = ShopLiveController.shared.isPreview ? .preview : .play
+        
+        if viewModel.getIsUpdatePictureInPictureNeedInSetConfInitialized() {
+            viewModel.setIsUpdatePictureInPictureNeedInSetConfInitialized(isNeeded: false)
+            delegate?.updatePictureInPicture()
+        }
+        else if ShopLiveController.shared.isPreview == false  {
+            delegate?.updatePictureInPicture()
+        }
+        
+        ShopLiveController.shared.swipeEnabled = true
+        if let isReplay = payload?["isReplay"] as? Bool {
+            ShopLiveController.isReplayMode = isReplay
+        }
+        ShopLiveConfiguration.UI.chatInputPlaceholderString = placeHolder ?? "chat.placeholder".localizedString()
+        ShopLiveConfiguration.UI.chatInputSendString = sendText ?? "chat.send.title".localizedString()
+        ShopLiveConfiguration.UI.chatInputMaxLength = chatInputMaxLength ?? 200
+        updateChattingWriteView()
+        
+        if let configJson = payload?["configJson"] as? [String: Any], let streamEdgeType = configJson["streamEdgeType"] as? String {
+            if streamEdgeType == "<null>" || streamEdgeType == "TS_BROADCAST" {
+                viewModel.setIsLLHls(isLLHLs: false)
+            }
+            else {
+                viewModel.setIsLLHls(isLLHLs: true)
+            }
+        }
+        else {
+            viewModel.setIsLLHls(isLLHLs: false)
+        }
+        
+        if let sdkClientSetting = payload?["sdkClientSettings"] as? [String : Any] {
+            if let liveKeepUpBufferEndurance = sdkClientSetting["liveKeepUpBufferEndurance"] as? Double {
+                viewModel.setLiveKeepUpBufferEndurance(value: liveKeepUpBufferEndurance)
+            }
+            
+            if let liveKeepUpTimerFrequency = sdkClientSetting["liveKeepUpTimerFrequency"] as? Double {
+                viewModel.setLiveKeepUpTimerFrequency(frequency: liveKeepUpTimerFrequency)
+            }
+            
+            if let useLiveKeepUpTimerInApp = sdkClientSetting["useLiveKeepUpTimerOnInApp"] as? Bool {
+                viewModel.setUseLiveKeepUpTimerOnInApp(isUsed: useLiveKeepUpTimerInApp)
+            }
+            
+            if let useLiveKeepUpTimerOnOsPip = sdkClientSetting["useLiveKeepUpTimerOnOsPip"] as? Bool {
+                viewModel.setUseLiveKeepUpTimerOnOsPip(isUsed: useLiveKeepUpTimerOnOsPip)
+            }
+            
+            if let liveKeepUpBufferSize  = sdkClientSetting["liveKeepUpBufferSize"] as? Int, liveKeepUpBufferSize != 0 {
+                viewModel.setUseLiveKeepUpTimerBufferSize(size: liveKeepUpBufferSize)
+            }
+            
+            viewModel.startLiveStreamKeepUpTimer()
+        }
+        
+        delegate?.campaignInfo(campaignInfo: campaignInfo ?? [:])
+        let campaignData = ShopLivePlayerCampaign()
+        campaignData.parse(payload: payload)
+        delegate?.handleShopLivePlayerCampaign(campaign: campaignData)
+        let brandData = ShopLivePlayerBrand()
+        brandData.parse(payload: payload)
+        delegate?.handleShopLivePlayerBrand(brand: brandData)
     }
     
     func updateVoiceOverStatus() {

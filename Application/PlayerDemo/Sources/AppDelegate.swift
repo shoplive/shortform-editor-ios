@@ -33,7 +33,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                   "playerPhase": "DEV",
                                                   "isGuestMode": true,
                                                   SDKOptionType.statusBarVisibility.optionKey : true,
-                                                  SDKOptionType.playWhenPreviewTapped.optionKey : true])
+                                                  SDKOptionType.playWhenPreviewTapped.optionKey : true,
+                                                  SDKOptionType.enablePreviewSound.optionKey : false,
+                                                ])
         
 
         return true
