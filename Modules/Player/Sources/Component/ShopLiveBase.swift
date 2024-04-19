@@ -2207,10 +2207,12 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
             param.updateValue(value, forKey: key)
         }
         delegate?.handleReceivedCommand?(name, with: param.toJSONString())
+        delegate?.handleReceivedCommand?(name, data: param)
     }
     
-    func handleReceivedCommand(_ command: String, with payload: Any?) {
+    func handleReceivedCommand(_ command: String, with payload: [String: Any]?) {
         delegate?.handleReceivedCommand?(command, with: payload)
+        delegate?.handleReceivedCommand?(command, data: payload)
     }
     
     

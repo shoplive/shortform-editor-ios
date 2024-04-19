@@ -215,9 +215,17 @@ import ShopliveSDKCommon
     @objc optional func handleChangedPlayerStatus(status: String)
     @objc optional func handleError(code: String, message: String)
     @objc optional func handleCampaignInfo(campaignInfo: [String : Any])
-    @objc optional func handleCommand(_ command: String, with payload: Any?)
+    
     @objc optional func onSetUserName(_ payload: [String : Any])
+    
+    @objc optional func handleCommand(_ command: String, with payload: Any?)
+    
+    @available(*, deprecated, message: "use handleReceivedCommand(_ command : String , data : [String : Any]?) instead")
     @objc optional func handleReceivedCommand(_ command: String, with payload: Any?)
+    //TODO: - HASSAN
+    @objc optional func handleReceivedCommand(_ command : String , data : [String : Any]?)
+    
+    
     @objc optional func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint)
     
     @available(*, deprecated, message: "use log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) instead")

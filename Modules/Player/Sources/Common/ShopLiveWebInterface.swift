@@ -68,6 +68,9 @@ enum WebInterface {
     case sendCommandMessage
     case setSafeAreaMargin
     case onNetworkChangeCapability
+    
+    
+    //sellersubscription
 
     var functionString: String {
         switch self {

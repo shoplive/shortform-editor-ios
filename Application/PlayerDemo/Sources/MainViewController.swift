@@ -589,7 +589,17 @@ extension MainViewController: ShopLiveSDKDelegate {
             break
         case "CLICK_BACK_BUTTON":
             preview()
+        
             break
+        default:
+            break
+        }
+    }
+    
+    func handleReceivedCommand(_ command: String, data: [String : Any]?) {
+        switch command {
+        case "ON_RECEIVED_SELLER_CONFIG","ON_CLICK_VIEW_SELLER_STORE","ON_CLICK_SELLER_SUBSCRIPTION":
+            SellerManager.shared.parseCommand(command: command, payload: data)
         default:
             break
         }

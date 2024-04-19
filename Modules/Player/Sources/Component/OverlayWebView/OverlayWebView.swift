@@ -245,14 +245,6 @@ extension OverlayWebView: WKNavigationDelegate {
 
 extension OverlayWebView: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        //        ShopLiveLogger.debugLog("interface: \(WebInterface(message: message)?.functionString)")
-        
-        /**
-         Receive data from web client
-         - Receiving the data from Web Client
-         */
-        //        ShopLiveLogger.debugLog("web receive message.name: \(message.name) message.body: \(message.body)")
-        
         guard message.name == ShopLiveDefines.webInterface else { return }
         if let body = message.body as? [String: Any],
            let shopliveEvent = body["shopliveEvent"] as? [String : Any],
@@ -262,44 +254,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             
             let parameters = body["payload"] as? [String: Any]
             if type == "USER_IMPLEMENTS_CALLBACK" {
-                ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))"))
-                //                ShopLiveLogger.debugLog("from Web [shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))")
-                var passToReceivedCommand: Bool = true
-                switch name {
-                case "WILL_REDIRECT_CAMPAIGN":
-                    if let campaignKey: String = parameters?["ck"] as? String {
-                        ShopLiveController.shared.campaignKey = campaignKey
-                    }
-                    break
-                case "ON_SUCCESS_CAMPAIGN_JOIN":
-                    ShopLiveController.shared.isSuccessCampaignJoin = true
-                    break
-                case "EVENT_LOG":
-                    guard let feature = parameters?["feature"] as? String,
-                          let featureType = ShopLiveLog.Feature.featureFrom(type: feature),
-                          let name = parameters?["name"] as? String else { return }
-                    
-                    var logPayload: [String: Any] = (parameters?["parameter"] as? [String : Any]) ?? [:]
-                    var logParameter: [String: String] = [:]
-                    logPayload.forEach {
-                        logParameter[$0.key] = "\($0.value)"
-                    }
-                    
-                    let campaignKey: String = (parameters?["campaignKey"] as? String) ?? ShopLiveController.shared.campaignKey
-                    passToReceivedCommand = false
-                    delegate?.log(name: name, feature: featureType, campaign: campaignKey, payload: logPayload)
-                    break
-                case "CLICK_BACK_BUTTON":
-                    break
-                default:
-                    break
-                }
-                
-                if passToReceivedCommand {
-                    delegate?.handleReceivedCommand(name, with: parameters)
-                }
-                
-               
+                self.handleUserImplementsCallback(type: type, name: name, param: parameters)
             } else {
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))"))
                 switch name {
@@ -511,6 +466,8 @@ extension OverlayWebView: WKScriptMessageHandler {
             break
         }
     }
+    
+    
     
     private func handleON_CLICK_SHARE_BUTTON(payload : [String : Any]?) {
         guard let payload = payload else { return }

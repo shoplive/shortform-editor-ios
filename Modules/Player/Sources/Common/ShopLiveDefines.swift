@@ -46,7 +46,7 @@ protocol LiveStreamViewControllerDelegate: AnyObject {
     func didChangeCampaignStatus(status: String)
     func onError(code: String, message: String)
     func onSetUserName(_ payload: [String : Any])
-    func handleReceivedCommand(_ command: String, with payload: Any?)
+    func handleReceivedCommand(_ command: String, with payload: [String : Any]?)
     func changeOrientation(to: ShopLiveDefines.ShopLiveOrientaion)
     func updatePictureInPicture()
     func finishRotation()
@@ -79,7 +79,9 @@ protocol OverlayWebViewDelegate: AnyObject {
     func onError(code: String, message: String)
     func handleCommand(_ command: String, with payload: Any?)
     func onSetUserName(_ payload: [String : Any])
-    func handleReceivedCommand(_ command: String, with payload: Any?)
+    
+    func handleReceivedCommand(_ command: String, with payload: [String : Any]?)
+    
     func updatePlayerFrame(centerCrop: Bool, playerFrame: CGRect, immediately: Bool, targetWindowStyle : ShopLiveWindowStyle?)
     func updateOrientation(toLandscape: Bool)
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any])

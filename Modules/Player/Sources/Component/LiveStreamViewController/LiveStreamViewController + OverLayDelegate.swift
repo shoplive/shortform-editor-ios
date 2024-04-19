@@ -67,7 +67,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         playerView.layoutIfNeeded()
     }
     
-    func handleReceivedCommand(_ command: String, with payload: Any?) {
+    func handleReceivedCommand(_ command: String, with payload: [String : Any]?) {
         delegate?.handleReceivedCommand(command, with: payload)
     }
 
