@@ -319,7 +319,7 @@ extension HorizontalTypeViewExampleViewController : ShopLiveShortformReceiveHand
         print("[HASSAN LOG] shortsId \(shortsId)")
         print("[HASSAN LOG] productModel \(product.sku)")
         
-        ShopLiveShortform.showPreview(requestData: ShopLiveShortformRelatedData(productId: product.productId))
+        ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(productId: product.productId))
         
     }
     

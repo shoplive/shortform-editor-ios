@@ -24,9 +24,9 @@ class ShopliveBridgeWebMessageHandler : NSObject, SLReactor {
     
     enum Result {
         case requestEvaluatJS((command : String, body : [String : Any]?))
-        case showShortformPreview((reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedData?,shortsList : [ShortsModel], shortsCollectionModel : ShortsCollectionModel?,shopliveSessionId : String?))
-        case showNormalFullScreen((reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformCollectionData?,shopliveSessionId : String?))
-        case showRelatedFullScreen((reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedData?,shopliveSessionId : String?))
+        case showShortformPreview((reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shortsList : [ShortsModel], shortsCollectionModel : ShortsCollectionModel?,shopliveSessionId : String?))
+        case showNormalFullScreen((reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformCollectionDto?,shopliveSessionId : String?))
+        case showRelatedFullScreen((reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shopliveSessionId : String?))
         case onChangedUserAuthSdk
     }
     
@@ -99,7 +99,7 @@ extension ShopliveBridgeWebMessageHandler {
     
     private func onHandleBridgeMessageShowShortformPreview(payload : [String : Any]?) {
         guard let payload = payload, let param = payload.toJson_SL(), let model = param.convert_SL(to: BridgeModel.self) else { return }
-        let requestModel = InternalShortformRelatedData()
+        let requestModel = InternalShortformRelatedDTO()
         requestModel.tags = model.relatedQuery?.tags
         requestModel.tagSearchOperator = model.relatedQuery?.tagSearchOperator
         requestModel.brands = model.relatedQuery?.brands
@@ -147,7 +147,7 @@ extension ShopliveBridgeWebMessageHandler {
     }
     
     private func onPlayShortformDetailShowNormalFullScreen(model : BridgeModel, shopliveSessionId : String) {
-        let requestModel = InternalShortformCollectionData()
+        let requestModel = InternalShortformCollectionDto()
         requestModel.tags = model.collectionQuery?.tags
         requestModel.tagSearchOperator = model.collectionQuery?.tagSearchOperator
         requestModel.brands = model.collectionQuery?.brands
@@ -163,7 +163,7 @@ extension ShopliveBridgeWebMessageHandler {
     }
     
     private func onPlayShortformDetailShowRelatedFullScreen(model : BridgeModel, shopliveSessionId : String) {
-        let requestModel = InternalShortformRelatedData()
+        let requestModel = InternalShortformRelatedDTO()
         requestModel.tags = model.relatedQuery?.tags
         requestModel.tagSearchOperator = model.relatedQuery?.tagSearchOperator
         requestModel.brands = model.relatedQuery?.brands

@@ -14,12 +14,12 @@ public class ShopLiveShortform {
     public static var sdkVersion: String = ShopLiveCommon.shortformSdkVersion
     
     private static var shortsCollection: ShortsCollectionBaseView?
-    private static var shortformWindow: SLShortsWindow?
+    private static var shortformWindow: SLShortFormWindow?
     
     internal static var detailWebViewViewHideOptionData = ShopLiveShortformVisibleDetailData()
     
     public static func play(requestData : ShopLiveShortformCollectionData?){
-        let internalShortFormRequestData = InternalShortformCollectionData()
+        let internalShortFormRequestData = InternalShortformCollectionDto()
         internalShortFormRequestData.tags = requestData?.tags
         internalShortFormRequestData.tagSearchOperator = requestData?.tagSearchOperator?.rawValue
         internalShortFormRequestData.brands = requestData?.brands
@@ -39,7 +39,7 @@ public class ShopLiveShortform {
     
     @available(iOS, deprecated : 1.4.6 , message: "this method will be removed on 1.4.7")
     public static func play(requestData : ShopLiveShortformRelatedData?) {
-        let internalShortFormRequestData = InternalShortformRelatedData()
+        let internalShortFormRequestData = InternalShortformRelatedDTO()
         internalShortFormRequestData.productId = requestData?.productId
         internalShortFormRequestData.name = requestData?.name
         internalShortFormRequestData.skus = requestData?.skus
@@ -54,8 +54,8 @@ public class ShopLiveShortform {
     }
     
     
-    public static func showPreview(requestData : ShopLiveShortformRelatedData){
-        let internalShortFormRequestData = InternalShortformRelatedData()
+    public static func showPreview(requestData : ShopLiveShortformPreviewData){
+        let internalShortFormRequestData = InternalShortformRelatedDTO()
         internalShortFormRequestData.productId = requestData.productId
         internalShortFormRequestData.name = requestData.name
         internalShortFormRequestData.skus = requestData.skus
@@ -65,7 +65,8 @@ public class ShopLiveShortform {
         internalShortFormRequestData.shuffle = requestData.shuffle
         internalShortFormRequestData.shortsId = requestData.shortsId
         
-        self.showRelatedPreview(reference: requestData.reference, shortsId: requestData.shortsId, shortsSrn: nil, requestModel: internalShortFormRequestData, shortsList: [], shortsCollectionModel: nil,shopliveSessionId: nil)
+        self.showRelatedPreview(reference: requestData.reference, shortsId: requestData.shortsId, shortsSrn: nil, requestModel: internalShortFormRequestData, shortsList: [], shortsCollectionModel: nil,shopliveSessionId: nil, previewOptionDto: ShortformPreviewOptionDTO(previewData: requestData))
+
     }
     
 
@@ -108,14 +109,14 @@ public class ShopLiveShortform {
         self.detailWebViewViewHideOptionData = options
     }
     
-    internal static func playNormalFullScreen(reference : String? = nil, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformCollectionData?,shopliveSessionId : String?){
+    internal static func playNormalFullScreen(reference : String? = nil, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformCollectionDto?,shopliveSessionId : String?){
         if shortsCollection != nil {
             shortsCollection?.removeFromSuperview()
             shortsCollection = nil
         }
         
         if shortformWindow == nil {
-            shortformWindow = SLShortsWindow()
+            shortformWindow = SLShortFormWindow()
         }
         
         shortsCollection = V1ShortsDetailCollectionView(reference : reference, shortsMode: .detail, showType: .normal, shortsId: shortsId, shortsSrn: shortsSrn, normalRequestParameterModel: requestModel, viewProvideType: .window,shopliveSessionId: shopliveSessionId)
@@ -130,34 +131,36 @@ public class ShopLiveShortform {
         }
         
         if shortformWindow == nil {
-            shortformWindow = SLShortsWindow()
+            shortformWindow = SLShortFormWindow()
         }
         
         shortsCollection = V2ShortsCollectionView(shortformIdsData: shortformIdsData, requestDelegate: delegate)
         shortformWindow?.showPlay(shortsCollection)
     }
     
-    internal static func playRelatedFullScreen(reference : String? = nil, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedData?,shopliveSessionId : String?){
+    internal static func playRelatedFullScreen(reference : String? = nil, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shopliveSessionId : String?){
         if shortsCollection != nil {
             shortsCollection?.removeFromSuperview()
             shortsCollection = nil
         }
         
         if shortformWindow == nil {
-            shortformWindow = SLShortsWindow()
+            shortformWindow = SLShortFormWindow()
         }
         
-        shortsCollection = V1ShortsDetailCollectionView(shortsMode: .detail, showType: .related, reference: reference, shortsId: shortsId, shortsSrn: shortsSrn,relatedRequestModel: requestModel,shortsList: [], shortsCollection: nil,viewProvideType: .window,shopliveSessionId: shopliveSessionId)
+        shortsCollection = V1ShortsDetailCollectionView(shortsMode: .detail, showType: .related, reference: reference, shortsId: shortsId, shortsSrn: shortsSrn,relatedRequestModel: requestModel,shortsList: [], shortsCollection: nil,viewProvideType: .window,shopliveSessionId: shopliveSessionId, previewOptionDTO: nil)
         
         shortformWindow?.showPlay(shortsCollection)
     }
     
-    internal static func showRelatedPreview(reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedData?,shortsList : [ShortsModel], shortsCollectionModel : ShortsCollectionModel?,shopliveSessionId : String?){
+    
+    internal static func showRelatedPreview(reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shortsList : [ShortsModel], shortsCollectionModel : ShortsCollectionModel?,shopliveSessionId : String?,previewOptionDto : ShortformPreviewOptionDTO?){
         if shortformWindow == nil {
-            shortformWindow = SLShortsWindow()
+            shortformWindow = SLShortFormWindow()
+            shortformWindow?.setPreviewDTO(dto: previewOptionDto)
         }
         
-        shortsCollection = V1ShortsDetailCollectionView(shortsMode : .preview, showType : .related, reference : reference, shortsId : shortsId, shortsSrn : shortsSrn, relatedRequestModel : requestModel,shortsList: shortsList,shortsCollection: shortsCollectionModel,viewProvideType: .window,shopliveSessionId: shopliveSessionId)
+        shortsCollection = V1ShortsDetailCollectionView(shortsMode : .preview, showType : .related, reference : reference, shortsId : shortsId, shortsSrn : shortsSrn, relatedRequestModel : requestModel,shortsList: shortsList,shortsCollection: shortsCollectionModel,viewProvideType: .window,shopliveSessionId: shopliveSessionId, previewOptionDTO: previewOptionDto)
         
         shortformWindow?.showPreview(shortsCollection)
     }
@@ -170,7 +173,7 @@ public class ShopLiveShortform {
 }
 
 extension ShopLiveShortform {
-    @objc enum PreviewPosition: Int {
+    @objc public enum PreviewPosition: Int {
         case topLeft
         case topRight
         case bottomLeft

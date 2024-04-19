@@ -26,7 +26,7 @@ protocol ShopLiveShortformListViewSettings {
     func setScrollContentOffset(offset : CGFloat)
     func getScrollContentOffset() -> CGPoint
     func setPlayableType(type : ShopLiveShortform.PlayableType)
-    func setAPIRequestParamToModel(model : InternalShortformCollectionData?)
+    func setAPIRequestParamToModel(model : InternalShortformCollectionDto?)
     func reloadItems()
     func setVisibleViewCount(isVisible : Bool)
     func setVisibleBrand(isVisible : Bool)
@@ -50,7 +50,7 @@ protocol ShopLiveShortformListViewSettings {
 public class ListViewBaseBuilder : ShopLiveShortformListViewSettings {
     
     internal var view : ShopLiveShortformBaseTypeView?
-    private var tagsAndBrandsRequestParameterModel : InternalShortformCollectionData?
+    private var tagsAndBrandsRequestParameterModel : InternalShortformCollectionDto?
     private var cellViewHideOptionModel : ShopLiveListCellViewHideOptionModel = ShopLiveListCellViewHideOptionModel()
     
     public init(){
@@ -144,9 +144,9 @@ public class ListViewBaseBuilder : ShopLiveShortformListViewSettings {
 
 //MARK: -APIRequestParameter setter functions
 extension ListViewBaseBuilder {
-    internal func makeApiRequestModel() -> InternalShortformCollectionData{
+    internal func makeApiRequestModel() -> InternalShortformCollectionDto{
         if tagsAndBrandsRequestParameterModel == nil {
-            self.tagsAndBrandsRequestParameterModel = InternalShortformCollectionData()
+            self.tagsAndBrandsRequestParameterModel = InternalShortformCollectionDto()
         }
         return self.tagsAndBrandsRequestParameterModel!
     }
@@ -188,7 +188,7 @@ extension ListViewBaseBuilder {
         self.setAPIRequestParamToModel(model: model)
     }
     
-    internal func setAPIRequestParamToModel(model : InternalShortformCollectionData?){
+    internal func setAPIRequestParamToModel(model : InternalShortformCollectionDto?){
         view?.action(.setTagsAndBrandsRequestParameterModel(model))
     }
     

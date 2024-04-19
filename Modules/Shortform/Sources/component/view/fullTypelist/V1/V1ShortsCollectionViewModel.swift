@@ -46,10 +46,6 @@ extension V1ShortsCollectionViewModel {
                     guard let self = self else { return }
                     switch result {
                     case .success(let response):
-                        if let s = response._s, s != 0 {
-                            self.parseShopLiveNetworkError(code : s, message : response._e)
-                        }
-                        dump(response)
                         self.shortsCollection = response
                         self.appendShortsListData(response.shortsList ?? [] ,reset: reset)
                         completion(nil)
@@ -92,9 +88,6 @@ extension V1ShortsCollectionViewModel {
                 guard let self = self else { return }
                 switch result {
                 case .success(let response):
-                    if let s = response._s, s != 0 {
-                        self.parseShopLiveNetworkError(code : s, message : response._e)
-                    }
                     self.shortsCollection = response
                     self.appendShortsListData(response.shortsList ?? [] ,reset: reset)
                     completion(nil)
@@ -108,11 +101,6 @@ extension V1ShortsCollectionViewModel {
                 }
             }
         }
-    }
-    
-    private func parseShopLiveNetworkError(code : Int, message : String?) {
-        let commonError = ShopLiveCommonError(code: code, message: message, error: nil)
-        self.onError(commonError)
     }
     
 }

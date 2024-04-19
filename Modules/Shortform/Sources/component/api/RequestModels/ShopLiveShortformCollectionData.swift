@@ -29,13 +29,3 @@ public class ShopLiveShortformCollectionData {
         ShortFormAuthManager.shared.setReferrer(referrer: referrer)
     }
 }
-
-internal class InternalShortformCollectionData {
-    var tags : [String]?
-    var tagSearchOperator : String?
-    var brands : [String]?
-    var shuffle : Bool?
-    var skus : [String]?
-    var shortsCollectionId : String?
-}
-

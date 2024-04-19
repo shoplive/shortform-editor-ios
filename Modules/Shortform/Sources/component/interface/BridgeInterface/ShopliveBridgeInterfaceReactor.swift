@@ -25,9 +25,9 @@ class ShopliveBridgeInterfaceReactor : NSObject, SLReactor {
     
     enum Result {
         case requestEvaluateJS((String,[String : Any]?))
-        case showShortformPreview((reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedData?,shortsList : [ShortsModel], shortsCollectionModel : ShortsCollectionModel?,shopliveSessionId : String?))
-        case showNormalFullScreen((reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformCollectionData?,shopliveSessionId : String?))
-        case showRelatedFullScreen((reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedData?,shopliveSessionId : String?))
+        case showShortformPreview((reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?, shortsList : [ShortsModel], shortsCollectionModel : ShortsCollectionModel?,shopliveSessionId : String?))
+        case showNormalFullScreen((reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformCollectionDto?,shopliveSessionId : String?))
+        case showRelatedFullScreen((reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shopliveSessionId : String?))
     }
     
     
@@ -113,7 +113,7 @@ extension ShopliveBridgeInterfaceReactor {
         resultHandler?( .requestEvaluateJS( (command, payload)) )
     }
     
-    private func onBridgeMessageHandlerShowShortformPreview(reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedData?,shortsList : [ShortsModel], shortsCollectionModel : ShortsCollectionModel?,shopliveSessionId : String?) {
+    private func onBridgeMessageHandlerShowShortformPreview(reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shortsList : [ShortsModel], shortsCollectionModel : ShortsCollectionModel?,shopliveSessionId : String?) {
         resultHandler?( .showShortformPreview((reference: nil,
                                                shortsId: shortsId,
                                                shortsSrn: shortsSrn,
@@ -123,7 +123,7 @@ extension ShopliveBridgeInterfaceReactor {
                                                shopliveSessionId: shopliveSessionId)))
     }
     
-    private func onBridgeMessageHandlerShowNormalFullScreen(reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformCollectionData?,shopliveSessionId : String?) {
+    private func onBridgeMessageHandlerShowNormalFullScreen(reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformCollectionDto?,shopliveSessionId : String?) {
         resultHandler?( .showNormalFullScreen((reference: nil,
                                                shortsId: shortsId,
                                                shortsSrn: shortsSrn,
@@ -131,7 +131,7 @@ extension ShopliveBridgeInterfaceReactor {
                                                shopliveSessionId: shopliveSessionId)))
     }
     
-    private func onBridgeMessageHandlerShowRelatedFullScreen(reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedData?,shopliveSessionId : String?) {
+    private func onBridgeMessageHandlerShowRelatedFullScreen(reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shopliveSessionId : String?) {
         resultHandler?( .showRelatedFullScreen((reference: nil,
                                                 shortsId: shortsId,
                                                 shortsSrn: shortsSrn,

@@ -43,6 +43,7 @@ struct ShortFormConfigurationInfoModel {
     var eventTraceEndpoint : String = ""
     var isCached : Bool = false
     var previewRadius : CGFloat = 10
+    var previewIsMuted : Bool = false
     
     
     
@@ -67,13 +68,14 @@ struct ShortFormConfigurationInfoModel {
                   previewDetailCollectionListAll : datas?.previewDetailCollectionListAll,
                   eventTraceEndpoint: datas?.eventTraceEndpoint,
                   isCached: datas?.isCached,
-                  previewRadius: datas?.previewRadius)
+                  previewRadius: datas?.previewRadius,
+                  previewIsMuted : datas?.previewIsMuted)
     }
     
     init(detailUrl: String?, youtubeUrl : String?, shortformApiEndPoint : String?, previewEdgeInsets: (left : CGFloat?, top : CGFloat?, right : CGFloat?, bottom :CGFloat?),
         previewPosition: String?, detailApiInitializeCount: Int?, detailApiPaginationCount: Int?,
          listApiInitializeCount: Int?, listApiPaginationCount: Int?, previewUseCloseButton: Bool?, enabledSwipeOut: Bool?,
-         mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?,previewDetailCollectionListAll : Bool?,eventTraceEndpoint : String?,isCached : Bool?,previewRadius : CGFloat?) {
+         mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?,previewDetailCollectionListAll : Bool?,eventTraceEndpoint : String?,isCached : Bool?,previewRadius : CGFloat?, previewIsMuted : Bool?) {
         if let detailUrl = detailUrl {
             self.detailUrl = detailUrl
         }
@@ -144,6 +146,9 @@ struct ShortFormConfigurationInfoModel {
         }
         if let isCached = isCached {
             self.isCached = isCached
+        }
+        if let previewIsMuted = previewIsMuted {
+            self.previewIsMuted = previewIsMuted
         }
         NotificationCenter.default.post(Notification(name: Notification.Name("configUpdated"), object: nil, userInfo: nil))
     }

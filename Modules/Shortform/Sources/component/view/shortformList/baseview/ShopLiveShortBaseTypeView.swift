@@ -56,7 +56,7 @@ class ShopLiveShortformBaseTypeView : UIView, SLReactor {
         case setCellSpacing(CGFloat)
         case setScrollContentOffset(CGFloat)
         case setPlayableType(ShopLiveShortform.PlayableType)
-        case setTagsAndBrandsRequestParameterModel(InternalShortformCollectionData?)
+        case setTagsAndBrandsRequestParameterModel(InternalShortformCollectionDto?)
         case reloadItems
         case initialLizeShortsSetting
         case setCellViewHideOptionModel(ShopLiveListCellViewHideOptionModel)

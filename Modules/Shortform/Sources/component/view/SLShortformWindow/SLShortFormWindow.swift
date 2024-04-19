@@ -16,86 +16,7 @@ protocol SLShortsWindowItemViewable {
 class ShopLiveWindowItemView: UIView {}
 
 extension ShopLiveShortform {
-    class SLShortsWindow {
-        
-        class ShortsWindowModel {
-            var enablePanGesture: Bool {
-                return shortsMode == .preview
-            }
-            
-            var enableTapExplicit: Bool = false
-            
-            var enableTapGesture: Bool {
-                return shortsMode == .preview && enableTapExplicit
-            }
-            
-            var enableKeyboardEvent: Bool {
-                return shortsMode == .preview
-            }
-            
-            var isKeyboardShow: Bool = false
-            var keyboardHeight: CGFloat = 0
-            
-            private let defaultPanGestureInitialCenter: CGPoint = .zero
-            
-            private var lastPreviewPosition: ShopLiveShortform.PreviewPosition?
-            
-            var previewPosition: ShopLiveShortform.PreviewPosition {
-                set {
-                    lastPreviewPosition = newValue
-                }
-                
-                get {
-                    if let lastPreviewPosition = self.lastPreviewPosition {
-                        return lastPreviewPosition
-                    }
-                    return ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewPosition
-                }
-            }
-            
-            var previewScale: CGFloat {
-                return ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewScale
-            }
-            
-            var previewEdgeInsets: UIEdgeInsets {
-                return ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewEdgeInsets
-            }
-            
-            var previewFloatingOffset: UIEdgeInsets {
-                return ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewFloatingOffset
-            }
-            
-            var shortsMode: ShopLiveShortform.ShortsMode = .detail
-            
-            private var _panGestureInitialCenter: CGPoint?
-            
-            var panGestureInitialCenter: CGPoint {
-                set {
-                    self._panGestureInitialCenter = newValue
-                }
-                
-                get {
-                    guard let panGestureInitialCenter = self._panGestureInitialCenter else {
-                        return defaultPanGestureInitialCenter
-                    }
-                    
-                    return panGestureInitialCenter
-                }
-            }
-            
-            var panGestureRecognizer: UIPanGestureRecognizer?
-            var tapGestureRecognizer: UITapGestureRecognizer?
-            
-            func resetProperties() {
-                shortsMode = .detail
-                
-                lastPreviewPosition = nil
-                
-                _panGestureInitialCenter = nil
-                enableTapExplicit = false
-            }
-        }
-        
+    class SLShortFormWindow {
         
         weak var shortsCollectionView : ShortsCollectionBaseView?
         
@@ -105,7 +26,7 @@ extension ShopLiveShortform {
             return viewController
         }()
         
-        private var shortsWindowModel = ShortsWindowModel()
+        private var reactor = SLShortFormWindowReactor()
         
         private var isCurrentOrientationLandScape : Bool = UIScreen.isLandscape_SL
         
@@ -126,7 +47,7 @@ extension ShopLiveShortform {
         }
         
         func teardownWindow() {
-            shortsWindowModel.resetProperties()
+            reactor.resetProperties()
             self.shortformWindow.resignKey()
             self.customerWindow?.makeKey()
             teardownGesture()
@@ -135,31 +56,31 @@ extension ShopLiveShortform {
         
         private func setupGesture() {
             let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureHandler))
-            shortsWindowModel.panGestureRecognizer = panGesture
+            reactor.panGestureRecognizer = panGesture
             shortformWindow.addGestureRecognizer(panGesture)
             
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler))
             tapGesture.cancelsTouchesInView = false
             tapGesture.delegate = shortformWindow
-            shortsWindowModel.tapGestureRecognizer = tapGesture
+            reactor.tapGestureRecognizer = tapGesture
             shortformWindow.addGestureRecognizer(tapGesture)
         }
         
         private func teardownGesture() {
-            if let panGestureRecognizer = self.shortsWindowModel.panGestureRecognizer {
+            if let panGestureRecognizer = self.reactor.panGestureRecognizer {
                 shortformWindow.removeGestureRecognizer(panGestureRecognizer)
-                shortsWindowModel.panGestureRecognizer = nil
-                shortsWindowModel.panGestureInitialCenter = .zero
+                reactor.panGestureRecognizer = nil
+                reactor.panGestureInitialCenter = .zero
             }
             
-            if let tapGestureRecognizer = self.shortsWindowModel.tapGestureRecognizer {
+            if let tapGestureRecognizer = self.reactor.tapGestureRecognizer {
                 shortformWindow.removeGestureRecognizer(tapGestureRecognizer)
-                shortsWindowModel.tapGestureRecognizer = nil
+                reactor.tapGestureRecognizer = nil
             }
         }
         
         @objc func tapGestureHandler(_ recognizer: UITapGestureRecognizer) {
-            guard shortsWindowModel.enableTapGesture else { return }
+            guard reactor.enableTapGesture else { return }
             if let shorts = self.shortsCollectionView?.getCurrentShortsModel() {
                 ShopLiveShortform.BridgeInterface.clickPreview(shorts: shorts)
             }
@@ -181,17 +102,17 @@ extension ShopLiveShortform {
         
         @objc func panGestureHandler(_ recognizer: UIPanGestureRecognizer) {
             guard let liveWindow = recognizer.view else { return }
-            guard self.shortsWindowModel.enablePanGesture else { return }
+            guard self.reactor.enablePanGesture else { return }
             
             liveWindow.layer.masksToBounds = true
             let translation = recognizer.translation(in: liveWindow)
             
             switch recognizer.state {
             case .began:
-                self.shortsWindowModel.panGestureInitialCenter = liveWindow.center
+                self.reactor.panGestureInitialCenter = liveWindow.center
             case .changed:
-                let centerX = self.shortsWindowModel.panGestureInitialCenter.x + translation.x
-                let centerY = self.shortsWindowModel.panGestureInitialCenter.y + translation.y
+                let centerX = self.reactor.panGestureInitialCenter.x + translation.x
+                let centerY = self.reactor.panGestureInitialCenter.y + translation.y
                 liveWindow.center = CGPoint(x: centerX, y: centerY)
             case .ended:
                 guard let mainWindow = UIApplication.topWindow_SL else { return }
@@ -199,16 +120,16 @@ extension ShopLiveShortform {
                 let velocity = recognizer.velocity(in: liveWindow)
                 
                 let safeAreaInset = mainWindow.safeAreaInsets
-                let previewFloatingOffsetBottom: CGFloat = self.shortsWindowModel.isKeyboardShow ? 0 : self.shortsWindowModel.previewFloatingOffset.bottom
+                let previewFloatingOffsetBottom: CGFloat = self.reactor.isKeyboardShow ? 0 : self.reactor.previewFloatingOffset.bottom
                 
-                let isKeyboardShow: Bool = self.shortsWindowModel.isKeyboardShow
-                let keyboardHeight: CGFloat = self.shortsWindowModel.keyboardHeight
+                let isKeyboardShow: Bool = self.reactor.isKeyboardShow
+                let keyboardHeight: CGFloat = self.reactor.keyboardHeight
                 
-                let previewEdgeInsets: UIEdgeInsets = self.shortsWindowModel.previewEdgeInsets
-                let previewFloatingOffset: UIEdgeInsets = self.shortsWindowModel.previewFloatingOffset
-                let panGestureInitialCenter: CGPoint = self.shortsWindowModel.panGestureInitialCenter
+                let previewEdgeInsets: UIEdgeInsets = self.reactor.previewEdgeInsets
+                let previewFloatingOffset: UIEdgeInsets = self.reactor.previewFloatingOffset
+                let panGestureInitialCenter: CGPoint = self.reactor.panGestureInitialCenter
                 
-                let previewPosition: ShopLiveShortform.PreviewPosition = self.shortsWindowModel.previewPosition
+                let previewPosition: ShopLiveShortform.PreviewPosition = self.reactor.previewPosition
                 
                 let mainWindowHeight: CGFloat = mainWindow.bounds.height - (isKeyboardShow ? keyboardHeight : 0)
                 let minX = (liveWindow.bounds.width / 2.0) + previewEdgeInsets.left + safeAreaInset.left + liveWindow.bounds.origin.x + previewFloatingOffset.left
@@ -262,7 +183,7 @@ extension ShopLiveShortform {
                     }
                 }
                 
-                if ShortFormConfigurationInfosManager.shared.shortsConfiguration.enabledSwipeOut {
+                if reactor.previewSwipeOutEnabled {
                     guard xRange.contains(checkCenterX), yRange.contains(checkCenterY) else {
                         if shortsCollectionView?.getCurrentShowType() == .related && shortsCollectionView?.getIsFullNative() == true {
                             ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: self.shortsCollectionView?.getPreviewEventTraceSrn(),isShown: false, isClick: false, shopliveSessionId: nil)
@@ -349,13 +270,13 @@ extension ShopLiveShortform {
         @objc func handleNotification(_ notification: Notification) {
             switch notification.name {
             case UIResponder.keyboardWillShowNotification:
-                guard self.shortsWindowModel.enableKeyboardEvent else { return }
-                self.shortsWindowModel.isKeyboardShow = true
+                guard self.reactor.enableKeyboardEvent else { return }
+                self.reactor.isKeyboardShow = true
                 self.handleKeyboardNoti(notification: notification)
                 break
             case UIResponder.keyboardWillHideNotification:
-                guard self.shortsWindowModel.enableKeyboardEvent else { return }
-                self.shortsWindowModel.isKeyboardShow = false
+                guard self.reactor.enableKeyboardEvent else { return }
+                self.reactor.isKeyboardShow = false
                 self.handleKeyboardNoti(notification: notification)
                 break
             case Notification.Name("presentViewController"):
@@ -369,7 +290,7 @@ extension ShopLiveShortform {
                 guard let enable = notification.userInfo?["enable"] as? Bool else {
                     return
                 }
-                self.shortsWindowModel.enableTapExplicit = enable
+                self.reactor.enableTapExplicit = enable
                 break
             default:
                 break
@@ -383,10 +304,10 @@ extension ShopLiveShortform {
                     
                 let bottomPadding = UIApplication.topWindow_SL?.safeAreaInsets.bottom ?? 0
             
-                self.shortsWindowModel.keyboardHeight = keyboardScreenEndFrame.height - bottomPadding
+                self.reactor.keyboardHeight = keyboardScreenEndFrame.height - bottomPadding
             }
             
-            let previewPosition: CGRect = self.previewPosition(with: self.shortsWindowModel.previewScale, position: self.shortsWindowModel.previewPosition)
+            let previewPosition: CGRect = self.previewPosition(with: self.reactor.previewScale, position: self.reactor.previewPosition)
             
             UIView.animate(withDuration: 0.3, delay: 0, options: []) { [weak self] in
                 guard let self = self else { return }
@@ -397,7 +318,7 @@ extension ShopLiveShortform {
         }
         
         private func fullScreen(animated: Bool = false, reset: Bool = false) {
-            self.shortsWindowModel.shortsMode = .detail
+            self.reactor.shortsMode = .detail
             if animated { // animated 가 true면 preview click해서 전체 화면 진입
                 UIView.animate(withDuration: 0.3, delay: 0) { [weak self] in
                     guard let self = self else { return }
@@ -434,8 +355,7 @@ extension ShopLiveShortform {
         
         private func preview() {
             self.shortsCollectionView?.updateItemSize(self.previewPosition().size)
-            self.shortsWindowModel.shortsMode = .preview
-            self.shortsCollectionView?.viewModel.isMuted = true
+            self.reactor.shortsMode = .preview
             self.shortformWindow.frame = self.previewPosition()
             self.shortformWindow.isHidden  = false
             self.shortformWindow.layer.cornerRadius = ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewRadius
@@ -463,11 +383,11 @@ extension ShopLiveShortform {
         }
         
         func hide() {
-            if self.shortsWindowModel.shortsMode == .preview,let shortsModel = self.shortsCollectionView?.getCurrentShortsModel() {
+            if self.reactor.shortsMode == .preview,let shortsModel = self.shortsCollectionView?.getCurrentShortsModel() {
                 ShopLiveShortform.BridgeInterface.previewHidden(shorts: shortsModel)
             }
             shortsCollectionView?.close()
-            shortsWindowModel.resetProperties()
+            reactor.resetProperties()
             self.shortsCollectionView = nil
             self.shortformWindow.isHidden = true
             ShopLiveShortform.Delegate.receiveHandler.delegate?.onDidDisAppear?()
@@ -513,8 +433,8 @@ extension ShopLiveShortform {
             guard let mainWindow = UIApplication.topWindow_SL else { return }
             let currentCenter = shortformWindow.center
             let center = mainWindow.center
-            let isKeyboardShow = self.shortsWindowModel.isKeyboardShow
-            let keyboardHeight = self.shortsWindowModel.keyboardHeight
+            let isKeyboardShow = self.reactor.isKeyboardShow
+            let keyboardHeight = self.reactor.keyboardHeight
             let _keyboardHeight: CGFloat = isKeyboardShow ? keyboardHeight : 0
             let rate = (mainWindow.frame.height - _keyboardHeight) / mainWindow.frame.height
             let isPositiveDiffX = center.x - currentCenter.x > 0
@@ -532,15 +452,15 @@ extension ShopLiveShortform {
                 }
             }()
 
-            self.shortsWindowModel.previewPosition = position
+            self.reactor.previewPosition = position
             self.handleKeyboardNoti()
         }
         
         private func alignPreviewPosition(previewCenter: CGPoint) -> ShopLiveShortform.PreviewPosition {
             guard let mainWindow = UIApplication.topWindow_SL else { return .bottomRight }
             let center = mainWindow.center
-            let isKeyboardShow = self.shortsWindowModel.isKeyboardShow
-            let keyboardHeight = self.shortsWindowModel.keyboardHeight
+            let isKeyboardShow = self.reactor.isKeyboardShow
+            let keyboardHeight = self.reactor.keyboardHeight
             let _keyboardHeight: CGFloat = isKeyboardShow ? keyboardHeight : 0
             let rate = (mainWindow.frame.height - _keyboardHeight) / mainWindow.frame.height
             let isPositiveDiffX = center.x - previewCenter.x > 0
@@ -567,13 +487,13 @@ extension ShopLiveShortform {
             guard let mainWindow = UIApplication.topWindow_SL else { return .zero }
             var previewPosition: CGRect = .zero
             var origin = CGPoint.zero
-            let isKeyboardShow = self.shortsWindowModel.isKeyboardShow
+            let isKeyboardShow = self.reactor.isKeyboardShow
             let safeAreaInsets = mainWindow.safeAreaInsets
             let previewSize = self.previewSize(with: scale)
-            let previewFloatingOffset = self.shortsWindowModel.previewFloatingOffset
-            let previewEdgeInsets = self.shortsWindowModel.previewEdgeInsets
+            let previewFloatingOffset = self.reactor.previewFloatingOffset
+            let previewEdgeInsets = self.reactor.previewEdgeInsets
             let previewFloatingOffsetBottom: CGFloat = previewFloatingOffset.bottom
-            let keyboardHeight: CGFloat = isKeyboardShow ? self.shortsWindowModel.keyboardHeight : 0
+            let keyboardHeight: CGFloat = isKeyboardShow ? self.reactor.keyboardHeight : 0
             
             let standardSize: CGSize = UIScreen.main.bounds.size
             
@@ -608,7 +528,7 @@ extension ShopLiveShortform {
         }
     }
 }
-extension ShopLiveShortform.SLShortsWindow : ShortFormDetailRootViewControllerDelegate {
+extension ShopLiveShortform.SLShortFormWindow : ShortFormDetailRootViewControllerDelegate {
     func onStartRotation(to size : CGSize) {
         guard let collectionView = self.shortsCollectionView else { return }
         if collectionView.getCurrentShortsMode() == .detail {
@@ -634,6 +554,11 @@ extension ShopLiveShortform.SLShortsWindow : ShortFormDetailRootViewControllerDe
         else {
             collectionView.onFinishedRotation(on: size)
         }
+    }
+}
+extension ShopLiveShortform.SLShortFormWindow {
+    func setPreviewDTO(dto : ShortformPreviewOptionDTO?) {
+        reactor.setPreviewOptionDTO(dto: dto)
     }
 }
 extension ShopLiveShortform {

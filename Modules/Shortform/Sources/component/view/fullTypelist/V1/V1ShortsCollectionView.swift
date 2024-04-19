@@ -30,12 +30,12 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
     }
     
     //normal show
-    internal init(reference : String?, shortsMode : ShopLiveShortform.ShortsMode, showType : ShortsApiType, shortsId : String?, shortsSrn : String?, normalRequestParameterModel : InternalShortformCollectionData?,viewProvideType : ShortsCollectionBaseViewModel.ViewProvidedType,shopliveSessionId : String?){
+    internal init(reference : String?, shortsMode : ShopLiveShortform.ShortsMode, showType : ShortsApiType, shortsId : String?, shortsSrn : String?, normalRequestParameterModel : InternalShortformCollectionDto?,viewProvideType : ShortsCollectionBaseViewModel.ViewProvidedType,shopliveSessionId : String?){
         super.init(viewmodel: V1ShortsCollectionViewModel(shopliveSessionId: shopliveSessionId))
         viewmodel.latestActivePageIndex = -1
         viewmodel.shortsMode = shortsMode
         if shortsMode == .preview {
-            viewmodel.isMuted = true
+            viewModel.changeIsMuteToPreviewMode()
         }
         viewmodel.currentApiType = showType
         viewmodel.viewProvideType = viewProvideType
@@ -53,12 +53,13 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
     }
     
     //related show
-    internal init(shortsMode : ShopLiveShortform.ShortsMode,showType : ShortsApiType, reference : String?, shortsId : String?, shortsSrn : String?, relatedRequestModel : InternalShortformRelatedData?, shortsList : [ShortsModel], shortsCollection : ShortsCollectionModel?, viewProvideType : ShortsCollectionBaseViewModel.ViewProvidedType,shopliveSessionId : String?) {
+    internal init(shortsMode : ShopLiveShortform.ShortsMode,showType : ShortsApiType, reference : String?, shortsId : String?, shortsSrn : String?, relatedRequestModel : InternalShortformRelatedDTO?, shortsList : [ShortsModel], shortsCollection : ShortsCollectionModel?, viewProvideType : ShortsCollectionBaseViewModel.ViewProvidedType,shopliveSessionId : String?, previewOptionDTO : ShortformPreviewOptionDTO?) {
         super.init(viewmodel: V1ShortsCollectionViewModel(shopliveSessionId: shopliveSessionId))
         viewmodel.latestActivePageIndex = -1
         viewmodel.shortsMode = shortsMode
         if shortsMode == .preview {
-            viewmodel.isMuted = true
+            viewmodel.setPreviewOptionDTO(dto: previewOptionDTO)
+            viewmodel.changeIsMuteToPreviewMode()
         }
         viewmodel.currentApiType = showType
         viewmodel.shortsCollection = shortsCollection

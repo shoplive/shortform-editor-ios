@@ -26,7 +26,7 @@ final class ShopLiveShortformHorizontalTypeViewReactor : NSObject, SLReactor {
         case setEnableAutoPlay(Bool)
         case setIsPlayOnlyOnWifi(Bool)
         case calculateCellSize
-        case setTagsAndBrandsParameterModel(InternalShortformCollectionData?)
+        case setTagsAndBrandsParameterModel(InternalShortformCollectionDto?)
         case reloadItem
         case initializeShortsSetting
         case setCellViewHideOptionModel(ShopLiveListCellViewHideOptionModel)
@@ -62,7 +62,7 @@ final class ShopLiveShortformHorizontalTypeViewReactor : NSObject, SLReactor {
     private var networkConnectionType : NetworkMonitor.ConnectionType = .cellular
     private var isLoadingMoreContents : Bool = false
     private var playableType : ShopLiveShortform.PlayableType = .FIRST
-    private var apiRequestParamModel : InternalShortformCollectionData?
+    private var apiRequestParamModel : InternalShortformCollectionDto?
     private var isViewCountVisible : Bool = true
     private var cellViewHideOptionModel : ShopLiveListCellViewHideOptionModel = ShopLiveListCellViewHideOptionModel()
     private var cellRadius : CGFloat = 12

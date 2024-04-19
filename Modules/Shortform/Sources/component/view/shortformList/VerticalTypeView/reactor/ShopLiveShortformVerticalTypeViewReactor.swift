@@ -26,7 +26,7 @@ final class ShopLiveShortformVerticalTypeViewReactor : NSObject, SLReactor {
         case setIsPlayOnlyOnWifi(Bool)
         case calculateCellSize
         case pullToRefresh
-        case setTagsAndBrandsRequestParameterModel(InternalShortformCollectionData?)
+        case setTagsAndBrandsRequestParameterModel(InternalShortformCollectionDto?)
         case reloadItem
         case initializeShortsSetting
         case setCellViewHideOptionModel(ShopLiveListCellViewHideOptionModel)
@@ -65,7 +65,7 @@ final class ShopLiveShortformVerticalTypeViewReactor : NSObject, SLReactor {
     private var isPlayOnOnlyWifi : Bool = false
     private var networkConnectionType : NetworkMonitor.ConnectionType = .cellular
     private var isLoadingMoreContents : Bool = false
-    private var apiRequestParamModel : InternalShortformCollectionData?
+    private var apiRequestParamModel : InternalShortformCollectionDto?
     private var cellViewHideOptionModel = ShopLiveListCellViewHideOptionModel()
     private var cellRadius : CGFloat = 12
     private var currentAvAudioSessionCategoryOptions : AVAudioSession.CategoryOptions?

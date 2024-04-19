@@ -124,8 +124,7 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
         super.layoutSubviews()
         
         if inAppPreviewView.frame.width != .zero {
-            let configPreviewUseCloseBtn = ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewUseCloseButton
-            setCloseButtonVisible(viewModel.shortsMode == .preview && configPreviewUseCloseBtn )
+            setCloseButtonVisible(viewModel.shortsMode == .preview && viewModel.getPreviewUseCloseBtn() )
         }
         
         if let selfSize = viewModel.superviewSize, selfSize == self.frame.size, !viewModel.isViewAppeared {
@@ -157,11 +156,11 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
         }
         else {
             if ShortFormConfigurationInfosManager.shared.shortsConfiguration.mutedWhenStart == true {
-                viewModel.isMuted = true
+                viewModel.setIsMuted(isMuted: true)
                 audioSessionManager.setCategory(category: .playback, options: [])
             }
             else {
-                viewModel.isMuted = false
+                viewModel.setIsMuted(isMuted: false)
                 if ShortFormConfigurationInfosManager.shared.shortsConfiguration.mixWithOthers == true {
                     audioSessionManager.setCategory(category: .playback, options: .mixWithOthers)
                 }
@@ -176,7 +175,7 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     func bindData() {}
     
     @objc func didTouchCloseButton() {
-        guard ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewUseCloseButton else { return }
+        guard viewModel.getPreviewUseCloseBtn() else { return }
         if viewModel.currentApiType == .related && viewModel.isFullNative {
             let previewEventTraceSrn = self.getPreviewEventTraceSrn()
             ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: previewEventTraceSrn ,isShown: false, isClick: true, shopliveSessionId: nil )
@@ -225,7 +224,7 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     func modeChange(mode: ShortsMode) {
         viewModel.shortsMode = mode
         if mode == .preview {
-            viewModel.isMuted = true
+            viewModel.changeIsMuteToPreviewMode()
         }
         viewModel.postModeChangeNotification()
     }
@@ -386,7 +385,7 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
                                shopliveSessionId: viewModel.getCurrentShopliveSessionId(),
                                shortsMode: viewModel.shortsMode,
                                isLandScape: UIScreen.isLandscape_SL,
-                               isMute: viewModel.getIsMuted(),
+                               isMute: viewModel.getMuted(),
                                setShortsSingleDetailViewPayload: self.viewModel.getSetShortsSingleDetailViewPayload(at: indexPath, shortsModel: data, isYoutube: viewModel.checkIsYoutubePlayer(indexPath: indexPath)))
         }
         
@@ -401,7 +400,7 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if self.viewModel.isOnRotation { return }
         if let latestCell = viewModel.latestCell.latestCell {
-            latestCell.setMute(viewModel.isMuted)
+            latestCell.setMute(viewModel.getMuted())
         }
         
         if let toPlayPage = viewModel.scrollToPage , toPlayPage == indexPath.row, let playCell = cell as? ShortsCell {
@@ -411,7 +410,7 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
             if self.viewModel.shortsMode != .preview && cell.isWebViewExist() == false {
                 cell.reloadWebView()
             }
-            cell.setMute(viewModel.isMuted)
+            cell.setMute(viewModel.getMuted())
         }
     }
     
@@ -503,7 +502,7 @@ extension ShortsCollectionBaseView {
             }
             latestCell.pause()
             self.viewModel.latestCell.setLatest(latestCell: centerItem, indexPath: self.shortsListView.indexPath(for: centerItem))
-            centerItem.setMute(self.viewModel.isMuted)
+            centerItem.setMute(self.viewModel.getMuted())
             centerItem.play(skipIfPaused: false)
         }
     }

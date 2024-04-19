@@ -73,7 +73,7 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
         //이전 ShortsView에 있던 로직 가져와서 쓰면 됨
         let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
         if ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewDetailCollectionListAll {
-            let requestModel = InternalShortformCollectionData()
+            let requestModel = InternalShortformCollectionDto()
             if let collectionQuery = bridgeModel.collectionQuery {
                 requestModel.tags = collectionQuery.tags
                 requestModel.tagSearchOperator = collectionQuery.tagSearchOperator
@@ -89,7 +89,7 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
             ShopLiveShortform.playNormalFullScreen(shortsId: bridgeModel.shorts?.shortsId, shortsSrn: bridgeModel.shorts?.srn, requestModel: requestModel,shopliveSessionId: shopliveSessionId)
         }
         else {
-            let requestModel = InternalShortformRelatedData()
+            let requestModel = InternalShortformRelatedDTO()
             requestModel.tags = bridgeModel.relatedQuery?.tags
             requestModel.tagSearchOperator = bridgeModel.relatedQuery?.tagSearchOperator
             requestModel.brands = bridgeModel.relatedQuery?.brands
@@ -195,7 +195,7 @@ extension ShortsCollectionBaseView {
     
     private func handleWebViewSetVideoMute(payload : [String : Any]?) {
         guard let isMuted = payload?["mute"] as? Bool else { return }
-        viewModel.isMuted = isMuted
+        viewModel.setIsMuted(isMuted: isMuted)
         ShortFormConfigurationInfosManager.shared.setWhenMutedStart(isMuted: isMuted)
     }
     

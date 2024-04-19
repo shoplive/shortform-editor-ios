@@ -17,7 +17,7 @@ final class ShopLiveShortformHorizontalTypeView : ShopLiveShortformBaseTypeView 
     private weak var delegate : ShopLiveShortformListViewDelegate?
     
     init(cardViewType : ShopLiveShortform.CardViewType,listViewDelegate : ShopLiveShortformListViewDelegate?,
-         tagsAndBrandsRequestParameterModel : InternalShortformCollectionData?,avAudioSessionCategoryOptions : AVAudioSession.CategoryOptions?){
+         tagsAndBrandsRequestParameterModel : InternalShortformCollectionDto?,avAudioSessionCategoryOptions : AVAudioSession.CategoryOptions?){
         super.init(frame: .zero)
         self.delegate = listViewDelegate
         collectionViewFlowLayout.scrollDirection = .horizontal
@@ -85,7 +85,6 @@ final class ShopLiveShortformHorizontalTypeView : ShopLiveShortformBaseTypeView 
         case .setCellSpacing(let cellSpacing):
             self.setCellSpacing(cellSpacing: cellSpacing)
         case .setScrollContentOffset(let scrollOffset):
-            //MARK: -TODO
             self.collectionView.contentOffset.x = scrollOffset
         case .setPlayableType(let type):
             reactor.action(.setPlayableType(type))

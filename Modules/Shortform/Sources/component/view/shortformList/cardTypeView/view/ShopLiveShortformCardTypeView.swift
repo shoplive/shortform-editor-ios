@@ -14,7 +14,7 @@ final class ShopLiveShortformCardTypeView : ShopLiveShortformBaseTypeView  {
     private let reactor = ShopLiveShortCardTypeViewReactor()
     private weak var delegate : ShopLiveShortformListViewDelegate?
     
-    init(cardViewType : ShopLiveShortform.CardViewType,listViewDelegate : ShopLiveShortformListViewDelegate?, tagsAndBrandsRequestParameterModel: InternalShortformCollectionData?,avAudioSessionCategoryOptions : AVAudioSession.CategoryOptions?){
+    init(cardViewType : ShopLiveShortform.CardViewType,listViewDelegate : ShopLiveShortformListViewDelegate?, tagsAndBrandsRequestParameterModel: InternalShortformCollectionDto?,avAudioSessionCategoryOptions : AVAudioSession.CategoryOptions?){
         super.init(frame: .zero)
         self.delegate = listViewDelegate
         collectionViewFlowLayout.scrollDirection = .vertical

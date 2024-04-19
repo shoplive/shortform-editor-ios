@@ -56,8 +56,8 @@ class ShortsCollectionBaseViewModel {
     
     
     //for relatedShorts
-    var relatedRequestData : InternalShortformRelatedData?
-    var collectionRequestData : InternalShortformCollectionData?
+    var relatedRequestData : InternalShortformRelatedDTO?
+    var collectionRequestData : InternalShortformCollectionDto?
     var currentApiType : ShortsApiType = .normal
     var isFullNative : Bool = false
     
@@ -67,6 +67,7 @@ class ShortsCollectionBaseViewModel {
     var isOnRotation : Bool = false
     
     //data
+    private var previewOptionDto : ShortformPreviewOptionDTO?
     var shortsCollection: ShortsCollectionModel?
     var lastShortsCount: Int = 0
     var originShortsListData : [ShortsModel] = [] {
@@ -75,7 +76,6 @@ class ShortsCollectionBaseViewModel {
         }
     }
     var shortsListData : [ShortsModel] {
-//        return originShortsListData
         return self.shortsMode == .detail ? originShortsListData : originShortsListData.filter{ $0.validate }
     }
     var hasMore: Bool {
@@ -125,7 +125,7 @@ class ShortsCollectionBaseViewModel {
     //cell state
     var shortsDetailInitialized: Bool = false
     var latestActivePageIndex : Int = -1
-    var isMuted : Bool = ShortFormConfigurationInfosManager.shared.shortsConfiguration.mutedWhenStart {
+    private var isMuted : Bool = ShortFormConfigurationInfosManager.shared.shortsConfiguration.mutedWhenStart {
         didSet {
             self.postMuteShortsNotification()
             self.setLatestCellMuted(isMuted: isMuted)
@@ -224,8 +224,7 @@ extension ShortsCollectionBaseViewModel {
     func setShortsConfiguration() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            let configPreviewUseCloseBtn = ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewUseCloseButton
-            self.delegate?.setCloseBtnVisible(isVisible: self.shortsMode == .preview && configPreviewUseCloseBtn)
+            self.delegate?.setCloseBtnVisible(isVisible: self.shortsMode == .preview && self.getPreviewUseCloseBtn())
         }
     }
     
@@ -245,6 +244,15 @@ extension ShortsCollectionBaseViewModel {
             ImageDownLoaderManager.shared.preDownloadImage(imageUrl: url)
         }
     }
+    
+    func changeIsMuteToPreviewMode() {
+        if let dto = previewOptionDto, let previewIsMuted = dto.previewIsMuted {
+            self.isMuted = previewIsMuted
+        }
+        else {
+            self.isMuted = ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewIsMuted
+        }
+    }
 }
 //MARK: - setter functions
 extension ShortsCollectionBaseViewModel {
@@ -255,12 +263,30 @@ extension ShortsCollectionBaseViewModel {
     func setShopLiveSessionId(sessionId : String?) {
         self.shopliveSessionId = sessionId
     }
+    
+    func setIsMuted(isMuted : Bool) {
+        self.isMuted = isMuted
+    }
+    
+    func setPreviewOptionDTO(dto : ShortformPreviewOptionDTO?) {
+        self.previewOptionDto = dto
+    }
+    
 }
 //MARK: - getter functions
 extension ShortsCollectionBaseViewModel {
     
-    func getIsMuted() -> Bool {
+    func getMuted() -> Bool {
         return self.isMuted
+    }
+    
+    func getPreviewUseCloseBtn() -> Bool {
+        if let dto = previewOptionDto, let useCloseBtn = dto.useCloseBtn {
+            return useCloseBtn
+        }
+        else {
+            return ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewUseCloseButton
+        }
     }
     
     func checkIsYoutubePlayer(indexPath : IndexPath) -> Bool {

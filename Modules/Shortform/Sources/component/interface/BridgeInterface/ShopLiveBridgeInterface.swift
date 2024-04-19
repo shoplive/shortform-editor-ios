@@ -66,15 +66,15 @@ extension ShopLiveShortform.BridgeInterface {
         }
     }
     
-    private func onShowShortformPreview(reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedData?,shortsList : [ShortsModel], shortsCollectionModel : ShortsCollectionModel?,shopliveSessionId : String?) {
-        ShopLiveShortform.showRelatedPreview(reference: reference, shortsId: shortsId, shortsSrn: shortsSrn, requestModel: requestModel, shortsList: shortsList, shortsCollectionModel: shortsCollectionModel, shopliveSessionId: shopliveSessionId)
+    private func onShowShortformPreview(reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shortsList : [ShortsModel], shortsCollectionModel : ShortsCollectionModel?,shopliveSessionId : String?) {
+        ShopLiveShortform.showRelatedPreview(reference: reference, shortsId: shortsId, shortsSrn: shortsSrn, requestModel: requestModel, shortsList: shortsList, shortsCollectionModel: shortsCollectionModel, shopliveSessionId: shopliveSessionId,previewOptionDto: nil)
     }
     
-    private func onShowNormalFullScreen(reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformCollectionData?,shopliveSessionId : String?) {
+    private func onShowNormalFullScreen(reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformCollectionDto?,shopliveSessionId : String?) {
         ShopLiveShortform.playNormalFullScreen(reference: reference, shortsId: shortsId, shortsSrn: shortsSrn, requestModel: requestModel, shopliveSessionId: shopliveSessionId)
     }
     
-    private func onShowRelatedFullScreen(reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedData?,shopliveSessionId : String?) {
+    private func onShowRelatedFullScreen(reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shopliveSessionId : String?) {
         ShopLiveShortform.playRelatedFullScreen(reference: reference, shortsId: shortsId, shortsSrn: shortsSrn, requestModel: requestModel, shopliveSessionId: shopliveSessionId)
     }
 }
