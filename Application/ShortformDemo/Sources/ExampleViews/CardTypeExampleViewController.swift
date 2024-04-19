@@ -156,7 +156,7 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
         if let error = error as? ShopLiveCommonError {
             guard let window = UIApplication.shared.keyWindow else { return }
             if let message = error.message {
-                window.rootViewController?.showToast(message: message ,duration: .long)
+                window.rootViewController?.showToast(message: message + "\(error.codes)" ,duration: .long)
             }
             else if let error = error.error {
                 window.rootViewController?.showToast(message: error.localizedDescription ,duration: .long)

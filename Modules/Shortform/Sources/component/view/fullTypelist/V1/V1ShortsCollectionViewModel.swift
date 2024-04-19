@@ -28,7 +28,7 @@ extension V1ShortsCollectionViewModel {
         }
     }
     
-    func loadShortsPlayCollection(reference : String?, onPagination : Bool, shortsId: String? = nil, reset: Bool = false, completion: @escaping (Error?) -> Void) {
+    func loadShortsPlayCollection(isOnInitialLaunch : Bool = false, reference : String?, onPagination : Bool, shortsId: String? = nil, reset: Bool = false, completion: @escaping (Error?) -> Void) {
         let apiInitializeCount = ShortFormConfigurationInfosManager.shared.shortsConfiguration.detailApiInitializeCount
         let paginationCount = ShortFormConfigurationInfosManager.shared.shortsConfiguration.detailApiPaginationCount
         let tags = self.collectionRequestData?.tags
@@ -46,18 +46,16 @@ extension V1ShortsCollectionViewModel {
                     guard let self = self else { return }
                     switch result {
                     case .success(let response):
-                        guard let shortsList = response.shortsList else {
-                            if onPagination == false {
-                                completion(nil)
-                            }
-                            return
+                        if let s = response._s, s != 0 {
+                            self.parseShopLiveNetworkError(code : s, message : response._e)
                         }
+                        dump(response)
                         self.shortsCollection = response
-                        self.appendShortsListData(shortsList,reset: reset)
+                        self.appendShortsListData(response.shortsList ?? [] ,reset: reset)
                         completion(nil)
                         break
                     case .failure(let error):
-                        if onPagination == false {
+                        if isOnInitialLaunch {
                             ShopLiveShortform.close()
                         }
                         self.onError(error)
@@ -69,7 +67,7 @@ extension V1ShortsCollectionViewModel {
         }
     }
     
-    func loadShortsRelatedCollection(reference : String?, onPagination : Bool, shortsId : String?, shortsSrn : String?, reset : Bool, completion : @escaping (Error?) -> ()){
+    func loadShortsRelatedCollection(isOnInitialLaunch : Bool = false, reference : String?, onPagination : Bool, shortsId : String?, shortsSrn : String?, reset : Bool, completion : @escaping (Error?) -> ()){
         let requestModel = self.relatedRequestData
         let apiInitializeCount = ShortFormConfigurationInfosManager.shared.shortsConfiguration.detailApiInitializeCount
         let paginationCount = ShortFormConfigurationInfosManager.shared.shortsConfiguration.detailApiPaginationCount
@@ -94,19 +92,15 @@ extension V1ShortsCollectionViewModel {
                 guard let self = self else { return }
                 switch result {
                 case .success(let response):
-                    guard let shortsList = response.shortsList else {
-                        if onPagination == false {
-                            ShopLiveShortform.close()
-                        }
-                        completion(nil)
-                        return
+                    if let s = response._s, s != 0 {
+                        self.parseShopLiveNetworkError(code : s, message : response._e)
                     }
                     self.shortsCollection = response
-                    self.appendShortsListData(shortsList,reset: reset)
+                    self.appendShortsListData(response.shortsList ?? [] ,reset: reset)
                     completion(nil)
                     break
                 case .failure(let error):
-                    if onPagination == false {
+                    if isOnInitialLaunch {
                         ShopLiveShortform.close()
                     }
                     self.onError(error)
@@ -115,4 +109,10 @@ extension V1ShortsCollectionViewModel {
             }
         }
     }
+    
+    private func parseShopLiveNetworkError(code : Int, message : String?) {
+        let commonError = ShopLiveCommonError(code: code, message: message, error: nil)
+        self.onError(commonError)
+    }
+    
 }

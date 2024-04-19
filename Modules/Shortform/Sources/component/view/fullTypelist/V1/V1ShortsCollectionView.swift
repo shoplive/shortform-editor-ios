@@ -41,7 +41,7 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
         viewmodel.viewProvideType = viewProvideType
         
         self.viewmodel.collectionRequestData = normalRequestParameterModel
-        self.viewmodel.loadShortsPlayCollection(reference: reference,onPagination: false, shortsId: shortsId, reset: true) { [weak self] error in
+        self.viewmodel.loadShortsPlayCollection(isOnInitialLaunch : true, reference: reference,onPagination: false, shortsId: shortsId, reset: true) { [weak self] error in
             guard let self = self else { return }
             if self.handleInitializeError(error: error) == false {
                 return
@@ -66,7 +66,7 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
         viewmodel.relatedRequestData = relatedRequestModel
         viewmodel.viewProvideType = viewProvideType
         if shortsMode == .preview  && shortsList.count == 0 {//풀 네이트브여서 바로 프리뷰를 킨 경우
-            viewmodel.loadShortsRelatedCollection(reference: nil, onPagination: false, shortsId: shortsId, shortsSrn: shortsSrn, reset: true) { [weak self] error in
+            viewmodel.loadShortsRelatedCollection(isOnInitialLaunch : true, reference: nil, onPagination: false, shortsId: shortsId, shortsSrn: shortsSrn, reset: true) { [weak self] error in
                 if self?.handleInitializeError(error: error) == false {
                     return
                 }
@@ -81,7 +81,7 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
             self.viewmodel.appendShortsListData(shortsList,reset: true)
         }
         else {
-            viewmodel.loadShortsRelatedCollection(reference: nil, onPagination: false, shortsId: shortsId, shortsSrn: shortsSrn, reset: true) { [weak self] error in
+            viewmodel.loadShortsRelatedCollection(isOnInitialLaunch : true, reference: nil, onPagination: false, shortsId: shortsId, shortsSrn: shortsSrn, reset: true) { [weak self] error in
                 if self?.handleInitializeError(error: error) == false {
                     return
                 }

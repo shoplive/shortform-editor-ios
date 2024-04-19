@@ -65,8 +65,7 @@ public class ShopLiveShortform {
         internalShortFormRequestData.shuffle = requestData.shuffle
         internalShortFormRequestData.shortsId = requestData.shortsId
         
-        
-        self.showRelatedPreview(reference: requestData.reference, shortsId: nil, shortsSrn: nil, requestModel: internalShortFormRequestData, shortsList: [], shortsCollectionModel: nil,shopliveSessionId: nil)
+        self.showRelatedPreview(reference: requestData.reference, shortsId: requestData.shortsId, shortsSrn: nil, requestModel: internalShortFormRequestData, shortsList: [], shortsCollectionModel: nil,shopliveSessionId: nil)
     }
     
 

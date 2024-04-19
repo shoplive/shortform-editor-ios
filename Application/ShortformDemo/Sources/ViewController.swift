@@ -199,7 +199,6 @@ class ViewController: UIViewController {
     private var lastLandingInfo : LandingInfo?
     
     @objc func didTapVideoPicker() {
-
         editorPopUp.alpha = 1
     }
     
