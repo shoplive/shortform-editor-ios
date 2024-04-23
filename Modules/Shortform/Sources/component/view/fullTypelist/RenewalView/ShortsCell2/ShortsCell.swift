@@ -187,7 +187,7 @@ class ShortsCell : UICollectionViewCell {
         
         //로깅용
         self.webView.indexPath = indexPath
-        
+        playerView.action( .setShortsMode(shortsMode) )
         self.snapShotImageView.image = nil
         self.youtubePosterImageView.image = nil
         self.youtubePosterImageView.alpha = 1

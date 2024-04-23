@@ -14,7 +14,7 @@ import ShopliveSDKCommon
 
 
 class ShortsVideoPlayerReactor : NSObject, SLReactor {
-    
+    typealias ShortsMode = ShopLiveShortform.ShortsMode
     
     enum Action {
         case initPlayer(URL)
@@ -30,6 +30,7 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
         case stop
         
         case setMute(Bool)
+        case setShortsMode(ShortsMode)
     }
     
     enum Result {
@@ -50,6 +51,7 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
     private var isSeeking : Bool = false
     private var didRegisterPlayerItemStatusObserver : Bool = false
     private var didRegisterPlayerTimeControlstatusObserver : Bool = false
+    private var shortsMode : ShortsMode = .detail
     
     
     var resultHandler: ((Result) -> ())?
@@ -90,6 +92,8 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
             self.onRequestSnapShotForWindow()
         case .setMute(let isMute):
             self.onSetMute(isMute: isMute)
+        case .setShortsMode(let shortsMode):
+            self.onSetShortsMode(shortsMode: shortsMode)
         }
     }
     
@@ -114,11 +118,12 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
     }
     
     private func onInitPlayer(videoUrl : URL){
+        var preferredForwardBufferDuration : Double = self.shortsMode == .preview ? 0 : 2.5
         if let shortsVideoPlayer = shortsVideoPlayer {
-            shortsVideoPlayer.configure(videoUrl: videoUrl)
+            shortsVideoPlayer.configure(videoUrl: videoUrl,preferredForwardBufferDuration: preferredForwardBufferDuration)
         }
         else {
-            shortsVideoPlayer = ShortsVideoPlayer2(videoUrl: videoUrl)
+            shortsVideoPlayer = ShortsVideoPlayer2(videoUrl: videoUrl, preferredForwardBufferDuration: preferredForwardBufferDuration)
         }
         
         if let player = shortsVideoPlayer?.getAVPlayer() {
@@ -130,7 +135,8 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
     }
     
     private func onSetVideoUrl(videoUrl : URL) {
-        shortsVideoPlayer?.configure(videoUrl: videoUrl)
+        var preferredForwardBufferDuration : Double = self.shortsMode == .preview ? 0 : 2.5
+        shortsVideoPlayer?.configure(videoUrl: videoUrl,preferredForwardBufferDuration: preferredForwardBufferDuration)
         setPlayTimeObserver()
         setUpPlayerStatusObserver()
     }
@@ -162,6 +168,17 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
     
     private func onSetMute(isMute : Bool) {
         shortsVideoPlayer?.setMute(isMuted: isMute)
+    }
+    
+    private func onSetShortsMode(shortsMode : ShortsMode) {
+        self.shortsMode = shortsMode
+        if shortsMode == .preview {
+            shortsVideoPlayer?.setPreferredForwardBufferDuration(duration: nil)
+        }
+        else {
+            shortsVideoPlayer?.setPreferredForwardBufferDuration(duration: 2.5)
+        }
+        
     }
 }
 //MARK: - Getter

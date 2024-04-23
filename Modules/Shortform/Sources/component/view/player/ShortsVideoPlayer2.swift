@@ -30,11 +30,11 @@ class ShortsVideoPlayer2 {
     private var playerItem : AVPlayerItem?
     private var videoOutput : AVPlayerItemVideoOutput?
     
-    private var maxBufferDuration : Double
+    private var preferredForwardBufferDuration : Double?
     
-    init(videoUrl: URL, maxBufferDuration: Double = 2) {
+    init(videoUrl: URL, preferredForwardBufferDuration: Double? = 2.5) {
         self.videoUrl = videoUrl
-        self.maxBufferDuration = maxBufferDuration
+        self.preferredForwardBufferDuration = preferredForwardBufferDuration
         self.configure(videoUrl: videoUrl)
     }
     
@@ -45,10 +45,11 @@ class ShortsVideoPlayer2 {
         ShopLiveLogger.debugLog("ShortsVideoPlayer2 deinited")
     }
     
-    func configure(videoUrl : URL){
+    func configure(videoUrl : URL,preferredForwardBufferDuration: Double? = 2.5){
         if ShopliveMP4CachingManager.shared.isVideoMP4(url: videoUrl) {
             ShopliveMP4CachingManager.shared.downloadVideo(url: videoUrl) { [weak self] playerItem in
                 guard let self = self else { return }
+                playerItem.preferredForwardBufferDuration = self.preferredForwardBufferDuration ?? 0
                 self.videoAsset = playerItem.asset as? AVURLAsset
                 self.setPlayerItem(asset: self.videoAsset)
                 self.setVideoOutput()
@@ -64,6 +65,7 @@ class ShortsVideoPlayer2 {
             self.setVideoAsset(videoUrl: videoUrl)
             self.setPlayerItem(asset: videoAsset)
             self.setVideoOutput()
+            playerItem?.preferredForwardBufferDuration = self.preferredForwardBufferDuration ?? 0
             if self.player == nil {
                 self.player = AVPlayer(playerItem: playerItem)
             }
@@ -76,6 +78,7 @@ class ShortsVideoPlayer2 {
     func reload(){
         configure(videoUrl: self.videoUrl)
     }
+    
     
     private func setVideoAsset(videoUrl : URL){
         let asset = AVURLAsset(url: videoUrl)
@@ -124,6 +127,10 @@ extension ShortsVideoPlayer2 {
     
     func setMute(isMuted : Bool) {
         player?.isMuted = isMuted
+    }
+    
+    func setPreferredForwardBufferDuration(duration : Double?) {
+        self.playerItem?.preferredForwardBufferDuration = duration ?? 0
     }
 }
 //MARK: - getter

@@ -14,12 +14,14 @@ import ShopliveSDKCommon
 
 
 class ShortsVideoPlayerView : UIView, SLReactor {
+    typealias ShortsMode = ShopLiveShortform.ShortsMode
     
     enum Action {
         case initPlayerView(URL)
         case requestSnapShot
         case requestSnapShotForWindow
         case setVideoGravity(AVLayerVideoGravity)
+        case setShortsMode(ShortsMode)
         
         case play
         case pause
@@ -99,6 +101,8 @@ extension ShortsVideoPlayerView {
             self.onSeekTo(time: time)
         case .setMute(let isMute):
             self.onSetMute(isMute: isMute)
+        case .setShortsMode(let shortsMode):
+            self.onSetShortsMode(shortsMode: shortsMode)
         }
     }
     
@@ -140,6 +144,10 @@ extension ShortsVideoPlayerView {
     
     private func onSetMute(isMute : Bool) {
         reactor.action( .setMute(isMute) )
+    }
+    
+    private func onSetShortsMode(shortsMode : ShortsMode) {
+        reactor.action( .setShortsMode(shortsMode) )
     }
 }
 //MARK: - Reactor bind
