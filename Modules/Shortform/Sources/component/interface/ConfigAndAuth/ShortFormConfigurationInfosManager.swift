@@ -24,7 +24,8 @@ public class ShortFormConfigurationInfosManager {
         shortsConfiguration.shortformApiEndpoint = ""
     }
    
-    func callShortsConfigurationAPI(accessKey : String? = nil, params : [String : Any]? = nil, completion : @escaping (Result<Void,ShopLiveCommonError>) -> ()){
+    //Result<isRenewd: Bool,ShopLiveCommonError>
+    func callShortsConfigurationAPI(accessKey : String? = nil, params : [String : Any]? = nil, completion : @escaping (Result<Bool,ShopLiveCommonError>) -> ()){
         if let accessKey = accessKey {
             ShortFormAuthManager.shared.setAccessKey(accessKey: accessKey)
         }
@@ -35,7 +36,7 @@ public class ShortFormConfigurationInfosManager {
             return
         }
         if shortsConfiguration.shortformApiEndpoint != "" && shortsConfiguration.detailUrl != ""  {
-            completion(.success(()))
+            completion(.success(false))
             return
         }
         let urlString = "https://config.shoplive.cloud/\(accessKey)/sdk_shorts_settings.json"
@@ -57,7 +58,7 @@ public class ShortFormConfigurationInfosManager {
             if let data = data {
                 if self.validateShortsConfigurationResponse(data: data) {
                     DispatchQueue.main.async(flags: .barrier) {
-                        completion(.success(()))
+                        completion(.success(true))
                     }
                 }
                 else {

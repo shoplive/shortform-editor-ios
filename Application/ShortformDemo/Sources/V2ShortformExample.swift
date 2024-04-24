@@ -21,15 +21,22 @@ class V2ShortformExample  {
     func play() {
         //data.ids?[safe : 6] ?? ""
         //data.ids?.first ?? ""
-        
-        reference = nil
-        hasMore = nil
-        callShortsCollectionAPI { [weak self] data,error  in
+        ShortFormConfigurationInfosManager.shared.setConfigurationURLToEmpty()
+        ShopLiveCommon.setAccessKey(accessKey: "KTlqm3bhHzyHeYWF004H")
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
             guard let self = self else { return }
-            if let data = data {
-                ShopLiveShortform.play(shortformIdsData: ShopLiveShortformIdsData(ids : data.ids, currentId: data.ids?[safe : 6] ?? "" ), delegate: self)
+            self.reference = nil
+            self.hasMore = nil
+            self.callShortsCollectionAPI { [weak self] data,error  in
+                guard let self = self else { return }
+                if let data = data {
+                    ShopLiveShortform.play(shortformIdsData: ShopLiveShortformIdsData(ids : data.ids, currentId: data.ids?[safe : 6] ?? "" ), delegate: self)
+                }
             }
         }
+        
+       
     }
     
     
@@ -80,7 +87,8 @@ struct TestShortsCollectionAPI: APIDefinition {
     typealias ResultType = ShopLiveShortform.ShortsCollectionModel
 
     var baseUrl: String {
-        "https://qa-shortform-api.shoplive.cloud"
+        "https://shortform-api.shoplive.cloud"
+//        "https://qa-shortform-api.shoplive.cloud"
     }
 
     var urlPath: String {

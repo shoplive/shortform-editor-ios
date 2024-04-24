@@ -498,7 +498,7 @@ extension ShopLiveShortformHorizontalTypeViewReactor {
         ShortFormConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success():
+            case .success(_):
                 self.callShortCollectionAPI(isRefresh: true)
                 break
             case .failure(let error):

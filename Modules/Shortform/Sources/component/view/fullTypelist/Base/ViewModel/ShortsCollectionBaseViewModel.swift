@@ -25,6 +25,8 @@ protocol ShortsCollectionBaseViewModelDelegate : NSObject {
     func getCurrentIndexPath() -> IndexPath?
     
     func openOsShareSheet(url : String)
+    
+    func setAudioSessionManager()
 }
 
 class ShortsCollectionBaseViewModel {
@@ -125,10 +127,20 @@ class ShortsCollectionBaseViewModel {
     //cell state
     var shortsDetailInitialized: Bool = false
     var latestActivePageIndex : Int = -1
-    private var isMuted : Bool = ShortFormConfigurationInfosManager.shared.shortsConfiguration.mutedWhenStart {
-        didSet {
+    private var _isMuted : Bool?
+    private var isMuted : Bool {
+        get {
+            if let _isMuted = _isMuted {
+                return _isMuted
+            }
+            else {
+                return ShortFormConfigurationInfosManager.shared.shortsConfiguration.mutedWhenStart
+            }
+        }
+        set {
+            _isMuted = newValue
             self.postMuteShortsNotification()
-            self.setLatestCellMuted(isMuted: isMuted)
+            self.setLatestCellMuted(isMuted: newValue)
         }
     }
     
@@ -147,6 +159,7 @@ class ShortsCollectionBaseViewModel {
     }
     var viewProvideType : ViewProvidedType = .window
     var didAnimatePreviewToFullScreen : Bool = false
+    private var didConfigAudioSessionManager : Bool = false
     
     
     //size
@@ -569,6 +582,11 @@ extension ShortsCollectionBaseViewModel {
         self.loadFinishedWebViewIndexPaths.insert(indexPath)
     }
     
+    func configureAudioSessionManager() {
+        if didConfigAudioSessionManager == true { return }
+        didConfigAudioSessionManager = true
+        self.delegate?.setAudioSessionManager()
+    }
 }
 //MARK: - Notifications
 extension ShortsCollectionBaseViewModel {
@@ -775,7 +793,10 @@ extension ShortsCollectionBaseViewModel {
             guard let self = self else { return }
             self.setShortsConfiguration()
             switch result {
-            case .success():
+            case .success(let isRenewed):
+                if isRenewed {
+                    self.configureAudioSessionManager()
+                }
                 completion(true)
             case .failure(let error):
                 ShopLiveShortform.close()

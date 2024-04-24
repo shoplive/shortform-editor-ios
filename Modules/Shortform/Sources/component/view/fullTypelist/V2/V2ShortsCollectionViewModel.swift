@@ -238,7 +238,8 @@ extension V2ShortsCollectionViewModel {
             guard let self = self else { return }
             if isSucess == false { return }
             self.isLoadingMoreData = true
-            ShortsIdsListAPI(ids: ids).request { result in
+            ShortsIdsListAPI(ids: ids).request { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case .success(let response):
                     guard let shortsList = response.shortsList else {

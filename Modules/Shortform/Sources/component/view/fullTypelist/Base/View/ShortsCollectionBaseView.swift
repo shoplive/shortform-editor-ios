@@ -103,7 +103,6 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
         super.init(frame: .zero)
         viewmodel.delegate = self
         layout()
-        setAudioSessionManager()
         setupObserver()
         bindData()
     }
@@ -146,29 +145,6 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
         viewModel.verticalCollectionBounds = size
         viewModel.horizontalCollectionBounds = size.transpolate_SL
         viewModel.superviewSize = size
-    }
-    
-    func setAudioSessionManager() {
-        let audioSessionManager = AudioSessionManager.shared
-        audioSessionManager.setCategory(category: .playback, options: audioSessionManager.currentCategoryOptions)
-        if self.viewModel.shortsMode == .preview {
-            audioSessionManager.setCategory(category: .playback, options: .mixWithOthers)
-        }
-        else {
-            if ShortFormConfigurationInfosManager.shared.shortsConfiguration.mutedWhenStart == true {
-                viewModel.setIsMuted(isMuted: true)
-                audioSessionManager.setCategory(category: .playback, options: [])
-            }
-            else {
-                viewModel.setIsMuted(isMuted: false)
-                if ShortFormConfigurationInfosManager.shared.shortsConfiguration.mixWithOthers == true {
-                    audioSessionManager.setCategory(category: .playback, options: .mixWithOthers)
-                }
-                else {
-                    audioSessionManager.setCategory(category: .playback, options: [])
-                }
-            }
-        }
     }
     
     
@@ -509,6 +485,30 @@ extension ShortsCollectionBaseView {
 }
 
 extension ShortsCollectionBaseView : ShortsCollectionBaseViewModelDelegate {
+    
+    func setAudioSessionManager() {
+        let audioSessionManager = AudioSessionManager.shared
+        audioSessionManager.setCategory(category: .playback, options: audioSessionManager.currentCategoryOptions)
+        if self.viewModel.shortsMode == .preview {
+            audioSessionManager.setCategory(category: .playback, options: .mixWithOthers)
+        }
+        else {
+            if ShortFormConfigurationInfosManager.shared.shortsConfiguration.mutedWhenStart == true {
+                viewModel.setIsMuted(isMuted: true)
+                audioSessionManager.setCategory(category: .playback, options: [])
+            }
+            else {
+                viewModel.setIsMuted(isMuted: false)
+                if ShortFormConfigurationInfosManager.shared.shortsConfiguration.mixWithOthers == true {
+                    audioSessionManager.setCategory(category: .playback, options: .mixWithOthers)
+                }
+                else {
+                    audioSessionManager.setCategory(category: .playback, options: [])
+                }
+            }
+        }
+    }
+    
     func playWhenNetworkReconnected() {
         self.playWhenReconnect()
     }
