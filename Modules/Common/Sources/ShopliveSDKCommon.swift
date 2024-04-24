@@ -215,6 +215,3 @@ public extension ShopLiveCommon {
         return "1.5.7"
     }
 }
-
-
-
