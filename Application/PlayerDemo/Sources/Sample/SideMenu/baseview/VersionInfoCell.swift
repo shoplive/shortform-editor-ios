@@ -35,10 +35,32 @@ final class VersionInfoCell: SampleBaseCell {
         
         var customAdIdButtonTitle: String {
             guard let referrer = DemoConfiguration.shared.utmSource, !referrer.isEmpty else {
-                return "utmSource 미입력"
+                return "utmSource: 미입력"
             }
             
             return "utmSource: \(referrer)"
+        }
+        
+        var utmContentTitle : String {
+            guard let value = DemoConfiguration.shared.utmContent, !value.isEmpty else {
+                return "utmContent: 미입력"
+            }
+            
+            return "utmContent: \(value)"
+        }
+        
+        var utmCampaignTitle : String {
+            guard let value = DemoConfiguration.shared.utmCampaign, !value.isEmpty else {
+                return "utmCampaign: 미입력"
+            }
+            return "utmCampaign : \(value)"
+        }
+        
+        var utmMediumTitle : String {
+            guard let value = DemoConfiguration.shared.utmMedium, !value.isEmpty else {
+                return "utmMedium: 미입력"
+            }
+            return "utmMedium: \(value)"
         }
     }
     
@@ -89,8 +111,47 @@ final class VersionInfoCell: SampleBaseCell {
         view.setTitleColor(.black, for: .highlighted)
         view.setTitle(viewModel.customAdIdButtonTitle, for: .normal)
         view.setTitle(viewModel.customAdIdButtonTitle, for: .highlighted)
-        view.addTarget(self, action: #selector(didTapAdIdSetup), for: .touchUpInside)
-        
+        view.addTarget(self, action: #selector(didTapUtmBtns(sender :)), for: .touchUpInside)
+        view.tag = 0
+        return view
+    }()
+    
+    private lazy var utmCampaignBtn : UIButton = {
+        let view = UIButton(type: .custom)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+        view.setTitleColor(.black, for: .normal)
+        view.setTitleColor(.black, for: .highlighted)
+        view.setTitle(viewModel.utmCampaignTitle, for: .normal)
+        view.setTitle(viewModel.utmCampaignTitle, for: .highlighted)
+        view.addTarget(self, action: #selector(didTapUtmBtns(sender :)), for: .touchUpInside)
+        view.tag = 1
+        return view
+    }()
+    
+    private lazy var utmContentBtn : UIButton = {
+        let view = UIButton(type: .custom)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+        view.setTitleColor(.black, for: .normal)
+        view.setTitleColor(.black, for: .highlighted)
+        view.setTitle(viewModel.utmContentTitle, for: .normal)
+        view.setTitle(viewModel.utmContentTitle, for: .highlighted)
+        view.addTarget(self, action: #selector(didTapUtmBtns(sender :)), for: .touchUpInside)
+        view.tag = 2
+        return view
+    }()
+    
+    private lazy var utmMediumBtn : UIButton = {
+        let view = UIButton(type: .custom)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+        view.setTitleColor(.black, for: .normal)
+        view.setTitleColor(.black, for: .highlighted)
+        view.setTitle(viewModel.utmMediumTitle, for: .normal)
+        view.setTitle(viewModel.utmMediumTitle, for: .highlighted)
+        view.addTarget(self, action: #selector(didTapUtmBtns(sender :)), for: .touchUpInside)
+        view.tag = 3
         return view
     }()
     
@@ -118,6 +179,9 @@ final class VersionInfoCell: SampleBaseCell {
         self.contentView.addSubview(customAppVersionButton)
         self.contentView.addSubview(customReferrerButton)
         self.contentView.addSubview(customAdIdButton)
+        self.contentView.addSubview(utmContentBtn)
+        self.contentView.addSubview(utmCampaignBtn)
+        self.contentView.addSubview(utmMediumBtn)
         
         NSLayoutConstraint.activate([
             sdkVersionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
@@ -136,7 +200,26 @@ final class VersionInfoCell: SampleBaseCell {
             customAdIdButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             customAdIdButton.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -15),
             customAdIdButton.topAnchor.constraint(equalTo: customReferrerButton.bottomAnchor, constant: 10),
-            customAdIdButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+            customAdIdButton.heightAnchor.constraint(equalToConstant: 30),
+//            customAdIdButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+            
+            utmContentBtn.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            utmContentBtn.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -15),
+            utmContentBtn.topAnchor.constraint(equalTo: customAdIdButton.bottomAnchor, constant: 10),
+//            utmContentBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+            utmContentBtn.heightAnchor.constraint(equalToConstant: 30),
+            
+            utmCampaignBtn.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            utmCampaignBtn.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -15),
+            utmCampaignBtn.topAnchor.constraint(equalTo: utmContentBtn.bottomAnchor, constant: 10),
+//            utmCampaignBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+            utmCampaignBtn.heightAnchor.constraint(equalToConstant: 30),
+            
+            utmMediumBtn.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            utmMediumBtn.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -15),
+            utmMediumBtn.topAnchor.constraint(equalTo: utmCampaignBtn.bottomAnchor, constant: 10),
+            utmMediumBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+            
             
             sectionTitleLabel.widthAnchor.constraint(equalToConstant: 0),
             sectionTitleLabel.heightAnchor.constraint(equalToConstant: 0)
@@ -208,11 +291,25 @@ final class VersionInfoCell: SampleBaseCell {
     }
     
     @objc
-    private func didTapAdIdSetup() {
+    private func didTapUtmBtns(sender : UIButton) {
         let vc = CustomUtmSourceAlertController(completion: { [weak self] in
                 self?.updateAdId()
                 self?.baseDelegate?.updateDatas()
         })
+        
+        switch sender.tag {
+        case 0:
+            vc.utmType = .source
+        case 1:
+            vc.utmType = .content
+        case 2:
+            vc.utmType = .campaign
+        case 3:
+            vc.utmType = .medium
+        default:
+            break
+        }
+        
         vc.modalPresentationStyle = .overCurrentContext
         parent?.present(vc, animated: false, completion: nil)
     }

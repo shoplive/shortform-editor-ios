@@ -339,5 +339,5 @@
 "login.send.title" = "Log In";
 "appversion.alert.placeholder" = "e.g., 1.0.0";
 "referrer.alert.placeholder" = "e.g., shoplive";
-"utmSource.alert.placeholder" = "e.g., shoplive";
+"utm.alert.placeholder" = "e.g., shoplive";
 "sdk.page.addParam.title" = "Set Parameter";

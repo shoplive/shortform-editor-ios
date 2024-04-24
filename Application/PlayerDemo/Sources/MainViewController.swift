@@ -121,6 +121,27 @@ class MainViewController: SideMenuBaseViewController {
             ShopLiveCommon.setUtmSource(utmSource: "")
         }
         
+        if let utmContent = config.utmContent, !utmContent.isEmpty {
+            ShopLiveCommon.setUtmContent(utmContent: utmContent)
+        }
+        else {
+            ShopLiveCommon.setUtmContent(utmContent: "")
+        }
+        
+        if let utmCampaign = config.utmCampaign, !utmCampaign.isEmpty {
+            ShopLiveCommon.setUtmCampaign(utmCampaign: utmCampaign)
+        }
+        else {
+            ShopLiveCommon.setUtmCampaign(utmCampaign: "")
+        }
+        
+        if let utmMedium = config.utmMedium, !utmMedium.isEmpty {
+            ShopLiveCommon.setUtmMedium(utmMedium: utmMedium)
+        }
+        else {
+            ShopLiveCommon.setUtmMedium(utmMedium: "")
+        }
+        
         ShopLive.setAppVersion("3.39.0")
         if !config.isGuestMode {
             if config.useJWT {

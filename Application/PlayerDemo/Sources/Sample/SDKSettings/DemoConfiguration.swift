@@ -663,6 +663,36 @@ final class DemoConfiguration: NSObject {
         }
     }
     
+    var utmCampaign : String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "utmCampaign")
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return UserDefaults.standard.string(forKey: "utmCampaign")
+        }
+    }
+    
+    var utmContent : String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "utmContent")
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return UserDefaults.standard.string(forKey: "utmContent")
+        }
+    }
+    
+    var utmMedium : String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "utmMedium")
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return UserDefaults.standard.string(forKey: "utmMedium")
+        }
+    }
+    
     var pipEnableSwipeOut: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipEnableSwipeOut.optionKey)
