@@ -359,7 +359,6 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
         switch key {
         case .videoUrl:
             guard let videoUrl = ShopLiveController.videoUrl else { return }
-            ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: videoUrl.absoluteString))
             updatePlayerItem(with: videoUrl)
             break
         case .playerItemStatus:
@@ -389,7 +388,6 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
             if ShopLiveController.playControl != .pause, ShopLiveController.playControl != .play, ShopLiveController.windowStyle != .osPip {
                 if ShopLiveController.isReplayMode && ShopLiveController.playControl == .resume { return }
                 if ShopLiveController.isReplayMode, let duration = ShopLiveController.duration {
-                    ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[ON_VIDEO_DURATION_CHANGED] duration total: \(duration)  CMTimeGetSeconds(duration): \(CMTimeGetSeconds(duration))"))
                     ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoDurationChanged, CMTimeGetSeconds(duration))
                 }
                 ShopLiveController.retryPlay = false

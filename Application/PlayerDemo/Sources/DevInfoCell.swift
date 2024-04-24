@@ -12,14 +12,6 @@ final class DevInfoCell: SampleBaseCell {
 
     var radioGroup: [ShopLiveRadioButton] = []
 
-    lazy var loggerViewButton: ShopLiveCheckBoxButton = {
-        let view = ShopLiveCheckBoxButton(frame: .zero)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.configure(identifier: "appDebug", description: "앱 디버깅 로그 출력하기")
-        view.delegate = self
-        return view
-    }()
-
     lazy var checkButton: ShopLiveCheckBoxButton = {
         let view = ShopLiveCheckBoxButton(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -202,7 +194,6 @@ final class DevInfoCell: SampleBaseCell {
         let demoConfig = DemoConfiguration.shared
         ShopLiveDevConfiguration.shared.addConfigurationObserver(observer: self)
         updateWebDebugSetting()
-        updateAppDebugSetting()
         demoConfig.customLandingInput = demoConfig.customLandingUrl
         landingField.text = demoConfig.customLandingInput
         updatePhase(identifier: ShopLiveDevConfiguration.shared.phase)
@@ -227,7 +218,6 @@ final class DevInfoCell: SampleBaseCell {
     override func setupViews() {
         super.setupViews()
 
-        itemView.addSubview(loggerViewButton)
         itemView.addSubview(checkButton)
         itemView.addSubview(lockPortrait)
         itemView.addSubview(phaseView)
@@ -235,11 +225,8 @@ final class DevInfoCell: SampleBaseCell {
         phaseView.backgroundColor = .clear
         
         NSLayoutConstraint.activate([
-            loggerViewButton.topAnchor.constraint(equalTo: itemView.topAnchor, constant: 10),
-            loggerViewButton.leadingAnchor.constraint(equalTo: itemView.leadingAnchor,constant: 10),
-            loggerViewButton.trailingAnchor.constraint(equalTo: itemView.trailingAnchor, constant: -10),
             
-            checkButton.topAnchor.constraint(equalTo: loggerViewButton.bottomAnchor, constant: 10),
+            checkButton.topAnchor.constraint(equalTo: itemView.topAnchor, constant: 10),
             checkButton.leadingAnchor.constraint(equalTo: itemView.leadingAnchor, constant: 10),
             checkButton.trailingAnchor.constraint(equalTo: itemView.trailingAnchor, constant: -10),
             
@@ -253,32 +240,6 @@ final class DevInfoCell: SampleBaseCell {
             phaseView.bottomAnchor.constraint(equalTo: itemView.bottomAnchor,constant: -10)
         ])
         
-//        loggerViewButton.snp.makeConstraints {
-//            $0.top.equalToSuperview().offset(10)
-//            $0.leading.equalToSuperview().offset(10)
-//            $0.trailing.equalToSuperview().offset(-10)
-//        }
-//
-//        checkButton.snp.makeConstraints {
-//            $0.top.equalTo(loggerViewButton.snp.bottom).offset(10)
-//            $0.leading.equalToSuperview().offset(10)
-//            $0.trailing.equalToSuperview().offset(-10)
-//        }
-//
-//        lockPortrait.snp.makeConstraints {
-//            $0.top.equalTo(checkButton.snp.bottom).offset(10)
-//            $0.leading.equalToSuperview().offset(10)
-//            $0.trailing.equalToSuperview().offset(-10)
-//        }
-//
-//
-//        phaseView.snp.makeConstraints {
-//            $0.top.equalTo(lockPortrait.snp.bottom).offset(10)
-//            $0.leading.equalToSuperview().offset(10)
-//            $0.trailing.equalToSuperview().offset(-10)
-//            $0.bottom.equalToSuperview().offset(-10)
-//        }
-
         self.setSectionTitle(title: "개발정보")
     }
 
@@ -289,7 +250,6 @@ extension DevInfoCell: ShopLiveCheckBoxButtonDelegate {
         if sender.identifier == "webDebug" {
             ShopLiveDevConfiguration.shared.useWebLog = sender.isChecked
         } else if sender.identifier == "appDebug" {
-            ShopLiveViewLogger.shared.setVisible(show: sender.isChecked)
         } else if sender.identifier == "useLockPortrait" {
             ShopLiveDevConfiguration.shared.useLockPortrait = sender.isChecked
         }
@@ -300,16 +260,6 @@ extension DevInfoCell: ShopLiveCheckBoxButtonDelegate {
         checkButton.isSelected = ShopLiveDevConfiguration.shared.useWebLog
     }
 
-    func updateAppDebugSetting() {
-        if ShopLiveDevConfiguration.shared.useAppLog {
-            if !ShopLiveViewLogger.shared.isVisible() {
-                ShopLiveViewLogger.shared.setVisible(show: true)
-            }
-        }
-
-        loggerViewButton.isSelected = ShopLiveDevConfiguration.shared.useAppLog
-    }
-    
     func updateLockPortrait() {
         if ShopLiveDevConfiguration.shared.useLockPortrait {
             DemoAppUtility.lockOrientation(.portrait)
@@ -346,7 +296,6 @@ extension DevInfoCell: DevConfigurationObserver {
 
     func updatedValues(keys: [String]) {
         updateWebDebugSetting()
-        updateAppDebugSetting()
         updateLockPortrait()
     }
 }

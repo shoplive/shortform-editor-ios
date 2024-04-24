@@ -239,7 +239,6 @@ extension WebInterface {
         let function = WebFunction(rawValue: command)
         let parameters = body["payload"] as? [String: Any]
         ShopLiveLogger.debugLog("from Web [Interface: \(String(describing: function))]: [payload: \(String(describing: parameters))]")
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "from Web [Interface: \(String(describing: function))]: [payload: \(String(describing: parameters))]"))
         switch function {
         case .systemInit:
             self = .systemInit

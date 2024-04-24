@@ -728,11 +728,11 @@ public enum ShopLivePlayerDemoStrings {
     }
   }
 
-  public enum UtmSource {
+  public enum Utm {
 
     public enum Alert {
     /// e.g., shoplive
-      public static let placeholder = ShopLivePlayerDemoStrings.tr("shoplive", "utmSource.alert.placeholder")
+      public static let placeholder = ShopLivePlayerDemoStrings.tr("shoplive", "utm.alert.placeholder")
     }
   }
 }

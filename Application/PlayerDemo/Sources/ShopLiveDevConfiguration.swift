@@ -31,18 +31,7 @@ final class ShopLiveDevConfiguration {
 
         observers.append(observer)
     }
-
-    var useAppLog: Bool {
-        set {
-            UserDefaults.standard.set(newValue, forKey: "useAppLog")
-            UserDefaults.standard.synchronize()
-            notifyObservers(key: "useAppLog")
-        }
-        get {
-            UserDefaults.standard.bool(forKey: "useAppLog")
-        }
-    }
-
+    
     var useWebLog: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: "useWebLog")

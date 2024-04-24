@@ -15,7 +15,6 @@ import ShopliveSDKCommon
 
 extension OverlayWebView {
     func handleUserImplementsCallback(type: String, name : String, param : [String : Any]? ) {
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: param))"))
         var passToReceivedCommand : Bool = true
         switch name {
         case "WILL_REDIRECT_CAMPAIGN":

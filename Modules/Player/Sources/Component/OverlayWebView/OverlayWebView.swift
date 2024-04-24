@@ -114,7 +114,6 @@ internal class OverlayWebView: SLView {
             webView.customUserAgent = defaultUserAgent + " shoplive/\(ShopLiveCommon.playerSdkVersion)"
             
             ShopLiveLogger.debugLog("userAgent: "+defaultUserAgent + " shoplive/\(ShopLiveCommon.playerSdkVersion)")
-            ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "userAgent: "+defaultUserAgent + " shoplive/\(ShopLiveCommon.playerSdkVersion)"))
         }
     }
     
@@ -256,12 +255,10 @@ extension OverlayWebView: WKScriptMessageHandler {
             if type == "USER_IMPLEMENTS_CALLBACK" {
                 self.handleUserImplementsCallback(type: type, name: name, param: parameters)
             } else {
-                ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(String(describing: parameters))"))
                 switch name {
                 case "ON_CLICK_SHARE_BUTTON":
                     self.handleON_CLICK_SHARE_BUTTON(payload: parameters)
                 case "SHOW_NATIVE_DEBUG":
-                    ShopLiveViewLogger.shared.setVisible(show: true)
                     break
                 case "VIBRATE":
                     if let typeValue = parameters?["type"] as? String, let style = HapticStyle(rawValue: typeValue)?.style {
@@ -448,10 +445,8 @@ extension OverlayWebView: WKScriptMessageHandler {
             UserDefaults.standard.removeObject(forKey: ShopLiveDefines.shopliveData)
             break
         case .showNativeDebug:
-            ShopLiveViewLogger.shared.setVisible(show: true)
             break
         case .debuglog(let log):
-            ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: log))
             break
         case .setUserName(let payload):
             delegate?.onSetUserName(payload as [String : Any])
@@ -500,7 +495,6 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         case .overlayUrl:
             if let overlayUrl = ShopLiveController.overlayUrl {
                 self.loadOverlay(with: overlayUrl)
-                ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "overlayUrl: \(overlayUrl.absoluteString)"))
                 ShopLiveLogger.debugLog("overlayUrl exist \(overlayUrl.absoluteString)")
             } else {
                 ShopLiveLogger.debugLog(".overlayUrl")

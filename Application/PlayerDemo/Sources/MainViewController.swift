@@ -401,9 +401,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     }
 
     func handleNavigation(with url: URL) {
-        
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleNavigation \(url)"))
-        
+                
         var presenter: UIViewController?
         
         switch DemoConfiguration.shared.nextActionTypeOnHandleNavigation {
@@ -449,12 +447,10 @@ extension MainViewController: ShopLiveSDKDelegate {
     
     func handleChangeCampaignStatus(status: String) {
         print("handleChangeCampaignStatus \(status)")
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleChangeCampaignStatus \(status)"))
     }
 
     func handleError(code: String, message: String) {
         print("handleError \(code)  \(message)")
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleError \(code)  \(message)"))
         
     }
 
@@ -464,7 +460,6 @@ extension MainViewController: ShopLiveSDKDelegate {
         campaignInfo.forEach { info in
             print("campaignInfo key: \(info.key)  value: \(info.value)")
         }
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleCampaignInfo \(campaignInfo)"))
     }
 
     /*
@@ -535,9 +530,6 @@ extension MainViewController: ShopLiveSDKDelegate {
     }
 
     func handleCommand(_ command: String, with payload: Any?) {
-        
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleCommand \(command)"))
-        
         if ShopLiveViewTrackEvent.allCases.map({ $0.name }).contains(where: { $0 == command }) {
             guard let payload = payload as? [String : Any] else { return }
             ShopLiveLogger.debugLog("[SHOPLIVEVIEWTRACKEVENT] viewTrack \(command) - currentStyle = \((payload["currentStyle"] as? String) ?? "null"), lastStyle = \((payload["lastStyle"] as? String) ?? "null"), isPreview \(payload["isPreview"] as? Bool), viewHiddenActionType = \((payload["viewHiddenActionType"] as? String))")
