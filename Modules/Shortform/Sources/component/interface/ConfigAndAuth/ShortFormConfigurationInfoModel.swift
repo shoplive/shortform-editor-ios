@@ -44,6 +44,7 @@ struct ShortFormConfigurationInfoModel {
     var isCached : Bool = false
     var previewRadius : CGFloat = 10
     var previewIsMuted : Bool = false
+    var preferredBufferDuration : Double = 2.5
     
     
     
@@ -69,13 +70,14 @@ struct ShortFormConfigurationInfoModel {
                   eventTraceEndpoint: datas?.eventTraceEndpoint,
                   isCached: datas?.isCached,
                   previewRadius: datas?.previewRadius,
-                  previewIsMuted : datas?.previewIsMuted)
+                  previewIsMuted : datas?.previewIsMuted,
+                  preferredBufferDuration: datas?.preferredForwardBufferDuration)
     }
     
     init(detailUrl: String?, youtubeUrl : String?, shortformApiEndPoint : String?, previewEdgeInsets: (left : CGFloat?, top : CGFloat?, right : CGFloat?, bottom :CGFloat?),
         previewPosition: String?, detailApiInitializeCount: Int?, detailApiPaginationCount: Int?,
          listApiInitializeCount: Int?, listApiPaginationCount: Int?, previewUseCloseButton: Bool?, enabledSwipeOut: Bool?,
-         mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?,previewDetailCollectionListAll : Bool?,eventTraceEndpoint : String?,isCached : Bool?,previewRadius : CGFloat?, previewIsMuted : Bool?) {
+         mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?,previewDetailCollectionListAll : Bool?,eventTraceEndpoint : String?,isCached : Bool?,previewRadius : CGFloat?, previewIsMuted : Bool?,preferredBufferDuration : Double?) {
         if let detailUrl = detailUrl {
             self.detailUrl = detailUrl
         }
@@ -149,6 +151,9 @@ struct ShortFormConfigurationInfoModel {
         }
         if let previewIsMuted = previewIsMuted {
             self.previewIsMuted = previewIsMuted
+        }
+        if let preferredBufferDuration = preferredBufferDuration {
+            self.preferredBufferDuration = preferredBufferDuration
         }
         NotificationCenter.default.post(Notification(name: Notification.Name("configUpdated"), object: nil, userInfo: nil))
     }

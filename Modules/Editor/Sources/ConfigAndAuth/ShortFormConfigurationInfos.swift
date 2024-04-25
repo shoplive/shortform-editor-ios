@@ -16,7 +16,6 @@ public class ShortFormUploadConfigurationInfosManager {
     private(set) var shortsConfiguration = ShortFormUploadConfigurationInfoModel(shortformApiEndPoint: nil, datas: nil)
     
     public func getBaseUrl() -> String {
-        ShopLiveLogger.debugLog("[HASSAN LOG] shortformAPIEndPoint \(shortsConfiguration.shortformApiEndpoint)")
         return shortsConfiguration.shortformApiEndpoint
     }
     
@@ -52,7 +51,6 @@ public class ShortFormUploadConfigurationInfosManager {
             }
             
             if let data = data {
-                ShopLiveLogger.debugLog("[HASSAN LOG] editor config.json \(String(data: data, encoding: .utf8)!)")
                 if self.validateShortsConfigurationResponse(data: data) {
                     ShopLiveLogger.debugLog("[HASSAN LOG] 1")
                     completion(.success(()))

@@ -45,7 +45,6 @@ class CardTypeExampleViewController : UIViewController {
     
     //MARK: - public func
     func setOptionsFromOptionSettingVC(model : OptionSettingModel) {
-        ShopLiveLogger.debugLog("[HASSAN LOG] 4")
         builder?.setBrands(brands: model.brands)
         builder?.setVisibleBrand(isVisible: model.brandVisible)
         builder?.setVisibleTitle(isVisisble: model.titleVisible)
@@ -122,7 +121,6 @@ extension CardTypeExampleViewController : ShopLiveShortformListViewDelegate {
     }
     
     func onShortsSettingsInitialized() {
-        ShopLiveLogger.debugLog("[HASSAN LOG] 3")
         if let model = self.optionModels {
             self.setOptionsFromOptionSettingVC(model: model)
         }

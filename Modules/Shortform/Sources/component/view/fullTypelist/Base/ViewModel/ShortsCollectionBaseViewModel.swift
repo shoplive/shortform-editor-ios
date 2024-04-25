@@ -146,6 +146,7 @@ class ShortsCollectionBaseViewModel {
             self.setLatestCellMuted(isMuted: newValue)
         }
     }
+    private var preferredForwardBufferDuration : Double = ShortFormConfigurationInfosManager.shared.shortsConfiguration.preferredBufferDuration
     
     //view state
     var fromPreview: Bool = false
@@ -357,6 +358,10 @@ extension ShortsCollectionBaseViewModel {
     
     func getCurrentShopliveSessionId() -> String? {
         return self.shopliveSessionId
+    }
+    
+    func getPreferredForwardBufferDuration() -> Double {
+        return self.preferredForwardBufferDuration
     }
     
     func getOverlayUrl(at indexPath : IndexPath, shortsModel : ShortsModel?, isYoutube : Bool) -> URL? {

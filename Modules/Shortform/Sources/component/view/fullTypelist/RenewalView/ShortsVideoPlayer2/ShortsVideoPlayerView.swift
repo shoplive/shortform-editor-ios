@@ -30,6 +30,7 @@ class ShortsVideoPlayerView : UIView, SLReactor {
         case seekTo(CMTime)
         
         case setMute(Bool)
+        case setPreferredForwardBufferDuration(Double)
     }
     
     enum Result {
@@ -108,6 +109,8 @@ extension ShortsVideoPlayerView {
             self.onSetMute(isMute: isMute)
         case .setShortsMode(let shortsMode):
             self.onSetShortsMode(shortsMode: shortsMode)
+        case .setPreferredForwardBufferDuration(let duration):
+            self.onSetPreferredForwardBufferDuration(duration: duration)
         }
     }
     
@@ -153,6 +156,10 @@ extension ShortsVideoPlayerView {
     
     private func onSetShortsMode(shortsMode : ShortsMode) {
         reactor.action( .setShortsMode(shortsMode) )
+    }
+    
+    private func onSetPreferredForwardBufferDuration(duration : Double) {
+        reactor.action( .setPreferredForwardBufferDuration(duration) )
     }
 }
 //MARK: - Reactor bind

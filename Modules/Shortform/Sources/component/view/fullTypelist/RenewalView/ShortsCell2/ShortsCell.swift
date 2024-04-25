@@ -51,7 +51,8 @@ protocol ShortsCellInterface {
                        isLandScape : Bool,
                        isMute : Bool,
                        seekToOnInitial : ShortformCurrentTimeDTO?,
-                       setShortsSingleDetailViewPayload : [String : Any]?)
+                       setShortsSingleDetailViewPayload : [String : Any]?,
+                       preferredForwardBufferDuration : Double)
     func setAppState(srn : String?, state : String)
     func takeSnapShotForWindow(srn : String?)
     
@@ -186,10 +187,12 @@ class ShortsCell : UICollectionViewCell {
                        isLandScape : Bool,
                        isMute : Bool,
                        seekToOnInitial : ShortformCurrentTimeDTO?,
-                       setShortsSingleDetailViewPayload : [String : Any]?) {
+                       setShortsSingleDetailViewPayload : [String : Any]?,
+                       preferredForwardBufferDuration : Double) {
         
         //로깅용
         self.webView.indexPath = indexPath
+        playerView.action( .setPreferredForwardBufferDuration(preferredForwardBufferDuration) )
         playerView.action( .setShortsMode(shortsMode) )
         self.snapShotImageView.image = nil
         self.youtubePosterImageView.image = nil

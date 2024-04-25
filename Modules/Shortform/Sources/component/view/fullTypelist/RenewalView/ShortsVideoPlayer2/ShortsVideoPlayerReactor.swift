@@ -31,6 +31,7 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
         
         case setMute(Bool)
         case setShortsMode(ShortsMode)
+        case setPreferredForwardBufferDuration(Double)
     }
     
     enum Result {
@@ -53,6 +54,8 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
     private var didRegisterPlayerItemStatusObserver : Bool = false
     private var didRegisterPlayerTimeControlstatusObserver : Bool = false
     private var shortsMode : ShortsMode = .detail
+    private var preferredForwardBufferDuration : Double = 2.5
+    
     
     
     var resultHandler: ((Result) -> ())?
@@ -95,6 +98,8 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
             self.onSetMute(isMute: isMute)
         case .setShortsMode(let shortsMode):
             self.onSetShortsMode(shortsMode: shortsMode)
+        case .setPreferredForwardBufferDuration(let duration):
+            self.onSetPreferredForwardBufferDuration(duration: duration)
         }
     }
     
@@ -178,9 +183,12 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
             shortsVideoPlayer?.setPreferredForwardBufferDuration(duration: nil)
         }
         else {
-            shortsVideoPlayer?.setPreferredForwardBufferDuration(duration: 2.5)
+            shortsVideoPlayer?.setPreferredForwardBufferDuration(duration: self.preferredForwardBufferDuration)
         }
-        
+    }
+    
+    private func onSetPreferredForwardBufferDuration(duration : Double) {
+        self.preferredForwardBufferDuration = duration
     }
 }
 extension ShortsVideoPlayerReactor {

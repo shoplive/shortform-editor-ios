@@ -353,7 +353,7 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShortsCell.cellId, for: indexPath) as! ShortsCell
         
         
-        
+
         
         
         if let data = viewModel.shortsListData[safe : indexPath.row] {
@@ -371,9 +371,10 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
                                shopliveSessionId: viewModel.getCurrentShopliveSessionId(),
                                shortsMode: viewModel.shortsMode,
                                isLandScape: UIScreen.isLandscape_SL,
-                               isMute: viewModel.getMuted(), 
+                               isMute: viewModel.getMuted(),
                                seekToOnInitial: seekToOnPreviewToFullScreen,
-                               setShortsSingleDetailViewPayload: self.viewModel.getSetShortsSingleDetailViewPayload(at: indexPath, shortsModel: data, isYoutube: viewModel.checkIsYoutubePlayer(indexPath: indexPath)))
+                               setShortsSingleDetailViewPayload: self.viewModel.getSetShortsSingleDetailViewPayload(at: indexPath, shortsModel: data, isYoutube: viewModel.checkIsYoutubePlayer(indexPath: indexPath)),
+                               preferredForwardBufferDuration: viewModel.getPreferredForwardBufferDuration())
         }
         
         if viewModel.didAnimatePreviewToFullScreen && indexPath.row == 0 {
