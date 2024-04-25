@@ -64,6 +64,8 @@ internal final class LiveStreamViewModel: NSObject {
     private var playerLoadingAvailableCheckSourceTimer : DispatchSourceTimer?
     
     
+    private var shopliveSessionId : String? = nil
+    
     
     /**
      api에서 아무데이터 없거나 할때 쓰임 setConf에서 updatePictureInPicture하기 위해서 있음
@@ -80,6 +82,7 @@ internal final class LiveStreamViewModel: NSObject {
     }
     
     private func setupLiveStreamViewModel() {
+        self.makeShopliveSessionId()
         ShopLiveController.shared.addPlayerDelegate(delegate: self)
         retryManager = LiveStreamRetryManager()
         retryManager?.delegate = self
@@ -89,6 +92,7 @@ internal final class LiveStreamViewModel: NSObject {
     }
     
     func teardownLiveStreamViewModel() {
+        self.shopliveSessionId = nil
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
         inAppPipConfiguration = nil
         playerErrorObserver = nil
@@ -656,6 +660,14 @@ extension LiveStreamViewModel: AVPlayerItemMetadataOutputPushDelegate {
     }
 }
 extension LiveStreamViewModel {
+    func getShopliveSessionId() -> String? {
+        return self.shopliveSessionId
+    }
+    
+    func makeShopliveSessionId() {
+        self.shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
+    }
+    
     func setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration?) {
         self.inAppPipConfiguration = config
     }
@@ -817,6 +829,10 @@ extension LiveStreamViewModel {
         if let adId = ShopLiveCommon.getAdIdentifier(), !adId.isEmpty {
             queryItems.append(URLQueryItem(name: "adIdentifier", value: adId))
             queryItems.append(URLQueryItem(name: "idfa", value: adId))
+        }
+        
+        if let shopliveSessionId = self.shopliveSessionId {
+            queryItems.append(URLQueryItem(name: "shopliveSessionId", value: shopliveSessionId))
         }
         
         if let ceId = ShopLiveCommon.getCeId(), !ceId.isEmpty {
