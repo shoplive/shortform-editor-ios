@@ -485,33 +485,33 @@ extension LiveStreamViewModel {
     //    }
     
     private func removePlaytimeObserver() {
-        if let playTimeObserver = self.playTimeObserver {
-            ShopLiveController.player?.removeTimeObserver(playTimeObserver)
-            self.playTimeObserver = nil
-        }
+//        if let playTimeObserver = self.playTimeObserver {
+//            ShopLiveController.player?.removeTimeObserver(playTimeObserver)
+//            self.playTimeObserver = nil
+//        }
     }
     
     func startLiveStreamKeepUpTimer() {
-        if self.useLiveKeepUpTimerOnInApp == false && ShopLiveController.windowStyle != .osPip { return }
-        if self.useLiveKeepUpTimerOnOsPip == false && ShopLiveController.windowStyle == .osPip { return }
-        if ShopLiveController.isReplayMode { return  }
-        self.removeLiveStreamKeepUpTimer()
-        
-        let time = CMTime(seconds: liveKeepUpTimerFrequency, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        liveKeepUpTimer = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: DispatchQueue.global(qos: .background)) { [weak self] time in
-            guard let self = self else { return }
-            guard self.checkLiveKeepUpTimerFiredMultipleTime() else { return }
-            if ShopLiveController.player?.timeControlStatus != .playing {
-                return
-            }
-            guard let (loadedStartTime ,loadedEndTime, seekableEndTime, currenTime, averageBuffer ) = self.getInfosForLiveKeepUpTimer() else { return }
-            if self.isLLHLS {
-                self.liveKeepUpTimerForLLHLS(loadStartTime: loadedStartTime, seekEndTime: seekableEndTime, currentTime: currenTime)
-            }
-            else {
-                self.liveKeepUpTimerForHLS(loadEndTime: loadedEndTime, seekEndTime: seekableEndTime, currentTime: currenTime, averageBuffer: averageBuffer)
-            }
-        }
+//        if self.useLiveKeepUpTimerOnInApp == false && ShopLiveController.windowStyle != .osPip { return }
+//        if self.useLiveKeepUpTimerOnOsPip == false && ShopLiveController.windowStyle == .osPip { return }
+//        if ShopLiveController.isReplayMode { return  }
+//        self.removeLiveStreamKeepUpTimer()
+//
+//        let time = CMTime(seconds: liveKeepUpTimerFrequency, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+//        liveKeepUpTimer = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: DispatchQueue.global(qos: .background)) { [weak self] time in
+//            guard let self = self else { return }
+//            guard self.checkLiveKeepUpTimerFiredMultipleTime() else { return }
+//            if ShopLiveController.player?.timeControlStatus != .playing {
+//                return
+//            }
+//            guard let (loadedStartTime ,loadedEndTime, seekableEndTime, currenTime, averageBuffer ) = self.getInfosForLiveKeepUpTimer() else { return }
+//            if self.isLLHLS {
+//                self.liveKeepUpTimerForLLHLS(loadStartTime: loadedStartTime, seekEndTime: seekableEndTime, currentTime: currenTime)
+//            }
+//            else {
+//                self.liveKeepUpTimerForHLS(loadEndTime: loadedEndTime, seekEndTime: seekableEndTime, currentTime: currenTime, averageBuffer: averageBuffer)
+//            }
+//        }
     }
     
     private func checkLiveKeepUpTimerFiredMultipleTime() -> Bool {

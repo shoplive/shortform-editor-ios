@@ -142,6 +142,21 @@ class MainViewController: SideMenuBaseViewController {
             ShopLiveCommon.setUtmMedium(utmMedium: "")
         }
         
+        if let anonId = config.anonId, !anonId.isEmpty {
+            ShopLiveCommon.setAnonId(anonId: anonId)
+        }
+        else {
+            ShopLiveCommon.setAnonId(anonId: "")
+        }
+        
+        if let adId = config.adId, !adId.isEmpty {
+            ShopLiveCommon.setAdId(adId: adId)
+        }
+        else {
+            ShopLiveCommon.setAdId(adId: nil)
+        }
+        
+        
         ShopLive.setEnabledPictureInPictureMode(isEnabled: config.enablePip)
         ShopLive.setEnabledOSPictureInPictureMode(isEnabled: config.enableOsPip)
         

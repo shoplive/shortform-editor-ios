@@ -56,6 +56,7 @@ public class ShortFormConfigurationInfosManager {
             }
             
             if let data = data {
+                ShopLiveLogger.debugLog("[HASSAN LOG] \(String(data: data, encoding: .utf8)!)")
                 if self.validateShortsConfigurationResponse(data: data) {
                     DispatchQueue.main.async(flags: .barrier) {
                         completion(.success(true))

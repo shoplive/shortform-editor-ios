@@ -16,24 +16,24 @@ import ShopliveSDKCommon
 }
 
 final class DemoConfiguration: NSObject {
-
+    
     static let shared: DemoConfiguration = .init()
     private var observers: [DemoConfigurationObserver?] = []
-
+    
     private func notifyObservers(key: String) {
         self.observers.forEach { observer in
             observer?.updatedValues?(keys: [key])
         }
     }
-
+    
     func addConfigurationObserver(observer: DemoConfigurationObserver) {
         if observers.contains(where: { $0?.identifier == observer.identifier }), let index = observers.firstIndex(where: { $0?.identifier == observer.identifier}) {
             observers.remove(at: index)
         }
-
+        
         observers.append(observer)
     }
-
+    
     var user: ShopLiveCommonUser {
         set {
             userId = newValue.userId
@@ -56,7 +56,7 @@ final class DemoConfiguration: NSObject {
             return user
         }
     }
-
+    
     private(set) var userId: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: "userId")
@@ -66,7 +66,7 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.string(forKey: "userId")
         }
     }
-
+    
     var userName: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: "userName")
@@ -76,7 +76,7 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.string(forKey: "userName")
         }
     }
-
+    
     var userAge: Int? {
         set {
             UserDefaults.standard.set(newValue, forKey: "userAge")
@@ -89,7 +89,7 @@ final class DemoConfiguration: NSObject {
             return Int(age)
         }
     }
-
+    
     var userGender: ShopliveCommonUserGender? {
         set {
             UserDefaults.standard.set(newValue?.rawValue, forKey: "userGender")
@@ -102,7 +102,7 @@ final class DemoConfiguration: NSObject {
             return gender
         }
     }
-
+    
     var userScore: Int? {
         set {
             UserDefaults.standard.set(newValue?.description, forKey: "userScore")
@@ -115,7 +115,7 @@ final class DemoConfiguration: NSObject {
             return Int(score)
         }
     }
-
+    
     var jwtToken: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: "jwtToken")
@@ -162,7 +162,7 @@ final class DemoConfiguration: NSObject {
             return genres ?? []
         }
     }
-
+    
     var useHeadPhoneOption1: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.headphoneOption1.optionKey)
@@ -184,7 +184,7 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey: SDKOptionType.headphoneOption2.optionKey)
         }
     }
-
+    
     var useCallOption: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.callOption.optionKey)
@@ -195,7 +195,7 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey: SDKOptionType.callOption.optionKey)
         }
     }
-
+    
     var useCustomShare: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.customShare.optionKey)
@@ -206,7 +206,7 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey: SDKOptionType.customShare.optionKey)
         }
     }
-
+    
     var shareScheme: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.shareScheme.optionKey)
@@ -217,7 +217,7 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.string(forKey:  SDKOptionType.shareScheme.optionKey)
         }
     }
-
+    
     var progressColor: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.progressColor.optionKey)
@@ -228,7 +228,7 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.string(forKey:  SDKOptionType.progressColor.optionKey)
         }
     }
-
+    
     var useCustomProgress: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.customProgress.optionKey)
@@ -239,7 +239,7 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey: SDKOptionType.customProgress.optionKey)
         }
     }
-
+    
     var useChatInputCustomFont: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.chatInputCustomFont.optionKey)
@@ -250,7 +250,7 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.chatInputCustomFont.optionKey)
         }
     }
-
+    
     var useChatSendButtonCustomFont: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.chatSendButtonCustomFont.optionKey)
@@ -261,7 +261,7 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.chatSendButtonCustomFont.optionKey)
         }
     }
-
+    
     var downloadCouponSuccessMessage: String {
         set {
             UserDefaults.standard.set(newValue, forKey: CouponResponseKey.downloadCouponSuccessMessage.key)
@@ -269,11 +269,11 @@ final class DemoConfiguration: NSObject {
         }
         get {
             let message = UserDefaults.standard.string(forKey: CouponResponseKey.downloadCouponSuccessMessage.key) ?? "couponresponse.success.default".localized()
-
+            
             return message.isEmpty ? "couponresponse.success.default".localized() : message
         }
     }
-
+    
     var downloadCouponSuccessStatus: ShopLiveResultStatus {
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: CouponResponseKey.downloadCouponSuccessStatus.key)
@@ -284,7 +284,7 @@ final class DemoConfiguration: NSObject {
             return ShopLiveResultStatus(rawValue: rawValue) ?? .SHOW
         }
     }
-
+    
     var downloadCouponSuccessAlertType: ShopLiveResultAlertType {
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: CouponResponseKey.downloadCouponSuccessAlertType.key)
@@ -295,7 +295,7 @@ final class DemoConfiguration: NSObject {
             return ShopLiveResultAlertType(rawValue: rawValue) ?? .ALERT
         }
     }
-
+    
     var downloadCouponFailedMessage: String {
         set {
             UserDefaults.standard.set(newValue, forKey: CouponResponseKey.downloadCouponFailedMessage.key)
@@ -303,11 +303,11 @@ final class DemoConfiguration: NSObject {
         }
         get {
             let message = UserDefaults.standard.string(forKey: CouponResponseKey.downloadCouponFailedMessage.key) ?? "couponresponse.failed.default".localized()
-
+            
             return message.isEmpty ? "couponresponse.failed.default".localized() : message
         }
     }
-
+    
     var downloadCouponFailedStatus: ShopLiveResultStatus {
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: CouponResponseKey.downloadCouponFailedStatus.key)
@@ -318,7 +318,7 @@ final class DemoConfiguration: NSObject {
             return ShopLiveResultStatus(rawValue: rawValue) ?? .SHOW
         }
     }
-
+    
     var downloadCouponFailedAlertType: ShopLiveResultAlertType {
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: CouponResponseKey.downloadCouponFailedAlertType.key)
@@ -329,12 +329,12 @@ final class DemoConfiguration: NSObject {
             return ShopLiveResultAlertType(rawValue: rawValue) ?? .ALERT
         }
     }
-
+    
     var customFont: UIFont? {
         let customFont: String = "NanumBrush"
         return UIFont(name: customFont, size: 16)
     }
-
+    
     var pipPosition: ShopLive.PipPosition {
         set {
             UserDefaults.standard.set(newValue.rawValue + 1, forKey: SDKOptionType.pipPosition.optionKey)
@@ -345,7 +345,7 @@ final class DemoConfiguration: NSObject {
             return ShopLive.PipPosition(rawValue: rawValue) ?? ShopLive.PipPosition.default
         }
     }
-
+    
     var pipScale: CGFloat? {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipScale.optionKey)
@@ -355,11 +355,11 @@ final class DemoConfiguration: NSObject {
             guard let scale = UserDefaults.standard.string(forKey:  SDKOptionType.pipScale.optionKey), !scale.isEmpty else {
                 return nil
             }
-
+            
             if let scaleValue = scale.cgfloatValue, scaleValue <= 0.0 || scaleValue > 100.0 {
                 return nil
             }
-
+            
             return scale.cgfloatValue
         }
     }
@@ -373,11 +373,11 @@ final class DemoConfiguration: NSObject {
             guard let pipSize = UserDefaults.standard.string(forKey:  SDKOptionType.maxPipSize.optionKey), !pipSize.isEmpty else {
                 return nil
             }
-
+            
             if let pipSize = pipSize.cgfloatValue, pipSize <= 0.0 {
                 return nil
             }
-
+            
             return pipSize.cgfloatValue
         }
     }
@@ -391,11 +391,11 @@ final class DemoConfiguration: NSObject {
             guard let pipSize = UserDefaults.standard.string(forKey:  SDKOptionType.fixedHeightPipSize.optionKey), !pipSize.isEmpty else {
                 return nil
             }
-
+            
             if let pipSize = pipSize.cgfloatValue, pipSize <= 0.0 {
                 return nil
             }
-
+            
             return pipSize.cgfloatValue
         }
     }
@@ -409,11 +409,11 @@ final class DemoConfiguration: NSObject {
             guard let pipSize = UserDefaults.standard.string(forKey:  SDKOptionType.fixedWidthPipSize.optionKey), !pipSize.isEmpty else {
                 return nil
             }
-
+            
             if let pipSize = pipSize.cgfloatValue, pipSize <= 0.0 {
                 return nil
             }
-
+            
             return pipSize.cgfloatValue
         }
     }
@@ -427,11 +427,11 @@ final class DemoConfiguration: NSObject {
             guard let pipCornerRadius = UserDefaults.standard.string(forKey:  SDKOptionType.pipCornerRadius.optionKey), !pipCornerRadius.isEmpty else {
                 return nil
             }
-
+            
             if let pipCornerRadius = pipCornerRadius.cgfloatValue, pipCornerRadius < 0.0 {
                 return nil
             }
-
+            
             return pipCornerRadius.cgfloatValue
         }
     }
@@ -445,7 +445,7 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey:  "isGuestMode")
         }
     }
-
+    
     var useJWT: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: "useJWT")
@@ -621,7 +621,7 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.clicklog.optionKey)
         }
     }
-
+    
     var customAppVersion: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: "customAppVersion")
@@ -639,6 +639,26 @@ final class DemoConfiguration: NSObject {
         }
         get {
             return UserDefaults.standard.string(forKey: "customReferrer")
+        }
+    }
+    
+    var adId : String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "adId")
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return UserDefaults.standard.string(forKey: "adId")
+        }
+    }
+    
+    var anonId: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "anonId")
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return UserDefaults.standard.string(forKey: "anonId")
         }
     }
     

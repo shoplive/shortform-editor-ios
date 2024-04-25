@@ -33,13 +33,29 @@ final class VersionInfoCell: SampleBaseCell {
             return "Referrer: \(referrer)"
         }
         
+        var customAnonIdButtonTitle : String {
+            guard let anonId = DemoConfiguration.shared.anonId, !anonId.isEmpty else {
+                return "anonId 미입력"
+            }
+            return "anonId: \(anonId)"
+        }
+        
         var customAdIdButtonTitle: String {
-            guard let referrer = DemoConfiguration.shared.utmSource, !referrer.isEmpty else {
+            guard let referrer = DemoConfiguration.shared.adId, !referrer.isEmpty else {
+                return "adId: 미입력"
+            }
+            
+            return "adId: \(referrer)"
+        }
+        
+        var utmSourceTitle : String {
+            guard let value = DemoConfiguration.shared.utmSource, !value.isEmpty else {
                 return "utmSource: 미입력"
             }
             
-            return "utmSource: \(referrer)"
+            return "utmSource: \(value)"
         }
+        
         
         var utmContentTitle : String {
             guard let value = DemoConfiguration.shared.utmContent, !value.isEmpty else {
@@ -99,9 +115,10 @@ final class VersionInfoCell: SampleBaseCell {
         view.setTitle(viewModel.customReferrerButtonTitle, for: .normal)
         view.setTitle(viewModel.customReferrerButtonTitle, for: .highlighted)
         view.addTarget(self, action: #selector(didTapReferrerSetup), for: .touchUpInside)
-        
         return view
     }()
+    
+    
     
     private lazy var customAdIdButton: UIButton = {
         let view = UIButton(type: .custom)
@@ -112,9 +129,24 @@ final class VersionInfoCell: SampleBaseCell {
         view.setTitle(viewModel.customAdIdButtonTitle, for: .normal)
         view.setTitle(viewModel.customAdIdButtonTitle, for: .highlighted)
         view.addTarget(self, action: #selector(didTapUtmBtns(sender :)), for: .touchUpInside)
+        view.tag = 5
+        return view
+    }()
+
+
+    private lazy var utmSourceBtn : UIButton = {
+        let view = UIButton(type: .custom)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+        view.setTitleColor(.black, for: .normal)
+        view.setTitleColor(.black, for: .highlighted)
+        view.setTitle(viewModel.utmSourceTitle, for: .normal)
+        view.setTitle(viewModel.utmSourceTitle, for: .highlighted)
+        view.addTarget(self, action: #selector(didTapUtmBtns(sender :)), for: .touchUpInside)
         view.tag = 0
         return view
     }()
+    
     
     private lazy var utmCampaignBtn : UIButton = {
         let view = UIButton(type: .custom)
@@ -155,6 +187,19 @@ final class VersionInfoCell: SampleBaseCell {
         return view
     }()
     
+    private lazy var customAnonIdButton: UIButton = {
+        let view = UIButton(type: .custom)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+        view.setTitleColor(.black, for: .normal)
+        view.setTitleColor(.black, for: .highlighted)
+        view.setTitle(viewModel.customAnonIdButtonTitle, for: .normal)
+        view.setTitle(viewModel.customAnonIdButtonTitle, for: .highlighted)
+        view.addTarget(self, action: #selector(didTapUtmBtns(sender :)), for: .touchUpInside)
+        view.tag = 4
+        return view
+    }()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -178,7 +223,9 @@ final class VersionInfoCell: SampleBaseCell {
         self.contentView.addSubview(sdkVersionLabel)
         self.contentView.addSubview(customAppVersionButton)
         self.contentView.addSubview(customReferrerButton)
+        self.contentView.addSubview(customAnonIdButton)
         self.contentView.addSubview(customAdIdButton)
+        self.contentView.addSubview(utmSourceBtn)
         self.contentView.addSubview(utmContentBtn)
         self.contentView.addSubview(utmCampaignBtn)
         self.contentView.addSubview(utmMediumBtn)
@@ -203,9 +250,16 @@ final class VersionInfoCell: SampleBaseCell {
             customAdIdButton.heightAnchor.constraint(equalToConstant: 30),
 //            customAdIdButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
             
+            utmSourceBtn.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            utmSourceBtn.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -15),
+            utmSourceBtn.topAnchor.constraint(equalTo: customAdIdButton.bottomAnchor, constant: 10),
+//            utmContentBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+            utmSourceBtn.heightAnchor.constraint(equalToConstant: 30),
+            
+            
             utmContentBtn.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             utmContentBtn.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -15),
-            utmContentBtn.topAnchor.constraint(equalTo: customAdIdButton.bottomAnchor, constant: 10),
+            utmContentBtn.topAnchor.constraint(equalTo: utmSourceBtn.bottomAnchor, constant: 10),
 //            utmContentBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
             utmContentBtn.heightAnchor.constraint(equalToConstant: 30),
             
@@ -218,7 +272,12 @@ final class VersionInfoCell: SampleBaseCell {
             utmMediumBtn.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             utmMediumBtn.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -15),
             utmMediumBtn.topAnchor.constraint(equalTo: utmCampaignBtn.bottomAnchor, constant: 10),
-            utmMediumBtn.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+            utmMediumBtn.heightAnchor.constraint(equalToConstant: 30),
+            
+            customAnonIdButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            customAnonIdButton.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -15),
+            customAnonIdButton.topAnchor.constraint(equalTo: utmMediumBtn.bottomAnchor, constant: 10),
+            customAnonIdButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
             
             
             sectionTitleLabel.widthAnchor.constraint(equalToConstant: 0),
@@ -268,6 +327,23 @@ final class VersionInfoCell: SampleBaseCell {
     private func updateAdId() {
         customAdIdButton.setTitle(viewModel.customAdIdButtonTitle, for: .normal)
         customAdIdButton.setTitle(viewModel.customAdIdButtonTitle, for: .highlighted)
+        
+        
+        utmSourceBtn.setTitle(viewModel.utmSourceTitle, for: .normal)
+        utmSourceBtn.setTitle(viewModel.utmSourceTitle, for: .highlighted)
+        
+        utmContentBtn.setTitle(viewModel.utmContentTitle, for: .normal)
+        utmContentBtn.setTitle(viewModel.utmContentTitle, for: .highlighted)
+        
+        utmCampaignBtn.setTitle(viewModel.utmCampaignTitle, for: .normal)
+        utmCampaignBtn.setTitle(viewModel.utmCampaignTitle, for: .highlighted)
+        
+        utmMediumBtn.setTitle(viewModel.utmMediumTitle, for: .normal)
+        utmMediumBtn.setTitle(viewModel.utmMediumTitle, for: .highlighted)
+        
+        customAnonIdButton.setTitle(viewModel.customAnonIdButtonTitle, for: .normal)
+        customAnonIdButton.setTitle(viewModel.customAnonIdButtonTitle, for: .highlighted)
+        
     }
     
     @objc
@@ -301,11 +377,15 @@ final class VersionInfoCell: SampleBaseCell {
         case 0:
             vc.utmType = .source
         case 1:
-            vc.utmType = .content
-        case 2:
             vc.utmType = .campaign
+        case 2:
+            vc.utmType = .content
         case 3:
             vc.utmType = .medium
+        case 4:
+            vc.utmType = .anonId
+        case 5:
+            vc.utmType = .adId
         default:
             break
         }

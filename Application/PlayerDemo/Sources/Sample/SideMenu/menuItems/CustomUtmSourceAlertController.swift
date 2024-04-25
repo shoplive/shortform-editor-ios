@@ -15,6 +15,8 @@ class CustomUtmSourceAlertController: CustomInputAlertController {
         case content
         case campaign
         case medium
+        case anonId
+        case adId
     }
     
     private var placeHolder: String = "utm.alert.placeholder".localized()
@@ -30,6 +32,10 @@ class CustomUtmSourceAlertController: CustomInputAlertController {
                 textInputField.text = DemoConfiguration.shared.utmCampaign ?? ""
             case .medium:
                 textInputField.text = DemoConfiguration.shared.utmMedium ?? ""
+            case .anonId:
+                textInputField.text = DemoConfiguration.shared.anonId ?? ""
+            case .adId:
+                textInputField.text = DemoConfiguration.shared.adId ?? ""
             }
         }
     }
@@ -44,6 +50,10 @@ class CustomUtmSourceAlertController: CustomInputAlertController {
             textInputField.text = DemoConfiguration.shared.utmCampaign ?? ""
         case .medium:
             textInputField.text = DemoConfiguration.shared.utmMedium ?? ""
+        case .anonId:
+            textInputField.text = DemoConfiguration.shared.anonId ?? ""
+        case .adId:
+            textInputField.text = DemoConfiguration.shared.adId ?? ""
         }
         textInputField.placeholder = self.placeHolder
         textInputField.setPlaceholderColor(.darkGray)
@@ -59,6 +69,10 @@ class CustomUtmSourceAlertController: CustomInputAlertController {
             DemoConfiguration.shared.utmCampaign = ""
         case .medium:
             DemoConfiguration.shared.utmMedium = ""
+        case .anonId:
+            DemoConfiguration.shared.anonId = ""
+        case .adId:
+            DemoConfiguration.shared.anonId = ""
         }
        
     }
@@ -73,6 +87,10 @@ class CustomUtmSourceAlertController: CustomInputAlertController {
             DemoConfiguration.shared.utmCampaign =  textInputField.text ?? ""
         case .medium:
             DemoConfiguration.shared.utmMedium =  textInputField.text ?? ""
+        case .anonId:
+            DemoConfiguration.shared.anonId =  textInputField.text ?? ""
+        case .adId:
+            DemoConfiguration.shared.adId = textInputField.text ?? ""
         }
     }
 }
