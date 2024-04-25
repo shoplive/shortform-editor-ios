@@ -589,7 +589,7 @@ extension LiveStreamViewModel {
     }
     
     private func liveKeepUpTimerForLLHLS(loadStartTime : CMTime, seekEndTime : CMTime, currentTime : Double) {
-        if  loadStartTime.seconds - currentTime < 0 && ShopLiveController.player?.timeControlStatus != .paused {
+        if  currentTime - loadStartTime.seconds < 0 && ShopLiveController.player?.timeControlStatus != .paused && currentTime >= 10 {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 ShopLiveController.player?.seek(to: seekEndTime, toleranceBefore: .init(seconds: 1, preferredTimescale: 44100), toleranceAfter: .init(seconds: 1, preferredTimescale: 44100), completionHandler: { [weak self] _ in

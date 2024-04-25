@@ -343,11 +343,25 @@ public enum ShopLivePlayerDemoStrings {
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.customShare.title")
     }
 
+    public enum EnableOspip {
+    /// Enables OSPIP (Default : true)
+      public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.enableOspip.description")
+      /// Enable OSPIP
+      public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.enableOspip.title")
+    }
+
     public enum EnablePictureInPictureMode {
     /// Enable user to use PIP mode while watching live streaming.
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.enablePictureInPictureMode.description")
       /// Enable PIP Mode
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.enablePictureInPictureMode.title")
+    }
+
+    public enum Enablepip {
+    /// Enables InAppPip,Preview,OSPIP (default : true)
+      public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.enablepip.description")
+      /// Enable PIP
+      public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.enablepip.title")
     }
 
     public enum HeadphoneOption1 {
