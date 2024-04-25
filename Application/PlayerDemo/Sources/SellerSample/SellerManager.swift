@@ -49,6 +49,7 @@ class SellerManager {
         var sellerSavedData : [String : Any] = ["saved" : !(sellerSubsciptionData.saved ?? true)]
         
         ShopLive.sendCommandMessage(command: "SET_SELLER_SAVED_STATE", payload: sellerSavedData)
+        ShopLivePlayerToastCommandManager.shared.showToast(message: "SET_SELLER_SAVED_DATA: \(!(sellerSubsciptionData.saved ?? true))")
     }
 }
 

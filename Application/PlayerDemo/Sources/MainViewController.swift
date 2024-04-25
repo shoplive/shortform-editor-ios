@@ -586,8 +586,6 @@ extension MainViewController: ShopLiveSDKDelegate {
                   let identifier = parameters["identifier"] as? String else {
                 return
             }
-            
-            print("[command = ON_CHANGED_BRAND_FAVORITE] \n identifier: \(identifier)\nfavorite \(favorite)")
             break
         case "ON_CLICK_BRAND_FAVORITE_BUTTON":
             guard let parameters = payload as? [String: Any],
@@ -595,10 +593,10 @@ extension MainViewController: ShopLiveSDKDelegate {
                   let identifier = parameters["identifier"] as? String else {
                 return
             }
-            
-            print("[command = ON_CHANGE_BRAND_FAVORITE] \n identifier: \(identifier)\nfavorite \(favorite)")
             let result: [String: Any] = ["identifier" : identifier, "favorite" : !favorite]
             ShopLive.sendCommandMessage(command: "SET_BRAND_FAVORITE", payload: result)
+            
+            ShopLivePlayerToastCommandManager.shared.showToast(message: "ON_CLICK_BRAND_FAVORITE_BUTTON : \(!favorite)")
             break
         case "CLICK_BACK_BUTTON":
             preview()
