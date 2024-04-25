@@ -417,6 +417,10 @@ extension ShortsCollectionBaseViewModel {
             payloadDict["anondId"] = anondId
         }
         
+        if let shopliveSessionId = self.shopliveSessionId, !shopliveSessionId.isEmpty {
+            payloadDict["shopliveSessionId"] = shopliveSessionId
+        }
+        
         if let idfv = UIDevice.idfv_sl, idfv.isEmpty == false {
             payloadDict["idfv"] = idfv
         }
