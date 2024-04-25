@@ -321,6 +321,21 @@ extension HorizontalTypeViewExampleViewController : ShopLiveShortformReceiveHand
         
         ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(productId: product.productId))
         
+        ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(productId: product.productId,isMuted: nil))
+        
+        let conversionProductData = ShopLiveConversionProductData(productId: product.productId,
+                                                                  customerProductId: product.customerProductId,
+                                                                  sku: product.sku,
+                                                                  url: product.url,
+                                                                  purchaseQuantity: 1,
+                                                                  purchaseUnitPrice: product.discountPrice)
+        
+        ShopLiveEvent.sendConversionEvent(data: .init(type: "product",
+                                                      products: [conversionProductData],
+                                                      orderId: "ios_h_test_orderId",
+                                                      referrer: "ios_h_test_referrer",
+                                                      custom: nil))
+        
     }
     
     func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShortsDetailData) {

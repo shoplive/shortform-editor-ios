@@ -136,20 +136,31 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
     func handleProductItem(shortsId : String, shortsSrn : String, product : ProductData) {
         print("[HASSAN LOG] srn \(shortsSrn)")
         print("[HASSAN LOG] shortsId \(shortsId)")
-        print("[HASSAN LOG] productModel \(product.sku)")
+        print("[HASSAN LOG] productModel \(product.sku ?? "")")
         
         ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(productId: product.productId,isMuted: nil))
+        
+        let conversionProductData = ShopLiveConversionProductData(productId: product.productId,
+                                                                  customerProductId: product.customerProductId,
+                                                                  sku: product.sku,
+                                                                  url: product.url,
+                                                                  purchaseQuantity: 1,
+                                                                  purchaseUnitPrice: product.discountPrice)
+        
+        ShopLiveEvent.sendConversionEvent(data: .init(type: "purchase",
+                                                      products: [conversionProductData],
+                                                      orderId: "ios_c_test_orderId",
+                                                      referrer: "ios_c_test_referrer",
+                                                      custom: nil))
+        
     }
     
     func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShortsDetailData) {
         
-        if let url = URL(string: scheme) {
-            
-        }
         print("[HASSAN LOG] srn \(shortsSrn)")
         print("[HASSAN LOG] shortsId \(shortsId)")
         print("[HASSAN LOG] scheme \(scheme)")
-        print("[HASSAN LOG] productModel \(shortsDetail.tags)")
+        print("[HASSAN LOG] productModel \(shortsDetail.tags ?? [])")
     }
     
     func onError(error: Error) {
@@ -165,17 +176,15 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
     }
     
     func onEvent(command: String, payload: String?) {
-//        print("[HASSAN LOG] command \(command) payload\(payload)")
-        guard let window = UIApplication.shared.windows.last else { return }
-//        window.showToast(message: command,duration: .middle)
+        
     }
     
     func handleShare(shareMetadata: ShopLiveShareMetaData) {
-        print("[HASSSSAN LOG] descriptions \(shareMetadata.descriptions)")
-        print("[HASSSSAN LOG] shortsId \(shareMetadata.shortsId)")
-        print("[HASSSSAN LOG] shortsSrn \(shareMetadata.shortsSrn)")
-        print("[HASSSSAN LOG] thumbnail \(shareMetadata.thumbnail)")
-        print("[HASSSSAN LOG] title \(shareMetadata.title)")
+        print("[HASSSSAN LOG] descriptions \(shareMetadata.descriptions ?? "")")
+        print("[HASSSSAN LOG] shortsId \(shareMetadata.shortsId ?? "")")
+        print("[HASSSSAN LOG] shortsSrn \(shareMetadata.shortsSrn ?? "")")
+        print("[HASSSSAN LOG] thumbnail \(shareMetadata.thumbnail ?? "")")
+        print("[HASSSSAN LOG] title \(shareMetadata.title ?? "")")
         
         var objectsToShare = [String]()
         objectsToShare.append(shareMetadata.title ?? "no title")
