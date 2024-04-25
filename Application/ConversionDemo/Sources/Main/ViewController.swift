@@ -114,6 +114,7 @@ class ViewController : UIViewController {
                          purchaseUnitPrice: item.purchaseUnitPrice)
             
         })
+        
         //필수
         //ceId
         //idfa
@@ -123,7 +124,6 @@ class ViewController : UIViewController {
                                                       orderId: orderId.getValue(),
                                                       referrer: referrerBox.getValue(),
                                                       custom: nil))
-        
     }
     
 }

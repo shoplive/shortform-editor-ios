@@ -20,10 +20,10 @@ struct ShopLiveConversionEventAPI : APIDefinition {
     
     var urlPath: String {
         if let accessKey = ShopLiveCommon.getAccessKey() {
-            return "/\(accessKey)" + "/conversion/event"
+            return "/v2/\(accessKey)" + "/conversion/event"
         }
         else {
-            return "/conversion/event"
+            return "/v2/conversion/event"
         }
     }
     
