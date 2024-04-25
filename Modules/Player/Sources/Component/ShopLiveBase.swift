@@ -20,6 +20,7 @@ import ShopliveSDKCommon
     private var needAnimateToChangePreivew: Bool = false
     private var activeFromBackground: Bool = false
     private var enabledPictureInPictureMode : Bool = true
+    private var enabledOSPictureInPictureMode : Bool = true
     private var blockWindowTapGesture : Bool = false
     private var inAppPipConfiguration : ShopLiveInAppPipConfiguration?
     private var blockLiveWindowPangestureHapticSound : Bool = false
@@ -368,7 +369,7 @@ import ShopliveSDKCommon
     }
     
     func setupOsPictureInPicture() {
-        guard !ShopLiveController.shared.isPreview else {
+        guard !ShopLiveController.shared.isPreview, enabledPictureInPictureMode, enabledOSPictureInPictureMode else {
             self.osPictureInPictureController?.delegate = nil
             self.osPictureInPictureController = nil
             return
@@ -1618,6 +1619,10 @@ extension ShopLiveBase {
     }
 }
 extension ShopLiveBase: ShopLiveComponent {
+    
+    func setEnabledOSPictureInPictureMode(isEnabled: Bool) {
+        self.enabledOSPictureInPictureMode = isEnabled
+    }
     
     func getPreviewSize(inAppPipConfiguration: ShopLiveInAppPipConfiguration, videoRatio: CGSize) -> CGSize {
         self.checkInAppPipConfigSize(config: inAppPipConfiguration)

@@ -104,12 +104,12 @@ final class OptionsViewController: SideMenuItemViewController {
         let pipFixedWidthOption = SDKOptionItem(name: "sdkOption.pipFixedWidth.title".localized(), optionDescription: "sdkOption.pipFixedWidth.description".localized(), optionType: .fixedWidthPipSize)
         
         let pipKeepWindowStyle = SDKOptionItem(name: "sdkoption.pipKeepWindowStyle.title".localized(), optionDescription: "sdkoption.pipKeepWindowStyle.description".localized(), optionType: .pipKeepWindowStyle)
-        let pipModelEnableSetting = SDKOptionItem(name: "sdkoption.enablePictureInPictureMode.title".localized(),
-                                               optionDescription: "sdkoption.enablePictureInPictureMode.description".localized(), optionType: .enablePictureInPictureMode)
         let pipAreaOption = SDKOptionItem(name: "sdkoption.pipFloatingOffset.title".localized(), optionDescription: "sdkoption.pipFloatingOffset.description".localized(), optionType: .pipFloatingOffset)
         let pipEnableSwipeOutOption = SDKOptionItem(name: "sdkoption.pipEnableSwipeOutOption.title".localized(), optionDescription: "sdkoption.pipEnableSwipeOutOption.description".localized(), optionType: .pipEnableSwipeOut)
         let pipCornerRadius = SDKOptionItem(name: "sdkoption.pipCornerRadius.title".localized(), optionDescription: "sdkoption.pipCornerRadius.description".localized(), optionType: .pipCornerRadius)
-        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, pipMaxSizeOption,pipFixedHeightOption,pipFixedWidthOption, pipKeepWindowStyle, pipModelEnableSetting, pipEnableSwipeOutOption, pipAreaOption,pipCornerRadius])
+        let enablePip = SDKOptionItem(name: "sdkoption.enablepip.title".localized(), optionDescription: "sdkoption.enablepip.description".localized(), optionType: .enablePip)
+        let enableOSPip = SDKOptionItem(name: "sdkoption.enableOspip.title".localized(), optionDescription: "sdkoption.enableOspip.description".localized(), optionType: .enableOSPip)
+        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, pipMaxSizeOption,pipFixedHeightOption,pipFixedWidthOption, pipKeepWindowStyle, pipEnableSwipeOutOption, pipAreaOption,pipCornerRadius,enablePip,enableOSPip])
         
 
         items.append(pipOptions)

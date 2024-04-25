@@ -281,6 +281,17 @@
 "sdkOption.pipFixedWidth.description" = "Set a fixed horizontal size to maintain the same horizontal size across different resolutions.";
 "sdkoption.pipCornerRadius.title" = "InAppPip Corner Radius";
 "sdkoption.pipCornerRadius.description" = "Set the corner radius of InAppPip. (default 10)";
+
+
+"sdkoption.enablepip.title" = "Enable PIP";
+"sdkoption.enablepip.description" = "Enables InAppPip,Preview,OSPIP (default : true)";
+
+"sdkoption.enableOspip.title" = "Enable OSPIP";
+"sdkoption.enableOspip.description" = "Enables OSPIP (Default : true)";
+
+
+
+
 "sdkoption.nextActionTypeOnNavigation.title" = "Synchronized Shoplive Player action when a user taps a link";
 "sdkoption.nextActionTypeOnNavigation.description" = "Sets the Synchronized Shoplive Player action when a user taps a link.";
 "sdkoption.nextActionTypeOnNavigation.item1" = "Switch PIP mode";

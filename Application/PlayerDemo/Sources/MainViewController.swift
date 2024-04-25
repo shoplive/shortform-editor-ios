@@ -142,6 +142,9 @@ class MainViewController: SideMenuBaseViewController {
             ShopLiveCommon.setUtmMedium(utmMedium: "")
         }
         
+        ShopLive.setEnabledPictureInPictureMode(isEnabled: config.enablePip)
+        ShopLive.setEnabledOSPictureInPictureMode(isEnabled: config.enableOsPip)
+        
         ShopLive.setAppVersion("3.39.0")
         if !config.isGuestMode {
             if config.useJWT {
@@ -295,8 +298,6 @@ class MainViewController: SideMenuBaseViewController {
                                                            pipRadius: DemoConfiguration.shared.pipCornerRadius ?? 10)
         
         ShopLive.setInAppPipConfiguration(config: inAppPipConfig)
-        
-        ShopLive.setEnabledPictureInPictureMode(isEnabled: DemoConfiguration.shared.enablePictureInPictureMode)
         
         ShopLive.setKeepWindowStyleOnReturnFromOsPip(config.usePipKeepWindowStyle)
         ShopLive.setEnabledPipSwipeOut(config.pipEnableSwipeOut)

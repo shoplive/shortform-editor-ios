@@ -275,6 +275,7 @@ public typealias ShopLiveViewController = SLViewController
     @objc static func startPictureInPicture()
     @objc static func stopPictureInPicture()
     @objc static func setEnabledPictureInPictureMode(isEnabled : Bool)
+    @objc static func setEnabledOSPictureInPictureMode(isEnabled : Bool)
 
     @objc static func setLoadingAnimation(images: [UIImage])
 

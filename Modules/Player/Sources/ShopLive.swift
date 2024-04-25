@@ -30,6 +30,7 @@ import ShopliveSDKCommon
     @objc func startPictureInPicture()
     @objc func stopPictureInPicture()
     @objc func setEnabledPictureInPictureMode(isEnabled : Bool)
+    @objc func setEnabledOSPictureInPictureMode(isEnabled : Bool)
     @objc func setKeepAspectOnTabletPortrait(_ keep: Bool)
 
     @objc func setLoadingAnimation(images: [UIImage])
@@ -449,6 +450,10 @@ extension ShopLive: ShopLiveSDKInterface {
     
     public static func setEnabledPictureInPictureMode(isEnabled : Bool){
         shared.instance?.setEnabledPictureInPictureMode(isEnabled: isEnabled)
+    }
+    
+    public static func setEnabledOSPictureInPictureMode(isEnabled: Bool) {
+        shared.instance?.setEnabledOSPictureInPictureMode(isEnabled: isEnabled)
     }
     
     //MARK: - will be deprecated in v2

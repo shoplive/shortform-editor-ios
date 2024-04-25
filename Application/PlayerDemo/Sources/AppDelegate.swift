@@ -35,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                   SDKOptionType.statusBarVisibility.optionKey : true,
                                                   SDKOptionType.playWhenPreviewTapped.optionKey : true,
                                                   SDKOptionType.enablePreviewSound.optionKey : false,
+                                                  SDKOptionType.enablePip.optionKey : true,
+                                                  SDKOptionType.enableOSPip.optionKey : true
                                                 ])
         
 

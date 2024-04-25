@@ -577,17 +577,6 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var enablePictureInPictureMode : Bool {
-        set {
-            UserDefaults.standard.set(newValue, forKey: SDKOptionType.enablePictureInPictureMode.optionKey)
-            UserDefaults.standard.synchronize()
-            notifyObservers(key: SDKOptionType.enablePictureInPictureMode.optionKey)
-        }
-        get {
-            return UserDefaults.standard.bool(forKey:  SDKOptionType.enablePictureInPictureMode.optionKey)
-        }
-    }
-    
     var customLandingUrl: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: "CUSTOM_LANDING_URL")
@@ -744,6 +733,27 @@ final class DemoConfiguration: NSObject {
         }
         get {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.statusBarVisibility.optionKey)
+        }
+    }
+    
+    
+    var enablePip : Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.enablePip.optionKey)
+            notifyObservers(key: SDKOptionType.enablePip.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.enablePip.optionKey)
+        }
+    }
+    
+    var enableOsPip : Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.enableOSPip.optionKey)
+            notifyObservers(key: SDKOptionType.enableOSPip.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.enableOSPip.optionKey)
         }
     }
 }

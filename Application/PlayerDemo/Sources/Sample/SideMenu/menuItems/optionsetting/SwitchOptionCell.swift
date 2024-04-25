@@ -180,8 +180,6 @@ class SwitchOptionCell: UITableViewCell {
         case .pipKeepWindowStyle:
             useOption = DemoConfiguration.shared.usePipKeepWindowStyle
             break
-        case .enablePictureInPictureMode:
-            useOption = DemoConfiguration.shared.enablePictureInPictureMode
         case .manualRotation:
             useOption = DemoConfiguration.shared.useManualRotation
             break
@@ -206,6 +204,10 @@ class SwitchOptionCell: UITableViewCell {
             useOption = DemoConfiguration.shared.statusBarVisibility
         case .enablePreviewSound:
             useOption = !DemoConfiguration.shared.enablePreviewSound
+        case .enablePip:
+            useOption = DemoConfiguration.shared.enablePip
+        case .enableOSPip:
+            useOption = DemoConfiguration.shared.enableOsPip
         default:
             break
         }
@@ -256,8 +258,6 @@ class SwitchOptionCell: UITableViewCell {
         case .pipKeepWindowStyle:
             DemoConfiguration.shared.usePipKeepWindowStyle = useOption
             break
-        case .enablePictureInPictureMode:
-            DemoConfiguration.shared.enablePictureInPictureMode = useOption
         case .manualRotation:
             DemoConfiguration.shared.useManualRotation = useOption
             break
@@ -282,6 +282,10 @@ class SwitchOptionCell: UITableViewCell {
         case .enablePreviewSound:
             DemoConfiguration.shared.enablePreviewSound = !useOption
             break
+        case .enablePip:
+            DemoConfiguration.shared.enablePip = useOption
+        case .enableOSPip:
+            DemoConfiguration.shared.enableOsPip = useOption
         default:
             break
         }

@@ -115,6 +115,7 @@
 "sdkOption.pipFixedWidth.description" = "서로 다른 해상도의 단말에서 가로사이즈를 동일하게 유지하도록 고정 가로 길이를 설정할 수 있습니다." ;
 
 
+
 "sdkoption.nextActionTypeOnNavigation.title" = "사용자 링크 탭 시 Shoplive Player의 동시 동작";
 "sdkoption.nextActionTypeOnNavigation.description" = "사용자가 링크를 탭 하였을 때 Shoplive Player 동작을 설정합니다.";
 "sdkoption.nextActionTypeOnNavigation.item1" = "PIP 모드 전환";
@@ -133,7 +134,11 @@
 "sdkoption.pipCornerRadius.title" = "InAppPip 모서리 반경";
 "sdkoption.pipCornerRadius.description" = "InAppPip의 모서리 반경을 설정합니다.(기본 10)";
 
+"sdkoption.enablepip.title" = "PIP 가능 여부 설정";
+"sdkoption.enablepip.description" = "InAppPip,Preview,OSPIP 가능 여부를 설정합니다. (기본값 : true)";
 
+"sdkoption.enableOspip.title" = "OSPIP 가능 여부 설정";
+"sdkoption.enableOspip.description" = "OSPIP 가능 여부를 설정합니다. (기본값 : true)";
 
 
 "sdkoption.headphoneOption1.title" = "이어폰/헤드셋 옵션";
