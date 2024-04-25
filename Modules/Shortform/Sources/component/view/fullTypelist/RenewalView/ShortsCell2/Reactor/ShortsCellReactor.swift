@@ -36,6 +36,7 @@ class ShortsCellReactor : NSObject, SLReactor {
         case onChangedShortsItemTimeControlStatus(AVPlayer.TimeControlStatus)
         case onChangedShortsItemPlayerItemStatus(AVPlayerItem.Status)
         
+        
         case setVideoDuration(Double)
         case setShopliveSessionId(String?)
         case videoTimeUpdated(CMTime)
@@ -56,6 +57,9 @@ class ShortsCellReactor : NSObject, SLReactor {
         case requestSnapShotForWindow(String?)
         
         case invalidateGetYoutubeCurrentTimer
+        
+        case setSeekToOnInitial(ShortformCurrentTimeDTO?)
+        case requestSeekToOnInital
     }
     
     enum Result {
@@ -106,7 +110,7 @@ class ShortsCellReactor : NSObject, SLReactor {
         shortsModel?.srn
     }
     private var setShortsSingleDetailViewPayload : [String : Any]?
-    
+    private var seekToOnInitial : ShortformCurrentTimeDTO?
     
     
     
@@ -126,6 +130,7 @@ class ShortsCellReactor : NSObject, SLReactor {
     private var isPausedByUser : Bool = false
     private var videoDuration : Double = 0.0
     private var isReadyToPlay : Bool = false
+    
     
     
     lazy private var ytCommandReactor = ShortsCellYoutubeCommandReactor(delegate: self)
@@ -197,6 +202,10 @@ class ShortsCellReactor : NSObject, SLReactor {
             self.onRequestSnapShotFormWindow(srn: srn)
         case .invalidateGetYoutubeCurrentTimer:
             self.onInvalidateYoutubeTimer()
+        case .setSeekToOnInitial(let time):
+            self.onSetSeekToOnInitial(time: time)
+        case .requestSeekToOnInital:
+            self.onRequestSeekToOnInitial()
         }
     }
     
@@ -205,7 +214,8 @@ class ShortsCellReactor : NSObject, SLReactor {
             if let cardModel = shortsModel?.cards?.first,
                let playerType = cardModel.playerType, playerType == "YOUTUBE",
                let youtubeId = shortsModel?.cards?.first?.externalVideoId,
-               let posterUrl = URL(string: "https://i.ytimg.com/vi/\(youtubeId)/sddefault.jpg") {
+               let externalVideoThumbnail = cardModel.externalVideoThumbnail,
+               let posterUrl = URL(string: externalVideoThumbnail) {
                 ImageDownLoaderManager.shared.download(imageUrl: posterUrl) { [weak self] result  in
                     switch result {
                     case .success(let data):
@@ -455,6 +465,22 @@ class ShortsCellReactor : NSObject, SLReactor {
     private func onInvalidateYoutubeTimer() {
         ytCommandReactor.action( .invalidateTimer )
     }
+    
+    private func onSetSeekToOnInitial(time : ShortformCurrentTimeDTO?) {
+        seekToOnInitial = time
+    }
+    
+    private func onRequestSeekToOnInitial() {
+        guard let seekTo = self.seekToOnInitial else { return }
+        switch seekTo {
+        case .shoplive(let time):
+            guard let time = time else { return }
+            resultHandler?( .requestSeekToTime(time) )
+            self.seekToOnInitial = nil
+        default:
+            break
+        }
+    }
 }
 //MARK: - YoutubeCommandReactor
 extension ShortsCellReactor {
@@ -480,6 +506,9 @@ extension ShortsCellReactor {
                 self.onYTCommandReactorScrollToNextCell()
             case .hideThumbnail(let hide):
                 self.onYTCommandReactorHideThumbnail(hide: hide)
+            case .requestSeekToOnInitial:
+                self.onYTCommandReactorRequestSeekToOnInitial()
+                break
             }
         }
     }
@@ -516,6 +545,18 @@ extension ShortsCellReactor {
     
     private func onYTCommandReactorHideThumbnail(hide : Bool) {
         resultHandler?( .hideYoutubePosterImage(hide) )
+    }
+    
+    private func onYTCommandReactorRequestSeekToOnInitial() {
+        guard let seekTo = self.seekToOnInitial else { return }
+        switch seekTo {
+        case .youtube(let time):
+            guard let time = time else { return }
+            ytCommandReactor.action( .seekTo(time) )
+            self.seekToOnInitial = nil
+        default:
+            break
+        }
     }
 }
 //MARK: - not classified functions 잡부 느낌의 함수는 여기에 넣어주세요
@@ -725,6 +766,7 @@ extension ShortsCellReactor {
             "muted" : isMuted,
             "videoUrl" : currentVideoUrl
         ]
+        ShopLiveLogger.debugLog("[HASSAN LOG] payload \(payload)")
         
         let request : JSRequest = ( .ON_VIDEO_MUTED, payload )
         resultHandler?( .requestEvaluateJS([request]))
@@ -921,6 +963,9 @@ extension ShortsCellReactor {
         }
     }
     
+    func getYoutubeCurrentTime() -> Double? {
+        return ytCommandReactor.getCurrenTime()
+    }
 }
 
 extension ShortsCellReactor : ShortsCellYoutubeCommandReactorDelegate {

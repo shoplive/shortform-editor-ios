@@ -29,6 +29,7 @@ class OptionSettingModel {
     
     
     
+    
     static var editorMinVideoDuration : Double = 1
     static var editorMaxVideoDuration : Double = 60
     static var editorShowDescription : Bool = true
@@ -36,4 +37,5 @@ class OptionSettingModel {
     static var editorWidth : Int = 9
     static var editorheight : Int = 16
     static var editorIsFixed : Bool = true
+    static var previewMaxCount : Int? = nil
 }

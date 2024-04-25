@@ -133,9 +133,6 @@ extension EditorViewOptionBox {
             
             self.bottomAnchor.constraint(equalTo: stack.bottomAnchor)
         ])
-        
-        
-        
     }
 }
 extension EditorViewOptionBox : OptionSetSwitchBoxDelegate {

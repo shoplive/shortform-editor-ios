@@ -39,6 +39,7 @@ class ShortsVideoPlayerView : UIView, SLReactor {
         case videoDidPlayToEnd
         case playerItemStatusChanged(AVPlayerItem.Status)
         case timeControlStatusChanged(AVPlayer.TimeControlStatus)
+        case playerItemSetComplete
     }
     
     override static var layerClass: AnyClass { AVPlayerLayer.self }
@@ -75,6 +76,10 @@ extension ShortsVideoPlayerView {
     
     func getCurrentTime() -> Double? {
         return reactor.getCurrentTime()
+    }
+    
+    func getCurrentCMTime() -> CMTime? {
+        return reactor.getCurrentCMTime()
     }
 }
 //MARK: - view Action
@@ -170,6 +175,8 @@ extension ShortsVideoPlayerView {
                 self.onTimeControlStatusChanged(status: status)
             case .playerItemStatusChanged(let status):
                 self.onPlayerItemStatusChanged(status: status)
+            case .playerItemSetComplete:
+                self.onPlayerItemSetComplete()
             }
         }
     }
@@ -200,6 +207,10 @@ extension ShortsVideoPlayerView {
     
     private func onPlayerItemStatusChanged(status : AVPlayerItem.Status) {
         resultHandler?( .playerItemStatusChanged(status) )
+    }
+    
+    private func onPlayerItemSetComplete() {
+        resultHandler?( .playerItemSetComplete )
     }
 }
 extension ShortsVideoPlayerView {

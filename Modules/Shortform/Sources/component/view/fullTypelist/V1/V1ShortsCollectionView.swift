@@ -100,6 +100,10 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
     override func viewTappedInPreviewMode(reset: Bool, shortsId: String?, srn: String?, completion: (() -> ())? = nil) {
         let config = ShortFormConfigurationInfosManager.shared.shortsConfiguration
         if reset == false { return }
+        if let cell = self.shortsListView.visibleCells.first as? ShortsCell {
+            viewmodel.setVideoCurrentTimeWhenPreviewTapped(time: cell.getCurrentVidoeTime())
+            viewmodel.setVideoShortsIdWhenPreviewTapped()
+        }
         viewModel.latestCell.latestCell?.stop()
         viewmodel.removeAllWebViewLists()
         viewModel.latestCell.setLatest()

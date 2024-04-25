@@ -14,6 +14,7 @@ import ShopliveSDKCommon
 class V1ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
     
     
+    
 }
 extension V1ShortsCollectionViewModel {
     func prefetchItems(at indexPaths: [IndexPath]) {
@@ -47,7 +48,12 @@ extension V1ShortsCollectionViewModel {
                     switch result {
                     case .success(let response):
                         self.shortsCollection = response
-                        self.appendShortsListData(response.shortsList ?? [] ,reset: reset)
+                        if let maxCount = self.getPreviewPlayMaxCount() {
+                            self.appendShortsListData(Array((response.shortsList ?? []).prefix(maxCount)) ,reset: reset)
+                        }
+                        else {
+                            self.appendShortsListData(response.shortsList ?? [] ,reset: reset)
+                        }
                         completion(nil)
                         break
                     case .failure(let error):
@@ -89,7 +95,12 @@ extension V1ShortsCollectionViewModel {
                 switch result {
                 case .success(let response):
                     self.shortsCollection = response
-                    self.appendShortsListData(response.shortsList ?? [] ,reset: reset)
+                    if let maxCount = self.getPreviewPlayMaxCount() {
+                        self.appendShortsListData(Array((response.shortsList ?? []).prefix(maxCount)) ,reset: reset)
+                    }
+                    else {
+                        self.appendShortsListData(response.shortsList ?? [] ,reset: reset)
+                    }
                     completion(nil)
                     break
                 case .failure(let error):

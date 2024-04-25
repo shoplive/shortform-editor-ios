@@ -66,6 +66,7 @@ extension ShopLiveShortform {
             shortformWindow.addGestureRecognizer(tapGesture)
         }
         
+        
         private func teardownGesture() {
             if let panGestureRecognizer = self.reactor.panGestureRecognizer {
                 shortformWindow.removeGestureRecognizer(panGestureRecognizer)
@@ -81,6 +82,14 @@ extension ShopLiveShortform {
         
         @objc func tapGestureHandler(_ recognizer: UITapGestureRecognizer) {
             guard reactor.enableTapGesture else { return }
+            
+            
+            reactor.triggerPreviewCustomClickCallBackEvent()
+            guard reactor.getPreviewUseCustomAction() == false else {
+                ShopLiveShortform.close()
+                return
+            }
+            
             if let shorts = self.shortsCollectionView?.getCurrentShortsModel() {
                 ShopLiveShortform.BridgeInterface.clickPreview(shorts: shorts)
             }

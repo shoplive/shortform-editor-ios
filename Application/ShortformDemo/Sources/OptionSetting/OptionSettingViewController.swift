@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import ShopliveSDKCommon
+import ShopLiveShortformSDK
 
 
 class OptionSettingViewController : UIViewController {
@@ -25,7 +26,7 @@ class OptionSettingViewController : UIViewController {
     private var listViewOptionBox = ListViewOptionBox()
     private var detailWebViewOptionsBox = DetailWebViewOptionBox()
     private var editorOptionBox = EditorViewOptionBox()
-    
+    private var previewOptionBox = PreviewOptionBox()
     
     private var confirmBtn : UIButton = {
         let btn = UIButton()
@@ -67,6 +68,7 @@ class OptionSettingViewController : UIViewController {
     
     func setViewType(type : ViewType){
         editorOptionBox.setOptions()
+        previewOptionBox.setOptions()
         cacheBox.reloadCacheSize()
         self.viewType = type
         switch type {
@@ -116,6 +118,7 @@ extension OptionSettingViewController {
         stack.addArrangedSubview(listViewOptionBox)
         stack.addArrangedSubview(detailWebViewOptionsBox)
         stack.addArrangedSubview(editorOptionBox)
+        stack.addArrangedSubview(previewOptionBox)
         stack.addArrangedSubview(confirmBtn)
         
         

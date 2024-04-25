@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import ShopliveSDKCommon
+import AVKit
 
 
 
@@ -127,6 +128,8 @@ class ShortsCollectionBaseViewModel {
     //cell state
     var shortsDetailInitialized: Bool = false
     var latestActivePageIndex : Int = -1
+    private var videoCurrentTimeWhenPreviewTapped : ShortformCurrentTimeDTO?
+    private var videoShortsIdWhenPreviewTapped : String?
     private var _isMuted : Bool?
     private var isMuted : Bool {
         get {
@@ -277,7 +280,7 @@ extension ShortsCollectionBaseViewModel {
         self.shopliveSessionId = sessionId
     }
     
-    func setIsMuted(isMuted : Bool) {
+    func setIsMuted(isMuted : Bool, from : String = #function) {
         self.isMuted = isMuted
     }
     
@@ -285,6 +288,17 @@ extension ShortsCollectionBaseViewModel {
         self.previewOptionDto = dto
     }
     
+    func setVideoCurrentTimeWhenPreviewTapped(time : ShortformCurrentTimeDTO?) {
+        self.videoCurrentTimeWhenPreviewTapped = time
+    }
+    
+    func setVideoShortsIdWhenPreviewTapped() {
+        self.videoShortsIdWhenPreviewTapped = self.currentShortsId
+    }
+    
+    func setVideoSHortsIdWhenPreviewTappedToNull() {
+        self.videoShortsIdWhenPreviewTapped = nil
+    }
 }
 //MARK: - getter functions
 extension ShortsCollectionBaseViewModel {
@@ -387,6 +401,18 @@ extension ShortsCollectionBaseViewModel {
         let shortsDict = shortsModel?.getRawDataDict()
         payloadDict["shorts"] = shortsDict
         return payloadDict
+    }
+    
+    func getVideoCurrentTimeWhenPreviewTapped() -> ShortformCurrentTimeDTO? {
+        return self.videoCurrentTimeWhenPreviewTapped
+    }
+    
+    func getVideoShortsIdTimeWhenPreviewTapped() -> String? {
+        return self.videoShortsIdWhenPreviewTapped
+    }
+    
+    func getPreviewPlayMaxCount() -> Int? {
+        return self.previewOptionDto?.maxCount
     }
     
     func getOverlayUrlPayload(at indexPath : IndexPath, shortsModel : ShortsModel?, isYoutube : Bool) -> [String : Any] {

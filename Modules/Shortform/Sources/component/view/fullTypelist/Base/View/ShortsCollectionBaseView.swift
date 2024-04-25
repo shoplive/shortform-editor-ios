@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import ShopliveSDKCommon
+import AVKit
 
 class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewable {
     typealias ShortsMode = ShopLiveShortform.ShortsMode
@@ -222,6 +223,10 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
         })
     }
     
+    func requestSnapShotForWindow() {
+        guard let cell = self.shortsListView.visibleCells.first as? ShortsCell else { return }
+        cell.takeSnapShotForWindow(srn: viewModel.currentShortsSrn)
+    }
 }
 extension ShortsCollectionBaseView {
     func getPreviewEventTraceSrn() -> String? {
@@ -306,7 +311,6 @@ extension ShortsCollectionBaseView {
         } else {
             snapShotView.fit_SL()
         }
-        
     }
     
     func setupCloseButton() {
@@ -351,7 +355,13 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
         
         
         
+        
         if let data = viewModel.shortsListData[safe : indexPath.row] {
+            var seekToOnPreviewToFullScreen : ShortformCurrentTimeDTO? = nil
+            if viewModel.getVideoShortsIdTimeWhenPreviewTapped() ?? "1" == data.shortsId ?? "2" {
+                seekToOnPreviewToFullScreen = viewModel.getVideoCurrentTimeWhenPreviewTapped()
+                viewModel.setVideoCurrentTimeWhenPreviewTapped(time: nil)
+            }
             cell.configureCell(webView: viewModel.getWebview(for: data.shortsId ?? "",indexPath: indexPath),
                                youtubeWebView: viewModel.getYoutubePlayerView(for: data.shortsId ?? "", indexPath: indexPath),
                                model: data,
@@ -361,7 +371,8 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
                                shopliveSessionId: viewModel.getCurrentShopliveSessionId(),
                                shortsMode: viewModel.shortsMode,
                                isLandScape: UIScreen.isLandscape_SL,
-                               isMute: viewModel.getMuted(),
+                               isMute: viewModel.getMuted(), 
+                               seekToOnInitial: seekToOnPreviewToFullScreen,
                                setShortsSingleDetailViewPayload: self.viewModel.getSetShortsSingleDetailViewPayload(at: indexPath, shortsModel: data, isYoutube: viewModel.checkIsYoutubePlayer(indexPath: indexPath)))
         }
         

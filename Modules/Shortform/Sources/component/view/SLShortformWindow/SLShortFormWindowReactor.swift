@@ -110,11 +110,24 @@ extension ShopLiveShortform {
             _panGestureInitialCenter = nil
             enableTapExplicit = false
         }
+        
     }
 }
+extension ShopLiveShortform.SLShortFormWindowReactor {
+    func triggerPreviewCustomClickCallBackEvent() {
+        previewOptionDTO?.clickEventCallback?()
+    }
+}
+//MARK: - setter
 extension ShopLiveShortform.SLShortFormWindowReactor {
     func setPreviewOptionDTO(dto : ShortformPreviewOptionDTO?) {
         self.previewOptionDTO = dto
     }
     
+}
+//MARK: - getter
+extension ShopLiveShortform.SLShortFormWindowReactor {
+    func getPreviewUseCustomAction() -> Bool {
+        return self.previewOptionDTO?.useCustomAction ?? false
+    }
 }

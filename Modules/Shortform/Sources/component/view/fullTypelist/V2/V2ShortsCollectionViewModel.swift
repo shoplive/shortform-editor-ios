@@ -235,8 +235,10 @@ extension V2ShortsCollectionViewModel {
     private func loadShortFormIds(ids : [String]?, reset : Bool,completion : @escaping ((Bool) -> ())) {
         currentPaginationDirection = .down
         self.callShortsConfigurationAPI { [weak self] isSucess in
+            
             guard let self = self else { return }
             if isSucess == false { return }
+            ShopLiveLogger.debugLog("[HASSAN LOG] loadShortformIds ")
             self.isLoadingMoreData = true
             ShortsIdsListAPI(ids: ids).request { [weak self] result in
                 guard let self = self else { return }

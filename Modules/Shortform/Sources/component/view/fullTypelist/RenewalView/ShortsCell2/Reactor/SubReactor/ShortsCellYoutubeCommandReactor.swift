@@ -57,6 +57,8 @@ class ShortsCellYoutubeCommandReactor : NSObject, SLReactor {
         case sendVideoMuteToWeb(Bool)
         case scrollToNextCell
         case hideThumbnail(Bool)
+        
+        case requestSeekToOnInitial
     }
     
     
@@ -460,6 +462,7 @@ extension ShortsCellYoutubeCommandReactor {
         self.invalidateStateTimer(from: "onPlayerStatePlaying")
         youtubeCurrentPlayState = .playing
         resultHandler?( .stateChangedToPlay )
+        resultHandler?( .requestSeekToOnInitial )
     }
     
     private func onYoutubePlayerSupportGetPlayerStatePaused(isPausedByUser : Bool, isPaused : Bool) {
@@ -488,5 +491,9 @@ extension ShortsCellYoutubeCommandReactor {
     
     func getYoutubeState() -> ShopliveYoutubePlayState {
         return self.youtubeCurrentPlayState
+    }
+    
+    func getCurrenTime() -> Double? {
+        return currentTime == 0 ? nil : currentTime
     }
 }

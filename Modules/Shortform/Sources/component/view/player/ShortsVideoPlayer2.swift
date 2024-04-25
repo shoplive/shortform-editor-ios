@@ -22,7 +22,17 @@ enum SLShortsVideoPlayerObserveValue: String {
     }
 }
 
-class ShortsVideoPlayer2 {
+class ShortsVideoPlayer2 : SLReactor {
+    
+    enum Action {
+    }
+    
+    enum Result {
+        case videoPlayerItemSetComplete
+    }
+    
+    
+    var resultHandler: ((Result) -> ())?
     
     private var videoUrl : URL
     private var player : AVPlayer?
@@ -45,6 +55,14 @@ class ShortsVideoPlayer2 {
         ShopLiveLogger.debugLog("ShortsVideoPlayer2 deinited")
     }
     
+    
+    func action(_ action: Action) {
+        
+    }
+    
+}
+extension ShortsVideoPlayer2 {
+    
     func configure(videoUrl : URL,preferredForwardBufferDuration: Double? = 2.5){
         if ShopliveMP4CachingManager.shared.isVideoMP4(url: videoUrl) {
             ShopliveMP4CachingManager.shared.downloadVideo(url: videoUrl) { [weak self] playerItem in
@@ -59,6 +77,7 @@ class ShortsVideoPlayer2 {
                 else {
                     self.player?.replaceCurrentItem(with: playerItem)
                 }
+                self.resultHandler?( .videoPlayerItemSetComplete )
             }
         }
         else {
@@ -72,6 +91,7 @@ class ShortsVideoPlayer2 {
             else {
                 self.player?.replaceCurrentItem(with: playerItem)
             }
+            resultHandler?( .videoPlayerItemSetComplete )
         }
     }
     
@@ -150,6 +170,10 @@ extension ShortsVideoPlayer2 {
     
     func getCurrentTime() -> Double? {
         return self.player?.currentTime().seconds
+    }
+    
+    func getCurrentCMTime() -> CMTime? {
+        return self.player?.currentTime()
     }
     
     func getVideoSize() -> CGSize? {

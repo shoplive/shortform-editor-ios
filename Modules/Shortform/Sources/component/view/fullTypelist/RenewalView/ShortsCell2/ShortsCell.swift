@@ -50,11 +50,13 @@ protocol ShortsCellInterface {
                        shortsMode : ShopLiveShortform.ShortsMode,
                        isLandScape : Bool,
                        isMute : Bool,
+                       seekToOnInitial : ShortformCurrentTimeDTO?,
                        setShortsSingleDetailViewPayload : [String : Any]?)
     func setAppState(srn : String?, state : String)
     func takeSnapShotForWindow(srn : String?)
     
     func cleanUpMemory()
+    func getCurrentVidoeTime() -> ShortformCurrentTimeDTO?
 }
 
 /**
@@ -183,6 +185,7 @@ class ShortsCell : UICollectionViewCell {
                        shortsMode : ShortsMode,
                        isLandScape : Bool,
                        isMute : Bool,
+                       seekToOnInitial : ShortformCurrentTimeDTO?,
                        setShortsSingleDetailViewPayload : [String : Any]?) {
         
         //로깅용
@@ -192,6 +195,7 @@ class ShortsCell : UICollectionViewCell {
         self.youtubePosterImageView.image = nil
         self.youtubePosterImageView.alpha = 1
         reactor.action( .setSetShortsSingleDetailViewPayload(setShortsSingleDetailViewPayload) )
+        reactor.action( .setSeekToOnInitial(seekToOnInitial) )
         self.webView.action( .setWebView(webView) )
         self.youtubePlayerView.action( .setWebView(youtubeWebView) )
         self.youtubePlayerView.action( .setCurrentIndexPath(indexPath) )
@@ -201,6 +205,7 @@ class ShortsCell : UICollectionViewCell {
         reactor.action( .setShopliveSessionId(shopliveSessionId) )
         reactor.action( .setShortsMode(shortsMode) )
         reactor.action( .handleDeviceRotation(isLandscape: isLandScape) )
+        ShopLiveLogger.debugLog("[HASSAN LOG] isMuted \(isMute)")
         reactor.action( .setIsMuted(isMute) )
         self.delegate = delegate
         reactor.action( .initializeCell )
@@ -370,7 +375,7 @@ extension ShortsCell {
     }
     
     private func onReactorRequestSnapShortForWindow() {
-        
+        playerView.action( .requestSnapShotForWindow )
     }
     
     private func onReactorSetVideoPlayer(videoURl : URL) {
@@ -412,6 +417,8 @@ extension ShortsCell {
                 self.onPlayerViewPlayerItemStatusChanged(status: status)
             case .timeControlStatusChanged(let status):
                 self.onPlayerViewTimeControlStatusChanged(status: status)
+            case .playerItemSetComplete:
+                self.onPlayerViewPlayerItemSetComplete()
             }
         }
     }
@@ -438,6 +445,10 @@ extension ShortsCell {
     
     private func onPlayerViewTimeControlStatusChanged(status : AVPlayer.TimeControlStatus) {
         reactor.action( .onChangedShortsItemTimeControlStatus(status) )
+    }
+    
+    private func onPlayerViewPlayerItemSetComplete() {
+        reactor.action( .requestSeekToOnInital )
     }
     
 }
@@ -644,11 +655,20 @@ extension ShortsCell : ShortsCellInterface {
     }
     
     func takeSnapShotForWindow(srn: String?) {
-        reactor.action( .requestSnapShot(srn) )
+        reactor.action( .requestSnapShotForWindow(srn) )
     }
     
     func cleanUpMemory() {
         reactor.action( .invalidateGetYoutubeCurrentTimer )
+    }
+    
+    func getCurrentVidoeTime() -> ShortformCurrentTimeDTO? {
+        if reactor.getIsYoutubePlayer() {
+            return .youtube(reactor.getYoutubeCurrentTime())
+        }
+        else {
+            return .shoplive(playerView.getCurrentCMTime())
+        }
     }
 }
 //MARK: - getter

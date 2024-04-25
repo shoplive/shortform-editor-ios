@@ -42,6 +42,7 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
         
         case timeControlStatusChanged(AVPlayer.TimeControlStatus)
         case playerItemStatusChanged(AVPlayerItem.Status)
+        case playerItemSetComplete
     }
     
     
@@ -132,6 +133,7 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
         setPlayTimeObserver()
         setUpPlayerStatusObserver()
         setVideoEndDetectObserver()
+        bindShortsVideoPlayer()
     }
     
     private func onSetVideoUrl(videoUrl : URL) {
@@ -181,6 +183,22 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
         
     }
 }
+extension ShortsVideoPlayerReactor {
+    private func bindShortsVideoPlayer() {
+        shortsVideoPlayer?.resultHandler = { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .videoPlayerItemSetComplete:
+                self.onShortsVideoPlayerVideoPlayerItemSetComplete()
+            }
+        }
+    }
+    
+    private func onShortsVideoPlayerVideoPlayerItemSetComplete() {
+        resultHandler?( .playerItemSetComplete )
+    }
+    
+}
 //MARK: - Getter
 extension ShortsVideoPlayerReactor {
     func getVideoDuration() -> Double {
@@ -189,6 +207,10 @@ extension ShortsVideoPlayerReactor {
     
     func getCurrentTime() -> Double? {
         return shortsVideoPlayer?.getCurrentTime()
+    }
+    
+    func getCurrentCMTime() -> CMTime? {
+        return shortsVideoPlayer?.getCurrentCMTime()
     }
 }
 //MARK: - AVPlayer Observer

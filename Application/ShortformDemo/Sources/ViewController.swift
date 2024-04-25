@@ -143,7 +143,9 @@ class ViewController: UIViewController {
     }
     
     func setupDetaultLanding() {
+//        ShopLiveCommon.setAccessKey(accessKey: "KTlqm3bhHzyHeYWF004H")
         ShopLiveCommon.setAccessKey(accessKey: LandingInfo.qa.accessKey)
+        //
     }
     
 
