@@ -150,7 +150,7 @@ extension ProductCreateViewController {
         self.view.addSubview(confirmBtn)
         
         NSLayoutConstraint.activate([
-            topNaviBar.topAnchor.constraint(equalTo: self.view.topAnchor),
+            topNaviBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             topNaviBar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             topNaviBar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             topNaviBar.heightAnchor.constraint(equalToConstant: 60),

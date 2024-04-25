@@ -105,6 +105,12 @@ class ViewController : UIViewController {
     @objc func confirmBtnTapped(sender : UIButton) {
         ShopLiveCommon.setAccessKey(accessKey: accessKey.getValue())
         
+        
+        ShopLiveCommon.setAnonId(anonId: anonIdBox.getValue())
+        ShopLiveCommon.setUser(user: ShopLiveCommonUser(userId: userId.getValue() ?? "test_ios_user"), accessKey: accessKey.getValue())
+        
+        
+        
         let products = productsData.map({ item -> ShopLiveConversionProductData in
             return .init(productId: item.productId,
                          customerProductId: item.customerProductId,
