@@ -87,6 +87,11 @@ extension ShopLiveCommon {
         }
     }
     
+    @objc(setUser:)
+    public static func setUser(user : ShopLiveCommonUser?) {
+        Self.setUser(user: user, accessKey: ShopLiveCommon.getAccessKey())
+    }
+    
     @available(iOS, deprecated, message: "Enable AppTrackingTransparency instead")
     @objc public static func setAdId(adId : String?) {
         auth?.adId = adId
