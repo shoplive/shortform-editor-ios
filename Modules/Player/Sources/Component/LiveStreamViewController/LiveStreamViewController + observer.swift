@@ -52,8 +52,17 @@ extension LiveStreamViewController {
                 ShopLiveLogger.debugLog("volume down")
             }
             audioLevel = audioSession.outputVolume
-            ShopLiveController.shared.isMuted = false
-            ShopLiveController.shared.setSoundMute(isMuted: false)
+            
+            if audioLevel <= 0 && ShopLiveController.shared.isMuted == false {
+                delegate?.log(name: "video_muted", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["audioLevel" : audioLevel])
+                ShopLiveController.shared.isMuted = true
+                ShopLiveController.shared.setSoundMute(isMuted: true)
+            }
+            else if audioLevel > 0 && ShopLiveController.shared.isMuted == true {
+                delegate?.log(name: "video_unmuted", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["audioLevel" : audioLevel])
+                ShopLiveController.shared.isMuted = false
+                ShopLiveController.shared.setSoundMute(isMuted: false)
+            }
             break
         case "captured":
             guard !ShopLiveController.shared.isPreview else { return }
