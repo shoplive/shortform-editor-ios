@@ -63,7 +63,8 @@ class ShortsCellReactor : NSObject, SLReactor {
     }
     
     enum Result {
-        case setPosterImage(UIImage?)
+        case setThumbnailImage(UIImage?)
+        case setThumbnailRatio(CGSize?)
         case setYoutubePosterImage(UIImage?)
         case hideYoutubePosterImage(Bool)
         
@@ -251,11 +252,17 @@ class ShortsCellReactor : NSObject, SLReactor {
                     guard let self = self else { return }
                     switch result {
                     case .success(let data):
-                        self.resultHandler?( .setPosterImage(UIImage(data: data)) )
+                        self.resultHandler?( .setThumbnailImage(UIImage(data: data)) )
                     case .failure(_):
                         break
                     }
                 }
+            }
+            if let card = shortsModel?.cards?.first, let w = card.width, let h = card.height, UIDevice.current.userInterfaceIdiom == .pad || UIScreen.isLandscape_SL {
+                resultHandler?( .setThumbnailRatio(CGSize(width: w, height: h)) )
+            }
+            else {
+                resultHandler?( .setThumbnailRatio(nil) )
             }
         }
         ytCommandReactor.action( .setCurrentShortsMode(self.shortsMode) )
