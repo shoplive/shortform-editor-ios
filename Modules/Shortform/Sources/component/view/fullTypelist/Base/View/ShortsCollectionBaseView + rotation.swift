@@ -16,7 +16,7 @@ extension ShortsCollectionBaseView {
         self.viewModel.blockScrollViewDidScrollForRotation = true
 //        guard let cell = (shortsListView.visibleCells as? [ShopLiveShortform.ShortsCell])?.first else { return }
         guard let cell = (shortsListView.visibleCells as? [ShortsCell])?.first else  { return }
-        self.viewModel.capturedCurrentIndexPathForRotation = cell.getCellIndexPath()
+        self.viewModel.capturedCurrentIndexPathForRotation = cell.getCurrentIndexPath()
         let isLandscape = UIScreen.isLandscape_SL
         cell.handleDeviceRotation(isLandscape: isLandscape)
     }

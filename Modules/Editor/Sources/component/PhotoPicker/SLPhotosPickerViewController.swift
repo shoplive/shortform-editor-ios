@@ -1005,6 +1005,9 @@ extension SLPhotosPickerViewController {
         showCameraIfAuthorized()
     }
     
+    /**
+     여기 타고 ffmpeg  검증 단계로 넘어감 .
+     */
     func toggleSelection(for cell: SLPhotoCollectionViewCell, at indexPath: IndexPath) {
         guard let collection = focusedCollection, var asset = collection.getSLAsset(at: indexPath), let _ = asset.phAsset else { return }
         
@@ -1037,6 +1040,7 @@ extension SLPhotosPickerViewController {
                 if self.configure.singleSelectedDismiss {
                     self.dismiss(done: true)
                 } else {
+                    // 정확히는 여기에서 ffmpeg 검증 단계로 넘어감
                     singleSelected()
                 }
             }

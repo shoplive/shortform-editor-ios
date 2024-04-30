@@ -78,17 +78,23 @@ class ShortformEventTraceManager {
 
     private class func callEventTraceAPI(eventName : ShortsEventTraceAPI.EventName, eventCategory : ShortsEventTraceAPI.EventCategory, eventType : ShortsEventTraceAPI.EventType,srn : String?, referrer : String?, shopliveSessionId : String?, val1 : Any?, val2 : Any?, val3 : Any?, val4 : Any?,val5 : Any?) {
         
-        if ShortFormConfigurationInfosManager.shared.shortsConfiguration.eventTraceEndpoint == "" {
-            return
-        }
-        ShortsEventTraceAPI(eventName: eventName, eventCategory: eventCategory ,eventType: eventType, srn: srn,referrer: referrer, shopliveSessionId: shopliveSessionId, val1: val1,val2: val2,val3: val3,val4: val4,val5: val5).request { result in
+        ShopLiveCommonConfigurationManager.shared.callHostConfigAPI { result in
             switch result {
             case .success(_):
-                break
+                ShortsEventTraceAPI(eventName: eventName, eventCategory: eventCategory ,eventType: eventType, srn: srn,referrer: referrer, shopliveSessionId: shopliveSessionId, val1: val1,val2: val2,val3: val3,val4: val4,val5: val5).request { result in
+                    switch result {
+                    case .success(_):
+                        break
+                    case .failure(_):
+                        break
+                    }
+                }
             case .failure(_):
                 break
             }
         }
+        
+        
     }
     
     

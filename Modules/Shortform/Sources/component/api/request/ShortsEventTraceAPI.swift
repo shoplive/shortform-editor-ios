@@ -41,7 +41,7 @@ struct ShortsEventTraceAPI : APIDefinition {
     typealias ResultType = EmptyResponse
     
     var baseUrl: String {
-        ShortFormConfigurationInfosManager.shared.shortsConfiguration.eventTraceEndpoint
+        ShopLiveCommonConfigurationManager.shared.getShortformEventTraceHostUrl()
     }
     
     var urlPath: String {

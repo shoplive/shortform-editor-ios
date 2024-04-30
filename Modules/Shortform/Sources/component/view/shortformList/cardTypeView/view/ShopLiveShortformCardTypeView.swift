@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import AVKit
+import ShopliveSDKCommon
 
 final class ShopLiveShortformCardTypeView : ShopLiveShortformBaseTypeView  {
     
@@ -32,6 +33,8 @@ final class ShopLiveShortformCardTypeView : ShopLiveShortformBaseTypeView  {
         super.layoutSubviews()
         reactor.action(.calculateCellSize)
     }
+    
+    
     
     @objc override func pullToRefresh() {
         reactor.action(.pullToRefresh)
@@ -94,7 +97,7 @@ final class ShopLiveShortformCardTypeView : ShopLiveShortformBaseTypeView  {
         case .disableSnap:
             self.configureCvForSnap(isEnabled: false)
         case .enablePlayVideos:
-            reactor.action(.setEnableAutoPlay(true))
+            self.onEnablePlayVideos()
         case .disablePlayVideos:
             reactor.action(.setEnableAutoPlay(false))
         case .scrollToTop:
@@ -124,6 +127,11 @@ final class ShopLiveShortformCardTypeView : ShopLiveShortformBaseTypeView  {
             reactor.action(.notifyViewRotated)
         }
         
+    }
+    
+    
+    private func onEnablePlayVideos() {
+        reactor.action(.setEnableAutoPlay(true))
     }
     
 }

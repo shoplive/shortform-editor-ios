@@ -55,7 +55,7 @@ class ViewController : UIViewController {
     let accessKeySelectBox = AccessKeySelectBox()
     let accessKey = TextInputForms(title: "AccessKey", placeHolder: "accessKey")
     let anonIdBox = TextInputForms(title: "anonId", placeHolder: "anonId")
-    let ceIdBox = TextInputForms(title: "ceId", placeHolder: "ceId")
+//    let ceIdBox = TextInputForms(title: "ceId", placeHolder: "ceId")
     let referrerBox = TextInputForms(title: "referrer", placeHolder: "referrer")
     let typeBox = TextInputForms(title: "type", placeHolder: "type")
     let userId = TextInputForms(title: "userId", placeHolder: "userId")
@@ -99,6 +99,15 @@ class ViewController : UIViewController {
         
         
         confirmBtn.addTarget(self, action: #selector(confirmBtnTapped(sender: )), for: .touchUpInside)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let delgate = UIApplication.shared.delegate as! AppDelegate
+        delgate.requestIDFAPermission { result in
+            print("adidentifier result \(ShopLiveCommon.getAdIdentifier())")
+        }
+        
     }
     
     
@@ -171,7 +180,7 @@ extension ViewController {
         stackView.addArrangedSubview(accessKeySelectBox)
         stackView.addArrangedSubview(accessKey)
         stackView.addArrangedSubview(anonIdBox)
-        stackView.addArrangedSubview(ceIdBox)
+//        stackView.addArrangedSubview(ceIdBox)
         stackView.addArrangedSubview(referrerBox)
         stackView.addArrangedSubview(typeBox)
         stackView.addArrangedSubview(userId)
@@ -212,7 +221,7 @@ extension ViewController {
             accessKeySelectBox.heightAnchor.constraint(equalToConstant: 60),
             accessKey.heightAnchor.constraint(equalToConstant: 40),
             anonIdBox.heightAnchor.constraint(equalToConstant: 40),
-            ceIdBox.heightAnchor.constraint(equalToConstant: 40),
+//            ceIdBox.heightAnchor.constraint(equalToConstant: 40),
             referrerBox.heightAnchor.constraint(equalToConstant: 40),
             typeBox.heightAnchor.constraint(equalToConstant: 40),
             userId.heightAnchor.constraint(equalToConstant: 40),

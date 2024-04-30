@@ -12,7 +12,6 @@ import AVFoundation
 import VideoToolbox
 import ShopliveSDKCommon
 
-
 class ShortsVideoPlayerReactor : NSObject, SLReactor {
     typealias ShortsMode = ShopLiveShortform.ShortsMode
     
@@ -32,6 +31,7 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
         case setMute(Bool)
         case setShortsMode(ShortsMode)
         case setPreferredForwardBufferDuration(Double)
+        case removePlayerStatusObserver
     }
     
     enum Result {
@@ -44,6 +44,7 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
         case timeControlStatusChanged(AVPlayer.TimeControlStatus)
         case playerItemStatusChanged(AVPlayerItem.Status)
         case playerItemSetComplete
+        case requestHideSnapShotForWindow
     }
     
     
@@ -55,8 +56,6 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
     private var didRegisterPlayerTimeControlstatusObserver : Bool = false
     private var shortsMode : ShortsMode = .detail
     private var preferredForwardBufferDuration : Double = 2.5
-    
-    
     
     var resultHandler: ((Result) -> ())?
     
@@ -100,6 +99,8 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
             self.onSetShortsMode(shortsMode: shortsMode)
         case .setPreferredForwardBufferDuration(let duration):
             self.onSetPreferredForwardBufferDuration(duration: duration)
+        case .removePlayerStatusObserver:
+            onRemovePlayerStatusObserver()
         }
     }
     
@@ -130,11 +131,14 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
         }
         else {
             shortsVideoPlayer = ShortsVideoPlayer2(videoUrl: videoUrl, preferredForwardBufferDuration: preferredForwardBufferDuration)
+            didRegisterPlayerItemStatusObserver = false
+            didRegisterPlayerTimeControlstatusObserver = false
         }
         
         if let player = shortsVideoPlayer?.getAVPlayer() {
             resultHandler?( .setPlayerToLayer(player) )
         }
+        
         setPlayTimeObserver()
         setUpPlayerStatusObserver()
         setVideoEndDetectObserver()
@@ -158,6 +162,7 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
         self.shortsVideoPlayer?.seekTo(time: time, toleranceBefore: tolerance, toleranceAfter: tolerance, completionHandler: { [weak self] isFinished in
             guard let self = self else { return }
             self.isSeeking = false
+            self.resultHandler?( .requestHideSnapShotForWindow )
         })
     }
     
@@ -189,6 +194,10 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
     
     private func onSetPreferredForwardBufferDuration(duration : Double) {
         self.preferredForwardBufferDuration = duration
+    }
+    
+    private func onRemovePlayerStatusObserver() {
+        self.removePlayerStatusObserver()
     }
 }
 extension ShortsVideoPlayerReactor {
@@ -228,7 +237,8 @@ extension ShortsVideoPlayerReactor {
         if playTimeObserver != nil {
             removePlayTimeObserver()
         }
-        
+        //0x303824b90 0
+        //0x3038253e0
         playTimeObserver = shortsVideoPlayer?.addPeriodicTimeObserver(forInterval: interval, queue: nil, using: { [weak self] time in
             guard let self = self else { return }
             guard self.isSeeking == false else { return }
@@ -278,17 +288,14 @@ extension ShortsVideoPlayerReactor {
             playerItem.safeRemoveObserver_SL(self, forKeyPath: SLShortsVideoPlayerObserveValue.playerItemStatus.keyPath)
             didRegisterPlayerItemStatusObserver = false
         }
-        
         if didRegisterPlayerTimeControlstatusObserver, let player = shortsVideoPlayer?.getAVPlayer() {
             player.safeRemoveObserver_SL(self, forKeyPath: SLShortsVideoPlayerObserveValue.timeControlStatus.keyPath)
             self.didRegisterPlayerTimeControlstatusObserver = false
         }
     }
     
-    
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath, let key = SLShortsVideoPlayerObserveValue(rawValue: keyPath), let _ = change?[.newKey] else { return }
-        
         switch key {
         case .timeControlStatus:
             guard let newValue: Int = change?[.newKey] as? Int else { return }

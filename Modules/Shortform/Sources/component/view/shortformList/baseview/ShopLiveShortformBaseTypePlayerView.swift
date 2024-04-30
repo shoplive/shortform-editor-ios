@@ -44,7 +44,7 @@ class ShopLiveShortformBaseTypePlayerView : UIView {
     private weak var delegate : ShopLiveShortformBaseTypePlayerViewDelegate?
     private var kvoObservedCounter : Int = 0
     private var previousPlayerTimeControlStatus : AVPlayer.TimeControlStatus = .paused
-    
+    private var indexPath : IndexPath?
     
     
     init(frame : CGRect,delegate : ShopLiveShortformBaseTypePlayerViewDelegate?){
@@ -67,6 +67,10 @@ class ShopLiveShortformBaseTypePlayerView : UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.playerLayer.frame = playerView.bounds
+    }
+    
+    func setIndexPath(indexPath : IndexPath) {
+        self.indexPath = indexPath
     }
     
     func setVideoUrl(urlString : String?){

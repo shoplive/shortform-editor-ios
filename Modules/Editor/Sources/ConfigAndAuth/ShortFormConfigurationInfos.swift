@@ -52,7 +52,6 @@ public class ShortFormUploadConfigurationInfosManager {
             
             if let data = data {
                 if self.validateShortsConfigurationResponse(data: data) {
-                    ShopLiveLogger.debugLog("[HASSAN LOG] 1")
                     completion(.success(()))
                 }
                 else {

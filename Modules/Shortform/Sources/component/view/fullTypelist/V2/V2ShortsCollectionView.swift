@@ -115,8 +115,7 @@ extension V2ShortsCollectionView {
             let frameHeight = shortsListView.frame.height
             guard let currentIndexPath = shortsListView.indexPathsForVisibleItems.last else { return }
             
-            if currentIndexPath.row == self.viewmodel.getShortsListDataCount() - 1 &&
-                contentHeight - (contentOffset + frameHeight) <= 100 &&
+            if contentHeight - (contentOffset + frameHeight) <= 50 &&
                 self.viewmodel.getScrollViewDidScrollPaginationIsBlocked() == false {
                 viewmodel.requestForPagination()
                 viewmodel.startScrollViewDidScrollPaginationBlockTimer()

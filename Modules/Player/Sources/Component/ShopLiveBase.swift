@@ -555,6 +555,7 @@ import ShopliveSDKCommon
                 liveVc.view.frame = shopLiveWindow.bounds
                 shopLiveWindow.layer.masksToBounds = true
                 liveVc.view.layer.masksToBounds = true
+                liveVc.view.clipsToBounds = true
                 liveVc.setCloseButtonVisible(true)
                 
                 ShopLiveController.shared.videoExpanded = true
@@ -828,19 +829,16 @@ import ShopliveSDKCommon
             self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipWillAppear.name, with: ["lastStyle" : self._lastStyle.name , "currentStyle" : self.style.name, "isPreview" : ShopLiveController.shared.isPreview])
             guard let shopLiveWindow = self.shopLiveWindow else { return }
             
-            shopLiveWindow.backgroundColor = .clear
+            shopLiveWindow.backgroundColor = .black
+            shopLiveWindow.layer.cornerRadius = self.inAppPipConfiguration?.pipRadius ?? 10
+            
             shopLiveWindow.rootViewController?.view.layer.cornerRadius = self.inAppPipConfiguration?.pipRadius ?? 10
+            shopLiveWindow.rootViewController?.view.layer.masksToBounds = true
             shopLiveWindow.rootViewController?.view.backgroundColor = .clear
             
             self.liveStreamViewController?.shopliveHideKeyboard_SL()
             
             ShopLiveController.windowStyle = .inAppPip
-            
-            shopLiveWindow.rootViewController?.view.layer.cornerRadius = self.inAppPipConfiguration?.pipRadius ?? 10
-            shopLiveWindow.rootViewController?.view.layer.masksToBounds = true
-            shopLiveWindow.backgroundColor = .black
-            
-            self.showShadow()
             
             ShopLiveController.webInstance?.isHidden = true
             self.videoWindowPanGestureRecognizer?.isEnabled = true
@@ -932,6 +930,7 @@ import ShopliveSDKCommon
                 slWindow.isHidden = false
                 slWindow.layer.masksToBounds = true
                 liveVC.view.layer.masksToBounds = true
+                liveVC.view.clipsToBounds = true
                 liveVC.view.frame = slWindow.bounds
                 liveVC.showBackgroundPoster()
                 
@@ -1563,7 +1562,7 @@ extension ShopLiveBase {
         slWindow.layer.shadowColor = UIColor.black.cgColor
         slWindow.layer.shadowOpacity = 0.5
         slWindow.layer.shadowOffset = .zero
-        slWindow.layer.shadowRadius = inAppPipConfiguration?.pipRadius ?? 10
+        slWindow.layer.shadowRadius = 6
         slWindow.layer.masksToBounds = false
         liveVC.view.layer.masksToBounds = false
     }
@@ -1578,8 +1577,6 @@ extension ShopLiveBase {
         slWindow.layer.masksToBounds = true
         liveVC.view.layer.masksToBounds = true
     }
-    
-    
 }
 //MARK: - customerPreviewConverView
 extension ShopLiveBase {

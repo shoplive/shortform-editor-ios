@@ -258,7 +258,6 @@ public class ShopliveMP4CachingManager : NSObject {
         
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: searchURL.path) {
-            ShopLiveLogger.debugLog("[HASSAN LOG] \( cacheType == .disk ? "disk" : "memory") cache hit")
             return searchURL
         }
         else {
@@ -278,7 +277,6 @@ extension ShopliveMP4CachingManager {
             try FileManager.default.createDirectory(at: dirPathURL, withIntermediateDirectories: true)
         }
         catch(let error){
-            ShopLiveLogger.debugLog("[HASSAN LOG] failed to create directory \(error.localizedDescription)")
             print(error)
         }
     }
@@ -289,7 +287,6 @@ extension ShopliveMP4CachingManager {
             try FileManager.default.createDirectory(at: tempDirPathUrl, withIntermediateDirectories: true, attributes: nil)
         }
         catch(let error) {
-            ShopLiveLogger.debugLog("[HASSAN LOG] failed to create temp directory \(error.localizedDescription)")
         }
     }
 }

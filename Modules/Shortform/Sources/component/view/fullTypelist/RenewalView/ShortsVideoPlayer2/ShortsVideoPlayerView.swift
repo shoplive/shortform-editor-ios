@@ -31,6 +31,7 @@ class ShortsVideoPlayerView : UIView, SLReactor {
         
         case setMute(Bool)
         case setPreferredForwardBufferDuration(Double)
+        case removePlayerStatusObserver
     }
     
     enum Result {
@@ -41,6 +42,7 @@ class ShortsVideoPlayerView : UIView, SLReactor {
         case playerItemStatusChanged(AVPlayerItem.Status)
         case timeControlStatusChanged(AVPlayer.TimeControlStatus)
         case playerItemSetComplete
+        case requestHideSnapShotFormWindow
     }
     
     override static var layerClass: AnyClass { AVPlayerLayer.self }
@@ -66,7 +68,6 @@ class ShortsVideoPlayerView : UIView, SLReactor {
     deinit {
         ShopLiveLogger.debugLog("shortsvideoplayerview deinited")
     }
-    
     
 }
 //MARK: - getter
@@ -111,6 +112,8 @@ extension ShortsVideoPlayerView {
             self.onSetShortsMode(shortsMode: shortsMode)
         case .setPreferredForwardBufferDuration(let duration):
             self.onSetPreferredForwardBufferDuration(duration: duration)
+        case .removePlayerStatusObserver:
+            self.onRemovePlayerStatusObserver()
         }
     }
     
@@ -161,6 +164,10 @@ extension ShortsVideoPlayerView {
     private func onSetPreferredForwardBufferDuration(duration : Double) {
         reactor.action( .setPreferredForwardBufferDuration(duration) )
     }
+    
+    private func onRemovePlayerStatusObserver() {
+        reactor.action( .removePlayerStatusObserver )
+    }
 }
 //MARK: - Reactor bind
 extension ShortsVideoPlayerView {
@@ -184,6 +191,8 @@ extension ShortsVideoPlayerView {
                 self.onPlayerItemStatusChanged(status: status)
             case .playerItemSetComplete:
                 self.onPlayerItemSetComplete()
+            case .requestHideSnapShotForWindow:
+                self.onRequestHideSnapShotForWindow()
             }
         }
     }
@@ -218,6 +227,10 @@ extension ShortsVideoPlayerView {
     
     private func onPlayerItemSetComplete() {
         resultHandler?( .playerItemSetComplete )
+    }
+    
+    private func onRequestHideSnapShotForWindow() {
+        resultHandler?( .requestHideSnapShotFormWindow )
     }
 }
 extension ShortsVideoPlayerView {

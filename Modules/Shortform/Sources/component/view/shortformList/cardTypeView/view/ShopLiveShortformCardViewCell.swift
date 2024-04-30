@@ -49,9 +49,9 @@ class ShopLiveShortformCardViewCell : UICollectionViewCell {
     }
     
     
-    func configureCell(title : String, description : String?, userThumbnail : String, userName : String, productModel : Product?, productCount : Int, viewCount : String, posterImageUrl : String?, videoURL : String?, youtubeWebView : SLWebView?, currentMediaType : String, viewHideOption : ShopLiveListCellViewHideOptionModel, cellCornerRadius : CGFloat, backgroundColor : UIColor?,currentSrn : String?){
+    func configureCell(title : String, description : String?, userThumbnail : String, userName : String, productModel : Product?, productCount : Int, viewCount : String, posterImageUrl : String?, videoURL : String?, youtubeWebView : SLWebView?, currentMediaType : String, viewHideOption : ShopLiveListCellViewHideOptionModel, cellCornerRadius : CGFloat, backgroundColor : UIColor?,currentSrn : String?,indexPath : IndexPath){
         self.currentMediaType = currentMediaType
-        basicCardView.setContents(viewCount: viewCount, posterImageUrl: posterImageUrl, videoUrl: videoURL, youtubeWebView: youtubeWebView, currentMediaType: currentMediaType,viewHideOption: viewHideOption,cornerRadius: cellCornerRadius,backgroundColor: backgroundColor,currentSrn: currentSrn)
+        basicCardView.setContents(viewCount: viewCount, posterImageUrl: posterImageUrl, videoUrl: videoURL, youtubeWebView: youtubeWebView, currentMediaType: currentMediaType,viewHideOption: viewHideOption,cornerRadius: cellCornerRadius,backgroundColor: backgroundColor,currentSrn: currentSrn, indexPath: indexPath)
         
         if let cardView0 = cardViewType0 {
             cardView0.setContent(title: title, description: description, userThumbnail: userThumbnail, userName: userName ,viewHideOption: viewHideOption,cellCornerRadius: cellCornerRadius)

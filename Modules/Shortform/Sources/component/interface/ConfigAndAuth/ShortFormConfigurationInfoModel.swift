@@ -40,7 +40,6 @@ struct ShortFormConfigurationInfoModel {
     var mutedWhenStart : Bool = false
     var mixWithOthers : Bool = true
     var previewDetailCollectionListAll : Bool = true
-    var eventTraceEndpoint : String = ""
     var isCached : Bool = false
     var previewRadius : CGFloat = 10
     var previewIsMuted : Bool = false
@@ -67,7 +66,6 @@ struct ShortFormConfigurationInfoModel {
                   mixWithOthers: datas?.mixWithOthers,
                   previewMaxSize: datas?.previewMaxSize,
                   previewDetailCollectionListAll : datas?.previewDetailCollectionListAll,
-                  eventTraceEndpoint: datas?.eventTraceEndpoint,
                   isCached: datas?.isCached,
                   previewRadius: datas?.previewRadius,
                   previewIsMuted : datas?.previewIsMuted,
@@ -77,7 +75,7 @@ struct ShortFormConfigurationInfoModel {
     init(detailUrl: String?, youtubeUrl : String?, shortformApiEndPoint : String?, previewEdgeInsets: (left : CGFloat?, top : CGFloat?, right : CGFloat?, bottom :CGFloat?),
         previewPosition: String?, detailApiInitializeCount: Int?, detailApiPaginationCount: Int?,
          listApiInitializeCount: Int?, listApiPaginationCount: Int?, previewUseCloseButton: Bool?, enabledSwipeOut: Bool?,
-         mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?,previewDetailCollectionListAll : Bool?,eventTraceEndpoint : String?,isCached : Bool?,previewRadius : CGFloat?, previewIsMuted : Bool?,preferredBufferDuration : Double?) {
+         mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?,previewDetailCollectionListAll : Bool?,isCached : Bool?,previewRadius : CGFloat?, previewIsMuted : Bool?,preferredBufferDuration : Double?) {
         if let detailUrl = detailUrl {
             self.detailUrl = detailUrl
         }
@@ -142,9 +140,6 @@ struct ShortFormConfigurationInfoModel {
         }
         if let previewDetailCollectionListAll = previewDetailCollectionListAll {
             self.previewDetailCollectionListAll = previewDetailCollectionListAll
-        }
-        if let eventTraceEndpoint = eventTraceEndpoint {
-            self.eventTraceEndpoint = eventTraceEndpoint
         }
         if let isCached = isCached {
             self.isCached = isCached

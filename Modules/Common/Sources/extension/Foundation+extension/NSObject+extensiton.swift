@@ -10,10 +10,10 @@ import Foundation
 public extension NSObject {
     func safeRemoveObserver_SL(_ observer: Any, forKeyPath keyPath: String) {
         guard let obverb: NSObject = observer as? NSObject else { return }
-          
+        
         switch self.observationInfo {
         case .some:
-          self.removeObserver(obverb, forKeyPath: keyPath)
+            self.removeObserver(obverb, forKeyPath: keyPath)
         default:
             break
 

@@ -38,7 +38,6 @@ public struct ShopLiveEvent {
                                            orderId: data.orderId,
                                            createdAt: currentMilliSeconds ).request { result in
                     
-                    ShopLiveLogger.debugLog("[HASSAN LOG] conversion API result \(result)")
                 }
             case .failure(_):
                 break

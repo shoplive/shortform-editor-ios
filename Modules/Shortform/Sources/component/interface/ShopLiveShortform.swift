@@ -157,9 +157,9 @@ public class ShopLiveShortform {
     internal static func showRelatedPreview(reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shortsList : [ShortsModel], shortsCollectionModel : ShortsCollectionModel?,shopliveSessionId : String?,previewOptionDto : ShortformPreviewOptionDTO?){
         if shortformWindow == nil {
             shortformWindow = SLShortFormWindow()
-            shortformWindow?.setPreviewDTO(dto: previewOptionDto)
         }
         
+        shortformWindow?.setPreviewDTO(dto: previewOptionDto)
         shortsCollection = V1ShortsDetailCollectionView(shortsMode : .preview, showType : .related, reference : reference, shortsId : shortsId, shortsSrn : shortsSrn, relatedRequestModel : requestModel,shortsList: shortsList,shortsCollection: shortsCollectionModel,viewProvideType: .window,shopliveSessionId: shopliveSessionId, previewOptionDTO: previewOptionDto)
         
         shortformWindow?.showPreview(shortsCollection)

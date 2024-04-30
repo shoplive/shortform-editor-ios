@@ -70,10 +70,10 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
             self.v2delegate?.hideEmptyDataView(hide: true)
             
             if let startIndex = self.scrollToPage {
-                if startIndex < 5 {
+                if startIndex < 3 {
                     self.requestedShortFormIdsList.append(contentsOf: self.shortFormIdsList.prefix(5))
                 }
-                else if startIndex > (self.shortFormIdsList.count - 6) {
+                else if startIndex > ((self.shortFormIdsList.count - 1) - 3) {
                     self.requestedShortFormIdsList.append(contentsOf: self.shortFormIdsList.suffix(5))
                 }
                 else {
@@ -97,7 +97,6 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
             }
         }
     }
-    
     
     func setShortformIdsMoreData(moreData : ShopLiveShortformIdsMoreData?){
         guard let moreData = moreData else {
@@ -160,17 +159,21 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
         }
     }
     
-    
+    //무조건 아래방향만 고려하면 됨
     func requestForPagination() {
         if self.shortFormIdsList.count != self.requestedShortFormIdsList.count {
-            if self.shortFormIdsList.count - self.requestedShortFormIdsList.count >= 5 {
-                useRemainingShortsIdsOnly()
+            guard let lastRequestId = requestedShortFormIdsList.last,
+                  let lastShortformId = shortFormIdsList.last else { return }
+            let isContainedInLastFiveShorts = self.shortFormIdsList.suffix(5).contains(where: { $0 == lastRequestId })
+            
+            if lastRequestId == lastShortformId {
+                requestForMoreData()
             }
-            else if self.shortFormIdsList.count - self.requestedShortFormIdsList.count < 5 {
+            else if lastRequestId != lastShortformId && isContainedInLastFiveShorts {
                 useRemainingShortsIdsAndRequestForMoreData()
             }
             else {
-                requestForMoreData()
+                useRemainingShortsIdsOnly()
             }
         }
         else {
@@ -182,7 +185,7 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
         var nextShortsIdsToRequest : [String] = []
         if let lastShortsId = self.requestedShortFormIdsList.last,
            let index = self.shortFormIdsList.firstIndex(of: lastShortsId) {
-            nextShortsIdsToRequest = (index...(index + 4)).compactMap({ index -> String? in
+            nextShortsIdsToRequest = ((index + 1)...(index + 5)).compactMap({ index -> String? in
                 return self.shortFormIdsList[safe: index]
             })
             self.requestedShortFormIdsList.append(contentsOf: nextShortsIdsToRequest)
@@ -192,12 +195,14 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
             self?.isLoadingMoreData = false
         }
     }
-    
+   
     private func useRemainingShortsIdsAndRequestForMoreData() {
-        let nextShortsIdsToRequest = ((self.requestedShortFormIdsList.count - 1)...((self.shortFormIdsList.count - 1))).compactMap({ index -> String? in
+        guard let lastRequestId = requestedShortFormIdsList.last else { return }
+        guard let startIndex = shortFormIdsList.firstIndex(where: { $0 == lastRequestId }) else { return }
+        let nextShortsIdsToRequest = ((startIndex + 1)...((self.shortFormIdsList.count - 1))).compactMap({ index -> String? in
             return self.shortFormIdsList[safe: index]
         })
-        self.requestedShortFormIdsList = self.shortFormIdsList
+        self.requestedShortFormIdsList.append(contentsOf: nextShortsIdsToRequest)
         self.loadShortFormIds(ids: nextShortsIdsToRequest, reset: false) { [weak self] isSuccess in
             self?.isLoadingMoreData = false
             if isSuccess {
@@ -238,7 +243,6 @@ extension V2ShortsCollectionViewModel {
             
             guard let self = self else { return }
             if isSucess == false { return }
-            ShopLiveLogger.debugLog("[HASSAN LOG] loadShortformIds ")
             self.isLoadingMoreData = true
             ShortsIdsListAPI(ids: ids).request { [weak self] result in
                 guard let self = self else { return }

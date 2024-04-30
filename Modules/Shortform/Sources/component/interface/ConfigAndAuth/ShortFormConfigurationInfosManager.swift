@@ -13,7 +13,12 @@ public class ShortFormConfigurationInfosManager {
     public static let shared = ShortFormConfigurationInfosManager()
     private init() { }
     
+    
     private(set) var shortsConfiguration = ShortFormConfigurationInfoModel(shortformApiEndPoint: nil, datas: nil)
+    
+    public func getRequestCount() -> Int {
+        self.shortsConfiguration.detailApiInitializeCount ?? 10
+    }
     
     public func getBaseUrl() -> String {
         return shortsConfiguration.shortformApiEndpoint

@@ -73,7 +73,7 @@ internal final class LiveStreamViewModel: NSObject {
     private var isUpdatePictureInPictureNeedInSetConfInitialized : Bool = false
     
     deinit {
-        ShopLiveLogger.debugLog("iveStreamViewModel deinited")
+        ShopLiveLogger.debugLog("liveStreamViewModel deinited")
     }
     
     override init() {
@@ -485,33 +485,33 @@ extension LiveStreamViewModel {
     //    }
     
     private func removePlaytimeObserver() {
-//        if let playTimeObserver = self.playTimeObserver {
-//            ShopLiveController.player?.removeTimeObserver(playTimeObserver)
-//            self.playTimeObserver = nil
-//        }
+        if let playTimeObserver = self.playTimeObserver {
+            ShopLiveController.player?.removeTimeObserver(playTimeObserver)
+            self.playTimeObserver = nil
+        }
     }
     
     func startLiveStreamKeepUpTimer() {
-//        if self.useLiveKeepUpTimerOnInApp == false && ShopLiveController.windowStyle != .osPip { return }
-//        if self.useLiveKeepUpTimerOnOsPip == false && ShopLiveController.windowStyle == .osPip { return }
-//        if ShopLiveController.isReplayMode { return  }
-//        self.removeLiveStreamKeepUpTimer()
-//
-//        let time = CMTime(seconds: liveKeepUpTimerFrequency, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-//        liveKeepUpTimer = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: DispatchQueue.global(qos: .background)) { [weak self] time in
-//            guard let self = self else { return }
-//            guard self.checkLiveKeepUpTimerFiredMultipleTime() else { return }
-//            if ShopLiveController.player?.timeControlStatus != .playing {
-//                return
-//            }
-//            guard let (loadedStartTime ,loadedEndTime, seekableEndTime, currenTime, averageBuffer ) = self.getInfosForLiveKeepUpTimer() else { return }
-//            if self.isLLHLS {
-//                self.liveKeepUpTimerForLLHLS(loadStartTime: loadedStartTime, seekEndTime: seekableEndTime, currentTime: currenTime)
-//            }
-//            else {
-//                self.liveKeepUpTimerForHLS(loadEndTime: loadedEndTime, seekEndTime: seekableEndTime, currentTime: currenTime, averageBuffer: averageBuffer)
-//            }
-//        }
+        if self.useLiveKeepUpTimerOnInApp == false && ShopLiveController.windowStyle != .osPip { return }
+        if self.useLiveKeepUpTimerOnOsPip == false && ShopLiveController.windowStyle == .osPip { return }
+        if ShopLiveController.isReplayMode { return  }
+        self.removeLiveStreamKeepUpTimer()
+
+        let time = CMTime(seconds: liveKeepUpTimerFrequency, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        liveKeepUpTimer = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: DispatchQueue.global(qos: .background)) { [weak self] time in
+            guard let self = self else { return }
+            guard self.checkLiveKeepUpTimerFiredMultipleTime() else { return }
+            if ShopLiveController.player?.timeControlStatus != .playing {
+                return
+            }
+            guard let (loadedStartTime ,loadedEndTime, seekableEndTime, currenTime, averageBuffer ) = self.getInfosForLiveKeepUpTimer() else { return }
+            if self.isLLHLS {
+                self.liveKeepUpTimerForLLHLS(loadStartTime: loadedStartTime, seekEndTime: seekableEndTime, currentTime: currenTime)
+            }
+            else {
+                self.liveKeepUpTimerForHLS(loadEndTime: loadedEndTime, seekEndTime: seekableEndTime, currentTime: currenTime, averageBuffer: averageBuffer)
+            }
+        }
     }
     
     private func checkLiveKeepUpTimerFiredMultipleTime() -> Bool {
@@ -568,7 +568,6 @@ extension LiveStreamViewModel {
         self.liveKeepUpBufferStack.removeAll()
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            ShopLiveLogger.debugLog("LiveKeepUpTimer seek fired")
             ShopLiveController.player?.seek(to: seekEndTime, toleranceBefore: .init(seconds: 1, preferredTimescale: 44100), toleranceAfter: .init(seconds: 1, preferredTimescale: 44100), completionHandler: { [weak self] _ in
                 self?.delegate?.requestTakeSnapShotView()
             })
@@ -588,6 +587,12 @@ extension LiveStreamViewModel {
         }
     }
     
+    
+    // HLS보다 단순하게 확인 가능
+    // loadedTimeRange의 start 부분이 currentTime 보다 뒤에 있는 경우, 즉 미래에 있는 경우 모종의 이유로 latency가 벌어졌다고 추측할 수 있음
+    // 따라서 currnentTime = loadStartTime.seconds < 0 이 될 경우 latency를 줄이기 위해서 앞으로 땡겨감
+    // llHLS의 경우 격차 정도가 HLS와는 다르게 1초 이내로 차이가 남(0.5, 0.45 정도)
+    // 영상 시작시간 초반 10초 동안은 AVPlayer에서 안정적으로 버퍼를 받지 않았기 때문에 이 로직이 작동하면 버벅이는 현상이 발생함. 1.5.8 버전 이후에 개선 되었음
     private func liveKeepUpTimerForLLHLS(loadStartTime : CMTime, seekEndTime : CMTime, currentTime : Double) {
         if  currentTime - loadStartTime.seconds < 0 && ShopLiveController.player?.timeControlStatus != .paused && currentTime >= 10 {
             DispatchQueue.main.async { [weak self] in
@@ -844,17 +849,17 @@ extension LiveStreamViewModel {
         }
         
         if let anondId = ShopLiveCommon.getAnonId(), !anondId.isEmpty {
-            queryItems.append(URLQueryItem(name: "anondId", value: anondId))
+            queryItems.append(URLQueryItem(name: "anonId", value: anondId))
         }
         
         if let utm_source = ShopLiveCommon.getUtmSource(), utm_source.isEmpty == false {
             queryItems.append(URLQueryItem(name: "utm_source", value: utm_source))
         }
         if let utm_content = ShopLiveCommon.getUtmCampaign(), utm_content.isEmpty == false {
-            queryItems.append(URLQueryItem(name: "utm_content", value: utm_content))
+            queryItems.append(URLQueryItem(name: "utm_campaign", value: utm_content))
         }
         if let utm_campaign = ShopLiveCommon.getUtmContent(), utm_campaign.isEmpty == false {
-            queryItems.append(URLQueryItem(name: "utm_campaign", value: utm_campaign))
+            queryItems.append(URLQueryItem(name: "utm_content", value: utm_campaign))
         }
         if let utm_medium = ShopLiveCommon.getUtmMedium(), utm_medium.isEmpty == false {
             queryItems.append(URLQueryItem(name: "utm_medium", value: utm_medium))

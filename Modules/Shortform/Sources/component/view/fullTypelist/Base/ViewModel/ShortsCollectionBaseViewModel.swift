@@ -130,6 +130,7 @@ class ShortsCollectionBaseViewModel {
     var latestActivePageIndex : Int = -1
     private var videoCurrentTimeWhenPreviewTapped : ShortformCurrentTimeDTO?
     private var videoShortsIdWhenPreviewTapped : String?
+    private var canUseShortformCurrentTimeDTO : Bool = false
     private var _isMuted : Bool?
     private var isMuted : Bool {
         get {
@@ -300,6 +301,10 @@ extension ShortsCollectionBaseViewModel {
     func setVideoSHortsIdWhenPreviewTappedToNull() {
         self.videoShortsIdWhenPreviewTapped = nil
     }
+    
+    func setCanUseShortformCurrentTimeDTO(canUse : Bool) {
+        self.canUseShortformCurrentTimeDTO = canUse
+    }
 }
 //MARK: - getter functions
 extension ShortsCollectionBaseViewModel {
@@ -420,6 +425,14 @@ extension ShortsCollectionBaseViewModel {
         return self.previewOptionDto?.maxCount
     }
     
+    func getShortsMode() -> ShortsMode {
+        return self.shortsMode
+    }
+    
+    func getCanUseShortformCurrentTimeDTO() -> Bool {
+        return canUseShortformCurrentTimeDTO
+    }
+    
     func getOverlayUrlPayload(at indexPath : IndexPath, shortsModel : ShortsModel?, isYoutube : Bool) -> [String : Any] {
        
         var payloadDict: [String: Any] = [:]
@@ -445,7 +458,7 @@ extension ShortsCollectionBaseViewModel {
         }
         
         if let anondId = ShopLiveCommon.getAnonId(), !anondId.isEmpty {
-            payloadDict["anondId"] = anondId
+            payloadDict["anonId"] = anondId
         }
         
         if let shopliveSessionId = self.shopliveSessionId, !shopliveSessionId.isEmpty {

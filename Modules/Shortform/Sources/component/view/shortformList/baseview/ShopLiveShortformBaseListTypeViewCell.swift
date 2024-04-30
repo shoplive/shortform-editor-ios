@@ -114,7 +114,8 @@ final class ShopLiveShortformBaseListTypeViewCell : UICollectionViewCell {
                        viewHideOption : ShopLiveListCellViewHideOptionModel,
                        cellCornerRadius : CGFloat,
                        backgroundColor : UIColor?,
-                       currentSrn : String?){
+                       currentSrn : String?,
+                       indexPath : IndexPath){
         self.currentMediaType = currentMediaType
         basicCardView.setContents(viewCount: viewCount,
                                   posterImageUrl: posterImageUrl,
@@ -124,7 +125,8 @@ final class ShopLiveShortformBaseListTypeViewCell : UICollectionViewCell {
                                   viewHideOption : viewHideOption,
                                   cornerRadius: cellCornerRadius,
                                   backgroundColor: backgroundColor,
-                                  currentSrn: currentSrn)
+                                  currentSrn: currentSrn,
+                                  indexPath: indexPath)
         
         if let cardView1 = cardViewType1 {
             cardView1.setContent(productBannerModel: productModel,viewHideOption: viewHideOption)

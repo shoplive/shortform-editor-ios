@@ -39,7 +39,7 @@ protocol ShortsCellInterface {
     func reconfigureWebView()
     func handleDeviceRotation(isLandscape : Bool)
     func sendActivePageStateToWeb(forceIsActive : Bool?, srn : String?, index : Int, shortsListModel : [ShopLiveShortform.ShortsModel]?, previousSrn : String?)
-    func getCellIndexPath() -> IndexPath
+    func getCurrentIndexPath() -> IndexPath
     func configureCell(webView : SLWebView,
                        youtubeWebView : SLWebView?,
                        model : ShopLiveShortform.ShortsModel,
@@ -135,6 +135,10 @@ class ShortsCell : UICollectionViewCell {
         return playerView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: ratio)
     }()
     
+    lazy private var playerViewPadWidthAnc : NSLayoutConstraint = {
+        return playerView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1)
+    }()
+    
     lazy private var youtubePlayerViewVerticalWidthAnc : NSLayoutConstraint = {
         return youtubePlayerView.widthAnchor.constraint(equalTo: self.widthAnchor)
     }()
@@ -143,6 +147,10 @@ class ShortsCell : UICollectionViewCell {
         let resolution = ShortFormConfigurationInfosManager.shared.shortsConfiguration.resolution
         let ratio = resolution.width / resolution.height
         return youtubePlayerView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: ratio)
+    }()
+    
+    lazy private var youtubePlayerViewPadWidhAnc : NSLayoutConstraint = {
+        return youtubePlayerView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1)
     }()
     
     lazy private var youtubePosterVerticalWidthAnc : NSLayoutConstraint = {
@@ -191,7 +199,7 @@ class ShortsCell : UICollectionViewCell {
                        setShortsSingleDetailViewPayload : [String : Any]?,
                        preferredForwardBufferDuration : Double) {
         
-        //로깅용
+        playerView.action( .removePlayerStatusObserver )
         self.webView.indexPath = indexPath
         self.thumbnailImageView.image = nil
         playerView.action( .setPreferredForwardBufferDuration(preferredForwardBufferDuration) )
@@ -209,10 +217,10 @@ class ShortsCell : UICollectionViewCell {
         reactor.action( .setShopliveSessionId(shopliveSessionId) )
         reactor.action( .setShortsMode(shortsMode) )
         reactor.action( .handleDeviceRotation(isLandscape: isLandScape) )
-        ShopLiveLogger.debugLog("[HASSAN LOG] isMuted \(isMute)")
         reactor.action( .setIsMuted(isMute) )
         self.delegate = delegate
         reactor.action( .initializeCell )
+        
     }
     
 }
@@ -444,6 +452,8 @@ extension ShortsCell {
                 self.onPlayerViewTimeControlStatusChanged(status: status)
             case .playerItemSetComplete:
                 self.onPlayerViewPlayerItemSetComplete()
+            case .requestHideSnapShotFormWindow:
+                self.onPlayerRequestHideSnapshotForWindow()
             }
         }
     }
@@ -474,6 +484,10 @@ extension ShortsCell {
     
     private func onPlayerViewPlayerItemSetComplete() {
         reactor.action( .requestSeekToOnInital )
+    }
+    
+    private func onPlayerRequestHideSnapshotForWindow() {
+        self.delegate?.setSnapShotForWindow(image: nil)
     }
     
 }
@@ -539,11 +553,35 @@ extension ShortsCell {
             thumbnailHorizontalWidthAnc.isActive = true
             thumbnailVerticalWidthAnc.isActive = false
             
-            playerViewHorizontalWidthAnc.isActive = true
-            playerViewVerticalWidthAnc.isActive = false
             
-            youtubePlayerViewHorizontalWidthAnc.isActive = true
+            playerViewHorizontalWidthAnc.isActive = false
+            playerViewVerticalWidthAnc.isActive = false
+            playerViewPadWidthAnc.isActive = true
+            
+            youtubePlayerViewHorizontalWidthAnc.isActive = false
             youtubePlayerViewVerticalWidthAnc.isActive = false
+            youtubePlayerViewPadWidhAnc.isActive = true
+            
+//
+//            if UIDevice.current.userInterfaceIdiom == .pad {
+//                playerViewHorizontalWidthAnc.isActive = false
+//                playerViewVerticalWidthAnc.isActive = false
+//                playerViewPadWidthAnc.isActive = true
+//                
+//                youtubePlayerViewHorizontalWidthAnc.isActive = false
+//                youtubePlayerViewVerticalWidthAnc.isActive = false
+//                youtubePlayerViewPadWidhAnc.isActive = true
+//            }
+//            else {
+//                playerViewHorizontalWidthAnc.isActive = true
+//                playerViewVerticalWidthAnc.isActive = false
+//                playerViewPadWidthAnc.isActive = false
+//                
+//                youtubePlayerViewHorizontalWidthAnc.isActive = true
+//                youtubePlayerViewVerticalWidthAnc.isActive = false
+//                yo`utubePlayerViewPadWidhAnc.isActive = false
+//            }
+            
             
             youtubePosterVerticalWidthAnc.isActive = true
             youtubePosterHorizontalWidthAnc.isActive = false
@@ -618,6 +656,9 @@ extension ShortsCell {
     
 }
 extension ShortsCell : ShortsCellReactorDelegate {
+    /**
+     디버그용도로써 실사용처가 없음
+     */
     func  getCurrentOnViewIndexPath() -> IndexPath? {
         return delegate?.getCurrentOnViewIndexPath()
     }
@@ -670,7 +711,7 @@ extension ShortsCell : ShortsCellInterface {
         reactor.action( .sendActivePageState(forceIsActive: forceIsActive, srn: srn, shortsList: shortsListModel,previousSrn: previousSrn) )
     }
     
-    func getCellIndexPath() -> IndexPath {
+    func getCurrentIndexPath() -> IndexPath {
         return reactor.getCurrentIndexPath()
     }
     
@@ -693,11 +734,5 @@ extension ShortsCell : ShortsCellInterface {
         else {
             return .shoplive(playerView.getCurrentCMTime())
         }
-    }
-}
-//MARK: - getter
-extension ShortsCell {
-    func getCurrentIndexPath() -> IndexPath {
-        return reactor.getCurrentIndexPath()
     }
 }

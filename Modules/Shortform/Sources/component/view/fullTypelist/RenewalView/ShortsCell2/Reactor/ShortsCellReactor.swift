@@ -247,7 +247,8 @@ class ShortsCellReactor : NSObject, SLReactor {
             }
             let videoGravity : AVLayerVideoGravity = UIDevice.current.userInterfaceIdiom == .pad ? .resizeAspect : .resizeAspectFill
             resultHandler?( .setVideoLayerGravity(videoGravity) )
-            if let urlString = shortsModel?.cards?.first?.screenshotUrl, let url = URL(string: urlString) {
+            let urlString = shortsModel?.cards?.first?.screenshotUrl ?? (shortsModel?.cards?.first?.specifiedScreenShotUrl ?? "")
+            if let url = URL(string: urlString) {
                 ImageDownLoaderManager.shared.download(imageUrl: url) { [weak self] result in
                     guard let self = self else { return }
                     switch result {
@@ -773,7 +774,6 @@ extension ShortsCellReactor {
             "muted" : isMuted,
             "videoUrl" : currentVideoUrl
         ]
-        ShopLiveLogger.debugLog("[HASSAN LOG] payload \(payload)")
         
         let request : JSRequest = ( .ON_VIDEO_MUTED, payload )
         resultHandler?( .requestEvaluateJS([request]))

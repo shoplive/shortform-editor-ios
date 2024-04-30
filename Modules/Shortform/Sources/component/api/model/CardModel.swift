@@ -10,7 +10,8 @@ struct CardModel : Codable {
     // 웹클라이언트 요청으로 주석처리, 기존에 사용안하고 있음.
     // let srn: String?
     let videoUrl, previewVideoUrl: String?
-    let screenshotUrl: String?
+    let screenshotUrl: String? //1순위
+    let specifiedScreenShotUrl : String? //2순위
     let cardType: String?
     
     
@@ -43,6 +44,7 @@ struct CardModel : Codable {
         self.videoUrl = try? parser.parse(targetType: String.self, key: CodingKeys.videoUrl)
         self.previewVideoUrl = try? parser.parse(targetType: String.self, key: CodingKeys.previewVideoUrl)
         self.screenshotUrl = try? parser.parse(targetType: String.self, key: CodingKeys.screenshotUrl)
+        self.specifiedScreenShotUrl = try? parser.parse(targetType: String.self, key: CodingKeys.specifiedScreenShotUrl)
         self.cardType = try? parser.parse(targetType: String.self, key: CodingKeys.cardType)
         self.srn = try? parser.parse(targetType: String.self, key: CodingKeys.srn)
         self.playerType = try? parser.parse(targetType: String.self, key: CodingKeys.playerType)

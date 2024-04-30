@@ -31,7 +31,7 @@ class CGERootParser {
                 else {
                     result += command + ","
                 }
-                ShopLiveLogger.debugLog("[HASSAN LOG] filter \(value)\n result \(result) \nd\nd\nd\nd\n")
+//                ShopLiveLogger.debugLog("[HASSAN LOG] filter \(value)\n result \(result) \nd\nd\nd\nd\n")
             }
         }
         

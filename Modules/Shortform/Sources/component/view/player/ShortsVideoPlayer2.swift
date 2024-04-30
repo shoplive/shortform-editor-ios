@@ -42,6 +42,7 @@ class ShortsVideoPlayer2 : SLReactor {
     
     private var preferredForwardBufferDuration : Double?
     
+    
     init(videoUrl: URL, preferredForwardBufferDuration: Double? = 2.5) {
         self.videoUrl = videoUrl
         self.preferredForwardBufferDuration = preferredForwardBufferDuration

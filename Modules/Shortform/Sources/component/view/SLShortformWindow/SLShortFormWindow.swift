@@ -329,6 +329,7 @@ extension ShopLiveShortform {
         private func fullScreen(animated: Bool = false, reset: Bool = false) {
             self.reactor.shortsMode = .detail
             if animated { // animated 가 true면 preview click해서 전체 화면 진입
+                self.shortsCollectionView?.setPreviewToDetailMaintainTimeInfo()
                 UIView.animate(withDuration: 0.3, delay: 0) { [weak self] in
                     guard let self = self else { return }
                     self.shortsCollectionView?.takeSnapShot()
@@ -346,9 +347,9 @@ extension ShopLiveShortform {
                         ShortformEventTraceManager.processDetailOnPlayerShow(shortsCollectionSrn: self.shortsCollectionView?.getCurrentShortsSrn(), shopliveSessionId: sessionId)
                         ShortformNativeOnEventsManager.sendNativeOnEvents(command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
                         ShopLiveShortform.Delegate.receiveHandler.delegate?.onDidAppear?()
-                        DispatchQueue.main.async {
-                            self.shortsCollectionView?.hideSnapshot(animate: true)
-                        }
+//                        DispatchQueue.main.async {
+//                            self.shortsCollectionView?.hideSnapshot(animate: true)
+//                        }
                     }
                 }
             }

@@ -252,7 +252,7 @@ extension ShopLiveShortformVerticalTypeViewReactor : UICollectionViewDelegate, U
             youtubeWebView = getYoutubeWebView(for: indexPath)
         }
         
-        var posterImageUrl : String? = cardModel.screenshotUrl
+        var posterImageUrl : String? = cardModel.screenshotUrl ?? cardModel.specifiedScreenShotUrl
         if let playerType = cardModel.playerType, playerType == "YOUTUBE",
            let youtubeThumbnail = model.cards?.first?.externalVideoThumbnail {
             posterImageUrl = youtubeThumbnail
@@ -283,7 +283,8 @@ extension ShopLiveShortformVerticalTypeViewReactor : UICollectionViewDelegate, U
                            viewHideOption: cellViewHideOptionModel,
                            cellCornerRadius: cellRadius,
                            backgroundColor: currentCellBackgroundColor,
-                           currentSrn: model.srn)
+                           currentSrn: model.srn,
+                           indexPath: indexPath)
         
         cell.delegate = self
         

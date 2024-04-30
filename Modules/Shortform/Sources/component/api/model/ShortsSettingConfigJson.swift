@@ -45,7 +45,6 @@ struct ShortsSettingConfigSDK: Codable {
     let mutedWhenStart : Bool?
     let mixWithOthers : Bool?
     let previewDetailCollectionListAll : Bool?
-    let eventTraceEndpoint : String?
     let isCached : Bool?
     let previewRadius : CGFloat?
     let previewIsMuted : Bool?
@@ -70,7 +69,6 @@ struct ShortsSettingConfigSDK: Codable {
         self.mutedWhenStart = try? parser.parse(targetType: Bool.self, key: CodingKeys.mutedWhenStart)
         self.mixWithOthers = try? parser.parse(targetType: Bool.self, key: CodingKeys.mixWithOthers)
         self.previewDetailCollectionListAll = try? parser.parse(targetType: Bool.self, key: CodingKeys.previewDetailCollectionListAll)
-        self.eventTraceEndpoint = try? parser.parse(targetType: String.self, key: CodingKeys.eventTraceEndpoint)
         self.isCached = try? parser.parse(targetType: Bool.self, key: CodingKeys.isCached)
         self.previewRadius = try? parser.parse(targetType: CGFloat.self, key: CodingKeys.previewRadius)
         self.previewIsMuted = try? parser.parse(targetType: Bool.self, key: CodingKeys.previewIsMuted)

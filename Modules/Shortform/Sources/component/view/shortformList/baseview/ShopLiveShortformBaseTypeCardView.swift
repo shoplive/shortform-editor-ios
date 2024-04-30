@@ -89,6 +89,7 @@ class ShopLiveShortformBaseTypeCardView : UIView {
     
     private weak var delegate : ShopLiveShortformBaseTypeCardViewDelegate?
     private var playIconLeftTopPadding : CGFloat = 8
+    private var indexPath : IndexPath?
     
     init(frame: CGRect,delegate : ShopLiveShortformBaseTypeCardViewDelegate,playIconLeftTopPadding : CGFloat) {
         super.init(frame: frame)
@@ -104,8 +105,9 @@ class ShopLiveShortformBaseTypeCardView : UIView {
         fatalError()
     }
     
-    func setContents(viewCount : String, posterImageUrl : String?, videoUrl : String?, youtubeWebView : SLWebView?, currentMediaType : String, viewHideOption : ShopLiveListCellViewHideOptionModel,cornerRadius : CGFloat,backgroundColor : UIColor?, currentSrn : String? ){
-        
+    func setContents(viewCount : String, posterImageUrl : String?, videoUrl : String?, youtubeWebView : SLWebView?, currentMediaType : String, viewHideOption : ShopLiveListCellViewHideOptionModel,cornerRadius : CGFloat,backgroundColor : UIColor?, currentSrn : String?, indexPath : IndexPath ){
+        self.indexPath = indexPath
+        videoPlayer.setIndexPath(indexPath: indexPath)
         var bgColor : UIColor = .init("#CBCBCB")
         if let backgroundColor = backgroundColor {
             bgColor = backgroundColor
@@ -171,7 +173,9 @@ class ShopLiveShortformBaseTypeCardView : UIView {
             self.youtubePlayer.action( .play )
         }
         else {
-            if videoPlayer.getIsReadyToPlay() == false { return }
+            if videoPlayer.getIsReadyToPlay() == false {
+                return
+            }
             videoPlayer.start()
         }
     }

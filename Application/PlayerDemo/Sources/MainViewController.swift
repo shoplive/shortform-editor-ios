@@ -399,7 +399,7 @@ extension MainViewController: ShopLiveSDKDelegate {
         ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) payload(String:Any) \(payload)")
         let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, payload: payload)
         print("eventLog \(eventLog.name)")
-        if DemoConfiguration.shared.useClickLog {
+        if DemoConfiguration.shared.useClickLog && name.contains("player_active_seconds") == false {
             DispatchQueue.main.async {
                 UIWindow.showToast(message: "evnet log handler \n (String: Any) name \(name) feature \(feature.name) campaignKey \(campaign) payload \(payload)")
             }

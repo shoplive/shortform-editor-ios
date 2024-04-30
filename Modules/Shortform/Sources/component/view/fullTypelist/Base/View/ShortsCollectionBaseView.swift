@@ -213,6 +213,13 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
         
     }
     
+    /**
+     override needed
+     */
+    func setPreviewToDetailMaintainTimeInfo() {
+        
+    }
+    
     func setShopLiveSessionId(sessionId : String?) {
         viewModel.setShopLiveSessionId(sessionId: sessionId)
     }
@@ -352,16 +359,16 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShortsCell.cellId, for: indexPath) as! ShortsCell
         
-        
-
-        
-        
         if let data = viewModel.shortsListData[safe : indexPath.row] {
             var seekToOnPreviewToFullScreen : ShortformCurrentTimeDTO? = nil
-            if viewModel.getVideoShortsIdTimeWhenPreviewTapped() ?? "1" == data.shortsId ?? "2" {
+            if viewModel.getVideoShortsIdTimeWhenPreviewTapped() ?? "1" == data.shortsId ?? "2" &&
+                viewModel.getShortsMode() != .preview &&
+                viewModel.getCanUseShortformCurrentTimeDTO() == true {
                 seekToOnPreviewToFullScreen = viewModel.getVideoCurrentTimeWhenPreviewTapped()
                 viewModel.setVideoCurrentTimeWhenPreviewTapped(time: nil)
+                viewModel.setCanUseShortformCurrentTimeDTO(canUse: false)
             }
+            
             cell.configureCell(webView: viewModel.getWebview(for: data.shortsId ?? "",indexPath: indexPath),
                                youtubeWebView: viewModel.getYoutubePlayerView(for: data.shortsId ?? "", indexPath: indexPath),
                                model: data,

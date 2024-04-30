@@ -12,7 +12,7 @@ import Foundation
 struct ShopLiveConversionEventAPI : APIDefinition {
     typealias ResultType = ShopLiveEventRequest
     
-    static var baseurl : String = "https://dev-capi.shoplive.cloud/v2"
+    static var baseurl : String = "https://dev-capi.shoplive.cloud"
     
     var baseUrl: String {
         return Self.baseurl
@@ -20,7 +20,7 @@ struct ShopLiveConversionEventAPI : APIDefinition {
     
     var urlPath: String {
         if let accessKey = ShopLiveCommon.getAccessKey() {
-            return "/v2/\(accessKey)" + "/conversion/event"
+            return "/v2/\(accessKey)/conversion/event"
         }
         else {
             return "/v2/conversion/event"

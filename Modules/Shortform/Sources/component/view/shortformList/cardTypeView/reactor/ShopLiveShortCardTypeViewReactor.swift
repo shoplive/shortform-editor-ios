@@ -87,6 +87,7 @@ final class ShopLiveShortCardTypeViewReactor : NSObject, SLReactor {
     }
     private var shopliveSessionId : String?
     
+    
     override init(){
         super.init()
         self.handleNetworkMonitorResult()
@@ -228,6 +229,7 @@ final class ShopLiveShortCardTypeViewReactor : NSObject, SLReactor {
     }
     
     
+    
 }
 extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDataSourcePrefetching, ShopliveShortformListViewCellDelegate {
    
@@ -264,7 +266,7 @@ extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollect
             youtubeWebView = getYoutubeWebView(for: indexPath)
         }
         
-        var posterImageUrl : String? = cardModel.screenshotUrl
+        var posterImageUrl : String? = cardModel.screenshotUrl ?? cardModel.specifiedScreenShotUrl
         if let playerType = cardModel.playerType, playerType == "YOUTUBE",
            let externalVideoThumbnail = cardModel.externalVideoThumbnail {
             posterImageUrl = externalVideoThumbnail
@@ -284,7 +286,8 @@ extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollect
                            viewHideOption: self.cellViewHideOptionModel,
                            cellCornerRadius: cellRadius,
                            backgroundColor: currentCellBackgroundColor,
-                           currentSrn: model.srn)
+                           currentSrn: model.srn,
+                           indexPath: indexPath)
         
         
         cell.currentReference = model.reference ?? ""
@@ -316,7 +319,6 @@ extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollect
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         return cellSize
     }
     

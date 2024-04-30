@@ -17,21 +17,17 @@ class V2ShortformExample  {
     var reference : String? = nil
     var hasMore : Bool? = nil
     
-    
     func play() {
-        
         self.reference = nil
         self.hasMore = nil
         self.callShortsCollectionAPI { [weak self] data,error  in
-            guard let self = self else { return }
+            guard let self = self, let ids = data?.ids else { return }
+            let currentIdIndex = Int.random(in: 0..<ids.count)
             if let data = data {
-                ShopLiveShortform.play(shortformIdsData: ShopLiveShortformIdsData(ids : data.ids, currentId: data.ids?[safe : 0] ?? "" ), delegate: self)
+                ShopLiveShortform.play(shortformIdsData: ShopLiveShortformIdsData(ids : ids, currentId: ids[safe : currentIdIndex] ?? "" ), delegate: self)
             }
         }
-        
     }
-    
-    
 }
 extension V2ShortformExample : ShortsCollectionViewDataSourcRequestDelegate {
     func onShortformListPaginationError(error: Error) {
@@ -106,7 +102,8 @@ struct TestShortsCollectionAPI: APIDefinition {
 
     var parameters: [String : Any]? {
         var params: [String: Any] = [:]
-        params["count"] = count
+        
+        params["count"] = ShortFormConfigurationInfosManager.shared.getRequestCount()
 
         if let accessKey = ShopLiveCommon.getAccessKey() {
             params["accessKey"] = accessKey
@@ -148,7 +145,6 @@ struct TestShortsCollectionAPI: APIDefinition {
     }
 
     var reference : String?
-    var count: Int = 10
 
     var shortsId: String?
 

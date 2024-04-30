@@ -22,6 +22,8 @@ class CardTypeExampleViewController : UIViewController {
     
     var delegate : ExampleViewControllerBaseDelegate?
     
+    private var isMuted : Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -29,12 +31,17 @@ class CardTypeExampleViewController : UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         ShopLiveShortform.Delegate.setDelegate(self)
         setCollectionViewAndBuilder()
-        self.builder?.enablePlayVideos()
-        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+            self?.builder?.enablePlayVideos()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -136,8 +143,12 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
         print("[HASSAN LOG] shortsId \(shortsId)")
         print("[HASSAN LOG] productModel \(product.sku ?? "")")
         
-        ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(productId: product.productId,isMuted: nil,
-                                                                                maxCount: OptionSettingModel.previewMaxCount))
+        ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(shortsId: shortsId,
+                                                                                productId: product.productId,
+                                                                                isMuted: isMuted,
+                                                                                maxCount: OptionSettingModel.previewMaxCount,clickEventCallBack: {
+            ShopLiveLogger.debugLog("[HASSAN LOG] shopliveShortform preview clickEventCallBack ")
+        }))
 
         let conversionProductData = ShopLiveConversionProductData(productId: product.productId,
                                                                   customerProductId: product.customerProductId,
@@ -154,7 +165,6 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
     }
     
     func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShortsDetailData) {
-        
         print("[HASSAN LOG] srn \(shortsSrn)")
         print("[HASSAN LOG] shortsId \(shortsId)")
         print("[HASSAN LOG] scheme \(scheme)")
@@ -174,7 +184,14 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
     }
     
     func onEvent(command: String, payload: String?) {
-        
+        switch command {
+        case "DETAIL_CLICK_MUTE":
+            isMuted = true
+        case "DETAIL_CLICK_UNMUTE":
+            isMuted = false
+        default:
+            break
+        }
     }
     
     func handleShare(shareMetadata: ShopLiveShareMetaData) {

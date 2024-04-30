@@ -96,19 +96,23 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func setPreviewToDetailMaintainTimeInfo() {
+        if let cell = self.shortsListView.visibleCells.first as? ShortsCell {
+            ShopLiveLogger.debugLog("[HASSAN LOG] setPreviewToDetailMaintainTimeInfo \(cell.getCurrentVidoeTime())")
+            viewmodel.setVideoCurrentTimeWhenPreviewTapped(time: cell.getCurrentVidoeTime())
+            viewmodel.setVideoShortsIdWhenPreviewTapped()
+        }
+    }
     
     override func viewTappedInPreviewMode(reset: Bool, shortsId: String?, srn: String?, completion: (() -> ())? = nil) {
         let config = ShortFormConfigurationInfosManager.shared.shortsConfiguration
         if reset == false { return }
-        if let cell = self.shortsListView.visibleCells.first as? ShortsCell {
-            viewmodel.setVideoCurrentTimeWhenPreviewTapped(time: cell.getCurrentVidoeTime())
-            viewmodel.setVideoShortsIdWhenPreviewTapped()
-        }
         viewModel.latestCell.latestCell?.stop()
         viewmodel.removeAllWebViewLists()
         viewModel.latestCell.setLatest()
         viewModel.didAnimatePreviewToFullScreen = true
         self.viewModel.latestActivePageIndex = -1
+        viewmodel.setCanUseShortformCurrentTimeDTO(canUse: true)
         if config.previewDetailCollectionListAll {
             viewModel.currentApiType = .normal
             self.viewmodel.loadShortsPlayCollection(reference: nil,onPagination: false, shortsId: shortsId, reset: true) { [weak self] _ in
