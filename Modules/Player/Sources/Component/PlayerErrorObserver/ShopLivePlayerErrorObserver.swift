@@ -26,7 +26,7 @@ protocol ShopLiveAVPlayerErrorObserverDelegate {
 class ShopLiveAVPlayerErrorObserver {
     
     
-    enum ErrorCase {
+    enum ErrorCase : String {
         case extDiscontinuity
         case missinRenditionReport
         case stallDanger
@@ -35,6 +35,7 @@ class ShopLiveAVPlayerErrorObserver {
         case bandWithExceeds
         case noMatchingMediaFileFound
         case unableToGetPlayList
+        case noItemToPlay//이거는 TimeControlStatus.reasonForWaitingToPlay용 error
         case none
     }
     
@@ -106,7 +107,7 @@ class ShopLiveAVPlayerErrorObserver {
                     self.handleNoMatchingMediaFileFound()
                 case .unableToGetPlayList:
                     self.handleUnableToGetPlayList()
-                case .none:
+                case .none, .noItemToPlay:
                     break
                 }
             }

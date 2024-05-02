@@ -73,6 +73,7 @@ extension LiveStreamViewModel {
             ShopLiveLogger.debugLog("evaluatingBufferingRate")
         case .noItemToPlay:
             ShopLiveLogger.debugLog("noItemToPlay")
+            self.sendOnVideoErrorToWebForNoItemToPlay()
         default:
             break
         }
@@ -85,6 +86,14 @@ extension LiveStreamViewModel {
                 ShopLiveLogger.debugLog("waitingForCoordinatedPlayback")
             }
         }
+    }
+    
+    private func sendOnVideoErrorToWebForNoItemToPlay() {
+        let currentPlayTime = ShopLiveController.player?.currentTime().seconds ?? 0
+        if currentPlayTime < 5 || currentPlayTime == .nan  {
+            return
+        }
+        self.sendOnVideoErrorToWeb(errorCase: .noItemToPlay , reason: "noItemToPlay")
     }
     
     private func handleToMinimizeStall() {

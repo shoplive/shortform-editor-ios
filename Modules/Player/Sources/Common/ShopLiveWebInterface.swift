@@ -68,6 +68,7 @@ enum WebInterface {
     case sendCommandMessage
     case setSafeAreaMargin
     case onNetworkChangeCapability
+    case onVideoError
     
     
     //sellersubscription
@@ -172,6 +173,8 @@ enum WebInterface {
             return WebFunction.setSafeAreaMargin.rawValue
         case .onNetworkChangeCapability:
             return WebFunction.onNetworkChangeCapability.rawValue
+        case .onVideoError:
+            return WebFunction.onVideoError.rawValue
         }
     }
     
@@ -227,6 +230,7 @@ enum WebInterface {
         case sendCommandMessage = "SEND_COMMAND_MESSAGE"
         case setSafeAreaMargin = "SET_SAFE_AREA_MARGIN"
         case onNetworkChangeCapability = "ON_CHANGED_NETWORK_CAPABILITY"
+        case onVideoError = "ON_VIDEO_ERROR"
     }
 }
 
@@ -385,6 +389,8 @@ extension WebInterface {
             self = .setSafeAreaMargin
         case .onNetworkChangeCapability:
             self = .onNetworkChangeCapability
+        case .onVideoError:
+            self = .onVideoError
         }
     }
 }

@@ -200,7 +200,6 @@ extension ShopLiveCommon {
     @objc public static func makeShopLiveSessionId() -> String {
         return ShopLiveSession.makeShopLiveSessionId()
     }
-    
 }
 public extension ShopLiveCommon {
     

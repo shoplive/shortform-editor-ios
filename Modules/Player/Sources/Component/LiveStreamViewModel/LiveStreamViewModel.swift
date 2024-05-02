@@ -65,6 +65,7 @@ internal final class LiveStreamViewModel: NSObject {
     
     
     private var shopliveSessionId : String? = nil
+    private var lastSentOnVideoError : ShopLiveAVPlayerErrorObserver.ErrorCase = .none
     
     
     /**
@@ -768,7 +769,6 @@ extension LiveStreamViewModel {
         self.liveKeepUpTimerFrequency = frequency
         self.liveKeepUpTimerBaseFrequency = frequency
     }
-    
     /**
      Initialize web client
      - Sending the required data using URL for Web Client initialization
@@ -906,9 +906,11 @@ extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {
     
     func onMissingRenditionReport() {
         playerErrorObserver?.resetErrorCase()
+        self.sendOnVideoErrorToWeb(errorCase: .missinRenditionReport , reason: "onMissingRenditionReport")
     }
     
     func onLiveStreamDisconnect() {
+        self.sendOnVideoErrorToWeb(errorCase : .disconnected ,reason: "liveStreamDisconnected")
         if ShopLiveController.windowStyle == .osPip {
             self.resetPlayer()
         }
@@ -929,6 +931,7 @@ extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {
     }
     
     func onPlayListParseError() {
+        self.sendOnVideoErrorToWeb(errorCase: .playListParseError , reason: "playListParseError")
         guard let player = ShopLiveController.player,
               let playerItem = player.currentItem,
               let urlAsset = (playerItem.asset as? AVURLAsset) else { return }
@@ -945,6 +948,7 @@ extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {
     }
     
     func onNoMatchingMediaFileFound() {
+        self.sendOnVideoErrorToWeb(errorCase: .noMatchingMediaFileFound ,  reason: "onNoMatchingMediaFileFound")
         guard let retryManager = retryManager else { return }
         
         if retryManager.getIsBuffering() == true {
@@ -961,11 +965,23 @@ extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {
     }
     
     func onUnableToGetPlayList() {
+        self.sendOnVideoErrorToWeb(errorCase: .unableToGetPlayList, reason: "unableToGetPlayList")
         if ShopLiveController.windowStyle != .osPip {
             if let url = ShopLiveController.videoUrl {
                 self.updatePlayerItem(with: url)
             }
         }
+    }
+    
+    func sendOnVideoErrorToWeb(errorCase : ShopLiveAVPlayerErrorObserver.ErrorCase, reason : String) {
+        if errorCase == lastSentOnVideoError {
+            return
+        }
+        lastSentOnVideoError = errorCase
+        let liveUrl = ShopLiveController.streamUrl?.absoluteString ?? ""
+        let payload : [String : Any] = ["liveUrl" : liveUrl, "reason" : reason]
+        ShopLiveLogger.debugLog("[HASSAN LOG] error \(errorCase.rawValue) payload \(payload)")
+        ShopLiveController.shared.webInstance?.sendEventToWeb(event: .onVideoError, payload)
     }
 }
 extension LiveStreamViewModel : LiveStreamRetryManagerDelegate {
