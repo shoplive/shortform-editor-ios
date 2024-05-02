@@ -98,7 +98,6 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
     
     override func setPreviewToDetailMaintainTimeInfo() {
         if let cell = self.shortsListView.visibleCells.first as? ShortsCell {
-            ShopLiveLogger.debugLog("[HASSAN LOG] setPreviewToDetailMaintainTimeInfo \(cell.getCurrentVidoeTime())")
             viewmodel.setVideoCurrentTimeWhenPreviewTapped(time: cell.getCurrentVidoeTime())
             viewmodel.setVideoShortsIdWhenPreviewTapped()
         }

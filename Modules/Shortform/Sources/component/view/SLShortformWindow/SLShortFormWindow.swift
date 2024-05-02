@@ -368,7 +368,7 @@ extension ShopLiveShortform {
             self.reactor.shortsMode = .preview
             self.shortformWindow.frame = self.previewPosition()
             self.shortformWindow.isHidden  = false
-            self.shortformWindow.layer.cornerRadius = ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewRadius
+            self.shortformWindow.layer.cornerRadius = reactor.previewCornerRadius
             self.shortformWindow.layoutIfNeeded()
 
         }

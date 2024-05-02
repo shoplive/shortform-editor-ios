@@ -15,6 +15,7 @@ public final class ShopLiveShortformPreviewData : ShopLiveShortformRelatedData {
     public var isMuted : Bool?
     public var previewPosition : ShopLiveShortform.PreviewPosition?
     public var previewScale : CGFloat?
+    public var previewRadius : CGFloat?
     public var previewEdgeInset : UIEdgeInsets?
     public var previewFloatingOffset : UIEdgeInsets?
     public var useCloseButton : Bool?
@@ -27,7 +28,8 @@ public final class ShopLiveShortformPreviewData : ShopLiveShortformRelatedData {
                 name: String? = nil, skus: [String]? = nil, url: String? = nil,
                 tags: [String]? = nil, tagSearchOperator: ShopLiveTagSearchOperator? = nil, brands: [String]? = nil,
                 shuffle: Bool? = nil, referrer: String? = nil, isMuted : Bool? =  nil,
-                previewPosition : ShopLiveShortform.PreviewPosition? = nil, previewScale : CGFloat? = nil, previewEdgeInset : UIEdgeInsets? = nil,
+                previewPosition : ShopLiveShortform.PreviewPosition? = nil, previewScale : CGFloat? = nil, previewRadius : CGFloat? = nil,
+                previewEdgeInset : UIEdgeInsets? = nil,
                 previewFloatingOffset : UIEdgeInsets? = nil, useCloseButton : Bool? = nil,
                 enableSwipeOut : Bool? = nil, maxCount : Int? = nil , useCustomAction : Bool = false,
                 clickEventCallBack : ( () -> () )? = nil ) {
@@ -35,6 +37,7 @@ public final class ShopLiveShortformPreviewData : ShopLiveShortformRelatedData {
         self.isMuted = isMuted
         self.previewPosition = previewPosition
         self.previewScale = previewScale
+        self.previewRadius = previewRadius
         self.previewEdgeInset = previewEdgeInset
         self.previewFloatingOffset = previewFloatingOffset
         self.useCloseButton = useCloseButton
@@ -42,6 +45,7 @@ public final class ShopLiveShortformPreviewData : ShopLiveShortformRelatedData {
         self.useCustomAction = useCustomAction
         self.clickEventCallBack = clickEventCallBack
         self.maxCount = maxCount
+        
     }
     
 }

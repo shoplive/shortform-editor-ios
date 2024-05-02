@@ -13,6 +13,7 @@ import UIKit
 struct ShortformPreviewOptionDTO {
     let previewPosition : ShopLiveShortform.PreviewPosition?
     let previewScale : CGFloat?
+    let previewRadius : CGFloat?
     let previewEdgeInset : UIEdgeInsets?
     let previewFloatingOffset : UIEdgeInsets?
     let useCloseBtn : Bool?
@@ -22,10 +23,12 @@ struct ShortformPreviewOptionDTO {
     let clickEventCallback : ( () -> () )?
     let maxCount : Int?
     
-    init(previewPosition: ShopLiveShortform.PreviewPosition?, previewScale: CGFloat?, previewEdgeInset: UIEdgeInsets?,
+    
+    init(previewPosition: ShopLiveShortform.PreviewPosition?, previewScale: CGFloat?, previewRadius : CGFloat?, previewEdgeInset: UIEdgeInsets?,
          previewFloatingOffset: UIEdgeInsets?, useCloseBtn: Bool?,previewIsMuted : Bool?,
          enableSwipeOut : Bool?, maxCount : Int?,useCustomAction : Bool = false,
          clickEventCallBack : (() -> ())? ) {
+        self.previewRadius = previewRadius
         self.previewPosition = previewPosition
         self.previewScale = previewScale
         self.previewEdgeInset = previewEdgeInset
@@ -39,6 +42,7 @@ struct ShortformPreviewOptionDTO {
     }
     
     init(previewData : ShopLiveShortformPreviewData) {
+        self.previewRadius = previewData.previewRadius
         self.previewPosition = previewData.previewPosition
         self.previewScale = previewData.previewScale
         self.previewEdgeInset = previewData.previewEdgeInset

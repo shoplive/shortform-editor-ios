@@ -81,6 +81,13 @@ extension ShopLiveShortform {
             return ShortFormConfigurationInfosManager.shared.shortsConfiguration.enabledSwipeOut
         }
         
+        var previewCornerRadius : CGFloat {
+            if let dto = previewOptionDTO, let value = dto.previewRadius {
+                return value
+            }
+            return ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewRadius
+        }
+        
         var shortsMode: ShopLiveShortform.ShortsMode = .detail
         
         private var _panGestureInitialCenter: CGPoint?
