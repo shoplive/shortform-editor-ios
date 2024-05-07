@@ -87,14 +87,24 @@ class SLVideoEditorViewReactor : NSObject,  SLReactor {
     private var filterConfig : SLFilterConfig? = nil
     private weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
     private weak var videoEditorDelegate : ShopLiveVideoEditorDelegate?
+    private var thumbnailTime : CMTime = .zero
+    private var imageGenerator : AVAssetImageGenerator
+    private var imageGeneratorQueue = DispatchQueue(label: "shopLiveImageGeneratorQueue",qos: .background)
+    
     
     
     var resultHandler: ((Result) -> ())?
     var onMainQueueResultHandler : ((Result) -> ())?
     
     
+    
     init(shortsVideo : ShortsVideo){
         self.shortsVideo = shortsVideo
+        let asset = AVAsset(url: shortsVideo.videoUrl)
+        self.imageGenerator = AVAssetImageGenerator(asset: asset )
+        self.imageGenerator.appliesPreferredTrackTransform = true
+        self.imageGenerator.maximumSize = CGSize(width: 720, height: 1280)
+        self.imageGenerator.apertureMode = .cleanAperture
         super.init()
         videoConverter.delegate = self
     }
@@ -354,6 +364,22 @@ extension SLVideoEditorViewReactor : SLFFMpegTextViewControllerDelegate {
         textBoxList.append(textBox)
     }
 }
+
+extension SLVideoEditorViewReactor {
+    private func getThumbnail(at time : CMTime,completion : @escaping( (UIImage) -> () ) ) {
+        imageGeneratorQueue.sync { [weak self] in
+            guard let self = self else { return }
+            do {
+                let cgImage = try imageGenerator.copyCGImage(at: time, actualTime: nil)
+                completion(UIImage.init(cgImage: cgImage))
+            }
+            catch(let error) {
+                ShopLiveLogger.debugLog("[Shoplive] imageGeneratorError \(error.localizedDescription)")
+            }
+        }
+    }
+}
+//MARK: - GETTER
 extension SLVideoEditorViewReactor {
     func getVideoUrl() -> URL {
         return shortsVideo.videoUrl
@@ -389,6 +415,12 @@ extension SLVideoEditorViewReactor : SLVideoEditorSliderViewDelegate {
         onMainQueueResultHandler?( .seekTo(time) )
         onMainQueueResultHandler?( .setTimeIndicatorLineVisible(false) )
         onMainQueueResultHandler?( .resetTimeIndicatorLine )
+    }
+    
+    func seekToForThumbnail(time: CMTime) {
+        onMainQueueResultHandler?( .pauseVideo )
+        onMainQueueResultHandler?( .seekTo(time) )
+        self.thumbnailTime = time
     }
 }
 extension SLVideoEditorViewReactor : SLVideoEditorPlayerViewDelegate {

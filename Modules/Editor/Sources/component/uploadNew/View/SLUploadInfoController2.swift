@@ -9,12 +9,11 @@ import Foundation
 import UIKit
 import ShopliveSDKCommon
 
-
-
-
+protocol SLUploadInfoControllerDelegate: AnyObject {
+    func temporaryUploadInfo(uploadInfo: SLUploadAttachmentInfo)
+}
 
 class SLUploadInfoController2 : UIViewController {
-    
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         if #available(iOS 13.0, *) {

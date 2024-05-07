@@ -10,6 +10,10 @@ import UIKit
 import ShopliveSDKCommon
 import AVKit
 
+protocol SLVideoEditorViewControllerDelegate: AnyObject {
+    func cancelConvertVideo()
+}
+
 class SLVideoEditorViewController2 : UIViewController {
     private var bundle : Bundle {
         return Bundle(for: type(of: self))
@@ -44,6 +48,15 @@ class SLVideoEditorViewController2 : UIViewController {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("AddText", for: .normal)
+        btn.setTitleColor(.white, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        return btn
+    }()
+    
+    lazy private var thumbnailBtn : UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("thumbnail", for: .normal)
         btn.setTitleColor(.white, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         return btn
@@ -148,6 +161,7 @@ class SLVideoEditorViewController2 : UIViewController {
         
         backBtn.addTarget(self, action: #selector(backBtnTapped(sender: )), for: .touchUpInside)
         textAddBtn.addTarget(self, action: #selector(addTextBtnTapped(sender: )), for: .touchUpInside)
+        thumbnailBtn.addTarget(self, action: #selector(thumbnailBtnTapped(sender: )), for: .touchUpInside)
         filterAddBtn.addTarget(self, action: #selector(filterAddBtnTapped(sender: )), for: .touchUpInside)
         nextButton.addTarget(self, action: #selector(nextBtnTapped(sender: )), for: .touchUpInside)
         
@@ -163,6 +177,7 @@ class SLVideoEditorViewController2 : UIViewController {
         super.viewDidAppear(animated)
         reactor.action( .setShortformEditorDelegate(self.shortformEditorDelegate) )
         reactor.action( .setVideoEditorDelegate(self.videoEditorDelegate) )
+        editSliderView.action( .initializeThumbnailHandleView )
     }
     
     deinit {
@@ -176,6 +191,18 @@ class SLVideoEditorViewController2 : UIViewController {
     @objc func addTextBtnTapped(sender : UIButton) {
         reactor.action( .requestShowCreateTextView )
 //        self.filterSelectionView.alpha = 1
+    }
+    
+    @objc func thumbnailBtnTapped(sender : UIButton) {
+        sender.isSelected = !sender.isSelected
+        if sender.isSelected {
+            editSliderView.action( .hideHandleView(true) )
+            editSliderView.action( .setMode(.thumbnail))
+        }
+        else {
+            editSliderView.action( .hideHandleView(false) )
+            editSliderView.action( .setMode(.trim) )
+        }
     }
     
     @objc func filterAddBtnTapped(sender : UIButton) {
@@ -307,15 +334,15 @@ class SLVideoEditorViewController2 : UIViewController {
     }
     
     private func setTimeIndicatorLineVisible(isVisible : Bool) {
-        editSliderView.setTimeIndicatorLineVisible(isVisible: isVisible)
+        editSliderView.action( .setTimeIndicatorLineVisible(isVisible) )
     }
     
     private func setTimeIndicatorLineTime(time : Float) {
-        editSliderView.updateTimeIndicatorTime(time: time)
+        editSliderView.action( .updateTimeIndicatorTime(time) )
     }
     
     private func resetTimeIndicatorLine() {
-        editSliderView.updateTimeIndicatorTimeToStartPos()
+        editSliderView.action( .updateTimeIndicatorTimeToStartPos )
     }
     
     private func popView(){
@@ -449,7 +476,7 @@ extension SLVideoEditorViewController2 {
         self.view.addSubview(backBtn)
         
         
-        let topBarRightBtnStack = UIStackView(arrangedSubviews: [textAddBtn, filterAddBtn])
+        let topBarRightBtnStack = UIStackView(arrangedSubviews: [thumbnailBtn,textAddBtn, filterAddBtn])
         topBarRightBtnStack.translatesAutoresizingMaskIntoConstraints = false
         filterAddBtn.translatesAutoresizingMaskIntoConstraints = false
         textAddBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -499,6 +526,7 @@ extension SLVideoEditorViewController2 {
             
             filterAddBtn.widthAnchor.constraint(equalToConstant: 30),
             textAddBtn.widthAnchor.constraint(lessThanOrEqualToConstant: 100),
+            thumbnailBtn.widthAnchor.constraint(lessThanOrEqualToConstant: 100),
             
             
             pageTitleLabel.centerYAnchor.constraint(equalTo: naviBar.centerYAnchor),
@@ -558,7 +586,8 @@ extension SLVideoEditorViewController2 {
             self.filterPlayerView.action( .updateCropViewOnRotation(videoSize) )
         }) { [weak self] context in
             guard let self = self else { return }
-            self.editSliderView.resetAndRedraw()
+            self.editSliderView.action( .resetAndRedraw )
+//            self.editSliderView.resetAndRedraw()
         }
         
     }

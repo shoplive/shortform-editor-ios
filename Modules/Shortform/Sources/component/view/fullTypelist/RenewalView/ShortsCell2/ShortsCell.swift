@@ -553,7 +553,6 @@ extension ShortsCell {
             thumbnailHorizontalWidthAnc.isActive = true
             thumbnailVerticalWidthAnc.isActive = false
             
-            
             playerViewHorizontalWidthAnc.isActive = false
             playerViewVerticalWidthAnc.isActive = false
             playerViewPadWidthAnc.isActive = true

@@ -10,11 +10,33 @@ import UIKit
 import AVKit
 import ShopliveSDKCommon
 
+enum VideoEditorItemPosition {
+    case left
+    case middle
+    case right
+    
+    var type: String {
+        switch self {
+        case .left:
+            return "left"
+        case .right:
+            return "right"
+        case .middle:
+            return "middle"
+        }
+    }
+}
 
-class SLVideoEditorSliderView2 : UIView {
+protocol SLVideoEditorSliderViewDelegate: AnyObject {
+    func seekToForThumbnail(time : CMTime)
+    func seekTo(time: CMTime, handleType: SLVideoEditorSliderHandleType)
+    func updateCropTime(start: CMTime, end: CMTime)
+}
+
+
+class SLVideoEditorSliderView2 : UIView, SLReactor {
     typealias globalConfig = ShopLiveEditorConfigurationManager
-    
-    
+        
     lazy private var frameCollectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -38,6 +60,12 @@ class SLVideoEditorSliderView2 : UIView {
         let view = SLVideoEditorSliderHandleView2(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.delegate = self
+        return view
+    }()
+    
+    private lazy var thumbnailHandleView : SLVideoEditorThumbNailHandleView = {
+        let view = SLVideoEditorThumbNailHandleView()
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -76,8 +104,32 @@ class SLVideoEditorSliderView2 : UIView {
     private var leftHandleOffset : CGFloat = 0
     private var righthandleOffset : CGFloat = 0
     
+    enum Mode {
+        case trim
+        case thumbnail
+    }
+    
+    private var currentMode : Mode = .trim
+    
+    
     
     private var frameImages : [UIImage] = []
+    
+    enum Action {
+        case resetAndRedraw
+        case setTimeIndicatorLineVisible(Bool)
+        case updateTimeIndicatorTimeToStartPos
+        case updateTimeIndicatorTime(Float)
+        case hideHandleView(Bool)
+        case setMode(Mode)
+        case initializeThumbnailHandleView
+    }
+    
+    enum Result {
+        
+    }
+    
+    var resultHandler: ((Result) -> ())?
     
     
     init(videoUrl: URL) {
@@ -91,10 +143,12 @@ class SLVideoEditorSliderView2 : UIView {
         self.backgroundColor = .black
         self.videoDuration = CGFloat(CMTimeGetSeconds(asset.duration))
         setLayout()
+        bindThumbnailHandleView()
         
         calculateFrameSize()
         handleView.setTimePerPixel(timePerPixel: self.timePerPixel)
         handleView.setVideoDuration(videoDuration: self.videoDuration)
+        thumbnailHandleView.action( .setTimePerPixel(self.timePerPixel) )
     }
     
     required init?(coder: NSCoder) {
@@ -105,7 +159,27 @@ class SLVideoEditorSliderView2 : UIView {
         ShopLiveLogger.debugLog("[ShopliveShortformEditor] SLVideoEditorSliderView2 deinited")
     }
     
-    func resetAndRedraw() {
+    
+    func action(_ action: Action) {
+        switch action {
+        case .resetAndRedraw:
+            self.onResetAndRedraw()
+        case .setTimeIndicatorLineVisible(let isVisible):
+            self.onSetTimeIndicatorLineVisible(isVisible: isVisible)
+        case .updateTimeIndicatorTimeToStartPos:
+            self.onUpdateTimeIndicatorTimeToStartPos()
+        case .updateTimeIndicatorTime(let time):
+            self.onUpdateTimeIndicatorTime(time: time)
+        case .hideHandleView(let hide):
+            self.onHideHandleView(hide: hide)
+        case .initializeThumbnailHandleView:
+            self.onInitializeThumbnailHandleView()
+        case .setMode(let mode):
+            self.onSetMode(mode: mode)
+        }
+    }
+    
+    private func onResetAndRedraw() {
         self.frameImages.removeAll()
         self.calculateFrameSize()
         handleView.setTimePerPixel(timePerPixel: self.timePerPixel)
@@ -113,6 +187,48 @@ class SLVideoEditorSliderView2 : UIView {
         handleView.resetAndRedraw()
     }
     
+    private func onSetTimeIndicatorLineVisible(isVisible : Bool) {
+        handleView.setTimeIndicatorVisible(isVisible: isVisible)
+    }
+    
+    private func onUpdateTimeIndicatorTimeToStartPos() {
+        handleView.updateTimeIndicatorTimeToStartPos()
+    }
+    
+    private func onUpdateTimeIndicatorTime(time : Float) {
+        handleView.updateTimeIndicatorTime(time: time)
+    }
+    
+    private func onHideHandleView(hide : Bool) {
+        handleView.isHidden = hide
+        thumbnailHandleView.isHidden = !hide
+    }
+    
+    private func onInitializeThumbnailHandleView() {
+        thumbnailHandleView.action( .initializeThumbView )
+    }
+    
+    private func onSetMode(mode : Mode) {
+        self.currentMode = mode
+    }
+
+}
+extension SLVideoEditorSliderView2 {
+    private func bindThumbnailHandleView() {
+        thumbnailHandleView.resultHandler = { [weak self] result in
+            switch result {
+            case .thumbViewOffset(let offset):
+                self?.onThumbnailHandleViewThumbnailViewOffset(offset: offset)
+            }
+        }
+    }
+    
+    private func onThumbnailHandleViewThumbnailViewOffset(offset : CGFloat) {
+        let time = self.convertHandlePositionToTime(position : offset)
+        delegate?.seekToForThumbnail(time: time)
+    }
+}
+extension SLVideoEditorSliderView2 {
     private func calculateFrameSize(){
         if maxTrimTime >= round(self.videoDuration) {
             self.calculateFrameForMaxTrimTimeBiggerThenVideoDuration()
@@ -225,26 +341,12 @@ class SLVideoEditorSliderView2 : UIView {
             self.frameCollectionView.reloadData()
         }
     }
-    
-    func setTimeIndicatorLineVisible(isVisible : Bool) {
-        handleView.setTimeIndicatorVisible(isVisible: isVisible)
-    }
-    
-    func updateTimeIndicatorTimeToStartPos() {
-        handleView.updateTimeIndicatorTimeToStartPos()
-    }
-    
-    func updateTimeIndicatorTime(time : Float) {
-        handleView.updateTimeIndicatorTime(time: time)
-    }
-
-    
-    
 }
 extension SLVideoEditorSliderView2 {
     private func setLayout(){
         self.addSubview(frameCollectionView)
         self.addSubview(handleView)
+        self.addSubview(thumbnailHandleView)
         
         NSLayoutConstraint.activate([
             frameCollectionView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -255,7 +357,13 @@ extension SLVideoEditorSliderView2 {
             handleView.topAnchor.constraint(equalTo: self.topAnchor),
             handleView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             handleView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            handleView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            handleView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            
+            thumbnailHandleView.topAnchor.constraint(equalTo: self.topAnchor),
+            thumbnailHandleView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            thumbnailHandleView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            thumbnailHandleView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
     
@@ -310,8 +418,13 @@ extension SLVideoEditorSliderView2 : UICollectionViewDataSource, UICollectionVie
         let currentCollectionViewOffset = self.frameCollectionView.contentOffset.x
         let realOffset = currentCollectionViewOffset + leftHandleOffset
         let time = realOffset * timePerPixel
-        currentCropTime.start = CMTime(seconds: Double(time), preferredTimescale: 44100)
-        updateLeftHandleSeek()
+        if currentMode == .trim {
+            currentCropTime.start = CMTime(seconds: Double(time), preferredTimescale: 44100)
+            updateLeftHandleSeek()
+        }
+        else {
+            delegate?.seekToForThumbnail(time: CMTime(seconds: Double(time), preferredTimescale: 44100))
+        }
     }
 }
 extension SLVideoEditorSliderView2 : SLVideoEditorSliderHandleDelegate {
@@ -319,19 +432,19 @@ extension SLVideoEditorSliderView2 : SLVideoEditorSliderHandleDelegate {
     func updatedCurrentHandlePosition(offset: CGFloat, handleType: SLVideoEditorSliderHandleType) {
         if handleType == .left {
             self.leftHandleOffset = offset
-            let startTime = self.convertHandlePositionToTime(position : offset, handelType : handleType)
+            let startTime = self.convertHandlePositionToTime(position : offset)
             currentCropTime.start = startTime
             updateLeftHandleSeek()
         }
         else {
             self.righthandleOffset = offset
-            let endtime = self.convertHandlePositionToTime(position : offset, handelType : handleType)
+            let endtime = self.convertHandlePositionToTime(position : offset)
             currentCropTime.end = endtime
             updateRightHandleSeek()
         }
     }
     
-    private func convertHandlePositionToTime(position : CGFloat, handelType : SLVideoEditorSliderHandleType) -> CMTime {
+    private func convertHandlePositionToTime(position : CGFloat) -> CMTime {
         let currentCollectionViewOffset = self.frameCollectionView.contentOffset.x
         let realOffset = currentCollectionViewOffset + position
         let time = realOffset * timePerPixel
