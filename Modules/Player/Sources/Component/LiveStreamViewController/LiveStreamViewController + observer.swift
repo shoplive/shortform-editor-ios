@@ -44,21 +44,26 @@ extension LiveStreamViewController {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         switch keyPath {
         case "outputVolume":
-            //TODO: - enablePreviewSound
+            var isDownward : Bool = false
+            
             if audioSession.outputVolume > audioLevel {
                 ShopLiveLogger.debugLog("volume up")
+                isDownward = false
             }
             if audioSession.outputVolume < audioLevel {
                 ShopLiveLogger.debugLog("volume down")
+                isDownward = true
             }
             audioLevel = audioSession.outputVolume
+            let isMuted = ShopLiveController.shared.isMuted
             
-            if audioLevel <= 0 && ShopLiveController.shared.isMuted == false {
+            if audioLevel <= 0 {
                 delegate?.log(name: "video_muted", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["audioLevel" : audioLevel])
                 ShopLiveController.shared.isMuted = true
                 ShopLiveController.shared.setSoundMute(isMuted: true)
             }
-            else if audioLevel > 0 && ShopLiveController.shared.isMuted == true {
+            else if audioLevel > 0 && isDownward == false {
+                guard isMuted else { return }
                 delegate?.log(name: "video_unmuted", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["audioLevel" : audioLevel])
                 ShopLiveController.shared.isMuted = false
                 ShopLiveController.shared.setSoundMute(isMuted: false)

@@ -43,7 +43,7 @@ extension UIApplication {
     }
 }
 
-extension AVAudioSession {
+public extension AVAudioSession {
     //    audioSessionObservationInfo
     public func safeRemoveObserver(_ observer: Any, forKeyPath keyPath: String, observeInfo: UnsafeMutableRawPointer?, completion: @escaping (Bool)->Void) {
         guard let obverb: NSObject = observer as? NSObject else { return }

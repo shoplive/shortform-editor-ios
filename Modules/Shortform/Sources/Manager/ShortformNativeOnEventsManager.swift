@@ -21,6 +21,9 @@ class ShortformNativeOnEventsManager {
 
         case detail_on_player_shown = "DETAIL_ON_PLAYER_SHOWN"
         case detail_on_player_dismiss = "DETAIL_ON_PLAYER_DISMISS"
+        
+        case video_muted = "VIDEO_MUTED"
+        case video_unmuted = "VIDEO_UNMUTED"
     }
 
 

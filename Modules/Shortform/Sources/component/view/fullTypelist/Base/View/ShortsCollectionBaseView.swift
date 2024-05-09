@@ -582,6 +582,10 @@ extension ShortsCollectionBaseView : ShortsCollectionBaseViewModelDelegate {
         return IndexPath(row: index, section: 0)
     }
     
+    func getIndexPathsForVisibleItems() -> [IndexPath] {
+        return self.shortsListView.indexPathsForVisibleItems
+    }
+    
     func getCellForAt(indexPath: IndexPath) -> UICollectionViewCell? {
         return shortsListView.cellForItem(at: indexPath)
     }

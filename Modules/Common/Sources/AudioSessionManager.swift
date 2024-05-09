@@ -13,7 +13,7 @@ public final class AudioSessionManager {
         return AudioSessionManager()
     }()
     
-    private var audioSession = AVAudioSession.sharedInstance()
+    public var audioSession = AVAudioSession.sharedInstance()
     
     public var customerAudioCategoryOptions: AVAudioSession.CategoryOptions = .init(rawValue: 0)
     

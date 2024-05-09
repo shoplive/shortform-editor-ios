@@ -189,6 +189,10 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
             isMuted = true
         case "DETAIL_CLICK_UNMUTE":
             isMuted = false
+        case "VIDEO_MUTED":
+            break
+        case "VIDEO_UNMUTED":
+            break
         default:
             break
         }

@@ -24,13 +24,14 @@ protocol ShortsCollectionBaseViewModelDelegate : NSObject {
     func getLoadedCells(from : Int, to : Int) -> [ShortsCell]?
     func getCellForAt(indexPath : IndexPath) -> UICollectionViewCell?
     func getCurrentIndexPath() -> IndexPath?
+    func getIndexPathsForVisibleItems() -> [IndexPath]
     
     func openOsShareSheet(url : String)
     
     func setAudioSessionManager()
 }
 
-class ShortsCollectionBaseViewModel {
+class ShortsCollectionBaseViewModel : NSObject {
     enum ShortsApiType {
         case normal
         case related
@@ -56,6 +57,8 @@ class ShortsCollectionBaseViewModel {
     var latestCell: LatestShortsCell = LatestShortsCell()
     var scrollToPage : Int? = nil
     let appStateObserver = ShopliveAppStateObserver()
+    var audioLevel : Float = 0.0
+    var audioSessionObservationInfo: UnsafeMutableRawPointer?
     
     
     //for relatedShorts
@@ -181,18 +184,22 @@ class ShortsCollectionBaseViewModel {
     
     
     init(shopliveSessionId : String?) {
+        super.init()
         self.shopliveSessionId = shopliveSessionId
         self.webViewLists.removeAll()
         appStateObserver.delegate = self
         bindNetworkMonitorResult()
+        addObserver()
     }
     
     init(shorts : [ShortsModel],shopliveSessionId : String?) {
+        super.init()
         self.webViewLists.removeAll()
         self.originShortsListData = shorts
         self.shopliveSessionId = shopliveSessionId
         appStateObserver.delegate = self
         bindNetworkMonitorResult()
+        addObserver()
     }
     
     deinit {
@@ -200,6 +207,7 @@ class ShortsCollectionBaseViewModel {
         self.latestCell.setLatest()
         clearWebViewLists()
         appStateObserver.delegate = nil
+        removeObserver()
     }
     
     private func clearWebViewLists() {
@@ -915,3 +923,4 @@ extension ShortsCollectionBaseViewModel : ShopliveAppStateObserverDelegate {
         }
     }
 }
+
