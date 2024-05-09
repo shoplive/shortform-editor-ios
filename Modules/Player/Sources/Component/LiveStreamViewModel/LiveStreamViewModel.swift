@@ -178,7 +178,7 @@ internal final class LiveStreamViewModel: NSObject {
         guard ShopLiveController.player != nil else { return }
         resetPlayer()
         playerLoadingStartTime = Date().timeIntervalSince1970
-        let asset = AVURLAsset(url: url )
+        let asset = AVURLAsset(url: addQueryForLiveUrl(url: url) )
         let playerItem = AVPlayerItem(asset: asset)
         if asset.isPlayable {
             ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
@@ -217,6 +217,30 @@ internal final class LiveStreamViewModel: NSObject {
         }
     }
     
+    
+    private func addQueryForLiveUrl(url : URL) -> URL {
+        guard var urlComponents = URLComponents(string: url.absoluteString) else { return url }
+        var addQueryItems : [URLQueryItem] = []
+        
+        for (key, value) in AVPlayerHeaderMaker.defaultHeaders {
+            let queryItem = URLQueryItem(name: key, value: String(describing: value ))
+            addQueryItems.append(queryItem)
+        }
+        if let queryItems = urlComponents.queryItems {
+            urlComponents.queryItems = queryItems + addQueryItems
+        }
+        else {
+            urlComponents.queryItems = addQueryItems
+        }
+        
+        guard let urlString = urlComponents.url?.absoluteString,
+              let percentEncoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let resultUrl = URL(string: percentEncoded) else { 
+            return url
+        }
+        
+        return resultUrl
+    }
     
     
     func resetPlayer() {

@@ -391,7 +391,7 @@ public extension APIDefinition {
         return body
     }
     
-    private static var defaultHeaders: [String: String] {
+    static var defaultHeaders: [String: String] {
         var headers: [String: String] = [
             "Content-Type": "application/json"
         ]
@@ -416,23 +416,6 @@ public extension APIDefinition {
         if let idfv = UIDevice.idfv_sl, idfv.isNotEmpty_SL {
             headers[CommonKeys.x_sl_idfv] = idfv
         }
-        
-        if let utmSource = ShopLiveCommon.getUtmSource(), utmSource.isNotEmpty_SL {
-            headers[CommonKeys.x_sl_utm_source] = utmSource
-        }
-        
-        if let utmMedium = ShopLiveCommon.getUtmMedium(), utmMedium.isNotEmpty_SL {
-            headers[CommonKeys.x_sl_utm_medium] = utmMedium
-        }
-        
-        if let utmCampaign = ShopLiveCommon.getUtmCampaign(), utmCampaign.isNotEmpty_SL {
-            headers[CommonKeys.x_sl_utm_campaign] = utmCampaign
-        }
-        
-        if let utmContent = ShopLiveCommon.getUtmContent(), utmContent.isNotEmpty_SL {
-            headers[CommonKeys.x_sl_utm_content] = utmContent
-        }
-        
         
         headers[CommonKeys.x_sl_player_device] = UIDevice.deviceIdentifier_sl
         headers[CommonKeys.x_sl_player_app_version] = UIApplication.appVersion()
@@ -470,32 +453,6 @@ public extension APIDefinition {
         return queries
     }
     
-    private static var queryUtmDictionary : [String : String] {
-        var headers : [String : String] = [:]
-        
-        if let adIdentifier = ShopLiveCommon.getAdIdentifier(), adIdentifier.isNotEmpty_SL {
-            headers["adIdentifier"] = adIdentifier
-        }
-        
-        if let utmSource = ShopLiveCommon.getUtmSource(), utmSource.isNotEmpty_SL {
-            headers["utmSource"] = utmSource
-        }
-        
-        if let utmMedium = ShopLiveCommon.getUtmMedium(), utmMedium.isNotEmpty_SL {
-            headers["utmMedium"] = utmMedium
-        }
-        
-        if let utmCampaign = ShopLiveCommon.getUtmCampaign(), utmCampaign.isNotEmpty_SL {
-            headers["utmCampaign"] = utmCampaign
-        }
-        
-        if let utmContent = ShopLiveCommon.getUtmContent(), utmContent.isNotEmpty_SL {
-            headers["utmContent"] = utmContent
-        }
-
-        return headers
-    }
-    
     private static var postHeaders: [String: String] {
         var headers: [String: String] = [
             "Content-Type": "application/json"
@@ -526,21 +483,6 @@ public extension APIDefinition {
             headers[CommonKeys.x_sl_idfv] = idfv
         }
         
-        if let utmSource = ShopLiveCommon.getUtmSource(), utmSource.isNotEmpty_SL {
-            headers[CommonKeys.x_sl_utm_source] = utmSource
-        }
-        
-        if let utmMedium = ShopLiveCommon.getUtmMedium(), utmMedium.isNotEmpty_SL {
-            headers[CommonKeys.x_sl_utm_medium] = utmMedium
-        }
-        
-        if let utmCampaign = ShopLiveCommon.getUtmCampaign(), utmCampaign.isNotEmpty_SL {
-            headers[CommonKeys.x_sl_utm_campaign] = utmCampaign
-        }
-        
-        if let utmContent = ShopLiveCommon.getUtmContent(), utmContent.isNotEmpty_SL {
-            headers[CommonKeys.x_sl_utm_content] = utmContent
-        }
         
         headers[CommonKeys.x_sl_player_device] = UIDevice.deviceIdentifier_sl
         headers[CommonKeys.x_sl_player_app_version] = UIApplication.appVersion()

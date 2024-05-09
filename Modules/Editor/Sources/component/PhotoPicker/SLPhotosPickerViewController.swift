@@ -178,7 +178,6 @@ open class SLPhotosPickerViewController: UIViewController {
         setupPicker()
         makeUI()
         checkAuthorization()
-        
     }
     
     override open func viewDidLayoutSubviews() {
@@ -710,6 +709,7 @@ extension SLPhotosPickerViewController: PHPhotoLibraryChangeObserver {
             }
             
             if changes.hasIncrementalChanges, self.configure.groupByFetch == nil {
+                
                 var deletedSelectedAssets = false
                 var order = 0
                 self.selectedAssets = self.selectedAssets.enumerated().compactMap({ (offset,asset) -> SLPHAsset? in
@@ -722,6 +722,7 @@ extension SLPhotosPickerViewController: PHPhotoLibraryChangeObserver {
                     deletedSelectedAssets = true
                     return nil
                 })
+                
                 if deletedSelectedAssets {
                     self.focusedCollection?.fetchResult = changes.fetchResultAfterChanges
                     self.reloadCollectionView()
@@ -748,7 +749,8 @@ extension SLPhotosPickerViewController: PHPhotoLibraryChangeObserver {
                         }
                     })
                 }
-            }else {
+            }
+            else {
                 self.focusedCollection?.fetchResult = changes.fetchResultAfterChanges
                 self.reloadCollectionView()
             }
