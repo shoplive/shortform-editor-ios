@@ -39,6 +39,7 @@ internal final class LiveStreamViewModel: NSObject {
     
     private var liveKeepUpTimer : Any?
     private var isLLHLS : Bool = true
+    private var streamEdgeType : String?
     
     private var liveKeepUpBufferEndurance : Double = 5
     private var useLiveKeepUpTimerOnInApp : Bool = true
@@ -63,10 +64,13 @@ internal final class LiveStreamViewModel: NSObject {
     private var playerLoadingStartTime : Double = 0
     private var playerLoadingAvailableCheckSourceTimer : DispatchSourceTimer?
     
-    
+    //stream data
+    private var streamActivityType : StreamActivityType = .ready
+    private var campaignId : String = ""
     private var shopliveSessionId : String? = nil
+    private var previewUrl : String?
+    private var liveUrl : String?
     private var lastSentOnVideoError : ShopLiveAVPlayerErrorObserver.ErrorCase = .none
-    
     
     /**
      api에서 아무데이터 없거나 할때 쓰임 setConf에서 updatePictureInPicture하기 위해서 있음
@@ -83,16 +87,25 @@ internal final class LiveStreamViewModel: NSObject {
     }
     
     private func setupLiveStreamViewModel() {
-        self.makeShopliveSessionId()
+        self.shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
         ShopLiveController.shared.addPlayerDelegate(delegate: self)
         retryManager = LiveStreamRetryManager()
         retryManager?.delegate = self
         isAlreadyPlayedOnce = false
         self.setUpNetworkMonitor()
         self.liveStreamViewController = nil
+        
     }
     
     func teardownLiveStreamViewModel() {
+        
+        if ShopLiveController.shared.isPreview {
+            self.sendPreviewDismiss()
+        }
+        else {
+            self.sendDetailDismiss()
+        }
+        
         self.shopliveSessionId = nil
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
         inAppPipConfiguration = nil
@@ -108,6 +121,10 @@ internal final class LiveStreamViewModel: NSObject {
         networkMonitor = nil
         playerLoadingStartTime = 0
         playerLoadingAvailableCheckSourceTimer = nil
+        self.campaignId = ""
+        self.shopliveSessionId = nil
+        self.previewUrl = nil
+        self.liveUrl = nil 
     }
     
     
@@ -143,20 +160,37 @@ internal final class LiveStreamViewModel: NSObject {
                 case .success(let model):
                     var url : URL
                     
+
+                    if let activityType = model.activityType {
+                        self.setStreamActivityType(type: activityType)
+                    }
+                    
+                    self.campaignId = String(model.campaignId)
+                    
+                    if isPreview {
+                        self.sendPreviewShow()
+                    }
+                    else {
+                        self.sendDetailShow()
+                    }
+                    
                     if let aspectRatio = model.videoAspectRatio {
                         self.parseRatioStringAndSetData(ratio: aspectRatio)
                     }
                     
                     if isPreview, let urlString = model.previewLiveUrl, let previewUrl = URL(string: urlString){
+                        self.previewUrl = previewUrl.absoluteString
                         url = previewUrl
                     }
                     else if let urlString = model.liveUrl,  let liveUrl = URL(string: urlString) {
+                        self.liveUrl = liveUrl.absoluteString
                         url = liveUrl
                     }
                     else {
                         self.isUpdatePictureInPictureNeedInSetConfInitialized = true
                         return
                     }
+                    
                     
                     DispatchQueue.main.async {
                         ShopLiveController.streamUrl = url
@@ -174,7 +208,7 @@ internal final class LiveStreamViewModel: NSObject {
     }
     
     
-    func updatePlayerItem(with url: URL) {
+    func updatePlayerItem(with url: URL,from : String = #function) {
         guard ShopLiveController.player != nil else { return }
         resetPlayer()
         playerLoadingStartTime = Date().timeIntervalSince1970
@@ -203,6 +237,7 @@ internal final class LiveStreamViewModel: NSObject {
             if ShopLiveController.isReplayMode {
                 playerItem.preferredForwardBufferDuration = 2.5
             }
+            
             playerItem.audioTimePitchAlgorithm = .timeDomain
             
             ShopLiveController.playerItem = playerItem
@@ -377,6 +412,37 @@ internal final class LiveStreamViewModel: NSObject {
             self.playerLoadingAvailableCheckSourceTimer?.activate()
         }
     }
+}
+//MARK: -eventTraceManager
+extension LiveStreamViewModel {
+    func sendDetailShow() {
+        ShoplivePlayerEventTraceManager.detailPlayerShow(campaignId: self.campaignId, shopliveSessionId: self.shopliveSessionId, activityType: self.streamActivityType)
+    }
+    
+    func sendDetailDismiss() {
+        ShoplivePlayerEventTraceManager.detailPlayerDismiss(campaignId: self.campaignId, shopliveSessionId: self.shopliveSessionId, activityType: self.streamActivityType, streamEdgeType: self.streamEdgeType)
+    }
+    
+    func sendPreviewShow() {
+        ShoplivePlayerEventTraceManager.previewShow(campaignId: self.campaignId, shopliveSessionId: self.shopliveSessionId, activityType: self.streamActivityType)
+    }
+    
+    func sendPreviewDismiss() {
+        ShoplivePlayerEventTraceManager.previewDismiss(campaignId: self.campaignId, shopliveSessionId: self.shopliveSessionId, activityType: self.streamActivityType, streamEdgeType: self.streamEdgeType)
+    }
+    
+    func sendPreviewClickDetailEventTrace() {
+        ShoplivePlayerEventTraceManager.previewClickDetail(campaignId: self.campaignId, shopliveSessionId: self.shopliveSessionId, activityType: self.streamActivityType, streamEdgeType: self.streamEdgeType)
+    }
+    
+    func sendPlayerToPipMode() {
+        ShoplivePlayerEventTraceManager.playerToPip(campaignId: self.campaignId, shopliveSessionId: self.shopliveSessionId, activityType: self.streamActivityType, streamEdgeType: self.streamEdgeType)
+    }
+    
+    func sendPipToPlayerMode() {
+        ShoplivePlayerEventTraceManager.pipToPlayer(campaignId: self.campaignId, shopliveSessionId: self.shopliveSessionId, activityType: self.streamActivityType, streamEdgeType: self.streamEdgeType)
+    }
+    
 }
 
 extension LiveStreamViewModel: ShopLivePlayerDelegate {
@@ -689,17 +755,10 @@ extension LiveStreamViewModel: AVPlayerItemMetadataOutputPushDelegate {
         }
     }
 }
+//MARK: -getter
 extension LiveStreamViewModel {
     func getShopliveSessionId() -> String? {
         return self.shopliveSessionId
-    }
-    
-    func makeShopliveSessionId() {
-        self.shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
-    }
-    
-    func setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration?) {
-        self.inAppPipConfiguration = config
     }
     
     func getUseCloseBtnIsEnabled() -> Bool {
@@ -709,11 +768,6 @@ extension LiveStreamViewModel {
         else {
             return ShopLiveConfiguration.UI.closeButton
         }
-    }
-    
-    
-    func setPipPosition(position : ShopLive.PipPosition) {
-        self.lastPipPosition = position
     }
     
     func getPipPosition() -> ShopLive.PipPosition {
@@ -741,24 +795,8 @@ extension LiveStreamViewModel {
         return inAppPipConfiguration?.pipRadius ?? 10
     }
     
-    func setWebViewLoadingCompleted(isCompleted : Bool) {
-        self.isWebViewDidCompleteLoading = isCompleted
-    }
-    
-    func setIsUpdatePictureInPictureNeedInSetConfInitialized(isNeeded : Bool) {
-        self.isUpdatePictureInPictureNeedInSetConfInitialized = isNeeded
-    }
-    
     func getIsUpdatePictureInPictureNeedInSetConfInitialized() -> Bool {
         return self.isUpdatePictureInPictureNeedInSetConfInitialized
-    }
-    
-    func setVc(vc : LiveStreamViewController) {
-        self.liveStreamViewController = vc
-    }
-    
-    func setIsOsPipFailedHasOccured(hasOccured : Bool) {
-        self.osPipFailedErrorHasOccured = hasOccured
     }
     
     func getIsOsPipFailedHasOccured() -> Bool {
@@ -769,35 +807,27 @@ extension LiveStreamViewModel {
         return self.currentNetworkCapability
     }
     
-    func setIsLLHls(isLLHLs : Bool) {
-        self.isLLHLS = isLLHLs
+    func getStreamActivityType() -> StreamActivityType {
+        return self.streamActivityType
     }
     
-    func setLiveKeepUpBufferEndurance(value : Double) {
-        self.liveKeepUpBufferEndurance = value
+    func getCampaignId() -> String {
+        return self.campaignId
     }
     
-    func setUseLiveKeepUpTimerOnInApp(isUsed : Bool) {
-        self.useLiveKeepUpTimerOnInApp = isUsed
+    func getPreviewUrl() -> String? {
+        return self.previewUrl
     }
     
-    func setUseLiveKeepUpTimerOnOsPip(isUsed : Bool) {
-        self.useLiveKeepUpTimerOnOsPip = isUsed
-    }
-    
-    func setUseLiveKeepUpTimerBufferSize(size : Int){
-        self.liveKeepUpBufferSize = size
-    }
-    
-    func setLiveKeepUpTimerFrequency(frequency : Double) {
-        self.liveKeepUpTimerFrequency = frequency
-        self.liveKeepUpTimerBaseFrequency = frequency
+    func getLiveUrl() -> String? {
+        return self.liveUrl
     }
     /**
      Initialize web client
      - Sending the required data using URL for Web Client initialization
      */
     func getOverLayUrlWithInfosAttached() -> URL? {
+        guard let baseUrl = overayUrl else { return nil }
         guard let baseUrl = overayUrl else { return nil }
         let urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
@@ -811,9 +841,7 @@ extension LiveStreamViewModel {
         queryItems.append(URLQueryItem(name: "ak", value: ShopLiveCommon.getAccessKey()))
         queryItems.append(URLQueryItem(name: "ck", value: ShopLiveController.shared.campaignKey))
         
-        if let authToken = ShopLiveCommon.getAuthToken(), !authToken.isEmpty {
-            queryItems.append(URLQueryItem(name: "tk", value: authToken))
-        }
+        queryItems.append(URLQueryItem(name: "tk", value: ShopLiveCommon.getAuthToken() ?? ""))
         
         if let user = ShopLiveCommon.getUser() {
             queryItems.append(URLQueryItem(name: "userId", value: user.userId))
@@ -876,14 +904,16 @@ extension LiveStreamViewModel {
             queryItems.append(URLQueryItem(name: "anonId", value: anondId))
         }
         
+        queryItems.append(URLQueryItem(name: "eSlSid", value: self.shopliveSessionId ?? ""))
+        
         if let utm_source = ShopLiveCommon.getUtmSource(), utm_source.isEmpty == false {
             queryItems.append(URLQueryItem(name: "utm_source", value: utm_source))
         }
-        if let utm_content = ShopLiveCommon.getUtmCampaign(), utm_content.isEmpty == false {
-            queryItems.append(URLQueryItem(name: "utm_campaign", value: utm_content))
+        if let utm_content = ShopLiveCommon.getUtmContent(), utm_content.isEmpty == false {
+            queryItems.append(URLQueryItem(name: "utm_content", value: utm_content))
         }
-        if let utm_campaign = ShopLiveCommon.getUtmContent(), utm_campaign.isEmpty == false {
-            queryItems.append(URLQueryItem(name: "utm_content", value: utm_campaign))
+        if let utm_campaign = ShopLiveCommon.getUtmCampaign(), utm_campaign.isEmpty == false {
+            queryItems.append(URLQueryItem(name: "utm_campaign", value: utm_campaign))
         }
         if let utm_medium = ShopLiveCommon.getUtmMedium(), utm_medium.isEmpty == false {
             queryItems.append(URLQueryItem(name: "utm_medium", value: utm_medium))
@@ -917,6 +947,74 @@ extension LiveStreamViewModel {
         }
         
         return url
+    }
+}
+
+//MARK: -setter
+extension LiveStreamViewModel {
+    func setStreamEdgeType(type : String?) {
+        self.streamEdgeType = type
+    }
+    
+    func setCampaignId(campaignId : Int) {
+        self.campaignId = String(campaignId)
+    }
+    
+    func setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration?) {
+        self.inAppPipConfiguration = config
+    }
+    
+    func setPipPosition(position : ShopLive.PipPosition) {
+        self.lastPipPosition = position
+    }
+    
+    func setWebViewLoadingCompleted(isCompleted : Bool) {
+        self.isWebViewDidCompleteLoading = isCompleted
+    }
+    
+    func setIsUpdatePictureInPictureNeedInSetConfInitialized(isNeeded : Bool) {
+        self.isUpdatePictureInPictureNeedInSetConfInitialized = isNeeded
+    }
+    
+    func setVc(vc : LiveStreamViewController) {
+        self.liveStreamViewController = vc
+    }
+    
+    func setIsOsPipFailedHasOccured(hasOccured : Bool) {
+        self.osPipFailedErrorHasOccured = hasOccured
+    }
+    
+    func setIsLLHls(isLLHLs : Bool) {
+        self.isLLHLS = isLLHLs
+    }
+    
+    func setLiveKeepUpBufferEndurance(value : Double) {
+        self.liveKeepUpBufferEndurance = value
+    }
+    
+    func setUseLiveKeepUpTimerOnInApp(isUsed : Bool) {
+        self.useLiveKeepUpTimerOnInApp = isUsed
+    }
+    
+    func setUseLiveKeepUpTimerOnOsPip(isUsed : Bool) {
+        self.useLiveKeepUpTimerOnOsPip = isUsed
+    }
+    
+    func setUseLiveKeepUpTimerBufferSize(size : Int){
+        self.liveKeepUpBufferSize = size
+    }
+    
+    func setLiveKeepUpTimerFrequency(frequency : Double) {
+        self.liveKeepUpTimerFrequency = frequency
+        self.liveKeepUpTimerBaseFrequency = frequency
+    }
+    
+    func setStreamActivityType(type : String) {
+        for aType in StreamActivityType.allCases {
+            if aType.rawValue == type {
+                self.streamActivityType = aType
+            }
+        }
     }
 }
 extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {

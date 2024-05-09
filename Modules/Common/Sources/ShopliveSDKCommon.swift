@@ -78,12 +78,16 @@ extension ShopLiveCommon {
             os_log("[Shoplive] failed to create authToken because accessKey is not defined", type: .error)
             return
         }
+        
         if let user = user, let jwtToken = ShopLiveJWT.make(accessKey: accessKey, userData: user) {
             auth?.userJWT = jwtToken
             Self.delegate.forEach { delegate in
                 delegate.onChangedShopLiveUserJWT(to: jwtToken)
                 delegate.onChangeShopLiveUser(to: user)
             }
+        }
+        else {
+            auth?.userJWT = nil
         }
     }
     

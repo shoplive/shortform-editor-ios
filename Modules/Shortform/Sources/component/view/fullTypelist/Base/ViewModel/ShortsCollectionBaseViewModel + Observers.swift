@@ -22,9 +22,9 @@ extension ShortsCollectionBaseViewModel {
     func removeObserver() {
         let audioSession = AudioSessionManager.shared.audioSession
         
-        audioSession.safeRemoveObserver_SL(self, forKeyPath: "outputVolume", observeInfo: audioSessionObservationInfo) { [weak self] success in
+        audioSession.safeRemoveObserver_SL(self, forKeyPath: "outputVolume", observeInfo: audioSessionObservationInfo) { success in
             if success {
-                self?.audioSessionObservationInfo = nil
+                self.audioSessionObservationInfo = nil
             }
         }
     }

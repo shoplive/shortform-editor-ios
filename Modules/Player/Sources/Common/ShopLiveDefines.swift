@@ -67,15 +67,16 @@ protocol OverlayWebViewDelegate: AnyObject {
     func setVideoCurrentTime(to: CMTime)
     func didTouchBlockView()
 
-    func didTouchCustomAction(id: String, type: String, payload: Any?)
-    func didTouchPlayButton()
-    func didTouchPauseButton()
-    func didTouchMuteButton(with isMuted: Bool)
-    func didTouchPipButton()
-    func didTouchCloseButton()
-    func didTouchNavigation(with url: URL)
-    func didTouchCoupon(with couponId: String)
+    func didTouchWebViewCustomAction(id: String, type: String, payload: Any?)
+    func didTouchWebViewPlayButton()
+    func didTouchWebViewPauseButton()
+    func didTouchWebViewMuteButton(with isMuted: Bool)
+    func didTouchWebViewPipButton()
+    func didTouchWebViewCloseButton()
+    func didTouchWebViewNavigation(with url: URL)
+    func didTouchWebViewCoupon(with couponId: String)
     func didChangeCampaignStatus(status: String)
+    func didChangeActivityType(activityType : String, campaignKey : String)
     func onError(code: String, message: String)
     func handleCommand(_ command: String, with payload: Any?)
     func onSetUserName(_ payload: [String : Any])
@@ -91,6 +92,7 @@ protocol OverlayWebViewDelegate: AnyObject {
     func requestHideOrShowLoadingFromWebView(isHidden : Bool)
     func requestNetworkCapabilityOnSystemInit()
     func requestHandleShare(data : ShopLivePlayerShareData)
+    
 }
 
 extension Notification.Name {

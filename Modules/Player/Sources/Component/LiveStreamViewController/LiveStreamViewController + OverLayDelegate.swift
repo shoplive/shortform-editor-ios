@@ -13,6 +13,11 @@ import ShopliveSDKCommon
 
 
 extension LiveStreamViewController: OverlayWebViewDelegate {
+    
+    func didChangeActivityType(activityType: String, campaignKey: String) {
+        viewModel.setStreamActivityType(type: activityType)
+    }
+    
     func requestHandleShare(data: ShopLivePlayerShareData) {
         delegate?.requestHandleShare(data: data)
     }
@@ -86,7 +91,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         delegate?.onError(code: code, message: message)
     }
 
-    func didTouchCustomAction(id: String, type: String, payload: Any?) {
+    func didTouchWebViewCustomAction(id: String, type: String, payload: Any?) {
         ShopLiveLogger.debugLog("id \(id) type \(type) payload: \(String(describing: payload))")
         delegate?.didTouchCustomAction(id: id, type: type, payload: payload)
     }
@@ -100,11 +105,11 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         delegate?.replay(with: size)
     }
 
-    func didTouchCoupon(with couponId: String) {
+    func didTouchWebViewCoupon(with couponId: String) {
         delegate?.didTouchCoupon(with: couponId)
     }
 
-    func didTouchMuteButton(with isMuted: Bool) {
+    func didTouchWebViewMuteButton(with isMuted: Bool) {
         if !ShopLiveController.shared.isPreview {
             ShopLiveController.shared.isMuted = isMuted
         }
@@ -141,11 +146,11 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         
     }
 
-    func didTouchPlayButton() {
+    func didTouchWebViewPlayButton() {
         viewModel.play()
     }
 
-    func didTouchPauseButton() {
+    func didTouchWebViewPauseButton() {
         viewModel.pause()
     }
 
@@ -158,7 +163,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         }
     }
 
-    func didTouchNavigation(with url: URL) {
+    func didTouchWebViewNavigation(with url: URL) {
         delegate?.didTouchNavigation(with: url)
     }
 
@@ -166,11 +171,11 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         overlayView?.updatePipStyle(with: style)
     }
 
-    @objc func didTouchPipButton() {
+    func didTouchWebViewPipButton() {
         delegate?.didTouchPipButton()
     }
 
-    @objc func didTouchCloseButton() {
+    func didTouchWebViewCloseButton() {
         overlayView?.closeWebSocket()
         delegate?.didTouchCloseButton()
     }
@@ -224,13 +229,27 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         ShopLiveConfiguration.UI.chatInputMaxLength = chatInputMaxLength ?? 200
         updateChattingWriteView()
         
-        if let configJson = payload?["configJson"] as? [String: Any], let streamEdgeType = configJson["streamEdgeType"] as? String {
-            if streamEdgeType == "<null>" || streamEdgeType == "TS_BROADCAST" {
-                viewModel.setIsLLHls(isLLHLs: false)
+        
+        if let configJson = payload?["configJson"] as? [String : Any] {
+            if let streamEdgeType = configJson["streamEdgeType"] as? String {
+                if streamEdgeType == "TS_BROADCAST" {
+                    viewModel.setStreamEdgeType(type: streamEdgeType)
+                    viewModel.setIsLLHls(isLLHLs: false)
+                }
+                else if streamEdgeType.contains("LLHLS") {
+                    viewModel.setStreamEdgeType(type: streamEdgeType)
+                    viewModel.setIsLLHls(isLLHLs: true)
+                }
+                else {
+                    viewModel.setStreamEdgeType(type: nil)
+                    viewModel.setIsLLHls(isLLHLs: false)
+                }
             }
-            else {
-                viewModel.setIsLLHls(isLLHLs: true)
+            
+            if let campaignId = configJson["campaignId"] as? Int {
+                viewModel.setCampaignId(campaignId: campaignId)
             }
+            
         }
         else {
             viewModel.setIsLLHls(isLLHLs: false)
@@ -259,6 +278,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             
             viewModel.startLiveStreamKeepUpTimer()
         }
+        
         
         delegate?.campaignInfo(campaignInfo: campaignInfo ?? [:])
         let campaignData = ShopLivePlayerCampaign()

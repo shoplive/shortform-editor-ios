@@ -493,10 +493,10 @@ extension ShortsCollectionBaseViewModel {
             payloadDict["utm_medium"] = utm_medium
         }
         
+        payloadDict["eSlSid"] = self.shopliveSessionId ?? ""
         
         payloadDict["appVersion"] = UIApplication.appVersion_SL()
         payloadDict["sdkVersion"] = ShopLiveShortform.sdkVersion
-        
         
         if self.viewProvideType == .view {
             payloadDict["safeArea"] = [

@@ -571,11 +571,18 @@ import ShopliveSDKCommon
                 
                 self.delegate?.log?(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
                 self.delegate?.log?(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
+                self.liveStreamViewController?.viewModel.sendPlayerToPipMode()
                 self.sendCommandChangeToPip()
                 self.delegate?.handleCommand?("didShopLiveOff", with: ["style" : self._lastStyle.rawValue])
                 self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipDidAppear.name, with: ["lastStyle" : self.style.name,
                                                                                                 "currentStyle" : self.style.name,
-                                                                                                "isPreview" : ShopLiveController.shared.isPreview ])
+                                                                                                "isPreview" : ShopLiveController.shared.isPreview,
+                                                                                                "from" : #function ])
+                
+//                if ShopLiveController.shared.isPreview == false {
+//                    self.liveStreamViewController?.viewModel.sendPipActive(pipType: .APP)
+//                }
+                
                 self.showPreviewCoverView()
                 self.windowAnimator = nil
             })
@@ -755,6 +762,7 @@ import ShopliveSDKCommon
         
         delegate?.log?(name: "pip_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
         delegate?.log?(name: "pip_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
+        self.liveStreamViewController?.viewModel.sendPipToPlayerMode()
     }
     
     func updatePip(isRotation: Bool = false) {
@@ -811,8 +819,11 @@ import ShopliveSDKCommon
                 if !isRotation {
                     self.sendCommandChangeToPip()
                     self.delegate?.handleCommand?("didShopLiveOff", with: ["style" : self._lastStyle.rawValue])
-                    self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipDidAppear.name, with: ["lastStyle" : self.style.name , "currentStyle" : self.style.name, "isPreview" : ShopLiveController.shared.isPreview])
+                    self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipDidAppear.name, with: ["lastStyle" : self.style.name , "currentStyle" : self.style.name, "isPreview" : ShopLiveController.shared.isPreview, "from" : #function])
                     self.shopLiveWindow?.layer.masksToBounds = false
+                    if ShopLiveController.shared.isPreview == false {
+//                        self.liveStreamViewController?.viewModel.sendPipActive(pipType: .APP)
+                    }
                 }
                 self.handleWindowChangeCommand()
                 self.windowAnimator = nil
@@ -856,9 +867,13 @@ import ShopliveSDKCommon
             self.liveStreamViewController?.setStatusBarVisiblityOnFullScreen(isVisible: true)
             self.sendCommandChangeToPip()
             self.delegate?.handleCommand?("didShopLiveOff", with: ["style" : self._lastStyle.rawValue])
-            self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipDidAppear.name, with: ["lastStyle" : self.style.name, "currentStyle" : self.style.name, "isPreview" : ShopLiveController.shared.isPreview])
+            self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipDidAppear.name, with: ["lastStyle" : self.style.name, "currentStyle" : self.style.name, "isPreview" : ShopLiveController.shared.isPreview,"from" : #function])
             self.showPreviewCoverView()
             self.handleWindowChangeCommand()
+            
+            if ShopLiveController.shared.isPreview == false {
+//                self.liveStreamViewController?.viewModel.sendPipActive(pipType: .APP)
+            }
         }
     }
     
@@ -943,7 +958,7 @@ import ShopliveSDKCommon
                 self.handleWindowChangeCommand()
                 self._style = .pip
                 self.delegate?.handleCommand?("didShopLiveOff", with: ["style" : self._lastStyle.rawValue])
-                self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipDidAppear.name, with: ["lastStyle" : self.style.name, "currentStyle" : self.style.name, "isPreview" : ShopLiveController.shared.isPreview])
+                self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipDidAppear.name, with: ["lastStyle" : self.style.name, "currentStyle" : self.style.name, "isPreview" : ShopLiveController.shared.isPreview,"from" : #function])
                 self.showPreviewCoverView()
                 if ShopLiveController.shared.webInstance == nil {
                     liveVC.setupOverayWebview()
@@ -1302,6 +1317,7 @@ import ShopliveSDKCommon
             self.blockWindowTapGesture = false
         }
         if ShopLiveController.shared.isPreview {
+            self.liveStreamViewController?.viewModel.sendPreviewClickDetailEventTrace()
             if let previewCallback = self.previewCallback {
                 previewCallback()
             }
@@ -1310,9 +1326,10 @@ import ShopliveSDKCommon
             }
             return
         }
-        
-        guard _style == .pip else { return }
-        stopShopLivePictureInPicture()
+        else {
+            guard _style == .pip else { return }
+            stopShopLivePictureInPicture()
+        }
     }
     
     @objc private func pinchGestureHandler(_ recognizer: UIPinchGestureRecognizer) {
@@ -2106,6 +2123,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
             didChangeOSPIP()
         }
         self.liveStreamViewController?.setIsOsPipFailedHasOccured(hasOccured: false)
+//        self.liveStreamViewController?.viewModel.sendPipActive(pipType: .OS)
     }
     
     public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
@@ -2136,6 +2154,8 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     //
     public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
         self.activeFromBackground = true
+        
+      
         if !isRestoredPip { //touch stop pip button in OS PIP view
             self.hideShopLiveView(viewHideActionType: .onRestoringPip)
         }
@@ -2154,7 +2174,6 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
                 guard !ShopLiveController.isReplayMode else {
                     return
                 }
-                
                 ShopLiveController.shared.playControl = .resume
             }
             else {
@@ -2180,6 +2199,8 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
         self.liveStreamViewController?.setIsOsPipFailedHasOccured(hasOccured: true)
         self.osPictureInPictureController = nil
     }
+    
+
     
     private func resetQueryParameters() {
         queryParameters.removeAll()

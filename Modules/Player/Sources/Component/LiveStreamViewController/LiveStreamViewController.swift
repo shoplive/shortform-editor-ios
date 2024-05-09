@@ -88,7 +88,7 @@ internal final class LiveStreamViewController: SLViewController {
         let view = SLButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setImage(ShopLiveSDKAsset.closebutton.image, for: .normal)
-        view.addTarget(self, action: #selector(didTouchCloseButton), for: .touchUpInside)
+        view.addTarget(self, action: #selector(inAppPipCloseBtnTapped), for: .touchUpInside)
         return view
     }()
     var closeButtonTopConstraint: NSLayoutConstraint?
@@ -230,6 +230,12 @@ internal final class LiveStreamViewController: SLViewController {
         closeButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
         closeButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
         self.view.bringSubviewToFront(inAppPipView)
+    }
+    
+    @objc private func inAppPipCloseBtnTapped(sender : UIButton) {
+        overlayView?.closeWebSocket()
+        delegate?.didTouchCloseButton()
+        
     }
     
     func updateImageConstraint(from: CGRect,targetWindowStyle : ShopLiveWindowStyle) {

@@ -48,6 +48,14 @@ enum ShopLiveWindowStyle {
     
 }
 
+enum StreamActivityType : String, CaseIterable {
+    case ready = "READY"
+    case rehearsal = "REHEARSAL"
+    case live = "LIVE"
+    case replay = "REPLAY"
+    case closed = "CLOSED"
+}
+
 protocol ShopLivePlayerDelegate {
     var identifier: String { get }
     func isEqualTo(_ other: ShopLivePlayerDelegate) -> Bool
@@ -95,6 +103,7 @@ final class ShopLiveController: NSObject {
     
     var isSameCampaign: Bool = false
     var campaignStatus: ShopLiveCampaignStatus = .close
+    
     var isSuccessCampaignJoin: Bool = false
     private var playerDelegates: [ShopLivePlayerDelegate?] = []
     @objc dynamic var playItem: ShopLivePlayItem? = .init()

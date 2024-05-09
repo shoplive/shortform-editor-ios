@@ -14,8 +14,10 @@ struct LiveFetchUrlModel : BaseResponsable {
     public var _e: String?
     
     let campaignId: Int
-    let liveUrl, previewLiveUrl, videoAspectRatio, campaignStatus: String?
+    let liveUrl, previewLiveUrl, videoAspectRatio, campaignStatus, activityType: String?
     let startHorizontalViewOnLandscapeVideo : Bool?
+    
+    
     
     enum CodingKeys: String, CodingKey {
         case _s, _e
@@ -25,6 +27,7 @@ struct LiveFetchUrlModel : BaseResponsable {
         case videoAspectRatio = "videoAspectRatio"
         case campaignStatus = "campaignStatus"
         case startHorizontalViewOnLandscapeVideo = "startHorizontalViewOnLandscapeVideo"
+        case activityType = "activityType"
     }
     
     
@@ -38,6 +41,7 @@ struct LiveFetchUrlModel : BaseResponsable {
         self.previewLiveUrl = try parser.parse(targetType: String.self, key: CodingKeys.previewLiveUrl)
         self.videoAspectRatio = try parser.parse(targetType: String.self, key: CodingKeys.videoAspectRatio)
         self.campaignStatus = try parser.parse(targetType: String.self, key: CodingKeys.campaignStatus)
+        self.activityType = try parser.parse(targetType: String.self, key: CodingKeys.activityType)
         self.startHorizontalViewOnLandscapeVideo = try parser.parse(targetType: Bool.self, key: CodingKeys.startHorizontalViewOnLandscapeVideo)
     }
 }

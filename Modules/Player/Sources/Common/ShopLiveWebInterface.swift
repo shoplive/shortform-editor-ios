@@ -69,6 +69,7 @@ enum WebInterface {
     case setSafeAreaMargin
     case onNetworkChangeCapability
     case onVideoError
+    case onChangedActivityType(campaignKey : String, activityType : String)
     
     
     //sellersubscription
@@ -175,6 +176,8 @@ enum WebInterface {
             return WebFunction.onNetworkChangeCapability.rawValue
         case .onVideoError:
             return WebFunction.onVideoError.rawValue
+        case .onChangedActivityType:
+            return WebFunction.onChangedActivityType.rawValue
         }
     }
     
@@ -231,17 +234,18 @@ enum WebInterface {
         case setSafeAreaMargin = "SET_SAFE_AREA_MARGIN"
         case onNetworkChangeCapability = "ON_CHANGED_NETWORK_CAPABILITY"
         case onVideoError = "ON_VIDEO_ERROR"
+        case onChangedActivityType = "ON_CHANGED_ACTIVITY_TYPE"
     }
 }
 
 extension WebInterface {
     init?(message: WKScriptMessage) {
-        
         guard message.name == ShopLiveDefines.webInterface else { return nil }
         guard let body = message.body as? [String: Any] else { return nil }
         guard let command = body["action"] as? String else { return nil }
         let function = WebFunction(rawValue: command)
         let parameters = body["payload"] as? [String: Any]
+        
         ShopLiveLogger.debugLog("from Web [Interface: \(String(describing: function))]: [payload: \(String(describing: parameters))]")
         switch function {
         case .systemInit:
@@ -391,6 +395,8 @@ extension WebInterface {
             self = .onNetworkChangeCapability
         case .onVideoError:
             self = .onVideoError
+        case .onChangedActivityType:
+            self = .onChangedActivityType(campaignKey: parameters?["campaignKey"] as? String ?? "", activityType: parameters?["activityType"] as? String ?? "")
         }
     }
 }

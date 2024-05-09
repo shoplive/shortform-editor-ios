@@ -63,14 +63,14 @@ class MainViewController: SideMenuBaseViewController {
         super.viewDidAppear(animated)
         let delgate = UIApplication.shared.delegate as! AppDelegate
         delgate.requestIDFAPermission { result in
-            print("adidentifier result \(ShopLiveCommon.getAdIdentifier())")
+            ShopLiveLogger.debugLog("adidentifier result \(ShopLiveCommon.getAdIdentifier())")
         }
     }
     func setupSampleOptions() {
         
         SampleOptions.campaignNaviMoreOptions = ["campaign.menu.write".localized(), "QR code", "Dev-Admin", "Admin", "campaign.menu.deleteall".localized()]
         SampleOptions.campaignNaviMoreSelectionAction = { (item : String, index: Int, id: Int) in
-            print("selected item: \(item) index: \(index)")
+            ShopLiveLogger.debugLog("selected item: \(item) index: \(index)")
             let sourceScheme = "shopliveplayer"
             switch index {
             case 0: // Direct input
@@ -359,6 +359,7 @@ class MainViewController: SideMenuBaseViewController {
         setupShopliveSettings()
         ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
         
+        
         let playerData = ShopLivePlayerData(campaignKey: currentKey.campaignKey,
                                             keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
                                             referrer: DemoConfiguration.shared.customReferrer,
@@ -386,6 +387,7 @@ class MainViewController: SideMenuBaseViewController {
         setupShopliveSettings()
         ShopLive.configure(with: currentKey.accessKey)
         ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)
+        
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
 //            self.regenerateHanaBankFrameworkIssue()
 //        }
@@ -398,7 +400,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
         ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) payload(String:Any) \(payload)")
         let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, payload: payload)
-        print("eventLog \(eventLog.name)")
+        ShopLiveLogger.debugLog("eventLog \(eventLog.name)")
         if DemoConfiguration.shared.useClickLog && name.contains("player_active_seconds") == false {
             DispatchQueue.main.async {
                 UIWindow.showToast(message: "evnet log handler \n (String: Any) name \(name) feature \(feature.name) campaignKey \(campaign) payload \(payload)")
@@ -409,7 +411,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
         ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) parameter(String:String) \(parameter)")
         let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, parameter: parameter)
-        print("eventLog \(eventLog.name)")
+        ShopLiveLogger.debugLog("eventLog \(eventLog.name)")
     }
     
     func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint) {
@@ -458,23 +460,23 @@ extension MainViewController: ShopLiveSDKDelegate {
     }
 
     func handleChangedPlayerStatus(status: String) {
-        print("onChangedPlayerStatus \(status)")
+        ShopLiveLogger.debugLog("onChangedPlayerStatus \(status)")
     }
     
     func handleChangeCampaignStatus(status: String) {
-        print("handleChangeCampaignStatus \(status)")
+        ShopLiveLogger.debugLog("handleChangeCampaignStatus \(status)")
     }
 
     func handleError(code: String, message: String) {
-        print("handleError \(code)  \(message)")
+        ShopLiveLogger.debugLog("handleError \(code)  \(message)")
         
     }
 
     func handleCampaignInfo(campaignInfo: [String : Any]) {
-        print("handleCampaignInfo")
+        ShopLiveLogger.debugLog("handleCampaignInfo")
         
         campaignInfo.forEach { info in
-            print("campaignInfo key: \(info.key)  value: \(info.value)")
+            ShopLiveLogger.debugLog("campaignInfo key: \(info.key)  value: \(info.value)")
         }
     }
 
@@ -486,7 +488,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     */
     
     func handleDownloadCoupon(with couponId: String, result: @escaping (ShopLiveCouponResult) -> Void) {
-        print("handleDownloadCouponResult")
+        ShopLiveLogger.debugLog("handleDownloadCouponResult")
         let alert = UIAlertController(title: "sample.coupon.download".localized(), message: "sample.coupon.id".localized() + ": \(couponId)", preferredStyle: .alert)
         alert.addAction(.init(title: "alert.msg.failed".localized(), style: .cancel, handler: { _ in
             DispatchQueue.main.async {
@@ -525,7 +527,7 @@ extension MainViewController: ShopLiveSDKDelegate {
      */
     
     func handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLiveCustomActionResult) -> Void) {
-        print("handleCustomActionResult")
+        ShopLiveLogger.debugLog("handleCustomActionResult")
 
         let alert = UIAlertController(title: "CUSTOM ACTION", message: "id: \(id)\ntype: \(type)\npayload: \(String(describing: payload))", preferredStyle: .alert)
         alert.addAction(.init(title: "alert.msg.failed".localized(), style: .cancel, handler: { _ in
@@ -561,9 +563,9 @@ extension MainViewController: ShopLiveSDKDelegate {
     }
 
     func onSetUserName(_ payload: [String : Any]) {
-        print("onSetUserName")
+        ShopLiveLogger.debugLog("onSetUserName")
         payload.forEach { (key, value) in
-            print("onSetUserName key: \(key) value: \(value)")
+            ShopLiveLogger.debugLog("onSetUserName key: \(key) value: \(value)")
         }
     }
 

@@ -56,7 +56,7 @@ public enum SLHTTPMethod {
         case .get: return "GET"
         case .post: return "POST"
         case .put: return "PUT"
-        case .delete: return "DELTE"
+        case .delete: return "DELETE"
         }
     }
 }
@@ -72,6 +72,8 @@ public protocol APIDefinition {
     var headers: [String:String] { get }
     var version: HTTPVersion { get }
     var needToShowLoadingIndicator: Bool { get }
+    var showRequestLog : Bool { get }
+    var showResponseLog : Bool { get }
 }
 
 public extension APIDefinition {
@@ -106,6 +108,14 @@ public extension APIDefinition {
     
     var uploadParameters: [String: Any] {
         return [:]
+    }
+    
+    var showRequestLog : Bool {
+        return false
+    }
+    
+    var showResponseLog : Bool {
+        return false
     }
 }
 
@@ -203,12 +213,15 @@ public extension APIDefinition {
             }
         }
         
-//        var log = "[HASSAN LOG] \n"
-//        log += "url : \(requestUrl.url?.absoluteString)\n"
-//        log += "param : \(parameters)\n"
-//        log += "header : \(finalHeaders)\n"
-//        log += "=========================="
-//        ShopLiveLogger.debugLog(log)
+        if self.showRequestLog {
+            var log = "[HASSAN LOG] requestLog \n"
+            log += "url : \(requestUrl.url?.absoluteString ?? "")\n"
+            log += "param : \(parameters ?? [:])\n"
+            log += "header : \(finalHeaders)\n"
+            log += "=========================="
+            ShopLiveLogger.debugLog(log)
+        }
+        
         
         let task = URLSession.shared.dataTask(with: requestUrl) { data, response, error  in
             
@@ -226,6 +239,16 @@ public extension APIDefinition {
                 return
             }
             
+            if self.showResponseLog {
+                var log = "[HASSAN LOG] responseLog \n"
+                log += "url : \(requestUrl.url?.absoluteString ?? "")\n"
+                log += "param : \(parameters ?? [:])\n"
+                log += "header : \(finalHeaders)\n"
+                log += "body : \n"
+                log += "\(String(data: data, encoding: .utf8) ?? "") \n "
+                log += "=========================="
+                ShopLiveLogger.debugLog(log)
+            }
             if ResultType.self == EmptyResponse.self {
                 let emptyResponse = EmptyResponse(_s: 0, _e: nil)
                 DispatchQueue.main.async {
@@ -391,6 +414,28 @@ public extension APIDefinition {
         return body
     }
     
+    private static var commonQueries : [String : String] {
+        var queries : [String : String] = [:]
+        
+        if let utmSource = ShopLiveCommon.getUtmSource(), utmSource.isNotEmpty_SL {
+            queries["utm_source"] = utmSource
+        }
+        
+        if let utmMedium = ShopLiveCommon.getUtmMedium(), utmMedium.isNotEmpty_SL {
+            queries["utm_medium"] = utmMedium
+        }
+        
+        if let utmCampaign = ShopLiveCommon.getUtmCampaign(), utmCampaign.isNotEmpty_SL {
+            queries["utm_campaign"] = utmCampaign
+        }
+        
+        if let utmContent = ShopLiveCommon.getUtmContent(), utmContent.isNotEmpty_SL {
+            queries["utm_content"] = utmContent
+        }
+        
+        return queries
+    }
+    
     static var defaultHeaders: [String: String] {
         var headers: [String: String] = [
             "Content-Type": "application/json"
@@ -426,32 +471,6 @@ public extension APIDefinition {
         return headers
     }
     
-    private static var commonQueries : [String : String] {
-        var queries : [String : String] = [:]
-        
-        if let adIdentifier = ShopLiveCommon.getAdIdentifier(), adIdentifier.isNotEmpty_SL {
-            queries["adIdentifier"] = adIdentifier
-            queries["adId"] = adIdentifier
-        }
-        
-        if let utmSource = ShopLiveCommon.getUtmSource(), utmSource.isNotEmpty_SL {
-            queries["utmSource"] = utmSource
-        }
-        
-        if let utmMedium = ShopLiveCommon.getUtmMedium(), utmMedium.isNotEmpty_SL {
-            queries["utmMedium"] = utmMedium
-        }
-        
-        if let utmCampaign = ShopLiveCommon.getUtmCampaign(), utmCampaign.isNotEmpty_SL {
-            queries["utmCampaign"] = utmCampaign
-        }
-        
-        if let utmContent = ShopLiveCommon.getUtmContent(), utmContent.isNotEmpty_SL {
-            queries["utmContent"] = utmContent
-        }
-
-        return queries
-    }
     
     private static var postHeaders: [String: String] {
         var headers: [String: String] = [

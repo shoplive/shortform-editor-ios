@@ -380,7 +380,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             }
         case .setVideoMute(let isMuted):
             ShopLiveLogger.debugLog("setVideoMute(\(isMuted))")
-            delegate?.didTouchMuteButton(with: isMuted)
+            delegate?.didTouchWebViewMuteButton(with: isMuted)
         case .setPosterUrl(let posterUrl):
             ShopLiveLogger.debugLog("setPosterUrl(\(posterUrl))")
             self.delegate?.didUpdatePoster(with: posterUrl)
@@ -389,10 +389,10 @@ extension OverlayWebView: WKScriptMessageHandler {
             self.delegate?.didUpdateVideo(with: streamUrl)
         case .setIsPlayingVideo(let isPlaying):
             if isPlaying {
-                self.delegate?.didTouchPlayButton()
+                self.delegate?.didTouchWebViewPlayButton()
             }
             else {
-                self.delegate?.didTouchPauseButton()
+                self.delegate?.didTouchWebViewPauseButton()
             }
             ShopLiveLogger.debugLog("setIsPlayingVideo(\(isPlaying))")
             ShopLiveController.isPlaying = isPlaying
@@ -401,23 +401,23 @@ extension OverlayWebView: WKScriptMessageHandler {
             self.delegate?.reloadVideo()
         case .startPictureInPicture:
             ShopLiveLogger.debugLog("startPictureInPicture")
-            self.delegate?.didTouchPipButton()
+            self.delegate?.didTouchWebViewPipButton()
         case .close:
             ShopLiveLogger.debugLog("webView back btn close")
-            self.delegate?.didTouchCloseButton()
+            self.delegate?.didTouchWebViewCloseButton()
         case .navigation(let navigationUrl):
             ShopLiveLogger.debugLog("navigationUrl")
-            self.delegate?.didTouchNavigation(with: navigationUrl)
+            self.delegate?.didTouchWebViewNavigation(with: navigationUrl)
         case .coupon(let id):
             ShopLiveLogger.debugLog("coupon")
-            self.delegate?.didTouchCoupon(with: id)
+            self.delegate?.didTouchWebViewCoupon(with: id)
         case .playVideo:
             ShopLiveLogger.debugLog("navigation")
-            self.delegate?.didTouchPlayButton()
+            self.delegate?.didTouchWebViewPlayButton()
             ShopLiveController.isPlaying = true
         case .pauseVideo:
             ShopLiveLogger.debugLog("navigation")
-            self.delegate?.didTouchPauseButton()
+            self.delegate?.didTouchWebViewPauseButton()
             ShopLiveController.isPlaying = false
         case .replay(let width, let height):
             ShopLiveLogger.debugLog("replay")
@@ -429,7 +429,7 @@ extension OverlayWebView: WKScriptMessageHandler {
         case .disableSwipeDown:
             ShopLiveController.shared.swipeEnabled = false
         case .customAction(let id, let type, let payload):
-            self.delegate?.didTouchCustomAction(id: id, type: type, payload: payload)
+            self.delegate?.didTouchWebViewCustomAction(id: id, type: type, payload: payload)
             break
         case .onCampaignStatusChanged(let status):
             ShopLiveController.shared.campaignStatus = .init(rawValue: status) ?? .close
@@ -457,12 +457,13 @@ extension OverlayWebView: WKScriptMessageHandler {
         case .command(let command, let payload):
             ShopLiveLogger.debugLog("rawCommand: \(command)\(payload == nil ? "" : "(\(payload as? String ?? "")")")
             self.delegate?.handleCommand(command, with: payload)
+        case .onChangedActivityType(let campaignKey, let activityType):
+            self.delegate?.didChangeActivityType(activityType: activityType, campaignKey: campaignKey)
+            break
         default:
             break
         }
     }
-    
-    
     
     private func handleON_CLICK_SHARE_BUTTON(payload : [String : Any]?) {
         guard let payload = payload else { return }
@@ -516,3 +517,4 @@ extension OverlayWebView: UIScrollViewDelegate {
         scrollView.setContentOffset(.init(x: 0, y: 0), animated: false)
     }
 }
+

@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import ShopliveSDKCommon
 
 protocol LiveStreamRetryManagerDelegate {
     func updatePlayerItemInRetry(with url : URL)
@@ -41,7 +42,8 @@ class LiveStreamRetryManager {
         self.requireRetryCheck = isRequired
     }
     
-    func reserveRetry(waitSecond: Int = 5) {
+    func reserveRetry(waitSecond: Int = 5, from : String = #function) {
+        ShopLiveLogger.debugLog("[HASSAN LOG] reserveRetry \(from)")
         guard isInRetry == false else { return }
         self.requireRetryCheck = true
         ShopLiveController.playerItem?.cancelPendingSeeks()
