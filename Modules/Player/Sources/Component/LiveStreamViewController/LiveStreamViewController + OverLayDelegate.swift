@@ -92,7 +92,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didTouchWebViewCustomAction(id: String, type: String, payload: Any?) {
-        ShopLiveLogger.debugLog("id \(id) type \(type) payload: \(String(describing: payload))")
         delegate?.didTouchCustomAction(id: id, type: type, payload: payload)
     }
     
