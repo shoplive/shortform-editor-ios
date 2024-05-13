@@ -34,13 +34,4 @@ extension ShortsCollectionBaseView {
     }
     
 }
-//        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("setWindowSnapshot"), object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: NSNotification.Name("setWindowSnapshot"), object: nil)
-//        case NSNotification.Name("setWindowSnapshot"):
-//            guard let snapshot = notification.userInfo?["snapshot"] as? UIImage else {
-//                return
-//            }
-//            snapShotView.image = snapshot
-//            snapShotView.isHidden = false
-//            break
 

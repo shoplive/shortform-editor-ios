@@ -32,10 +32,6 @@ struct LiveUrlFetchAPI : APIDefinition {
         return .get
     }
     
-    var showResponseLog: Bool {
-        return true
-    }
-    
 }
 
 

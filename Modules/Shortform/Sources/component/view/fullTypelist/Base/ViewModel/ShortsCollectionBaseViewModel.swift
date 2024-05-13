@@ -141,6 +141,10 @@ class ShortsCollectionBaseViewModel : NSObject {
                 return _isMuted
             }
             else {
+                let audioSession = AudioSessionManager.shared.audioSession
+                if audioSession.outputVolume == 0 {
+                    return true
+                }
                 return ShortFormConfigurationInfosManager.shared.shortsConfiguration.mutedWhenStart
             }
         }
@@ -445,6 +449,8 @@ extension ShortsCollectionBaseViewModel {
        
         var payloadDict: [String: Any] = [:]
         
+        payloadDict["ak"] = ShopLiveCommon.getAccessKey() ?? ""
+        
         if let userJWT = ShortFormAuthManager.shared.getuserJWT() {
             payloadDict["userJWT"] = userJWT
         }
@@ -664,7 +670,9 @@ extension ShortsCollectionBaseViewModel {
         //TODO: 나중에 VideoPlayer 없어지면 받을 부분이 사라져서 해당 노티피케이션이 필요가 없어짐에 따라 삭제 에정
         NotificationCenter.default.post(Notification(name: Notification.Name("muteShorts"), object: nil, userInfo: ["mute": self.isMuted]))
         guard let currentIndexPath = self.delegate?.getCurrentIndexPath(),
-              let cells = self.delegate?.getLoadedCells(from: currentIndexPath.row - 1, to: currentIndexPath.row + 1) else { return }
+              let cells = self.delegate?.getLoadedCells(from: currentIndexPath.row - 1, to: currentIndexPath.row + 1) else {
+            return
+        }
         cells.forEach { cell in
             cell.setMute(self.isMuted)
         }

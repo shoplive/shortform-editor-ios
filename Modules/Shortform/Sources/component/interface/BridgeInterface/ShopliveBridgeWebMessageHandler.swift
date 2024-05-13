@@ -131,12 +131,8 @@ extension ShopliveBridgeWebMessageHandler {
         
         ShortFormAuthManager.shared.setAuthInfo(payload)
         let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
-        if ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewDetailCollectionListAll {
-            self.onPlayShortformDetailShowNormalFullScreen(model: bridgeModel,shopliveSessionId: shopliveSessionId)
-        }
-        else {
-            self.onPlayShortformDetailShowRelatedFullScreen(model: bridgeModel, shopliveSessionId: shopliveSessionId)
-        }
+        
+        self.onPlayShortformDetailShowNormalFullScreen(model: bridgeModel,shopliveSessionId: shopliveSessionId)
         
         let evaluateJSPaylad : [String : Any] = [
             "isShown" : true,

@@ -70,38 +70,23 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
     }
     
     func requestShowNewShortformFullScreen(bridgeModel: ShopLiveShortform.ShortsBridgeModel) {
-        //이전 ShortsView에 있던 로직 가져와서 쓰면 됨
         let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
-        if ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewDetailCollectionListAll {
-            let requestModel = InternalShortformCollectionDto()
-            if let collectionQuery = bridgeModel.collectionQuery {
-                requestModel.tags = collectionQuery.tags
-                requestModel.tagSearchOperator = collectionQuery.tagSearchOperator
-                requestModel.brands = collectionQuery.brands
-                requestModel.shuffle = collectionQuery.shuffle
-            }
-            else {
-                requestModel.tags = bridgeModel.relatedQuery?.tags
-                requestModel.tagSearchOperator = bridgeModel.relatedQuery?.tagSearchOperator
-                requestModel.brands = bridgeModel.relatedQuery?.brands
-                requestModel.shuffle = bridgeModel.relatedQuery?.shuffle
-            }
-            ShopLiveShortform.playNormalFullScreen(shortsId: bridgeModel.shorts?.shortsId, shortsSrn: bridgeModel.shorts?.srn, requestModel: requestModel,shopliveSessionId: shopliveSessionId)
+        
+        let requestModel = InternalShortformCollectionDto()
+        if let collectionQuery = bridgeModel.collectionQuery {
+            requestModel.tags = collectionQuery.tags
+            requestModel.tagSearchOperator = collectionQuery.tagSearchOperator
+            requestModel.brands = collectionQuery.brands
+            requestModel.shuffle = collectionQuery.shuffle
         }
         else {
-            let requestModel = InternalShortformRelatedDTO()
             requestModel.tags = bridgeModel.relatedQuery?.tags
             requestModel.tagSearchOperator = bridgeModel.relatedQuery?.tagSearchOperator
             requestModel.brands = bridgeModel.relatedQuery?.brands
-            requestModel.productId = bridgeModel.relatedQuery?.productId
-            requestModel.name = bridgeModel.relatedQuery?.name
-            requestModel.skus = bridgeModel.relatedQuery?.skus
-            requestModel.url = bridgeModel.relatedQuery?.url
             requestModel.shuffle = bridgeModel.relatedQuery?.shuffle
-            
-            
-            ShopLiveShortform.playRelatedFullScreen(shortsId: bridgeModel.shorts?.shortsId, shortsSrn: bridgeModel.shorts?.srn, requestModel: requestModel,shopliveSessionId: shopliveSessionId)
         }
+        
+        ShopLiveShortform.playNormalFullScreen(shortsId: bridgeModel.shorts?.shortsId, shortsSrn: bridgeModel.shorts?.srn, requestModel: requestModel,shopliveSessionId: shopliveSessionId)
     }
     
     func requestCloseShortform() {

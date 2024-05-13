@@ -119,6 +119,7 @@ internal class OverlayWebView: SLView {
     
     
     private func loadOverlay(with url: URL) {
+        self.webView?.removeQueuedRequest()
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             ShopLiveLogger.debugLog("loadOverlay with \(url.absoluteString)")
@@ -127,10 +128,12 @@ internal class OverlayWebView: SLView {
     }
     
     func reload(with url : URL){
+        self.webView?.removeQueuedRequest()
         webView?.load(URLRequest(url: url))
     }
     
     func reload() {
+        self.webView?.removeQueuedRequest()
         webView?.reload()
     }
 
@@ -155,6 +158,7 @@ extension OverlayWebView: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         guard !ShopLiveController.shared.isPreview else { return }
         guard !ShopLiveController.shared.isSameCampaign else { return }
+        self.webView?.setIsLoaded(isLoaded: false)
         delegate?.requestHideOrShowLoadingFromWebView(isHidden: false)
     }
     
@@ -163,13 +167,20 @@ extension OverlayWebView: WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        
         if webView.url?.absoluteString == "about:blank" {
             delegate?.requestHideOrShowLoadingFromWebView(isHidden: false)
             delegate?.didFailToLoadWebViewWithNetworkUnreachable()
         }
         else {
+            self.webView?.setIsLoaded(isLoaded: true)
             delegate?.requestHideOrShowLoadingFromWebView(isHidden: true)
             delegate?.webViewDidFinishedLoading()
+//            self.webView?.invokeQueuedRequest()
+//            //단순히 웹뷰가 load된게 아니라 진짜 렌더링 까지 끝나고 웹뷰 안쪽의 로직까지 끝나야 제대로 적용이 되는 것 같음
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                self?.webView?.invokeQueuedRequest()
+            }
         }
     }
     
@@ -352,6 +363,8 @@ extension OverlayWebView: WKScriptMessageHandler {
                     if let playBackSpeed = parameters?["rate"] as? Float {
                         self.delegate?.didUpdatePlaybackSpeed(speed: playBackSpeed)
                     }
+                case "ON_CHANGED_ACTIVITY_TYPE":
+                    self.delegate?.didChangeActivityType(activityType: parameters?["activityType"] as? String ?? "", campaignKey: parameters?["campaignKey"] as? String ?? "")
                 default:
                     break
                 }
@@ -367,7 +380,6 @@ extension OverlayWebView: WKScriptMessageHandler {
             ShopLiveController.shared.initialize()
             self.webView?.sendEventToWeb(event: .videoInitialized)
             if !ShopLiveController.shared.isPreview {
-                self.webView?.sendEventToWeb(event: .setVideoMute(isMuted: ShopLiveConfiguration.SoundPolicy.isMutedWhenStart), ShopLiveConfiguration.SoundPolicy.isMutedWhenStart)
                 let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("top", UIScreen.safeArea.top), ("left", UIScreen.safeArea.left),
                                                                      ("right", UIScreen.safeArea.right), ("bottom", UIScreen.safeArea.bottom), ("orientation", UIScreen.currentOrientation.angle))
                 
@@ -455,11 +467,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             delegate?.onError(code: code, message: message)
             break
         case .command(let command, let payload):
-            ShopLiveLogger.debugLog("rawCommand: \(command)\(payload == nil ? "" : "(\(payload as? String ?? "")")")
             self.delegate?.handleCommand(command, with: payload)
-        case .onChangedActivityType(let campaignKey, let activityType):
-            self.delegate?.didChangeActivityType(activityType: activityType, campaignKey: campaignKey)
-            break
         default:
             break
         }

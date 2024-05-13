@@ -78,7 +78,7 @@ internal final class LiveStreamViewModel: NSObject {
     private var isUpdatePictureInPictureNeedInSetConfInitialized : Bool = false
     
     deinit {
-        ShopLiveLogger.debugLog("liveStreamViewModel deinited")
+        ShopLiveLogger.memoryLog("liveStreamViewModel deinited")
     }
     
     override init() {
@@ -487,8 +487,10 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
                 }
                 ShopLiveController.retryPlay = false
                 if isAlreadyPlayedOnce == false {
-                    //TODO: - enablePreviewSound
-                    let isMuted = ShopLiveController.shared.isPreview ? !ShopLiveConfiguration.SoundPolicy.previewSoundEnabled : ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
+                    var isMuted = ShopLiveController.shared.isPreview ? !ShopLiveConfiguration.SoundPolicy.previewSoundEnabled : ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
+                    if let session = liveStreamViewController?.audioSession, session.outputVolume == 0 {
+                        isMuted = true
+                    }
                     ShopLiveController.shared.setSoundMute(isMuted: isMuted)
                 }
                 self.play()
@@ -831,13 +833,7 @@ extension LiveStreamViewModel {
         guard let baseUrl = overayUrl else { return nil }
         let urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
-        
-#if DEMO
-        if UserDefaults.standard.bool(forKey: "useWebLog") {
-            queryItems.append(URLQueryItem(name: "__debug", value: "true"))
-        }
-#endif
-        
+   
         queryItems.append(URLQueryItem(name: "ak", value: ShopLiveCommon.getAccessKey()))
         queryItems.append(URLQueryItem(name: "ck", value: ShopLiveController.shared.campaignKey))
         

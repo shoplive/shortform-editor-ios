@@ -287,6 +287,7 @@ class ShortsCellReactor : NSObject, SLReactor {
     
     private func onSetIsMuted(isMuted : Bool) {
         self.isMuted = isMuted
+        
         sendMuteStateToWebOrYoutube()
     }
     

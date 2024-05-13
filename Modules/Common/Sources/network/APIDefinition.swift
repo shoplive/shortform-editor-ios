@@ -219,7 +219,7 @@ public extension APIDefinition {
             log += "param : \(parameters ?? [:])\n"
             log += "header : \(finalHeaders)\n"
             log += "=========================="
-            ShopLiveLogger.debugLog(log)
+            ShopLiveLogger.tempLog(log)
         }
         
         
@@ -247,7 +247,7 @@ public extension APIDefinition {
                 log += "body : \n"
                 log += "\(String(data: data, encoding: .utf8) ?? "") \n "
                 log += "=========================="
-                ShopLiveLogger.debugLog(log)
+                ShopLiveLogger.tempLog(log)
             }
             if ResultType.self == EmptyResponse.self {
                 let emptyResponse = EmptyResponse(_s: 0, _e: nil)

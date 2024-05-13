@@ -13,7 +13,6 @@ import ShopliveSDKCommon
 extension ShortsCollectionBaseViewModel {
     func addObserver() {
         let audioSession = AudioSessionManager.shared.audioSession
-        
         audioSession.addObserver(self, forKeyPath: "outputVolume", options: NSKeyValueObservingOptions.new, context: nil)
         audioSessionObservationInfo = audioSession.observationInfo
         audioLevel = audioSession.outputVolume
@@ -31,7 +30,6 @@ extension ShortsCollectionBaseViewModel {
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         let audioSession = AudioSessionManager.shared.audioSession
-        
         switch keyPath {
         case "outputVolume":
             //TODO: - enablePreviewSound
@@ -46,7 +44,6 @@ extension ShortsCollectionBaseViewModel {
                 isDownward = true
             }
             audioLevel = audioSession.outputVolume
-            let isMuted = self.getMuted()
             
             if audioLevel <= 0  {
                 var currentIndexPath = delegate?.getIndexPathsForVisibleItems().first
@@ -57,7 +54,6 @@ extension ShortsCollectionBaseViewModel {
                 self.setIsMuted(isMuted: true)
             }
             else if audioLevel > 0 && isDownward == false {
-                guard isMuted else { return }
                 var currentIndexPath = delegate?.getIndexPathsForVisibleItems().first
                 ShortformNativeOnEventsManager.sendNativeOnEvents(command: .video_unmuted,
                                                                   payload: [ "position" : currentIndexPath?.row ?? -1 , "audioLevel" : audioLevel],

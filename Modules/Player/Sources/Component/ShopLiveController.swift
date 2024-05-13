@@ -116,7 +116,7 @@ final class ShopLiveController: NSObject {
     @objc dynamic var retryPlay: Bool = false
     @objc dynamic var releasePlayer: Bool = false
     @objc dynamic var isPreview: Bool = false
-    @objc dynamic var isMuted: Bool = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
+    @objc var isMuted: Bool = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
     
 
     var playerResumeCount: Int = 0
@@ -328,11 +328,16 @@ final class ShopLiveController: NSObject {
         }
     }
     
-    func setSoundMute(isMuted: Bool) {
-        guard let playerMuted = ShopLiveController.player?.isMuted, playerMuted != isMuted else { return }
+    func setSoundMute(isMuted: Bool,from : String = #function) {
+        guard let playerMuted = ShopLiveController.player?.isMuted, playerMuted != isMuted else {
+            return
+        }
         if ShopLiveController.shared.isPreview && !isMuted { return } // 미리보기 일때 음소거 해제는 return
-        ShopLiveController.player?.isMuted = isMuted
-        ShopLiveController.webInstance?.sendEventToWeb(event: .setVideoMute(isMuted: isMuted), isMuted)
+        ShopLiveController.webInstance?.sendMuteStateToWeb(event: .setVideoMute(isMuted: isMuted), isMuted, completion: { success in
+            if success {
+                ShopLiveController.player?.isMuted = isMuted
+            }
+        })
     }
 
     func seekToLatest() {

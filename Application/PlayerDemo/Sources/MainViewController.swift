@@ -398,10 +398,12 @@ class MainViewController: SideMenuBaseViewController {
 extension MainViewController: ShopLiveSDKDelegate {
     
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
-        ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) payload(String:Any) \(payload)")
-        let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, payload: payload)
-        ShopLiveLogger.debugLog("eventLog \(eventLog.name)")
+        if name.contains("player_active_seconds") == false {
+            ShopLiveLogger.tempLog("log name \(name) feature \(feature.name) campaignKey \(campaign) payload(String:Any) \(payload)")
+        }
+        
         if DemoConfiguration.shared.useClickLog && name.contains("player_active_seconds") == false {
+           
             DispatchQueue.main.async {
                 UIWindow.showToast(message: "evnet log handler \n (String: Any) name \(name) feature \(feature.name) campaignKey \(campaign) payload \(payload)")
             }
@@ -409,9 +411,9 @@ extension MainViewController: ShopLiveSDKDelegate {
     }
     
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
-        ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) parameter(String:String) \(parameter)")
-        let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, parameter: parameter)
-        ShopLiveLogger.debugLog("eventLog \(eventLog.name)")
+//        ShopLiveLogger.tempLog("log name \(name) feature \(feature.name) campaignKey \(campaign) parameter(String:String) \(parameter)")
+//        let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, parameter: parameter)
+//        ShopLiveLogger.debugLog("eventLog \(eventLog.name)")
     }
     
     func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint) {

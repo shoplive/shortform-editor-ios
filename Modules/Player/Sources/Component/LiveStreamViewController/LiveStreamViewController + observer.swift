@@ -54,8 +54,9 @@ extension LiveStreamViewController {
                 ShopLiveLogger.debugLog("volume down")
                 isDownward = true
             }
+            
             audioLevel = audioSession.outputVolume
-            let isMuted = ShopLiveController.shared.isMuted
+            let isMuted = ShopLiveController.player?.isMuted ?? false
             
             if audioLevel <= 0 {
                 delegate?.log(name: "video_muted", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["audioLevel" : audioLevel])
