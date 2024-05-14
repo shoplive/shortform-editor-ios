@@ -48,7 +48,7 @@ extension ShortsCollectionBaseViewModel {
             if audioLevel <= 0  {
                 var currentIndexPath = delegate?.getIndexPathsForVisibleItems().first
                 ShortformNativeOnEventsManager.sendNativeOnEvents(command: .video_muted,
-                                                                  payload: [ "position" : currentIndexPath?.row ?? -1 , "audioLevel" : audioLevel],
+                                                                  payload: [ "position" : currentIndexPath?.row ?? -1 ],
                                                                   shortsId: self.currentShortsId,
                                                                   shortsDetail: self.currentShorts?.shortsDetail)
                 self.setIsMuted(isMuted: true)
@@ -56,7 +56,7 @@ extension ShortsCollectionBaseViewModel {
             else if audioLevel > 0 && isDownward == false {
                 var currentIndexPath = delegate?.getIndexPathsForVisibleItems().first
                 ShortformNativeOnEventsManager.sendNativeOnEvents(command: .video_unmuted,
-                                                                  payload: [ "position" : currentIndexPath?.row ?? -1 , "audioLevel" : audioLevel],
+                                                                  payload: [ "position" : currentIndexPath?.row ?? -1 ],
                                                                   shortsId: self.currentShortsId,
                                                                   shortsDetail: self.currentShorts?.shortsDetail)
                 self.setIsMuted(isMuted: false)

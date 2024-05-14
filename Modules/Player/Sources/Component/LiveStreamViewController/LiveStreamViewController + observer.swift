@@ -59,13 +59,13 @@ extension LiveStreamViewController {
             let isMuted = ShopLiveController.player?.isMuted ?? false
             
             if audioLevel <= 0 {
-                delegate?.log(name: "video_muted", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["audioLevel" : audioLevel])
+                delegate?.log(name: "video_muted", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [ : ])
                 ShopLiveController.shared.isMuted = true
                 ShopLiveController.shared.setSoundMute(isMuted: true)
             }
             else if audioLevel > 0 && isDownward == false {
                 guard isMuted else { return }
-                delegate?.log(name: "video_unmuted", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["audioLevel" : audioLevel])
+                delegate?.log(name: "video_unmuted", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [ : ])
                 ShopLiveController.shared.isMuted = false
                 ShopLiveController.shared.setSoundMute(isMuted: false)
             }

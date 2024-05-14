@@ -407,8 +407,11 @@ extension ShopLive: ShopLiveSDKInterface {
     }
 
     public static func preview(data: ShopLivePlayerData,completion : (() -> Void)? = nil) {
+        if let previewData = data as? ShopLivePreviewData {
+            ShopLiveConfiguration.SoundPolicy.previewSoundEnabled = !(previewData.isMuted ?? false)
+        }
         shared.instance?.preview(with: data.campaignKey, referrer: data.referrer, campaignHandler: data.campaignHandler, brandHandler: data.brandHandler, completion: completion)
-        ShopLiveConfiguration.SoundPolicy.previewSoundEnabled = !(data.isMuted ?? false)
+        
     }
     
     @available(iOS, deprecated, message: "Use preview(data : ShopLivePlayerData) instead")
@@ -419,7 +422,6 @@ extension ShopLive: ShopLiveSDKInterface {
     public static func play(data : ShopLivePlayerData) {
         ShopLiveConfiguration.UI.keepWindowStateOnPlayExecuted = data.keepWindowStateOnPlayExecuted
         shared.instance?.play(with: data.campaignKey, referrer: data.referrer, campaignHandler: data.campaignHandler, brandHandler: data.brandHandler)
-        ShopLiveConfiguration.SoundPolicy.isMutedWhenStart = data.isMuted ?? false
     }
     
     @available(iOS, deprecated, message: "Use play(data : ShopLivePlayerData) instead")

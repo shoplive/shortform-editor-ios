@@ -360,7 +360,7 @@ class MainViewController: SideMenuBaseViewController {
         ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
         
         
-        let playerData = ShopLivePlayerData(campaignKey: currentKey.campaignKey,
+        let playerData = ShopLivePreviewData(campaignKey: currentKey.campaignKey,
                                             keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
                                             referrer: DemoConfiguration.shared.customReferrer,
                                             isMuted: !DemoConfiguration.shared.enablePreviewSound) { campaign in
@@ -386,7 +386,12 @@ class MainViewController: SideMenuBaseViewController {
 
         setupShopliveSettings()
         ShopLive.configure(with: currentKey.accessKey)
-        ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)
+        
+        let playerData = ShopLivePlayerData(campaignKey: currentKey.campaignKey,
+                                             keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
+                                             referrer: DemoConfiguration.shared.customReferrer)
+        
+        ShopLive.play(data: playerData )
         
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
 //            self.regenerateHanaBankFrameworkIssue()
