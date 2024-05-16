@@ -39,4 +39,10 @@ struct Filters : Codable {
         self.title = try? parser.parse(targetType: String.self, key: CodingKeys.title)
         self.content = try? parser.parse(targetType: String.self, key: CodingKeys.content)
     }
+    
+    init(title : String, content : String,type : String? = nil) {
+        self.title = title
+        self.content = content
+        self.type = type
+    }
 }

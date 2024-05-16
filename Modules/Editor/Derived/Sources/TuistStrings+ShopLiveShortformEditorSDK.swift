@@ -79,6 +79,17 @@ public enum ShopLiveShortformEditorSDKStrings {
         }
       }
     }
+
+    public enum Upload {
+
+      public enum Cancel {
+
+        public enum Alert {
+        /// Do you really want to quit uploading process?
+          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.upload.cancel.alert.title")
+        }
+      }
+    }
   }
 
   public enum Loading {
@@ -115,6 +126,11 @@ public enum ShopLiveShortformEditorSDKStrings {
       public enum Encoding {
       /// Video encoding canceled.
         public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "toast.cancel.encoding.title")
+      }
+
+      public enum Uploading {
+      /// Uploading has been canceled.
+        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "toast.cancel.uploading.title")
       }
     }
 

@@ -10,6 +10,7 @@
 "alert.yes" = "예";
 "alert.no" = "아니요";
 "toast.cancel.encoding.title" = "인코딩이 취소되었습니다.";
+"toast.cancel.uploading.title" = "업로딩이 취소되었습니다.";
 "editor.page.title" = "편집";
 
 "editor.time.gap.sec.label" = "%d초";
@@ -17,6 +18,7 @@
 
 "editor.next.title" = "다음";
 "editor.encoding.cancel.alert.title" = "지금 인코딩 중입니다. \n취소하시겠습니까?";
+"editor.upload.cancel.alert.title" = "업로드를 취소하시겠습니까?";
 "uploadinfo.page.title" = "세부정보 추가";
 "uploadinfo.title.placeholder" = "제목";
 "uploadinfo.title.title" = "제목";

@@ -57,15 +57,15 @@ public class ShopliveVideoEditor {
         self.callConfigAPI { [weak self] in
             guard let self = self else  { return }
             DispatchQueue.main.async {
-                let videoPicker = SLPhotosPickerViewController()
-                videoPicker.shoplivePermissionDelegate = self.permissionHandler
-                videoPicker.videoEditorDelegate = self.delegate
-                let navi = SLPickerNavigationController(rootViewController: videoPicker)
-                Self.navigationController = navi
-                navi.isNavigationBarHidden = true
-                navi.modalPresentationCapturesStatusBarAppearance = true
-                navi.modalPresentationStyle = .overFullScreen
-                vc.present(navi, animated: true)
+//                let videoPicker = SLPhotosPickerViewControllerOld()
+//                videoPicker.shoplivePermissionDelegate = self.permissionHandler
+//                videoPicker.videoEditorDelegate = self.delegate
+//                let navi = SLPickerNavigationController(rootViewController: videoPicker)
+//                Self.navigationController = navi
+//                navi.isNavigationBarHidden = true
+//                navi.modalPresentationCapturesStatusBarAppearance = true
+//                navi.modalPresentationStyle = .overFullScreen
+//                vc.present(navi, animated: true)
             }
         }
     }

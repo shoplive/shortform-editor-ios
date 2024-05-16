@@ -1,0 +1,179 @@
+//
+//  SLThumbnailSliderView.swift
+//  ShopLiveShortformEditorSDK
+//
+//  Created by sangmin han on 5/14/24.
+//  Copyright © 2024 com.app. All rights reserved.
+//
+
+import Foundation
+import UIKit
+import AVKit
+import ShopliveSDKCommon
+
+
+
+class SLThumbnailSliderView : UIView,SLReactor {
+    
+    enum Action {
+        case initializeThumbView
+        case seekToHandleViewTo(CMTime)
+    }
+    
+    enum Result {
+        case seekTo(CMTime)
+    }
+    
+    
+    let frameSliderView : SLVideoFrameSliderView
+    
+    private var dimView : SLThumbnailSliderDimView = {
+        let view = SLThumbnailSliderDimView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private var handleView : SLThumbnailSliderHandleView = {
+        let view = SLThumbnailSliderHandleView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    
+    var resultHandler: ((Result) -> ())?
+    
+    private let reactor = SLThumbnailSliderReactor()
+    
+    init(videoUrl : URL) {
+        self.frameSliderView = SLVideoFrameSliderView(videoUrl: videoUrl,mode: .thumbnail)
+        super.init(frame: .zero)
+        self.backgroundColor = .clear
+        frameSliderView.layer.cornerRadius = 8
+        bindReactor()
+        bindHandleView()
+        bindFrameSliderView()
+        setLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    func action(_ action: Action) {
+        switch action {
+        case .initializeThumbView:
+            self.onInitializeThumbView()
+        case .seekToHandleViewTo(let time):
+            self.onSeekToHandleViewTo(time: time)
+        }
+    }
+    
+    private func onInitializeThumbView() {
+        handleView.action( .initializeThumbView )
+    }
+    
+    private func onSeekToHandleViewTo(time : CMTime) {
+        ShopLiveLogger.debugLog("[HASSAN LOG] onSeekToHandleView to time \(time.seconds)")
+        reactor.action( .seekToHandleViewTo(targetTime: time, cvWidth: frameSliderView.getCollectionViewSize().width, cvContentSize: frameSliderView.getCollectionContentViewSize().width) )
+    }
+}
+//MARK: - bind Reactor
+extension SLThumbnailSliderView {
+    private func bindReactor() {
+        reactor.resultHandler = { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .seekTo(let time):
+                self.resultHandler?( .seekTo(time) )
+            case .moveHandleViewTo(let offset):
+                self.onReactorMoveHandleViewTo(offset: offset)
+            case .scrollFrameSliderTo(let offset):
+                self.onReactorScrollFrameSLiderTo(offset: offset)
+            }
+        }
+    }
+    
+    private func onReactorMoveHandleViewTo(offset : CGFloat) {
+        handleView.action( .moveHandleTo(offset) )
+    }
+    
+    private func onReactorScrollFrameSLiderTo(offset : CGFloat) {
+        frameSliderView.action( .scrollTo(offset) )
+    }
+
+}
+//MARK: - bind FrameSlider
+extension SLThumbnailSliderView {
+    private func bindFrameSliderView() {
+        frameSliderView.resultHandler = { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .setTimePerPixel(let value):
+                self.onFrameSliderSetTimePerPixel(value: value)
+            case .scrollDidScroll(cv: let cv):
+                self.onFrameSliderScrollDidScroll(cv: cv)
+            default:
+                break
+            }
+        }
+    }
+    
+    private func onFrameSliderSetTimePerPixel(value : CGFloat) {
+        ShopLiveLogger.debugLog("[HASSAN LOG] timePerPixel info setted ")
+        reactor.action( .setTimePerPixel(value) )
+        handleView.action( .setTimePerPixel(value) )
+    }
+    
+    private func onFrameSliderScrollDidScroll(cv : UICollectionView) {
+        reactor.action( .frameSliderDidScroll(cv) )
+    }
+}
+//MARK: - bind handleView
+extension SLThumbnailSliderView {
+    private func bindHandleView() {
+        handleView.resultHandler = { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .thumbViewOffset(let offset):
+                self.onHandleViewThumbViewOffsetChanged(offset : offset)
+            case .thumbViewOffsetForDimViewOnly(let offset):
+                self.onHandleViewThumbViewOffsetForDimViewOnly(offset: offset)
+            }
+        }
+    }
+    
+    private func onHandleViewThumbViewOffsetChanged(offset: CGFloat) {
+        reactor.action( .convertHandlePositionToTime(offset: offset, contentOffset: frameSliderView.getCurrentContentOffsetX()))
+        dimView.makeHandleViewAreaClear(rect: CGRect(origin: .init(x: offset, y: 0), size: .init(width: 60 * (CGFloat(9) / CGFloat(16)), height: 60)))
+    }
+    
+    private func onHandleViewThumbViewOffsetForDimViewOnly(offset : CGFloat) {
+        dimView.makeHandleViewAreaClear(rect: CGRect(origin: .init(x: offset, y: 0), size: .init(width: 60 * (CGFloat(9) / CGFloat(16)), height: 60)))
+    }
+}
+extension SLThumbnailSliderView {
+    private func setLayout() {
+        self.addSubview(frameSliderView)
+        frameSliderView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(dimView)
+        self.addSubview(handleView)
+        
+        NSLayoutConstraint.activate([
+            frameSliderView.topAnchor.constraint(equalTo: self.topAnchor),
+            frameSliderView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            frameSliderView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            frameSliderView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            dimView.topAnchor.constraint(equalTo: self.topAnchor),
+            dimView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            dimView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            dimView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            handleView.topAnchor.constraint(equalTo: self.topAnchor,constant: -2),
+            handleView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            handleView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            handleView.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: 2)
+        ])
+    }
+}

@@ -1,0 +1,251 @@
+//
+//  SLVideoThumbnailReactor.swift
+//  ShopLiveShortformEditorSDK
+//
+//  Created by sangmin han on 5/13/24.
+//  Copyright © 2024 com.app. All rights reserved.
+//
+
+import Foundation
+import UIKit
+import ShopliveSDKCommon
+import AVKit
+
+class SLVideoThumbnailReactor : NSObject, SLReactor {
+    
+    enum Action {
+        case initialize
+        case viewDidLoad
+        case viewDidLayoutSubView
+        case viewDidAppear
+        case setShortformEditorDelegate(ShopLiveShortformEditorDelegate?)
+        case setVideoEditorDelegate(ShopLiveVideoEditorDelegate?)
+        
+       
+        
+        
+        case timeControlStatusUpdated(AVPlayer.TimeControlStatus)
+        case setThumbnailTime(CMTime)
+        case requestOnConfirm
+        case cancelConverting
+        
+    }
+    
+    enum Result {
+        case setThumbnail(UIImage)
+        case setShortsVideo(ShortsVideo)
+        case seekThumbailSliderTo(CMTime) //재수정하러 들어왔을때,
+        case seekTo(CMTime)
+        case pauseVideo
+        case dismissPhotoPicker
+        case showLoadingView
+        case cancelLoading
+        case didFinishLoading
+        case updateLoadingPercent(String)
+        
+        case showPopUp(UIView)
+        case showCancelToast
+    }
+    
+    var resultHandler: ((Result) -> ())?
+    
+    private var videoEditInfoDto : SLVideoEditInfoDTO
+    private var videoAsset : AVAsset?
+    private var imageGenerator : AVAssetImageGenerator
+    private var imageGeneratorQueue = DispatchQueue(label: "shopLiveImageGeneratorQueue",qos: .background)
+    private let videoConverter = SLVideoConverter()
+    private weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
+    private weak var videoEditorDelegate : ShopLiveVideoEditorDelegate?
+    private var isViewAppeared : Bool = false
+    
+    
+    init(videoEditInfo : SLVideoEditInfoDTO) {
+        self.videoEditInfoDto = videoEditInfo
+        videoAsset = AVAsset(url: videoEditInfo.shortsVideo.videoUrl)
+        self.imageGenerator = AVAssetImageGenerator(asset: videoAsset! )
+        self.imageGenerator.appliesPreferredTrackTransform = true
+        self.imageGenerator.maximumSize = CGSize(width: 720, height: 1280)
+        self.imageGenerator.apertureMode = .cleanAperture
+        super.init()
+        videoConverter.delegate = self
+    }
+    
+    deinit {
+        ShopLiveLogger.debugLog("slVideoThumbnailReactor deinit")
+    }
+    
+    func action(_ action: Action) {
+        switch action {
+        case .setShortformEditorDelegate(let delegate):
+            self.shortformEditorDelegate = delegate
+        case .setVideoEditorDelegate(let delegate):
+            self.videoEditorDelegate = delegate
+        case .initialize:
+            self.onInitialize()
+        case .viewDidLoad:
+            break
+        case .viewDidLayoutSubView:
+            self.onViewDidLayoutSubviews()
+        case .viewDidAppear:
+            self.onViewDidAppear()
+        case .timeControlStatusUpdated(let status):
+            self.onTimeControlStatusUpdated(status: status)
+        case .setThumbnailTime(let time):
+            self.onSetThumbnailTime(time: time)
+        case .requestOnConfirm:
+            self.onSetRequestOnConfirm()
+        case .cancelConverting:
+            videoConverter.cancelConvert()
+        }
+    }
+    
+    
+    private func onInitialize() {
+        resultHandler?( .setShortsVideo(videoEditInfoDto.shortsVideo) )
+    }
+    
+    private func onViewDidLayoutSubviews() {
+        
+    }
+    
+    private func onViewDidAppear() {
+        if isViewAppeared == false {
+            if videoEditInfoDto.thumbnailType == .image, let image = videoEditInfoDto.thumbnailImage {
+                resultHandler?( .setThumbnail(image) )
+            }
+            else if videoEditInfoDto.thumbnailType == .video {
+                resultHandler?( .seekTo(videoEditInfoDto.thumbnailTime) )
+                resultHandler?( .seekThumbailSliderTo(videoEditInfoDto.thumbnailTime) )
+            }
+            isViewAppeared = true
+        }
+    }
+    
+    private func onTimeControlStatusUpdated(status : AVPlayer.TimeControlStatus) {
+        if status == .playing {
+            resultHandler?( .pauseVideo )
+            resultHandler?( .seekTo(.zero) )
+        }
+    }
+    
+    private func onSetThumbnailTime(time : CMTime) {
+        videoEditInfoDto.thumbnailTime = time
+        self.videoEditInfoDto.thumbnailType = .video
+    }
+    
+    private func onSetRequestOnConfirm() {
+        processVideoConvert()
+    }
+}
+//MARK: - GETTER
+extension SLVideoThumbnailReactor {
+    func getVideoUrl() -> URL {
+        return videoEditInfoDto.shortsVideo.videoUrl
+    }
+}
+extension SLVideoThumbnailReactor {
+    private func processVideoConvert() {
+        guard let videoSize = videoEditInfoDto.shortsVideo.getVideoSize(),
+              let startTime = videoEditInfoDto.cropTime.start.timeSeconds_SL,
+              let endTime = videoEditInfoDto.cropTime.end.timeSeconds_SL,
+              startTime < endTime else { return }
+        let videoUrl = videoEditInfoDto.shortsVideo.videoUrl.absoluteString
+        
+        let videoInfo = SLVideoInfo(videoPath: videoUrl,
+                                    cropRect: videoEditInfoDto.realVideoCropRect,
+                                    videoSize: videoSize,
+                                    timeRange: (startTime,endTime),
+                                    fileName: (videoUrl as NSString).lastPathComponent,
+                                    filterConfig: videoEditInfoDto.filterConfig)
+        
+        self.resultHandler?( .updateLoadingPercent("0%") )
+        self.resultHandler?( .showLoadingView )
+        videoConverter.convertVideo(videoInfo: videoInfo) { [weak self] result in
+            guard let self = self else { return }
+            
+            
+            switch result {
+            case .Success(let videoPath):
+                self.resultHandler?( .didFinishLoading )
+            case .Failed(let error):
+                let e = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedEncoding, error: error, message: nil)
+                self.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: e)
+                self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: e)
+            }
+            
+        }
+        
+    }
+    
+    
+    
+    
+    private func getExtractThumbnail(at targetSec : Double) {
+        imageGeneratorQueue.sync { [weak self] in
+            guard let self = self else { return }
+            let time = CMTime(seconds: targetSec, preferredTimescale: 44100)
+            do {
+                let cgImage = try imageGenerator.copyCGImage(at: time, actualTime: nil)
+                self.videoEditInfoDto.thumbnailImage = UIImage.init(cgImage: cgImage)
+            }
+            catch(_) {
+                
+            }
+        }
+    }
+}
+extension SLVideoThumbnailReactor : SLPhotosPickerViewControllerDelegate {
+    func photoPicker(didSelectVideo url: URL) {
+        /** no - op*/
+    }
+    
+    func photoPicker(didSelectImage url: URL) {
+        defer {
+            resultHandler?( .dismissPhotoPicker )
+        }
+        do {
+            let data = try Data(contentsOf: url)
+            guard let image = UIImage(data: data) else { return }
+            self.videoEditInfoDto.thumbnailType = .image
+            self.videoEditInfoDto.thumbnailImage = image
+            resultHandler?( .setThumbnail(image) )
+            
+        }
+        catch(_) {
+            
+        }
+        
+    }
+    
+}
+extension SLVideoThumbnailReactor : SLLoadingAlertControllerDelegate {
+    func didCancelLoading() {
+        resultHandler?( .cancelLoading )
+        
+        let popUp = SLCustomAlertBox(title: ShopLiveShortformEditorSDKStrings.Editor.Upload.Cancel.Alert.title, confirmTitle: nil, closeTitle: nil)
+        popUp.btnClickCallback = { [weak self] result in
+            guard let self = self else { return }
+            if result == .yes {
+                self.videoConverter.cancelConvert()
+                popUp.isHidden = true
+                popUp.removeFromSuperview()
+                resultHandler?( .showCancelToast )
+            }
+            else {
+                self.resultHandler?( .showLoadingView )
+            }
+        }
+        
+        resultHandler?( .showPopUp(popUp) )
+    }
+
+    func didFinishLoading() {
+        resultHandler?( .didFinishLoading )
+    }
+}
+extension SLVideoThumbnailReactor : SLVideoConverterDelegate {
+    func updateConvertPercent(percent: Int) {
+        let value = min(percent,100)
+        resultHandler?( .updateLoadingPercent("\(value)%") )
+    }
+}

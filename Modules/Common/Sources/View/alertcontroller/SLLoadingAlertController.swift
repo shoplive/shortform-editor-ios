@@ -8,9 +8,9 @@
 import UIKit
 
 @objc public protocol SLLoadingAlertControllerDelegate: AnyObject {
-    
     func didCancelLoading()
     func didFinishLoading()
+    
 }
 
 public class SLLoadingAlertController: UIViewController, UIGestureRecognizerDelegate {

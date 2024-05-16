@@ -166,6 +166,7 @@ class SLVideoConverter : NSObject {
     private var convertCompletion : ( (SLVideoConvertResult) -> Void )?
     
     private(set) var inConvert: Bool = false
+    private var didForceCancel : Bool = false
     
     func convertVideo(videoInfo: SLVideoInfo, completion: @escaping (SLVideoConvertResult) -> Void) {
         convertCompletion = completion
@@ -179,7 +180,13 @@ class SLVideoConverter : NSObject {
                 self?.inConvert = false
                 completion(.Success(videoPath: videoInfo.ffmpegOutPutVideoPath))
                 break
-            case .Failed(_):
+            case .Failed(let error ):
+                guard self?.didForceCancel == false else {
+                    self?.didForceCancel = false
+                    ShopLiveLogger.debugLog("convert failed error \(error)")
+                    completion(.Failed(error: error))
+                    return
+                }
                 self?.runFfmpegCommand(command: videoInfo.commandRemoveScale) { [weak self] result in
                     switch result {
                     case .Success():
@@ -187,7 +194,13 @@ class SLVideoConverter : NSObject {
                         self?.inConvert = false
                         completion(.Success(videoPath: videoInfo.ffmpegOutPutVideoPath))
                         break
-                    case .Failed(_):
+                    case .Failed(let error):
+                        guard self?.didForceCancel == false else {
+                            self?.didForceCancel = false
+                            ShopLiveLogger.debugLog("convert failed error \(error)")
+                            completion(.Failed(error: error))
+                            return
+                        }
                         self?.runFfmpegCommand(command: videoInfo.commandDefault) { [weak self] result in
                             switch result {
                             case .Success():
@@ -212,11 +225,14 @@ class SLVideoConverter : NSObject {
     private var ffmpegSession: FFmpegSession?
     func cancelConvert() {
         inConvert = false
+        didForceCancel = true
         if let session = ffmpegSession {
             FFmpegKit.cancel(session.getId())
         }
         FFmpegKit.cancel()
+        ffmpegSession?.cancel()
         ffmpegSession = nil
+       
     }
     
     private func runFfmpegCommand(command: String, completion: @escaping (SLVideoFFMpegExecuteResult) -> Void) {

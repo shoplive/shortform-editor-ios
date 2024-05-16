@@ -130,10 +130,6 @@ class ViewController : UIViewController {
             
         })
         
-        //필수
-        //ceId
-        //idfa
-        //idfv
         ShopLiveEvent.sendConversionEvent(data: .init(type: "purchase",
                                                       products: products,
                                                       orderId: orderId.getValue(),

@@ -27,10 +27,12 @@ class ShopLiveShortformEditorFilterListManager {
         SLShortformFilterAPI().request { [weak self]  result in
             switch result {
             case .success(let result):
+                dump(result)
                 self?.filterList = result.results ?? []
                 completion()
                 break
             case .failure(let error):
+                dump(error)
                 self?.filterList = []
                 self?.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: error)
                 completion()

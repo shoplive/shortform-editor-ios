@@ -476,6 +476,7 @@ extension OverlayWebView: WKScriptMessageHandler {
     private func handleON_CLICK_SHARE_BUTTON(payload : [String : Any]?) {
         guard let payload = payload else { return }
         let shareUrl = ShopLiveController.shared.shareScheme
+        ShopLiveLogger.debugLog("[HASSSSAN LOG] payload \(payload)")
         delegate?.requestHandleShare(data: .init(campaign: .init(payload: payload), url: shareUrl))
     }
 }

@@ -8,6 +8,7 @@
 "alert.yes" = "Ok";
 "alert.no" = "Cancel";
 "toast.cancel.encoding.title" = "Video encoding canceled.";
+"toast.cancel.uploading.title" = "Uploading has been canceled.";
 "editor.page.title" = "Edit";
 
 "editor.time.gap.sec.label" = "%ds";
@@ -15,6 +16,7 @@
 
 "editor.next.title" = "Next";
 "editor.encoding.cancel.alert.title" = "Encoding in progressing.\nAre you sure cancel encode video?";
+"editor.upload.cancel.alert.title" = "Do you really want to quit uploading process?";
 "uploadinfo.page.title" = "Add detail";
 "uploadinfo.title.placeholder" = "Title";
 "uploadinfo.title.title" = "Title";

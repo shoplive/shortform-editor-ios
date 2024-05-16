@@ -34,6 +34,7 @@ public enum ShortformDemoAsset {
   public static let icMediaFilled = ShortformDemoImages(name: "ic_media_filled")
   public static let icPerson = ShortformDemoImages(name: "ic_person")
   public static let icShopliveLogo = ShortformDemoImages(name: "ic_shoplive_logo")
+  public static let icSlDownarrow = ShortformDemoImages(name: "ic_sl_downarrow")
   public static let refresh = ShortformDemoImages(name: "refresh")
   public static let shortformIcThreeDot = ShortformDemoImages(name: "shortform_ic_three-dot")
 }

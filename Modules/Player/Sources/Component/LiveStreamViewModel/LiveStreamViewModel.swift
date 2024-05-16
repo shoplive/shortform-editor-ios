@@ -1092,12 +1092,12 @@ extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {
     }
     
     func sendOnVideoErrorToWeb(errorCase : ShopLiveAVPlayerErrorObserver.ErrorCase, reason : String) {
-        if errorCase == lastSentOnVideoError {
-            return
-        }
+//        if errorCase == lastSentOnVideoError {
+//            return
+//        }
         lastSentOnVideoError = errorCase
         let liveUrl = ShopLiveController.streamUrl?.absoluteString ?? ""
-        let payload : [String : Any] = ["liveUrl" : liveUrl, "reason" : reason]
+        let payload : String = ["liveUrl" : liveUrl, "reason" : reason].toJson() ?? ""
         ShopLiveLogger.debugLog("[HASSAN LOG] error \(errorCase.rawValue) payload \(payload)")
         ShopLiveController.shared.webInstance?.sendEventToWeb(event: .onVideoError, payload)
     }

@@ -17,7 +17,7 @@ public class ShopLiveShortformEditor {
     
     private var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
     private var permissionHandler : ShopLivePermissionHandler?
-    private weak var navigationController : SLPickerNavigationController?
+    private var coordinator : ShopliveShortformCoordinator?
     
     
     public init(){ }
@@ -53,44 +53,19 @@ public class ShopLiveShortformEditor {
     }
     
     public func start(_ vc : UIViewController) {
-        ShortFormUploadConfigurationInfosManager.shared.setConfigurationURLToEmpty()
-        ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case.success():
-                DispatchQueue.main.async {
-                    self.presentUpload(vc: vc)
-                }
-            case .failure(let error):
-                Self.shared.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: error)
-            }
-        }
-    }
-    
-    private func presentUpload(vc : UIViewController) {
-        let videoPicker = SLPhotosPickerViewController()
-        videoPicker.shoplivePermissionDelegate = Self.shared.permissionHandler
-        videoPicker.shortformEditorDelegate = Self.shared.shortformEditorDelegate
-        self.callFilterListAPI()
-        let navi = SLPickerNavigationController(rootViewController: videoPicker)
-        Self.shared.navigationController = navi
-        navi.isNavigationBarHidden = true
-        navi.modalPresentationCapturesStatusBarAppearance = true
-        navi.modalPresentationStyle = .overFullScreen
-        vc.present(navi, animated: true)
-    }
-    
-    private func callFilterListAPI() {
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            guard let self = self else { return }
-            ShopLiveShortformEditorFilterListManager.shared.shortformEditorDelegate = Self.shared.shortformEditorDelegate
-            ShopLiveShortformEditorFilterListManager.shared.callFilterListAPI { }
-        }
+        coordinator = ShopliveShortformCoordinator()
+        coordinator?.showPhotoPicker(vc: vc,
+                                     permissionHandler: Self.shared.permissionHandler,
+                                     editorDelegate: Self.shared.shortformEditorDelegate)
+        
     }
     
     public func close() {
-        Self.shared.navigationController?.dismiss(animated: true)
-        Self.shared.navigationController = nil
+        coordinator?.close()
     }
     
+    func getShoplivePermissionHandler() -> ShopLivePermissionHandler? {
+        return coordinator?.getPermissionHandler()
+    }
 }
+
