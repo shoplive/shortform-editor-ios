@@ -2,8 +2,6 @@ name: release-action
 
 
 on:
-  schedule:
-     - cron: '55 22 * * *' # AM 07:55, South Korea!
   workflow_dispatch:
 
 
