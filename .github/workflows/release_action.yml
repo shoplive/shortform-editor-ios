@@ -4,6 +4,16 @@ name: release-action
 on:
   workflow_dispatch:
     inputs:
+        options:
+          description: 'SDK optin'
+          required: true
+          default: 'all'
+          type: choice
+          options:
+          - player
+          - common
+          - shortform
+          - all
         tags:
           description: 'test'
           required: true
