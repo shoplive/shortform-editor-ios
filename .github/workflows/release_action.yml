@@ -3,6 +3,12 @@ name: release-action
 
 on:
   workflow_dispatch:
+    inputs:
+        tags:
+          description: 'test'
+          required: true
+          type: string
+          
 
 
 jobs:
@@ -11,6 +17,7 @@ jobs:
 
     env:
       COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+      VERSION: ${{ inputs.tags }}
 
     steps:
       - uses: actions/checkout@v3
@@ -56,7 +63,7 @@ jobs:
           cd common-ios
           sed -i '' '3d' "ShopliveSDKCommon.podspec"
           sed -i '' '3i\
-            spec.version       = "'"$TAG_NAME"'"
+            spec.version       = "'"$VERSION"'"
           ' ShopliveSDKCommon.podspec
       
       - name: commit and push to public repository - common
@@ -69,7 +76,7 @@ jobs:
           git commit -m "framework updated"
           git tag $TAG_NAME
           git push -q https://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@github.com/shoplive/common-ios
-          git push -q https://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@github.com/shoplive/common-ios $TAG_NAME
+          git push -q https://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@github.com/shoplive/common-ios $VERSION
 
       - name: deploy cocoapod - common
         run: |
