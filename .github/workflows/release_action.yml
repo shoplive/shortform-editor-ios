@@ -74,7 +74,7 @@ jobs:
           git config user.name "hassan0424"
           git add .
           git commit -m "framework updated"
-          git tag $TAG_NAME
+          git tag $VERSION
           git push -q https://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@github.com/shoplive/common-ios
           git push -q https://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@github.com/shoplive/common-ios $VERSION
 
