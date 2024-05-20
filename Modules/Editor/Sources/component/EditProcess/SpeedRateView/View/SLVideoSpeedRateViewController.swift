@@ -12,11 +12,13 @@ import ShopliveSDKCommon
 import AVKit
 
 
+
 protocol SLVideoSpeedRateViewControllerDelegate {
     func speedRateViewController(didFinish didChange : Bool)
 }
 
 class SLVideoSpeedRateViewController : UIViewController {
+    //ci-test
     private var naviBar : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false

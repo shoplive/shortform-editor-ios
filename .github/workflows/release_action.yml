@@ -1,0 +1,79 @@
+name: release-action
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    env:
+      COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: jdx/mise-action@v2
+
+      - name: get tag version
+        run: |
+          echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
+      
+      - name: install tuist
+        run: |
+          if [ ! -f /usr/local/bin/tuist ]; then
+              echo "Tuist not found, installing..."
+              mise install tuist
+          else
+              echo "Tuist already installed. Skipping installation."
+          fi
+      
+      - name: fetch tuist dependency
+        run: |
+          tuist fetch
+
+      - name: build tuist
+        run: |
+          tuist generate --no-open
+      
+      - name: build xcframework
+        run: |
+          bash build.sh
+      
+      - name: clone public repo
+        run: |
+          git clone --depth 1 https://github.com/shoplive/ios-sdk.git
+          git clone --depth 1 https://github.com/shoplive/shortform-ios.git
+          git clone --depth 1 https://github.com/shoplive/common-ios.git
+      
+      - name: move framework to public repository - common
+        run: |
+          cp -r ./SLXCFrameworks/ShopliveSDKCommon.xcframework ./common-ios/Frameworks
+      
+      - name: set podspec versioning - common
+        run: |
+          cd common-ios
+          sed -i '' '3d' "ShopliveSDKCommon.podspec"
+          sed -i '' '3i\
+            spec.version       = "'"$TAG_NAME"'"
+          ' ShopliveSDKCommon.podspec
+      
+      - name: commit and push to public repository - common
+        run: |
+          cd common-ios && ls -a
+          git config credential.helper 'cache --timeout=120'
+          git config user.email "hassan@shoplive.cloud"
+          git config user.name "hassan0424"
+          git add .
+          git commit -m "framework updated"
+          git tag $TAG_NAME
+          git push -q https://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@github.com/shoplive/common-ios
+          git push -q https://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@github.com/shoplive/common-ios $TAG_NAME
+
+      - name: deploy cocoapod - common
+        run: |
+          cd common-ios
+          pod trunk push ShopliveSDKCommon.podspec
+      
+      
+     
