@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
         options:
-          description: 'SDK optin'
+          description: 'SDK Build Type'
           required: true
           default: 'all'
           type: choice
@@ -28,15 +28,12 @@ jobs:
     env:
       COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
       VERSION: ${{ inputs.tags }}
+      SDK_TYPE: ${{ inputs.options }}
 
     steps:
       - uses: actions/checkout@v3
       - uses: jdx/mise-action@v2
 
-      - name: get tag version
-        run: |
-          echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
-      
       - name: install tuist
         run: |
           if [ ! -f /usr/local/bin/tuist ]; then
