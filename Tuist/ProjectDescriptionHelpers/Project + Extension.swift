@@ -6,10 +6,12 @@
 //
 
 import Foundation
-
+import ProjectDescription
 
 public enum ENV {
-    public static var GENTYP : String {
+    public static var GENTYPE : String {
         return ProcessInfo.processInfo.environment["TUIST_GENTYPE"] ?? ""
     }
 }
+
+
