@@ -34,7 +34,8 @@ jobs:
       
       - name: build tuist
         run: |
-          tuist generate --no-open
+          tuist fetch
+          TUIST_GENTYPE=DEPLOY tuist generate --no-open
       
       - name: build xcframework
         run: |

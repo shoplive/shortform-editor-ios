@@ -1,4 +1,4 @@
-name: release-action_common
+name: release-action_player
 
 
 on:
@@ -35,6 +35,7 @@ jobs:
 
       - name: build tuist
         run: |
+          tuist fetch
           TUIST_GENTYPE=PLAYER tuist generate --no-open
       
       - name: build xcframework
@@ -63,7 +64,8 @@ jobs:
           git config credential.helper 'cache --timeout=120'
           git config user.email "hassan@shoplive.cloud"
           git config user.name "hassan0424"
-          git add .
+          git status
+          git add -A
           git commit -m "framework updated"
           git tag $VERSION
           git push -q https://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@github.com/shoplive/ios-sdk
