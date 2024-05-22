@@ -553,6 +553,13 @@ public enum ShopLivePlayerDemoStrings {
         /// Player Mix Audio Option
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.mixAudio.title")
       }
+
+      public enum ResizeMode {
+      /// Set Players render option (default : AUTO)
+        public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.resizeMode.description")
+        /// Player View resize option
+        public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.resizeMode.title")
+      }
     }
 
     public enum ShareScheme {
