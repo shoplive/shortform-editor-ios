@@ -29,6 +29,7 @@ class CardTypeExampleViewController : UIViewController {
         self.view.backgroundColor = .white
         setLayout()
         
+        ShopLiveShortform.setResizeMode(mode: .CENTER_CROP)
     }
     
     override func viewWillAppear(_ animated: Bool) {

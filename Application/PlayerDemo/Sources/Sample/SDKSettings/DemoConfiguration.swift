@@ -776,6 +776,34 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.enableOSPip.optionKey)
         }
     }
+    
+    var resizeMode : ShopLiveResizeMode {
+        set {
+            switch newValue {
+            case .NONE:
+                UserDefaults.standard.set("AUTO", forKey: SDKOptionType.resizeMode.optionKey)
+            case .CENTER_CROP:
+                UserDefaults.standard.set("CENTER_CROP", forKey: SDKOptionType.resizeMode.optionKey)
+            case .FIT:
+                UserDefaults.standard.set("FIt", forKey: SDKOptionType.resizeMode.optionKey)
+            }
+
+            notifyObservers(key: SDKOptionType.resizeMode.optionKey)
+        }
+        get {
+            let result = UserDefaults.standard.string(forKey: SDKOptionType.resizeMode.optionKey)
+            switch result {
+            case "AUTO":
+                return .NONE
+            case "CENTER_CROP":
+                return .CENTER_CROP
+            case "FIT":
+                return .FIT
+            default:
+                return .NONE
+            }
+        }
+    }
 }
 
 

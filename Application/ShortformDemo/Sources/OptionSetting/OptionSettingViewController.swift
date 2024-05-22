@@ -25,6 +25,7 @@ class OptionSettingViewController : UIViewController {
     private var cacheBox = CacheOptionBox()
     private var listViewOptionBox = ListViewOptionBox()
     private var detailWebViewOptionsBox = DetailWebViewOptionBox()
+    private var detailViewOptionBox = DetailViewOptionBox()
     private var editorOptionBox = EditorViewOptionBox()
     private var previewOptionBox = PreviewOptionBox()
     
@@ -117,6 +118,7 @@ extension OptionSettingViewController {
         stack.addArrangedSubview(cacheBox)
         stack.addArrangedSubview(listViewOptionBox)
         stack.addArrangedSubview(detailWebViewOptionsBox)
+        stack.addArrangedSubview(detailViewOptionBox)
         stack.addArrangedSubview(editorOptionBox)
         stack.addArrangedSubview(previewOptionBox)
         stack.addArrangedSubview(confirmBtn)

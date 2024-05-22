@@ -303,7 +303,7 @@ internal final class LiveStreamViewController: SLViewController {
                 posterConstraints = .zero
                 snapShotConstraints = .zero
             } else {
-                let videoZoomed: Bool = self.playerView?.playerLayer?.videoGravity ?? .resizeAspect == .resizeAspectFill
+                let videoZoomed: Bool = (self.playerView?.playerLayer?.videoGravity ?? .resizeAspect) == .resizeAspectFill
                 if imageFrameRatio < ratio  {
                     let letterSpacing = (imageFrame.height - (imageFrame.width * (ShopLiveController.shared.videoRatio.height / ShopLiveController.shared.videoRatio.width))) / 2
                     posterConstraints = .init(top: letterSpacing, left: 0, bottom: -letterSpacing, right: 0)
@@ -460,7 +460,17 @@ internal final class LiveStreamViewController: SLViewController {
             return .resizeAspect
         }
         else {
-            return .resizeAspectFill
+            if let resizeMode = viewModel.getResizeMode(), resizeMode != .NONE {
+                if resizeMode == .CENTER_CROP {
+                    return .resizeAspectFill
+                }
+                else {
+                    return .resizeAspect
+                }
+            }
+            else {
+                return .resizeAspectFill
+            }
         }
     }
     
@@ -666,7 +676,15 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
     }
     
     func refreshAvPlayerLayer() {
-        if let previousVideoGravity = self.playerLayer?.videoGravity {
+        if let resizeMode = viewModel.getResizeMode(), resizeMode != .NONE, UIDevice.isIpad == false, UIScreen.isLandscape == false {
+            if resizeMode == .CENTER_CROP {
+                playerView?.refreshLayer(videoGravity: .resizeAspectFill)
+            }
+            else if resizeMode == .FIT {
+                playerView?.refreshLayer(videoGravity: .resizeAspect)
+            }
+        }
+        else if let previousVideoGravity = self.playerLayer?.videoGravity {
             playerView?.refreshLayer(videoGravity: previousVideoGravity)
         }
         else {
@@ -802,7 +820,15 @@ extension LiveStreamViewController {
         playerView.playerLayer?.player = playerView.player
         playerView.playerLayer?.needsDisplayOnBoundsChange = true
         
-        if ShopLiveController.shared.videoOrientation == .portrait {
+        if let resizeMode = viewModel.getResizeMode(), resizeMode != .NONE, UIDevice.isIpad == false, UIScreen.isLandscape == false {
+            if resizeMode == .CENTER_CROP {
+                playerView.playerLayer?.videoGravity = .resizeAspectFill
+            }
+            else if resizeMode == .FIT {
+                playerView.playerLayer?.videoGravity = .resizeAspect
+            }
+        }
+        else if ShopLiveController.shared.videoOrientation == .portrait {
             if UIScreen.isLandscape {
                 playerView.playerLayer?.videoGravity = .resizeAspect
             }
@@ -819,13 +845,11 @@ extension LiveStreamViewController {
             playerView.playerLayer?.videoGravity = .resizeAspect
         }
         
-        
         ShopLiveController.shared.playerItem?.player = playerView.player
         if let playerLayer = playerView.playerLayer {
             ShopLiveController.shared.playerItem?.playerLayer? = playerLayer
         }
         
-       
         playerTopConstraint     = playerView.topAnchor.constraint(equalTo: view.topAnchor)
         playerLeadingConstraint = playerView.leftAnchor.constraint(equalTo: view.leftAnchor)
         playerRightConstraint   = playerView.rightAnchor.constraint(equalTo: view.rightAnchor)

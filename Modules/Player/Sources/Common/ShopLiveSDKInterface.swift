@@ -352,4 +352,7 @@ public typealias ShopLiveViewController = SLViewController
     
     @objc static func addSubViewToPreview(subView : UIView)
     @objc static func getPreviewSize(inAppPipConfiguration : ShopLiveInAppPipConfiguration, videoRatio : CGSize) -> CGSize
+    
+    
+    @objc static func setResizeMode(mode : ShopLiveResizeMode)
 }

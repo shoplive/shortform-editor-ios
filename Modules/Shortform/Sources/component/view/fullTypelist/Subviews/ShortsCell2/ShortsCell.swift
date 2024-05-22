@@ -83,7 +83,6 @@ class ShortsCell : UICollectionViewCell {
     private var thumbnailImageView : UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -284,11 +283,14 @@ extension ShortsCell {
                 self.onReactorInvalidateLayout()
             case .setVideoLayerGravity(let gravity):
                 self.onReactorSetVideoGravity(gravity: gravity)
+            case .setThumbnailImageContentMode(let contentMode):
+                self.onReactorSetThumbnailContentMode(contentMode: contentMode)
             case .scrollToNextCell(let data):
                 self.onReactorScrollToNextCell(data : data )
             }
         }
     }
+    
     
     private func onReactorSetThumbnail(image : UIImage?) {
         self.thumbnailImageView.image = image
@@ -427,6 +429,10 @@ extension ShortsCell {
         playerView.action( .setVideoGravity(gravity) )
     }
     
+    private func onReactorSetThumbnailContentMode(contentMode : UIView.ContentMode) {
+        self.thumbnailImageView.contentMode = contentMode
+    }
+    
     private func onReactorScrollToNextCell(data : ShopLiveShortform.ShortsModel?) {
         delegate?.didFinishPlayingShorts(cell: self, data: data)
     }
@@ -489,6 +495,7 @@ extension ShortsCell {
     private func onPlayerRequestHideSnapshotForWindow() {
         self.delegate?.setSnapShotForWindow(image: nil)
     }
+    
     
 }
 //MARK: - bind ShortsWebView

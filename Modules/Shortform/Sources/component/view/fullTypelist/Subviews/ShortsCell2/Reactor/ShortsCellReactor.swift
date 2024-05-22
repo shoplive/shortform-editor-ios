@@ -99,6 +99,7 @@ class ShortsCellReactor : NSObject, SLReactor {
         case setWebViewIsHidden(Bool)
         case invalidateLayout
         case setVideoLayerGravity(AVLayerVideoGravity)
+        case setThumbnailImageContentMode(UIView.ContentMode)
         case scrollToNextCell(ShortsModel?)
     }
     
@@ -245,7 +246,22 @@ class ShortsCellReactor : NSObject, SLReactor {
             if let currentVideoUrl = currentVideoUrl, let videoUrl = URL(string: currentVideoUrl) {
                 resultHandler?( .setVideoPlayer(videoUrl) )
             }
-            let videoGravity : AVLayerVideoGravity = UIDevice.current.userInterfaceIdiom == .pad ? .resizeAspect : .resizeAspectFill
+            var videoGravity : AVLayerVideoGravity = .resizeAspect
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                videoGravity = .resizeAspect
+                resultHandler?( .setThumbnailImageContentMode(.scaleAspectFit) )
+            }
+            else {
+                if ShopLiveShortform.detailPlayerResizeMode == .CENTER_CROP || ShopLiveShortform.detailPlayerResizeMode == .NONE {
+                    videoGravity = .resizeAspectFill
+                    resultHandler?( .setThumbnailImageContentMode(.scaleAspectFill) )
+                }
+                else {
+                    videoGravity = .resizeAspect
+                    resultHandler?( .setThumbnailImageContentMode(.scaleAspectFit) )
+                }
+            }
+            
             resultHandler?( .setVideoLayerGravity(videoGravity) )
             let urlString = shortsModel?.cards?.first?.screenshotUrl ?? (shortsModel?.cards?.first?.specifiedScreenShotUrl ?? "")
             if let url = URL(string: urlString) {

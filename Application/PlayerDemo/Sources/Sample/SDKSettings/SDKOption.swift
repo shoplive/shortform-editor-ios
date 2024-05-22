@@ -60,6 +60,7 @@ enum SDKOptionType: String, CaseIterable {
     case enablePreviewSound
     case enablePip
     case enableOSPip
+    case resizeMode
 
     
     enum SettingType: Int {
@@ -73,7 +74,7 @@ enum SDKOptionType: String, CaseIterable {
         switch self {
         case .shareScheme, .progressColor, .pipScale, .maxPipSize, .fixedHeightPipSize, .fixedWidthPipSize, .pipCornerRadius:
             return .showAlert
-        case .pipPosition, .nextActionOnHandleNavigation:
+        case .pipPosition, .nextActionOnHandleNavigation,.resizeMode:
             return .dropdown
         case .pipFloatingOffset, .addParameter:
             return .routeTo

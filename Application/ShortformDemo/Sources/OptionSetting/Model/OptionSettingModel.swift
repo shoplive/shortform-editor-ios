@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import ShopLiveShortformSDK
+import ShopliveSDKCommon
 
 
 class OptionSettingModel {
@@ -30,6 +31,7 @@ class OptionSettingModel {
     
     
     
+    
     static var editorMinVideoDuration : Double = 1
     static var editorMaxVideoDuration : Double = 60
     static var editorShowDescription : Bool = true
@@ -38,4 +40,6 @@ class OptionSettingModel {
     static var editorheight : Int = 16
     static var editorIsFixed : Bool = true
     static var previewMaxCount : Int? = nil
+    
+    static var resizeMode : ShopLiveResizeMode = .NONE
 }

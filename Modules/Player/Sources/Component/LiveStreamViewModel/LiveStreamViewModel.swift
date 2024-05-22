@@ -77,6 +77,8 @@ internal final class LiveStreamViewModel: NSObject {
      */
     private var isUpdatePictureInPictureNeedInSetConfInitialized : Bool = false
     
+    private var customVideoResizeMode : ShopLiveResizeMode?
+    
     deinit {
         ShopLiveLogger.memoryLog("liveStreamViewModel deinited")
     }
@@ -824,6 +826,11 @@ extension LiveStreamViewModel {
     func getLiveUrl() -> String? {
         return self.liveUrl
     }
+    
+    func getResizeMode() -> ShopLiveResizeMode? {
+        return self.customVideoResizeMode
+    }
+    
     /**
      Initialize web client
      - Sending the required data using URL for Web Client initialization
@@ -1012,6 +1019,11 @@ extension LiveStreamViewModel {
             }
         }
     }
+    
+    func setResizeMode(mode : ShopLiveResizeMode?) {
+        self.customVideoResizeMode = mode
+    }
+    
 }
 extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {
     func pauseAndWaitForBufferFromPlayerObserveError() {

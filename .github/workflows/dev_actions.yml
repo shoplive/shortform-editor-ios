@@ -47,17 +47,22 @@ jobs:
       - name: tuist player generate
         if: "contains(env.TITLE, 'PLAYER')"
         run: |
-            TUSIT_GENTYPE=PLAYER tuist generate --no-open
+            TUSIT_GENTYPE=PLAYERDEMO tuist generate --no-open
         
       - name: tuist shortform generate
         if: "contains(env.TITLE, 'SHORTFORM')"
         run: |
-            TUIST_GENTYPE=SHORTFORM tuist generate --no-open
+            TUIST_GENTYPE=SHORTFORMDEMO tuist generate --no-open
     
       - name: tuist common generate
         if: "contains(env.TITLE,'COMMON')"
         run: |
             TUIST_GENTYPE=COMMON tuist generate --no-open
+      
+      - name: tuist all generate
+        if: "contains(env.TITLE,'ALL')"
+        run: |
+            tuist generate --no-open
      
       
       # Runs a set of commands using the runners shell
@@ -78,5 +83,10 @@ jobs:
         run: |
             echo building shoplive
             xcodebuild -workspace  "ShopLive.xcworkspace" -scheme "ShopliveSDKCommon" -destination 'platform=iOS Simulator,name=iPhone 14 Pro'
+      
+      - name: xcode all build
+        if: "contains(env.TITLE, 'ALL')"
+        run: |
+            xcodebuild -workspace  "ShopLive.xcworkspace" -scheme "ShopLiveDemo" -destination 'platform=iOS Simulator,name=iPhone 14 Pro'
         
     

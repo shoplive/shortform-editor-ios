@@ -36,7 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                   SDKOptionType.playWhenPreviewTapped.optionKey : true,
                                                   SDKOptionType.enablePreviewSound.optionKey : false,
                                                   SDKOptionType.enablePip.optionKey : true,
-                                                  SDKOptionType.enableOSPip.optionKey : true
+                                                  SDKOptionType.enableOSPip.optionKey : true,
+                                                  SDKOptionType.resizeMode.optionKey : "AUTO"
                                                 ])
         
 

@@ -35,6 +35,8 @@ import ShopliveSDKCommon
     private var shopLivePlayerCampaignHandler : ((ShopLivePlayerCampaign) -> ())?
     private var shopLivePlayerBrandHandler : ((ShopLivePlayerBrand) -> ())?
     
+    private var customerVideoResizeMode : ShopLiveResizeMode?
+    
     
 #if EBAY
 #else
@@ -208,6 +210,7 @@ import ShopliveSDKCommon
         if inAppPipConfiguration?.pipPosition == nil {
             liveStreamViewController?.viewModel.setPipPosition(position: ShopLiveController.shared.initialPipPosition)
         }
+        liveStreamViewController?.viewModel.setResizeMode(mode: customerVideoResizeMode)
         liveStreamViewController?.viewModel.setInAppPipConfiguration(config: inAppPipConfiguration)
         liveStreamViewController?.delegate = self
         liveStreamViewController?.webViewConfiguration = _webViewConfiguration
@@ -1633,6 +1636,10 @@ extension ShopLiveBase {
     }
 }
 extension ShopLiveBase: ShopLiveComponent {
+    func setResizeMode(mode: ShopliveSDKCommon.ShopLiveResizeMode) {
+        self.customerVideoResizeMode = mode
+        self.liveStreamViewController?.viewModel.setResizeMode(mode: mode)
+    }
     
     func setEnabledOSPictureInPictureMode(isEnabled: Bool) {
         self.enabledOSPictureInPictureMode = isEnabled

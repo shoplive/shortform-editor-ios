@@ -62,6 +62,7 @@ import ShopliveSDKCommon
     
     @objc func addSubViewToPreview(subView : UIView)
     @objc func getPreviewSize(inAppPipConfiguration : ShopLiveInAppPipConfiguration, videoRatio : CGSize) -> CGSize
+    @objc func setResizeMode(mode : ShopLiveResizeMode)
 }
 
 enum ShopLiveCampaignStatus: String, CaseIterable {
@@ -535,5 +536,9 @@ extension ShopLive: ShopLiveSDKInterface {
             return .zero
         }
         return instance.getPreviewSize(inAppPipConfiguration: inAppPipConfiguration, videoRatio: videoRatio)
+    }
+    
+    public static func setResizeMode(mode: ShopLiveResizeMode) {
+        shared.instance?.setResizeMode(mode: mode)
     }
 }

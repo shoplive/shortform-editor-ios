@@ -17,6 +17,8 @@ public class ShopLiveShortform {
     private static var shortformWindow: SLShortFormWindow?
     
     internal static var detailWebViewViewHideOptionData = ShopLiveShortformVisibleDetailData()
+    internal static var detailPlayerResizeMode : ShopLiveResizeMode = .NONE
+    
     
     public static func play(requestData : ShopLiveShortformCollectionData?){
         let internalShortFormRequestData = InternalShortformCollectionDto()
@@ -69,10 +71,6 @@ public class ShopLiveShortform {
 
     }
     
-
-    
-    
-    
     public static func close() {
         shortsCollection?.cleanUpMemoryLeak()
         
@@ -109,6 +107,11 @@ public class ShopLiveShortform {
         self.detailWebViewViewHideOptionData = options
     }
     
+    public static func setResizeMode(mode : ShopLiveResizeMode) {
+        self.detailPlayerResizeMode = mode
+    }
+    
+    //MARK: - internal static funcs
     internal static func playNormalFullScreen(reference : String? = nil, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformCollectionDto?,shopliveSessionId : String?){
         if shortsCollection != nil {
             shortsCollection?.removeFromSuperview()

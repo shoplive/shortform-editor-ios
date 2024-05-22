@@ -88,6 +88,10 @@
 "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.description" = "항상 전체화면으로 실행(false) / 항상 현재 화면 상태를 유지(true) 기본값 false 다른 방송으로 변경시에는 전체화면으로 실행됩니다.";
 "sdkoption.setupPlayer.mixAudio.title" = "Player mix audio 옵션";
 "sdkoption.setupPlayer.mixAudio.description" = "Player의 audio와 다른 audio와 혼용가능합니다.";
+
+"sdkoption.setupPlayer.resizeMode.title" = "Player Resize 옵션";
+"sdkoption.setupPlayer.resizeMode.description" = "Player의 영상 렌더링 방식을 정합니다.(기본값 : AUTO)";
+
 "sdkoption.setupPlayer.manualRotation.title" = "가로방송에서 회전 버튼에 대한 화면 회전 컨트롤을 직접 설정";
 "sdkoption.setupPlayer.manualRotation.description" = "가로방송에서 회전 버튼이 눌렸을 때 SDK에서 화면 회전을 직접 컨트롤(false - 기본값), 회전 버튼이 눌렸을 때 고객사 앱에서 직접 회전에 대한 처리(true)";
 "sdkoption.sound.mute.title" = "Muted play starts";

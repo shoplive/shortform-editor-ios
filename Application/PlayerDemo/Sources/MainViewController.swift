@@ -157,6 +157,8 @@ class MainViewController: SideMenuBaseViewController {
         }
         
         
+        ShopLive.setResizeMode(mode: config.resizeMode)
+        
         ShopLive.setEnabledPictureInPictureMode(isEnabled: config.enablePip)
         ShopLive.setEnabledOSPictureInPictureMode(isEnabled: config.enableOsPip)
         

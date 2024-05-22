@@ -20,7 +20,6 @@ import ShopliveSDKCommon
     @objc optional func handleProductBanner(shortsId : String, shortsSrn : String, scheme : String, shortsDetail : ShortsDetailData)
 }
 
-
 extension ShopLiveShortform {
     
     //기존 NativeDelegate, Hybrid 전용등으로 쪼개져 있던 것은 그냥 Delegate로 통합

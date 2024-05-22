@@ -8,6 +8,7 @@
 import UIKit
 import iOSDropDown
 import ShopLiveSDK
+import ShopliveSDKCommon
 
 final class OptionsViewController: SideMenuItemViewController {
 
@@ -78,9 +79,10 @@ final class OptionsViewController: SideMenuItemViewController {
         let aspectOnTabletOption = SDKOptionItem(name: "sdkoption.setupPlayer.aspectOnTablet.title".localized(), optionDescription: "sdkoption.setupPlayer.aspectOnTablet.description".localized(), optionType: .aspectOnTablet)
         let keepWindowStateOnPlayExecutedOption = SDKOptionItem(name: "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.title".localized(), optionDescription: "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.description".localized(), optionType: .keepWindowStateOnPlayExecuted)
         let mixAudioOption = SDKOptionItem(name: "sdkoption.setupPlayer.mixAudio.title".localized(), optionDescription: "sdkoption.setupPlayer.mixAudio.description".localized(), optionType: .mixAudio)
+        let resizeModeOption = SDKOptionItem(name: "sdkoption.setupPlayer.resizeMode.title".localized(), optionDescription: "sdkoption.setupPlayer.resizeMode.description".localized(), optionType: .resizeMode)
         let nextActionOption = SDKOptionItem(name: "sdkoption.nextActionTypeOnNavigation.title".localized(), optionDescription: "sdkoption.nextActionTypeOnNavigation.description".localized(), optionType: .nextActionOnHandleNavigation)
         let statusBarVisibilityOption = SDKOptionItem(name: "sdkoption.statusbarvisibility.title".localized(), optionDescription: "sdkoption.statusbarvisibility.description".localized(), optionType: .statusBarVisibility)
-        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption, mixAudioOption, nextActionOption, statusBarVisibilityOption])
+        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption, mixAudioOption, resizeModeOption, nextActionOption, statusBarVisibilityOption])
         
         items.append(setupPlayerOptions)
         
@@ -306,6 +308,13 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                     self?.tableView.reloadData()
                 }
                 break
+            case .resizeMode:
+                dropdown.optionArray = ["CENTER_CROP","FIT","AUTO"]
+                dropdown.didSelect { [weak self] selectedText, index, id in
+                    DemoConfiguration.shared.resizeMode = ShopLiveResizeMode(rawValue: index) ?? .NONE
+                    anchorView.removeFromSuperview()
+                    self?.tableView.reloadData()
+                }
             default:
                     break
             }
