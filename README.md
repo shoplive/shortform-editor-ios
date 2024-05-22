@@ -20,14 +20,24 @@
 - iOS 13.0+
 
 ## Tuist
+- 환경 조건 
+  1. xcode 14.3.1 이상
+  2. command line tool -> xcode 14.3.1 이상
 
 - tuist 설치 순서  
   1. brew install mise  
   2. mise install tuist  
 
 - tuist 실행 순서  
-  1. tuist fetch(spm관련 디펜덴시 가져오는 작업)  
-  2. tuist generate(프로젝트 생성 커맨드)  
+  1. mise use tuist@3.37.0
+  2. mise exec -- tuist fetch(spm관련 디펜덴시 가져오는 작업)  
+  3. mise exec -- tuist generate(프로젝트 생성 커맨드)  
+  
+ - tuist generate Options
+  1. tuist generate - 전체 프로젝트 생성
+  2. TUIST_GENTYPE=(PLAYER,SHORTFORM,COMMON) mise exec -- tuist generate (각각 모듈만 빌드)
+  3. TUIST_GENTYPE=(PLAYERDEMO,SHORTFORNDEMO) mise exec -- tuist generate (player demo 혹은 shortform demo만 프로젝트로 생성)
+  4. TUIST_GENTYPE=(DEPLOY) mise exec -- tuist generate (배포용 설정, SDK 프로젝트만 생성, )
 
 ## Build
 
