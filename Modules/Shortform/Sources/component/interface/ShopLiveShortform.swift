@@ -17,7 +17,8 @@ public class ShopLiveShortform {
     private static var shortformWindow: SLShortFormWindow?
     
     internal static var detailWebViewViewHideOptionData = ShopLiveShortformVisibleDetailData()
-    internal static var detailPlayerResizeMode : ShopLiveResizeMode = .NONE
+    internal static var isEnabledVolumeKey : Bool = false
+    internal static var detailPlayerResizeMode : ShopLiveResizeMode?
     
     
     public static func play(requestData : ShopLiveShortformCollectionData?){
@@ -109,6 +110,10 @@ public class ShopLiveShortform {
     
     public static func setResizeMode(mode : ShopLiveResizeMode) {
         self.detailPlayerResizeMode = mode
+    }
+    
+    public static func setIsEnabledVolumeKey(isEnabled : Bool) {
+        self.isEnabledVolumeKey = isEnabled
     }
     
     //MARK: - internal static funcs

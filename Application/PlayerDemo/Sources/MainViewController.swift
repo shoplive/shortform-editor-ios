@@ -156,7 +156,6 @@ class MainViewController: SideMenuBaseViewController {
             ShopLiveCommon.setAdId(adId: nil)
         }
         
-        
         ShopLive.setResizeMode(mode: config.resizeMode)
         
         ShopLive.setEnabledPictureInPictureMode(isEnabled: config.enablePip)
@@ -320,6 +319,7 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.setEnabledPipSwipeOut(config.pipEnableSwipeOut)
         
         ShopLive.setVisibleStatusBar(isVisible: DemoConfiguration.shared.statusBarVisibility)
+        
 //        previewConverViewMaker.setCustomerPreviewCoverView()
         
     }
@@ -358,14 +358,16 @@ class MainViewController: SideMenuBaseViewController {
             return
         }
         
-        setupShopliveSettings()
-        ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
         
+        ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
+        setupShopliveSettings()
         
         let playerData = ShopLivePreviewData(campaignKey: currentKey.campaignKey,
                                             keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
+                                            
                                             referrer: DemoConfiguration.shared.customReferrer,
-                                            isMuted: !DemoConfiguration.shared.enablePreviewSound) { campaign in
+                                            isMuted: !DemoConfiguration.shared.enablePreviewSound,
+                                             isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey) { campaign in
             ShopLiveLogger.debugLog(" campaign callBack campaign Title : \(campaign.title)")
         } brandHandler: { brand in
             ShopLiveLogger.debugLog(" brand callback brand Name : \(brand.name) \n brand Image : \(brand.imageUrl) \n brand Identifier : \(brand.identifier)")
@@ -386,12 +388,14 @@ class MainViewController: SideMenuBaseViewController {
             return
         }
 
-        setupShopliveSettings()
+        
         ShopLive.configure(with: currentKey.accessKey)
+        setupShopliveSettings()
         
         let playerData = ShopLivePlayerData(campaignKey: currentKey.campaignKey,
                                              keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
-                                             referrer: DemoConfiguration.shared.customReferrer)
+                                             referrer: DemoConfiguration.shared.customReferrer,
+                                             isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey)
         
         ShopLive.play(data: playerData )
         
@@ -406,7 +410,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
         if name.contains("player_active_seconds") == false {
-            ShopLiveLogger.tempLog("log name \(name) feature \(feature.name) campaignKey \(campaign) payload(String:Any) \(payload)")
+            ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) payload(String:Any) \(payload)")
         }
         
         if DemoConfiguration.shared.useClickLog && name.contains("player_active_seconds") == false {
@@ -421,6 +425,27 @@ extension MainViewController: ShopLiveSDKDelegate {
 //        ShopLiveLogger.tempLog("log name \(name) feature \(feature.name) campaignKey \(campaign) parameter(String:String) \(parameter)")
 //        let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, parameter: parameter)
 //        ShopLiveLogger.debugLog("eventLog \(eventLog.name)")
+    }
+    
+    func onEvent(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String : Any]) {
+        switch name {
+        case "product_list":
+            handleProductList(payload: payload)
+        default:
+            break
+        }
+    }
+    
+    private func handleProductList(payload: [String : Any]) {
+        ShopLiveEvent.sendConversionEvent(data: .init(type: "purchase",
+                                                      products: [.init(productId: payload["goodsId"] as? String,
+                                                                       sku: payload["sku"] as? String,
+                                                                       url: payload["url"] as? String,
+                                                                       purchaseQuantity: 1,
+                                                                       purchaseUnitPrice: payload["discountedPrice"] as? Double )],
+                                                      orderId: "customOrderId",
+                                                     referrer: "customReferrer",
+                                                      custom: ["key" : "value" ]))
     }
     
     func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint) {
@@ -557,6 +582,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     }
 
     func handleCommand(_ command: String, with payload: Any?) {
+        
         if ShopLiveViewTrackEvent.allCases.map({ $0.name }).contains(where: { $0 == command }) {
             guard let payload = payload as? [String : Any] else { return }
             ShopLiveLogger.debugLog("[SHOPLIVEVIEWTRACKEVENT] viewTrack \(command) - currentStyle = \((payload["currentStyle"] as? String) ?? "null"), lastStyle = \((payload["lastStyle"] as? String) ?? "null"), isPreview \(payload["isPreview"] as? Bool), viewHiddenActionType = \((payload["viewHiddenActionType"] as? String))")
@@ -569,6 +595,13 @@ extension MainViewController: ShopLiveSDKDelegate {
         } else if command == "didShopLiveOff" {
             
         }
+        else {
+//            var log = "\nhandleCommand\n"
+//            log += "command : \(command)\n"
+//            log += "payload : \(payload)\n"
+//            log += "=================="
+//            ShopLiveLogger.tempLog(log)
+        }
     }
 
     func onSetUserName(_ payload: [String : Any]) {
@@ -576,6 +609,12 @@ extension MainViewController: ShopLiveSDKDelegate {
         payload.forEach { (key, value) in
             ShopLiveLogger.debugLog("onSetUserName key: \(key) value: \(value)")
         }
+        
+        let alert = UIAlertController(title: "대화명 변경", message: "대화명 변경이 완료되었습니다.".localized(), preferredStyle: .alert)
+        alert.addAction(.init(title: "alert.msg.ok".localized(), style: .default, handler: { _ in
+            alert.dismiss(animated: true)
+        }))
+        ShopLive.viewController?.present(alert, animated: true, completion: nil)
     }
 
     

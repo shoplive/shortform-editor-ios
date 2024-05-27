@@ -347,9 +347,6 @@ extension ShopLiveShortform {
                         ShortformEventTraceManager.processDetailOnPlayerShow(shortsCollectionSrn: self.shortsCollectionView?.getCurrentShortsSrn(), shopliveSessionId: sessionId)
                         ShortformNativeOnEventsManager.sendNativeOnEvents(command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
                         ShopLiveShortform.Delegate.receiveHandler.delegate?.onDidAppear?()
-//                        DispatchQueue.main.async {
-//                            self.shortsCollectionView?.hideSnapshot(animate: true)
-//                        }
                     }
                 }
             }

@@ -780,12 +780,10 @@ final class DemoConfiguration: NSObject {
     var resizeMode : ShopLiveResizeMode {
         set {
             switch newValue {
-            case .NONE:
-                UserDefaults.standard.set("AUTO", forKey: SDKOptionType.resizeMode.optionKey)
             case .CENTER_CROP:
                 UserDefaults.standard.set("CENTER_CROP", forKey: SDKOptionType.resizeMode.optionKey)
             case .FIT:
-                UserDefaults.standard.set("FIt", forKey: SDKOptionType.resizeMode.optionKey)
+                UserDefaults.standard.set("FIT", forKey: SDKOptionType.resizeMode.optionKey)
             }
 
             notifyObservers(key: SDKOptionType.resizeMode.optionKey)
@@ -793,15 +791,23 @@ final class DemoConfiguration: NSObject {
         get {
             let result = UserDefaults.standard.string(forKey: SDKOptionType.resizeMode.optionKey)
             switch result {
-            case "AUTO":
-                return .NONE
             case "CENTER_CROP":
                 return .CENTER_CROP
             case "FIT":
                 return .FIT
             default:
-                return .NONE
+                return .CENTER_CROP
             }
+        }
+    }
+    
+    var isEnabledVolumeKey : Bool {
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: SDKOptionType.isEnabledVolumeKey.optionKey)
+            notifyObservers(key: SDKOptionType.isEnabledVolumeKey.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey: SDKOptionType.isEnabledVolumeKey.optionKey)
         }
     }
 }

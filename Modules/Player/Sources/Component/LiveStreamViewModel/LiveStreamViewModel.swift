@@ -17,6 +17,7 @@ protocol LiveStreamViewModelDelegate : NSObjectProtocol {
     func reloadWebView(with url : URL)
     func sendNetworkCapabilityOnChanged(networkCapability : String)
     func getCurrentWebViewUrl() -> URL?
+    func updateBackgroundImageConstraintsWithActualVideoRenderedRect(rect : CGRect)
 }
 
 internal final class LiveStreamViewModel: NSObject {
@@ -33,11 +34,13 @@ internal final class LiveStreamViewModel: NSObject {
     private var perfMeasurements: PerfMeasurements?
     private var playerErrorObserver : ShopLiveAVPlayerErrorObserver?
     var retryManager : LiveStreamRetryManager?
-    private var playTimeObserver: Any?
+    
     
     private var loadedTimeRangeStalledQueue : [Double] = []
     
     private var liveKeepUpTimer : Any?
+    private var playTimeObserver: Any?
+    private var actualVideoRenderRectTimeObserver : Any?
     private var isLLHLS : Bool = true
     private var streamEdgeType : String?
     
@@ -71,6 +74,9 @@ internal final class LiveStreamViewModel: NSObject {
     private var previewUrl : String?
     private var liveUrl : String?
     private var lastSentOnVideoError : ShopLiveAVPlayerErrorObserver.ErrorCase = .none
+    
+    //viewdata
+    private var actualVideoRenderedRect : CGRect?
     
     /**
      api에서 아무데이터 없거나 할때 쓰임 setConf에서 updatePictureInPicture하기 위해서 있음
@@ -115,6 +121,7 @@ internal final class LiveStreamViewModel: NSObject {
         retryManager = nil
         removePlaytimeObserver()
         removeLiveStreamKeepUpTimer()
+        removeAcutalVideoRectPlayPeriodicTimeObserver()
         resetPlayer()
         self.delegate = nil
         
@@ -251,6 +258,7 @@ internal final class LiveStreamViewModel: NSObject {
             playerErrorObserver = ShopLiveAVPlayerErrorObserver(player: ShopLiveController.player!)
             playerErrorObserver?.delegate = self
             addPlayTimeObserver()
+            addActualVideoRectTrackingPlayPeriodicTimeObserver()
         }
     }
     
@@ -541,7 +549,9 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
         }
     }
 }
+//MARK: - PeriodicTimerObserver logics
 extension LiveStreamViewModel {
+    //MARK: - sending infos to web
     private func addPlayTimeObserver() {
         removePlaytimeObserver()
         let time = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
@@ -552,6 +562,7 @@ extension LiveStreamViewModel {
             ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoTimeUpdated, curTime)
         }
     }
+    
     
     // ts 파일 개수 변화에 따른 사이드 이펙트가 너무 큰 로직이라 제거
     // replay 7초 무한 새로고침 현상 원인코드
@@ -586,6 +597,7 @@ extension LiveStreamViewModel {
         }
     }
     
+    //MARK: - liveStreamKeepUptimer logics
     func startLiveStreamKeepUpTimer() {
         if self.useLiveKeepUpTimerOnInApp == false && ShopLiveController.windowStyle != .osPip { return }
         if self.useLiveKeepUpTimerOnOsPip == false && ShopLiveController.windowStyle == .osPip { return }
@@ -738,6 +750,37 @@ extension LiveStreamViewModel {
         self.liveKeepUpBufferStack.removeAll()
     }
     
+    
+    //MARK: - tracking actual video rendered rect
+    private func addActualVideoRectTrackingPlayPeriodicTimeObserver() {
+        removeAcutalVideoRectPlayPeriodicTimeObserver()
+        let time = CMTime(seconds: 10, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        actualVideoRenderRectTimeObserver = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: DispatchQueue.global(qos: .background)) { [weak self] time in
+            guard let self = self else { return }
+            guard let videoRect = self.liveStreamViewController?.playerView?.playerLayer?.videoRect else { return }
+            self.setActualVideoRenderedVideoRect(rect: videoRect)
+        }
+    }
+    
+    private func removeAcutalVideoRectPlayPeriodicTimeObserver() {
+        if self.actualVideoRenderRectTimeObserver != nil {
+            ShopLiveController.player?.removeTimeObserver(actualVideoRenderRectTimeObserver!)
+            actualVideoRenderRectTimeObserver = nil
+        }
+        actualVideoRenderRectTimeObserver = nil
+    }
+    
+    private func setActualVideoRenderedVideoRect(rect : CGRect) {
+        if let oldRect = self.actualVideoRenderedRect, oldRect == rect {
+            return
+        }
+        else if rect != .zero {
+            self.actualVideoRenderedRect = rect
+            DispatchQueue.main.async { [weak self] in
+                self?.delegate?.updateBackgroundImageConstraintsWithActualVideoRenderedRect(rect: rect)
+            }
+        }
+    }
 }
 extension LiveStreamViewModel: AVPlayerItemMetadataOutputPushDelegate {
     func metadataOutput(_ output: AVPlayerItemMetadataOutput, didOutputTimedMetadataGroups groups: [AVTimedMetadataGroup], from track: AVPlayerItemTrack?) {
@@ -746,7 +789,6 @@ extension LiveStreamViewModel: AVPlayerItemMetadataOutputPushDelegate {
         var timedMeta: String = "[timedMeta]\n"
         groups.forEach { group in
             group.items.forEach { item in
-                
                 if let key = item.key as? String, let datav = item.value as? Data {
                     timedMeta += "\(key): \(String(describing: item.value)) \n"
                     payloads[key] = datav.base64EncodedString()

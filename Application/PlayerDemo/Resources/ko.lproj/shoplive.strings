@@ -89,8 +89,11 @@
 "sdkoption.setupPlayer.mixAudio.title" = "Player mix audio 옵션";
 "sdkoption.setupPlayer.mixAudio.description" = "Player의 audio와 다른 audio와 혼용가능합니다.";
 
+"sdkoption.setupPlayer.isEnabledVolumeKey.title" = "음량 버튼 이벤트 옵션";
+"sdkoption.setupPlayer.isEnabledVolumeKey.description" = "기기의 음량 버튼의 이벤트를 받을 수 있습니다. (기본값 : false)";
+
 "sdkoption.setupPlayer.resizeMode.title" = "Player Resize 옵션";
-"sdkoption.setupPlayer.resizeMode.description" = "Player의 영상 렌더링 방식을 정합니다.(기본값 : AUTO)";
+"sdkoption.setupPlayer.resizeMode.description" = "Player의 영상 렌더링 방식을 정합니다.(기본값 : CENTER_CROP)";
 
 "sdkoption.setupPlayer.manualRotation.title" = "가로방송에서 회전 버튼에 대한 화면 회전 컨트롤을 직접 설정";
 "sdkoption.setupPlayer.manualRotation.description" = "가로방송에서 회전 버튼이 눌렸을 때 SDK에서 화면 회전을 직접 컨트롤(false - 기본값), 회전 버튼이 눌렸을 때 고객사 앱에서 직접 회전에 대한 처리(true)";
@@ -98,6 +101,7 @@
 "sdkoption.sound.mute.description" = "Muted when play starts video";
 "sdkoption.preview.title" = "Preview Tap to Play";
 "sdkoption.preview.description" = "Play When Preview Tapped";
+
 "sdkoption.preview.closebutton.title" = "Use close button";
 "sdkoption.preview.closebutton.description" = "Preview 와 Inapp PIP에서 닫기버튼 사용여부를 설정합니다.(기본은 사용안함)";
 

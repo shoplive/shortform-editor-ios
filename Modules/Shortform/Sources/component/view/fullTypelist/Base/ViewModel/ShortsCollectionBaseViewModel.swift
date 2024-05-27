@@ -154,6 +154,31 @@ class ShortsCollectionBaseViewModel : NSObject {
             self.setLatestCellMuted(isMuted: newValue)
         }
     }
+    private var _previewIsMuted : Bool?
+    private var previewIsMuted : Bool {
+        get {
+            if let _previewIsMuted = _previewIsMuted {
+                return _previewIsMuted
+            }
+            else {
+                let audioSession = AudioSessionManager.shared.audioSession
+                if audioSession.outputVolume == 0 {
+                    return true
+                }
+                if let previewOptionDto = previewOptionDto {
+                    return previewOptionDto.previewIsMuted ?? true
+                }
+                else {
+                    return ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewIsMuted
+                }
+            }
+        }
+        set {
+            _previewIsMuted = newValue
+            self.postMuteShortsNotification()
+            self.setLatestCellMuted(isMuted: newValue)
+        }
+    }
     private var preferredForwardBufferDuration : Double = ShortFormConfigurationInfosManager.shared.shortsConfiguration.preferredBufferDuration
     
     //view state
@@ -207,7 +232,7 @@ class ShortsCollectionBaseViewModel : NSObject {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("shortscollectionBaseView deinted")
+        ShopLiveLogger.memoryLog("shortscollectionBaseView deinted")
         self.latestCell.setLatest()
         clearWebViewLists()
         appStateObserver.delegate = nil
@@ -274,15 +299,6 @@ extension ShortsCollectionBaseViewModel {
             ImageDownLoaderManager.shared.preDownloadImage(imageUrl: url)
         }
     }
-    
-    func changeIsMuteToPreviewMode() {
-        if let dto = previewOptionDto, let previewIsMuted = dto.previewIsMuted {
-            self.isMuted = previewIsMuted
-        }
-        else {
-            self.isMuted = ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewIsMuted
-        }
-    }
 }
 //MARK: - setter functions
 extension ShortsCollectionBaseViewModel {
@@ -295,7 +311,12 @@ extension ShortsCollectionBaseViewModel {
     }
     
     func setIsMuted(isMuted : Bool, from : String = #function) {
-        self.isMuted = isMuted
+        if self.shortsMode == .preview {
+            self.previewIsMuted = isMuted
+        }
+        else {
+            self.isMuted = isMuted
+        }
     }
     
     func setPreviewOptionDTO(dto : ShortformPreviewOptionDTO?) {
@@ -322,7 +343,12 @@ extension ShortsCollectionBaseViewModel {
 extension ShortsCollectionBaseViewModel {
     
     func getMuted() -> Bool {
-        return self.isMuted
+        if self.shortsMode == .preview {
+            return self.previewIsMuted
+        }
+        else {
+            return self.isMuted
+        }
     }
     
     func getPreviewUseCloseBtn() -> Bool {

@@ -240,6 +240,8 @@ internal final class LiveStreamViewController: SLViewController {
     
     func updateImageConstraint(from: CGRect,targetWindowStyle : ShopLiveWindowStyle) {
         guard let bgImageView = self.backgroundPosterImageWebView else { return }
+        ShopLiveLogger.tempLog("VideoRatio \(ShopLiveController.shared.videoRatio)")
+       
         let ratio = ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height
         let screenSize = UIScreen.main.bounds
         let imageFrame = CGSize(width: screenSize.width - from.origin.x - from.size.width, height: screenSize.height - from.origin.y - from.size.height)
@@ -460,7 +462,7 @@ internal final class LiveStreamViewController: SLViewController {
             return .resizeAspect
         }
         else {
-            if let resizeMode = viewModel.getResizeMode(), resizeMode != .NONE {
+            if let resizeMode = viewModel.getResizeMode() {
                 if resizeMode == .CENTER_CROP {
                     return .resizeAspectFill
                 }
@@ -676,7 +678,7 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
     }
     
     func refreshAvPlayerLayer() {
-        if let resizeMode = viewModel.getResizeMode(), resizeMode != .NONE, UIDevice.isIpad == false, UIScreen.isLandscape == false {
+        if let resizeMode = viewModel.getResizeMode(), UIDevice.isIpad == false, UIScreen.isLandscape == false {
             if resizeMode == .CENTER_CROP {
                 playerView?.refreshLayer(videoGravity: .resizeAspectFill)
             }
@@ -730,6 +732,27 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
                     self.indicatorView.stopAnimating()
                 }
             }
+        }
+    }
+    
+    func updateBackgroundImageConstraintsWithActualVideoRenderedRect(rect: CGRect) {
+        posterTopContraint?.isActive = false
+        posterLeftContraint?.isActive = false
+        posterRightContraint?.isActive = false
+        posterBottomContraint?.isActive = false
+        
+        snapshotTopContraint?.isActive = false
+        snapshotLeftContraint?.isActive = false
+        snapshotRightContraint?.isActive = false
+        snapshotBottomContraint?.isActive = false
+        
+        if let bgWebView = self.backgroundPosterImageWebView {
+            bgWebView.widthAnchor.constraint(equalToConstant: rect.width).isActive = true
+            bgWebView.heightAnchor.constraint(equalToConstant: rect.height).isActive = true
+        }
+        if let snapShotImageView = self.snapShotImageView {
+            snapShotImageView.widthAnchor.constraint(equalToConstant: rect.width).isActive = true
+            snapShotImageView.heightAnchor.constraint(equalToConstant: rect.height).isActive = true
         }
     }
     
@@ -820,7 +843,7 @@ extension LiveStreamViewController {
         playerView.playerLayer?.player = playerView.player
         playerView.playerLayer?.needsDisplayOnBoundsChange = true
         
-        if let resizeMode = viewModel.getResizeMode(), resizeMode != .NONE, UIDevice.isIpad == false, UIScreen.isLandscape == false {
+        if let resizeMode = viewModel.getResizeMode(), UIDevice.isIpad == false, UIScreen.isLandscape == false {
             if resizeMode == .CENTER_CROP {
                 playerView.playerLayer?.videoGravity = .resizeAspectFill
             }

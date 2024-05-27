@@ -15,7 +15,6 @@ import ShopliveSDKCommon
     @objc var fixedPipWidth: NSNumber? { get set }
     @objc var viewController: ShopLiveViewController? { get }
     @objc var style: ShopLive.PresentationStyle { get }
-//    @objc var pipPosition: ShopLive.PipPosition { get set }
     @objc var pipScale: CGFloat { get set }
     
     @objc var indicatorColor: UIColor { get set }
@@ -169,6 +168,7 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    
    
     @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     public static func setEnabledPipSwipeOut(_ enabled: Bool) {
@@ -408,9 +408,10 @@ extension ShopLive: ShopLiveSDKInterface {
     }
 
     public static func preview(data: ShopLivePlayerData,completion : (() -> Void)? = nil) {
-        if let previewData = data as? ShopLivePreviewData {
-            ShopLiveConfiguration.SoundPolicy.previewSoundEnabled = !(previewData.isMuted ?? false)
+        if let data = data as? ShopLivePreviewData {
+            ShopLiveConfiguration.SoundPolicy.previewSoundEnabled = !(data.isMuted ?? false)
         }
+        ShopLiveConfiguration.SoundPolicy.isEnabledVolumeKeyInPreview = data.isEnabledVolumeKey
         shared.instance?.preview(with: data.campaignKey, referrer: data.referrer, campaignHandler: data.campaignHandler, brandHandler: data.brandHandler, completion: completion)
         
     }
@@ -422,6 +423,7 @@ extension ShopLive: ShopLiveSDKInterface {
 
     public static func play(data : ShopLivePlayerData) {
         ShopLiveConfiguration.UI.keepWindowStateOnPlayExecuted = data.keepWindowStateOnPlayExecuted
+        ShopLiveConfiguration.SoundPolicy.isEnabledVolumeKeyInPreview = data.isEnabledVolumeKey
         shared.instance?.play(with: data.campaignKey, referrer: data.referrer, campaignHandler: data.campaignHandler, brandHandler: data.brandHandler)
     }
     

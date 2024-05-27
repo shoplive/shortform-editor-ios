@@ -64,6 +64,7 @@ internal final class ShopLiveConfiguration: NSObject {
         static var isMutedWhenStart: Bool = false
         static var useMixWithOthers: Bool = true
         static var previewSoundEnabled : Bool = false
+        static var isEnabledVolumeKeyInPreview : Bool = false
     }
 
     class Data {

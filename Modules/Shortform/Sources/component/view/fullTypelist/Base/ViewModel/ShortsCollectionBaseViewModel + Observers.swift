@@ -32,6 +32,9 @@ extension ShortsCollectionBaseViewModel {
         let audioSession = AudioSessionManager.shared.audioSession
         switch keyPath {
         case "outputVolume":
+            guard ShopLiveShortform.isEnabledVolumeKey else {
+                return
+            }
             //TODO: - enablePreviewSound
             var isDownward : Bool = false
             
@@ -52,6 +55,9 @@ extension ShortsCollectionBaseViewModel {
                                                                   shortsId: self.currentShortsId,
                                                                   shortsDetail: self.currentShorts?.shortsDetail)
                 self.setIsMuted(isMuted: true)
+                if self.shortsMode == .detail {
+                    ShortFormConfigurationInfosManager.shared.setWhenMutedStart(isMuted: true)
+                }
             }
             else if audioLevel > 0 && isDownward == false {
                 var currentIndexPath = delegate?.getIndexPathsForVisibleItems().first
@@ -60,6 +66,9 @@ extension ShortsCollectionBaseViewModel {
                                                                   shortsId: self.currentShortsId,
                                                                   shortsDetail: self.currentShorts?.shortsDetail)
                 self.setIsMuted(isMuted: false)
+                if self.shortsMode == .detail {
+                    ShortFormConfigurationInfosManager.shared.setWhenMutedStart(isMuted: false)
+                }
             }
         default:
             break

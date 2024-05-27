@@ -74,11 +74,9 @@ class DetailViewResizeModeOptionBox : UIView {
         super.init(frame: frame)
         self.setLayout()
         
-        type0Btn.addTarget(self, action: #selector(cardTypeBtnTapped(sender: )), for: .touchUpInside)
         type1Btn.addTarget(self, action: #selector(cardTypeBtnTapped(sender: )), for: .touchUpInside)
         type2Btn.addTarget(self, action: #selector(cardTypeBtnTapped(sender: )), for: .touchUpInside)
         
-        type0Btn.isSelected = OptionSettingModel.resizeMode == .NONE
         type1Btn.isSelected = OptionSettingModel.resizeMode == .CENTER_CROP
         type2Btn.isSelected = OptionSettingModel.resizeMode == .FIT
         
@@ -90,16 +88,13 @@ class DetailViewResizeModeOptionBox : UIView {
     }
     
     @objc func cardTypeBtnTapped(sender : UIButton) {
-        if sender.tag == 0 && type0Btn.isSelected == false {
-            delegate?.resizeModeSelected(type: .NONE)
-        }
+       
         if sender.tag == 1 && type1Btn.isSelected == false {
             delegate?.resizeModeSelected(type: .CENTER_CROP)
         }
         else if sender.tag == 2 && type2Btn.isSelected == false {
             delegate?.resizeModeSelected(type: .FIT)
         }
-        type0Btn.isSelected = sender.tag == 0
         type1Btn.isSelected = sender.tag == 1
         type2Btn.isSelected = sender.tag == 2
     }
@@ -109,13 +104,14 @@ class DetailViewResizeModeOptionBox : UIView {
 extension DetailViewResizeModeOptionBox {
     private func setLayout() {
         self.addSubview(label)
-        let stack = UIStackView(arrangedSubviews: [type0Btn,type1Btn,type2Btn])
+        let stack = UIStackView(arrangedSubviews: [type1Btn,type2Btn])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
         stack.spacing = 10
         stack.distribution = .fillProportionally
         self.addSubview(stack)
         
+        type0Btn.isHidden = true
         
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),

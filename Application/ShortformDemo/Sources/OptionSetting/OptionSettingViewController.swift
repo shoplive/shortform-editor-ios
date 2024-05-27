@@ -71,6 +71,7 @@ class OptionSettingViewController : UIViewController {
         editorOptionBox.setOptions()
         previewOptionBox.setOptions()
         cacheBox.reloadCacheSize()
+        detailViewOptionBox.setOption()
         self.viewType = type
         switch type {
         case .card:

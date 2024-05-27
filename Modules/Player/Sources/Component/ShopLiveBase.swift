@@ -2231,11 +2231,15 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
-        delegate?.log?(name: name, feature: feature, campaign: campaign, payload: payload)
+        
         var param : [String : Any] = ["campaignKey" : campaign]
         for (key, value) in payload {
             param.updateValue(value, forKey: key)
         }
+        
+        delegate?.log?(name: name, feature: feature, campaign: campaign, payload: payload)
+        delegate?.onEvent?(name: name, feature: feature, campaign: campaign, payload: payload)
+        
         delegate?.handleReceivedCommand?(name, with: param.toJSONString())
         delegate?.handleReceivedCommand?(name, data: param)
     }

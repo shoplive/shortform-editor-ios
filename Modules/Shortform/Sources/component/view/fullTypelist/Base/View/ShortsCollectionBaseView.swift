@@ -200,9 +200,6 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     
     func modeChange(mode: ShortsMode) {
         viewModel.shortsMode = mode
-        if mode == .preview {
-            viewModel.changeIsMuteToPreviewMode()
-        }
         viewModel.postModeChangeNotification()
     }
     
@@ -512,7 +509,8 @@ extension ShortsCollectionBaseView : ShortsCollectionBaseViewModelDelegate {
             audioSessionManager.setCategory(category: .playback, options: .mixWithOthers)
         }
         else {
-            if ShortFormConfigurationInfosManager.shared.shortsConfiguration.mutedWhenStart == true {
+            
+            if viewModel.getMuted() == true { //ShortFormConfigurationInfosManager.shared.shortsConfiguration.mutedWhenStart
                 viewModel.setIsMuted(isMuted: true)
                 audioSessionManager.setCategory(category: .playback, options: [])
             }

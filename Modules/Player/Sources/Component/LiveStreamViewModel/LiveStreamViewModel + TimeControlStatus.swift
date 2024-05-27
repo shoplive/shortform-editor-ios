@@ -34,6 +34,7 @@ extension LiveStreamViewModel {
         }
         self.delegate?.requestHideOrShowLoading(isHidden: true)
         ShopLiveController.isPlaying = true
+        ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true)
     }
     
     func handleTimeControlStatusPaused() {
@@ -41,6 +42,12 @@ extension LiveStreamViewModel {
         self.delegate?.requestTakeSnapShotView()
         if ShopLiveController.isReplayMode {
             ShopLiveController.isPlaying = false
+            if ShopLiveController.isReplayMode {
+                ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: false), false)
+            }
+            else {
+                ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, true, true)
+            }
         }
         else {
             if ShopLiveController.playControl != .pause {

@@ -251,14 +251,24 @@ class ShortsCellReactor : NSObject, SLReactor {
                 videoGravity = .resizeAspect
                 resultHandler?( .setThumbnailImageContentMode(.scaleAspectFit) )
             }
+            else if self.shortsMode == .preview {
+                videoGravity = .resizeAspectFill
+                resultHandler?( .setThumbnailImageContentMode(.scaleAspectFill) )
+            }
             else {
-                if ShopLiveShortform.detailPlayerResizeMode == .CENTER_CROP || ShopLiveShortform.detailPlayerResizeMode == .NONE {
-                    videoGravity = .resizeAspectFill
-                    resultHandler?( .setThumbnailImageContentMode(.scaleAspectFill) )
+                if let resizeMode = ShopLiveShortform.detailPlayerResizeMode {
+                    if resizeMode == .CENTER_CROP {
+                        videoGravity = .resizeAspectFill
+                        resultHandler?( .setThumbnailImageContentMode(.scaleAspectFill) )
+                    }
+                    else {
+                        videoGravity = .resizeAspect
+                        resultHandler?( .setThumbnailImageContentMode(.scaleAspectFit) )
+                    }
                 }
                 else {
-                    videoGravity = .resizeAspect
-                    resultHandler?( .setThumbnailImageContentMode(.scaleAspectFit) )
+                    videoGravity = .resizeAspectFill
+                    resultHandler?( .setThumbnailImageContentMode(.scaleAspectFill) )
                 }
             }
             
@@ -387,8 +397,10 @@ class ShortsCellReactor : NSObject, SLReactor {
             resultHandler?( .didFinishPlayingVideo )
         }
         else {
-            self.sendVideoLoopedToWeb()
-            resultHandler?( .requestReplayVideo )
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                self?.sendVideoLoopedToWeb()
+                self?.resultHandler?( .requestReplayVideo )
+            }
         }
     }
     

@@ -158,6 +158,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             viewModel.play()
         }
         else {
+            ShopLiveLogger.debugLog("didTouchPlayButton isPlaying \(isPlaying)")
             viewModel.pause()
         }
     }

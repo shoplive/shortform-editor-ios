@@ -86,11 +86,15 @@
 "sdkoption.setupPlayer.aspectOnTablet.description" = "Fill screen with video (off) / Fit video size (on)";
 "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.title" = "Keep Window State when Play is Executed";
 "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.description" = "Always launch in full screen (false) / Always keep current window state (true) Default is false, when changing to another broadcast, it is executed in full screen.";
+
 "sdkoption.setupPlayer.mixAudio.title" = "Player Mix Audio Option";
 "sdkoption.setupPlayer.mixAudio.description" = "Allows mixing of player's audio with other audio.";
 
+"sdkoption.setupPlayer.isEnabledVolumeKey.title" = "HW volume btn Event Option";
+"sdkoption.setupPlayer.isEnabledVolumeKey.description" = "Enable listening to hardware volume key events (default : false)";
+
 "sdkoption.setupPlayer.resizeMode.title" = "Player View resize option";
-"sdkoption.setupPlayer.resizeMode.description" = "Set Players render option (default : AUTO)";
+"sdkoption.setupPlayer.resizeMode.description" = "Set Players render option (default : CENTER_CROP)";
 
 "sdkoption.setupPlayer.manualRotation.title" = "Manual Rotation Control in Horizontal Broadcast";
 "sdkoption.setupPlayer.manualRotation.description" = "Control screen rotation directly in SDK when rotation button is pressed in horizontal broadcast (false - default), Handle rotation directly in client app when rotation button is pressed (true)";

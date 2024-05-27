@@ -29,14 +29,12 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
         return self.viewModel as! V1ShortsCollectionViewModel
     }
     
+    
     //normal show
     internal init(reference : String?, shortsMode : ShopLiveShortform.ShortsMode, showType : ShortsApiType, shortsId : String?, shortsSrn : String?, normalRequestParameterModel : InternalShortformCollectionDto?,viewProvideType : ShortsCollectionBaseViewModel.ViewProvidedType,shopliveSessionId : String?){
         super.init(viewmodel: V1ShortsCollectionViewModel(shopliveSessionId: shopliveSessionId))
         viewmodel.latestActivePageIndex = -1
         viewmodel.shortsMode = shortsMode
-        if shortsMode == .preview {
-            viewModel.changeIsMuteToPreviewMode()
-        }
         viewmodel.currentApiType = showType
         viewmodel.viewProvideType = viewProvideType
         
@@ -59,7 +57,6 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
         viewmodel.shortsMode = shortsMode
         if shortsMode == .preview {
             viewmodel.setPreviewOptionDTO(dto: previewOptionDTO)
-            viewmodel.changeIsMuteToPreviewMode()
         }
         viewmodel.currentApiType = showType
         viewmodel.shortsCollection = shortsCollection
@@ -94,6 +91,10 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        ShopLiveLogger.memoryLog("V1ShortsCollectionView Deinited")
     }
     
     override func setPreviewToDetailMaintainTimeInfo() {

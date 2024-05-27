@@ -533,6 +533,13 @@ public enum ShopLivePlayerDemoStrings {
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.aspectOnTablet.title")
       }
 
+      public enum IsEnabledVolumeKey {
+      /// Enable listening to hardware volume key events (default : false)
+        public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.isEnabledVolumeKey.description")
+        /// HW volume btn Event Option
+        public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.isEnabledVolumeKey.title")
+      }
+
       public enum KeepWindowStateOnPlayExecuted {
       /// Always launch in full screen (false) / Always keep current window state (true) Default is false, when changing to another broadcast, it is executed in full screen.
         public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.description")

@@ -61,6 +61,7 @@ enum SDKOptionType: String, CaseIterable {
     case enablePip
     case enableOSPip
     case resizeMode
+    case isEnabledVolumeKey
 
     
     enum SettingType: Int {

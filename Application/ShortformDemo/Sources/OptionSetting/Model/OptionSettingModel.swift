@@ -41,5 +41,7 @@ class OptionSettingModel {
     static var editorIsFixed : Bool = true
     static var previewMaxCount : Int? = nil
     
-    static var resizeMode : ShopLiveResizeMode = .NONE
+    static var resizeMode : ShopLiveResizeMode = .CENTER_CROP
+    static var isEnabledVolumeKey : Bool = false
+    static var previewIsMuted : Bool = true
 }

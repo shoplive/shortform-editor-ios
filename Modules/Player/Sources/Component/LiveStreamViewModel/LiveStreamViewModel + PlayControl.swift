@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import AVKit
-
+import ShopliveSDKCommon
 
 extension LiveStreamViewModel {
     func play() {
@@ -35,7 +35,6 @@ extension LiveStreamViewModel {
         }
         DispatchQueue.main.async {
             ShopLiveController.player?.pause()
-            ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: false), false) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, true, true)
         }
     }
     

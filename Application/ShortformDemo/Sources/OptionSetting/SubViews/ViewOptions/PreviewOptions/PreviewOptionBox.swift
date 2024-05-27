@@ -24,11 +24,13 @@ class PreviewOptionBox : UIView {
     }()
     
     private let previewPlayMaxCount = OptionTextViewInputBox(title: "Preview 동영상 갯수")
+    private let previewIsMutedBox = OptionSetSwitchBox(title: "Preview 음소거", type: .previewIsMuted)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setLayout()
         previewPlayMaxCount.setKeyboardType(type: .decimalPad)
+        previewIsMutedBox.delegate = self
         bindTextViews()
     }
     
@@ -38,6 +40,7 @@ class PreviewOptionBox : UIView {
     
     func setOptions() {
         previewPlayMaxCount.setValue(value: String(OptionSettingModel.previewMaxCount ?? 0))
+        previewIsMutedBox.setSwitchIsOn(isOn: OptionSettingModel.previewIsMuted)
     }
     
     private func bindTextViews() {
@@ -51,10 +54,21 @@ class PreviewOptionBox : UIView {
         }
     }
 }
+extension PreviewOptionBox : OptionSetSwitchBoxDelegate {
+    func optionChange(type: OptionSetSwitchBox.OptionType, value: Bool) {
+        switch type {
+        case .previewIsMuted:
+            OptionSettingModel.previewIsMuted = value
+        default:
+            break
+        }
+    }
+}
 extension PreviewOptionBox {
     private func setLayout() {
         let stack = UIStackView(arrangedSubviews:[titleLabel,
-                                                 previewPlayMaxCount])
+                                                 previewPlayMaxCount,
+                                                 previewIsMutedBox])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = 10

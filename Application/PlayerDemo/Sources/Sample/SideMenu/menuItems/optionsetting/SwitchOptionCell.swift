@@ -208,6 +208,8 @@ class SwitchOptionCell: UITableViewCell {
             useOption = DemoConfiguration.shared.enablePip
         case .enableOSPip:
             useOption = DemoConfiguration.shared.enableOsPip
+        case .isEnabledVolumeKey:
+            useOption = DemoConfiguration.shared.isEnabledVolumeKey
         default:
             break
         }
@@ -286,6 +288,8 @@ class SwitchOptionCell: UITableViewCell {
             DemoConfiguration.shared.enablePip = useOption
         case .enableOSPip:
             DemoConfiguration.shared.enableOsPip = useOption
+        case .isEnabledVolumeKey:
+            DemoConfiguration.shared.isEnabledVolumeKey = useOption
         default:
             break
         }

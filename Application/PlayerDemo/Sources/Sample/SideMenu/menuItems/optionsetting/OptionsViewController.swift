@@ -79,10 +79,11 @@ final class OptionsViewController: SideMenuItemViewController {
         let aspectOnTabletOption = SDKOptionItem(name: "sdkoption.setupPlayer.aspectOnTablet.title".localized(), optionDescription: "sdkoption.setupPlayer.aspectOnTablet.description".localized(), optionType: .aspectOnTablet)
         let keepWindowStateOnPlayExecutedOption = SDKOptionItem(name: "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.title".localized(), optionDescription: "sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.description".localized(), optionType: .keepWindowStateOnPlayExecuted)
         let mixAudioOption = SDKOptionItem(name: "sdkoption.setupPlayer.mixAudio.title".localized(), optionDescription: "sdkoption.setupPlayer.mixAudio.description".localized(), optionType: .mixAudio)
+        let isEnabledVolumeKey = SDKOptionItem(name: "sdkoption.setupPlayer.isEnabledVolumeKey.title".localized(), optionDescription: "sdkoption.setupPlayer.isEnabledVolumeKey.description".localized(), optionType: .isEnabledVolumeKey)
         let resizeModeOption = SDKOptionItem(name: "sdkoption.setupPlayer.resizeMode.title".localized(), optionDescription: "sdkoption.setupPlayer.resizeMode.description".localized(), optionType: .resizeMode)
         let nextActionOption = SDKOptionItem(name: "sdkoption.nextActionTypeOnNavigation.title".localized(), optionDescription: "sdkoption.nextActionTypeOnNavigation.description".localized(), optionType: .nextActionOnHandleNavigation)
         let statusBarVisibilityOption = SDKOptionItem(name: "sdkoption.statusbarvisibility.title".localized(), optionDescription: "sdkoption.statusbarvisibility.description".localized(), optionType: .statusBarVisibility)
-        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption, mixAudioOption, resizeModeOption, nextActionOption, statusBarVisibilityOption])
+        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption, mixAudioOption, isEnabledVolumeKey, resizeModeOption, nextActionOption, statusBarVisibilityOption])
         
         items.append(setupPlayerOptions)
         
@@ -95,7 +96,6 @@ final class OptionsViewController: SideMenuItemViewController {
         let closeButtonOption = SDKOptionItem(name: "sdkoption.preview.closebutton.title".localized(), optionDescription: "sdkoption.preview.closebutton.description".localized(), optionType: .useCloseButton)
         let previewSoundOption = SDKOptionItem(name: "sdkoption.preview.enableSound.title".localized(), optionDescription: "sdkoption.preview.enableSound.description".localized(), optionType: .enablePreviewSound)
         let previewOptions = SDKOption(optionTitle: "sdkoption.section.preview.title".localized(), optionItems: [previewOption, closeButtonOption,previewSoundOption])
-        
         items.append(previewOptions)
         
         
@@ -309,9 +309,15 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 break
             case .resizeMode:
-                dropdown.optionArray = ["CENTER_CROP","FIT","AUTO"]
+                dropdown.optionArray = ["CENTER_CROP","FIT"]
                 dropdown.didSelect { [weak self] selectedText, index, id in
-                    DemoConfiguration.shared.resizeMode = ShopLiveResizeMode(rawValue: index) ?? .NONE
+                    if index == 1 {
+                        DemoConfiguration.shared.resizeMode = .FIT
+                    }
+                    else {
+                        DemoConfiguration.shared.resizeMode = .CENTER_CROP
+                    }
+                   
                     anchorView.removeFromSuperview()
                     self?.tableView.reloadData()
                 }

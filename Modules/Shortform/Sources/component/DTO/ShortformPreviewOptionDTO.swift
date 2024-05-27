@@ -23,7 +23,6 @@ struct ShortformPreviewOptionDTO {
     let clickEventCallback : ( () -> () )?
     let maxCount : Int?
     
-    
     init(previewPosition: ShopLiveShortform.PreviewPosition?, previewScale: CGFloat?, previewRadius : CGFloat?, previewEdgeInset: UIEdgeInsets?,
          previewFloatingOffset: UIEdgeInsets?, useCloseBtn: Bool?,previewIsMuted : Bool?,
          enableSwipeOut : Bool?, maxCount : Int?,useCustomAction : Bool = false,

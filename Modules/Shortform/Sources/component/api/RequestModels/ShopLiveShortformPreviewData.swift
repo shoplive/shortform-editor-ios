@@ -24,6 +24,7 @@ public final class ShopLiveShortformPreviewData : ShopLiveShortformRelatedData {
     public var clickEventCallBack : (() -> ())?
     public var maxCount : Int?
     
+    
     public init(shortsId: String? = nil, reference: String? = nil, productId: String? = nil,
                 name: String? = nil, skus: [String]? = nil, url: String? = nil,
                 tags: [String]? = nil, tagSearchOperator: ShopLiveTagSearchOperator? = nil, brands: [String]? = nil,

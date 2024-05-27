@@ -35,6 +35,9 @@ class OptionSetSwitchBox : UIView {
         case editorDescription
         case editorTag
         case editorIsFixedCrop
+        
+        case isEnabledVolumeKey
+        case previewIsMuted
     }
     
     private var label : UILabel = {

@@ -12,8 +12,9 @@ import UIKit
 public class ShopLivePreviewData : ShopLivePlayerData {
     public var isMuted : Bool?
     
-    public init(campaignKey: String, keepWindowStateOnPlayExecuted: Bool = true, referrer: String? = nil,isMuted : Bool? = nil, campaignHandler : ((ShopLivePlayerCampaign) -> ())? = nil, brandHandler : ((ShopLivePlayerBrand) -> ())? = nil) {
-        super.init(campaignKey: campaignKey,keepWindowStateOnPlayExecuted: keepWindowStateOnPlayExecuted,referrer: referrer, campaignHandler: campaignHandler, brandHandler: brandHandler )
+    
+    public init(campaignKey: String, keepWindowStateOnPlayExecuted: Bool = true, referrer: String? = nil,isMuted : Bool? = nil, isEnabledVolumeKey : Bool = false, campaignHandler : ((ShopLivePlayerCampaign) -> ())? = nil, brandHandler : ((ShopLivePlayerBrand) -> ())? = nil) {
+        super.init(campaignKey: campaignKey,keepWindowStateOnPlayExecuted: keepWindowStateOnPlayExecuted,referrer: referrer, isEnabledVolumeKey: isEnabledVolumeKey, campaignHandler: campaignHandler, brandHandler: brandHandler )
         self.isMuted = isMuted
     }
 }

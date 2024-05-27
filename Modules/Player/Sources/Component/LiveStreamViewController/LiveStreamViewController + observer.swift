@@ -45,6 +45,7 @@ extension LiveStreamViewController {
         switch keyPath {
         case "outputVolume":
             var isDownward : Bool = false
+            guard ShopLiveConfiguration.SoundPolicy.isEnabledVolumeKeyInPreview else { return }
             
             if audioSession.outputVolume > audioLevel {
                 ShopLiveLogger.debugLog("volume up")

@@ -22,7 +22,6 @@ enum ShopLivePlayerObserveValue: String {
     case isHiddenOverlay = "isHiddenOverlay"
     case overlayUrl = "overlayUrl"
     case loadedTimeRanges = "player.currentItem.loadedTimeRanges"
-    case isPlaying = "isPlaying"
     case retryPlay = "retryPlay"
     case releasePlayer = "releasePlayer"
 }
@@ -208,7 +207,7 @@ final class ShopLiveController: NSObject {
                 }
             }
             break
-        case .playControl, .timeControlStatus, .videoUrl, .isPlayable, .isHiddenOverlay, .overlayUrl, .isPlaying, .releasePlayer:
+        case .playControl, .timeControlStatus, .videoUrl, .isPlayable, .isHiddenOverlay, .overlayUrl, .releasePlayer:
             postPlayerObservers(key: key)
             break
         case .playerItemStatus:
@@ -360,7 +359,6 @@ extension ShopLiveController {
         playerItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.loadedTimeRanges.rawValue, options: .new, context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isHiddenOverlay.rawValue, options: [.initial, .new], context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.overlayUrl.rawValue, options: [.initial, .old, .new], context: nil)
-        self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlaying.rawValue, options: .new, context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.playControl.rawValue, options: .new, context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.retryPlay.rawValue, options: [.old, .new], context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.releasePlayer.rawValue, options: .new, context: nil)
@@ -375,7 +373,6 @@ extension ShopLiveController {
         
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isHiddenOverlay.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.overlayUrl.rawValue)
-        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlaying.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.playControl.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.retryPlay.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.releasePlayer.rawValue)

@@ -22,7 +22,7 @@ class CardTypeExampleViewController : UIViewController {
     
     var delegate : ExampleViewControllerBaseDelegate?
     
-    private var isMuted : Bool = false
+    private var isMuted : Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +53,7 @@ class CardTypeExampleViewController : UIViewController {
     
     //MARK: - public func
     func setOptionsFromOptionSettingVC(model : OptionSettingModel) {
+        ShopLiveShortform.setIsEnabledVolumeKey(isEnabled: OptionSettingModel.isEnabledVolumeKey)
         builder?.setBrands(brands: model.brands)
         builder?.setVisibleBrand(isVisible: model.brandVisible)
         builder?.setVisibleTitle(isVisisble: model.titleVisible)
@@ -146,7 +147,7 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
         
         ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(shortsId: shortsId,
                                                                                 productId: product.productId,
-                                                                                isMuted: isMuted,
+                                                                                isMuted: OptionSettingModel.previewIsMuted,
                                                                                 maxCount: OptionSettingModel.previewMaxCount,clickEventCallBack: {
             ShopLiveLogger.debugLog("[HASSAN LOG] shopliveShortform preview clickEventCallBack ")
         }))
@@ -170,6 +171,8 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
         print("[HASSAN LOG] shortsId \(shortsId)")
         print("[HASSAN LOG] scheme \(scheme)")
         print("[HASSAN LOG] productModel \(shortsDetail.tags ?? [])")
+        guard let window = UIApplication.shared.keyWindow else { return }
+        window.rootViewController?.showToast(message: "banner clicked" ,duration: .long)
     }
     
     func onError(error: Error) {
@@ -186,14 +189,10 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
     
     func onEvent(command: String, payload: String?) {
         switch command {
-        case "DETAIL_CLICK_MUTE":
+        case "VIDEO_MUTED", "DETAIL_CLICK_MUTE":
             isMuted = true
-        case "DETAIL_CLICK_UNMUTE":
+        case "VIDEO_UNMUTED", "DETAIL_CLICK_UNMUTE":
             isMuted = false
-        case "VIDEO_MUTED":
-            break
-        case "VIDEO_UNMUTED":
-            break
         default:
             break
         }

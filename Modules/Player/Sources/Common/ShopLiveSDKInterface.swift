@@ -48,7 +48,7 @@ import ShopliveSDKCommon
     var couponStatus: ResultStatus
     var alertType: ResultAlertType
 
-    public init(couponId: String, success: Bool, message: String?, status: ResultStatus, alertType: ResultAlertType) {
+    @objc public init(couponId: String, success: Bool, message: String?, status: ResultStatus, alertType: ResultAlertType) {
         self.coupon = couponId
         self.success = success
         self.message = message
@@ -64,7 +64,7 @@ import ShopliveSDKCommon
     var couponStatus: ResultStatus
     var alertType: ResultAlertType
 
-    public init(id: String, success: Bool, message: String?, status: ResultStatus, alertType: ResultAlertType) {
+    @objc public init(id: String, success: Bool, message: String?, status: ResultStatus, alertType: ResultAlertType) {
         self.id = id
         self.success = success
         self.message = message
@@ -111,7 +111,7 @@ import ShopliveSDKCommon
     var couponStatus: ShopLiveResultStatus
     var alertType: ShopLiveResultAlertType
 
-    public init(couponId: String, success: Bool, message: String?, status: ShopLiveResultStatus, alertType: ShopLiveResultAlertType) {
+    @objc public init(couponId: String, success: Bool, message: String?, status: ShopLiveResultStatus, alertType: ShopLiveResultAlertType) {
         self.coupon = couponId
         self.success = success
         self.message = message
@@ -127,7 +127,7 @@ import ShopliveSDKCommon
     var couponStatus: ShopLiveResultStatus
     var alertType: ShopLiveResultAlertType
 
-    public init(id: String, success: Bool, message: String?, status: ShopLiveResultStatus, alertType: ShopLiveResultAlertType) {
+    @objc public init(id: String, success: Bool, message: String?, status: ShopLiveResultStatus, alertType: ShopLiveResultAlertType) {
         self.id = id
         self.success = success
         self.message = message
@@ -222,15 +222,17 @@ import ShopliveSDKCommon
     
     @available(*, deprecated, message: "use handleReceivedCommand(_ command : String , data : [String : Any]?) instead")
     @objc optional func handleReceivedCommand(_ command: String, with payload: Any?)
-    //TODO: - HASSAN
     @objc optional func handleReceivedCommand(_ command : String , data : [String : Any]?)
     
     
     @objc optional func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint)
     
-    @available(*, deprecated, message: "use log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) instead")
+    @available(*, deprecated, message: "use onEvent(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) instead")
     @objc optional func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String: String])
+    @available(*, deprecated, message: "use onEvent(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) instead")
     @objc optional func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any])
+    
+    @objc optional func onEvent(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any])
     
 }
 

@@ -61,6 +61,10 @@ jobs:
         if: "contains(env.TITLE,'COMMON')"
         run: |
             TUIST_GENTYPE=COMMON tuist generate --no-open
+      - name: tuist editor generate
+        if: "contains(env.TITLE, 'EDITOR')"
+        run: |
+            TUIST_GENTYPE=EDITOR tuist generate --no-open
       
       - name: tuist all generate
         if: "contains(env.TITLE,'ALL')"
@@ -87,6 +91,12 @@ jobs:
             echo building shoplive
             xcodebuild -workspace  "ShopLive.xcworkspace" -scheme "ShopliveSDKCommon" -destination 'platform=iOS Simulator,name=iPhone 14 Pro'
       
+      - name: xcode editor build
+        if: "contains(env.TITLE, 'EDITOR')"
+        run: |
+            echo building shoplive
+            xcodebuild -workspace  "ShopLive.xcworkspace" -scheme "ShopLiveShortformEditorSDK" -destination 'platform=iOS Simulator,name=iPhone 14 Pro'
+            
       - name: xcode all build
         if: "contains(env.TITLE, 'ALL')"
         run: |

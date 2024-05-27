@@ -37,7 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                   SDKOptionType.enablePreviewSound.optionKey : false,
                                                   SDKOptionType.enablePip.optionKey : true,
                                                   SDKOptionType.enableOSPip.optionKey : true,
-                                                  SDKOptionType.resizeMode.optionKey : "AUTO"
+                                                  SDKOptionType.resizeMode.optionKey : "CENTER_CROP",
+                                                  SDKOptionType.isEnabledVolumeKey.optionKey : false
                                                 ])
         
 

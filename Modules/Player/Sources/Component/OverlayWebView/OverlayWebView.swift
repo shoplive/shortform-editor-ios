@@ -428,7 +428,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             self.delegate?.didTouchWebViewPlayButton()
             ShopLiveController.isPlaying = true
         case .pauseVideo:
-            ShopLiveLogger.debugLog("navigation")
+            ShopLiveLogger.debugLog("pauseVideo")
             self.delegate?.didTouchWebViewPauseButton()
             ShopLiveController.isPlaying = false
         case .replay(let width, let height):
@@ -476,7 +476,6 @@ extension OverlayWebView: WKScriptMessageHandler {
     private func handleON_CLICK_SHARE_BUTTON(payload : [String : Any]?) {
         guard let payload = payload else { return }
         let shareUrl = ShopLiveController.shared.shareScheme
-        ShopLiveLogger.debugLog("[HASSSSAN LOG] payload \(payload)")
         delegate?.requestHandleShare(data: .init(campaign: .init(payload: payload), url: shareUrl))
     }
 }
@@ -509,10 +508,6 @@ extension OverlayWebView: ShopLivePlayerDelegate {
             } else {
                 ShopLiveLogger.debugLog(".overlayUrl")
             }
-            break
-        case .isPlaying:
-            guard self.isSystemInitialized else { return }
-            ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: ShopLiveController.isPlaying), ShopLiveController.isPlaying)
             break
         default:
             break
