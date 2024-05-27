@@ -32,7 +32,7 @@ extension ShortsCollectionBaseViewModel {
         let audioSession = AudioSessionManager.shared.audioSession
         switch keyPath {
         case "outputVolume":
-            guard ShopLiveShortform.isEnabledVolumeKey else {
+            if  self.shortsMode == .preview && ShopLiveShortform.isEnabledVolumeKey == false {
                 return
             }
             //TODO: - enablePreviewSound

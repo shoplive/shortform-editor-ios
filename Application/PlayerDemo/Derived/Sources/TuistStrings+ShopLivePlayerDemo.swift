@@ -562,7 +562,7 @@ public enum ShopLivePlayerDemoStrings {
       }
 
       public enum ResizeMode {
-      /// Set Players render option (default : AUTO)
+      /// Set Players render option (default : CENTER_CROP)
         public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.resizeMode.description")
         /// Player View resize option
         public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.resizeMode.title")
