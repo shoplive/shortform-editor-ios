@@ -67,6 +67,7 @@ public class ShopLiveShortform {
         internalShortFormRequestData.brands = requestData.brands
         internalShortFormRequestData.shuffle = requestData.shuffle
         internalShortFormRequestData.shortsId = requestData.shortsId
+        Self.isEnabledVolumeKey = requestData.isEnabledVolumeKey
         
         self.showRelatedPreview(reference: requestData.reference, shortsId: requestData.shortsId, shortsSrn: nil, requestModel: internalShortFormRequestData, shortsList: [], shortsCollectionModel: nil,shopliveSessionId: nil, previewOptionDto: ShortformPreviewOptionDTO(previewData: requestData))
 
@@ -110,10 +111,6 @@ public class ShopLiveShortform {
     
     public static func setResizeMode(mode : ShopLiveResizeMode) {
         self.detailPlayerResizeMode = mode
-    }
-    
-    public static func setIsEnabledVolumeKey(isEnabled : Bool) {
-        self.isEnabledVolumeKey = isEnabled
     }
     
     //MARK: - internal static funcs

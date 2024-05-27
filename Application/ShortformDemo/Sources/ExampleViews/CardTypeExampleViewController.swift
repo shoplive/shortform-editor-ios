@@ -53,7 +53,6 @@ class CardTypeExampleViewController : UIViewController {
     
     //MARK: - public func
     func setOptionsFromOptionSettingVC(model : OptionSettingModel) {
-        ShopLiveShortform.setIsEnabledVolumeKey(isEnabled: OptionSettingModel.isEnabledVolumeKey)
         builder?.setBrands(brands: model.brands)
         builder?.setVisibleBrand(isVisible: model.brandVisible)
         builder?.setVisibleTitle(isVisisble: model.titleVisible)
@@ -146,6 +145,7 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
         print("[HASSAN LOG] productModel \(product.sku ?? "")")
         
         ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(shortsId: shortsId,
+                                                                                isEnabledVolumeKey: OptionSettingModel.isEnabledVolumeKey,
                                                                                 productId: product.productId,
                                                                                 isMuted: OptionSettingModel.previewIsMuted,
                                                                                 maxCount: OptionSettingModel.previewMaxCount,clickEventCallBack: {

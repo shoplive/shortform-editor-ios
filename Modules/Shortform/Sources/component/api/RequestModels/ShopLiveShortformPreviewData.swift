@@ -13,6 +13,7 @@ import UIKit
 public final class ShopLiveShortformPreviewData : ShopLiveShortformRelatedData {
     
     public var isMuted : Bool?
+    public var isEnabledVolumeKey : Bool = false
     public var previewPosition : ShopLiveShortform.PreviewPosition?
     public var previewScale : CGFloat?
     public var previewRadius : CGFloat?
@@ -25,7 +26,7 @@ public final class ShopLiveShortformPreviewData : ShopLiveShortformRelatedData {
     public var maxCount : Int?
     
     
-    public init(shortsId: String? = nil, reference: String? = nil, productId: String? = nil,
+    public init(shortsId: String? = nil, isEnabledVolumeKey : Bool = false, reference: String? = nil, productId: String? = nil,
                 name: String? = nil, skus: [String]? = nil, url: String? = nil,
                 tags: [String]? = nil, tagSearchOperator: ShopLiveTagSearchOperator? = nil, brands: [String]? = nil,
                 shuffle: Bool? = nil, referrer: String? = nil, isMuted : Bool? =  nil,
@@ -36,6 +37,7 @@ public final class ShopLiveShortformPreviewData : ShopLiveShortformRelatedData {
                 clickEventCallBack : ( () -> () )? = nil ) {
         super.init(shortsId: shortsId, reference: reference, productId: productId, name: name, skus: skus, url: url, tags: tags, tagSearchOperator: tagSearchOperator, brands: brands, shuffle: shuffle, referrer: referrer)
         self.isMuted = isMuted
+        self.isEnabledVolumeKey = isEnabledVolumeKey
         self.previewPosition = previewPosition
         self.previewScale = previewScale
         self.previewRadius = previewRadius
