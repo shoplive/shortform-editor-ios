@@ -45,7 +45,6 @@ enum SDKOptionType: String, CaseIterable {
     case pipMarginTop
     case pipMarginBottom
     case pipEnableSwipeOut
-    case aspectOnTablet
     case keepWindowStateOnPlayExecuted
     case pipKeepWindowStyle
     case manualRotation

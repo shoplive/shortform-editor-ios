@@ -1327,7 +1327,6 @@ import ShopliveSDKCommon
             queryItems.append(URLQueryItem(name: "preview", value: "1"))
         }
         else {
-            queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? "true" : "false")"))
             if let localStorage = UserDefaults.standard.string(forKey: ShopLiveDefines.shopliveData), ShopLiveConfiguration.Data.useLocalStorage {
                 queryItems.append(URLQueryItem(name: ShopLiveDefines.shopliveData, value: localStorage))
             }
@@ -1692,9 +1691,8 @@ extension ShopLiveBase: ShopLiveComponent {
         ShopLiveConfiguration.UI.setLoadingAnimation(images: images)
     }
     
-    func setKeepAspectOnTabletPortrait(_ keep: Bool) {
-        ShopLiveConfiguration.UI.keepAspectOnTabletPortrait = keep
-    }
+    // 1.5.10 부터 deprecate 처리 
+    func setKeepAspectOnTabletPortrait(_ keep: Bool) { }
     
     var playerWindow: ShopliveWindow? {
         return self.shopLiveWindow

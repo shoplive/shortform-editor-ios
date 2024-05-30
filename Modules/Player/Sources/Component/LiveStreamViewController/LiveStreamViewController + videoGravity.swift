@@ -209,10 +209,7 @@ extension LiveStreamViewController {
         if windowStyle == .inAppPip {
             return .resizeAspectFill
         }
-        else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-            return .resizeAspect
-        }
-        else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait == false {
+        else if UIDevice.isIpad {
             return .resizeAspectFill
         }
         else if UIScreen.isLandscape {

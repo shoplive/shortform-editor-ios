@@ -544,17 +544,6 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var useAspectOnTablet: Bool {
-        set {
-            UserDefaults.standard.set(newValue, forKey: SDKOptionType.aspectOnTablet.optionKey)
-            UserDefaults.standard.synchronize()
-            notifyObservers(key: SDKOptionType.aspectOnTablet.optionKey)
-        }
-        get {
-            return UserDefaults.standard.bool(forKey:  SDKOptionType.aspectOnTablet.optionKey)
-        }
-    }
-    
     var useKeepWindowStateOnPlayExecuted: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.keepWindowStateOnPlayExecuted.optionKey)

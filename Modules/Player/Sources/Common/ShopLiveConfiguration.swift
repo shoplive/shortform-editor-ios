@@ -94,7 +94,6 @@ internal final class ShopLiveConfiguration: NSObject {
         }
 
         static var nextActionTypeOnHandleNavigation: ActionType = ActionType.PIP
-        static var keepAspectOnTabletPortrait: Bool = true
         
         static var chatInputPlaceholderString: String = "chat.placeholder".localizedString()
         static var chatInputSendString: String = "chat.send.title".localizedString()

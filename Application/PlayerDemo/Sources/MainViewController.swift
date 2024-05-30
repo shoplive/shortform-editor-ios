@@ -293,9 +293,6 @@ class MainViewController: SideMenuBaseViewController {
             ShopLive.setEndpoint(nil)
         }
         
-        ShopLive.setKeepAspectOnTabletPortrait(config.useAspectOnTablet)
-        
-        
         let pipSize : ShopLiveInAppPipSize
         if let max = DemoConfiguration.shared.maxPipSize {
             pipSize = .init(pipMaxSize: max)

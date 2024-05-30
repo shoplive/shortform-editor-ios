@@ -277,7 +277,8 @@ extension ShopLive: ShopLiveSDKInterface {
     public static func isSuccessCampaignJoin() -> Bool {
         return shared.instance?.isSuccessCampaignJoin() ?? false
     }
-
+    
+    @available(iOS, deprecated, message: "deprecated on 1.5.10")
     public static func setKeepAspectOnTabletPortrait(_ keep: Bool = true) {
         shared.instance?.setKeepAspectOnTabletPortrait(keep)
     }

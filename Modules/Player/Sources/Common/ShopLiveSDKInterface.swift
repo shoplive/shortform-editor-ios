@@ -280,7 +280,8 @@ public typealias ShopLiveViewController = SLViewController
     @objc static func setEnabledOSPictureInPictureMode(isEnabled : Bool)
 
     @objc static func setLoadingAnimation(images: [UIImage])
-
+    
+    @available(iOS, deprecated, message: "deprecated on 1.5.10")
     @objc static func setKeepAspectOnTabletPortrait(_ keep: Bool)
 
     @objc static func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool, isMute: Bool)

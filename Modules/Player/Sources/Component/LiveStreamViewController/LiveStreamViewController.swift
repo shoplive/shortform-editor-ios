@@ -258,42 +258,23 @@ internal final class LiveStreamViewController: SLViewController {
         }
         
         if ShopLiveController.shared.videoOrientation == .portrait {
-            if !ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-                if UIScreen.isLandscape {
-                    self.backgroundPosterImageWebView?.clipsToBounds = true
-                    self.backgroundPosterImageWebView?.layer.masksToBounds = true
-                    let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
-                    posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                    snapShotConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                } else {
-                    self.backgroundPosterImageWebView?.clipsToBounds = false
-                    self.backgroundPosterImageWebView?.layer.masksToBounds = false
-                    
-                    let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
-                    posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                    snapShotConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                }
+            if UIScreen.isLandscape {
+                let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
+                posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
+                snapShotConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
             } else {
-                if UIScreen.isLandscape {
+                if imageFrameRatio == ratio {
+                    posterConstraints = .zero
+                    snapShotConstraints = .zero
+                } else {
                     let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
                     posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
                     snapShotConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                } else {
-                    if imageFrameRatio == ratio {
-                        posterConstraints = .zero
-                        snapShotConstraints = .zero
-                    } else {
-                        let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
-                        posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                        snapShotConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                    }
                 }
             }
             if ShopLiveController.shared.videoOrientation == .portrait {
-                if ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-                    bgImageView.clipsToBounds = true
-                    bgImageView.layer.masksToBounds = true
-                }
+                bgImageView.clipsToBounds = true
+                bgImageView.layer.masksToBounds = true
             } else {
                 bgImageView.clipsToBounds = true
                 bgImageView.layer.masksToBounds = true
@@ -438,9 +419,6 @@ internal final class LiveStreamViewController: SLViewController {
         }
 
         if ShopLiveController.shared.videoOrientation == .portrait {
-            if let playerLayer = playerView?.playerLayer {
-                playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveConfiguration.UI.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
-            }
             ShopLiveController.shared.webInstance?.alpha = 0
         }
         
@@ -647,10 +625,6 @@ extension LiveStreamViewController {
         backgroundPosterImageWebView.scrollView.contentInsetAdjustmentBehavior = .never
         backgroundPosterImageWebView.scrollView.contentInset = .zero
        
-        if ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-            backgroundPosterImageWebView.clipsToBounds = true
-            backgroundPosterImageWebView.layer.masksToBounds = true
-        }
         
         let centxConstraint  = backgroundPosterImageWebView.centerXAnchor.constraint(equalTo: playerView.centerXAnchor)
         let centYConstraint  = backgroundPosterImageWebView.centerYAnchor.constraint(equalTo: playerView.centerYAnchor)
