@@ -57,6 +57,8 @@ internal final class LiveStreamViewController: SLViewController {
     var snapshotLeftContraint: NSLayoutConstraint?
     var snapshotRightContraint: NSLayoutConstraint?
     var snapshotBottomContraint: NSLayoutConstraint?
+    var snapShotWidthAnc : NSLayoutConstraint?
+    var snapShotheightAnc : NSLayoutConstraint?
     
     lazy var inAppPipView: SLView = {
         let view = SLView()
@@ -178,7 +180,7 @@ internal final class LiveStreamViewController: SLViewController {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("LiveStreamViewController deinited")
+        ShopLiveLogger.memoryLog("LiveStreamViewController deinited")
     }
     
     func setupLiveStreamViewController() {
@@ -240,7 +242,6 @@ internal final class LiveStreamViewController: SLViewController {
     
     func updateImageConstraint(from: CGRect,targetWindowStyle : ShopLiveWindowStyle) {
         guard let bgImageView = self.backgroundPosterImageWebView else { return }
-        ShopLiveLogger.tempLog("VideoRatio \(ShopLiveController.shared.videoRatio)")
        
         let ratio = ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height
         let screenSize = UIScreen.main.bounds
@@ -361,15 +362,6 @@ internal final class LiveStreamViewController: SLViewController {
             updateCloseButtonDim()
         }
     }
-
-    func hideBackgroundPoster() {
-        backgroundPosterImageWebView?.isHidden = true
-        shopliveHideKeyboard_SL()
-    }
-    
-    func showBackgroundPoster() {
-        backgroundPosterImageWebView?.isHidden = false
-    }
     
     func setCloseDimLayerVisible(_ visible: Bool) {
         self.inAppPipView.layer.masksToBounds = !visible
@@ -399,119 +391,9 @@ internal final class LiveStreamViewController: SLViewController {
         self.backgroundPosterImageWebView?.layoutIfNeeded()
         self.snapShotImageView?.layoutIfNeeded()
     }
+
+
     
-    func updateVideoFit(centerCrop: Bool = false, immediately: Bool = false, imageUpdate: Bool = true, targetWindowStyle : ShopLiveWindowStyle?) {
-        if let playerLayer = playerView?.playerLayer {
-            playerLayer.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
-        }
-        playerTopConstraint.constant = 0
-        playerLeadingConstraint.constant = 0
-        playerRightConstraint.constant = 0
-        playerBottomConstraint.constant = 0
-        if imageUpdate {
-            if let targetWindowStyle = targetWindowStyle {
-                self.updateImageConstraint(from: .zero,targetWindowStyle: targetWindowStyle)
-            }
-            else {
-                self.updateImageConstraint(from: .zero,targetWindowStyle: ShopLiveController.windowStyle)
-            }
-            
-        }
-        
-        if immediately {
-            if let playerView = playerView {
-                playerView.setNeedsLayout()
-                playerView.layoutIfNeeded()
-            }
-        }
-    }
-    
-    func changeVideoGravity(centerCrop: Bool) {
-        if let playerFrame = UIScreen.isLandscape ? ( ShopLiveController.shared.videoExpanded ? ShopLiveController.shared.videoFrame.landscape.expanded : ShopLiveController.shared.videoFrame.landscape.standard) : ShopLiveController.shared.videoFrame.portrait {
-            self.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: false,targetWindowStyle: nil)
-            
-            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut)
-            animator.addAnimations { [weak self] in
-                guard let self = self else { return }
-                self.updateVideoConstraint()
-            }
-            
-            animator.startAnimation()
-        }
-    }
-    
-    /**
-        OsPip에서 올라올때 사용
-     */
-    func setVideoLayerGravityOnOsPipRestoration(){
-        guard let playerView = playerView else { return }
-        playerView.playerLayer?.videoGravity = self.getVideoLayerGravityForCurrentVideoType()
-    }
-    
-    /**
-        현재 디바이스, 디바이스 상태, 옵션에 맞는 videoGravity를 가지고 옴
-     */
-    func getVideoLayerGravityForCurrentVideoType() -> AVLayerVideoGravity {
-        if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-            return .resizeAspect
-        }
-        else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait == false {
-            return .resizeAspectFill
-        }
-        else if UIScreen.isLandscape {
-            return .resizeAspect
-        }
-        else {
-            if let resizeMode = viewModel.getResizeMode() {
-                if resizeMode == .CENTER_CROP {
-                    return .resizeAspectFill
-                }
-                else {
-                    return .resizeAspect
-                }
-            }
-            else {
-                return .resizeAspectFill
-            }
-        }
-    }
-    
-    /**
-     player video gravity 설정과 관련해서는 ShopLiveBase.play() 쪽도 같이
-     */
-    func updateVideoFrame(immeadiately: Bool, fitTopArea: Bool = false, targetWindowStyle : ShopLiveWindowStyle) {
-        guard !ShopLiveController.shared.isPreview else { return }
-        
-        if ShopLiveController.shared.videoOrientation == .landscape {
-            if targetWindowStyle == .inAppPip {
-                self.updateVideoFit(centerCrop: true, immediately: immeadiately,targetWindowStyle: targetWindowStyle)
-            } else {
-                if fitTopArea {
-                    setVideoDefaultFrame()
-                    return
-                }
-                if let playerFrame = UIScreen.isLandscape ? ( ShopLiveController.shared.videoExpanded ? ShopLiveController.shared.videoFrame.landscape.expanded : ShopLiveController.shared.videoFrame.landscape.standard) : ShopLiveController.shared.videoFrame.portrait {
-                    
-                    self.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: immeadiately,targetWindowStyle: targetWindowStyle)
-                }
-            }
-        } else {
-            //Ipad는 가로세로 상관 없이 keepOn꺼져 있으면 꽉채우는 방식으로 진행
-            let isCenterCrop = self.getVideoLayerGravityForCurrentVideoType() == .resizeAspectFill ? true : false
-            self.updateVideoFit(centerCrop: isCenterCrop,immediately: immeadiately,targetWindowStyle: targetWindowStyle)
-            
-            self.updateImageConstraint(from: .zero,targetWindowStyle: targetWindowStyle)
-        }
-    }
-    
-    func setVideoDefaultFrame() {
-        if UIScreen.isLandscape {
-            ShopLiveController.shared.videoFrame.landscape.expanded = .zero
-        } else {
-            let height = UIScreen.main.bounds.height - (UIScreen.main.bounds.width * (ShopLiveController.shared.videoRatio.height / ShopLiveController.shared.videoRatio.width))
-            ShopLiveController.shared.videoFrame.portrait = .init(x: 0, y: 0, width: 0, height: height)
-        }
-    }
     
     func changeOrientation(toLandscape: Bool) {
         DispatchQueue.main.async { [weak self] in
@@ -543,9 +425,6 @@ internal final class LiveStreamViewController: SLViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         let currentOrientation: ShopLiveDefines.ShopLiveOrientaion = UIScreen.isLandscape ? .landscape : .portrait
-        if ShopLiveController.shared.supportOrientation == .landscape && !ShopLiveController.shared.willStartPip {
-            self.updatePlayerFrame(targetWindowStyle: nil)
-        }
         self.chatInputView.orientationChattingWritrViewConstraint()
         guard ShopLiveController.windowStyle != .osPip else {
             ShopLiveController.shared.lastOrientaion = (currentOrientation, UIScreen.currentOrientation.deviceOrientation)
@@ -574,10 +453,13 @@ internal final class LiveStreamViewController: SLViewController {
         }
         
         ShopLiveController.shared.lastOrientaion = (currentOrientation, UIScreen.currentOrientation.deviceOrientation)
+        
+        self.requestHideOrShowSnapShotImageView(isHidden: true)
         coordinator.animate { _ in
             ShopLiveController.shared.inRotating = true
             self.delegate?.changeOrientation(to: currentOrientation)
         } completion: { _ in
+            self.viewModel.checkIfSnapShotImageFrameNeedReCalculation()
             ShopLiveController.shared.inRotating = false
             self.delegate?.finishRotation()
         }
@@ -611,6 +493,7 @@ extension LiveStreamViewController {
     func takeSnapShot(completion : (() -> ())? = nil) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            self.viewModel.checkIfSnapShotImageFrameNeedReCalculation()
             ShopLiveController.shared.getSnapShot { image in
                 if let imageWidth = image?.size.width {
                     if imageWidth < self.view.frame.size.width {
@@ -664,6 +547,15 @@ extension LiveStreamViewController : ShopLivePlayerDelegate {
     }
 }
 extension LiveStreamViewController : LiveStreamViewModelDelegate {
+    
+    func requestHideOrShowSnapShotImageView(isHidden : Bool) {
+        self.snapShotImageView?.isHidden = isHidden
+    }
+    
+    func requestHideOrShowBackgroundPosterImageWebView(isHidden: Bool) {
+        self.backgroundPosterImageWebView?.isHidden = isHidden
+    }
+    
     func requestTakeSnapShotView() {
         self.takeSnapShot()
     }
@@ -674,23 +566,6 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
         }
         else {
             self.overlayView?.reload(with: url)
-        }
-    }
-    
-    func refreshAvPlayerLayer() {
-        if let resizeMode = viewModel.getResizeMode(), UIDevice.isIpad == false, UIScreen.isLandscape == false {
-            if resizeMode == .CENTER_CROP {
-                playerView?.refreshLayer(videoGravity: .resizeAspectFill)
-            }
-            else if resizeMode == .FIT {
-                playerView?.refreshLayer(videoGravity: .resizeAspect)
-            }
-        }
-        else if let previousVideoGravity = self.playerLayer?.videoGravity {
-            playerView?.refreshLayer(videoGravity: previousVideoGravity)
-        }
-        else {
-            playerView?.refreshLayer(videoGravity: self.getVideoLayerGravityForCurrentVideoType())
         }
     }
     
@@ -735,24 +610,23 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
         }
     }
     
-    func updateBackgroundImageConstraintsWithActualVideoRenderedRect(rect: CGRect) {
-        posterTopContraint?.isActive = false
-        posterLeftContraint?.isActive = false
-        posterRightContraint?.isActive = false
-        posterBottomContraint?.isActive = false
-        
-        snapshotTopContraint?.isActive = false
-        snapshotLeftContraint?.isActive = false
-        snapshotRightContraint?.isActive = false
-        snapshotBottomContraint?.isActive = false
-        
-        if let bgWebView = self.backgroundPosterImageWebView {
-            bgWebView.widthAnchor.constraint(equalToConstant: rect.width).isActive = true
-            bgWebView.heightAnchor.constraint(equalToConstant: rect.height).isActive = true
-        }
-        if let snapShotImageView = self.snapShotImageView {
-            snapShotImageView.widthAnchor.constraint(equalToConstant: rect.width).isActive = true
-            snapShotImageView.heightAnchor.constraint(equalToConstant: rect.height).isActive = true
+    func updateSnapShotImageViewFrameWithActualVideoRenderedRect(rect: CGRect) {
+        if let snapShotImageView = self.snapShotImageView,
+           var widthAnc = self.snapShotWidthAnc,
+           var heightAnc = self.snapShotheightAnc,
+           let playerView = self.playerView,
+           playerView.frame.width > 10,
+           playerView.frame.height > 10 {
+            
+            
+            widthAnc.isActive = false
+            heightAnc.isActive = false
+            snapShotImageView.removeConstraints([widthAnc,heightAnc])
+            self.snapShotWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor,multiplier: rect.width / playerView.frame.width)
+            self.snapShotWidthAnc?.isActive = true
+            
+            self.snapShotheightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor,multiplier: rect.height / playerView.frame.height)
+            self.snapShotheightAnc?.isActive = true
         }
     }
     
@@ -819,6 +693,9 @@ extension LiveStreamViewController {
         let rightConstraint   = snapShotImageView.trailingAnchor.constraint(equalTo: playerView.trailingAnchor)
         let bottomConstraint  = snapShotImageView.bottomAnchor.constraint(equalTo: playerView.bottomAnchor)
         
+        let widthConstraint = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor)
+        let heightConstraint = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor)
+        
         topConstraint.priority = .init(rawValue: 999)
         leftConstraint.priority = .init(rawValue: 999)
         rightConstraint.priority = .init(rawValue: 999)
@@ -829,6 +706,10 @@ extension LiveStreamViewController {
         snapshotLeftContraint = leftConstraint
         snapshotRightContraint = rightConstraint
         snapshotBottomContraint = bottomConstraint
+        
+        // for resizeMode
+        snapShotWidthAnc = widthConstraint
+        snapShotheightAnc = heightConstraint
         
         NSLayoutConstraint.activate([ topConstraint, leftConstraint, rightConstraint, bottomConstraint, centerXConstraint, centerYConstraint ])
     }
@@ -843,48 +724,19 @@ extension LiveStreamViewController {
         playerView.playerLayer?.player = playerView.player
         playerView.playerLayer?.needsDisplayOnBoundsChange = true
         
-        if let resizeMode = viewModel.getResizeMode(), UIDevice.isIpad == false, UIScreen.isLandscape == false {
-            if resizeMode == .CENTER_CROP {
-                playerView.playerLayer?.videoGravity = .resizeAspectFill
-            }
-            else if resizeMode == .FIT {
-                playerView.playerLayer?.videoGravity = .resizeAspect
-            }
-        }
-        else if ShopLiveController.shared.videoOrientation == .portrait {
-            if UIScreen.isLandscape {
-                playerView.playerLayer?.videoGravity = .resizeAspect
-            }
-            else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-                playerView.playerLayer?.videoGravity = .resizeAspect
-            }
-            else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait == false {
-                playerView.playerLayer?.videoGravity = .resizeAspectFill
-            }
-            else {
-                playerView.playerLayer?.videoGravity = .resizeAspectFill
-            }
-        } else {
-            playerView.playerLayer?.videoGravity = .resizeAspect
-        }
-        
         ShopLiveController.shared.playerItem?.player = playerView.player
         if let playerLayer = playerView.playerLayer {
             ShopLiveController.shared.playerItem?.playerLayer? = playerLayer
         }
         
         playerTopConstraint     = playerView.topAnchor.constraint(equalTo: view.topAnchor)
-        playerLeadingConstraint = playerView.leftAnchor.constraint(equalTo: view.leftAnchor)
-        playerRightConstraint   = playerView.rightAnchor.constraint(equalTo: view.rightAnchor)
+        playerLeadingConstraint = playerView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        playerRightConstraint   = playerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         playerBottomConstraint  = playerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
 
         NSLayoutConstraint.activate([playerTopConstraint, playerLeadingConstraint, playerRightConstraint, playerBottomConstraint])
     }
     
-    
-    func resetPlayerLayer(){
-        
-    }
     
     func setupOverayWebview() {
         let overlayView = OverlayWebView(with: webViewConfiguration)

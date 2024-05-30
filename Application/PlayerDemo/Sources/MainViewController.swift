@@ -320,7 +320,7 @@ class MainViewController: SideMenuBaseViewController {
         
         ShopLive.setVisibleStatusBar(isVisible: DemoConfiguration.shared.statusBarVisibility)
         
-//        previewConverViewMaker.setCustomerPreviewCoverView()
+        previewConverViewMaker.setCustomerPreviewCoverView()
         
     }
     
@@ -364,10 +364,9 @@ class MainViewController: SideMenuBaseViewController {
         
         let playerData = ShopLivePreviewData(campaignKey: currentKey.campaignKey,
                                             keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
-                                            
                                             referrer: DemoConfiguration.shared.customReferrer,
                                             isMuted: !DemoConfiguration.shared.enablePreviewSound,
-                                             isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey) { campaign in
+                                            isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey) { campaign in
             ShopLiveLogger.debugLog(" campaign callBack campaign Title : \(campaign.title)")
         } brandHandler: { brand in
             ShopLiveLogger.debugLog(" brand callback brand Name : \(brand.name) \n brand Image : \(brand.imageUrl) \n brand Identifier : \(brand.identifier)")
@@ -389,10 +388,10 @@ class MainViewController: SideMenuBaseViewController {
         }
 
         
-        ShopLive.configure(with: currentKey.accessKey)
+        ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
         setupShopliveSettings()
-        
-        let playerData = ShopLivePlayerData(campaignKey: currentKey.campaignKey,
+                 
+        let playerData = ShopLivePreviewData(campaignKey: currentKey.campaignKey ,//"9f59cfe5ae7c"
                                              keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
                                              referrer: DemoConfiguration.shared.customReferrer,
                                              isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey)

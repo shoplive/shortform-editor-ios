@@ -33,6 +33,7 @@ extension LiveStreamViewModel {
             ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn,false,false)
         }
         self.delegate?.requestHideOrShowLoading(isHidden: true)
+        self.delegate?.requestHideOrShowBackgroundPosterImageWebView(isHidden: true)
         ShopLiveController.isPlaying = true
         ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true)
     }

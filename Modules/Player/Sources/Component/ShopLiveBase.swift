@@ -8,7 +8,6 @@ import ShopliveSDKCommon
     private var shopLiveWindow: ShopliveWindow? = nil
     private var videoWindowPanGestureRecognizer: UIPanGestureRecognizer?
     private var videoWindowTapGestureRecognizer: UITapGestureRecognizer?
-    private var videoPinchGestureRecognizer: UIPinchGestureRecognizer?
     
     private var videoWindowSwipeDownGestureRecognizer: UISwipeGestureRecognizer?
     private var _webViewConfiguration: WKWebViewConfiguration?
@@ -206,6 +205,7 @@ import ShopliveSDKCommon
         isKeyboardShow = false
         
         liveStreamViewController = LiveStreamViewController()
+        liveStreamViewController?.setInitialAVPlayerLayerVideoGravity(isPreview: isPreview)
         // inAppPipConfiguration에서 pipPosition이 설정되어 있지 않다면, legacy를 통해서 세팅된거여서 초기값을 밀어넣어줘야 함
         if inAppPipConfiguration?.pipPosition == nil {
             liveStreamViewController?.viewModel.setPipPosition(position: ShopLiveController.shared.initialPipPosition)
@@ -238,9 +238,19 @@ import ShopliveSDKCommon
             ShopLiveController.shared.isPreview = true
             shopLiveWindow?.frame = .zero
             shopLiveWindow?.center = self.pipPosition(with: self.pipScale, position: self.getPipPosition()).center
+            
+            _style = .pip
+            self.liveStreamViewController?.updateStatusBarToDefault()
+            ShopLiveController.windowStyle = .inAppPip
+            
+            
         } else {
             ShopLiveController.shared.isPreview = false
             shopLiveWindow?.frame = mainWindow?.frame ?? UIScreen.main.bounds
+            
+            mainWindow?.rootViewController?.shopliveHideKeyboard_SL()
+            ShopLiveController.windowStyle = .normal
+            _style = .fullScreen
         }
         
         self.shopLiveWindow?.rootViewController = self.liveStreamViewController
@@ -262,27 +272,12 @@ import ShopliveSDKCommon
         videoWindowSwipeDownGestureRecognizer = swipeDownGesture
         videoWindowSwipeDownGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? false : true
         
-        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(pinchGestureHandler))
-        shopLiveWindow?.addGestureRecognizer(pinchGesture)
-        videoPinchGestureRecognizer = pinchGesture
-        videoPinchGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? false : true
-        
         ShopLiveController.windowStyle = .normal
         
         setupOsPictureInPicture()
         shopLiveWindow?.makeKeyAndVisible()
         
         self.delegate?.handleChangedPlayerStatus?(status: "CREATED")
-        
-        if ShopLiveController.shared.isPreview {
-            _style = .pip
-            self.liveStreamViewController?.updateStatusBarToDefault()
-            ShopLiveController.windowStyle = .inAppPip
-        } else {
-            mainWindow?.rootViewController?.shopliveHideKeyboard_SL()
-            ShopLiveController.windowStyle = .normal
-            _style = .fullScreen
-        }
         
         ShopLiveBase.sessionState = .foreground
         if let completion = completion {
@@ -340,7 +335,6 @@ import ShopliveSDKCommon
         self.videoWindowPanGestureRecognizer = nil
         self.videoWindowTapGestureRecognizer = nil
         self.videoWindowSwipeDownGestureRecognizer = nil
-        self.videoPinchGestureRecognizer = nil
         self.osPictureInPictureController = nil
         
         
@@ -522,7 +516,6 @@ import ShopliveSDKCommon
             self.videoWindowSwipeDownGestureRecognizer?.isEnabled = false
             
             liveVc.shopliveHideKeyboard_SL()
-            liveVc.showBackgroundPoster()
             ShopLiveController.webInstance?.isHidden = true
             
             let pipPosition: CGRect = self.pipPosition(with: scale, position: position)
@@ -542,7 +535,7 @@ import ShopliveSDKCommon
                 guard let self = self else { return }
                 liveVc.setStatusBarVisiblityOnFullScreen(isVisible: true)
                 shopLiveWindow.frame = pipPosition
-                liveVc.updateVideoFit(centerCrop: true, immediately: false,targetWindowStyle: .inAppPip)
+                liveVc.updatePlayerViewToPipMode()
                 liveVc.updateVideoConstraint()
                 
                 shopLiveWindow.layer.cornerRadius = self.inAppPipConfiguration?.pipRadius ?? 10
@@ -582,9 +575,6 @@ import ShopliveSDKCommon
                                                                                                 "isPreview" : ShopLiveController.shared.isPreview,
                                                                                                 "from" : #function ])
                 
-//                if ShopLiveController.shared.isPreview == false {
-//                    self.liveStreamViewController?.viewModel.sendPipActive(pipType: .APP)
-//                }
                 
                 self.showPreviewCoverView()
                 self.windowAnimator = nil
@@ -597,7 +587,6 @@ import ShopliveSDKCommon
     func startFromCampaignFullscreen(animationDuration : Double = 0.3, onOsPipRestoration : Bool = false) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            
             guard let shopLiveWindow = self.shopLiveWindow,
                   let liveVc = self.liveStreamViewController else {
                 return
@@ -608,7 +597,7 @@ import ShopliveSDKCommon
             guard shopLiveWindow.frame != mainWindow.frame else {
                 if ShopLiveController.windowStyle == .normal {
                     if onOsPipRestoration == false {
-                        liveVc.updateVideoFrame(immeadiately: true, fitTopArea: false,targetWindowStyle: .normal)
+                        liveVc.updatePlayerViewFrameFromStartFromCampaignFullScreen(needExecuteFullScreen: false)
                     }
                 }
                 self.liveStreamViewController?.updateVideoConstraint()
@@ -628,7 +617,6 @@ import ShopliveSDKCommon
             }
             
             mainWindow.rootViewController?.shopliveHideKeyboard_SL()
-            self.liveStreamViewController?.showBackgroundPoster()
             
             self.delegate?.handleCommand?("willShopLiveOn", with: nil)
             self.delegate?.handleCommand?(ShopLiveViewTrackEvent.fullScreenWillAppear.name, with: ["lastStyle" : self._lastStyle.name, "currentStyle" : self.style.name])
@@ -636,14 +624,13 @@ import ShopliveSDKCommon
             self.videoWindowPanGestureRecognizer?.isEnabled = false
             self.videoWindowTapGestureRecognizer?.isEnabled = false
             self.videoWindowSwipeDownGestureRecognizer?.isEnabled = true
-            self.videoPinchGestureRecognizer?.isEnabled = true
             ShopLiveController.windowStyle = .normal
             
             self.hideShadow()
             
             
             if onOsPipRestoration == false {
-                liveVc.updateVideoFrame(immeadiately: false, fitTopArea: self.needExecuteFullScreen,targetWindowStyle: .normal)
+                liveVc.updatePlayerViewFrameFromStartFromCampaignFullScreen(needExecuteFullScreen: self.needExecuteFullScreen)
             }
             liveVc.setCloseButtonVisible(false)
             
@@ -725,13 +712,14 @@ import ShopliveSDKCommon
         }
         shopLiveWindow.startBlockAddSubViewTimer()
         self.hidePreviewCoverView()
+        self.liveStreamViewController?.requestHideOrShowSnapShotImageView(isHidden: true)
         windowAnimator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut)
         windowAnimator?.addAnimations { [weak self] in
             guard let self = self else { return }
             shopLiveWindow.frame = mainWindow.bounds
             shopLiveWindow.layer.cornerRadius = 0
             shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
-            self.liveStreamViewController?.updateVideoFrame(immeadiately: false, fitTopArea: true,targetWindowStyle: .normal)
+            self.liveStreamViewController?.updatePlayerViewFrameFromStopCustomPictureInPicture()
             self.liveStreamViewController?.setCloseButtonVisible(false)
             self.liveStreamViewController?.setStatusBarVisiblityOnFullScreen(isVisible: self.statusBarVisibility)
         }
@@ -742,7 +730,6 @@ import ShopliveSDKCommon
             ShopLiveController.webInstance?.isHidden = false
             shopLiveWindow.backgroundColor = .clear
             self.liveStreamViewController?.view.frame = shopLiveWindow.bounds
-            self.liveStreamViewController?.showBackgroundPoster()
             if self.windowChangeCommand != .none {
                 self.isWindowChanging = false
             }
@@ -790,8 +777,7 @@ import ShopliveSDKCommon
             
             let pipSize: CGRect = self.pipPosition(with: self.pipScale, position: self.getPipPosition())
             
-            
-            self.liveStreamViewController?.updateVideoFrame(immeadiately: false, targetWindowStyle: ShopLiveController.windowStyle)
+            self.liveStreamViewController?.updatePlayerViewFrameFromUpdatePip(targetWindowStyle : ShopLiveController.windowStyle)
             self.shopLiveWindow?.layer.masksToBounds = true
             self.liveStreamViewController?.view.layer.masksToBounds = true
             self.liveStreamViewController?.setCloseDimLayerVisible(false)
@@ -838,7 +824,7 @@ import ShopliveSDKCommon
     func startFromCampaignPIP() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.liveStreamViewController?.updateVideoFit(centerCrop: true,targetWindowStyle: .inAppPip)
+            self.liveStreamViewController?.updatePlayerViewToPipMode()
             self.delegate?.handleCommand?("willShopLiveOff", with: ["style" : self._lastStyle.rawValue])
             self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipWillAppear.name, with: ["lastStyle" : self._lastStyle.name , "currentStyle" : self.style.name, "isPreview" : ShopLiveController.shared.isPreview])
             guard let shopLiveWindow = self.shopLiveWindow else { return }
@@ -905,7 +891,6 @@ import ShopliveSDKCommon
             let pipSize: CGRect = self.pipPosition(with: self.pipScale, position: self.getPipPosition())
             
             if self.needAnimateToChangePreivew {
-                self.liveStreamViewController?.hideBackgroundPoster()
                 ShopLiveController.webInstance?.isHidden = false
             } else {
                 self.shopLiveWindow?.isHidden = true
@@ -933,7 +918,7 @@ import ShopliveSDKCommon
             windowAnimator?.addAnimations { [weak self] in
                 guard let self = self else { return }
                 liveVC.setStatusBarVisiblityOnFullScreen(isVisible: true)
-                liveVC.updateVideoFit(centerCrop: true, immediately: false, targetWindowStyle: .inAppPip)
+                liveVC.updatePlayerViewToPipMode()
                 liveVC.updateVideoConstraint()
                 
                 slWindow.rootViewController?.view.layer.cornerRadius = self.inAppPipConfiguration?.pipRadius ?? 10
@@ -950,7 +935,6 @@ import ShopliveSDKCommon
                 liveVC.view.layer.masksToBounds = true
                 liveVC.view.clipsToBounds = true
                 liveVC.view.frame = slWindow.bounds
-                liveVC.showBackgroundPoster()
                 
                 if self.needAnimateToChangePreivew {
                     ShopLiveController.shared.playControl = .play
@@ -1008,7 +992,6 @@ import ShopliveSDKCommon
             shopLiveWindow.layoutIfNeeded()
             
             self.liveStreamViewController?.setCloseButtonVisible(false)
-            self.liveStreamViewController?.showBackgroundPoster()
         }
     }
     
@@ -1332,30 +1315,6 @@ import ShopliveSDKCommon
         else {
             guard _style == .pip else { return }
             stopShopLivePictureInPicture()
-        }
-    }
-    
-    @objc private func pinchGestureHandler(_ recognizer: UIPinchGestureRecognizer) {
-        guard ShopLiveController.shared.videoOrientation == .landscape, ShopLiveController.windowStyle == .normal else { return }
-        guard UIScreen.isLandscape else { return }
-        guard ShopLiveController.shared.videoExpanded else { return }
-        
-        if let isSnapshotHidden = self.liveStreamViewController?.getIsSnapShotHidden() {
-            guard (isSnapshotHidden && ShopLiveController.timeControlStatus == .playing) ||
-                    (!isSnapshotHidden && ShopLiveController.timeControlStatus != .playing) else {
-                return
-            }
-        }
-        
-        switch recognizer.state {
-        case .ended:
-            ShopLiveController.shared.videoCenterCrop = recognizer.scale > 1.0
-            self.liveStreamViewController?.changeVideoGravity(centerCrop: ShopLiveController.shared.videoCenterCrop)
-            delegate?.log?(name: recognizer.scale > 1.0 ? "pinch_zoom_out" : "pinch_zoom_in", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
-            delegate?.log?(name: recognizer.scale > 1.0 ? "pinch_zoom_out" : "pinch_zoom_in", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
-            break
-        default:
-            break
         }
     }
     
@@ -1846,8 +1805,6 @@ extension ShopLiveBase: ShopLiveComponent {
                     }
                 }
                 
-                
-                
                 ShopLiveController.shared.isPreview = true
                 
                 self.previewCallback = completion
@@ -1884,7 +1841,6 @@ extension ShopLiveBase: ShopLiveComponent {
         videoWindowPanGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? true : false
         videoWindowTapGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? true : false
         videoWindowSwipeDownGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? false : true
-        videoPinchGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? false : true
         let oldVideoRatio = ShopLiveController.shared.videoRatio
         
         self.osPictureInPictureController = nil
@@ -1998,18 +1954,7 @@ extension ShopLiveBase: ShopLiveComponent {
                                                                  isPreview: false) { isSuccess in
                     guard let playerFrame = vc.viewModel.getEstimatedPlayerFrameForFullScreenOnInitalize(), isSuccess else { return }
                     DispatchQueue.main.async {
-                        if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait {
-                            vc.updatePlayerFrame(centerCrop : false, playerFrame: playerFrame,immediately: false,targetWindowStyle: .normal)
-                        }
-                        else if UIDevice.isIpad && ShopLiveConfiguration.UI.keepAspectOnTabletPortrait == false {
-                            vc.updatePlayerFrame(centerCrop : true, playerFrame: playerFrame,immediately: false,targetWindowStyle: .normal)
-                        }
-                        else if UIScreen.isLandscape {
-                            vc.updatePlayerFrame(centerCrop : false, playerFrame: playerFrame,immediately: false,targetWindowStyle: .normal)
-                        }
-                        else {
-                            vc.updatePlayerFrame(centerCrop : true, playerFrame: playerFrame,immediately: false,targetWindowStyle: .normal)
-                        }
+                        vc.updatePlayerViewFrameFromApp(targetFrame: playerFrame)
                     }
                 }
             }
@@ -2142,9 +2087,14 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
         if ShopLiveConfiguration.UI.keepWindowStyleOnReturnFromOsPip {
             let prevWindowStyle = ShopLiveController.shared.prevWindowStyle
             _style = prevWindowStyle == .normal ? .fullScreen : prevWindowStyle == .inAppPip ? .pip : .unknown
+            if _style == .fullScreen || _style == .unknown {
+                //해당 시점에서 previewCoverView hidden처리를 하는 이유는 , didStop에서 처리하면 잠깐 보였다가 사라지는 현상이 있음
+                self.hidePreviewCoverView()
+            }
             ShopLiveController.windowStyle = prevWindowStyle
         } else {
             _style = .fullScreen
+            self.hidePreviewCoverView()
             self.liveStreamViewController?.setVideoLayerGravityOnOsPipRestoration()
             ShopLiveController.windowStyle = .normal
         }
@@ -2261,7 +2211,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
             
             self.liveStreamViewController?.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
             
-            self.liveStreamViewController?.updateVideoFrame(immeadiately: false,targetWindowStyle: ShopLiveController.windowStyle)
+            self.liveStreamViewController?.updatePlayerViewFrameFromChangeOrientation(targetWindowStyle :ShopLiveController.windowStyle)
             self.shopLiveWindow?.layer.removeAllAnimations()
             
             let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut)

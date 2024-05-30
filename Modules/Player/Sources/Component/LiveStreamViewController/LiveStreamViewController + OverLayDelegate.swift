@@ -34,38 +34,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     func updateOrientation(toLandscape: Bool) {
         self.changeOrientation(toLandscape: toLandscape)
     }
-    
-    func updatePlayerFrame(centerCrop: Bool = false, playerFrame: CGRect = .zero, immediately: Bool = false, targetWindowStyle : ShopLiveWindowStyle?) {
-        guard let playerView = playerView else { return }
-        guard playerFrame != .zero else {
-            updateVideoFit(centerCrop: centerCrop, immediately: immediately,targetWindowStyle: targetWindowStyle)
-            return
-        }
-        
-        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .linear) { [weak self] in
-            guard let self = self else { return }
-            playerView.playerLayer?.videoGravity = centerCrop ? .resizeAspectFill : .resizeAspect
-            self.playerTopConstraint.constant = playerFrame.origin.y
-            self.playerLeadingConstraint.constant = playerFrame.origin.x
-            self.playerRightConstraint.constant = -playerFrame.size.width
-            self.playerBottomConstraint.constant = -playerFrame.size.height
-            
-            if let targetWindowStyle = targetWindowStyle {
-                self.updateImageConstraint(from: playerFrame,targetWindowStyle: targetWindowStyle)
-            }
-            else {
-                self.updateImageConstraint(from: playerFrame,targetWindowStyle: ShopLiveController.windowStyle)
-            }
-            
-            if immediately {
-                playerView.setNeedsLayout()
-                playerView.layoutIfNeeded()
-            }
-        }
-        
-        animator.startAnimation()
-    }
-    
+
     func updateVideoConstraint() {
         self.chatInputView.updateChattingWriteViewConstraint()
         guard let playerView = playerView else { return }
@@ -141,8 +110,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         if ShopLiveController.isReplayMode, let time = ShopLiveController.shared.currentPlayTime {
             ShopLiveController.player?.seek(to: time)
         }
-        showBackgroundPoster()
-        
     }
 
     func didTouchWebViewPlayButton() {

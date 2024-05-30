@@ -316,9 +316,8 @@ extension OverlayWebView: WKScriptMessageHandler {
                           let height = parameters?["height"] as? CGFloat, let width = parameters?["width"] as? CGFloat,
                           let centerCrop = parameters?["centerCrop"] as? Int, let isCenterCrop = String(describing: centerCrop).boolValue else { return }
                     
+                    
                     if ShopLiveController.shared.supportOrientation == .landscape {
-                        //                        let SET_VIDEO_POSITION_LOG = CGRect(x: x, y: y, width: width, height: height)
-                        
                         let right = (self.window?.frame.width ?? UIWindow.mainWindowFrame.frame.width) - x - width
                         let bottom = (self.window?.frame.height ?? UIWindow.mainWindowFrame.frame.height) - y - height
                         
@@ -327,23 +326,23 @@ extension OverlayWebView: WKScriptMessageHandler {
                             if ShopLiveController.shared.videoExpanded {
                                 ShopLiveController.shared.videoFrame.landscape.expanded = playerFrame
                                 if ShopLiveController.windowStyle == .normal || ShopLiveController.shared.needForceSetVideoPositionUpdate == true  {
-                                    ShopLiveLogger.debugLog("update frame expanded")
-                                    delegate?.updatePlayerFrame(centerCrop: ShopLiveController.shared.videoCenterCrop, playerFrame: playerFrame, immediately: true,targetWindowStyle: .normal)
+                                    delegate?.updatePlayerViewFrameFromWeb(targetFrame: playerFrame)
                                 }
                             } else {
                                 ShopLiveController.shared.videoFrame.landscape.standard = playerFrame
                                 if ShopLiveController.windowStyle == .normal || ShopLiveController.shared.needForceSetVideoPositionUpdate == true  {
-                                    ShopLiveLogger.debugLog("update frame standard")
-                                    delegate?.updatePlayerFrame(centerCrop: isCenterCrop, playerFrame: playerFrame, immediately: true,targetWindowStyle: .normal)
+                                    delegate?.updatePlayerViewFrameFromWeb(targetFrame: playerFrame)
                                 }
                             }
                         } else {
                             ShopLiveController.shared.videoFrame.portrait = playerFrame
                             if ShopLiveController.windowStyle == .normal || ShopLiveController.shared.needForceSetVideoPositionUpdate == true {
-                                ShopLiveLogger.debugLog("update frame portrait")
-                                delegate?.updatePlayerFrame(centerCrop: isCenterCrop, playerFrame: playerFrame, immediately: true,targetWindowStyle: .normal)
+                                delegate?.updatePlayerViewFrameFromWeb(targetFrame: playerFrame)
                             }
                         }
+                    }
+                    else {
+                        ShopLiveLogger.tempLog("SET_VIDEO_POSITION for support orientation portrait")
                     }
                     break
                 case "SET_SCREEN_ORIENTATION":
