@@ -341,9 +341,6 @@ extension OverlayWebView: WKScriptMessageHandler {
                             }
                         }
                     }
-                    else {
-                        ShopLiveLogger.tempLog("SET_VIDEO_POSITION for support orientation portrait")
-                    }
                     break
                 case "SET_SCREEN_ORIENTATION":
                     guard !ShopLiveController.shared.keepOrientationWhenPlayStart else {

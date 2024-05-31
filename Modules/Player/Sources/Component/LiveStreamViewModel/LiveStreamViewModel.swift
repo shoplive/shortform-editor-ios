@@ -429,9 +429,10 @@ internal final class LiveStreamViewModel: NSObject {
     
     func checkIfSnapShotImageFrameNeedReCalculation() {
         guard ShopLiveController.windowStyle == .normal else { return }
+        guard let vc = self.liveStreamViewController else { return }
         let old = self.actualVideoRenderedRect
         if let current = liveStreamViewController?.playerView?.playerLayer?.videoRect {
-            if old != current {
+            if old != current  && current != .zero && (ceil(current.width) == ceil(vc.view.frame.width) || ceil(current.height) == ceil(vc.view.frame.height))  {
                 self.actualVideoRenderedRect = current
                 self.delegate?.updateSnapShotImageViewFrameWithActualVideoRenderedRect(rect: current)
             }

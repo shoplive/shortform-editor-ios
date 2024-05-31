@@ -556,7 +556,7 @@ extension ShortsCell {
         self.addSubview(youtubePosterImageView)
         self.addSubview(webView)
         
-        if UIDevice.current.userInterfaceIdiom == .pad || UIScreen.isLandscape_SL {
+        if UIDevice.current.userInterfaceIdiom == .pad { //|| UIScreen.isLandscape_SL 
             thumbnailHorizontalWidthAnc.isActive = true
             thumbnailVerticalWidthAnc.isActive = false
             
@@ -567,27 +567,6 @@ extension ShortsCell {
             youtubePlayerViewHorizontalWidthAnc.isActive = false
             youtubePlayerViewVerticalWidthAnc.isActive = false
             youtubePlayerViewPadWidhAnc.isActive = true
-            
-//
-//            if UIDevice.current.userInterfaceIdiom == .pad {
-//                playerViewHorizontalWidthAnc.isActive = false
-//                playerViewVerticalWidthAnc.isActive = false
-//                playerViewPadWidthAnc.isActive = true
-//                
-//                youtubePlayerViewHorizontalWidthAnc.isActive = false
-//                youtubePlayerViewVerticalWidthAnc.isActive = false
-//                youtubePlayerViewPadWidhAnc.isActive = true
-//            }
-//            else {
-//                playerViewHorizontalWidthAnc.isActive = true
-//                playerViewVerticalWidthAnc.isActive = false
-//                playerViewPadWidthAnc.isActive = false
-//                
-//                youtubePlayerViewHorizontalWidthAnc.isActive = true
-//                youtubePlayerViewVerticalWidthAnc.isActive = false
-//                yo`utubePlayerViewPadWidhAnc.isActive = false
-//            }
-            
             
             youtubePosterVerticalWidthAnc.isActive = true
             youtubePosterHorizontalWidthAnc.isActive = false
@@ -633,23 +612,32 @@ extension ShortsCell {
     }
     
     private func invalidateLayout() {
-        if UIDevice.current.userInterfaceIdiom == .pad || UIScreen.isLandscape_SL {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             thumbnailHorizontalWidthAnc.isActive = true
             thumbnailVerticalWidthAnc.isActive = false
-            playerViewHorizontalWidthAnc.isActive = true
+            
+            playerViewHorizontalWidthAnc.isActive = false
             playerViewVerticalWidthAnc.isActive = false
-            youtubePlayerViewHorizontalWidthAnc.isActive = true
+            playerViewPadWidthAnc.isActive = true
+            
+            youtubePlayerViewHorizontalWidthAnc.isActive = false
             youtubePlayerViewVerticalWidthAnc.isActive = false
+            youtubePlayerViewPadWidhAnc.isActive = true
+            
             youtubePosterVerticalWidthAnc.isActive = true
             youtubePosterHorizontalWidthAnc.isActive = false
+            
         }
         else {
             thumbnailHorizontalWidthAnc.isActive = false
             thumbnailVerticalWidthAnc.isActive = true
+
             playerViewHorizontalWidthAnc.isActive = false
             playerViewVerticalWidthAnc.isActive = true
+            
             youtubePlayerViewHorizontalWidthAnc.isActive = false
             youtubePlayerViewVerticalWidthAnc.isActive = true
+            
             youtubePosterVerticalWidthAnc.isActive = false
             youtubePosterHorizontalWidthAnc.isActive = true
         }

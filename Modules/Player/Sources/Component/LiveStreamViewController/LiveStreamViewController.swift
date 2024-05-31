@@ -53,10 +53,6 @@ internal final class LiveStreamViewController: SLViewController {
     var posterRightContraint: NSLayoutConstraint?
     var posterBottomContraint: NSLayoutConstraint?
     
-    var snapshotTopContraint: NSLayoutConstraint?
-    var snapshotLeftContraint: NSLayoutConstraint?
-    var snapshotRightContraint: NSLayoutConstraint?
-    var snapshotBottomContraint: NSLayoutConstraint?
     var snapShotWidthAnc : NSLayoutConstraint?
     var snapShotheightAnc : NSLayoutConstraint?
     
@@ -249,11 +245,9 @@ internal final class LiveStreamViewController: SLViewController {
         
         let imageFrameRatio = imageFrame.width / imageFrame.height
         var posterConstraints : UIEdgeInsets = .zero
-        var snapShotConstraints : UIEdgeInsets = .zero
         
         guard targetWindowStyle != .inAppPip else {
             posterConstraints = .zero
-            snapShotConstraints = .zero
             return
         }
         
@@ -261,15 +255,12 @@ internal final class LiveStreamViewController: SLViewController {
             if UIScreen.isLandscape {
                 let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
                 posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                snapShotConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
             } else {
                 if imageFrameRatio == ratio {
                     posterConstraints = .zero
-                    snapShotConstraints = .zero
                 } else {
                     let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
                     posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                    snapShotConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
                 }
             }
             if ShopLiveController.shared.videoOrientation == .portrait {
@@ -285,25 +276,15 @@ internal final class LiveStreamViewController: SLViewController {
             self.backgroundPosterImageWebView?.layer.masksToBounds = true
             if imageFrameRatio == ratio {
                 posterConstraints = .zero
-                snapShotConstraints = .zero
             } else {
                 let videoZoomed: Bool = (self.playerView?.playerLayer?.videoGravity ?? .resizeAspect) == .resizeAspectFill
                 if imageFrameRatio < ratio  {
                     let letterSpacing = (imageFrame.height - (imageFrame.width * (ShopLiveController.shared.videoRatio.height / ShopLiveController.shared.videoRatio.width))) / 2
                     posterConstraints = .init(top: letterSpacing, left: 0, bottom: -letterSpacing, right: 0)
                     
-                    snapShotConstraints = .init(top: ShopLiveController.shared.videoExpanded ? (videoZoomed ? 0 : letterSpacing) : letterSpacing,
-                                                left: 0,
-                                                bottom: ShopLiveController.shared.videoExpanded ? (videoZoomed ? 0 : -letterSpacing) : -letterSpacing,
-                                                right: 0)
-                    
                 } else {
                     let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
                     posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                    snapShotConstraints = .init(top: 0,
-                                                left: ShopLiveController.shared.videoExpanded ? (videoZoomed ? 0 : letterSpacing) : letterSpacing,
-                                                bottom: 0,
-                                                right: ShopLiveController.shared.videoExpanded ? (videoZoomed ? 0 : -letterSpacing) : -letterSpacing)
                 }
             }
         }
@@ -311,11 +292,6 @@ internal final class LiveStreamViewController: SLViewController {
         posterBottomContraint?.constant = posterConstraints.bottom
         posterLeftContraint?.constant = posterConstraints.left
         posterRightContraint?.constant = posterConstraints.right
-        
-        snapshotTopContraint?.constant = snapShotConstraints.top
-        snapshotBottomContraint?.constant = snapShotConstraints.bottom
-        snapshotLeftContraint?.constant = snapShotConstraints.left
-        snapshotRightContraint?.constant = snapShotConstraints.right
         
     }
 
@@ -364,10 +340,10 @@ internal final class LiveStreamViewController: SLViewController {
         posterLeftContraint?.constant = 0
         posterRightContraint?.constant = 0
         
-        snapshotTopContraint?.constant = 0
-        snapshotBottomContraint?.constant = 0
-        snapshotLeftContraint?.constant = 0
-        snapshotRightContraint?.constant = 0
+//        snapshotTopContraint?.constant = 0
+//        snapshotBottomContraint?.constant = 0
+//        snapshotLeftContraint?.constant = 0
+//        snapshotRightContraint?.constant = 0
         
         self.backgroundPosterImageWebView?.layoutIfNeeded()
         self.snapShotImageView?.layoutIfNeeded()
@@ -473,19 +449,32 @@ extension LiveStreamViewController {
             guard let self = self else { return }
             self.viewModel.checkIfSnapShotImageFrameNeedReCalculation()
             ShopLiveController.shared.getSnapShot { image in
-                if let imageWidth = image?.size.width {
-                    if imageWidth < self.view.frame.size.width {
-                        self.snapShotImageView?.contentMode = .scaleAspectFill
-                    }
-                    else {
-                        self.snapShotImageView?.contentMode = .scaleAspectFit
-                    }
+                self.calculateSnapShotImageViewContentMode(image : image)
+                if let image = image {
+                    self.snapShotImageView?.image = image
+                    self.snapShotImageView?.isHidden = false
                 }
-                self.snapShotImageView?.image = image
-                self.snapShotImageView?.isHidden = false
                 completion?()
             }
         }
+    }
+    
+    private func calculateSnapShotImageViewContentMode(image : UIImage?) {
+        guard let image = image else { return }
+        guard let resizeMode = self.viewModel.getResizeMode(), resizeMode == .FIT else {
+            self.snapShotImageView?.contentMode = .scaleAspectFill
+            return
+        }
+        guard let viewSize = self.snapShotImageView?.frame.size else { return }
+        let imageSize = image.size
+        
+        if viewSize.width > viewSize.height { //가로모드 방송
+            self.snapShotImageView?.contentMode = imageSize.width > imageSize.height ? .scaleAspectFit : .scaleAspectFill
+        }
+        else { //세로모드 방송
+            self.snapShotImageView?.contentMode = imageSize.height > imageSize.width ? .scaleAspectFit : .scaleAspectFill
+        }
+        
     }
     
     func getIsSnapShotHidden() -> Bool {
@@ -662,30 +651,13 @@ extension LiveStreamViewController {
         let centerXConstraint = snapShotImageView.centerXAnchor.constraint(equalTo: playerView.centerXAnchor)
         let centerYConstraint = snapShotImageView.centerYAnchor.constraint(equalTo: playerView.centerYAnchor)
         
-        let topConstraint     = snapShotImageView.topAnchor.constraint(equalTo: playerView.topAnchor)
-        let leftConstraint    = snapShotImageView.leadingAnchor.constraint(equalTo: playerView.leadingAnchor)
-        let rightConstraint   = snapShotImageView.trailingAnchor.constraint(equalTo: playerView.trailingAnchor)
-        let bottomConstraint  = snapShotImageView.bottomAnchor.constraint(equalTo: playerView.bottomAnchor)
-        
-        let widthConstraint = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor)
-        let heightConstraint = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor)
-        
-        topConstraint.priority = .init(rawValue: 999)
-        leftConstraint.priority = .init(rawValue: 999)
-        rightConstraint.priority = .init(rawValue: 999)
-        bottomConstraint.priority = .init(rawValue: 999)
-        
-        
-        snapshotTopContraint = topConstraint
-        snapshotLeftContraint = leftConstraint
-        snapshotRightContraint = rightConstraint
-        snapshotBottomContraint = bottomConstraint
-        
-        // for resizeMode
+        let widthConstraint = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor,multiplier: 0.1)
+        let heightConstraint = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor,multiplier: 0.1)
+
         snapShotWidthAnc = widthConstraint
         snapShotheightAnc = heightConstraint
-        
-        NSLayoutConstraint.activate([ topConstraint, leftConstraint, rightConstraint, bottomConstraint, centerXConstraint, centerYConstraint ])
+        NSLayoutConstraint.activate([ centerXConstraint, centerYConstraint, widthConstraint, heightConstraint ])
+
     }
     
     func setupPlayerView() {

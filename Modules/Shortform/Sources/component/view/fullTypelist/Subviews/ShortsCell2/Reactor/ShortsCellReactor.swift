@@ -246,30 +246,13 @@ class ShortsCellReactor : NSObject, SLReactor {
             if let currentVideoUrl = currentVideoUrl, let videoUrl = URL(string: currentVideoUrl) {
                 resultHandler?( .setVideoPlayer(videoUrl) )
             }
-            var videoGravity : AVLayerVideoGravity = .resizeAspect
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                videoGravity = .resizeAspect
+            let videoGravity : AVLayerVideoGravity = self.getVideoGravity()
+            
+            if videoGravity == .resizeAspect {
                 resultHandler?( .setThumbnailImageContentMode(.scaleAspectFit) )
             }
-            else if self.shortsMode == .preview {
-                videoGravity = .resizeAspectFill
-                resultHandler?( .setThumbnailImageContentMode(.scaleAspectFill) )
-            }
             else {
-                if let resizeMode = ShopLiveShortform.detailPlayerResizeMode {
-                    if resizeMode == .CENTER_CROP {
-                        videoGravity = .resizeAspectFill
-                        resultHandler?( .setThumbnailImageContentMode(.scaleAspectFill) )
-                    }
-                    else {
-                        videoGravity = .resizeAspect
-                        resultHandler?( .setThumbnailImageContentMode(.scaleAspectFit) )
-                    }
-                }
-                else {
-                    videoGravity = .resizeAspectFill
-                    resultHandler?( .setThumbnailImageContentMode(.scaleAspectFill) )
-                }
+                resultHandler?( .setThumbnailImageContentMode(.scaleAspectFill) )
             }
             
             resultHandler?( .setVideoLayerGravity(videoGravity) )
@@ -471,13 +454,9 @@ class ShortsCellReactor : NSObject, SLReactor {
         if isCurrentOrientationLandscape != isLandscape {
             isCurrentOrientationLandscape = isLandscape
             
-            let videoGravity : AVLayerVideoGravity
-            if UIDevice.current.userInterfaceIdiom == .pad || UIScreen.isLandscape_SL {
-                videoGravity = .resizeAspect
-            }
-            else {
-                videoGravity = .resizeAspectFill
-            }
+            let videoGravity : AVLayerVideoGravity = getVideoGravity()
+            
+            
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return } 
                 self.resultHandler?( .invalidateLayout )
@@ -517,6 +496,36 @@ class ShortsCellReactor : NSObject, SLReactor {
         default:
             break
         }
+    }
+    
+    
+}
+extension ShortsCellReactor {
+    private func getVideoGravity() -> AVLayerVideoGravity {
+        var videoGravity : AVLayerVideoGravity = .resizeAspect
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            videoGravity = .resizeAspect
+        }
+        else if self.shortsMode == .preview {
+            videoGravity = .resizeAspectFill
+        }
+        else {
+            if let resizeMode = ShopLiveShortform.detailPlayerResizeMode {
+                if resizeMode == .CENTER_CROP {
+                    ShopLiveLogger.tempLog("resizeMode CENTER_CROP")
+                    videoGravity = .resizeAspectFill
+                }
+                else {
+                    ShopLiveLogger.tempLog("resizeMode FIT")
+                    videoGravity = .resizeAspect
+                }
+            }
+            else {
+                ShopLiveLogger.tempLog("resizeMode CENTER_CROP")
+                videoGravity = .resizeAspectFill
+            }
+        }
+        return videoGravity
     }
 }
 //MARK: - YoutubeCommandReactor

@@ -205,7 +205,6 @@ extension LiveStreamViewController {
     
     
     private func getVideoGravity(windowStyle : ShopLiveWindowStyle, from : String = #function) -> AVLayerVideoGravity {
-        ShopLiveLogger.tempLog("getVideoGravity from : \(from)")
         if windowStyle == .inAppPip {
             return .resizeAspectFill
         }
