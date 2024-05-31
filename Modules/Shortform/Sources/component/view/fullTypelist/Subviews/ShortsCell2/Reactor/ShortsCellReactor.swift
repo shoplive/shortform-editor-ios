@@ -512,16 +512,13 @@ extension ShortsCellReactor {
         else {
             if let resizeMode = ShopLiveShortform.detailPlayerResizeMode {
                 if resizeMode == .CENTER_CROP {
-                    ShopLiveLogger.tempLog("resizeMode CENTER_CROP")
                     videoGravity = .resizeAspectFill
                 }
                 else {
-                    ShopLiveLogger.tempLog("resizeMode FIT")
                     videoGravity = .resizeAspect
                 }
             }
             else {
-                ShopLiveLogger.tempLog("resizeMode CENTER_CROP")
                 videoGravity = .resizeAspectFill
             }
         }
