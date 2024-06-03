@@ -36,6 +36,22 @@ public enum ShopLiveShortformEditorSDKStrings {
 
   public enum Editor {
 
+    public enum Crop {
+
+      public enum Btn {
+
+        public enum Confirm {
+        /// next
+          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.crop.btn.confirm.title")
+        }
+      }
+
+      public enum Page {
+      /// Crop
+        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.crop.page.title")
+      }
+    }
+
     public enum Encoding {
 
       public enum Cancel {
@@ -47,6 +63,38 @@ public enum ShopLiveShortformEditorSDKStrings {
       }
     }
 
+    public enum Filter {
+
+      public enum Btn {
+
+        public enum Confirm {
+        /// confirm
+          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.filter.btn.confirm.title")
+        }
+      }
+
+      public enum Page {
+      /// Filter
+        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.filter.page.title")
+      }
+    }
+
+    public enum Main {
+
+      public enum Btn {
+
+        public enum Next {
+        /// next
+          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.main.btn.next.title")
+        }
+      }
+
+      public enum Page {
+      /// Edit
+        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.main.page.title")
+      }
+    }
+
     public enum Next {
     /// Next
       public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.next.title")
@@ -55,6 +103,97 @@ public enum ShopLiveShortformEditorSDKStrings {
     public enum Page {
     /// Edit
       public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.page.title")
+    }
+
+    public enum Photopicker {
+
+      public enum Btn {
+
+        public enum Recent {
+        /// recents
+          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.photopicker.btn.recent.title")
+        }
+      }
+    }
+
+    public enum Speed {
+
+      public enum Btn {
+
+        public enum Confirm {
+        /// confirm
+          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.speed.btn.confirm.title")
+        }
+      }
+
+      public enum Caution {
+
+        public enum Duration {
+        /// Only duration under %dm is available.
+          public static func limit(_ p1: Int) -> String {
+            return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.speed.caution.duration.limit",p1)
+          }
+        }
+      }
+
+      public enum Duration {
+      /// %ds
+        public static func label(_ p1: Int) -> String {
+          return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.speed.duration.label",p1)
+        }
+      }
+
+      public enum Page {
+      /// Rate
+        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.speed.page.title")
+      }
+    }
+
+    public enum Thumbnail {
+
+      public enum Btn {
+
+        public enum CameraRoll {
+        /// Add from Camera
+          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.thumbnail.btn.cameraRoll.title")
+        }
+
+        public enum Confirm {
+        /// confirm
+          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.thumbnail.btn.confirm.title")
+        }
+      }
+
+      public enum Page {
+      /// Thumbnail
+        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.thumbnail.page.title")
+      }
+
+      public enum Toast {
+      /// Do you really want to quit upload process?
+        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.thumbnail.toast.title")
+
+        public enum Btn {
+
+          public enum Close {
+          /// No
+            public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.thumbnail.toast.btn.close.title")
+          }
+
+          public enum Confirm {
+          /// Yes
+            public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.thumbnail.toast.btn.confirm.title")
+          }
+        }
+
+        public enum Upload {
+
+          public enum Cancel {
+          /// Upload has been cancelled
+            public static let label = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.thumbnail.toast.upload.cancel.label")
+          }
+        }
+      }
     }
 
     public enum Time {
@@ -88,6 +227,22 @@ public enum ShopLiveShortformEditorSDKStrings {
         /// Do you really want to quit uploading process?
           public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.upload.cancel.alert.title")
         }
+      }
+    }
+
+    public enum Volume {
+
+      public enum Btn {
+
+        public enum Confirm {
+        /// confirm
+          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.volume.btn.confirm.title")
+        }
+      }
+
+      public enum Page {
+      /// Volume
+        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.volume.page.title")
       }
     }
   }
@@ -176,6 +331,32 @@ public enum ShopLiveShortformEditorSDKStrings {
     public enum Upload {
     /// Upload
       public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "uploadinfo.upload.title")
+    }
+  }
+
+  public enum Video {
+
+    public enum Frame {
+
+      public enum Slider {
+
+        public enum Minute {
+
+          public enum Seconds {
+          /// %dm%ds
+            public static func label(_ p1: Int, _ p2: Int) -> String {
+              return ShopLiveShortformEditorSDKStrings.tr("Localizable", "video.frame.slider.minute.seconds.label",p1, p2)
+            }
+          }
+        }
+
+        public enum Seconds {
+        /// %ds
+          public static func label(_ p1: Int) -> String {
+            return ShopLiveShortformEditorSDKStrings.tr("Localizable", "video.frame.slider.seconds.label",p1)
+          }
+        }
+      }
     }
   }
 }

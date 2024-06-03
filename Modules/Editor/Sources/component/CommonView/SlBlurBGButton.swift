@@ -11,8 +11,9 @@ import UIKit
 
 class SlBlurBGButton : UIButton {
     let normalblurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
-    let selectedBlurEffect = UIBlurEffect(style: .extraLight)
-    lazy var blurEffectView = UIVisualEffectView(effect: normalblurEffect)
+    let selectedBlurEffect = UIBlurEffect(style: .light)
+    lazy var normalBlurEffectView = UIVisualEffectView(effect: normalblurEffect)
+    lazy var selectedBlurEffectView = UIVisualEffectView(effect: selectedBlurEffect)
     
     private let stack = UIStackView()
     private let myimageView = UIImageView()
@@ -26,17 +27,26 @@ class SlBlurBGButton : UIButton {
     
     override var isSelected: Bool {
         didSet {
-            self.blurEffectView.effect = isSelected ? selectedBlurEffect : normalblurEffect
+            self.normalBlurEffectView.isHidden = isSelected ? true : false
+            self.selectedBlurEffectView.isHidden = isSelected ? false : true
         }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .clear
-        blurEffectView.frame = self.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.addSubview(blurEffectView)
-        blurEffectView.isUserInteractionEnabled = false
+        normalBlurEffectView.frame = self.bounds
+        normalBlurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.addSubview(normalBlurEffectView)
+        normalBlurEffectView.isUserInteractionEnabled = false
+        
+        selectedBlurEffectView.frame = self.bounds
+        selectedBlurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.addSubview(selectedBlurEffectView)
+        selectedBlurEffectView.isUserInteractionEnabled = false
+        
+        
+        
         self.backgroundColor = .clear
         setLayout()
         
@@ -45,7 +55,8 @@ class SlBlurBGButton : UIButton {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.sendSubviewToBack(blurEffectView)
+        self.sendSubviewToBack(normalBlurEffectView)
+        self.sendSubviewToBack(selectedBlurEffectView)
     }
     
     required init?(coder : NSCoder) {

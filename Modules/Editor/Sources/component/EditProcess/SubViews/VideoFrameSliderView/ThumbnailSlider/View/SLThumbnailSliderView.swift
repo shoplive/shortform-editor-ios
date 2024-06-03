@@ -27,14 +27,14 @@ class SLThumbnailSliderView : UIView,SLReactor {
     
     let frameSliderView : SLVideoFrameSliderView
     
-    private var dimView : SLThumbnailSliderDimView = {
-        let view = SLThumbnailSliderDimView()
+    lazy private var dimView : SLThumbnailSliderDimView = {
+        let view = SLThumbnailSliderDimView(frame: .zero, cornerRadius: self.containerCornerRadius)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private var handleView : SLThumbnailSliderHandleView = {
-        let view = SLThumbnailSliderHandleView()
+    lazy private var handleView : SLThumbnailSliderHandleView = {
+        let view = SLThumbnailSliderHandleView(frame: .zero, borderColor: self.thumbViewBorderColor)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -43,9 +43,13 @@ class SLThumbnailSliderView : UIView,SLReactor {
     var resultHandler: ((Result) -> ())?
     
     private let reactor = SLThumbnailSliderReactor()
+    private var containerCornerRadius : CGFloat = 0
+    private var thumbViewBorderColor : UIColor = .white
     
-    init(videoUrl : URL) {
+    init(videoUrl : URL,containerCornerRadius : CGFloat, thumbViewBorderColor : UIColor) {
         self.frameSliderView = SLVideoFrameSliderView(videoUrl: videoUrl,mode: .thumbnail)
+        self.containerCornerRadius = containerCornerRadius
+        self.thumbViewBorderColor = thumbViewBorderColor
         super.init(frame: .zero)
         self.backgroundColor = .clear
         frameSliderView.layer.cornerRadius = 8

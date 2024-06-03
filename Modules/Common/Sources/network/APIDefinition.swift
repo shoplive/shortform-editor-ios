@@ -200,11 +200,10 @@ public extension APIDefinition {
         }
         
         
-        if method == .post || method == .put {
+        if let param = self.parameters, (method == .post || method == .put) {
             do {
                 let httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
                 requestUrl.httpBody = httpBody
-                
             }
             catch(let error) {
                 let err = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedJSONParsing, error: error, message: nil)
@@ -221,7 +220,6 @@ public extension APIDefinition {
             log += "=========================="
             ShopLiveLogger.tempLog(log)
         }
-        
         
         let task = URLSession.shared.dataTask(with: requestUrl) { data, response, error  in
             
@@ -287,9 +285,6 @@ public extension APIDefinition {
         
     }
     
-    
-    
-    
     func upload(handler : ((Result<ResultType, ShopLiveCommonError>) -> ())? = nil ) {
         
         // Headers
@@ -306,6 +301,15 @@ public extension APIDefinition {
         finalHeaders["Content-Type"] = "multipart/form-data; boundary=\(boundary)"
         
         var urlString = baseUrl
+        
+        if urlPath.isNotEmpty_SL {
+            if  urlPath.starts(with: "/") {
+                urlString += urlPath
+            }
+            else {
+                urlString += "/\(urlPath)"
+            }
+        }
        
         var request = URLRequest(url: URL(string: urlString)!)
         request.httpMethod = "POST"
@@ -314,7 +318,14 @@ public extension APIDefinition {
         }
         request.httpBody = createBody(boundary: boundary)
         
-        let task = URLSession.shared.dataTask(with: request) { data , response , error  in
+        let sessionConfg = URLSessionConfiguration.default
+        sessionConfg.timeoutIntervalForRequest = 100
+        sessionConfg.timeoutIntervalForResource = 100
+        
+        
+        let task = URLSession(configuration: sessionConfg).dataTask(with: request) { data , response , error  in
+            
+            
             
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
             if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: data) {
@@ -406,13 +417,20 @@ public extension APIDefinition {
             
             body.append(lineBreak.data(using: .utf8)!)
         }
-        
-        
+        else if let imageData = self.uploadParameters["imageData"] as? Data {
+            body.append(boundaryPrefix.data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"image\"; filename=\"\(UUID().uuidString)\"\(lineBreak)".data(using: .utf8)!)
+            body.append("Content-Type: image/jpeg\(lineBreak + lineBreak)".data(using: .utf8)!)
+            body.append(imageData)
+            body.append(lineBreak.data(using: .utf8)!)
+        }
         
         body.append("--\(boundary)--\(lineBreak)".data(using: .utf8)!)
         
         return body
+        
     }
+
     
     private static var commonQueries : [String : String] {
         var queries : [String : String] = [:]

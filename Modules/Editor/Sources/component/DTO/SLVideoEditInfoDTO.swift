@@ -25,6 +25,7 @@ class SLVideoEditInfoDTO {
         self.shortsVideo = shortsVideo
     }
     
+    var convertedVideoPath : String?
     
     var cropTime : (start : CMTime, end : CMTime) = (.zero, .zero)
     /**
@@ -35,6 +36,10 @@ class SLVideoEditInfoDTO {
      크롭뷰를 위한 크기
      */
     var cropViewRect : CGRect = .zero
+    /**
+     영상의 프레임 크기 자체가 달라지므로 비율을 가지고 다니면서 그려야함
+     */
+    var cropViewRatio : CGRect = .zero
     
     var filterConfig : SLFilterConfig?
     var thumbnailTime : CMTime = .zero

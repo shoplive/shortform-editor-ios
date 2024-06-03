@@ -44,18 +44,19 @@ class SLTimeTrimSliderView : UIView, SLReactor {
     
     let frameSliderView : SLVideoFrameSliderView
     
-    private var handleView : SLVideoEditorSliderHandleView2 = {
-        let view = SLVideoEditorSliderHandleView2(frame: .zero)
+    lazy private var handleView : SLVideoEditorSliderHandleView2 = {
+        let view = SLVideoEditorSliderHandleView2(frame: .zero,timeIndicatorCornerRadius : timeIndicatorCornerRadius)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     
     var resultHandler: ((Result) -> ())?
-    
+    private var timeIndicatorCornerRadius : CGFloat = 0
     private let reactor = SLTimeTrimeSliderReactor()
     
-    init(videoUrl : URL) {
+    init(videoUrl : URL,timeIndicatorCornerRadius : CGFloat) {
+        self.timeIndicatorCornerRadius = timeIndicatorCornerRadius
         self.frameSliderView = SLVideoFrameSliderView(videoUrl: videoUrl)
         super.init(frame: .zero)
         self.backgroundColor = .clear

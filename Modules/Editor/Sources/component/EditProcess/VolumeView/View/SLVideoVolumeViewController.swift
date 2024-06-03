@@ -14,10 +14,11 @@ import AVKit
 
 
 protocol SLVideoVolumeViewControllerDelegate {
-    func videoVolumeViewController(didFinish didChange : Bool)
+    func videoVolumeViewController(didFinish didChange : Bool?)
 }
 
 class SLVideoVolumeViewController : UIViewController {
+    private let design = EditorVolumeConfig.global
     
     private var naviBar : UIView = {
         let view = UIView()
@@ -26,14 +27,14 @@ class SLVideoVolumeViewController : UIViewController {
         return view
     }()
     
-    private var closeBtn : SLPaddingImageButton = {
+    lazy private var closeBtn : SLPaddingImageButton = {
         let btn = SLPaddingImageButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = .init(red: 255, green: 255, blue: 255,aa: 0.2)
         btn.layer.cornerRadius = 20
-        btn.setImage(ShopLiveShortformEditorSDKAsset.slCloseButton.image.withRenderingMode(.alwaysTemplate), for: .normal)
-        btn.imageView?.tintColor = .white
-        btn.imageLayoutMargin = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        btn.setImage(design.closeButtonIcon, for: .normal)
+        btn.imageView?.tintColor = design.closeButtonIconTintColor
+        btn.imageLayoutMargin = design.closeButtonIconPadding
         btn.imageView?.contentMode = .scaleAspectFit
         return btn
     }()
@@ -43,7 +44,7 @@ class SLVideoVolumeViewController : UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.font = .set(size: 16, weight: ._600)
-        label.text = "자르기"
+        label.text = ShopLiveShortformEditorSDKStrings.Editor.Volume.Page.title
         return label
     }()
     
@@ -54,28 +55,28 @@ class SLVideoVolumeViewController : UIViewController {
         return view
     }()
     
-    private var playPauseBtn : SLPaddingImageButton = {
+    lazy private var playPauseBtn : SLPaddingImageButton = {
         let btn = SLPaddingImageButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = .init(red: 255, green: 255, blue: 255,aa: 0.2)
         btn.layer.cornerRadius = 20
         btn.clipsToBounds = true
-        btn.setImage(ShopLiveShortformEditorSDKAsset.slIcPlay.image.withRenderingMode(.alwaysTemplate), for: .normal)
-        btn.imageView?.tintColor = .white
-        btn.imageLayoutMargin = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        btn.setImage(design.pauseButtonIcon, for: .normal)
+        btn.imageView?.tintColor = design.pauseButtonIconTintColor
+        btn.imageLayoutMargin = design.pauseButtonIconPadding
         btn.imageView?.contentMode = .scaleAspectFit
     
         return btn
     }()
     
-    private var confirmBtn : UIButton = {
+    lazy private var confirmBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.backgroundColor = .white
-        btn.setTitleColor(.black, for: .normal)
+        btn.backgroundColor = design.confirmButtonBackgroundColor
+        btn.setTitleColor(design.confirmButtonTextColor, for: .normal)
         btn.titleLabel?.font = .set(size: 16, weight: ._600)
-        btn.setTitle("완료", for: .normal)
-        btn.layer.cornerRadius = 20
+        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Volume.Btn.Confirm.title, for: .normal)
+        btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true
         return btn
     }()
@@ -88,16 +89,17 @@ class SLVideoVolumeViewController : UIViewController {
         return view
     }()
     
-    private var playerView : ShopLiveFilterPlayer = {
+    lazy private var playerView : ShopLiveFilterPlayer = {
         let player = ShopLiveFilterPlayer()
         player.translatesAutoresizingMaskIntoConstraints = false
-        
+        player.layer.cornerRadius = design.videoPlayerCornerRadius
+        player.clipsToBounds = true
         return player
     }()
     
     
-    private var sliderView : SlCustomUISlider = {
-        let view = SlCustomUISlider()
+    lazy private var sliderView : SlCustomUISlider = {
+        let view = SlCustomUISlider(frame: .zero,thumbViewColor: design.sliderThumbViewColor, sliderCornerRadius: design.sliderCornerRaidus)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.action( .setMinValue(0) )
         view.action( .setMaxValue(100) )
@@ -148,6 +150,7 @@ class SLVideoVolumeViewController : UIViewController {
     }
     
     @objc func closeBtnTapped(sender : UIButton) {
+        delegate?.videoVolumeViewController(didFinish: nil)
         if let nav = self.navigationController {
             nav.popViewController(animated: true)
         }
@@ -167,6 +170,19 @@ class SLVideoVolumeViewController : UIViewController {
         }
         else {
             self.dismiss(animated: true)
+        }
+    }
+    
+    private func changePlayOrPauseBtnState(isSelected : Bool ) {
+        if isSelected {
+            playPauseBtn.setImage(design.pauseButtonIcon, for: .normal)
+            playPauseBtn.imageView?.tintColor = design.pauseButtonIconTintColor
+            playPauseBtn.imageLayoutMargin = design.pauseButtonIconPadding
+        }
+        else {
+            playPauseBtn.setImage(design.playButtonIcon, for: .normal)
+            playPauseBtn.imageView?.tintColor = design.playButtonIconTintColor
+            playPauseBtn.imageLayoutMargin = design.playButtonIconPadding
         }
     }
     
@@ -198,7 +214,7 @@ class SLVideoVolumeViewController : UIViewController {
         let fileName = (video.videoUrl.absoluteString as NSString).lastPathComponent
         let videoUrl = video.videoUrl
         let videoSize = video.getVideoSize() ?? .zero
-        self.playerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize, false, false) )
+        self.playerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize,centerCrop: false, isCropMode: false, isCropAvailable: false) )
     }
     
     private func onReactorSetEndBoundaryTime(time : CMTime) {
@@ -215,10 +231,12 @@ class SLVideoVolumeViewController : UIViewController {
     
     private func onReactorPauseVideo() {
         playerView.action( .pauseVideo )
+        changePlayOrPauseBtnState(isSelected : false )
     }
     
     private func onReactorPlayVideo() {
         playerView.action( .playVideo )
+        changePlayOrPauseBtnState(isSelected : true )
     }
     
     private func onReactorRequestOnConfirm(didChange : Bool) {

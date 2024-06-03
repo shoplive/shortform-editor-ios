@@ -32,11 +32,11 @@ class SLThumbnailSliderHandleView : UIView, SLReactor {
         return view
     }()
     
-    private var lineView : UIView = {
+    lazy private var lineView : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
-        view.layer.borderColor = UIColor.white.cgColor
+        view.layer.borderColor = borderColor.cgColor
         view.layer.borderWidth = 2
         view.layer.cornerRadius = 8
         return view
@@ -48,8 +48,10 @@ class SLThumbnailSliderHandleView : UIView, SLReactor {
     
     
     var resultHandler: ((Result) -> ())?
+    private var borderColor : UIColor = .white
     
-    override init(frame : CGRect) {
+    init(frame : CGRect,borderColor : UIColor) {
+        self.borderColor = borderColor
         super.init(frame: frame)
         setLayout()
         addPanGesture()

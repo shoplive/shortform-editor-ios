@@ -11,6 +11,7 @@ import Parchment
 import ShopLiveShortformSDK
 import ShopliveSDKCommon
 import ShopLiveShortformEditorSDK
+import WebKit
 
 protocol ExampleViewControllerBaseDelegate {
     func onFullTypeViewDisappeared()
@@ -110,6 +111,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.tintColor = .white
+        
+        
+        
         setupDetaultLanding()
         setupTab()
         setLayout()
@@ -127,7 +131,6 @@ class ViewController: UIViewController {
 //        ShopliveMP4CachingManager.shared.setCacheType(type: .memory)
 //        let cacheSize = ShopliveMP4CachingManager.shared.getCachedSize()
 //        ShopLiveLogger.debugLog("[HASSAN LOG] cacheSize \(cacheSize)")
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -39,6 +39,8 @@ class SlVideoSpeedRateReactor : NSObject, SLReactor {
         case requestOnConfirm(Bool)
         
         case setInitialSpeed(CGFloat)
+        
+        case setVideoDuration(String)
     }
     
     private var videoEditInfoDto : SLVideoEditInfoDTO
@@ -81,6 +83,10 @@ class SlVideoSpeedRateReactor : NSObject, SLReactor {
         resultHandler?( .setPlayerEndBoundaryTime(videoEditInfoDto.cropTime.end) )
         resultHandler?( .setFilterConfig(videoEditInfoDto.filterConfig?.filterConfig ?? "") )
         self.initialSpeed = videoEditInfoDto.videoSpeed
+        let originVideoDuration = videoEditInfoDto.cropTime.end.seconds - videoEditInfoDto.cropTime.start.seconds
+        let modifiedVideoDuration = originVideoDuration / initialSpeed
+        let result = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(Int(modifiedVideoDuration))
+        resultHandler?( .setVideoDuration(result) )
     }
     
     private func onViewDidLayoutSubView() {
@@ -98,7 +104,13 @@ class SlVideoSpeedRateReactor : NSObject, SLReactor {
     }
     
     private func onSetSpeed(value : CGFloat) {
+
         videoEditInfoDto.videoSpeed = value
+        let originVideoDuration = videoEditInfoDto.cropTime.end.seconds - videoEditInfoDto.cropTime.start.seconds
+        let modifiedVideoDuration = originVideoDuration / value
+        
+        let result = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(Int(modifiedVideoDuration))
+        resultHandler?( .setVideoDuration(result) )
     }
     
     private func onRequestToggleVideoPlayOrPause() {

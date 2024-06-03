@@ -18,7 +18,7 @@ class SLPhotosPickerVideoCell : UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .lightGray
+        imageView.backgroundColor = .init(red: 51, green: 51, blue: 51 )
         imageView.layer.cornerRadius = 6
         return imageView
     }()
@@ -42,13 +42,31 @@ class SLPhotosPickerVideoCell : UICollectionViewCell {
     }()
     
     
+    private var cameraIcon : UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = ShopLiveShortformEditorSDKAsset.slCamera.image
+        return imageView
+    }()
+    
+    private var cameraLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.font = .set(size: 13, weight: ._500)
+        label.textColor = .init(white: 1, alpha: 0.4)
+        label.text = "카메라"
+        return label
+    }()
+    
     private let cellSpacing : CGFloat = 1
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setLayout()
         
     }
-    
     
     required init(coder : NSCoder?) {
         fatalError()
@@ -62,6 +80,11 @@ class SLPhotosPickerVideoCell : UICollectionViewCell {
     func setDurationLabelHidden(isHidden : Bool) {
         self.durationLabel.isHidden = isHidden
         self.durationLabelBackground.isHidden = isHidden
+    }
+    
+    func showCameraContents(show : Bool) {
+        self.cameraIcon.isHidden = !show
+        self.cameraLabel.isHidden = !show
     }
     
     private func timeFormatted(timeInterval: TimeInterval) -> String {
@@ -84,6 +107,11 @@ extension SLPhotosPickerVideoCell {
         self.addSubview(durationLabelBackground)
         self.addSubview(durationLabel)
         
+        
+        self.addSubview(cameraIcon)
+        self.addSubview(cameraLabel)
+        
+        
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: self.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
@@ -100,7 +128,18 @@ extension SLPhotosPickerVideoCell {
             durationLabelBackground.centerYAnchor.constraint(equalTo: durationLabel.centerYAnchor),
             durationLabelBackground.heightAnchor.constraint(equalTo: durationLabel.heightAnchor, multiplier: 1),
             durationLabelBackground.leadingAnchor.constraint(equalTo: durationLabel.leadingAnchor,constant: -8),
-            durationLabelBackground.trailingAnchor.constraint(equalTo: durationLabel.trailingAnchor, constant: 8)
+            durationLabelBackground.trailingAnchor.constraint(equalTo: durationLabel.trailingAnchor, constant: 8),
+            
+            
+            cameraIcon.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            cameraIcon.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            cameraIcon.widthAnchor.constraint(equalToConstant: 30),
+            cameraIcon.heightAnchor.constraint(equalToConstant: 30),
+            
+            cameraLabel.topAnchor.constraint(equalTo: cameraIcon.bottomAnchor, constant: 2),
+            cameraLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            cameraLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 300),
+            cameraLabel.heightAnchor.constraint(equalToConstant: 15)
         ])
     }
     

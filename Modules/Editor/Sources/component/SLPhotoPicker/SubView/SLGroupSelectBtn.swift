@@ -15,7 +15,7 @@ class SLPhotosPickerGroupSelectBtn : UIButton {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .set(size: 18, weight: ._600)
-        label.text = "최근 항목"
+        label.text = ShopLiveShortformEditorSDKStrings.Editor.Photopicker.Btn.Recent.title
         return label
     }()
     
@@ -49,6 +49,10 @@ class SLPhotosPickerGroupSelectBtn : UIButton {
         else {
             return nil
         }
+    }
+    
+    func setTitle(title : String) {
+        label.text = title
     }
     
     

@@ -38,3 +38,53 @@
 //ToastMessage
 "toast.uploadinfo.empty_video_title" = "please insert video title";
 "toast.codec.notvalid" = "Unsupported media";
+
+
+//loadingview
+"loading.inprocessing.title" = "Processing";
+"loading.preparing.title" = "Preparing";
+
+//photoPicker
+"editor.photopicker.btn.recent.title" = "recents";
+
+//videoFrameSlider
+"video.frame.slider.seconds.label" = "%ds";
+"video.frame.slider.minute.seconds.label" = "%dm%ds";
+
+//편집화면(메인)
+"editor.main.page.title" = "Edit";
+"editor.main.btn.next.title" = "next";
+
+
+
+//자르기화면
+"editor.crop.page.title" = "Crop";
+"editor.crop.btn.confirm.title" = "next";
+
+//배속
+"editor.speed.page.title" = "Rate";
+"editor.speed.btn.confirm.title" = "confirm";
+"editor.speed.duration.label" = "%ds";
+"editor.speed.caution.duration.limit" = "Only duration under %dm is available.";
+
+//필터
+"editor.filter.page.title" = "Filter";
+"editor.filter.btn.confirm.title" = "confirm";
+
+//볼륨
+"editor.volume.page.title" = "Volume";
+"editor.volume.btn.confirm.title" = "confirm";
+
+
+//커버설정
+"editor.thumbnail.page.title" = "Thumbnail";
+"editor.thumbnail.btn.confirm.title" = "confirm";
+"editor.thumbnail.btn.cameraRoll.title" = "Add from Camera";
+"editor.thumbnail.toast.upload.cancel.label" = "Upload has been cancelled";
+
+//커버 설정 popup
+"editor.thumbnail.toast.title" = "Do you really want to quit upload process?";
+"editor.thumbnail.toast.btn.close.title" = "No";
+"editor.thumbnail.toast.btn.confirm.title" = "Yes";
+
+

@@ -770,37 +770,6 @@ extension LiveStreamViewModel {
         self.liveKeepUpBufferStack.removeAll()
     }
     
-    
-    //MARK: - tracking actual video rendered rect
-//    private func addActualVideoRectTrackingPlayPeriodicTimeObserver() {
-//        removeAcutalVideoRectPlayPeriodicTimeObserver()
-//        let time = CMTime(seconds: 5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-//        actualVideoRenderRectTimeObserver = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: DispatchQueue.global(qos: .background)) { [weak self] time in
-//            guard let self = self else { return }
-//            DispatchQueue.main.async {
-//                guard let videoRect = self.liveStreamViewController?.playerView?.playerLayer?.videoRect else { return }
-//                self.setActualVideoRenderedVideoRect(rect: videoRect)
-//            }
-//        }
-//    }
-//    
-//    private func removeAcutalVideoRectPlayPeriodicTimeObserver() {
-//        if self.actualVideoRenderRectTimeObserver != nil {
-//            ShopLiveController.player?.removeTimeObserver(actualVideoRenderRectTimeObserver!)
-//            actualVideoRenderRectTimeObserver = nil
-//        }
-//        actualVideoRenderRectTimeObserver = nil
-//    }
-//    
-//    private func setActualVideoRenderedVideoRect(rect : CGRect) {
-//        if let oldRect = self.actualVideoRenderedRect, oldRect == rect {
-//            return
-//        }
-//        else if rect != .zero && ShopLiveController.windowStyle == .normal && (customVideoResizeMode ?? .CENTER_CROP) == .FIT {
-//            self.actualVideoRenderedRect = rect
-//            self.delegate?.updateBackgroundImageConstraintsWithActualVideoRenderedRect(rect: rect)
-//        }
-//    }
 }
 extension LiveStreamViewModel: AVPlayerItemMetadataOutputPushDelegate {
     func metadataOutput(_ output: AVPlayerItemMetadataOutput, didOutputTimedMetadataGroups groups: [AVTimedMetadataGroup], from track: AVPlayerItemTrack?) {

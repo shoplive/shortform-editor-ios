@@ -13,7 +13,7 @@ struct SLUploadResponse: BaseResponsable {
     var _s: Int?
     var _e: String?
     
-    let screenshot: String?
+    let thumbnailImageUrl: String?
     let customerID: Int?
 //    let resolutionVideoCuts: ResolutionVideoCuts?
     let videoId: Int?

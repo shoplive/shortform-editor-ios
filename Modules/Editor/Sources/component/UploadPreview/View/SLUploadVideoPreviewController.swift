@@ -151,7 +151,7 @@ class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDeleg
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         playerLayer.frame = playerView.frame
-        playerLayer.videoGravity = .resizeAspectFill
+        playerLayer.videoGravity = .resizeAspect
     }
     
     deinit {
@@ -219,7 +219,12 @@ class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDeleg
 }
 extension SLUploadVideoPreviewController {
     @objc private func didTapClose() {
-        self.dismiss(animated: true)
+        if let nav = self.navigationController {
+            nav.popViewController(animated: true)
+        }
+        else {
+            self.dismiss(animated: true)
+        }
     }
     
     @objc private func sliderValueChanged(_ slider: UISlider) {

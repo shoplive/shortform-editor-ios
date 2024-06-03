@@ -11,44 +11,69 @@ import UIKit
 import ShopliveSDKCommon
 
 
-extension SLVideoEditorViewReactor : SLVideoCropViewControllerDelegate {
-    func videoCropViewController(didFinish didCrop: Bool) {
+extension SLVideoEditorMainViewReactor : SLVideoCropViewControllerDelegate {
+    func videoCropViewController(didFinish didCrop: Bool?) {
+        onMainQueueResultHandler?( .playVideo )
+        guard let didCrop = didCrop else { return }
         if didCrop {
-            resultHandler?( .setCropBtnIsSelected(isSelected: true) )
+            onMainQueueResultHandler?( .setCropBtnIsSelected(isSelected: true) )
         }
         else {
-            resultHandler?( .setCropBtnIsSelected(isSelected: false) )
+            onMainQueueResultHandler?( .setCropBtnIsSelected(isSelected: false) )
         }
+        onMainQueueResultHandler?( .playVideo )
+        applyVideoEditedFeatures()
     }
 }
-extension SLVideoEditorViewReactor : SLVideoVolumeViewControllerDelegate {
-    func videoVolumeViewController(didFinish didChange: Bool) {
+extension SLVideoEditorMainViewReactor : SLVideoVolumeViewControllerDelegate {
+    func videoVolumeViewController(didFinish didChange: Bool?) {
+        onMainQueueResultHandler?( .playVideo )
+        guard let didChange = didChange else { return }
         if didChange {
-            resultHandler?( .setVideoSoundBtnIsSelected(isSelected: true) )
+            onMainQueueResultHandler?( .setVideoSoundBtnIsSelected(isSelected: true) )
         }
         else {
-            resultHandler?( .setVideoSoundBtnIsSelected(isSelected: false) )
+            onMainQueueResultHandler?( .setVideoSoundBtnIsSelected(isSelected: false) )
+        }
+        applyVideoEditedFeatures()
+    }
+}
+extension SLVideoEditorMainViewReactor : SLVideoSpeedRateViewControllerDelegate {
+    func speedRateViewController(didFinish didChange: Bool?) {
+        onMainQueueResultHandler?( .playVideo )
+        guard let didChange = didChange else { return }
+        if didChange {
+            onMainQueueResultHandler?( .setVideoSpeedBtnIsSelected(isSelected: true) )
+        }
+        else {
+            onMainQueueResultHandler?( .setVideoSpeedBtnIsSelected(isSelected: false) )
+        }
+        applyVideoEditedFeatures()
+    }
+}
+extension SLVideoEditorMainViewReactor : SLVideoFilterViewControllerDelegate {
+    func filterViewController(didFinish didChange: Bool?) {
+        onMainQueueResultHandler?( .playVideo )
+        guard let didChange = didChange else { return }
+        if didChange {
+            onMainQueueResultHandler?( .setFilterBtnIsSelected(isSelected: true) )
+        }
+        else {
+            onMainQueueResultHandler?( .setFilterBtnIsSelected(isSelected: false))
+        }
+        applyVideoEditedFeatures()
+    }
+}
+
+extension SLVideoEditorMainViewReactor {
+    private func applyVideoEditedFeatures() {
+        let videoInfo = self.getVideoEditInfoDto()
+        
+        if let filter = videoInfo.filterConfig {
+            onMainQueueResultHandler?( .setFilterConfigResult(filter.filterConfig) )
+            onMainQueueResultHandler?( .setFilterIntensityResult(filter.filterIntensity) )
         }
         
-    }
-}
-extension SLVideoEditorViewReactor : SLVideoSpeedRateViewControllerDelegate {
-    func speedRateViewController(didFinish didChange: Bool) {
-        if didChange {
-            resultHandler?( .setVideoSpeedBtnIsSelected(isSelected: true) )
-        }
-        else {
-            resultHandler?( .setVideoSpeedBtnIsSelected(isSelected: false) )
-        }
-    }
-}
-extension SLVideoEditorViewReactor : SLVideoFilterViewControllerDelegate {
-    func filterViewController(didFinish didChange: Bool) {
-        if didChange {
-            resultHandler?( .setFilterBtnIsSelected(isSelected: true) )
-        }
-        else {
-            resultHandler?( .setFilterBtnIsSelected(isSelected: false))
-        }
+        onMainQueueResultHandler?( .setSpeedRateResult(CGFloat(videoInfo.videoSpeed )) )
     }
 }

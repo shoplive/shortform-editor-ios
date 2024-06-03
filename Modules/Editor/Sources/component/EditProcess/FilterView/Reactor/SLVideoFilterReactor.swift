@@ -40,6 +40,7 @@ class SLVideoFilterReactor: NSObject, SLReactor {
         case requestOnConfirm(Bool)
         
         case setInitialIntensity(CGFloat)
+        case activateSlider(Bool)
     }
     
     
@@ -234,6 +235,13 @@ extension SLVideoFilterReactor : UICollectionViewDelegate, UICollectionViewDataS
            oldSelectedIndexPath > 0,
            let oldCell = collectionView.cellForItem(at: IndexPath(row: oldSelectedIndexPath, section: 0)) as? SLVideoFilterCell{
             oldCell.setCellSelected(isSelected: false)
+        }
+        
+        if indexPath.row == 0 {
+            resultHandler?( .activateSlider(false) )
+        }
+        else {
+            resultHandler?( .activateSlider(true) )
         }
         
         videoEditInfoDto.filterConfig?.filterConfig = filterList[indexPath.row].content ?? ""

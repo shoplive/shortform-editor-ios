@@ -13,11 +13,12 @@ import AVKit
 
 
 protocol SLVideoCropViewControllerDelegate : NSObjectProtocol {
-    func videoCropViewController(didFinish didCrop : Bool)
+    func videoCropViewController(didFinish didCrop : Bool?)
     
 }
 
 class SLVideoCropViewController : UIViewController {
+    let design = EditorCropConfig.global
     
     private var naviBar : UIView = {
         let view = UIView()
@@ -26,14 +27,14 @@ class SLVideoCropViewController : UIViewController {
         return view
     }()
     
-    private var closeBtn : SLPaddingImageButton = {
+    lazy private var closeBtn : SLPaddingImageButton = {
         let btn = SLPaddingImageButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = .init(red: 255, green: 255, blue: 255,aa: 0.2)
         btn.layer.cornerRadius = 20
-        btn.setImage(ShopLiveShortformEditorSDKAsset.slCloseButton.image.withRenderingMode(.alwaysTemplate), for: .normal)
-        btn.imageView?.tintColor = .white
-        btn.imageLayoutMargin = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        btn.setImage(design.closeButtonIcon, for: .normal)
+        btn.imageView?.tintColor = design.closeButtonIconTintColor
+        btn.imageLayoutMargin = design.closeButtonIconPadding
         btn.imageView?.contentMode = .scaleAspectFit
         return btn
     }()
@@ -43,7 +44,7 @@ class SLVideoCropViewController : UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.font = .set(size: 16, weight: ._600)
-        label.text = "자르기"
+        label.text = ShopLiveShortformEditorSDKStrings.Editor.Crop.Page.title
         return label
     }()
     
@@ -54,28 +55,28 @@ class SLVideoCropViewController : UIViewController {
         return view
     }()
     
-    private var playPauseBtn : SLPaddingImageButton = {
+    lazy private var playPauseBtn : SLPaddingImageButton = {
         let btn = SLPaddingImageButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = .init(red: 255, green: 255, blue: 255,aa: 0.2)
         btn.layer.cornerRadius = 20
         btn.clipsToBounds = true
-        btn.setImage(ShopLiveShortformEditorSDKAsset.slIcPlay.image.withRenderingMode(.alwaysTemplate), for: .normal)
-        btn.imageView?.tintColor = .white
-        btn.imageLayoutMargin = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        btn.setImage(design.pauseButtonIcon, for: .normal)
+        btn.imageView?.tintColor = design.pauseButtonIconTintColor
+        btn.imageLayoutMargin = design.pauseButtonIconPadding
+        
         btn.imageView?.contentMode = .scaleAspectFit
-    
         return btn
     }()
     
-    private var confirmBtn : UIButton = {
+    lazy private var confirmBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.backgroundColor = .white
-        btn.setTitleColor(.black, for: .normal)
+        btn.backgroundColor = design.confirmButtonBackgroundColor
+        btn.setTitleColor(design.confirmButtonTextColor, for: .normal)
         btn.titleLabel?.font = .set(size: 16, weight: ._600)
-        btn.setTitle("완료", for: .normal)
-        btn.layer.cornerRadius = 20
+        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Crop.Btn.Confirm.title, for: .normal)
+        btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true
         return btn
     }()
@@ -88,10 +89,11 @@ class SLVideoCropViewController : UIViewController {
         return view
     }()
     
-    private var playerView : ShopLiveFilterPlayer = {
+    lazy private var playerView : ShopLiveFilterPlayer = {
         let player = ShopLiveFilterPlayer()
         player.translatesAutoresizingMaskIntoConstraints = false
-        
+        player.layer.cornerRadius = design.videoPlayerCornerRadius
+        player.clipsToBounds = true
         return player
     }()
     
@@ -124,8 +126,19 @@ class SLVideoCropViewController : UIViewController {
         confirmBtn.addTarget(self, action: #selector(confirmBtn(sender: )), for: .touchUpInside)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reactor.action( .viewWillAppear )
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        reactor.action( .viewDidLayOutSubView )
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        reactor.action( .setGlkViewSize(playerView.getGLKViewSize()) )
         reactor.action( .viewDidAppeared )
     }
     
@@ -133,8 +146,8 @@ class SLVideoCropViewController : UIViewController {
         ShopLiveLogger.debugLog("SLVideoCropViewController deinited")
     }
     
-    
     @objc func closeBtnTapped(sender : UIButton) {
+        delegate?.videoCropViewController(didFinish: nil)
         if let nav = self.navigationController {
             nav.popViewController(animated: true)
         }
@@ -142,7 +155,6 @@ class SLVideoCropViewController : UIViewController {
             self.dismiss(animated: true)
         }
     }
-    
     
     @objc func playPauseBtnTapped(sender : UIButton) {
         reactor.action( .requestToggleVideoPlayOrPause )
@@ -158,6 +170,19 @@ class SLVideoCropViewController : UIViewController {
         }
     }
     
+    private func changePlayOrPauseBtnState(isSelected : Bool ) {
+        if isSelected {
+            playPauseBtn.setImage(design.pauseButtonIcon, for: .normal)
+            playPauseBtn.imageView?.tintColor = design.pauseButtonIconTintColor
+            playPauseBtn.imageLayoutMargin = design.pauseButtonIconPadding
+        }
+        else {
+            playPauseBtn.setImage(design.playButtonIcon, for: .normal)
+            playPauseBtn.imageView?.tintColor = design.playButtonIconTintColor
+            playPauseBtn.imageLayoutMargin = design.playButtonIconPadding
+        }
+      
+    }
 }
 extension SLVideoCropViewController {
     private func bindReactor() {
@@ -190,7 +215,7 @@ extension SLVideoCropViewController {
         let fileName = (video.videoUrl.absoluteString as NSString).lastPathComponent
         let videoUrl = video.videoUrl
         let videoSize = video.getVideoSize() ?? .zero
-        self.playerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize, false, true) )
+        self.playerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize,centerCrop: false, isCropMode: true, isCropAvailable: true) )
     }
     
     private func onReactorSetEndBoundaryTime(time : CMTime) {
@@ -207,10 +232,12 @@ extension SLVideoCropViewController {
     
     private func onReactorPauseVideo() {
         playerView.action( .pauseVideo )
+        changePlayOrPauseBtnState(isSelected : false )
     }
     
     private func onReactorPlayVideo() {
         playerView.action( .playVideo )
+        changePlayOrPauseBtnState(isSelected : true )
     }
     
     private func onReactorRequestOnConfirm(didCrop : Bool) {
@@ -218,7 +245,10 @@ extension SLVideoCropViewController {
     }
     
     private func onReactorSetInitialCropRect(crop : CGRect) {
-        playerView.action( .setInitialCropRect(crop) )
+        DispatchQueue.main.async { [weak self] in
+            self?.playerView.action( .setInitialCropRect(crop) )
+        }
+        
     }
 }
 //MARK: - bind playerView

@@ -80,7 +80,7 @@ public class ShopliveVideoEditor {
                 }
                 else {
                     DispatchQueue.main.async {
-                        let editorVC = SLVideoEditorViewController2(video: ShortsVideo(videoUrl: URL(fileURLWithPath: videoPath)))
+                        let editorVC = SLVideoEditorMainViewController(video: ShortsVideo(videoUrl: URL(fileURLWithPath: videoPath)))
                         editorVC.videoEditorDelegate = self.delegate
                         let navi = SLPickerNavigationController(rootViewController: editorVC)
                         Self.navigationController = navi

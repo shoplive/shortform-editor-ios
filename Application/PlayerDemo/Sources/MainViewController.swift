@@ -600,6 +600,7 @@ extension MainViewController: ShopLiveSDKDelegate {
         }
     }
 
+    
     func onSetUserName(_ payload: [String : Any]) {
         ShopLiveLogger.debugLog("onSetUserName")
         payload.forEach { (key, value) in

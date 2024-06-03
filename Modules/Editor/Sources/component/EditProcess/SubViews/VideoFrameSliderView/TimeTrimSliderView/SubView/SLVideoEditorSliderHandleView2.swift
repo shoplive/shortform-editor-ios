@@ -42,11 +42,6 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
         case thumbViewOffsetChanged(offset : CGFloat)
     }
     
-    
-    private var bundle : Bundle {
-        return  Bundle(for: type(of: self))
-    }
-    
     private var dimView : SLDimView = {
         let dimView = SLDimView()
         dimView.translatesAutoresizingMaskIntoConstraints = false
@@ -78,7 +73,7 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
     }()
     
     lazy private var timeIndicatorView : SLTimeTrimTimeIndicator = {
-        let view = SLTimeTrimTimeIndicator()
+        let view = SLTimeTrimTimeIndicator(frame: .zero, timeIndicatorCornerRadius: timeIndicatorCornerRadius)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isUserInteractionEnabled = true
         return view
@@ -149,9 +144,11 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
     
     
     var resultHandler: ((Result) -> ())?
+    private var timeIndicatorCornerRadius : CGFloat = 0
     
     
-    override init(frame: CGRect) {
+    init(frame: CGRect,timeIndicatorCornerRadius : CGFloat) {
+        self.timeIndicatorCornerRadius = timeIndicatorCornerRadius
         super.init(frame: frame)
         self.backgroundColor = .clear
         setLayout()
@@ -216,10 +213,10 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
         if gapSecond > 60 {
             let min = Int(gapSecond / 60)
             let sec = gapSecond % 60
-            trimDurationLabel.text = "editor.time.gap.min.sec.label".localizedString(with: [min,sec], bundle: bundle)
+            trimDurationLabel.text = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Minute.Seconds.label(min, sec)
         }
         else {
-            trimDurationLabel.text = "editor.time.gap.sec.label".localizedString(with: [gapSecond], bundle: bundle)
+            trimDurationLabel.text = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(gapSecond)
         }
         
     }
@@ -342,10 +339,10 @@ extension SLVideoEditorSliderHandleView2 {
             trimDurationLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 200),
             
             
-            timeIndicatorView.topAnchor.constraint(equalTo: betweenHandleContainerView.topAnchor,constant: -2),
+            timeIndicatorView.topAnchor.constraint(equalTo: betweenHandleContainerView.topAnchor,constant: -4),
             timeIndicatorView.leadingAnchor.constraint(equalTo: betweenHandleContainerView.leadingAnchor),
             timeIndicatorView.trailingAnchor.constraint(equalTo: betweenHandleContainerView.trailingAnchor),
-            timeIndicatorView.bottomAnchor.constraint(equalTo: betweenHandleContainerView.bottomAnchor,constant: 2),
+            timeIndicatorView.bottomAnchor.constraint(equalTo: betweenHandleContainerView.bottomAnchor,constant: 4),
             
             leftHandleTouchAreaView.leftAnchor.constraint(equalTo: leftHandle.leftAnchor, constant: -30),
             leftHandleTouchAreaView.heightAnchor.constraint(equalTo: leftHandle.heightAnchor, multiplier: 1.0),

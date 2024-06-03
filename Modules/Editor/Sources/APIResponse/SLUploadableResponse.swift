@@ -11,6 +11,8 @@ import ShopliveSDKCommon
 struct SLUploadableResponse: BaseResponsable {
     var _s: Int?
     var _e: String?
+    let _d : String?
+    
     
     let sessionSecret: String?
     let uploadApiEndpoint: String?

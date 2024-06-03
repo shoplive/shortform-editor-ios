@@ -19,6 +19,7 @@ class SlCustomUISlider : UIView, SLReactor {
         case setCurrentValue(CGFloat)
         case setValueLabel(String)
         case setDeActive(Bool)
+        case setZeroUnAvailable
     }
     
     enum Result {
@@ -76,22 +77,23 @@ class SlCustomUISlider : UIView, SLReactor {
     private var latestOutPutValue : CGFloat = 0
     private var maxValue : CGFloat = 0
     private var minValue : CGFloat = 0
+    private var isZeroAvailable : Bool = true
     
 
-    override init(frame: CGRect) {
+    init(frame : CGRect, thumbViewColor : UIColor = .white, sliderCornerRadius : CGFloat = 24) {
         super.init(frame: frame)
         self.backgroundColor =  .init(white: 1, alpha: 0.2)
-        self.layer.cornerRadius = 24
+        self.layer.cornerRadius = sliderCornerRadius
+        self.thumbView.backgroundColor = thumbViewColor
         self.clipsToBounds = true
-        
         self.setLayout()
         self.addPangesture()
-        
     }
     
     required init?(coder : NSCoder) {
         fatalError()
     }
+    
     
     
     func action(_ action: Action) {
@@ -106,6 +108,8 @@ class SlCustomUISlider : UIView, SLReactor {
             self.onSetValueLabel(text: text)
         case .setDeActive(let deActive):
             self.onSetDeActive(deActive: deActive)
+        case .setZeroUnAvailable:
+            break
         }
     }
     
@@ -129,6 +133,10 @@ class SlCustomUISlider : UIView, SLReactor {
     
     private func onSetDeActive(deActive : Bool) {
         self.inActiveStateBlockView.isHidden = deActive ? false : true
+    }
+    
+    private func onSetZeroUnAvailable() {
+        isZeroAvailable = false
     }
     
 }
@@ -185,6 +193,7 @@ extension SlCustomUISlider : UIGestureRecognizerDelegate {
             break
         case .changed:
             var nextPos = touchBeganXpos + translation.x
+            
             if nextPos < 0 {
                 nextPos = 0
                 self.thumViewCentXAnc.constant = 0
@@ -203,7 +212,12 @@ extension SlCustomUISlider : UIGestureRecognizerDelegate {
                 return
             }
             self.latestOutPutValue = result
-            resultHandler?( .currentValue( result ) )
+            if (self.isZeroAvailable == false && result == 0) || result <= self.minValue {
+                resultHandler?( .currentValue( self.minValue ) )
+            }
+            else {
+                resultHandler?( .currentValue( result ) )
+            }
             break
         case .ended:
             resultHandler?( .didFinishDragging )

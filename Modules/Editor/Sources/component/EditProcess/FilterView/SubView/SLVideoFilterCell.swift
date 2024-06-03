@@ -14,40 +14,39 @@ import ShopliveSDKCommon
 
 
 class SLVideoFilterCell : UICollectionViewCell {
-    
+    private let design = EditorFilterConfig.global
     
     static let cellId = "slvideofiltercellId"
     
-    private var placeHolderImageView : UIImageView = {
+    lazy private var placeHolderImageView : UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 12
+        imageView.layer.cornerRadius = design.filterCellCornerRadius
         return imageView
     }()
     
     
-    private var glkView : GLKView = {
+    lazy private var glkView : GLKView = {
         let view = GLKView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 12
+        view.layer.cornerRadius = design.filterCellCornerRadius
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.clearsContextBeforeDrawing = true
         view.enableSetNeedsDisplay = true
         view.backgroundColor = .clear
-        
         return view
     }()
     
     
-    private var selectedBorderView : UIView = {
+    lazy private var selectedBorderView : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.borderWidth = 2
-        view.layer.borderColor = UIColor.white.cgColor
-        view.layer.cornerRadius = 12
+        view.layer.borderColor = design.selectedCellBorderColor.cgColor
+        view.layer.cornerRadius = design.filterCellCornerRadius
         view.backgroundColor = .clear
         return view
     }()
@@ -59,7 +58,8 @@ class SLVideoFilterCell : UICollectionViewCell {
         label.font = .set(size: 13, weight: ._500)
         label.textColor = .white
         label.textAlignment = .center
-        label.adjustsFontSizeToFitWidth = true
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 2
         return label
     }()
     

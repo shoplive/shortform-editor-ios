@@ -13,8 +13,7 @@
 "toast.cancel.uploading.title" = "업로딩이 취소되었습니다.";
 "editor.page.title" = "편집";
 
-"editor.time.gap.sec.label" = "%d초";
-"editor.time.gap.min.sec.label" = "%d분%d초";
+
 
 "editor.next.title" = "다음";
 "editor.encoding.cancel.alert.title" = "지금 인코딩 중입니다. \n취소하시겠습니까?";
@@ -27,8 +26,7 @@
 "uploadinfo.tag.title" = "태그";
 "uploadinfo.tag.placeholder" = "#태그";
 "uploadinfo.upload.title" = "업로드";
-"loading.inprocessing.title" = "처리 중";
-"loading.preparing.title" = "준비 중";
+
 "picker.warning.duration.min.title" = "0.1초 미만의 영상은 지원하지 않습니다.";
 
 //Alert
@@ -40,3 +38,52 @@
 //ToastMessage
 "toast.uploadinfo.empty_video_title" = "제목을 입력해주세요";
 "toast.codec.notvalid" = "지원하지 않는 미디어입니다.";
+
+
+//loadingview
+"loading.inprocessing.title" = "처리 중";
+"loading.preparing.title" = "준비 중";
+
+//photoPicker
+"editor.photopicker.btn.recent.title" = "최근항목";
+
+//videoFrameSlider
+"video.frame.slider.seconds.label" = "%d초";
+"video.frame.slider.minute.seconds.label" = "%d분%d초";
+
+//편집화면(메인)
+"editor.main.page.title" = "편집";
+"editor.main.btn.next.title" = "다음";
+
+
+
+//자르기화면
+"editor.crop.page.title" = "자르기";
+"editor.crop.btn.confirm.title" = "완료";
+
+//배속
+"editor.speed.page.title" = "배속";
+"editor.speed.btn.confirm.title" = "완료";
+"editor.speed.duration.label" = "%d초";
+"editor.speed.caution.duration.limit" = "%d분 이하인 영상만 업로드 할 수 있습니다";
+
+//필터
+"editor.filter.page.title" = "필터";
+"editor.filter.btn.confirm.title" = "완료";
+
+//볼륨
+"editor.volume.page.title" = "볼륨";
+"editor.volume.btn.confirm.title" = "완료";
+
+
+//커버설정
+"editor.thumbnail.page.title" = "커버 설정";
+"editor.thumbnail.btn.confirm.title" = "완료";
+"editor.thumbnail.btn.cameraRoll.title" = "카메라 롤에서 추가";
+"editor.thumbnail.toast.upload.cancel.label" = "업로드가 취소되었습니다.";
+
+//커버 설정 popup
+"editor.thumbnail.toast.title" = "업로드를 취소하시겠습니까?";
+"editor.thumbnail.toast.btn.close.title" = "아니요";
+"editor.thumbnail.toast.btn.confirm.title" = "네";
+

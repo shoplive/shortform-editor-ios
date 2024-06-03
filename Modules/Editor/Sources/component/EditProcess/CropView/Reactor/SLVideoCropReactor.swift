@@ -20,9 +20,11 @@ class SLVideoCropReactor : NSObject, SLReactor {
         case viewDidLoad
         case viewDidAppeared
         case viewDidLayOutSubView
+        case viewWillAppear
         
         case setCropRect(CGRect)
         case setCropViewRect(CGRect)
+        case setGlkViewSize(CGSize)
         
         case requestToggleVideoPlayOrPause
         case didPlayToEndTime
@@ -47,8 +49,11 @@ class SLVideoCropReactor : NSObject, SLReactor {
     
     private var videoEditInfoDto : SLVideoEditInfoDTO
     private var isViewAppeared : Bool = false
+    private var blockInitialCropInViewDidLayoutSubView : Bool = false
     private var isPlaying : Bool = false
     private var initialCropViewRect : CGRect = .zero
+    private var glkViewSize : CGSize = .zero
+    
     
     
     init(videoInfo : SLVideoEditInfoDTO) {
@@ -70,10 +75,14 @@ class SLVideoCropReactor : NSObject, SLReactor {
             self.onViewDidAppeared()
         case .viewDidLayOutSubView:
             self.onViewDidLayoutSubView()
+        case .viewWillAppear:
+            self.onViewWillAppear()
         case .setCropRect(let cGRect):
             self.onSetCropRect(rect: cGRect)
         case .setCropViewRect(let rect):
             self.onSetCropViewRect(rect: rect)
+        case .setGlkViewSize(let size):
+            self.onSetGlkViewSize(size: size)
         case .requestToggleVideoPlayOrPause:
             self.onRequestToggleVideoPlayOrPause()
         case .didPlayToEndTime:
@@ -91,7 +100,6 @@ class SLVideoCropReactor : NSObject, SLReactor {
         resultHandler?( .setPlayerEndBoundaryTime(videoEditInfoDto.cropTime.end) )
         resultHandler?( .setFilterConfig(videoEditInfoDto.filterConfig?.filterConfig ?? "") )
         self.initialCropViewRect = videoEditInfoDto.cropViewRect
-        
     }
     
     private func onViewDidLoad() {
@@ -111,6 +119,15 @@ class SLVideoCropReactor : NSObject, SLReactor {
     }
     
     private func onViewDidLayoutSubView() {
+        if blockInitialCropInViewDidLayoutSubView == false {
+            blockInitialCropInViewDidLayoutSubView = true
+            if videoEditInfoDto.cropViewRect != .zero {
+                self.resultHandler?( .setinitailCropRect(videoEditInfoDto.cropViewRect) )
+            }
+        }
+    }
+    
+    private func onViewWillAppear() {
         
     }
     
@@ -121,6 +138,18 @@ class SLVideoCropReactor : NSObject, SLReactor {
     private func onSetCropViewRect(rect : CGRect) {
         if isViewAppeared == false { return }
         videoEditInfoDto.cropViewRect = rect
+        var ratioRect : CGRect = .zero
+        
+        ratioRect.origin.x = rect.origin.x / glkViewSize.width
+        ratioRect.origin.y = rect.origin.y / glkViewSize.height
+        ratioRect.size.width = rect.width / glkViewSize.width
+        ratioRect.size.height = rect.height / glkViewSize.height
+        
+        videoEditInfoDto.cropViewRatio = ratioRect
+    }
+    
+    private func onSetGlkViewSize(size : CGSize) {
+        self.glkViewSize = size
     }
     
     private func onRequestToggleVideoPlayOrPause() {

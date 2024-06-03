@@ -24,19 +24,21 @@ class ShopLiveShortformEditorFilterListManager {
             completion()
             return
         }
-        SLShortformFilterAPI().request { [weak self]  result in
-            switch result {
-            case .success(let result):
-                dump(result)
-                self?.filterList = result.results ?? []
-                completion()
-                break
-            case .failure(let error):
-                dump(error)
-                self?.filterList = []
-                self?.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: error)
-                completion()
-                break
+        ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] _ in
+            SLShortformFilterAPI().request {  result in
+                switch result {
+                case .success(let result):
+                    dump(result)
+                    self?.filterList = result.results ?? []
+                    completion()
+                    break
+                case .failure(let error):
+                    dump(error)
+                    self?.filterList = []
+                    self?.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: error)
+                    completion()
+                    break
+                }
             }
         }
     }

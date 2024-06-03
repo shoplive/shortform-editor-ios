@@ -14,6 +14,7 @@ import ShopliveSDKCommon
 protocol SLPhotosPickerViewControllerDelegate : NSObjectProtocol {
     func photoPicker(didSelectVideo url: URL)
     func photoPicker(didSelectImage url: URL)
+    func photoPiker(onClose picker : UIViewController)
 }
 
 
@@ -34,7 +35,9 @@ class SLPhotosPickerViewController : UIViewController {
     private var closeBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.backgroundColor = .red
+        btn.setImage(ShopLiveShortformEditorSDKAsset.slCloseButton.image.withRenderingMode(.alwaysTemplate), for: .normal)
+        btn.imageView?.tintColor = .white
+        btn.imageView?.contentMode = .scaleAspectFit
         return btn
     }()
     
@@ -120,7 +123,7 @@ class SLPhotosPickerViewController : UIViewController {
     }
     
     @objc func closeBtnTapped(sender : UIButton) {
-        ShopLiveShortformEditor.shared.close()
+        delegate?.photoPiker(onClose: self)
     }
     
     
@@ -179,6 +182,8 @@ extension SLPhotosPickerViewController {
                 self.onReactorRequestFinishLoading()
             case .didFinishLoading:
                 self.onReactorDidFinishLoading()
+            case .updateGroupSelectBtnTitle(let title):
+                self.onReactorUpdateGroupSelectBtnTitle(title: title)
             }
         }
     }
@@ -204,12 +209,10 @@ extension SLPhotosPickerViewController {
     }
     
     private func onReactorDidSelectImage(imageUrl : URL) {
-        print("imageURl \(imageUrl)")
         delegate?.photoPicker(didSelectImage: imageUrl)
     }
     
     private func onReactorDidSelectVideo(videoUrl : URL) {
-        print("videoUrl \(videoUrl)")
         delegate?.photoPicker(didSelectVideo: videoUrl)
     }
     
@@ -229,7 +232,7 @@ extension SLPhotosPickerViewController {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.loadingProgressVc.modalPresentationStyle = .overFullScreen
-            self.loadingProgressVc.setLoadingText("Loading...")
+            self.loadingProgressVc.setLoadingText(ShopLiveShortformEditorSDKStrings.Loading.Inprocessing.title)
             
             guard self.loadingProgressVc.isBeingPresented == false else { return }
             self.navigationController?.present(self.loadingProgressVc, animated: false)
@@ -249,6 +252,12 @@ extension SLPhotosPickerViewController {
     
     private func onReactorDidFinishLoading() {
         /** no - op */
+    }
+    
+    private func onReactorUpdateGroupSelectBtnTitle(title : String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.groupSelectBtn.setTitle(title: title)
+        }
     }
     
     

@@ -16,8 +16,10 @@ class SLThumbnailSliderDimView : UIView {
     
     private var maskRect : CGRect = CGRect(x: 28, y: 0, width: 60 * (CGFloat(9) / CGFloat(16)), height: 60)
     
+    private var cornerRadius : CGFloat = 0
     
-    override init(frame : CGRect) {
+    init(frame : CGRect, cornerRadius : CGFloat) {
+        self.cornerRadius = cornerRadius
         super.init(frame: frame)
         self.backgroundColor = .clear
     }
@@ -42,7 +44,6 @@ class SLThumbnailSliderDimView : UIView {
         let outerPath = UIBezierPath(rect: outerRect)
         
         let innerRect = CGRect(x: 28, y: 0, width: rBounds.width - 56, height: rBounds.height)
-        let cornerRadius: CGFloat = 8
         let innerPath = UIBezierPath(roundedRect: innerRect, cornerRadius: cornerRadius)
         
         outerPath.append(innerPath)

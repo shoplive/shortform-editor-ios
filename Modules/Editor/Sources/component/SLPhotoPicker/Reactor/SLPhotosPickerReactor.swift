@@ -44,6 +44,7 @@ class SLPhotosPickerReactor : NSObject, SLReactor {
         case requestCancelLoading
         case requsetFinishLoading
         case didFinishLoading
+        case updateGroupSelectBtnTitle(String)
         
     }
     
@@ -153,6 +154,7 @@ extension SLPhotosPickerReactor {
         resultHandler?( .reloadAlbumSelectTableViewRow((reloadIndexPaths, .none)))
         resultHandler?( .showAlbumSelectView(false) )
 //        self.updateTitle()
+        resultHandler?( .updateGroupSelectBtnTitle(collection.title))
         self.reloadCollectionView()
         pickerCv.contentOffset = collection.recentPosition
     }
@@ -222,6 +224,7 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
     private func configureCellForCamera(cell: SLPhotosPickerVideoCell, cellForItemAt indexPath: IndexPath,collection : SLAssetsCollection) -> UICollectionViewCell {
         cell.configure(image: nil, duration: .zero)
         cell.setDurationLabelHidden(isHidden: true)
+        cell.showCameraContents(show: true)
         return cell
     }
     
@@ -242,7 +245,7 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
             }
             cell.setDurationLabelHidden(isHidden: pickerConfigure.mediaType == .video ? false : true)
         }
-        
+        cell.showCameraContents(show: false)
         return cell
     }
     

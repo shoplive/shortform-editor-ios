@@ -13,6 +13,8 @@ import ShopliveSDKCommon
 
 
 class SLVideoThumbnailViewController : UIViewController {
+    private let design = EditorThumbnailConfig.global
+    
     
     private var naviBar : UIView = {
         let view = UIView()
@@ -21,14 +23,14 @@ class SLVideoThumbnailViewController : UIViewController {
         return view
     }()
     
-    private var closeBtn : SLPaddingImageButton = {
+    lazy private var closeBtn : SLPaddingImageButton = {
         let btn = SLPaddingImageButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = .init(red: 255, green: 255, blue: 255,aa: 0.2)
         btn.layer.cornerRadius = 20
-        btn.setImage(ShopLiveShortformEditorSDKAsset.slBackArrow.image.withRenderingMode(.alwaysTemplate), for: .normal)
-        btn.imageView?.tintColor = .white
-        btn.imageLayoutMargin = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        btn.setImage(design.closeButtonIcon, for: .normal)
+        btn.imageView?.tintColor = design.closeButtonIconTintColor
+        btn.imageLayoutMargin = design.closeButtonIconPadding
         btn.imageView?.contentMode = .scaleAspectFit
         return btn
     }()
@@ -38,30 +40,30 @@ class SLVideoThumbnailViewController : UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.font = .set(size: 16, weight: ._600)
-        label.text = "커버 설정"
+        label.text = ShopLiveShortformEditorSDKStrings.Editor.Thumbnail.Page.title
         return label
     }()
     
-    private var confirmBtn : UIButton = {
+    lazy private var confirmBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.backgroundColor = .white
-        btn.setTitleColor(.black, for: .normal)
+        btn.backgroundColor = design.confirmButtonBackgroundColor
+        btn.setTitleColor(design.confirmButtonTextColor, for: .normal)
         btn.titleLabel?.font = .set(size: 16, weight: ._600)
-        btn.setTitle("완료", for: .normal)
-        btn.layer.cornerRadius = 20
+        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Thumbnail.Btn.Confirm.title, for: .normal)
+        btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true
         return btn
     }()
     
-    private var cameraBtn : UIButton = {
+    lazy private var cameraBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.backgroundColor = .white
-        btn.setTitleColor(.black, for: .normal)
+        btn.backgroundColor = design.cameraRollButtonBackgroundColor
+        btn.setTitleColor(design.cameraRollButtonTextColor, for: .normal)
         btn.titleLabel?.font = .set(size: 16, weight: ._600)
-        btn.setTitle("카메라 롤에서 추가", for: .normal)
-        btn.layer.cornerRadius = 10
+        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Thumbnail.Btn.CameraRoll.title, for: .normal)
+        btn.layer.cornerRadius = design.cameraRollButtonCornerRadius
         btn.clipsToBounds = true
         return btn
     }()
@@ -73,20 +75,22 @@ class SLVideoThumbnailViewController : UIViewController {
         return view
     }()
     
-    private var playerView : ShopLiveFilterPlayer = {
+    lazy private var playerView : ShopLiveFilterPlayer = {
         let player = ShopLiveFilterPlayer()
         player.translatesAutoresizingMaskIntoConstraints = false
-        
+        player.layer.cornerRadius = design.videoPlayerCornerRadius
+        player.clipsToBounds = true
         return player
     }()
     
-    private var pickerSelectedThumbnailImageView : UIImageView = {
+    lazy private var pickerSelectedThumbnailImageView : UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.backgroundColor = .white
         imageView.isHidden = true
+        imageView.layer.cornerRadius = design.videoPlayerCornerRadius
         return imageView
     }()
     
@@ -99,7 +103,7 @@ class SLVideoThumbnailViewController : UIViewController {
     }()
     
     private lazy var thumbnailSliderView: SLThumbnailSliderView = {
-        let view = SLThumbnailSliderView(videoUrl:  reactor.getVideoUrl())
+        let view = SLThumbnailSliderView(videoUrl:  reactor.getVideoUrl(),containerCornerRadius: design.thumbnailSliderCornerRadius,thumbViewBorderColor: design.thumbnailSliderThumbViewBorderColor)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -125,8 +129,6 @@ class SLVideoThumbnailViewController : UIViewController {
         return view
     }()
     
-    
-    
     private var picker :  SLPhotosPickerViewController?
     
     private let reactor : SLVideoThumbnailReactor
@@ -140,7 +142,7 @@ class SLVideoThumbnailViewController : UIViewController {
         bindReactor()
         bindPlayerView()
         bindSliderView()
-        reactor.action( .initialize )
+        
     }
     
     required init?(coder: NSCoder) {
@@ -151,7 +153,7 @@ class SLVideoThumbnailViewController : UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .black
         self.setLayout()
-        
+        reactor.action( .viewDidLoad )
         
         closeBtn.addTarget(self, action: #selector(backBtnTapped(sender: )), for: .touchUpInside)
         cameraBtn.addTarget(self, action: #selector(cameraBtnTapped(sender: )), for: .touchUpInside)
@@ -159,13 +161,20 @@ class SLVideoThumbnailViewController : UIViewController {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("SLVideoThumbnailViewController deinit")
+        ShopLiveLogger.memoryLog("SLVideoThumbnailViewController deinit")
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        reactor.action( .viewDidLayoutSubView )
+        playerView.action( .setPlayBtnisHidden(true) )
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         thumbnailSliderView.action( .initializeThumbView )
         reactor.action( .viewDidAppear )
+        playerView.action( .setPlayBtnisHidden(true) )
     }
     
     @objc func backBtnTapped(sender : UIButton) {
@@ -221,6 +230,10 @@ extension SLVideoThumbnailViewController {
                     self.onReactorSeekTo(time: time)
                 case .seekThumbailSliderTo(let time):
                     self.onReactorSeekThumbnailSliderTo(time: time)
+                case .setinitailCropRect(let rect):
+                    self.onReactorSetInitialCropRect(crop: rect)
+                case .pushViewController(let vc):
+                    self.onReactorPushViewController(vc: vc)
                 default:
                     break
                 }
@@ -237,10 +250,11 @@ extension SLVideoThumbnailViewController {
     }
     
     private func onReactorSetShortsVideo(video : ShortsVideo) {
+        pickerSelectedThumbnailImageView.isHidden = true
         let fileName = (video.videoUrl.absoluteString as NSString).lastPathComponent
         let videoUrl = video.videoUrl
         let videoSize = video.getVideoSize() ?? .zero
-        self.playerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize, false, true) )
+        self.playerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize,centerCrop: false, isCropMode: true, isCropAvailable: false) )
     }
     
     private func onReactorPauseVideo() {
@@ -295,6 +309,17 @@ extension SLVideoThumbnailViewController {
     
     private func onReactorSeekThumbnailSliderTo(time : CMTime) {
         thumbnailSliderView.action( .seekToHandleViewTo(time) )
+    }
+    
+    private func onReactorSetInitialCropRect(crop : CGRect) {
+        DispatchQueue.main.async { [weak self] in
+            self?.playerView.action( .hideCropView(crop == .zero) )
+            self?.playerView.action( .setInitialCropRectByRatio(crop) )
+        }
+    }
+    
+    private func onReactorPushViewController(vc : UIViewController) {
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 //MARK: - bind playerview
@@ -407,7 +432,6 @@ extension SLVideoThumbnailViewController {
             cancelConfirmToast.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             cancelConfirmToast.widthAnchor.constraint(lessThanOrEqualToConstant: 400),
             cancelConfirmToast.heightAnchor.constraint(equalToConstant: 40)
-            
         ])
     }
     

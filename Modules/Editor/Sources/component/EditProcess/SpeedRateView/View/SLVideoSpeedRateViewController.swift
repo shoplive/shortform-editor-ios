@@ -14,11 +14,12 @@ import AVKit
 
 
 protocol SLVideoSpeedRateViewControllerDelegate {
-    func speedRateViewController(didFinish didChange : Bool)
+    func speedRateViewController(didFinish didChange : Bool?)
 }
 
 class SLVideoSpeedRateViewController : UIViewController {
-    //ci-test
+    private let design = EditorSpeedConfig.global
+    
     private var naviBar : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -26,14 +27,14 @@ class SLVideoSpeedRateViewController : UIViewController {
         return view
     }()
     
-    private var closeBtn : SLPaddingImageButton = {
+    lazy private var closeBtn : SLPaddingImageButton = {
         let btn = SLPaddingImageButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = .init(red: 255, green: 255, blue: 255,aa: 0.2)
         btn.layer.cornerRadius = 20
-        btn.setImage(ShopLiveShortformEditorSDKAsset.slCloseButton.image.withRenderingMode(.alwaysTemplate), for: .normal)
-        btn.imageView?.tintColor = .white
-        btn.imageLayoutMargin = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        btn.setImage(design.closeButtonIcon, for: .normal)
+        btn.imageView?.tintColor = design.closeButtonIconTintColor
+        btn.imageLayoutMargin = design.closeButtonIconPadding
         btn.imageView?.contentMode = .scaleAspectFit
         return btn
     }()
@@ -43,7 +44,7 @@ class SLVideoSpeedRateViewController : UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.font = .set(size: 16, weight: ._600)
-        label.text = "자르기"
+        label.text = ShopLiveShortformEditorSDKStrings.Editor.Speed.Page.title
         return label
     }()
     
@@ -54,28 +55,28 @@ class SLVideoSpeedRateViewController : UIViewController {
         return view
     }()
     
-    private var playPauseBtn : SLPaddingImageButton = {
+    lazy private var playPauseBtn : SLPaddingImageButton = {
         let btn = SLPaddingImageButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = .init(red: 255, green: 255, blue: 255,aa: 0.2)
         btn.layer.cornerRadius = 20
         btn.clipsToBounds = true
-        btn.setImage(ShopLiveShortformEditorSDKAsset.slIcPlay.image.withRenderingMode(.alwaysTemplate), for: .normal)
-        btn.imageView?.tintColor = .white
-        btn.imageLayoutMargin = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        btn.setImage(design.pauseButtonIcon, for: .normal)
+        btn.imageView?.tintColor = design.pauseButtonIconTintColor
+        btn.imageLayoutMargin = design.pauseButtonIconPadding
         btn.imageView?.contentMode = .scaleAspectFit
     
         return btn
     }()
     
-    private var confirmBtn : UIButton = {
+    lazy private var confirmBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.backgroundColor = .white
-        btn.setTitleColor(.black, for: .normal)
+        btn.backgroundColor = design.confirmButtonBackgroundColor
+        btn.setTitleColor(design.confirmButtonTextColor, for: .normal)
         btn.titleLabel?.font = .set(size: 16, weight: ._600)
-        btn.setTitle("완료", for: .normal)
-        btn.layer.cornerRadius = 20
+        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Volume.Btn.Confirm.title, for: .normal)
+        btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true
         return btn
     }()
@@ -88,19 +89,38 @@ class SLVideoSpeedRateViewController : UIViewController {
         return view
     }()
     
-    private var playerView : ShopLiveFilterPlayer = {
+    lazy private var playerView : ShopLiveFilterPlayer = {
         let player = ShopLiveFilterPlayer()
         player.translatesAutoresizingMaskIntoConstraints = false
-        
+        player.layer.cornerRadius = design.videoPlayerCornerRadius
+        player.clipsToBounds = true
         return player
     }()
     
-    
-    private var sliderView : SlCustomUISlider = {
-        let view = SlCustomUISlider()
+    private var durationLabelBackgroundView : UIView = {
+        let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.action( .setMinValue(0) )
-        view.action( .setMaxValue(2) )
+        view.backgroundColor = .init(white: 51 / 255, alpha: 1)
+        view.layer.cornerRadius = (23 / 2)
+        return view
+    }()
+    
+    private var durationlabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.font = .set(size: 10, weight: ._500)
+        label.textColor = .white
+        return label
+    }()
+    
+    
+    lazy private var sliderView : SlCustomUISlider = {
+        let view = SlCustomUISlider(frame: .zero,thumbViewColor: design.sliderThumbViewColor, sliderCornerRadius: design.sliderCornerRaidus)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.action( .setMinValue(0.1) )
+        view.action( .setMaxValue(2.1) )
+        view.action( .setZeroUnAvailable )
         return view
     }()
     
@@ -147,6 +167,7 @@ class SLVideoSpeedRateViewController : UIViewController {
     }
     
     @objc func closeBtnTapped(sender : UIButton) {
+        delegate?.speedRateViewController(didFinish: nil)
         if let nav = self.navigationController {
             nav.popViewController(animated: true)
         }
@@ -166,6 +187,19 @@ class SLVideoSpeedRateViewController : UIViewController {
         }
         else {
             self.dismiss(animated: true)
+        }
+    }
+    
+    private func changePlayOrPauseBtnState(isSelected : Bool ) {
+        if isSelected {
+            playPauseBtn.setImage(design.pauseButtonIcon, for: .normal)
+            playPauseBtn.imageView?.tintColor = design.pauseButtonIconTintColor
+            playPauseBtn.imageLayoutMargin = design.pauseButtonIconPadding
+        }
+        else {
+            playPauseBtn.setImage(design.playButtonIcon, for: .normal)
+            playPauseBtn.imageView?.tintColor = design.playButtonIconTintColor
+            playPauseBtn.imageLayoutMargin = design.playButtonIconPadding
         }
     }
     
@@ -189,6 +223,8 @@ class SLVideoSpeedRateViewController : UIViewController {
                 self.onReactorRequestOnConfirm(didChange: didChange)
             case .setInitialSpeed(let value):
                 self.onReactorSetInitialSpeed(value: value)
+            case .setVideoDuration(let duration):
+                self.onReactorSetVideoDuration(duration: duration)
             }
         }
     }
@@ -197,7 +233,7 @@ class SLVideoSpeedRateViewController : UIViewController {
         let fileName = (video.videoUrl.absoluteString as NSString).lastPathComponent
         let videoUrl = video.videoUrl
         let videoSize = video.getVideoSize() ?? .zero
-        self.playerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize, false, false) )
+        self.playerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize,centerCrop: false, isCropMode: false, isCropAvailable: false) )
     }
     
     private func onReactorSetEndBoundaryTime(time : CMTime) {
@@ -214,10 +250,12 @@ class SLVideoSpeedRateViewController : UIViewController {
     
     private func onReactorPauseVideo() {
         playerView.action( .pauseVideo )
+        changePlayOrPauseBtnState(isSelected : false )
     }
     
     private func onReactorPlayVideo() {
         playerView.action( .playVideo )
+        changePlayOrPauseBtnState(isSelected : true )
     }
     
     private func onReactorRequestOnConfirm(didChange : Bool) {
@@ -227,6 +265,11 @@ class SLVideoSpeedRateViewController : UIViewController {
     private func onReactorSetInitialSpeed(value : CGFloat) {
         sliderView.action( .setCurrentValue(value) )
         sliderView.action( .setValueLabel(String(format: "%.1f", value) + "x") )
+        playerView.action( .setSpeedRate(value) )
+    }
+    
+    private func onReactorSetVideoDuration(duration : String) {
+        self.durationlabel.text = duration
     }
     
 }
@@ -249,6 +292,7 @@ extension SLVideoSpeedRateViewController {
     private func onSliderCurrentValue(value : CGFloat) {
         reactor.action( .setSpeed(value) )
         sliderView.action( .setValueLabel(String(format: "%.1f", value) + "x") )
+        playerView.action( .setSpeedRate(value) )
     }
     
 }
@@ -297,6 +341,14 @@ extension SLVideoSpeedRateViewController {
         self.view.addSubview(playerView)
         self.view.addSubview(sliderView)
         
+        let durationlabelHolder = UIView()
+        durationlabelHolder.backgroundColor = .clear
+        durationlabelHolder.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(durationlabelHolder)
+        self.view.addSubview(durationLabelBackgroundView)
+        self.view.addSubview(durationlabel)
+        
+        
         
         NSLayoutConstraint.activate([
             naviBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 0),
@@ -342,12 +394,25 @@ extension SLVideoSpeedRateViewController {
             playerHolder.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             
             
-            
-            
             playerView.centerYAnchor.constraint(equalTo: playerHolder.centerYAnchor),
             playerView.centerXAnchor.constraint(equalTo: playerHolder.centerXAnchor),
             playerView.widthAnchor.constraint(equalTo: playerHolder.widthAnchor),
-            playerView.heightAnchor.constraint(equalTo: playerHolder.heightAnchor)
+            playerView.heightAnchor.constraint(equalTo: playerHolder.heightAnchor),
+            
+            durationlabelHolder.topAnchor.constraint(equalTo: playerHolder.bottomAnchor),
+            durationlabelHolder.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            durationlabelHolder.bottomAnchor.constraint(equalTo: sliderView.topAnchor),
+            durationlabelHolder.widthAnchor.constraint(equalToConstant: 1),
+            
+            durationlabel.centerYAnchor.constraint(equalTo: durationlabelHolder.centerYAnchor),
+            durationlabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            durationlabel.heightAnchor.constraint(equalToConstant: 15),
+            durationlabel.widthAnchor.constraint(lessThanOrEqualToConstant: 100),
+            
+            durationLabelBackgroundView.topAnchor.constraint(equalTo: durationlabel.topAnchor, constant: -4),
+            durationLabelBackgroundView.leadingAnchor.constraint(equalTo: durationlabel.leadingAnchor, constant: -8),
+            durationLabelBackgroundView.trailingAnchor.constraint(equalTo: durationlabel.trailingAnchor, constant: 8),
+            durationLabelBackgroundView.bottomAnchor.constraint(equalTo: durationlabel.bottomAnchor, constant: 4),
         ])
     }
 }

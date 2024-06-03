@@ -94,6 +94,24 @@ class SLCustomAlertBox : UIView {
         btnClickCallback?(.no)
     }
     
+    func setBoxCornerRadius(cornerRadius : CGFloat){
+        self.box.layer.cornerRadius = cornerRadius
+    }
+    
+    func setButtonCornerRadius(cornerRadius : CGFloat) {
+        self.confirmBtn.layer.cornerRadius = cornerRadius
+        self.closeBtn.layer.cornerRadius = cornerRadius
+    }
+    
+    func setCloseButtonDesign(backgroundColor : UIColor, textColor : UIColor) {
+        self.closeBtn.backgroundColor = backgroundColor
+        self.closeBtn.setTitleColor(textColor, for: .normal)
+    }
+    
+    func setConfirmButtonDesign(backgroundColor : UIColor, textColor : UIColor) {
+        self.confirmBtn.backgroundColor = backgroundColor
+        self.confirmBtn.setTitleColor(textColor, for: .normal)
+    }
 }
 extension SLCustomAlertBox {
     private func setLayout() {

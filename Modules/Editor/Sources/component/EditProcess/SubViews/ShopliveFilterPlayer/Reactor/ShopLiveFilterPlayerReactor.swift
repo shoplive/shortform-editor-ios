@@ -23,6 +23,7 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
         case setAVPlayer(AVPlayer)
         case setIsCenterCrop(Bool)
         case setIsCropMode(Bool)
+        case setIsCropAvailable(Bool)
         
         case seekTo(CMTime)
         case tingleVideo
@@ -39,11 +40,12 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
         case setVideoOutput
         case onSetThumbnailGLKView
         case setIsFilterSDKCurrentItemVideoSizeIsReversed(Bool)
+        case setSpeedRate(CGFloat)
     }
     
     enum Result {
         case setVideoUrlToPlayer(URL)
-        case setGLKViewSize(CGSize,centerCrop : Bool,isCropMode : Bool)
+        case setGLKViewSize(CGSize,centerCrop : Bool,isCropMode : Bool, isCropAvailable : Bool)
         
         case setPlayBtnHidden(Bool)
         case didPlayToEndTime
@@ -73,6 +75,8 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
     private var tingleStartedTime : CMTime = .zero
     private var isCenterCrop : Bool = false
     private var isCropMode : Bool = true
+    private var isCropAvailable : Bool = true
+    
     
     
     var resultHandler: ((Result) -> ())?
@@ -113,6 +117,8 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
             self.isCenterCrop = centerCrop
         case .setIsCropMode(let isCropMode):
             self.isCropMode = isCropMode
+        case .setIsCropAvailable(let isCropAvailable):
+            self.isCropAvailable = isCropAvailable
         case .seekTo(let time):
             self.onSeekTo(time: time)
         case .tingleVideo:
@@ -135,6 +141,8 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
             self.onSetThumbnailGLKView()
         case .setIsFilterSDKCurrentItemVideoSizeIsReversed(let isRotated):
             self.onSetIsFilterSDKCurrentItemVideoSizeIsReversed(isRotated: isRotated)
+        case .setSpeedRate(let rate):
+            self.onSetSpeedRate(rate: rate)
         }
     }
     
@@ -145,7 +153,7 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
         }
         
         if self.videoSize != .zero {
-            mainQueueResultHandler? ( .setGLKViewSize(self.videoSize, centerCrop: self.isCenterCrop,isCropMode: self.isCropMode) )
+            mainQueueResultHandler? ( .setGLKViewSize(self.videoSize, centerCrop: self.isCenterCrop,isCropMode: self.isCropMode, isCropAvailable: self.isCropAvailable) )
         }
         
         
@@ -270,6 +278,10 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
     
     private func onSetIsFilterSDKCurrentItemVideoSizeIsReversed(isRotated : Bool) {
         isFilterSDKCurrentItemVideoSizeIsReversed = isRotated
+    }
+    
+    private func onSetSpeedRate(rate : CGFloat) {
+        self.avPlayer?.rate = Float(rate)
     }
 }
 //MARK: -getter

@@ -48,7 +48,6 @@ public final class ShopLiveShortformPreviewData : ShopLiveShortformRelatedData {
         self.useCustomAction = useCustomAction
         self.clickEventCallBack = clickEventCallBack
         self.maxCount = maxCount
-        
     }
     
 }

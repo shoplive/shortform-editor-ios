@@ -183,7 +183,6 @@ class SLVideoConverter : NSObject {
             case .Failed(let error ):
                 guard self?.didForceCancel == false else {
                     self?.didForceCancel = false
-                    ShopLiveLogger.debugLog("convert failed error \(error)")
                     completion(.Failed(error: error))
                     return
                 }
@@ -197,7 +196,6 @@ class SLVideoConverter : NSObject {
                     case .Failed(let error):
                         guard self?.didForceCancel == false else {
                             self?.didForceCancel = false
-                            ShopLiveLogger.debugLog("convert failed error \(error)")
                             completion(.Failed(error: error))
                             return
                         }
@@ -210,7 +208,6 @@ class SLVideoConverter : NSObject {
                                 break
                             case .Failed(let error):
                                 self?.inConvert = false
-                                ShopLiveLogger.debugLog("convert failed error \(error)")
                                 completion(.Failed(error: error))
                                 break
                             }

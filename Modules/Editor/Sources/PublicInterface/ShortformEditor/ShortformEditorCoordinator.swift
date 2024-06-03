@@ -72,15 +72,20 @@ extension ShopliveShortformCoordinator : SLPhotosPickerViewControllerDelegate  {
             }
         }
     }
+    
+    func photoPiker(onClose picker: UIViewController) {
+        self.close()
+    }
 }
 extension ShopliveShortformCoordinator : SLVideoEditorViewControllerDelegate {
     private func showSLVideoEditorViewController(video : ShortsVideo) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            guard self.navigationController?.viewControllers.filter({ $0.isKind(of: SLVideoEditorViewController2.self) }).count == 0 else {
+            guard self.navigationController?.viewControllers.filter({ $0.isKind(of: SLVideoEditorMainViewController.self) }).count == 0 else {
                 return
             }
-            let editor = SLVideoEditorViewController2(video: video)
+            
+            let editor = SLVideoEditorMainViewController(video: video)
             editor.delegate = self
             editor.shortformEditorDelegate = self.editorDelegate
             self.navigationController?.pushViewController(editor, animated: true)

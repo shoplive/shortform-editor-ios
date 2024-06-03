@@ -11,9 +11,15 @@ import UIKit
 import AVKit
 
 
-class SLVideoEditorViewReactor : NSObject,  SLReactor {
+class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     typealias globalConfig = ShopLiveEditorConfigurationManager
     
+    enum VideoConfigApplyType {
+        case all
+        case speed
+        case volume
+        case filter
+    }
     
     
     enum Action {
@@ -34,6 +40,9 @@ class SLVideoEditorViewReactor : NSObject,  SLReactor {
         case timeControlStatusUpdated(AVPlayer.TimeControlStatus)
         case videoTimeUpdated(Double)
         case setFilterConfig(SLFilterConfig?)
+        case checkIfNextStepIsAvailable
+        
+        case applyVideoConfiChange(VideoConfigApplyType)
     }
     
     enum Result {
@@ -53,7 +62,12 @@ class SLVideoEditorViewReactor : NSObject,  SLReactor {
         case playVideo
         case pauseVideo
         
-        case setFilterConfig(String)
+        case setFilterConfigResult(String)
+        case setFilterIntensityResult(Float)
+        case setSpeedRateResult(CGFloat)
+        case setCropResult(CGRect)
+        
+        
         
         
         case setCropBtnIsSelected(isSelected: Bool)
@@ -62,6 +76,8 @@ class SLVideoEditorViewReactor : NSObject,  SLReactor {
         case setVideoSpeedBtnIsSelected(isSelected : Bool)
         case setFilterBtnVisible(Bool)
         case setFilterBtnIsSelected(isSelected : Bool)
+        
+        case showThumbnailViewController
     }
     
     
@@ -94,7 +110,7 @@ class SLVideoEditorViewReactor : NSObject,  SLReactor {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("[ShopliveShortformEditor] SLVideoEditorViewReactor deinited")
+        ShopLiveLogger.memoryLog("SLVideoEditorViewReactor deinited")
     }
     
     func action(_ action: Action) {
@@ -125,6 +141,10 @@ class SLVideoEditorViewReactor : NSObject,  SLReactor {
             self.onVideoTimeUpdated(time: time)
         case .setFilterConfig(let filterConfig):
             self.onSetFilterConfig(filterConfig: filterConfig)
+        case .checkIfNextStepIsAvailable:
+            self.onCheckIfNextStepIsAvailable()
+        case .applyVideoConfiChange(let type):
+            self.onApplyVideoConfigChanges(type : type)
         }
         
     }
@@ -142,12 +162,13 @@ class SLVideoEditorViewReactor : NSObject,  SLReactor {
         //TODO: ShopLiveShortformEditorFilterListManager.shared.isFilterExist
         onMainQueueResultHandler?( .setFilterBtnVisible(true) )
         if let duration = videoEditInfoDto.shortsVideo.player?.currentItem?.duration {
+            
             resultHandler?( .setShortsVideo(videoEditInfoDto.shortsVideo) )
+            
+            
             if let size = videoEditInfoDto.shortsVideo.getVideoSize() {
                 videoEditInfoDto.realVideoCropRect = .init(origin: .zero, size: size)
             }
-            
-            
             
             let seconds = CMTimeGetSeconds(duration)
             var initialEndTime : CGFloat = 0
@@ -243,9 +264,28 @@ class SLVideoEditorViewReactor : NSObject,  SLReactor {
     private func onSetFilterConfig(filterConfig : SLFilterConfig?){
         videoEditInfoDto.filterConfig = filterConfig
     }
+    
+    private func onCheckIfNextStepIsAvailable() {
+        onMainQueueResultHandler?( .showThumbnailViewController )
+    }
+    
+    private func onApplyVideoConfigChanges(type : VideoConfigApplyType) {
+        let videoInfo = self.getVideoEditInfoDto()
+        
+        if type == .filter || type == .all {
+            if let filter = videoInfo.filterConfig {
+                onMainQueueResultHandler?( .setFilterConfigResult(filter.filterConfig) )
+                onMainQueueResultHandler?( .setFilterIntensityResult(filter.filterIntensity) )
+            }
+        }
+        
+        if type == .speed || type == .all {
+            onMainQueueResultHandler?( .setSpeedRateResult(CGFloat(videoInfo.videoSpeed )) )
+        }
+    }
 }
 //MARK: - GETTER
-extension SLVideoEditorViewReactor {
+extension SLVideoEditorMainViewReactor {
     func getVideoUrl() -> URL {
         return videoEditInfoDto.shortsVideo.videoUrl
     }

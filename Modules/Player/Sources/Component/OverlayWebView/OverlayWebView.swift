@@ -91,7 +91,11 @@ internal class OverlayWebView: SLView {
         webView.scrollView.contentInsetAdjustmentBehavior = .never
         webView.allowsLinkPreview = false
         webView.scrollView.layer.masksToBounds = false
-        
+        #if DEBUG
+        if #available(iOS 16.4, *) {
+            webView.isInspectable = true
+        }
+        #endif
         self.clipsToBounds = true
         sendUserAgentToWeb()
         webView.configuration.userContentController.add(SLLeakAvoider(delegate: self), name: ShopLiveDefines.webInterface)

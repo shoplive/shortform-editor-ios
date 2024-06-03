@@ -71,7 +71,14 @@ class SLVideoFrameSliderReactor : NSObject, SLReactor {
     
     private var imageGenerator : AVAssetImageGenerator
     private var imageGeneratorQueue = DispatchQueue(label: "shopLiveImageGeneratorQueue",qos: .background)
+    private var maxFrameCounts : Int = 0
     private var frameImages : [UIImage] = []
+    private var newFrameImageDataSource : [Int : UIImage] = [:]
+    private var index2timeDict : [Int : Double] = [:]
+    private var time2ImageDict : [Double : UIImage] = [:]
+    private var lastFrameTargetTime : Double = 0
+    
+    
     private var blockScrollDidScrollEvent : Bool = false
     private var currentMode : Mode = .timeTrim
     
@@ -179,9 +186,11 @@ extension SLVideoFrameSliderReactor {
         self.collectionViewFooterSize = .init(width: footerWidth, height: 60)
         
         for i in 0 ... Int(maxFrameCounts) {
-            let isEnd = (i == (Int(maxFrameCounts)))
-            self.extractThumbnailsForNSec(targetSec: Double(timePerFrame) * Double(i) , isEnd: isEnd)
+            index2timeDict[i] = Double(timePerFrame) * Double(i)
+            lastFrameTargetTime = max(Double(timePerFrame) * Double(i),lastFrameTargetTime)
         }
+        self.maxFrameCounts = Int(maxFrameCounts)
+        self.reloadCollectionViewData()
     }
     
     private func calculateFramesForMaxTrimTimeLowerThenVideoDuration() {
@@ -200,10 +209,13 @@ extension SLVideoFrameSliderReactor {
         var frameCount : Double = 0
         var frameTargetTime : Double = frameCount * (timePerFrame)
         while frameTargetTime <= Double(self.videoDuration + extraVideoDuration) {
-            self.extractThumbnailsForNSec(targetSec: frameTargetTime,isEnd: false)
+            index2timeDict[Int(frameCount)] = frameTargetTime
+            lastFrameTargetTime = max(frameTargetTime,lastFrameTargetTime)
             frameCount += 1
             frameTargetTime = frameCount * (timePerFrame)
         }
+        
+        self.maxFrameCounts = Int(frameCount)
         
         let totalTime = timePerFrame * frameCount
         
@@ -220,37 +232,10 @@ extension SLVideoFrameSliderReactor {
              footerWidth = WidthOfPerFrame + (shortageTime / timePerPixel) + 28
         }
         self.collectionViewFooterSize = .init(width: footerWidth, height: 60)
-        self.extractThumbnailsForNSec(targetSec: 0, isEnd: true)
-    }
-    
-    
-    private func extractThumbnailsForNSec(targetSec : Double, isEnd : Bool) {
-        imageGeneratorQueue.sync { [weak self] in
-            guard let self = self else { return }
-            if isEnd {
-                self.reloadCollectionViewData()
-                return
-            }
-            do {
-                let time = CMTime(seconds: targetSec, preferredTimescale: 44100)
-                let cgImage = try imageGenerator.copyCGImage(at: time, actualTime: nil)
-                self.frameImages.append(UIImage.init(cgImage: cgImage))
-            }
-            catch(let error) {
-                print("imageExtract Error \(error)")
-            }
-        }
+        self.reloadCollectionViewData()
     }
     
     private func reloadCollectionViewData() {
-//        let timeIndicatorEndTime = min(self.videoDuration, self.maxTrimTime )
-//        currentCropTime.start = .init(seconds: 0, preferredTimescale: 44100)
-//        currentCropTime.end = .init(seconds: Double(timeIndicatorEndTime), preferredTimescale: 44100)
-//        self.handleView.timebarLoaded = true
-//        handleView.updateTimeIndicatorSliderTime(start: currentCropTime.start, end: currentCropTime.end)
-//        handleView.resetAndRedraw()
-        
-        
         DispatchQueue.main.async { [weak self] in
             guard let self = self,
             let cv = self.cv else { return }
@@ -275,8 +260,17 @@ extension SLVideoFrameSliderReactor : UICollectionViewDelegate, UICollectionView
             return UICollectionReusableView()
         case UICollectionView.elementKindSectionFooter:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: SLVideoEditorFooterView.viewId, for: indexPath) as! SLVideoEditorFooterView
-            if let last = frameImages.last {
-                header.setImage(image: last)
+            if let image = time2ImageDict[lastFrameTargetTime] { 
+                header.setImage(image: image)
+            }
+            else {
+                self.extractThumbnailsForNSec(targetSec: lastFrameTargetTime) { [weak self] image in
+                    guard let self = self else { return }
+                    self.time2ImageDict[self.lastFrameTargetTime] = image
+                    DispatchQueue.main.async {
+                        header.setImage(image: image)
+                    }
+                }
             }
             return header
         default:
@@ -289,15 +283,44 @@ extension SLVideoFrameSliderReactor : UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return frameImages.count - 1
+        return self.maxFrameCounts - 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SLVideoEditorTrimFrameCell.cellId, for: indexPath) as! SLVideoEditorTrimFrameCell
-        cell.setImage(image: frameImages[indexPath.row])
         
+        if let targetTime = index2timeDict[indexPath.row] {
+            if let image = time2ImageDict[targetTime] {
+                cell.setImage(image: image )
+            }
+            else {
+                self.extractThumbnailsForNSec(targetSec: targetTime) { [weak self] image in
+                    guard let self = self else { return }
+                    DispatchQueue.main.async {
+                        self.time2ImageDict[targetTime] = image
+                        cell.setImage(image: image)
+                    }
+                }
+            }
+        }
         return cell
     }
+    
+    
+    private func extractThumbnailsForNSec(targetSec : Double, completion : @escaping(UIImage) -> ()) {
+        imageGeneratorQueue.async { [weak self] in
+            guard let self = self else { return }
+            do {
+                let time = CMTime(seconds: targetSec, preferredTimescale: 44100)
+                let cgImage = try self.imageGenerator.copyCGImage(at: time, actualTime: nil)
+                completion(UIImage.init(cgImage: cgImage))
+            }
+            catch(let error) {
+                print("imageExtract Error \(error)")
+            }
+        }
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
