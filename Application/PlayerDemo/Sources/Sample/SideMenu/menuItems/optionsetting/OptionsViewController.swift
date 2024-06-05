@@ -308,19 +308,6 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                     self?.tableView.reloadData()
                 }
                 break
-            case .resizeMode:
-                dropdown.optionArray = ["CENTER_CROP","FIT"]
-                dropdown.didSelect { [weak self] selectedText, index, id in
-                    if index == 1 {
-                        DemoConfiguration.shared.resizeMode = .FIT
-                    }
-                    else {
-                        DemoConfiguration.shared.resizeMode = .CENTER_CROP
-                    }
-                   
-                    anchorView.removeFromSuperview()
-                    self?.tableView.reloadData()
-                }
             default:
                     break
             }

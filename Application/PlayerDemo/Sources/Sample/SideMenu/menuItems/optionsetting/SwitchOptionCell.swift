@@ -207,6 +207,8 @@ class SwitchOptionCell: UITableViewCell {
             useOption = DemoConfiguration.shared.enableOsPip
         case .isEnabledVolumeKey:
             useOption = DemoConfiguration.shared.isEnabledVolumeKey
+        case .resizeMode:
+            useOption = DemoConfiguration.shared.resizeMode == .CENTER_CROP ? true : false
         default:
             break
         }
@@ -284,6 +286,8 @@ class SwitchOptionCell: UITableViewCell {
             DemoConfiguration.shared.enableOsPip = useOption
         case .isEnabledVolumeKey:
             DemoConfiguration.shared.isEnabledVolumeKey = useOption
+        case .resizeMode:
+            DemoConfiguration.shared.resizeMode = useOption ? .CENTER_CROP : .FIT
         default:
             break
         }

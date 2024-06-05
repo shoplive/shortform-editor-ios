@@ -74,7 +74,7 @@ enum SDKOptionType: String, CaseIterable {
         switch self {
         case .shareScheme, .progressColor, .pipScale, .maxPipSize, .fixedHeightPipSize, .fixedWidthPipSize, .pipCornerRadius:
             return .showAlert
-        case .pipPosition, .nextActionOnHandleNavigation,.resizeMode:
+        case .pipPosition, .nextActionOnHandleNavigation:
             return .dropdown
         case .pipFloatingOffset, .addParameter:
             return .routeTo
