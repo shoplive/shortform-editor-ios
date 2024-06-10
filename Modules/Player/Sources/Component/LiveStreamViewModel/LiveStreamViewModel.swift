@@ -65,7 +65,6 @@ internal final class LiveStreamViewModel: NSObject {
     var isAlreadyPlayedOnce : Bool = false
     private var osPipFailedErrorHasOccured : Bool = false
     private var currentNetworkCapability : String = ""
-    
     private var playerLoadingStartTime : Double = 0
     private var playerLoadingAvailableCheckSourceTimer : DispatchSourceTimer?
     
@@ -227,6 +226,9 @@ internal final class LiveStreamViewModel: NSObject {
         playerLoadingStartTime = Date().timeIntervalSince1970
         let asset = AVURLAsset(url: addQueryForLiveUrl(url: url) )
         let playerItem = AVPlayerItem(asset: asset)
+        
+        setSoundMuteStateOnFirstPlay()
+        
         if asset.isPlayable {
             ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
             let metadataOutput = AVPlayerItemMetadataOutput(identifiers: nil)
@@ -513,17 +515,8 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
                     ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoDurationChanged, CMTimeGetSeconds(duration))
                 }
                 ShopLiveController.retryPlay = false
-                if isAlreadyPlayedOnce == false {
-                    var isMuted = ShopLiveController.shared.isPreview ? !ShopLiveConfiguration.SoundPolicy.previewSoundEnabled : ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
-                    if let session = liveStreamViewController?.audioSession, session.outputVolume == 0 {
-                        isMuted = true
-                    }
-                    ShopLiveController.shared.setSoundMute(isMuted: isMuted)
-                }
+                setSoundMuteStateOnFirstPlay()
                 self.play()
-//                if let resizeMode = self.customVideoResizeMode, resizeMode == .FIT, self.blockFirstSnapShotForResizeModeFit == true {
-//                    return
-//                }
                 self.delegate?.requestTakeSnapShotView()
             }
         case .failed:
@@ -532,6 +525,16 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
             break
         default:
             break
+        }
+    }
+    
+    private func setSoundMuteStateOnFirstPlay() {
+        if isAlreadyPlayedOnce == false {
+            var isMuted = ShopLiveController.shared.isPreview ? !ShopLiveConfiguration.SoundPolicy.previewSoundEnabled : ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
+            if let session = liveStreamViewController?.audioSession, session.outputVolume == 0 {
+                isMuted = true
+            }
+            ShopLiveController.shared.setSoundMute(isMuted: isMuted)
         }
     }
     
