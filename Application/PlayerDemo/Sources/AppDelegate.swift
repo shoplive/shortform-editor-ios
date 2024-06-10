@@ -89,12 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        if let playerWindow = ShopLive.playerWindow, playerWindow == window {
-            return .portrait
-        }
-        else {
-            return .all
-        }
+        return .all
     }
     
 }

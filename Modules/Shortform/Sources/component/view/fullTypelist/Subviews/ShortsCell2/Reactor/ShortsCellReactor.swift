@@ -95,6 +95,7 @@ class ShortsCellReactor : NSObject, SLReactor {
         case requestSnapShotForWindow
         
         case setVideoPlayer(URL)
+        case emptyVideoPlayer
         
         case setWebViewIsHidden(Bool)
         case invalidateLayout
@@ -246,6 +247,10 @@ class ShortsCellReactor : NSObject, SLReactor {
             if let currentVideoUrl = currentVideoUrl, let videoUrl = URL(string: currentVideoUrl) {
                 resultHandler?( .setVideoPlayer(videoUrl) )
             }
+            else {
+                resultHandler?( .emptyVideoPlayer )
+            }
+            
             let videoGravity : AVLayerVideoGravity = self.getVideoGravity()
             
             if videoGravity == .resizeAspect {

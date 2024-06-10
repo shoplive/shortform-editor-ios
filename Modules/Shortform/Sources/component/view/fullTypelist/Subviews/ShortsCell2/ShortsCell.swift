@@ -287,6 +287,8 @@ extension ShortsCell {
                 self.onReactorSetThumbnailContentMode(contentMode: contentMode)
             case .scrollToNextCell(let data):
                 self.onReactorScrollToNextCell(data : data )
+            case .emptyVideoPlayer:
+                self.onReactorEmptyVideoPlayer()
             }
         }
     }
@@ -437,6 +439,9 @@ extension ShortsCell {
         delegate?.didFinishPlayingShorts(cell: self, data: data)
     }
     
+    private func onReactorEmptyVideoPlayer() {
+        playerView.action( .emptyPlayer )
+    }
 }
 //MARK: - bind playerView
 extension ShortsCell {

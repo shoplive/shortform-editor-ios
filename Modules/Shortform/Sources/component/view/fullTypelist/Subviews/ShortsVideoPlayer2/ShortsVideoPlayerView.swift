@@ -18,6 +18,7 @@ class ShortsVideoPlayerView : UIView, SLReactor {
     
     enum Action {
         case initPlayerView(URL)
+        case emptyPlayer
         case requestSnapShot
         case requestSnapShotForWindow
         case setVideoGravity(AVLayerVideoGravity)
@@ -88,6 +89,8 @@ extension ShortsVideoPlayerView {
 extension ShortsVideoPlayerView {
     func action(_ action: Action) {
         switch action {
+        case .emptyPlayer:
+            self.onEmptyPlayer()
         case .initPlayerView(let videoUrl):
             self.onInitPlayerView(videoURl: videoUrl)
         case .requestSnapShot:
@@ -115,6 +118,10 @@ extension ShortsVideoPlayerView {
         case .removePlayerStatusObserver:
             self.onRemovePlayerStatusObserver()
         }
+    }
+    
+    private func onEmptyPlayer() {
+        reactor.action( .emptyPlayer )
     }
     
     private func onInitPlayerView(videoURl : URL) {

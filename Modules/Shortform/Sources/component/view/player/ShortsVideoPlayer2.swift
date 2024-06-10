@@ -25,6 +25,7 @@ enum SLShortsVideoPlayerObserveValue: String {
 class ShortsVideoPlayer2 : SLReactor {
     
     enum Action {
+        case emptyPlayerItem
     }
     
     enum Result {
@@ -58,7 +59,14 @@ class ShortsVideoPlayer2 : SLReactor {
     
     
     func action(_ action: Action) {
-        
+        switch action {
+        case .emptyPlayerItem:
+            self.onEmptyPlayerItem()
+        }
+    }
+    
+    private func onEmptyPlayerItem() {
+        player?.replaceCurrentItem(with: nil)
     }
     
 }

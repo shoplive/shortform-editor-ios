@@ -16,6 +16,7 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
     typealias ShortsMode = ShopLiveShortform.ShortsMode
     
     enum Action {
+        case emptyPlayer
         case initPlayer(URL)
         case setVideoUrl(URL)
         case reloadVideo
@@ -73,6 +74,8 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
     
     func action(_ action: Action) {
         switch action {
+        case .emptyPlayer:
+            self.onEmptyPlayer()
         case .play:
             self.onPlay()
         case .replay:
@@ -102,6 +105,10 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
         case .removePlayerStatusObserver:
             onRemovePlayerStatusObserver()
         }
+    }
+    
+    private func onEmptyPlayer() {
+        shortsVideoPlayer?.action( .emptyPlayerItem )
     }
     
     private func onPlay() {
