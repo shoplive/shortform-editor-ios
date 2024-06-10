@@ -88,13 +88,26 @@ public class ShopLiveShortform {
         }
     }
     
-    public static func getShopliveWindow() -> UIWindow? {
+    public static func getCurrentKeyWindow() -> UIWindow? {
         guard let shortsCollection = Self.shortsCollection,
               let shortformWindow = Self.shortformWindow else {
             return UIApplication.shared.keyWindow
         }
         if shortsCollection.getCurrentShortsMode() == .preview {
             return UIApplication.shared.keyWindow
+        }
+        else {
+            return shortformWindow.getCurrentWindow()
+        }
+    }
+    
+    public static func getShopliveWindow() -> UIWindow? {
+        guard let shortsCollection = Self.shortsCollection,
+              let shortformWindow = Self.shortformWindow else {
+            return nil
+        }
+        if shortsCollection.getCurrentShortsMode() == .preview {
+            return nil
         }
         else {
             return shortformWindow.getCurrentWindow()

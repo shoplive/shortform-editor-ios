@@ -185,7 +185,7 @@ extension VerticalTypeViewExampleViewController : ShopLiveShortformReceiveHandle
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = self.view
         
-        guard let w = ShopLiveShortform.getShopliveWindow() else { return }
+        guard let w = ShopLiveShortform.getCurrentKeyWindow() else { return }
         w.rootViewController?.present(activityVC, animated: true, completion: nil)
     }
 }

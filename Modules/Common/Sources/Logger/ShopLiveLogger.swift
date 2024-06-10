@@ -12,7 +12,7 @@ public class ShopLiveLogger {
     
     public static func debugLog(_ log: String) {
         #if DEBUG
-//        os_log("[DEBUG_LOG]%s", log)
+        os_log("[DEBUG_LOG]%s", log)
         #endif
     }
     

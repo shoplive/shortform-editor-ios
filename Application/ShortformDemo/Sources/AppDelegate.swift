@@ -13,6 +13,7 @@ import Firebase
 import ShopliveSDKCommon
 import AdSupport
 import AppTrackingTransparency
+import ShopLiveShortformSDK
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -73,7 +74,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        return .all
+        if let shortformWindow = ShopLiveShortform.getCurrentKeyWindow(), shortformWindow == window {
+            return .portrait
+        }
+        else {
+            return .all
+        }
     }
     
 

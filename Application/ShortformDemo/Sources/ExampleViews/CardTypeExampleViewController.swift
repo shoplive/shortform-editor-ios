@@ -217,7 +217,7 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = self.view
         
-        guard let w = ShopLiveShortform.getShopliveWindow() else { return }
+        guard let w = ShopLiveShortform.getCurrentKeyWindow() else { return }
         w.rootViewController?.present(activityVC, animated: true, completion: nil)
         
     }
@@ -307,7 +307,7 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
     
     private func openShareSheet(url : URL){
         let activityvc = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-        if let window = ShopLiveShortform.getShopliveWindow() {
+        if let window = ShopLiveShortform.getCurrentKeyWindow() {
             window.rootViewController?.present(activityvc, animated: true)
         }
         else {
