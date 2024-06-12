@@ -143,7 +143,6 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
         print("[HASSAN LOG] srn \(shortsSrn)")
         print("[HASSAN LOG] shortsId \(shortsId)")
         print("[HASSAN LOG] productModel \(product.sku ?? "")")
-        
         ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(shortsId: shortsId,
                                                                                 isEnabledVolumeKey: OptionSettingModel.isEnabledVolumeKey,
                                                                                 productId: product.productId,
@@ -164,12 +163,6 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
                                                       referrer: "ios_c_test_referrer",
                                                       custom: nil))
         
-        ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(shortsId: shortsId,
-                                                                                productId: product.productId,
-                                                                                isMuted: isMuted,
-                                                                                maxCount: OptionSettingModel.previewMaxCount,clickEventCallBack: {
-            ShopLiveLogger.debugLog("[HASSAN LOG] shopliveShortform preview clickEventCallBack ")
-        }))
     }
     
     func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShortsDetailData) {
