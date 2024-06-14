@@ -19,6 +19,8 @@ public protocol ShopLiveCommonDelegate : NSObject {
     static var baseURLGenerator: ((HTTPVersion) -> String)?
     
     private static var delegate : [ShopLiveCommonDelegate] = []
+    private static var isAuthTokenSetByAlone : Bool = false
+    
     
     
     private static var _auth : ShopLiveCommonAuth?
@@ -53,8 +55,18 @@ public protocol ShopLiveCommonDelegate : NSObject {
 //MARK: - common Auth
 extension ShopLiveCommon {
     
+    public static func isAuthTokenSetAlone() -> Bool {
+        return isAuthTokenSetByAlone
+    }
+    
     @objc(setAuthToken:)
     public static func setAuthToken(authToken : String?) {
+        if authToken ?? "" == "" {
+            isAuthTokenSetByAlone = false
+        }
+        else {
+            isAuthTokenSetByAlone = true
+        }
         if auth?.userJWT ?? "" != authToken {
             Self.delegate.forEach { delegate in
                 delegate.onChangedShopLiveUserJWT(to: authToken)
@@ -73,6 +85,7 @@ extension ShopLiveCommon {
     
     @objc(setUser:accessKey:)
     public static func setUser(user : ShopLiveCommonUser?, accessKey : String?){
+        isAuthTokenSetByAlone = false
         _user = user
         guard let accessKey = accessKey else {
             os_log("[Shoplive] failed to create authToken because accessKey is not defined", type: .error)
@@ -184,6 +197,7 @@ extension ShopLiveCommon {
     }
     
     @objc public static func clearAuth() {
+        isAuthTokenSetByAlone = false
         auth = nil
     }
     

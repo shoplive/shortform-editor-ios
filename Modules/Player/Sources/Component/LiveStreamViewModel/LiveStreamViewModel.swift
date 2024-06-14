@@ -878,7 +878,10 @@ extension LiveStreamViewModel {
         queryItems.append(URLQueryItem(name: "ak", value: ShopLiveCommon.getAccessKey()))
         queryItems.append(URLQueryItem(name: "ck", value: ShopLiveController.shared.campaignKey))
         
-        queryItems.append(URLQueryItem(name: "tk", value: ShopLiveCommon.getAuthToken() ?? ""))
+        if ShopLiveCommon.isAuthTokenSetAlone() {
+            queryItems.append(URLQueryItem(name: "tk", value: ShopLiveCommon.getAuthToken() ?? ""))
+        }
+        
         
         if let user = ShopLiveCommon.getUser() {
             queryItems.append(URLQueryItem(name: "userId", value: user.userId))
