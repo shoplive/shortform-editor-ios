@@ -579,8 +579,8 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
     
     func updateSnapShotImageViewFrameWithActualVideoRenderedRect(rect: CGRect) {
         if let snapShotImageView = self.snapShotImageView,
-           var widthAnc = self.snapShotWidthAnc,
-           var heightAnc = self.snapShotheightAnc,
+           let widthAnc = self.snapShotWidthAnc,
+           let heightAnc = self.snapShotheightAnc,
            let playerView = self.playerView,
            playerView.frame.width > 10,
            playerView.frame.height > 10 {
@@ -595,6 +595,12 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
             self.snapShotheightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor,multiplier: rect.height / playerView.frame.height)
             self.snapShotheightAnc?.isActive = true
         }
+    }
+    
+    //shopliveBase에서 play()함수 호출 되었을때, snapShot image 날리면서, backgroundPoster다시 visible 처리 
+    func refreshSnapShotImageViewAndBackgroundPosterImageWebViewWhenPlayCalled() {
+        snapShotImageView?.image = nil
+        backgroundPosterImageWebView?.isHidden = false
     }
     
 }

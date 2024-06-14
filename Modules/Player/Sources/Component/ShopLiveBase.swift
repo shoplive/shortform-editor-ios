@@ -1947,10 +1947,13 @@ extension ShopLiveBase: ShopLiveComponent {
             if let ak = ShopLiveCommon.getAccessKey(),
                let vc = self.liveStreamViewController,
                ShopLiveController.shared.isPreview == false {
+                vc.refreshSnapShotImageViewAndBackgroundPosterImageWebViewWhenPlayCalled()
                 vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
                                                                  campaignKey: ShopLiveController.shared.campaignKey,
                                                                  isPreview: false) { isSuccess in
-                    guard let playerFrame = vc.viewModel.getEstimatedPlayerFrameForFullScreenOnInitalize(), isSuccess else { return }
+                    guard let playerFrame = vc.viewModel.getEstimatedPlayerFrameForFullScreenOnInitalize(), isSuccess else {
+                        return
+                    }
                     DispatchQueue.main.async {
                         vc.updatePlayerViewFrameFromApp(targetFrame: playerFrame)
                     }

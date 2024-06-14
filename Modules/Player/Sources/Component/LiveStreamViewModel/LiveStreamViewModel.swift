@@ -872,7 +872,6 @@ extension LiveStreamViewModel {
      */
     func getOverLayUrlWithInfosAttached() -> URL? {
         guard let baseUrl = overayUrl else { return nil }
-        guard let baseUrl = overayUrl else { return nil }
         let urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
    
