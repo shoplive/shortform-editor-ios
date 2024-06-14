@@ -622,10 +622,10 @@ extension LiveStreamViewModel {
     
     //MARK: - liveStreamKeepUptimer logics
     func startLiveStreamKeepUpTimer() {
+        self.removeLiveStreamKeepUpTimer()
         if self.useLiveKeepUpTimerOnInApp == false && ShopLiveController.windowStyle != .osPip { return }
         if self.useLiveKeepUpTimerOnOsPip == false && ShopLiveController.windowStyle == .osPip { return }
         if ShopLiveController.isReplayMode { return  }
-        self.removeLiveStreamKeepUpTimer()
 
         let time = CMTime(seconds: liveKeepUpTimerFrequency, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         liveKeepUpTimer = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: DispatchQueue.global(qos: .background)) { [weak self] time in
