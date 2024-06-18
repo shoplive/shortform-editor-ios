@@ -264,8 +264,8 @@ internal final class LiveStreamViewModel: NSObject {
             playerErrorObserver = ShopLiveAVPlayerErrorObserver(player: ShopLiveController.player!)
             playerErrorObserver?.delegate = self
             addPlayTimeObserver()
-//            addActualVideoRectTrackingPlayPeriodicTimeObserver()
         }
+        
     }
     
     
@@ -582,6 +582,7 @@ extension LiveStreamViewModel {
             let curTime = CMTimeGetSeconds(time)
             //            self.checkLoadedTimeRangeStalled()
             ShopLiveController.shared.currentPlayTime = time
+            
             ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoTimeUpdated, curTime)
         }
     }
@@ -878,9 +879,7 @@ extension LiveStreamViewModel {
         queryItems.append(URLQueryItem(name: "ak", value: ShopLiveCommon.getAccessKey()))
         queryItems.append(URLQueryItem(name: "ck", value: ShopLiveController.shared.campaignKey))
         
-        if ShopLiveCommon.isAuthTokenSetAlone() {
-            queryItems.append(URLQueryItem(name: "tk", value: ShopLiveCommon.getAuthToken() ?? ""))
-        }
+        queryItems.append(URLQueryItem(name: "tk", value: ShopLiveCommon.getAuthTokenForPlayer() ?? ""))
         
         
         if let user = ShopLiveCommon.getUser() {

@@ -468,7 +468,7 @@ extension ShopLive: ShopLiveSDKInterface {
             ShopLiveCommon.setAuthToken(authToken: newValue)
         }
         get {
-            ShopLiveCommon.getAuthToken()
+            ShopLiveCommon.getAuthTokenForPlayer()
         }
     }
     

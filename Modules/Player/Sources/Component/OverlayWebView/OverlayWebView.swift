@@ -475,7 +475,13 @@ extension OverlayWebView: WKScriptMessageHandler {
     
     private func handleON_CLICK_SHARE_BUTTON(payload : [String : Any]?) {
         guard let payload = payload else { return }
-        let shareUrl = ShopLiveController.shared.shareScheme
+        var shareUrl : String?
+        if let shareUrlFromWeb = payload["shareUrl"] as? String {
+            shareUrl = shareUrlFromWeb
+        }
+        else {
+            shareUrl = ShopLiveController.shared.shareScheme
+        }
         delegate?.requestHandleShare(data: .init(campaign: .init(payload: payload), url: shareUrl))
     }
 }
@@ -521,4 +527,3 @@ extension OverlayWebView: UIScrollViewDelegate {
         scrollView.setContentOffset(.init(x: 0, y: 0), animated: false)
     }
 }
-

@@ -10,7 +10,8 @@ import AppTrackingTransparency
 import AdSupport
 
 public struct ShopLiveCommonAuth {
-    var userJWT : String? = nil
+    var generatedUserJWT : String? = nil
+    var customerUserJWT : String? = nil
     var guestUid : String? = nil
     var accessKey : String? = nil
     

@@ -19,7 +19,6 @@ public protocol ShopLiveCommonDelegate : NSObject {
     static var baseURLGenerator: ((HTTPVersion) -> String)?
     
     private static var delegate : [ShopLiveCommonDelegate] = []
-    private static var isAuthTokenSetByAlone : Bool = false
     
     
     
@@ -55,52 +54,52 @@ public protocol ShopLiveCommonDelegate : NSObject {
 //MARK: - common Auth
 extension ShopLiveCommon {
     
-    public static func isAuthTokenSetAlone() -> Bool {
-        return isAuthTokenSetByAlone
-    }
     
     @objc(setAuthToken:)
     public static func setAuthToken(authToken : String?) {
-        if authToken ?? "" == "" {
-            isAuthTokenSetByAlone = false
-        }
-        else {
-            isAuthTokenSetByAlone = true
-        }
-        if auth?.userJWT ?? "" != authToken {
+        if auth?.customerUserJWT ?? "" != authToken {
             Self.delegate.forEach { delegate in
                 delegate.onChangedShopLiveUserJWT(to: authToken)
             }
         }
-        auth?.userJWT = authToken
+        auth?.customerUserJWT = authToken
     }
     
     @objc public static func getAuthToken() -> String? {
-       return auth?.userJWT
+        if let customerJwt = auth?.customerUserJWT {
+            return customerJwt
+        }
+        else {
+            return auth?.generatedUserJWT
+        }
     }
+    
+    //플레이어에서는 일반 인증의 경우 generated 된 jwt를 아예 안쓰는 것으로 협의 됨 2024/06/17
+    @objc public static func getAuthTokenForPlayer() -> String? {
+        return auth?.customerUserJWT
+    }
+    
     
     @objc public static func getUser() ->  ShopLiveCommonUser? {
         return _user
     }
     
     @objc(setUser:accessKey:)
-    public static func setUser(user : ShopLiveCommonUser?, accessKey : String?){
-        isAuthTokenSetByAlone = false
+    public static func setUser(user : ShopLiveCommonUser?, accessKey : String?) {
         _user = user
         guard let accessKey = accessKey else {
             os_log("[Shoplive] failed to create authToken because accessKey is not defined", type: .error)
             return
         }
-        
         if let user = user, let jwtToken = ShopLiveJWT.make(accessKey: accessKey, userData: user) {
-            auth?.userJWT = jwtToken
+            auth?.generatedUserJWT = jwtToken
             Self.delegate.forEach { delegate in
                 delegate.onChangedShopLiveUserJWT(to: jwtToken)
                 delegate.onChangeShopLiveUser(to: user)
             }
         }
         else {
-            auth?.userJWT = nil
+            auth?.generatedUserJWT = nil
         }
     }
     
@@ -174,7 +173,7 @@ extension ShopLiveCommon {
     }
     
     @objc public static func getGuestUid() -> String? {
-        if auth?.userJWT != nil {
+        if let _ = Self.getAuthToken() {
             return nil
         }
         return auth?.guestUid
@@ -197,7 +196,6 @@ extension ShopLiveCommon {
     }
     
     @objc public static func clearAuth() {
-        isAuthTokenSetByAlone = false
         auth = nil
     }
     

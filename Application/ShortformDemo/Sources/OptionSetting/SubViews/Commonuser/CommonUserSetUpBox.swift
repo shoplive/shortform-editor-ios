@@ -20,6 +20,9 @@ class CommonUserSetUpBox : UIView {
     private var genderBox = CommonUserInputBox(title: "gender :", placeHolder: "male : m, female : f,netural : n")
     private var userScoreBox = CommonUserInputBox(title: "userScore :", placeHolder: "userScore",keyboardType: .decimalPad)
     
+    
+    private var jwtBox = CommonUserInputBox(title: "jwt :", placeHolder: "set jwt token")
+    
     private var userJWTLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -71,6 +74,7 @@ class CommonUserSetUpBox : UIView {
         ageBox.setInitialValue(value: String(Defaults.userAge))
         genderBox.setInitialValue(value: Defaults.userGender)
         userScoreBox.setInitialValue(value: String(Defaults.userScore))
+        jwtBox.setInitialValue(value: Defaults.jwt)
     }
     
     private func setJWT(){

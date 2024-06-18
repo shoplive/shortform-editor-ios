@@ -38,6 +38,7 @@ enum DefaultsKey: String {
     case userAge = "userAge"
     case userGender = "userGender"
     case userScore = "userScore"
+    case jwt = "jwt"
 }
 
 struct Defaults {
@@ -58,5 +59,9 @@ struct Defaults {
     
     @UserDefault(key: DefaultsKey.userScore.rawValue, defaultValue: 0)
     static var userScore : Int
+    
+    
+    @UserDefault(key: DefaultsKey.jwt.rawValue, defaultValue: "")
+    static var jwt : String
     
 }
