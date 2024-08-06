@@ -17,7 +17,7 @@ protocol LiveStreamViewModelDelegate : NSObjectProtocol {
     func reloadWebView(with url : URL)
     func sendNetworkCapabilityOnChanged(networkCapability : String)
     func getCurrentWebViewUrl() -> URL?
-    func updateSnapShotImageViewFrameWithActualVideoRenderedRect(rect : CGRect)
+    func updateSnapShotImageViewFrameWithRatio(ratio : CGSize)
     func requestHideOrShowSnapShotImageView(isHidden : Bool)
     func requestHideOrShowBackgroundPosterImageWebView(isHidden : Bool)
 }
@@ -87,6 +87,8 @@ internal final class LiveStreamViewModel: NSObject {
     private var customVideoResizeMode : ShopLiveResizeMode?
     //resizeMode Fit으로 시작할때 처음 snapShot이 바탕화면에 보이기때문에 처음 스냅샵은 찍지 않도록 함
     private var blockFirstSnapShotForResizeModeFit : Bool = true
+    //web에서 set_video_position으로 playerView의 frame이 변경될경우 실제 videoRect가 이전 것으로 인식되어 깨지는 경우 방지하기 위한 변수
+    private var blockSnapShotWhenPlayerViewFrameUpdatedByWeb : Bool = false
     
     deinit {
         ShopLiveLogger.memoryLog("liveStreamViewModel deinited")
@@ -431,14 +433,16 @@ internal final class LiveStreamViewModel: NSObject {
     
     func checkIfSnapShotImageFrameNeedReCalculation() {
         guard ShopLiveController.windowStyle == .normal else { return }
-        guard let vc = self.liveStreamViewController else { return }
-        let old = self.actualVideoRenderedRect
         if let current = liveStreamViewController?.playerView?.playerLayer?.videoRect {
-            if old != current  && current != .zero && (ceil(current.width) == ceil(vc.view.frame.width) || ceil(current.height) == ceil(vc.view.frame.height))  {
+            if current != .zero && current.width != 0 && current.height != 0 &&
+                ShopLiveController.windowStyle == .normal {
+                //프리뷰 inAppPip를 제외시키는 이유는 preview 자체 크기로 인해서 videoRect가 결정이 되서
                 self.actualVideoRenderedRect = current
-                self.delegate?.updateSnapShotImageViewFrameWithActualVideoRenderedRect(rect: current)
             }
         }
+        let width = self.actualVideoRenderedRect.width
+        let height = self.actualVideoRenderedRect.height
+        self.delegate?.updateSnapShotImageViewFrameWithRatio(ratio: CGSize.init(width: width, height: height))
     }
     
 }
@@ -517,6 +521,14 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
                 ShopLiveController.retryPlay = false
                 setSoundMuteStateOnFirstPlay()
                 self.play()
+                
+                if let current = liveStreamViewController?.playerView?.playerLayer?.videoRect {
+                    if current != .zero && current.width != 0 && current.height != 0 &&
+                        ShopLiveController.windowStyle == .normal {
+                        //프리뷰 inAppPip를 제외시키는 이유는 preview 자체 크기로 인해서 videoRect가 결정이 되서
+                        self.actualVideoRenderedRect = current
+                    }
+                }
                 self.delegate?.requestTakeSnapShotView()
             }
         case .failed:
@@ -987,6 +999,10 @@ extension LiveStreamViewModel {
         
         return url
     }
+    
+    func getBlockSnapShotWhenPlayerViewFrameUpdatedByWeb() -> Bool {
+        return blockSnapShotWhenPlayerViewFrameUpdatedByWeb
+    }
 }
 
 //MARK: -setter
@@ -1058,6 +1074,10 @@ extension LiveStreamViewModel {
     
     func setResizeMode(mode : ShopLiveResizeMode?) {
         self.customVideoResizeMode = mode
+    }
+    
+    func setBlockSnapShotWhenPlayerViewFrameUpdatedByWeb(block : Bool) {
+        self.blockSnapShotWhenPlayerViewFrameUpdatedByWeb = block
     }
 }
 extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {

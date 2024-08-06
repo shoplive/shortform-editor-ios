@@ -325,6 +325,9 @@ final class ShopLiveController: NSObject {
                 completion(nil)
             }
         }
+        else {
+            completion(nil)
+        }
     }
     
     func setSoundMute(isMuted: Bool,from : String = #function) {

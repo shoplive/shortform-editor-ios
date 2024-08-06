@@ -30,6 +30,7 @@ extension LiveStreamViewController {
             
             self.updateImageConstraint(from: targetFrame,targetWindowStyle: .normal)
             
+            self.refreshSnapShotImageViewWhenPlayerViewFrameUpdatedFromWebAndBlock()
             self.playerView?.setNeedsLayout()
             self.playerView?.layoutIfNeeded()
         }

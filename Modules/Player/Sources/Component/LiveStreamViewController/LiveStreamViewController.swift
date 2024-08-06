@@ -448,11 +448,13 @@ extension LiveStreamViewController {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.viewModel.checkIfSnapShotImageFrameNeedReCalculation()
+//            if self.viewModel.getBlockSnapShotWhenPlayerViewFrameUpdatedByWeb() {
+//                return
+//            }
             ShopLiveController.shared.getSnapShot { image in
                 self.calculateSnapShotImageViewContentMode(image : image)
                 if let image = image {
                     self.snapShotImageView?.image = image
-                    self.snapShotImageView?.isHidden = false
                 }
                 completion?()
             }
@@ -468,14 +470,16 @@ extension LiveStreamViewController {
         guard let viewSize = self.snapShotImageView?.frame.size else { return }
         let imageSize = image.size
         
+//        self.snapShotImageView?.contentMode = resizeMode == .FIT ? .scaleAspectFit : .scaleAspectFill
+        
         if viewSize.width > viewSize.height { //가로모드 방송
             self.snapShotImageView?.contentMode = imageSize.width > imageSize.height ? .scaleAspectFit : .scaleAspectFill
         }
         else { //세로모드 방송
             self.snapShotImageView?.contentMode = imageSize.height > imageSize.width ? .scaleAspectFit : .scaleAspectFill
         }
-        
     }
+    
     
     func getIsSnapShotHidden() -> Bool {
         guard let snapShotView = self.snapShotImageView else {
@@ -577,7 +581,7 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
         }
     }
     
-    func updateSnapShotImageViewFrameWithActualVideoRenderedRect(rect: CGRect) {
+    func updateSnapShotImageViewFrameWithRatio(ratio : CGSize) {
         if let snapShotImageView = self.snapShotImageView,
            let widthAnc = self.snapShotWidthAnc,
            let heightAnc = self.snapShotheightAnc,
@@ -585,22 +589,122 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
            playerView.frame.width > 10,
            playerView.frame.height > 10 {
             
+            ShopLiveLogger.tempLog("[SNAPSHOTFIX] ratio \(ratio)")
+            ShopLiveLogger.tempLog("[SNAPSHOTFIX] playerFrame \(playerView.frame)")
+            
+            if ratio.width == 0 || ratio.height == 0 {
+                return
+            }
+            self.snapShotImageView?.isHidden = false
+            
+            var newHeightAnc : NSLayoutConstraint?
+            var newWidthAnc : NSLayoutConstraint?
+            
+            if floor(ratio.height) == floor(playerView.frame.height) {
+                
+                if (ratio.width) > playerView.frame.width {
+                    ShopLiveLogger.tempLog("[SNAPSHOTFIX] -1-1 ")
+                    newHeightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: 1)
+                    newWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor)
+                }
+                else {
+                    ShopLiveLogger.tempLog("[SNAPSHOTFIX] -1-2 ")
+                    guard needSnapShotReDraw(base: playerView.frame.height, isHorizontal: false, ratio: ratio.width / ratio.height) else { return }
+                    newHeightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: 1)
+                    newWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: ratio.width / ratio.height)
+                }
+            }
+            else if floor(ratio.width) == floor(playerView.frame.width) {
+                if ratio.height > playerView.frame.height {
+                    ShopLiveLogger.tempLog("[SNAPSHOTFIX] 0 - 1")
+                    newWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: 1)
+                    newHeightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: 1)
+                }
+                else {
+                    ShopLiveLogger.tempLog("[SNAPSHOTFIX] 0 - 2")
+                    guard needSnapShotReDraw(base: playerView.frame.width, isHorizontal: true, ratio: ratio.height / ratio.width) else { return }
+                    newWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: 1)
+                    newHeightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: ratio.height / ratio.width)
+                }
+                
+                
+            }
+            else if ShopLiveController.shared.videoRatio.width > ShopLiveController.shared.videoRatio.height {
+                let standardRatio = ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height
+                let videoRatio = ratio.width / ratio.height
+                if standardRatio > videoRatio {
+                    ShopLiveLogger.tempLog("[SNAPSHOTFIX] 1")
+//                    guard needSnapShotReDraw(base: playerView.frame.height, isHorizontal: false, ratio: ratio.width / ratio.height) else { return }
+                    
+                    newHeightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: 1)
+                    newWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: ratio.width / ratio.height)
+                }
+                else {
+                    ShopLiveLogger.tempLog("[SNAPSHOTFIX] 2")
+                    guard needSnapShotReDraw(base: playerView.frame.width, isHorizontal: true, ratio: ratio.height / ratio.width) else { return }
+                    
+                    newWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: 1)
+                    newHeightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: ratio.height / ratio.width)
+                }
+            }
+            else {
+                let standardRatio = ShopLiveController.shared.videoRatio.height / ShopLiveController.shared.videoRatio.width
+                let videoRatio = ratio.height / ratio.width
+                if standardRatio > videoRatio {
+                    ShopLiveLogger.tempLog("[SNAPSHOTFIX] 3")
+                    guard needSnapShotReDraw(base: playerView.frame.height, isHorizontal: false, ratio: ratio.width / ratio.height) else { return }
+                    newHeightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: 1)
+                    newWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: ratio.width / ratio.height)
+                }
+                else {
+                    ShopLiveLogger.tempLog("[SNAPSHOTFIX] 4")
+                    guard needSnapShotReDraw(base: playerView.frame.width, isHorizontal: true, ratio: ratio.height / ratio.width) else { return }
+                    newWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: 1)
+                    newHeightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: ratio.height / ratio.width)
+                }
+            }
             
             widthAnc.isActive = false
             heightAnc.isActive = false
             snapShotImageView.removeConstraints([widthAnc,heightAnc])
-            self.snapShotWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor,multiplier: rect.width / playerView.frame.width)
-            self.snapShotWidthAnc?.isActive = true
-            
-            self.snapShotheightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor,multiplier: rect.height / playerView.frame.height)
+            self.snapShotheightAnc = newHeightAnc
+            self.snapShotWidthAnc = newWidthAnc
             self.snapShotheightAnc?.isActive = true
+            self.snapShotWidthAnc?.isActive = true
         }
     }
+    
+    private func needSnapShotReDraw(base : CGFloat, isHorizontal : Bool, ratio : CGFloat) -> Bool {
+        guard let snapShotView = self.snapShotImageView else {
+            return false
+        }
+        var oldSize = CGSize.init(width: floor(snapShotView.frame.size.width), height: floor(snapShotView.frame.size.height))
+        var newSize : CGSize
+        if isHorizontal {
+            newSize = .init(width: floor(base), height: floor(base * ratio))
+        }
+        else {
+            newSize = .init(width: floor(base * ratio), height: floor(base))
+        }
+        
+        ShopLiveLogger.tempLog("[SNAPSHOTFRAMEFIX] oldSize \(oldSize) newSize \(newSize)")
+        return oldSize != newSize
+    }
+    
     
     //shopliveBase에서 play()함수 호출 되었을때, snapShot image 날리면서, backgroundPoster다시 visible 처리 
     func refreshSnapShotImageViewAndBackgroundPosterImageWebViewWhenPlayCalled() {
         snapShotImageView?.image = nil
         backgroundPosterImageWebView?.isHidden = false
+    }
+    
+    //가로 전체 화면 -> 가로 전체 화면, 채팅 나와 있을때, 플레이어 크기가 제대로 잡히지 않아서 일단 그냥 없애버리는 식으로 진행
+    func refreshSnapShotImageViewWhenPlayerViewFrameUpdatedFromWebAndBlock() {
+        snapShotImageView?.image = nil
+        viewModel.setBlockSnapShotWhenPlayerViewFrameUpdatedByWeb(block: true)
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 5) { [weak self] in
+            self?.viewModel.setBlockSnapShotWhenPlayerViewFrameUpdatedByWeb(block: false)
+        }
     }
     
 }
@@ -657,8 +761,8 @@ extension LiveStreamViewController {
         let centerXConstraint = snapShotImageView.centerXAnchor.constraint(equalTo: playerView.centerXAnchor)
         let centerYConstraint = snapShotImageView.centerYAnchor.constraint(equalTo: playerView.centerYAnchor)
         
-        let widthConstraint = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor,multiplier: 0.1)
-        let heightConstraint = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor,multiplier: 0.1)
+        let widthConstraint = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor,multiplier: 1)
+        let heightConstraint = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor,multiplier: 1)
 
         snapShotWidthAnc = widthConstraint
         snapShotheightAnc = heightConstraint
@@ -761,3 +865,4 @@ extension LiveStreamViewController {
     }
     
 }
+
