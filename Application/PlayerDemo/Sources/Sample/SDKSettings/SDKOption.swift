@@ -24,6 +24,7 @@ enum SDKOptionType: String, CaseIterable {
     case useCloseButton
     case playWhenPreviewTapped
     case pipPosition
+    case pipPinPosition
     case pipScale
     case maxPipSize
     case fixedHeightPipSize
@@ -76,7 +77,7 @@ enum SDKOptionType: String, CaseIterable {
             return .showAlert
         case .pipPosition, .nextActionOnHandleNavigation:
             return .dropdown
-        case .pipFloatingOffset, .addParameter:
+        case .pipFloatingOffset, .addParameter, .pipPinPosition:
             return .routeTo
         default:
             return .switchControl

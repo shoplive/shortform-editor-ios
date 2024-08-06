@@ -38,6 +38,16 @@ import UIKit
         }
     }
     
+    @objc public var _pipPinPositions : Array<Int> {
+        set {
+            super.pipPinPositions = newValue.compactMap({ ShopLive.PipPosition(rawValue: $0) })
+        }
+        get {
+            return super.pipPinPositions.map({ $0.rawValue })
+        }
+    }
+    
+    
     @objc public var _enableSwipeOut: Bool {
         set {
             super.enableSwipeOut = newValue

@@ -464,25 +464,72 @@ import ShopliveSDKCommon
         let pipFloatingOffsetBottom: CGFloat = isKeyboardShow ? 0 : pipFloatingOffset.bottom
         let keyboardHeight: CGFloat = isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0
         
-        let standardSize: CGSize = UIScreen.main.bounds.size
+        let screenSize: CGSize = UIScreen.main.bounds.size
         
+        let isOutOfScreen = (screenSize.height - keyboardHeight - (safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top)) < pipSize.height
+        ShopLiveLogger.tempLog("[pipPosition] \(position.name)")
         switch position {
         case .bottomRight, .default:
-            origin.x = standardSize.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width - pipFloatingOffset.right
-            origin.y = standardSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
+            origin.x = screenSize.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width - pipFloatingOffset.right
+            origin.y = screenSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
+        case .bottomCenter:
+            origin.x = (screenSize.width / 2 ) - (pipSize.width / 2)
+            origin.y = screenSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
         case .bottomLeft:
             origin.x = safeAreaInsets.left + pipEdgeInsets.left + pipFloatingOffset.left
-            origin.y = standardSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
+            origin.y = screenSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
+        
+        
         case .topRight:
-            origin.x = standardSize.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width - pipFloatingOffset.right
-            
-            let isOutOfScreen = (standardSize.height - keyboardHeight - (safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top)) < pipSize.height
-            origin.y = isOutOfScreen ? standardSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom : safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
+            origin.x = screenSize.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width - pipFloatingOffset.right
+            if isOutOfScreen {
+                origin.y = screenSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
+            }
+            else {
+                origin.y = safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
+            }
+        case .topCenter:
+            origin.x = (screenSize.width / 2 ) - (pipSize.width / 2)
+            if isOutOfScreen {
+                origin.y = screenSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
+            }
+            else {
+                origin.y = safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
+            }
         case .topLeft:
             origin.x = safeAreaInsets.left + pipEdgeInsets.left + pipFloatingOffset.left
+            if isOutOfScreen {
+                origin.y = screenSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
+            }
+            else {
+                origin.y = safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
+            }
             
-            let isOutOfScreen = (standardSize.height - keyboardHeight - (safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top)) < pipSize.height
-            origin.y = isOutOfScreen ? standardSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom : safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top
+            
+        case .middleLeft:
+            origin.x = safeAreaInsets.left + pipEdgeInsets.left + pipFloatingOffset.left
+            if isOutOfScreen {
+                origin.y = screenSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
+            }
+            else {
+                origin.y = ((screenSize.height - keyboardHeight) / 2) - ( pipSize.height / 2 )
+            }
+        case .middleCenter:
+            origin.x = (screenSize.width / 2 ) - (pipSize.width / 2)
+            if isOutOfScreen {
+                origin.y = screenSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
+            }
+            else {
+                origin.y = ((screenSize.height - keyboardHeight) / 2) - ( pipSize.height / 2 )
+            }
+        case .middleRight:
+            origin.x = screenSize.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width - pipFloatingOffset.right
+            if isOutOfScreen {
+                origin.y = screenSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
+            }
+            else {
+                origin.y = ((screenSize.height - keyboardHeight) / 2) - ( pipSize.height / 2 )
+            }
         }
         
         pipPosition = CGRect(origin: origin, size: pipSize)
@@ -995,33 +1042,6 @@ import ShopliveSDKCommon
         }
     }
     
-    private func alignPipView() {
-        guard let currentCenter = shopLiveWindow?.center else { return }
-        guard let mainWindow = self.mainWindow else { return }
-        let center = mainWindow.center
-        let keyboardHeight: CGFloat = isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0
-        let rate = (mainWindow.frame.height - keyboardHeight) / mainWindow.frame.height
-        let isPositiveDiffX = center.x - currentCenter.x > 0
-        let isPositiveDiffY = (center.y * rate) - currentCenter.y > 0
-        let position: ShopLive.PipPosition = {
-            switch (isPositiveDiffX, isPositiveDiffY) {
-            case (true, true):
-                return .topLeft
-            case (true, false):
-                return .bottomLeft
-            case (false, true):
-                return .topRight
-            case (false, false):
-                return .bottomRight
-            }
-        }()
-        
-        self.setPipPosition(pos: position)
-        //        self.pipPosition = position
-        self.handleKeyboard()
-        
-    }
-    
     private func handleWindowChangeCommand() {
         if ShopLiveConfiguration.UI.keepWindowStyleOnReturnFromOsPip && windowChangeCommand == .none{
             return
@@ -1056,28 +1076,75 @@ import ShopliveSDKCommon
         
     }
     
-    private func alignPipPosion(pipCenter: CGPoint) -> ShopLive.PipPosition {
+    private func getNearestPipPinPosition(currentPipCenter : CGPoint) -> ShopLive.PipPosition {
         guard let mainWindow = self.mainWindow else { return .bottomRight }
-        let center = mainWindow.center
-        let keyboardHeight: CGFloat = isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0
-        let rate = (mainWindow.frame.height - keyboardHeight) / mainWindow.frame.height
-        let isPositiveDiffX = center.x - pipCenter.x > 0
-        let isPositiveDiffY = (center.y * rate) - pipCenter.y > 0
-        let position: ShopLive.PipPosition = {
-            switch (isPositiveDiffX, isPositiveDiffY) {
-            case (true, true):
-                return .topLeft
-            case (true, false):
-                return .bottomLeft
-            case (false, true):
-                return .topRight
-            case (false, false):
-                return .bottomRight
-            }
-        }()
+        guard let shopLiveWindow = self.shopLiveWindow else { return .bottomRight }
         
-        return position
+        var centerOfPins : [ShopLive.PipPosition : CGPoint] = [:]
+        
+        let allowedPinPositions : Set<ShopLive.PipPosition> = Set(self.liveStreamViewController?.viewModel.getAllowedPipPinPositions() ?? [.topLeft, .topRight, .bottomLeft, .bottomRight])
+        
+        
+        let screenSize = UIScreen.main.bounds.size
+        let safeAreaInsets = mainWindow.safeAreaInsets
+        let pipSize = shopLiveWindow.frame.size
+        let pipEdgeInsets: UIEdgeInsets = ShopLiveConfiguration.UI.pipPadding
+        let pipFloatingOffset: UIEdgeInsets = ShopLiveConfiguration.UI.pipFloatingOffset
+        let pipFloatingOffsetBottom: CGFloat = isKeyboardShow ? 0 : pipFloatingOffset.bottom
+        let keyboardHeight: CGFloat = isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0
+        
+        let leftCenterX = safeAreaInsets.left + pipEdgeInsets.left + pipFloatingOffset.left + (pipSize.width / 2)
+        let rightCenterX = screenSize.width - safeAreaInsets.right - pipEdgeInsets.right - (pipSize.width / 2) - pipFloatingOffset.right
+        let midCenterX = screenSize.width / 2
+        
+        //실제 Pip가 이동가능한 높이 
+        let actualViewHeight = (screenSize.height - (keyboardHeight + safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top))
+        let isOutOfScreen = actualViewHeight < pipSize.height
+        
+        var topCenterY : CGFloat
+        var bottomCenterY : CGFloat
+        var middleCenterY : CGFloat
+        
+        if isOutOfScreen {
+            topCenterY = screenSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - (pipSize.height / 2) - keyboardHeight - pipFloatingOffsetBottom
+            middleCenterY = screenSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - (pipSize.height / 2) - keyboardHeight - pipFloatingOffsetBottom
+            bottomCenterY = screenSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - (pipSize.height / 2) - keyboardHeight - pipFloatingOffsetBottom
+        }
+        else {
+            topCenterY = safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top + (pipSize.height / 2)
+            middleCenterY = (screenSize.height - keyboardHeight - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipFloatingOffsetBottom ) / 2
+            middleCenterY = (screenSize.height - keyboardHeight) / 2
+            bottomCenterY = screenSize.height - (safeAreaInsets.bottom + pipEdgeInsets.bottom  + keyboardHeight + pipFloatingOffsetBottom + (pipSize.height / 2))
+        }
+        
+        
+        centerOfPins[.topLeft]      = .init(x: leftCenterX, y: topCenterY)
+        centerOfPins[.topCenter]    = .init(x: midCenterX, y: topCenterY)
+        centerOfPins[.topRight]     = .init(x: rightCenterX, y: topCenterY)
+        
+        centerOfPins[.middleLeft]   = .init(x: leftCenterX, y: middleCenterY)
+        centerOfPins[.middleCenter] = .init(x: midCenterX, y: middleCenterY)
+        centerOfPins[.middleRight]  = .init(x: rightCenterX, y: middleCenterY)
+        
+        centerOfPins[.bottomLeft]   = .init(x: leftCenterX, y: bottomCenterY)
+        centerOfPins[.bottomCenter] = .init(x: midCenterX, y: bottomCenterY)
+        centerOfPins[.bottomRight]  = .init(x: rightCenterX, y: bottomCenterY)
+        
+        var nearestDist : Float = 1000_000_000
+        var nearestPin : ShopLive.PipPosition = .topCenter
+        for (key,value) in centerOfPins {
+            if allowedPinPositions.contains(key) {
+                let dist = hypotf(Float((value.x - currentPipCenter.x)), Float((value.y - currentPipCenter.y)))
+                if dist <= nearestDist {
+                    nearestDist = dist
+                    nearestPin = key
+                }
+            }
+        }
+        
+        return nearestPin
     }
+    
     
     var panGestureInitialCenter: CGPoint = .zero
     
@@ -1099,7 +1166,8 @@ import ShopliveSDKCommon
             liveWindow.center = CGPoint(x: centerX, y: centerY)
             
             
-            guard liveStreamViewController?.viewModel.getEnablePipSwipeOut() ?? false == true || ShopLiveController.shared.isPreview else { return }
+            //|| ShopLiveController.shared.isPreview -> 무신사 요청 사항으로 preview 일때도 swipeOut할 수 있게 수정 2024/08/02
+            guard liveStreamViewController?.viewModel.getEnablePipSwipeOut() ?? false == true  else { return }
             guard let mainWindow = self.mainWindow else { return }
             let mainWindowHeight: CGFloat = mainWindow.bounds.height - (isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0)
             let safeAreaInset = mainWindow.safeAreaInsets
@@ -1159,13 +1227,11 @@ import ShopliveSDKCommon
             var checkCenterX = centerX
             var checkCenterY = centerY
             
-            ShopLiveLogger.debugLog("xRange \(xRange)")
-            ShopLiveLogger.debugLog("yRange \(yRange)")
-            
             guard let liveStreamViewController = self.liveStreamViewController else { return }
             
             let pipPosition = liveStreamViewController.viewModel.getPipPosition()
-            if pipPosition == .topLeft || pipPosition == .bottomLeft {
+            
+            if pipPosition == .topLeft || pipPosition == .bottomLeft || pipPosition == .middleLeft {
                 if velocity.x < 0 {
                     if velocity.x.magnitude > 600 {
                         if checkCenterX + velocity.x < minX {
@@ -1173,7 +1239,8 @@ import ShopliveSDKCommon
                         }
                     }
                 }
-            } else if pipPosition == .topRight || pipPosition == .bottomRight {
+            } 
+            else if pipPosition == .topRight || pipPosition == .bottomRight || pipPosition == .middleRight{
                 if velocity.x > 0 {
                     if velocity.x.magnitude > 600 {
                         if checkCenterX + velocity.x > maxX {
@@ -1183,7 +1250,7 @@ import ShopliveSDKCommon
                 }
             }
             
-            if pipPosition == .topLeft || pipPosition == .topRight {
+            if pipPosition == .topLeft || pipPosition == .topRight || pipPosition == .topCenter{
                 if velocity.y > 0 {
                     if velocity.y.magnitude > 600 {
                         if checkCenterY + velocity.y < minY {
@@ -1191,7 +1258,8 @@ import ShopliveSDKCommon
                         }
                     }
                 }
-            } else if pipPosition == .bottomLeft || pipPosition == .bottomRight {
+            } 
+            else if pipPosition == .bottomLeft || pipPosition == .bottomRight || pipPosition == .bottomCenter {
                 if velocity.y < 0 {
                     if velocity.y.magnitude > 600 {
                         if checkCenterY + velocity.y > maxY {
@@ -1201,10 +1269,7 @@ import ShopliveSDKCommon
                 }
             }
             
-            ShopLiveLogger.debugLog("checkCenterX \(checkCenterX)")
-            ShopLiveLogger.debugLog("checkCenterY \(checkCenterY)")
-            
-            if liveStreamViewController.viewModel.getEnablePipSwipeOut() == true || ShopLiveController.shared.isPreview {
+            if liveStreamViewController.viewModel.getEnablePipSwipeOut() == true {
                 guard xRange.contains(checkCenterX), yRange.contains(checkCenterY) else {
                     delegate?.handleCommand?(ShopLiveController.shared.isPreview ? "CLOSE_FROM_PREVIEW" : "CLOSE_FROM_PLAY", with: nil)
                     hideShopLiveView(viewHideActionType: .onSwipeOut)
@@ -1230,22 +1295,43 @@ import ShopliveSDKCommon
                 }
             }
             
-            switch alignPipPosion(pipCenter: .init(x: centerX, y: centerY)) {
+            let targetPipPosition = getNearestPipPinPosition(currentPipCenter : .init(x: centerX, y: centerY))
+            
+            switch targetPipPosition {
             case .bottomLeft:
                 centerX = minX
                 centerY = maxY
-                break
-            case .topLeft:
-                centerX = minX
-                centerY = minY
-            case .topRight:
-                centerX = maxX
-                centerY = minY
-                break
+            case .bottomCenter:
+                centerX = UIScreen.main.bounds.center.x
+                centerY = maxY
             case .bottomRight:
                 centerX = maxX
                 centerY = maxY
                 break
+                
+            case .topLeft:
+                centerX = minX
+                centerY = safeAreaInset.top + pipEdgeInsets.top + pipFloatingOffset.top + (liveWindow.bounds.size.height / 2)
+            case .topCenter:
+                centerX = UIScreen.main.bounds.center.x
+                centerY = safeAreaInset.top + pipEdgeInsets.top + pipFloatingOffset.top + (liveWindow.bounds.size.height / 2)
+            case .topRight:
+                centerX = maxX
+                centerY = safeAreaInset.top + pipEdgeInsets.top + pipFloatingOffset.top + (liveWindow.bounds.size.height / 2)
+                break
+                
+            case .middleLeft:
+                centerX = minX
+                centerY = (mainWindowHeight) / 2
+            case .middleCenter:
+                centerX = UIScreen.main.bounds.center.x
+                centerY = (mainWindowHeight) / 2
+            case .middleRight:
+                centerX = maxX
+                centerY = (mainWindowHeight) / 2
+                break
+                
+
             case .default:
                 centerX = maxX
                 centerY = maxY
@@ -1260,7 +1346,9 @@ import ShopliveSDKCommon
                 liveWindow.center = destination
                 self.shopLiveWindow?.alpha = 1
                 self.liveStreamViewController?.view.alpha = 1
-                self.alignPipView()
+                self.setPipPosition(pos: targetPipPosition)
+                self.handleKeyboard()
+                
             }
             
             animator.startAnimation()
@@ -1785,6 +1873,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 self.queryParameters["_from"] = "sdk_direct"
                 
                 ShopLiveController.shared.campaignKey = campaignKey ?? ""
+                
                 self.delegate?.log?(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : "preview"])
                 self.delegate?.log?(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type" : "preview"])
                 
@@ -1903,6 +1992,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 }
                 
                 ShopLiveController.shared.campaignKey = campaignKey ?? ""
+                
                 self.needExecuteFullScreen = ShopLiveController.shared.isPreview
                 
                 let audioSessionManager = AudioSessionManager.shared

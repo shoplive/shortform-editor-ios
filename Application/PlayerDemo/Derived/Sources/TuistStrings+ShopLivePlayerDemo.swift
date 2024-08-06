@@ -396,6 +396,13 @@ public enum ShopLivePlayerDemoStrings {
       public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.nextActionTypeOnNavigation.title")
     }
 
+    public enum PinPosition {
+    /// Position of where PIP can be pinned. (default is [topLeft, topRight, bottomLeft, bottomRight])
+      public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pinPosition.description")
+      /// PIP Pin Position
+      public static let title = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pinPosition.title")
+    }
+
     public enum PipCornerRadius {
     /// Set the corner radius of InAppPip. (default 10)
       public static let description = ShopLivePlayerDemoStrings.tr("shoplive", "sdkoption.pipCornerRadius.description")

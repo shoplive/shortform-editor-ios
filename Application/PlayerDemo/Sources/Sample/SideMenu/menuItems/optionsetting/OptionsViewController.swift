@@ -100,6 +100,11 @@ final class OptionsViewController: SideMenuItemViewController {
         
         
         let pipPositionOption = SDKOptionItem(name: "sdkoption.pipPosition.title".localized(), optionDescription: "sdkoption.pipPosition.description".localized(), optionType: .pipPosition)
+        
+        let pipPinOption = SDKOptionItem(name: "sdkoption.pinPosition.title".localized(), optionDescription: "sdkoption.pinPosition.description".localized(), optionType: .pipPinPosition)
+        
+        
+        
         let pipScaleOption = SDKOptionItem(name: "sdkoption.pipScale.title".localized(), optionDescription: "sdkoption.pipScale.description".localized(), optionType: .pipScale)
         let pipMaxSizeOption = SDKOptionItem(name: "sdkOption.pipMaxSize.title".localized(), optionDescription: "sdkOption.pipMaxSize.description".localized(), optionType: .maxPipSize)
         let pipFixedHeightOption = SDKOptionItem(name: "sdkOption.pipFixedHeight.title".localized(), optionDescription: "sdkOption.pipFixedHeight.description".localized(), optionType: .fixedHeightPipSize)
@@ -111,7 +116,7 @@ final class OptionsViewController: SideMenuItemViewController {
         let pipCornerRadius = SDKOptionItem(name: "sdkoption.pipCornerRadius.title".localized(), optionDescription: "sdkoption.pipCornerRadius.description".localized(), optionType: .pipCornerRadius)
         let enablePip = SDKOptionItem(name: "sdkoption.enablepip.title".localized(), optionDescription: "sdkoption.enablepip.description".localized(), optionType: .enablePip)
         let enableOSPip = SDKOptionItem(name: "sdkoption.enableOspip.title".localized(), optionDescription: "sdkoption.enableOspip.description".localized(), optionType: .enableOSPip)
-        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, pipMaxSizeOption,pipFixedHeightOption,pipFixedWidthOption, pipKeepWindowStyle, pipEnableSwipeOutOption, pipAreaOption,pipCornerRadius,enablePip,enableOSPip])
+        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption,pipPinOption, pipScaleOption, pipMaxSizeOption,pipFixedHeightOption,pipFixedWidthOption, pipKeepWindowStyle, pipEnableSwipeOutOption, pipAreaOption,pipCornerRadius,enablePip,enableOSPip])
         
 
         items.append(pipOptions)
@@ -303,7 +308,19 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
             case .pipPosition:
                 dropdown.optionArray = ["topLeft", "topRight", "bottomLeft","bottomRight"]
                 dropdown.didSelect { [weak self] selectedText, index, id in
-                    DemoConfiguration.shared.pipPosition = ShopLive.PipPosition(rawValue: index) ?? .bottomRight
+                    switch selectedText {
+                    case "topLeft":
+                        DemoConfiguration.shared.pipPosition = .topLeft
+                    case "topRight":
+                        DemoConfiguration.shared.pipPosition = .topRight
+                    case "bottomLeft":
+                        DemoConfiguration.shared.pipPosition = .bottomLeft
+                    case "bottomRight":
+                        DemoConfiguration.shared.pipPosition = .bottomRight
+                    default:
+                        DemoConfiguration.shared.pipPosition = .bottomRight
+                    }
+                    
                     anchorView.removeFromSuperview()
                     self?.tableView.reloadData()
                 }
@@ -324,6 +341,9 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 let customParam = SettingCustomParameterViewController()
                 self.navigationController?.pushViewController(customParam, animated: true)
                 break
+            case .pipPinPosition:
+                let vc = PipPinSettingsViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
             default:
                 break
             }

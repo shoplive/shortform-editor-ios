@@ -110,6 +110,11 @@
 
 "sdkoption.pipPosition.title" = "PIP Position";
 "sdkoption.pipPosition.description" = "Position of PIP mode when it starts. (default is bottomRight)";
+
+"sdkoption.pinPosition.title" = "PIP Pin Position";
+"sdkoption.pinPosition.description" = "Position of where PIP can be pinned. (default is [topLeft, topRight, bottomLeft, bottomRight])";
+
+
 "sdkoption.pipScale.title" = "PIP Scale";
 "sdkoption.pipScale.description" = "Scale of the PIP mode screen.\nScaled size based on screen width (values between 0 and 1) or minimum and maximum size limits, and scale size adjusted according to the ratio between them (values between 1 and 100) Default value (0.4)\n";
 "sdkOption.pipMaxSize.title" = "PIP Max Size Setting";

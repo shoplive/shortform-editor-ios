@@ -346,6 +346,19 @@ final class DemoConfiguration: NSObject {
         }
     }
     
+    var pipPinPosition: [ShopLive.PipPosition] {
+        set {
+            let rawValues = newValue.map({ $0.rawValue })
+            UserDefaults.standard.set(rawValues, forKey: SDKOptionType.pipPinPosition.optionKey)
+        }
+        get {
+            let rawValue = UserDefaults.standard.array(forKey: SDKOptionType.pipPinPosition.optionKey) as? [Int]
+            return rawValue?.compactMap({ tag in
+                return ShopLive.PipPosition(rawValue: tag)
+            }) ?? [.topLeft, .topRight, .bottomLeft, .bottomRight]
+        }
+    }
+    
     var pipScale: CGFloat? {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipScale.optionKey)

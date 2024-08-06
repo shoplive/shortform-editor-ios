@@ -128,8 +128,13 @@ extension ShopLive {
 extension ShopLive {
     @objc public enum PipPosition: Int {
         case topLeft
+        case topCenter
         case topRight
+        case middleLeft
+        case middleCenter
+        case middleRight
         case bottomLeft
+        case bottomCenter
         case bottomRight
         case `default`
 
@@ -139,10 +144,21 @@ extension ShopLive {
                 return "bottomRight"
             case .bottomLeft:
                 return "bottomLeft"
+            case .bottomCenter:
+                return "bottomCenter"
             case .topLeft:
                 return "topLeft"
             case .topRight:
                 return "topRight"
+            case .topCenter:
+                return "topCenter"
+            case .middleLeft:
+                return "middleLeft"
+            case .middleCenter:
+                return "middleCenter"
+            case .middleRight:
+                return "middleRight"
+            
             default:
                 return "bottomRight"
             }

@@ -308,7 +308,8 @@ class MainViewController: SideMenuBaseViewController {
                                                            pipPosition: config.pipPosition,
                                                            enableSwipeOut: config.pipEnableSwipeOut,
                                                            pipSize: pipSize,
-                                                           pipRadius: DemoConfiguration.shared.pipCornerRadius ?? 10)
+                                                           pipRadius: DemoConfiguration.shared.pipCornerRadius ?? 10,
+                                                           pipPinPositions: DemoConfiguration.shared.pipPinPosition)
         
         ShopLive.setInAppPipConfiguration(config: inAppPipConfig)
         

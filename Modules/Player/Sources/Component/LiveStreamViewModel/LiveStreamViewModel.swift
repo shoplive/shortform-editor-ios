@@ -301,6 +301,10 @@ internal final class LiveStreamViewModel: NSObject {
         if ShopLiveController.player?.currentItem == nil {
             return
         }
+        //다른 동영상 보다가 replay를 보는 경우에 currentPlayTime이 초기화 되지 않아서, 처음부터 시작하지 않는 현상 방지
+        if ShopLiveController.shared.isSameCampaign == false {
+            ShopLiveController.shared.currentPlayTime = nil
+        }
         self.playerItem = nil
         ShopLiveController.videoUrl = nil
         ShopLiveController.player?.currentItem?.asset.cancelLoading()
@@ -830,6 +834,15 @@ extension LiveStreamViewModel {
         }
         else {
             return .default
+        }
+    }
+    
+    func getAllowedPipPinPositions() -> [ShopLive.PipPosition] {
+        if let config = self.inAppPipConfiguration {
+            return config.pipPinPositions
+        }
+        else {
+            return [.topLeft, .topRight , .bottomLeft, .bottomRight]
         }
     }
     
