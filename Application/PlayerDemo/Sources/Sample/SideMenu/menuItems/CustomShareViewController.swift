@@ -40,7 +40,7 @@ class CustomShareViewController: UIViewController {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         
-        view.setImage(ShopLivePlayerDemoAsset.snsIcon1.image, for: .normal)
+        view.setImage(PlayerDemoAsset.snsIcon1.image, for: .normal)
         view.imageView?.contentMode = .scaleAspectFit
         return view
     }()
@@ -48,7 +48,7 @@ class CustomShareViewController: UIViewController {
     private lazy var snsIconButton_facebook: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setImage(ShopLivePlayerDemoAsset.snsIcon2.image, for: .normal)
+        view.setImage(PlayerDemoAsset.snsIcon2.image, for: .normal)
         view.imageView?.contentMode = .scaleAspectFit
         return view
     }()
@@ -56,7 +56,7 @@ class CustomShareViewController: UIViewController {
     private lazy var snsIconButton_instagram: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setImage(ShopLivePlayerDemoAsset.snsIcon3.image, for: .normal)
+        view.setImage(PlayerDemoAsset.snsIcon3.image, for: .normal)
         view.imageView?.contentMode = .scaleAspectFit
         return view
     }()
@@ -64,7 +64,7 @@ class CustomShareViewController: UIViewController {
     private lazy var snsIconButton_twitter: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setImage(ShopLivePlayerDemoAsset.snsIcon4.image, for: .normal)
+        view.setImage(PlayerDemoAsset.snsIcon4.image, for: .normal)
         view.imageView?.contentMode = .scaleAspectFit
         return view
     }()

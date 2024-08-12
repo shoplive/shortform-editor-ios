@@ -342,7 +342,7 @@ final class CouponCallbackSettingViewController: UIViewController {
     private lazy var closeButton: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setImage(ShopLivePlayerDemoAsset.close.image, for: .normal)
+        view.setImage(PlayerDemoAsset.close.image, for: .normal)
         view.addTarget(self, action: #selector(close), for: .touchUpInside)
         return view
     }()
@@ -449,7 +449,7 @@ final class CouponCallbackSettingViewController: UIViewController {
 
 extension String {
     func textWithDownArrow() -> NSAttributedString {
-        let downArrow = ShopLivePlayerDemoAsset.downArrow.image
+        let downArrow = PlayerDemoAsset.downArrow.image
 
         let attrText: NSMutableAttributedString = .init(string: "\(self) ")
 

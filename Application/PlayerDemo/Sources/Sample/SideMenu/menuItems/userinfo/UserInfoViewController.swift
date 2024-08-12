@@ -355,6 +355,7 @@ final class UserInfoViewController: SideMenuItemViewController {
         user.userScore = Int(userScoreInputField.text ?? "") ?? 0
         self.saveParameterList()
         DemoConfiguration.shared.user = user
+        ShopLiveCommon.setUser(user: user)
         UIWindow.showToast(message: "userinfo.msg.save.success".localized())
         handleNaviBack()
     }
@@ -380,7 +381,7 @@ final class UserInfoViewController: SideMenuItemViewController {
     }
 
     @objc func tokenGenerateSaveAct() {
-        DemoConfiguration.shared.jwtToken = jwtInputField.text
+        DemoConfiguration.shared.jwtToken =  ShopLiveCommon.getAuthToken()
     }
 
     private func updateUserInfo() {
@@ -392,7 +393,9 @@ final class UserInfoViewController: SideMenuItemViewController {
         updateGender(identifier: user.gender?.rawValue ?? "unknown")
         let userScore = DemoConfiguration.shared.userScore
         userScoreInputField.text = userScore != nil ? "\(userScore!)" : ""
-        updateJwtToken()
+        ShopLiveCommon.setUser(user: user)
+        jwtInputField.text = ShopLiveCommon.getAuthToken()
+        
     }
 
     func updateJwtToken() {

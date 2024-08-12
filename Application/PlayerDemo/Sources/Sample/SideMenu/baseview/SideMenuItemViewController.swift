@@ -21,7 +21,7 @@ class SideMenuItemViewController: UIViewController {
     }
 
     func setupBackButton() {
-        let backButton = UIBarButtonItem(image: ShopLivePlayerDemoAsset.back.image, style: .plain, target: self, action: #selector(handleNaviBack)
+        let backButton = UIBarButtonItem(image: PlayerDemoAsset.back.image, style: .plain, target: self, action: #selector(handleNaviBack)
         )
         backButton.tintColor = .white
         self.navigationItem.leftBarButtonItem = backButton

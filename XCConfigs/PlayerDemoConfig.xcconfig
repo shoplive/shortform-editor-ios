@@ -1,4 +1,4 @@
 
 #include "./version.xcconfig"
-SL_APP_NAME = DEMO QA
+SL_APP_NAME = PlayerDemo
 SL_APP_BUNDLE_ID = cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo

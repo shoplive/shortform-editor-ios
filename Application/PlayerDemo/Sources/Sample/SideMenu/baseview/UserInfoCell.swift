@@ -68,12 +68,14 @@ final class UserInfoCell: SampleBaseCell {
         return view
     }()
 
-    lazy var jwtTokenTitleLabel: UILabel = {
-        let view = UILabel()
+    lazy var jwtTokenTitleLabel: UITextView = {
+        let view = UITextView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.numberOfLines = 0
+        view.backgroundColor = .clear
         view.font = .systemFont(ofSize: 16, weight: .medium)
         view.textColor = .black
+        view.isEditable = false
+        view.isScrollEnabled = false
         view.text = DemoConfiguration.shared.jwtToken
         return view
     }()

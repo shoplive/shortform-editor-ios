@@ -18,12 +18,12 @@
 // MARK: - Fonts
 
 // swiftlint:disable identifier_name line_length type_body_length
-public enum ShopLivePlayerDemoFontFamily {
+public enum PlayerDemoFontFamily {
   public enum NanumBrushScript {
-    public static let regular = ShopLivePlayerDemoFontConvertible(name: "NanumBrush", family: "Nanum Brush Script", path: "NanumBrush.ttf")
-    public static let all: [ShopLivePlayerDemoFontConvertible] = [regular]
+    public static let regular = PlayerDemoFontConvertible(name: "NanumBrush", family: "Nanum Brush Script", path: "NanumBrush.ttf")
+    public static let all: [PlayerDemoFontConvertible] = [regular]
   }
-  public static let allCustomFonts: [ShopLivePlayerDemoFontConvertible] = [NanumBrushScript.all].flatMap { $0 }
+  public static let allCustomFonts: [PlayerDemoFontConvertible] = [NanumBrushScript.all].flatMap { $0 }
   public static func registerAllCustomFonts() {
     allCustomFonts.forEach { $0.register() }
   }
@@ -32,7 +32,7 @@ public enum ShopLivePlayerDemoFontFamily {
 
 // MARK: - Implementation Details
 
-public struct ShopLivePlayerDemoFontConvertible {
+public struct PlayerDemoFontConvertible {
   public let name: String
   public let family: String
   public let path: String
@@ -76,8 +76,8 @@ public struct ShopLivePlayerDemoFontConvertible {
   }
 }
 
-public extension ShopLivePlayerDemoFontConvertible.Font {
-  convenience init?(font: ShopLivePlayerDemoFontConvertible, size: CGFloat) {
+public extension PlayerDemoFontConvertible.Font {
+  convenience init?(font: PlayerDemoFontConvertible, size: CGFloat) {
     #if os(iOS) || os(tvOS) || os(watchOS)
     if !UIFont.fontNames(forFamilyName: font.family).contains(font.name) {
       font.register()

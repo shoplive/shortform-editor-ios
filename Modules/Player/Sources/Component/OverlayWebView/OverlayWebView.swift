@@ -259,6 +259,7 @@ extension OverlayWebView: WKNavigationDelegate {
 
 extension OverlayWebView: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        
         guard message.name == ShopLiveDefines.webInterface else { return }
         if let body = message.body as? [String: Any],
            let shopliveEvent = body["shopliveEvent"] as? [String : Any],
@@ -266,7 +267,10 @@ extension OverlayWebView: WKScriptMessageHandler {
            let type = metadata["type"],
            let name = shopliveEvent["name"] as? String {
             
+            
+            
             let parameters = body["payload"] as? [String: Any]
+            
             if type == "USER_IMPLEMENTS_CALLBACK" {
                 self.handleUserImplementsCallback(type: type, name: name, param: parameters)
             } else {

@@ -9,7 +9,7 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 
-let demoTarget = Target(name: "ShopLivePlayerDemo",
+let demoTarget = Target(name: "PlayerDemo",
                         platform: .iOS,
                         product: .app,
                         bundleId: "cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo",
@@ -28,7 +28,7 @@ let demoTarget = Target(name: "ShopLivePlayerDemo",
                         ])
 
 
-let project = Project.makeModule(name: "ShopLivePlayerDemo",
+let project = Project.makeModule(name: "PlayerDemo",
                                  configurations: [
                                     .debug(name: .debug, xcconfig: .relativeToRoot("XCConfigs/PlayerDemoConfig.xcconfig")),
                                     .release(name: .release, xcconfig: .relativeToRoot("XCConfigs/PlayerDemoConfig.xcconfig"))

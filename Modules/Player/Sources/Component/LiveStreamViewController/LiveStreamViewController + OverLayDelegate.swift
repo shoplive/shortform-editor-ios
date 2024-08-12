@@ -52,6 +52,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     func didChangeCampaignStatus(status: String) {
         if status == "CLOSED" {
             self.hideSnapShotView()
+            self.requestHideOrShowBackgroundPosterImageWebView(isHidden: false)
         }
         delegate?.didChangeCampaignStatus(status: status)
     }

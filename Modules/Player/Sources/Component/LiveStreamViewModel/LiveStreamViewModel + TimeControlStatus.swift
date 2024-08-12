@@ -15,7 +15,7 @@ import ShopliveSDKCommon
 extension LiveStreamViewModel {
     func handleTimeControlStatusPlaying() {
         self.isAlreadyPlayedOnce = true
-        ShopLiveLogger.debugLog("timeControlStatus.playing")
+        ShopLiveLogger.tempLog("timeControlStatus.playing")
         
         if let retryManager = retryManager {
             retryManager.setRequiredRetryCheck(isRequired: false)
@@ -39,7 +39,7 @@ extension LiveStreamViewModel {
     }
     
     func handleTimeControlStatusPaused() {
-        ShopLiveLogger.debugLog("timeControlStatu.paused")
+        ShopLiveLogger.tempLog("timeControlStatu.paused")
         self.delegate?.requestTakeSnapShotView()
         if ShopLiveController.isReplayMode {
             ShopLiveController.isPlaying = false
@@ -69,7 +69,7 @@ extension LiveStreamViewModel {
     }
     
     func handleTimeControlStatusWaitingToPlay() {
-        ShopLiveLogger.debugLog("waitingToPlayAtSpecificRate ")
+        ShopLiveLogger.tempLog("waitingToPlayAtSpecificRate ")
         guard let reason = ShopLiveController.player?.reasonForWaitingToPlay else { return }
         guard let retryManager = retryManager else { return }
         self.delegate?.requestTakeSnapShotView()
@@ -78,9 +78,9 @@ extension LiveStreamViewModel {
             self.handleToMinimizeStall()
             retryManager.setIsBuffering(isBuffering: true)
         case .evaluatingBufferingRate:
-            ShopLiveLogger.debugLog("evaluatingBufferingRate")
+            ShopLiveLogger.tempLog("evaluatingBufferingRate")
         case .noItemToPlay:
-            ShopLiveLogger.debugLog("noItemToPlay")
+            ShopLiveLogger.tempLog("noItemToPlay")
             self.sendOnVideoErrorToWebForNoItemToPlay()
         default:
             break
@@ -88,10 +88,10 @@ extension LiveStreamViewModel {
         
         if #available(iOS 15.0,*) {
             if reason == .interstitialEvent {
-                ShopLiveLogger.debugLog("interstitialEvent")
+                ShopLiveLogger.tempLog("interstitialEvent")
             }
             else if reason == .waitingForCoordinatedPlayback {
-                ShopLiveLogger.debugLog("waitingForCoordinatedPlayback")
+                ShopLiveLogger.tempLog("waitingForCoordinatedPlayback")
             }
         }
     }
@@ -105,7 +105,7 @@ extension LiveStreamViewModel {
     }
     
     private func handleToMinimizeStall() {
-        ShopLiveLogger.debugLog("toMinimizeStall")
+        ShopLiveLogger.tempLog("toMinimizeStall")
         guard let retryManager = retryManager else { return }
         guard retryManager.getIsBuffering() == false else { return }
         

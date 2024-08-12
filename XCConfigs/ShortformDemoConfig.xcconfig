@@ -1,7 +1,7 @@
 
 
 #include "./version.xcconfig"
-SL_APP_NAME = Shortform Dev
+SL_APP_NAME = ShortformDemo
 SL_APP_BUNDLE_ID = cloud.shoplive.dev.shortform-examples
 
 

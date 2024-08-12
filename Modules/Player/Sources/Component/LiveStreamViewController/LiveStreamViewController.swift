@@ -448,9 +448,6 @@ extension LiveStreamViewController {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.viewModel.checkIfSnapShotImageFrameNeedReCalculation()
-//            if self.viewModel.getBlockSnapShotWhenPlayerViewFrameUpdatedByWeb() {
-//                return
-//            }
             ShopLiveController.shared.getSnapShot { image in
                 self.calculateSnapShotImageViewContentMode(image : image)
                 if let image = image {
@@ -469,9 +466,7 @@ extension LiveStreamViewController {
         }
         guard let viewSize = self.snapShotImageView?.frame.size else { return }
         let imageSize = image.size
-        
-//        self.snapShotImageView?.contentMode = resizeMode == .FIT ? .scaleAspectFit : .scaleAspectFill
-        
+                
         if viewSize.width > viewSize.height { //가로모드 방송
             self.snapShotImageView?.contentMode = imageSize.width > imageSize.height ? .scaleAspectFit : .scaleAspectFill
         }
@@ -582,15 +577,13 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
     }
     
     func updateSnapShotImageViewFrameWithRatio(ratio : CGSize) {
+        guard ShopLiveController.shared.campaignStatus != .close else { return }
         if let snapShotImageView = self.snapShotImageView,
            let widthAnc = self.snapShotWidthAnc,
            let heightAnc = self.snapShotheightAnc,
            let playerView = self.playerView,
            playerView.frame.width > 10,
            playerView.frame.height > 10 {
-            
-            ShopLiveLogger.tempLog("[SNAPSHOTFIX] ratio \(ratio)")
-            ShopLiveLogger.tempLog("[SNAPSHOTFIX] playerFrame \(playerView.frame)")
             
             if ratio.width == 0 || ratio.height == 0 {
                 return
@@ -603,12 +596,10 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
             if floor(ratio.height) == floor(playerView.frame.height) {
                 
                 if (ratio.width) > playerView.frame.width {
-                    ShopLiveLogger.tempLog("[SNAPSHOTFIX] -1-1 ")
                     newHeightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: 1)
                     newWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor)
                 }
                 else {
-                    ShopLiveLogger.tempLog("[SNAPSHOTFIX] -1-2 ")
                     guard needSnapShotReDraw(base: playerView.frame.height, isHorizontal: false, ratio: ratio.width / ratio.height) else { return }
                     newHeightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: 1)
                     newWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: ratio.width / ratio.height)
@@ -616,31 +607,24 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
             }
             else if floor(ratio.width) == floor(playerView.frame.width) {
                 if ratio.height > playerView.frame.height {
-                    ShopLiveLogger.tempLog("[SNAPSHOTFIX] 0 - 1")
                     newWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: 1)
                     newHeightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: 1)
                 }
                 else {
-                    ShopLiveLogger.tempLog("[SNAPSHOTFIX] 0 - 2")
                     guard needSnapShotReDraw(base: playerView.frame.width, isHorizontal: true, ratio: ratio.height / ratio.width) else { return }
                     newWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: 1)
                     newHeightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: ratio.height / ratio.width)
                 }
-                
-                
             }
             else if ShopLiveController.shared.videoRatio.width > ShopLiveController.shared.videoRatio.height {
                 let standardRatio = ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height
                 let videoRatio = ratio.width / ratio.height
                 if standardRatio > videoRatio {
-                    ShopLiveLogger.tempLog("[SNAPSHOTFIX] 1")
-//                    guard needSnapShotReDraw(base: playerView.frame.height, isHorizontal: false, ratio: ratio.width / ratio.height) else { return }
-                    
+                    guard needSnapShotReDraw(base: playerView.frame.height, isHorizontal: false, ratio: ratio.width / ratio.height) else { return }
                     newHeightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: 1)
                     newWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: ratio.width / ratio.height)
                 }
                 else {
-                    ShopLiveLogger.tempLog("[SNAPSHOTFIX] 2")
                     guard needSnapShotReDraw(base: playerView.frame.width, isHorizontal: true, ratio: ratio.height / ratio.width) else { return }
                     
                     newWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: 1)
@@ -651,13 +635,11 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
                 let standardRatio = ShopLiveController.shared.videoRatio.height / ShopLiveController.shared.videoRatio.width
                 let videoRatio = ratio.height / ratio.width
                 if standardRatio > videoRatio {
-                    ShopLiveLogger.tempLog("[SNAPSHOTFIX] 3")
                     guard needSnapShotReDraw(base: playerView.frame.height, isHorizontal: false, ratio: ratio.width / ratio.height) else { return }
                     newHeightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: 1)
                     newWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: ratio.width / ratio.height)
                 }
                 else {
-                    ShopLiveLogger.tempLog("[SNAPSHOTFIX] 4")
                     guard needSnapShotReDraw(base: playerView.frame.width, isHorizontal: true, ratio: ratio.height / ratio.width) else { return }
                     newWidthAnc = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: 1)
                     newHeightAnc = snapShotImageView.heightAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: ratio.height / ratio.width)
@@ -686,9 +668,7 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
         else {
             newSize = .init(width: floor(base * ratio), height: floor(base))
         }
-        
-        ShopLiveLogger.tempLog("[SNAPSHOTFRAMEFIX] oldSize \(oldSize) newSize \(newSize)")
-        return oldSize != newSize
+                return oldSize != newSize
     }
     
     

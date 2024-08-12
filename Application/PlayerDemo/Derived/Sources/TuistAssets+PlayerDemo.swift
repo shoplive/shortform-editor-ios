@@ -19,39 +19,39 @@
 // MARK: - Asset Catalogs
 
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
-public enum ShopLivePlayerDemoAsset {
-  public static let accentColor = ShopLivePlayerDemoColors(name: "AccentColor")
-  public static let back = ShopLivePlayerDemoImages(name: "back")
-  public static let checkNotSelected = ShopLivePlayerDemoImages(name: "check_not_selected")
-  public static let checkSelected = ShopLivePlayerDemoImages(name: "check_selected")
-  public static let close = ShopLivePlayerDemoImages(name: "close")
-  public static let downArrow = ShopLivePlayerDemoImages(name: "down_arrow")
-  public static let icHamburger = ShopLivePlayerDemoImages(name: "ic_hamburger")
-  public static let loading1 = ShopLivePlayerDemoImages(name: "loading1")
-  public static let loading10 = ShopLivePlayerDemoImages(name: "loading10")
-  public static let loading11 = ShopLivePlayerDemoImages(name: "loading11")
-  public static let loading2 = ShopLivePlayerDemoImages(name: "loading2")
-  public static let loading3 = ShopLivePlayerDemoImages(name: "loading3")
-  public static let loading4 = ShopLivePlayerDemoImages(name: "loading4")
-  public static let loading5 = ShopLivePlayerDemoImages(name: "loading5")
-  public static let loading6 = ShopLivePlayerDemoImages(name: "loading6")
-  public static let loading7 = ShopLivePlayerDemoImages(name: "loading7")
-  public static let loading8 = ShopLivePlayerDemoImages(name: "loading8")
-  public static let loading9 = ShopLivePlayerDemoImages(name: "loading9")
-  public static let logoBlack = ShopLivePlayerDemoImages(name: "logo_black")
-  public static let moreButton = ShopLivePlayerDemoImages(name: "more_button")
-  public static let radioNotSelected = ShopLivePlayerDemoImages(name: "radio_not_selected")
-  public static let radioSelected = ShopLivePlayerDemoImages(name: "radio_selected")
-  public static let snsIcon1 = ShopLivePlayerDemoImages(name: "sns_icon_1")
-  public static let snsIcon2 = ShopLivePlayerDemoImages(name: "sns_icon_2")
-  public static let snsIcon3 = ShopLivePlayerDemoImages(name: "sns_icon_3")
-  public static let snsIcon4 = ShopLivePlayerDemoImages(name: "sns_icon_4")
+public enum PlayerDemoAsset {
+  public static let accentColor = PlayerDemoColors(name: "AccentColor")
+  public static let back = PlayerDemoImages(name: "back")
+  public static let checkNotSelected = PlayerDemoImages(name: "check_not_selected")
+  public static let checkSelected = PlayerDemoImages(name: "check_selected")
+  public static let close = PlayerDemoImages(name: "close")
+  public static let downArrow = PlayerDemoImages(name: "down_arrow")
+  public static let icHamburger = PlayerDemoImages(name: "ic_hamburger")
+  public static let loading1 = PlayerDemoImages(name: "loading1")
+  public static let loading10 = PlayerDemoImages(name: "loading10")
+  public static let loading11 = PlayerDemoImages(name: "loading11")
+  public static let loading2 = PlayerDemoImages(name: "loading2")
+  public static let loading3 = PlayerDemoImages(name: "loading3")
+  public static let loading4 = PlayerDemoImages(name: "loading4")
+  public static let loading5 = PlayerDemoImages(name: "loading5")
+  public static let loading6 = PlayerDemoImages(name: "loading6")
+  public static let loading7 = PlayerDemoImages(name: "loading7")
+  public static let loading8 = PlayerDemoImages(name: "loading8")
+  public static let loading9 = PlayerDemoImages(name: "loading9")
+  public static let logoBlack = PlayerDemoImages(name: "logo_black")
+  public static let moreButton = PlayerDemoImages(name: "more_button")
+  public static let radioNotSelected = PlayerDemoImages(name: "radio_not_selected")
+  public static let radioSelected = PlayerDemoImages(name: "radio_selected")
+  public static let snsIcon1 = PlayerDemoImages(name: "sns_icon_1")
+  public static let snsIcon2 = PlayerDemoImages(name: "sns_icon_2")
+  public static let snsIcon3 = PlayerDemoImages(name: "sns_icon_3")
+  public static let snsIcon4 = PlayerDemoImages(name: "sns_icon_4")
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name
 
 // MARK: - Implementation Details
 
-public final class ShopLivePlayerDemoColors {
+public final class PlayerDemoColors {
   public fileprivate(set) var name: String
 
   #if os(macOS)
@@ -90,10 +90,10 @@ public final class ShopLivePlayerDemoColors {
   }
 }
 
-public extension ShopLivePlayerDemoColors.Color {
+public extension PlayerDemoColors.Color {
   @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.13, *)
-  convenience init?(asset: ShopLivePlayerDemoColors) {
-    let bundle = ShopLivePlayerDemoResources.bundle
+  convenience init?(asset: PlayerDemoColors) {
+    let bundle = PlayerDemoResources.bundle
     #if os(iOS) || os(tvOS)
     self.init(named: asset.name, in: bundle, compatibleWith: nil)
     #elseif os(macOS)
@@ -107,14 +107,14 @@ public extension ShopLivePlayerDemoColors.Color {
 #if canImport(SwiftUI)
 @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 public extension SwiftUI.Color {
-  init(asset: ShopLivePlayerDemoColors) {
-    let bundle = ShopLivePlayerDemoResources.bundle
+  init(asset: PlayerDemoColors) {
+    let bundle = PlayerDemoResources.bundle
     self.init(asset.name, bundle: bundle)
   }
 }
 #endif
 
-public struct ShopLivePlayerDemoImages {
+public struct PlayerDemoImages {
   public fileprivate(set) var name: String
 
   #if os(macOS)
@@ -124,7 +124,7 @@ public struct ShopLivePlayerDemoImages {
   #endif
 
   public var image: Image {
-    let bundle = ShopLivePlayerDemoResources.bundle
+    let bundle = PlayerDemoResources.bundle
     #if os(iOS) || os(tvOS)
     let image = Image(named: name, in: bundle, compatibleWith: nil)
     #elseif os(macOS)
@@ -146,12 +146,12 @@ public struct ShopLivePlayerDemoImages {
   #endif
 }
 
-public extension ShopLivePlayerDemoImages.Image {
+public extension PlayerDemoImages.Image {
   @available(macOS, deprecated,
-    message: "This initializer is unsafe on macOS, please use the ShopLivePlayerDemoImages.image property")
-  convenience init?(asset: ShopLivePlayerDemoImages) {
+    message: "This initializer is unsafe on macOS, please use the PlayerDemoImages.image property")
+  convenience init?(asset: PlayerDemoImages) {
     #if os(iOS) || os(tvOS)
-    let bundle = ShopLivePlayerDemoResources.bundle
+    let bundle = PlayerDemoResources.bundle
     self.init(named: asset.name, in: bundle, compatibleWith: nil)
     #elseif os(macOS)
     self.init(named: NSImage.Name(asset.name))
@@ -164,18 +164,18 @@ public extension ShopLivePlayerDemoImages.Image {
 #if canImport(SwiftUI)
 @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
 public extension SwiftUI.Image {
-  init(asset: ShopLivePlayerDemoImages) {
-    let bundle = ShopLivePlayerDemoResources.bundle
+  init(asset: PlayerDemoImages) {
+    let bundle = PlayerDemoResources.bundle
     self.init(asset.name, bundle: bundle)
   }
 
-  init(asset: ShopLivePlayerDemoImages, label: Text) {
-    let bundle = ShopLivePlayerDemoResources.bundle
+  init(asset: PlayerDemoImages, label: Text) {
+    let bundle = PlayerDemoResources.bundle
     self.init(asset.name, bundle: bundle, label: label)
   }
 
-  init(decorative asset: ShopLivePlayerDemoImages) {
-    let bundle = ShopLivePlayerDemoResources.bundle
+  init(decorative asset: PlayerDemoImages) {
+    let bundle = PlayerDemoResources.bundle
     self.init(decorative: asset.name, bundle: bundle)
   }
 }

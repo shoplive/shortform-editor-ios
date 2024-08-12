@@ -33,12 +33,12 @@ class MainViewController: SideMenuBaseViewController {
 
         self.view.backgroundColor = .white
 
-        self.title = "Demo QA"
+        self.title = "PlayerDemo"
 
         ShopLive.delegate = self
 
-        self.items.insert("DevInfoCell", at: 0)
-        self.tableView.register(DevInfoCell.self, forCellReuseIdentifier: "DevInfoCell")
+        self.items.insert("DemoInfoCell", at: 0)
+        self.tableView.register(DevInfoCell.self, forCellReuseIdentifier: "DemoInfoCell")
         
         self.items.insert("VersionInfoCell", at: 0)
         self.tableView.register(VersionInfoCell.self, forCellReuseIdentifier: "VersionInfoCell")
@@ -52,7 +52,6 @@ class MainViewController: SideMenuBaseViewController {
             tabbar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             tabbar.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
-        
         
         ShopLiveCommon.setUtmMedium(utmMedium: "testUtmMedium")
         ShopLiveCommon.setUtmContent(utmContent: "testUtmContent")

@@ -20,8 +20,8 @@ final class ShopLiveRadioButton: UIView {
     lazy var radioButton: UIButton = {
         let view = UIButton(type: .custom)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setImage(ShopLivePlayerDemoAsset.radioNotSelected.image, for: .normal)
-        view.setImage(ShopLivePlayerDemoAsset.radioSelected.image, for: .selected)
+        view.setImage(PlayerDemoAsset.radioNotSelected.image, for: .normal)
+        view.setImage(PlayerDemoAsset.radioSelected.image, for: .selected)
         return view
     }()
 
