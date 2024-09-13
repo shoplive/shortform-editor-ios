@@ -366,6 +366,7 @@ internal final class LiveStreamViewController: SLViewController {
                 self.navigationController?.setNeedsUpdateOfSupportedInterfaceOrientations()
                 let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
                 let orientationMask = UIDeviceOrientation(rawValue: orientation)?.orientationMask ?? (toLandscape ? .landscape : .portrait)
+                
                 windowScene?.requestGeometryUpdate(.iOS(interfaceOrientations: toLandscape ? orientationMask : .portrait))
             } else {
                 UIDevice.current.setValue(orientation, forKey: "orientation")

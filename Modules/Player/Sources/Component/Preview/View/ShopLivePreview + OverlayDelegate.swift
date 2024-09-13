@@ -1,0 +1,201 @@
+//
+//  ShopLivePreview + OverlayDelgate.swift
+//  ShopLiveSDK
+//
+//  Created by sangmin han on 9/9/24.
+//  Copyright © 2024 com.app. All rights reserved.
+//
+
+import Foundation
+import UIKit
+import ShopliveSDKCommon
+import AVKit
+
+
+
+
+extension ShopLivePlayerPreview : OverlayWebViewDelegate {
+    func didUpdatePlaybackSpeed(speed: Float) {
+        viewModel.action( .setPlaybackSpeed(speed) )
+    }
+    
+    func didUpdateVideo(with url: URL) {
+        viewModel.action( .didUpdateVideoUrl(url) )
+    }
+    
+    func reloadVideo() {
+        viewModel.action( .reloadVideo )
+    }
+    
+    func didUpdatePoster(with url: URL) {
+        ShopLiveLogger.tempLog("[SET_POSTER_URL] url \(url)")
+        DispatchQueue.main.async { [weak self] in
+            self?.backgroundPosterImageWebView?.load(.init(url: url))
+        }
+    }
+    
+    func replay(with size: CGSize) {
+        viewModel.action( .setIsReplayMode(true) )
+    }
+    
+    func setVideoCurrentTime(to: CMTime) {
+        viewModel.action( .seekTo(to) )
+    }
+    
+    func didTouchBlockView() {
+        //원래 키보드를 숨기는 행위
+    }
+    
+    func didTouchWebViewCustomAction(id: String, type: String, payload: Any?) {
+        //coupont touch action -> shopliveBase -> user
+    }
+    
+    func didTouchWebViewPlayButton() {
+        viewModel.action( .playControlAction(.play) )
+    }
+    
+    func didTouchWebViewPauseButton() {
+        viewModel.action( .playControlAction(.pause) )
+    }
+    
+    func didTouchWebViewMuteButton(with isMuted: Bool) {
+        viewModel.action( .setSoundMute(isMuted: isMuted, needToSendToWeb: false) )
+    }
+    
+    func didTouchWebViewPipButton() {
+        
+    }
+    
+    func didTouchWebViewCloseButton() {
+        self.action( .close )
+    }
+    
+    func didTouchWebViewNavigation(with url: URL) {
+        //delegate?.didTouchNavigation(with: url
+    }
+    
+    func didTouchWebViewCoupon(with couponId: String) {
+        //delegate?.didTouchCoupon(with: couponId)
+    }
+    
+    func didChangeCampaignStatus(status: String) {
+        guard let status = ShopLiveCampaignStatus(rawValue: status) else { return }
+        viewModel.action( .setCampaignStatus(status))
+        resultHandler?( .didChangeCampaignStatus(status) )
+    }
+    
+    func didChangeActivityType(activityType: String, campaignKey: String) {
+        viewModel.action( .setStreamActivityType(activityType) )
+    }
+    
+    func onError(code: String, message: String) {
+        resultHandler?( .onError(code: code, message: message) )
+    }
+    
+    func onSetUserName(_ payload: [String : Any]) {
+        resultHandler?( .onSetUserName(payload: payload) )
+    }
+    
+    func handleReceivedCommand(_ command: String, with payload: [String : Any]?) {
+        resultHandler?( .handleReceivedCommand(command: command, payload: payload) )
+    }
+    
+    func updatePlayerViewFrameFromWeb(targetFrame: CGRect) {
+        //
+    }
+    
+    func updateOrientation(toLandscape: Bool) {
+        //
+    }
+    
+    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String : Any]) {
+        resultHandler?( .log(name: name, feature: feature, campaignKey: campaign, payload: payload) )
+    }
+    
+    func didFailToLoadWebViewWithNetworkUnreachable() {
+        viewModel.action( .retryOnNetworkDisConnect )
+    }
+    
+    func requestReloadWebView() {
+        viewModel.action( .reloadOverlayWebView )
+    }
+    
+    func webViewDidFinishedLoading() {
+        viewModel.action( .setWebViewLoadingCompleted(true) )
+        viewModel.action( .resetRetryFromWebview )
+    }
+    
+    func requestHideOrShowLoadingFromWebView(isHidden: Bool) {
+    }
+    
+    func requestNetworkCapabilityOnSystemInit() {
+        overlayView?.sendCommandMessage(command: WebInterface.onNetworkChangeCapability.functionString, payload: ["capability" : viewModel.getCurrentNetworkType()])
+    }
+    
+    func requestHandleShare(data: ShopLivePlayerShareData) {
+        guard let url = data.url else {
+            resultHandler?( .onError(code: "9001", message: "share.url.empty.error".localizedString()))
+            return
+        }
+        resultHandler?( .handleShare(data: data) )
+    }
+    
+    func handleCommand(_ command: String, with payload: Any?) {
+        let interface = WebInterface.WebFunction.init(rawValue: command)
+        
+        switch interface {
+        case .setConf:
+            handleSetConf(payload: payload)
+        default:
+            resultHandler?( .handleCommand(command: command, payload: payload) )
+        }
+    }
+    
+    private func handleSetConf(payload : Any?) {
+        let payload = payload as? [String : Any]
+        let placeHolder = payload?["chatInputPlaceholderText"] as? String
+        let sendText = payload?["chatInputSendText"] as? String
+        let chatInputMaxLength = payload?["chatInputMaxLength"] as? Int
+        let campaignInfo = payload?["campaignInfo"] as? [String : Any]
+        var isMuted = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
+        
+        viewModel.action( .setSoundMuteStateOnWebViewSetConf )
+        if let videoApsectRatio = payload?["videoAspectRatio"] as? String {
+            viewModel.action( .parseRatioStringAndSetData( videoApsectRatio ) )
+        }
+        
+        if let isReplay = payload?["isReplay"] as? Bool {
+            viewModel.action( .setIsReplayMode(isReplay) )
+        }
+        
+        if let configJson = payload?["configJson"] as? [String : Any] {
+            if let streamEdgeType = configJson["streamEdgeType"] as? String {
+                if streamEdgeType == "TS_BROADCAST" {
+                    viewModel.action(.setStreamEdgeType(type: streamEdgeType) )
+                }
+                else if streamEdgeType.contains("LLHLS") {
+                    viewModel.action(.setStreamEdgeType(type: streamEdgeType) )
+                }
+                else {
+                    viewModel.action(.setStreamEdgeType(type: nil) )
+                }
+            }
+            
+            if let campaignId = configJson["campaignId"] as? String {
+                viewModel.action( .setCampaignId(campaignId) )
+            }
+        }
+        
+        resultHandler?( .didChangeCampaignInfo(campaignInfo ?? [:] ))
+        
+        let campaignData = ShopLivePlayerCampaign()
+        campaignData.parse(payload: payload)
+        resultHandler?( .handleShopLivePlayerCampaign(campaignData) )
+        
+        let brandData = ShopLivePlayerBrand()
+        brandData.parse(payload: payload)
+        resultHandler?( .handleShopLivePlayeBrand(brandData) )
+        
+        viewModel.action( .sendPreviewShowEventTrace )
+    }
+}

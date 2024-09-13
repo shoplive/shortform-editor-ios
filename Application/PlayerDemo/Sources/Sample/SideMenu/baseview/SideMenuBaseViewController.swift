@@ -193,10 +193,12 @@ extension SideMenuBaseViewController {
 
         let play = UIBarButtonItem(title: "sdk.play".localized(from: "shoplive"), style: .plain, target: self, action: #selector(play))
 
+        let shopLivePreview = UIBarButtonItem(title: "List", style: .plain, target: self, action: #selector(shopLivePreview))
+        
         preview.tintColor = .white
         play.tintColor = .white
-
-        self.navigationItem.rightBarButtonItems = [play, preview]
+        shopLivePreview.tintColor = .white
+        self.navigationItem.rightBarButtonItems = [play, preview, shopLivePreview]
     }
 
     @objc func preview() {
@@ -205,6 +207,10 @@ extension SideMenuBaseViewController {
 
     @objc func play() {
         print("play")
+    }
+    
+    @objc func shopLivePreview() {
+        
     }
 }
 

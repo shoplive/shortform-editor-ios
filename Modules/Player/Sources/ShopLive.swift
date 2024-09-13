@@ -62,9 +62,10 @@ import ShopliveSDKCommon
     @objc func addSubViewToPreview(subView : UIView)
     @objc func getPreviewSize(inAppPipConfiguration : ShopLiveInAppPipConfiguration, videoRatio : CGSize) -> CGSize
     @objc func setResizeMode(mode : ShopLiveResizeMode)
+    @objc func forceStartWithPortraitMode(_ isForced : Bool)
 }
 
-enum ShopLiveCampaignStatus: String, CaseIterable {
+public enum ShopLiveCampaignStatus: String, CaseIterable {
     case ready = "READY"
     case onair = "ONAIR"
     case close = "CLOSE"
@@ -185,7 +186,6 @@ extension ShopLive {
 
 extension ShopLive: ShopLiveSDKInterface {
     
-   
     @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     public static func setEnabledPipSwipeOut(_ enabled: Bool) {
         ShopLiveConfiguration.UI.enablePipSwipeOut = enabled
@@ -560,4 +560,9 @@ extension ShopLive: ShopLiveSDKInterface {
     public static func setResizeMode(mode: ShopLiveResizeMode) {
         shared.instance?.setResizeMode(mode: mode)
     }
+    
+    public static func forceStartWithPortraitMode(_ isForced: Bool) {
+        shared.instance?.forceStartWithPortraitMode(isForced)
+    }
+    
 }

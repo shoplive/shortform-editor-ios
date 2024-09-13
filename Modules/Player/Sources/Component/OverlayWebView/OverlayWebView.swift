@@ -259,15 +259,12 @@ extension OverlayWebView: WKNavigationDelegate {
 
 extension OverlayWebView: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        
         guard message.name == ShopLiveDefines.webInterface else { return }
         if let body = message.body as? [String: Any],
            let shopliveEvent = body["shopliveEvent"] as? [String : Any],
            let metadata = shopliveEvent["metadata"] as? [String : String],
            let type = metadata["type"],
            let name = shopliveEvent["name"] as? String {
-            
-            
             
             let parameters = body["payload"] as? [String: Any]
             

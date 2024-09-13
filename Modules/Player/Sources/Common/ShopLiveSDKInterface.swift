@@ -358,4 +358,5 @@ public typealias ShopLiveViewController = SLViewController
     
     
     @objc static func setResizeMode(mode : ShopLiveResizeMode)
+    @objc static func forceStartWithPortraitMode(_ isForced : Bool)
 }

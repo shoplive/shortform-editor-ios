@@ -35,6 +35,7 @@ import ShopliveSDKCommon
     private var shopLivePlayerBrandHandler : ((ShopLivePlayerBrand) -> ())?
     
     private var customerVideoResizeMode : ShopLiveResizeMode?
+    private var isForceStartWithPortraitMode : Bool = true
     
     
 #if EBAY
@@ -1682,6 +1683,11 @@ extension ShopLiveBase {
     }
 }
 extension ShopLiveBase: ShopLiveComponent {
+    
+    func forceStartWithPortraitMode(_ isForced: Bool) {
+        self.isForceStartWithPortraitMode = isForced
+    }
+    
     func setResizeMode(mode: ShopliveSDKCommon.ShopLiveResizeMode) {
         self.customerVideoResizeMode = mode
         self.liveStreamViewController?.viewModel.setResizeMode(mode: mode)
@@ -1830,8 +1836,7 @@ extension ShopLiveBase: ShopLiveComponent {
     }
     
     func preview(with campaignKey: String?, referrer: String? = nil, campaignHandler: ((ShopLivePlayerCampaign) -> ())?, brandHandler: ((ShopLivePlayerBrand) -> ())?, completion: (() -> Void)?) {
-        
-        
+        checkForceStartWithPortraitMode()
         if let campaignKey = campaignKey, ShopLiveController.windowStyle == .osPip {
             self.reservedPlayInfo = (.inAppPip, campaignKey  , referrer, campaignHandler, brandHandler)
             self.previewCallback = completion
@@ -1967,7 +1972,7 @@ extension ShopLiveBase: ShopLiveComponent {
     }
     
     @objc func play(with campaignKey: String?, referrer: String? = nil, campaignHandler: ((ShopLivePlayerCampaign) -> ())?, brandHandler: ((ShopLivePlayerBrand) -> ())?) {
-       
+        checkForceStartWithPortraitMode()
         hidePreviewCoverView()
         if let campaignKey = campaignKey, ShopLiveController.windowStyle == .osPip {
             self.reservedPlayInfo = (.normal, campaignKey, referrer,campaignHandler, brandHandler )
@@ -2051,6 +2056,16 @@ extension ShopLiveBase: ShopLiveComponent {
             }
         }
     }
+    
+    func checkForceStartWithPortraitMode() {
+        if isForceStartWithPortraitMode {
+            if #available(iOS 16.0, *) {
+                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                windowScene?.requestGeometryUpdate(.iOS(interfaceOrientations: .portrait))
+            }
+        }
+    }
+    
     
     @objc func reloadLive() {
         guard ShopLiveCommon.getAccessKey() != nil else { return }

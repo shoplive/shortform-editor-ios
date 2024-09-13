@@ -387,7 +387,9 @@ class MainViewController: SideMenuBaseViewController {
         
         ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
         setupShopliveSettings()
-                 
+        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        
+        
         let playerData = ShopLivePreviewData(campaignKey: currentKey.campaignKey ,//"9f59cfe5ae7c"
                                              keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
                                              referrer: DemoConfiguration.shared.customReferrer,
@@ -398,6 +400,19 @@ class MainViewController: SideMenuBaseViewController {
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
 //            self.regenerateHanaBankFrameworkIssue()
 //        }
+    }        
+
+    
+    override func shopLivePreview() {
+        guard let currentKey = getCurrentKeySet() else {
+            DispatchQueue.main.async {
+                UIWindow.showToast(message: "sdk.msg.nonekey".localized())
+            }
+            return
+        }
+        ShopLive.setMuteWhenPlayStart(false)
+        let vc = ShopLivePreviewSampleView(accessKey: currentKey.accessKey, campaignkey: currentKey.campaignKey)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
 }
