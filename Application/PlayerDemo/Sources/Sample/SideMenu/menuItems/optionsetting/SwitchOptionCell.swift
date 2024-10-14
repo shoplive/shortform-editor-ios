@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ShopLiveSDK
 
 protocol SwitchOptionCellDelegate: AnyObject {
     func didChangeSwitch(isOn: Bool, item: SDKOptionItem?)
@@ -209,6 +210,8 @@ class SwitchOptionCell: UITableViewCell {
             useOption = DemoConfiguration.shared.isEnabledVolumeKey
         case .resizeMode:
             useOption = DemoConfiguration.shared.resizeMode == .CENTER_CROP ? true : false
+        case .previewResolution:
+            useOption = DemoConfiguration.shared.previewResolution == .LIVE ? false : true
         default:
             break
         }
@@ -288,6 +291,8 @@ class SwitchOptionCell: UITableViewCell {
             DemoConfiguration.shared.isEnabledVolumeKey = useOption
         case .resizeMode:
             DemoConfiguration.shared.resizeMode = useOption ? .CENTER_CROP : .FIT
+        case .previewResolution:
+            DemoConfiguration.shared.previewResolution = useOption ? ShopLivePlayerPreviewResolution.PREVIEW : ShopLivePlayerPreviewResolution.LIVE
         default:
             break
         }

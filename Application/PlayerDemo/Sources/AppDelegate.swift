@@ -38,8 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                   SDKOptionType.enablePip.optionKey : true,
                                                   SDKOptionType.enableOSPip.optionKey : true,
                                                   SDKOptionType.resizeMode.optionKey : "CENTER_CROP",
-                                                  SDKOptionType.isEnabledVolumeKey.optionKey : false
-                                                ])
+                                                  SDKOptionType.isEnabledVolumeKey.optionKey : false,
+                                                  SDKOptionType.previewResolution.optionKey : "PREVIEW"                                                ])
         
 
         return true

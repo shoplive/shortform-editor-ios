@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import WebKit
-
+import ShopliveSDKCommon
 
 extension OverlayWebView {
     
@@ -68,6 +68,9 @@ extension OverlayWebView {
     }
     
     func closeWebSocket() {
+        if ShopLiveBase.sessionState == .terminated {
+            return
+        }
         ShopLiveBase.sessionState = .terminated
         self.sendEventToWeb(event: .onTerminated)
     }

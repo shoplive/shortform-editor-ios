@@ -67,7 +67,9 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
     }
     
     func didTouchWebViewCloseButton() {
-        self.action( .close )
+//        self.action( .close )
+        self.viewModel.action( .resetPlayer )
+        self.viewModel.action( .setRefreshTimer )
     }
     
     func didTouchWebViewNavigation(with url: URL) {
@@ -194,7 +196,7 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
         
         let brandData = ShopLivePlayerBrand()
         brandData.parse(payload: payload)
-        resultHandler?( .handleShopLivePlayeBrand(brandData) )
+        resultHandler?( .handleShopLivePlayerBrand(brandData) )
         
         viewModel.action( .sendPreviewShowEventTrace )
     }

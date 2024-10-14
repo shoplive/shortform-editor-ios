@@ -105,6 +105,10 @@ class ShopLiveShortformCardViewCell : UICollectionViewCell {
         basicCardView.playVideo()
     }
     
+    func playVideoOnInitialLoad() {
+        basicCardView.playVideoOnInitialLoad()
+    }
+    
     func refreshPlayer(){
         self.basicCardView.refreshPlayer()
     }

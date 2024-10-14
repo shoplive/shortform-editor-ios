@@ -107,7 +107,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         }
         self.takeSnapShot()
         self.viewModel.setBlockRetry(block: true)
-        ShopLiveController.streamUrl = url
+        ShopLiveController.streamUrl = viewModel.checkIfLiveUrlContainsPreviewQueryAndAppendIfNotExistInPreviewMode(url: url)
         if ShopLiveController.isReplayMode, let time = ShopLiveController.shared.currentPlayTime {
             ShopLiveController.player?.seek(to: time)
         }
@@ -144,7 +144,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didTouchWebViewCloseButton() {
-        overlayView?.closeWebSocket()
         delegate?.didTouchCloseButton()
     }
     

@@ -291,7 +291,7 @@ extension ShopLiveShortformVerticalTypeViewReactor : UICollectionViewDelegate, U
         if playOnIntialLoad && isAutoPlayerEnabled && checkIfPlayOnWifiViaAvailable() {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 if indexPath.row <= 2 {
-                    cell.playVideo()
+                    cell.playVideoOnInitialLoad()
                 }
                 else {
                     playOnIntialLoad = false
@@ -299,7 +299,7 @@ extension ShopLiveShortformVerticalTypeViewReactor : UICollectionViewDelegate, U
             }
             else {
                 if indexPath.row <= 1 {
-                    cell.playVideo()
+                    cell.playVideoOnInitialLoad()
                 }
                 else {
                     playOnIntialLoad = false

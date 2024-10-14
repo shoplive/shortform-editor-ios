@@ -290,8 +290,10 @@ import ShopliveSDKCommon
         self.liveStreamViewController?.updateStatusBarToDefault()
         ShopLiveController.shared.execusedClose = true
         UIApplication.shared.isIdleTimerDisabled = false
-        
-        ShopLiveController.webInstance?.sendEventToWeb(event: .onTerminated)
+       
+        if ShopLiveBase.sessionState != .terminated {
+            ShopLiveController.webInstance?.sendEventToWeb(event: .onTerminated)
+        }
         delegate?.handleCommand?("willShopLiveOff", with: ["style" : self.style.rawValue])
         
         //inAppPip일때 lastStyle이 fullScreen으로 나오는점 때문에
@@ -1408,12 +1410,15 @@ import ShopliveSDKCommon
     }
     
     
-    func fetchOverlayUrl(with campaignKey : String?, isPreview : Bool, completionHandler : @escaping ((URL?) -> Void)) {
+    func fetchOverlayUrl(with campaignKey : String?, isPreview : Bool, previewResolution : ShopLivePlayerPreviewResolution? = nil, completionHandler : @escaping ((URL?) -> Void)) {
         let urlComponents = URLComponents(string: ShopLiveConfiguration.AppPreference.landingUrl)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
         
         if isPreview {
             queryItems.append(URLQueryItem(name: "preview", value: "1"))
+            if let resolution = previewResolution, resolution == .LIVE {
+                queryItems.append(URLQueryItem(name: "useLiveUrlOnPreview", value: "1"))
+            }
         }
         else {
             if let localStorage = UserDefaults.standard.string(forKey: ShopLiveDefines.shopliveData), ShopLiveConfiguration.Data.useLocalStorage {
@@ -1835,7 +1840,7 @@ extension ShopLiveBase: ShopLiveComponent {
         startPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
     }
     
-    func preview(with campaignKey: String?, referrer: String? = nil, campaignHandler: ((ShopLivePlayerCampaign) -> ())?, brandHandler: ((ShopLivePlayerBrand) -> ())?, completion: (() -> Void)?) {
+    func preview(with campaignKey: String?, referrer: String? = nil, resolution : ShopLivePlayerPreviewResolution, campaignHandler: ((ShopLivePlayerCampaign) -> ())?, brandHandler: ((ShopLivePlayerBrand) -> ())?, completion: (() -> Void)?) {
         checkForceStartWithPortraitMode()
         if let campaignKey = campaignKey, ShopLiveController.windowStyle == .osPip {
             self.reservedPlayInfo = (.inAppPip, campaignKey  , referrer, campaignHandler, brandHandler)
@@ -1901,7 +1906,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 
                 self.previewCallback = completion
                 self.campaignKey = campaignKey
-                self.fetchOverlayUrl(with: campaignKey,isPreview: true) { [weak self] url in
+                self.fetchOverlayUrl(with: campaignKey,isPreview: true,previewResolution: resolution) { [weak self] url in
                     guard let url = url,
                           let self = self else {
                         self?.removeObserver()
@@ -1910,20 +1915,19 @@ extension ShopLiveBase: ShopLiveComponent {
                     self.windowChangeCommand = .none
                     self.isWindowChanging = false
                     
-                    
                     //가로에서 세로, 세로에서 가로로 갈때도 분기를 쳐줘야 함.
                     if ShopLiveController.windowStyle == .inAppPip && (windowAnimator?.isRunning ?? false) == false {
-                        self.changePlayerItemOnlyInPreview(url: url)
+                        self.changePlayerItemOnlyInPreview(url: url, resolution: resolution)
                     }
                     else {
-                        self.callShopLiveViewFromPreview(url: url)
+                        self.callShopLiveViewFromPreview(url: url,resolution: resolution)
                     }
                 }
             }
         }
     }
     
-    private func changePlayerItemOnlyInPreview(url : URL) {
+    private func changePlayerItemOnlyInPreview(url : URL,resolution : ShopLivePlayerPreviewResolution) {
         guard let accessKey = ShopLiveCommon.getAccessKey(),
               let vc = self.liveStreamViewController,
               ShopLiveController.shared.isPreview else { return }
@@ -1935,6 +1939,7 @@ extension ShopLiveBase: ShopLiveComponent {
         videoWindowSwipeDownGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? false : true
         let oldVideoRatio = ShopLiveController.shared.videoRatio
         
+        vc.viewModel.setPreviewResolution(resolution: resolution)
         self.osPictureInPictureController = nil
         vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: accessKey, campaignKey: ShopLiveController.shared.campaignKey, isPreview: true) { [weak self] _ in
             guard let self = self else { return }
@@ -1953,7 +1958,7 @@ extension ShopLiveBase: ShopLiveComponent {
         
     }
     
-    private func callShopLiveViewFromPreview(url : URL){
+    private func callShopLiveViewFromPreview(url : URL,resolution : ShopLivePlayerPreviewResolution){
         self.showShopLiveView(with: url,isPreview: true) { [weak self] in
             guard let self = self else { return }
             //TODO: - enablePreviewSound
@@ -1961,6 +1966,7 @@ extension ShopLiveBase: ShopLiveComponent {
             if let ak = ShopLiveCommon.getAccessKey(),
                let vc = self.liveStreamViewController,
                ShopLiveController.shared.isPreview {
+                vc.viewModel.setPreviewResolution(resolution: resolution)
                 vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
                                                                  campaignKey: ShopLiveController.shared.campaignKey,
                                                                  isPreview: true) { isSuccess in
@@ -2227,7 +2233,8 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
                 self.play(with: reservedPlayInfo.campaignKey,referrer: reservedPlayInfo.referrer,campaignHandler: reservedPlayInfo.campaignHandler,brandHandler: reservedPlayInfo.brandHandler)
             }
             else if reservedPlayInfo.playStyle == .inAppPip {
-                self.preview(with: reservedPlayInfo.campaignKey, referrer: reservedPlayInfo.referrer, campaignHandler: reservedPlayInfo.campaignHandler, brandHandler: reservedPlayInfo.brandHandler , completion: previewCallback)
+                let resolution = liveStreamViewController?.viewModel.getCurrentPreviewResolution() ?? .PREVIEW
+                self.preview(with: reservedPlayInfo.campaignKey, referrer: reservedPlayInfo.referrer, resolution: resolution, campaignHandler: reservedPlayInfo.campaignHandler, brandHandler: reservedPlayInfo.brandHandler , completion: previewCallback)
             }
             self.reservedPlayInfo = nil
         }

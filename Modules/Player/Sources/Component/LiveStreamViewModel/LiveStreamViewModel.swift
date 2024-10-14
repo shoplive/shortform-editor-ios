@@ -72,9 +72,8 @@ internal final class LiveStreamViewModel: NSObject {
     private var streamActivityType : StreamActivityType = .ready
     private var campaignId : String = ""
     private var shopliveSessionId : String? = nil
-    private var previewUrl : String?
-    private var liveUrl : String?
     private var lastSentOnVideoError : ShopLiveAVPlayerErrorObserver.ErrorCase = .none
+    private var currentPreviewResolution : ShopLivePlayerPreviewResolution = .PREVIEW
     
     //viewdata
     private var actualVideoRenderedRect : CGRect = .zero
@@ -137,8 +136,6 @@ internal final class LiveStreamViewModel: NSObject {
         playerLoadingAvailableCheckSourceTimer = nil
         self.campaignId = ""
         self.shopliveSessionId = nil
-        self.previewUrl = nil
-        self.liveUrl = nil 
     }
     
     
@@ -192,12 +189,13 @@ internal final class LiveStreamViewModel: NSObject {
                         self.parseRatioStringAndSetData(ratio: aspectRatio)
                     }
                     
-                    if isPreview, let urlString = model.previewLiveUrl, let previewUrl = URL(string: urlString){
-                        self.previewUrl = previewUrl.absoluteString
+                    if isPreview && self.currentPreviewResolution == .LIVE, let urlString = model.liveUrl,  let liveUrl = URL(string: urlString) {
+                         url = liveUrl
+                    }
+                    else if isPreview, let urlString = model.previewLiveUrl, let previewUrl = URL(string: urlString) {
                         url = previewUrl
                     }
-                    else if let urlString = model.liveUrl,  let liveUrl = URL(string: urlString) {
-                        self.liveUrl = liveUrl.absoluteString
+                    else if let urlString = model.liveUrl,  let liveUrl = URL(string: urlString)  {
                         url = liveUrl
                     }
                     else {
@@ -205,9 +203,8 @@ internal final class LiveStreamViewModel: NSObject {
                         return
                     }
                     
-                    
                     DispatchQueue.main.async {
-                        ShopLiveController.streamUrl = url
+                        ShopLiveController.streamUrl = self.checkIfLiveUrlContainsPreviewQueryAndAppendIfNotExistInPreviewMode(url: url)
                         completion(true)
                     }
                     break
@@ -447,6 +444,26 @@ internal final class LiveStreamViewModel: NSObject {
         let width = self.actualVideoRenderedRect.width
         let height = self.actualVideoRenderedRect.height
         self.delegate?.updateSnapShotImageViewFrameWithRatio(ratio: CGSize.init(width: width, height: height))
+    }
+    
+    func checkIfLiveUrlContainsPreviewQueryAndAppendIfNotExistInPreviewMode(url : URL) -> URL {
+        if ShopLiveController.shared.isPreview == false {
+            return url
+        }
+        guard var urlComponents = URLComponents(string: url.absoluteString) else { return url }
+        
+        for query in urlComponents.queryItems ?? [] {
+            if query.name == "preview" {
+                return url
+            }
+        }
+        urlComponents.queryItems = (urlComponents.queryItems ?? []) + [URLQueryItem(name: "preview", value: "1")]
+        guard let urlString = urlComponents.url?.absoluteString,
+              let percentEncoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let resultUrl = URL(string: percentEncoded) else {
+            return url
+        }
+        return resultUrl
     }
     
 }
@@ -879,14 +896,6 @@ extension LiveStreamViewModel {
         return self.campaignId
     }
     
-    func getPreviewUrl() -> String? {
-        return self.previewUrl
-    }
-    
-    func getLiveUrl() -> String? {
-        return self.liveUrl
-    }
-    
     func getResizeMode() -> ShopLiveResizeMode? {
         return self.customVideoResizeMode
     }
@@ -1016,6 +1025,10 @@ extension LiveStreamViewModel {
     func getBlockSnapShotWhenPlayerViewFrameUpdatedByWeb() -> Bool {
         return blockSnapShotWhenPlayerViewFrameUpdatedByWeb
     }
+    
+    func getCurrentPreviewResolution() -> ShopLivePlayerPreviewResolution {
+        return self.currentPreviewResolution
+    }
 }
 
 //MARK: -setter
@@ -1091,6 +1104,10 @@ extension LiveStreamViewModel {
     
     func setBlockSnapShotWhenPlayerViewFrameUpdatedByWeb(block : Bool) {
         self.blockSnapShotWhenPlayerViewFrameUpdatedByWeb = block
+    }
+    
+    func setPreviewResolution(resolution : ShopLivePlayerPreviewResolution) {
+        self.currentPreviewResolution = resolution
     }
 }
 extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {

@@ -59,7 +59,15 @@ extension Double {
             return "$" + self.fractionFormatter(maxFractionDigit: 2)
         case "KRW":
             return self.fractionFormatter(maxFractionDigit: 0) + "원"
-        default:
+        case "PEN":
+            return "S/" + self.fractionFormatter(maxFractionDigit: 2)
+        case "BRL":
+            return "R$" + self.fractionFormatter(maxFractionDigit: 2)
+        case "RUB":
+            return "₽" + self.fractionFormatter(maxFractionDigit: 2)
+        case "TRY":
+            return "₺" + self.fractionFormatter(maxFractionDigit: 2)
+        default: // + "MXN", "COP", "ARS"
             return self.fractionFormatter(maxFractionDigit: 2, locale: .current)
         }
     }
@@ -72,6 +80,7 @@ extension Double {
         nf.decimalSeparator = "."
         nf.numberStyle = .decimal
         nf.maximumFractionDigits = maxFractionDigit
+        nf.minimumFractionDigits = maxFractionDigit
         if let locale = locale {
             nf.locale = locale
         }
@@ -87,7 +96,4 @@ extension Double {
         }
         
     }
-    
-    
-    
 }

@@ -279,20 +279,20 @@ extension ShopLiveShortformHorizontalTypeViewReactor : UICollectionViewDelegate,
         
         if playOnIntialLoad && isAutoPlayerEnabled && checkIfPlayOnWifiViaAvailable() {
             if playableType == .FIRST && indexPath.row == 0 {
-                cell.playVideo()
+                cell.playVideoOnInitialLoad()
                 playOnIntialLoad = false
             }
             else if playableType == .CENTER {
                 let originX = CGFloat(indexPath.row) * cellSize.width
                 if originX <= collectionView.frame.midX && collectionView.frame.midX < originX + cellSize.width  {
-                    cell.playVideo()
+                    cell.playVideoOnInitialLoad()
                     playOnIntialLoad = false
                 }
             }
             else if playableType == .ALL {
                 let originX = CGFloat(indexPath.row) * (cellSize.width + cellSpacing)
                 if originX >= 0 && originX + (cellSize.width * 0.4) < collectionView.frame.maxX {
-                    cell.playVideo()
+                    cell.playVideoOnInitialLoad()
                 }
                 else {
                     playOnIntialLoad = false
@@ -425,7 +425,7 @@ extension ShopLiveShortformHorizontalTypeViewReactor {
     
     //MARK: - first playable
     private func checkFirstCellPlayable(_ collectionView : UICollectionView){
-        let leftIndex = Int((collectionView.contentOffset.x + cellSpacing) / (cellSize.width + cellSpacing))
+        let leftIndex = Int((collectionView.contentOffset.x + cellSpacing + (cellSize.width * 0.9)) / (cellSize.width + cellSpacing))
         let leftCenteredIndexPath = IndexPath(row: leftIndex , section: 0)
         let visibleIndexPath = collectionView.indexPathsForVisibleItems
         for indexPath in visibleIndexPath {

@@ -20,6 +20,7 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
         case start(accessKey : String, campaignKey : String, referrer : String?)
         case setMuted(Bool)
         case setReferrer(String?)
+        case setResolutionType(ShopLivePlayerPreviewResolution)
         case play
         case pause
         case stop
@@ -45,7 +46,7 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
         case didChangeCampaignInfo([String : Any])
         case didChangeVideoDimension(CGSize)
         case handleShopLivePlayerCampaign(ShopLivePlayerCampaign)
-        case handleShopLivePlayeBrand(ShopLivePlayerBrand)
+        case handleShopLivePlayerBrand(ShopLivePlayerBrand)
     }
     
     var webViewConfiguration: WKWebViewConfiguration?
@@ -88,7 +89,15 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
     }
     
     deinit {
+        self.cleanUpOverlayWebView()
         ShopLiveLogger.memoryLog("ShopLivePreview deinit")
+    }
+    
+    private func cleanUpOverlayWebView() {
+        overlayView?.delegate = nil
+        overlayView?.removeFromSuperview()
+        overlayView?.teardownOverlayWebView()
+        overlayView = nil
     }
     
     public func action(_ action: Action) {
@@ -101,6 +110,8 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
             self.onSetIsMuted(isMuted: isMuted)
         case .setReferrer(let referrer):
             self.onSetReferrer(referrer: referrer)
+        case .setResolutionType(let resolution):
+            self.onSetResolutionType(resolution : resolution)
         case .play:
             self.onPlay()
         case .pause:
@@ -137,7 +148,7 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
         self.referrer = referrer
         ShopLiveCommon.setAccessKey(accessKey: accessKey)
         viewModel.action( .setCampaignKey(campaignKey) )
-        guard let previewOverlayUrl = fetchOverlayUrl(with: campaignKey, isPreview: true) else { return }
+        guard let previewOverlayUrl = fetchOverlayUrl(with: campaignKey) else { return }
         self.viewModel.action( .setOverlayUrl(previewOverlayUrl) )
         self.viewModel.action( .loadOverlayWebView )
     }
@@ -145,6 +156,10 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
     
     private func onSetIsMuted(isMuted : Bool) {
         viewModel.action( .setSoundMute(isMuted: isMuted, needToSendToWeb: true) )
+    }
+    
+    private func onSetResolutionType(resolution : ShopLivePlayerPreviewResolution) {
+        viewModel.action( .setResolution(resolution) )
     }
     
     private func onSetReferrer(referrer : String?) {
@@ -373,23 +388,21 @@ extension ShopLivePlayerPreview {
     }
 }
 extension ShopLivePlayerPreview {
-    func fetchOverlayUrl(with campaignKey : String?, isPreview : Bool) -> URL? {
+    func fetchOverlayUrl(with campaignKey : String?) -> URL? {
         let urlComponents = URLComponents(string: ShopLiveConfiguration.AppPreference.landingUrl)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
         
-        if isPreview {
-            queryItems.append(URLQueryItem(name: "preview", value: "1"))
-        }
-        else {
-            if let localStorage = UserDefaults.standard.string(forKey: ShopLiveDefines.shopliveData), ShopLiveConfiguration.Data.useLocalStorage {
-                queryItems.append(URLQueryItem(name: ShopLiveDefines.shopliveData, value: localStorage))
-            }
-        }
+        queryItems.append(URLQueryItem(name: "preview", value: "1"))
         
+        if self.viewModel.getCurrentResolution() == .LIVE {
+            queryItems.append(URLQueryItem(name: "useLiveUrlOnPreview", value: "1"))
+        }
+      
         if let referrer = self.referrer {
             queryItems.append(URLQueryItem(name: "referrer", value: String(referrer.prefix(1024))))
         }
         queryItems.append(URLQueryItem(name: "_from", value: "sdk_direct"))
+        
         
         let baseUrl = URL(string: ShopLiveConfiguration.AppPreference.landingUrl)
         guard let params = URLUtil.query(queryItems) else {

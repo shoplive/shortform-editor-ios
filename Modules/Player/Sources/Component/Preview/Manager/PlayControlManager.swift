@@ -164,6 +164,8 @@ class PlayControlManager : NSObject, SLReactor {
               currentPlayCommand != .play else { return }
         
         self.currentPlayCommand = .play
+        activatePreserveTimeOffsetFromLive()
+        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             if self.isReplayMode {
@@ -194,6 +196,7 @@ class PlayControlManager : NSObject, SLReactor {
         guard let player = self.player,
               currentPlayCommand != .pause else { return }
         self.currentPlayCommand = .pause
+        deactivatePreserveTimeOffsetFromLive()
         if Thread.isMainThread {
             player.pause() //정확히 어떤 이유인지는 모르겠지만,
             //async로 감싸지 않고 바로 한번 호출 해주고 다시 또 async에서 호출해야지 로딩 되자마자 pause되는 현상이 있음
@@ -207,6 +210,7 @@ class PlayControlManager : NSObject, SLReactor {
     private func resume() {
         guard let player = self.player else { return }
         self.currentPlayCommand = .resume
+        activatePreserveTimeOffsetFromLive()
         if self.isReplayMode {
             resultHandler?( .sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), param: true, wrapping: false, dedicatedCompletionType: nil))
         }
@@ -235,6 +239,27 @@ extension PlayControlManager {
             return (player?.currentItem as? AVURLAsset)?.url
         }
     }
+    
+    private func activatePreserveTimeOffsetFromLive() {
+        guard let player = player else { return }
+        if #available(iOS 13.0, *) {
+            //해당 옵션이 켜져 있으면 pause상태에서도 최신으로 따라잡으려는 성질 때문에 화면이 렌더링 됨
+            player.currentItem?.automaticallyPreservesTimeOffsetFromLive = true
+            if let timeOffset = player.currentItem?.asset.minimumTimeOffsetFromLive {
+                player.currentItem?.configuredTimeOffsetFromLive = timeOffset
+            }
+        }
+    }
+    
+    private func deactivatePreserveTimeOffsetFromLive() {
+        guard let player = player else { return }
+        if #available(iOS 13.0, *) {
+            //해당 옵션이 켜져 있으면 pause상태에서도 최신으로 따라잡으려는 성질 때문에 화면이 렌더링 됨
+            player.currentItem?.automaticallyPreservesTimeOffsetFromLive = false
+        }
+        
+    }
+    
 }
 extension PlayControlManager {
     func getNeedReload() -> Bool {

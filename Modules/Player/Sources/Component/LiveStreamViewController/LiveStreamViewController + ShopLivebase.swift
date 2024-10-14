@@ -15,6 +15,7 @@ import ShopliveSDKCommon
  ShopLiveBase에서 바로 부르는 함수들 집합 UI관련 x
  */
 extension LiveStreamViewController {
+    
     func reload() {
         ShopLiveController.overlayUrl = viewModel.getOverLayUrlWithInfosAttached()
     }

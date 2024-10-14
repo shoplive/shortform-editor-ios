@@ -41,7 +41,7 @@ internal class OverlayWebView: SLView {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("overlayview deallocated")
+        ShopLiveLogger.memoryLog("overlayview deallocated")
     }
     
     func setupOverlayWebView() {

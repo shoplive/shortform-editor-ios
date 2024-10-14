@@ -41,6 +41,7 @@ class ShopLivePreviewSampleCell : UICollectionViewCell {
     
     func setPreview(accessKey : String, campaignKey : String) {   
         preview.action( .initialize )
+        preview.action( .setResolutionType(DemoConfiguration.shared.previewResolution))
         preview.action( .start(accessKey: accessKey, campaignKey: campaignKey, referrer: nil) )
         preview.action( .setEnabledVolumeKey(isEnabledVolumeKey: true) )
     }
@@ -105,9 +106,7 @@ class ShopLivePreviewSampleCell : UICollectionViewCell {
                 break
             case .handleShopLivePlayerCampaign(_):
                 break
-            case .handleShopLivePlayeBrand(_):
-                break
-            case .currentVideoTime(_):
+            case .handleShopLivePlayerBrand(_):
                 break
             }
         }

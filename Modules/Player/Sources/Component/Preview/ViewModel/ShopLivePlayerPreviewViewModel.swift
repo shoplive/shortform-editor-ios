@@ -30,6 +30,9 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     private var videoOutput : AVPlayerItemVideoOutput?
     private var playerLayer : AVPlayerLayer?
     private var currentPlayCommand : PlayControlManager.PlayCommand = .stop
+    private var refreshTimer : DispatchSourceTimer? // 30초우에 preview 갱신하는 타이머
+    
+    
 
     private var previewUrl : URL?
 //    private var liveUrl : URL?
@@ -47,6 +50,7 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     private var shopliveSessionId : String? = nil
     private var streamEdgeType : String?
     private var currentPlayTime : CMTime?
+    private var currentResolution : ShopLivePlayerPreviewResolution = .LIVE
     
     //viewdata
     private var actualVideoRenderedRect : CGRect = .zero
@@ -92,6 +96,8 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         case setStreamActivityType(String)
         case setWebViewLoadingCompleted(Bool)
         case setResizeMode(ShopLiveResizeMode)
+        case setRefreshTimer
+        case setResolution(ShopLivePlayerPreviewResolution)
         case parseRatioStringAndSetData(String)
         case tearDownViewModel
         
@@ -111,7 +117,7 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         case setIsReplayMode(Bool)
         case setNeedSeek(Bool)
         case setNeedReload(Bool)
-        case setPreviewURl(URL?)
+//        case setPreviewURl(URL?)
 //        case setLiveUrl(URL?)
         case setPlaybackSpeed(Float)
         case sendPreviewShowEventTrace
@@ -197,6 +203,10 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
             onSetStreamActivityType(type: type)
         case .setWebViewLoadingCompleted(let isCompleted):
             onSetWebViewLoadingCompleted(isCompleted: isCompleted)
+        case .setRefreshTimer:
+            onSetRefreshTimer()
+        case .setResolution(let resolution):
+            self.onSetResolution(resolution : resolution)
         case .parseRatioStringAndSetData(let ratio):
             onParseRatioStringAndSetData(ratio: ratio)
         case .tearDownViewModel:
@@ -233,8 +243,8 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
             onSetNeedSeek(needSeek: needSeek)
         case .setNeedReload(let needReload): // bool
             onSetNeedReload(needReload: needReload)
-        case .setPreviewURl(let url): // URL?
-            onSetPreviewURL(url: url)
+//        case .setPreviewURl(let url): // URL?
+//            onSetPreviewURL(url: url)
 //        case .setLiveUrl(let url): // URL?
 //            onSetLiveUrl(url: url)
         case .playControlAction(let playControl):
@@ -332,6 +342,14 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         self.isWebViewDidCompleteLoading = isCompleted
     }
     
+    private func onSetResolution(resolution : ShopLivePlayerPreviewResolution) {
+        self.currentResolution = resolution
+    }
+    
+    private func onSetRefreshTimer() {
+        self.setRefreshTimer()
+    }
+    
     func onParseRatioStringAndSetData(ratio : String?) {
         if let ratio = ratio {
             let parseRatio = ratio.split(separator: ":")
@@ -356,14 +374,15 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     }
     
     private func onTearDownViewModel() {
+        invalidateRefreshTimer()
         eventTraceManager?.eventTraceAction( .previewDismiss )
         retryManager?.delegate = nil
         retryManager = nil
-//        audioSessionManager?.action( .cleanUpMemory )
         timeControlStatusManager?.action( .cleanUpMemory )
         delegate = nil
         removePlayTimeObserver()
         resetPlayer()
+        
     }
     
     private func onSetNeedSeek(needSeek: Bool) {
@@ -374,10 +393,10 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         playControlManager?.action( .setNeedReload(needReload) )
     }
     
-    private func onSetPreviewURL(url: URL?) {
-        self.previewUrl = url
-        self.playControlManager?.action( .setLiveUrl(url) )
-    }
+//    private func onSetPreviewURL(url: URL?) {
+//        self.previewUrl = url
+//        self.playControlManager?.action( .setLiveUrl(url) )
+//    }
     
     private func onSetPlaybackSpeed(speed : Float) {
         self.player?.rate = speed
@@ -433,9 +452,10 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
             return
         }
         self.onRequestTakeSnapshot()
-        self.previewUrl = url
-        playControlManager?.action( .setLiveUrl(url) )
-        self.updatePlayerItem(with: url)
+        let previewQueryAddedUrl = self.checkIfLiveUrlContainsPreviewQueryAndAppendIfNotExist(url: url)
+        self.previewUrl = previewQueryAddedUrl
+        playControlManager?.action( .setLiveUrl(previewQueryAddedUrl) )
+        self.updatePlayerItem(with: previewQueryAddedUrl)
         if let playControlManager = playControlManager,
            playControlManager.getIsReplayMode(), let startTime = self.currentPlayTime {
             playControlManager.action( .seekTo(startTime) )
@@ -499,7 +519,6 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     
     private func onInitPlayer(url : URL?) {
         guard let url = url else { return }
-//        self.liveUrl = url
         playControlManager?.action( .setLiveUrl(url) )
         self.updatePlayerItem(with: url)
     }
@@ -514,17 +533,8 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     
     private func onSetIsReplayMode(isReplayMode : Bool){
         ShopLivePlayerPreviewAudioSessionManager.shared.action( .setIsReplayMode(isReplayMode) )
-//        _lifeCycleManager?.childAction( .setIsReplayMode(isReplayMode) )
         playControlManager?.action( .setIsReplayMode(isReplayMode) )
     }
-}
-//MARK: - PlayControlManager
-extension ShopLivePlayerPreviewViewModel {
-    
-}
-//MARK: - timeControlStatusManager
-extension ShopLivePlayerPreviewViewModel {
-    
 }
 extension ShopLivePlayerPreviewViewModel {
     private func updatePlayerItem(with url: URL,from : String = #function) {
@@ -542,11 +552,6 @@ extension ShopLivePlayerPreviewViewModel {
         let metadataOutput = AVPlayerItemMetadataOutput(identifiers: nil)
         metadataOutput.setDelegate(self, queue: DispatchQueue.main)
         playerItem.add(metadataOutput)
-        
-        if #available(iOS 13.0, *) {
-            playerItem.automaticallyPreservesTimeOffsetFromLive = true
-            playerItem.configuredTimeOffsetFromLive = asset.minimumTimeOffsetFromLive
-        }
         
         if #available(iOS 14.0, *) {
             playerItem.startsOnFirstEligibleVariant = true
@@ -635,6 +640,23 @@ extension ShopLivePlayerPreviewViewModel {
         return resultUrl
     }
     
+    private func checkIfLiveUrlContainsPreviewQueryAndAppendIfNotExist(url : URL) -> URL {
+        guard var urlComponents = URLComponents(string: url.absoluteString) else { return url }
+        
+        for query in urlComponents.queryItems ?? [] {
+            if query.name == "preview" {
+               return url
+            }
+        }
+        urlComponents.queryItems = (urlComponents.queryItems ?? []) + [URLQueryItem(name: "preview", value: "1")]
+        guard let urlString = urlComponents.url?.absoluteString,
+              let percentEncoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let resultUrl = URL(string: percentEncoded) else {
+            return url
+        }
+        return resultUrl
+    }
+    
     
     private func resetPlayer() {
         retryManager?.action( .stopRetry )
@@ -643,6 +665,28 @@ extension ShopLivePlayerPreviewViewModel {
         player?.cancelPendingPrerolls()
         player?.replaceCurrentItem(with: nil)
         playerItem = nil
+    }
+    
+    private func setRefreshTimer() {
+        self.invalidateRefreshTimer()
+        self.resultHandler?( .setSnapShotImage(nil) )
+        self.resultHandler?( .requestShowOrHideBackgroundPosterImageView(needToSHow: true) )
+        refreshTimer = DispatchSource.makeTimerSource()
+        refreshTimer?.schedule(deadline: .now() + 30.0, repeating: .never)
+        refreshTimer?.setEventHandler(handler: { [weak self] in
+            DispatchQueue.main.async {
+                self?.onReloadOverlayWebView()
+                self?.refreshTimer = nil
+            }
+        })
+        refreshTimer?.resume()
+    }
+    
+    private func invalidateRefreshTimer() {
+        if refreshTimer != nil && refreshTimer!.isCancelled == false {
+            refreshTimer?.cancel()
+            refreshTimer = nil
+        }
     }
 }
 extension ShopLivePlayerPreviewViewModel  : AVPlayerItemMetadataOutputPushDelegate {
@@ -938,12 +982,17 @@ extension ShopLivePlayerPreviewViewModel {
     func getVideoRatio() -> CGSize {
         return videoRatio
     }
+    
+    func getCurrentResolution() -> ShopLivePlayerPreviewResolution {
+        return self.currentResolution
+    }
 }
 //MARK: - bind PlayControlManager
 extension ShopLivePlayerPreviewViewModel {
     private func bindPlayControlManager() {
         playControlManager?.resultHandler = { [weak self] result in
             guard let self = self else { return }
+            ShopLiveLogger.tempLog("[VIEWVMODEL] playControlManager result \(result)")
             switch result {
             case .didChangeCurrentPlayCommand(let playCommand):
                 self.onPlayControlManagerDidChangeCurrentPlayCommand(playCommand: playCommand)
@@ -994,6 +1043,7 @@ extension ShopLivePlayerPreviewViewModel {
     private func bindTimeControlStatusManager() {
         timeControlStatusManager?.resultHandler = { [weak self] result in
             guard let self = self else { return }
+            ShopLiveLogger.tempLog("[VIEWMODEL] timeControlStatusManager result \(result)")
             switch result {
             case .requestPlayControl(let playControl):
                 self.onTimeControlStatusManagerRequestPlayControl(playControl: playControl)
@@ -1068,6 +1118,7 @@ extension ShopLivePlayerPreviewViewModel : ShopLivePreviewRetryManagerDelegate {
     private func bindRetryManager(){
         retryManager?.resultHandler = { [weak self] result in
             guard let self = self else { return }
+            ShopLiveLogger.tempLog("[VIEWMODEL] retryManager result \(result)")
             switch result {
             case .playerItemCancelPendingSeek:
                 self.onRetryManagerPlayerItemCancelPendingSeeks()
@@ -1123,6 +1174,7 @@ extension ShopLivePlayerPreviewViewModel {
     private func bindAudioSessionManager() {
         ShopLivePlayerPreviewAudioSessionManager.shared.resultHandler = { [weak self] result in
             guard let self = self else { return }
+            ShopLiveLogger.tempLog("[VIEWMODEL] audioSessionManager result \(result)")
             switch result {
             case .log(name: let name, feature: let feature, payload: let payload):
                 self.onAudioSessionManagerLog(name: name, feature: feature, campaignKey: campaignKey, payload: payload)

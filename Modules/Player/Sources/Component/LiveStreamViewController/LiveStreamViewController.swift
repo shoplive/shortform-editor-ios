@@ -231,7 +231,6 @@ internal final class LiveStreamViewController: SLViewController {
     }
     
     @objc private func inAppPipCloseBtnTapped(sender : UIButton) {
-        overlayView?.closeWebSocket()
         delegate?.didTouchCloseButton()
         
     }

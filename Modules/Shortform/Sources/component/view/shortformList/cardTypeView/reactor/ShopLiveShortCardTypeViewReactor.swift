@@ -297,7 +297,7 @@ extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollect
         if playOnIntialLoad && isAutoPlayerEnabled && checkIfPlayOnWifiViaAvailable() {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 if indexPath.row <= 1 {
-                    cell.playVideo()
+                    cell.playVideoOnInitialLoad()
                 }
                 else {
                     playOnIntialLoad = false
@@ -305,7 +305,7 @@ extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollect
             }
             else {
                 if indexPath.row == 0 {
-                    cell.playVideo()
+                    cell.playVideoOnInitialLoad()
                 }
                 else {
                     playOnIntialLoad = false

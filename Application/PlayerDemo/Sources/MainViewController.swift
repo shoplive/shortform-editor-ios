@@ -360,10 +360,11 @@ class MainViewController: SideMenuBaseViewController {
         setupShopliveSettings()
         
         let playerData = ShopLivePreviewData(campaignKey: currentKey.campaignKey,
-                                            keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
-                                            referrer: DemoConfiguration.shared.customReferrer,
-                                            isMuted: !DemoConfiguration.shared.enablePreviewSound,
-                                            isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey) { campaign in
+                                             keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
+                                             referrer: DemoConfiguration.shared.customReferrer,
+                                             isMuted: !DemoConfiguration.shared.enablePreviewSound,
+                                             isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey,
+                                             resolution: DemoConfiguration.shared.previewResolution) { campaign in
             ShopLiveLogger.debugLog(" campaign callBack campaign Title : \(campaign.title)")
         } brandHandler: { brand in
             ShopLiveLogger.debugLog(" brand callback brand Name : \(brand.name) \n brand Image : \(brand.imageUrl) \n brand Identifier : \(brand.identifier)")
@@ -390,7 +391,7 @@ class MainViewController: SideMenuBaseViewController {
         let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
         
         
-        let playerData = ShopLivePreviewData(campaignKey: currentKey.campaignKey ,//"9f59cfe5ae7c"
+        let playerData = ShopLivePlayerData(campaignKey: currentKey.campaignKey ,//"9f59cfe5ae7c"
                                              keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
                                              referrer: DemoConfiguration.shared.customReferrer,
                                              isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey)
@@ -410,6 +411,7 @@ class MainViewController: SideMenuBaseViewController {
             }
             return
         }
+        setupShopliveSettings()
         ShopLive.setMuteWhenPlayStart(false)
         let vc = ShopLivePreviewSampleView(accessKey: currentKey.accessKey, campaignkey: currentKey.campaignKey)
         self.navigationController?.pushViewController(vc, animated: true)

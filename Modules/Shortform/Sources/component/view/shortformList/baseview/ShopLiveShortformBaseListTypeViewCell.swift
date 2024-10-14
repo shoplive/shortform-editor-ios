@@ -241,6 +241,11 @@ final class ShopLiveShortformBaseListTypeViewCell : UICollectionViewCell {
         basicCardView.playVideo()
     }
     
+    func playVideoOnInitialLoad() {
+        guard currentMediaType == "VIDEO" else { return }
+        basicCardView.playVideoOnInitialLoad()
+    }
+    
     func refreshPlayer(){
         self.basicCardView.refreshPlayer()
     }

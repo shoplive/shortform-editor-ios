@@ -450,6 +450,16 @@ public enum PlayerDemoStrings {
       public static let title = PlayerDemoStrings.tr("shoplive", "sdkoption.pipScale.title")
     }
 
+    public enum Player {
+
+      public enum Preview {
+      /// Set resolution type in preview. (Default is preview type, ON -> Preview)
+        public static let description = PlayerDemoStrings.tr("shoplive", "sdkoption.player.preview.description")
+        /// Preview resolution type
+        public static let title = PlayerDemoStrings.tr("shoplive", "sdkoption.player.preview.title")
+      }
+    }
+
     public enum Preview {
     /// Play when preview tapped
       public static let description = PlayerDemoStrings.tr("shoplive", "sdkoption.preview.description")

@@ -82,7 +82,7 @@ class ShopLiveShortformBaseTypeCardView : UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .init("#CBCBCB")
+        imageView.backgroundColor = .init(sl_hex: "#CBCBCB")
         return imageView
     }()
     
@@ -90,6 +90,7 @@ class ShopLiveShortformBaseTypeCardView : UIView {
     private weak var delegate : ShopLiveShortformBaseTypeCardViewDelegate?
     private var playIconLeftTopPadding : CGFloat = 8
     private var indexPath : IndexPath?
+    private var reservePlayOnInitialLoad : Bool = false
     
     init(frame: CGRect,delegate : ShopLiveShortformBaseTypeCardViewDelegate,playIconLeftTopPadding : CGFloat) {
         super.init(frame: frame)
@@ -107,8 +108,9 @@ class ShopLiveShortformBaseTypeCardView : UIView {
     
     func setContents(viewCount : String, posterImageUrl : String?, videoUrl : String?, youtubeWebView : SLWebView?, currentMediaType : String, viewHideOption : ShopLiveListCellViewHideOptionModel,cornerRadius : CGFloat,backgroundColor : UIColor?, currentSrn : String?, indexPath : IndexPath ){
         self.indexPath = indexPath
+        self.reservePlayOnInitialLoad = false
         videoPlayer.setIndexPath(indexPath: indexPath)
-        var bgColor : UIColor = .init("#CBCBCB")
+        var bgColor : UIColor = .init(sl_hex: "#CBCBCB")
         if let backgroundColor = backgroundColor {
             bgColor = backgroundColor
         }
@@ -174,6 +176,19 @@ class ShopLiveShortformBaseTypeCardView : UIView {
         }
         else {
             if videoPlayer.getIsReadyToPlay() == false {
+                return
+            }
+            videoPlayer.start()
+        }
+    }
+    
+    func playVideoOnInitialLoad() {
+        if videoPlayer.isHidden == true && youtubePlayer.isHidden == false {
+            self.youtubePlayer.action( .play )
+        }
+        else {
+            if videoPlayer.getIsReadyToPlay() == false {
+                self.reservePlayOnInitialLoad = true
                 return
             }
             videoPlayer.start()
@@ -286,5 +301,12 @@ extension ShopLiveShortformBaseTypeCardView : ShopLiveShortformBaseTypePlayerVie
     
     func onPlayerDidStartPlaying() {
         animateHideOrShowPosterImage(hide: true)
+    }
+    
+    func onPlayerIsReadyToPlay(isReady: Bool) {
+        if isReady && reservePlayOnInitialLoad {
+            self.reservePlayOnInitialLoad = false
+            self.playVideoOnInitialLoad()
+        }
     }
 }

@@ -40,9 +40,7 @@ class CardTypeExampleViewController : UIViewController {
         super.viewDidAppear(animated)
         ShopLiveShortform.Delegate.setDelegate(self)
         setCollectionViewAndBuilder()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            self?.builder?.enablePlayVideos()
-        }
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {

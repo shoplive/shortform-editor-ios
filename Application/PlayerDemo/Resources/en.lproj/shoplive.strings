@@ -143,6 +143,10 @@
 "sdkoption.nextActionTypeOnNavigation.item3" = "Exit";
 "sdkoption.statusbarvisibility.title" = "Player StatusBar Visibility Option";
 "sdkoption.statusbarvisibility.description" = "Visible player's status bar (default : on)";
+
+"sdkoption.player.preview.title" = "Preview resolution type";
+"sdkoption.player.preview.description" = "Set resolution type in preview. (Default is preview type, ON -> Preview)";
+
 "sdkoption.pipKeepWindowStyle.title" = "Maintain Window Style when returning to app from OS PIP";
 "sdkoption.pipKeepWindowStyle.description" = "Set the option to true if you want to return to the last state running (in-app PIP or Fullscreen) when returning from OS PIP. (default is not maintained)";
 "sdkoption.enablePictureInPictureMode.title" = "Enable PIP Mode";

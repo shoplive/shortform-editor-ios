@@ -16,6 +16,7 @@ protocol ShopLiveShortformBaseTypePlayerViewDelegate : NSObject {
     func onPlayerViewError(error : Error)
     func onPlayerChangedToCacheFile()
     func onPlayerDidStartPlaying()
+    func onPlayerIsReadyToPlay(isReady : Bool)
 }
 /**
  숏폼 목록 비디오 플레이어뷰
@@ -156,10 +157,8 @@ extension ShopLiveShortformBaseTypePlayerView : SLAVLoopPlayerDelegate {
     }
     
     func onSLAVLoopPlayerItemReady(isReady: Bool) {
-        
+        self.delegate?.onPlayerIsReadyToPlay(isReady: isReady)
     }
-    
-    
 }
 extension ShopLiveShortformBaseTypePlayerView {
     private func setLayout(){

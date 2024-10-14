@@ -108,12 +108,12 @@ extension ShopLivePreviewSampleView : UICollectionViewDataSource, UICollectionVi
         let yContentOffset = scrollView.contentOffset.y
         let currentIndex = Int((yContentOffset) / scrollView.frame.height)
         for cell in cv.visibleCells as! [ShopLivePreviewSampleCell] {
-            if let indexPath = cell.indexPath, indexPath.row == currentIndex {
-                cell.play()
-            }
-            else {
-                cell.pause()
-            }
+//            if let indexPath = cell.indexPath, indexPath.row == currentIndex {
+//                cell.play()
+//            }
+//            else {
+//                cell.pause()
+//            }
         }
     }
     
@@ -131,17 +131,17 @@ extension ShopLivePreviewSampleView : UICollectionViewDataSource, UICollectionVi
         }
     }
     
-//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        let yContentOffset = scrollView.contentOffset.y
-//        let currentIndex = Int((yContentOffset) / scrollView.frame.height)
-//        for cell in cv.visibleCells as! [ShopLivePreviewSampleCell] {
-//            if let indexPath = cell.indexPath, indexPath.row == currentIndex {
-//                cell.play()
-//            }
-//            else {
-//                cell.pause()
-//            }
-//        }
-//    }
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let yContentOffset = scrollView.contentOffset.y
+        let currentIndex = Int((yContentOffset) / scrollView.frame.height)
+        for cell in cv.visibleCells as! [ShopLivePreviewSampleCell] {
+            if let indexPath = cell.indexPath, indexPath.row == currentIndex {
+                cell.play()
+            }
+            else {
+                cell.pause()
+            }
+        }
+    }
     
 }
