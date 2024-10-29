@@ -5,7 +5,7 @@
 
 #if os(macOS)
   import AppKit.NSFont
-#elseif os(iOS) || os(tvOS) || os(watchOS)
+#elseif os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
   import UIKit.UIFont
 #endif
 #if canImport(SwiftUI)
@@ -18,8 +18,8 @@
 // MARK: - Fonts
 
 // swiftlint:disable identifier_name line_length type_body_length
-public enum PlayerDemoFontFamily {
-  public enum NanumBrushScript {
+public enum PlayerDemoFontFamily: Sendable {
+  public enum NanumBrushScript: Sendable {
     public static let regular = PlayerDemoFontConvertible(name: "NanumBrush", family: "Nanum Brush Script", path: "NanumBrush.ttf")
     public static let all: [PlayerDemoFontConvertible] = [regular]
   }
@@ -32,14 +32,14 @@ public enum PlayerDemoFontFamily {
 
 // MARK: - Implementation Details
 
-public struct PlayerDemoFontConvertible {
+public struct PlayerDemoFontConvertible: Sendable {
   public let name: String
   public let family: String
   public let path: String
 
   #if os(macOS)
   public typealias Font = NSFont
-  #elseif os(iOS) || os(tvOS) || os(watchOS)
+  #elseif os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
   public typealias Font = UIFont
   #endif
 
@@ -58,7 +58,7 @@ public struct PlayerDemoFontConvertible {
     }
     #if os(macOS)
     return SwiftUI.Font.custom(font.fontName, size: font.pointSize)
-    #elseif os(iOS) || os(tvOS) || os(watchOS)
+    #elseif os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
     return SwiftUI.Font(font)
     #endif
   }
@@ -78,7 +78,7 @@ public struct PlayerDemoFontConvertible {
 
 public extension PlayerDemoFontConvertible.Font {
   convenience init?(font: PlayerDemoFontConvertible, size: CGFloat) {
-    #if os(iOS) || os(tvOS) || os(watchOS)
+    #if os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
     if !UIFont.fontNames(forFamilyName: font.family).contains(font.name) {
       font.register()
     }

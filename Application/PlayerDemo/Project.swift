@@ -9,23 +9,23 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 
-let demoTarget = Target(name: "PlayerDemo",
-                        platform: .iOS,
-                        product: .app,
-                        bundleId: "cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo",
-                        deploymentTarget: .iOS(targetVersion: "13.0", devices: .iphone),
-                        infoPlist: .file(path: "Support/Info.plist"),
-                        sources: ["Sources/**","../../XCConfigs/version.xcconfig"],
-                        resources: ["Resources/**"],
-                        dependencies: [
-                            .project(target: "ShopLiveSDK", path: .relativeToRoot("Modules/Player")),
-                            .project(target: "ShopliveSDKCommon", path: .relativeToRoot("Modules/Common")),
-                            .external(name: "SideMenu"),
-                            .external(name: "Toast"),
-                            .external(name: "SwiftyJWT"),
-                            .external(name: "CryptoSwift"),
-                            .external(name: "iOSDropDown")
-                        ])
+let demoTarget = Target.target(name: "PlayerDemo",
+                               destinations: .iOS,
+                               product: .app,
+                               bundleId: "cloud.shoplive.sdk.swiftdemo.qa.SwiftDemo",
+                               deploymentTargets: .iOS("13.0"),
+                               infoPlist: .file(path: "Support/Info.plist"),
+                               sources: ["Sources/**","../../XCConfigs/version.xcconfig"],
+                               resources: ["Resources/**"],
+                               dependencies: [
+                                .project(target: "ShopLiveSDK", path: .relativeToRoot("Modules/Player")),
+                                .project(target: "ShopliveSDKCommon", path: .relativeToRoot("Modules/Common")),
+                                .external(name: "SideMenu"),
+                                .external(name: "Toast"),
+                                .external(name: "SwiftyJWT"),
+                                .external(name: "CryptoSwift"),
+                                .external(name: "iOSDropDown")
+                               ])
 
 
 let project = Project.makeModule(name: "PlayerDemo",

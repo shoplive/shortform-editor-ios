@@ -11,7 +11,7 @@ import Foundation
 
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name
-public enum ShortformDemoStrings {
+public enum ShortformDemoStrings: Sendable {
   /// Cancel
   public static let eoExportCancel = ShortformDemoStrings.tr("EOExportLocalizable", "eo_export_cancel")
   /// Confirm
@@ -66,7 +66,7 @@ public enum ShortformDemoStrings {
 
 extension ShortformDemoStrings {
   private static func tr(_ table: String, _ key: String, _ args: CVarArg...) -> String {
-    let format = ShortformDemoResources.bundle.localizedString(forKey: key, value: nil, table: table)
+    let format = Bundle.module.localizedString(forKey: key, value: nil, table: table)
     return String(format: format, locale: Locale.current, arguments: args)
   }
 }

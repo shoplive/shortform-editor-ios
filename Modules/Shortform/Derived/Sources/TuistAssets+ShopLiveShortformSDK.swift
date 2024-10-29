@@ -19,7 +19,7 @@
 // MARK: - Asset Catalogs
 
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
-public enum ShopLiveShortformSDKAsset {
+public enum ShopLiveShortformSDKAsset: Sendable {
   public static let slClosebutton = ShopLiveShortformSDKImages(name: "sl_closebutton")
   public static let slIcBackBtn = ShopLiveShortformSDKImages(name: "sl_ic_back_btn")
   public static let slIcMediaFilled = ShopLiveShortformSDKImages(name: "sl_ic_media_filled")
@@ -32,18 +32,18 @@ public enum ShopLiveShortformSDKAsset {
 
 // MARK: - Implementation Details
 
-public struct ShopLiveShortformSDKImages {
-  public fileprivate(set) var name: String
+public struct ShopLiveShortformSDKImages: Sendable {
+  public let name: String
 
   #if os(macOS)
   public typealias Image = NSImage
-  #elseif os(iOS) || os(tvOS) || os(watchOS)
+  #elseif os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
   public typealias Image = UIImage
   #endif
 
   public var image: Image {
-    let bundle = ShopLiveShortformSDKResources.bundle
-    #if os(iOS) || os(tvOS)
+    let bundle = Bundle.module
+    #if os(iOS) || os(tvOS) || os(visionOS)
     let image = Image(named: name, in: bundle, compatibleWith: nil)
     #elseif os(macOS)
     let image = bundle.image(forResource: NSImage.Name(name))
@@ -57,43 +57,28 @@ public struct ShopLiveShortformSDKImages {
   }
 
   #if canImport(SwiftUI)
-  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, visionOS 1.0, *)
   public var swiftUIImage: SwiftUI.Image {
     SwiftUI.Image(asset: self)
   }
   #endif
 }
 
-public extension ShopLiveShortformSDKImages.Image {
-  @available(macOS, deprecated,
-    message: "This initializer is unsafe on macOS, please use the ShopLiveShortformSDKImages.image property")
-  convenience init?(asset: ShopLiveShortformSDKImages) {
-    #if os(iOS) || os(tvOS)
-    let bundle = ShopLiveShortformSDKResources.bundle
-    self.init(named: asset.name, in: bundle, compatibleWith: nil)
-    #elseif os(macOS)
-    self.init(named: NSImage.Name(asset.name))
-    #elseif os(watchOS)
-    self.init(named: asset.name)
-    #endif
-  }
-}
-
 #if canImport(SwiftUI)
-@available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+@available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, visionOS 1.0, *)
 public extension SwiftUI.Image {
   init(asset: ShopLiveShortformSDKImages) {
-    let bundle = ShopLiveShortformSDKResources.bundle
+    let bundle = Bundle.module
     self.init(asset.name, bundle: bundle)
   }
 
   init(asset: ShopLiveShortformSDKImages, label: Text) {
-    let bundle = ShopLiveShortformSDKResources.bundle
+    let bundle = Bundle.module
     self.init(asset.name, bundle: bundle, label: label)
   }
 
   init(decorative asset: ShopLiveShortformSDKImages) {
-    let bundle = ShopLiveShortformSDKResources.bundle
+    let bundle = Bundle.module
     self.init(decorative: asset.name, bundle: bundle)
   }
 }

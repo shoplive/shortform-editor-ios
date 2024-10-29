@@ -11,7 +11,7 @@ import Foundation
 // MARK: - Plist Files
 
 // swiftlint:disable identifier_name line_length number_separator type_body_length
-public enum GoogleServiceInfo {
+public enum GoogleServiceInfo: Sendable {
     public static let apiKey: String = "AIzaSyDf-Io1LQBsn0YxoC-sdlDcclfg5n1ENxY"
     public static let bundleId: String = "cloud.shoplive.dev.shortform-examples"
     public static let clientId: String = "64266032110-8oa9oc05klvlk1a15cn5rrb0vlpbvuvt.apps.googleusercontent.com"

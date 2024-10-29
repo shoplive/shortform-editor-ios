@@ -8,25 +8,25 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let demoTarget = Target(name: "ShortformDemo",
-                        platform: .iOS,
-                        product: .app,
-                        bundleId: "cloud.shoplive.dev.shortform-examples",
-                        deploymentTarget: .iOS(targetVersion: "13.0", devices: .iphone),
-                        infoPlist: .file(path: "Support/Info.plist"),
-                        sources: ["Sources/**"],
-                        resources: ["Resources/**"],
-                        dependencies: [
-                            .project(target: "ShopLiveShortformSDK", path: .relativeToRoot("Modules/Shortform")),
-                            .project(target: "ShopLiveShortformEditorSDK", path: .relativeToRoot("Modules/Editor")),
-                            .project(target: "ShopliveSDKCommon", path: .relativeToRoot("Modules/Common")),
-                            .external(name: "SnapKit"),
-                            .external(name: "Parchment"),
-                            .external(name: "FirebaseAnalytics"),
-                            .external(name: "FirebaseCrashlytics"),
-                            .external(name: "FirebaseDynamicLinks"),
-                            .external(name: "Toast")
-                        ])
+let demoTarget = Target.target(name: "ShortformDemo",
+                               destinations: .iOS,
+                               product: .app,
+                               bundleId: "cloud.shoplive.dev.shortform-examples",
+                               deploymentTargets: .iOS("13.0"),
+                               infoPlist: .file(path: "Support/Info.plist"),
+                               sources: ["Sources/**"],
+                               resources: ["Resources/**"],
+                               dependencies: [
+                                .project(target: "ShopLiveShortformSDK", path: .relativeToRoot("Modules/Shortform")),
+                                .project(target: "ShopLiveShortformEditorSDK", path: .relativeToRoot("Modules/Editor")),
+                                .project(target: "ShopliveSDKCommon", path: .relativeToRoot("Modules/Common")),
+                                .external(name: "SnapKit"),
+                                .external(name: "Parchment"),
+                                .external(name: "FirebaseAnalytics"),
+                                .external(name: "FirebaseCrashlytics"),
+                                .external(name: "FirebaseDynamicLinks"),
+                                .external(name: "Toast")
+                               ])
 // .xcframework(path: .relativeToRoot("Modules/Editor/Framework/EffectOneKit.xcframework"))
 
 let project = Project.makeModule(name: "ShortformDemo",

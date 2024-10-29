@@ -11,23 +11,23 @@ import Foundation
 
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name
-public enum ShopLiveSDKStrings {
+public enum ShopLiveSDKStrings: Sendable {
 
-  public enum Chat {
+  public enum Chat: Sendable {
   /// Please enter a message
     public static let placeholder = ShopLiveSDKStrings.tr("Localizable", "chat.placeholder")
 
-    public enum Send {
+    public enum Send: Sendable {
     /// Send
       public static let title = ShopLiveSDKStrings.tr("Localizable", "chat.send.title")
     }
   }
 
-  public enum Share {
+  public enum Share: Sendable {
 
-    public enum Url {
+    public enum Url: Sendable {
 
-      public enum Empty {
+      public enum Empty: Sendable {
       /// There is no shared URL.
         public static let error = ShopLiveSDKStrings.tr("Localizable", "share.url.empty.error")
         /// If there is no url to share, sharing is not executed even if you click the share button.
@@ -43,7 +43,7 @@ public enum ShopLiveSDKStrings {
 
 extension ShopLiveSDKStrings {
   private static func tr(_ table: String, _ key: String, _ args: CVarArg...) -> String {
-    let format = ShopLiveSDKResources.bundle.localizedString(forKey: key, value: nil, table: table)
+    let format = Bundle.module.localizedString(forKey: key, value: nil, table: table)
     return String(format: format, locale: Locale.current, arguments: args)
   }
 }

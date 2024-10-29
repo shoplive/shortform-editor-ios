@@ -19,7 +19,7 @@
 // MARK: - Asset Catalogs
 
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
-public enum PlayerDemoAsset {
+public enum PlayerDemoAsset: Sendable {
   public static let accentColor = PlayerDemoColors(name: "AccentColor")
   public static let back = PlayerDemoImages(name: "back")
   public static let checkNotSelected = PlayerDemoImages(name: "check_not_selected")
@@ -51,37 +51,27 @@ public enum PlayerDemoAsset {
 
 // MARK: - Implementation Details
 
-public final class PlayerDemoColors {
-  public fileprivate(set) var name: String
+public final class PlayerDemoColors: Sendable {
+  public let name: String
 
   #if os(macOS)
   public typealias Color = NSColor
-  #elseif os(iOS) || os(tvOS) || os(watchOS)
+  #elseif os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
   public typealias Color = UIColor
   #endif
 
-  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.13, *)
-  public private(set) lazy var color: Color = {
+  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.13, visionOS 1.0, *)
+  public var color: Color {
     guard let color = Color(asset: self) else {
       fatalError("Unable to load color asset named \(name).")
     }
     return color
-  }()
+  }
 
   #if canImport(SwiftUI)
-  private var _swiftUIColor: Any? = nil
-  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
-  public private(set) var swiftUIColor: SwiftUI.Color {
-    get {
-      if self._swiftUIColor == nil {
-        self._swiftUIColor = SwiftUI.Color(asset: self)
-      }
-
-      return self._swiftUIColor as! SwiftUI.Color
-    }
-    set {
-      self._swiftUIColor = newValue
-    }
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, visionOS 1.0, *)
+  public var swiftUIColor: SwiftUI.Color {
+      return SwiftUI.Color(asset: self)
   }
   #endif
 
@@ -91,10 +81,10 @@ public final class PlayerDemoColors {
 }
 
 public extension PlayerDemoColors.Color {
-  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.13, *)
+  @available(iOS 11.0, tvOS 11.0, watchOS 4.0, macOS 10.13, visionOS 1.0, *)
   convenience init?(asset: PlayerDemoColors) {
-    let bundle = PlayerDemoResources.bundle
-    #if os(iOS) || os(tvOS)
+    let bundle = Bundle.module
+    #if os(iOS) || os(tvOS) || os(visionOS)
     self.init(named: asset.name, in: bundle, compatibleWith: nil)
     #elseif os(macOS)
     self.init(named: NSColor.Name(asset.name), bundle: bundle)
@@ -105,27 +95,27 @@ public extension PlayerDemoColors.Color {
 }
 
 #if canImport(SwiftUI)
-@available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+@available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, visionOS 1.0, *)
 public extension SwiftUI.Color {
   init(asset: PlayerDemoColors) {
-    let bundle = PlayerDemoResources.bundle
+    let bundle = Bundle.module
     self.init(asset.name, bundle: bundle)
   }
 }
 #endif
 
-public struct PlayerDemoImages {
-  public fileprivate(set) var name: String
+public struct PlayerDemoImages: Sendable {
+  public let name: String
 
   #if os(macOS)
   public typealias Image = NSImage
-  #elseif os(iOS) || os(tvOS) || os(watchOS)
+  #elseif os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
   public typealias Image = UIImage
   #endif
 
   public var image: Image {
-    let bundle = PlayerDemoResources.bundle
-    #if os(iOS) || os(tvOS)
+    let bundle = Bundle.module
+    #if os(iOS) || os(tvOS) || os(visionOS)
     let image = Image(named: name, in: bundle, compatibleWith: nil)
     #elseif os(macOS)
     let image = bundle.image(forResource: NSImage.Name(name))
@@ -139,43 +129,28 @@ public struct PlayerDemoImages {
   }
 
   #if canImport(SwiftUI)
-  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, visionOS 1.0, *)
   public var swiftUIImage: SwiftUI.Image {
     SwiftUI.Image(asset: self)
   }
   #endif
 }
 
-public extension PlayerDemoImages.Image {
-  @available(macOS, deprecated,
-    message: "This initializer is unsafe on macOS, please use the PlayerDemoImages.image property")
-  convenience init?(asset: PlayerDemoImages) {
-    #if os(iOS) || os(tvOS)
-    let bundle = PlayerDemoResources.bundle
-    self.init(named: asset.name, in: bundle, compatibleWith: nil)
-    #elseif os(macOS)
-    self.init(named: NSImage.Name(asset.name))
-    #elseif os(watchOS)
-    self.init(named: asset.name)
-    #endif
-  }
-}
-
 #if canImport(SwiftUI)
-@available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+@available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, visionOS 1.0, *)
 public extension SwiftUI.Image {
   init(asset: PlayerDemoImages) {
-    let bundle = PlayerDemoResources.bundle
+    let bundle = Bundle.module
     self.init(asset.name, bundle: bundle)
   }
 
   init(asset: PlayerDemoImages, label: Text) {
-    let bundle = PlayerDemoResources.bundle
+    let bundle = Bundle.module
     self.init(asset.name, bundle: bundle, label: label)
   }
 
   init(decorative asset: PlayerDemoImages) {
-    let bundle = PlayerDemoResources.bundle
+    let bundle = Bundle.module
     self.init(decorative: asset.name, bundle: bundle)
   }
 }
