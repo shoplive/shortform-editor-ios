@@ -21,6 +21,7 @@ protocol ShortsCellDelegate : NSObject {
     func requestShowShortsDetailForHybrid(srn : String)
     func requestShowNewShortformFullScreen(bridgeModel : ShopLiveShortform.ShortsBridgeModel)
     func requestCloseShortform()
+    func requestRemoveShortform(shortsId : String)
     func onExternalEmitEvent(name : String, payload : [String : Any]?)
     func setSnapShotForWindow(image : UIImage?)
     func getCurrentOnViewIndexPath() -> IndexPath?
@@ -44,6 +45,7 @@ protocol ShortsCellInterface {
                        youtubeWebView : SLWebView?,
                        model : ShopLiveShortform.ShortsModel,
                        delegate : ShortsCellDelegate,
+                       shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?,
                        indexPath : IndexPath,
                        viewProvideype : ShortsCollectionBaseViewModel.ViewProvidedType,
                        shopliveSessionId : String?,
@@ -58,6 +60,7 @@ protocol ShortsCellInterface {
     
     func cleanUpMemory()
     func getCurrentVidoeTime() -> ShortformCurrentTimeDTO?
+    func checkAttachedAndDetached(scrollView : UIView, coordinateView : UIView)
 }
 
 /**
@@ -163,6 +166,8 @@ class ShortsCell : UICollectionViewCell {
     }()
     
     weak var delegate : ShortsCellDelegate?
+    weak var shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?
+    private var attachState : ShortFormCellAttachState?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -188,6 +193,7 @@ class ShortsCell : UICollectionViewCell {
                        youtubeWebView : SLWebView?,
                        model : ShortsModel,
                        delegate : ShortsCellDelegate,
+                       shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?,
                        indexPath : IndexPath,
                        viewProvideype : ViewProvideType,
                        shopliveSessionId : String?,
@@ -197,7 +203,7 @@ class ShortsCell : UICollectionViewCell {
                        seekToOnInitial : ShortformCurrentTimeDTO?,
                        setShortsSingleDetailViewPayload : [String : Any]?,
                        preferredForwardBufferDuration : Double) {
-        
+        self.attachState = nil
         playerView.action( .removePlayerStatusObserver )
         self.webView.indexPath = indexPath
         self.thumbnailImageView.image = nil
@@ -218,6 +224,7 @@ class ShortsCell : UICollectionViewCell {
         reactor.action( .handleDeviceRotation(isLandscape: isLandScape) )
         reactor.action( .setIsMuted(isMute) )
         self.delegate = delegate
+        self.shortformDelegate = shortformDelegate
         reactor.action( .initializeCell )
         
     }
@@ -253,6 +260,8 @@ extension ShortsCell {
                 self.onReactorRequestShowNewShortformFullScreen(bridgeModel: bridgeModel)
             case .requestCloseShortform:
                 self.onReactorRequestCloseShortform()
+            case .requestRemoveShortform(shortsId: let shortsId):
+                self.onReactorRequestRemoveShortform(shortsId : shortsId)
             case .setWebViewIsScrollable(let isScrollable):
                 self.onReactorSetWebViewIsScrollable(isScrollable: isScrollable)
             case .requestPlayVideo:
@@ -369,6 +378,10 @@ extension ShortsCell {
     
     private func onReactorRequestCloseShortform() {
         delegate?.requestCloseShortform()
+    }
+    
+    private func onReactorRequestRemoveShortform(shortsId : String) {
+        delegate?.requestRemoveShortform(shortsId: shortsId)
     }
     
     private func onReactorSetWebViewIsScrollable(isScrollable : Bool) {
@@ -732,6 +745,25 @@ extension ShortsCell : ShortsCellInterface {
         }
         else {
             return .shoplive(playerView.getCurrentCMTime())
+        }
+    }
+    
+    func checkAttachedAndDetached(scrollView : UIView, coordinateView : UIView) {
+        let convertedCellFrame = scrollView.convert(self.frame, to: coordinateView)
+        let isIntersected = coordinateView.frame.intersects(convertedCellFrame)
+        if  isIntersected && attachState != .attached { // attached
+            guard let shortsModel = self.reactor.getShortsModel() else { return }
+            attachState = .attached
+            shortformDelegate?.onShortsAttached?(data: shortsModel.toShopLiveShortformData())
+//            ShopLiveShortform.Delegate.receiveHandler.delegate?
+//                .onShortsCellAttached?(data: shortsModel.toShopLiveShortformData())
+        }
+        if isIntersected == false && attachState != .detached {// detached
+            guard let shortsModel = self.reactor.getShortsModel() else { return }
+            attachState = .detached
+            shortformDelegate?.onShortsDetached?(data: shortsModel.toShopLiveShortformData())
+//            ShopLiveShortform.Delegate.receiveHandler.delegate?
+//                .onShortsCellDetached?(data: shortsModel.toShopLiveShortformData())
         }
     }
 }

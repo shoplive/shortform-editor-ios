@@ -29,6 +29,7 @@ extension ShopLiveShortform {
         }
         
         enum WebToSdk: String, CaseIterable {
+            case ON_SHORTFORM_DETAIL_REMOVED
             case ON_SHORTFORM_CLIENT_INITIALIZED
             case ON_SHORTFORM_DETAIL_INITIALIZED
             case ON_CHANGED_USER_AUTH

@@ -116,6 +116,10 @@ class ShopLiveShortformCardViewCell : UICollectionViewCell {
     func setVideoCache(originUrl : String, cacheUrl : URL) {
         self.basicCardView.setVideoCache(originUrl : originUrl, cacheUrl : cacheUrl)
     }
+    
+    func checkAttachedAndDetached(scrollView : UIView, coordinateView : UIView) {
+        self.basicCardView.checkAttachedAndDetached(scrollView: scrollView,cell : self,coordinateView: coordinateView)
+    }
 }
 extension ShopLiveShortformCardViewCell {
     private func setLayout(){
@@ -145,6 +149,14 @@ extension ShopLiveShortformCardViewCell {
 extension ShopLiveShortformCardViewCell : ShopLiveShortformBaseTypeCardViewDelegate {
     func onCardViewError(error: Error) {
         delegate?.onCellError(error: error)
+    }
+    
+    func onCellAttached(indexPath : IndexPath) {
+        delegate?.onCellAttached(indexPath: indexPath)
+    }
+
+    func onCellDetached(indexPath : IndexPath) {
+        delegate?.onCellDetached(indexPath: indexPath)
     }
 }
 

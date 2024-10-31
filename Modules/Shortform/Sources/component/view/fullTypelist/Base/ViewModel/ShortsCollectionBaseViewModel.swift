@@ -274,9 +274,46 @@ class ShortsCollectionBaseViewModel : NSObject {
 }
 //MARK: - util functions
 extension ShortsCollectionBaseViewModel {
+    func sendCellDetachedEventOnRemoveFromSuperView(indexPaths : [IndexPath]) {
+        indexPaths.map({ $0.row })
+            .compactMap({ self.shortsListData[safe: $0] })
+            .map({ $0.toShopLiveShortformData() })
+            .forEach { data in
+                shortformDelegate?.onShortsDetached?(data: data)
+//                ShopLiveShortform.Delegate.receiveHandler.delegate?.onShortsCellDetached?(data: data)
+            }
+    }
+    
     func isLast(indexPath: IndexPath) -> Bool {
         guard shortsListData.count > 1 else { return true }
         return indexPath.row == shortsListData.count - 1
+    }
+    
+    func removeShortformByShortsId(shortsId : String,cv : UICollectionView) {
+        let numberOfItemsInSection = cv.numberOfItems(inSection: 0)
+        
+        if let firstIndex = self.shortsListData.firstIndex(where: { $0.shortsId ?? "" == shortsId }) {
+            if numberOfItemsInSection != self.shortsListData.count {
+                let newlyAppendDataCount : Int = self.shortsListData.count - numberOfItemsInSection
+                let newDatas : [ShopLiveShortform.ShortsModel] = self.originShortsListData.suffix(newlyAppendDataCount)
+                self.originShortsListData =  self.originShortsListData.dropLast(newlyAppendDataCount)
+                let removedData = originShortsListData[firstIndex]
+                cv.performBatchUpdates {
+                    originShortsListData.remove(at: firstIndex)
+                    cv.deleteItems(at: [IndexPath(row: firstIndex, section: 0)])
+                } completion: { done in
+                    guard done else { return }
+                    ShopLiveLogger.tempLog("[HASSAN LOG] batch complete")
+                    self.shortformDelegate?.onShortsDetached?(data: removedData.toShopLiveShortformData())
+//                    ShopLiveShortform.Delegate.receiveHandler.delegate?.onShortsCellDetached?(data: removedData.toShopLiveShortformData())
+                    self.originShortsListData.append(contentsOf: newDatas)
+                }
+            }
+            else {
+                self.originShortsListData.removeAll(where: { $0.shortsId ?? "" == shortsId })
+                cv.deleteItems(at: [IndexPath(row: firstIndex, section: 0)])
+            }
+        }
     }
     
     func setShortsConfiguration() {

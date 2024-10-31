@@ -79,6 +79,7 @@ class ShortsCellReactor : NSObject, SLReactor {
         case requestShowNewShortformFullScreen(ShopLiveShortform.ShortsBridgeModel)
         
         case requestCloseShortform
+        case requestRemoveShortform(shortsId : String)
         case setWebViewIsScrollable(Bool)
         
         case requestPlayVideo
@@ -620,6 +621,8 @@ extension ShortsCellReactor {
 extension ShortsCellReactor {
     private func onWebToSdk(eventName : WebToSdk, payload : [String : Any]?) {
         switch eventName {
+        case .ON_SHORTFORM_DETAIL_REMOVED:
+            self.onShortformRemoved(payload : payload)
         case .ON_SHORTFORM_CLIENT_INITIALIZED:
             self.onShortformClientInitialized(payload: payload)
         case .ON_SHORTFORM_DETAIL_INITIALIZED:
@@ -659,6 +662,12 @@ extension ShortsCellReactor {
             break
         }
     }
+    
+    private func onShortformRemoved(payload : [String : Any]?) {
+         ShopLiveLogger.tempLog("[HASSAN LOG] payload \(payload)")
+
+ //        resultHandler?( .requestRemoveShortform(shortsId: "") )
+     }
     
     private func onShortformClientInitialized(payload : [String : Any]?) {
         guard let payload = payload else { return }

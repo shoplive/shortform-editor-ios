@@ -253,6 +253,10 @@ final class ShopLiveShortformBaseListTypeViewCell : UICollectionViewCell {
     func setVideoCache(originUrl : String, cacheUrl : URL) {
         self.basicCardView.setVideoCache(originUrl : originUrl, cacheUrl : cacheUrl)
     }
+    
+    func checkAttachedAndDetached(scrollView : UIView, coordinateView : UIView) {
+        self.basicCardView.checkAttachedAndDetached(scrollView: scrollView,cell : self, coordinateView: coordinateView)
+    }
 }
 extension ShopLiveShortformBaseListTypeViewCell {
     private func setLayout(){
@@ -292,5 +296,13 @@ extension ShopLiveShortformBaseListTypeViewCell {
 extension ShopLiveShortformBaseListTypeViewCell : ShopLiveShortformBaseTypeCardViewDelegate {
     func onCardViewError(error: Error) {
         delegate?.onCellError(error: error)
+    }
+    
+    func onCellAttached(indexPath: IndexPath) {
+        delegate?.onCellAttached(indexPath: indexPath)
+    }
+
+    func onCellDetached(indexPath: IndexPath) {
+        delegate?.onCellDetached(indexPath: indexPath)
     }
 }

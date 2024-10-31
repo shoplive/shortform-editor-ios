@@ -51,14 +51,14 @@ extension ShopLiveShortform {
         }
         
         public static func ==(lhs: ShortsModel, rhs: ShortsModel) -> Bool {
-             return (lhs.shortsId == rhs.shortsId && lhs.srn == rhs.srn)
+            return (lhs.shortsId == rhs.shortsId && lhs.srn == rhs.srn)
         }
         
         public var validate: Bool {
             guard let cards = cards,
                   cards.filter({ $0.validate }).count > 0 else {
-                      return false
-                  }
+                return false
+            }
             
             return true
         }
@@ -83,7 +83,37 @@ extension ShopLiveShortform {
                 return nil
             }
         }
+        
+        func toShopLiveShortformData() -> ShopLiveShortformData {
+            return .init(shortsId: self.shortsId,
+                         srn: self.srn,
+                         activity: self.activity?.toShopLiveShortformActivityData(),
+                         cards: cards?.map({ $0.toShopLiveShortformCardData() }),
+                         shortsDetail: shortsDetail?.toShortsDetailData(),
+                         shortsType: self.shortsType,
+                         rawDictionary: self.getRawDataDict())
+        }
     }
-
 }
 
+@objc public final class ShopLiveShortformData : NSObject {
+    
+    public var shortsId : String?
+    public var srn : String?
+    public var activity : ShopLiveShortformActivityData?
+    public var cards : [ShopLiveShortformCardData]?
+    public var shortsDetail : ShopLiveShortformDetailData?
+    public var shortsType : String?
+    public var rawDictionary : [String : Any]?
+    
+    public init(shortsId: String? = nil, srn: String? = nil, activity: ShopLiveShortformActivityData? = nil, cards: [ShopLiveShortformCardData]? = nil, shortsDetail: ShopLiveShortformDetailData? = nil, shortsType: String? = nil, rawDictionary: [String : Any]? = nil) {
+        self.shortsId = shortsId
+        self.srn = srn
+        self.activity = activity
+        self.cards = cards
+        self.shortsDetail = shortsDetail
+        self.shortsType = shortsType
+        self.rawDictionary = rawDictionary
+    }
+    
+}

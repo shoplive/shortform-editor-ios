@@ -37,6 +37,11 @@ final class ShopLiveShortformHorizontalTypeView : ShopLiveShortformBaseTypeView 
         reactor.action(.calculateCellSize)
     }
     
+    override func removeFromSuperview() {
+        super.removeFromSuperview()
+        reactor.action( .removeFromSuperView )
+    }
+    
     private func bindData(){
         reactor.action(.setCollectionView(self.collectionView))
         

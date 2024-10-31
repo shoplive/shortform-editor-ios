@@ -18,6 +18,7 @@ final class ShopLiveShortformVerticalTypeViewReactor : NSObject, SLReactor {
     
     
     enum Action {
+        case removeFromSuperView
         case setCollectionView(UICollectionView)
         case setCardViewType(ShopLiveShortform.CardViewType)
         case setCellSpacing(CGFloat)
@@ -105,6 +106,8 @@ final class ShopLiveShortformVerticalTypeViewReactor : NSObject, SLReactor {
     
     func action(_ action: Action) {
         switch action {
+        case .removeFromSuperView:
+            self.onRemoveFromSuperView()
         case .setCardViewType(let cardViewType):
             self.setCardViewType(cardViewType: cardViewType)
         case .setCollectionView(let collectionView):
@@ -138,6 +141,19 @@ final class ShopLiveShortformVerticalTypeViewReactor : NSObject, SLReactor {
         case .notifyViewRotated:
             self.calculateCellSize()
             self.resultHandler?(.invalidateCVLayout)
+        }
+    }
+    
+    private func onRemoveFromSuperView() {
+        if let visibleIndexPaths = self.collectionView?.indexPathsForVisibleItems {
+            visibleIndexPaths.map({ $0.row })
+                .compactMap({ self.shortsListModel[safe: $0] })
+                .map({ $0.toShopLiveShortformData() })
+                .forEach { data in
+                    shortformDelegate?.onShortsDetached?(data: data)
+//                    ShopLiveShortform.Delegate.receiveHandler.delegate?.onShortsCellDetached?(data: data)
+                }
+
         }
     }
     
@@ -362,6 +378,18 @@ extension ShopLiveShortformVerticalTypeViewReactor : UICollectionViewDelegate, U
         resultHandler?(.onError(error))
     }
     
+    func onCellAttached(indexPath: IndexPath) {
+//        guard let shortsModel = self.shortsListModel[safe : indexPath.row] else { return }
+//        ShopLiveShortform.Delegate.receiveHandler.delegate?
+//            .onShortsCellAttached?(data: shortsModel.toShopLiveShortformData())
+    }
+
+    func onCellDetached(indexPath: IndexPath) {
+//        guard let shortsModel = self.shortsListModel[safe : indexPath.row] else { return }
+//        ShopLiveShortform.Delegate.receiveHandler.delegate?
+//            .onShortsCellDetached?(data: shortsModel.toShopLiveShortformData())
+    }
+    
     private func getYoutubeWebView(for indexPath : IndexPath) -> SLWebView? {
         guard let data = shortsListModel[safe : indexPath.row],
               let url = ShopLiveShortformListYoutubeUrlGenerator.getYoutubeUrl(shortsModel: data) else { return nil }
@@ -412,6 +440,10 @@ extension ShopLiveShortformVerticalTypeViewReactor {
         if let cv = scrollView as? UICollectionView {
             playVideoOnCenteredCell(cv)
         }
+        //        guard let cv = self.collectionView, let coordinateView = cv.superview else { return }
+        //        (cv.visibleCells as? [ShopLiveShortformCardViewCell])?.forEach({ cell in
+        //            cell.checkAttachedAndDetached(scrollView: cv, coordinateView: coordinateView)
+        //        })
     }
     
     private func playVideoOnCenteredCell(_ collectionView : UICollectionView){

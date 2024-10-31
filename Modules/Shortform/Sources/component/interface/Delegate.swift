@@ -17,7 +17,16 @@ import ShopliveSDKCommon
     @objc optional func onDidDisAppear()
     @objc optional func onDidAppear()
     @objc optional func handleProductItem(shortsId : String, shortsSrn : String, product : ProductData)
-    @objc optional func handleProductBanner(shortsId : String, shortsSrn : String, scheme : String, shortsDetail : ShortsDetailData)
+    @objc optional func handleProductBanner(shortsId : String, shortsSrn : String, scheme : String, shortsDetail : ShopLiveShortformDetailData)
+    /**
+     collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath)와 똑같은 시점에 호출됩니다.
+     */
+    @objc optional func onShortsAttached(data : ShopLiveShortformData )
+/**
+     collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath)와 똑같은 시점에 호출됩니다.
+ 그리고 해당뷰가 removeFromSuperView()의 호출시점에도 이벤트가 생성됩니다.
+     */
+    @objc optional func onShortsDetached(data :  ShopLiveShortformData )
 }
 
 extension ShopLiveShortform {

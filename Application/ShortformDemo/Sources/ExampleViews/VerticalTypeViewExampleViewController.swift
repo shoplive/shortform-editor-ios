@@ -142,7 +142,7 @@ extension VerticalTypeViewExampleViewController : ShopLiveShortformReceiveHandle
         
     }
     
-    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShortsDetailData) {
+    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShopLiveShortformDetailData) {
         
         if let url = URL(string: scheme) {
             

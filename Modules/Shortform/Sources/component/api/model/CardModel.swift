@@ -82,6 +82,41 @@ struct CardModel : Codable {
             return false
         }
     }
+    
+    func toShopLiveShortformCardData() -> ShopLiveShortformCardData {
+        return .init(duration: duration,
+                     playCount: playCount,
+                     playDuration: playDuration,
+                     source: source,
+                     videoId: videoId,
+                     campaignId: campaignId,
+                     clips: clips?.map({ clip -> ShopLiveShortformClipData in
+            return .init(title: clip.title,
+                         clipTitle: clip.ClipTitle,
+                         from: clip.from,
+                         to: clip.to)
+        }),
+                     videoUrl: videoUrl,
+                     previewVideoUrl: previewVideoUrl,
+                     screenShotUrl: screenshotUrl,
+                     specifiedScreenShotUrl: specifiedScreenShotUrl,
+                     cardType: cardType,
+                     srn: srn,
+                     playerType: playerType,
+                     timeOnlyClips: timeOnlyClips?.map({ clip -> ShopLiveShortformTimeOnlyClipData in
+            return .init(title: clip.title,
+                         from: clip.from,
+                         to: clip.to,
+                         subTitles: clip.subtitles)
+        }),
+                     width: width,
+                     heigh: height,
+                     externalVideoType: externalVideoType,
+                     externalVideoUrl: externalVideoUrl,
+                     externalVideoId: externalVideoId,
+                     externalVideoThumbnail: externalVideoThumbnail)
+    }
+    
 }
 
 struct Clip: Codable {
@@ -97,6 +132,14 @@ struct Clip: Codable {
         self.from = try? parser.parse(targetType: Int.self, key: CodingKeys.from)
         self.to = try? parser.parse(targetType: Int.self, key: CodingKeys.to)
     }
+    
+    func toShopLiveShortformClipData() -> ShopLiveShortformClipData {
+        return .init(title: title,
+                     clipTitle: ClipTitle,
+                     from: from,
+                     to: to)
+    }
+    
 }
 
 struct TimeOnlyClip : Codable {
@@ -113,5 +156,97 @@ struct TimeOnlyClip : Codable {
         self.from = try? parser.parse(targetType: Double.self, key: CodingKeys.from)
         self.to = try? parser.parse(targetType: Double.self, key: CodingKeys.to)
         self.subtitles = try? parser.parse(targetType: [String].self, key: CodingKeys.subtitles)
+    }
+    
+    func toShopLiveShortformTimeOnlyClipData() -> ShopLiveShortformTimeOnlyClipData {
+        return .init(title: title,
+                     from: from,
+                     to: to,
+                     subTitles: subtitles)
+    }
+}
+
+
+
+
+
+@objc public final class ShopLiveShortformCardData : NSObject {
+    public var duration : Int?
+    public var playCount : Int?
+    public var playDuration : Int?
+    public var source : String?
+    public var videoId : String?
+    public var campaignId : String?
+    public var clips : [ShopLiveShortformClipData]?
+    public var videoUrl : String?
+    public var previewVideoUrl : String?
+    public var screenShotUrl : String?
+    public var specifiedScreenShotUrl : String?
+    public var cardType : String?
+    
+    public var srn : String?
+    public var playerType : String?
+    public var timeOnlyClips : [ShopLiveShortformTimeOnlyClipData]?
+    public var width : CGFloat?
+    public var heigh : CGFloat?
+    
+    public var externalVideoType : String?
+    public var externalVideoUrl : String?
+    public var externalVideoId : String?
+    public var externalVideoThumbnail : String?
+    
+    public init(duration: Int? = nil, playCount: Int? = nil, playDuration: Int? = nil, source: String? = nil, videoId: String? = nil, campaignId: String? = nil, clips: [ShopLiveShortformClipData]? = nil, videoUrl: String? = nil, previewVideoUrl: String? = nil, screenShotUrl: String? = nil, specifiedScreenShotUrl: String? = nil, cardType: String? = nil, srn: String? = nil, playerType: String? = nil, timeOnlyClips: [ShopLiveShortformTimeOnlyClipData]? = nil, width: CGFloat? = nil, heigh: CGFloat? = nil, externalVideoType: String? = nil, externalVideoUrl: String? = nil, externalVideoId: String? = nil, externalVideoThumbnail: String? = nil) {
+        self.duration = duration
+        self.playCount = playCount
+        self.playDuration = playDuration
+        self.source = source
+        self.videoId = videoId
+        self.campaignId = campaignId
+        self.clips = clips
+        self.videoUrl = videoUrl
+        self.previewVideoUrl = previewVideoUrl
+        self.screenShotUrl = screenShotUrl
+        self.specifiedScreenShotUrl = specifiedScreenShotUrl
+        self.cardType = cardType
+        self.srn = srn
+        self.playerType = playerType
+        self.timeOnlyClips = timeOnlyClips
+        self.width = width
+        self.heigh = heigh
+        self.externalVideoType = externalVideoType
+        self.externalVideoUrl = externalVideoUrl
+        self.externalVideoId = externalVideoId
+        self.externalVideoThumbnail = externalVideoThumbnail
+    }
+    
+}
+
+@objc public final class ShopLiveShortformClipData : NSObject {
+    
+    public var title : String?
+    public var clipTitle : String?
+    public var from : Int?
+    public var to : Int?
+    
+    public init(title: String? = nil, clipTitle: String? = nil, from: Int? = nil, to: Int? = nil) {
+        self.title = title
+        self.clipTitle = clipTitle
+        self.from = from
+        self.to = to
+    }
+}
+
+
+@objc public final class ShopLiveShortformTimeOnlyClipData : NSObject {
+    public var title : String?
+    public var from : Double?
+    public var to : Double?
+    public var subTitles : [String]?
+    
+    public init(title: String? = nil, from: Double? = nil, to: Double? = nil, subTitles: [String]? = nil) {
+        self.title = title
+        self.from = from
+        self.to = to
+        self.subTitles = subTitles
     }
 }

@@ -11,4 +11,6 @@ import Foundation
 
 protocol ShopliveShortformListViewCellDelegate : NSObject {
     func onCellError(error : Error)
+    func onCellAttached(indexPath : IndexPath)
+    func onCellDetached(indexPath : IndexPath)
 }

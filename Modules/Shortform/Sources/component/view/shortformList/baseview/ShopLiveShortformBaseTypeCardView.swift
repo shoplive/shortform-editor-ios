@@ -14,6 +14,8 @@ import ShopliveSDKCommon
 
 protocol ShopLiveShortformBaseTypeCardViewDelegate : NSObject {
     func onCardViewError(error : Error)
+    func onCellAttached(indexPath : IndexPath)
+    func onCellDetached(indexPath : IndexPath)
 }
 /**
  숏폼 목록뷰 셀 기본 바탕 뷰
@@ -91,6 +93,7 @@ class ShopLiveShortformBaseTypeCardView : UIView {
     private var playIconLeftTopPadding : CGFloat = 8
     private var indexPath : IndexPath?
     private var reservePlayOnInitialLoad : Bool = false
+    private var attachState : ShortFormCellAttachState?
     
     init(frame: CGRect,delegate : ShopLiveShortformBaseTypeCardViewDelegate,playIconLeftTopPadding : CGFloat) {
         super.init(frame: frame)
@@ -107,6 +110,7 @@ class ShopLiveShortformBaseTypeCardView : UIView {
     }
     
     func setContents(viewCount : String, posterImageUrl : String?, videoUrl : String?, youtubeWebView : SLWebView?, currentMediaType : String, viewHideOption : ShopLiveListCellViewHideOptionModel,cornerRadius : CGFloat,backgroundColor : UIColor?, currentSrn : String?, indexPath : IndexPath ){
+        self.attachState = nil
         self.indexPath = indexPath
         self.reservePlayOnInitialLoad = false
         videoPlayer.setIndexPath(indexPath: indexPath)
@@ -198,6 +202,21 @@ class ShopLiveShortformBaseTypeCardView : UIView {
     func refreshPlayer(){
         videoPlayer.refreshPlayer()
         youtubePlayer.action( .emptyWebView )
+    }
+    
+    func checkAttachedAndDetached(scrollView : UIView, cell : UIView, coordinateView : UIView) {
+        let convertedCellFrame = scrollView.convert(cell.frame, to: coordinateView)
+        let isIntersected = coordinateView.frame.intersects(convertedCellFrame)
+        if  isIntersected && attachState != .attached { // attached
+            attachState = .attached
+            guard let indexPath = self.indexPath else { return }
+            self.delegate?.onCellAttached(indexPath: indexPath)
+        }
+        if isIntersected == false && attachState != .detached {// detached
+            attachState = .detached
+            guard let indexPath = self.indexPath else { return }
+            self.delegate?.onCellDetached(indexPath: indexPath)
+        }
     }
     
     private func animateHideOrShowPosterImage(hide : Bool,duration : Double = 1) {

@@ -39,6 +39,11 @@ final class ShopLiveShortformVerticalTypeView : ShopLiveShortformBaseTypeView {
         reactor.action(.calculateCellSize)
     }
     
+    override func removeFromSuperview() {
+        super.removeFromSuperview()
+        reactor.action( .removeFromSuperView )
+    }
+    
     @objc override func pullToRefresh() {
         reactor.action(.pullToRefresh)
     }

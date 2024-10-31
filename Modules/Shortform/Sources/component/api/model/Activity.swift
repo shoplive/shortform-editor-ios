@@ -16,4 +16,33 @@ struct Activity: Codable {
         self.like = try? parser.parse(targetType: Bool.self, key: CodingKeys.like)
         self.bookmark = try? parser.parse(targetType: Bool.self, key: CodingKeys.bookmark)
     }
+    
+    func toShopLiveShortformActivityData() -> ShopLiveShortformActivityData {
+        return .init(viewCount: viewCount,
+                     likeCount: likeCount,
+                     commentCount: commentCount,
+                     bookmarkCount: bookmarkCount,
+                     like: like,
+                     bookmark: bookmark)
+    }
+    
+}
+
+@objc public final class ShopLiveShortformActivityData : NSObject {
+
+    public var viewCount : Int?
+    public var likeCount : Int?
+    public var commentCount : Int?
+    public var bookmarkCount : Int?
+    public var like : Bool?
+    public var bookmark : Bool?
+
+    public init(viewCount: Int? = nil, likeCount: Int? = nil, commentCount: Int? = nil, bookmarkCount: Int? = nil, like: Bool? = nil, bookmark: Bool? = nil) {
+        self.viewCount = viewCount
+        self.likeCount = likeCount
+        self.commentCount = commentCount
+        self.bookmarkCount = bookmarkCount
+        self.like = like
+        self.bookmark = bookmark
+    }
 }

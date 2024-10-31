@@ -12,7 +12,7 @@ import ShopliveSDKCommon
 
 
 extension ShortsCollectionBaseView : ShortsCellDelegate {
-    
+   
     func onExternalEmitEvent(name: String, payload: [String : Any]?) {
         var jsonString : String?
         if let payload = payload {
@@ -94,6 +94,10 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
     
     func requestCloseShortform() {
         ShopLiveShortform.close()
+    }
+    
+    func requestRemoveShortform(shortsId: String) {
+        viewModel.removeShortformByShortsId(shortsId: shortsId, cv: self.shortsListView)
     }
     
     func setSnapShotForWindow(image: UIImage?) {

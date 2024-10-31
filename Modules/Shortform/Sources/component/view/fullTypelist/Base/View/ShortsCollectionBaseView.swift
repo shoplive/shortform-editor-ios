@@ -100,6 +100,10 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     var closeButtonLeadingConstraint: NSLayoutConstraint?
     var minimumPreviewViewWidth: CGFloat = 60
     
+    var lastAttachedShortsModel : ShopLiveShortform.ShortsModel?
+    var lastDetachedShortsModel : ShopLiveShortform.ShortsModel?
+    var lastContentOffsetY : CGFloat = 0
+    
     init(viewmodel : ShortsCollectionBaseViewModel,shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?) {
         self.viewModel = viewmodel
         self.shortformDelegate = shortformDelegate
@@ -142,6 +146,12 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
         if let superView = newSuperview {
             self.setSuperviewSize(size: superView.frame.size)
         }
+    }
+    
+    override func removeFromSuperview() {
+        super.removeFromSuperview()
+        let visibleIndexPath = self.shortsListView.indexPathsForVisibleItems
+        viewModel.sendCellDetachedEventOnRemoveFromSuperView(indexPaths: visibleIndexPath)
     }
     
     func setSuperviewSize(size : CGSize){
@@ -384,6 +394,7 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
                                youtubeWebView: viewModel.getYoutubePlayerView(for: data.shortsId ?? "", indexPath: indexPath),
                                model: data,
                                delegate: self,
+                               shortformDelegate: shortformDelegate,
                                indexPath: indexPath,
                                viewProvideype: viewModel.viewProvideType,
                                shopliveSessionId: viewModel.getCurrentShopliveSessionId(),
@@ -445,6 +456,11 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if viewModel.blockScrollViewDidScrollForRotation == false {
             self.playCurrentItem()
+        }
+        if let shortsCell = self.shortsListView.visibleCells as? [ShortsCell] {
+            shortsCell.forEach { cell in
+                cell.checkAttachedAndDetached(scrollView: shortsListView, coordinateView: self)
+            }
         }
     }
     

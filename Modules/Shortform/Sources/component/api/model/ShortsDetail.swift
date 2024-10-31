@@ -33,7 +33,7 @@ public struct ShortsDetail : Codable {
     
     
     
-    internal func toShortsDetailData() -> ShortsDetailData {
+    internal func toShortsDetailData() -> ShopLiveShortformDetailData {
         var productBannerData = productBanner?.toProductBannerData()
         var productsData : [ProductData] = []
         for product in products ?? [] {
@@ -41,7 +41,7 @@ public struct ShortsDetail : Codable {
         }
         var brandData = brand?.toBrandData()
         
-        var data = ShortsDetailData(title: title,descriptions: description,tags: tags,productCount: productCount,productBanner: productBannerData,products: productsData,brand: brandData)
+        var data = ShopLiveShortformDetailData(title: title,descriptions: description,tags: tags,productCount: productCount,productBanner: productBannerData,products: productsData,brand: brandData)
         return data
     }
 }
@@ -49,7 +49,7 @@ public struct ShortsDetail : Codable {
 
 
 
-@objc public class ShortsDetailData : NSObject {
+@objc public class ShopLiveShortformDetailData : NSObject {
     public var title : String?
     public var descriptions : String?
     public var tags : [String]?
