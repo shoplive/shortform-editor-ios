@@ -55,6 +55,7 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
     internal init(shortsMode : ShopLiveShortform.ShortsMode,showType : ShortsApiType, reference : String?, shortsId : String?, shortsSrn : String?, relatedRequestModel : InternalShortformRelatedDTO?, shortsList : [ShortsModel], shortsCollection : ShortsCollectionModel?, viewProvideType : ShortsCollectionBaseViewModel.ViewProvidedType,shopliveSessionId : String?, previewOptionDTO : ShortformPreviewOptionDTO?) {
         super.init(viewmodel: V1ShortsCollectionViewModel(shopliveSessionId: shopliveSessionId, shortformDelegate: relatedRequestModel?.delegate)
                    ,shortformDelegate: relatedRequestModel?.delegate)
+        self.backgroundColor = .clear
         viewmodel.latestActivePageIndex = -1
         viewmodel.shortsMode = shortsMode
         if shortsMode == .preview {
@@ -67,6 +68,9 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
         viewmodel.viewProvideType = viewProvideType
         if shortsMode == .preview  && shortsList.count == 0 {//풀 네이트브여서 바로 프리뷰를 킨 경우
             viewmodel.loadShortsRelatedCollection(isOnInitialLaunch : true, reference: nil, onPagination: false, shortsId: shortsId, shortsSrn: shortsSrn, reset: true) { [weak self] error in
+                DispatchQueue.main.async { [weak self] in
+                    self?.backgroundColor = .black
+                }
                 if self?.handleInitializeError(error: error) == false {
                     return
                 }
@@ -78,10 +82,14 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
            
         }
         else if shortsMode == .preview && shortsList.count != 0 { //bridge interface통해서 들어온 경우
+            self.backgroundColor = .black
             self.viewmodel.appendShortsListData(shortsList,reset: true)
         }
         else {
             viewmodel.loadShortsRelatedCollection(isOnInitialLaunch : true, reference: nil, onPagination: false, shortsId: shortsId, shortsSrn: shortsSrn, reset: true) { [weak self] error in
+                DispatchQueue.main.async { [weak self] in
+                    self?.backgroundColor = .black
+                }
                 if self?.handleInitializeError(error: error) == false {
                     return
                 }

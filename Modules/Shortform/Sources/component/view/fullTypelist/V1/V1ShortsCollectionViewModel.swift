@@ -94,6 +94,10 @@ extension V1ShortsCollectionViewModel {
                 guard let self = self else { return }
                 switch result {
                 case .success(let response):
+                    if isOnInitialLaunch && response.shortsList?.count ?? 0 == 0 {
+                        ShopLiveShortform.close()
+                        return
+                    }
                     self.shortsCollection = response
                     if let maxCount = self.getPreviewPlayMaxCount() {
                         self.appendShortsListData(Array((response.shortsList ?? []).prefix(maxCount)) ,reset: reset)
