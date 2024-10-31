@@ -291,8 +291,11 @@ extension ShortsCollectionBaseViewModel {
     
     func removeShortformByShortsId(shortsId : String,cv : UICollectionView) {
         let numberOfItemsInSection = cv.numberOfItems(inSection: 0)
-        
-        if let firstIndex = self.shortsListData.firstIndex(where: { $0.shortsId ?? "" == shortsId }) {
+        if numberOfItemsInSection == 1, let _ = self.shortsListData.firstIndex(where: { $0.shortsId ?? "" == shortsId }) {
+            // 쇼츠 데이터가 1개 뿐일때 삭제하려고 한다면 그냥 닫아버리는 것으로 무신사 측과 협의 됨
+            ShopLiveShortform.close()
+        }
+        else if let firstIndex = self.shortsListData.firstIndex(where: { $0.shortsId ?? "" == shortsId }) {
             if numberOfItemsInSection != self.shortsListData.count {
                 let newlyAppendDataCount : Int = self.shortsListData.count - numberOfItemsInSection
                 let newDatas : [ShopLiveShortform.ShortsModel] = self.originShortsListData.suffix(newlyAppendDataCount)

@@ -434,8 +434,4 @@ extension SLVideoThumbnailViewController {
             cancelConfirmToast.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
-    
-    
-    
-    
 }
