@@ -77,15 +77,23 @@ class ShopLiveShortformBaseTypePlayerView : UIView {
     func setVideoUrl(urlString : String?){
         self.playerLayer.player = player
         guard let urlString = urlString, var url = URL(string: urlString) else { return }
-        ShopliveMP4CachingManager.shared.downloadVideo(url: url) { [weak self] playerItem in
-            guard let self = self else { return }
-//            let asset = AVURLAsset(url: url)
-//            let playerItem = AVPlayerItem(asset: asset)
+        if ShopliveMP4CachingManager.shared.isVideoMP4(url: url) {
+            if let cached = AVAssetDownloadManager.shared.getCachedData(with: urlString) {
+                url = cached
+            }
+            let asset = AVURLAsset(url: url)
+            let playerItem = AVPlayerItem(asset: asset)
             self.player.replaceCurrentItem(with: playerItem)
-            self.isPlaying = false
-            self.isReadyToPlay = true
-            self.removeAvPlayerObserver()
-            self.setupAvPlayerObserver()
+        }
+        else {
+            ShopliveMP4CachingManager.shared.downloadVideo(url: url) { [weak self] playerItem in
+                guard let self = self else { return }
+                self.player.replaceCurrentItem(with: playerItem)
+                self.isPlaying = false
+                self.isReadyToPlay = true
+                self.removeAvPlayerObserver()
+                self.setupAvPlayerObserver()
+            }
         }
     }
     
@@ -142,6 +150,9 @@ class ShopLiveShortformBaseTypePlayerView : UIView {
         }
     }
     
+    func setVideoCache(originUrl : String, cacheUrl : URL) {
+        self.player.changeToCacheFile(originUrl: originUrl, cacheUrl: cacheUrl)
+    }
 }
 extension ShopLiveShortformBaseTypePlayerView : SLAVLoopPlayerDelegate {
     func onSLAVLoopPlayerError(error: Error) {

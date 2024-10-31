@@ -346,6 +346,13 @@ extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollect
                 
             }
         }
+        
+        if let model = shortsListModel[safe : indexPath.row], let cardModel = model.cards?.first, let previewUrl = cardModel.previewVideoUrl {
+            AVAssetDownloadManager.shared.downloadStream(sessionIdentifier: previewUrl, urlString: previewUrl) { originUrl, cacheUrl in
+                guard let cell = collectionView.cellForItem(at: indexPath) as? ShopLiveShortformCardViewCell else { return }
+                cell.setVideoCache(originUrl: originUrl, cacheUrl: cacheUrl)
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {

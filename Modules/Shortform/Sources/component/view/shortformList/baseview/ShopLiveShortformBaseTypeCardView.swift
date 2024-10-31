@@ -213,6 +213,10 @@ class ShopLiveShortformBaseTypeCardView : UIView {
             }
         }
     }
+    
+    func setVideoCache(originUrl : String, cacheUrl : URL) {
+        videoPlayer.setVideoCache(originUrl: originUrl, cacheUrl: cacheUrl)
+    }
 }
 extension ShopLiveShortformBaseTypeCardView {
     private func bindYoutubePlayer() {

@@ -12,6 +12,7 @@ import ShopliveSDKCommon
 protocol SLAVLoopPlayerDelegate {
     func onSLAVLoopPlayerError(error : Error)
     func onSLAVLoopPlayerItemReady(isReady : Bool)
+    func onSLAVLoopPlayerDidChangeToCacheFile()
 }
 /**
  숏폼 리스트에서 쓰는 무한 루프 AVPlayer
@@ -64,9 +65,32 @@ class SLAVLoopPlayer: AVPlayer {
     }
 
     @objc func didRecieveNotification(sender : Notification){
+        self.changeToCacheFile()
         if self.timeControlStatus == .paused { return }
         self.seek(to: CMTime.zero)
         self.play()
+    }
+    
+    
+    private func changeToCacheFile() {
+        if let item = self.currentItem, let asset = item.asset as? AVURLAsset {
+            let currentUrl = asset.url.absoluteString
+            if let cachedUrl = AVAssetDownloadManager.shared.getCachedData(with: asset.url.absoluteString),
+               currentUrl != cachedUrl.absoluteString {
+                self.delegate?.onSLAVLoopPlayerDidChangeToCacheFile()
+                let asset = AVURLAsset(url: cachedUrl)
+                self.replaceCurrentItem(with: AVPlayerItem(asset: asset))
+            }
+        }
+    }
+    
+    func changeToCacheFile(originUrl : String, cacheUrl : URL) {
+        guard self.timeControlStatus == .paused else { return }
+        guard let item = self.currentItem, let asset = item.asset as? AVURLAsset else { return }
+        if asset.url.absoluteString == originUrl, asset.url.absoluteString != cacheUrl.absoluteString {
+            let asset = AVURLAsset(url: cacheUrl)
+            self.replaceCurrentItem(with: AVPlayerItem(asset: asset))
+        }
     }
     
 }

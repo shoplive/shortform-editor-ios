@@ -112,6 +112,10 @@ class ShopLiveShortformCardViewCell : UICollectionViewCell {
     func refreshPlayer(){
         self.basicCardView.refreshPlayer()
     }
+    
+    func setVideoCache(originUrl : String, cacheUrl : URL) {
+        self.basicCardView.setVideoCache(originUrl : originUrl, cacheUrl : cacheUrl)
+    }
 }
 extension ShopLiveShortformCardViewCell {
     private func setLayout(){
