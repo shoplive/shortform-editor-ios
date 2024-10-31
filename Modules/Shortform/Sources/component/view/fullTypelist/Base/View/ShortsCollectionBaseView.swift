@@ -49,14 +49,27 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
         return view
     }()
     
+    var snapShotViewBackgroundView : UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .black
+        view.isHidden = true
+        return view
+    }()
+    
     var snapShotView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
         view.image = nil
         view.contentMode = .scaleAspectFill
         view.isHidden = true
         return view
     }()
+    
+    var snapShotViewWidthAnc : NSLayoutConstraint?
+
+    var snapShotViewHeightAnc : NSLayoutConstraint?
     
     lazy var inAppPreviewView: UIView = {
         let view = UIView()
@@ -177,19 +190,20 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
         ShopLiveShortform.close()
     }
     
-    func hideSnapshot(animate : Bool = false) {
+    func setSnapShotViewHidden(animate : Bool, isHidden : Bool) {
+        snapShotViewBackgroundView.isHidden = isHidden
         if animate {
             UIView.animate(withDuration: 0.1, delay: 0) { [ weak self] in
                 guard let self = self else { return }
-                self.snapShotView.alpha = 0
+                self.snapShotView.alpha = isHidden ? 0 : 1
             } completion: { [weak self] _ in
                 guard let self = self else { return }
-                self.snapShotView.isHidden = true
-                self.snapShotView.alpha = 1
+                self.snapShotView.isHidden = isHidden
             }
         }
         else {
-            snapShotView.isHidden = true
+            self.snapShotView.alpha = isHidden ? 0 : 1
+            snapShotView.isHidden = isHidden
         }
     }
     
@@ -201,6 +215,12 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
             self.viewModel.verticalCollectionBounds = size
         }
         self.feedListLayout.itemSize = size
+    }
+    
+    func setCurrentCellVideoLayerGravity() {
+        (shortsListView.visibleCells as? [ShortsCell])?.compactMap({ $0 }).forEach({ cell in
+            cell.setVideoLayerGravityFromParentView()
+        })
     }
     
     func close() {
@@ -319,7 +339,9 @@ extension ShortsCollectionBaseView {
     @objc func layout() {
         self.addSubview(shortsListView)
         shortsListView.isScrollEnabled = viewModel.isSwipable
+        self.addSubview(snapShotViewBackgroundView)
         self.addSubview(snapShotView)
+        self.bringSubviewToFront(snapShotViewBackgroundView)
         self.bringSubviewToFront(snapShotView)
         
         setupCloseButton()
@@ -328,17 +350,72 @@ extension ShortsCollectionBaseView {
             shortsListView.topAnchor.constraint(equalTo: self.topAnchor),
             shortsListView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             shortsListView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            shortsListView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            shortsListView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+
+            snapShotViewBackgroundView.topAnchor.constraint(equalTo: self.topAnchor),
+            snapShotViewBackgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            snapShotViewBackgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            snapShotViewBackgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+
+
+            snapShotView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            snapShotView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
-        
+
         if UIDevice.current.userInterfaceIdiom == .pad {
-            snapShotView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1.0).isActive = true
-            let resolution = ShortFormConfigurationInfosManager.shared.shortsConfiguration.resolution
-            snapShotView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: resolution.width/resolution.height).isActive = true
-            snapShotView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+            setSnapShotLayoutForIpad()
         } else {
-            snapShotView.fit_SL()
+            setSnapShotLayoutForIphoneCenterCrop()
         }
+    }
+    
+    func setSnapShotLayoutForIpad() {
+        self.removeOldSnapShotWidthAndHeightConstraint()
+        self.snapShotViewHeightAnc = snapShotView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1.0)
+        self.snapShotViewHeightAnc?.isActive = true
+
+        let resolution = ShortFormConfigurationInfosManager.shared.shortsConfiguration.resolution
+        self.snapShotViewWidthAnc = snapShotView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: resolution.width/resolution.height)
+        self.snapShotViewWidthAnc?.isActive = true
+    }
+
+    func setSnapShotLayoutForIphoneCenterCrop() {
+        self.removeOldSnapShotWidthAndHeightConstraint()
+        self.snapShotViewHeightAnc = snapShotView.heightAnchor.constraint(equalTo: self.heightAnchor)
+        self.snapShotViewHeightAnc?.isActive = true
+
+        self.snapShotViewWidthAnc = snapShotView.widthAnchor.constraint(equalTo: self.widthAnchor)
+        self.snapShotViewWidthAnc?.isActive = true
+    }
+
+    func setSnapShotLayoutWithRatioSize(ratioSize : CGSize) {
+        self.removeOldSnapShotWidthAndHeightConstraint()
+        let mainWidth = UIScreen.main.bounds.width
+        let mainHeight = UIScreen.main.bounds.height
+
+        if ratioSize.width > ratioSize.height {
+            self.snapShotViewWidthAnc = snapShotView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1)
+            self.snapShotViewWidthAnc?.isActive = true
+
+            let resolution = ratioSize.height / ratioSize.width
+            self.snapShotViewHeightAnc = snapShotView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: resolution)
+            self.snapShotViewHeightAnc?.isActive = true
+        }
+        else {
+            self.snapShotViewHeightAnc = snapShotView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 1)
+            self.snapShotViewHeightAnc?.isActive = true
+
+            let resolution = ratioSize.width / ratioSize.height
+            self.snapShotViewWidthAnc = snapShotView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: resolution)
+            self.snapShotViewWidthAnc?.isActive = true
+        }
+    }
+
+    func removeOldSnapShotWidthAndHeightConstraint() {
+        self.snapShotViewHeightAnc?.isActive = false
+        self.snapShotViewHeightAnc = nil
+        self.snapShotViewWidthAnc?.isActive = false
+        self.snapShotViewWidthAnc = nil
     }
     
     func setupCloseButton() {

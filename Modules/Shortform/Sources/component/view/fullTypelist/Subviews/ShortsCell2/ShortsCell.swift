@@ -61,6 +61,10 @@ protocol ShortsCellInterface {
     func cleanUpMemory()
     func getCurrentVidoeTime() -> ShortformCurrentTimeDTO?
     func checkAttachedAndDetached(scrollView : UIView, coordinateView : UIView)
+    /**
+     preview -> detail 로 이동할때 cell이 로딩되기 전에 videoLayerGravity 셋하기위해서
+     */
+    func setVideoLayerGravityFromParentView()
 }
 
 /**
@@ -765,5 +769,9 @@ extension ShortsCell : ShortsCellInterface {
 //            ShopLiveShortform.Delegate.receiveHandler.delegate?
 //                .onShortsCellDetached?(data: shortsModel.toShopLiveShortformData())
         }
+    }
+    
+    func setVideoLayerGravityFromParentView() {
+        playerView.action( .setVideoGravity(reactor.getVideoGravity()) )
     }
 }

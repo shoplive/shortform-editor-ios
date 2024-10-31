@@ -503,11 +503,9 @@ class ShortsCellReactor : NSObject, SLReactor {
             break
         }
     }
-    
-    
 }
 extension ShortsCellReactor {
-    private func getVideoGravity() -> AVLayerVideoGravity {
+    func getVideoGravity() -> AVLayerVideoGravity {
         var videoGravity : AVLayerVideoGravity = .resizeAspect
         if UIDevice.current.userInterfaceIdiom == .pad {
             videoGravity = .resizeAspect

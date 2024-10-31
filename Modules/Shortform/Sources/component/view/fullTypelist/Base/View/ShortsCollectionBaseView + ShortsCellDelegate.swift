@@ -101,8 +101,30 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
     }
     
     func setSnapShotForWindow(image: UIImage?) {
+        if let size = image?.size {
+           animateSnapshotSize(size: size)
+        }
         snapShotView.image = image
-        snapShotView.isHidden = false
+        setSnapShotViewHidden(animate: false, isHidden: image == nil ? true : false)
+    }
+    
+    private func animateSnapshotSize(size : CGSize){
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            setSnapShotLayoutForIpad()
+        }
+        else {
+            if let resizeMode = ShopLiveShortform.detailPlayerResizeMode {
+                if resizeMode == .CENTER_CROP {
+                   setSnapShotLayoutForIphoneCenterCrop()
+                }
+                else {
+                    setSnapShotLayoutWithRatioSize(ratioSize: size)
+                }
+            }
+            else {
+                setSnapShotLayoutForIphoneCenterCrop()
+            }
+        }
     }
     
     func getShortsListDataForV2ActivePage() -> [ShopLiveShortform.ShortsModel]? {

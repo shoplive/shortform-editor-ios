@@ -339,6 +339,7 @@ extension ShopLiveShortform {
                     self.shortformWindow.frame = UIScreen.main.bounds
                     self.shortformWindow.isHidden  = false
                     self.shortsCollectionView?.modeChange(mode: .detail)
+                    self.shortsCollectionView?.setCurrentCellVideoLayerGravity()
                     self.shortformWindow.layer.cornerRadius = 0
                     self.shortformWindow.layoutIfNeeded()
                 } completion : { [weak self] _ in
