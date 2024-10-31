@@ -87,7 +87,9 @@ class SoundItem {
     private func checkIfDownloaded(audioUrl : URL) {
         DispatchQueue.global(qos: .background).async {
             let documentsUrl = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-            let destination = documentsUrl.appendingPathComponent(audioUrl.lastPathComponent)
+            var audioUrlPath = self.alias
+            audioUrlPath = audioUrlPath.replacingOccurrences(of: "/", with: "_")
+            let destination = documentsUrl.appendingPathComponent(audioUrlPath)
             
             if FileManager.default.fileExists(atPath: destination.path) {
                 self.localUrl = destination
