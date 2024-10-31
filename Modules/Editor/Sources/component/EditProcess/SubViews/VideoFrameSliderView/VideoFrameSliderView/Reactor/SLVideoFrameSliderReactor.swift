@@ -94,7 +94,6 @@ class SLVideoFrameSliderReactor : NSObject, SLReactor {
         self.imageGenerator.maximumSize = CGSize(width: 720, height: 1280)
         self.imageGenerator.apertureMode = .cleanAperture
         super.init()
-        
     }
     
     
@@ -150,6 +149,7 @@ class SLVideoFrameSliderReactor : NSObject, SLReactor {
 //MARK: - Frame Calculation
 extension SLVideoFrameSliderReactor {
     private func calculateFrameForMaxTrimTimeBiggerThenVideoDuration() {
+        
         let estimatedWidthOfPerFrame = frameHeight * ( 9 / 16 )
         
         var extraTrimWidth : CGFloat = 0
@@ -160,6 +160,7 @@ extension SLVideoFrameSliderReactor {
         
         self.timePerPixel = (self.videoDuration / (fullTrimWidth + extraTrimWidth)) // 1pixel당 시간
         self.pixelPerTime = ( (fullTrimWidth + extraTrimWidth) / self.videoDuration ) // 1초당 pixel
+        
         
         let maxFrameCounts = ceil((fullTrimWidth + extraTrimWidth) / estimatedWidthOfPerFrame)//대략적인 크기로 대충 몇개로 나누어 떨어지는 지 계산
         

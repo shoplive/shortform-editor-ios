@@ -31,7 +31,7 @@ class SLPhotosPickerReactor : NSObject, SLReactor {
         case setPhotoLibraryForAlbumSelectView(SLPhotoLibrary)
         case setAssetsCollectionForAlbumSelectView([SLAssetsCollection])
         
-        case didSelectVideo(URL)
+        case didSelectVideo((localAbsolutUrl : URL, localRelativeUrl : URL))
         case didSelectImage(URL)
         
         case dismissMediaPicker
@@ -311,10 +311,10 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
             guard let asset = focusedCollection.getSLAsset(at: indexPath) else { return }
             resultHandler?( .requestStartLoading )
             if self.pickerConfigure.mediaType == .video {
-                asset.phAsset?.getVideoURl(completion: { [weak self] videoUrl in
-                    guard let url = videoUrl else { return }
+                asset.phAsset?.getVideoURl(completion: { [weak self] absoluteUrl,relativeUrl in
+                    guard let absoluteUrl = absoluteUrl, let relativeUrl = relativeUrl else { return }
                     self?.resultHandler?( .requsetFinishLoading )
-                    self?.resultHandler?( .didSelectVideo(url))
+                    self?.resultHandler?( .didSelectVideo((absoluteUrl,relativeUrl)))
                 })
             }
             else if self.pickerConfigure.mediaType == .image {
@@ -404,11 +404,11 @@ extension SLPhotosPickerReactor : UIImagePickerControllerDelegate, UINavigationC
                 var result = SLPHAsset(asset: asset)
                 result.selectedOrder = 1
                 result.isSelectedFromCamera = true
-                asset.getVideoURl { [weak self] url in
-                    guard let url = url else { return }
+                asset.getVideoURl { [weak self] absoluteUrl,relativeUrl in
+                    guard let absoluteUrl = absoluteUrl, let relativeUrl = relativeUrl else { return }
                     DispatchQueue.main.async {
                         picker.dismiss(animated: true) {
-                            self?.resultHandler?( .didSelectVideo(url) )
+                            self?.resultHandler?( .didSelectVideo((absoluteUrl,relativeUrl)) )
                         }
                     }
                 }

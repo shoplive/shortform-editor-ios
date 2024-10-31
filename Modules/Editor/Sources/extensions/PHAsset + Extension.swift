@@ -8,32 +8,28 @@
 import Foundation
 import Photos
 import AVKit
+import ShopliveSDKCommon
 
 
 extension PHAsset {
     
-    func getVideoURl(completion : @escaping(URL?) -> ()) {
+    func getVideoURl(completion : @escaping((absoluteUrl : URL?, relativeUrl : URL?)) -> ()) {
         guard self.mediaType == .video else {
-            completion(nil)
+            completion((nil,nil))
             return
         }
         let options: PHVideoRequestOptions = PHVideoRequestOptions()
-        options.version = .original
+        options.version = .current
         options.isNetworkAccessAllowed = true
         PHImageManager.default().requestAVAsset(forVideo: self, options: options, resultHandler: {(asset: AVAsset?, audioMix: AVAudioMix?, info: [AnyHashable : Any]?) -> Void in
             if let urlAsset = asset as? AVURLAsset {
-                let localVideoUrl: URL = urlAsset.url as URL
-                do {
-                    let videoData = try Data.init(contentsOf: localVideoUrl)
-                } catch {
-                    
-                }
-                completion(localVideoUrl)
+                let localAbsoluteUrl : URL = urlAsset.url
+                let localRelativeUrl : URL = URL(fileURLWithPath : urlAsset.url.relativePath)
+                completion((localAbsoluteUrl,localRelativeUrl))
             } else {
-                completion(nil)
+                completion((nil,nil))
             }
         })
-        
     }
     
     func getImageUrl(completion : @escaping (URL?) -> () ) {

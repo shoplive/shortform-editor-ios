@@ -60,17 +60,17 @@ class ShopliveShortformCoordinator : NSObject {
     
 }
 extension ShopliveShortformCoordinator : SLPhotosPickerViewControllerDelegate  {
-    func photoPicker(didSelectImage url: URL) {
-        
-    }
-    
-    func photoPicker(didSelectVideo url: URL) {
-        ffmpegValidator.checkValidCodec(videoUrl: url) { [weak self] isValidCodec in
+    func photoPicker(didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
+        ffmpegValidator.checkValidCodec(videoUrl: relativeUrl) { [weak self] isValidCodec in
             guard let self = self else { return }
             if isValidCodec {
-                self.showSLVideoEditorViewController(video: ShortsVideo(videoUrl: url))
+                self.showSLVideoEditorViewController(video: ShortsVideo(videoUrl: absoluteUrl))
             }
         }
+    }
+    
+    func photoPicker(didSelectImage url: URL) {
+        
     }
     
     func photoPiker(onClose picker: UIViewController) {

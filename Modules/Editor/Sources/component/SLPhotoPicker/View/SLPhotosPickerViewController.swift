@@ -12,7 +12,7 @@ import PhotosUI
 import ShopliveSDKCommon
 
 protocol SLPhotosPickerViewControllerDelegate : NSObjectProtocol {
-    func photoPicker(didSelectVideo url: URL)
+    func photoPicker(didSelectVideo absoluteUrl: URL, relativeUrl : URL)
     func photoPicker(didSelectImage url: URL)
     func photoPiker(onClose picker : UIViewController)
 }
@@ -164,8 +164,8 @@ extension SLPhotosPickerViewController {
                 self.onReactorOnSetAssetsCollectionForAlbumSelectView(collections : collections)
             case .didSelectImage(let image):
                 self.onReactorDidSelectImage(imageUrl: image)
-            case .didSelectVideo(let videoUrl):
-                self.onReactorDidSelectVideo(videoUrl: videoUrl)
+            case .didSelectVideo((let absoluteUrl, let relativeUrl)):
+                self.onReactorDidSelectVideo(absoluteUrl: absoluteUrl, relativeUrl: relativeUrl)
             case .dismissMediaPicker:
                 break
             case .showCamera(let picker):
@@ -212,8 +212,8 @@ extension SLPhotosPickerViewController {
         delegate?.photoPicker(didSelectImage: imageUrl)
     }
     
-    private func onReactorDidSelectVideo(videoUrl : URL) {
-        delegate?.photoPicker(didSelectVideo: videoUrl)
+    private func onReactorDidSelectVideo(absoluteUrl : URL, relativeUrl : URL) {
+        delegate?.photoPicker(didSelectVideo: absoluteUrl,relativeUrl: relativeUrl)
     }
     
     private func onReactorShowCamera(picker : UIImagePickerController) {

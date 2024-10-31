@@ -206,7 +206,7 @@ extension SLVideoThumbnailReactor {
     }
 }
 extension SLVideoThumbnailReactor : SLPhotosPickerViewControllerDelegate {
-    func photoPicker(didSelectVideo url: URL) {
+    func photoPicker(didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
         /** no - op*/
     }
     
