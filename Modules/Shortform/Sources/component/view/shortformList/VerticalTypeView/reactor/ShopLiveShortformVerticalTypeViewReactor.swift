@@ -83,10 +83,11 @@ final class ShopLiveShortformVerticalTypeViewReactor : NSObject, SLReactor {
         }
     }
     private var shopliveSessionId : String?
+    private var shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?
     
     
-    
-    override init(){
+    init(shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?){
+        self.shortformDelegate = shortformDelegate
         super.init()
         self.handleNetworkMonitorResult()
     }
@@ -122,6 +123,7 @@ final class ShopLiveShortformVerticalTypeViewReactor : NSObject, SLReactor {
             self.callShortCollectionAPI(isRefresh: true)
         case .setTagsAndBrandsRequestParameterModel(let model):
             self.apiRequestParamModel = model
+            self.apiRequestParamModel?.delegate = shortformDelegate
         case .initializeShortsSetting:
             self.initalizeShortsSettings()
         case .setCellViewHideOptionModel(let model):
@@ -350,7 +352,7 @@ extension ShopLiveShortformVerticalTypeViewReactor : UICollectionViewDelegate, U
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let model = shortsListModel[indexPath.row]
         let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
-        ShortformNativeOnEventsManager.sendNativeOnEvents(command: .collection_click_item, payload: ["position" : indexPath.row], shortsId: model.shortsId, shortsDetail: model.shortsDetail)
+        ShortformNativeOnEventsManager.sendNativeOnEvents(delegate: shortformDelegate, command: .collection_click_item, payload: ["position" : indexPath.row], shortsId: model.shortsId, shortsDetail: model.shortsDetail)
         ShortformEventTraceManager.processCollectionClickItemEventTrace(shortCollectionSrn: shortsCollectionModel?.srn, shortsSrn: model.srn, shopliveSessionId: shopliveSessionId)
         ShopLiveShortform.playNormalFullScreen(shortsId: model.shortsId, shortsSrn: model.srn, requestModel: self.apiRequestParamModel,shopliveSessionId: shopliveSessionId)
         self.pauseAllCell()
@@ -538,11 +540,11 @@ extension ShopLiveShortformVerticalTypeViewReactor {
         if isRefresh {
             self.shortsListModel.removeAll()
             self.playOnIntialLoad = true
-            ShortformNativeOnEventsManager.sendNativeOnEvents(command: .collection_show, payload: ["template" : "VERTICAL"], shortsId: nil, shortsDetail: nil)
+            ShortformNativeOnEventsManager.sendNativeOnEvents(delegate: shortformDelegate, command: .collection_show, payload: ["template" : "VERTICAL"], shortsId: nil, shortsDetail: nil)
         }
         else {
             self.playOnIntialLoad = false
-            ShortformNativeOnEventsManager.sendNativeOnEvents(command: .collection_show, payload: ["template" : "VERTICAL"], shortsId: nil, shortsDetail: nil)
+            ShortformNativeOnEventsManager.sendNativeOnEvents(delegate: shortformDelegate,command: .collection_show, payload: ["template" : "VERTICAL"], shortsId: nil, shortsDetail: nil)
         }
         let startIndex = self.shortsListModel.count - 1
         self.shortsListModel.append(contentsOf: dataList)

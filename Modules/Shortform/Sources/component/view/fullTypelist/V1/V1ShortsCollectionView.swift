@@ -32,7 +32,8 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
     
     //normal show
     internal init(reference : String?, shortsMode : ShopLiveShortform.ShortsMode, showType : ShortsApiType, shortsId : String?, shortsSrn : String?, normalRequestParameterModel : InternalShortformCollectionDto?,viewProvideType : ShortsCollectionBaseViewModel.ViewProvidedType,shopliveSessionId : String?){
-        super.init(viewmodel: V1ShortsCollectionViewModel(shopliveSessionId: shopliveSessionId))
+        super.init(viewmodel: V1ShortsCollectionViewModel(shopliveSessionId: shopliveSessionId, shortformDelegate: normalRequestParameterModel?.delegate)
+                   ,shortformDelegate: normalRequestParameterModel?.delegate)
         viewmodel.latestActivePageIndex = -1
         viewmodel.shortsMode = shortsMode
         viewmodel.currentApiType = showType
@@ -45,14 +46,15 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
                 return
             }
             self.shortsListView.isScrollEnabled = self.viewModel.isSwipable
-            ShortformNativeOnEventsManager.sendNativeOnEvents(command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
+            ShortformNativeOnEventsManager.sendNativeOnEvents(delegate : self.shortformDelegate, command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
             ShortformEventTraceManager.processDetailOnPlayerShow(shortsCollectionSrn: self.getCurrentShortsSrn(), shopliveSessionId: shopliveSessionId)
         }
     }
     
     //related show
     internal init(shortsMode : ShopLiveShortform.ShortsMode,showType : ShortsApiType, reference : String?, shortsId : String?, shortsSrn : String?, relatedRequestModel : InternalShortformRelatedDTO?, shortsList : [ShortsModel], shortsCollection : ShortsCollectionModel?, viewProvideType : ShortsCollectionBaseViewModel.ViewProvidedType,shopliveSessionId : String?, previewOptionDTO : ShortformPreviewOptionDTO?) {
-        super.init(viewmodel: V1ShortsCollectionViewModel(shopliveSessionId: shopliveSessionId))
+        super.init(viewmodel: V1ShortsCollectionViewModel(shopliveSessionId: shopliveSessionId, shortformDelegate: relatedRequestModel?.delegate)
+                   ,shortformDelegate: relatedRequestModel?.delegate)
         viewmodel.latestActivePageIndex = -1
         viewmodel.shortsMode = shortsMode
         if shortsMode == .preview {
@@ -70,7 +72,7 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
                 }
                 ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: self?.getPreviewEventTraceSrn(),
                                                                      isShown: true, isClick: false, shopliveSessionId: shopliveSessionId)
-                ShortformNativeOnEventsManager.sendNativeOnEvents(command: .preview_shown, payload: nil, shortsId: shortsId, shortsDetail: self?.viewModel.shortsListData.first?.shortsDetail)
+                ShortformNativeOnEventsManager.sendNativeOnEvents(delegate: self?.shortformDelegate, command: .preview_shown, payload: nil, shortsId: shortsId, shortsDetail: self?.viewModel.shortsListData.first?.shortsDetail)
               
             }
            
@@ -83,7 +85,7 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
                 if self?.handleInitializeError(error: error) == false {
                     return
                 }
-                ShortformNativeOnEventsManager.sendNativeOnEvents(command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
+                ShortformNativeOnEventsManager.sendNativeOnEvents(delegate: self?.shortformDelegate,command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
                 ShortformEventTraceManager.processDetailOnPlayerShow(shortsCollectionSrn: self?.getCurrentShortsSrn(), shopliveSessionId: shopliveSessionId)
             }
         }

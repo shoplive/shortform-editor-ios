@@ -52,6 +52,7 @@ extension ShopLiveShortform {
        @discardableResult
         public func build(cardViewType : ShopLiveShortform.CardViewType = .type1,
                           listViewDelegate : ShopLiveShortformListViewDelegate? = nil,
+                          shortsCollectionDelegate : ShopLiveShortformReceiveHandlerDelegate?,
                           enableSnap : Bool = false,
                           enablePlayVideo : Bool = true,
                           playOnlyOnWifi : Bool = false,
@@ -62,6 +63,7 @@ extension ShopLiveShortform {
             
             view = ShopLiveShortformCardTypeView(cardViewType: cardViewType,
                                                  listViewDelegate: listViewDelegate,
+                                                 shortsCollectionDelegate: shortsCollectionDelegate,
                                                  tagsAndBrandsRequestParameterModel: makeApiRequestModel(), avAudioSessionCategoryOptions: avAudioSessionCategoryOptions)
             self.setCardViewType(type: cardViewType)
             self.setVisibleViewCount(isVisible: viewCountVisibility)
@@ -113,6 +115,7 @@ extension ShopLiveShortform {
                           listViewType : ShopLiveShortform.ListViewType,
                           playableType : ShopLiveShortform.PlayableType = .FIRST,
                           listViewDelegate : ShopLiveShortformListViewDelegate? = nil,
+                          shortsCollectionDelegate : ShopLiveShortformReceiveHandlerDelegate?,
                           enableSnap : Bool = false,
                           enablePlayVideo : Bool = true,
                           playOnlyOnWifi : Bool = false,
@@ -123,10 +126,12 @@ extension ShopLiveShortform {
             
             if listViewType == .vertical {
                 view = ShopLiveShortformVerticalTypeView(cardViewType: cardViewType, listViewDelegate: listViewDelegate,
+                                                         shortformDelegate: shortsCollectionDelegate,
                                                          tagsAndBrandsRequestParameterModel: makeApiRequestModel(), avAudioSessionCategoryOptions: avAudioSessionCategoryOptions)
             }
             else {
                 view = ShopLiveShortformHorizontalTypeView(cardViewType: cardViewType, listViewDelegate: listViewDelegate,
+                                                           shortformDelegate: shortsCollectionDelegate,
                                                            tagsAndBrandsRequestParameterModel: makeApiRequestModel(), avAudioSessionCategoryOptions: avAudioSessionCategoryOptions)
             }
             

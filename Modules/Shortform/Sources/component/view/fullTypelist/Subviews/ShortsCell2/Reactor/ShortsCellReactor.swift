@@ -149,7 +149,7 @@ class ShortsCellReactor : NSObject, SLReactor {
     
     deinit {
         ytCommandReactor.action( .invalidateTimer )
-        ShopLiveLogger.debugLog("shortscellreactor deinited")
+        ShopLiveLogger.memoryLog("shortscellreactor deinited")
     }
     
     

@@ -38,7 +38,6 @@ class CardTypeExampleViewController : UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        ShopLiveShortform.Delegate.setDelegate(self)
         setCollectionViewAndBuilder()
         
     }
@@ -84,6 +83,7 @@ class CardTypeExampleViewController : UIViewController {
             builder = ShopLiveShortform.CardTypeViewBuilder()
             collectionView = builder!.build(cardViewType: .type1,
                                             listViewDelegate: self,
+                                            shortsCollectionDelegate: self,
                                             enableSnap: currentSnap,
                                             enablePlayVideo: true,
                                             playOnlyOnWifi: false,
@@ -147,7 +147,7 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
                                                                                 isMuted: OptionSettingModel.previewIsMuted,
                                                                                 maxCount: OptionSettingModel.previewMaxCount,clickEventCallBack: {
             ShopLiveLogger.debugLog("[HASSAN LOG] shopliveShortform preview clickEventCallBack ")
-        }))
+        }, delegate: self))
         let conversionProductData = ShopLiveConversionProductData(productId: product.productId,
                                                                   customerProductId: product.customerProductId,
                                                                   sku: product.sku,

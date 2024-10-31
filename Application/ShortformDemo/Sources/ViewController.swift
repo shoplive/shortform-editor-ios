@@ -43,6 +43,15 @@ class ViewController: UIViewController {
         return btn
     }()
     
+    private var shortsCollectionViewBtn : UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("UIView", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        return btn
+    }()
+    
 //    lazy var webExampleVIewController: WebExampleVIewController = {
 //        let vc = WebExampleVIewController()
 //        return vc
@@ -126,6 +135,7 @@ class ViewController: UIViewController {
         
         settingMoreBtn.addTarget(self, action: #selector(didTapSettingMoreBtn(sender: )), for: .touchUpInside)
         v2PlayBtn.addTarget(self, action: #selector(v2PlayBtnTapped(sender: )), for: .touchUpInside)
+        shortsCollectionViewBtn.addTarget(self, action: #selector(shortsCollectionViewBtnTapped(sender:)), for: .touchUpInside)
         
 //        ShopliveMP4CachingManager.shared.removeCaches()
 //        ShopliveMP4CachingManager.shared.setCacheType(type: .memory)
@@ -212,6 +222,12 @@ class ViewController: UIViewController {
         v2Shorts?.play()
     }
     
+    @objc func shortsCollectionViewBtnTapped(sender : UIButton) {
+        let vc = ShortsCollectionExampleView()
+        vc.modalPresentationStyle = .formSheet
+        self.present(vc, animated: true)
+    }
+    
 }
 extension ViewController : ShopLiveShortformEditorDelegate {
     func onShopliveShortformError(error: ShopliveSDKCommon.ShopLiveCommonError) {
@@ -278,6 +294,7 @@ extension ViewController {
         self.view.addSubview(navBox)
         self.view.addSubview(settingMoreBtn)
         self.view.addSubview(v2PlayBtn)
+        self.view.addSubview(shortsCollectionViewBtn)
         self.addChild(pagingViewController!)
         view.addSubview(pagingViewController!.view)
         pagingViewController!.didMove(toParent: self)
@@ -300,6 +317,11 @@ extension ViewController {
             v2PlayBtn.trailingAnchor.constraint(equalTo: settingMoreBtn.leadingAnchor, constant: -15),
             v2PlayBtn.widthAnchor.constraint(equalToConstant: 25),
             v2PlayBtn.heightAnchor.constraint(equalToConstant: 25),
+            
+            shortsCollectionViewBtn.centerYAnchor.constraint(equalTo: navBox.centerYAnchor),
+            shortsCollectionViewBtn.trailingAnchor.constraint(equalTo: v2PlayBtn.leadingAnchor, constant: -15),
+            shortsCollectionViewBtn.widthAnchor.constraint(equalToConstant: 50),
+            shortsCollectionViewBtn.heightAnchor.constraint(equalToConstant: 25),
             
             pagingViewController!.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             pagingViewController!.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),

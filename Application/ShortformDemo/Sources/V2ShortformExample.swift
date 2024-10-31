@@ -24,10 +24,13 @@ class V2ShortformExample  {
             guard let self = self, let ids = data?.ids else { return }
             let currentIdIndex = Int.random(in: 0..<ids.count)
             if let data = data {
-                ShopLiveShortform.play(shortformIdsData: ShopLiveShortformIdsData(ids : ids, currentId: ids[safe : currentIdIndex] ?? "" ), delegate: self)
+                ShopLiveShortform.play(shortformIdsData: ShopLiveShortformIdsData(ids : ids, currentId: ids[safe : currentIdIndex] ?? "" ), dataSourceDelegate: self, shortsCollectionDelegate: self)
             }
         }
     }
+}
+extension V2ShortformExample : ShopLiveShortformReceiveHandlerDelegate {
+    
 }
 extension V2ShortformExample : ShortsCollectionViewDataSourcRequestDelegate {
     func onShortformListPaginationError(error: Error) {

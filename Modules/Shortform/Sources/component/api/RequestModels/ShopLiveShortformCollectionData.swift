@@ -16,8 +16,9 @@ public class ShopLiveShortformCollectionData {
     public var shuffle : Bool?
     public var skus : [String]?
     public var shortsCollectionId : String?
+    public var delegate : ShopLiveShortformReceiveHandlerDelegate?
     
-    public init(reference: String? = nil, shortsId: String? = nil, tags: [String]? = nil, tagSearchOperator: ShopLiveTagSearchOperator? = nil, brands: [String]? = nil, shuffle: Bool? = nil,referrer : String? = nil, skus : [String]? = nil, shortsCollectionId : String?) {
+    public init(reference: String? = nil, shortsId: String? = nil, tags: [String]? = nil, tagSearchOperator: ShopLiveTagSearchOperator? = nil, brands: [String]? = nil, shuffle: Bool? = nil,referrer : String? = nil, skus : [String]? = nil, shortsCollectionId : String?, delegate : ShopLiveShortformReceiveHandlerDelegate?) {
         self.reference = reference
         self.shortsId = shortsId
         self.tags = tags
@@ -26,6 +27,7 @@ public class ShopLiveShortformCollectionData {
         self.shuffle = shuffle
         self.skus = skus
         self.shortsCollectionId = shortsCollectionId
+        self.delegate = delegate
         ShortFormAuthManager.shared.setReferrer(referrer: referrer)
     }
 }

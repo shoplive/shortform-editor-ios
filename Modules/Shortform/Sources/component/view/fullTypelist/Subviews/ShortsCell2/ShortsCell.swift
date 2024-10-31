@@ -181,7 +181,7 @@ class ShortsCell : UICollectionViewCell {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("shortscell deinited")
+        ShopLiveLogger.memoryLog("shortscell deinited")
     }
     
     func configureCell(webView : SLWebView,

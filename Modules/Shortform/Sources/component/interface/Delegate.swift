@@ -23,22 +23,22 @@ import ShopliveSDKCommon
 extension ShopLiveShortform {
     
     //기존 NativeDelegate, Hybrid 전용등으로 쪼개져 있던 것은 그냥 Delegate로 통합
-    final public class Delegate {
-        internal static let receiveHandler = ShopLiveShortformReceiveHandler()
-        
-        public static func setDelegate(_ delegate: ShopLiveShortformReceiveHandlerDelegate?) {
-            receiveHandler.setDelegate(delegate)
-        }
-        
-        class ShopLiveShortformReceiveHandler {
-            
-            weak var delegate: ShopLiveShortformReceiveHandlerDelegate? = nil
-            
-            
-            func setDelegate(_ delegate: ShopLiveShortformReceiveHandlerDelegate?) {
-                self.delegate = delegate
-            }
-        }
-    }
+//    final public class Delegate {
+//        internal static let receiveHandler = ShopLiveShortformReceiveHandler()
+//        
+//        public static func setDelegate(_ delegate: ShopLiveShortformReceiveHandlerDelegate?) {
+//            receiveHandler.setDelegate(delegate)
+//        }
+//        
+//        class ShopLiveShortformReceiveHandler {
+//            
+//            weak var delegate: ShopLiveShortformReceiveHandlerDelegate? = nil
+//            
+//            
+//            func setDelegate(_ delegate: ShopLiveShortformReceiveHandlerDelegate?) {
+//                self.delegate = delegate
+//            }
+//        }
+//    }
     
 }

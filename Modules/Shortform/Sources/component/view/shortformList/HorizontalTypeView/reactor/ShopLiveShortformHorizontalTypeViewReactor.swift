@@ -81,10 +81,12 @@ final class ShopLiveShortformHorizontalTypeViewReactor : NSObject, SLReactor {
         }
     }
     private var shopliveSessionId : String?
+    private var shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?
     
     
-    override init(){
+    init(shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?){
         super.init()
+        self.shortformDelegate = shortformDelegate
         self.handleNetworkMonitorResult()
     }
     
@@ -118,6 +120,7 @@ final class ShopLiveShortformHorizontalTypeViewReactor : NSObject, SLReactor {
             self.calculateCellSize()
         case .setTagsAndBrandsParameterModel(let model):
             self.apiRequestParamModel = model
+            self.apiRequestParamModel?.delegate = shortformDelegate
         case .reloadItem:
             self.callShortCollectionAPI(isRefresh: true)
         case .initializeShortsSetting:
@@ -343,7 +346,7 @@ extension ShopLiveShortformHorizontalTypeViewReactor : UICollectionViewDelegate,
         let model = shortsListModel[indexPath.row]
         let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
         ShortformEventTraceManager.processCollectionClickItemEventTrace(shortCollectionSrn: shortsCollectionModel?.srn, shortsSrn: model.srn, shopliveSessionId: shopliveSessionId)
-        ShortformNativeOnEventsManager.sendNativeOnEvents(command: .collection_click_item, payload: ["position" : indexPath.row], shortsId: model.shortsId, shortsDetail: model.shortsDetail)
+        ShortformNativeOnEventsManager.sendNativeOnEvents(delegate : shortformDelegate, command: .collection_click_item, payload: ["position" : indexPath.row], shortsId: model.shortsId, shortsDetail: model.shortsDetail)
         ShopLiveShortform.playNormalFullScreen(shortsId: model.shortsId, shortsSrn: model.srn, requestModel: self.apiRequestParamModel,shopliveSessionId: shopliveSessionId)
         self.pauseAllCell()
     }
@@ -567,11 +570,11 @@ extension ShopLiveShortformHorizontalTypeViewReactor {
         if isRefresh {
             self.shortsListModel.removeAll()
             self.playOnIntialLoad = true
-            ShortformNativeOnEventsManager.sendNativeOnEvents(command: .collection_show, payload: ["template" : "HORIZONTAL"], shortsId: nil, shortsDetail: nil)
+            ShortformNativeOnEventsManager.sendNativeOnEvents(delegate : shortformDelegate, command: .collection_show, payload: ["template" : "HORIZONTAL"], shortsId: nil, shortsDetail: nil)
         }
         else {
             self.playOnIntialLoad = false
-            ShortformNativeOnEventsManager.sendNativeOnEvents(command: .collection_show, payload: ["template" : "HORIZONTAL"], shortsId: nil, shortsDetail: nil)
+            ShortformNativeOnEventsManager.sendNativeOnEvents(delegate : shortformDelegate, command: .collection_show, payload: ["template" : "HORIZONTAL"], shortsId: nil, shortsDetail: nil)
         }
         let startIndex = self.shortsListModel.count - 1
         self.shortsListModel.append(contentsOf: dataList)

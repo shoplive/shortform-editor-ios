@@ -34,8 +34,9 @@ public final class ShopLiveShortformPreviewData : ShopLiveShortformRelatedData {
                 previewEdgeInset : UIEdgeInsets? = nil,
                 previewFloatingOffset : UIEdgeInsets? = nil, useCloseButton : Bool? = nil,
                 enableSwipeOut : Bool? = nil, maxCount : Int? = nil , useCustomAction : Bool = false,
-                clickEventCallBack : ( () -> () )? = nil ) {
-        super.init(shortsId: shortsId, reference: reference, productId: productId, name: name, skus: skus, url: url, tags: tags, tagSearchOperator: tagSearchOperator, brands: brands, shuffle: shuffle, referrer: referrer)
+                clickEventCallBack : ( () -> () )? = nil,
+                delegate : ShopLiveShortformReceiveHandlerDelegate?) {
+        super.init(shortsId: shortsId, reference: reference, productId: productId, name: name, skus: skus, url: url, tags: tags, tagSearchOperator: tagSearchOperator, brands: brands, shuffle: shuffle, referrer: referrer, delegate: delegate )
         self.isMuted = isMuted
         self.isEnabledVolumeKey = isEnabledVolumeKey
         self.previewPosition = previewPosition

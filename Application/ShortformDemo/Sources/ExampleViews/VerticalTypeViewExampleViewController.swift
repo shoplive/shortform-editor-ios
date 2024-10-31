@@ -29,7 +29,6 @@ class VerticalTypeViewExampleViewController : UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        ShopLiveShortform.Delegate.setDelegate(self)
         setCollectionViewAndBuilder()
         self.builder?.enablePlayVideos()
         
@@ -82,6 +81,7 @@ class VerticalTypeViewExampleViewController : UIViewController {
                                             listViewType: .vertical,
                                             playableType: .FIRST,
                                             listViewDelegate: self,
+                                            shortsCollectionDelegate: self,
                                             enableSnap: currentSnap,
                                             enablePlayVideo: true,
                                             playOnlyOnWifi: false,
@@ -124,9 +124,8 @@ extension VerticalTypeViewExampleViewController : ShopLiveShortformReceiveHandle
         print("[HASSAN LOG] shortsId \(shortsId)")
         print("[HASSAN LOG] productModel \(product.sku)")
         
-        ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(productId: product.productId))
         
-        ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(productId: product.productId,isMuted: nil))
+        ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(productId: product.productId,isMuted: nil,delegate: self))
         
         let conversionProductData = ShopLiveConversionProductData(productId: product.productId,
                                                                   customerProductId: product.customerProductId,

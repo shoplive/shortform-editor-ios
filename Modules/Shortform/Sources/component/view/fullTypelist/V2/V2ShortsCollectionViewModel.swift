@@ -257,7 +257,8 @@ extension V2ShortsCollectionViewModel {
                     self.v2delegate?.hideEmptyDataView(hide: (shortsList.count == 0 && reset == true) ? false : true)
                     completion(true)
                 case .failure(let error):
-                    ShopLiveShortform.Delegate.receiveHandler.delegate?.onError?(error: error)
+                    shortformDelegate?.onError?(error: error)
+//                    ShopLiveShortform.Delegate.receiveHandler.delegate?.onError?(error: error)
                     completion(false)
                     break
                 }
@@ -306,7 +307,8 @@ extension V2ShortsCollectionViewModel {
                     completion(true)
                     break
                 case .failure(let error):
-                    ShopLiveShortform.Delegate.receiveHandler.delegate?.onError?(error: error)
+                    shortformDelegate?.onError?(error: error)
+//                    ShopLiveShortform.Delegate.receiveHandler.delegate?.onError?(error: error)
                     completion(false)
                 }
             }

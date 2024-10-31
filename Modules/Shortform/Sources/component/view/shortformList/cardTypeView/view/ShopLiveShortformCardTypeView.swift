@@ -12,10 +12,11 @@ import ShopliveSDKCommon
 
 final class ShopLiveShortformCardTypeView : ShopLiveShortformBaseTypeView  {
     
-    private let reactor = ShopLiveShortCardTypeViewReactor()
+    private let reactor : ShopLiveShortCardTypeViewReactor
     private weak var delegate : ShopLiveShortformListViewDelegate?
     
-    init(cardViewType : ShopLiveShortform.CardViewType,listViewDelegate : ShopLiveShortformListViewDelegate?, tagsAndBrandsRequestParameterModel: InternalShortformCollectionDto?,avAudioSessionCategoryOptions : AVAudioSession.CategoryOptions?){
+    init(cardViewType : ShopLiveShortform.CardViewType,listViewDelegate : ShopLiveShortformListViewDelegate?, shortsCollectionDelegate : ShopLiveShortformReceiveHandlerDelegate?, tagsAndBrandsRequestParameterModel: InternalShortformCollectionDto?,avAudioSessionCategoryOptions : AVAudioSession.CategoryOptions?){
+        self.reactor = ShopLiveShortCardTypeViewReactor(shortformDelegate: shortsCollectionDelegate)
         super.init(frame: .zero)
         self.delegate = listViewDelegate
         collectionViewFlowLayout.scrollDirection = .vertical

@@ -13,11 +13,12 @@ import AVKit
 final class ShopLiveShortformHorizontalTypeView : ShopLiveShortformBaseTypeView {
     
     
-    private let reactor = ShopLiveShortformHorizontalTypeViewReactor()
+    private let reactor : ShopLiveShortformHorizontalTypeViewReactor
     private weak var delegate : ShopLiveShortformListViewDelegate?
     
-    init(cardViewType : ShopLiveShortform.CardViewType,listViewDelegate : ShopLiveShortformListViewDelegate?,
+    init(cardViewType : ShopLiveShortform.CardViewType,listViewDelegate : ShopLiveShortformListViewDelegate?, shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?,
          tagsAndBrandsRequestParameterModel : InternalShortformCollectionDto?,avAudioSessionCategoryOptions : AVAudioSession.CategoryOptions?){
+        self.reactor = ShopLiveShortformHorizontalTypeViewReactor(shortformDelegate: shortformDelegate)
         super.init(frame: .zero)
         self.delegate = listViewDelegate
         collectionViewFlowLayout.scrollDirection = .horizontal
@@ -37,10 +38,8 @@ final class ShopLiveShortformHorizontalTypeView : ShopLiveShortformBaseTypeView 
     }
     
     private func bindData(){
-        
         reactor.action(.setCollectionView(self.collectionView))
         
-       
         reactor.resultHandler = { [weak self] (result) in
             DispatchQueue.main.async {
                 self?.handleResultHandlers(result)

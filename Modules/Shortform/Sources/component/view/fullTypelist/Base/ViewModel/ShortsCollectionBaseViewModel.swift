@@ -93,6 +93,7 @@ class ShortsCollectionBaseViewModel : NSObject {
     var initialTargetShortsId : String?
     var shopliveSessionId : String?
     var previousActiveSrn : String?
+    var shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?
     
     //currentDatas
     var currentShorts : ShortsModel? {
@@ -212,8 +213,9 @@ class ShortsCollectionBaseViewModel : NSObject {
     
     
     
-    init(shopliveSessionId : String?) {
+    init(shopliveSessionId : String?,shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?) {
         super.init()
+        self.shortformDelegate = shortformDelegate
         self.shopliveSessionId = shopliveSessionId
         self.webViewLists.removeAll()
         appStateObserver.delegate = self
@@ -221,8 +223,9 @@ class ShortsCollectionBaseViewModel : NSObject {
         addObserver()
     }
     
-    init(shorts : [ShortsModel],shopliveSessionId : String?) {
+    init(shorts : [ShortsModel],shopliveSessionId : String?, shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?) {
         super.init()
+        self.shortformDelegate = shortformDelegate
         self.webViewLists.removeAll()
         self.originShortsListData = shorts
         self.shopliveSessionId = shopliveSessionId
@@ -680,7 +683,8 @@ extension ShortsCollectionBaseViewModel {
 extension ShortsCollectionBaseViewModel {
     
     func onError(_ error: ShopLiveCommonError) {
-        ShopLiveShortform.Delegate.receiveHandler.delegate?.onError?(error: error)
+        shortformDelegate?.onError?(error: error)
+//        ShopLiveShortform.Delegate.receiveHandler.delegate?.onError?(error: error)
     }
     
     func postEnableTapNotification() {
@@ -783,7 +787,8 @@ extension ShortsCollectionBaseViewModel {
         guard let shortsId = shortsId,
               let srn = srn else { return }
         
-        ShopLiveShortform.Delegate.receiveHandler.delegate?.handleProductItem?(shortsId: shortsId, shortsSrn: srn, product: productModel.toProductData())
+        shortformDelegate?.handleProductItem?(shortsId: shortsId, shortsSrn: srn, product: productModel.toProductData())
+//        ShopLiveShortform.Delegate.receiveHandler.delegate?.handleProductItem?(shortsId: shortsId, shortsSrn: srn, product: productModel.toProductData())
         ShopLiveShortform.BridgeInterface.handleMoveToProductPage(shortsId: shortsId, srn: srn, product: productModel)
         
     }
@@ -792,8 +797,8 @@ extension ShortsCollectionBaseViewModel {
         guard let scheme = scheme,
               let srn = srn,
               let shortsId = shortsId else { return }
-        
-        ShopLiveShortform.Delegate.receiveHandler.delegate?.handleProductBanner?(shortsId: shortsId, shortsSrn: srn, scheme: scheme, shortsDetail: shortsDetailModel.toShortsDetailData())
+        shortformDelegate?.handleProductBanner?(shortsId: shortsId, shortsSrn: srn, scheme: scheme, shortsDetail: shortsDetailModel.toShortsDetailData())
+//        ShopLiveShortform.Delegate.receiveHandler.delegate?.handleProductBanner?(shortsId: shortsId, shortsSrn: srn, scheme: scheme, shortsDetail: shortsDetailModel.toShortsDetailData())
         ShopLiveShortform.BridgeInterface.handleMoveToProductBannerPage(shortsId: shortsId, srn: srn, scheme: scheme, shortsDetail: shortsDetailModel)
         
     }
@@ -801,12 +806,18 @@ extension ShortsCollectionBaseViewModel {
 //MARK: -Share관련 handler 함수들
 extension ShortsCollectionBaseViewModel {
     private func onShareWithUrl(url : String) {
-        if let handleshare = ShopLiveShortform.Delegate.receiveHandler.delegate?.handleShare?(shareUrl: url) {
-            handleshare
+        if let handleShare = shortformDelegate?.handleShare?(shareUrl: url) {
+            handleShare
         }
         else {
             self.delegate?.openOsShareSheet(url: url)
         }
+//        if let handleshare = ShopLiveShortform.Delegate.receiveHandler.delegate?.handleShare?(shareUrl: url) {
+//            handleshare
+//        }
+//        else {
+//            self.delegate?.openOsShareSheet(url: url)
+//        }
     }
     
     private func onShareWithShortsModel(shorts : [String : Any] ,shortsDetail : [String : Any]) {
@@ -818,9 +829,12 @@ extension ShortsCollectionBaseViewModel {
         shareMeteData.shortsId = shorts["shortsId"] as? String
         shareMeteData.shortsSrn = shorts["srn"] as? String
         
-        if let handleShare = ShopLiveShortform.Delegate.receiveHandler.delegate?.handleShare?(shareMetadata: shareMeteData) {
+        if let handleShare = shortformDelegate?.handleShare?(shareMetadata: shareMeteData) {
             handleShare
         }
+//        if let handleShare = ShopLiveShortform.Delegate.receiveHandler.delegate?.handleShare?(shareMetadata: shareMeteData) {
+//            handleShare
+//        }
     }
 }
 //MARK: - reload Functions

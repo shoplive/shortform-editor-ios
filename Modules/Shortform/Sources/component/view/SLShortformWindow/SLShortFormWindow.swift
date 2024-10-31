@@ -19,6 +19,7 @@ extension ShopLiveShortform {
     class SLShortFormWindow {
         
         weak var shortsCollectionView : ShortsCollectionBaseView?
+        weak var shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?
         
         private lazy var rootViewController: ShortFormDetailRootViewController = {
             let viewController = ShortFormDetailRootViewController()
@@ -30,7 +31,8 @@ extension ShopLiveShortform {
         
         private var isCurrentOrientationLandScape : Bool = UIScreen.isLandscape_SL
         
-        init() {
+        init(delegate : ShopLiveShortformReceiveHandlerDelegate?) {
+            self.shortformDelegate = delegate
             customerWindow = UIApplication.shared.keyWindow
             setupWindow()
         }
@@ -102,8 +104,8 @@ extension ShopLiveShortform {
                 ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: previewEventTraceSrn, isShown: false, isClick: false, shopliveSessionId: shopLiveSessionId)
                 let shortsId = self.shortsCollectionView?.getCurrentShortsId()
                 let shortsDetail = self.shortsCollectionView?.getCurrentShortsDetail()
-                ShortformNativeOnEventsManager.sendNativeOnEvents(command: .preview_click_show, payload: nil, shortsId: shortsId, shortsDetail: shortsDetail)
-                ShortformNativeOnEventsManager.sendNativeOnEvents(command: .preview_hidden, payload: nil, shortsId: shortsId, shortsDetail: shortsDetail)
+                ShortformNativeOnEventsManager.sendNativeOnEvents(delegate: shortformDelegate,command: .preview_click_show, payload: nil, shortsId: shortsId, shortsDetail: shortsDetail)
+                ShortformNativeOnEventsManager.sendNativeOnEvents(delegate: shortformDelegate,command: .preview_hidden, payload: nil, shortsId: shortsId, shortsDetail: shortsDetail)
                 shortsCollectionView?.setShopLiveSessionId(sessionId: shopLiveSessionId)
             }
             fullScreen(animated: true, reset: true)
@@ -198,7 +200,7 @@ extension ShopLiveShortform {
                             ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: self.shortsCollectionView?.getPreviewEventTraceSrn(),isShown: false, isClick: false, shopliveSessionId: nil)
                             let shortsId = self.shortsCollectionView?.getCurrentShortsId()
                             let shortsDetail = self.shortsCollectionView?.getCurrentShortsDetail()
-                            ShortformNativeOnEventsManager.sendNativeOnEvents(command: .preview_hidden, payload: nil, shortsId: shortsId, shortsDetail: shortsDetail)
+                            ShortformNativeOnEventsManager.sendNativeOnEvents(delegate: shortformDelegate, command: .preview_hidden, payload: nil, shortsId: shortsId, shortsDetail: shortsDetail)
                         }
                         ShopLiveShortform.close()
                         return
@@ -345,8 +347,9 @@ extension ShopLiveShortform {
                         self.shortsCollectionView?.setAudioSessionManager()
                         let sessionId = self.shortsCollectionView?.getCurrentShopliveSessionId()
                         ShortformEventTraceManager.processDetailOnPlayerShow(shortsCollectionSrn: self.shortsCollectionView?.getCurrentShortsSrn(), shopliveSessionId: sessionId)
-                        ShortformNativeOnEventsManager.sendNativeOnEvents(command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
-                        ShopLiveShortform.Delegate.receiveHandler.delegate?.onDidAppear?()
+                        ShortformNativeOnEventsManager.sendNativeOnEvents(delegate: self.shortformDelegate,command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
+                        self.shortformDelegate?.onDidAppear?()
+//                        ShopLiveShortform.Delegate.receiveHandler.delegate?.onDidAppear?()
                     }
                 }
             }
@@ -356,7 +359,8 @@ extension ShopLiveShortform {
                 self.shortformWindow.isHidden  = false
                 self.shortformWindow.layer.cornerRadius = 0
                 self.shortformWindow.layoutIfNeeded()
-                ShopLiveShortform.Delegate.receiveHandler.delegate?.onDidAppear?()
+                shortformDelegate?.onDidAppear?()
+//                ShopLiveShortform.Delegate.receiveHandler.delegate?.onDidAppear?()
             }
         }
         
@@ -397,7 +401,8 @@ extension ShopLiveShortform {
             reactor.resetProperties()
             self.shortsCollectionView = nil
             self.shortformWindow.isHidden = true
-            ShopLiveShortform.Delegate.receiveHandler.delegate?.onDidDisAppear?()
+            shortformDelegate?.onDidDisAppear?()
+//            ShopLiveShortform.Delegate.receiveHandler.delegate?.onDidDisAppear?()
         }
         
         private func clearPreviewItem() {

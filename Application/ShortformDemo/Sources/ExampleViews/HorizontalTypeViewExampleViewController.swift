@@ -127,7 +127,6 @@ class HorizontalTypeViewExampleViewController : UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        ShopLiveShortform.Delegate.setDelegate(self)
         builder?.submit()
         builder2?.submit()
         builder3?.submit()
@@ -207,15 +206,15 @@ class HorizontalTypeViewExampleViewController : UIViewController {
     private func setCollectionViewAndBuilder(){
         if builder == nil && collectionView == nil {
             builder = ShopLiveShortform.ListViewBuilder()
-           
             collectionView = builder?.build(cardViewType: .type1,
-                       listViewType: .horizontal,
-                       playableType: .ALL,
-                       listViewDelegate: self,
-                       enableSnap: currentSnap,
-                       enablePlayVideo: true,
-                       playOnlyOnWifi: false,
-                       cellSpacing: 8)
+                                            listViewType: .horizontal,
+                                            playableType: .ALL,
+                                            listViewDelegate: self,
+                                            shortsCollectionDelegate: self,
+                                            enableSnap: currentSnap,
+                                            enablePlayVideo: true,
+                                            playOnlyOnWifi: false,
+                                            cellSpacing: 8)
             .getView()
             collectionView?.backgroundColor = .white
             guard let cv = collectionView else { return }
@@ -231,13 +230,14 @@ class HorizontalTypeViewExampleViewController : UIViewController {
         if builder2 == nil && collectionView2 == nil {
             builder2 = ShopLiveShortform.ListViewBuilder()
             collectionView2 = builder2?.build(cardViewType: .type1,
-                       listViewType: .horizontal,
-                       playableType: .ALL,
-                       listViewDelegate: self,
-                       enableSnap: currentSnap,
-                       enablePlayVideo: true,
-                       playOnlyOnWifi: false,
-                       cellSpacing: 8)
+                                              listViewType: .horizontal,
+                                              playableType: .ALL,
+                                              listViewDelegate: self,
+                                              shortsCollectionDelegate: self,
+                                              enableSnap: currentSnap,
+                                              enablePlayVideo: true,
+                                              playOnlyOnWifi: false,
+                                              cellSpacing: 8)
             .getView()
             collectionView2?.backgroundColor = .white
             guard let cv = collectionView2 else { return }
@@ -253,13 +253,14 @@ class HorizontalTypeViewExampleViewController : UIViewController {
         if builder3 == nil && collectionView3 == nil {
             builder3 = ShopLiveShortform.ListViewBuilder()
             collectionView3 = builder3?.build(cardViewType: .type1,
-                       listViewType: .horizontal,
-                       playableType: .ALL,
-                       listViewDelegate: self,
-                       enableSnap: currentSnap,
-                       enablePlayVideo: true,
-                       playOnlyOnWifi: false,
-                       cellSpacing: 8)
+                                              listViewType: .horizontal,
+                                              playableType: .ALL,
+                                              listViewDelegate: self,
+                                              shortsCollectionDelegate: self,
+                                              enableSnap: currentSnap,
+                                              enablePlayVideo: true,
+                                              playOnlyOnWifi: false,
+                                              cellSpacing: 8)
             .getView()
             builder3?.setVisibleBrand(isVisible: false)
             builder3?.setVisibleTitle(isVisisble: false)
@@ -319,9 +320,8 @@ extension HorizontalTypeViewExampleViewController : ShopLiveShortformReceiveHand
         print("[HASSAN LOG] shortsId \(shortsId)")
         print("[HASSAN LOG] productModel \(product.sku)")
         
-        ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(productId: product.productId))
         
-        ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(productId: product.productId,isMuted: nil))
+        ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(productId: product.productId,isMuted: nil,delegate: self))
         
         let conversionProductData = ShopLiveConversionProductData(productId: product.productId,
                                                                   customerProductId: product.customerProductId,
@@ -375,7 +375,6 @@ extension HorizontalTypeViewExampleViewController : ShopLiveShortformReceiveHand
     func onEvent(command: String, payload: String?) {
 //        guard let window = UIApplication.shared.windows.last else { return }
 //        window.showToast(message: command,duration: .middle)
-        
     }
     
 }

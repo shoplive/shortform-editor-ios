@@ -28,7 +28,7 @@ class ShortformNativeOnEventsManager {
 
 
     
-    class func sendNativeOnEvents(command : NativeOnEventsCommands, payload : [String : Any]?, shortsId : String?, shortsDetail : ShortsDetail?) {
+    class func sendNativeOnEvents(delegate : ShopLiveShortformReceiveHandlerDelegate?, command : NativeOnEventsCommands, payload : [String : Any]?, shortsId : String?, shortsDetail : ShortsDetail?) {
         let commandString = command.rawValue
         
         var payLoadJsonString : String? = nil
@@ -57,6 +57,6 @@ class ShortformNativeOnEventsManager {
             payLoadJsonString = "{}"
         }
         
-        ShopLiveShortform.Delegate.receiveHandler.delegate?.onEvent?(command: commandString, payload: payLoadJsonString)
+        delegate?.onEvent?(command: commandString, payload: payLoadJsonString)
     }
 }

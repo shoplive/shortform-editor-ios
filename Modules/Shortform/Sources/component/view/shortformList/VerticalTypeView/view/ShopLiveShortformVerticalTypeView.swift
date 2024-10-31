@@ -12,11 +12,14 @@ import AVKit
 
 final class ShopLiveShortformVerticalTypeView : ShopLiveShortformBaseTypeView {
     
-    private let reactor = ShopLiveShortformVerticalTypeViewReactor()
+    private let reactor : ShopLiveShortformVerticalTypeViewReactor
     private weak var delegate : ShopLiveShortformListViewDelegate?
     
     init(cardViewType : ShopLiveShortform.CardViewType,listViewDelegate : ShopLiveShortformListViewDelegate?,
-         tagsAndBrandsRequestParameterModel : InternalShortformCollectionDto?,avAudioSessionCategoryOptions : AVAudioSession.CategoryOptions?){
+         shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?,
+         tagsAndBrandsRequestParameterModel : InternalShortformCollectionDto?,
+         avAudioSessionCategoryOptions : AVAudioSession.CategoryOptions?){
+        reactor = ShopLiveShortformVerticalTypeViewReactor(shortformDelegate: shortformDelegate)
         super.init(frame: .zero)
         self.delegate = listViewDelegate
         collectionViewFlowLayout.scrollDirection = .vertical

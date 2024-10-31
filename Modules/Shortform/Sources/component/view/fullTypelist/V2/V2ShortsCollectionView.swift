@@ -31,10 +31,11 @@ class V2ShortsCollectionView : ShortsCollectionBaseView {
     
     weak var requestDelegate : ShortsCollectionViewDataSourcRequestDelegate?
     
-    init(shortformIdsData : ShopLiveShortformIdsData, requestDelegate : ShortsCollectionViewDataSourcRequestDelegate){
+    init(shortformIdsData : ShopLiveShortformIdsData, requestDelegate : ShortsCollectionViewDataSourcRequestDelegate, shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?){
         self.requestDelegate = requestDelegate
         let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
-        super.init(viewmodel: V2ShortsCollectionViewModel(shopliveSessionId: shopliveSessionId))
+        super.init(viewmodel: V2ShortsCollectionViewModel(shopliveSessionId: shopliveSessionId,shortformDelegate: shortformDelegate),
+                   shortformDelegate: shortformDelegate)
         viewmodel.v2delegate = self
         viewmodel.setshortFormIdsData(shortformIdsData: shortformIdsData)
         viewmodel.latestActivePageIndex = -1

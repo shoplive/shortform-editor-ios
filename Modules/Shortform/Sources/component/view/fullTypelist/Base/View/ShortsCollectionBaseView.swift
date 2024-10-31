@@ -18,6 +18,7 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     }
     
     var viewModel : ShortsCollectionBaseViewModel
+    weak var shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?
     
     
     lazy var feedListLayout: UICollectionViewFlowLayout = {
@@ -99,8 +100,9 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     var closeButtonLeadingConstraint: NSLayoutConstraint?
     var minimumPreviewViewWidth: CGFloat = 60
     
-    init(viewmodel : ShortsCollectionBaseViewModel) {
+    init(viewmodel : ShortsCollectionBaseViewModel,shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?) {
         self.viewModel = viewmodel
+        self.shortformDelegate = shortformDelegate
         super.init(frame: .zero)
         viewmodel.delegate = self
         layout()
@@ -114,9 +116,10 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     
     deinit {
         if viewModel.shortsMode == .detail {
-            ShortformNativeOnEventsManager.sendNativeOnEvents(command: .detail_on_player_dismiss, payload: nil, shortsId: nil, shortsDetail: nil)
+            ShortformNativeOnEventsManager.sendNativeOnEvents(delegate : shortformDelegate  ,command: .detail_on_player_dismiss, payload: nil, shortsId: nil, shortsDetail: nil)
             ShortformEventTraceManager.processDetailOnPlayerDismiss(shortsCollectionSrn: self.getCurrentShortsSrn(), shopliveSessionId: self.getCurrentShopliveSessionId())
         }
+        self.shortformDelegate = nil
         teardownObserver()
     }
     
@@ -158,8 +161,8 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
             ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: previewEventTraceSrn ,isShown: false, isClick: true, shopliveSessionId: nil )
             ShortformEventTraceManager.processPreviewShownHidden(shortsCollectionSrn: previewEventTraceSrn, isShown: false, isClick: false, shopliveSessionId: nil)
             
-            ShortformNativeOnEventsManager.sendNativeOnEvents(command: .preview_click_close, payload: nil, shortsId: viewModel.currentShortsId, shortsDetail: viewModel.currentShorts?.shortsDetail)
-            ShortformNativeOnEventsManager.sendNativeOnEvents(command: .preview_hidden, payload: nil, shortsId: viewModel.currentShortsId, shortsDetail: viewModel.currentShorts?.shortsDetail)
+            ShortformNativeOnEventsManager.sendNativeOnEvents(delegate: shortformDelegate, command: .preview_click_close, payload: nil, shortsId: viewModel.currentShortsId, shortsDetail: viewModel.currentShorts?.shortsDetail)
+            ShortformNativeOnEventsManager.sendNativeOnEvents(delegate: shortformDelegate, command: .preview_hidden, payload: nil, shortsId: viewModel.currentShortsId, shortsDetail: viewModel.currentShorts?.shortsDetail)
         }
         ShopLiveShortform.close()
     }
@@ -230,6 +233,17 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     func requestSnapShotForWindow() {
         guard let cell = self.shortsListView.visibleCells.first as? ShortsCell else { return }
         cell.takeSnapShotForWindow(srn: viewModel.currentShortsSrn)
+    }
+    
+    func playeCurrentCell() {
+        self.playCurrentItem()
+    }
+    
+    func pauseCells() {
+        guard let cells = self.shortsListView.visibleCells as? [ShortsCell] else { return }
+        for cell in cells {
+            cell.pause()
+        }
     }
 }
 extension ShortsCollectionBaseView {

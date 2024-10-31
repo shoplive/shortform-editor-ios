@@ -19,6 +19,7 @@ internal class InternalShortformRelatedDTO {
     var tagSearchOperator : String?
     var brands : [String]?
     var shuffle : Bool?
+    var delegate : ShopLiveShortformReceiveHandlerDelegate?
     
     
     public init(shortsId : String? = nil, productId: String? = nil, name: String? = nil, skus: [String]? = nil, url: String? = nil, tags: [String]? = nil, tagSearchOperator: String? = nil, brands: [String]? = nil, shuffle: Bool? = nil) {

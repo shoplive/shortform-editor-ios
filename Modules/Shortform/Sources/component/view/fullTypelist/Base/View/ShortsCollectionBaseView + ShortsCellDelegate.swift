@@ -18,7 +18,8 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
         if let payload = payload {
             jsonString = payload.toJSONString_SL()
         }
-        ShopLiveShortform.Delegate.receiveHandler.delegate?.onEvent?(command: name, payload: jsonString)
+        shortformDelegate?.onEvent?(command: name, payload: jsonString)
+//        ShopLiveShortform.Delegate.receiveHandler.delegate?.onEvent?(command: name, payload: jsonString)
     }
     
     func didFinishPlayingShorts(cell: ShortsCell, data: ShopLiveShortform.ShortsModel?) {
@@ -78,12 +79,14 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
             requestModel.tagSearchOperator = collectionQuery.tagSearchOperator
             requestModel.brands = collectionQuery.brands
             requestModel.shuffle = collectionQuery.shuffle
+            requestModel.delegate = self.shortformDelegate
         }
         else {
             requestModel.tags = bridgeModel.relatedQuery?.tags
             requestModel.tagSearchOperator = bridgeModel.relatedQuery?.tagSearchOperator
             requestModel.brands = bridgeModel.relatedQuery?.brands
             requestModel.shuffle = bridgeModel.relatedQuery?.shuffle
+            requestModel.delegate = self.shortformDelegate
         }
         
         ShopLiveShortform.playNormalFullScreen(shortsId: bridgeModel.shorts?.shortsId, shortsSrn: bridgeModel.shorts?.srn, requestModel: requestModel,shopliveSessionId: shopliveSessionId)

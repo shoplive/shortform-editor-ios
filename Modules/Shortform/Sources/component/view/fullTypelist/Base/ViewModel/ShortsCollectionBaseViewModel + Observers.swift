@@ -50,7 +50,8 @@ extension ShortsCollectionBaseViewModel {
             
             if audioLevel <= 0  {
                 var currentIndexPath = delegate?.getIndexPathsForVisibleItems().first
-                ShortformNativeOnEventsManager.sendNativeOnEvents(command: .video_muted,
+                ShortformNativeOnEventsManager.sendNativeOnEvents(delegate : shortformDelegate,
+                                                                  command: .video_muted,
                                                                   payload: [ "position" : currentIndexPath?.row ?? -1 ],
                                                                   shortsId: self.currentShortsId,
                                                                   shortsDetail: self.currentShorts?.shortsDetail)
@@ -61,7 +62,8 @@ extension ShortsCollectionBaseViewModel {
             }
             else if audioLevel > 0 && isDownward == false {
                 var currentIndexPath = delegate?.getIndexPathsForVisibleItems().first
-                ShortformNativeOnEventsManager.sendNativeOnEvents(command: .video_unmuted,
+                ShortformNativeOnEventsManager.sendNativeOnEvents(delegate : shortformDelegate,
+                                                                  command: .video_unmuted,
                                                                   payload: [ "position" : currentIndexPath?.row ?? -1 ],
                                                                   shortsId: self.currentShortsId,
                                                                   shortsDetail: self.currentShorts?.shortsDetail)
