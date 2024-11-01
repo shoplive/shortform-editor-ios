@@ -19,7 +19,8 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
         case initialize
         case setSpeed(CGFloat)
         case videoEditInfoDto(SLVideoEditInfoDTO)
-        
+        case saveEditingStartSpeedValue
+        case revertChanges
         
     }
     
@@ -27,6 +28,7 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
         case setInitialValue(CGFloat)
         case setVideoDuration(String)
         case onValueChanged
+        case setSliderValue(CGFloat)
         
     }
     
@@ -34,6 +36,7 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
     
     
     private var videoEditInfoDTO : SLVideoEditInfoDTO?
+    private var editingStartSpeedValue : Double = 0
     private var latestSpeedValue : String = ""
     
     func action(_ action: Action) {
@@ -44,6 +47,10 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
             self.onSetVideoEditInfoDto(dto: videoEditInfo)
         case .setSpeed(let speed):
             self.onSetSpeed(speed: speed)
+        case .saveEditingStartSpeedValue:
+            self.onSaveEditingStartSpeedValue()
+        case .revertChanges:
+            self.onRevertChanges()
         }
     }
     
@@ -75,7 +82,26 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
         resultHandler?( .setVideoDuration(result) )
     }
     
+    private func onSaveEditingStartSpeedValue() {
+        guard let dto = self.videoEditInfoDTO else { return }
+        self.editingStartSpeedValue = dto.videoSpeed
+    }
+    
+    private func onRevertChanges() {
+        self.videoEditInfoDTO?.videoSpeed = editingStartSpeedValue
+        guard let dto = self.videoEditInfoDTO else { return }
+        let originVideoDuration = dto.cropTime.end.seconds - dto.cropTime.start.seconds
+        let modifiedVideoDuration = originVideoDuration / dto.videoSpeed
+        let result = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(Int(modifiedVideoDuration))
+        
+        if result != latestSpeedValue {
+            latestSpeedValue = result
+            resultHandler?( .onValueChanged )
+        }
+        resultHandler?( .setVideoDuration(result) )
+        resultHandler?( .setSliderValue(CGFloat(dto.videoSpeed)))
+    }
+    
 }
 extension SLVideoMainSpeedSubReactor {
-    
 }

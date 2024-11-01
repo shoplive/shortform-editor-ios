@@ -51,6 +51,10 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
         case setSpeedRate(CGFloat)
         case hideCropView(Bool)
         case setCropIsAvailable(Bool)
+        // 에디팅 시작할때의 크롭 영역을 기억하기 위해서 사용
+        // xbtn 눌러서 돌아갈때 이 크기 값으로 되돌리기 위해서
+        case saveStartCropRect
+        case revertCropChange
     }
     
     enum Result {
@@ -204,6 +208,10 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
             self.onHideCropView(hide : hide)
         case .setCropIsAvailable(let isAvailable):
             self.onSetIsCropAvailable(isAvailable: isAvailable)
+        case .saveStartCropRect:
+            self.onSaveStartCropRect()
+        case .revertCropChange:
+            self.onRevertCropChange()
         }
     }
     
@@ -335,6 +343,15 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
     
     private func onSetIsCropAvailable(isAvailable : Bool) {
         self.cropView.setIsCropAvailable(isAvailable: isAvailable)
+    }
+    
+    private func onSaveStartCropRect() {
+        let rect = cropView.getCropViewRect()
+        reactor.action( .saveEditingStartCropRect(rect) )
+    }
+    
+    private func onRevertCropChange() {
+        cropView.setInitialCropRect(rect: reactor.getEditingStartCropRect() ?? cropView.frame)
     }
     
 }

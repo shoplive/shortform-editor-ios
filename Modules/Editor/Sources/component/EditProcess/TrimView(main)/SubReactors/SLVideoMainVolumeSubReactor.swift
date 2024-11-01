@@ -17,10 +17,13 @@ class SLVideoMainVolumeSubReactor : NSObject, SLReactor {
         case initialize
         case setVolume(CGFloat)
         case videoEditInfoDto(SLVideoEditInfoDTO)
+        case saveEditingStartValue
+        case revertChange
     }
     
     enum Result {
         case setInitialValue(CGFloat)
+        case setSliderValue(Int)
     }
     
     
@@ -28,6 +31,7 @@ class SLVideoMainVolumeSubReactor : NSObject, SLReactor {
     
     
     private var videoEditInfoDTO : SLVideoEditInfoDTO?
+    private var editingStartValue : Int = 100
     
     func action(_ action: Action) {
         switch action {
@@ -37,6 +41,10 @@ class SLVideoMainVolumeSubReactor : NSObject, SLReactor {
             self.onSetVideoEditInfoDto(dto: videoEditInfo)
         case .setVolume(let value):
             self.onSetVolume(volume: value)
+        case .saveEditingStartValue:
+            self.onSaveEditingStartValue()
+        case .revertChange:
+            self.onRevertChange()
         }
     }
     
@@ -54,4 +62,12 @@ class SLVideoMainVolumeSubReactor : NSObject, SLReactor {
         dto.volume = Int(volume)
     }
     
+    private func onSaveEditingStartValue() {
+        self.editingStartValue = videoEditInfoDTO?.volume ?? 100
+    }
+    
+    private func onRevertChange() {
+        self.videoEditInfoDTO?.volume = self.editingStartValue
+        self.resultHandler?( .setSliderValue(self.editingStartValue) )
+    }
 }

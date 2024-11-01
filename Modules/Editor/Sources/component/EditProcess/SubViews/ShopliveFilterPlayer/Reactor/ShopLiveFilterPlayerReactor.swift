@@ -41,6 +41,7 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
         case onSetThumbnailGLKView
         case setIsFilterSDKCurrentItemVideoSizeIsReversed(Bool)
         case setSpeedRate(CGFloat)
+        case saveEditingStartCropRect(CGRect?)
     }
     
     enum Result {
@@ -77,6 +78,7 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
     private var isCropMode : Bool = true
     private var isCropAvailable : Bool = true
     
+    private var editingStartCropRect : CGRect?
     
     
     var resultHandler: ((Result) -> ())?
@@ -143,6 +145,8 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
             self.onSetIsFilterSDKCurrentItemVideoSizeIsReversed(isRotated: isRotated)
         case .setSpeedRate(let rate):
             self.onSetSpeedRate(rate: rate)
+        case .saveEditingStartCropRect(let rect):
+            self.onSaveEditingStartCropRect(rect : rect)
         }
     }
     
@@ -283,6 +287,10 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
     private func onSetSpeedRate(rate : CGFloat) {
         self.avPlayer?.rate = Float(rate)
     }
+    
+    private func onSaveEditingStartCropRect(rect : CGRect?) {
+        self.editingStartCropRect = rect
+    }
 }
 //MARK: -getter
 extension ShopLiveFilterPlayerReactor {
@@ -300,6 +308,10 @@ extension ShopLiveFilterPlayerReactor {
     
     func getIsCropMode() -> Bool {
         return self.isCropMode
+    }
+    
+    func getEditingStartCropRect() -> CGRect? {
+        return self.editingStartCropRect
     }
 }
 //MARK: -observer

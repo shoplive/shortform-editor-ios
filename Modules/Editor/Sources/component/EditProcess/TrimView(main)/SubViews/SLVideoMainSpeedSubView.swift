@@ -81,6 +81,8 @@ class SLVideoMainSpeedSubView : UIView, SLReactor {
         case initialize
         case setVideoEditInfoDTO(SLVideoEditInfoDTO)
         case changePlayOrPauseBtnState(isPlaying : Bool)
+        case saveEditingStartSpeedValue
+        case revertChanges
     }
     
     enum Result {
@@ -128,6 +130,10 @@ extension SLVideoMainSpeedSubView {
             self.onSetVideoEditoInfoDTO(dto: value)
         case .changePlayOrPauseBtnState(isPlaying: let isPlaying):
             self.onChangePlayOrPauseBtnState(isPlaying: isPlaying)
+        case .saveEditingStartSpeedValue:
+            self.onSaveEditingStartSpeedValue()
+        case .revertChanges:
+            self.onRevertChanges()
         }
     }
     
@@ -151,6 +157,14 @@ extension SLVideoMainSpeedSubView {
             playPauseBtn.imageLayoutMargin = design.playButtonIconPadding
         }
     }
+    
+    private func onSaveEditingStartSpeedValue() {
+        reactor.action( .saveEditingStartSpeedValue )
+    }
+    
+    private func onRevertChanges() {
+        reactor.action( .revertChanges )
+    }
 }
 //MARK: - reactor
 extension SLVideoMainSpeedSubView {
@@ -165,6 +179,8 @@ extension SLVideoMainSpeedSubView {
                     self.onReactorSetVideoDuration(duration: duration)
                 case .onValueChanged:
                     self.onReactorOnValueChanged()
+                case .setSliderValue(let value):
+                    self.onReactorSetSliderValue(value : value)
                 }
             }
         }
@@ -180,6 +196,11 @@ extension SLVideoMainSpeedSubView {
     
     private func onReactorOnValueChanged() {
         resultHandler?( .onValueChanged )
+    }
+    
+    private func onReactorSetSliderValue(value : CGFloat) {
+        self.sliderView.action( .setCurrentValue(value) )
+        self.sliderView.action( .setValueLabel(String(format: "%.1f", value) + "x"))
     }
 }
 //MARK: - bindSlider

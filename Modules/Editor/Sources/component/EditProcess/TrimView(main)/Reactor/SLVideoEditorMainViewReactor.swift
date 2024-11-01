@@ -43,6 +43,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         case checkIfNextStepIsAvailable
         
         case applyVideoConfiChange(VideoConfigApplyType)
+        case setEditingMode(SLVideoEditorMainViewController.ControlBoxType)
     }
     
     enum Result {
@@ -91,6 +92,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     
     private var imageGenerator : AVAssetImageGenerator
     private var imageGeneratorQueue = DispatchQueue(label: "shopLiveImageGeneratorQueue",qos: .background)
+    private var currentEditingMode : SLVideoEditorMainViewController.ControlBoxType = .main
     
     
     
@@ -145,6 +147,8 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
             self.onCheckIfNextStepIsAvailable()
         case .applyVideoConfiChange(let type):
             self.onApplyVideoConfigChanges(type : type)
+        case .setEditingMode(let mode):
+            self.onSetEditingMode(mode : mode)
         }
         
     }
@@ -283,6 +287,10 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
             onMainQueueResultHandler?( .setSpeedRateResult(CGFloat(videoInfo.videoSpeed )) )
         }
     }
+    
+    private func onSetEditingMode(mode : SLVideoEditorMainViewController.ControlBoxType) {
+        self.currentEditingMode = mode
+    }
 }
 //MARK: - GETTER
 extension SLVideoEditorMainViewReactor {
@@ -296,5 +304,9 @@ extension SLVideoEditorMainViewReactor {
     
     func getVideoEditInfoDto() -> SLVideoEditInfoDTO {
         return videoEditInfoDto
+    }
+    
+    func getCurrentEditingMode() -> SLVideoEditorMainViewController.ControlBoxType {
+        return self.currentEditingMode
     }
 }

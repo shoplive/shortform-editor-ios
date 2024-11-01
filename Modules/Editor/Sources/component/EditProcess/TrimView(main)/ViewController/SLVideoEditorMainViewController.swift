@@ -261,6 +261,15 @@ class SLVideoEditorMainViewController : UIViewController {
     }
     
     @objc func editingCloseBtnTapped(sender : UIButton) {
+        if reactor.getCurrentEditingMode() == .crop {
+            filterPlayerView.action( .revertCropChange )
+        }
+        else if reactor.getCurrentEditingMode() == .speed {
+            speedRateControlBox.action( .revertChanges )
+        }
+        else if reactor.getCurrentEditingMode() == .volume {
+            volumeControlBox.action( .revertChange )
+        }
         animateControlBox(to : .main)
     }
     
@@ -278,15 +287,17 @@ class SLVideoEditorMainViewController : UIViewController {
     @objc func cropBtnTapped(sender : UIButton) {
         animateControlBox(to: .crop)
         filterPlayerView.action( .hideCropView(false) )
-        
+        filterPlayerView.action( .saveStartCropRect )
     }
     
     @objc func videoSoundBtnTapped(sender : UIButton) {
         animateControlBox(to : .volume)
+        volumeControlBox.action( .saveEditingStartValue)
     }
     
     @objc func videoSpeedRateBtnTapped(sender : UIButton) {
         animateControlBox(to : .speed)
+        speedRateControlBox.action( .saveEditingStartSpeedValue )
     }
     
     private func bindReactor(){
@@ -407,7 +418,7 @@ class SLVideoEditorMainViewController : UIViewController {
     private func onSetSpeedRateResult(value : CGFloat) {
         filterPlayerView.action( .setSpeedRate(value) )
     }
-    
+        
     private func onPresentViewController(vc : UIViewController) {
         self.present(vc, animated: true)
     }
@@ -709,7 +720,7 @@ extension SLVideoEditorMainViewController {
     private func animateControlBox(to : ControlBoxType) {
         let controlBoxs = [timeTrimSliderView,speedRateControlBox,volumeControlBox,filterControlBox,cropControlBox]
         guard let currentControlBoxHeight = controlBoxs.filter({ $0.isHidden == false }).first?.frame.height else { return }
-        
+        reactor.action( .setEditingMode(to) )
         var targetControlBoxHeight : CGFloat = 0
         switch to {
         case .speed:
