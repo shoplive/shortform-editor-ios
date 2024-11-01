@@ -78,8 +78,7 @@ class SLVideoThumbnailViewController : UIViewController {
     lazy private var playerView : ShopLiveFilterPlayer = {
         let player = ShopLiveFilterPlayer()
         player.translatesAutoresizingMaskIntoConstraints = false
-        player.layer.cornerRadius = design.videoPlayerCornerRadius
-        player.clipsToBounds = true
+        player.layerCornerRadius = design.videoPlayerCornerRadius
         return player
     }()
     
@@ -91,6 +90,7 @@ class SLVideoThumbnailViewController : UIViewController {
         imageView.backgroundColor = .white
         imageView.isHidden = true
         imageView.layer.cornerRadius = design.videoPlayerCornerRadius
+        ShopLiveLogger.tempLog("corner \(design.videoPlayerCornerRadius) ")
         return imageView
     }()
     

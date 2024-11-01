@@ -18,6 +18,10 @@ public class EditorMainConfig {
     var backButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     var backButtonIconTintColor : UIColor = .white
     
+    var editingCloseButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slCloseButton.image.withRenderingMode(.alwaysTemplate)
+    var editingCloseButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    var editingCloseButtonIconTintColor : UIColor = .white
+    
     var nextButtonCornerRadius : CGFloat = 20
     
     var videoSpeedButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slIcSpeedometer.image.withRenderingMode(.alwaysTemplate)

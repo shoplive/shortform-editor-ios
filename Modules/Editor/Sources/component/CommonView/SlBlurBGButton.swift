@@ -49,8 +49,6 @@ class SlBlurBGButton : UIButton {
         
         self.backgroundColor = .clear
         setLayout()
-        
-        
     }
     
     override func layoutSubviews() {
@@ -71,19 +69,21 @@ class SlBlurBGButton : UIButton {
         return self.myimageView
     }
     
-    
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        let touchrect = self.bounds
-        
-        if touchrect.contains(point) {
-            return self
-        }
-        else {
+        if !isUserInteractionEnabled || isHidden || alpha <= 0.01 {
             return nil
         }
+        if self.point(inside: point, with: event) {
+            for subview in subviews.reversed() {
+                let convertedPoint = subview.convert(point, from: self)
+                if let hitView = subview.hitTest(convertedPoint, with: event) {
+                    return self
+                }
+            }
+            return self
+        }
+        return nil
     }
-    
-    
 }
 extension SlBlurBGButton {
     private func setLayout() {

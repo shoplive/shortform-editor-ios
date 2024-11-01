@@ -70,6 +70,7 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
     private var videoGlkView : GLKView = {
         let view = GLKView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.clipsToBounds = true
         return view
     }()
     
@@ -80,6 +81,7 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
     private var thumbnalGlkView : GLKView = {
         let view = GLKView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.clipsToBounds = true
         return view
     }()
     
@@ -114,6 +116,17 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
     private var videoFrameRecorder = ShopliveFilterSDKFrameRecorder()
     
     private let reactor = ShopLiveFilterPlayerReactor()
+    
+    var layerCornerRadius : CGFloat {
+        set {
+            layer.cornerRadius = newValue
+            videoGlkView.layer.cornerRadius = newValue
+            thumbnalGlkView.layer.cornerRadius = newValue
+        }
+        get {
+            return layer.cornerRadius
+        }
+    }
     
     init(fileName : String, videoUrl : URL, videoSize : CGSize, centerCrop : Bool = false,isCropMode : Bool = true, isCropAvailable : Bool = true ) {
         super.init(frame: .zero)

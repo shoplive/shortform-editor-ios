@@ -33,10 +33,21 @@ class SLVideoEditorMainViewController : UIViewController {
         btn.imageView?.contentMode = .scaleAspectFit
         btn.layer.cornerRadius = 20
         btn.clipsToBounds = true
-        
         return btn
     }()
     
+    lazy private var editingCloseBtn : SlBlurBGButton = {
+        let btn = SlBlurBGButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setImage(design.editingCloseButtonIcon, for: .normal)
+        btn.imageView?.tintColor = design.editingCloseButtonIconTintColor
+        btn.imageLayoutMargin = design.editingCloseButtonIconPadding
+        btn.imageView?.contentMode = .scaleAspectFit
+        btn.layer.cornerRadius = 20
+        btn.clipsToBounds = true
+        btn.isHidden = true
+        return btn
+    }()
     
     lazy private var pageTitleLabel : UILabel = {
         let label = UILabel()
@@ -110,8 +121,7 @@ class SLVideoEditorMainViewController : UIViewController {
     lazy private var filterPlayerView : ShopLiveFilterPlayer = {
         let view = ShopLiveFilterPlayer()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = design.videoPlayerCornerRadius
-        view.clipsToBounds = true
+        view.layerCornerRadius = design.videoPlayerCornerRadius
         return view
     }()
 
@@ -200,6 +210,7 @@ class SLVideoEditorMainViewController : UIViewController {
         
         
         backBtn.addTarget(self, action: #selector(backBtnTapped(sender: )), for: .touchUpInside)
+        editingCloseBtn.addTarget(self, action: #selector(editingCloseBtnTapped(sender: )), for: .touchUpInside)
         filterAddBtn.addTarget(self, action: #selector(filterAddBtnTapped(sender: )), for: .touchUpInside)
         nextButton.addTarget(self, action: #selector(nextBtnTapped(sender: )), for: .touchUpInside)
         videoCropBtn.addTarget(self, action: #selector(cropBtnTapped(sender: )), for: .touchUpInside)
@@ -224,7 +235,6 @@ class SLVideoEditorMainViewController : UIViewController {
         speedRateControlBox.action( .initialize )
         volumeControlBox.action( .initialize )
         filterControlBox.action( .initialize )
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -248,6 +258,10 @@ class SLVideoEditorMainViewController : UIViewController {
         else {
             self.dismiss(animated: true)
         }
+    }
+    
+    @objc func editingCloseBtnTapped(sender : UIButton) {
+        animateControlBox(to : .main)
     }
     
     
@@ -599,6 +613,7 @@ extension SLVideoEditorMainViewController {
         
         self.view.addSubview(naviBar)
         self.view.addSubview(backBtn)
+        self.view.addSubview(editingCloseBtn)
         self.view.addSubview(pageTitleLabel)
         self.view.addSubview(nextButton)
         
@@ -625,11 +640,15 @@ extension SLVideoEditorMainViewController {
             backBtn.widthAnchor.constraint(equalToConstant: 40),
             backBtn.heightAnchor.constraint(equalToConstant: 40),
             
+            editingCloseBtn.centerYAnchor.constraint(equalTo: naviBar.centerYAnchor),
+            editingCloseBtn.leadingAnchor.constraint(equalTo: self.view.leadingAnchor,constant: 20),
+            editingCloseBtn.widthAnchor.constraint(equalToConstant: 40),
+            editingCloseBtn.heightAnchor.constraint(equalToConstant: 40),
+            
             nextButton.centerYAnchor.constraint(equalTo: naviBar.centerYAnchor),
             nextButton.trailingAnchor.constraint(equalTo: naviBar.trailingAnchor,constant: -20),
             nextButton.widthAnchor.constraint(equalToConstant: 70),
             nextButton.heightAnchor.constraint(equalToConstant: 40),
-            
             
             pageTitleLabel.centerYAnchor.constraint(equalTo: naviBar.centerYAnchor),
             pageTitleLabel.centerXAnchor.constraint(equalTo: naviBar.centerXAnchor),
@@ -708,6 +727,9 @@ extension SLVideoEditorMainViewController {
         let nextPlayerViewHeight = self.filterPlayerView.frame.height + (currentControlBoxHeight - targetControlBoxHeight)
         
         filterPlayerView.action( .setCropIsAvailable(to == .crop) )
+        
+        editingCloseBtn.isHidden = to == .main ? true : false
+        backBtn.isHidden = to == .main ? false : true
         
         UIView.animate(withDuration: 0.4, delay: 0) {
             self.timeTrimSliderView.isHidden = to == .main ? false : true
