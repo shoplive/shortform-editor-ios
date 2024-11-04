@@ -511,7 +511,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         case .overlayUrl:
             if let overlayUrl = ShopLiveController.overlayUrl {
                 self.loadOverlay(with: overlayUrl)
-                ShopLiveLogger.debugLog("overlayUrl exist \(overlayUrl.absoluteString)")
+                ShopLiveLogger.tempLog("[OVERLAY RELOAD] overlayUrl exist \(overlayUrl.absoluteString)")
             } else {
                 ShopLiveLogger.debugLog(".overlayUrl")
             }

@@ -223,8 +223,8 @@ class ViewController: UIViewController {
     }
     
     @objc func shortsCollectionViewBtnTapped(sender : UIButton) {
-        let vc = ShortsCollectionExampleView()
-        vc.modalPresentationStyle = .formSheet
+        let vc = UINavigationController(rootViewController: ShortsCollectionExampleView())
+        vc.modalPresentationStyle = .overFullScreen
         self.present(vc, animated: true)
     }
     
