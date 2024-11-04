@@ -29,9 +29,11 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
     
     public var resultHandler: ((Result) -> ())?
     
-    let shortsCollectionView : V1ShortsDetailCollectionView
-    
+    var shortsV1CollectionView : V1ShortsDetailCollectionView?
+    var shortsV2CollectionView : V2ShortsCollectionView?
+
     public init(requestData : ShopLiveShortformCollectionData?){
+        super.init(frame: .zero)
         let internalShortFormRequestData = InternalShortformCollectionDto()
         internalShortFormRequestData.tags = requestData?.tags
         internalShortFormRequestData.tagSearchOperator = requestData?.tagSearchOperator?.rawValue
@@ -41,7 +43,7 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
         internalShortFormRequestData.skus = requestData?.skus
         internalShortFormRequestData.delegate = requestData?.delegate
         let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
-        shortsCollectionView = V1ShortsDetailCollectionView(reference : requestData?.reference,
+        shortsV1CollectionView = V1ShortsDetailCollectionView(reference : requestData?.reference,
                                                             shortsMode: .detail,
                                                             showType: .normal,
                                                             shortsId: requestData?.shortsId,
@@ -49,9 +51,14 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
                                                             normalRequestParameterModel: internalShortFormRequestData,
                                                             viewProvideType: .view,
                                                             shopliveSessionId: shopliveSessionId)
+        setV1Layout()
+    }
+    
+    
+    public init(shortformIdsData : ShopLiveShortformIdsData, dataSourceDelegate : ShortsCollectionViewDataSourcRequestDelegate, shortsCollectionDelegate : ShopLiveShortformReceiveHandlerDelegate?) {
         super.init(frame: .zero)
-        setLayout()
-        
+        shortsV2CollectionView = V2ShortsCollectionView(shortformIdsData: shortformIdsData, requestDelegate: dataSourceDelegate, shortformDelegate: shortsCollectionDelegate)
+        setV2Layout()
     }
     
     required init?(coder: NSCoder) {
@@ -74,33 +81,97 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
     }
     
     private func onStartRotation(size : CGSize) {
+        let shortsCollectionView : ShortsCollectionBaseView
+        if let shortsV1CollectionView = shortsV1CollectionView {
+            shortsCollectionView = shortsV1CollectionView
+        }
+        else if let shortsV2CollectionView = shortsV2CollectionView {
+            shortsCollectionView = shortsV2CollectionView
+        }
+        else {
+            return
+        }
         if shortsCollectionView.getCurrentShortsMode() == .detail {
             shortsCollectionView.onStartRotation(to: size)
         }
     }
     
     private func onChangingRotation(size : CGSize) {
+        let shortsCollectionView : ShortsCollectionBaseView
+        if let shortsV1CollectionView = shortsV1CollectionView {
+            shortsCollectionView = shortsV1CollectionView
+        }
+        else if let shortsV2CollectionView = shortsV2CollectionView {
+            shortsCollectionView = shortsV2CollectionView
+        }
+        else {
+            return
+        }
         if shortsCollectionView.getCurrentShortsMode() == .detail {
             shortsCollectionView.onChangingRotation(to: size)
         }
     }
     
     private func onFinishedRotation(size : CGSize) {
+        let shortsCollectionView : ShortsCollectionBaseView
+        if let shortsV1CollectionView = shortsV1CollectionView {
+            shortsCollectionView = shortsV1CollectionView
+        }
+        else if let shortsV2CollectionView = shortsV2CollectionView {
+            shortsCollectionView = shortsV2CollectionView
+        }
+        else {
+            return
+        }
         if shortsCollectionView.getCurrentShortsMode() == .detail {
             shortsCollectionView.onFinishedRotation(on: size)
         }
     }
     
     private func onPlay() {
+        let shortsCollectionView : ShortsCollectionBaseView
+        if let shortsV1CollectionView = shortsV1CollectionView {
+            shortsCollectionView = shortsV1CollectionView
+        }
+        else if let shortsV2CollectionView = shortsV2CollectionView {
+            shortsCollectionView = shortsV2CollectionView
+        }
+        else {
+            return
+        }
         shortsCollectionView.playeCurrentCell()
     }
     
     private func onPause() {
+        let shortsCollectionView : ShortsCollectionBaseView
+        if let shortsV1CollectionView = shortsV1CollectionView {
+            shortsCollectionView = shortsV1CollectionView
+        }
+        else if let shortsV2CollectionView = shortsV2CollectionView {
+            shortsCollectionView = shortsV2CollectionView
+        }
+        else {
+            return
+        }
         shortsCollectionView.pauseCells()
     }
 }
 extension ShopLiveShortsCollectionView {
-    private func setLayout() {
+    private func setV1Layout() {
+        guard let shortsCollectionView = shortsV1CollectionView else { return }
+        self.addSubview(shortsCollectionView)
+        shortsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            shortsCollectionView.topAnchor.constraint(equalTo: self.topAnchor),
+            shortsCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            shortsCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            shortsCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
+    }
+    
+    private func setV2Layout() {
+        guard let shortsCollectionView = shortsV2CollectionView else { return }
         self.addSubview(shortsCollectionView)
         shortsCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
