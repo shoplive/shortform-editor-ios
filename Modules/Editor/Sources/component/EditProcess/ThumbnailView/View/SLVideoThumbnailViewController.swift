@@ -82,15 +82,14 @@ class SLVideoThumbnailViewController : UIViewController {
         return player
     }()
     
-    lazy private var pickerSelectedThumbnailImageView : UIImageView = {
-        let imageView = UIImageView()
+    lazy private var pickerSelectedThumbnailImageView : SLCropableUIImageView = {
+        let imageView = SLCropableUIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.backgroundColor = .white
+        imageView.action( .setClipsToBound(true) )
+        imageView.action( .setCornerRadius(design.videoPlayerCornerRadius))
+        imageView.action( .setImageViewContentMode(.scaleAspectFit))
+        imageView.backgroundColor = .clear
         imageView.isHidden = true
-        imageView.layer.cornerRadius = design.videoPlayerCornerRadius
-        ShopLiveLogger.tempLog("corner \(design.videoPlayerCornerRadius) ")
         return imageView
     }()
     
@@ -245,7 +244,9 @@ extension SLVideoThumbnailViewController {
         let glkViewSize = playerView.getGLKViewSize()
         pickerSelectedThumbnailWidthAnc.constant = glkViewSize.width
         pickerSelectedThumbnailHeightAnc.constant = glkViewSize.height
-        pickerSelectedThumbnailImageView.image = image
+        view.layoutIfNeeded()
+        pickerSelectedThumbnailImageView.action( .setCropViewSize(glkViewSize) )
+        pickerSelectedThumbnailImageView.action( .setImage(image) )
         pickerSelectedThumbnailImageView.isHidden = false
     }
     
