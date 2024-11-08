@@ -21,6 +21,7 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
         case setSoundMuteStateOnFirstPlay
         case cleanUpMemory
         case setIsReplayMode(Bool)
+        case setAudioSessionCategory
     }
     
     enum Result {
@@ -58,11 +59,34 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
             self.onCleanUpMemory()
         case .setSoundMuteStateOnFirstPlay:
             self.onSetSoundMuteStateOnFirtPlay()
+        case .setAudioSessionCategory:
+            self.onSetAudioSessionCategory()
         }
     }
     
     private func onSetIsReplayMode(isReplayMode : Bool) {
         self.isReplayMode = isReplayMode
+    }
+    
+    private func onSetAudioSessionCategory() {
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            do {
+                if ShopLiveConfiguration.SoundPolicy.useMixWithOthers {
+                    try audioSession.setCategory(.playback, options: [.mixWithOthers])
+                }
+                else {
+                    try audioSession.setCategory(.playback)
+                }
+                
+                try audioSession.setMode(.default)
+                try audioSession.setActive(true, options: [.notifyOthersOnDeactivation])
+            }
+            catch(let error) {
+                print("[SHOPLIVE] audioSession category setting failed \(error.localizedDescription)")
+            }
+        }
     }
 
     private func onSetSoundMuteStateOnFirtPlay() {
@@ -80,15 +104,6 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
     
     func addObserver() {
         do {
-            try audioSession.setMode(.default)
-            if ShopLiveConfiguration.SoundPolicy.useMixWithOthers {
-                try audioSession.setCategory(.playback, options: [.mixWithOthers])
-            }
-            else {
-                try audioSession.setCategory(.playback)
-            }
-
-            try audioSession.setActive(true, options: [])
             audioSession.addObserver(self, forKeyPath: "outputVolume",
                                options: NSKeyValueObservingOptions.new, context: nil)
             audioSessionObservationInfo = audioSession.observationInfo

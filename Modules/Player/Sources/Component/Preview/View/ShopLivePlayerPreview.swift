@@ -79,9 +79,9 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
     override init(frame : CGRect) {
         super.init(frame:.zero)
         self.clipsToBounds = true
+        viewModel.action( .setAudioSessonCategory )
         bindViewModel()
         self.setLayout()
-        
     }
     
     required init?(coder : NSCoder) {
@@ -599,7 +599,7 @@ extension ShopLivePlayerPreview {
     }
     
     private func setUpOverlayWebView() {
-        let overlayView = OverlayWebView(with: webViewConfiguration)
+        let overlayView = OverlayWebView(with: webViewConfiguration, removeStaticInstanceWithDeinit: false)
         overlayView.setupOverlayWebView()
         overlayView.webviewUIDelegate = self
         overlayView.delegate = self

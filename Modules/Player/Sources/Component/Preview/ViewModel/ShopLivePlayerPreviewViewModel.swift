@@ -29,7 +29,7 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     private var playerItem : AVPlayerItem?
     private var videoOutput : AVPlayerItemVideoOutput?
     private var playerLayer : AVPlayerLayer?
-    private var currentPlayCommand : PlayControlManager.PlayCommand = .stop
+    private var currentPlayCommand : PlayControlManager.PlayCommand = .none
     private var refreshTimer : DispatchSourceTimer? // 30초우에 preview 갱신하는 타이머
     
     
@@ -98,6 +98,7 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         case setResizeMode(ShopLiveResizeMode)
         case setRefreshTimer
         case setResolution(ShopLivePlayerPreviewResolution)
+        case setAudioSessonCategory
         case parseRatioStringAndSetData(String)
         case tearDownViewModel
         
@@ -207,6 +208,8 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
             onSetRefreshTimer()
         case .setResolution(let resolution):
             self.onSetResolution(resolution : resolution)
+        case .setAudioSessonCategory:
+            self.onSetAudioSessionCategory()
         case .parseRatioStringAndSetData(let ratio):
             onParseRatioStringAndSetData(ratio: ratio)
         case .tearDownViewModel:
@@ -340,6 +343,10 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     
     private func onSetWebViewLoadingCompleted(isCompleted : Bool) {
         self.isWebViewDidCompleteLoading = isCompleted
+    }
+    
+    private func onSetAudioSessionCategory() {
+        ShopLivePlayerPreviewAudioSessionManager.shared.action( .setAudioSessionCategory )
     }
     
     private func onSetResolution(resolution : ShopLivePlayerPreviewResolution) {
@@ -767,10 +774,9 @@ extension ShopLivePlayerPreviewViewModel {
     
     private func onPlayerItemStatusReadyToPlay() {
         guard let pm = playControlManager else { return }
-    
         ShopLiveLogger.tempLog("[PlayerStatus] playerItemReadyToPlay")
         if pm.getCurrentPlayCommand() != .pause, pm.getCurrentPlayCommand() != .play {
-            if pm.getIsReplayMode() && pm.getCurrentPlayCommand() == .resume { return }
+            if pm.getCurrentPlayCommand() == .resume { return }
             if let duration = pm.getVideoDuration(),
                pm.getIsReplayMode() {
                 resultHandler?( .sendEventToWeb(event: .onVideoDurationChanged, param: CMTimeGetSeconds(duration), wrapping: false, dedicatedCompletionType: nil))
@@ -985,6 +991,10 @@ extension ShopLivePlayerPreviewViewModel {
     
     func getCurrentResolution() -> ShopLivePlayerPreviewResolution {
         return self.currentResolution
+    }
+    
+    func getCurrentPlayCommand() -> PlayControlManager.PlayCommand {
+        return playControlManager?.getCurrentPlayCommand() ?? .none
     }
 }
 //MARK: - bind PlayControlManager

@@ -51,6 +51,9 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
     }
     
     func didTouchWebViewPlayButton() {
+        if viewModel.getCurrentPlayCommand() == .none {
+            return
+        }
         viewModel.action( .playControlAction(.play) )
     }
     

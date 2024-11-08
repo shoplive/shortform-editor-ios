@@ -775,7 +775,7 @@ extension LiveStreamViewController {
     
     
     func setupOverayWebview() {
-        let overlayView = OverlayWebView(with: webViewConfiguration)
+        let overlayView = OverlayWebView(with: webViewConfiguration, removeStaticInstanceWithDeinit: true)
         overlayView.setupOverlayWebView()
         overlayView.webviewUIDelegate = self
         overlayView.delegate = self

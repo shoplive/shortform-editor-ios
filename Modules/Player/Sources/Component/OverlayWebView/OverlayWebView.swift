@@ -28,11 +28,14 @@ internal class OverlayWebView: SLView {
         }
     }
     
+    private var removeStaticInstanceWithDeinit : Bool = false
+    private var uuidString = UUID().uuidString
     /**
      must call setupOverlayWebView
      */
-    init(with webViewConfiguration: WKWebViewConfiguration? =  nil) {
+    init(with webViewConfiguration: WKWebViewConfiguration? =  nil, removeStaticInstanceWithDeinit : Bool) {
         super.init(frame: .zero)
+        self.removeStaticInstanceWithDeinit = removeStaticInstanceWithDeinit
         setUpWebView(with: webViewConfiguration)
     }
     
@@ -58,7 +61,9 @@ internal class OverlayWebView: SLView {
         webView?.removeFromSuperview()
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
         webView = nil
-        ShopLiveController.shared.webInstance = nil
+        if self.removeStaticInstanceWithDeinit {
+            ShopLiveController.shared.webInstance = nil
+        }
         delegate = nil
     }
     
@@ -74,7 +79,9 @@ internal class OverlayWebView: SLView {
         let webView = ShopLiveWebView(frame: CGRect.zero, configuration: self.setWebConfiguration())
         self.webView = webView
         webView.scrollView.delegate = self
-        ShopLiveController.webInstance = webView
+        if removeStaticInstanceWithDeinit {
+            ShopLiveController.webInstance = webView
+        }
         addSubview(webView)
         webView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -500,7 +507,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
     }
     
     var identifier: String {
-        return "OverlayWebView"
+        return "OverlayWebView\(self.uuidString)"
     }
     
     func updatedValue(key: ShopLivePlayerObserveValue) {
@@ -512,8 +519,6 @@ extension OverlayWebView: ShopLivePlayerDelegate {
             if let overlayUrl = ShopLiveController.overlayUrl {
                 self.loadOverlay(with: overlayUrl)
                 ShopLiveLogger.tempLog("[OVERLAY RELOAD] overlayUrl exist \(overlayUrl.absoluteString)")
-            } else {
-                ShopLiveLogger.debugLog(".overlayUrl")
             }
             break
         default:

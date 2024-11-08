@@ -33,6 +33,7 @@ class PlayControlManager : NSObject, SLReactor {
         case pause
         case stop
         case resume
+        case none
     }
     
     enum Action {
@@ -63,7 +64,7 @@ class PlayControlManager : NSObject, SLReactor {
     private var needSeek : Bool = false
     private var needReload : Bool = false
     private var isScreenLock : Bool = false
-    private var currentPlayCommand : PlayCommand = .stop
+    private var currentPlayCommand : PlayCommand = .none
     
     
     var resultHandler: ((Result) -> ())?
