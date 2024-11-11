@@ -96,7 +96,6 @@ class CardTypeExampleViewController : UIViewController {
             collectionView?.backgroundColor = .white
             setCollectionViewLayout()
             builder?.submit()
-            
         }
     }
     

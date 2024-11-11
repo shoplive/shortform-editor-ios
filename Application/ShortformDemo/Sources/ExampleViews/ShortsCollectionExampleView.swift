@@ -95,10 +95,10 @@ extension ShortsCollectionExampleView {
             btn.widthAnchor.constraint(equalToConstant: 50),
             btn.heightAnchor.constraint(equalToConstant: 50),
             
-            shortsCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            shortsCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor,constant: 60),
             shortsCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             shortsCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            shortsCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            shortsCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: -60)
         ])
     }
 }

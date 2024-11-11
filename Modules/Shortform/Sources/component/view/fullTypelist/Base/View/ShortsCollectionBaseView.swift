@@ -556,8 +556,6 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
             }
         }
     }
-    
-    
 }
 
 extension ShortsCollectionBaseView {

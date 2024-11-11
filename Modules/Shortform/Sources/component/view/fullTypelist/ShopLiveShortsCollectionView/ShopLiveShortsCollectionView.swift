@@ -24,9 +24,7 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
     public enum Result {
         
     }
-    
-    
-    
+   
     public var resultHandler: ((Result) -> ())?
     
     var shortsV1CollectionView : V1ShortsDetailCollectionView?
@@ -45,7 +43,7 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
         let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
         shortsV1CollectionView = V1ShortsDetailCollectionView(reference : requestData?.reference,
                                                             shortsMode: .detail,
-                                                            showType: .normal,
+                                                              showType: .normal,
                                                             shortsId: requestData?.shortsId,
                                                             shortsSrn: nil,
                                                             normalRequestParameterModel: internalShortFormRequestData,
@@ -65,6 +63,12 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+        guard let shortsCollectionView = getShortsCollectionView() else { return }
+        shortsCollectionView.updateItemSize(self.frame.size)
+    }
+    
     public func action(_ action: Action) {
         switch action {
         case .onStartRotation(let size):
@@ -81,68 +85,38 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
     }
     
     private func onStartRotation(size : CGSize) {
-        let shortsCollectionView : ShortsCollectionBaseView
-        if let shortsV1CollectionView = shortsV1CollectionView {
-            shortsCollectionView = shortsV1CollectionView
-        }
-        else if let shortsV2CollectionView = shortsV2CollectionView {
-            shortsCollectionView = shortsV2CollectionView
-        }
-        else {
-            return
-        }
+        guard let shortsCollectionView = getShortsCollectionView() else { return }
         if shortsCollectionView.getCurrentShortsMode() == .detail {
             shortsCollectionView.onStartRotation(to: size)
         }
     }
     
     private func onChangingRotation(size : CGSize) {
-        let shortsCollectionView : ShortsCollectionBaseView
-        if let shortsV1CollectionView = shortsV1CollectionView {
-            shortsCollectionView = shortsV1CollectionView
-        }
-        else if let shortsV2CollectionView = shortsV2CollectionView {
-            shortsCollectionView = shortsV2CollectionView
-        }
-        else {
-            return
-        }
+        guard let shortsCollectionView = getShortsCollectionView() else { return }
         if shortsCollectionView.getCurrentShortsMode() == .detail {
             shortsCollectionView.onChangingRotation(to: size)
         }
     }
     
     private func onFinishedRotation(size : CGSize) {
-        let shortsCollectionView : ShortsCollectionBaseView
-        if let shortsV1CollectionView = shortsV1CollectionView {
-            shortsCollectionView = shortsV1CollectionView
-        }
-        else if let shortsV2CollectionView = shortsV2CollectionView {
-            shortsCollectionView = shortsV2CollectionView
-        }
-        else {
-            return
-        }
+        guard let shortsCollectionView = getShortsCollectionView() else { return }
         if shortsCollectionView.getCurrentShortsMode() == .detail {
             shortsCollectionView.onFinishedRotation(on: size)
         }
     }
     
     private func onPlay() {
-        let shortsCollectionView : ShortsCollectionBaseView
-        if let shortsV1CollectionView = shortsV1CollectionView {
-            shortsCollectionView = shortsV1CollectionView
-        }
-        else if let shortsV2CollectionView = shortsV2CollectionView {
-            shortsCollectionView = shortsV2CollectionView
-        }
-        else {
-            return
-        }
+        guard let shortsCollectionView = getShortsCollectionView() else { return }
         shortsCollectionView.playeCurrentCell()
     }
     
     private func onPause() {
+        guard let shortsCollectionView = getShortsCollectionView() else { return }
+        shortsCollectionView.pauseCells()
+    }
+}
+extension ShopLiveShortsCollectionView {
+    private func getShortsCollectionView() -> ShortsCollectionBaseView? {
         let shortsCollectionView : ShortsCollectionBaseView
         if let shortsV1CollectionView = shortsV1CollectionView {
             shortsCollectionView = shortsV1CollectionView
@@ -151,9 +125,9 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
             shortsCollectionView = shortsV2CollectionView
         }
         else {
-            return
+            return nil
         }
-        shortsCollectionView.pauseCells()
+        return shortsCollectionView
     }
 }
 extension ShopLiveShortsCollectionView {
