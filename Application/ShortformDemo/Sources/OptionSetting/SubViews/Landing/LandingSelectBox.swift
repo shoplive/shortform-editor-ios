@@ -28,7 +28,7 @@ class LandingSelectBox : UIView {
     
     private var devLabel : UILabel = {
         let label = UILabel()
-        label.text = "a1AW6QRCXeoZ9MEWRdDQ"
+        label.text = "q3hZYwpJ1xukW8bTDsxj"
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         label.textColor = .black
         return label

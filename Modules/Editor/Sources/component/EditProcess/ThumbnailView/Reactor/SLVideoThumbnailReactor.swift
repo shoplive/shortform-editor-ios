@@ -185,11 +185,8 @@ extension SLVideoThumbnailReactor {
                 self.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: e)
                 self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: e)
             }
-            
         }
-        
     }
-    
     
     private func getExtractThumbnail(at targetSec : Double, completion : @escaping(UIImage?) -> ()) {
         imageGeneratorQueue.sync { [weak self] in
@@ -207,7 +204,7 @@ extension SLVideoThumbnailReactor {
 }
 extension SLVideoThumbnailReactor : SLPhotosPickerViewControllerDelegate {
     func photoPicker(didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
-        /** no - op*/
+        /** no - op */
     }
     
     func photoPicker(didSelectImage url: URL) {
@@ -230,7 +227,6 @@ extension SLVideoThumbnailReactor : SLPhotosPickerViewControllerDelegate {
     func photoPiker(onClose picker: UIViewController) {
         picker.dismiss(animated: true)
     }
-    
 }
 extension SLVideoThumbnailReactor : SLLoadingAlertControllerDelegate {
     func didCancelLoading() {
@@ -269,7 +265,6 @@ extension SLVideoThumbnailReactor : SLVideoConverterDelegate {
 }
 //MARK: - uploadProcess
 extension SLVideoThumbnailReactor {
-    
     private func callShortformUploadablAPI() {
         resultHandler?( .showLoadingView )
         ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result  in
@@ -324,8 +319,6 @@ extension SLVideoThumbnailReactor {
                     }
                 }
         }
-        
-        
     }
 
     private func callShortformRegisterAPI(videoId : Int, imageUrl : String?){
@@ -334,7 +327,7 @@ extension SLVideoThumbnailReactor {
             SLShortformRegisterAPI(parameters: self.makeShortsJson(videoId: videoId, imageUrl: imageUrl)).request { result in
                 switch result {
                 case .success(_):
-                    self.shortformEditorDelegate?.onShopLiveShortformEditorUploadSuccess?()
+                    self.shortformEditorDelegate?.onShopLiveShortformEditorUploadSuccess?(videoPath: "")
                     self.removeVideoFile()
                     break
                 case .failure(let error):

@@ -53,10 +53,11 @@ internal final class ShopLiveWebView: SLWKWebView {
 
     func sendEventToWeb(event: WebInterface, _ param: Any? = nil, _ wrapping: Bool = false) {
         let command: String = param == nil ? "window.__receiveAppEvent('\(event.functionString)');" : "window.__receiveAppEvent('\(event.functionString)', " + (wrapping ? "'\(String(describing: param!))');" : "\(String(describing: param!)));")
-//        ShopLiveLogger.debugLog(command)
-        if event.functionString != WebInterface.onVideoTimeUpdated.functionString && event.functionString != WebInterface.onVideoMetadataUpdated.functionString {
-            ShopLiveLogger.debugLog("to Web [Interface: \(event.functionString)]: [payload: \(String(describing: param))]")
-        }
+//        ShopLiveLogger.tempLog("[WEBVIEWESEND] \(command)")
+        ShopLiveLogger.tempLog("to Web [Interface: \(event.functionString)]: [payload: \(String(describing: param))]")
+//        if event.functionString != WebInterface.onVideoTimeUpdated.functionString && event.functionString != WebInterface.onVideoMetadataUpdated.functionString {
+//            ShopLiveLogger.tempLog("to Web [Interface: \(event.functionString)]: [payload: \(String(describing: param))]")
+//        }
         if isLoaded == false {
             self.queuedRequest.append(command)
         }

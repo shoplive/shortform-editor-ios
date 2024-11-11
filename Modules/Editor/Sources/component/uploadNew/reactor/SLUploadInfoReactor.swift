@@ -397,7 +397,7 @@ extension SLUploadInfoReactor {
             guard let self = self else { return }
             switch result {
             case .success(_):
-                self.shortformEditorDelegate?.onShopLiveShortformEditorUploadSuccess?()
+                self.shortformEditorDelegate?.onShopLiveShortformEditorUploadSuccess?(videoPath: "")
                 self.onMainQueueResultHandler?(.setLoadingVisible(false))
                 self.removeVideoFile()
                 ShopLiveShortformEditor().close()

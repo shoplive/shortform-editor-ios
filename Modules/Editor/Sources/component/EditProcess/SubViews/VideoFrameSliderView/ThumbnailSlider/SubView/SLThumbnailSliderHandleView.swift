@@ -163,3 +163,8 @@ extension SLThumbnailSliderHandleView : UIGestureRecognizerDelegate {
     
     
 }
+extension SLThumbnailSliderHandleView {
+    func getHandleMargin() -> CGFloat {
+        return handleMargin
+    }
+}

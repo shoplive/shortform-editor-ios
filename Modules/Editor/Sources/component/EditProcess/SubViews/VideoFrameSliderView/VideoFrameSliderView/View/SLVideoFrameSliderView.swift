@@ -16,9 +16,14 @@ class SLVideoFrameSliderView : UIView, SLReactor {
     
     
     enum Action {
+        //videoUrl setting 되고 나서 초기화 시작
+        case initialize
         case resetAndRedraw
         case calculateFrameSize
         case scrollTo(CGFloat)
+        case setVideoUrl(URL)
+        case setVideoTrimMode(SLVideoFrameSliderReactor.Mode)
+        case changeThumbnailFrameToPickerImage(UIImage?)
     }
     
     enum Result {
@@ -46,24 +51,18 @@ class SLVideoFrameSliderView : UIView, SLReactor {
         cv.backgroundColor = .clear
         return cv
     }()
-    
-    
+   
     var resultHandler: ((Result) -> ())?
     
-    private let reactor : SLVideoFrameSliderReactor
+    private let reactor : SLVideoFrameSliderReactor = SLVideoFrameSliderReactor()
 
-    
-    
-    
-    init(videoUrl : URL,mode : SLVideoFrameSliderReactor.Mode = .timeTrim) {
-        reactor = SLVideoFrameSliderReactor(videoUrl: videoUrl,mode: mode)
+    override init(frame : CGRect) {
         super.init(frame: .zero)
         self.backgroundColor = .clear
         bindReactor()
         setLayout()
         
-        reactor.action( .viewDidLoad )
-        reactor.action( .calculateFrameSize )
+        
     }
     
     required init(coder : NSCoder) {
@@ -81,19 +80,44 @@ class SLVideoFrameSliderView : UIView, SLReactor {
     
     func action(_ action: Action) {
         switch action {
+        case .initialize:
+            self.onInitialize()
+        case .setVideoUrl(let url):
+            self.onSetVideoUrl(url: url)
+        case .setVideoTrimMode(let mode):
+            self.onSetVideoTrimMode(mode: mode)
         case .calculateFrameSize:
             reactor.action( .calculateFrameSize )
         case .resetAndRedraw:
             reactor.action( .resetAndRedraw )
         case .scrollTo(let offset):
             self.onScrollTo(offset: offset)
+        case .changeThumbnailFrameToPickerImage(let pickerImage):
+            self.onChangeThumbnailFrameToPickerImage(pickerImage: pickerImage)
         }
+    }
+    
+    private func onInitialize() {
+        reactor.action( .viewDidLoad )
+        reactor.action( .calculateFrameSize )
+    }
+    
+    private func onSetVideoUrl(url : URL) {
+        reactor.action( .setVideoUrl(url) )
+    }
+    
+    private func onSetVideoTrimMode(mode : SLVideoFrameSliderReactor.Mode) {
+        reactor.action( .setTrimMode(mode) )
     }
     
     private func onScrollTo(offset : CGFloat) {
         reactor.action( .setBlockScrollDidScrollEvent(true) )
         frameCollectionView.contentOffset.x = offset
         reactor.action( .setBlockScrollDidScrollEvent(false) )
+    }
+    
+    private func onChangeThumbnailFrameToPickerImage(pickerImage : UIImage?) {
+        reactor.action( .changeThumbnailFrameToPickerImage(pickerImage) )
     }
     
     

@@ -11,19 +11,21 @@ import UIKit
 import AVKit
 import ShopliveSDKCommon
 
-
-
 class SLThumbnailSliderView : UIView,SLReactor {
     
     enum Action {
+        // videoUrl setting 되고 나서 초기화 시작
+        case initializeSliderView
         case initializeThumbView
         case seekToHandleViewTo(CMTime)
+        case setVideoUrl(URL)
+        
+        case changeThumbnailFrameToPickerImage(UIImage?)
     }
     
     enum Result {
         case seekTo(CMTime)
     }
-    
     
     let frameSliderView : SLVideoFrameSliderView
     
@@ -39,15 +41,14 @@ class SLThumbnailSliderView : UIView,SLReactor {
         return view
     }()
     
-    
     var resultHandler: ((Result) -> ())?
     
     private let reactor = SLThumbnailSliderReactor()
     private var containerCornerRadius : CGFloat = 0
     private var thumbViewBorderColor : UIColor = .white
     
-    init(videoUrl : URL,containerCornerRadius : CGFloat, thumbViewBorderColor : UIColor) {
-        self.frameSliderView = SLVideoFrameSliderView(videoUrl: videoUrl,mode: .thumbnail)
+    init(containerCornerRadius : CGFloat, thumbViewBorderColor : UIColor) {
+        self.frameSliderView = SLVideoFrameSliderView()
         self.containerCornerRadius = containerCornerRadius
         self.thumbViewBorderColor = thumbViewBorderColor
         super.init(frame: .zero)
@@ -66,20 +67,40 @@ class SLThumbnailSliderView : UIView,SLReactor {
     
     func action(_ action: Action) {
         switch action {
+        case .initializeSliderView:
+            self.onInitializeSliderView()
+        case .setVideoUrl(let url):
+            self.onSetVideoUrl(url: url)
         case .initializeThumbView:
             self.onInitializeThumbView()
         case .seekToHandleViewTo(let time):
             self.onSeekToHandleViewTo(time: time)
+        case .changeThumbnailFrameToPickerImage(let pickerImage):
+            self.onChangeThumbnailFrameToPickerImage(pickerImage: pickerImage)
         }
+    }
+    
+    private func onInitializeSliderView() {
+        frameSliderView.action( .initialize )
+    }
+    
+    private func onSetVideoUrl(url : URL) {
+        frameSliderView.action( .setVideoUrl(url) )
     }
     
     private func onInitializeThumbView() {
         handleView.action( .initializeThumbView )
+        dimView.makeHandleViewAreaClear(rect: CGRect(origin: .init(x: handleView.getHandleMargin(), y: 0), size: .init(width: 60 * (CGFloat(9) / CGFloat(16)), height: 60)))
     }
     
     private func onSeekToHandleViewTo(time : CMTime) {
-        ShopLiveLogger.debugLog("[HASSAN LOG] onSeekToHandleView to time \(time.seconds)")
         reactor.action( .seekToHandleViewTo(targetTime: time, cvWidth: frameSliderView.getCollectionViewSize().width, cvContentSize: frameSliderView.getCollectionContentViewSize().width) )
+    }
+    
+    private func onChangeThumbnailFrameToPickerImage(pickerImage : UIImage?) {
+        handleView.isUserInteractionEnabled = pickerImage == nil
+        frameSliderView.isUserInteractionEnabled = pickerImage == nil
+        frameSliderView.action( .changeThumbnailFrameToPickerImage( pickerImage) )
     }
 }
 //MARK: - bind Reactor
@@ -124,7 +145,6 @@ extension SLThumbnailSliderView {
     }
     
     private func onFrameSliderSetTimePerPixel(value : CGFloat) {
-        ShopLiveLogger.debugLog("[HASSAN LOG] timePerPixel info setted ")
         reactor.action( .setTimePerPixel(value) )
         handleView.action( .setTimePerPixel(value) )
     }

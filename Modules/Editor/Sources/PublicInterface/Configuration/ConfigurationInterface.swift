@@ -24,3 +24,4 @@ protocol SLVisibleContent {
     var isDescriptionVisible : Bool { get set }
     var isTagsVisible : Bool { get set }
 }
+

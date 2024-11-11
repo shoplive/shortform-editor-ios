@@ -20,6 +20,9 @@ class SLVideoFrameSliderReactor : NSObject, SLReactor {
         case resetAndRedraw
         case registerCv(UICollectionView)
         case setBlockScrollDidScrollEvent(Bool)
+        case setVideoUrl(URL)
+        case setTrimMode(Mode)
+        case changeThumbnailFrameToPickerImage(UIImage?)
     }
     
     enum Result {
@@ -58,7 +61,7 @@ class SLVideoFrameSliderReactor : NSObject, SLReactor {
     private var pixelPerTime : CGFloat = 0
     
     private var videoRatio: CGSize = CGSize(width: 9, height: 16)
-    private var videoUrl: URL
+    private var videoUrl: URL?
     private var videoAsset : AVAsset?
     private var videoDuration: CGFloat = 0
     private var minTrimTime : CGFloat  {
@@ -69,7 +72,7 @@ class SLVideoFrameSliderReactor : NSObject, SLReactor {
         return globalConfig.shared.videoTrimOption.maxVideoDuration
     }
     
-    private var imageGenerator : AVAssetImageGenerator
+    private var imageGenerator : AVAssetImageGenerator?
     private var imageGeneratorQueue = DispatchQueue(label: "shopLiveImageGeneratorQueue",qos: .background)
     private var maxFrameCounts : Int = 0
     private var frameImages : [UIImage] = []
@@ -77,7 +80,7 @@ class SLVideoFrameSliderReactor : NSObject, SLReactor {
     private var index2timeDict : [Int : Double] = [:]
     private var time2ImageDict : [Double : UIImage] = [:]
     private var lastFrameTargetTime : Double = 0
-    
+    private var pickerImage : UIImage?
     
     private var blockScrollDidScrollEvent : Bool = false
     private var currentMode : Mode = .timeTrim
@@ -85,17 +88,9 @@ class SLVideoFrameSliderReactor : NSObject, SLReactor {
     
     var resultHandler: ((Result) -> ())?
     
-    init(videoUrl : URL, mode : Mode) {
-        self.videoUrl = videoUrl
-        self.currentMode = mode
-        videoAsset = AVAsset(url: videoUrl)
-        self.imageGenerator = AVAssetImageGenerator(asset: videoAsset! )
-        self.imageGenerator.appliesPreferredTrackTransform = true
-        self.imageGenerator.maximumSize = CGSize(width: 720, height: 1280)
-        self.imageGenerator.apertureMode = .cleanAperture
+    override init() {
         super.init()
     }
-    
     
     func action(_ action: Action) {
         switch action {
@@ -109,6 +104,12 @@ class SLVideoFrameSliderReactor : NSObject, SLReactor {
             self.onRegisterCv(cv: cv)
         case .setBlockScrollDidScrollEvent(let block):
             self.onBlockScrollDidScrollEvent(block: block)
+        case .setVideoUrl(let url):
+            self.onSetVideoUrl(url: url)
+        case .setTrimMode(let mode):
+            self.onSetTrimMode(mode: mode)
+        case .changeThumbnailFrameToPickerImage(let pickerImage):
+            self.onChangeThumbnailFrameToPickerImage(pickerImage : pickerImage)
         }
     }
     
@@ -143,8 +144,24 @@ class SLVideoFrameSliderReactor : NSObject, SLReactor {
     private func onBlockScrollDidScrollEvent(block : Bool) {
         self.blockScrollDidScrollEvent = block
     }
-   
     
+    private func onSetVideoUrl(url : URL) {
+        self.videoUrl = url
+        videoAsset = AVAsset(url: url)
+        self.imageGenerator = AVAssetImageGenerator(asset: videoAsset! )
+        self.imageGenerator?.appliesPreferredTrackTransform = true
+        self.imageGenerator?.maximumSize = CGSize(width: 720, height: 1280)
+        self.imageGenerator?.apertureMode = .cleanAperture
+    }
+    
+    private func onSetTrimMode(mode : Mode) {
+        self.currentMode = mode
+    }
+    
+    private func onChangeThumbnailFrameToPickerImage(pickerImage : UIImage?) {
+        self.pickerImage = pickerImage
+        self.cv?.reloadData()
+    }
 }
 //MARK: - Frame Calculation
 extension SLVideoFrameSliderReactor {
@@ -261,7 +278,10 @@ extension SLVideoFrameSliderReactor : UICollectionViewDelegate, UICollectionView
             return UICollectionReusableView()
         case UICollectionView.elementKindSectionFooter:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: SLVideoEditorFooterView.viewId, for: indexPath) as! SLVideoEditorFooterView
-            if let image = time2ImageDict[lastFrameTargetTime] { 
+            if let image = self.pickerImage {
+                header.setImage(image: image)
+            }
+            else if let image = time2ImageDict[lastFrameTargetTime] {
                 header.setImage(image: image)
             }
             else {
@@ -290,20 +310,31 @@ extension SLVideoFrameSliderReactor : UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SLVideoEditorTrimFrameCell.cellId, for: indexPath) as! SLVideoEditorTrimFrameCell
         
-        if let targetTime = index2timeDict[indexPath.row] {
-            if let image = time2ImageDict[targetTime] {
-                cell.setImage(image: image )
-            }
-            else {
-                self.extractThumbnailsForNSec(targetSec: targetTime) { [weak self] image in
-                    guard let self = self else { return }
-                    DispatchQueue.main.async {
-                        self.time2ImageDict[targetTime] = image
-                        cell.setImage(image: image)
+        if let pickerImage = pickerImage {
+            cell.setImage(image: pickerImage )
+        }
+        else {
+            if let targetTime = index2timeDict[indexPath.row] {
+                if let image = time2ImageDict[targetTime] {
+                    cell.setImage(image: image )
+                }
+                else {
+                    self.extractThumbnailsForNSec(targetSec: targetTime) { [weak self] image in
+                        guard let self = self else { return }
+                        DispatchQueue.main.async {
+                            self.time2ImageDict[targetTime] = image
+                            if let pickerImage = self.pickerImage {
+                                cell.setImage(image: pickerImage)
+                            }
+                            else {
+                                cell.setImage(image: image)
+                            }
+                        }
                     }
                 }
             }
         }
+        
         return cell
     }
     
@@ -313,8 +344,9 @@ extension SLVideoFrameSliderReactor : UICollectionViewDelegate, UICollectionView
             guard let self = self else { return }
             do {
                 let time = CMTime(seconds: targetSec, preferredTimescale: 44100)
-                let cgImage = try self.imageGenerator.copyCGImage(at: time, actualTime: nil)
-                completion(UIImage.init(cgImage: cgImage))
+                if let cgImage = try self.imageGenerator?.copyCGImage(at: time, actualTime: nil) {
+                    completion(UIImage.init(cgImage: cgImage))
+                }
             }
             catch(let error) {
                 print("imageExtract Error \(error)")

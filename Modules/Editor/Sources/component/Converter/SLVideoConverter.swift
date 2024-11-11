@@ -70,13 +70,13 @@ extension SLVideoInfo {
     var filterVideoPath: String {
         let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let cacheoutput = path.appendingPathComponent("filtered_\(fileName)").deletingPathExtension().appendingPathExtension("mp4")
-        return cacheoutput.absoluteString
+        return cacheoutput.relativePath
     }
     
     var ffmpegOutPutVideoPath : String {
         let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let cacheoutput = path.appendingPathComponent("ffmpeg_\(fileName)").deletingPathExtension().appendingPathExtension("mp4")
-        return cacheoutput.absoluteString
+        return cacheoutput.relativePath
     }
     
     var drawTextCommand : String {

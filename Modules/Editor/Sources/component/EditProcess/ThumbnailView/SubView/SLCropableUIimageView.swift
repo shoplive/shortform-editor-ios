@@ -18,10 +18,11 @@ class SLCropableUIImageView : UIView, SLReactor {
         case setClipsToBound(Bool)
         case setImageViewContentMode(ContentMode)
         case setCropViewSize(CGSize)
+        case requestCroppedImageResult
     }
     
     enum Result {
-        
+        case croppedImageResult(UIImage?)
     }
     
     private let imageView : UIImageView = {
@@ -64,6 +65,8 @@ class SLCropableUIImageView : UIView, SLReactor {
             self.onSetImageViewContentMode(contentMode: contentMode)
         case .setCropViewSize(let size):
             self.onSetCropViewSize(size: size)
+        case .requestCroppedImageResult:
+            self.onRequestCroppedImageResult()
         }
     }
     
@@ -89,9 +92,13 @@ class SLCropableUIImageView : UIView, SLReactor {
         self.cropView.updateCropArea()
         self.cropView.setIsCropAvailable(isAvailable: true)
     }
+    
+    private func onRequestCroppedImageResult() {
+        resultHandler?( .croppedImageResult(getCroppedImage()) )
+    }
 }
 extension SLCropableUIImageView {
-    func getCroppedImage() -> UIImage? {
+    private func getCroppedImage() -> UIImage? {
         guard let convertedRect = self.convertCropRectToActualImageSize(cropRect: cropView.getCropViewRect()) else {
             return imageView.image
         }

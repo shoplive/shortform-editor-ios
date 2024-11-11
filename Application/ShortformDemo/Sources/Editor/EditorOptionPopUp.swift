@@ -78,6 +78,25 @@ class EditorOptionPopUp : UIView {
         return btn
     }()
     
+    private var coverPickerBtn : UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("CoverPicker", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        btn.layer.cornerRadius = 10
+        btn.layer.borderWidth = 1
+        btn.layer.borderColor = UIColor.black.cgColor
+        return btn
+    }()
+    
+    enum Mode {
+        case galleryAndEditor
+        case editorOnly
+        case coverPicker
+    }
+    
+    private var currentMode : Mode = .galleryAndEditor
     
     weak var vc : ViewController?
     let picker = UIImagePickerController()
@@ -91,6 +110,7 @@ class EditorOptionPopUp : UIView {
         galleryAndEditorBtn.addTarget(self, action: #selector(galleryAndEditorBtnTapped(sender: )), for: .touchUpInside)
         onlyEditorBtn.addTarget(self, action: #selector(editorBtnTapped(sender: )), for: .touchUpInside)
 //        bytePlusBtn.addTarget(self, action: #selector(bytePlusBtnTapped(sender: )), for: .touchUpInside)
+        coverPickerBtn.addTarget(self, action: #selector(coverPickerBtnTapped(sender: )), for: .touchUpInside)
         picker.delegate = self
     }
     
@@ -120,10 +140,10 @@ class EditorOptionPopUp : UIView {
                                                                    maxVideoDuration: OptionSettingModel.editorMaxVideoDuration))
             .setDelegate(delegate: vc)
             .start(vc)
-        
     }
     
     @objc func galleryAndEditorBtnTapped(sender : UIButton) {
+        self.currentMode = .galleryAndEditor
         guard let vc = self.vc else { return }
         let cropOption = ShopliveVideoEditorAspectRatio(width: OptionSettingModel.editorWidth,
                                                         height: OptionSettingModel.editorheight,
@@ -134,19 +154,26 @@ class EditorOptionPopUp : UIView {
             .setConfiguration(.init(videoCropOption: cropOption))
             .setDelegate(vc)
             .start(vc)
-        
     }
     
     @objc func editorBtnTapped(sender : UIButton) {
+        self.currentMode = .editorOnly
         picker.sourceType = .photoLibrary
         picker.mediaTypes = [kUTTypeMovie as String]
         vc?.present(picker, animated: true)
     }
     
     @objc func bytePlusBtnTapped(sender : UIButton) {
-        guard let vc = self.vc else { return }
+//        guard let vc = self.vc else { return }
 //        ShopLiveBytePlus.shared
 //            .start(vc: vc,delegate: self)
+    }
+    
+    @objc func coverPickerBtnTapped(sender : UIButton) {
+        self.currentMode = .coverPicker
+        picker.sourceType = .photoLibrary
+        picker.mediaTypes = [kUTTypeMovie as String]
+        vc?.present(picker, animated: true)
     }
     
 }
@@ -158,7 +185,7 @@ extension EditorOptionPopUp {
         stack.addArrangedSubview(shortformEditorBtn)
         stack.addArrangedSubview(galleryAndEditorBtn)
         stack.addArrangedSubview(onlyEditorBtn)
-//        stack.addArrangedSubview(bytePlusBtn)
+        stack.addArrangedSubview(coverPickerBtn)
         
         NSLayoutConstraint.activate([
             dimBtn.topAnchor.constraint(equalTo: self.topAnchor),
@@ -175,7 +202,7 @@ extension EditorOptionPopUp {
             shortformEditorBtn.heightAnchor.constraint(equalToConstant: 40),
             galleryAndEditorBtn.heightAnchor.constraint(equalToConstant: 40),
             onlyEditorBtn.heightAnchor.constraint(equalToConstant: 40),
-//            bytePlusBtn.heightAnchor.constraint(equalToConstant: 40),
+            coverPickerBtn.heightAnchor.constraint(equalToConstant: 40),
         
             boxView.topAnchor.constraint(equalTo: stack.topAnchor,constant: -20),
             boxView.leadingAnchor.constraint(equalTo: stack.leadingAnchor,constant: -20),
@@ -207,12 +234,16 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
             asset.firstObject?.getURL_SL(completionHandler: { [weak self] responseURL in
                 guard let self = self,
                       let url = responseURL else { return }
-                self.openShopLiveEditorOnly(videoURl : url)
+                if self.currentMode == .editorOnly {
+                    self.openShopLiveEditorOnly(videoURl : url)
+                }
+                else if self.currentMode == .coverPicker {
+                    self.openCoverPicker(videoUrl: url)
+                }
             })
         }
         
     }
-    
     
     private func openShopLiveEditorOnly(videoURl : URL) {
         guard let vc = self.vc else { return }
@@ -227,18 +258,10 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
             .start(vc, videoPath: videoURl.path)
     }
     
-    
-    
+    private func openCoverPicker(videoUrl : URL) {
+        guard let vc = self.vc else { return }
+        ShopLiveCoverPicker.shared
+            .setDelegate(vc)
+            .start(vc, videoUrl: videoUrl)
+    }
 }
-//extension EditorOptionPopUp : ShopLiveBytePlusDelegate {
-//    func videoEditorViewControllerTapNext(_ exportModel: EOExportModel, presentVC viewController: UIViewController) {
-//        EOExportViewController.startExport(with: exportModel, presentVC: viewController, delegate: self)
-//    }
-//}
-//extension EditorOptionPopUp : EOExportViewControllerDelegate {
-//    func exportVideoPath(_ videoPath: String, videoImage videoImg: UIImage) {
-//        guard let vc = self.vc else { return }
-//        vc.view.makeToast("VideoPath \(videoPath)")
-//        ShopLiveLogger.debugLog("[HASSAN LOG] bytePlusExportVideoPath \(videoPath)")
-//    }
-//}

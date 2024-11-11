@@ -1,20 +1,20 @@
 //
-//  SLVideoThumbnailViewController.swift
+//  ShopLiveCoverPickerViewController.swift
 //  ShopLiveShortformEditorSDK
 //
-//  Created by sangmin han on 5/13/24.
+//  Created by sangmin han on 11/5/24.
 //  Copyright © 2024 com.app. All rights reserved.
 //
 
 import Foundation
 import UIKit
-import AVKit
+import AVFoundation
 import ShopliveSDKCommon
 
 
-class SLVideoThumbnailViewController : UIViewController {
+
+class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
     private let design = EditorThumbnailConfig.global
-    
     
     private var naviBar : UIView = {
         let view = UIView()
@@ -68,19 +68,21 @@ class SLVideoThumbnailViewController : UIViewController {
         return btn
     }()
     
-    private var playerHolder : UIView = {
+    private let playerHolder : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
         return view
     }()
     
-    lazy private var playerView : ShopLiveFilterPlayer = {
-        let player = ShopLiveFilterPlayer()
-        player.translatesAutoresizingMaskIntoConstraints = false
-        player.layerCornerRadius = design.videoPlayerCornerRadius
-        return player
+    private let playerContainerView : UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        return view
     }()
+    
+    private var playerLayer : AVPlayerLayer?
     
     lazy private var pickerSelectedThumbnailImageView : SLCropableUIImageView = {
         let imageView = SLCropableUIImageView()
@@ -93,16 +95,22 @@ class SLVideoThumbnailViewController : UIViewController {
         return imageView
     }()
     
-    private lazy var pickerSelectedThumbnailWidthAnc : NSLayoutConstraint = {
-        return pickerSelectedThumbnailImageView.widthAnchor.constraint(equalToConstant: 100)
-    }()
-    
-    private lazy var pickerSelectedThumbnailHeightAnc : NSLayoutConstraint = {
-        return pickerSelectedThumbnailImageView.heightAnchor.constraint(equalToConstant: 100)
+    lazy private var photoPickerModeCloseBtn : SlBlurBGButton = {
+        let btn = SlBlurBGButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setImage(ShopLiveShortformEditorSDKAsset.slClosebutton.image.withRenderingMode(.alwaysTemplate), for: .normal)
+        btn.imageView?.tintColor = .white
+        btn.imageView?.contentMode = .scaleAspectFit
+        btn.isHidden = true
+        btn.layer.cornerRadius = 14
+        btn.imageLayoutMargin = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
+        btn.clipsToBounds = true
+        return btn
     }()
     
     private lazy var thumbnailSliderView: SLThumbnailSliderView = {
-        let view = SLThumbnailSliderView(containerCornerRadius: design.thumbnailSliderCornerRadius,thumbViewBorderColor: design.thumbnailSliderThumbViewBorderColor) //videoUrl: reactor.getVideoUrl(),
+        let view = SLThumbnailSliderView(containerCornerRadius: design.thumbnailSliderCornerRadius,
+                                         thumbViewBorderColor: design.thumbnailSliderThumbViewBorderColor)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -111,7 +119,7 @@ class SLVideoThumbnailViewController : UIViewController {
         let vc = SLLoadingAlertController()
         vc.useProgress = false
         vc.setLoadingText("loading...")
-        vc.delegate = reactor
+//        vc.delegate = reactor
         return vc
     }()
     
@@ -128,65 +136,56 @@ class SLVideoThumbnailViewController : UIViewController {
         return view
     }()
     
+    enum Action {
+        case setVideoUrl(URL)
+        case setPlayer
+        case initializeSliderView
+    }
+    
+    enum Result {
+        case onError(ShopLiveCommonError)
+        case onClosed
+        case onSuccessImage(UIImage?)
+    }
+    
+    var resultHandler : ((Result) -> ())?
+    
     private var picker :  SLPhotosPickerViewController?
     
-    private let reactor : SLVideoThumbnailReactor
-    
-    
-    required init(videoEditInfo : SLVideoEditInfoDTO,shortformEditorDelegate : ShopLiveShortformEditorDelegate?, videoEditorDelegate : ShopLiveVideoEditorDelegate? ) {
-        self.reactor = SLVideoThumbnailReactor(videoEditInfo: videoEditInfo)
-        reactor.action( .setShortformEditorDelegate(shortformEditorDelegate) )
-        reactor.action( .setVideoEditorDelegate(videoEditorDelegate) )
-        super.init(nibName: nil, bundle: nil)
-        bindReactor()
-        bindPlayerView()
-        bindSliderView()
-        thumbnailSliderView.action( .setVideoUrl(reactor.getVideoUrl()) )
-        thumbnailSliderView.action( .initializeSliderView )
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private let reactor : ShopLiveCoverPickerReactor = ShopLiveCoverPickerReactor()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        reactor.action( .viewDidLoad )
         self.view.backgroundColor = .black
         self.setLayout()
-        reactor.action( .viewDidLoad )
+        self.bindReactor()
+        self.bindThumbnailSliderView()
+        self.bindCroppableImageView()
         
-        closeBtn.addTarget(self, action: #selector(backBtnTapped(sender: )), for: .touchUpInside)
+        
         cameraBtn.addTarget(self, action: #selector(cameraBtnTapped(sender: )), for: .touchUpInside)
         confirmBtn.addTarget(self, action: #selector(confirmBtnTapped(sender: )), for: .touchUpInside)
+        photoPickerModeCloseBtn.addTarget(self, action: #selector(photoPickerModelCloseButtonTapped), for: .touchUpInside)
+        closeBtn.addTarget(self, action: #selector(closeBtnTapped(sender: )), for: .touchUpInside)
     }
     
-    deinit {
-        ShopLiveLogger.memoryLog("SLVideoThumbnailViewController deinit")
+    override func viewDidAppear(_ animated : Bool) {
+        super.viewDidAppear(animated)
+        reactor.action( .viewDidAppear )
+        thumbnailSliderView.action( .initializeThumbView )
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         reactor.action( .viewDidLayoutSubView )
-        playerView.action( .setPlayBtnisHidden(true) )
+        self.playerLayer?.frame = playerContainerView.bounds
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        thumbnailSliderView.action( .initializeThumbView )
-        reactor.action( .viewDidAppear )
-        playerView.action( .setPlayBtnisHidden(true) )
+    @objc func closeBtnTapped(sender : UIButton) {
+        ShopLiveCoverPicker.shared.close()
     }
-    
-    @objc func backBtnTapped(sender : UIButton) {
-        reactor.action( .cancelConverting )
-        if let nav = self.navigationController {
-            nav.popViewController(animated: true)
-        }
-        else {
-            self.dismiss(animated: true)
-        }
-    }
-    
+   
     @objc func confirmBtnTapped(sender : UIButton) {
         reactor.action( .requestOnConfirm )
     }
@@ -198,82 +197,64 @@ class SLVideoThumbnailViewController : UIViewController {
         picker!.modalPresentationStyle = .overFullScreen
         self.present(picker!, animated: true)
     }
+    
+    @objc func photoPickerModelCloseButtonTapped() {
+        self.pickerSelectedThumbnailImageView.isHidden = true
+        self.photoPickerModeCloseBtn.isHidden = true
+        self.playerContainerView.isHidden = false
+        self.reactor.action( .setCurrentMode(.video) )
+        self.thumbnailSliderView.action( .changeThumbnailFrameToPickerImage(nil) )
+    }
 }
-//MARK: - bind reactor
-extension SLVideoThumbnailViewController {
-    private func bindReactor() {
-        reactor.resultHandler = { [weak self] result in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                switch result {
-                case .setThumbnail(let image):
-                    self.onReactorSetThumbnailImage(image: image)
-                case .setShortsVideo(let shortsVideo):
-                    self.onReactorSetShortsVideo(video: shortsVideo)
-                case .pauseVideo:
-                    self.onReactorPauseVideo()
-                case .dismissPhotoPicker:
-                    self.onReactorDismissPhotoPicker()
-                case .showLoadingView:
-                    self.onReactorShowLoadingView()
-                case .cancelLoading:
-                    self.onReactorCancelLoading()
-                case .didFinishLoading:
-                    self.onReactorDidFinishLoading()
-                case .updateLoadingPercent(let value):
-                    self.onReactorUpdateLoadingPercent(value: value)
-                case .showPopUp(let popup):
-                    self.onReactorShowPopUp(popUp: popup)
-                case .showCancelToast:
-                    self.onReactorShowCancelToast()
-                case .seekTo(let time):
-                    self.onReactorSeekTo(time: time)
-                case .seekThumbailSliderTo(let time):
-                    self.onReactorSeekThumbnailSliderTo(time: time)
-                case .setinitailCropRect(let rect):
-                    self.onReactorSetInitialCropRect(crop: rect)
-                case .pushViewController(let vc):
-                    self.onReactorPushViewController(vc: vc)
-                default:
-                    break
-                }
-            }
+extension ShopLiveCoverPickerViewController {
+    func action(_ action : Action) {
+        switch action {
+        case .setVideoUrl(let url):
+            self.onSetVideoUrl(url: url)
+        case .setPlayer:
+            self.onSetPlayer()
+        case .initializeSliderView:
+            self.onInitializeSliderView()
         }
     }
     
-    private func onReactorSetThumbnailImage(image : UIImage) {
-        let glkViewSize = playerView.getGLKViewSize()
-        pickerSelectedThumbnailWidthAnc.constant = glkViewSize.width
-        pickerSelectedThumbnailHeightAnc.constant = glkViewSize.height
-        view.layoutIfNeeded()
-        pickerSelectedThumbnailImageView.action( .setCropViewSize(glkViewSize) )
-        pickerSelectedThumbnailImageView.action( .setImage(image) )
-        pickerSelectedThumbnailImageView.isHidden = false
+    private func onSetVideoUrl(url : URL) {
+        reactor.action( .setVideoUrl(url) )
     }
     
-    private func onReactorSetShortsVideo(video : ShortsVideo) {
-        pickerSelectedThumbnailImageView.isHidden = true
-        let fileName = (video.videoUrl.absoluteString as NSString).lastPathComponent
-        let videoUrl = video.videoUrl
-        let videoSize = video.getVideoSize() ?? .zero
-        self.playerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize,centerCrop: false, isCropMode: true, isCropAvailable: false) )
+    private func onSetPlayer() {
+        self.setPlayerLayer()
     }
     
-    private func onReactorPauseVideo() {
-        self.playerView.action( .pauseVideo )
+    private func onInitializeSliderView() {
+        guard let url = self.reactor.getVideoUrl() else { return }
+        thumbnailSliderView.action( .setVideoUrl(url) )
+        thumbnailSliderView.action( .initializeSliderView )
+    }
+    
+}
+extension ShopLiveCoverPickerViewController {
+    private func bindReactor() {
+        reactor.resultHandler = { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .dismissPhotoPicker:
+                self.onReactorDismissPhotoPicker()
+            case .canceLoading:
+                self.onReactorCancelLoading()
+            case .didFinishLoading:
+                self.onReactorDidFinishLoading()
+            case .setThumbnail(let image):
+                self.onReactorSetThumbnailImage(image: image)
+            case .requestCropImageForCropableImageView:
+                self.onReactorRequestCropImageForCropableImageView()
+            }
+        }
     }
     
     private func onReactorDismissPhotoPicker() {
         guard let picker = picker else { return }
         picker.dismiss(animated: true)
-    }
-    
-    private func onReactorShowLoadingView() {
-        self.loadingProgress.modalPresentationStyle = .overFullScreen
-        self.loadingProgress.setLoadingText("Loading...")
-        
-        guard self.loadingProgress.isBeingPresented == false else { return }
-        self.present(self.loadingProgress, animated: false)
     }
     
     private func onReactorCancelLoading() {
@@ -284,86 +265,51 @@ extension SLVideoThumbnailViewController {
         self.loadingProgress.finishLoading()
     }
     
-    private func onReactorUpdateLoadingPercent(value : String) {
-        self.loadingProgress.setLoadingText(value)
+    private func onReactorSetThumbnailImage(image : UIImage) {
+        self.photoPickerModeCloseBtn.isHidden = false
+        pickerSelectedThumbnailImageView.action( .setCropViewSize(playerContainerView.frame.size) )
+        pickerSelectedThumbnailImageView.action( .setImage(image) )
+        thumbnailSliderView.action( .changeThumbnailFrameToPickerImage(image) )
+        pickerSelectedThumbnailImageView.isHidden = false
+        playerContainerView.isHidden = true
     }
     
-    private func onReactorShowPopUp(popUp: UIView) {
-        popUp.frame = self.view.frame
-        self.view.addSubview(popUp)
-    }
-    
-    private func onReactorShowCancelToast() {
-        UIView.animateKeyframes(withDuration: 2, delay: 0, options: .calculationModeCubic, animations: {
-            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.2) {
-                self.cancelConfirmToast.alpha = 1
-            }
-
-            UIView.addKeyframe(withRelativeStartTime: 0.8, relativeDuration: 0.2) {
-                self.cancelConfirmToast.alpha = 0
-            }
-        })
-    }
-    
-    private func onReactorSeekTo(time : CMTime) {
-        playerView.action( .seekTo(time) )
-    }
-    
-    private func onReactorSeekThumbnailSliderTo(time : CMTime) {
-        thumbnailSliderView.action( .seekToHandleViewTo(time) )
-    }
-    
-    private func onReactorSetInitialCropRect(crop : CGRect) {
-        DispatchQueue.main.async { [weak self] in
-            self?.playerView.action( .hideCropView(crop == .zero) )
-            self?.playerView.action( .setInitialCropRectByRatio(crop) )
-        }
-    }
-    
-    private func onReactorPushViewController(vc : UIViewController) {
-        self.navigationController?.pushViewController(vc, animated: true)
+    private func onReactorRequestCropImageForCropableImageView() {
+        pickerSelectedThumbnailImageView.action( .requestCroppedImageResult )
     }
 }
-//MARK: - bind playerview
-extension SLVideoThumbnailViewController {
-    private func bindPlayerView() {
-        playerView.resultHandler = { [weak self] result in
+extension ShopLiveCoverPickerViewController {
+    private func bindThumbnailSliderView() {
+        thumbnailSliderView.resultHandler = { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .timeControlStatusUpdated(let status):
-                self.onPlayerViewTimeControlStatusUpdated(status: status)
-            default:
-                break
-            }
-        }
-    }
-    
-    private func onPlayerViewTimeControlStatusUpdated(status : AVPlayer.TimeControlStatus) {
-        reactor.action( .timeControlStatusUpdated(status) )
-    }
-}
-//MARK: - bind SliderView
-extension SLVideoThumbnailViewController {
-    private func bindSliderView() {
-        thumbnailSliderView.resultHandler = { [weak self] result in
-            switch result {
             case .seekTo(let time):
-                self?.onSliderViewSeekTo(time: time)
+                self.onThumbnailSliderSeekTo(time: time)
             }
         }
     }
     
-    private func onSliderViewSeekTo(time : CMTime) {
-        playerView.action( .seekTo(time) )
-        reactor.action( .setThumbnailTime(time) )
-        
-        if pickerSelectedThumbnailImageView.isHidden == false {
-            pickerSelectedThumbnailImageView.isHidden = true
-        }
+    private func onThumbnailSliderSeekTo(time : CMTime) {
+        reactor.action( .seekTo(time) )
     }
 }
-extension SLVideoThumbnailViewController {
+extension ShopLiveCoverPickerViewController {
+    private func bindCroppableImageView() {
+        pickerSelectedThumbnailImageView.resultHandler = { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .croppedImageResult(let image):
+                self.onCroppableImageViewCroppedImageResult(image: image)
+            }
+        }
+    }
     
+    private func onCroppableImageViewCroppedImageResult(image : UIImage?) {
+        self.resultHandler?( .onSuccessImage(image) )
+        ShopLiveCoverPicker.shared.close()
+    }
+}
+extension ShopLiveCoverPickerViewController {
     private func setLayout() {
         self.view.addSubview(naviBar)
         self.view.addSubview(closeBtn)
@@ -373,9 +319,10 @@ extension SLVideoThumbnailViewController {
         self.view.addSubview(cameraBtn)
         self.view.addSubview(thumbnailSliderView)
         self.view.addSubview(playerHolder)
-        self.view.addSubview(playerView)
+        self.view.addSubview(playerContainerView)
         
         self.view.addSubview(pickerSelectedThumbnailImageView)
+        self.view.addSubview(photoPickerModeCloseBtn)
         self.view.addSubview(cancelConfirmToast)
         
         
@@ -412,27 +359,40 @@ extension SLVideoThumbnailViewController {
             thumbnailSliderView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             thumbnailSliderView.heightAnchor.constraint(equalToConstant: 60),
         
+            
             playerHolder.topAnchor.constraint(equalTo: naviBar.bottomAnchor),
             playerHolder.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             playerHolder.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             playerHolder.bottomAnchor.constraint(equalTo: thumbnailSliderView.topAnchor,constant: -20),
             
-            playerView.centerYAnchor.constraint(equalTo: playerHolder.centerYAnchor),
-            playerView.centerXAnchor.constraint(equalTo: playerHolder.centerXAnchor),
-            playerView.widthAnchor.constraint(equalTo: playerHolder.widthAnchor),
-            playerView.heightAnchor.constraint(equalTo: playerHolder.heightAnchor),
-            
+            playerContainerView.centerYAnchor.constraint(equalTo: playerHolder.centerYAnchor),
+            playerContainerView.centerXAnchor.constraint(equalTo: playerHolder.centerXAnchor),
+            playerContainerView.widthAnchor.constraint(equalTo: playerHolder.widthAnchor,multiplier: 1 / 2),
+            playerContainerView.heightAnchor.constraint(equalTo: playerContainerView.widthAnchor,multiplier: 16 / 9),
             
             pickerSelectedThumbnailImageView.centerYAnchor.constraint(equalTo: playerHolder.centerYAnchor),
             pickerSelectedThumbnailImageView.centerXAnchor.constraint(equalTo: playerHolder.centerXAnchor),
-            pickerSelectedThumbnailWidthAnc,
-            pickerSelectedThumbnailHeightAnc,
+            pickerSelectedThumbnailImageView.widthAnchor.constraint(equalTo: playerContainerView.widthAnchor),
+            pickerSelectedThumbnailImageView.heightAnchor.constraint(equalTo: playerContainerView.heightAnchor),
             
+            photoPickerModeCloseBtn.topAnchor.constraint(equalTo: pickerSelectedThumbnailImageView.topAnchor,constant: 8 ),
+            photoPickerModeCloseBtn.trailingAnchor.constraint(equalTo: pickerSelectedThumbnailImageView.trailingAnchor,constant: -8),
+            photoPickerModeCloseBtn.widthAnchor.constraint(equalToConstant: 28),
+            photoPickerModeCloseBtn.heightAnchor.constraint(equalToConstant: 28),
             
             cancelConfirmToast.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
             cancelConfirmToast.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             cancelConfirmToast.widthAnchor.constraint(lessThanOrEqualToConstant: 400),
             cancelConfirmToast.heightAnchor.constraint(equalToConstant: 40)
         ])
+    }
+    
+    private func setPlayerLayer() {
+        playerLayer = AVPlayerLayer(player: reactor.getAVPlayer())
+        self.playerLayer?.frame = playerContainerView.bounds
+        playerLayer?.videoGravity = .resizeAspectFill
+        if let playerLayer = playerLayer {
+            playerContainerView.layer.addSublayer(playerLayer)
+        }
     }
 }

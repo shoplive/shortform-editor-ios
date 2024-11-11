@@ -13,6 +13,7 @@ import AVKit
 
 class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     typealias globalConfig = ShopLiveEditorConfigurationManager
+    private let thumbnailDesign = EditorThumbnailConfig.global
     
     enum VideoConfigApplyType {
         case all
@@ -40,10 +41,12 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         case timeControlStatusUpdated(AVPlayer.TimeControlStatus)
         case videoTimeUpdated(Double)
         case setFilterConfig(SLFilterConfig?)
-        case checkIfNextStepIsAvailable
+//        case checkIfNextStepIsAvailable
         
         case applyVideoConfiChange(VideoConfigApplyType)
         case setEditingMode(SLVideoEditorMainViewController.ControlBoxType)
+        
+        case processConvertVideo
     }
     
     enum Result {
@@ -79,9 +82,16 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         case setFilterBtnIsSelected(isSelected : Bool)
         
         case showThumbnailViewController
+        
+        case showPopUp(UIView)
+        case showCancelToast
+        
+        case updateLoadingPercent(String)
+        case showLoadingView
+        case cancelLoading
+        case didFinishLoading
     }
-    
-    
+   
     private var videoEditInfoDto : SLVideoEditInfoDTO
     private var isPlaying : Bool = false
     private var isCropTimeUpdated : Bool = false
@@ -89,18 +99,14 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     
     private weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
     private weak var videoEditorDelegate : ShopLiveVideoEditorDelegate?
-    
+    private let videoConverter = SLVideoConverter()
     private var imageGenerator : AVAssetImageGenerator
     private var imageGeneratorQueue = DispatchQueue(label: "shopLiveImageGeneratorQueue",qos: .background)
     private var currentEditingMode : SLVideoEditorMainViewController.ControlBoxType = .main
     
-    
-    
     var resultHandler: ((Result) -> ())?
     var onMainQueueResultHandler : ((Result) -> ())?
-    
-    
-    
+   
     init(shortsVideo : ShortsVideo){
         videoEditInfoDto = SLVideoEditInfoDTO(shortsVideo: shortsVideo)
         let asset = AVAsset(url: shortsVideo.videoUrl)
@@ -109,6 +115,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         self.imageGenerator.maximumSize = CGSize(width: 720, height: 1280)
         self.imageGenerator.apertureMode = .cleanAperture
         super.init()
+        videoConverter.delegate = self
     }
     
     deinit {
@@ -143,32 +150,28 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
             self.onVideoTimeUpdated(time: time)
         case .setFilterConfig(let filterConfig):
             self.onSetFilterConfig(filterConfig: filterConfig)
-        case .checkIfNextStepIsAvailable:
-            self.onCheckIfNextStepIsAvailable()
+//        case .checkIfNextStepIsAvailable:
+//            self.onCheckIfNextStepIsAvailable()
+        case .processConvertVideo:
+            self.onProcessConvertVideo()
         case .applyVideoConfiChange(let type):
             self.onApplyVideoConfigChanges(type : type)
         case .setEditingMode(let mode):
             self.onSetEditingMode(mode : mode)
         }
-        
     }
     
     private func resetDataOnViewRotation() {
         videoEditInfoDto.cropTime = (.zero, .zero)
         videoEditInfoDto.realVideoCropRect = .zero
         onViewDidLoad()
-        
     }
-    
-    
+   
     private func onViewDidLoad(){
-        
         //TODO: ShopLiveShortformEditorFilterListManager.shared.isFilterExist
         onMainQueueResultHandler?( .setFilterBtnVisible(true) )
         if let duration = videoEditInfoDto.shortsVideo.player?.currentItem?.duration {
-            
             resultHandler?( .setShortsVideo(videoEditInfoDto.shortsVideo) )
-            
             
             if let size = videoEditInfoDto.shortsVideo.getVideoSize() {
                 videoEditInfoDto.realVideoCropRect = .init(origin: .zero, size: size)
@@ -245,7 +248,6 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) { [weak self] in
             self?.onMainQueueResultHandler?( .playVideo )
         }
-        
     }
     
     private func onTimeControlStatusUpdated(timeControlStatus : AVPlayer.TimeControlStatus) {
@@ -270,7 +272,11 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     }
     
     private func onCheckIfNextStepIsAvailable() {
-        onMainQueueResultHandler?( .showThumbnailViewController )
+//        onMainQueueResultHandler?( .showThumbnailViewController )
+    }
+    
+    private func onProcessConvertVideo() {
+        self.processVideoConvert()
     }
     
     private func onApplyVideoConfigChanges(type : VideoConfigApplyType) {
@@ -308,5 +314,76 @@ extension SLVideoEditorMainViewReactor {
     
     func getCurrentEditingMode() -> SLVideoEditorMainViewController.ControlBoxType {
         return self.currentEditingMode
+    }
+}
+extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
+    private func processVideoConvert() {
+        guard let videoSize = videoEditInfoDto.shortsVideo.getVideoSize(),
+              let startTime = videoEditInfoDto.cropTime.start.timeSeconds_SL,
+              let endTime = videoEditInfoDto.cropTime.end.timeSeconds_SL,
+              startTime < endTime else { return }
+        let videoUrl = videoEditInfoDto.shortsVideo.videoUrl.absoluteString
+        
+        let videoInfo = SLVideoInfo(videoPath: videoUrl,
+                                    cropRect: videoEditInfoDto.realVideoCropRect,
+                                    videoSize: videoSize,
+                                    timeRange: (startTime,endTime),
+                                    fileName: (videoUrl as NSString).lastPathComponent,
+                                    filterConfig: videoEditInfoDto.filterConfig)
+        
+        self.onMainQueueResultHandler?( .updateLoadingPercent("0%") )
+        self.onMainQueueResultHandler?( .showLoadingView )
+        
+        videoConverter.convertVideo(videoInfo: videoInfo) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .Success(let videoPath):
+                self.videoEditInfoDto.convertedVideoPath = videoPath
+                self.onMainQueueResultHandler?( .didFinishLoading )
+                self.videoEditorDelegate?.onShopLiveVideoEditorSuccess?(videoPath: videoPath)
+                self.shortformEditorDelegate?.onShopLiveShortformEditorUploadSuccess?(videoPath: videoPath)
+                ShopLiveShortformEditor().close()
+            case .Failed(let error):
+                let e = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedEncoding, error: error, message: nil)
+                self.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: e)
+                self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: e)
+            }
+        }
+    }
+    
+    func updateConvertPercent(percent: Int) {
+        let value = min(percent,100)
+        onMainQueueResultHandler?( .updateLoadingPercent("\(value)%") )
+    }
+}
+extension SLVideoEditorMainViewReactor : SLLoadingAlertControllerDelegate {
+    func didCancelLoading() {
+        resultHandler?( .cancelLoading )
+        
+        let popUp = SLCustomAlertBox(title: ShopLiveShortformEditorSDKStrings.Editor.Upload.Cancel.Alert.title, confirmTitle: nil, closeTitle: nil)
+        popUp.setBoxCornerRadius(cornerRadius: thumbnailDesign.cancelPopupCornerRadius)
+        popUp.setButtonCornerRadius(cornerRadius: thumbnailDesign.cancelPopupButtonCornerRadius)
+        popUp.setCloseButtonDesign(backgroundColor: thumbnailDesign.cancelPopupCloseButtonBackgroundColor,
+                                   textColor: thumbnailDesign.cancelPopupCloseButtonTextColor)
+        popUp.setConfirmButtonDesign(backgroundColor: thumbnailDesign.cancelPopupConfirmButtonBackgroundColor,
+                                     textColor: thumbnailDesign.cancelPopupConfirmButtonTextColor)
+        popUp.btnClickCallback = { [weak self] result in
+            guard let self = self else { return }
+            if result == .yes {
+                self.videoConverter.cancelConvert()
+                popUp.isHidden = true
+                popUp.removeFromSuperview()
+                resultHandler?( .showCancelToast )
+            }
+            else {
+                self.resultHandler?( .showLoadingView )
+            }
+        }
+        
+        resultHandler?( .showPopUp(popUp) )
+    }
+
+    func didFinishLoading() {
+        resultHandler?( .didFinishLoading )
     }
 }

@@ -57,7 +57,6 @@ class ShopliveShortformCoordinator : NSObject {
     func getPermissionHandler() -> ShopLivePermissionHandler? {
         return self.permissionHandler
     }
-    
 }
 extension ShopliveShortformCoordinator : SLPhotosPickerViewControllerDelegate  {
     func photoPicker(didSelectVideo absoluteUrl: URL, relativeUrl: URL) {

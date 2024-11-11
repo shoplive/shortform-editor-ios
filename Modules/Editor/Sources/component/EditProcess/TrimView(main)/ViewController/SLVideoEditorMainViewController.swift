@@ -167,6 +167,28 @@ class SLVideoEditorMainViewController : UIViewController {
         return view
     }()
     
+    
+    private lazy var loadingProgress: SLLoadingAlertController = {
+        let vc = SLLoadingAlertController()
+        vc.useProgress = false
+        vc.setLoadingText("loading...")
+        vc.delegate = reactor
+        return vc
+    }()
+    
+    private var cancelConfirmToast : SlBlurBGLabel = {
+        let view = SlBlurBGLabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.label.textColor = .white
+        view.label.font = .set(size: 15, weight: ._600)
+        view.label.text = ShopLiveShortformEditorSDKStrings.Toast.Cancel.Uploading.title
+        view.layer.cornerRadius = 20
+        view.clipsToBounds = true
+        view._layoutMargin = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        view.alpha = 0
+        return view
+    }()
+    
     private var reactor : SLVideoEditorMainViewReactor
     weak var delegate : SLVideoEditorViewControllerDelegate?
     weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
@@ -275,7 +297,7 @@ class SLVideoEditorMainViewController : UIViewController {
     
     
     @objc func nextBtnTapped(sender : UIButton) {
-        reactor.action( .checkIfNextStepIsAvailable )
+        reactor.action( .processConvertVideo )
     }
     
     @objc func filterAddBtnTapped(sender : UIButton) {
@@ -351,6 +373,18 @@ class SLVideoEditorMainViewController : UIViewController {
                     self.onSetFilterBtnIsSelected(isSelected: isSelected)
                 case .showThumbnailViewController:
                     self.onShowThumbnailViewController()
+                case .showCancelToast:
+                    self.onReactorShowCancelToast()
+                case .showPopUp(let popup):
+                    self.onReactorShowPopUp(popUp: popup)
+                case .showLoadingView:
+                    self.onReactorShowLoadingView()
+                case .cancelLoading:
+                    self.onReactorCancelLoading()
+                case .didFinishLoading:
+                    self.onReactorDidFinishLoading()
+                case .updateLoadingPercent(let value):
+                    self.onReactorUpdateLoadingPercent(value: value)
                 default:
                     break
                 }
@@ -442,6 +476,43 @@ class SLVideoEditorMainViewController : UIViewController {
     private func onShowThumbnailViewController() {
         let view = SLVideoThumbnailViewController(videoEditInfo: reactor.getVideoEditInfoDto(), shortformEditorDelegate: shortformEditorDelegate, videoEditorDelegate: videoEditorDelegate)
         self.navigationController?.pushViewController(view, animated: true)
+    }
+    
+    private func onReactorShowCancelToast() {
+        UIView.animateKeyframes(withDuration: 2, delay: 0, options: .calculationModeCubic, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.2) {
+                self.cancelConfirmToast.alpha = 1
+            }
+
+            UIView.addKeyframe(withRelativeStartTime: 0.8, relativeDuration: 0.2) {
+                self.cancelConfirmToast.alpha = 0
+            }
+        })
+    }
+    
+    private func onReactorShowPopUp(popUp: UIView) {
+        popUp.frame = self.view.frame
+        self.view.addSubview(popUp)
+    }
+    
+    private func onReactorShowLoadingView() {
+        self.loadingProgress.modalPresentationStyle = .overFullScreen
+        self.loadingProgress.setLoadingText("Loading...")
+        
+        guard self.loadingProgress.isBeingPresented == false else { return }
+        self.present(self.loadingProgress, animated: false)
+    }
+    
+    private func onReactorCancelLoading() {
+        self.loadingProgress.cancelLoading = false
+    }
+    
+    private func onReactorDidFinishLoading() {
+        self.loadingProgress.finishLoading()
+    }
+    
+    private func onReactorUpdateLoadingPercent(value : String) {
+        self.loadingProgress.setLoadingText(value)
     }
 }
 //MARK: - FilterPlayerView binding
@@ -639,6 +710,7 @@ extension SLVideoEditorMainViewController {
         self.view.addSubview(volumeControlBox)
         self.view.addSubview(filterControlBox)
         self.view.addSubview(cropControlBox)
+        self.view.addSubview(cancelConfirmToast)
         
         NSLayoutConstraint.activate([
             naviBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -702,7 +774,12 @@ extension SLVideoEditorMainViewController {
             
             cropControlBox.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor,constant: -4),
             cropControlBox.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            cropControlBox.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+            cropControlBox.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            
+            cancelConfirmToast.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            cancelConfirmToast.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            cancelConfirmToast.widthAnchor.constraint(lessThanOrEqualToConstant: 400),
+            cancelConfirmToast.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
     

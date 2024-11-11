@@ -56,6 +56,22 @@ class ViewController: UIViewController {
 //        let vc = WebExampleVIewController()
 //        return vc
 //    }()
+   
+    lazy var coverPickerImageResultPopUp : CoverPickerResultPopUp = {
+        let view = CoverPickerResultPopUp(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        view.alpha = 0
+        return view
+    }()
+    
+    lazy var videoEditorResultPopUp : VideoEditorResultPopUp = {
+        let view = VideoEditorResultPopUp(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        view.alpha = 0
+        return view
+    }()
     
     lazy var cardTypeExampleViewController : CardTypeExampleViewController = {
         let vc = CardTypeExampleViewController()
@@ -120,9 +136,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.tintColor = .white
-        
-        
-        
+       
         setupDetaultLanding()
         setupTab()
         setLayout()
@@ -256,18 +270,36 @@ extension ViewController : ShopLiveShortformEditorDelegate {
     }
 }
 extension ViewController : ShopLiveVideoEditorDelegate {
-    func onShopliveVideoEditorError(error: ShopLiveCommonError) {
-        ShopLiveLogger.debugLog("[HASSAN LOG] videoeditor error \(error.codes) \(error.message)")
+    func onShopLiveVideoEditorError(error: ShopLiveCommonError) {
+        ShopLiveLogger.tempLog("[HASSAN LOG] videoeditor error \(error.codes) \(error.message)")
     }
     
-    func onShopliveVideoEditorSuccess(videoPath: String) {
-        ShopLiveLogger.debugLog("[HASSAN LOG] videoEditor videoPath \(videoPath)")
-        
-        ShopliveVideoEditor().close()
+    func onShopLiveVideoEditorSuccess(videoPath: String) {
+        ShopLiveLogger.tempLog("[HASSAN LOG] videoEditor videoPath \(videoPath)")
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.videoEditorResultPopUp.setVideoPath(videoPath: videoPath)
+            self.videoEditorResultPopUp.alpha = 1
+            ShopliveVideoEditor().close()
+        }
     }
     
     func onShopliveVideoEditorMediaPickerDismiss() {
-        ShopLiveLogger.debugLog("[HASSAN LOG] videoeditor picker dismiss")
+        ShopLiveLogger.tempLog("[HASSAN LOG] videoeditor picker dismiss")
+    }
+}
+extension ViewController : ShopLiveCoverPickerDelegate {
+    func onShopLiveCoverPickerClosed() {
+        ShopLiveLogger.tempLog("[HASSAN LOG] coverPicker closed")
+    }
+    
+    func onShopLiveCoverPickerError(error: ShopLiveCommonError) {
+        ShopLiveLogger.tempLog("[HASSAN LOG] coverPicker error \(error.message)")
+    }
+    
+    func onShopLiveCoverPickerSuccess(image: UIImage?) {
+        coverPickerImageResultPopUp.setResultImage(image: image)
+        coverPickerImageResultPopUp.alpha = 1
     }
 }
 extension ViewController {
@@ -301,6 +333,8 @@ extension ViewController {
         pagingViewController!.view.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(videoPickerButton)
         self.view.addSubview(editorPopUp)
+        self.view.addSubview(coverPickerImageResultPopUp)
+        self.view.addSubview(videoEditorResultPopUp)
         
         NSLayoutConstraint.activate([
             navBox.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
@@ -337,7 +371,19 @@ extension ViewController {
             editorPopUp.topAnchor.constraint(equalTo: self.view.topAnchor),
             editorPopUp.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             editorPopUp.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            editorPopUp.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            editorPopUp.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            
+            coverPickerImageResultPopUp.topAnchor.constraint(equalTo: self.view.topAnchor),
+            coverPickerImageResultPopUp.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            coverPickerImageResultPopUp.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            coverPickerImageResultPopUp.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            
+            
+            videoEditorResultPopUp.topAnchor.constraint(equalTo: self.view.topAnchor),
+            videoEditorResultPopUp.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            videoEditorResultPopUp.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            videoEditorResultPopUp.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+
         ])
     }
 }
@@ -353,8 +399,6 @@ extension ViewController: PagingViewControllerDataSource {
     func pagingViewController(_: Parchment.PagingViewController, pagingItemAt index: Int) -> Parchment.PagingItem {
         return PagingIndexItem(index: index, title: viewControllers[index].title)
     }
-    
-    
 }
 
 extension ViewController: PagingViewControllerDelegate {

@@ -218,7 +218,6 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
         else {
             trimDurationLabel.text = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(gapSecond)
         }
-        
     }
     
     private func blockHandleWhenVideoDurationIsShorterThenMinTrimTime() {

@@ -11,7 +11,7 @@ import ShopliveSDKCommon
 
 @objc public protocol ShopLiveShortformEditorDelegate : AnyObject {
     @objc optional func onShopLiveShortformEditorError(error : ShopLiveCommonError)
-    @objc optional func onShopLiveShortformEditorUploadSuccess()
+    @objc optional func onShopLiveShortformEditorUploadSuccess(videoPath : String)
     @objc optional func onShopLiveShortformEditorClosed()
 }
 

@@ -57,7 +57,10 @@ class SLTimeTrimSliderView : UIView, SLReactor {
     
     init(videoUrl : URL,timeIndicatorCornerRadius : CGFloat) {
         self.timeIndicatorCornerRadius = timeIndicatorCornerRadius
-        self.frameSliderView = SLVideoFrameSliderView(videoUrl: videoUrl)
+        self.frameSliderView = SLVideoFrameSliderView()
+        frameSliderView.action( .setVideoUrl(videoUrl) )
+        frameSliderView.action( .setVideoTrimMode(.timeTrim) )
+        frameSliderView.action( .initialize )
         super.init(frame: .zero)
         self.backgroundColor = .clear
         bindReactor()

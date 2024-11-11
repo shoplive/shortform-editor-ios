@@ -52,11 +52,7 @@ class SLTimeTrimeSliderReactor : NSObject, SLReactor {
         return globalConfig.shared.videoTrimOption.maxVideoDuration
     }
     private var isDragging : Bool = false
-    
-    
-    
-    
-    
+   
     func action(_ action: Action) {
         switch action {
         case .setVideoDuration(let duration):
@@ -79,8 +75,6 @@ class SLTimeTrimeSliderReactor : NSObject, SLReactor {
             self.onSetIsDraggin(isDragging: isDragging)
         case .updateTimeIndicatorTime(let time):
             self.onUpdateTimeIndicatorTime(time: time)
-        
-            
         }
     }
     
