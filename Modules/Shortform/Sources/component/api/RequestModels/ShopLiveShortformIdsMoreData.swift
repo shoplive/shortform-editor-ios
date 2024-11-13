@@ -11,10 +11,10 @@ import ShopliveSDKCommon
 
 
 public class ShopLiveShortformIdsMoreData {
-    public var ids : [String]?
+    public var ids : [ShopLiveShortformIdData]?
     public var hasMore : Bool?
     
-    public init(ids: [String]? = nil, hasMore: Bool? = nil) {
+    public init(ids: [ShopLiveShortformIdData]? = nil, hasMore: Bool? = nil) {
         self.ids = ids
         self.hasMore = hasMore
     }

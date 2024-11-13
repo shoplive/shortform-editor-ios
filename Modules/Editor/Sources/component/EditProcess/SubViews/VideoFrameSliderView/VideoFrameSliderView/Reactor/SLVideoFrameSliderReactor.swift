@@ -176,8 +176,8 @@ extension SLVideoFrameSliderReactor {
         }
         
         self.timePerPixel = (self.videoDuration / (fullTrimWidth + extraTrimWidth)) // 1pixel당 시간
-        self.pixelPerTime = ( (fullTrimWidth + extraTrimWidth) / self.videoDuration ) // 1초당 pixel
         
+        self.pixelPerTime = ( (fullTrimWidth + extraTrimWidth) / self.videoDuration ) // 1초당 pixel
         
         let maxFrameCounts = ceil((fullTrimWidth + extraTrimWidth) / estimatedWidthOfPerFrame)//대략적인 크기로 대충 몇개로 나누어 떨어지는 지 계산
         

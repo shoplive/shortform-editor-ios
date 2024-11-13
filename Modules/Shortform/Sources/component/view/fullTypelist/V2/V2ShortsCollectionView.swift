@@ -145,5 +145,11 @@ extension V2ShortsCollectionView {
             }
         }
     }
-    
+}
+//MARK: - ShortsCellDelegate override
+extension V2ShortsCollectionView {
+    override func requestSetCustomShortformForV2(cell: ShortsCell, shortsId: String) {
+        let payload = viewmodel.getPayloadDictFor(shortsId: shortsId)
+        cell.sendJSRequestToWeb(sdkToWeb: .SET_CUSTOM_SHORTFORM, payload: payload)
+    }
 }

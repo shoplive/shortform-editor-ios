@@ -51,11 +51,6 @@ class ViewController: UIViewController {
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         return btn
     }()
-    
-//    lazy var webExampleVIewController: WebExampleVIewController = {
-//        let vc = WebExampleVIewController()
-//        return vc
-//    }()
    
     lazy var coverPickerImageResultPopUp : CoverPickerResultPopUp = {
         let view = CoverPickerResultPopUp(frame: .zero)

@@ -98,7 +98,7 @@ extension ShortsCollectionExampleView {
             shortsCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor,constant: 60),
             shortsCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             shortsCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            shortsCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: -60)
+            shortsCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
 }

@@ -280,7 +280,6 @@ extension ShortsCollectionBaseViewModel {
             .map({ $0.toShopLiveShortformData() })
             .forEach { data in
                 shortformDelegate?.onShortsDetached?(data: data)
-//                ShopLiveShortform.Delegate.receiveHandler.delegate?.onShortsCellDetached?(data: data)
             }
     }
     
@@ -894,6 +893,7 @@ extension ShortsCollectionBaseViewModel {
             self.originShortsListData += shortsList
         }
     }
+    
     
     //v2 overrided
     @objc func reloadData(){

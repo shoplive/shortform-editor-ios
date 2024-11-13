@@ -96,6 +96,7 @@ extension ShopLiveShortform {
             case SEND_CLIENT_VERSION
             case ON_CHANGED_SESSION_INFO
             case ON_VIDEO_LOOPED
+            case SET_CUSTOM_SHORTFORM
             
             //youtube 전용
             case SDK_YTP_PLAY_VIDEO

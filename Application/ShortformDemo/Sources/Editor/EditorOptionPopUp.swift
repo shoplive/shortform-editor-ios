@@ -54,18 +54,6 @@ class EditorOptionPopUp : UIView {
         return btn
     }()
     
-    private var galleryAndEditorBtn : UIButton = {
-        let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setTitle("GalleryAndEditor", for: .normal)
-        btn.setTitleColor(.black, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        btn.layer.cornerRadius = 10
-        btn.layer.borderWidth = 1
-        btn.layer.borderColor = UIColor.black.cgColor
-        return btn
-    }()
-    
     private var onlyEditorBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -107,7 +95,6 @@ class EditorOptionPopUp : UIView {
         
         dimBtn.addTarget(self, action: #selector(dimBtnTapped(sender: )), for: .touchUpInside)
         shortformEditorBtn.addTarget(self, action: #selector(shortformBtnTapped(sender: )), for: .touchUpInside)
-        galleryAndEditorBtn.addTarget(self, action: #selector(galleryAndEditorBtnTapped(sender: )), for: .touchUpInside)
         onlyEditorBtn.addTarget(self, action: #selector(editorBtnTapped(sender: )), for: .touchUpInside)
 //        bytePlusBtn.addTarget(self, action: #selector(bytePlusBtnTapped(sender: )), for: .touchUpInside)
         coverPickerBtn.addTarget(self, action: #selector(coverPickerBtnTapped(sender: )), for: .touchUpInside)
@@ -142,20 +129,6 @@ class EditorOptionPopUp : UIView {
             .start(vc)
     }
     
-    @objc func galleryAndEditorBtnTapped(sender : UIButton) {
-        self.currentMode = .galleryAndEditor
-        guard let vc = self.vc else { return }
-        let cropOption = ShopliveVideoEditorAspectRatio(width: OptionSettingModel.editorWidth,
-                                                        height: OptionSettingModel.editorheight,
-                                                        isFixed: OptionSettingModel.editorIsFixed)
-        
-        ShopliveVideoEditor.shared
-            .setPermissionHandler(nil)
-            .setConfiguration(.init(videoCropOption: cropOption))
-            .setDelegate(vc)
-            .start(vc)
-    }
-    
     @objc func editorBtnTapped(sender : UIButton) {
         self.currentMode = .editorOnly
         picker.sourceType = .photoLibrary
@@ -183,7 +156,6 @@ extension EditorOptionPopUp {
         self.addSubview(boxView)
         self.addSubview(stack)
         stack.addArrangedSubview(shortformEditorBtn)
-        stack.addArrangedSubview(galleryAndEditorBtn)
         stack.addArrangedSubview(onlyEditorBtn)
         stack.addArrangedSubview(coverPickerBtn)
         
@@ -200,7 +172,6 @@ extension EditorOptionPopUp {
             stack.heightAnchor.constraint(lessThanOrEqualToConstant: 500),
             
             shortformEditorBtn.heightAnchor.constraint(equalToConstant: 40),
-            galleryAndEditorBtn.heightAnchor.constraint(equalToConstant: 40),
             onlyEditorBtn.heightAnchor.constraint(equalToConstant: 40),
             coverPickerBtn.heightAnchor.constraint(equalToConstant: 40),
         
@@ -231,21 +202,23 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
             guard let identifier = placeHolderAsset?.localIdentifier else { return }
             let asset = PHAsset.fetchAssets(withLocalIdentifiers: [identifier], options: nil)
             
-            asset.firstObject?.getURL_SL(completionHandler: { [weak self] responseURL in
-                guard let self = self,
-                      let url = responseURL else { return }
+            asset.firstObject?.getURL_SL(completionHandler: { [weak self] (localAbsoluteUrl, localRelativeUrl) in
+                guard let self = self else { return }
+                guard let localAbsoluteUrl = localAbsoluteUrl,
+                      let localRelativeUrl = localRelativeUrl else { return }
+                
                 if self.currentMode == .editorOnly {
-                    self.openShopLiveEditorOnly(videoURl : url)
+                    self.openShopLiveEditorOnly(localUrl: localAbsoluteUrl, relativeUrl: localRelativeUrl)
                 }
                 else if self.currentMode == .coverPicker {
-                    self.openCoverPicker(videoUrl: url)
+                    self.openCoverPicker(videoUrl: localAbsoluteUrl)
                 }
             })
         }
         
     }
     
-    private func openShopLiveEditorOnly(videoURl : URL) {
+    private func openShopLiveEditorOnly(localUrl : URL, relativeUrl : URL) {
         guard let vc = self.vc else { return }
         let cropOption = ShopliveVideoEditorAspectRatio(width: OptionSettingModel.editorWidth,
                                                         height: OptionSettingModel.editorheight,
@@ -255,7 +228,7 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
             .setPermissionHandler(nil)
             .setConfiguration(.init(videoCropOption: cropOption))
             .setDelegate(vc)
-            .start(vc, videoPath: videoURl.path)
+            .start(vc, absoluteUrl: localUrl, relativeUrl: relativeUrl)
     }
     
     private func openCoverPicker(videoUrl : URL) {

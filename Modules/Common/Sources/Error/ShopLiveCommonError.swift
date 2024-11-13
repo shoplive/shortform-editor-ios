@@ -76,8 +76,6 @@ public enum ShopLiveErrorCases {
         case .UnexpectedError:
             return (10000, "Unexpected error")
         }
-        
-        
     }
 }
 
@@ -101,7 +99,6 @@ public enum ShopLiveErrorCases {
 }
 
 public class ShopLiveCommonErrorGenerator {
-    
     public class func generateError(errorCase : ShopLiveErrorCases,error : Error?, message : String?) -> ShopLiveCommonError {
         let (code, defaultMessage) = errorCase.getErrorCodeAndMessage()
         if let message = message {
@@ -111,7 +108,6 @@ public class ShopLiveCommonErrorGenerator {
             return .init(code: code, message: defaultMessage, error: error)
         }
     }
-    
     
     public class func generateErrorFromNetwork(statusCode : Int, error : Error?, responseData : Data?) -> ShopLiveCommonError? {
         if let responseData = responseData, let decoded = try? JSONDecoder().decode(ShopLiveCommonNetworkBaseErrorResponse.self, from: responseData) {
@@ -127,8 +123,5 @@ public class ShopLiveCommonErrorGenerator {
         
         return .init(code: statusCode, message: "[HTTP status code]", error: error)
     }
-    
-    
-    
 }
 

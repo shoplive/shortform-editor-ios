@@ -12,7 +12,6 @@ import ShopliveSDKCommon
 
 
 extension ShortsCollectionBaseView : ShortsCellDelegate {
-   
     func onExternalEmitEvent(name: String, payload: [String : Any]?) {
         var jsonString : String?
         if let payload = payload {
@@ -140,7 +139,13 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
             return nil 
         }
     }
-    
+   
+    /**
+     v2 override
+     */
+    @objc func requestSetCustomShortformForV2(cell: ShortsCell, shortsId: String) {
+        
+    }
 }
 
 extension ShortsCollectionBaseView {

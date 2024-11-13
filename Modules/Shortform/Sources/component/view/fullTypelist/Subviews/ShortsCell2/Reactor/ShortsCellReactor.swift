@@ -77,6 +77,7 @@ class ShortsCellReactor : NSObject, SLReactor {
         case requestCloseShortsDetailForHybrid(String)
         case requestShowShortsDetailForHybrid(String)
         case requestShowNewShortformFullScreen(ShopLiveShortform.ShortsBridgeModel)
+        case requestSetCustomShortformForV2(shortsId : String)
         
         case requestCloseShortform
         case requestRemoveShortform(shortsId : String)
@@ -342,7 +343,6 @@ class ShortsCellReactor : NSObject, SLReactor {
         else if getIsYoutubePlayer() == true {
             resultHandler?( .requestStopVideo )
         }
-        
     }
     
     private func onChangedShortsItemTimeControlStatus(status : AVPlayer.TimeControlStatus) {
@@ -663,8 +663,6 @@ extension ShortsCellReactor {
     
     private func onShortformRemoved(payload : [String : Any]?) {
          ShopLiveLogger.tempLog("[HASSAN LOG] payload \(payload)")
-
- //        resultHandler?( .requestRemoveShortform(shortsId: "") )
      }
     
     private func onShortformClientInitialized(payload : [String : Any]?) {
@@ -703,6 +701,9 @@ extension ShortsCellReactor {
     private func onShortformDetailInitialized() {
         sendSafeAreaInfoToWeb()
         sendMuteStateToWebOrYoutube()
+        if let shortsId = self.shortsModel?.shortsId {
+            resultHandler?( .requestSetCustomShortformForV2(shortsId: shortsId) )
+        }
     }
     
     private func onPlayShortformDetail(payload : [String : Any]?) {

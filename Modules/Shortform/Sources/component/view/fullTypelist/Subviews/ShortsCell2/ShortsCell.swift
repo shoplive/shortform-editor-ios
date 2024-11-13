@@ -25,6 +25,7 @@ protocol ShortsCellDelegate : NSObject {
     func onExternalEmitEvent(name : String, payload : [String : Any]?)
     func setSnapShotForWindow(image : UIImage?)
     func getCurrentOnViewIndexPath() -> IndexPath?
+    func requestSetCustomShortformForV2(cell : ShortsCell, shortsId : String)
 }
 
 
@@ -65,6 +66,7 @@ protocol ShortsCellInterface {
      preview -> detail 로 이동할때 cell이 로딩되기 전에 videoLayerGravity 셋하기위해서
      */
     func setVideoLayerGravityFromParentView()
+    func sendJSRequestToWeb(sdkToWeb : ShopLiveShortform.ShortsWebInterface.SdkToWeb, payload : [String : Any]?)
 }
 
 /**
@@ -302,6 +304,8 @@ extension ShortsCell {
                 self.onReactorScrollToNextCell(data : data )
             case .emptyVideoPlayer:
                 self.onReactorEmptyVideoPlayer()
+            case .requestSetCustomShortformForV2(shortsId: let shortsId):
+                self.onReactorRequestSetCustomShortformForV2(shortsId : shortsId)
             }
         }
     }
@@ -454,6 +458,10 @@ extension ShortsCell {
     
     private func onReactorScrollToNextCell(data : ShopLiveShortform.ShortsModel?) {
         delegate?.didFinishPlayingShorts(cell: self, data: data)
+    }
+    
+    private func onReactorRequestSetCustomShortformForV2(shortsId : String) {
+        delegate?.requestSetCustomShortformForV2(cell: self, shortsId: shortsId)
     }
     
     private func onReactorEmptyVideoPlayer() {
@@ -773,5 +781,9 @@ extension ShortsCell : ShortsCellInterface {
     
     func setVideoLayerGravityFromParentView() {
         playerView.action( .setVideoGravity(reactor.getVideoGravity()) )
+    }
+    
+    func sendJSRequestToWeb(sdkToWeb: ShopLiveShortform.ShortsWebInterface.SdkToWeb, payload: [String : Any]?) {
+        webView.action( .evaluateJavaScript( (sdkToWeb: sdkToWeb, payload: payload ?? [:]) ) )
     }
 }

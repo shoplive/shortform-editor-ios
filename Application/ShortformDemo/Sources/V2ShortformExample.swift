@@ -24,7 +24,7 @@ class V2ShortformExample  {
             guard let self = self, let ids = data?.ids else { return }
             let currentIdIndex = Int.random(in: 0..<ids.count)
             if let data = data {
-                ShopLiveShortform.play(shortformIdsData: ShopLiveShortformIdsData(ids : ids, currentId: ids[safe : currentIdIndex] ?? "" ), dataSourceDelegate: self, shortsCollectionDelegate: self)
+                ShopLiveShortform.play(shortformIdsData: ShopLiveShortformIdsData(ids : ids, currentId: ids.map{ $0.shortsId }[safe : currentIdIndex] ?? "" ), dataSourceDelegate: self, shortsCollectionDelegate: self)
             }
         }
     }
@@ -62,10 +62,14 @@ extension V2ShortformExample : ShortsCollectionViewDataSourcRequestDelegate {
                 }
                 self.reference = response.reference
                 self.hasMore = response.hasMore
-                let moreData = ShopLiveShortformIdsMoreData(ids: response.shortsList?.compactMap({ $0.shortsId }),hasMore: hasMore)
+                let idsData = response.shortsList?.compactMap({ shortsModel in
+                    return ShopLiveShortformIdData(shortsId: shortsModel.shortsId ?? "", payload: ["title" : "title for \(shortsModel.shortsId)", "description" : "descriptinos \(shortsModel.shortsId)"])
+                })
+                let moreData = ShopLiveShortformIdsMoreData(ids: idsData ,hasMore: hasMore)
                 completion(moreData,nil)
                 break
             case .failure(let error):
+                ShopLiveLogger.tempLog("[V2SHORTFORMEXAMPLE] error \(error.localizedDescription)")
                 completion(nil,error)
                 break
             }
@@ -78,7 +82,7 @@ struct TestShortsCollectionAPI: APIDefinition {
     typealias ResultType = ShopLiveShortform.ShortsCollectionModel
 
     var baseUrl: String {
-        "https://qa-shortform-api.shoplive.cloud"
+        "https://dev-shortform-api.shoplive.cloud"
     }
 
     var urlPath: String {

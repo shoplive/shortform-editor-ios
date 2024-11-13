@@ -18,6 +18,7 @@ protocol V2ShortsCollectioViewModelDelegate : ShortsCollectionBaseViewModelDeleg
 class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
     
     var shortFormIdsList : [String] = []
+    var shortFormIdPayloadDict : [String : [String : Any]?] = [:]
     private var requestedShortFormIdsList : [String] = []
     weak var shortFormIdsMoreData : ShopLiveShortformIdsMoreData?
     var isLoadingMoreData : Bool = false
@@ -48,7 +49,12 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
     
     func setshortFormIdsData(shortformIdsData : ShopLiveShortformIdsData){
         if let ids = shortformIdsData.ids {
-            self.shortFormIdsList = ids
+            self.shortFormIdsList = ids.map({ idData in
+                return idData.shortsId
+            })
+            ids.forEach { idData in
+                shortFormIdPayloadDict[idData.shortsId] = idData.payload
+            }
         }
         else {
             self.requestedShortFormIdsList.removeAll()
@@ -105,12 +111,18 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
             return
         }
         self.shortFormIdsMoreData = moreData
-        if let ids = moreData.ids {
-            self.shortFormIdsList.append(contentsOf: ids)
-            self.requestedShortFormIdsList.append(contentsOf: ids.prefix(5))
+        let appendShortsIds = moreData.ids?.map({ idData in
+            return idData.shortsId
+        })
+        (moreData.ids ?? []).forEach { idData in
+            shortFormIdPayloadDict[idData.shortsId] = idData.payload
+        }
+        if let appendShortsIds = appendShortsIds {
+            self.shortFormIdsList.append(contentsOf: appendShortsIds)
+            self.requestedShortFormIdsList.append(contentsOf: appendShortsIds.prefix(5))
         }
         self.customerHasMore = moreData.hasMore ?? false
-        self.loadShortFormIds(ids: Array(moreData.ids?.prefix(5) ?? []), reset: false) { [weak self] _ in
+        self.loadShortFormIds(ids: Array(appendShortsIds?.prefix(5) ?? []), reset: false) { [weak self] _ in
             self?.appendCells()
             self?.isLoadingMoreData = false
         }
@@ -232,7 +244,14 @@ extension V2ShortsCollectionViewModel {
         return self.blockScrollViewDidScrollPagination
     }
     
-    
+    func getPayloadDictFor(shortsId : String) -> [String : Any]? {
+        if let payloadDict = shortFormIdPayloadDict[shortsId] {
+            return payloadDict
+        }
+        else {
+            return nil
+        }
+    }
 }
 extension V2ShortsCollectionViewModel {
     
@@ -253,6 +272,7 @@ extension V2ShortsCollectionViewModel {
                         return
                     }
                     self.shortsCollection = response
+                    self.injectSrnToPayloadDict(shortsList: shortsList)
                     self.appendShortsListData(shortsList,reset: reset,scrollToPage: self.scrollToPage)
                     self.v2delegate?.hideEmptyDataView(hide: (shortsList.count == 0 && reset == true) ? false : true)
                     completion(true)
@@ -266,8 +286,13 @@ extension V2ShortsCollectionViewModel {
         }
     }
     
-    
-    
+    private func injectSrnToPayloadDict(shortsList : [ShortsModel]) {
+        shortsList.forEach { item in
+            if let shortsId = item.shortsId {
+                (shortFormIdPayloadDict[shortsId])??["srn"] = item.srn ?? ""
+            }
+        }
+    }
 }
 //MARK: -Upward pagination functions
 extension V2ShortsCollectionViewModel {
@@ -321,7 +346,6 @@ extension V2ShortsCollectionViewModel {
         self.originShortsListData.insert(contentsOf: shortsList, at: 0) //이게 didSet에서 reload 호출, -> override해서 reloadDataForUpward~가 실행
         self.lastShortsCount = self.originShortsListData.count
     }
-    
     
     
     private func reloadDataForUpwardPagination() {

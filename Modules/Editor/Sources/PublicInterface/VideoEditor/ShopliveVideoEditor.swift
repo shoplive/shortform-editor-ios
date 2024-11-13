@@ -52,35 +52,17 @@ public class ShopliveVideoEditor {
         return self
     }
     
-    //갤러리 부터 시작
-    public func start(_ vc : UIViewController) {
-        self.callConfigAPI { [weak self] in
-            guard let self = self else  { return }
-            DispatchQueue.main.async {
-//                let videoPicker = SLPhotosPickerViewControllerOld()
-//                videoPicker.shoplivePermissionDelegate = self.permissionHandler
-//                videoPicker.videoEditorDelegate = self.delegate
-//                let navi = SLPickerNavigationController(rootViewController: videoPicker)
-//                Self.navigationController = navi
-//                navi.isNavigationBarHidden = true
-//                navi.modalPresentationCapturesStatusBarAppearance = true
-//                navi.modalPresentationStyle = .overFullScreen
-//                vc.present(navi, animated: true)
-            }
-        }
-    }
-    
-    //갤러리 건너띄고 바로 editor 화면으로
-    public func start(_ vc : UIViewController, videoPath : String) {
+    public func start(_ vc : UIViewController, absoluteUrl : URL, relativeUrl : URL) {
         self.callConfigAPI { [weak self] in
             guard let self = self else { return }
-            SLCodecValidator.runFFProbCommand(videoPath: videoPath) { isValidCodec in
+            SLCodecValidator.runFFProbCommand(videoPath: relativeUrl.absoluteString) { isValidCodec in
                 if isValidCodec == false {
                     self.delegate?.onShopLiveVideoEditorError?(error: ShopLiveCommonErrorGenerator.generateError(errorCase: .UnsupportedMedia, error: nil, message: "codec is not valid"))
                 }
                 else {
                     DispatchQueue.main.async {
-                        let editorVC = SLVideoEditorMainViewController(video: ShortsVideo(videoUrl: URL(fileURLWithPath: videoPath)))
+                        let shortsVideo = ShortsVideo(videoUrl: absoluteUrl)
+                        let editorVC = SLVideoEditorMainViewController(video: shortsVideo)
                         editorVC.videoEditorDelegate = self.delegate
                         let navi = SLPickerNavigationController(rootViewController: editorVC)
                         Self.navigationController = navi
@@ -90,6 +72,23 @@ public class ShopliveVideoEditor {
                         vc.present(navi, animated: true)
                     }
                 }
+            }
+        }
+    }
+    
+    public func start(_ vc : UIViewController, remoteUrl : URL) {
+        self.callConfigAPI { [weak self] in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                let shortsVideo = ShortsVideo(videoUrl: remoteUrl)
+                let editorVC = SLVideoEditorMainViewController(video: shortsVideo)
+                editorVC.videoEditorDelegate = self.delegate
+                let navi = SLPickerNavigationController(rootViewController: editorVC)
+                Self.navigationController = navi
+                navi.isNavigationBarHidden = true
+                navi.modalPresentationCapturesStatusBarAppearance = true
+                navi.modalPresentationStyle = .overFullScreen
+                vc.present(navi, animated: true)
             }
         }
     }

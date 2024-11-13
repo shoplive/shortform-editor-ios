@@ -58,6 +58,7 @@ class ShopliveShortformCoordinator : NSObject {
         return self.permissionHandler
     }
 }
+
 extension ShopliveShortformCoordinator : SLPhotosPickerViewControllerDelegate  {
     func photoPicker(didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
         ffmpegValidator.checkValidCodec(videoUrl: relativeUrl) { [weak self] isValidCodec in

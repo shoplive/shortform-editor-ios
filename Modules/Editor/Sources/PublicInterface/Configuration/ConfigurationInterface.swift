@@ -15,6 +15,9 @@ protocol SLEditorAspectRatio {
     var isFixed : Bool { get set }
 }
 
+/**
+ 비디오 에디팅의 결과물 최소 최대 시간 가능 여부
+ */
 protocol SLEditorTrimOption {
     var maxVideoDuration : CGFloat { get set }
     var minVideoDuration : CGFloat { get set }
