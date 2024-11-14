@@ -20,7 +20,7 @@ import MetalKit
 class ShopLiveFilterPlayer : UIView, SLReactor {
     
     enum Action {
-        case setUpFilterPlayer(_ fileName : String, _ videoUrl : URL, _ videoSize : CGSize, centerCrop : Bool,isCropMode : Bool, isCropAvailable : Bool )
+        case setUpFilterPlayer(_ fileName : String, _ videoUrl : URL, _ videoSize : CGSize, centerCrop : Bool,isCropMode : Bool, isCropAvailable : Bool, mode : ShopLiveFilterPlayerReactor.Mode )
         
         case seekTo(CMTime)
         case setPlayerEndBoundaryTime(CMTime)
@@ -134,10 +134,11 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
         }
     }
     
-    init(fileName : String, videoUrl : URL, videoSize : CGSize, centerCrop : Bool = false,isCropMode : Bool = true, isCropAvailable : Bool = true ) {
+    init(fileName : String, videoUrl : URL, videoSize : CGSize, centerCrop : Bool = false,isCropMode : Bool = true, isCropAvailable : Bool = true, mode : ShopLiveFilterPlayerReactor.Mode ) {
         super.init(frame: .zero)
         self.setLayout()
         bindReactor()
+        reactor.action( .setMode(mode) )
         reactor.action( .setIsCropMode(isCropMode) )
         reactor.action( .setIsCropAvailable(isCropAvailable) )
         reactor.action( .setIsCenterCrop(centerCrop) )
@@ -170,8 +171,8 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
     
     func action(_ action: Action) {
         switch action {
-        case .setUpFilterPlayer(let filename, let videoUrl, let videoSize, let centerCrop, let isCropMode, let isCropAvailable):
-            self.onSetupFilterPlayer(fileName: filename, videoUrl: videoUrl,videoSize: videoSize,centerCrop: centerCrop, isCropMode: isCropMode, isCropAvailable: isCropAvailable)
+        case .setUpFilterPlayer(let filename, let videoUrl, let videoSize, let centerCrop, let isCropMode, let isCropAvailable, let mode):
+            self.onSetupFilterPlayer(fileName: filename, videoUrl: videoUrl,videoSize: videoSize,centerCrop: centerCrop, isCropMode: isCropMode, isCropAvailable: isCropAvailable, mode : mode)
         case .setInitialCropRect(let rect):
             self.onSetInitialCropRect(rect: rect)
         case .setInitialCropRectByRatio(let ratioRect):
@@ -221,7 +222,8 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
         }
     }
     
-    private func onSetupFilterPlayer(fileName : String, videoUrl : URL, videoSize : CGSize, centerCrop : Bool, isCropMode : Bool,isCropAvailable : Bool) {
+    private func onSetupFilterPlayer(fileName : String, videoUrl : URL, videoSize : CGSize, centerCrop : Bool, isCropMode : Bool,isCropAvailable : Bool, mode : ShopLiveFilterPlayerReactor.Mode) {
+        reactor.action( .setMode(mode) )
         reactor.action( .setIsCropMode(isCropMode) )
         reactor.action( .setIsCropAvailable(isCropAvailable) )
         reactor.action( .setIsCenterCrop(centerCrop) )
@@ -314,7 +316,7 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
     }
     
     private func onUpdateGLKViewOnRotation(videoSize : CGSize) {
-        self.redrawGLKView(size : videoSize, centerCrop: reactor.getIsCenterCrop())
+        self.redrawGLKView(size : videoSize, centerCrop: reactor.getIsCenterCrop(), mode: reactor.getCurrentMode())
     }
     
     private func onSetFilterConfig(config : String) {
@@ -404,8 +406,8 @@ extension ShopLiveFilterPlayer {
                 switch result {
                 case .setVideoUrlToPlayer(let videoUrl):
                     self.setVideoUrlToPlayer(videoUrl: videoUrl)
-                case .setGLKViewSize(let glkSize, let centerCrop, let isCropMode, let isCropAvailable):
-                    self.onSetGLKViewSize(size: glkSize,centerCrop: centerCrop, isCropMode: isCropMode, isCropAvailable: isCropAvailable)
+                case .setGLKViewSize(let glkSize, let centerCrop, let isCropMode, let isCropAvailable, let mode):
+                    self.onSetGLKViewSize(size: glkSize,centerCrop: centerCrop, isCropMode: isCropMode, isCropAvailable: isCropAvailable, mode : mode)
                 case .setPlayBtnHidden(let isHidden):
                     self.playButton.isHidden = isHidden
                 case .setThumbnailGLKHidden(let isHidden):
@@ -434,8 +436,9 @@ extension ShopLiveFilterPlayer {
         reactor.action( .pauseVideo )
     }
     
-    private func onSetGLKViewSize(size : CGSize, centerCrop : Bool,isCropMode : Bool, isCropAvailable : Bool) {
-        self.redrawGLKView(size: size,centerCrop: centerCrop)
+    private func onSetGLKViewSize(size : CGSize, centerCrop : Bool,isCropMode : Bool, isCropAvailable : Bool,mode : ShopLiveFilterPlayerReactor.Mode) {
+
+        self.redrawGLKView(size: size,centerCrop: centerCrop, mode : mode)
         guard isCropMode else { return }
         self.cropView.videoResolution = size
         self.cropView.updateCropArea()
@@ -456,26 +459,32 @@ extension ShopLiveFilterPlayer {
         resultHandler?( .timeControlStatusUpdated(timeControlStatus) )
     }
     
-    private func redrawGLKView(size : CGSize, centerCrop : Bool) {
+    private func redrawGLKView(size : CGSize, centerCrop : Bool, mode : ShopLiveFilterPlayerReactor.Mode) {
         let frameHeight = self.frame.height
         let frameWidth = self.frame.width
-        if centerCrop {
+        if mode == .videoEditing {
             glkViewWidthAnc.constant = frameWidth
             glkViewHeightAnc.constant = frameHeight
         }
         else {
-            if size.width < size.height {
-                glkViewWidthAnc.constant = frameHeight * (size.width / size.height)
+            if centerCrop {
+                glkViewWidthAnc.constant = frameWidth
                 glkViewHeightAnc.constant = frameHeight
             }
             else {
-                if UIScreen.isLandscape_SL {
+                if size.width < size.height {
                     glkViewWidthAnc.constant = frameHeight * (size.width / size.height)
                     glkViewHeightAnc.constant = frameHeight
                 }
                 else {
-                    glkViewWidthAnc.constant = self.frame.width
-                    glkViewHeightAnc.constant = self.frame.width * (size.height / size.width)
+                    if UIScreen.isLandscape_SL {
+                        glkViewWidthAnc.constant = frameHeight * (size.width / size.height)
+                        glkViewHeightAnc.constant = frameHeight
+                    }
+                    else {
+                        glkViewWidthAnc.constant = self.frame.width
+                        glkViewHeightAnc.constant = self.frame.width * (size.height / size.width)
+                    }
                 }
             }
         }

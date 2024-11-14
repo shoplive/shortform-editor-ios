@@ -21,7 +21,7 @@ enum WebInterface {
     
     case systemInit
     case setPosterUrl(url: URL)
-    case setLiveStreamUrl(url: URL)
+    case setLiveStreamUrl(url: URL?)
     case setVideoMute(isMuted: Bool)
     case setIsPlayingVideo(isPlaying: Bool)
     case reloadVideo
@@ -255,18 +255,12 @@ extension WebInterface {
             guard let url = URL(string: urlString) else { return nil }
             self = .setPosterUrl(url: url)
         case .setLiveStreamUrl:
-            if let urlString = parameters?["liveStreamUrl"] as? String {
-                guard !urlString.isEmpty, let url = URL(string: urlString) else {
-                    ShopLiveController.streamUrl = nil
-                    ShopLiveController.shared.releasePlayer = true
-                    return nil
-                }
+            if let urlString = parameters?["liveStreamUrl"] as? String,
+               let url = URL(string: urlString) {
                 self = .setLiveStreamUrl(url: url)
             }
             else {
-                ShopLiveController.streamUrl = nil
-                ShopLiveController.shared.releasePlayer = true
-                return nil
+                self = .setLiveStreamUrl(url: nil)
             }
         case .setVideoMute:
             guard let isMuted = parameters?["isMuted"] as? Bool else { return nil }

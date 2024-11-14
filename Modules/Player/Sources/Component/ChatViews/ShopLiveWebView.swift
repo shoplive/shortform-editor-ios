@@ -14,7 +14,14 @@ import ShopliveSDKCommon
         - Sending the data to Web Client
  */
 internal final class ShopLiveWebView: SLWKWebView {
-   
+  
+    enum ViewMode : String {
+        case fullPlayer
+        case previewPlayer
+    }
+    
+    var currentViewMode : ViewMode = .fullPlayer
+    
     override var inputAccessoryView: SLView? {
         return nil
     }
@@ -30,9 +37,10 @@ internal final class ShopLiveWebView: SLWKWebView {
     private var isLoaded : Bool = false
     
     private var queuedRequest : [String] = []
+    
 
     deinit {
-        ShopLiveLogger.debugLog("ShopLiveWebView deinit")
+        ShopLiveLogger.memoryLog("ShopLiveWebView deinit")
     }
     
     func setIsLoaded(isLoaded : Bool) {
@@ -54,10 +62,10 @@ internal final class ShopLiveWebView: SLWKWebView {
     func sendEventToWeb(event: WebInterface, _ param: Any? = nil, _ wrapping: Bool = false) {
         let command: String = param == nil ? "window.__receiveAppEvent('\(event.functionString)');" : "window.__receiveAppEvent('\(event.functionString)', " + (wrapping ? "'\(String(describing: param!))');" : "\(String(describing: param!)));")
 //        ShopLiveLogger.tempLog("[WEBVIEWESEND] \(command)")
-        ShopLiveLogger.tempLog("to Web [Interface: \(event.functionString)]: [payload: \(String(describing: param))]")
-//        if event.functionString != WebInterface.onVideoTimeUpdated.functionString && event.functionString != WebInterface.onVideoMetadataUpdated.functionString {
-//            ShopLiveLogger.tempLog("to Web [Interface: \(event.functionString)]: [payload: \(String(describing: param))]")
-//        }
+//        ShopLiveLogger.tempLog("to Web [Interface: \(event.functionString)]: [payload: \(String(describing: param))]")
+        if event.functionString != WebInterface.onVideoTimeUpdated.functionString && event.functionString != WebInterface.onVideoMetadataUpdated.functionString {
+            ShopLiveLogger.tempLog(" \(currentViewMode.rawValue) to Web [Interface: \(event.functionString)]: [payload: \(String(describing: param))]")
+        }
         if isLoaded == false {
             self.queuedRequest.append(command)
         }

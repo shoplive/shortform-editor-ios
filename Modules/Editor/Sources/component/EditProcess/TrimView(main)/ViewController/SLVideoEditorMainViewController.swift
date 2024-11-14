@@ -184,7 +184,7 @@ class SLVideoEditorMainViewController : UIViewController {
         return vc
     }()
     
-    private var cancelConfirmToast : SlBlurBGLabel = {
+    private var toastLabel : SlBlurBGLabel = {
         let view = SlBlurBGLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.label.textColor = .white
@@ -407,7 +407,7 @@ class SLVideoEditorMainViewController : UIViewController {
         let videoUrl = video.localAbsoluteUrl
         let videoSize = video.getVideoSize() ?? .zero
         
-        self.filterPlayerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize,centerCrop : false, isCropMode: true, isCropAvailable: false) )
+        self.filterPlayerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize,centerCrop : false, isCropMode: true, isCropAvailable: false,mode: .videoEditing) )
         
     }
     
@@ -489,15 +489,7 @@ class SLVideoEditorMainViewController : UIViewController {
     }
     
     private func onReactorShowCancelToast() {
-        UIView.animateKeyframes(withDuration: 2, delay: 0, options: .calculationModeCubic, animations: {
-            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.2) {
-                self.cancelConfirmToast.alpha = 1
-            }
-
-            UIView.addKeyframe(withRelativeStartTime: 0.8, relativeDuration: 0.2) {
-                self.cancelConfirmToast.alpha = 0
-            }
-        })
+        self.animateToast(message: ShopLiveShortformEditorSDKStrings.Toast.Cancel.Uploading.title)
     }
     
     private func onReactorShowPopUp(popUp: UIView) {
@@ -618,6 +610,8 @@ extension SLVideoEditorMainViewController {
                 self.reactor.action( .requestToggleVideoPlayOrPause )
             case .onValueChanged:
                 self.onSpeedControlBoxOnValueChanged()
+            case .showToast(let message):
+                self.onSpeedControlBoxShowToast(message: message)
             }
         }
     }
@@ -629,6 +623,10 @@ extension SLVideoEditorMainViewController {
     private func onSpeedControlBoxConfirm() {
         reactor.action( .applyVideoConfiChange(.all) )
         animateControlBox(to : .main)
+    }
+    
+    private func onSpeedControlBoxShowToast(message : String) {
+        self.animateToast(message: message)
     }
     
 }
@@ -723,7 +721,7 @@ extension SLVideoEditorMainViewController {
         self.view.addSubview(volumeControlBox)
         self.view.addSubview(filterControlBox)
         self.view.addSubview(cropControlBox)
-        self.view.addSubview(cancelConfirmToast)
+        self.view.addSubview(toastLabel)
         
         NSLayoutConstraint.activate([
             naviBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -792,16 +790,29 @@ extension SLVideoEditorMainViewController {
             cropControlBox.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             cropControlBox.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             
-            cancelConfirmToast.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-            cancelConfirmToast.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            cancelConfirmToast.widthAnchor.constraint(lessThanOrEqualToConstant: 400),
-            cancelConfirmToast.heightAnchor.constraint(equalToConstant: 40)
+            toastLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            toastLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            toastLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 400),
+            toastLabel.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
     
     
 }
 extension SLVideoEditorMainViewController {
+    private func animateToast(message : String) {
+        toastLabel.label.text = message
+        UIView.animateKeyframes(withDuration: 2, delay: 0, options: .calculationModeCubic, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.2) {
+                self.toastLabel.alpha = 1
+            }
+
+            UIView.addKeyframe(withRelativeStartTime: 0.8, relativeDuration: 0.2) {
+                self.toastLabel.alpha = 0
+            }
+        })
+    }
+    
     enum ControlBoxType {
         case speed
         case volume
@@ -814,6 +825,11 @@ extension SLVideoEditorMainViewController {
         filterPlayerView.action( .setCropIsAvailable(to == .crop) )
         editingCloseBtn.isHidden = to == .main ? true : false
         backBtn.isHidden = to == .main ? false : true
+        nextButton.isHidden = to == .main ? false : true
+        filterAddBtn.isHidden = to == .main ? false : true
+        videoCropBtn.isHidden = to == .main ? false : true
+        videoSoundBtn.isHidden = to == .main ? false : true
+        videoSpeedBtn.isHidden = to == .main ? false : true
         
         UIView.animateKeyframes(withDuration: 0.4, delay: 0, options: []) {
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {

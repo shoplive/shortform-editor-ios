@@ -60,7 +60,7 @@ protocol LiveStreamViewControllerDelegate: AnyObject {
 
 protocol OverlayWebViewDelegate: AnyObject {
     func didUpdatePlaybackSpeed(speed : Float)
-    func didUpdateVideo(with url: URL)
+    func didUpdateVideo(with url: URL?)
     func reloadVideo()
     func didUpdatePoster(with url: URL)
     func replay(with size: CGSize)

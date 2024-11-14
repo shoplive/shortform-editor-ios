@@ -21,7 +21,7 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
         case videoEditInfoDto(SLVideoEditInfoDTO)
         case saveEditingStartSpeedValue
         case revertChanges
-        
+        case checkVideoDuration
     }
     
     enum Result {
@@ -29,6 +29,8 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
         case setVideoDuration(String)
         case onValueChanged
         case setSliderValue(CGFloat)
+        case showToast(String)
+        case onConfirm
         
     }
     
@@ -37,7 +39,8 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
     
     private var videoEditInfoDTO : SLVideoEditInfoDTO?
     private var editingStartSpeedValue : Double = 0
-    private var latestSpeedValue : String = ""
+    private var currentVideoDurationString : String = ""
+    private var currentVideoDurationCGFloat : CGFloat = 0
     
     func action(_ action: Action) {
         switch action {
@@ -51,6 +54,8 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
             self.onSaveEditingStartSpeedValue()
         case .revertChanges:
             self.onRevertChanges()
+        case .checkVideoDuration:
+            self.onCheckVideoDuration()
         }
     }
     
@@ -73,10 +78,11 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
         guard let dto = self.videoEditInfoDTO else { return }
         let originVideoDuration = dto.cropTime.end.seconds - dto.cropTime.start.seconds
         let modifiedVideoDuration = originVideoDuration / dto.videoSpeed
+        self.currentVideoDurationCGFloat = modifiedVideoDuration
         let result = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(Int(modifiedVideoDuration))
         
-        if result != latestSpeedValue {
-            latestSpeedValue = result
+        if result != currentVideoDurationString {
+            currentVideoDurationString = result
             resultHandler?( .onValueChanged )
         }
         resultHandler?( .setVideoDuration(result) )
@@ -92,14 +98,25 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
         guard let dto = self.videoEditInfoDTO else { return }
         let originVideoDuration = dto.cropTime.end.seconds - dto.cropTime.start.seconds
         let modifiedVideoDuration = originVideoDuration / dto.videoSpeed
+        self.currentVideoDurationCGFloat = modifiedVideoDuration
         let result = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(Int(modifiedVideoDuration))
         
-        if result != latestSpeedValue {
-            latestSpeedValue = result
+        if result != currentVideoDurationString {
+            currentVideoDurationString = result
             resultHandler?( .onValueChanged )
         }
         resultHandler?( .setVideoDuration(result) )
         resultHandler?( .setSliderValue(CGFloat(dto.videoSpeed)))
+    }
+    
+    private func onCheckVideoDuration() {
+        if currentVideoDurationCGFloat > 60 {
+            let message = ShopLiveShortformEditorSDKStrings.Editor.Speed.Caution.Duration.Limit.sec(60)
+            resultHandler?( .showToast(message) )
+        }
+        else {
+            resultHandler?( .onConfirm )
+        }
     }
     
 }

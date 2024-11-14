@@ -181,16 +181,16 @@ class TimeControlStatusManager : NSObject, SLReactor {
         
         switch reason {
         case .toMinimizeStalls:
-            ShopLiveLogger.tempLog("[timeControlStatus] [toMinimizeStalls]")
+            ShopLiveLogger.tempLog("[timeControlStatusManager] [toMinimizeStalls]")
             self.onReasonForWaitingToMinimizeStalls()
         case .evaluatingBufferingRate:
-            ShopLiveLogger.tempLog("[timeControlStatus] [evaluatingBufferingRate]")
+            ShopLiveLogger.tempLog("[timeControlStatusManager] [evaluatingBufferingRate]")
             break
         case .noItemToPlay:
-            ShopLiveLogger.tempLog("[timeControlStatus] [noItemToPlay]")
+            ShopLiveLogger.tempLog("[timeControlStatusManager] [noItemToPlay]")
             self.onReasonForWaitingNoItemToPlay()
         default:
-            ShopLiveLogger.tempLog("[timeControlStatus] [reasonForWaitingToPlay] reason \(reason.rawValue)")
+            ShopLiveLogger.tempLog("[timeControlStatusManager] [reasonForWaitingToPlay] reason \(reason.rawValue)")
             break
         }
     }

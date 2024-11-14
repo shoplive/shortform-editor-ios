@@ -106,7 +106,7 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         case reloadVideo
         case seekTo(CMTime)
         case seekToLatest
-        case didUpdateVideoUrl(URL)
+        case didUpdateVideoUrl(URL?)
         case requestTakeSnapshot
         case requestTakeSnapShotWithCompletion(completion : (() -> ())?)
         case retryOnNetworkDisConnect
@@ -454,7 +454,14 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         playControlManager?.action( .seekToLatest )
     }
     
-    private func onDidUpdateVideoUrl(url: URL) {
+    private func onDidUpdateVideoUrl(url: URL?) {
+        guard let url = url else {
+            self.player?.replaceCurrentItem(with: nil)
+            self.previewUrl = nil
+            self.resetPlayer()
+            return
+        }
+        
         if let oldUrl = self.previewUrl, oldUrl.absoluteString == url.absoluteString {
             return
         }

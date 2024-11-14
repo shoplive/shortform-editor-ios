@@ -183,6 +183,7 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
     }
     
     @objc func closeBtnTapped(sender : UIButton) {
+        resultHandler?( .onClosed )
         ShopLiveCoverPicker.shared.close()
     }
    
@@ -248,6 +249,8 @@ extension ShopLiveCoverPickerViewController {
                 self.onReactorSetThumbnailImage(image: image)
             case .requestCropImageForCropableImageView:
                 self.onReactorRequestCropImageForCropableImageView()
+            case .videoThumbnailResult(let image):
+                self.onReactorVideoThumbnailResult(image : image)
             }
         }
     }
@@ -269,13 +272,18 @@ extension ShopLiveCoverPickerViewController {
         self.photoPickerModeCloseBtn.isHidden = false
         pickerSelectedThumbnailImageView.action( .setCropViewSize(playerContainerView.frame.size) )
         pickerSelectedThumbnailImageView.action( .setImage(image) )
-        thumbnailSliderView.action( .changeThumbnailFrameToPickerImage(image) )
         pickerSelectedThumbnailImageView.isHidden = false
         playerContainerView.isHidden = true
     }
     
     private func onReactorRequestCropImageForCropableImageView() {
         pickerSelectedThumbnailImageView.action( .requestCroppedImageResult )
+    }
+    
+    private func onReactorVideoThumbnailResult(image : UIImage?) {
+        resultHandler?( .onClosed )
+        self.resultHandler?( .onSuccessImage(image) )
+        ShopLiveCoverPicker.shared.close()
     }
 }
 extension ShopLiveCoverPickerViewController {
@@ -290,6 +298,15 @@ extension ShopLiveCoverPickerViewController {
     }
     
     private func onThumbnailSliderSeekTo(time : CMTime) {
+        if pickerSelectedThumbnailImageView.isHidden == false {
+            pickerSelectedThumbnailImageView.isHidden = true
+            self.photoPickerModeCloseBtn.isHidden = true
+        }
+        if playerContainerView.isHidden == true {
+            playerContainerView.isHidden = false
+            reactor.action( .setCurrentMode(.video) )
+        }
+        
         reactor.action( .seekTo(time) )
     }
 }
@@ -305,6 +322,7 @@ extension ShopLiveCoverPickerViewController {
     }
     
     private func onCroppableImageViewCroppedImageResult(image : UIImage?) {
+        resultHandler?( .onClosed )
         self.resultHandler?( .onSuccessImage(image) )
         ShopLiveCoverPicker.shared.close()
     }

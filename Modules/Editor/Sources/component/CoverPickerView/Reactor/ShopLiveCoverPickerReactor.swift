@@ -36,11 +36,13 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
         case dismissPhotoPicker
         case setThumbnail(UIImage)
         case requestCropImageForCropableImageView
+        case videoThumbnailResult(UIImage?)
     }
     
     private var videoUrl : URL?
     private var videoAsset : AVAsset?
     private var avPlayer : AVPlayer?
+    private var currentSeekTime : CMTime = .zero
     private var imageGenerator : AVAssetImageGenerator?
     private var imageGeneratorQueue = DispatchQueue(label: "shopLiveImageGeneratorQueue",qos: .background)
     
@@ -107,11 +109,15 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
     
     private func onSeekTo(time : CMTime) {
         self.avPlayer?.seek(to: time, toleranceBefore: .zero, toleranceAfter: .zero)
+        self.currentSeekTime = time
     }
     
     private func onRequestOnConfirm() {
         if self.currentMode == .video {
-            
+            let seconds = CMTimeGetSeconds(currentSeekTime)
+            self.getExtractThumbnail(at: seconds) { [weak self] resultImage in
+                self?.resultHandler?( .videoThumbnailResult(resultImage))
+            }
         }
         else {
             resultHandler?( .requestCropImageForCropableImageView )

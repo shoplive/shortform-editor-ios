@@ -65,8 +65,8 @@
 "editor.speed.page.title" = "Rate";
 "editor.speed.btn.confirm.title" = "confirm";
 "editor.speed.duration.label" = "%ds";
-"editor.speed.caution.duration.limit" = "Only duration under %dm is available.";
-
+"editor.speed.caution.duration.limit.min" = "Only duration under %dm is available.";
+"editor.speed.caution.duration.limit.sec" = "Only duration under %dsec is available.";
 //필터
 "editor.filter.page.title" = "Filter";
 "editor.filter.btn.confirm.title" = "confirm";

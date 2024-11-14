@@ -19,7 +19,7 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
         viewModel.action( .setPlaybackSpeed(speed) )
     }
     
-    func didUpdateVideo(with url: URL) {
+    func didUpdateVideo(with url: URL?) {
         viewModel.action( .didUpdateVideoUrl(url) )
     }
     

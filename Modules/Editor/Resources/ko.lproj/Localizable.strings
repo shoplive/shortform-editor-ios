@@ -65,7 +65,8 @@
 "editor.speed.page.title" = "배속";
 "editor.speed.btn.confirm.title" = "완료";
 "editor.speed.duration.label" = "%d초";
-"editor.speed.caution.duration.limit" = "%d분 이하인 영상만 업로드 할 수 있습니다";
+"editor.speed.caution.duration.limit.min" = "%d분 이하인 영상만 업로드 할 수 있습니다";
+"editor.speed.caution.duration.limit.sec" = "%d초 이하인 영상만 업로드 할 수 있습니다";
 
 //필터
 "editor.filter.page.title" = "필터";

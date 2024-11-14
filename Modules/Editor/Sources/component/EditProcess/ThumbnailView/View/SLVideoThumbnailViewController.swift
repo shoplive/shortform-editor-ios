@@ -256,7 +256,7 @@ extension SLVideoThumbnailViewController {
         let fileName = (video.localAbsoluteUrl.absoluteString as NSString).lastPathComponent
         let videoUrl = video.localAbsoluteUrl
         let videoSize = video.getVideoSize() ?? .zero
-        self.playerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize,centerCrop: false, isCropMode: true, isCropAvailable: false) )
+        self.playerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize,centerCrop: false, isCropMode: true, isCropAvailable: false, mode: .coverPicker) )
     }
     
     private func onReactorPauseVideo() {

@@ -90,6 +90,7 @@ class SLVideoMainSpeedSubView : UIView, SLReactor {
         case togglePlayPause
         case closeBtn
         case onValueChanged
+        case showToast(String)
     }
     
     
@@ -113,7 +114,7 @@ class SLVideoMainSpeedSubView : UIView, SLReactor {
     }
     
     @objc func onConfirmBtnTapped(sender : UIButton) {
-        resultHandler?( .confirm )
+        reactor.action( .checkVideoDuration )
     }
     
     @objc func onPlayPauseBtnTapped(sender : UIButton) {
@@ -181,6 +182,10 @@ extension SLVideoMainSpeedSubView {
                     self.onReactorOnValueChanged()
                 case .setSliderValue(let value):
                     self.onReactorSetSliderValue(value : value)
+                case .onConfirm:
+                    self.onReactorOnConfirm()
+                case .showToast(let toastMessage):
+                    self.onReactorShowtoast(message : toastMessage)
                 }
             }
         }
@@ -201,6 +206,14 @@ extension SLVideoMainSpeedSubView {
     private func onReactorSetSliderValue(value : CGFloat) {
         self.sliderView.action( .setCurrentValue(value) )
         self.sliderView.action( .setValueLabel(String(format: "%.1f", value) + "x"))
+    }
+    
+    private func onReactorOnConfirm() {
+        resultHandler?( .confirm)
+    }
+    
+    private func onReactorShowtoast(message : String) {
+        resultHandler?( .showToast(message) )
     }
 }
 //MARK: - bindSlider

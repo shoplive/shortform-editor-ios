@@ -101,7 +101,12 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         }
     }
 
-    func didUpdateVideo(with url: URL) {
+    func didUpdateVideo(with url: URL?) {
+        guard let url = url else {
+            ShopLiveController.streamUrl = nil
+            ShopLiveController.shared.releasePlayer = true
+            return
+        }
         if let streamUrl = ShopLiveController.streamUrl, streamUrl.absoluteString == url.absoluteString {
             return
         }

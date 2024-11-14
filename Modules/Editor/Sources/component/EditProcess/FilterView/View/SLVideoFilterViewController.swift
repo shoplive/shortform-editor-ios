@@ -233,7 +233,7 @@ class SLVideoFilterViewController : UIViewController {
         let fileName = (video.localAbsoluteUrl.absoluteString as NSString).lastPathComponent
         let videoUrl = video.localAbsoluteUrl
         let videoSize = video.getVideoSize() ?? .zero
-        self.playerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize, centerCrop: false, isCropMode: false, isCropAvailable: false) )
+        self.playerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize, centerCrop: false, isCropMode: false, isCropAvailable: false, mode: .videoEditing) )
     }
     
     private func onReactorSetEndBoundaryTime(time : CMTime) {

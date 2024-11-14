@@ -28,6 +28,10 @@ internal class OverlayWebView: SLView {
         }
     }
     
+    var viewType : String {
+        removeStaticInstanceWithDeinit ? "fullPlayer" : "previewPlayer"
+    }
+    
     private var removeStaticInstanceWithDeinit : Bool = false
     private var uuidString = UUID().uuidString
     /**
@@ -37,6 +41,7 @@ internal class OverlayWebView: SLView {
         super.init(frame: .zero)
         self.removeStaticInstanceWithDeinit = removeStaticInstanceWithDeinit
         setUpWebView(with: webViewConfiguration)
+        webView?.currentViewMode = removeStaticInstanceWithDeinit ? .fullPlayer : .previewPlayer
     }
     
     required init?(coder: NSCoder) {
@@ -52,6 +57,7 @@ internal class OverlayWebView: SLView {
     }
     
     func teardownOverlayWebView() {
+        ShopLiveLogger.tempLog("[OVERLAYWEBVIEW] \(viewType) tearDown")
         webView?.stopLoading()
         webView?.configuration.userContentController.removeAllUserScripts()
         if #available(iOS 14.0, *) {
@@ -196,6 +202,7 @@ extension OverlayWebView: WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        ShopLiveLogger.tempLog("[OVERLAYWEBVIEW] \(viewType) didFail")
         if let blankUrl = URL(string: "about:blank") {
             self.webView?.load(URLRequest(url: blankUrl))
         }
@@ -203,7 +210,7 @@ extension OverlayWebView: WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        
+        ShopLiveLogger.tempLog("[OVERLAYWEBVIEW] \(viewType) didFailProvisionalNavigation")
         if let blankUrl = URL(string: "about:blank") {
             self.webView?.load(URLRequest(url: blankUrl))
         }
@@ -260,13 +267,14 @@ extension OverlayWebView: WKNavigationDelegate {
     }
     
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        ShopLiveLogger.tempLog("[OVERLAYWEBVIEW] \(viewType) webViewWebContentProcessDidTerminate")
         delegate?.requestHideOrShowLoadingFromWebView(isHidden: true)
     }
 }
 
 extension OverlayWebView: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        ShopLiveLogger.tempLog("[OVERLAYWEBVIEW] \(message.body as? [String : Any])")
+        ShopLiveLogger.tempLog("[OVERLAYWEBVIEW] \(viewType) \(message.body as? [String : Any])")
         guard message.name == ShopLiveDefines.webInterface else { return }
         if let body = message.body as? [String: Any],
            let shopliveEvent = body["shopliveEvent"] as? [String : Any],
@@ -406,7 +414,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             ShopLiveLogger.debugLog("setPosterUrl(\(posterUrl))")
             self.delegate?.didUpdatePoster(with: posterUrl)
         case .setLiveStreamUrl(let streamUrl):
-            ShopLiveLogger.debugLog("setLiveStreamUrl(\(streamUrl.absoluteString))")
+            ShopLiveLogger.debugLog("setLiveStreamUrl(\(streamUrl?.absoluteString))")
             self.delegate?.didUpdateVideo(with: streamUrl)
         case .setIsPlayingVideo(let isPlaying):
             if isPlaying {
@@ -530,7 +538,6 @@ extension OverlayWebView: ShopLivePlayerDelegate {
 
 extension OverlayWebView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        ShopLiveLogger.debugLog("rect: \(scrollView.frame) webview inset: \(String(describing: webView?.scrollView.contentInset))")
         scrollView.setContentOffset(.init(x: 0, y: 0), animated: false)
     }
 }

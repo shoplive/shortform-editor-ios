@@ -15,7 +15,7 @@ import ShopliveSDKCommon
 extension LiveStreamViewModel {
     func handleTimeControlStatusPlaying() {
         self.isAlreadyPlayedOnce = true
-        ShopLiveLogger.tempLog("timeControlStatus.playing")
+        ShopLiveLogger.tempLog("[LIVESTREAMVIEWMODEL] timeControlStatus.playing")
         
         if let retryManager = retryManager {
             retryManager.setRequiredRetryCheck(isRequired: false)
@@ -39,7 +39,7 @@ extension LiveStreamViewModel {
     }
     
     func handleTimeControlStatusPaused() {
-        ShopLiveLogger.tempLog("timeControlStatu.paused")
+        ShopLiveLogger.tempLog("[LIVESTREAMVIEWMODEL] timeControlStatus.paused")
         self.delegate?.requestTakeSnapShotView()
         if ShopLiveController.isReplayMode {
             ShopLiveController.isPlaying = false

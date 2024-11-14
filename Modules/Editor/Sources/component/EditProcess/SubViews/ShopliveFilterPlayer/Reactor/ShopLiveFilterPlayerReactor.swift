@@ -15,6 +15,12 @@ import VideoToolbox
 
 
 class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
+    
+    enum Mode {
+        case videoEditing
+        case coverPicker
+    }
+    
     enum Action {
         case setUpFilterPlayer
         case setFileName(String)
@@ -24,6 +30,7 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
         case setIsCenterCrop(Bool)
         case setIsCropMode(Bool)
         case setIsCropAvailable(Bool)
+        case setMode(Mode)
         
         case seekTo(CMTime)
         case tingleVideo
@@ -46,7 +53,7 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
     
     enum Result {
         case setVideoUrlToPlayer(URL)
-        case setGLKViewSize(CGSize,centerCrop : Bool,isCropMode : Bool, isCropAvailable : Bool)
+        case setGLKViewSize(CGSize,centerCrop : Bool,isCropMode : Bool, isCropAvailable : Bool,mode : Mode)
         
         case setPlayBtnHidden(Bool)
         case didPlayToEndTime
@@ -77,6 +84,7 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
     private var isCenterCrop : Bool = false
     private var isCropMode : Bool = true
     private var isCropAvailable : Bool = true
+    private var currentMode : Mode = .videoEditing
     
     private var editingStartCropRect : CGRect?
     
@@ -121,6 +129,8 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
             self.isCropMode = isCropMode
         case .setIsCropAvailable(let isCropAvailable):
             self.isCropAvailable = isCropAvailable
+        case .setMode(let mode):
+            self.currentMode = mode
         case .seekTo(let time):
             self.onSeekTo(time: time)
         case .tingleVideo:
@@ -157,7 +167,7 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
         }
         
         if self.videoSize != .zero {
-            mainQueueResultHandler? ( .setGLKViewSize(self.videoSize, centerCrop: self.isCenterCrop,isCropMode: self.isCropMode, isCropAvailable: self.isCropAvailable) )
+            mainQueueResultHandler? ( .setGLKViewSize(self.videoSize, centerCrop: self.isCenterCrop,isCropMode: self.isCropMode, isCropAvailable: self.isCropAvailable, mode : currentMode) )
         }
         
         
@@ -312,6 +322,10 @@ extension ShopLiveFilterPlayerReactor {
     
     func getEditingStartCropRect() -> CGRect? {
         return self.editingStartCropRect
+    }
+    
+    func getCurrentMode() -> Mode {
+        return self.currentMode
     }
 }
 //MARK: -observer

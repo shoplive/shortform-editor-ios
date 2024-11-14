@@ -215,7 +215,7 @@ extension SLVideoCropViewController {
         let fileName = (video.localAbsoluteUrl.absoluteString as NSString).lastPathComponent
         let videoUrl = video.localAbsoluteUrl
         let videoSize = video.getVideoSize() ?? .zero
-        self.playerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize,centerCrop: false, isCropMode: true, isCropAvailable: true) )
+        self.playerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize,centerCrop: false, isCropMode: true, isCropAvailable: true, mode: .videoEditing) )
     }
     
     private func onReactorSetEndBoundaryTime(time : CMTime) {

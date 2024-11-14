@@ -69,7 +69,6 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
     }
     
     private func onSetAudioSessionCategory() {
-        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             do {

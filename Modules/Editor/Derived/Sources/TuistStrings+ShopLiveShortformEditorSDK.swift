@@ -129,9 +129,16 @@ public enum ShopLiveShortformEditorSDKStrings: Sendable {
       public enum Caution: Sendable {
 
         public enum Duration: Sendable {
-        /// Only duration under %dm is available.
-          public static func limit(_ p1: Int) -> String {
-            return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.speed.caution.duration.limit",p1)
+
+          public enum Limit: Sendable {
+          /// Only duration under %dm is available.
+            public static func min(_ p1: Int) -> String {
+              return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.speed.caution.duration.limit.min",p1)
+            }
+            /// Only duration under %dsec is available.
+            public static func sec(_ p1: Int) -> String {
+              return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.speed.caution.duration.limit.sec",p1)
+            }
           }
         }
       }
