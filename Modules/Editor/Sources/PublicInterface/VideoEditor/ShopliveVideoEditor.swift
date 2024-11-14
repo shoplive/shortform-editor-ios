@@ -53,6 +53,7 @@ public class ShopliveVideoEditor {
     }
     
     public func start(_ vc : UIViewController, absoluteUrl : URL, relativeUrl : URL) {
+        callFilterListAPI()
         self.callConfigAPI { [weak self] in
             guard let self = self else { return }
             SLCodecValidator.runFFProbCommand(videoPath: relativeUrl.absoluteString) { isValidCodec in
@@ -61,8 +62,8 @@ public class ShopliveVideoEditor {
                 }
                 else {
                     DispatchQueue.main.async {
-                        let shortsVideo = ShortsVideo(videoUrl: absoluteUrl)
-                        let editorVC = SLVideoEditorMainViewController(video: shortsVideo)
+                        let shortsVideo = ShortsVideo(localAbsoluteUrl: absoluteUrl, localRelativeUrl: relativeUrl)
+                        let editorVC = SLVideoEditorMainViewController(video: shortsVideo, isRoot: true)
                         editorVC.videoEditorDelegate = self.delegate
                         let navi = SLPickerNavigationController(rootViewController: editorVC)
                         Self.navigationController = navi
@@ -77,11 +78,12 @@ public class ShopliveVideoEditor {
     }
     
     public func start(_ vc : UIViewController, remoteUrl : URL) {
+        callFilterListAPI()
         self.callConfigAPI { [weak self] in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                let shortsVideo = ShortsVideo(videoUrl: remoteUrl)
-                let editorVC = SLVideoEditorMainViewController(video: shortsVideo)
+                let shortsVideo = ShortsVideo(localAbsoluteUrl: remoteUrl, localRelativeUrl: remoteUrl)
+                let editorVC = SLVideoEditorMainViewController(video: shortsVideo, isRoot: true)
                 editorVC.videoEditorDelegate = self.delegate
                 let navi = SLPickerNavigationController(rootViewController: editorVC)
                 Self.navigationController = navi
@@ -111,6 +113,13 @@ public class ShopliveVideoEditor {
         }
     }
     
+    private func callFilterListAPI() {
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self = self else { return }
+            ShopLiveShortformEditorFilterListManager.shared.videoEditorDelegate = self.delegate
+            ShopLiveShortformEditorFilterListManager.shared.callFilterListAPI { }
+        }
+    }
     
     
 }

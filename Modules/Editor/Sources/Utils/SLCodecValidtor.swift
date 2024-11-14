@@ -33,7 +33,7 @@ struct SLCodecValidator {
                     return
                 }
             }
-            completion(false)//file:///var/mobile/Media/DCIM/102APPLE/IMG_2295.MP4
+            completion(false)
         }
     }
     

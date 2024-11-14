@@ -10,19 +10,21 @@ import AVKit
 import VideoToolbox
 
 public class ShortsVideo {
-    public var videoUrl: URL
+    public var localAbsoluteUrl: URL
+    public var localRelativeUrl : URL
     public var player: AVPlayer?
     private(set) var videoAsset: AVURLAsset?
     private(set) var playerItem: AVPlayerItem?
     
     
-    public init(videoUrl: URL) {
-        let videoAsset = AVURLAsset(url: videoUrl)
+    public init(localAbsoluteUrl: URL, localRelativeUrl : URL ) {
+        let videoAsset = AVURLAsset(url: localAbsoluteUrl)
         self.videoAsset = videoAsset
         
         let _playerItem = AVPlayerItem(asset: videoAsset)
         self.playerItem = _playerItem
-        self.videoUrl = videoUrl
+        self.localAbsoluteUrl = localAbsoluteUrl
+        self.localRelativeUrl = localRelativeUrl
         self.player = AVPlayer(playerItem: _playerItem)
     }
     
@@ -37,7 +39,7 @@ public class ShortsVideo {
     }
     
     func configure(videoUrl: URL) {
-        self.videoUrl = videoUrl
+        self.localAbsoluteUrl = videoUrl
         
         let videoAsset = AVURLAsset(url: videoUrl)
         self.videoAsset = videoAsset

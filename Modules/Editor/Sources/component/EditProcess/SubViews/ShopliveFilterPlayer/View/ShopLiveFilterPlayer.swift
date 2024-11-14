@@ -37,6 +37,8 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
         case updateGLKViewOnRotation(_ videoSize : CGSize)
         //애니메이션을 위해서 있는 Action 선제적으로 계산하려고
         case updatePlayerViewHeight(CGFloat,_ videoSize : CGSize)
+        case updatePlayerViewHeightToMain(_ videoSize : CGSize)
+        case checkIfCropRectExceedsBounds
         
         case setFilterConfig(String)
         case setFilterIntensity(Float)
@@ -190,6 +192,10 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
             self.onUpdateCropViewOnRotation(videoSize: videoSize)
         case .updatePlayerViewHeight(let height, let size):
             self.onUpdatePlayerViewHeight(height: height,size: size)
+        case .updatePlayerViewHeightToMain(let videoSize):
+            self.onUpdatePlayerViewHeightToMain(size: videoSize)
+        case .checkIfCropRectExceedsBounds:
+            self.onCheckIfCropRectExceedsBounds()
         case .setPlayBtnisHidden(let isHidden):
             self.onSetPlayBtnIsHidden(isHidden: isHidden)
         case .updateGLKViewOnRotation(let videoSize):
@@ -273,7 +279,6 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
     
     private func onUpdatePlayerViewHeight(height : CGFloat,size : CGSize) {
         let frameHeight = height
-        let frameWidth = self.frame.width
         if size.width < size.height {
             glkViewWidthAnc.constant = frameHeight * (size.width / size.height)
             glkViewHeightAnc.constant = frameHeight
@@ -290,7 +295,18 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
         }
         videoPlayerDelegate.displayMode = ShopliveFilterSDKVideoPlayerViewDisplayModeAspectFill
         cropView.updateCropRectWithCustomSize(size: CGSize(width: glkViewWidthAnc.constant, height: glkViewHeightAnc.constant))
-        self.layoutIfNeeded()
+    }
+    
+    private func onUpdatePlayerViewHeightToMain(size : CGSize) {
+        glkViewWidthAnc.constant = self.frame.width
+        glkViewHeightAnc.constant = self.frame.height
+        
+        videoPlayerDelegate.displayMode = ShopliveFilterSDKVideoPlayerViewDisplayModeAspectFill
+        cropView.updateCropRectWithCustomSize(size: CGSize(width: glkViewWidthAnc.constant, height: glkViewHeightAnc.constant))
+    }
+    
+    private func onCheckIfCropRectExceedsBounds() {
+        cropView.checkIfCropRectExceedsBounds()
     }
     
     private func onSetPlayBtnIsHidden(isHidden : Bool) {
@@ -509,6 +525,8 @@ extension ShopLiveFilterPlayer {
         NSLayoutConstraint.activate([
             videoGlkView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             videoGlkView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+//            videoGlkView.widthAnchor.constraint(equalTo: self.widthAnchor),
+//            videoGlkView.heightAnchor.constraint(equalTo: self.heightAnchor),
             glkViewWidthAnc,
             glkViewHeightAnc,
             

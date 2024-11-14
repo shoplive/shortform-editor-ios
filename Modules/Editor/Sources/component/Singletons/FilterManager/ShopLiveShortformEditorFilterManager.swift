@@ -14,6 +14,7 @@ class ShopLiveShortformEditorFilterListManager {
     static let shared = ShopLiveShortformEditorFilterListManager()
     
     weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
+    weak var videoEditorDelegate : ShopLiveVideoEditorDelegate?
     var filterList : [Filters] = []
     var isFilterExist : Bool {
         return filterList.isEmpty ? false : true

@@ -208,7 +208,7 @@ extension SLVideoMainFilterSubView {
     }
     
     private func onSliderViewCurrentValue(value : CGFloat) {
-        sliderView.action( .setValueLabel(String(format: ".1f", value)) )
+        sliderView.action( .setValueLabel(String(format: "%.1f", value)) )
         reactor.action( .setIntensity(value) )
     }
 }

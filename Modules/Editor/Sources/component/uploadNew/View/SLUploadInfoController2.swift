@@ -214,8 +214,8 @@ class SLUploadInfoController2 : UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    init(videoUrl : String){
-        reactor = SLUploadInfoReactor(videoUrl: videoUrl)
+    init(videoUrl : String,localAbsoluteUrl : URL, localRelativeUrl : URL){
+        reactor = SLUploadInfoReactor(localAbsoluteUrl: localAbsoluteUrl, localRelativeUrl: localRelativeUrl)
         super.init(nibName: nil, bundle: nil)
     }
     

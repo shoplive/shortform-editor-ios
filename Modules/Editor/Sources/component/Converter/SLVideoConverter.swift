@@ -233,7 +233,7 @@ class SLVideoConverter : NSObject {
     }
     
     private func runFfmpegCommand(command: String, completion: @escaping (SLVideoFFMpegExecuteResult) -> Void) {
-        ShopLiveLogger.debugLog("ffmpeg command \(command)")
+        ShopLiveLogger.tempLog("ffmpeg command \(command)")
         self.delegate?.updateConvertPercent(percent: Int(0))
         FFmpegKit.executeAsync(command) { [weak self] session in
             self?.ffmpegSession = session
@@ -247,7 +247,7 @@ class SLVideoConverter : NSObject {
                 completion(.Failed(error: SLVideoConvertError.error))
             }
         } withLogCallback: { log in
-            ShopLiveLogger.debugLog(log?.getMessage() ?? "")
+            ShopLiveLogger.tempLog(log?.getMessage() ?? "")
         } withStatisticsCallback: { [weak self] statistics in
             guard let self = self,
                   let convertTime = statistics?.getTime(),

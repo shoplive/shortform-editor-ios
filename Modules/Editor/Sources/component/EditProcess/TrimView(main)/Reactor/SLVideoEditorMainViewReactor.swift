@@ -31,6 +31,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         
         case setCropRect(CGRect)
         
+        case setIsRootViewController(Bool)
         
         case resetDataOnViewRotation
         case setShortformEditorDelegate(ShopLiveShortformEditorDelegate?)
@@ -47,6 +48,8 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         case setEditingMode(SLVideoEditorMainViewController.ControlBoxType)
         
         case processConvertVideo
+        
+        case backBtnTapped
     }
     
     enum Result {
@@ -90,12 +93,14 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         case showLoadingView
         case cancelLoading
         case didFinishLoading
+        case requestPopView
     }
    
     private var videoEditInfoDto : SLVideoEditInfoDTO
     private var isPlaying : Bool = false
     private var isCropTimeUpdated : Bool = false
     private var isViewAppeared : Bool = false
+    private var isRootViewController : Bool = false
     
     private weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
     private weak var videoEditorDelegate : ShopLiveVideoEditorDelegate?
@@ -109,7 +114,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
    
     init(shortsVideo : ShortsVideo){
         videoEditInfoDto = SLVideoEditInfoDTO(shortsVideo: shortsVideo)
-        let asset = AVAsset(url: shortsVideo.videoUrl)
+        let asset = AVAsset(url: shortsVideo.localAbsoluteUrl)
         self.imageGenerator = AVAssetImageGenerator(asset: asset )
         self.imageGenerator.appliesPreferredTrackTransform = true
         self.imageGenerator.maximumSize = CGSize(width: 720, height: 1280)
@@ -140,6 +145,8 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
             self.onSetCropEndTime(endTime: time)
         case .setCropRect(let rect):
             videoEditInfoDto.realVideoCropRect = rect
+        case .setIsRootViewController(let isRoot):
+            self.onSetIsRootViewController(isRoot : isRoot)
         case .requestToggleVideoPlayOrPause:
             self.didTapPlayerView()
         case .didPlayToEndTime:
@@ -158,6 +165,8 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
             self.onApplyVideoConfigChanges(type : type)
         case .setEditingMode(let mode):
             self.onSetEditingMode(mode : mode)
+        case .backBtnTapped:
+            self.onBackBtnTapped()
         }
     }
     
@@ -216,17 +225,10 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         self.isCropTimeUpdated = true
         resultHandler?( .setPlayerEndBoundaryTime(endTime) )
     }
-    
-//    private func onRequestViewPop() {
-//        let bundle = Bundle(for: type(of: self))
-//        let cancelAlert = UIAlertController(title: "editor.encoding.cancel.alert.title".localizedString(bundle: bundle), message: nil, preferredStyle: .alert)
-//        cancelAlert.addAction(.init(title: "alert.no".localizedString(bundle: bundle), style: .cancel))
-//        cancelAlert.addAction(.init(title: "alert.yes".localizedString(bundle: bundle), style: .default, handler: { [weak self] action in
-//            self?.videoConverter.cancelConvert()
-//            self?.onMainQueueResultHandler?(.popViewWithMessage)
-//        }))
-//        onMainQueueResultHandler?( .showAlert(cancelAlert) )
-//    }
+
+    private func onSetIsRootViewController(isRoot : Bool) {
+        self.isRootViewController = isRoot
+    }
     
     private func didTapPlayerView() {
         if isCropTimeUpdated {
@@ -297,11 +299,21 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     private func onSetEditingMode(mode : SLVideoEditorMainViewController.ControlBoxType) {
         self.currentEditingMode = mode
     }
+    
+    private func onBackBtnTapped() {
+        if isRootViewController {
+            ShopliveVideoEditor.shared.close()
+            videoEditorDelegate?.onShopLiveVideoEditorClosed?()
+        }
+        else {
+            onMainQueueResultHandler?( .requestPopView )
+        }
+    }
 }
 //MARK: - GETTER
 extension SLVideoEditorMainViewReactor {
     func getVideoUrl() -> URL {
-        return videoEditInfoDto.shortsVideo.videoUrl
+        return videoEditInfoDto.shortsVideo.localAbsoluteUrl
     }
     
     func getVideoSize() -> CGSize? {
@@ -322,7 +334,7 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
               let startTime = videoEditInfoDto.cropTime.start.timeSeconds_SL,
               let endTime = videoEditInfoDto.cropTime.end.timeSeconds_SL,
               startTime < endTime else { return }
-        let videoUrl = videoEditInfoDto.shortsVideo.videoUrl.absoluteString
+        let videoUrl = videoEditInfoDto.shortsVideo.localRelativeUrl.absoluteString
         
         let videoInfo = SLVideoInfo(videoPath: videoUrl,
                                     cropRect: videoEditInfoDto.realVideoCropRect,
@@ -358,8 +370,7 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
 }
 extension SLVideoEditorMainViewReactor : SLLoadingAlertControllerDelegate {
     func didCancelLoading() {
-        resultHandler?( .cancelLoading )
-        
+        onMainQueueResultHandler?( .cancelLoading )
         let popUp = SLCustomAlertBox(title: ShopLiveShortformEditorSDKStrings.Editor.Upload.Cancel.Alert.title, confirmTitle: nil, closeTitle: nil)
         popUp.setBoxCornerRadius(cornerRadius: thumbnailDesign.cancelPopupCornerRadius)
         popUp.setButtonCornerRadius(cornerRadius: thumbnailDesign.cancelPopupButtonCornerRadius)
@@ -370,6 +381,7 @@ extension SLVideoEditorMainViewReactor : SLLoadingAlertControllerDelegate {
         popUp.btnClickCallback = { [weak self] result in
             guard let self = self else { return }
             if result == .yes {
+                self.onMainQueueResultHandler?( .cancelLoading )
                 self.videoConverter.cancelConvert()
                 popUp.isHidden = true
                 popUp.removeFromSuperview()
@@ -379,8 +391,7 @@ extension SLVideoEditorMainViewReactor : SLLoadingAlertControllerDelegate {
                 self.resultHandler?( .showLoadingView )
             }
         }
-        
-        resultHandler?( .showPopUp(popUp) )
+        onMainQueueResultHandler?( .showPopUp(popUp) )
     }
 
     func didFinishLoading() {

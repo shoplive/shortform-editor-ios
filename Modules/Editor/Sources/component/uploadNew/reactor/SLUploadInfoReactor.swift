@@ -108,17 +108,15 @@ class SLUploadInfoReactor : NSObject, SLReactor {
     
     init(uploadInfo : SLUploadAttachmentInfo) {
         if let videoUrl = URL(string: uploadInfo.videoUrl) {
-            videoData = ShortsVideo(videoUrl: videoUrl)
+            videoData = ShortsVideo(localAbsoluteUrl: videoUrl, localRelativeUrl: videoUrl)
         }
         self.temporaryUploadInfo = uploadInfo
         self.videoUrl = uploadInfo.videoUrl
     }
     
-    init(videoUrl : String) {
-        self.videoUrl = videoUrl
-        if let videoUrl = URL(string: videoUrl) {
-            videoData = ShortsVideo(videoUrl: videoUrl)
-        }
+    init(localAbsoluteUrl : URL, localRelativeUrl : URL) {
+        self.videoUrl = ""
+        videoData = ShortsVideo(localAbsoluteUrl: localAbsoluteUrl, localRelativeUrl: localRelativeUrl)
     }
     
     deinit {

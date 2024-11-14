@@ -72,7 +72,7 @@ class SLVideoThumbnailReactor : NSObject, SLReactor {
     
     init(videoEditInfo : SLVideoEditInfoDTO) {
         self.videoEditInfoDto = videoEditInfo
-        videoAsset = AVAsset(url: videoEditInfo.shortsVideo.videoUrl)
+        videoAsset = AVAsset(url: videoEditInfo.shortsVideo.localAbsoluteUrl)
         self.imageGenerator = AVAssetImageGenerator(asset: videoAsset! )
         self.imageGenerator.appliesPreferredTrackTransform = true
         self.imageGenerator.maximumSize = CGSize(width: 720, height: 1280)
@@ -154,7 +154,7 @@ class SLVideoThumbnailReactor : NSObject, SLReactor {
 //MARK: - GETTER
 extension SLVideoThumbnailReactor {
     func getVideoUrl() -> URL {
-        return videoEditInfoDto.shortsVideo.videoUrl
+        return videoEditInfoDto.shortsVideo.localAbsoluteUrl
     }
 }
 extension SLVideoThumbnailReactor {
@@ -163,7 +163,7 @@ extension SLVideoThumbnailReactor {
               let startTime = videoEditInfoDto.cropTime.start.timeSeconds_SL,
               let endTime = videoEditInfoDto.cropTime.end.timeSeconds_SL,
               startTime < endTime else { return }
-        let videoUrl = videoEditInfoDto.shortsVideo.videoUrl.absoluteString
+        let videoUrl = videoEditInfoDto.shortsVideo.localAbsoluteUrl.absoluteString
         
         let videoInfo = SLVideoInfo(videoPath: videoUrl,
                                     cropRect: videoEditInfoDto.realVideoCropRect,

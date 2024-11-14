@@ -19,10 +19,7 @@ class ShopliveShortformCoordinator : NSObject {
     private var editorDelegate : ShopLiveShortformEditorDelegate?
     private var ffmpegValidator = FFmpegVideoValidator()
     
-    
     private var navigationController : SLPickerNavigationController?
-    
-    
     
     func showPhotoPicker(vc : UIViewController, permissionHandler : ShopLivePermissionHandler?, editorDelegate : ShopLiveShortformEditorDelegate?) {
         self.permissionHandler = permissionHandler
@@ -64,7 +61,7 @@ extension ShopliveShortformCoordinator : SLPhotosPickerViewControllerDelegate  {
         ffmpegValidator.checkValidCodec(videoUrl: relativeUrl) { [weak self] isValidCodec in
             guard let self = self else { return }
             if isValidCodec {
-                self.showSLVideoEditorViewController(video: ShortsVideo(videoUrl: absoluteUrl))
+                self.showSLVideoEditorViewController(video: ShortsVideo(localAbsoluteUrl: absoluteUrl, localRelativeUrl: relativeUrl))
             }
         }
     }
@@ -85,7 +82,7 @@ extension ShopliveShortformCoordinator : SLVideoEditorViewControllerDelegate {
                 return
             }
             
-            let editor = SLVideoEditorMainViewController(video: video)
+            let editor = SLVideoEditorMainViewController(video: video, isRoot: false)
             editor.delegate = self
             editor.shortformEditorDelegate = self.editorDelegate
             self.navigationController?.pushViewController(editor, animated: true)
@@ -97,5 +94,4 @@ extension ShopliveShortformCoordinator : SLVideoEditorViewControllerDelegate {
         let bundle = Bundle(for: type(of: self))
         vc.showToast(message: "toast.cancel.encoding.title".localizedString(bundle: bundle), duration: .long)
     }
-    
 }

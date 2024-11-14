@@ -20,7 +20,6 @@ public extension PHAsset {
                 completionHandler(contentEditingInput!.fullSizeImageURL as URL?,contentEditingInput!.fullSizeImageURL as URL?)
             })
         } else if self.mediaType == .video {
-            
             let options: PHVideoRequestOptions = PHVideoRequestOptions()
             options.version = .current
             options.isNetworkAccessAllowed = true

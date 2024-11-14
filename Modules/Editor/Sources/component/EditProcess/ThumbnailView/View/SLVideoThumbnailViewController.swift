@@ -253,8 +253,8 @@ extension SLVideoThumbnailViewController {
     
     private func onReactorSetShortsVideo(video : ShortsVideo) {
         pickerSelectedThumbnailImageView.isHidden = true
-        let fileName = (video.videoUrl.absoluteString as NSString).lastPathComponent
-        let videoUrl = video.videoUrl
+        let fileName = (video.localAbsoluteUrl.absoluteString as NSString).lastPathComponent
+        let videoUrl = video.localAbsoluteUrl
         let videoSize = video.getVideoSize() ?? .zero
         self.playerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize,centerCrop: false, isCropMode: true, isCropAvailable: false) )
     }

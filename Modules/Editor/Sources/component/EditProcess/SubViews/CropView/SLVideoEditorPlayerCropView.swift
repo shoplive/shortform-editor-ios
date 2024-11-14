@@ -381,8 +381,21 @@ class SLVideoEditorPlayerCropView: UIView, UIGestureRecognizerDelegate {
         let originCropRect = self.cropRect
         self.cropRect.origin.x = originCropRect.origin.x * xRatio
         self.cropRect.origin.y = originCropRect.origin.y * yRatio
+        
         self.cropRect.size.width = originCropRect.width * xRatio
         self.cropRect.size.height = originCropRect.height * yRatio
+        
+        gridView.frame = self.cropRect
+        updateHandleViews()
+    }
+    
+    
+    func checkIfCropRectExceedsBounds() {
+        let originCropRect = self.cropRect
+        
+        if originCropRect.origin.x + originCropRect.size.width > self.bounds.width {
+            self.cropRect.size.width = self.bounds.width - originCropRect.origin.x
+        }
         
         gridView.frame = self.cropRect
         updateHandleViews()

@@ -71,7 +71,7 @@ class SLVideoMainFilterSubReactor : NSObject, SLReactor {
     
     private func onInitializeCells() {
         cv?.visibleCells.compactMap({ $0 as? SLVideoFilterCell }).forEach({ cell  in
-            cell.drawGLKView()
+            cell.reDrawGLKViewOnReAppear()
         })
     }
     
@@ -105,6 +105,7 @@ class SLVideoMainFilterSubReactor : NSObject, SLReactor {
     private func onSetIntensity(intensity : CGFloat) {
         guard let dto = self.videoEditInfoDTO else { return }
         dto.filterConfig?.filterIntensity = Float(intensity)
+        resultHandler?( .setFilterConfig(""))
     }
 }
 extension SLVideoMainFilterSubReactor : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

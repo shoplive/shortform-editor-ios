@@ -124,7 +124,15 @@ class SLVideoEditorMainViewController : UIViewController {
         view.layerCornerRadius = design.videoPlayerCornerRadius
         return view
     }()
-
+    
+    lazy private var playerBoxMainModeTopAnc : NSLayoutConstraint = {
+        return filterPlayerView.topAnchor.constraint(equalTo: self.view.topAnchor)
+    }()
+    
+    lazy private var playerBoxEditModeTopAnc : NSLayoutConstraint = {
+        return filterPlayerView.topAnchor.constraint(equalTo: naviBar.bottomAnchor)
+    }()
+        
     lazy private var playerBoxBottonAnc : [ControlBoxType: NSLayoutConstraint] = {
         return [.main : filterPlayerView.bottomAnchor.constraint(equalTo: timeTrimSliderView.topAnchor,constant: -30),
                 .speed : filterPlayerView.bottomAnchor.constraint(equalTo: speedRateControlBox.topAnchor,constant: -30),
@@ -200,8 +208,9 @@ class SLVideoEditorMainViewController : UIViewController {
         return .lightContent
     }
     
-    init(video : ShortsVideo){
+    init(video : ShortsVideo,isRoot : Bool ){
         self.reactor = SLVideoEditorMainViewReactor(shortsVideo: video)
+        self.reactor.action( .setIsRootViewController(isRoot) )
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -274,12 +283,7 @@ class SLVideoEditorMainViewController : UIViewController {
     } 
     
     @objc func backBtnTapped(sender : UIButton) {
-        if let nav = self.navigationController {
-            nav.popViewController(animated: true)
-        }
-        else {
-            self.dismiss(animated: true)
-        }
+        reactor.action( .backBtnTapped )
     }
     
     @objc func editingCloseBtnTapped(sender : UIButton) {
@@ -301,9 +305,13 @@ class SLVideoEditorMainViewController : UIViewController {
     }
     
     @objc func filterAddBtnTapped(sender : UIButton) {
-        filterControlBox.action( .setThumbnail(timeTrimSliderView.getFirstThumbnailImage()) )
-        filterControlBox.action( .initializeCells )
-        animateControlBox(to: .filter)
+        filterControlBox.action( .setThumbnail(self.timeTrimSliderView.getFirstThumbnailImage()) )
+        animateControlBox(to: .filter) { [weak self] in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.filterControlBox.action( .initializeCells )
+            }
+        }
     }
     
     @objc func cropBtnTapped(sender : UIButton) {
@@ -385,6 +393,8 @@ class SLVideoEditorMainViewController : UIViewController {
                     self.onReactorDidFinishLoading()
                 case .updateLoadingPercent(let value):
                     self.onReactorUpdateLoadingPercent(value: value)
+                case .requestPopView:
+                    self.onReactorRequestPopView()
                 default:
                     break
                 }
@@ -393,8 +403,8 @@ class SLVideoEditorMainViewController : UIViewController {
     }
     
     private func setShortsVideoToPlayer(video : ShortsVideo){
-        let fileName = (video.videoUrl.absoluteString as NSString).lastPathComponent
-        let videoUrl = video.videoUrl
+        let fileName = (video.localAbsoluteUrl.absoluteString as NSString).lastPathComponent
+        let videoUrl = video.localAbsoluteUrl
         let videoSize = video.getVideoSize() ?? .zero
         
         self.filterPlayerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize,centerCrop : false, isCropMode: true, isCropAvailable: false) )
@@ -514,6 +524,15 @@ class SLVideoEditorMainViewController : UIViewController {
     private func onReactorUpdateLoadingPercent(value : String) {
         self.loadingProgress.setLoadingText(value)
     }
+    
+    private func onReactorRequestPopView() {
+        if let nav = self.navigationController {
+            nav.popViewController(animated: true)
+        }
+        else {
+            self.dismiss(animated: true)
+        }
+    }
 }
 //MARK: - FilterPlayerView binding
 extension SLVideoEditorMainViewController {
@@ -590,17 +609,15 @@ extension SLVideoEditorMainViewController {
     private func bindSpeedControlBox() {
         speedRateControlBox.resultHandler = { [weak self] result in
             guard let self = self else { return }
-            DispatchQueue.main.async {
-                switch result {
-                case .closeBtn:
-                    break
-                case .confirm:
-                    self.onSpeedControlBoxConfirm()
-                case .togglePlayPause:
-                    self.reactor.action( .requestToggleVideoPlayOrPause )
-                case .onValueChanged:
-                    self.onSpeedControlBoxOnValueChanged()
-                }
+            switch result {
+            case .closeBtn:
+                break
+            case .confirm:
+                self.onSpeedControlBoxConfirm()
+            case .togglePlayPause:
+                self.reactor.action( .requestToggleVideoPlayOrPause )
+            case .onValueChanged:
+                self.onSpeedControlBoxOnValueChanged()
             }
         }
     }
@@ -620,17 +637,15 @@ extension SLVideoEditorMainViewController {
     private func bindVolumeControlBox() {
         volumeControlBox.resultHandler = { [weak self] result in
             guard let self = self else { return }
-            DispatchQueue.main.async {
-                switch result {
-                case .closeBtn:
-                    break
-                case .confirm:
-                    self.onVolumeControlBoxConfirm()
-                case .togglePlayPause:
-                    self.reactor.action( .requestToggleVideoPlayOrPause )
-                default:
-                    break
-                }
+            switch result {
+            case .closeBtn:
+                break
+            case .confirm:
+                self.onVolumeControlBoxConfirm()
+            case .togglePlayPause:
+                self.reactor.action( .requestToggleVideoPlayOrPause )
+            default:
+                break
             }
         }
     }
@@ -645,24 +660,22 @@ extension SLVideoEditorMainViewController {
     private func bindFilterControlBox() {
         filterControlBox.resultHandler = { [weak self] result in
             guard let self = self else { return }
-            DispatchQueue.main.async {
-                switch result {
-                case .confirm:
-                    self.onFilterControlBoxConfirm()
-                case .onValueChanged:
-                    self.onFilterControlBoxOnValueChanged()
-                case .togglePlayPause:
-                    self.reactor.action( .requestToggleVideoPlayOrPause )
-                default:
-                    break
-                }
+            switch result {
+            case .confirm:
+                self.onFilterControlBoxConfirm()
+            case .onValueChanged:
+                self.onFilterControlBoxOnValueChanged()
+            case .togglePlayPause:
+                self.reactor.action( .requestToggleVideoPlayOrPause )
+            default:
+                break
             }
         }
     }
     
     private func onFilterControlBoxConfirm() {
-        reactor.action( .applyVideoConfiChange(.all) )
-        animateControlBox(to: .main )
+        self.reactor.action( .applyVideoConfiChange(.all) )
+        animateControlBox(to : .main)
     }
     
     private func onFilterControlBoxOnValueChanged() {
@@ -748,7 +761,10 @@ extension SLVideoEditorMainViewController {
             videoCropBtn.heightAnchor.constraint(equalToConstant: 40),
             filterAddBtn.heightAnchor.constraint(equalToConstant: 40),
             
-            filterPlayerView.topAnchor.constraint(equalTo: naviBar.bottomAnchor),
+//            filterPlayerView.topAnchor.constraint(equalTo: self.view.topAnchor),
+//            filterPlayerView.topAnchor.constraint(equalTo: naviBar.bottomAnchor),
+            playerBoxMainModeTopAnc,
+//            playerBoxEditModeTopAnc,
             filterPlayerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             filterPlayerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             
@@ -794,58 +810,55 @@ extension SLVideoEditorMainViewController {
         case main
     }
     
-    private func animateControlBox(to : ControlBoxType) {
-        let controlBoxs = [timeTrimSliderView,speedRateControlBox,volumeControlBox,filterControlBox,cropControlBox]
-        guard let currentControlBoxHeight = controlBoxs.filter({ $0.isHidden == false }).first?.frame.height else { return }
-        reactor.action( .setEditingMode(to) )
-        var targetControlBoxHeight : CGFloat = 0
-        switch to {
-        case .speed:
-            targetControlBoxHeight = speedRateControlBox.frame.height
-        case .volume:
-            targetControlBoxHeight = volumeControlBox.frame.height
-        case .filter:
-            targetControlBoxHeight = filterControlBox.frame.height
-        case .crop:
-            targetControlBoxHeight = cropControlBox.frame.height
-        case .main:
-            targetControlBoxHeight = timeTrimSliderView.frame.height
-        }
-        
-        let nextPlayerViewHeight = self.filterPlayerView.frame.height + (currentControlBoxHeight - targetControlBoxHeight)
-        
+    private func animateControlBox(to : ControlBoxType,completion : (() -> ())? = nil) {
         filterPlayerView.action( .setCropIsAvailable(to == .crop) )
-        
         editingCloseBtn.isHidden = to == .main ? true : false
         backBtn.isHidden = to == .main ? false : true
         
-        UIView.animate(withDuration: 0.4, delay: 0) {
-            self.timeTrimSliderView.isHidden = to == .main ? false : true
-            self.playerBoxBottonAnc[.main]!.isActive = to == .main
-            self.timeTrimSliderView.alpha = to == .main ? 1 : 0
+        UIView.animateKeyframes(withDuration: 0.4, delay: 0, options: []) {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
+                self.playerBoxEditModeTopAnc.isActive = to == .main ? false : true
+                self.playerBoxMainModeTopAnc.isActive = to == .main ? true : false
+                
+                self.timeTrimSliderView.isHidden = to == .main ? false : true
+                self.playerBoxBottonAnc[.main]!.isActive = to == .main
+                self.timeTrimSliderView.alpha = to == .main ? 1 : 0
+                
+                self.speedRateControlBox.isHidden  = to == .speed ? false : true
+                self.playerBoxBottonAnc[.speed]!.isActive = to == .speed
+                self.speedRateControlBox.alpha = to == .speed ? 1 : 0
+                
+                
+                self.volumeControlBox.isHidden = to == .volume ? false : true
+                self.playerBoxBottonAnc[.volume]!.isActive = to == .volume
+                self.volumeControlBox.alpha = to == .volume ? 1 : 0
+                
+                self.filterControlBox.isHidden = to == .filter ? false : true
+                self.playerBoxBottonAnc[.filter]!.isActive = to == .filter
+                self.filterControlBox.alpha = to == .filter ? 1 : 0
+                
+                self.cropControlBox.isHidden = to == .crop ? false : true
+                self.playerBoxBottonAnc[.crop]!.isActive = to == .crop
+                self.cropControlBox.alpha = to == .crop ? 1 : 0
+                self.view.layoutIfNeeded()
+            }
             
-            self.speedRateControlBox.isHidden  = to == .speed ? false : true
-            self.playerBoxBottonAnc[.speed]!.isActive = to == .speed
-            self.speedRateControlBox.alpha = to == .speed ? 1 : 0
-            
-            
-            self.volumeControlBox.isHidden = to == .volume ? false : true
-            self.playerBoxBottonAnc[.volume]!.isActive = to == .volume
-            self.volumeControlBox.alpha = to == .volume ? 1 : 0
-            
-            self.filterControlBox.isHidden = to == .filter ? false : true
-            self.playerBoxBottonAnc[.filter]!.isActive = to == .filter
-            self.filterControlBox.alpha = to == .filter ? 1 : 0
-            
-            self.cropControlBox.isHidden = to == .crop ? false : true
-            self.playerBoxBottonAnc[.crop]!.isActive = to == .crop
-            self.cropControlBox.alpha = to == .crop ? 1 : 0
-            
-            
-            guard let videoSize = self.reactor.getVideoSize() else { return }
-            self.filterPlayerView.action( .updatePlayerViewHeight(nextPlayerViewHeight, videoSize) )
-            
-            self.view.layoutIfNeeded()
+            UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.4) {
+                guard let videoSize = self.reactor.getVideoSize() else { return }
+                if to == .main {
+                    self.filterPlayerView.action( .updatePlayerViewHeightToMain(videoSize) )
+                }
+                else {
+                    self.filterPlayerView.action( .updatePlayerViewHeight(self.filterPlayerView.frame.height, videoSize) )
+                }
+                self.view.layoutIfNeeded()
+            }
+        } completion: { [weak self] _ in
+            guard let self = self else { return }
+            //cropView랑 이런게 제대로 렌더링이 안되는 현상이 있어서 다시 한번 세팅해주는 용도
+            self.filterPlayerView.action( .checkIfCropRectExceedsBounds )
+            self.filterPlayerView.layoutIfNeeded()
+            completion?()
         }
     }
     

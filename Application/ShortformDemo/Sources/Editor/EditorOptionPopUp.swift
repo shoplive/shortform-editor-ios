@@ -215,7 +215,6 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
                 }
             })
         }
-        
     }
     
     private func openShopLiveEditorOnly(localUrl : URL, relativeUrl : URL) {

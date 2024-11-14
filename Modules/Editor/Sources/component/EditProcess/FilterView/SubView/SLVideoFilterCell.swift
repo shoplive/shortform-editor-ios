@@ -95,11 +95,20 @@ class SLVideoFilterCell : UICollectionViewCell {
     func setfilterName(filterName : String) {
         self.filterNameLabel.text = filterName
     }
+    
     func drawGLKView() {
         guard isInitialzed == false else { return }
         guard let thumbNailImage = thumbNailImage else { return }
         
         isInitialzed = true
+        glkImageViewHandler?.clear()
+        glkImageViewHandler = ShopliveFilterSDKImageViewHandler(glkView: glkView,with: thumbNailImage)
+        glkImageViewHandler?.setViewDisplayMode(ShopliveFilterSDKImageViewDisplayModeAspectFill)
+        glkImageViewHandler?.setFilterWithConfig(filterConfig)
+    }
+    
+    func reDrawGLKViewOnReAppear() {
+        guard let thumbNailImage = thumbNailImage else { return }
         glkImageViewHandler?.clear()
         glkImageViewHandler = ShopliveFilterSDKImageViewHandler(glkView: glkView,with: thumbNailImage)
         glkImageViewHandler?.setViewDisplayMode(ShopliveFilterSDKImageViewDisplayModeAspectFill)
