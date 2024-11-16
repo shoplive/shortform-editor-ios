@@ -39,7 +39,7 @@ class ShopLivePreviewSampleCell : UICollectionViewCell {
     }
     
     
-    func setPreview(accessKey : String, campaignKey : String) {   
+    func setPreview(accessKey : String, campaignKey : String) {
         preview.action( .initialize )
         preview.action( .setResolutionType(DemoConfiguration.shared.previewResolution))
         preview.action( .start(accessKey: accessKey, campaignKey: campaignKey, referrer: nil) )

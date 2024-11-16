@@ -177,7 +177,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         let chatInputMaxLength = payload?["chatInputMaxLength"] as? Int
         let campaignInfo = payload?["campaignInfo"] as? [String : Any]
         var isMuted = ShopLiveController.shared.isPreview ? !ShopLiveConfiguration.SoundPolicy.previewSoundEnabled : ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
-        if audioSession.outputVolume == 0 {
+        if SLAudioSessionManager.shared.audioSession.outputVolume == 0 {
             isMuted = true
         }
         ShopLiveController.shared.setSoundMute(isMuted: isMuted)

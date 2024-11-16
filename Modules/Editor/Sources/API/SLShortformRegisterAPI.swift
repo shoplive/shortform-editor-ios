@@ -12,8 +12,8 @@ import ShopliveSDKCommon
 struct SLShortformRegisterAPI: APIDefinition {
     typealias ResultType = ShortsModel
     
-    var showRequestLog: Bool = true
-    var showResponseLog: Bool = true
+    var showRequestLog: Bool = false
+    var showResponseLog: Bool = false
     
     var baseUrl: String {
         ShortFormUploadConfigurationInfosManager.shared.getBaseUrl()
@@ -21,10 +21,10 @@ struct SLShortformRegisterAPI: APIDefinition {
     
     var urlPath: String {
         if let accessKey = ShopLiveCommon.getAccessKey(), accessKey.isEmpty == false {
-            return "sdk/v1/\(accessKey)/shorts"
+            return "sdk/v1/\(accessKey)/shortform"
         }
         else {
-            return "sdk/v1/shorts"
+            return "sdk/v1/shortform"
         }
     }
     

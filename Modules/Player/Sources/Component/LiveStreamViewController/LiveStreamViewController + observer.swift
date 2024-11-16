@@ -17,15 +17,13 @@ extension LiveStreamViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(voiceOverStatusChanged), name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
         UIScreen.main.addObserver(self, forKeyPath: "captured", options: .new, context: nil)
         
-        do {
-            try audioSession.setActive(true, options: [])
-            audioSession.addObserver(self, forKeyPath: "outputVolume",
-                               options: NSKeyValueObservingOptions.new, context: nil)
-            audioSessionObservationInfo = audioSession.observationInfo
-            audioLevel = audioSession.outputVolume
-        } catch {
-            ShopLiveLogger.debugLog("setup failed - outputVolume observe")
-        }
+        
+        SLAudioSessionManager.shared.setActive(true, options: [.notifyOthersOnDeactivation])
+        
+        SLAudioSessionManager.shared.audioSession.addObserver(self, forKeyPath: "outputVolume",
+                           options: NSKeyValueObservingOptions.new, context: nil)
+        audioSessionObservationInfo = SLAudioSessionManager.shared.audioSession.observationInfo
+        audioLevel = SLAudioSessionManager.shared.audioSession.outputVolume
         
 
     }
@@ -34,7 +32,7 @@ extension LiveStreamViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
         UIScreen.main.safeRemoveObserver(self, forKeyPath: "captured")
-        audioSession.safeRemoveObserver(self, forKeyPath: "outputVolume", observeInfo: audioSessionObservationInfo) { [weak self] success in
+        SLAudioSessionManager.shared.audioSession.safeRemoveObserver(self, forKeyPath: "outputVolume", observeInfo: audioSessionObservationInfo) { [weak self] success in
             if success {
                 self?.audioSessionObservationInfo = nil
             }
@@ -49,16 +47,16 @@ extension LiveStreamViewController {
                 return
             }
             
-            if audioSession.outputVolume > audioLevel {
+            if SLAudioSessionManager.shared.audioSession.outputVolume > audioLevel {
                 ShopLiveLogger.debugLog("volume up")
                 isDownward = false
             }
-            if audioSession.outputVolume < audioLevel {
+            if SLAudioSessionManager.shared.audioSession.outputVolume < audioLevel {
                 ShopLiveLogger.debugLog("volume down")
                 isDownward = true
             }
             
-            audioLevel = audioSession.outputVolume
+            audioLevel = SLAudioSessionManager.shared.audioSession.outputVolume
             let isMuted = ShopLiveController.player?.isMuted ?? false
             
             if audioLevel <= 0 {
@@ -75,7 +73,7 @@ extension LiveStreamViewController {
             break
         case "captured":
             guard !ShopLiveController.shared.isPreview else { return }
-            let audioSessionManager = AudioSessionManager.shared
+            let audioSessionManager = SLAudioSessionManager.shared
             if UIScreen.main.isCaptured {
                 guard ShopLiveController.windowStyle != .osPip else {
                     return

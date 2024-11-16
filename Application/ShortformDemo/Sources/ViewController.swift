@@ -269,18 +269,46 @@ extension ViewController : ShopLiveVideoEditorDelegate {
         ShopLiveLogger.tempLog("[HASSAN LOG] videoeditor error \(error.codes) \(error.message)")
     }
     
-    func onShopLiveVideoEditorSuccess(videoPath: String) {
+    func onShopLiveVideoEditorVideoConvertSuccess(videoPath: String) {
         ShopLiveLogger.tempLog("[HASSAN LOG] videoEditor videoPath \(videoPath)")
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.videoEditorResultPopUp.setVideoPath(videoPath: videoPath)
             self.videoEditorResultPopUp.alpha = 1
-            ShopliveVideoEditor().close()
+            ShopliveVideoEditor.shared.close()
         }
     }
     
-    func onShopliveVideoEditorMediaPickerDismiss() {
-        ShopLiveLogger.tempLog("[HASSAN LOG] videoeditor picker dismiss")
+    func onShopLiveVideoEditorUploadSuccess(shortsId: String) {
+        ShopLiveLogger.tempLog("[HASSAN LOG] onShopLiveVideoEditorUploadSuccess shortsId \(shortsId)")
+    }
+    
+    func onShopLiveVideoEditorClosed() {
+        
+    }
+    
+}
+extension ViewController : ShopLiveMediaPickerDelegate {
+    func onShopLiveMediaPickerCancelled() {
+        print("onShopLiveMediaPickerCancelled")
+    }
+    
+    func onShopLiveMediaPickerDidPickVideo(absoluteUrl: URL, relativeUrl: URL) {
+        print("Picker Video Selected absoluteUrl: \(absoluteUrl) relativeUrl : \(relativeUrl)")
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.videoEditorResultPopUp.setVideoPath(videoPath: absoluteUrl.absoluteString)
+            self.videoEditorResultPopUp.alpha = 1
+            ShopLiveMediaPicker.shared.close()
+        }
+    }
+    
+    func onShopLiveMediaPickerDidPickImage(imageUrl: URL) {
+        print("Picker Image Selected image: \(imageUrl)")
+        let image = UIImage(contentsOfFile: imageUrl.path)
+        coverPickerImageResultPopUp.setResultImage(image: image)
+        coverPickerImageResultPopUp.alpha = 1
+        ShopLiveMediaPicker.shared.close()
     }
 }
 extension ViewController : ShopLiveCoverPickerDelegate {
@@ -292,9 +320,13 @@ extension ViewController : ShopLiveCoverPickerDelegate {
         ShopLiveLogger.tempLog("[HASSAN LOG] coverPicker error \(error.message)")
     }
     
-    func onShopLiveCoverPickerSuccess(image: UIImage?) {
+    func onShopLiveCoverPickerCoverImageSuccess(image: UIImage?) {
         coverPickerImageResultPopUp.setResultImage(image: image)
         coverPickerImageResultPopUp.alpha = 1
+    }
+    
+    func onShopLiveCoverPickerUploadSuccess(shortsId: String) {
+        ShopLiveLogger.tempLog("coverPicker upload success shortsid \(shortsId)")
     }
 }
 extension ViewController {

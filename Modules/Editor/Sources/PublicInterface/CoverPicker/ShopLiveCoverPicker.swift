@@ -18,7 +18,7 @@ public class ShopLiveCoverPicker {
     
     private var delegate : ShopLiveCoverPickerDelegate?
     private var permissionHandler : ShopLivePermissionHandler?
-    private var navigationController : UINavigationController?
+    private var navigationController : SLPickerNavigationController?
     
     @discardableResult
     public func setPermissionHandler(_ permissionHandler : ShopLivePermissionHandler) -> Self {
@@ -32,14 +32,25 @@ public class ShopLiveCoverPicker {
         return self
     }
     
-    public func start(_ vc : UIViewController, videoUrl : URL) {
+    @discardableResult
+    public func setConfiguration(_ configuration : ShopLiveCoverPickerConfiguration?) -> Self {
+        if let videoCropOption = configuration?.cropOption {
+            ShopLiveEditorConfigurationManager.shared.videoCropOption = videoCropOption
+        }
+        if let visibleActionButton = configuration?.visibleActionButton {
+            ShopLiveEditorConfigurationManager.shared.coverPickerVisibleActionButton = visibleActionButton
+        }
+        return self
+    }
+    
+    public func start(_ vc : UIViewController, data : ShopLiveCoverPickerData) {
         self.callConfigAPI {
             let pickerVc = ShopLiveCoverPickerViewController()
-            pickerVc.action( .setVideoUrl(videoUrl) )
+            pickerVc.action( .setShopLiveCoverPickerData(data) )
             pickerVc.action( .setPlayer )
             pickerVc.action(. initializeSliderView )
             Self.shared.bindCoverPickerViewController(pickerController: pickerVc)
-            let navigationController = UINavigationController(rootViewController: pickerVc)
+            let navigationController = SLPickerNavigationController(rootViewController: pickerVc)
             Self.shared.navigationController = navigationController
             navigationController.isNavigationBarHidden = true
             navigationController.modalPresentationCapturesStatusBarAppearance = true
@@ -49,8 +60,9 @@ public class ShopLiveCoverPicker {
     }
     
     public func close() {
-        self.navigationController?.dismiss(animated: true)
-        self.navigationController = nil
+        Self.shared.navigationController?.viewControllers.first?.dismiss(animated: true)
+        Self.shared.navigationController?.dismiss(animated: true)
+        Self.shared.navigationController = nil
     }
     
     private func callConfigAPI(completion : @escaping () -> ()) {
@@ -62,27 +74,36 @@ public class ShopLiveCoverPicker {
                     completion()
                 }
             case .failure(let error):
-                delegate?.onShopLiveCoverPickerError?(error: error)
+                Self.shared.delegate?.onShopLiveCoverPickerError?(error: error)
             }
         }
     }
 }
 extension ShopLiveCoverPicker {
     private func bindCoverPickerViewController(pickerController : ShopLiveCoverPickerViewController) {
-        pickerController.resultHandler = { [weak self] result in
+        pickerController.resultHandler = { result in
             switch result {
-            case .onClosed:
-                self?.onPickerControllerClosed()
+            case .backBtnTapped:
+                Self.shared.onPickerControllerBackBtnTapped()
+            case .onFinished:
+                Self.shared.onPickerControllerFinished()
             case .onError(let error):
-                self?.onPickerControllerError(error: error)
+                Self.shared.onPickerControllerError(error: error)
             case .onSuccessImage(let image):
-                self?.onPickerControllerOnSuccessImage(image: image)
+                Self.shared.onPickerControllerOnSuccessImage(image: image)
+            case .onSuccessUpload(shortsId: let shortsId):
+                Self.shared.onPickerControllerOnSuccessUpload(shortsId: shortsId)
             }
         }
     }
     
-    private func onPickerControllerClosed() {
-        Self.shared.delegate?.onShopLiveCoverPickerClosed?()
+    private func onPickerControllerBackBtnTapped() {
+        Self.shared.close()
+        Self.shared.delegate?.onShopLiveCoverPickerCancelled?()
+    }
+    
+    private func onPickerControllerFinished() {
+        Self.shared.close()
     }
     
     private func onPickerControllerError(error : ShopLiveCommonError) {
@@ -90,6 +111,10 @@ extension ShopLiveCoverPicker {
     }
     
     private func onPickerControllerOnSuccessImage(image : UIImage?) {
-        Self.shared.delegate?.onShopLiveCoverPickerSuccess?(image: image)
+        Self.shared.delegate?.onShopLiveCoverPickerCoverImageSuccess?(image: image)
+    }
+    
+    private func onPickerControllerOnSuccessUpload(shortsId : String) {
+        Self.shared.delegate?.onShopLiveCoverPickerUploadSuccess?(shortsId: shortsId)
     }
 }

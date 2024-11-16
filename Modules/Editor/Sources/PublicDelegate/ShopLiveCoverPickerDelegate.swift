@@ -13,6 +13,8 @@ import UIKit
 
 @objc public protocol ShopLiveCoverPickerDelegate : AnyObject {
     @objc optional func onShopLiveCoverPickerError(error : ShopLiveCommonError)
-    @objc optional func onShopLiveCoverPickerSuccess(image : UIImage?)
-    @objc optional func onShopLiveCoverPickerClosed()
+    @objc optional func onShopLiveCoverPickerCoverImageSuccess(image : UIImage?)
+    @objc optional func onShopLiveCoverPickerUploadSuccess(shortsId : String)
+    @objc optional func onShopLiveCoverPickerCancelled()
+    
 }

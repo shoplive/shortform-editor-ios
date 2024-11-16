@@ -28,6 +28,7 @@
 "uploadinfo.upload.title" = "업로드";
 
 "picker.warning.duration.min.title" = "0.1초 미만의 영상은 지원하지 않습니다.";
+"picker.warning.duration.invalid.message" = "%d초 이상 %d분 미만의 영상을 선택해주세요";
 
 //Alert
 "alert.permission.denied.title" = "권한 요청";

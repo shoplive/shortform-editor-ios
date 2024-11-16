@@ -25,18 +25,23 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
         case viewDidAppear
         case seekTo(CMTime)
         
+        case setShopLiveCoverPickerData(ShopLiveCoverPickerData?)
         case setVideoUrl(URL)
         case requestOnConfirm
         case setCurrentMode(Mode)
+        case setCropImageResultFromCropableImageView(UIImage?)
     }
     
     enum Result {
+        case requestShowLoading
         case canceLoading
         case didFinishLoading
         case dismissPhotoPicker
         case setThumbnail(UIImage)
         case requestCropImageForCropableImageView
         case videoThumbnailResult(UIImage?)
+        case requestFinishCoverPicker
+        case onError(ShopLiveCommonError)
     }
     
     private var videoUrl : URL?
@@ -45,14 +50,15 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
     private var currentSeekTime : CMTime = .zero
     private var imageGenerator : AVAssetImageGenerator?
     private var imageGeneratorQueue = DispatchQueue(label: "shopLiveImageGeneratorQueue",qos: .background)
+    private var cropImageResultFromCropableImageView : UIImage?
+    private var shopliveCoverPickerData : ShopLiveCoverPickerData?
     
-    
-    private weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
-    private weak var videoEditorDelegate : ShopLiveVideoEditorDelegate?
     private var isViewAppeared : Bool = false
     private var blockInitialCropInViewDidLayoutSubView : Bool = false
     private var glkViewSize : CGSize = .zero
     private var currentMode : Mode = .video
+    
+    private var shortformThumbnailAPI : SLShortformThumbnailAPI?
     
     var resultHandler: ((Result) -> ())?
    
@@ -61,7 +67,7 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
     }
     
     deinit {
-        ShopLiveLogger.tempLog("ShopLiveCoverPickerReactor deinit")
+        ShopLiveLogger.memoryLog("ShopLiveCoverPickerReactor deinit")
     }
     
     func action(_ action: Action) {
@@ -72,6 +78,8 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
             self.onViewDidAppear()
         case .viewDidLayoutSubView:
             self.onViewDidLayoutSubView()
+        case .setShopLiveCoverPickerData(let data):
+            self.onSetShopLiveCoverPickerData(data : data )
         case .setVideoUrl(let videoUrl):
             self.onSetVideoUrl(url: videoUrl)
         case .seekTo(let time):
@@ -80,7 +88,8 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
             self.onRequestOnConfirm()
         case .setCurrentMode(let mode):
             self.onSetCurrentMode(mode: mode)
-            
+        case .setCropImageResultFromCropableImageView(let image):
+            self.onSetCropImageResultFromCropableImageView(image: image)
         }
     }
     
@@ -94,6 +103,10 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
     
     private func onViewDidLayoutSubView() {
         
+    }
+    
+    private func onSetShopLiveCoverPickerData(data : ShopLiveCoverPickerData?) {
+        self.shopliveCoverPickerData = data
     }
     
     private func onSetVideoUrl(url : URL) {
@@ -117,6 +130,13 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
             let seconds = CMTimeGetSeconds(currentSeekTime)
             self.getExtractThumbnail(at: seconds) { [weak self] resultImage in
                 self?.resultHandler?( .videoThumbnailResult(resultImage))
+                guard let resultImage = resultImage else { return }
+                if let _ = self?.shopliveCoverPickerData?.shortsId {
+                    self?.callShortformThumbnailAPI(image: resultImage)
+                }
+                else {
+                    self?.resultHandler?( .requestFinishCoverPicker )
+                }
             }
         }
         else {
@@ -127,6 +147,17 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
     private func onSetCurrentMode(mode : Mode) {
         self.currentMode = mode
     }
+    
+    private func onSetCropImageResultFromCropableImageView(image : UIImage?) {
+        self.cropImageResultFromCropableImageView = image
+        if let _  = self.shopliveCoverPickerData?.shortsId {
+            guard let resultImage = self.cropImageResultFromCropableImageView else { return }
+            self.callShortformThumbnailAPI(image: resultImage )
+        }
+        else {
+            self.resultHandler?( .requestFinishCoverPicker )
+        }
+    }
 }
 extension ShopLiveCoverPickerReactor {
     private func getExtractThumbnail(at targetSec : Double, completion : @escaping(UIImage?) -> ()) {
@@ -135,13 +166,14 @@ extension ShopLiveCoverPickerReactor {
             return
         }
         imageGeneratorQueue.sync { [weak self] in
-            guard let self = self else { return }
             let time = CMTime(seconds: targetSec, preferredTimescale: 44100)
             do {
                 let cgImage = try imageGenerator.copyCGImage(at: time, actualTime: nil)
                 completion(UIImage.init(cgImage: cgImage))
             }
             catch(let error){
+                let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnexpectedError, error: error, message: nil)
+                self?.resultHandler?( .onError(commonError) )
                 completion(nil)
             }
         }
@@ -176,7 +208,27 @@ extension ShopLiveCoverPickerReactor : SLLoadingAlertControllerDelegate {
     }
     
     func didFinishLoading() {
-        resultHandler?( .didFinishLoading )
+//        resultHandler?( .didFinishLoading )
+    }
+}
+extension ShopLiveCoverPickerReactor {
+    private func callShortformThumbnailAPI(image : UIImage) {
+        guard let shortsId = self.shopliveCoverPickerData?.shortsId else { return }
+        self.shortformThumbnailAPI = SLShortformThumbnailAPI(image: "image", imageData: image, shortsId: shortsId)
+        resultHandler?( .requestShowLoading )
+        self.shortformThumbnailAPI?
+            .upload { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success(let shortsModel):
+                    self.resultHandler?( .requestFinishCoverPicker )
+                    break
+                case .failure(let error):
+                    self.resultHandler?( .onError(error) )
+                    break
+                }
+                self.resultHandler?( .didFinishLoading )
+            }
     }
 }
 extension ShopLiveCoverPickerReactor {

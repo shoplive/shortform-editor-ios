@@ -69,7 +69,7 @@ class SLVideoMainVolumeSubView : UIView, SLReactor {
         case confirm
         case togglePlayPause
         case closeBtn
-        case onValueChanged
+        case onValueChanged(CGFloat)
     }
     
     
@@ -168,7 +168,7 @@ extension SLVideoMainVolumeSubView {
     private func onReactorSetSliderValue(value : Int) {
         sliderView.action( .setCurrentValue(CGFloat(value)) )
         sliderView.action( .setValueLabel(String(Int(value))) )
-        resultHandler?( .onValueChanged )
+        resultHandler?( .onValueChanged(CGFloat(value)) )
     }
     
 }
@@ -190,7 +190,7 @@ extension SLVideoMainVolumeSubView {
     private func onSliderCurrentValue(value : CGFloat) {
         reactor.action( .setVolume(value) )
         sliderView.action( .setValueLabel(String(Int(value))) )
-        resultHandler?( .onValueChanged )
+        resultHandler?( .onValueChanged(value) )
     }
 }
 extension SLVideoMainVolumeSubView {

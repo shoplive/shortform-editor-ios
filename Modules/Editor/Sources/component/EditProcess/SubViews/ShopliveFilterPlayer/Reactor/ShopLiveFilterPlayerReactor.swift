@@ -49,6 +49,7 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
         case setIsFilterSDKCurrentItemVideoSizeIsReversed(Bool)
         case setSpeedRate(CGFloat)
         case saveEditingStartCropRect(CGRect?)
+        case setVideoVolume(CGFloat)
     }
     
     enum Result {
@@ -157,6 +158,8 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
             self.onSetSpeedRate(rate: rate)
         case .saveEditingStartCropRect(let rect):
             self.onSaveEditingStartCropRect(rect : rect)
+        case .setVideoVolume(let volume):
+            self.onSetVideoVolume(volume : volume)
         }
     }
     
@@ -296,6 +299,10 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
     
     private func onSetSpeedRate(rate : CGFloat) {
         self.avPlayer?.rate = Float(rate)
+    }
+    
+    private func onSetVideoVolume(volume : CGFloat) {
+        self.avPlayer?.volume = Float(volume / 100)
     }
     
     private func onSaveEditingStartCropRect(rect : CGRect?) {

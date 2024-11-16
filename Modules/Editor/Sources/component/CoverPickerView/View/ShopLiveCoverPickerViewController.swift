@@ -119,7 +119,7 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         let vc = SLLoadingAlertController()
         vc.useProgress = false
         vc.setLoadingText("loading...")
-//        vc.delegate = reactor
+        vc.delegate = reactor
         return vc
     }()
     
@@ -137,15 +137,18 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
     }()
     
     enum Action {
-        case setVideoUrl(URL)
+//        case setVideoUrl(URL)
+        case setShopLiveCoverPickerData(ShopLiveCoverPickerData?)
         case setPlayer
         case initializeSliderView
     }
     
     enum Result {
         case onError(ShopLiveCommonError)
-        case onClosed
+        case onFinished
+        case backBtnTapped
         case onSuccessImage(UIImage?)
+        case onSuccessUpload(shortsId : String)
     }
     
     var resultHandler : ((Result) -> ())?
@@ -182,9 +185,12 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         self.playerLayer?.frame = playerContainerView.bounds
     }
     
+    deinit {
+        ShopLiveLogger.memoryLog("SLCoverPickerViewController deinit")
+    }
+    
     @objc func closeBtnTapped(sender : UIButton) {
-        resultHandler?( .onClosed )
-        ShopLiveCoverPicker.shared.close()
+        resultHandler?( .backBtnTapped )
     }
    
     @objc func confirmBtnTapped(sender : UIButton) {
@@ -210,13 +216,19 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
 extension ShopLiveCoverPickerViewController {
     func action(_ action : Action) {
         switch action {
-        case .setVideoUrl(let url):
-            self.onSetVideoUrl(url: url)
+        case .setShopLiveCoverPickerData(let data):
+            self.onSetShopLiveCoverPickerData(data: data)
         case .setPlayer:
             self.onSetPlayer()
         case .initializeSliderView:
             self.onInitializeSliderView()
         }
+    }
+    
+    private func onSetShopLiveCoverPickerData(data : ShopLiveCoverPickerData?) {
+        reactor.action( .setShopLiveCoverPickerData(data) )
+        guard let data = data else { return }
+        reactor.action( .setVideoUrl(data.videoUrl) )
     }
     
     private func onSetVideoUrl(url : URL) {
@@ -251,6 +263,12 @@ extension ShopLiveCoverPickerViewController {
                 self.onReactorRequestCropImageForCropableImageView()
             case .videoThumbnailResult(let image):
                 self.onReactorVideoThumbnailResult(image : image)
+            case .requestFinishCoverPicker:
+                self.onReactorRequestFinishCoverPicker()
+            case .onError(let error):
+                self.onReactorOnError(error : error)
+            case .requestShowLoading:
+                self.onReactorShowLoading()
             }
         }
     }
@@ -281,9 +299,23 @@ extension ShopLiveCoverPickerViewController {
     }
     
     private func onReactorVideoThumbnailResult(image : UIImage?) {
-        resultHandler?( .onClosed )
         self.resultHandler?( .onSuccessImage(image) )
-        ShopLiveCoverPicker.shared.close()
+    }
+    
+    private func onReactorRequestFinishCoverPicker() {
+        self.resultHandler?( .onFinished )
+    }
+    
+    private func onReactorOnError(error : ShopLiveCommonError) {
+        self.resultHandler?( .onError(error) )
+    }
+    
+    private func onReactorShowLoading() {
+        self.loadingProgress.modalPresentationStyle = .overFullScreen
+        self.loadingProgress.setLoadingText("Loading...")
+        
+        guard self.loadingProgress.isBeingPresented == false else { return }
+        self.present(self.loadingProgress, animated: false)
     }
 }
 extension ShopLiveCoverPickerViewController {
@@ -322,9 +354,8 @@ extension ShopLiveCoverPickerViewController {
     }
     
     private func onCroppableImageViewCroppedImageResult(image : UIImage?) {
-        resultHandler?( .onClosed )
+        self.reactor.action( .setCropImageResultFromCropableImageView(image) )
         self.resultHandler?( .onSuccessImage(image) )
-        ShopLiveCoverPicker.shared.close()
     }
 }
 extension ShopLiveCoverPickerViewController {

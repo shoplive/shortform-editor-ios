@@ -51,6 +51,7 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
         //동영상의 프레임이 다를때 비율을 사용해야 할때
         case setInitialCropRectByRatio(CGRect)
         case setSpeedRate(CGFloat)
+        case setVideoVolume(CGFloat)
         case hideCropView(Bool)
         case setCropIsAvailable(Bool)
         // 에디팅 시작할때의 크롭 영역을 기억하기 위해서 사용
@@ -211,6 +212,8 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
             self.onSetThumbnailGLKView()
         case .setSpeedRate(let rate):
             self.onSetSpeedRate(rate: rate)
+        case .setVideoVolume(let volume):
+            self.onSetVideoVolume(volume : volume)
         case .hideCropView(let hide):
             self.onHideCropView(hide : hide)
         case .setCropIsAvailable(let isAvailable):
@@ -349,6 +352,10 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
         let isReversedTargetSize = videoPlayerDelegate.videoPlayer.reverseTargetSize
         reactor.action( .setIsFilterSDKCurrentItemVideoSizeIsReversed(isReversedTargetSize) )
         reactor.action( .onSetThumbnailGLKView )
+    }
+    
+    private func onSetVideoVolume(volume : CGFloat) {
+        reactor.action( .setVideoVolume(volume) )
     }
     
     private func onSetSpeedRate(rate : CGFloat) {

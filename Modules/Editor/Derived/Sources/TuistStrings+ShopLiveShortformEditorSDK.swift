@@ -273,6 +273,13 @@ public enum ShopLiveShortformEditorSDKStrings: Sendable {
 
       public enum Duration: Sendable {
 
+        public enum Invalid: Sendable {
+        /// Please select video duration between %dsec and %dmin
+          public static func message(_ p1: Int, _ p2: Int) -> String {
+            return ShopLiveShortformEditorSDKStrings.tr("Localizable", "picker.warning.duration.invalid.message",p1, p2)
+          }
+        }
+
         public enum Min: Sendable {
         /// Unsupported video under 0.1s.
           public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "picker.warning.duration.min.title")

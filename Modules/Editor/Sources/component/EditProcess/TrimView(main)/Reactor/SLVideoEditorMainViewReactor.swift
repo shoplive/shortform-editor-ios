@@ -31,18 +31,14 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         
         case setCropRect(CGRect)
         
-        case setIsRootViewController(Bool)
-        
         case resetDataOnViewRotation
-        case setShortformEditorDelegate(ShopLiveShortformEditorDelegate?)
-        case setVideoEditorDelegate(ShopLiveVideoEditorDelegate?)
         
         case requestToggleVideoPlayOrPause
         case didPlayToEndTime
         case timeControlStatusUpdated(AVPlayer.TimeControlStatus)
         case videoTimeUpdated(Double)
         case setFilterConfig(SLFilterConfig?)
-//        case checkIfNextStepIsAvailable
+        //        case checkIfNextStepIsAvailable
         
         case applyVideoConfiChange(VideoConfigApplyType)
         case setEditingMode(SLVideoEditorMainViewController.ControlBoxType)
@@ -73,6 +69,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         case setFilterIntensityResult(Float)
         case setSpeedRateResult(CGFloat)
         case setCropResult(CGRect)
+        case setVideoSoundResult(CGFloat)
         
         
         
@@ -94,24 +91,30 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         case cancelLoading
         case didFinishLoading
         case requestPopView
+        
+        case uploadSuccess(shortsId : String)
+        case convertFinished(videoPath : String)
+        case onError(ShopLiveCommonError)
     }
-   
+    
     private var videoEditInfoDto : SLVideoEditInfoDTO
     private var isPlaying : Bool = false
     private var isCropTimeUpdated : Bool = false
     private var isViewAppeared : Bool = false
-    private var isRootViewController : Bool = false
     
-    private weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
-    private weak var videoEditorDelegate : ShopLiveVideoEditorDelegate?
     private let videoConverter = SLVideoConverter()
     private var imageGenerator : AVAssetImageGenerator
     private var imageGeneratorQueue = DispatchQueue(label: "shopLiveImageGeneratorQueue",qos: .background)
     private var currentEditingMode : SLVideoEditorMainViewController.ControlBoxType = .main
     
+    private var shortformUploadableResponseData : SLUploadableResponse?
+    
+    //shortform/video API 경우 긴거 올릴때 중간에 메모리가 유실되는 경우가 있어서 레퍼런스를 잡고 있어야 함
+    private var shortformVideoAPI : SLShortformVideoAPI?
+    
     var resultHandler: ((Result) -> ())?
     var onMainQueueResultHandler : ((Result) -> ())?
-   
+    
     init(shortsVideo : ShortsVideo){
         videoEditInfoDto = SLVideoEditInfoDTO(shortsVideo: shortsVideo)
         let asset = AVAsset(url: shortsVideo.localAbsoluteUrl)
@@ -129,10 +132,6 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     
     func action(_ action: Action) {
         switch action {
-        case .setShortformEditorDelegate(let delegate):
-            self.shortformEditorDelegate = delegate
-        case .setVideoEditorDelegate(let delegate):
-            self.videoEditorDelegate = delegate
         case .resetDataOnViewRotation:
             self.resetDataOnViewRotation()
         case .viewDidLoad:
@@ -145,8 +144,6 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
             self.onSetCropEndTime(endTime: time)
         case .setCropRect(let rect):
             videoEditInfoDto.realVideoCropRect = rect
-        case .setIsRootViewController(let isRoot):
-            self.onSetIsRootViewController(isRoot : isRoot)
         case .requestToggleVideoPlayOrPause:
             self.didTapPlayerView()
         case .didPlayToEndTime:
@@ -157,8 +154,6 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
             self.onVideoTimeUpdated(time: time)
         case .setFilterConfig(let filterConfig):
             self.onSetFilterConfig(filterConfig: filterConfig)
-//        case .checkIfNextStepIsAvailable:
-//            self.onCheckIfNextStepIsAvailable()
         case .processConvertVideo:
             self.onProcessConvertVideo()
         case .applyVideoConfiChange(let type):
@@ -175,10 +170,9 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         videoEditInfoDto.realVideoCropRect = .zero
         onViewDidLoad()
     }
-   
+    
     private func onViewDidLoad(){
-        //TODO: ShopLiveShortformEditorFilterListManager.shared.isFilterExist
-        onMainQueueResultHandler?( .setFilterBtnVisible(true) )
+        onMainQueueResultHandler?( .setFilterBtnVisible(ShopLiveShortformEditorFilterListManager.shared.isFilterExist) )
         if let duration = videoEditInfoDto.shortsVideo.player?.currentItem?.duration {
             resultHandler?( .setShortsVideo(videoEditInfoDto.shortsVideo) )
             
@@ -225,10 +219,6 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         self.isCropTimeUpdated = true
         resultHandler?( .setPlayerEndBoundaryTime(endTime) )
     }
-
-    private func onSetIsRootViewController(isRoot : Bool) {
-        self.isRootViewController = isRoot
-    }
     
     private func didTapPlayerView() {
         if isCropTimeUpdated {
@@ -273,10 +263,6 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         videoEditInfoDto.filterConfig = filterConfig
     }
     
-    private func onCheckIfNextStepIsAvailable() {
-//        onMainQueueResultHandler?( .showThumbnailViewController )
-    }
-    
     private func onProcessConvertVideo() {
         self.processVideoConvert()
     }
@@ -294,6 +280,10 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         if type == .speed || type == .all {
             onMainQueueResultHandler?( .setSpeedRateResult(CGFloat(videoInfo.videoSpeed )) )
         }
+        
+        if type == .volume {
+            onMainQueueResultHandler?( .setVideoSoundResult(CGFloat(videoInfo.volume)) )
+        }
     }
     
     private func onSetEditingMode(mode : SLVideoEditorMainViewController.ControlBoxType) {
@@ -301,13 +291,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     }
     
     private func onBackBtnTapped() {
-        if isRootViewController {
-            ShopliveVideoEditor.shared.close()
-            videoEditorDelegate?.onShopLiveVideoEditorClosed?()
-        }
-        else {
-            onMainQueueResultHandler?( .requestPopView )
-        }
+        onMainQueueResultHandler?( .requestPopView )
     }
 }
 //MARK: - GETTER
@@ -351,14 +335,11 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
             switch result {
             case .Success(let videoPath):
                 self.videoEditInfoDto.convertedVideoPath = videoPath
-                self.onMainQueueResultHandler?( .didFinishLoading )
-                self.videoEditorDelegate?.onShopLiveVideoEditorSuccess?(videoPath: videoPath)
-                self.shortformEditorDelegate?.onShopLiveShortformEditorUploadSuccess?(videoPath: videoPath)
-                ShopLiveShortformEditor().close()
+                self.resultHandler?( .convertFinished(videoPath: videoPath) )
+                self.callShortformUploadableAPI()
             case .Failed(let error):
                 let e = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedEncoding, error: error, message: nil)
-                self.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: e)
-                self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: e)
+                resultHandler?( .onError(e) )
             }
         }
     }
@@ -370,7 +351,6 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
 }
 extension SLVideoEditorMainViewReactor : SLLoadingAlertControllerDelegate {
     func didCancelLoading() {
-        onMainQueueResultHandler?( .cancelLoading )
         let popUp = SLCustomAlertBox(title: ShopLiveShortformEditorSDKStrings.Editor.Upload.Cancel.Alert.title, confirmTitle: nil, closeTitle: nil)
         popUp.setBoxCornerRadius(cornerRadius: thumbnailDesign.cancelPopupCornerRadius)
         popUp.setButtonCornerRadius(cornerRadius: thumbnailDesign.cancelPopupButtonCornerRadius)
@@ -388,13 +368,144 @@ extension SLVideoEditorMainViewReactor : SLLoadingAlertControllerDelegate {
                 resultHandler?( .showCancelToast )
             }
             else {
-                self.resultHandler?( .showLoadingView )
+                self.onMainQueueResultHandler?( .showLoadingView )
             }
         }
         onMainQueueResultHandler?( .showPopUp(popUp) )
     }
-
+    
     func didFinishLoading() {
         resultHandler?( .didFinishLoading )
+    }
+}
+//MARK: - upload process
+extension SLVideoEditorMainViewReactor {
+    private func callShortformUploadableAPI() {
+        resultHandler?( .showLoadingView )
+        ShopLiveLogger.tempLog("callShortformUploadableAPI start")
+        ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result  in
+            guard let self = self else { return }
+            SLShortformUploadableAPI().request { result in
+                switch result {
+                case .success(let data):
+                    self.shortformUploadableResponseData = data
+                    self.checkThumbnailImage()
+                    break
+                case .failure(let error):
+                    self.resultHandler?( .onError(error) )
+                    self.resultHandler?( .didFinishLoading )
+                }
+            }
+        }
+    }
+    
+    private func checkThumbnailImage() {
+        self.getExtractThumbnail(at: .zero) { [weak self] image  in
+            self?.callShortformVideoAPI(image: image)
+        }
+    }
+    
+    private func getExtractThumbnail(at targetSec : Double, completion : @escaping(UIImage?) -> ()) {
+        imageGeneratorQueue.sync { [weak self] in
+            guard let self = self else { return }
+            let time = CMTime(seconds: targetSec, preferredTimescale: 44100)
+            do {
+                let cgImage = try imageGenerator.copyCGImage(at: time, actualTime: nil)
+                completion(UIImage.init(cgImage: cgImage))
+            }
+            catch(_) {
+                completion(nil)
+            }
+        }
+    }
+    
+    private func callShortformVideoAPI(image : UIImage?) {
+        guard let apiEndpoint = self.shortformUploadableResponseData?.uploadApiEndpoint,
+              let sessionSecret = self.shortformUploadableResponseData?.sessionSecret,
+              let videoPath = self.videoEditInfoDto.convertedVideoPath else { return }
+        
+        self.shortformVideoAPI = SLShortformVideoAPI(apiEndpoint: apiEndpoint, image: nil, video: videoPath, imageData : image, sessionSecret: sessionSecret)
+        
+        ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result in
+            guard let self = self else  { return }
+            self.shortformVideoAPI?
+                .upload { result  in
+                    switch result {
+                    case .success(let data):
+                        self.callShortformRegisterAPI(videoId: data.videoID , imageUrl: data.thumbnailImageURL)
+                    case .failure(let error):
+                        self.resultHandler?( .onError(error) )
+                        self.resultHandler?( .didFinishLoading )
+                    }
+                }
+        }
+    }
+    
+    private func callShortformRegisterAPI(videoId : String, imageUrl : String?){
+        ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result in
+            guard let self = self else { return }
+            SLShortformRegisterAPI(parameters: self.makeShortsJson(videoId: videoId, imageUrl: imageUrl)).request { result in
+                switch result {
+                case .success(let response):
+                    self.resultHandler?( .uploadSuccess(shortsId: response.shortsId ?? "" ) )
+                    break
+                case .failure(let error):
+                    self.resultHandler?( .onError(error) )
+                    break
+                }
+                self.onMainQueueResultHandler?( .didFinishLoading )
+            }
+        }
+    }
+    
+    private func makeShortsJson(videoId : String,imageUrl : String?) -> [String : Any] {
+        var shortsDict : [String : Any] = [:]
+        
+        var cardsDict : [String : Any] = [:]
+        cardsDict["cardType"] = "VIDEO"
+        cardsDict["source"] = "media"
+        cardsDict["videoId"] = videoId
+        if let imageUrl = imageUrl {
+            cardsDict["specifiedScreenshotUrl"] = imageUrl
+        }
+        
+        var shortsDetailDict : [String : Any] = [:]
+        shortsDetailDict["description"] = "ios_seeker_thumbnail_test_2_description"
+        shortsDetailDict["tags"] = ["ios_test_tag1","ios_test_tag2"]
+        shortsDetailDict["title"] = "ios_upload_test \(Date())"
+        
+        
+        shortsDict["cards"] = [cardsDict]
+        shortsDict["shortsDetail"] = shortsDetailDict
+        shortsDict["shortsType"] = "CARD"
+        
+        var creator : [String : Any] = [:]
+        
+        if let user = ShopLiveCommon.getUser() {
+            creator["userId"] = user.userId
+            if let displayUserId = user.custom?["displayUserId"] as? String {
+                creator["displayUserId"] = displayUserId
+            }
+            if let userName = user.userName {
+                creator["username"] =  userName
+            }
+            if let profileImage = user.custom?["profileImage"] as? String {
+                creator["profileImage"] = profileImage
+            }
+        }
+        
+        if creator.isEmpty == false {
+            return ["shorts" : shortsDict, "shortsStatus" : "OPENED", "creator" : creator , "startAt" : Int64(Date().timeIntervalSince1970 * 1000) ]
+        }
+        else {
+            return ["shorts" : shortsDict, "shortsStatus" : "OPENED", "startAt" : Int64(Date().timeIntervalSince1970 * 1000) ]
+        }
+    }
+    
+    private func removeVideoFile(){
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self = self, let videoUrl = self.videoEditInfoDto.convertedVideoPath else { return }
+            try? FileManager.default.removeItem(atPath: videoUrl)
+        }
     }
 }

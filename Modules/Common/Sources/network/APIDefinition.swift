@@ -242,6 +242,7 @@ public extension APIDefinition {
                 log += "url : \(requestUrl.url?.absoluteString ?? "")\n"
                 log += "param : \(parameters ?? [:])\n"
                 log += "header : \(finalHeaders)\n"
+                log += "statusCode : \(statusCode)"
                 log += "body : \n"
                 log += "\(String(data: data, encoding: .utf8) ?? "") \n "
                 log += "=========================="
@@ -312,7 +313,7 @@ public extension APIDefinition {
         }
        
         var request = URLRequest(url: URL(string: urlString)!)
-        request.httpMethod = "POST"
+        request.httpMethod = method.converted
         for (key, value) in finalHeaders {
             request.setValue(value, forHTTPHeaderField: key)
         }
@@ -322,11 +323,20 @@ public extension APIDefinition {
         sessionConfg.timeoutIntervalForRequest = 100
         sessionConfg.timeoutIntervalForResource = 100
         
+        if self.showRequestLog {
+            var log = "[HASSAN LOG] requestLog \n"
+            log += "url : \(request.url?.absoluteString ?? "")\n"
+            log += "param : \(parameters ?? [:])\n"
+            log += "header : \(finalHeaders)\n"
+            log += "=========================="
+            ShopLiveLogger.tempLog(log)
+        }
+        
         
         let task = URLSession(configuration: sessionConfg).dataTask(with: request) { data , response , error  in
-            
-            
-            
+            if self.showResponseLog {
+                ShopLiveLogger.tempLog("[UPLOADRESPONSE] \(String(data: data!, encoding: .utf8) ?? "no data")")
+            }
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
             if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: data) {
                 DispatchQueue.main.async {
@@ -348,6 +358,9 @@ public extension APIDefinition {
                 }
             }
             catch( let error) {
+                if self.showResponseLog {
+                    ShopLiveLogger.tempLog("[UPLOADRESPONSE] JsonDecoding Error \(error.localizedDescription)")
+                }
                 let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedJSONParsing, error: error, message: nil)
                 DispatchQueue.main.async {
                     handler?( .failure(commonError) )
@@ -418,15 +431,16 @@ public extension APIDefinition {
             body.append(lineBreak.data(using: .utf8)!)
         }
         else if let imageData = self.uploadParameters["imageData"] as? Data {
+            let fileName = uploadParameters["imageFileName"] as? String ?? "image"
             body.append(boundaryPrefix.data(using: .utf8)!)
-            body.append("Content-Disposition: form-data; name=\"image\"; filename=\"\(UUID().uuidString)\"\(lineBreak)".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(fileName)\"; filename=\"\(UUID().uuidString)\"\(lineBreak)".data(using: .utf8)!)
             body.append("Content-Type: image/jpeg\(lineBreak + lineBreak)".data(using: .utf8)!)
             body.append(imageData)
             body.append(lineBreak.data(using: .utf8)!)
         }
         
         body.append("--\(boundary)--\(lineBreak)".data(using: .utf8)!)
-        
+       
         return body
         
     }

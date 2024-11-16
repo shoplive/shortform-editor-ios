@@ -197,7 +197,7 @@ import ShopliveSDKCommon
         
         if !ShopLiveController.shared.isPreview {
             let audioSession = AVAudioSession.sharedInstance()
-            let audioSessionManager = AudioSessionManager.shared
+            let audioSessionManager = SLAudioSessionManager.shared
             originAudioSessionCategory = audioSession.category
             audioSessionManager.setCategory(category: .playback, options: audioSessionManager.currentCategoryOptions)
         }
@@ -308,7 +308,7 @@ import ShopliveSDKCommon
         }
         
         if let originAudioSessionCategory = self.originAudioSessionCategory {
-            let audioSessionManager = AudioSessionManager.shared
+            let audioSessionManager = SLAudioSessionManager.shared
             audioSessionManager.setCategory(category: originAudioSessionCategory, options: audioSessionManager.customerAudioCategoryOptions)
         }
         
@@ -376,14 +376,7 @@ import ShopliveSDKCommon
         }
         
         guard osPictureInPictureController == nil else { return }
-        do {
-            try AVAudioSession.sharedInstance().setActive(true)
-            ShopLiveLogger.debugLog("interruption setActive")
-        }
-        catch let error {
-            ShopLiveLogger.debugLog("interruption setActive Failed error: \(error.localizedDescription)")
-            debugPrint(error)
-        }
+        SLAudioSessionManager.shared.setActive(true, options: [.notifyOthersOnDeactivation])
         
         guard let playerLayer = liveStreamViewController?.playerLayer else { return }
         if AVPictureInPictureController.isPictureInPictureSupported() {
@@ -1869,7 +1862,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 ShopLiveController.shared.execusedClose = false
                 guard ShopLiveCommon.getAccessKey() != nil else { return }
                 
-                let audioSessionManager = AudioSessionManager.shared
+                let audioSessionManager = SLAudioSessionManager.shared
                 if self._style == .unknown {
                     audioSessionManager.customerAudioCategoryOptions = audioSessionManager.currentCategoryOptions
                 }
@@ -2006,7 +1999,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 
                 self.needExecuteFullScreen = ShopLiveController.shared.isPreview
                 
-                let audioSessionManager = AudioSessionManager.shared
+                let audioSessionManager = SLAudioSessionManager.shared
                 if self._style == .unknown {
                     audioSessionManager.customerAudioCategoryOptions = audioSessionManager.currentCategoryOptions
                 }

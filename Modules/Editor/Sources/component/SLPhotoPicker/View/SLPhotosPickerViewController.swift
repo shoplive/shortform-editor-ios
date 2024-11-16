@@ -17,13 +17,14 @@ protocol SLPhotosPickerViewControllerDelegate : NSObjectProtocol {
     func photoPiker(onClose picker : UIViewController)
 }
 
+public enum SLMediaType {
+    case image
+    case video
+}
 
 class SLPhotosPickerViewController : UIViewController {
     
-    enum MediaType {
-        case image
-        case video
-    }
+    
     
     private var topNaviBox : UIView = {
         let view = UIView()
@@ -65,6 +66,17 @@ class SLPhotosPickerViewController : UIViewController {
         return view
     }()
     
+    private var toastLabel : SlBlurBGLabel = {
+        let view = SlBlurBGLabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.label.textColor = .white
+        view.label.font = .set(size: 15, weight: ._600)
+        view.layer.cornerRadius = 20
+        view.clipsToBounds = true
+        view._layoutMargin = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        view.alpha = 0
+        return view
+    }()
     
     private let reactor = SLPhotosPickerReactor()
     private let permissionHandler = SLPhotoPickerPermissionHandler()
@@ -76,10 +88,9 @@ class SLPhotosPickerViewController : UIViewController {
     
     weak var delegate : SLPhotosPickerViewControllerDelegate?
     weak var permissionDelegate : ShopLivePermissionHandler?
-    weak var editorDelegate : ShopLiveShortformEditorDelegate?
     
     
-    required init(mediaType : MediaType,permissionDelegate : ShopLivePermissionHandler?) {
+    required init(mediaType : SLMediaType,permissionDelegate : ShopLivePermissionHandler?) {
         super.init(nibName: nil, bundle: nil)
         var config = SLPhotosPickerConfigure()
         self.permissionDelegate = permissionDelegate
@@ -184,6 +195,8 @@ extension SLPhotosPickerViewController {
                 self.onReactorDidFinishLoading()
             case .updateGroupSelectBtnTitle(let title):
                 self.onReactorUpdateGroupSelectBtnTitle(title: title)
+            case .showToast(let message):
+                self.onReactorShowToast(message : message)
             }
         }
     }
@@ -261,6 +274,11 @@ extension SLPhotosPickerViewController {
     }
     
     
+    private func onReactorShowToast(message : String) {
+        self.animateToast(message: message)
+    }
+    
+    
 }
 extension SLPhotosPickerViewController {
     private func bindPermissionHandler() {
@@ -307,6 +325,7 @@ extension SLPhotosPickerViewController {
         self.view.addSubview(groupSelectBtn)
         self.view.addSubview(pickerCv)
         self.view.addSubview(albumSelectView)
+        self.view.addSubview(toastLabel)
         
         
         NSLayoutConstraint.activate([
@@ -335,9 +354,27 @@ extension SLPhotosPickerViewController {
             albumSelectView.topAnchor.constraint(equalTo: self.view.topAnchor),
             albumSelectView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             albumSelectView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            albumSelectView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            albumSelectView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            
+            toastLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            toastLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            toastLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 400),
+            toastLabel.heightAnchor.constraint(equalToConstant: 40)
             
         ])
         
+    }
+    
+    private func animateToast(message : String) {
+        toastLabel.label.text = message
+        UIView.animateKeyframes(withDuration: 2, delay: 0, options: .calculationModeCubic, animations: {
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.2) {
+                self.toastLabel.alpha = 1
+            }
+
+            UIView.addKeyframe(withRelativeStartTime: 0.8, relativeDuration: 0.2) {
+                self.toastLabel.alpha = 0
+            }
+        })
     }
 }

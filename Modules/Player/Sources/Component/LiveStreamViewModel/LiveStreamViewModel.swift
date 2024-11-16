@@ -564,7 +564,7 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
     private func setSoundMuteStateOnFirstPlay() {
         if isAlreadyPlayedOnce == false {
             var isMuted = ShopLiveController.shared.isPreview ? !ShopLiveConfiguration.SoundPolicy.previewSoundEnabled : ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
-            if let session = liveStreamViewController?.audioSession, session.outputVolume == 0 {
+            if SLAudioSessionManager.shared.audioSession.outputVolume == 0 {
                 isMuted = true
             }
             ShopLiveController.shared.setSoundMute(isMuted: isMuted)

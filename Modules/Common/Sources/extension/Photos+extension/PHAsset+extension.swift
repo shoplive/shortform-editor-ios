@@ -27,7 +27,14 @@ public extension PHAsset {
                 if let urlAsset = asset as? AVURLAsset {
                     let localAbsoluteUrl : URL = urlAsset.url
                     let localRelativeUrl : URL = URL(fileURLWithPath : urlAsset.url.relativePath)
-                    completionHandler(localAbsoluteUrl,localRelativeUrl)
+//                    completionHandler(localAbsoluteUrl,localRelativeUrl)
+                    // 이미 파일이 있는지 확인하고 없을 때만 저장 처리
+                    if !FileManager.default.fileExists(atPath: localAbsoluteUrl.path) {
+                        completionHandler(localAbsoluteUrl, localRelativeUrl)
+                    } else {
+                        // 파일이 존재하면 기존 URL을 반환
+                        completionHandler(localAbsoluteUrl, localRelativeUrl)
+                    }
                 } else {
                     completionHandler(nil,nil)
                 }

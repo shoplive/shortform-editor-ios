@@ -79,7 +79,6 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
     override init(frame : CGRect) {
         super.init(frame:.zero)
         self.clipsToBounds = true
-        viewModel.action( .setAudioSessonCategory )
         bindViewModel()
         self.setLayout()
     }
@@ -134,6 +133,7 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
     }
     
     private func onInitialize() {
+        viewModel.action( .setAudioSessonCategory )
         viewModel.action( .initialize )
         viewModel.action( .setDelegate(self) )
         if let player = playerView?.player { 

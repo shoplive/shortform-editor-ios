@@ -21,7 +21,7 @@ extension LiveStreamViewController {
         NotificationCenter.default.addObserver(self,
                            selector: #selector(handleInterruption),
                            name: AVAudioSession.interruptionNotification,
-                           object: audioSession)
+                                               object: SLAudioSessionManager.shared.audioSession)
 
     }
     
@@ -47,13 +47,7 @@ extension LiveStreamViewController {
                 return
             }
 
-            do {
-                try audioSession.setActive(true)
-                ShopLiveLogger.debugLog("interruption setActive")
-            }
-            catch let error {
-                ShopLiveLogger.debugLog("interruption setActive Failed error: \(error.localizedDescription)")
-            }
+              SLAudioSessionManager.shared.setActive(true, options: [.notifyOthersOnDeactivation])
 
             guard ShopLiveConfiguration.SoundPolicy.autoResumeVideoOnCallEnded else {
                 return
@@ -76,7 +70,7 @@ extension LiveStreamViewController {
         let audioRouteChangeReason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] as! UInt
 
         var isEarphoneHeadphone: Bool = false
-        let currentRoute = audioSession.currentRoute
+        let currentRoute = SLAudioSessionManager.shared.audioSession.currentRoute
         if currentRoute.outputs.count != 0 {
             let earphones: [AVAudioSession.Port] = [.headphones, .headsetMic, .bluetoothA2DP, .bluetoothHFP]
             currentRoute.outputs.forEach { description in

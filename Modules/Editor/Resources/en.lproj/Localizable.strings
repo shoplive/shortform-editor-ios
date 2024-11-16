@@ -27,7 +27,10 @@
 "uploadinfo.upload.title" = "Upload";
 "loading.inprocessing.title" = "Processing";
 "loading.preparing.title" = "Preparing";
+
 "picker.warning.duration.min.title" = "Unsupported video under 0.1s.";
+"picker.warning.duration.invalid.message" = "Please select video duration between %dsec and %dmin";
+
 
 //Alert
 "alert.permission.denied.title" = "Permission request";

@@ -54,11 +54,12 @@ extension SLVideoInfo {
             let w = globalConfig.shared.videoCropOption.width
             videoRatio = CGFloat( h ) / CGFloat( w )
         }
+        let resolution = CGFloat(globalConfig.shared.videoOutputOption.videoOutputResolution.rawValue)
         if cropRect.width < cropRect.height {
-            return "-1:\(ceil(720 * videoRatio))"
+            return "-1:\(ceil(resolution * videoRatio))"
         }
         else {
-            return "720:-1"
+            return "\(Int(resolution)):-1"
             
         }
     }
@@ -95,6 +96,17 @@ extension SLVideoInfo {
         //:enable='between(t,\(startTime),\(endTime))'
     }
     
+    var videoQuality : String {
+        switch globalConfig.shared.videoOutputOption.videoOutputQuality {
+        case .normal:
+            return "-q:v 8 " + "-q:a 4 "
+        case .high:
+            return "-q:v 6 " + "-q:a 4 "
+        case .max:
+            return "-q:v 4 " + "-q:a 4 "
+        }
+    }
+    
     
 //    -c:v h264_videotoolbox -c:a aac \
 //    -r 24 \
@@ -111,7 +123,7 @@ extension SLVideoInfo {
     [filter]crop=\(cropRect.width):\(cropRect.height):\(cropRect.origin.x):\(cropRect.origin.y)[crop]; \
     [crop]\( drawTextCommand == "" ? "" : "\(drawTextCommand)," )scale=\(scaleValue)[out]" \
     -map "[out]" \
-    -q:v 8 \
+    \(videoQuality) \
     -y \(ffmpegOutPutVideoPath)
     """
         }
@@ -123,7 +135,7 @@ extension SLVideoInfo {
 -filter_complex "crop=\(cropRect.width):\(cropRect.height):\(cropRect.origin.x):\(cropRect.origin.y)[crop]; \
 [crop]\( drawTextCommand == "" ? "" : "\(drawTextCommand)," )scale=\(scaleValue)[out]" \
 -map "[out]" \
--q:v 8 \
+\(videoQuality) \
 -y \(ffmpegOutPutVideoPath)
 """
         }

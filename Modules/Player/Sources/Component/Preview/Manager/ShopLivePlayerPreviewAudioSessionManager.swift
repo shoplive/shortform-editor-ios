@@ -36,7 +36,7 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
         case requestVideoStop
     }
     
-    private let audioSession : AVAudioSession = AVAudioSession.sharedInstance()
+    
 
     var audioSessionObservationInfo: UnsafeMutableRawPointer?
     var audioLevel : Float = 0.0
@@ -69,28 +69,22 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
     }
     
     private func onSetAudioSessionCategory() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            do {
-                if ShopLiveConfiguration.SoundPolicy.useMixWithOthers {
-                    try audioSession.setCategory(.playback, options: [.mixWithOthers])
-                }
-                else {
-                    try audioSession.setCategory(.playback)
-                }
-                
-                try audioSession.setMode(.default)
-                try audioSession.setActive(true, options: [.notifyOthersOnDeactivation])
-            }
-            catch(let error) {
-                print("[SHOPLIVE] audioSession category setting failed \(error.localizedDescription)")
-            }
+        
+        
+        if ShopLiveConfiguration.SoundPolicy.useMixWithOthers {
+            SLAudioSessionManager.shared.setCategory(category: .playback, options: [.mixWithOthers])
         }
+        else {
+            SLAudioSessionManager.shared.setCategory(category: .playback, options: [])
+        }
+        
+        SLAudioSessionManager.shared.setMode(.default)
+        SLAudioSessionManager.shared.setActive(true, options: [.notifyOthersOnDeactivation])
     }
 
     private func onSetSoundMuteStateOnFirtPlay() {
         var isMuted = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
-        if audioSession.outputVolume == 0 {
+        if SLAudioSessionManager.shared.audioSession.outputVolume == 0 {
             isMuted = true
         }
         resultHandler?( .setIsMuted(isMuted: isMuted) )
@@ -103,10 +97,10 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
     
     func addObserver() {
         do {
-            audioSession.addObserver(self, forKeyPath: "outputVolume",
+            SLAudioSessionManager.shared.audioSession.addObserver(self, forKeyPath: "outputVolume",
                                options: NSKeyValueObservingOptions.new, context: nil)
-            audioSessionObservationInfo = audioSession.observationInfo
-            audioLevel = audioSession.outputVolume
+            audioSessionObservationInfo = SLAudioSessionManager.shared.audioSession.observationInfo
+            audioLevel = SLAudioSessionManager.shared.audioSession.outputVolume
         } catch {
             ShopLiveLogger.tempLog("setup failed - outputVolume observe")
         }
@@ -114,11 +108,11 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
         
         NotificationCenter.default.addObserver(self, selector: #selector(voiceOverStatusChanged), name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(audioRouteChangeListener(notification:)),name: AVAudioSession.routeChangeNotification,object: nil)
-        NotificationCenter.default.addObserver(self,selector: #selector(handleInterruption),name: AVAudioSession.interruptionNotification,object: audioSession)
+        NotificationCenter.default.addObserver(self,selector: #selector(handleInterruption),name: AVAudioSession.interruptionNotification,object: SLAudioSessionManager.shared.audioSession)
     }
     
     func removeObserver() {
-        audioSession.safeRemoveObserver_SL(self, forKeyPath: "outputVolume", observeInfo: audioSessionObservationInfo) { [weak self] isSuccess in
+        SLAudioSessionManager.shared.audioSession.safeRemoveObserver_SL(self, forKeyPath: "outputVolume", observeInfo: audioSessionObservationInfo) { [weak self] isSuccess in
             guard isSuccess else { return }
             self?.audioSessionObservationInfo = nil
         }
@@ -136,14 +130,14 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
             
             if ShopLiveConfiguration.SoundPolicy.isEnabledVolumeKeyInPreview == false { return }
             
-            if audioSession.outputVolume > audioLevel {
+            if SLAudioSessionManager.shared.audioSession.outputVolume > audioLevel {
                 isDownward = false
             }
-            if audioSession.outputVolume < audioLevel {
+            if SLAudioSessionManager.shared.audioSession.outputVolume < audioLevel {
                 isDownward = true
             }
             
-            audioLevel = audioSession.outputVolume
+            audioLevel = SLAudioSessionManager.shared.audioSession.outputVolume
             
             if audioLevel <= 0 {
                 resultHandler?( .log(name: "video_muted", feature: .ACTION, payload: [:]))
@@ -177,12 +171,8 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
                 return
             }
 
-            do {
-                try audioSession.setActive(true)
-            }
-            catch let error {
-                ShopLiveLogger.debugLog("interruption setActive Failed error: \(error.localizedDescription)")
-            }
+              SLAudioSessionManager.shared.setActive(true, options: [.notifyOthersOnDeactivation])
+          
 
             guard ShopLiveConfiguration.SoundPolicy.autoResumeVideoOnCallEnded else {
                 return
@@ -204,7 +194,7 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
         let audioRouteChangeReason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] as! UInt
 
         var isEarphoneHeadphone: Bool = false
-        let currentRoute = audioSession.currentRoute
+        let currentRoute = SLAudioSessionManager.shared.audioSession.currentRoute
         if currentRoute.outputs.count != 0 {
             let earphones: [AVAudioSession.Port] = [.headphones, .headsetMic, .bluetoothA2DP, .bluetoothHFP]
             currentRoute.outputs.forEach { description in

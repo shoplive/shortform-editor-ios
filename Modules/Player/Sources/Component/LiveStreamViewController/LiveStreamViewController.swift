@@ -19,7 +19,6 @@ internal final class LiveStreamViewController: SLViewController {
     weak var delegate: LiveStreamViewControllerDelegate?
 
     var webViewConfiguration: WKWebViewConfiguration?
-    let audioSession = AVAudioSession.sharedInstance()
     var audioSessionObservationInfo: UnsafeMutableRawPointer?
     var audioLevel: Float = 0.0
     var voiceOverIsOn: Bool = UIAccessibility.isVoiceOverRunning

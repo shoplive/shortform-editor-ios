@@ -78,10 +78,37 @@ class EditorOptionPopUp : UIView {
         return btn
     }()
     
+    
+    private var mediaPickerVideo : UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("MediaPickerVideo", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        btn.layer.cornerRadius = 10
+        btn.layer.borderWidth = 1
+        btn.layer.borderColor = UIColor.black.cgColor
+        return btn
+    }()
+    
+    private var mediaPickerImage : UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("MediaPickerImage", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        btn.layer.cornerRadius = 10
+        btn.layer.borderWidth = 1
+        btn.layer.borderColor = UIColor.black.cgColor
+        return btn
+    }()
+    
     enum Mode {
         case galleryAndEditor
         case editorOnly
         case coverPicker
+        case mediaPickerVideo
+        case mediaPickerImage
     }
     
     private var currentMode : Mode = .galleryAndEditor
@@ -98,6 +125,8 @@ class EditorOptionPopUp : UIView {
         onlyEditorBtn.addTarget(self, action: #selector(editorBtnTapped(sender: )), for: .touchUpInside)
 //        bytePlusBtn.addTarget(self, action: #selector(bytePlusBtnTapped(sender: )), for: .touchUpInside)
         coverPickerBtn.addTarget(self, action: #selector(coverPickerBtnTapped(sender: )), for: .touchUpInside)
+        mediaPickerVideo.addTarget(self, action: #selector(mediaPickerVideotapped(sender: )), for: .touchUpInside)
+        mediaPickerImage.addTarget(self, action: #selector(mediaPickerImagetapped(sender: )), for: .touchUpInside)
         picker.delegate = self
     }
     
@@ -117,12 +146,14 @@ class EditorOptionPopUp : UIView {
                                                             isFixed: OptionSettingModel.editorIsFixed)
         
         let visibleContents = ShopLiveShortFormEditorVisibleContent(isDescriptionVisible: OptionSettingModel.editorShowDescription,
-                                                                    isTagsVisible: OptionSettingModel.editorShowTags)
+                                                                    isTagsVisible: OptionSettingModel.editorShowTags,
+                                                                    editOptions: [.volume])
         
         ShopLiveShortformEditor.shared
             .setPermissionHandler(nil)
             .setConfiguration(ShopLiveShortformEditorConfiguration(videoCropOption: cropOption ,
                                                                    visibleContents: visibleContents,
+                                                                   videoOutputOption: nil,
                                                                    minVideoDuration: OptionSettingModel.editorMinVideoDuration,
                                                                    maxVideoDuration: OptionSettingModel.editorMaxVideoDuration))
             .setDelegate(delegate: vc)
@@ -149,6 +180,25 @@ class EditorOptionPopUp : UIView {
         vc?.present(picker, animated: true)
     }
     
+    @objc func mediaPickerVideotapped(sender : UIButton) {
+        guard let vc = vc else { return }
+        self.currentMode = .mediaPickerVideo
+        ShopLiveMediaPicker.shared
+            .setDelegate(vc)
+            .setConfiguration(.init(videoDurationOption: .init(minVideoDuration: 3,maxVideoDuration: 90)))
+            .setPermissionHandler(nil)
+            .start(vc, type: .video)
+    }
+    
+    @objc func mediaPickerImagetapped(sender : UIButton) {
+        guard let vc = vc else { return }
+        self.currentMode = .mediaPickerImage
+        ShopLiveMediaPicker.shared
+            .setDelegate(vc)
+            .setPermissionHandler(nil)
+            .start(vc, type: .image)
+    }
+    
 }
 extension EditorOptionPopUp {
     private func setLayout() {
@@ -158,6 +208,8 @@ extension EditorOptionPopUp {
         stack.addArrangedSubview(shortformEditorBtn)
         stack.addArrangedSubview(onlyEditorBtn)
         stack.addArrangedSubview(coverPickerBtn)
+        stack.addArrangedSubview(mediaPickerVideo)
+        stack.addArrangedSubview(mediaPickerImage)
         
         NSLayoutConstraint.activate([
             dimBtn.topAnchor.constraint(equalTo: self.topAnchor),
@@ -174,7 +226,9 @@ extension EditorOptionPopUp {
             shortformEditorBtn.heightAnchor.constraint(equalToConstant: 40),
             onlyEditorBtn.heightAnchor.constraint(equalToConstant: 40),
             coverPickerBtn.heightAnchor.constraint(equalToConstant: 40),
-        
+            mediaPickerVideo.heightAnchor.constraint(equalToConstant: 40),
+            mediaPickerImage.heightAnchor.constraint(equalToConstant: 40),
+            
             boxView.topAnchor.constraint(equalTo: stack.topAnchor,constant: -20),
             boxView.leadingAnchor.constraint(equalTo: stack.leadingAnchor,constant: -20),
             boxView.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 20),
@@ -182,6 +236,7 @@ extension EditorOptionPopUp {
         ])
     }
 }
+
 extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
@@ -191,33 +246,15 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
     }
     
     private func getPHAsset(videoUrl : URL) {
-        var placeHolderAsset : PHObjectPlaceholder? = nil
-        PHPhotoLibrary.shared().performChanges { [weak self] in
-            guard let self = self else { return }
-            let newAssetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoUrl)
-            placeHolderAsset = newAssetRequest?.placeholderForCreatedAsset
-            
-        } completionHandler: { [weak self] isSuccess, error in
-            guard let self = self else { return }
-            guard let identifier = placeHolderAsset?.localIdentifier else { return }
-            let asset = PHAsset.fetchAssets(withLocalIdentifiers: [identifier], options: nil)
-            
-            asset.firstObject?.getURL_SL(completionHandler: { [weak self] (localAbsoluteUrl, localRelativeUrl) in
-                guard let self = self else { return }
-                guard let localAbsoluteUrl = localAbsoluteUrl,
-                      let localRelativeUrl = localRelativeUrl else { return }
-                
-                if self.currentMode == .editorOnly {
-                    self.openShopLiveEditorOnly(localUrl: localAbsoluteUrl, relativeUrl: localRelativeUrl)
-                }
-                else if self.currentMode == .coverPicker {
-                    self.openCoverPicker(videoUrl: localAbsoluteUrl)
-                }
-            })
+        if self.currentMode == .editorOnly {
+            self.openShopLiveEditorOnly(localUrl: videoUrl)
+        }
+        else if self.currentMode == .coverPicker {
+            self.openCoverPicker(videoUrl: videoUrl)
         }
     }
     
-    private func openShopLiveEditorOnly(localUrl : URL, relativeUrl : URL) {
+    private func openShopLiveEditorOnly(localUrl : URL) {
         guard let vc = self.vc else { return }
         let cropOption = ShopliveVideoEditorAspectRatio(width: OptionSettingModel.editorWidth,
                                                         height: OptionSettingModel.editorheight,
@@ -225,15 +262,17 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
         
         ShopliveVideoEditor.shared
             .setPermissionHandler(nil)
-            .setConfiguration(.init(videoCropOption: cropOption))
+            .setConfiguration(.init(videoCropOption: cropOption,
+                                    videoOutputOption: nil,
+                                    visibleContents: nil))
             .setDelegate(vc)
-            .start(vc, absoluteUrl: localUrl, relativeUrl: relativeUrl)
+            .start(vc, data: .init(videoUrl: localUrl))
     }
     
     private func openCoverPicker(videoUrl : URL) {
         guard let vc = self.vc else { return }
         ShopLiveCoverPicker.shared
             .setDelegate(vc)
-            .start(vc, videoUrl: videoUrl)
+            .start(vc, data: .init(videoUrl: videoUrl,shortsId: nil))
     }
 }

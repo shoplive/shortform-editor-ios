@@ -45,6 +45,7 @@ class SLPhotosPickerReactor : NSObject, SLReactor {
         case requsetFinishLoading
         case didFinishLoading
         case updateGroupSelectBtnTitle(String)
+        case showToast(String)
         
     }
     
@@ -309,8 +310,21 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
         else {
             //TODO: - HASSAN need loading View
             guard let asset = focusedCollection.getSLAsset(at: indexPath) else { return }
+            
             resultHandler?( .requestStartLoading )
             if self.pickerConfigure.mediaType == .video {
+                if let duration = asset.phAsset?.duration {
+                    let mediaPickerVideoDurationOption = ShopLiveEditorConfigurationManager.shared.mediaPickerVideoDurationOption
+                    let minDuration = mediaPickerVideoDurationOption.minVideoDuration
+                    let maxDuration = mediaPickerVideoDurationOption.maxVideoDuration
+                    
+                    if duration < Double(minDuration)  || duration > Double(maxDuration) {
+                        let message = ShopLiveShortformEditorSDKStrings.Picker.Warning.Duration.Invalid.message(minDuration, maxDuration / 60)
+                        self.resultHandler?( .showToast(message) )
+                        self.resultHandler?( .requsetFinishLoading )
+                        return
+                    }
+                }
                 asset.phAsset?.getVideoURl(completion: { [weak self] absoluteUrl,relativeUrl in
                     guard let absoluteUrl = absoluteUrl, let relativeUrl = relativeUrl else { return }
                     self?.resultHandler?( .requsetFinishLoading )
@@ -325,9 +339,7 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
                 })
             }
         }
-        
     }
-    
 }
 extension SLPhotosPickerReactor : UICollectionViewDataSourcePrefetching {
     

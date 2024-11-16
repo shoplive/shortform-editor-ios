@@ -311,7 +311,8 @@ extension SLVideoThumbnailReactor {
                 .upload { result  in
                     switch result {
                     case .success(let data):
-                        self.callShortformRegisterAPI(videoId: data.videoId ?? -1, imageUrl: data.thumbnailImageUrl)
+                        break
+//                        self.callShortformRegisterAPI(videoId: data.videoId ?? -1, imageUrl: data.thumbnailImageUrl)
                     case .failure(let error):
                         self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: error)
                         self.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: error)
@@ -327,7 +328,7 @@ extension SLVideoThumbnailReactor {
             SLShortformRegisterAPI(parameters: self.makeShortsJson(videoId: videoId, imageUrl: imageUrl)).request { result in
                 switch result {
                 case .success(_):
-                    self.shortformEditorDelegate?.onShopLiveShortformEditorUploadSuccess?(videoPath: "")
+//                    self.shortformEditorDelegate?.onShopLiveShortformEditorUploadSuccess?(videoPath: "")
                     self.removeVideoFile()
                     break
                 case .failure(let error):

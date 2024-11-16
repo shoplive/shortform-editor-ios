@@ -18,6 +18,8 @@ class ShopliveShortformCoordinator : NSObject {
     private var permissionHandler : ShopLivePermissionHandler?
     private var editorDelegate : ShopLiveShortformEditorDelegate?
     private var ffmpegValidator = FFmpegVideoValidator()
+    private var convertedVideoPath : String?
+    private var parentVc : UIViewController?
     
     private var navigationController : SLPickerNavigationController?
     
@@ -27,7 +29,6 @@ class ShopliveShortformCoordinator : NSObject {
         
         let photoPicker = SLPhotosPickerViewController(mediaType: .video, permissionDelegate: permissionHandler)
         photoPicker.delegate = self
-        photoPicker.editorDelegate = editorDelegate
         
         self.callFilterListAPI()
         
@@ -35,6 +36,7 @@ class ShopliveShortformCoordinator : NSObject {
         navigationController?.isNavigationBarHidden = true
         navigationController?.modalPresentationCapturesStatusBarAppearance = true
         navigationController?.modalPresentationStyle = .overFullScreen
+        self.parentVc = vc
         vc.present(navigationController!, animated: true)
     }
     
@@ -47,8 +49,9 @@ class ShopliveShortformCoordinator : NSObject {
     }
     
     func close() {
+        self.navigationController?.viewControllers.first?.dismiss(animated: true)
         self.navigationController?.dismiss(animated: true)
-        self.navigationController = nil 
+        self.navigationController = nil
     }
     
     func getPermissionHandler() -> ShopLivePermissionHandler? {
@@ -71,27 +74,94 @@ extension ShopliveShortformCoordinator : SLPhotosPickerViewControllerDelegate  {
     }
     
     func photoPiker(onClose picker: UIViewController) {
+        picker.dismiss(animated: true)
         self.close()
     }
 }
 extension ShopliveShortformCoordinator : SLVideoEditorViewControllerDelegate {
+    func videoEditorRequestPopView() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     private func showSLVideoEditorViewController(video : ShortsVideo) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             guard self.navigationController?.viewControllers.filter({ $0.isKind(of: SLVideoEditorMainViewController.self) }).count == 0 else {
                 return
             }
-            
-            let editor = SLVideoEditorMainViewController(video: video, isRoot: false)
+            let editor = SLVideoEditorMainViewController(video: video )
             editor.delegate = self
-            editor.shortformEditorDelegate = self.editorDelegate
             self.navigationController?.pushViewController(editor, animated: true)
         }
     }
     
-    func cancelConvertVideo() {
+    func videoEditorDidCancelConvertVideo() {
         guard let vc = navigationController?.topViewController else { return }
         let bundle = Bundle(for: type(of: self))
         vc.showToast(message: "toast.cancel.encoding.title".localizedString(bundle: bundle), duration: .long)
+    }
+    
+    func videoEditorDidFinishConvertVideo(videoPath: String) {
+        self.convertedVideoPath = videoPath
+    }
+    
+    func videoEditorDidFinishUpload(shortsId: String) {
+        //picker까지 가서 끝났을때 내려주는 것으로
+        ShopLiveLogger.tempLog("[videoEditorDidFinishUpload] Thread \(Thread.isMainThread ? "MAIN" : "OTHER") shortsId \(shortsId)")
+        self.showCoverPicker(shortsId : shortsId)
+    }
+    
+    func videoEditorError(error: ShopliveSDKCommon.ShopLiveCommonError) {
+        editorDelegate?.onShopLiveShortformEditorError?(error: error)
+    }
+}
+extension ShopliveShortformCoordinator  {
+    private func showCoverPicker(shortsId : String) {
+        guard let videoPath = self.convertedVideoPath else { return }
+        let videoUrl = URL(fileURLWithPath: videoPath)
+        let pickerVc = ShopLiveCoverPickerViewController()
+        let data = ShopLiveCoverPickerData(videoUrl: videoUrl, shortsId: shortsId)
+        pickerVc.action( .setShopLiveCoverPickerData(data) )
+        pickerVc.action( .setPlayer )
+        pickerVc.action(. initializeSliderView )
+        self.bindCoverPickerViewController(pickerController: pickerVc)
+        self.navigationController?.pushViewController(pickerVc, animated: true)
+    }
+    
+    private func bindCoverPickerViewController(pickerController : ShopLiveCoverPickerViewController) {
+        pickerController.resultHandler = { [weak self] result in
+            switch result {
+            case .backBtnTapped:
+                self?.onPickerBackBtnTapped()
+            case .onFinished:
+                self?.onPickerControllerFinished()
+            case .onError(let error):
+                self?.onPickerControllerError(error: error)
+            case .onSuccessImage(let image):
+                self?.onPickerControllerOnSuccessImage(image: image)
+            case .onSuccessUpload(shortsId: let shortsId):
+                self?.onPickerControllerOnSuccessUpload(shortsId: shortsId)
+            }
+        }
+    }
+    
+    private func onPickerBackBtnTapped() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    private func onPickerControllerFinished() {
+        self.close()
+    }
+    
+    private func onPickerControllerError(error : ShopLiveCommonError) {
+        editorDelegate?.onShopLiveShortformEditorError?(error: error)
+    }
+    
+    private func onPickerControllerOnSuccessImage(image : UIImage?) {
+        editorDelegate?.onShopLiveShortformEditorCoverImageSuccess?(image: image)
+    }
+    
+    private func onPickerControllerOnSuccessUpload(shortsId : String) {
+        editorDelegate?.onShopLiveShortformEditorUploadSuccess?(shortsId: shortsId )
     }
 }

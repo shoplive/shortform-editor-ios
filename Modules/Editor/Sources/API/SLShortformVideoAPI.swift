@@ -21,8 +21,8 @@ struct SLShortformVideoAPI: APIDefinition {
     var videoFileName: String = ""
     var sessionSecret: String
     
-    var showRequestLog: Bool = true
-    var showResponseLog: Bool = true
+    var showRequestLog: Bool = false
+    var showResponseLog: Bool = false
     
     var baseUrl: String {
         ShortFormUploadConfigurationInfosManager.shared.getBaseUrl()
@@ -50,11 +50,8 @@ struct SLShortformVideoAPI: APIDefinition {
             params["imageData"] = imageData.jpegData(compressionQuality: 0.1)
         }
         
-        if let videoUrl = URL(string: video) {
-            params["video"] = (path: videoUrl, name: videoFileName)
-        }
-        
-        
+        let videoUrl = URL(fileURLWithPath: video)
+        params["video"] = (path: videoUrl, name: videoFileName)
         
         params["sessionSecret"] = sessionSecret
         return params

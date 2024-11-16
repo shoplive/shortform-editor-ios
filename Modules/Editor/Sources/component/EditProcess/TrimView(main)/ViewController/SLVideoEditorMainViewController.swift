@@ -11,11 +11,16 @@ import ShopliveSDKCommon
 import AVKit
 
 protocol SLVideoEditorViewControllerDelegate: AnyObject {
-    func cancelConvertVideo()
+    func videoEditorDidCancelConvertVideo()
+    func videoEditorDidFinishConvertVideo(videoPath : String)
+    func videoEditorRequestPopView()
+    func videoEditorDidFinishUpload(shortsId : String)
+    func videoEditorError(error : ShopLiveCommonError)
 }
 
 class SLVideoEditorMainViewController : UIViewController {
     let design = EditorMainConfig.global
+    let globalConfig = ShopLiveEditorConfigurationManager.shared
     
     private var naviBar : UIView = {
         let view = UIView()
@@ -199,8 +204,6 @@ class SLVideoEditorMainViewController : UIViewController {
     
     private var reactor : SLVideoEditorMainViewReactor
     weak var delegate : SLVideoEditorViewControllerDelegate?
-    weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
-    weak var videoEditorDelegate : ShopLiveVideoEditorDelegate?
     
     lazy private var currentOrientation : UIInterfaceOrientationMask = didChangeOrientation_SL()
     
@@ -208,9 +211,8 @@ class SLVideoEditorMainViewController : UIViewController {
         return .lightContent
     }
     
-    init(video : ShortsVideo,isRoot : Bool ){
+    init(video : ShortsVideo){
         self.reactor = SLVideoEditorMainViewReactor(shortsVideo: video)
-        self.reactor.action( .setIsRootViewController(isRoot) )
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -259,8 +261,6 @@ class SLVideoEditorMainViewController : UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        reactor.action( .setShortformEditorDelegate(self.shortformEditorDelegate) )
-        reactor.action( .setVideoEditorDelegate(self.videoEditorDelegate) )
         filterPlayerView.action( .playVideo )
         
         speedRateControlBox.action( .initialize )
@@ -339,7 +339,12 @@ class SLVideoEditorMainViewController : UIViewController {
                 self.setShortsVideoToPlayer(video: video)
             case .setPlayerEndBoundaryTime(let time):
                 self.setPlayerEndBoundaryTime(time: time)
-                break
+            case .convertFinished(videoPath: let videoPath):
+                self.onConvertFinished(videoPath: videoPath)
+            case .uploadSuccess(shortsId: let shortsId):
+                self.onUploadSuccess(shortsId: shortsId)
+            case .onError(let error):
+                self.onError(error: error)
             default:
                 break
             }
@@ -369,6 +374,8 @@ class SLVideoEditorMainViewController : UIViewController {
                     self.onSetFilterIntensityResult(value: filterIntensity)
                 case .setSpeedRateResult(let rate):
                     self.onSetSpeedRateResult(value: rate)
+                case .setVideoSoundResult(let volume):
+                    self.onSetVideoSoundResult(volume : volume)
                 case .presentViewController(let vc):
                     self.onPresentViewController(vc: vc)
                 case .setCropBtnIsSelected(isSelected: let isSelected):
@@ -406,13 +413,25 @@ class SLVideoEditorMainViewController : UIViewController {
         let fileName = (video.localAbsoluteUrl.absoluteString as NSString).lastPathComponent
         let videoUrl = video.localAbsoluteUrl
         let videoSize = video.getVideoSize() ?? .zero
+        let isCropMode = globalConfig.visibleContents.editOptions.contains(.crop)
         
-        self.filterPlayerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize,centerCrop : false, isCropMode: true, isCropAvailable: false,mode: .videoEditing) )
-        
+        self.filterPlayerView.action( .setUpFilterPlayer(fileName, videoUrl , videoSize,centerCrop : false, isCropMode: isCropMode, isCropAvailable: false,mode: .videoEditing) )
     }
     
     private func setPlayerEndBoundaryTime(time : CMTime){
         filterPlayerView.action( .setPlayerEndBoundaryTime(time) )
+    }
+    
+    private func onUploadSuccess(shortsId : String) {
+        delegate?.videoEditorDidFinishUpload(shortsId: shortsId)
+    }
+    
+    private func onConvertFinished(videoPath : String) {
+        delegate?.videoEditorDidFinishConvertVideo(videoPath: videoPath)
+    }
+    
+    private func onError(error : ShopLiveCommonError) {
+        delegate?.videoEditorError(error: error)
     }
     
     private func seekTo(time : CMTime) {
@@ -462,6 +481,10 @@ class SLVideoEditorMainViewController : UIViewController {
     private func onSetSpeedRateResult(value : CGFloat) {
         filterPlayerView.action( .setSpeedRate(value) )
     }
+    
+    private func onSetVideoSoundResult(volume : CGFloat) {
+        filterPlayerView.action( .setVideoVolume(volume) )
+    }
         
     private func onPresentViewController(vc : UIViewController) {
         self.present(vc, animated: true)
@@ -483,9 +506,9 @@ class SLVideoEditorMainViewController : UIViewController {
         self.filterAddBtn.isSelected = isSelected
     }
     
-    private func onShowThumbnailViewController() {
-        let view = SLVideoThumbnailViewController(videoEditInfo: reactor.getVideoEditInfoDto(), shortformEditorDelegate: shortformEditorDelegate, videoEditorDelegate: videoEditorDelegate)
-        self.navigationController?.pushViewController(view, animated: true)
+    private func onShowThumbnailViewController() { // not in use
+//        let view = SLVideoThumbnailViewController(videoEditInfo: reactor.getVideoEditInfoDto(), shortformEditorDelegate: shortformEditorDelegate, videoEditorDelegate: videoEditorDelegate)
+//        self.navigationController?.pushViewController(view, animated: true)
     }
     
     private func onReactorShowCancelToast() {
@@ -518,12 +541,7 @@ class SLVideoEditorMainViewController : UIViewController {
     }
     
     private func onReactorRequestPopView() {
-        if let nav = self.navigationController {
-            nav.popViewController(animated: true)
-        }
-        else {
-            self.dismiss(animated: true)
-        }
+        self.delegate?.videoEditorRequestPopView()
     }
 }
 //MARK: - FilterPlayerView binding
@@ -621,6 +639,7 @@ extension SLVideoEditorMainViewController {
     }
     
     private func onSpeedControlBoxConfirm() {
+        videoSpeedBtn.isSelected = true
         reactor.action( .applyVideoConfiChange(.all) )
         animateControlBox(to : .main)
     }
@@ -642,15 +661,20 @@ extension SLVideoEditorMainViewController {
                 self.onVolumeControlBoxConfirm()
             case .togglePlayPause:
                 self.reactor.action( .requestToggleVideoPlayOrPause )
-            default:
-                break
+            case .onValueChanged(let volume):
+                self.onVolumeControlBoxOnValueChanged(volume: volume)
             }
         }
     }
     
     private func onVolumeControlBoxConfirm() {
+        videoSoundBtn.isSelected = true
         reactor.action( .applyVideoConfiChange(.all) )
         animateControlBox(to: .main)
+    }
+    
+    private func onVolumeControlBoxOnValueChanged(volume : CGFloat) {
+        filterPlayerView.action( .setVideoVolume(volume) )
     }
 }
 //MARK: -bindFilterControlBox
@@ -672,6 +696,7 @@ extension SLVideoEditorMainViewController {
     }
     
     private func onFilterControlBoxConfirm() {
+        filterAddBtn.isSelected = true
         self.reactor.action( .applyVideoConfiChange(.all) )
         animateControlBox(to : .main)
     }
@@ -710,11 +735,27 @@ extension SLVideoEditorMainViewController {
         self.view.addSubview(pageTitleLabel)
         self.view.addSubview(nextButton)
         
-        let optionBtnStack = UIStackView(arrangedSubviews: [videoSpeedBtn, videoSoundBtn, videoCropBtn, filterAddBtn])
+       
+        let optionBtnStack = UIStackView()
         optionBtnStack.translatesAutoresizingMaskIntoConstraints = false
         optionBtnStack.axis = .vertical
         optionBtnStack.spacing = 8
         self.view.addSubview(optionBtnStack)
+        
+        let editOptions = globalConfig.visibleContents.editOptions
+        
+        if editOptions.contains(where: { $0 == .speed }) {
+            optionBtnStack.addArrangedSubview(videoSpeedBtn)
+        }
+        if editOptions.contains(where: { $0 == .volume }) {
+            optionBtnStack.addArrangedSubview(videoSoundBtn)
+        }
+        if editOptions.contains(where: { $0 == .crop }) {
+            optionBtnStack.addArrangedSubview(videoCropBtn)
+        }
+        if editOptions.contains(where: { $0 == .filter }) {
+            optionBtnStack.addArrangedSubview(filterAddBtn)
+        }
         
         self.view.addSubview(timeTrimSliderView)
         self.view.addSubview(speedRateControlBox)
@@ -723,7 +764,7 @@ extension SLVideoEditorMainViewController {
         self.view.addSubview(cropControlBox)
         self.view.addSubview(toastLabel)
         
-        NSLayoutConstraint.activate([
+        let constraints1 : [NSLayoutConstraint] = [
             naviBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             naviBar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             naviBar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
@@ -747,22 +788,17 @@ extension SLVideoEditorMainViewController {
             pageTitleLabel.centerYAnchor.constraint(equalTo: naviBar.centerYAnchor),
             pageTitleLabel.centerXAnchor.constraint(equalTo: naviBar.centerXAnchor),
             pageTitleLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 200),
-            pageTitleLabel.heightAnchor.constraint(equalToConstant: 18),
-            
-            optionBtnStack.centerYAnchor.constraint(equalTo: filterPlayerView.centerYAnchor),
-            optionBtnStack.trailingAnchor.constraint(equalTo: filterPlayerView.trailingAnchor,constant: -16),
-            optionBtnStack.widthAnchor.constraint(equalToConstant: 40),
-            optionBtnStack.heightAnchor.constraint(lessThanOrEqualToConstant: 400),
-            
+            pageTitleLabel.heightAnchor.constraint(equalToConstant: 18)
+        ]
+        
+        
+        let constraints2 : [NSLayoutConstraint] = [
             videoSpeedBtn.heightAnchor.constraint(equalToConstant: 40),
             videoSoundBtn.heightAnchor.constraint(equalToConstant: 40),
             videoCropBtn.heightAnchor.constraint(equalToConstant: 40),
             filterAddBtn.heightAnchor.constraint(equalToConstant: 40),
             
-//            filterPlayerView.topAnchor.constraint(equalTo: self.view.topAnchor),
-//            filterPlayerView.topAnchor.constraint(equalTo: naviBar.bottomAnchor),
             playerBoxMainModeTopAnc,
-//            playerBoxEditModeTopAnc,
             filterPlayerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             filterPlayerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             
@@ -794,7 +830,30 @@ extension SLVideoEditorMainViewController {
             toastLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             toastLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 400),
             toastLabel.heightAnchor.constraint(equalToConstant: 40)
-        ])
+        ]
+        
+        NSLayoutConstraint.activate(constraints1 + makeOptionBtnStackLayout(stack : optionBtnStack) + constraints2)
+    }
+    
+    
+    private func makeOptionBtnStackLayout(stack : UIStackView) -> [NSLayoutConstraint] {
+        if stack.arrangedSubviews.count == 1 {
+            return [
+                stack.centerXAnchor.constraint(equalTo: filterPlayerView.centerXAnchor),
+                stack.bottomAnchor.constraint(equalTo: filterPlayerView.bottomAnchor,constant: -16),
+                stack.widthAnchor.constraint(equalToConstant: 40),
+                stack.heightAnchor.constraint(equalToConstant: 40)
+            ]
+        }
+        else {
+            return [
+                stack.centerYAnchor.constraint(equalTo: filterPlayerView.centerYAnchor),
+                stack.trailingAnchor.constraint(equalTo: filterPlayerView.trailingAnchor,constant: -16),
+                stack.widthAnchor.constraint(equalToConstant: 40),
+                stack.heightAnchor.constraint(lessThanOrEqualToConstant: 400)
+            ]
+        }
+        
     }
     
     
@@ -826,10 +885,21 @@ extension SLVideoEditorMainViewController {
         editingCloseBtn.isHidden = to == .main ? true : false
         backBtn.isHidden = to == .main ? false : true
         nextButton.isHidden = to == .main ? false : true
-        filterAddBtn.isHidden = to == .main ? false : true
-        videoCropBtn.isHidden = to == .main ? false : true
-        videoSoundBtn.isHidden = to == .main ? false : true
-        videoSpeedBtn.isHidden = to == .main ? false : true
+        
+        let editOptions = globalConfig.visibleContents.editOptions
+        
+        if editOptions.contains(where: { $0 == .speed }) {
+            videoSpeedBtn.isHidden = to == .main ? false : true
+        }
+        if editOptions.contains(where: { $0 == .volume }) {
+            videoSoundBtn.isHidden = to == .main ? false : true
+        }
+        if editOptions.contains(where: { $0 == .crop }) {
+            videoCropBtn.isHidden = to == .main ? false : true
+        }
+        if editOptions.contains(where: { $0 == .filter }) {
+            filterAddBtn.isHidden = to == .main ? false : true
+        }
         
         UIView.animateKeyframes(withDuration: 0.4, delay: 0, options: []) {
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {

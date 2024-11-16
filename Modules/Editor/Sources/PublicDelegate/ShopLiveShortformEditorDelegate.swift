@@ -7,11 +7,14 @@
 
 import Foundation
 import ShopliveSDKCommon
+import UIKit
 
 
 @objc public protocol ShopLiveShortformEditorDelegate : AnyObject {
     @objc optional func onShopLiveShortformEditorError(error : ShopLiveCommonError)
-    @objc optional func onShopLiveShortformEditorUploadSuccess(videoPath : String)
+    @objc optional func onShopLiveShortformEditorVideoConvertSuccess(videoPath : String)
+    @objc optional func onShopLiveShortformEditorCoverImageSuccess(image : UIImage?)
+    @objc optional func onShopLiveShortformEditorUploadSuccess(shortsId : String)
     @objc optional func onShopLiveShortformEditorClosed()
 }
 

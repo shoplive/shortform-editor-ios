@@ -12,7 +12,6 @@ import ShopliveSDKCommon
 import Photos
 import PhotosUI
 import MobileCoreServices
-import ShopliveSDKCommon
 
 
 public class ShopliveVideoEditor {
@@ -25,7 +24,7 @@ public class ShopliveVideoEditor {
     
     private var delegate : ShopLiveVideoEditorDelegate?
     private var permissionHandler : ShopLivePermissionHandler?
-    private static weak var navigationController : SLPickerNavigationController?
+    private var navigationController : SLPickerNavigationController?
     
     @discardableResult
     public func setPermissionHandler(_ permissionHandler : ShopLivePermissionHandler?) -> Self {
@@ -43,6 +42,10 @@ public class ShopliveVideoEditor {
             ShopLiveEditorConfigurationManager.shared.videoTrimOption = trimOption
         }
         
+        if let videoOutputOption = configuration?.videoOutputOption {
+            ShopLiveEditorConfigurationManager.shared.videoOutputOption = videoOutputOption
+        }
+        
         return self
     }
     
@@ -52,21 +55,33 @@ public class ShopliveVideoEditor {
         return self
     }
     
-    public func start(_ vc : UIViewController, absoluteUrl : URL, relativeUrl : URL) {
+    public func start(_ vc : UIViewController, data : ShopLiveVideoEditorData) {
+        if let remoteVideoUrl = data.videoRemoteUrl {
+            self.showWithRemoteData(vc, remoteUrl: remoteVideoUrl)
+        }
+        else if let videoAbsoluteUrl = data.videoAbsoluteUrl, let videoRelativeUrl =  data.videoRelativeUrl {
+            self.showWithLocalData(vc, absoluteUrl: videoAbsoluteUrl, relativeUrl: videoRelativeUrl)
+        }
+        else if let videoAbsoluteUrl = data.videoAbsoluteUrl {
+            self.showWithLocalDataSingleUrl(vc, url: videoAbsoluteUrl)
+        }
+    }
+    
+    private func showWithLocalDataSingleUrl(_ vc : UIViewController, url : URL) {
         callFilterListAPI()
         self.callConfigAPI { [weak self] in
             guard let self = self else { return }
-            SLCodecValidator.runFFProbCommand(videoPath: relativeUrl.absoluteString) { isValidCodec in
+            SLCodecValidator.runFFProbCommand(videoPath: url.absoluteString) { isValidCodec in
                 if isValidCodec == false {
                     self.delegate?.onShopLiveVideoEditorError?(error: ShopLiveCommonErrorGenerator.generateError(errorCase: .UnsupportedMedia, error: nil, message: "codec is not valid"))
                 }
                 else {
                     DispatchQueue.main.async {
-                        let shortsVideo = ShortsVideo(localAbsoluteUrl: absoluteUrl, localRelativeUrl: relativeUrl)
-                        let editorVC = SLVideoEditorMainViewController(video: shortsVideo, isRoot: true)
-                        editorVC.videoEditorDelegate = self.delegate
+                        let shortsVideo = ShortsVideo(localAbsoluteUrl: url, localRelativeUrl: url)
+                        let editorVC = SLVideoEditorMainViewController(video: shortsVideo)
+                        editorVC.delegate = self
                         let navi = SLPickerNavigationController(rootViewController: editorVC)
-                        Self.navigationController = navi
+                        Self.shared.navigationController = navi
                         navi.isNavigationBarHidden = true
                         navi.modalPresentationCapturesStatusBarAppearance = true
                         navi.modalPresentationStyle = .overFullScreen
@@ -77,16 +92,41 @@ public class ShopliveVideoEditor {
         }
     }
     
-    public func start(_ vc : UIViewController, remoteUrl : URL) {
+    private func showWithLocalData(_ vc : UIViewController, absoluteUrl : URL, relativeUrl : URL) {
+        callFilterListAPI()
+        self.callConfigAPI { [weak self] in
+            guard let self = self else { return }
+            SLCodecValidator.runFFProbCommand(videoPath: relativeUrl.absoluteString) { isValidCodec in
+                if isValidCodec == false {
+                    self.delegate?.onShopLiveVideoEditorError?(error: ShopLiveCommonErrorGenerator.generateError(errorCase: .UnsupportedMedia, error: nil, message: "codec is not valid"))
+                }
+                else {
+                    DispatchQueue.main.async {
+                        let shortsVideo = ShortsVideo(localAbsoluteUrl: absoluteUrl, localRelativeUrl: relativeUrl)
+                        let editorVC = SLVideoEditorMainViewController(video: shortsVideo)
+                        editorVC.delegate = self
+                        let navi = SLPickerNavigationController(rootViewController: editorVC)
+                        Self.shared.navigationController = navi
+                        navi.isNavigationBarHidden = true
+                        navi.modalPresentationCapturesStatusBarAppearance = true
+                        navi.modalPresentationStyle = .overFullScreen
+                        vc.present(navi, animated: true)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func showWithRemoteData(_ vc : UIViewController, remoteUrl : URL) {
         callFilterListAPI()
         self.callConfigAPI { [weak self] in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 let shortsVideo = ShortsVideo(localAbsoluteUrl: remoteUrl, localRelativeUrl: remoteUrl)
-                let editorVC = SLVideoEditorMainViewController(video: shortsVideo, isRoot: true)
-                editorVC.videoEditorDelegate = self.delegate
+                let editorVC = SLVideoEditorMainViewController(video: shortsVideo)
+                editorVC.delegate = self
                 let navi = SLPickerNavigationController(rootViewController: editorVC)
-                Self.navigationController = navi
+                Self.shared.navigationController = navi
                 navi.isNavigationBarHidden = true
                 navi.modalPresentationCapturesStatusBarAppearance = true
                 navi.modalPresentationStyle = .overFullScreen
@@ -96,8 +136,9 @@ public class ShopliveVideoEditor {
     }
     
     public func close() {
-        Self.navigationController?.dismiss(animated: true)
-        Self.navigationController = nil
+        Self.shared.navigationController?.viewControllers.first?.dismiss(animated: true)
+        Self.shared.navigationController?.dismiss(animated: true)
+        Self.shared.navigationController = nil
     }
     
     
@@ -108,7 +149,7 @@ public class ShopliveVideoEditor {
             case .success():
                 completion()
             case .failure(let error):
-                delegate?.onShopLiveVideoEditorError?(error: error)
+                Self.shared.delegate?.onShopLiveVideoEditorError?(error: error)
             }
         }
     }
@@ -120,6 +161,27 @@ public class ShopliveVideoEditor {
             ShopLiveShortformEditorFilterListManager.shared.callFilterListAPI { }
         }
     }
+}
+extension ShopliveVideoEditor : SLVideoEditorViewControllerDelegate {
     
+    func videoEditorRequestPopView() {
+        Self.shared.close()
+        Self.shared.delegate?.onShopLiveVideoEditorCancelled?()
+    }
     
+    func videoEditorDidCancelConvertVideo() {
+        
+    }
+    
+    func videoEditorDidFinishConvertVideo(videoPath: String) {
+        Self.shared.delegate?.onShopLiveVideoEditorVideoConvertSuccess?(videoPath: videoPath)
+    }
+    
+    func videoEditorDidFinishUpload(shortsId: String) {
+        Self.shared.delegate?.onShopLiveVideoEditorUploadSuccess?(shortsId: shortsId)
+    }
+    
+    func videoEditorError(error: ShopLiveCommonError) {
+        Self.shared.delegate?.onShopLiveVideoEditorError?(error: error)
+    }
 }

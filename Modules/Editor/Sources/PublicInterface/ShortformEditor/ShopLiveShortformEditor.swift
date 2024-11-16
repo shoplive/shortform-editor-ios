@@ -43,6 +43,9 @@ public class ShopLiveShortformEditor {
             ShopLiveEditorConfigurationManager.shared.visibleContents = visibleContents
         }
         
+        if let videoOutputOption = configuration?.videoOutputOption {
+            ShopLiveEditorConfigurationManager.shared.videoOutputOption = videoOutputOption
+        }
         return self
     }
     
@@ -53,19 +56,18 @@ public class ShopLiveShortformEditor {
     }
     
     public func start(_ vc : UIViewController) {
-        coordinator = ShopliveShortformCoordinator()
-        coordinator?.showPhotoPicker(vc: vc,
+        Self.shared.coordinator = ShopliveShortformCoordinator()
+        Self.shared.coordinator?.showPhotoPicker(vc: vc,
                                      permissionHandler: Self.shared.permissionHandler,
                                      editorDelegate: Self.shared.shortformEditorDelegate)
-        
     }
     
     public func close() {
-        coordinator?.close()
+        Self.shared.coordinator?.close()
     }
     
     func getShoplivePermissionHandler() -> ShopLivePermissionHandler? {
-        return coordinator?.getPermissionHandler()
+        return Self.shared.coordinator?.getPermissionHandler()
     }
 }
 

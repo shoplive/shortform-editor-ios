@@ -381,7 +381,8 @@ extension SLUploadInfoReactor {
             guard let self = self else { return }
             switch result {
             case .success(let response):
-                self.processRegisterAPI(videoId: response.videoId ?? -1)
+//                self.processRegisterAPI(videoId: response.videoId ?? -1)
+                break
             case .failure(let error):
                 onMainQueueResultHandler?(.setLoadingVisible(false))
                 self.passNetworkErrorsToShortformDelegate(error: error)
@@ -395,7 +396,7 @@ extension SLUploadInfoReactor {
             guard let self = self else { return }
             switch result {
             case .success(_):
-                self.shortformEditorDelegate?.onShopLiveShortformEditorUploadSuccess?(videoPath: "")
+//                self.shortformEditorDelegate?.onShopLiveShortformEditorUploadSuccess?(videoPath: "")
                 self.onMainQueueResultHandler?(.setLoadingVisible(false))
                 self.removeVideoFile()
                 ShopLiveShortformEditor().close()

@@ -16,5 +16,8 @@ class ShopLiveEditorConfigurationManager {
     var videoCropOption : SLEditorAspectRatio = ShopLiveShortFormEditorAspectRatio()
     var visibleContents : SLVisibleContent  = ShopLiveShortFormEditorVisibleContent()
     var videoTrimOption : SLEditorTrimOption = ShopLiveShortFormEditorTrimOption()
+    var videoOutputOption : SLVideoOutputConfigOption = ShopLiveShortformEditorVideoOuputOption()
+    var coverPickerVisibleActionButton : ShopLiveCoverPickerVisibleActionButton = ShopLiveCoverPickerVisibleActionButton()
+    var mediaPickerVideoDurationOption : SLMediaPickerVideoDurationOption = ShopLiveMediaPickerVideoDurationOption()
     
 }

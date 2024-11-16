@@ -38,8 +38,12 @@ public final class ShopliveVideoEditorTrimOption : SLEditorTrimOption {
 public final class ShopliveVideoEditorConfiguration {
     public var videoCropOption : ShopliveVideoEditorAspectRatio = .init()
     public var videoTrimOption : ShopliveVideoEditorTrimOption = .init()
+    public var videoOutputOption : ShopLiveShortformEditorVideoOuputOption = .init()
+    public var visibleContents : ShopLiveShortFormEditorVisibleContent = .init()
     
     public init(videoCropOption: ShopliveVideoEditorAspectRatio,
+                videoOutputOption : ShopLiveShortformEditorVideoOuputOption?,
+                visibleContents : ShopLiveShortFormEditorVisibleContent?,
                 minVideoDuration : CGFloat? = nil,
                 maxVideoDuration : CGFloat? = nil) {
         self.videoCropOption = videoCropOption
@@ -47,6 +51,15 @@ public final class ShopliveVideoEditorConfiguration {
         if let minVideoDuration = minVideoDuration, minVideoDuration > 0 {
             self.videoTrimOption.minVideoDuration = minVideoDuration
         }
+        
+        if let visibleContents = visibleContents {
+            self.visibleContents = visibleContents
+        }
+        
+        if let videoOutputOption = videoOutputOption {
+            self.videoOutputOption = videoOutputOption
+        }
+        
         if let maxVideoDuration = maxVideoDuration  {
             if maxVideoDuration <= (minVideoDuration ?? 1) {
                 self.videoTrimOption = .init()
