@@ -1,0 +1,6 @@
+framework module ShopliveFilterSDK {
+  umbrella header "ShopliveFilterSDK.h"
+
+  export *
+  module * { export * }
+}

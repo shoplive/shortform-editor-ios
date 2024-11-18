@@ -10,9 +10,14 @@ let package = Package(
         .library(
             name: "ShopLiveShortformEditorSDK",
             targets: ["ShopLiveShortformEditorSDK"]),
+        .library(
+            name: "ShopliveFilterSDK",
+            targets: ["ShopliveFilterSDK"]),
     ],
     targets: [
         .binaryTarget(name: "ShopLiveShortformEditorSDK",
-                      path: "./Frameworks/ShopLiveShortformEditorSDK.xcframework")
+                      path: "./Frameworks/ShopLiveShortformEditorSDK.xcframework"),
+        .binaryTarget(name: "ShopliveFilterSDK",
+                      path: "./Frameworks/ShopliveFilterSDK.xcframework")
     ]
 )
