@@ -45837,6 +45837,20 @@
       "value": "20"
     },
     {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/PublicInterface\/Configuration\/ShopLiveCoverPickerConfiguration.swift",
+      "kind": "Array",
+      "offset": 383,
+      "length": 2,
+      "value": "[]"
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/PublicInterface\/Configuration\/ShopLiveCoverPickerConfiguration.swift",
+      "kind": "Array",
+      "offset": 443,
+      "length": 2,
+      "value": "[]"
+    },
+    {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/PublicInterface\/Configuration\/ShopLiveMediaPickerConfiguration.swift",
       "kind": "IntegerLiteral",
       "offset": 343,
@@ -68505,14 +68519,14 @@
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Singletons\/FilterManager\/ShopLiveShortformEditorFilterManager.swift",
       "kind": "Array",
-      "offset": 1091,
+      "offset": 1058,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Singletons\/FilterManager\/ShopLiveShortformEditorFilterManager.swift",
       "kind": "Array",
-      "offset": 1266,
+      "offset": 1201,
       "length": 2,
       "value": "[]"
     },

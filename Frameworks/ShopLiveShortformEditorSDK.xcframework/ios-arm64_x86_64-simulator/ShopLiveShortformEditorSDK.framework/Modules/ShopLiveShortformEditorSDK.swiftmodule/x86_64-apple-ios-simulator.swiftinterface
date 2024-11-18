@@ -386,7 +386,7 @@ public enum SLCoverEditOptions : Swift.CaseIterable {
 }
 final public class ShopLiveCoverPickerVisibleActionButton {
   final public var editOptions: [ShopLiveShortformEditorSDK.SLCoverEditOptions]
-  public init(editOptions: [ShopLiveShortformEditorSDK.SLCoverEditOptions] = [.crop])
+  public init(editOptions: [ShopLiveShortformEditorSDK.SLCoverEditOptions] = [])
   @objc deinit
 }
 final public class ShopLiveCoverPickerConfiguration {
