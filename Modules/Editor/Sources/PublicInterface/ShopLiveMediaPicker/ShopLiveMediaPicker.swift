@@ -60,6 +60,7 @@ public class ShopLiveMediaPicker : NSObject {
     }
     
     public func close() {
+        SLFileManager.deleteEditorDirectoryFiles()
         Self.shared.navigationController?.viewControllers.first?.dismiss(animated: true)
         self.navigationController?.dismiss(animated: true)
         self.navigationController = nil

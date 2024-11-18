@@ -199,7 +199,7 @@ import ShopliveSDKCommon
             let audioSession = AVAudioSession.sharedInstance()
             let audioSessionManager = SLAudioSessionManager.shared
             originAudioSessionCategory = audioSession.category
-            audioSessionManager.setCategory(category: .playback, options: audioSessionManager.currentCategoryOptions)
+            audioSessionManager.setCategory(category: ShopLiveConfiguration.SoundPolicy.audioSessionCategory, options: audioSessionManager.currentCategoryOptions)
         }
         
         ShopLiveController.shared.releaseData()
@@ -1765,8 +1765,14 @@ extension ShopLiveBase: ShopLiveComponent {
     }
     
     func setMixWithOthers(isMixAudio: Bool) {
+        ShopLiveLogger.publicLog("[SHOPLIVEBASE] setMixWithOthers \(isMixAudio)")
         ShopLiveConfiguration.SoundPolicy.useMixWithOthers = isMixAudio
     }
+    
+    func setAudioSessionCategory(category : AVAudioSession.Category) {
+        ShopLiveConfiguration.SoundPolicy.audioSessionCategory = category
+    }
+    
     func setEnabledPictureInPictureMode(isEnabled : Bool){
         self.enabledPictureInPictureMode = isEnabled
     }
@@ -1867,7 +1873,7 @@ extension ShopLiveBase: ShopLiveComponent {
                     audioSessionManager.customerAudioCategoryOptions = audioSessionManager.currentCategoryOptions
                 }
                 
-                audioSessionManager.setCategory(category: .playback, options: .mixWithOthers)
+                audioSessionManager.setCategory(category: ShopLiveConfiguration.SoundPolicy.audioSessionCategory, options: .mixWithOthers)
                 
                 if let referrer = referrer {
                     self.queryParameters["referrer"] = String(referrer.prefix(1024))
@@ -2006,7 +2012,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 
                 let categoryOption: AVAudioSession.CategoryOptions = ShopLiveConfiguration.SoundPolicy.useMixWithOthers ? .mixWithOthers : audioSessionManager.customerAudioCategoryOptions
                 
-                audioSessionManager.setCategory(category: .playback, options: categoryOption)
+                audioSessionManager.setCategory(category: ShopLiveConfiguration.SoundPolicy.audioSessionCategory, options: categoryOption)
                 
                 if self.needExecuteFullScreen {
                     self.queryParameters["_from"] = "sdk_preview"

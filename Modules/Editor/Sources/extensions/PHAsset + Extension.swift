@@ -19,15 +19,27 @@ extension PHAsset {
             return
         }
         let options: PHVideoRequestOptions = PHVideoRequestOptions()
+        options.deliveryMode = .automatic
         options.version = .current
         options.isNetworkAccessAllowed = true
         PHImageManager.default().requestAVAsset(forVideo: self, options: options, resultHandler: {(asset: AVAsset?, audioMix: AVAudioMix?, info: [AnyHashable : Any]?) -> Void in
-            if let urlAsset = asset as? AVURLAsset {
-                let localAbsoluteUrl : URL = urlAsset.url
-                let localRelativeUrl : URL = URL(fileURLWithPath : urlAsset.url.relativePath)
-                completion((localAbsoluteUrl,localRelativeUrl))
-            } else {
-                completion((nil,nil))
+            
+            guard let asset = asset else { return }
+            
+            let dirPath = SLFileManager.editorDirectoryPath
+            let outputURL = dirPath.appendingPathComponent("\(UUID().uuidString)_ShopLive.mp4")
+            
+            let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality)
+            exportSession?.outputURL = outputURL
+            exportSession?.outputFileType = .mp4
+            
+            exportSession?.exportAsynchronously {
+                if exportSession?.status == .completed {
+                    completion((outputURL,outputURL))
+                } else {
+                    ShopLiveLogger.tempLog("[SLPHOTOPICKER] exportSession error \(exportSession?.error?.localizedDescription)")
+                    completion((nil,nil))
+                }
             }
         })
     }

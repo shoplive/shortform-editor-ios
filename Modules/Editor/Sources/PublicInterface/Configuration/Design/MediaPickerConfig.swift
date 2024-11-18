@@ -10,11 +10,11 @@ import Foundation
 import UIKit
 
 
-public class MediaPickerConfig {
-    public static let global = MediaPickerConfig()
-    
-    var closeButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slCloseButton.image
-    var cellCornerRadius : CGFloat = 6
-}
+//public class MediaPickerConfig {
+//    public static let global = MediaPickerConfig()
+//    
+//    public var closeButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slCloseButton.image
+//    public var cellCornerRadius : CGFloat = 6
+//}
 
 

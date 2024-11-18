@@ -414,8 +414,28 @@ extension SLPhotosPickerReactor : UIImagePickerControllerDelegate, UINavigationC
             if sucess, let self = self, let identifier = placeHolderAsset?.localIdentifier {
                 guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [identifier], options: nil).firstObject else { return }
                 var result = SLPHAsset(asset: asset)
+                
                 result.selectedOrder = 1
                 result.isSelectedFromCamera = true
+                
+                
+                if let duration = result.phAsset?.duration {
+                    let mediaPickerVideoDurationOption = ShopLiveEditorConfigurationManager.shared.mediaPickerVideoDurationOption
+                    let minDuration = mediaPickerVideoDurationOption.minVideoDuration
+                    let maxDuration = mediaPickerVideoDurationOption.maxVideoDuration
+                    
+                    if duration < Double(minDuration)  || duration > Double(maxDuration) {
+                        let message = ShopLiveShortformEditorSDKStrings.Picker.Warning.Duration.Invalid.message(minDuration, maxDuration / 60)
+                        DispatchQueue.main.async {
+                            picker.dismiss(animated: true) {
+                                self.resultHandler?( .showToast(message) )
+                                self.resultHandler?( .requsetFinishLoading )
+                            }
+                        }
+                        return
+                    }
+                }
+                
                 asset.getVideoURl { [weak self] absoluteUrl,relativeUrl in
                     guard let absoluteUrl = absoluteUrl, let relativeUrl = relativeUrl else { return }
                     DispatchQueue.main.async {
@@ -430,6 +450,9 @@ extension SLPhotosPickerReactor : UIImagePickerControllerDelegate, UINavigationC
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        DispatchQueue.main.async {
+            picker.dismiss(animated: true)
+        }
         resultHandler?( .dismissMediaPicker )
     }
 }

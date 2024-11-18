@@ -19,7 +19,7 @@ protocol SLVideoEditorViewControllerDelegate: AnyObject {
 }
 
 class SLVideoEditorMainViewController : UIViewController {
-    let design = EditorMainConfig.global
+    let design = ShopLiveShortformEditor.EditorMainConfig.global
     let globalConfig = ShopLiveEditorConfigurationManager.shared
     
     private var naviBar : UIView = {
@@ -60,7 +60,15 @@ class SLVideoEditorMainViewController : UIViewController {
         label.textColor = .white
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textAlignment = .center
-        label.text = ShopLiveShortformEditorSDKStrings.Editor.Main.Page.title
+//        label.text = ShopLiveShortformEditorSDKStrings.Editor.Main.Page.title
+        let shadow = NSShadow()
+        shadow.shadowColor = UIColor.black
+        shadow.shadowOffset = CGSize(width: 0, height: 2)
+        shadow.shadowBlurRadius = 2
+        let attributes: [NSAttributedString.Key: Any] = [
+            .shadow: shadow
+        ]
+        label.attributedText = NSAttributedString(string: ShopLiveShortformEditorSDKStrings.Editor.Main.Page.title, attributes: attributes)
         return label
     }()
     
@@ -69,7 +77,7 @@ class SLVideoEditorMainViewController : UIViewController {
         let view = SlBlurBGButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
-        view.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Main.Btn.Next.title, for: .normal)
+        view.titleTextLabel.text = design.nextButtonTitle
         view.layer.cornerRadius = design.nextButtonCornerRadius
         view.clipsToBounds = true
         return view
@@ -305,6 +313,11 @@ class SLVideoEditorMainViewController : UIViewController {
     }
     
     @objc func filterAddBtnTapped(sender : UIButton) {
+        if filterAddBtn.isSelected == true {
+            filterControlBox.action( .setToOrigin )
+            filterAddBtn.isSelected = false
+            return
+        }
         filterControlBox.action( .setThumbnail(self.timeTrimSliderView.getFirstThumbnailImage()) )
         animateControlBox(to: .filter) { [weak self] in
             guard let self = self else { return }
@@ -315,17 +328,32 @@ class SLVideoEditorMainViewController : UIViewController {
     }
     
     @objc func cropBtnTapped(sender : UIButton) {
+        if videoCropBtn.isSelected == true {
+            filterPlayerView.action( .setCropViewToOrigin )
+            videoCropBtn.isSelected = false
+            return
+        }
         animateControlBox(to: .crop)
         filterPlayerView.action( .hideCropView(false) )
         filterPlayerView.action( .saveStartCropRect )
     }
     
     @objc func videoSoundBtnTapped(sender : UIButton) {
+        if videoSoundBtn.isSelected == true {
+            volumeControlBox.action( .setToOrigin )
+            videoSoundBtn.isSelected = false
+            return
+        }
         animateControlBox(to : .volume)
         volumeControlBox.action( .saveEditingStartValue)
     }
     
     @objc func videoSpeedRateBtnTapped(sender : UIButton) {
+        if videoSpeedBtn.isSelected == true {
+            speedRateControlBox.action( .setToOrigin )
+            videoSpeedBtn.isSelected = false
+            return
+        }
         animateControlBox(to : .speed)
         speedRateControlBox.action( .saveEditingStartSpeedValue )
     }
@@ -722,6 +750,7 @@ extension SLVideoEditorMainViewController {
     }
     
     private func onCropControlBoxConfirm() {
+        videoCropBtn.isSelected = true
         animateControlBox(to: .main )
     }
 }
@@ -744,7 +773,7 @@ extension SLVideoEditorMainViewController {
         
         let editOptions = globalConfig.visibleContents.editOptions
         
-        if editOptions.contains(where: { $0 == .speed }) {
+        if editOptions.contains(where: { $0 == .playBackSpeed }) {
             optionBtnStack.addArrangedSubview(videoSpeedBtn)
         }
         if editOptions.contains(where: { $0 == .volume }) {
@@ -782,7 +811,7 @@ extension SLVideoEditorMainViewController {
             
             nextButton.centerYAnchor.constraint(equalTo: naviBar.centerYAnchor),
             nextButton.trailingAnchor.constraint(equalTo: naviBar.trailingAnchor,constant: -20),
-            nextButton.widthAnchor.constraint(equalToConstant: 70),
+            nextButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
             nextButton.heightAnchor.constraint(equalToConstant: 40),
             
             pageTitleLabel.centerYAnchor.constraint(equalTo: naviBar.centerYAnchor),
@@ -888,7 +917,7 @@ extension SLVideoEditorMainViewController {
         
         let editOptions = globalConfig.visibleContents.editOptions
         
-        if editOptions.contains(where: { $0 == .speed }) {
+        if editOptions.contains(where: { $0 == .playBackSpeed }) {
             videoSpeedBtn.isHidden = to == .main ? false : true
         }
         if editOptions.contains(where: { $0 == .volume }) {

@@ -113,7 +113,12 @@ extension ShopLiveShortformBaseTypeYTPlayerView {
     
     private func onRequestEvaluateJSRequest(requestList : [JSRequest]){
         requestList.forEach { request in
-            webView?.sendShortsEvent(event: request.0.rawValue,parameter: request.1) { }
+            if case .EXTERNAL_COMMAND(let command) = request.0  {
+                webView?.sendShortsEvent(event: command, parameter: request.1) { }
+            }
+            else {
+                webView?.sendShortsEvent(event: request.0.key, parameter: request.1) { }
+            }
         }
     }
     

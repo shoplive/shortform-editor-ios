@@ -13,7 +13,7 @@ import AVKit
 
 class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     typealias globalConfig = ShopLiveEditorConfigurationManager
-    private let thumbnailDesign = EditorThumbnailConfig.global
+    private let design = ShopLiveShortformEditor.EditorMainConfig.global
     
     enum VideoConfigApplyType {
         case all
@@ -325,7 +325,9 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
                                     videoSize: videoSize,
                                     timeRange: (startTime,endTime),
                                     fileName: (videoUrl as NSString).lastPathComponent,
-                                    filterConfig: videoEditInfoDto.filterConfig)
+                                    filterConfig: videoEditInfoDto.filterConfig,
+                                    volume: Double(videoEditInfoDto.volume),
+                                    speed: videoEditInfoDto.videoSpeed)
         
         self.onMainQueueResultHandler?( .updateLoadingPercent("0%") )
         self.onMainQueueResultHandler?( .showLoadingView )
@@ -352,12 +354,12 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
 extension SLVideoEditorMainViewReactor : SLLoadingAlertControllerDelegate {
     func didCancelLoading() {
         let popUp = SLCustomAlertBox(title: ShopLiveShortformEditorSDKStrings.Editor.Upload.Cancel.Alert.title, confirmTitle: nil, closeTitle: nil)
-        popUp.setBoxCornerRadius(cornerRadius: thumbnailDesign.cancelPopupCornerRadius)
-        popUp.setButtonCornerRadius(cornerRadius: thumbnailDesign.cancelPopupButtonCornerRadius)
-        popUp.setCloseButtonDesign(backgroundColor: thumbnailDesign.cancelPopupCloseButtonBackgroundColor,
-                                   textColor: thumbnailDesign.cancelPopupCloseButtonTextColor)
-        popUp.setConfirmButtonDesign(backgroundColor: thumbnailDesign.cancelPopupConfirmButtonBackgroundColor,
-                                     textColor: thumbnailDesign.cancelPopupConfirmButtonTextColor)
+        popUp.setBoxCornerRadius(cornerRadius: design.cancelPopupCornerRadius)
+        popUp.setButtonCornerRadius(cornerRadius: design.cancelPopupButtonCornerRadius)
+        popUp.setCloseButtonDesign(backgroundColor: design.cancelPopupCloseButtonBackgroundColor,
+                                   textColor: design.cancelPopupCloseButtonTextColor)
+        popUp.setConfirmButtonDesign(backgroundColor: design.cancelPopupConfirmButtonBackgroundColor,
+                                     textColor: design.cancelPopupConfirmButtonTextColor)
         popUp.btnClickCallback = { [weak self] result in
             guard let self = self else { return }
             if result == .yes {
@@ -400,7 +402,8 @@ extension SLVideoEditorMainViewReactor {
     }
     
     private func checkThumbnailImage() {
-        self.getExtractThumbnail(at: .zero) { [weak self] image  in
+        let videoStartTime = CMTimeGetSeconds(self.videoEditInfoDto.cropTime.start)
+        self.getExtractThumbnail(at: videoStartTime) { [weak self] image  in
             self?.callShortformVideoAPI(image: image)
         }
     }
@@ -470,9 +473,9 @@ extension SLVideoEditorMainViewReactor {
         }
         
         var shortsDetailDict : [String : Any] = [:]
-        shortsDetailDict["description"] = "ios_seeker_thumbnail_test_2_description"
-        shortsDetailDict["tags"] = ["ios_test_tag1","ios_test_tag2"]
-        shortsDetailDict["title"] = "ios_upload_test \(Date())"
+//        shortsDetailDict["description"] = "ios_seeker_thumbnail_test_2_description"
+//        shortsDetailDict["tags"] = ["ios_test_tag1","ios_test_tag2"]
+//        shortsDetailDict["title"] = "ios_upload_test \(Date())"
         
         
         shortsDict["cards"] = [cardsDict]
@@ -487,7 +490,7 @@ extension SLVideoEditorMainViewReactor {
                 creator["displayUserId"] = displayUserId
             }
             if let userName = user.userName {
-                creator["username"] =  userName
+                creator["userName"] =  userName
             }
             if let profileImage = user.custom?["profileImage"] as? String {
                 creator["profileImage"] = profileImage

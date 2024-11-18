@@ -17,7 +17,14 @@ class SlBlurBGButton : UIButton {
     
     private let stack = UIStackView()
     private let myimageView = UIImageView()
-    
+    let titleTextLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.textAlignment = .center
+        return label
+    }()
     
     var imageLayoutMargin : UIEdgeInsets = .zero {
         didSet {
@@ -44,8 +51,6 @@ class SlBlurBGButton : UIButton {
         selectedBlurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.addSubview(selectedBlurEffectView)
         selectedBlurEffectView.isUserInteractionEnabled = false
-        
-        
         
         self.backgroundColor = .clear
         setLayout()
@@ -92,12 +97,20 @@ extension SlBlurBGButton {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.isLayoutMarginsRelativeArrangement = true
+        self.addSubview(titleTextLabel)
         
         NSLayoutConstraint.activate([
             stack.topAnchor.constraint(equalTo: self.topAnchor),
             stack.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             stack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            stack.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            stack.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            
+            titleTextLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            titleTextLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            titleTextLabel.leadingAnchor.constraint(greaterThanOrEqualTo: self.leadingAnchor, constant: 6),
+            titleTextLabel.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -6),
+            titleTextLabel.heightAnchor.constraint(equalToConstant: 16)
         ])
     }
 }

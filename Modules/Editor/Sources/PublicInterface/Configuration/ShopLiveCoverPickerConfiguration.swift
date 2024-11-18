@@ -9,18 +9,20 @@
 import Foundation
 import UIKit
 
-
+public enum SLCoverEditOptions : CaseIterable {
+   case crop
+}
 public final class ShopLiveCoverPickerVisibleActionButton {
-    public var isUsedCropButton : Bool = true
+    public var editOptions : [SLCoverEditOptions] = [.crop]
     
-    public init(isUsedCropButton: Bool = true) {
-        self.isUsedCropButton = isUsedCropButton
+    public init(editOptions: [SLCoverEditOptions] = [.crop]) {
+        self.editOptions = editOptions
     }
 }
 
 public final class ShopLiveCoverPickerConfiguration {
     public var cropOption : ShopLiveShortFormEditorAspectRatio = .init()
-    public var visibleActionButton : ShopLiveCoverPickerVisibleActionButton = .init(isUsedCropButton: true)
+    public var visibleActionButton : ShopLiveCoverPickerVisibleActionButton = .init()
     
     public init(cropOption : ShopLiveShortFormEditorAspectRatio,
                 visibleActionButton : ShopLiveCoverPickerVisibleActionButton) {

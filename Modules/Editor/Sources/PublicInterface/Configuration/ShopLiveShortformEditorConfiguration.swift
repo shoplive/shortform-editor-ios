@@ -34,7 +34,7 @@ public final class ShopLiveShortFormEditorTrimOption : SLEditorTrimOption {
 
 public enum SLEditOptions : CaseIterable {
     case filter
-    case speed
+    case playBackSpeed
     case volume
     case crop
 }
@@ -42,10 +42,9 @@ public enum SLEditOptions : CaseIterable {
 public final class ShopLiveShortFormEditorVisibleContent : SLVisibleContent {
     public var isDescriptionVisible : Bool = true
     public var isTagsVisible : Bool = true
-    public var editOptions : [SLEditOptions] = [.filter, .speed, .volume, .crop]
+    public var editOptions : [SLEditOptions] = [.filter, .playBackSpeed, .volume, .crop]
     
-    
-    public init(isDescriptionVisible: Bool = true , isTagsVisible: Bool = true, editOptions : [SLEditOptions] = [.filter, .speed, .volume, .crop] ) {
+    public init(isDescriptionVisible: Bool = true , isTagsVisible: Bool = true, editOptions : [SLEditOptions] = [.filter, .playBackSpeed, .volume, .crop] ) {
         self.isDescriptionVisible = isDescriptionVisible
         self.isTagsVisible = isTagsVisible
         self.editOptions = editOptions

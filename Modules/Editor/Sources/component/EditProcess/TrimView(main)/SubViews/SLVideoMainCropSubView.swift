@@ -13,7 +13,7 @@ import ShopliveSDKCommon
 
 
 class SLVideoMainCropSubView : UIView, SLReactor {
-    private let design = EditorSpeedConfig.global
+    private let design = ShopLiveShortformEditor.EditorSpeedConfig.global
     
     private var bottomBar : UIView = {
         let view = UIView()

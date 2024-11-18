@@ -17,7 +17,7 @@ protocol SLVideoFilterViewControllerDelegate {
 
 
 class SLVideoFilterViewController : UIViewController {
-    private let design = EditorFilterConfig.global
+    private let design = ShopLiveShortformEditor.EditorFilterConfig.global
     
     
     private var naviBar : UIView = {

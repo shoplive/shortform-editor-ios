@@ -9,6 +9,7 @@ import Foundation
 import WebKit
 import UIKit
 import ShopliveSDKCommon
+import AVKit
 
 @objc public enum ResultStatus: Int, CaseIterable {
     case SHOW
@@ -317,6 +318,7 @@ public typealias ShopLiveViewController = SLViewController
     @objc static func awakePlayer()
     
     @objc static func setMixWithOthers(isMixAudio: Bool)
+    @objc static func setAudioSessionCategory(category : AVAudioSession.Category)
     
     @available(iOS, deprecated, message: "Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
     @objc static func useCloseButton(_ use: Bool)

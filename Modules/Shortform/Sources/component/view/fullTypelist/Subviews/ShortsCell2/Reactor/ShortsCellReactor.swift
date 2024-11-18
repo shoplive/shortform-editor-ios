@@ -104,16 +104,24 @@ class ShortsCellReactor : NSObject, SLReactor {
         case setVideoLayerGravity(AVLayerVideoGravity)
         case setThumbnailImageContentMode(UIView.ContentMode)
         case scrollToNextCell(ShortsModel?)
+        case showLoadingIndicator(Bool)
     }
     
     //data
     private var shortsModel : ShortsModel?
     private var currentVideoUrl : String? {
-        shortsModel?.cards?.first?.videoUrl
+        if shortsMode == .detail {
+            return shortsModel?.cards?.first?.videoUrl
+        }
+        else {
+            return shortsModel?.cards?.first?.previewVideoUrl
+        }
     }
+    
     private var currentSrn : String? {
         shortsModel?.srn
     }
+    
     private var setShortsSingleDetailViewPayload : [String : Any]?
     private var seekToOnInitial : ShortformCurrentTimeDTO?
     
@@ -136,7 +144,7 @@ class ShortsCellReactor : NSObject, SLReactor {
     private var videoDuration : Double = 0.0
     private var isReadyToPlay : Bool = false
     
-    
+    private var loadingIndicatorWorkItem : DispatchWorkItem?
     
     lazy private var ytCommandReactor = ShortsCellYoutubeCommandReactor(delegate: self)
     
@@ -283,6 +291,14 @@ class ShortsCellReactor : NSObject, SLReactor {
             }
         }
         ytCommandReactor.action( .setCurrentShortsMode(self.shortsMode) )
+        
+        cancelLoadingIndicatorWorkItem()
+        loadingIndicatorWorkItem = DispatchWorkItem(block: { [weak self] in
+            self?.resultHandler?( .showLoadingIndicator(true) )
+        })
+        if let workItem = loadingIndicatorWorkItem {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: workItem)
+        }
     }
     
     private func onSetWebViewUrl(url : URL) {
@@ -349,6 +365,8 @@ class ShortsCellReactor : NSObject, SLReactor {
         isPaused = status == .paused
         
         if status == .playing {
+            cancelLoadingIndicatorWorkItem()
+            self.resultHandler?( .showLoadingIndicator(false) )
             resultHandler?( .requestVideoDuration )
             self.sendVideoDurationChanged(duration: videoDuration)
         }
@@ -361,6 +379,8 @@ class ShortsCellReactor : NSObject, SLReactor {
         case .unknown, .failed:
             break
         case .readyToPlay:
+            cancelLoadingIndicatorWorkItem()
+            self.resultHandler?( .showLoadingIndicator(false) )
             self.isReadyToPlay = true
             resultHandler?( .requestVideoDuration )
             self.sendVideoDurationChanged(duration: videoDuration)
@@ -992,6 +1012,14 @@ extension ShortsCellReactor {
         }
         else {
             return currentVideoUrl
+        }
+    }
+    
+    private func cancelLoadingIndicatorWorkItem() {
+        if loadingIndicatorWorkItem != nil {
+            loadingIndicatorWorkItem?.cancel()
+            loadingIndicatorWorkItem = nil
+            resultHandler?( .showLoadingIndicator(false) )
         }
     }
 }

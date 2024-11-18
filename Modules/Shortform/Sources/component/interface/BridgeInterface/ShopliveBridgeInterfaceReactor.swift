@@ -141,7 +141,7 @@ extension ShopliveBridgeInterfaceReactor {
     
     private func onBridgeMessageHandlerOnChangeUserAuthSDK() {
         let payload : [String : Any] = ShortFormAuthManager.shared.getAkAndUserJWTasDict()
-        let eventName = ShortsWebInterface.SdkToWeb.ON_CHANGED_USER_AUTH_SDK.rawValue
+        let eventName = ShortsWebInterface.SdkToWeb.ON_CHANGED_USER_AUTH_SDK.key
         resultHandler?( .requestEvaluateJS((eventName, payload)) )
     }
 }

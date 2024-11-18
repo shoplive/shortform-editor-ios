@@ -26,7 +26,6 @@ class SLTimeTrimeSliderReactor : NSObject, SLReactor {
         case frameSliderDidScroll(UICollectionView)
         case setIsDraggin(Bool)
         case updateTimeIndicatorTime(Float)
-        
     }
     
     enum Result {

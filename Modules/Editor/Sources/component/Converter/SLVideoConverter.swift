@@ -36,6 +36,8 @@ struct SLVideoInfo {
     var timeRange: (start: Float64, end: Float64)
     var fileName: String
     var filterConfig : SLFilterConfig?
+    var volume : Double
+    var speed : Double
     var ffmpegFilterConfig : String? {
         let parser = CGERootParser()
         guard let filter = filterConfig else { return nil }
@@ -69,13 +71,13 @@ extension SLVideoInfo {
     }
     
     var filterVideoPath: String {
-        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let path = SLFileManager.ffmpegDirectorypath
         let cacheoutput = path.appendingPathComponent("filtered_\(fileName)").deletingPathExtension().appendingPathExtension("mp4")
         return cacheoutput.relativePath
     }
     
     var ffmpegOutPutVideoPath : String {
-        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let path = SLFileManager.ffmpegDirectorypath
         let cacheoutput = path.appendingPathComponent("ffmpeg_\(fileName)").deletingPathExtension().appendingPathExtension("mp4")
         return cacheoutput.relativePath
     }
@@ -99,29 +101,54 @@ extension SLVideoInfo {
     var videoQuality : String {
         switch globalConfig.shared.videoOutputOption.videoOutputQuality {
         case .normal:
-            return "-q:v 8 " + "-q:a 4 "
+            return "-q:v 8"
         case .high:
-            return "-q:v 6 " + "-q:a 4 "
+            return "-q:v 6"
         case .max:
-            return "-q:v 4 " + "-q:a 4 "
+            return "-q:v 4"
         }
     }
     
+    var volumeCommand : String {
+        return "[0:a]volume=\(volume/100)[a];"
+    }
     
-//    -c:v h264_videotoolbox -c:a aac \
-//    -r 24 \
-//    -compression_level 1 \
-//    화질이 너무 나쁨
+    var speedCommand : String {
+        return "[crop]setpts=\(1/speed)*PTS[speed]; [a]atempo=\(speed)[aa];"
+    }
+    
+    var modifiedCropWidth : CGFloat {
+        let roundedWidth = cropRect.width
+        if roundedWidth.truncatingRemainder(dividingBy: 2) != 0 {
+            return roundedWidth - 1
+        }
+        else {
+            return roundedWidth
+        }
+    }
+    
+    var modifiedCropHeight : CGFloat {
+        let roundedHeight = cropRect.height
+        if roundedHeight.truncatingRemainder(dividingBy: 2) != 0 {
+            return roundedHeight - 1
+        }
+        else {
+            return roundedHeight
+        }
+    }
+    
     var command720p: String {
-        
         if let filterConfig = ffmpegFilterConfig, filterConfig.isEmpty == false {
             return """
     -ss \(timeRange.start.timeHourMinuteSeconds_SL) \
     -to \(timeRange.end.timeHourMinuteSeconds_SL) \
     -i \(videoPath) \
     -filter_complex "\(filterConfig)[filter]; \
-    [filter]crop=\(cropRect.width):\(cropRect.height):\(cropRect.origin.x):\(cropRect.origin.y)[crop]; \
-    [crop]\( drawTextCommand == "" ? "" : "\(drawTextCommand)," )scale=\(scaleValue)[out]" \
+    [filter]crop=\(modifiedCropWidth):\(modifiedCropHeight):\(cropRect.origin.x):\(cropRect.origin.y)[crop]; \
+    \(volumeCommand) \
+    \(speedCommand) \
+    [speed]\( drawTextCommand == "" ? "" : "\(drawTextCommand)," )scale=\(scaleValue)[out]" \
+    -map "[aa]" \
     -map "[out]" \
     \(videoQuality) \
     -y \(ffmpegOutPutVideoPath)
@@ -132,8 +159,11 @@ extension SLVideoInfo {
 -ss \(timeRange.start.timeHourMinuteSeconds_SL) \
 -to \(timeRange.end.timeHourMinuteSeconds_SL) \
 -i \(videoPath) \
--filter_complex "crop=\(cropRect.width):\(cropRect.height):\(cropRect.origin.x):\(cropRect.origin.y)[crop]; \
-[crop]\( drawTextCommand == "" ? "" : "\(drawTextCommand)," )scale=\(scaleValue)[out]" \
+-filter_complex "[0:v]crop=\(modifiedCropWidth):\(modifiedCropHeight):\(cropRect.origin.x):\(cropRect.origin.y)[crop]; \
+\(volumeCommand) \
+\(speedCommand) \
+[speed]\( drawTextCommand == "" ? "" : "\(drawTextCommand)," )scale=\(scaleValue)[out]" \
+-map "[aa]" \
 -map "[out]" \
 \(videoQuality) \
 -y \(ffmpegOutPutVideoPath)
@@ -142,11 +172,11 @@ extension SLVideoInfo {
     }
     
     var commandRemoveScale: String {
-        "-ss \(timeRange.start.timeHourMinuteSeconds_SL) -to \(timeRange.end.timeHourMinuteSeconds_SL) -i \(videoPath) -filter:v crop='\(cropRect.width):\(cropRect.height):\(cropRect.origin.x):\(cropRect.origin.y)' -y \(ffmpegOutPutVideoPath)"
+        "-ss \(timeRange.start.timeHourMinuteSeconds_SL) -to \(timeRange.end.timeHourMinuteSeconds_SL) -i \(videoPath) -filter:v crop='\(modifiedCropWidth):\(modifiedCropHeight):\(cropRect.origin.x):\(cropRect.origin.y)' -y \(ffmpegOutPutVideoPath)"
     }
     
     var commandDefault: String {
-        "-ss \(timeRange.start.timeHourMinuteSeconds_SL) -to \(timeRange.end.timeHourMinuteSeconds_SL) -i \(videoPath) -filter:v crop='\(cropRect.width):\(cropRect.height):\(cropRect.origin.x):\(cropRect.origin.y)' -y \(ffmpegOutPutVideoPath)"
+        "-ss \(timeRange.start.timeHourMinuteSeconds_SL) -to \(timeRange.end.timeHourMinuteSeconds_SL) -i \(videoPath) -filter:v crop='\(modifiedCropWidth):\(modifiedCropHeight):\(cropRect.origin.x):\(cropRect.origin.y)' -y \(ffmpegOutPutVideoPath)"
     }
 }
 

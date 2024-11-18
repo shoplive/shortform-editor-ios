@@ -12,7 +12,7 @@ import ShopliveSDKCommon
 
 
 class SLVideoMainSpeedSubView : UIView, SLReactor {
-    private let design = EditorSpeedConfig.global
+    private let design = ShopLiveShortformEditor.EditorSpeedConfig.global
     
     private var durationLabelBackgroundView : UIView = {
         let view = UIView()
@@ -35,8 +35,8 @@ class SLVideoMainSpeedSubView : UIView, SLReactor {
     lazy private var sliderView : SlCustomUISlider = {
         let view = SlCustomUISlider(frame: .zero,thumbViewColor: design.sliderThumbViewColor, sliderCornerRadius: design.sliderCornerRaidus)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.action( .setMinValue(0.1) )
-        view.action( .setMaxValue(2.1) )
+        view.action( .setMinValue(0.5) )
+        view.action( .setMaxValue(2.5) )
         view.action( .setZeroUnAvailable )
         view.action( .setCurrentValue(1.0) )
         view.action( .setValueLabel("1.0x") )
@@ -83,6 +83,7 @@ class SLVideoMainSpeedSubView : UIView, SLReactor {
         case changePlayOrPauseBtnState(isPlaying : Bool)
         case saveEditingStartSpeedValue
         case revertChanges
+        case setToOrigin
     }
     
     enum Result {
@@ -135,6 +136,8 @@ extension SLVideoMainSpeedSubView {
             self.onSaveEditingStartSpeedValue()
         case .revertChanges:
             self.onRevertChanges()
+        case .setToOrigin:
+            self.onSetToOrigin()
         }
     }
     
@@ -165,6 +168,10 @@ extension SLVideoMainSpeedSubView {
     
     private func onRevertChanges() {
         reactor.action( .revertChanges )
+    }
+    
+    private func onSetToOrigin() {
+        reactor.action( .setToOrigin )
     }
 }
 //MARK: - reactor

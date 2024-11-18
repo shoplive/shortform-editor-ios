@@ -13,7 +13,7 @@ import ShopliveSDKCommon
 
 
 class SLVideoThumbnailViewController : UIViewController {
-    private let design = EditorThumbnailConfig.global
+    private let design = ShopLiveShortformEditor.EditorCoverPickerConfig.global
     
     
     private var naviBar : UIView = {

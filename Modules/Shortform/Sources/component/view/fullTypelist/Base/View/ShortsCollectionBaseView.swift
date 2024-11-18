@@ -446,9 +446,9 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        //세로에서 가로모드로 회전할 경우 현재 보고 있는 셀도 다시 생성되어서 seekbar가 처음으로 되돌아감 따라서 이전에 저장해 두었던 셀을 고대로 다시 가져다주면 됨
         viewModel.loadWebViewsFor(indexPath: [indexPath])
         
+        //세로에서 가로모드로 회전할 경우 현재 보고 있는 셀도 다시 생성되어서 seekbar가 처음으로 되돌아감 따라서 이전에 저장해 두었던 셀을 고대로 다시 가져다주면 됨
         if self.viewModel.isOnRotation, let latestCell = self.viewModel.latestCell.latestCell,
            self.viewModel.latestActivePageIndex == indexPath.row {
             latestCell.handleDeviceRotation(isLandscape: UIScreen.isLandscape_SL)

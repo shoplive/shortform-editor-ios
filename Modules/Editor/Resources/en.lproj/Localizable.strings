@@ -16,7 +16,7 @@
 
 "editor.next.title" = "Next";
 "editor.encoding.cancel.alert.title" = "Encoding in progressing.\nAre you sure cancel encode video?";
-"editor.upload.cancel.alert.title" = "Do you really want to quit uploading process?";
+"editor.upload.cancel.alert.title" = "Do you really want to quit process?";
 "uploadinfo.page.title" = "Add detail";
 "uploadinfo.title.placeholder" = "Title";
 "uploadinfo.title.title" = "Title";

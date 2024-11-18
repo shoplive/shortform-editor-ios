@@ -46,6 +46,10 @@ public class ShopliveVideoEditor {
             ShopLiveEditorConfigurationManager.shared.videoOutputOption = videoOutputOption
         }
         
+        if let visibleContents = configuration?.visibleContents {
+            ShopLiveEditorConfigurationManager.shared.visibleContents = visibleContents
+        }
+        
         return self
     }
     

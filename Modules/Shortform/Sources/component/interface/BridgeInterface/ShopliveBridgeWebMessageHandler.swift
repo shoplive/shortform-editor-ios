@@ -70,7 +70,7 @@ extension ShopliveBridgeWebMessageHandler  {
             "appVersion" : UIApplication.appVersion_SL(),
             "sdkVersion" : ShopLiveShortform.sdkVersion
         ]
-        let sendName = ShopLiveShortform.ShortsWebInterface.SdkToWeb.SEND_CLIENT_VERSION.rawValue
+        let sendName = ShopLiveShortform.ShortsWebInterface.SdkToWeb.SEND_CLIENT_VERSION.key
         resultHandler?( .requestEvaluatJS((sendName, payload)) )
     }
 }

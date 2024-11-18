@@ -23,7 +23,9 @@ final class SLAudioSessionManager {
         audioSession.categoryOptions
     }
     
-    func setCategory(category: AVAudioSession.Category, options: AVAudioSession.CategoryOptions) {
+    func setCategory(category: AVAudioSession.Category, options: AVAudioSession.CategoryOptions, from : String = #function) {
+        let optionName = getAudioSessionCategoryName(options: options)
+        ShopLiveLogger.publicLog("[SLAudioSessionManager] options \(optionName) from \(from)")
         do {
             try audioSession.setCategory(category, options: options)
         } catch {
@@ -31,21 +33,70 @@ final class SLAudioSessionManager {
         }
     }
     
-    func setActive(_ isActive : Bool,options : AVAudioSession.SetActiveOptions ) {
+    private func getAudioSessionCategoryName(options : AVAudioSession.CategoryOptions) -> String {
+        switch options {
+        case .allowAirPlay:
+            return "allowAirPlay"
+        case .allowBluetooth:
+            return "allowBlueTooth"
+        case .allowBluetoothA2DP:
+            return "allowBluetoothA2DP"
+        case .defaultToSpeaker:
+            return "defaultToSpeaker"
+        case .duckOthers:
+            return "duckOthers"
+        case .interruptSpokenAudioAndMixWithOthers:
+            return "interruptSpokenAudioAndMixWithOthers"
+        case .mixWithOthers:
+            return "mixWithOthers"
+        default:
+            return "\(options.rawValue)"
+        }
+    }
+    
+    func setActive(_ isActive : Bool,options : AVAudioSession.SetActiveOptions , from : String = #function) {
         do {
+            ShopLiveLogger.publicLog("[SLAudioSessionManager] setActive \(isActive) frame \(from)")
             try audioSession.setActive(isActive,options: options)
         }
         catch(let error) {
+            ShopLiveLogger.publicLog("[SLAudioSessionManager] setActive error \(error.localizedDescription)")
             ShopLiveLogger.tempLog("[SHOPLIVEAUDIOSESSIONMANAGER] \(error.localizedDescription)")
         }
     }
     
-    func setMode(_ mode : AVAudioSession.Mode) {
+    func setMode(_ mode : AVAudioSession.Mode, from : String = #function) {
+        let modeName = self.getModeName(mode: mode)
         do {
+            ShopLiveLogger.publicLog("[SLAudioSessionManager] setMode \(modeName) frame \(from)")
             try audioSession.setMode(mode)
         }
         catch(let error) {
+            ShopLiveLogger.publicLog("[SLAudioSessionManager] setMode error \(error.localizedDescription)")
             ShopLiveLogger.tempLog("[SHOPLIVEAUDIOSESSIONMANAGER] \(error.localizedDescription)")
+        }
+    }
+    
+    private func getModeName(mode : AVAudioSession.Mode) -> String {
+        switch mode {
+        case .default:
+            return "default"
+        case .gameChat:
+            return "gameChat"
+        case .measurement:
+            return "measurement"
+        case .moviePlayback:
+            return "moviePlayback"
+        case .spokenAudio:
+            return "spokenAudio"
+        case .videoChat:
+            return "videoChat"
+        case .videoRecording:
+            return "videoRecording"
+        case .voiceChat:
+            return "voiceChat"
+        default:
+            return "\(mode.rawValue)"
         }
     }
 }

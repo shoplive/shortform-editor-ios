@@ -9,32 +9,32 @@
 import Foundation
 import UIKit
 
-public class EditorFilterConfig {
-    public static let global = EditorFilterConfig()
-    
-    var videoPlayerCornerRadius : CGFloat = 20
-    
-    var closeButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slCloseButton.image.withRenderingMode(.alwaysTemplate)
-    var closeButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-    var closeButtonIconTintColor : UIColor = .white
-    
-    var playButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slIcPlay.image.withRenderingMode(.alwaysTemplate)
-    var playButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-    var playButtonIconTintColor : UIColor = .white
-    
-    var pauseButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slIcPause.image.withRenderingMode(.alwaysTemplate)
-    var pauseButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-    var pauseButtonIconTintColor : UIColor = .white
-    
-    
-    var confirmButtonCornerRadius : CGFloat = 20
-    var confirmButtonBackgroundColor : UIColor = .white
-    var confirmButtonTextColor : UIColor =  .black
-    
-    var sliderThumbViewColor : UIColor = .white
-    var sliderCornerRaidus : CGFloat = 24
-    
-    var filterCellCornerRadius : CGFloat = 12
-    var selectedCellBorderColor : UIColor = .white
-    
-}
+//public class EditorFilterConfig {
+//    public static let global = EditorFilterConfig()
+//    
+//    public var videoPlayerCornerRadius : CGFloat = 20
+//    
+//    public var closeButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slCloseButton.image.withRenderingMode(.alwaysTemplate)
+//    public var closeButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+//    public var closeButtonIconTintColor : UIColor = .white
+//    
+//    public var playButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slIcPlay.image.withRenderingMode(.alwaysTemplate)
+//    public var playButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+//    public var playButtonIconTintColor : UIColor = .white
+//    
+//    public var pauseButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slIcPause.image.withRenderingMode(.alwaysTemplate)
+//    public var pauseButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+//    public var pauseButtonIconTintColor : UIColor = .white
+//    
+//    
+//    public var confirmButtonCornerRadius : CGFloat = 20
+//    public var confirmButtonBackgroundColor : UIColor = .white
+//    public var confirmButtonTextColor : UIColor =  .black
+//    
+//    public var sliderThumbViewColor : UIColor = .white
+//    public var sliderCornerRaidus : CGFloat = 24
+//    
+//    public var filterCellCornerRadius : CGFloat = 12
+//    public var selectedCellBorderColor : UIColor = .white
+//    
+//}

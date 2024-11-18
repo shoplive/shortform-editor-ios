@@ -73,7 +73,12 @@ class ShortsYoutubePlayerView : UIView , SLReactor {
     
     private func onEvaluateJavaScript(request : JSRequest) {
         if let isLoaded = reactor.getIsWebViewLoaded(), isLoaded == true {
-            webView?.sendShortsEvent(event: request.0.rawValue, parameter: request.1) { }
+            if case .EXTERNAL_COMMAND(let command) = request.0 {
+                webView?.sendShortsEvent(event: command, parameter: request.1) { }
+            }
+            else {
+                webView?.sendShortsEvent(event: request.0.key, parameter: request.1) { }
+            }
         }
         else {
             reactor.action( .queueJSRequest(request) )
@@ -98,7 +103,12 @@ extension ShortsYoutubePlayerView {
     private func onReactorRequestEvaluateJSRequest(request : [JSRequest]) {
         guard let webView = self.webView else { return }
         for request in request {
-            webView.sendShortsEvent(event: request.0.rawValue, parameter: request.1) { }
+            if case .EXTERNAL_COMMAND(let command) = request.0 {
+                webView.sendShortsEvent(event: command, parameter: request.1) { }
+            }
+            else {
+                webView.sendShortsEvent(event: request.0.key, parameter: request.1) { }
+            }
         }
     }
     

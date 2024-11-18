@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import AVKit
 
 protocol SLNotificationName {
     var name: Notification.Name { get }
@@ -65,6 +66,7 @@ internal final class ShopLiveConfiguration: NSObject {
         static var useMixWithOthers: Bool = true
         static var previewSoundEnabled : Bool = false
         static var isEnabledVolumeKeyInPreview : Bool = false
+        static var audioSessionCategory : AVAudioSession.Category = .playback
     }
 
     class Data {

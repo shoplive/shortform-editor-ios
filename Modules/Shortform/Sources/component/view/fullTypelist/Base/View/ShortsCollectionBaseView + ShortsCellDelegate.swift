@@ -12,12 +12,18 @@ import ShopliveSDKCommon
 
 
 extension ShortsCollectionBaseView : ShortsCellDelegate {
-    func onExternalEmitEvent(name: String, payload: [String : Any]?) {
+    func onExternalEmitEvent(webView : ShortsWebView?, name: String, payload: [String : Any]?) {
         var jsonString : String?
         if let payload = payload {
             jsonString = payload.toJSONString_SL()
         }
-        shortformDelegate?.onEvent?(command: name, payload: jsonString)
+        if let webView = webView {
+            let webViewWrapper = ShopLiveWebViewWrapper(webView: webView)
+            shortformDelegate?.onEvent?(webView: webViewWrapper, command: name, payload: jsonString)
+        }
+        else {
+            shortformDelegate?.onEvent?(webView: nil, command: name, payload: jsonString)
+        }
 //        ShopLiveShortform.Delegate.receiveHandler.delegate?.onEvent?(command: name, payload: jsonString)
     }
     
@@ -51,7 +57,13 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
     }
     
     func requestJSRequestForExternalWebView(request: (ShopLiveShortform.ShortsWebInterface.SdkToWeb, [String : Any]?)) {
-        ShopLiveShortform.BridgeInterface.sendShortsEvent(event: request.0.rawValue, parameter: request.1)
+        if case .EXTERNAL_COMMAND(let command) = request.0 {
+            ShopLiveShortform.BridgeInterface.sendShortsEvent(event: command, parameter: request.1)
+
+        }
+        else {
+            ShopLiveShortform.BridgeInterface.sendShortsEvent(event: request.0.key, parameter: request.1)
+        }
     }
     
     func requestCloseShortsDetailForHybrid(srn: String) {

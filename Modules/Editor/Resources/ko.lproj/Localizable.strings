@@ -17,7 +17,7 @@
 
 "editor.next.title" = "다음";
 "editor.encoding.cancel.alert.title" = "지금 인코딩 중입니다. \n취소하시겠습니까?";
-"editor.upload.cancel.alert.title" = "업로드를 취소하시겠습니까?";
+"editor.upload.cancel.alert.title" = "인코딩을 취소하시겠습니까?";
 "uploadinfo.page.title" = "세부정보 추가";
 "uploadinfo.title.placeholder" = "제목";
 "uploadinfo.title.title" = "제목";

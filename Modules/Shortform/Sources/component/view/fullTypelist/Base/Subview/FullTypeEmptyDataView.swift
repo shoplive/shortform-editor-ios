@@ -14,8 +14,6 @@ class FullTypeEmptyDataView : UIView {
     lazy private var backBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-//        let bundle = Bundle(for: type(of: self))
-//        btn.setImage(UIImage(named: "sl_ic_back_btn",in: bundle, compatibleWith: nil), for: .normal)
         btn.setImage(ShopLiveShortformSDKAsset.slIcBackBtn.image, for: .normal)
         btn.imageView?.contentMode = .scaleAspectFit
         return btn
@@ -23,8 +21,6 @@ class FullTypeEmptyDataView : UIView {
     
     lazy private var emptyIconView : UIImageView = {
         let imageView = UIImageView()
-//        let bundle = Bundle(for: type(of: self))
-//        imageView.image =  UIImage(named: "ic_shortform_empty",in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
         imageView.image = ShopLiveShortformSDKAsset.slIcShortformEmpty.image.withRenderingMode(.alwaysTemplate)
         imageView.tintColor = .white
         imageView.contentMode = .scaleAspectFit

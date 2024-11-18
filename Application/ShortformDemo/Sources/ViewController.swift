@@ -275,12 +275,12 @@ extension ViewController : ShopLiveVideoEditorDelegate {
             guard let self = self else { return }
             self.videoEditorResultPopUp.setVideoPath(videoPath: videoPath)
             self.videoEditorResultPopUp.alpha = 1
-            ShopliveVideoEditor.shared.close()
         }
     }
     
     func onShopLiveVideoEditorUploadSuccess(shortsId: String) {
         ShopLiveLogger.tempLog("[HASSAN LOG] onShopLiveVideoEditorUploadSuccess shortsId \(shortsId)")
+        ShopliveVideoEditor.shared.close()
     }
     
     func onShopLiveVideoEditorClosed() {

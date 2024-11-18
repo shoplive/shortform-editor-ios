@@ -264,13 +264,15 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
             .setPermissionHandler(nil)
             .setConfiguration(.init(videoCropOption: cropOption,
                                     videoOutputOption: nil,
-                                    visibleContents: nil))
+                                    videoTrimOption: .init(maxVideoDuration : 90),
+                                    visibleContents: .init()))
             .setDelegate(vc)
-            .start(vc, data: .init(videoUrl: localUrl))
+            .start(vc, data: .init(videoUrl: localUrl,isCreatedShortform: true))
     }
     
     private func openCoverPicker(videoUrl : URL) {
         guard let vc = self.vc else { return }
+        
         ShopLiveCoverPicker.shared
             .setDelegate(vc)
             .start(vc, data: .init(videoUrl: videoUrl,shortsId: nil))

@@ -18,7 +18,7 @@ protocol SLVideoSpeedRateViewControllerDelegate {
 }
 
 class SLVideoSpeedRateViewController : UIViewController {
-    private let design = EditorSpeedConfig.global
+    private let design = ShopLiveShortformEditor.EditorSpeedConfig.global
     
     private var naviBar : UIView = {
         let view = UIView()

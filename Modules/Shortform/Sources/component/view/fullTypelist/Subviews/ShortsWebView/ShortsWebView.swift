@@ -11,6 +11,8 @@ import WebKit
 import ShopliveSDKCommon
 
 
+
+
 class ShortsWebView : UIView, SLReactor {
     typealias WebInterface = ShopLiveShortform.ShortsWebInterface.WebToSdk
     typealias SdkToWeb = ShopLiveShortform.ShortsWebInterface.SdkToWeb
@@ -88,7 +90,12 @@ class ShortsWebView : UIView, SLReactor {
 //        ShopLiveLogger.debugLog(log)
         
         if let isLoaded = reactor.getIsWebViewLoaded(), isLoaded == true {
-            overlayWebView?.sendShortsEvent(event: request.0.rawValue, parameter: request.1) { }
+            if case .EXTERNAL_COMMAND(let command) = request.0  {
+                overlayWebView?.sendShortsEvent(event: command, parameter: request.1) { }
+            }
+            else {
+                overlayWebView?.sendShortsEvent(event: request.0.key, parameter: request.1) { }
+            }
         }
         else {
             reactor.action( .queueJSRequest(request) )
@@ -129,7 +136,12 @@ extension ShortsWebView {
     private func onReactorRequestEvaluateJSRequest(request : [JSRequest]) {
         guard let webView = self.overlayWebView else { return }
         for request in request {
-            webView.sendShortsEvent(event: request.0.rawValue, parameter: request.1) { }
+            if case .EXTERNAL_COMMAND(let command) = request.0  {
+                webView.sendShortsEvent(event: command, parameter: request.1) { }
+            }
+            else {
+                webView.sendShortsEvent(event: request.0.key, parameter: request.1) { }
+            }
         }
     }
     

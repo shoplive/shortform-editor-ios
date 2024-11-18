@@ -13,7 +13,7 @@ import AVKit
 
 
 class SLVideoMainFilterSubView : UIView, SLReactor {
-    private let design = EditorFilterConfig.global
+    private let design = ShopLiveShortformEditor.EditorFilterConfig.global
     
     
     
@@ -76,6 +76,7 @@ class SLVideoMainFilterSubView : UIView, SLReactor {
         case setVideoEditInfoDto(SLVideoEditInfoDTO)
         case setThumbnail(UIImage)
         case changePlayOrPauseBtnState(isPlaying : Bool)
+        case setToOrigin
         
     }
     
@@ -128,6 +129,8 @@ extension SLVideoMainFilterSubView {
             self.onSetVideoEditInfoDto(dto: dto)
         case .changePlayOrPauseBtnState(isPlaying: let isPlaying):
             self.onChangePlayOrPauseBtnState(isPlaying: isPlaying)
+        case .setToOrigin:
+            self.onSetToOrigin()
         }
     }
     
@@ -158,6 +161,10 @@ extension SLVideoMainFilterSubView {
             playPauseBtn.imageView?.tintColor = design.playButtonIconTintColor
             playPauseBtn.imageLayoutMargin = design.playButtonIconPadding
         }
+    }
+    
+    private func onSetToOrigin() {
+        reactor.action( .setToOrigin )
     }
 }
 //MARK: - bind Reactor
@@ -190,6 +197,7 @@ extension SLVideoMainFilterSubView {
         sliderView.action( .setCurrentValue(value) )
         sliderView.action( .setValueLabel(String(format: "%.1f", value)) )
     }
+    
 }
 //MARK: - bind SliderView
 extension SLVideoMainFilterSubView {

@@ -26,20 +26,14 @@ public final class AVAssetDownloadManager : NSObject {
     private var activeDownloadSession : [String : AVAssetDownLoader] = [:]
     private var reservedCallback : [String : downloadCallBack] = [:]
     private var deleteCacheOnTerminate : Bool = true
-    private var dirPathURL : URL? = {
-        let tempUrl =  URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-        let shopLiveTempUrl = tempUrl.appendingPathComponent("Shoplive/Temp", isDirectory: true)
-        return shopLiveTempUrl
-    }()
+    private var dirPathURL : URL {
+        return SLFileManager.shortformDirectoryPath
+    }
    
     private override init() {
         super.init()
-        guard let dirPathURL = dirPathURL else { return }
-        do {
-            try FileManager.default.createDirectory(at: dirPathURL, withIntermediateDirectories: true)
-        }
-        catch( let error) {
-            ShopLiveLogger.tempLog("[CACHE] cache directory creation error \(error.localizedDescription)")
+        DispatchQueue.global(qos: .background).async {
+            Self.shared.deleteShopLiveCacheDirectory()
         }
         NotificationCenter.default.addObserver(self,
              selector: #selector(applicationWillTerminate(notification:)),
@@ -71,7 +65,6 @@ public final class AVAssetDownloadManager : NSObject {
     }
     
     func getCachedData(with urlString : String) -> URL? {
-        guard let dirPathURL = dirPathURL else { return  nil }
         guard let searchPath = self.getFileNameFromUrl(url: urlString) else { return nil }
         let searchURL = dirPathURL.appendingPathComponent("\(searchPath)")
         let fileManager = FileManager.default
@@ -84,7 +77,6 @@ public final class AVAssetDownloadManager : NSObject {
     }
     
     private func moveDownloadedData(from : URL, to : String) {
-        guard let dirPathURL = dirPathURL else { return }
         guard let destinationPath = self.getFileNameFromUrl(url: to) else { return }
         let destinationUrl = dirPathURL.appendingPathComponent("\(destinationPath)")
         
@@ -121,18 +113,8 @@ public final class AVAssetDownloadManager : NSObject {
         self.deleteCacheOnTerminate = isEnabled
     }
 
-
     private func deleteShopLiveCacheDirectory() {
-        guard let dirPath = self.dirPathURL else { return }
-        do {
-            let fileUrls = try FileManager.default.contentsOfDirectory(at: dirPath, includingPropertiesForKeys: nil)
-            for fileUrl in fileUrls {
-                try FileManager.default.removeItem(at: fileUrl)
-            }
-        }
-        catch(let error) {
-            ShopLiveLogger.tempLog("[CACHE] ShopLive cache delete error \(error.localizedDescription)")
-        }
+        SLFileManager.deleteShortformDirectoryFiles()
     }
 }
 extension AVAssetDownloadManager : AVAssetDownloadDelegate {

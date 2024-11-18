@@ -33,4 +33,12 @@ public class ShopLiveLogger {
         os_log("[TEMP_LOG] %s",log)
         #endif
     }
+    
+    public static func publicLog(_ log : String) {
+        guard Self.showLog else { return }
+        let isMainThread = Thread.isMainThread ? "MAIN" : "OTHER"
+        os_log("[SHOPLIVE - THREAD %s] %s",isMainThread,log)
+    }
+    
+    public static var showLog : Bool = false
 }

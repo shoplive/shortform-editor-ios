@@ -183,7 +183,10 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
         }
     }
     
-    func onEvent(command: String, payload: String?) {
+    func onEvent(webView: ShopLiveWebViewWrapper?, command: String, payload: String?) {
+//        if let webView = webView {
+//            webView.evaluateJavaScript(command: <#T##String#>, payload: <#T##[String : Any]#>)
+//        }
         switch command {
         case "VIDEO_MUTED", "DETAIL_CLICK_MUTE":
             isMuted = true

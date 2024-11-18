@@ -51,6 +51,7 @@ import ShopliveSDKCommon
     @objc func awakePlayer()
     
     @objc func setMixWithOthers(isMixAudio: Bool)
+    @objc func setAudioSessionCategory(category : AVAudioSession.Category)
     
     @objc func setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration)
     
@@ -206,6 +207,10 @@ extension ShopLive: ShopLiveSDKInterface {
     
     public static func setMixWithOthers(isMixAudio: Bool) {
         shared.instance?.setMixWithOthers(isMixAudio: isMixAudio)
+    }
+    
+    public static func setAudioSessionCategory(category : AVAudioSession.Category) {
+        shared.instance?.setAudioSessionCategory(category: category)
     }
     
     @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")

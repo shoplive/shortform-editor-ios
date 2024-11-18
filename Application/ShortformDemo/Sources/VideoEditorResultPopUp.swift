@@ -70,6 +70,7 @@ class VideoEditorResultPopUp : UIView {
     }
     
     @objc private func backgroundTapped() {
+        self.avPlayer?.replaceCurrentItem(with: nil)
         self.alpha = 0
     }
     

@@ -18,7 +18,7 @@ protocol SLVideoVolumeViewControllerDelegate {
 }
 
 class SLVideoVolumeViewController : UIViewController {
-    private let design = EditorVolumeConfig.global
+    private let design = ShopLiveShortformEditor.EditorVolumeConfig.global
     
     private var naviBar : UIView = {
         let view = UIView()

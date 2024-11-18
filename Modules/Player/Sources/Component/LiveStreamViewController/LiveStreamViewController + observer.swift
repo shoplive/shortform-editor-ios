@@ -78,14 +78,13 @@ extension LiveStreamViewController {
                 guard ShopLiveController.windowStyle != .osPip else {
                     return
                 }
-                
                 audioSessionManager.setCategory(category: .soloAmbient, options: audioSessionManager.currentCategoryOptions)
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(200)) {
-                    audioSessionManager.setCategory(category: .playback, options: audioSessionManager.currentCategoryOptions)
+                    audioSessionManager.setCategory(category: ShopLiveConfiguration.SoundPolicy.audioSessionCategory, options: audioSessionManager.currentCategoryOptions)
                 }
             } else {
-                audioSessionManager.setCategory(category: .playback, options: audioSessionManager.currentCategoryOptions)
+                audioSessionManager.setCategory(category: ShopLiveConfiguration.SoundPolicy.audioSessionCategory, options: audioSessionManager.currentCategoryOptions)
             }
             break
         default:

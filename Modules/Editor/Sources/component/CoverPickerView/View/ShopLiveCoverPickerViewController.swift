@@ -14,7 +14,8 @@ import ShopliveSDKCommon
 
 
 class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
-    private let design = EditorThumbnailConfig.global
+    private let design = ShopLiveShortformEditor.EditorCoverPickerConfig.global
+    private let config = ShopLiveEditorConfigurationManager.shared
     
     private var naviBar : UIView = {
         let view = UIView()
@@ -44,13 +45,13 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         return label
     }()
     
-    lazy private var confirmBtn : UIButton = {
-        let btn = UIButton()
+    lazy private var confirmBtn : SLLabelButton = {
+        let btn = SLLabelButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = design.confirmButtonBackgroundColor
-        btn.setTitleColor(design.confirmButtonTextColor, for: .normal)
-        btn.titleLabel?.font = .set(size: 16, weight: ._600)
-        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Thumbnail.Btn.Confirm.title, for: .normal)
+        btn.titleTextLabel.textColor = design.confirmButtonTextColor
+        btn.titleTextLabel.font = .set(size: 16, weight: ._600)
+        btn.titleTextLabel.text = design.confirmButtonTitle
         btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true
         return btn
@@ -79,6 +80,23 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
+        view.layer.cornerRadius = 20
+        return view
+    }()
+    
+    lazy private var playerCropView : SLVideoEditorPlayerCropView = {
+        let view = SLVideoEditorPlayerCropView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.delegate = reactor
+        view.backgroundColor = .clear
+        if config.coverPickerVisibleActionButton.editOptions.contains(where: { $0 == .crop }) == false {
+            view.setIsCropAvailable(isAvailable: false)
+            view.isHidden = true
+        }
+        else {
+            view.setIsCropAvailable(isAvailable: true)
+            view.isHidden = false
+        }
         return view
     }()
     
@@ -92,6 +110,12 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         imageView.action( .setImageViewContentMode(.scaleAspectFit))
         imageView.backgroundColor = .clear
         imageView.isHidden = true
+        if config.coverPickerVisibleActionButton.editOptions.contains(where: { $0 == .crop }) == false {
+            imageView.action( .setCropViewIsAvailable(false) )
+        }
+        else {
+            imageView.action( .setCropViewIsAvailable(true) )
+        }
         return imageView
     }()
     
@@ -176,13 +200,21 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
     override func viewDidAppear(_ animated : Bool) {
         super.viewDidAppear(animated)
         reactor.action( .viewDidAppear )
+        
         thumbnailSliderView.action( .initializeThumbView )
+        if let videoSize = self.reactor.getVideoSize() {
+            playerCropView.videoResolution = videoSize
+        }
+        playerCropView.updateCropArea()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         reactor.action( .viewDidLayoutSubView )
+        reactor.action( .setPlayerContainerBound(playerContainerView.bounds))
         self.playerLayer?.frame = playerContainerView.bounds
+        self.playerLayer?.cornerRadius = 20
+        self.playerLayer?.masksToBounds = true
     }
     
     deinit {
@@ -261,6 +293,8 @@ extension ShopLiveCoverPickerViewController {
                 self.onReactorSetThumbnailImage(image: image)
             case .requestCropImageForCropableImageView:
                 self.onReactorRequestCropImageForCropableImageView()
+            case .requestNormalImageForCropableImageView:
+                self.onReactorRequestNormalImageForCropableImageView()
             case .videoThumbnailResult(let image):
                 self.onReactorVideoThumbnailResult(image : image)
             case .requestFinishCoverPicker:
@@ -296,6 +330,10 @@ extension ShopLiveCoverPickerViewController {
     
     private func onReactorRequestCropImageForCropableImageView() {
         pickerSelectedThumbnailImageView.action( .requestCroppedImageResult )
+    }
+    
+    private func onReactorRequestNormalImageForCropableImageView() {
+        pickerSelectedThumbnailImageView.action( .requestNormalImageResult )
     }
     
     private func onReactorVideoThumbnailResult(image : UIImage?) {
@@ -349,11 +387,18 @@ extension ShopLiveCoverPickerViewController {
             switch result {
             case .croppedImageResult(let image):
                 self.onCroppableImageViewCroppedImageResult(image: image)
+            case .normalImageResult(let image):
+                self.onCroppableImageviewNormalImageResult(image : image)
             }
         }
     }
     
     private func onCroppableImageViewCroppedImageResult(image : UIImage?) {
+        self.reactor.action( .setCropImageResultFromCropableImageView(image) )
+        self.resultHandler?( .onSuccessImage(image) )
+    }
+    
+    private func onCroppableImageviewNormalImageResult(image : UIImage?) {
         self.reactor.action( .setCropImageResultFromCropableImageView(image) )
         self.resultHandler?( .onSuccessImage(image) )
     }
@@ -374,6 +419,9 @@ extension ShopLiveCoverPickerViewController {
         self.view.addSubview(photoPickerModeCloseBtn)
         self.view.addSubview(cancelConfirmToast)
         
+        playerContainerView.addSubview(playerCropView)
+        
+       
         
         NSLayoutConstraint.activate([
             naviBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 0),
@@ -393,7 +441,7 @@ extension ShopLiveCoverPickerViewController {
             
             confirmBtn.centerYAnchor.constraint(equalTo: naviBar.centerYAnchor),
             confirmBtn.trailingAnchor.constraint(equalTo: self.view.trailingAnchor,constant: -16),
-            confirmBtn.widthAnchor.constraint(equalToConstant: 70),
+            confirmBtn.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
             confirmBtn.heightAnchor.constraint(equalToConstant: 40),
             
             
@@ -412,17 +460,17 @@ extension ShopLiveCoverPickerViewController {
             playerHolder.topAnchor.constraint(equalTo: naviBar.bottomAnchor),
             playerHolder.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             playerHolder.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            playerHolder.bottomAnchor.constraint(equalTo: thumbnailSliderView.topAnchor,constant: -20),
-            
-            playerContainerView.centerYAnchor.constraint(equalTo: playerHolder.centerYAnchor),
-            playerContainerView.centerXAnchor.constraint(equalTo: playerHolder.centerXAnchor),
-            playerContainerView.widthAnchor.constraint(equalTo: playerHolder.widthAnchor,multiplier: 1 / 2),
-            playerContainerView.heightAnchor.constraint(equalTo: playerContainerView.widthAnchor,multiplier: 16 / 9),
+            playerHolder.bottomAnchor.constraint(equalTo: thumbnailSliderView.topAnchor,constant: -20)]  +
+                                    self.getLayoutForPlayerContainerView() +
+            [playerCropView.topAnchor.constraint(equalTo: playerContainerView.topAnchor),
+            playerCropView.leadingAnchor.constraint(equalTo: playerContainerView.leadingAnchor),
+            playerCropView.trailingAnchor.constraint(equalTo: playerContainerView.trailingAnchor),
+            playerCropView.bottomAnchor.constraint(equalTo: playerContainerView.bottomAnchor),
             
             pickerSelectedThumbnailImageView.centerYAnchor.constraint(equalTo: playerHolder.centerYAnchor),
             pickerSelectedThumbnailImageView.centerXAnchor.constraint(equalTo: playerHolder.centerXAnchor),
-            pickerSelectedThumbnailImageView.widthAnchor.constraint(equalTo: playerContainerView.widthAnchor),
-            pickerSelectedThumbnailImageView.heightAnchor.constraint(equalTo: playerContainerView.heightAnchor),
+            pickerSelectedThumbnailImageView.widthAnchor.constraint(equalTo: playerHolder.widthAnchor,multiplier: 1 / 2),
+            pickerSelectedThumbnailImageView.heightAnchor.constraint(equalTo: pickerSelectedThumbnailImageView.widthAnchor,multiplier: 16 / 9),
             
             photoPickerModeCloseBtn.topAnchor.constraint(equalTo: pickerSelectedThumbnailImageView.topAnchor,constant: 8 ),
             photoPickerModeCloseBtn.trailingAnchor.constraint(equalTo: pickerSelectedThumbnailImageView.trailingAnchor,constant: -8),
@@ -436,10 +484,43 @@ extension ShopLiveCoverPickerViewController {
         ])
     }
     
+    
+    private func getLayoutForPlayerContainerView() -> [NSLayoutConstraint] {
+        var videoRatio : CGFloat = 16 / 9
+        
+        var isVerticalVideo : Bool = true
+        if let videoSize = reactor.getVideoSize() {
+            isVerticalVideo = videoSize.height >= videoSize.width
+            if videoSize.height >= videoSize.width {
+                videoRatio = videoSize.height / videoSize.width
+            }
+            else {
+                videoRatio = videoSize.height / videoSize.width
+            }
+        }
+        
+        if isVerticalVideo {
+            return [
+                playerContainerView.centerYAnchor.constraint(equalTo: playerHolder.centerYAnchor),
+                playerContainerView.centerXAnchor.constraint(equalTo: playerHolder.centerXAnchor),
+                playerContainerView.widthAnchor.constraint(equalTo: playerHolder.widthAnchor,multiplier: 1 / 2),
+                playerContainerView.heightAnchor.constraint(equalTo: playerContainerView.widthAnchor,multiplier: videoRatio)
+            ]
+        }
+        else {
+            return [
+                playerContainerView.centerYAnchor.constraint(equalTo: playerHolder.centerYAnchor),
+                playerContainerView.centerXAnchor.constraint(equalTo: playerHolder.centerXAnchor),
+                playerContainerView.widthAnchor.constraint(equalTo: playerHolder.widthAnchor),
+                playerContainerView.heightAnchor.constraint(equalTo: playerContainerView.widthAnchor, multiplier: videoRatio)
+            ]
+        }
+    }
+    
     private func setPlayerLayer() {
         playerLayer = AVPlayerLayer(player: reactor.getAVPlayer())
         self.playerLayer?.frame = playerContainerView.bounds
-        playerLayer?.videoGravity = .resizeAspectFill
+        playerLayer?.videoGravity = .resizeAspect
         if let playerLayer = playerLayer {
             playerContainerView.layer.addSublayer(playerLayer)
         }

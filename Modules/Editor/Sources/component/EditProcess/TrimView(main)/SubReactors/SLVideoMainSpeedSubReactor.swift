@@ -22,6 +22,7 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
         case saveEditingStartSpeedValue
         case revertChanges
         case checkVideoDuration
+        case setToOrigin
     }
     
     enum Result {
@@ -56,6 +57,8 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
             self.onRevertChanges()
         case .checkVideoDuration:
             self.onCheckVideoDuration()
+        case .setToOrigin:
+            self.onSetToOrigin()
         }
     }
     
@@ -117,6 +120,23 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
         else {
             resultHandler?( .onConfirm )
         }
+    }
+    
+    private func onSetToOrigin() {
+        self.editingStartSpeedValue = 1.0
+        self.videoEditInfoDTO?.videoSpeed = Double(1.0)
+        guard let dto = self.videoEditInfoDTO else { return }
+        let originVideoDuration = dto.cropTime.end.seconds - dto.cropTime.start.seconds
+        let modifiedVideoDuration = originVideoDuration / dto.videoSpeed
+        self.currentVideoDurationCGFloat = modifiedVideoDuration
+        self.currentVideoDurationCGFloat = modifiedVideoDuration
+        let result = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(Int(modifiedVideoDuration))
+        if result != currentVideoDurationString {
+            currentVideoDurationString = result
+            resultHandler?( .onValueChanged )
+        }
+        resultHandler?( .setVideoDuration(result) )
+        resultHandler?( .setSliderValue(CGFloat(dto.videoSpeed)))
     }
     
 }

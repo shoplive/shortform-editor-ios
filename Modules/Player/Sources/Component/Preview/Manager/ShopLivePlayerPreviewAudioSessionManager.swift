@@ -69,14 +69,16 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
     }
     
     private func onSetAudioSessionCategory() {
-        
+        ShopLiveLogger.publicLog("[SHOPLIVEPLAYERPREVIEWMODEL] setting isMixWithOther start \(ShopLiveConfiguration.SoundPolicy.useMixWithOthers)")
         
         if ShopLiveConfiguration.SoundPolicy.useMixWithOthers {
-            SLAudioSessionManager.shared.setCategory(category: .playback, options: [.mixWithOthers])
+            SLAudioSessionManager.shared.setCategory(category: ShopLiveConfiguration.SoundPolicy.audioSessionCategory, options: [.mixWithOthers])
         }
         else {
-            SLAudioSessionManager.shared.setCategory(category: .playback, options: [])
+            SLAudioSessionManager.shared.setCategory(category: ShopLiveConfiguration.SoundPolicy.audioSessionCategory, options: [])
         }
+        
+        ShopLiveLogger.publicLog("[SHOPLIVEPLAYERPREVIEWMODEL] setting isMixWithOther end \(ShopLiveConfiguration.SoundPolicy.useMixWithOthers)")
         
         SLAudioSessionManager.shared.setMode(.default)
         SLAudioSessionManager.shared.setActive(true, options: [.notifyOthersOnDeactivation])

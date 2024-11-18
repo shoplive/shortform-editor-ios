@@ -23,6 +23,7 @@ class SLVideoMainFilterSubReactor : NSObject, SLReactor {
         case setThumbnailImage(UIImage)
         case registerCv(UICollectionView)
         case setIntensity(CGFloat)
+        case setToOrigin
         
     }
     
@@ -60,6 +61,8 @@ class SLVideoMainFilterSubReactor : NSObject, SLReactor {
             self.onRegisterCv(cv: cv)
         case .setIntensity(let value):
             self.onSetIntensity(intensity: value)
+        case .setToOrigin:
+            self.onSetToOrigin()
         }
         
     }
@@ -106,6 +109,16 @@ class SLVideoMainFilterSubReactor : NSObject, SLReactor {
         guard let dto = self.videoEditInfoDTO else { return }
         dto.filterConfig?.filterIntensity = Float(intensity)
         resultHandler?( .setFilterConfig(""))
+    }
+    
+    private func onSetToOrigin() {
+        let filterConfig = SLFilterConfig(filterConfig: "", filterIntensity: 0.7)
+        guard let videoEditInfoDto = self.videoEditInfoDTO else { return }
+        videoEditInfoDto.filterConfig = filterConfig
+        self.initialIntensity = 0.7
+        self.initialFilterConfig = ""
+        resultHandler?( .setFilterConfig(""))
+        resultHandler?( .setInitialIntensity(self.initialIntensity) )
     }
 }
 extension SLVideoMainFilterSubReactor : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

@@ -14,7 +14,7 @@ import ShopliveSDKCommon
 
 
 class SLVideoFilterCell : UICollectionViewCell {
-    private let design = EditorFilterConfig.global
+    private let design = ShopLiveShortformEditor.EditorFilterConfig.global
     
     static let cellId = "slvideofiltercellId"
     

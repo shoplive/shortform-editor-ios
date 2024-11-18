@@ -11,7 +11,7 @@ import UIKit
 import ShopliveSDKCommon
 
 class SLVideoMainVolumeSubView : UIView, SLReactor {
-    private let design = EditorSpeedConfig.global
+    private let design = ShopLiveShortformEditor.EditorSpeedConfig.global
     
     lazy private var sliderView : SlCustomUISlider = {
         let view = SlCustomUISlider(frame: .zero,thumbViewColor: design.sliderThumbViewColor, sliderCornerRadius: design.sliderCornerRaidus)
@@ -63,6 +63,7 @@ class SLVideoMainVolumeSubView : UIView, SLReactor {
         case changePlayOrPauseBtnState(isPlaying : Bool)
         case saveEditingStartValue
         case revertChange
+        case setToOrigin
     }
     
     enum Result {
@@ -113,6 +114,8 @@ extension SLVideoMainVolumeSubView {
             self.onSaveEditingStartValue()
         case .revertChange:
             self.onRevertChange()
+        case .setToOrigin:
+            self.onSetToOrigin()
         }
     }
     
@@ -143,6 +146,10 @@ extension SLVideoMainVolumeSubView {
     
     private func onRevertChange() {
         reactor.action( .revertChange )
+    }
+    
+    private func onSetToOrigin() {
+        reactor.action( .setToOrigin )
     }
 }
 //MARK: - reactor

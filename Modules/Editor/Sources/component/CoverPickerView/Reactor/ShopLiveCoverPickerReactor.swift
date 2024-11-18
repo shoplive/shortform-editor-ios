@@ -12,7 +12,7 @@ import ShopliveSDKCommon
 import AVKit
 
 class ShopLiveCoverPickerReactor : NSObject, SLReactor {
-    
+    private let config = ShopLiveEditorConfigurationManager.shared
     
     enum Mode {
         case video
@@ -30,6 +30,7 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
         case requestOnConfirm
         case setCurrentMode(Mode)
         case setCropImageResultFromCropableImageView(UIImage?)
+        case setPlayerContainerBound(CGRect)
     }
     
     enum Result {
@@ -39,6 +40,7 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
         case dismissPhotoPicker
         case setThumbnail(UIImage)
         case requestCropImageForCropableImageView
+        case requestNormalImageForCropableImageView
         case videoThumbnailResult(UIImage?)
         case requestFinishCoverPicker
         case onError(ShopLiveCommonError)
@@ -48,6 +50,8 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
     private var videoAsset : AVAsset?
     private var avPlayer : AVPlayer?
     private var currentSeekTime : CMTime = .zero
+    private var videoCropRect : CGRect?
+    private var playerContainerBound : CGRect?
     private var imageGenerator : AVAssetImageGenerator?
     private var imageGeneratorQueue = DispatchQueue(label: "shopLiveImageGeneratorQueue",qos: .background)
     private var cropImageResultFromCropableImageView : UIImage?
@@ -90,6 +94,9 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
             self.onSetCurrentMode(mode: mode)
         case .setCropImageResultFromCropableImageView(let image):
             self.onSetCropImageResultFromCropableImageView(image: image)
+        case .setPlayerContainerBound(let bound):
+            self.onSetPlayerContainerBound(bound: bound)
+            break
         }
     }
     
@@ -116,7 +123,6 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
         self.avPlayer?.replaceCurrentItem(with: AVPlayerItem(asset: videoAsset!))
         self.imageGenerator = AVAssetImageGenerator(asset: videoAsset!)
         self.imageGenerator?.appliesPreferredTrackTransform = true
-        self.imageGenerator?.maximumSize = CGSize(width: 720, height: 1280)
         self.imageGenerator?.apertureMode = .cleanAperture
     }
     
@@ -126,11 +132,15 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
     }
     
     private func onRequestOnConfirm() {
+        let isCropEnabled = self.config.coverPickerVisibleActionButton.editOptions.contains(where: { $0 == .crop }) ?? false
         if self.currentMode == .video {
             let seconds = CMTimeGetSeconds(currentSeekTime)
             self.getExtractThumbnail(at: seconds) { [weak self] resultImage in
+                guard var resultImage = resultImage else { return }
+                if let croppedImage = self?.getVideoThumbnailCroppedImage(image: resultImage), isCropEnabled {
+                    resultImage = croppedImage
+                }
                 self?.resultHandler?( .videoThumbnailResult(resultImage))
-                guard let resultImage = resultImage else { return }
                 if let _ = self?.shopliveCoverPickerData?.shortsId {
                     self?.callShortformThumbnailAPI(image: resultImage)
                 }
@@ -140,7 +150,13 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
             }
         }
         else {
-            resultHandler?( .requestCropImageForCropableImageView )
+            if isCropEnabled {
+                resultHandler?( .requestCropImageForCropableImageView )
+            }
+            else {
+                resultHandler?( .requestNormalImageForCropableImageView )
+            }
+            
         }
     }
     
@@ -157,6 +173,10 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
         else {
             self.resultHandler?( .requestFinishCoverPicker )
         }
+    }
+    
+    private func onSetPlayerContainerBound(bound : CGRect) {
+        self.playerContainerBound = bound
     }
 }
 extension ShopLiveCoverPickerReactor {
@@ -178,6 +198,21 @@ extension ShopLiveCoverPickerReactor {
             }
         }
     }
+    
+    private func getVideoThumbnailCroppedImage(image : UIImage) -> UIImage? {
+        guard let cropRect = self.videoCropRect else {
+            return nil
+        }
+        return self.cropped(image: image, to: cropRect)
+    }
+    
+    private func cropped(image : UIImage, to rect: CGRect) -> UIImage? {
+        guard let cgImage = image.cgImage?.cropping(to: rect) else {
+            return nil
+        }
+        return UIImage(cgImage: cgImage)
+    }
+    
 }
 extension ShopLiveCoverPickerReactor : SLPhotosPickerViewControllerDelegate {
     func photoPicker(didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
@@ -238,5 +273,17 @@ extension ShopLiveCoverPickerReactor {
     
     func getAVPlayer() -> AVPlayer? {
         return self.avPlayer
+    }
+    
+    func getVideoSize() -> CGSize? {
+        guard let track = self.videoAsset?.tracks(withMediaType: AVMediaType.video).first else { return nil }
+        let size = track.naturalSize.applying(track.preferredTransform)
+        return CGSize(width: abs(size.width), height: abs(size.height))
+    }
+}
+extension ShopLiveCoverPickerReactor : SLVideoEditorPlayerCropViewDelegate {
+    func updateCropRect(frame: CGRect) {
+        ShopLiveLogger.tempLog("[updateCropRect] \(frame)")
+        self.videoCropRect = frame
     }
 }

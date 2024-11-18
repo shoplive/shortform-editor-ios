@@ -30,7 +30,7 @@ extension ShopLiveShortform.BridgeInterface {
         if let srn = srn {
             payLoad["srn"] = srn
         }
-        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN.rawValue, payload: payLoad)
+        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN.key, payload: payLoad)
     }
     
     internal static func showShortsDetail(srn : String?) {
@@ -39,7 +39,7 @@ extension ShopLiveShortform.BridgeInterface {
         if let srn = srn {
             payLoad["srn"] = srn
         }
-        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN.rawValue, payload: payLoad)
+        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN.key, payload: payLoad)
     }
     
     internal static func handleMoveToProductPage(shortsId : String?, srn : String?, product : Product) {
@@ -52,7 +52,7 @@ extension ShopLiveShortform.BridgeInterface {
             ShopLiveShortform.close()
         }
         
-        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN.rawValue, payload: ["isShown": false,"srn" : srn ?? ""])
+        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN.key, payload: ["isShown": false,"srn" : srn ?? ""])
     }
     
     internal static func handleMoveToProductBannerPage(shortsId : String, srn : String, scheme : String, shortsDetail : ShortsDetail) {
@@ -62,7 +62,7 @@ extension ShopLiveShortform.BridgeInterface {
             webView.load(URLRequest(url: url))
             ShopLiveShortform.close()
         }
-        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN.rawValue, payload: ["isShown": false, "srn" : srn])
+        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN.key, payload: ["isShown": false, "srn" : srn])
     }
     
     internal static func requestShortsPreview(url : String?, srn : String?) {
@@ -72,11 +72,11 @@ extension ShopLiveShortform.BridgeInterface {
         
         ShopLiveShortform.close()
         let payload : [String : Any] = ["isShown": false, "srn" : srn ]
-        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN.rawValue, payload: payload)
+        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN.key, payload: payload)
         
         let payload2 : [String : Any] = ["url" : url]
         //안되면 guard let url = webview?.url?.absoluteString else { return } 이걸로 보내야함
-        Self.shared.onRequestEvaluateJS(command: SdkToWeb.REQUEST_SHORTFORM_PREVIEW.rawValue, payload: payload2)
+        Self.shared.onRequestEvaluateJS(command: SdkToWeb.REQUEST_SHORTFORM_PREVIEW.key, payload: payload2)
     }
     
     internal static func previewShown(shorts : ShortsModel) {
@@ -85,7 +85,7 @@ extension ShopLiveShortform.BridgeInterface {
         let payload: [String: Any] = [
             "shorts": shortsDict
         ]
-        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_SHORTFORM_PREVIEW_SHOWN.rawValue, payload: payload)
+        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_SHORTFORM_PREVIEW_SHOWN.key, payload: payload)
     }
     
     internal static func clickPreview(shorts : ShortsModel) {
@@ -94,7 +94,7 @@ extension ShopLiveShortform.BridgeInterface {
         let payload: [String: Any] = [
             "shorts": shortsDict
         ]
-        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CLICK_SHORTFORM_PREVIEW.rawValue, payload: payload)
+        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CLICK_SHORTFORM_PREVIEW.key, payload: payload)
     }
     
     internal static func previewHidden(shorts : ShortsModel) {
@@ -103,7 +103,7 @@ extension ShopLiveShortform.BridgeInterface {
         let payload: [String: Any] = [
             "shorts": shortsDict
         ]
-        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_SHORTFORM_PREVIEW_HIDDEN.rawValue, payload: payload)
+        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_SHORTFORM_PREVIEW_HIDDEN.key, payload: payload)
     }
     
     internal static func previewClose(shorts : ShortsModel) {
@@ -112,6 +112,6 @@ extension ShopLiveShortform.BridgeInterface {
         let payload: [String: Any] = [
             "shorts": shortsDict
         ]
-        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CLICK_SHORTFORM_PREVIEW_CLOSE.rawValue, payload: payload)
+        Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CLICK_SHORTFORM_PREVIEW_CLOSE.key, payload: payload)
     }
 }

@@ -22,7 +22,7 @@ protocol ShortsCellDelegate : NSObject {
     func requestShowNewShortformFullScreen(bridgeModel : ShopLiveShortform.ShortsBridgeModel)
     func requestCloseShortform()
     func requestRemoveShortform(shortsId : String)
-    func onExternalEmitEvent(name : String, payload : [String : Any]?)
+    func onExternalEmitEvent(webView : ShortsWebView?, name : String, payload : [String : Any]?)
     func setSnapShotForWindow(image : UIImage?)
     func getCurrentOnViewIndexPath() -> IndexPath?
     func requestSetCustomShortformForV2(cell : ShortsCell, shortsId : String)
@@ -171,9 +171,22 @@ class ShortsCell : UICollectionViewCell {
         return youtubePosterImageView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: ratio)
     }()
     
+    lazy private var loadingIndicatorView : UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.hidesWhenStopped = true
+        if #available(iOS 13.0, *) {
+            activityIndicator.style = UIActivityIndicatorView.Style.large
+        } else {
+            activityIndicator.style = .whiteLarge
+        }
+        return activityIndicator
+    }()
+    
     weak var delegate : ShortsCellDelegate?
     weak var shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?
     private var attachState : ShortFormCellAttachState?
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -306,6 +319,8 @@ extension ShortsCell {
                 self.onReactorEmptyVideoPlayer()
             case .requestSetCustomShortformForV2(shortsId: let shortsId):
                 self.onReactorRequestSetCustomShortformForV2(shortsId : shortsId)
+            case .showLoadingIndicator(let show):
+                self.onReactorShowLoadingIndicator(show : show)
             }
         }
     }
@@ -464,6 +479,19 @@ extension ShortsCell {
         delegate?.requestSetCustomShortformForV2(cell: self, shortsId: shortsId)
     }
     
+    private func onReactorShowLoadingIndicator(show : Bool) {
+        DispatchQueue.main.async { [weak self] in
+            if show {
+                self?.loadingIndicatorView.startAnimating()
+                self?.loadingIndicatorView.isHidden = false
+            }
+            else {
+                self?.loadingIndicatorView.stopAnimating()
+                self?.loadingIndicatorView.isHidden = true
+            }
+        }
+    }
+    
     private func onReactorEmptyVideoPlayer() {
         playerView.action( .emptyPlayer )
     }
@@ -558,7 +586,7 @@ extension ShortsCell {
     
     private func onWebViewOnExternalEmitEvent(name : String, payload : [String : Any]?) {
         // 고객사에게 넘겨주는 이벤트 ShortsReceiveInterface로 넘겨줘야 함 원래는 그냥 안쪽에서 바로 noti이용해서 전달 하고 있었음
-        delegate?.onExternalEmitEvent(name: name, payload: payload)
+        delegate?.onExternalEmitEvent(webView : webView, name: name, payload: payload)
     }
     
     private func onWebviewOnShortsCommand(name : String, payload : [String : Any]? ) {
@@ -585,6 +613,7 @@ extension ShortsCell {
         self.addSubview(youtubePlayerView)
         self.addSubview(youtubePosterImageView)
         self.addSubview(webView)
+        self.addSubview(loadingIndicatorView)
         
         if UIDevice.current.userInterfaceIdiom == .pad { //|| UIScreen.isLandscape_SL 
             thumbnailHorizontalWidthAnc.isActive = true
@@ -636,7 +665,12 @@ extension ShortsCell {
             webView.topAnchor.constraint(equalTo: self.topAnchor),
             webView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            webView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            webView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            loadingIndicatorView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            loadingIndicatorView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            loadingIndicatorView.widthAnchor.constraint(equalToConstant: 60),
+            loadingIndicatorView.heightAnchor.constraint(equalToConstant: 60)
         ])
         
     }

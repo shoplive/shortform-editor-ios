@@ -57,6 +57,6 @@ class ShortformNativeOnEventsManager {
             payLoadJsonString = "{}"
         }
         
-        delegate?.onEvent?(command: commandString, payload: payLoadJsonString)
+        delegate?.onEvent?(webView: nil, command: commandString, payload: payLoadJsonString)
     }
 }

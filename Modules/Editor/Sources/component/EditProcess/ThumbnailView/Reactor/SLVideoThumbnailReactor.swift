@@ -12,7 +12,8 @@ import ShopliveSDKCommon
 import AVKit
 
 class SLVideoThumbnailReactor : NSObject, SLReactor {
-    private let design = EditorThumbnailConfig.global
+    private let design = ShopLiveShortformEditor.EditorCoverPickerConfig.global
+    private let mainDesign = ShopLiveShortformEditor.EditorMainConfig.global
     
     enum Action {
         case viewDidLoad
@@ -170,7 +171,9 @@ extension SLVideoThumbnailReactor {
                                     videoSize: videoSize,
                                     timeRange: (startTime,endTime),
                                     fileName: (videoUrl as NSString).lastPathComponent,
-                                    filterConfig: videoEditInfoDto.filterConfig)
+                                    filterConfig: videoEditInfoDto.filterConfig,
+                                    volume: 50,
+                                    speed: 1)
         
         self.resultHandler?( .updateLoadingPercent("0%") )
         self.resultHandler?( .showLoadingView )
@@ -233,10 +236,10 @@ extension SLVideoThumbnailReactor : SLLoadingAlertControllerDelegate {
         resultHandler?( .cancelLoading )
         
         let popUp = SLCustomAlertBox(title: ShopLiveShortformEditorSDKStrings.Editor.Upload.Cancel.Alert.title, confirmTitle: nil, closeTitle: nil)
-        popUp.setBoxCornerRadius(cornerRadius: design.cancelPopupCornerRadius)
-        popUp.setButtonCornerRadius(cornerRadius: design.cancelPopupButtonCornerRadius)
-        popUp.setCloseButtonDesign(backgroundColor: design.cancelPopupCloseButtonBackgroundColor, textColor: design.cancelPopupCloseButtonTextColor)
-        popUp.setConfirmButtonDesign(backgroundColor: design.cancelPopupConfirmButtonBackgroundColor, textColor: design.cancelPopupConfirmButtonTextColor)
+        popUp.setBoxCornerRadius(cornerRadius: mainDesign.cancelPopupCornerRadius)
+        popUp.setButtonCornerRadius(cornerRadius: mainDesign.cancelPopupButtonCornerRadius)
+        popUp.setCloseButtonDesign(backgroundColor: mainDesign.cancelPopupCloseButtonBackgroundColor, textColor: mainDesign.cancelPopupCloseButtonTextColor)
+        popUp.setConfirmButtonDesign(backgroundColor: mainDesign.cancelPopupConfirmButtonBackgroundColor, textColor: mainDesign.cancelPopupConfirmButtonTextColor)
         popUp.btnClickCallback = { [weak self] result in
             guard let self = self else { return }
             if result == .yes {

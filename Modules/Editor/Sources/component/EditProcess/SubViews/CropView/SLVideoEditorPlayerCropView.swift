@@ -401,7 +401,9 @@ class SLVideoEditorPlayerCropView: UIView, UIGestureRecognizerDelegate {
         updateHandleViews()
     }
 
-    
+    /**
+     크롭뷰 초기 상태로  세팅하는 함수
+     */
     func updateCropArea() {
         let frameRatio = self.bounds.size.width / self.bounds.size.height
         var videoRatio = 9.0/16.0
@@ -554,7 +556,6 @@ class SLVideoEditorPlayerCropView: UIView, UIGestureRecognizerDelegate {
             context?.move(to: CGPoint(x: cropRect.origin.x + cropRect.size.width - cornerPostion, y: cropRect.origin.y + cropRect.size.height - handleSize))
             context?.addLine(to: CGPoint(x: cropRect.origin.x + cropRect.size.width - cornerPostion, y: cropRect.origin.y + cropRect.size.height))
             context?.strokePath()
-           
         }
         
         context?.setBlendMode(.clear)

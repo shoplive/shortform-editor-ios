@@ -58,6 +58,7 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
         // xbtn 눌러서 돌아갈때 이 크기 값으로 되돌리기 위해서
         case saveStartCropRect
         case revertCropChange
+        case setCropViewToOrigin
     }
     
     enum Result {
@@ -222,6 +223,8 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
             self.onSaveStartCropRect()
         case .revertCropChange:
             self.onRevertCropChange()
+        case.setCropViewToOrigin:
+            self.onSetCropViewToOrigin()
         }
     }
     
@@ -379,6 +382,13 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
         cropView.setInitialCropRect(rect: reactor.getEditingStartCropRect() ?? cropView.frame)
     }
     
+    private func onSetCropViewToOrigin() {
+        cropView.updateCropArea()
+        let rect = cropView.getCropViewRect()
+        reactor.action( .saveEditingStartCropRect(rect) )
+        resultHandler?( .didUpdateCropRect(self.cropView.getCropRect()) )
+        resultHandler?( .didUpdateCropViewRect(self.cropView.getCropViewRect()) )
+    }
 }
 //MARK: - UI actions
 extension ShopLiveFilterPlayer {

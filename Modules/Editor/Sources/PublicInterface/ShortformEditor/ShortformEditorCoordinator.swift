@@ -49,6 +49,7 @@ class ShopliveShortformCoordinator : NSObject {
     }
     
     func close() {
+        SLFileManager.deleteEditorDirectoryFiles()
         self.navigationController?.viewControllers.first?.dismiss(animated: true)
         self.navigationController?.dismiss(animated: true)
         self.navigationController = nil

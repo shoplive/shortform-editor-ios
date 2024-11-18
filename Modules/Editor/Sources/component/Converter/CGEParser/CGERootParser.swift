@@ -31,7 +31,6 @@ class CGERootParser {
                 else {
                     result += command + ","
                 }
-//                ShopLiveLogger.debugLog("[HASSAN LOG] filter \(value)\n result \(result) \nd\nd\nd\nd\n")
             }
         }
         
@@ -39,6 +38,7 @@ class CGERootParser {
             result = String(result.dropLast(1))
         }
         
+        ShopLiveLogger.tempLog("[FILTERCOMMAND] \(result)")
        
         
         return result
