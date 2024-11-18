@@ -13,9 +13,9 @@ public enum SLCoverEditOptions : CaseIterable {
    case crop
 }
 public final class ShopLiveCoverPickerVisibleActionButton {
-    public var editOptions : [SLCoverEditOptions] = [.crop]
+    public var editOptions : [SLCoverEditOptions] = []
     
-    public init(editOptions: [SLCoverEditOptions] = [.crop]) {
+    public init(editOptions: [SLCoverEditOptions] = []) {
         self.editOptions = editOptions
     }
 }
