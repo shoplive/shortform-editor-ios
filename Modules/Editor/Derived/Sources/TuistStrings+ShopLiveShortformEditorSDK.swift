@@ -231,7 +231,7 @@ public enum ShopLiveShortformEditorSDKStrings: Sendable {
       public enum Cancel: Sendable {
 
         public enum Alert: Sendable {
-        /// Do you really want to quit uploading process?
+        /// Do you really want to quit process?
           public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.upload.cancel.alert.title")
         }
       }
