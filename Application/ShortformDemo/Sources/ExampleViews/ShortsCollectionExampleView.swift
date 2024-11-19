@@ -12,10 +12,16 @@ import ShopLiveShortformSDK
 import ShopliveSDKCommon
 
 
-
+class ViewController2 : UIViewController {
+    
+    lazy var shortsCollectionView : ShopLiveShortsCollectionView = {
+        let view = ShopLiveShortsCollectionView(requestData: nil)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+}
 
 class ShortsCollectionExampleView : UIViewController {
-   
     private var backBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -47,7 +53,6 @@ class ShortsCollectionExampleView : UIViewController {
         btn.addTarget(self, action: #selector(nextBtnTapped), for: .touchUpInside)
     }
     
-    
     @objc
     private func backBtnTapped() {
         if self.navigationController?.viewControllers.count == 1 {
@@ -64,7 +69,6 @@ class ShortsCollectionExampleView : UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    
     override func viewWillTransition(to size: CGSize, with coordinator: any UIViewControllerTransitionCoordinator) {
         shortsCollectionView.action( .onStartRotation(size: size) )
         
@@ -77,14 +81,12 @@ class ShortsCollectionExampleView : UIViewController {
     
 }
 extension ShortsCollectionExampleView {
-    
     private func setLayout() {
         self.view.addSubview(shortsCollectionView)
         self.view.addSubview(btn)
         self.view.addSubview(backBtn)
         
         NSLayoutConstraint.activate([
-            
             backBtn.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             backBtn.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             backBtn.widthAnchor.constraint(equalToConstant: 50),

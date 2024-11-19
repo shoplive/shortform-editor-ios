@@ -11,7 +11,6 @@ import UIKit
 import AVFoundation
 import AVKit
 
-
 public enum ShopliveCacheType {
     case memory
     case disk
@@ -21,8 +20,7 @@ public enum ShopliveCacheType {
 public class ShopliveMP4CachingManager : NSObject {
     public static let shared = ShopliveMP4CachingManager()
     
-    
-    
+
     private let assetKeysRequiredToPlay : [String] = [ "playable", "hasProtectedContent"]
     private var cachedSize : UInt64 = 0
     private lazy var maxCacheSize : UInt64 = oneGB
@@ -31,29 +29,12 @@ public class ShopliveMP4CachingManager : NSObject {
     private var downloadingUrls : [URL] = []
     
     
-    private var dirPathURL : URL? = {
-        let nsDocumentDirectory = FileManager.SearchPathDirectory.documentDirectory
-        let nsUserDomainMask = FileManager.SearchPathDomainMask.userDomainMask
-        let paths = NSSearchPathForDirectoriesInDomains(nsDocumentDirectory, nsUserDomainMask, true)
-        if let dirpath = paths.first {
-            return URL(fileURLWithPath: dirpath).appendingPathComponent("Shoplive/Caches")
-        }
-        else {
-            return nil
-        }
-    }()
-    
-    private var tempDirPathUrl : URL? = {
-        let tempUrl =  URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-        let shopLiveTempUrl = tempUrl.appendingPathComponent("Shoplive/Temp", isDirectory: true)
-        return shopLiveTempUrl
-    }()
+    private var dirPathURL : URL? {
+        return SLFileManager.shortformDirectoryPath
+    }
     
     private override init() {
         super.init()
-        
-        self.createShopliveDir()
-        self.createTempDir()
         
     }
     
@@ -75,14 +56,8 @@ public class ShopliveMP4CachingManager : NSObject {
     
     public func getCachedSize() -> String? {
         guard let dirPathURL = dirPathURL else { return nil }
-        guard let tempDirPathUrl = tempDirPathUrl else { return  nil }
-        let path : URL
-        if self.cacheType == .memory {
-            path = tempDirPathUrl
-        }
-        else {
-            path = dirPathURL
-        }
+        let path : URL = dirPathURL
+
         
         let fileManager = FileManager.default
         var totalSize : UInt64 = 0
@@ -106,15 +81,8 @@ public class ShopliveMP4CachingManager : NSObject {
     public func removeCaches() {
         DispatchQueue.global(qos: .background).async {
             guard let dirPathURL = self.dirPathURL else { return }
-            guard let tempDirPathUrl = self.tempDirPathUrl else { return }
-            var path : URL
+            var path : URL = dirPathURL
             
-            if self.cacheType == .memory {
-                path = tempDirPathUrl
-            }
-            else {
-                path = dirPathURL
-            }
             
             let fileManager = FileManager.default
             do {
@@ -179,7 +147,6 @@ public class ShopliveMP4CachingManager : NSObject {
     
     private func saveVideoDataToDevice(asset : AVURLAsset, url : URL) {
         guard let dirPathURL = dirPathURL else { return }
-        guard let tempDirPathUrl = tempDirPathUrl else { return }
         guard let videoName = url.pathComponents.last else { return }
         
         if cachedSize > maxCacheSize { return }
@@ -198,14 +165,8 @@ public class ShopliveMP4CachingManager : NSObject {
             
             self.downloadingUrls.append(url)
             
-            let exportURL : URL
+            let exportURL : URL = dirPathURL.appendingPathComponent("\(videoName)")
             
-            if self.cacheType == .memory {
-                exportURL = tempDirPathUrl.appendingPathComponent("\(videoName)")
-            }
-            else {
-                exportURL = dirPathURL.appendingPathComponent("\(videoName)")
-            }
             
             exporter.outputURL = exportURL
             exporter.outputFileType = AVFileType.mp4
@@ -245,16 +206,8 @@ public class ShopliveMP4CachingManager : NSObject {
     
     private func findCachedVideo(url : URL) -> URL? {
         guard let dirPathURL = dirPathURL else { return nil }
-        guard let tempDirPathUrl = tempDirPathUrl else { return nil }
         guard let videoName = url.pathComponents.last else { return nil }
-        let searchURL : URL
-        
-        if cacheType == .memory {
-            searchURL = tempDirPathUrl.appendingPathComponent("\(videoName)")
-        }
-        else {
-            searchURL = dirPathURL.appendingPathComponent("\(videoName)")
-        }
+        let searchURL : URL = dirPathURL.appendingPathComponent("\(videoName)")
         
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: searchURL.path) {
@@ -268,27 +221,6 @@ public class ShopliveMP4CachingManager : NSObject {
 }
 extension ShopliveMP4CachingManager : AVAssetResourceLoaderDelegate {
     
-}
-
-extension ShopliveMP4CachingManager {
-    private func createShopliveDir() {
-        guard let dirPathURL = dirPathURL else { return }
-        do {
-            try FileManager.default.createDirectory(at: dirPathURL, withIntermediateDirectories: true)
-        }
-        catch(let error){
-            print(error)
-        }
-    }
-    
-    private func createTempDir() {
-        guard let tempDirPathUrl = tempDirPathUrl else { return }
-        do {
-            try FileManager.default.createDirectory(at: tempDirPathUrl, withIntermediateDirectories: true, attributes: nil)
-        }
-        catch(let error) {
-        }
-    }
 }
 
 //mp4 캐싱 테스트용

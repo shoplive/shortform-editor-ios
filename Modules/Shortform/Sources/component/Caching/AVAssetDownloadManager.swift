@@ -69,7 +69,7 @@ public final class AVAssetDownloadManager : NSObject {
         let searchURL = dirPathURL.appendingPathComponent("\(searchPath)")
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: searchURL.path) {
-            return searchURL
+            return URL(fileURLWithPath: searchURL.relativePath)
         }
         else {
             return nil

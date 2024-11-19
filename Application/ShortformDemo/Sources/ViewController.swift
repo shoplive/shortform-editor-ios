@@ -131,6 +131,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.tintColor = .white
+        SLFileManager.deleteShortformDirectoryFiles()
        
         setupDetaultLanding()
         setupTab()
@@ -146,10 +147,6 @@ class ViewController: UIViewController {
         v2PlayBtn.addTarget(self, action: #selector(v2PlayBtnTapped(sender: )), for: .touchUpInside)
         shortsCollectionViewBtn.addTarget(self, action: #selector(shortsCollectionViewBtnTapped(sender:)), for: .touchUpInside)
         
-//        ShopliveMP4CachingManager.shared.removeCaches()
-//        ShopliveMP4CachingManager.shared.setCacheType(type: .memory)
-//        let cacheSize = ShopliveMP4CachingManager.shared.getCachedSize()
-//        ShopLiveLogger.debugLog("[HASSAN LOG] cacheSize \(cacheSize)")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -240,14 +237,7 @@ class ViewController: UIViewController {
 }
 extension ViewController : ShopLiveShortformEditorDelegate {
     func onShopliveShortformError(error: ShopliveSDKCommon.ShopLiveCommonError) {
-        //        switch error {
-        //        case .statusCode(let code):
-        //            print("onShortformUploadError statusCodeError \(code)")
-        //        case .invalidConfig:
-        //            print("onShortformUploadError invalidConfig")
-        //        case .other(let error):
-        //            print("onShortformUploadError other \(error.localizedDescription)")
-        //        }
+ 
     }
     
     func onShopliveShortformMediaPickerDismiss() {

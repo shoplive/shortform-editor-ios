@@ -77,13 +77,17 @@ class ShopLiveShortformBaseTypePlayerView : UIView {
     func setVideoUrl(urlString : String?){
         self.playerLayer.player = player
         guard let urlString = urlString, var url = URL(string: urlString) else { return }
-        if ShopliveMP4CachingManager.shared.isVideoMP4(url: url) {
+        if ShopliveMP4CachingManager.shared.isVideoMP4(url: url) == false {
             if let cached = AVAssetDownloadManager.shared.getCachedData(with: urlString) {
                 url = cached
             }
             let asset = AVURLAsset(url: url)
             let playerItem = AVPlayerItem(asset: asset)
             self.player.replaceCurrentItem(with: playerItem)
+            self.isPlaying = false
+            self.isReadyToPlay = true
+            self.removeAvPlayerObserver()
+            self.setupAvPlayerObserver()
         }
         else {
             ShopliveMP4CachingManager.shared.downloadVideo(url: url) { [weak self] playerItem in
@@ -158,7 +162,7 @@ extension ShopLiveShortformBaseTypePlayerView : SLAVLoopPlayerDelegate {
     func onSLAVLoopPlayerError(error: Error) {
         self.isReadyToPlay = false
         if let urlAsset = player.currentItem?.asset as? AVURLAsset {
-            ShopLiveLogger.debugLog("[ShopLiveShortformSDK] avplayer error : \(error.localizedDescription) with \(urlAsset.url.absoluteString)")
+            ShopLiveLogger.tempLog("[ShopLiveShortformSDK] avplayer error : \(error.localizedDescription) with \(urlAsset.url.absoluteString)")
         }
         self.delegate?.onPlayerViewError(error: error)
     }

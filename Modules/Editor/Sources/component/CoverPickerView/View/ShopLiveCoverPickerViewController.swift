@@ -303,6 +303,8 @@ extension ShopLiveCoverPickerViewController {
                 self.onReactorOnError(error : error)
             case .requestShowLoading:
                 self.onReactorShowLoading()
+            case .uploadSuccess(shortsId: let shortsId):
+                self.onReactorUploadSuccess(shortsId: shortsId)
             }
         }
     }
@@ -354,6 +356,10 @@ extension ShopLiveCoverPickerViewController {
         
         guard self.loadingProgress.isBeingPresented == false else { return }
         self.present(self.loadingProgress, animated: false)
+    }
+    
+    private func onReactorUploadSuccess(shortsId : String) {
+        self.resultHandler?( .onSuccessUpload(shortsId: shortsId) )
     }
 }
 extension ShopLiveCoverPickerViewController {

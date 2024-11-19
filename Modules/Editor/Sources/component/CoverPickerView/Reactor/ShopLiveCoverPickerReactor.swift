@@ -44,6 +44,7 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
         case videoThumbnailResult(UIImage?)
         case requestFinishCoverPicker
         case onError(ShopLiveCommonError)
+        case uploadSuccess(shortsId : String)
     }
     
     private var videoUrl : URL?
@@ -256,6 +257,7 @@ extension ShopLiveCoverPickerReactor {
                 guard let self = self else { return }
                 switch result {
                 case .success(let shortsModel):
+                    self.resultHandler?( .uploadSuccess(shortsId: shortsId))
                     self.resultHandler?( .requestFinishCoverPicker )
                     break
                 case .failure(let error):

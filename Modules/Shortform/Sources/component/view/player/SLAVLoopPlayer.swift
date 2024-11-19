@@ -41,9 +41,7 @@ class SLAVLoopPlayer: AVPlayer {
             }
             else if item.status == .failed {
                 if let currentItem = self?.currentItem, let error = currentItem.error {
-                    
                     let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnexpectedError, error: error, message: nil)
-                
                     self?.delegate?.onSLAVLoopPlayerError(error: commonError)
                 }
             }

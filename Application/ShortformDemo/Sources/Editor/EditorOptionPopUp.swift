@@ -149,6 +149,9 @@ class EditorOptionPopUp : UIView {
                                                                     isTagsVisible: OptionSettingModel.editorShowTags,
                                                                     editOptions: [.volume])
         
+//        let videoOutPutOption = ShopLiveShortformEditorVideoOuputOption(videoOutputQuality: .max,
+//                                                                        videoOutputResoltuion: ._1080)
+        
         ShopLiveShortformEditor.shared
             .setPermissionHandler(nil)
             .setConfiguration(ShopLiveShortformEditorConfiguration(videoCropOption: cropOption ,
@@ -259,13 +262,25 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
         let cropOption = ShopliveVideoEditorAspectRatio(width: OptionSettingModel.editorWidth,
                                                         height: OptionSettingModel.editorheight,
                                                         isFixed: OptionSettingModel.editorIsFixed)
+
+        let trimOption = ShopliveVideoEditorTrimOption(minVideoDuration: 3,
+                                                       maxVideoDuration: 90)
+        
+        let videoOutPutOption = ShopLiveShortformEditorVideoOuputOption(videoOutputQuality: .max,
+                                                                        videoOutputResoltuion: ._1080)
+        
+        
+        let visibleContents = ShopLiveShortFormEditorVisibleContent(isDescriptionVisible: OptionSettingModel.editorShowDescription,
+                                                                    isTagsVisible: OptionSettingModel.editorShowTags,
+                                                                    editOptions: [.volume])
+        
         
         ShopliveVideoEditor.shared
             .setPermissionHandler(nil)
             .setConfiguration(.init(videoCropOption: cropOption,
-                                    videoOutputOption: nil,
-                                    videoTrimOption: .init(maxVideoDuration : 90),
-                                    visibleContents: .init()))
+                                    videoOutputOption: videoOutPutOption,
+                                    videoTrimOption: trimOption,
+                                    visibleContents: visibleContents))
             .setDelegate(vc)
             .start(vc, data: .init(videoUrl: localUrl,isCreatedShortform: true))
     }
@@ -273,7 +288,15 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
     private func openCoverPicker(videoUrl : URL) {
         guard let vc = self.vc else { return }
         
+        let cropOption = ShopLiveShortFormEditorAspectRatio(width: OptionSettingModel.editorWidth,
+                                                        height: OptionSettingModel.editorheight,
+                                                        isFixed: OptionSettingModel.editorIsFixed)
+        
+        let visibleActionButton = ShopLiveCoverPickerVisibleActionButton(editOptions: [.crop])
+        
         ShopLiveCoverPicker.shared
+            .setConfiguration(.init(cropOption: cropOption,
+                                    visibleActionButton: visibleActionButton))
             .setDelegate(vc)
             .start(vc, data: .init(videoUrl: videoUrl,shortsId: nil))
     }
