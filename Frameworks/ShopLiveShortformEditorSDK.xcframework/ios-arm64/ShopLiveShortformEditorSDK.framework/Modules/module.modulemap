@@ -1,4 +1,0 @@
-framework module ShopLiveShortformEditorSDK {
-  header "ShopLiveShortformEditorSDK-Swift.h"
-  requires objc
-}
