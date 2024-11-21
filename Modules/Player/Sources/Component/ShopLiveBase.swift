@@ -104,7 +104,6 @@ import ShopliveSDKCommon
 #endif
     
     private var isKeyboardShow: Bool = false
-    private var replaySize: CGSize = CGSize(width: 9, height: 16)
     weak private var mainWindow: UIWindow? = nil
     
     @objc dynamic var _style: ShopLive.PresentationStyle = .unknown {
@@ -2406,10 +2405,6 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
             }
         }
         _delegate?.handleCustomActionResult?(with: id, type: type, payload: payload, completion: deprecatedCompletionResult)
-    }
-    
-    func replay(with size: CGSize) {
-        replaySize = size
     }
     
     func didTouchPipButton() {

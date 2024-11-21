@@ -41,7 +41,6 @@ protocol LiveStreamViewControllerDelegate: AnyObject {
     func didTouchNavigation(with url: URL)
     func didTouchCoupon(with couponId: String)
     func handleCommand(_ command: String, with payload: Any?)
-    func replay(with size: CGSize)
     func campaignInfo(campaignInfo: [String : Any])
     func didChangeCampaignStatus(status: String)
     func onError(code: String, message: String)
@@ -63,13 +62,17 @@ protocol OverlayWebViewDelegate: AnyObject {
     func didUpdateVideo(with url: URL?)
     func reloadVideo()
     func didUpdatePoster(with url: URL)
-    func replay(with size: CGSize)
     func setVideoCurrentTime(to: CMTime)
-    func didTouchBlockView()
 
     func didTouchWebViewCustomAction(id: String, type: String, payload: Any?)
-    func didTouchWebViewPlayButton()
-    func didTouchWebViewPauseButton()
+    
+    func didReceiveSetIsPlayVideo(isPlaying : Bool)
+    func didReceivePlayVideo()
+    func didReceivePauseVideo()
+    
+//    func didTouchWebViewPlayButton()
+//    func didTouchWebViewPauseButton()
+    
     func didTouchWebViewMuteButton(with isMuted: Bool)
     func didTouchWebViewPipButton()
     func didTouchWebViewCloseButton()

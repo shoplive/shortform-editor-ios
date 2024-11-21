@@ -136,7 +136,7 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
         viewModel.action( .setAudioSessonCategory )
         viewModel.action( .initialize )
         viewModel.action( .setDelegate(self) )
-        if let player = playerView?.player { 
+        if let player = playerView?.player {
             viewModel.action( .setAVPlayer( player) )
         }
         if let playerLayer = playerView?.playerLayer {

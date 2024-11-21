@@ -392,7 +392,6 @@ extension OverlayWebView: WKScriptMessageHandler {
         guard let interface = WebInterface(message: message) else { return }
         switch interface {
         case .systemInit:
-            ShopLiveLogger.debugLog("systemInit")
             self.isSystemInitialized = true
             ShopLiveController.shared.initialize()
             self.webView?.sendEventToWeb(event: .videoInitialized)
@@ -408,49 +407,27 @@ extension OverlayWebView: WKScriptMessageHandler {
                 self.webView?.sendEventToWeb(event: .onPipModeChanged, self.isPipMode)
             }
         case .setVideoMute(let isMuted):
-            ShopLiveLogger.debugLog("setVideoMute(\(isMuted))")
             delegate?.didTouchWebViewMuteButton(with: isMuted)
         case .setPosterUrl(let posterUrl):
-            ShopLiveLogger.debugLog("setPosterUrl(\(posterUrl))")
             self.delegate?.didUpdatePoster(with: posterUrl)
         case .setLiveStreamUrl(let streamUrl):
-            ShopLiveLogger.debugLog("setLiveStreamUrl(\(streamUrl?.absoluteString))")
             self.delegate?.didUpdateVideo(with: streamUrl)
         case .setIsPlayingVideo(let isPlaying):
-            if isPlaying {
-                self.delegate?.didTouchWebViewPlayButton()
-            }
-            else {
-                self.delegate?.didTouchWebViewPauseButton()
-            }
-            ShopLiveLogger.debugLog("setIsPlayingVideo(\(isPlaying))")
-            ShopLiveController.isPlaying = isPlaying
+            self.delegate?.didReceiveSetIsPlayVideo(isPlaying: isPlaying)
         case .reloadVideo:
-            ShopLiveLogger.debugLog("reloadVideo")
             self.delegate?.reloadVideo()
         case .startPictureInPicture:
-            ShopLiveLogger.debugLog("startPictureInPicture")
             self.delegate?.didTouchWebViewPipButton()
         case .close:
-            ShopLiveLogger.debugLog("webView back btn close")
             self.delegate?.didTouchWebViewCloseButton()
         case .navigation(let navigationUrl):
-            ShopLiveLogger.debugLog("navigationUrl")
             self.delegate?.didTouchWebViewNavigation(with: navigationUrl)
         case .coupon(let id):
-            ShopLiveLogger.debugLog("coupon")
             self.delegate?.didTouchWebViewCoupon(with: id)
         case .playVideo:
-            ShopLiveLogger.debugLog("navigation")
-            self.delegate?.didTouchWebViewPlayButton()
-            ShopLiveController.isPlaying = true
+            self.delegate?.didReceivePlayVideo()
         case .pauseVideo:
-            ShopLiveLogger.debugLog("pauseVideo")
-            self.delegate?.didTouchWebViewPauseButton()
-            ShopLiveController.isPlaying = false
-        case .replay(let width, let height):
-            ShopLiveLogger.debugLog("replay")
-            self.delegate?.replay(with: CGSize(width: width, height: height))
+            self.delegate?.didReceivePauseVideo()
         case .setVideoCurrentTime(let time):
             self.delegate?.setVideoCurrentTime(to: .init(seconds: time, preferredTimescale: 1))
         case .enableSwipeDown:

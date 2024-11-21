@@ -33,31 +33,24 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
             self?.backgroundPosterImageWebView?.load(.init(url: url))
         }
     }
-    
-    func replay(with size: CGSize) {
-        viewModel.action( .setIsReplayMode(true) )
-    }
-    
+   
     func setVideoCurrentTime(to: CMTime) {
         viewModel.action( .seekTo(to) )
     }
-    
-    func didTouchBlockView() {
-        //원래 키보드를 숨기는 행위
-    }
-    
+        
     func didTouchWebViewCustomAction(id: String, type: String, payload: Any?) {
         //coupont touch action -> shopliveBase -> user
     }
     
-    func didTouchWebViewPlayButton() {
-        if viewModel.getCurrentPlayCommand() == .none {
-            return
-        }
-        viewModel.action( .playControlAction(.play) )
+    func didReceiveSetIsPlayVideo(isPlaying: Bool) {
+        /** do nothing on preview */
     }
     
-    func didTouchWebViewPauseButton() {
+    func didReceivePlayVideo() {
+        viewModel.action( .playControlAction(.play ) )
+    }
+    
+    func didReceivePauseVideo() {
         viewModel.action( .playControlAction(.pause) )
     }
     
@@ -70,7 +63,6 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
     }
     
     func didTouchWebViewCloseButton() {
-//        self.action( .close )
         self.viewModel.action( .resetPlayer )
         self.viewModel.action( .setRefreshTimer )
     }
@@ -171,6 +163,9 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
         
         if let isReplay = payload?["isReplay"] as? Bool {
             viewModel.action( .setIsReplayMode(isReplay) )
+        }
+        else {
+            viewModel.action( .setIsReplayMode(false) )
         }
         
         if let configJson = payload?["configJson"] as? [String : Any] {

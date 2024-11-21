@@ -64,15 +64,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     func didTouchWebViewCustomAction(id: String, type: String, payload: Any?) {
         delegate?.didTouchCustomAction(id: id, type: type, payload: payload)
     }
-    
-    func didTouchBlockView() {
-        shopliveHideKeyboard_SL()
-    }
-
-    func replay(with size: CGSize) {
-        ShopLiveController.isReplayMode = true
-        delegate?.replay(with: size)
-    }
 
     func didTouchWebViewCoupon(with couponId: String) {
         delegate?.didTouchCoupon(with: couponId)
@@ -118,22 +109,24 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         }
     }
 
-    func didTouchWebViewPlayButton() {
-        viewModel.play()
-    }
-
-    func didTouchWebViewPauseButton() {
-        viewModel.pause()
-    }
-
-    func didTouchPlayButton(with isPlaying: Bool) {
+    func didReceiveSetIsPlayVideo(isPlaying: Bool) {
         if isPlaying {
             viewModel.play()
         }
         else {
-            ShopLiveLogger.debugLog("didTouchPlayButton isPlaying \(isPlaying)")
             viewModel.pause()
         }
+        ShopLiveController.isPlaying = isPlaying
+    }
+    
+    func didReceivePlayVideo() {
+        viewModel.play()
+        ShopLiveController.isPlaying = true
+    }
+    
+    func didReceivePauseVideo() {
+        viewModel.pause()
+        ShopLiveController.isPlaying = false
     }
 
     func didTouchWebViewNavigation(with url: URL) {
@@ -198,6 +191,10 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         if let isReplay = payload?["isReplay"] as? Bool {
             ShopLiveController.isReplayMode = isReplay
         }
+        else {
+            ShopLiveController.isReplayMode = false
+        }
+        
         ShopLiveConfiguration.UI.chatInputPlaceholderString = placeHolder ?? "chat.placeholder".localizedString()
         ShopLiveConfiguration.UI.chatInputSendString = sendText ?? "chat.send.title".localizedString()
         ShopLiveConfiguration.UI.chatInputMaxLength = chatInputMaxLength ?? 200

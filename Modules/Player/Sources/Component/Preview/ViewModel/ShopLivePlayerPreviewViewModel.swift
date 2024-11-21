@@ -263,7 +263,7 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     private func onInitialize() {
         self.previewUrl = nil
         self.playerItem = nil
-        self.currentPlayCommand = .stop
+        self.currentPlayCommand = .none
         self.removePlayTimeObserver()
         self.isAlreadyPlayedOnce = false
         removeAVPlayerObserver()
@@ -749,12 +749,6 @@ extension ShopLivePlayerPreviewViewModel {
                 self.onPlayerItemStatusChanged(status : playerItem.status)
             })
         }
-        if let player = self.player {
-            playerLoadedTimeRangeObserver = player.observe(\.currentItem?.loadedTimeRanges, options: [.initial,.new] , changeHandler: { [weak self] player, value  in
-                guard let self = self, let value = value.newValue else { return }
-                self.onLoadedTimeRangesChanged(changed: value)
-            })
-        }
     }
     
     private func removeAVPlayerObserver() {
@@ -797,20 +791,9 @@ extension ShopLivePlayerPreviewViewModel {
     }
     
     private func onPlayerItemStatusFailed() {
-        ShopLiveLogger.tempLog("[PlayerStatus] playerItem Status failed")
-        retryManager?.action( .startRetry(delayed: 2) )
+        /** do nothing 고객사에게 핸들링 전가  */
     }
     
-    //MARK: -loadedTimeRanges
-    private func onLoadedTimeRangesChanged(changed : [NSValue]?) {
-        guard let timeRange = changed?.last as? CMTimeRange else { return }
-        
-        let timeLoaded = Int(timeRange.duration.value) / Int(timeRange.duration.timescale)
-        
-        if timeLoaded > 4 && self.getTimeControlStatus() == .waitingToPlayAtSpecifiedRate {
-//            self.playControlManager?.playControlAction( .play )
-        }
-    }
 }
 extension ShopLivePlayerPreviewViewModel {
     public func getOverLayUrlWithInfosAttached() -> URL? {
@@ -922,7 +905,6 @@ extension ShopLivePlayerPreviewViewModel {
         guard let url = URL(string: urlString + "?" + params) else {
             return URL(string: urlString)
         }
-        
         return url
     }
     
@@ -1095,7 +1077,7 @@ extension ShopLivePlayerPreviewViewModel {
     }
     
     private func onTimeControlStatusManagerRequestRetry(delay : Int) {
-        retryManager?.action( .startRetry(delayed: delay) )
+//        retryManager?.action( .startRetry(delayed: delay) )
     }
     
     private func onTimeControlStatusManagerRequestRetryOnNetworkDisConnected() {
