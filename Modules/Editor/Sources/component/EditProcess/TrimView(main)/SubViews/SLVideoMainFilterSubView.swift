@@ -21,7 +21,7 @@ class SLVideoMainFilterSubView : UIView, SLReactor {
         let view = SlCustomUISlider(frame: .zero,thumbViewColor: design.sliderThumbViewColor, sliderCornerRadius: design.sliderCornerRaidus)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.action( .setMinValue(0) )
-        view.action( .setMaxValue(1) )
+        view.action( .setMaxValue(100) )
         return view
     }()
     
@@ -81,7 +81,8 @@ class SLVideoMainFilterSubView : UIView, SLReactor {
     }
     
     enum Result {
-        case confirm
+        case confirmedWithChange
+        case confirmedWithOrigin
         case togglePlayPause
         case closeBtn
         case onValueChanged
@@ -112,7 +113,7 @@ class SLVideoMainFilterSubView : UIView, SLReactor {
     }
     
     @objc func confirmBtnTapped(sender : UIButton) {
-        resultHandler?( .confirm)
+        reactor.action( .onConfirm )
     }
     
 }
@@ -180,6 +181,10 @@ extension SLVideoMainFilterSubView {
                     self.onReactorSetFilterConfig()
                 case .setInitialIntensity(let intensity):
                     self.onReactorSetInitialIntensity(value: intensity )
+                case .confirmedWithChange:
+                    self.onReactorConfirmedWithChange()
+                case .confirmedWithOrigin:
+                    self.onReactorConfirmedWithOrigin()
                 }
             }
         }
@@ -195,7 +200,15 @@ extension SLVideoMainFilterSubView {
     
     private func onReactorSetInitialIntensity(value : CGFloat) {
         sliderView.action( .setCurrentValue(value) )
-        sliderView.action( .setValueLabel(String(format: "%.1f", value)) )
+        sliderView.action( .setValueLabel("\(Int(value))") ) //String(format: "%.1f", value)
+    }
+    
+    private func onReactorConfirmedWithChange() {
+        resultHandler?( .confirmedWithChange )
+    }
+    
+    private func onReactorConfirmedWithOrigin() {
+        resultHandler?( .confirmedWithOrigin )
     }
     
 }
@@ -216,8 +229,14 @@ extension SLVideoMainFilterSubView {
     }
     
     private func onSliderViewCurrentValue(value : CGFloat) {
-        sliderView.action( .setValueLabel(String(format: "%.1f", value)) )
-        reactor.action( .setIntensity(value) )
+        if value > 1 {
+            sliderView.action( .setValueLabel("\(Int(value))") )
+            reactor.action( .setIntensity(value / 100))
+        }
+        else {
+            sliderView.action( .setValueLabel("\(Int(value * 100))") )
+            reactor.action( .setIntensity(value) )
+        }
     }
 }
 extension SLVideoMainFilterSubView {

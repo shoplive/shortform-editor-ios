@@ -12,8 +12,8 @@ import ShopliveSDKCommon
 struct SLShortformRegisterAPI: APIDefinition {
     typealias ResultType = ShortsModel
     
-    var showRequestLog: Bool = false
-    var showResponseLog: Bool = false
+    var showRequestLog: Bool = true
+    var showResponseLog: Bool = true
     
     var baseUrl: String {
         ShortFormUploadConfigurationInfosManager.shared.getBaseUrl()

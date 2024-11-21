@@ -85,7 +85,6 @@ extension V2ShortsCollectionView : V2ShortsCollectioViewModelDelegate {
             self.bringSubviewToFront(emptyDataView)
         }
         emptyDataView.isHidden = hide
-        
     }
     
     func insertCells(at indexPaths: [IndexPath]) {
@@ -126,7 +125,6 @@ extension V2ShortsCollectionView {
                 self.viewmodel.getScrollViewDidScrollPaginationIsBlocked() == false {
                 viewmodel.requestPaginationUpward()
                 viewmodel.startScrollViewDidScrollPaginationBlockTimer()
-
             }
         }
     }
@@ -149,7 +147,7 @@ extension V2ShortsCollectionView {
 //MARK: - ShortsCellDelegate override
 extension V2ShortsCollectionView {
     override func requestSetCustomShortformForV2(cell: ShortsCell, shortsId: String) {
-        let payload = viewmodel.getPayloadDictFor(shortsId: shortsId)
+        let payload = viewmodel.getCustomShortformPayloadDictFor(shortsId: shortsId)
         cell.sendJSRequestToWeb(sdkToWeb: .SET_CUSTOM_SHORTFORM, payload: payload)
     }
 }

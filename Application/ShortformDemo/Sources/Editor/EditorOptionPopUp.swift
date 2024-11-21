@@ -147,18 +147,16 @@ class EditorOptionPopUp : UIView {
         
         let visibleContents = ShopLiveShortFormEditorVisibleContent(isDescriptionVisible: OptionSettingModel.editorShowDescription,
                                                                     isTagsVisible: OptionSettingModel.editorShowTags,
-                                                                    editOptions: [.volume])
+                                                                    editOptions: [.volume ])
         
-//        let videoOutPutOption = ShopLiveShortformEditorVideoOuputOption(videoOutputQuality: .max,
-//                                                                        videoOutputResoltuion: ._1080)
         
         ShopLiveShortformEditor.shared
             .setPermissionHandler(nil)
             .setConfiguration(ShopLiveShortformEditorConfiguration(videoCropOption: cropOption ,
                                                                    visibleContents: visibleContents,
                                                                    videoOutputOption: nil,
-                                                                   minVideoDuration: OptionSettingModel.editorMinVideoDuration,
-                                                                   maxVideoDuration: OptionSettingModel.editorMaxVideoDuration))
+                                                                   minVideoDuration: 3,
+                                                                   maxVideoDuration: 90))
             .setDelegate(delegate: vc)
             .start(vc)
     }
@@ -263,8 +261,8 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
                                                         height: OptionSettingModel.editorheight,
                                                         isFixed: OptionSettingModel.editorIsFixed)
 
-        let trimOption = ShopliveVideoEditorTrimOption(minVideoDuration: 3,
-                                                       maxVideoDuration: 90)
+        let trimOption = ShopliveVideoEditorTrimOption(minVideoDuration: OptionSettingModel.editorMinVideoDuration,
+                                                       maxVideoDuration: OptionSettingModel.editorMaxVideoDuration)
         
         let videoOutPutOption = ShopLiveShortformEditorVideoOuputOption(videoOutputQuality: .max,
                                                                         videoOutputResoltuion: ._1080)
@@ -272,7 +270,7 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
         
         let visibleContents = ShopLiveShortFormEditorVisibleContent(isDescriptionVisible: OptionSettingModel.editorShowDescription,
                                                                     isTagsVisible: OptionSettingModel.editorShowTags,
-                                                                    editOptions: [.volume])
+                                                                    editOptions: [.crop,.filter,.playBackSpeed,.volume])
         
         
         ShopliveVideoEditor.shared

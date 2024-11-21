@@ -73,6 +73,14 @@ public enum ShopLiveShortformEditorSDKStrings: Sendable {
         }
       }
 
+      public enum Origin: Sendable {
+
+        public enum Cell: Sendable {
+        /// Origin
+          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.filter.origin.cell.title")
+        }
+      }
+
       public enum Page: Sendable {
       /// Filter
         public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.filter.page.title")

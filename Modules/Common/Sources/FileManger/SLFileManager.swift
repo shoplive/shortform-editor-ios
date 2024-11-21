@@ -103,4 +103,25 @@ public class SLFileManager {
             }
         }
     }
+    
+    public static  func getShortformDirectorySize() -> String? {
+        let path : URL = Self.shortformDirectoryPath
+        let fileManager = FileManager.default
+        var totalSize : UInt64 = 0
+        do {
+            let contents = try fileManager.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
+            for item in contents {
+                if let attributes = try? fileManager.attributesOfItem(atPath: item.path),
+                   let fileSize = attributes[.size] as? UInt64 {
+                    totalSize += fileSize
+                }
+            }
+            return ShopliveFileSizeConverter.convertFileSize(totalSize)
+        }
+        catch(let error) {
+            ShopLiveLogger.tempLog("[SLFILEMANAGER] shortform totalSize failed error \(error.localizedDescription)")
+            return nil
+        }
+    }
+    
 }

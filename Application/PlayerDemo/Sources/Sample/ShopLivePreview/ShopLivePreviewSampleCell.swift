@@ -38,8 +38,8 @@ class ShopLivePreviewSampleCell : UICollectionViewCell {
         fatalError()
     }
     
-    
     func setPreview(accessKey : String, campaignKey : String) {
+        preview.action( .setMuted(true) )
         preview.action( .initialize )
         preview.action( .setResolutionType(DemoConfiguration.shared.previewResolution))
         preview.action( .start(accessKey: accessKey, campaignKey: campaignKey, referrer: nil) )

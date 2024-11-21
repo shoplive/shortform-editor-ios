@@ -153,7 +153,7 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
         self.viewModel.action( .loadOverlayWebView )
     }
     
-    
+ 
     private func onSetIsMuted(isMuted : Bool) {
         viewModel.action( .setSoundMute(isMuted: isMuted, needToSendToWeb: true) )
     }

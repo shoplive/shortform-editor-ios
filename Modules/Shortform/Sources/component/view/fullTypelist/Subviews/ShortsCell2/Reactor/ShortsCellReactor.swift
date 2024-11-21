@@ -708,6 +708,7 @@ extension ShortsCellReactor {
             }
             
             let jsRequest : [JSRequest] = [(.ON_CHANGED_USER_AUTH_SDK, payload)]
+            
             if ShopLiveShortform.BridgeInterface.isBridgeConnected() {
                 resultHandler?( .requestEvaluateJSForExternalWebView(jsRequest))
             }
@@ -716,7 +717,6 @@ extension ShortsCellReactor {
             }
         }
     }
-    
     
     private func onShortformDetailInitialized() {
         sendSafeAreaInfoToWeb()

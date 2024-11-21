@@ -24,6 +24,7 @@ class SLVideoMainFilterSubReactor : NSObject, SLReactor {
         case registerCv(UICollectionView)
         case setIntensity(CGFloat)
         case setToOrigin
+        case onConfirm
         
     }
     
@@ -31,6 +32,8 @@ class SLVideoMainFilterSubReactor : NSObject, SLReactor {
         case setFilterConfig(String)
         case setInitialIntensity(CGFloat)
         case activateSlider(Bool)
+        case confirmedWithChange
+        case confirmedWithOrigin
     }
     
     
@@ -38,10 +41,15 @@ class SLVideoMainFilterSubReactor : NSObject, SLReactor {
     
     private var videoEditInfoDTO : SLVideoEditInfoDTO?
     private var thumbnailImage : UIImage?
-    private var filterList : [Filters] = ShopLiveShortformEditorFilterListManager.shared.filterList
+//
+    
+    private var filterList : [Filters] = [Filters(title: ShopLiveShortformEditorSDKStrings.Editor.Filter.Origin.Cell.title, content: "", type: "CGE")] + ShopLiveShortformEditorFilterListManager.shared.filterList
     private var cv : UICollectionView?
     private var initialIntensity : CGFloat = 0.7
     private var initialFilterConfig : String = ""
+    
+    private let defaultIntensity : CGFloat = 0.7
+    private var defaultFilterConfig : String = ""
     
     override init() {
         super.init()
@@ -63,12 +71,14 @@ class SLVideoMainFilterSubReactor : NSObject, SLReactor {
             self.onSetIntensity(intensity: value)
         case .setToOrigin:
             self.onSetToOrigin()
+        case .onConfirm:
+            self.onConfirm()
         }
-        
     }
     
     private func onInitialize() {
-        resultHandler?( .setInitialIntensity(self.initialIntensity) )
+        // initialIntensity는 0 ~ 1 값이므로 슬라이더에는 * 100을 해주어서 넘겨야 됨
+        resultHandler?( .setInitialIntensity(self.initialIntensity * 100) )
         resultHandler?( .setFilterConfig(self.initialFilterConfig) )
     }
     
@@ -120,6 +130,16 @@ class SLVideoMainFilterSubReactor : NSObject, SLReactor {
         resultHandler?( .setFilterConfig(""))
         resultHandler?( .setInitialIntensity(self.initialIntensity) )
     }
+    
+    private func onConfirm() {
+        guard let videoEditInfoDto = self.videoEditInfoDTO else { return }
+        if videoEditInfoDto.filterConfig?.filterConfig ?? "" == defaultFilterConfig && videoEditInfoDto.filterConfig?.filterIntensity ?? 0.7 == Float(defaultIntensity) {
+            resultHandler?( .confirmedWithOrigin )
+        }
+        else {
+            resultHandler?( .confirmedWithChange )
+        }
+    }
 }
 extension SLVideoMainFilterSubReactor : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -146,7 +166,6 @@ extension SLVideoMainFilterSubReactor : UICollectionViewDelegate, UICollectionVi
         let isSelected = videoEditInfoDTO?.filterConfig?.filterConfig == filter.content
         cell.configure(filterConfig: filter.content ?? "" , isSelected: isSelected, thumbNail: self.thumbnailImage)
         
-
         return cell
     }
     

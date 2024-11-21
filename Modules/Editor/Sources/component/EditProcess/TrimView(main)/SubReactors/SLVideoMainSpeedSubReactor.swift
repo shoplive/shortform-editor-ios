@@ -31,8 +31,9 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
         case onValueChanged
         case setSliderValue(CGFloat)
         case showToast(String)
-        case onConfirm
-        
+//        case onConfirm
+        case confirmWithOrigin
+        case confirmWithChange
     }
     
     var resultHandler: ((Result) -> ())?
@@ -42,6 +43,7 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
     private var editingStartSpeedValue : Double = 0
     private var currentVideoDurationString : String = ""
     private var currentVideoDurationCGFloat : CGFloat = 0
+    private let defaultVideoSpeed : Double = 1.0
     
     func action(_ action: Action) {
         switch action {
@@ -118,7 +120,13 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
             resultHandler?( .showToast(message) )
         }
         else {
-            resultHandler?( .onConfirm )
+            guard let dto = self.videoEditInfoDTO else { return }
+            if dto.videoSpeed == defaultVideoSpeed {
+                resultHandler?( .confirmWithOrigin )
+            }
+            else {
+                resultHandler?( .confirmWithChange )
+            }
         }
     }
     

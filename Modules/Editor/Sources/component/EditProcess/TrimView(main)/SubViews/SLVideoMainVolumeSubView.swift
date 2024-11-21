@@ -67,7 +67,8 @@ class SLVideoMainVolumeSubView : UIView, SLReactor {
     }
     
     enum Result {
-        case confirm
+        case confirmWithChange
+        case confirmWithOrigin
         case togglePlayPause
         case closeBtn
         case onValueChanged(CGFloat)
@@ -93,7 +94,7 @@ class SLVideoMainVolumeSubView : UIView, SLReactor {
     }
     
     @objc func onConfirmBtnTapped(sender : UIButton) {
-        resultHandler?( .confirm )
+        reactor.action( .onConfirm )
     }
     
     @objc func onPlayPauseBtnTapped(sender : UIButton) {
@@ -163,6 +164,10 @@ extension SLVideoMainVolumeSubView {
                     self.onReactorSetInitialValue(value: value)
                 case .setSliderValue(let value):
                     self.onReactorSetSliderValue(value : value)
+                case .confirmWithChange:
+                    self.onReactorConfirmWithChange()
+                case .confirmWithOrigin:
+                    self.onReactorConfirmWithOrigin()
                 }
             }
         }
@@ -176,6 +181,14 @@ extension SLVideoMainVolumeSubView {
         sliderView.action( .setCurrentValue(CGFloat(value)) )
         sliderView.action( .setValueLabel(String(Int(value))) )
         resultHandler?( .onValueChanged(CGFloat(value)) )
+    }
+    
+    private func onReactorConfirmWithChange() {
+        resultHandler?( .confirmWithChange )
+    }
+    
+    private func onReactorConfirmWithOrigin() {
+        resultHandler?( .confirmWithOrigin )
     }
     
 }

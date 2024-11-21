@@ -69,6 +69,7 @@ public class ShopLiveShortform {
         internalShortFormRequestData.brands = requestData.brands
         internalShortFormRequestData.shuffle = requestData.shuffle
         internalShortFormRequestData.shortsId = requestData.shortsId
+        internalShortFormRequestData.delegate = requestData.delegate
         Self.isEnabledVolumeKey = requestData.isEnabledVolumeKey
         
         self.showRelatedPreview(reference: requestData.reference, shortsId: requestData.shortsId, shortsSrn: nil, requestModel: internalShortFormRequestData, shortsList: [], shortsCollectionModel: nil,shopliveSessionId: nil, previewOptionDto: ShortformPreviewOptionDTO(previewData: requestData))

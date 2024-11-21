@@ -209,15 +209,10 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
     
     private func calculateTrimTimeDuration() {
         let gapWidth = betweenHandleContainerView.bounds.width
-        let gapSecond = Int(gapWidth * timePerPixel)
-        if gapSecond > 60 {
-            let min = Int(gapSecond / 60)
-            let sec = gapSecond % 60
-            trimDurationLabel.text = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Minute.Seconds.label(min, sec)
-        }
-        else {
-            trimDurationLabel.text = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(gapSecond)
-        }
+        ShopLiveLogger.tempLog("[TIMETRIMDURATION] gapWidth * timePerPixel \(gapWidth * timePerPixel)")
+        let gapSecond = Int((gapWidth * timePerPixel).rounded())
+        
+        trimDurationLabel.text = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(gapSecond)
     }
     
     private func blockHandleWhenVideoDurationIsShorterThenMinTrimTime() {

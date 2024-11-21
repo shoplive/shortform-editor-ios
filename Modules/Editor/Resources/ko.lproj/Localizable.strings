@@ -72,6 +72,7 @@
 //필터
 "editor.filter.page.title" = "필터";
 "editor.filter.btn.confirm.title" = "완료";
+"editor.filter.origin.cell.title" = "원본";
 
 //볼륨
 "editor.volume.page.title" = "볼륨";

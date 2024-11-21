@@ -271,6 +271,7 @@ class ShortsCollectionBaseViewModel : NSObject {
     func getShortsListDataForV2ActivePage() -> [ShortsModel]? {
         return nil
     }
+    
 }
 //MARK: - util functions
 extension ShortsCollectionBaseViewModel {
@@ -490,6 +491,7 @@ extension ShortsCollectionBaseViewModel {
         payloadDict["ids"] = self.shortsListData.compactMap({ $0.shortsId }).joined(separator: ",")
         let shortsDict = shortsModel?.getRawDataDict()
         payloadDict["shorts"] = shortsDict
+        
         return payloadDict
     }
     

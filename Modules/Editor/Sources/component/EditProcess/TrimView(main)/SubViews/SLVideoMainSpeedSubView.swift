@@ -87,7 +87,8 @@ class SLVideoMainSpeedSubView : UIView, SLReactor {
     }
     
     enum Result {
-        case confirm
+        case confirmWithChange
+        case confirmWithOrigin
         case togglePlayPause
         case closeBtn
         case onValueChanged
@@ -189,8 +190,10 @@ extension SLVideoMainSpeedSubView {
                     self.onReactorOnValueChanged()
                 case .setSliderValue(let value):
                     self.onReactorSetSliderValue(value : value)
-                case .onConfirm:
-                    self.onReactorOnConfirm()
+                case .confirmWithChange:
+                    self.onReactorConfirmWithChange()
+                case .confirmWithOrigin:
+                    self.onReactorConfirmWithOrigin()
                 case .showToast(let toastMessage):
                     self.onReactorShowtoast(message : toastMessage)
                 }
@@ -215,8 +218,12 @@ extension SLVideoMainSpeedSubView {
         self.sliderView.action( .setValueLabel(String(format: "%.1f", value) + "x"))
     }
     
-    private func onReactorOnConfirm() {
-        resultHandler?( .confirm)
+    private func onReactorConfirmWithChange() {
+        resultHandler?( .confirmWithChange )
+    }
+    
+    private func onReactorConfirmWithOrigin() {
+        resultHandler?( .confirmWithOrigin )
     }
     
     private func onReactorShowtoast(message : String) {
@@ -239,7 +246,7 @@ extension SLVideoMainSpeedSubView {
     }
     
     private func onSliderCurrentValue(value : CGFloat) {
-        reactor.action( .setSpeed(value) )
+        reactor.action( .setSpeed( (value * 10).rounded() / 10 ) )
         sliderView.action( .setValueLabel(String(format: "%.1f", value) + "x"))
     }
 }

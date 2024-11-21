@@ -350,7 +350,6 @@ extension ShopLiveShortform {
                         ShortformEventTraceManager.processDetailOnPlayerShow(shortsCollectionSrn: self.shortsCollectionView?.getCurrentShortsSrn(), shopliveSessionId: sessionId)
                         ShortformNativeOnEventsManager.sendNativeOnEvents(delegate: self.shortformDelegate,command: .detail_on_player_shown, payload: nil, shortsId: nil, shortsDetail: nil)
                         self.shortformDelegate?.onDidAppear?()
-//                        ShopLiveShortform.Delegate.receiveHandler.delegate?.onDidAppear?()
                     }
                 }
             }
@@ -361,7 +360,6 @@ extension ShopLiveShortform {
                 self.shortformWindow.layer.cornerRadius = 0
                 self.shortformWindow.layoutIfNeeded()
                 shortformDelegate?.onDidAppear?()
-//                ShopLiveShortform.Delegate.receiveHandler.delegate?.onDidAppear?()
             }
         }
         

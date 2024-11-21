@@ -67,7 +67,6 @@ class SLPhotosPickerReactor : NSObject, SLReactor {
     private var queue = DispatchQueue(label: "shoplive.photos.pikcker.queue")
     private var queueForGroupedBy = DispatchQueue(label: "shoplive.photos.pikcker.queue.for.groupedBy", qos: .utility)
     
-    
    
     
     
@@ -325,11 +324,16 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
                         return
                     }
                 }
-                asset.phAsset?.getVideoURl(completion: { [weak self] absoluteUrl,relativeUrl in
+               
+                guard let phAsset = asset.phAsset else  {
+                    self.resultHandler?( .requsetFinishLoading )
+                    return
+                }
+                self.getVideoUrlFromPhAsset(phAsset: phAsset) { [weak self] absoluteUrl,relativeUrl in
                     guard let absoluteUrl = absoluteUrl, let relativeUrl = relativeUrl else { return }
                     self?.resultHandler?( .requsetFinishLoading )
                     self?.resultHandler?( .didSelectVideo((absoluteUrl,relativeUrl)))
-                })
+                }
             }
             else if self.pickerConfigure.mediaType == .image {
                 asset.phAsset?.getImageUrl(completion: { [weak self] imageUrl in
@@ -339,6 +343,37 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
                 })
             }
         }
+    }
+    
+    private func getVideoUrlFromPhAsset(phAsset : PHAsset, completion : @escaping((absoluteUrl : URL?, relativeUrl : URL?)) -> () ) {
+        guard phAsset.mediaType == .video else {
+            completion((nil,nil))
+            return
+        }
+        let options: PHVideoRequestOptions = PHVideoRequestOptions()
+        options.deliveryMode = .automatic
+        options.version = .current
+        options.isNetworkAccessAllowed = true
+        
+        PHImageManager.default().requestAVAsset(forVideo: phAsset, options: options, resultHandler: { [weak self] (asset: AVAsset?, audioMix: AVAudioMix?, info: [AnyHashable : Any]?) -> Void in
+            guard let asset = asset else { return }
+            
+            let dirPath = SLFileManager.editorDirectoryPath
+            let outputURL = dirPath.appendingPathComponent("\(UUID().uuidString)_ShopLive.mp4")
+            
+            let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality)
+            exportSession?.outputURL = outputURL
+            exportSession?.outputFileType = .mp4
+            
+            exportSession?.exportAsynchronously {
+                if exportSession?.status == .completed {
+                    completion((outputURL,outputURL))
+                } else {
+                    ShopLiveLogger.tempLog("[SLPHOTOPICKER] exportSession error \(exportSession?.error?.localizedDescription)")
+                    completion((nil,nil))
+                }
+            }
+        })
     }
 }
 extension SLPhotosPickerReactor : UICollectionViewDataSourcePrefetching {

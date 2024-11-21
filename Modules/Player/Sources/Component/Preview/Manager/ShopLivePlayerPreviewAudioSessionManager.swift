@@ -18,7 +18,7 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
     static let shared = ShopLivePlayerPreviewAudioSessionManager()
     
     enum Action {
-        case setSoundMuteStateOnFirstPlay
+        case setSoundMuteStateOnFirstPlay(isMuted : Bool)
         case cleanUpMemory
         case setIsReplayMode(Bool)
         case setAudioSessionCategory
@@ -57,8 +57,8 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
             self.onSetIsReplayMode(isReplayMode: isReplayMode)
         case .cleanUpMemory:
             self.onCleanUpMemory()
-        case .setSoundMuteStateOnFirstPlay:
-            self.onSetSoundMuteStateOnFirtPlay()
+        case .setSoundMuteStateOnFirstPlay(let isMuted):
+            self.onSetSoundMuteStateOnFirstPlay(isMuted : isMuted)
         case .setAudioSessionCategory:
             self.onSetAudioSessionCategory()
         }
@@ -84,8 +84,9 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
         SLAudioSessionManager.shared.setActive(true, options: [.notifyOthersOnDeactivation])
     }
 
-    private func onSetSoundMuteStateOnFirtPlay() {
-        var isMuted = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
+    private func onSetSoundMuteStateOnFirstPlay(isMuted : Bool) {
+//        var isMuted = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
+        var isMuted = isMuted
         if SLAudioSessionManager.shared.audioSession.outputVolume == 0 {
             isMuted = true
         }

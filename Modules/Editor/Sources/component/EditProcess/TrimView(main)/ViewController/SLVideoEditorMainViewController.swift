@@ -318,6 +318,7 @@ class SLVideoEditorMainViewController : UIViewController {
             filterAddBtn.isSelected = false
             return
         }
+        reactor.action( .setEditingMode(.filter) )
         filterControlBox.action( .setThumbnail(self.timeTrimSliderView.getFirstThumbnailImage()) )
         animateControlBox(to: .filter) { [weak self] in
             guard let self = self else { return }
@@ -333,6 +334,7 @@ class SLVideoEditorMainViewController : UIViewController {
             videoCropBtn.isSelected = false
             return
         }
+        reactor.action( .setEditingMode(.crop) )
         animateControlBox(to: .crop)
         filterPlayerView.action( .hideCropView(false) )
         filterPlayerView.action( .saveStartCropRect )
@@ -344,6 +346,7 @@ class SLVideoEditorMainViewController : UIViewController {
             videoSoundBtn.isSelected = false
             return
         }
+        reactor.action( .setEditingMode(.volume) )
         animateControlBox(to : .volume)
         volumeControlBox.action( .saveEditingStartValue)
     }
@@ -354,6 +357,7 @@ class SLVideoEditorMainViewController : UIViewController {
             videoSpeedBtn.isSelected = false
             return
         }
+        reactor.action( .setEditingMode(.speed) )
         animateControlBox(to : .speed)
         speedRateControlBox.action( .saveEditingStartSpeedValue )
     }
@@ -650,8 +654,10 @@ extension SLVideoEditorMainViewController {
             switch result {
             case .closeBtn:
                 break
-            case .confirm:
-                self.onSpeedControlBoxConfirm()
+            case .confirmWithChange:
+                self.onSpeedControlBoxConfirmWithChange()
+            case .confirmWithOrigin:
+                self.onSpeedControlBoxConfirmWithOrigin()
             case .togglePlayPause:
                 self.reactor.action( .requestToggleVideoPlayOrPause )
             case .onValueChanged:
@@ -666,8 +672,14 @@ extension SLVideoEditorMainViewController {
         reactor.action(.applyVideoConfiChange(.speed) )
     }
     
-    private func onSpeedControlBoxConfirm() {
+    private func onSpeedControlBoxConfirmWithChange() {
         videoSpeedBtn.isSelected = true
+        reactor.action( .applyVideoConfiChange(.all) )
+        animateControlBox(to : .main)
+    }
+    
+    private func onSpeedControlBoxConfirmWithOrigin() {
+        videoSpeedBtn.isSelected = false
         reactor.action( .applyVideoConfiChange(.all) )
         animateControlBox(to : .main)
     }
@@ -685,8 +697,10 @@ extension SLVideoEditorMainViewController {
             switch result {
             case .closeBtn:
                 break
-            case .confirm:
-                self.onVolumeControlBoxConfirm()
+            case .confirmWithChange:
+                self.onVolumeControlBoxConfirmWithChange()
+            case .confirmWithOrigin:
+                self.onVolumeControlBoxConfirmWithOrigin()
             case .togglePlayPause:
                 self.reactor.action( .requestToggleVideoPlayOrPause )
             case .onValueChanged(let volume):
@@ -695,8 +709,14 @@ extension SLVideoEditorMainViewController {
         }
     }
     
-    private func onVolumeControlBoxConfirm() {
+    private func onVolumeControlBoxConfirmWithChange() {
         videoSoundBtn.isSelected = true
+        reactor.action( .applyVideoConfiChange(.all) )
+        animateControlBox(to: .main)
+    }
+    
+    private func onVolumeControlBoxConfirmWithOrigin() {
+        videoSoundBtn.isSelected = false
         reactor.action( .applyVideoConfiChange(.all) )
         animateControlBox(to: .main)
     }
@@ -711,8 +731,10 @@ extension SLVideoEditorMainViewController {
         filterControlBox.resultHandler = { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .confirm:
-                self.onFilterControlBoxConfirm()
+            case .confirmedWithChange:
+                self.onFilterControlBoxConfirmWithChange()
+            case .confirmedWithOrigin:
+                self.onFilterControlBoxConfirmWithOrigin()
             case .onValueChanged:
                 self.onFilterControlBoxOnValueChanged()
             case .togglePlayPause:
@@ -723,8 +745,14 @@ extension SLVideoEditorMainViewController {
         }
     }
     
-    private func onFilterControlBoxConfirm() {
+    private func onFilterControlBoxConfirmWithChange() {
         filterAddBtn.isSelected = true
+        self.reactor.action( .applyVideoConfiChange(.all) )
+        animateControlBox(to : .main)
+    }
+    
+    private func onFilterControlBoxConfirmWithOrigin() {
+        filterAddBtn.isSelected = false
         self.reactor.action( .applyVideoConfiChange(.all) )
         animateControlBox(to : .main)
     }

@@ -63,7 +63,7 @@ extension V2ShortformExample : ShortsCollectionViewDataSourcRequestDelegate {
                 self.reference = response.reference
                 self.hasMore = response.hasMore
                 let idsData = response.shortsList?.compactMap({ shortsModel in
-                    return ShopLiveShortformIdData(shortsId: shortsModel.shortsId ?? "", payload: ["title" : "title for \(shortsModel.shortsId)", "description" : "descriptinos \(shortsModel.shortsId)"])
+                    return ShopLiveShortformIdData(shortsId: shortsModel.shortsId ?? "", payload: ["createIsFollow" : true] )
                 })
                 let moreData = ShopLiveShortformIdsMoreData(ids: idsData ,hasMore: hasMore)
                 completion(moreData,nil)
@@ -82,7 +82,7 @@ struct TestShortsCollectionAPI: APIDefinition {
     typealias ResultType = ShopLiveShortform.ShortsCollectionModel
 
     var baseUrl: String {
-        "https://qa-shortform-api.shoplive.cloud"
+        "https://dev-shortform-api.shoplive.cloud"
     }
 
     var urlPath: String {

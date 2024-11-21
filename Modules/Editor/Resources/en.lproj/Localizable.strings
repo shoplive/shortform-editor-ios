@@ -73,6 +73,7 @@
 //필터
 "editor.filter.page.title" = "Filter";
 "editor.filter.btn.confirm.title" = "confirm";
+"editor.filter.origin.cell.title" = "Origin";
 
 //볼륨
 "editor.volume.page.title" = "Volume";

@@ -23,7 +23,8 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     
     private var overlayUrl : URL?
     private var currentNetworkCapability : String = ""
-    private var isMuted : Bool = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
+    private var isMuted: Bool = true
+//    ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
     private var player : AVPlayer?
     private var urlAsset : AVURLAsset?
     private var playerItem : AVPlayerItem?
@@ -299,11 +300,11 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     }
     
     private func onSetSoundMuteStateOnWebViewSetConf() {
-        ShopLivePlayerPreviewAudioSessionManager.shared.action( .setSoundMuteStateOnFirstPlay )
-//        audioSessionManager?.action( .setSoundMuteStateOnFirstPlay )
+        ShopLivePlayerPreviewAudioSessionManager.shared.action( .setSoundMuteStateOnFirstPlay(isMuted: self.isMuted) )
     }
     
     private func onSetSoundMute(isMuted: Bool, needToSendToWeb: Bool) {
+        self.isMuted = isMuted
         player?.isMuted = isMuted
         if needToSendToWeb {
             resultHandler?( .sendEventToWeb(event: .setVideoMute(isMuted: isMuted), param: isMuted, wrapping: false, dedicatedCompletionType: .isMuted))
@@ -601,7 +602,7 @@ extension ShopLivePlayerPreviewViewModel {
     
     private func setSoundMuteStateOnFirstPlay() {
         guard timeControlStatusManager?.getIsAlreadyPlayedOnce() == false else { return }
-        ShopLivePlayerPreviewAudioSessionManager.shared.action( .setSoundMuteStateOnFirstPlay )
+        ShopLivePlayerPreviewAudioSessionManager.shared.action( .setSoundMuteStateOnFirstPlay(isMuted: self.isMuted) )
     }
     
     /**
@@ -780,6 +781,7 @@ extension ShopLivePlayerPreviewViewModel {
     }
     
     private func onPlayerItemStatusReadyToPlay() {
+        self.player?.isMuted = isMuted
         guard let pm = playControlManager else { return }
         ShopLiveLogger.tempLog("[PlayerStatus] playerItemReadyToPlay")
         if pm.getCurrentPlayCommand() != .pause, pm.getCurrentPlayCommand() != .play {
@@ -1247,5 +1249,4 @@ extension ShopLivePlayerPreviewViewModel {
     private func onAudioSessionManagerRequestStopVideo() {
         playControlManager?.playControlAction( .stop )
     }
-    
 }

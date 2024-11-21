@@ -50,12 +50,49 @@ class CacheOptionBox : UIView {
     }()
     
     
+    private let hlsRemoveCacheLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        let cacheSize = ShopliveMP4CachingManager.shared.getCachedSize()
+        label.text = "HLS Cache 용량/삭제"
+        return label
+    }()
+    
+    private let hlsCacheSizeLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        let cacheSize = SLFileManager.getShortformDirectorySize()
+        label.text = "(\(cacheSize ?? "0.0"))"
+        return label
+    }()
+    
+    private let hlsRemoveCacheBtn : UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("캐시 삭제", for: .normal)
+        btn.setTitleColor(UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0), for: .normal)
+        btn.setTitleColor(.white, for: .selected)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        btn.backgroundColor = .white
+        btn.layer.cornerRadius = 10
+        btn.layer.borderColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0).cgColor
+        btn.layer.borderWidth = 1
+        btn.tag = 1
+        return btn
+    }()
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setLayout()
         
         
         removeCacheBtn.addTarget(self, action: #selector(removeCacheBtnTapped(sender: )), for: .touchUpInside)
+        hlsRemoveCacheBtn.addTarget(self, action: #selector(removeHLSCacheBtnTapped(sender: )), for: .touchUpInside)
         
         
     }
@@ -70,11 +107,20 @@ class CacheOptionBox : UIView {
         cacheSizeLabel.text = "(\(cacheSize ?? "0.0"))"
     }
     
+    @objc func removeHLSCacheBtnTapped(sender : UIButton) {
+        SLFileManager.deleteShortformDirectoryFiles()
+        let cacheHLSSize = SLFileManager.getShortformDirectorySize()
+        hlsCacheSizeLabel.text = "(\(cacheHLSSize ?? "0.0"))"
+    }
+    
     func reloadCacheSize() {
         let cacheSize = ShopliveMP4CachingManager.shared.getCachedSize()
         cacheSizeLabel.text = "(\(cacheSize ?? "0.0"))"
         let type = ShopliveMP4CachingManager.shared.getCurrentCacheType()
         cacheTypeBox.setCacheTypeOnInit(type: type)
+        
+        let cacheHLSSize = SLFileManager.getShortformDirectorySize()
+        hlsCacheSizeLabel.text = "(\(cacheHLSSize ?? "0.0"))"
     }
 }
 extension CacheOptionBox {
@@ -92,20 +138,40 @@ extension CacheOptionBox {
         cacheStack.axis = .horizontal
         cacheStack.distribution = .equalSpacing
     
+        
+        
+        
+        let innerHLSCacheStack = UIStackView(arrangedSubviews: [hlsCacheSizeLabel,hlsRemoveCacheBtn])
+        innerHLSCacheStack.translatesAutoresizingMaskIntoConstraints = false
+        innerHLSCacheStack.isLayoutMarginsRelativeArrangement = true
+        innerHLSCacheStack.layoutMargins = UIEdgeInsets(top: 3, left: 0, bottom: 3, right: 0)
+        innerHLSCacheStack.axis = .horizontal
+        innerHLSCacheStack.spacing = 10
+        
+        let cacheHLSStack = UIStackView(arrangedSubviews: [hlsRemoveCacheLabel, innerHLSCacheStack])
+        cacheHLSStack.translatesAutoresizingMaskIntoConstraints = false
+        cacheHLSStack.axis = .horizontal
+        cacheHLSStack.distribution = .equalSpacing
+        
+        
+        
         let stack = UIStackView(arrangedSubviews: [
             cacheTypeBox,
-            cacheStack
+            cacheStack,
+            cacheHLSStack
         ])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = 10
         stack.isLayoutMarginsRelativeArrangement = true
         stack.layoutMargins = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        
         self.addSubview(stack)
         
         NSLayoutConstraint.activate([
             removeCacheBtn.widthAnchor.constraint(equalToConstant: 60),
             cacheStack.heightAnchor.constraint(equalToConstant: 40),
+            cacheHLSStack.heightAnchor.constraint(equalToConstant: 40),
             
             stack.topAnchor.constraint(equalTo: self.topAnchor),
             stack.leadingAnchor.constraint(equalTo: self.leadingAnchor),

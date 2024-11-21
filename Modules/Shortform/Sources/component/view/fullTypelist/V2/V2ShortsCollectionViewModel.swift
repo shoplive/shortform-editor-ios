@@ -245,7 +245,7 @@ extension V2ShortsCollectionViewModel {
         return self.blockScrollViewDidScrollPagination
     }
     
-    func getPayloadDictFor(shortsId : String) -> [String : Any]? {
+    func getCustomShortformPayloadDictFor(shortsId : String) -> [String : Any]? {
         if let payloadDict = shortFormIdPayloadDict[shortsId] {
             return payloadDict
         }

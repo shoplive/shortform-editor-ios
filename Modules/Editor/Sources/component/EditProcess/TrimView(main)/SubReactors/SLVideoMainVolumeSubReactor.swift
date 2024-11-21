@@ -20,11 +20,14 @@ class SLVideoMainVolumeSubReactor : NSObject, SLReactor {
         case saveEditingStartValue
         case revertChange
         case setToOrigin
+        case onConfirm
     }
     
     enum Result {
         case setInitialValue(CGFloat)
         case setSliderValue(Int)
+        case confirmWithOrigin
+        case confirmWithChange
     }
     
     
@@ -33,6 +36,7 @@ class SLVideoMainVolumeSubReactor : NSObject, SLReactor {
     
     private var videoEditInfoDTO : SLVideoEditInfoDTO?
     private var editingStartValue : Int = 100
+    private let defaultVolume : Int = 100
     
     func action(_ action: Action) {
         switch action {
@@ -48,6 +52,8 @@ class SLVideoMainVolumeSubReactor : NSObject, SLReactor {
             self.onRevertChange()
         case .setToOrigin:
             self.onSetToOrigin()
+        case .onConfirm:
+            self.onConfirm()
         }
     }
     
@@ -78,5 +84,15 @@ class SLVideoMainVolumeSubReactor : NSObject, SLReactor {
         editingStartValue = 100
         self.videoEditInfoDTO?.volume = self.editingStartValue
         self.resultHandler?( .setSliderValue(self.editingStartValue) )
+    }
+    
+    private func onConfirm() {
+        guard let dto = self.videoEditInfoDTO else { return }
+        if dto.volume == defaultVolume {
+            resultHandler?( .confirmWithOrigin )
+        }
+        else {
+            resultHandler?( .confirmWithChange )
+        }
     }
 }
