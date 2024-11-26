@@ -75,7 +75,6 @@ class SLVideoFrameSliderReactor : NSObject, SLReactor {
     private var imageGenerator : AVAssetImageGenerator?
     private var imageGeneratorQueue = DispatchQueue(label: "shopLiveImageGeneratorQueue",qos: .background)
     private var maxFrameCounts : Int = 0
-    private var frameImages : [UIImage] = []
     private var newFrameImageDataSource : [Int : UIImage] = [:]
     private var index2timeDict : [Int : Double] = [:]
     private var time2ImageDict : [Double : UIImage] = [:]
@@ -129,7 +128,6 @@ class SLVideoFrameSliderReactor : NSObject, SLReactor {
     }
     
     private func onResetAndRedraw() {
-        self.frameImages.removeAll()
         self.onCalculateFrameSize()
     }
     
@@ -391,7 +389,8 @@ extension SLVideoFrameSliderReactor : UICollectionViewDelegate, UICollectionView
 //MARK: - Getter
 extension SLVideoFrameSliderReactor {
     func getFirstThumbnailImage() -> UIImage {
-        return self.frameImages.first ?? ShopLiveShortformEditorSDKAsset.slIcHotAirBallon.image
+        let firstFrameImage = time2ImageDict.sorted(by: { $0.key < $1.key }).first?.value
+        return firstFrameImage ?? ShopLiveShortformEditorSDKAsset.slIcHotAirBallon.image
     }
     
     func getMaxTrimTime() -> CGFloat {

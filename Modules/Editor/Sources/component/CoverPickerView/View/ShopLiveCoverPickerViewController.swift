@@ -163,6 +163,7 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
     enum Action {
 //        case setVideoUrl(URL)
         case setShopLiveCoverPickerData(ShopLiveCoverPickerData?)
+        case setEditorResultData(ShopLiveEditorResultInternalData?)
         case setPlayer
         case initializeSliderView
     }
@@ -172,7 +173,8 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         case onFinished
         case backBtnTapped
         case onSuccessImage(UIImage?)
-        case onSuccessUpload(shortsId : String)
+        case onSuccessUpload(result : ShopLiveEditorResultInternalData?)
+        case onEvent(name : EventTrace, payload : [String : Any]?)
     }
     
     var resultHandler : ((Result) -> ())?
@@ -222,14 +224,17 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
     }
     
     @objc func closeBtnTapped(sender : UIButton) {
+        resultHandler?( .onEvent(name: .COVER_PICKER_CLICK_CLOSE, payload: nil))
         resultHandler?( .backBtnTapped )
     }
    
     @objc func confirmBtnTapped(sender : UIButton) {
+        resultHandler?( .onEvent(name: .COVER_PICKER_CLICK_CONFIRM, payload: nil))
         reactor.action( .requestOnConfirm )
     }
     
     @objc func cameraBtnTapped(sender : UIButton) {
+        resultHandler?( .onEvent(name: .COVER_PICKER_CLICK_CAMERA_ROLL, payload: nil))
         picker = nil
         picker = SLPhotosPickerViewController(mediaType: .image, permissionDelegate: ShopLiveShortformEditor.shared.getShoplivePermissionHandler())
         picker!.delegate = reactor
@@ -250,6 +255,8 @@ extension ShopLiveCoverPickerViewController {
         switch action {
         case .setShopLiveCoverPickerData(let data):
             self.onSetShopLiveCoverPickerData(data: data)
+        case .setEditorResultData(let result):
+            self.onSetEditorResultData(result : result)
         case .setPlayer:
             self.onSetPlayer()
         case .initializeSliderView:
@@ -261,6 +268,10 @@ extension ShopLiveCoverPickerViewController {
         reactor.action( .setShopLiveCoverPickerData(data) )
         guard let data = data else { return }
         reactor.action( .setVideoUrl(data.videoUrl) )
+    }
+    
+    private func onSetEditorResultData(result : ShopLiveEditorResultInternalData?) {
+        reactor.action( .setEditorResultData(result) )
     }
     
     private func onSetVideoUrl(url : URL) {
@@ -303,8 +314,10 @@ extension ShopLiveCoverPickerViewController {
                 self.onReactorOnError(error : error)
             case .requestShowLoading:
                 self.onReactorShowLoading()
-            case .uploadSuccess(shortsId: let shortsId):
-                self.onReactorUploadSuccess(shortsId: shortsId)
+            case .uploadSuccess(result: let result):
+                self.onReactorUploadSuccess(result: result)
+            case .onEvent(name: let name , payload: let payload):
+                self.onReactorOnEvent(name : name, payload : payload)
             }
         }
     }
@@ -358,8 +371,12 @@ extension ShopLiveCoverPickerViewController {
         self.present(self.loadingProgress, animated: false)
     }
     
-    private func onReactorUploadSuccess(shortsId : String) {
-        self.resultHandler?( .onSuccessUpload(shortsId: shortsId) )
+    private func onReactorUploadSuccess(result : ShopLiveEditorResultInternalData?) {
+        self.resultHandler?( .onSuccessUpload(result: result) )
+    }
+    
+    private func onReactorOnEvent(name : EventTrace, payload : [String : Any]?) {
+        self.resultHandler?( .onEvent(name: name, payload: payload) )
     }
 }
 extension ShopLiveCoverPickerViewController {

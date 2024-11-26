@@ -88,4 +88,8 @@ extension ShopLiveMediaPicker : SLPhotosPickerViewControllerDelegate {
         Self.shared.close()
         Self.shared.delegate?.onShopLiveMediaPickerCancelled?()
     }
+    
+    func photoPickerOnEvent(name: EventTrace, payload: [String : Any]?) {
+        Self.shared.delegate?.onShopLiveMediaPickerOnEvent?(name: name.rawValue, payload: payload)
+    }
 }

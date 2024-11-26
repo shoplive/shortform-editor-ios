@@ -479,29 +479,24 @@ extension ShopLiveFilterPlayer {
     private func redrawGLKView(size : CGSize, centerCrop : Bool, mode : ShopLiveFilterPlayerReactor.Mode) {
         let frameHeight = self.frame.height
         let frameWidth = self.frame.width
-        if mode == .videoEditing {
+        
+        if centerCrop {
             glkViewWidthAnc.constant = frameWidth
             glkViewHeightAnc.constant = frameHeight
         }
         else {
-            if centerCrop {
-                glkViewWidthAnc.constant = frameWidth
+            if size.width < size.height {
+                glkViewWidthAnc.constant = frameHeight * (size.width / size.height)
                 glkViewHeightAnc.constant = frameHeight
             }
             else {
-                if size.width < size.height {
+                if UIScreen.isLandscape_SL {
                     glkViewWidthAnc.constant = frameHeight * (size.width / size.height)
                     glkViewHeightAnc.constant = frameHeight
                 }
                 else {
-                    if UIScreen.isLandscape_SL {
-                        glkViewWidthAnc.constant = frameHeight * (size.width / size.height)
-                        glkViewHeightAnc.constant = frameHeight
-                    }
-                    else {
-                        glkViewWidthAnc.constant = self.frame.width
-                        glkViewHeightAnc.constant = self.frame.width * (size.height / size.width)
-                    }
+                    glkViewWidthAnc.constant = self.frame.width
+                    glkViewHeightAnc.constant = self.frame.width * (size.height / size.width)
                 }
             }
         }

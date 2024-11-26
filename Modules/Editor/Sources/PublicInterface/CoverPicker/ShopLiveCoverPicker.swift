@@ -91,8 +91,10 @@ extension ShopLiveCoverPicker {
                 Self.shared.onPickerControllerError(error: error)
             case .onSuccessImage(let image):
                 Self.shared.onPickerControllerOnSuccessImage(image: image)
-            case .onSuccessUpload(shortsId: let shortsId):
-                Self.shared.onPickerControllerOnSuccessUpload(shortsId: shortsId)
+            case .onSuccessUpload(result: let result):
+                Self.shared.onPickerControllerOnSuccessUpload(result: result)
+            case .onEvent(name: let name, payload: let payload):
+                Self.shared.onPickerControllerOnEvent(name: name, payload: payload)
             }
         }
     }
@@ -114,7 +116,11 @@ extension ShopLiveCoverPicker {
         Self.shared.delegate?.onShopLiveCoverPickerCoverImageSuccess?(image: image)
     }
     
-    private func onPickerControllerOnSuccessUpload(shortsId : String) {
-        Self.shared.delegate?.onShopLiveCoverPickerUploadSuccess?(shortsId: shortsId)
+    private func onPickerControllerOnSuccessUpload(result : ShopLiveEditorResultInternalData?) {
+        Self.shared.delegate?.onShopLiveCoverPickerUploadSuccess?(result: result?.convertToClass())
+    }
+    
+    private func onPickerControllerOnEvent(name : EventTrace, payload : [String : Any]?) {
+        Self.shared.delegate?.onShopLiveCoverPickerOnEvent?(name: name.rawValue, payload: payload)
     }
 }

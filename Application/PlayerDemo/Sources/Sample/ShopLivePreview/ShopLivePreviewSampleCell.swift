@@ -20,7 +20,7 @@ class ShopLivePreviewSampleCell : UICollectionViewCell {
     
     
     
-    let preview = ShopLivePlayerPreview()
+    var preview = ShopLivePlayerPreview()
     var indexPath : IndexPath?
     
     weak var delegate : ShopLivePreviewSampleCellDelegate?
@@ -39,11 +39,17 @@ class ShopLivePreviewSampleCell : UICollectionViewCell {
     }
     
     func setPreview(accessKey : String, campaignKey : String) {
+        preview.action( .stop )
+        preview.action( .close )
+        preview = ShopLivePlayerPreview()
+        setLayout()
+        bindPreview()
         preview.action( .setMuted(true) )
         preview.action( .initialize )
         preview.action( .setResolutionType(DemoConfiguration.shared.previewResolution))
         preview.action( .start(accessKey: accessKey, campaignKey: campaignKey, referrer: nil) )
         preview.action( .setEnabledVolumeKey(isEnabledVolumeKey: true) )
+//        preview.action( .play )
     }
     
     func play() {
@@ -83,7 +89,7 @@ class ShopLivePreviewSampleCell : UICollectionViewCell {
                 }
             case .avPlayerItemStatus(let status):
                 if status == .readyToPlay && delegate?.isCellOnWindow(indexPath : indexPath) ?? false  {
-                    preview.action( .play )
+//                    preview.action( .play )
                 }
                 else {
                     preview.action( .pause )
@@ -111,8 +117,6 @@ class ShopLivePreviewSampleCell : UICollectionViewCell {
             }
         }
     }
-    
-    
 }
 extension ShopLivePreviewSampleCell {
     private func setLayout() {

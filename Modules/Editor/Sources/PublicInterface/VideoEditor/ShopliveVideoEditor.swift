@@ -167,7 +167,6 @@ public class ShopliveVideoEditor {
     }
 }
 extension ShopliveVideoEditor : SLVideoEditorViewControllerDelegate {
-    
     func videoEditorRequestPopView() {
         Self.shared.close()
         Self.shared.delegate?.onShopLiveVideoEditorCancelled?()
@@ -181,11 +180,15 @@ extension ShopliveVideoEditor : SLVideoEditorViewControllerDelegate {
         Self.shared.delegate?.onShopLiveVideoEditorVideoConvertSuccess?(videoPath: videoPath)
     }
     
-    func videoEditorDidFinishUpload(shortsId: String) {
-        Self.shared.delegate?.onShopLiveVideoEditorUploadSuccess?(shortsId: shortsId)
+    func videoEditorDidFinishUpload(result: ShopLiveEditorResultInternalData?) {
+        Self.shared.delegate?.onShopLiveVideoEditorUploadSuccess?(result: result?.convertToClass())
     }
-    
+   
     func videoEditorError(error: ShopLiveCommonError) {
         Self.shared.delegate?.onShopLiveVideoEditorError?(error: error)
+    }
+    
+    func videoEditorOnEvent(name: EventTrace, payload: [String : Any]?) {
+        Self.shared.delegate?.onShopLiveVideoEditorOnEvent?(name: name.rawValue, payload: payload)
     }
 }

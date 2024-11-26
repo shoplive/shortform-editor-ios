@@ -15,6 +15,7 @@ protocol SLPhotosPickerViewControllerDelegate : NSObjectProtocol {
     func photoPicker(didSelectVideo absoluteUrl: URL, relativeUrl : URL)
     func photoPicker(didSelectImage url: URL)
     func photoPiker(onClose picker : UIViewController)
+    func photoPickerOnEvent(name : EventTrace, payload : [String : Any]?)
 }
 
 public enum SLMediaType {
@@ -23,9 +24,6 @@ public enum SLMediaType {
 }
 
 class SLPhotosPickerViewController : UIViewController {
-    
-    
-    
     private var topNaviBox : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -54,7 +52,6 @@ class SLPhotosPickerViewController : UIViewController {
         let cv = UICollectionView(frame: .zero,collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.backgroundColor = .clear
-        
         return cv
     }()
     
@@ -134,6 +131,7 @@ class SLPhotosPickerViewController : UIViewController {
     }
     
     @objc func closeBtnTapped(sender : UIButton) {
+        delegate?.photoPickerOnEvent(name: .MEDIA_PICKER_CLICK_CLOSE, payload: nil)
         delegate?.photoPiker(onClose: self)
     }
     
@@ -222,10 +220,12 @@ extension SLPhotosPickerViewController {
     }
     
     private func onReactorDidSelectImage(imageUrl : URL) {
+        delegate?.photoPickerOnEvent(name: .MEDIA_PICKER_CLICK_CONFIRM, payload: nil)
         delegate?.photoPicker(didSelectImage: imageUrl)
     }
     
     private func onReactorDidSelectVideo(absoluteUrl : URL, relativeUrl : URL) {
+        delegate?.photoPickerOnEvent(name: .MEDIA_PICKER_CLICK_CONFIRM, payload: nil)
         delegate?.photoPicker(didSelectVideo: absoluteUrl,relativeUrl: relativeUrl)
     }
     

@@ -14,7 +14,8 @@ import UIKit
     @objc optional func onShopLiveShortformEditorError(error : ShopLiveCommonError)
     @objc optional func onShopLiveShortformEditorVideoConvertSuccess(videoPath : String)
     @objc optional func onShopLiveShortformEditorCoverImageSuccess(image : UIImage?)
-    @objc optional func onShopLiveShortformEditorUploadSuccess(shortsId : String)
+    @objc optional func onShopLiveShortformEditorUploadSuccess(result : ShopliveEditorResultData?)
     @objc optional func onShopLiveShortformEditorClosed()
+    @objc optional func onShopLiveShortformEditorOnEvent(name : String, payload : [String : Any]?)
 }
 

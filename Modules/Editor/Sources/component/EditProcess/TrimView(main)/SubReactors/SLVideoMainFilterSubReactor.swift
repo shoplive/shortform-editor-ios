@@ -162,7 +162,7 @@ extension SLVideoMainFilterSubReactor : UICollectionViewDelegate, UICollectionVi
         
         let filter = filterList[indexPath.row]
         
-        cell.setfilterName(filterName: filter.title ?? "")
+        cell.setfilterName(filterName: filter.localizedTitle())
         let isSelected = videoEditInfoDTO?.filterConfig?.filterConfig == filter.content
         cell.configure(filterConfig: filter.content ?? "" , isSelected: isSelected, thumbNail: self.thumbnailImage)
         
@@ -180,15 +180,14 @@ extension SLVideoMainFilterSubReactor : UICollectionViewDelegate, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 8
     }
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? SLVideoFilterCell else { return }
         guard let videoEditInfoDto = self.videoEditInfoDTO else { return }
         guard videoEditInfoDto.filterConfig?.filterConfig != filterList[indexPath.row].content else { return }
         
         if let oldSelectedIndexPath = filterList.firstIndex(where: { $0.content == videoEditInfoDto.filterConfig?.filterConfig }),
-           oldSelectedIndexPath > 0,
+           oldSelectedIndexPath >= 0,
            let oldCell = collectionView.cellForItem(at: IndexPath(row: oldSelectedIndexPath, section: 0)) as? SLVideoFilterCell{
             oldCell.setCellSelected(isSelected: false)
         }

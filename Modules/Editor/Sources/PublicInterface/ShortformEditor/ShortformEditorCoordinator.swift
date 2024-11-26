@@ -61,6 +61,10 @@ class ShopliveShortformCoordinator : NSObject {
 }
 
 extension ShopliveShortformCoordinator : SLPhotosPickerViewControllerDelegate  {
+    func photoPickerOnEvent(name: EventTrace, payload: [String : Any]?) {
+        editorDelegate?.onShopLiveShortformEditorOnEvent?(name: name.rawValue, payload: payload)
+    }
+    
     func photoPicker(didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
         ffmpegValidator.checkValidCodec(videoUrl: relativeUrl) { [weak self] isValidCodec in
             guard let self = self else { return }
@@ -106,23 +110,31 @@ extension ShopliveShortformCoordinator : SLVideoEditorViewControllerDelegate {
         self.convertedVideoPath = videoPath
     }
     
-    func videoEditorDidFinishUpload(shortsId: String) {
-        //picker까지 가서 끝났을때 내려주는 것으로
-        ShopLiveLogger.tempLog("[videoEditorDidFinishUpload] Thread \(Thread.isMainThread ? "MAIN" : "OTHER") shortsId \(shortsId)")
-        self.showCoverPicker(shortsId : shortsId)
+    func videoEditorDidFinishUpload(result: ShopLiveEditorResultInternalData?) {
+        guard let shortsId = result?.shortsId else {
+            let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnexpectedError, error: nil, message: "there is no shortsId")
+            editorDelegate?.onShopLiveShortformEditorError?(error: commonError)
+            return
+        }
+        self.showCoverPicker(shortsId: shortsId,result: result)
     }
     
     func videoEditorError(error: ShopliveSDKCommon.ShopLiveCommonError) {
         editorDelegate?.onShopLiveShortformEditorError?(error: error)
     }
+    
+    func videoEditorOnEvent(name: EventTrace, payload: [String : Any]?) {
+        editorDelegate?.onShopLiveShortformEditorOnEvent?(name: name.rawValue, payload: payload)
+    }
 }
 extension ShopliveShortformCoordinator  {
-    private func showCoverPicker(shortsId : String) {
+    private func showCoverPicker(shortsId : String,result : ShopLiveEditorResultInternalData?) {
         guard let videoPath = self.convertedVideoPath else { return }
         let videoUrl = URL(fileURLWithPath: videoPath)
         let pickerVc = ShopLiveCoverPickerViewController()
         let data = ShopLiveCoverPickerData(videoUrl: videoUrl, shortsId: shortsId)
         pickerVc.action( .setShopLiveCoverPickerData(data) )
+        pickerVc.action( .setEditorResultData(result))
         pickerVc.action( .setPlayer )
         pickerVc.action(. initializeSliderView )
         self.bindCoverPickerViewController(pickerController: pickerVc)
@@ -140,8 +152,10 @@ extension ShopliveShortformCoordinator  {
                 self?.onPickerControllerError(error: error)
             case .onSuccessImage(let image):
                 self?.onPickerControllerOnSuccessImage(image: image)
-            case .onSuccessUpload(shortsId: let shortsId):
-                self?.onPickerControllerOnSuccessUpload(shortsId: shortsId)
+            case .onSuccessUpload(result: let result):
+                self?.onPickerControllerOnSuccessUpload(result: result)
+            case .onEvent(name: let name, payload: let payload):
+                self?.onPickerControllerOnEvent(name : name , payload : payload)
             }
         }
     }
@@ -162,7 +176,11 @@ extension ShopliveShortformCoordinator  {
         editorDelegate?.onShopLiveShortformEditorCoverImageSuccess?(image: image)
     }
     
-    private func onPickerControllerOnSuccessUpload(shortsId : String) {
-        editorDelegate?.onShopLiveShortformEditorUploadSuccess?(shortsId: shortsId )
+    private func onPickerControllerOnSuccessUpload(result : ShopLiveEditorResultInternalData? ) {
+        editorDelegate?.onShopLiveShortformEditorUploadSuccess?(result: result?.convertToClass() )
+    }
+    
+    private func onPickerControllerOnEvent(name : EventTrace , payload : [String : Any]?) {
+        editorDelegate?.onShopLiveShortformEditorOnEvent?(name: name.rawValue, payload: payload)
     }
 }

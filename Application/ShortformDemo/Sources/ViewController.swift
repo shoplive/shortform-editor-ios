@@ -240,19 +240,22 @@ extension ViewController : ShopLiveShortformEditorDelegate {
  
     }
     
-    func onShopliveShortformMediaPickerDismiss() {
-        print("onShortformEditorMediaPickerDismiss")
+    func onShopLiveShortformEditorVideoConvertSuccess(videoPath: String) {
+        ShopLiveLogger.tempLog("[HASSAN LOG] onShopLiveShortformEditorVideoConvertSuccess videoPath \(videoPath)")
     }
     
-    
-    func onShopliveShortformUploadSuccess() {
-        print("onShortformEditorSuccess")
-        ShopLiveShortformEditor().close()
+    func onShopLiveShortformEditorCoverImageSuccess(image: UIImage?) {
+        ShopLiveLogger.tempLog("[HASSAN LOG] onShopLiveShortformEditorCoverImageSuccess ")
     }
     
-    func onShortformUploadError(error: ShopLiveCommonError) {
-
+    func onShopLiveShortformEditorUploadSuccess(result: ShopliveEditorResultData?) {
+        ShopLiveLogger.tempLog("[HASSAN LOG] onShopLiveShortformEditorUploadSuccess \(dump(result))")
     }
+    
+    func onShopLiveShortformEditorOnEvent(name: String, payload: [String : Any]?) {
+        ShopLiveLogger.tempLog("[EVENTTRACE] name : \(name) payload :  \(payload)")
+    }
+    
 }
 extension ViewController : ShopLiveVideoEditorDelegate {
     func onShopLiveVideoEditorError(error: ShopLiveCommonError) {
@@ -268,13 +271,13 @@ extension ViewController : ShopLiveVideoEditorDelegate {
         }
     }
     
-    func onShopLiveVideoEditorUploadSuccess(shortsId: String) {
-        ShopLiveLogger.tempLog("[HASSAN LOG] onShopLiveVideoEditorUploadSuccess shortsId \(shortsId)")
+    func onShopLiveVideoEditorUploadSuccess(result: ShopliveEditorResultData?) {
+        ShopLiveLogger.tempLog("[HASSAN LOG] onShopLiveVideoEditorUploadSuccess \(dump(result))")
         ShopliveVideoEditor.shared.close()
     }
     
-    func onShopLiveVideoEditorClosed() {
-        
+    func onShopLiveVideoEditorOnEvent(name: String, payload: [String : Any]?) {
+        ShopLiveLogger.tempLog("[EVENTTRACE] name : \(name) payload :  \(payload)")
     }
     
 }
@@ -300,12 +303,12 @@ extension ViewController : ShopLiveMediaPickerDelegate {
         coverPickerImageResultPopUp.alpha = 1
         ShopLiveMediaPicker.shared.close()
     }
+    
+    func onShopLiveMediaPickerOnEvent(name: String, payload: [String : Any]?) {
+        ShopLiveLogger.tempLog("[EVENTTRACE] name : \(name) payload :  \(payload)")
+    }
 }
 extension ViewController : ShopLiveCoverPickerDelegate {
-    func onShopLiveCoverPickerClosed() {
-        ShopLiveLogger.tempLog("[HASSAN LOG] coverPicker closed")
-    }
-    
     func onShopLiveCoverPickerError(error: ShopLiveCommonError) {
         ShopLiveLogger.tempLog("[HASSAN LOG] coverPicker error \(error.message)")
     }
@@ -315,8 +318,20 @@ extension ViewController : ShopLiveCoverPickerDelegate {
         coverPickerImageResultPopUp.alpha = 1
     }
     
-    func onShopLiveCoverPickerUploadSuccess(shortsId: String) {
-        ShopLiveLogger.tempLog("coverPicker upload success shortsid \(shortsId)")
+    func onShopLiveCoverPickerUploadSuccess(result: ShopliveEditorResultData?) {
+        ShopLiveLogger.tempLog("[HASSAN LOG] onShopLiveCoverPickerUploadSuccess \(dump(result))")
+    }
+    
+    func onShopLiveCoverPickerClosed() {
+        ShopLiveLogger.tempLog("[HASSAN LOG] coverPicker closed")
+    }
+    
+    func onShopLiveCoverPickerCancelled() {
+        ShopLiveLogger.tempLog("[HASSAN LOG] coverPickerCancelled")
+    }
+    
+    func onShopLiveCoverPickerOnEvent(name: String, payload: [String : Any]?) {
+        ShopLiveLogger.tempLog("[EVENTTRACE] name : \(name) payload :  \(payload)")
     }
 }
 extension ViewController {

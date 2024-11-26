@@ -100,6 +100,7 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
     }
     
     public func action(_ action: Action) {
+        ShopLiveLogger.publicLog("[PLAYERPREVIEW] action \(action)")
         switch action {
         case .initialize:
             self.onInitialize()
@@ -149,6 +150,7 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
         ShopLiveCommon.setAccessKey(accessKey: accessKey)
         viewModel.action( .setCampaignKey(campaignKey) )
         guard let previewOverlayUrl = fetchOverlayUrl(with: campaignKey) else { return }
+        self.viewModel.action(.setPlayControlActionToNone )
         self.viewModel.action( .setOverlayUrl(previewOverlayUrl) )
         self.viewModel.action( .loadOverlayWebView )
     }

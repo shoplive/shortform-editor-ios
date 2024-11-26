@@ -14,8 +14,10 @@ protocol SLVideoEditorViewControllerDelegate: AnyObject {
     func videoEditorDidCancelConvertVideo()
     func videoEditorDidFinishConvertVideo(videoPath : String)
     func videoEditorRequestPopView()
-    func videoEditorDidFinishUpload(shortsId : String)
+//    func videoEditorDidFinishUpload(shortsId : String)
+    func videoEditorDidFinishUpload(result : ShopLiveEditorResultInternalData?)
     func videoEditorError(error : ShopLiveCommonError)
+    func videoEditorOnEvent(name : EventTrace, payload : [String : Any]?)
 }
 
 class SLVideoEditorMainViewController : UIViewController {
@@ -291,28 +293,37 @@ class SLVideoEditorMainViewController : UIViewController {
     } 
     
     @objc func backBtnTapped(sender : UIButton) {
+        delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_CLOSE, payload: nil)
         reactor.action( .backBtnTapped )
     }
     
     @objc func editingCloseBtnTapped(sender : UIButton) {
         if reactor.getCurrentEditingMode() == .crop {
+            delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_CROP_CANCEL, payload: nil)
             filterPlayerView.action( .revertCropChange )
         }
         else if reactor.getCurrentEditingMode() == .speed {
+            delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_PLAYBACK_SPEED_CANCEL, payload: nil)
             speedRateControlBox.action( .revertChanges )
         }
         else if reactor.getCurrentEditingMode() == .volume {
+            delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_VOLUME_CANCEL, payload: nil)
             volumeControlBox.action( .revertChange )
+        }
+        else if reactor.getCurrentEditingMode() == .filter {
+            delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_FILTER_CANCEL, payload: nil)
         }
         animateControlBox(to : .main)
     }
     
     
     @objc func nextBtnTapped(sender : UIButton) {
+        delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_CONFIRM, payload: nil)
         reactor.action( .processConvertVideo )
     }
     
     @objc func filterAddBtnTapped(sender : UIButton) {
+        delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_FILTER, payload: nil)
         if filterAddBtn.isSelected == true {
             filterControlBox.action( .setToOrigin )
             filterAddBtn.isSelected = false
@@ -329,6 +340,7 @@ class SLVideoEditorMainViewController : UIViewController {
     }
     
     @objc func cropBtnTapped(sender : UIButton) {
+        delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_CROP, payload: nil)
         if videoCropBtn.isSelected == true {
             filterPlayerView.action( .setCropViewToOrigin )
             videoCropBtn.isSelected = false
@@ -341,6 +353,7 @@ class SLVideoEditorMainViewController : UIViewController {
     }
     
     @objc func videoSoundBtnTapped(sender : UIButton) {
+        delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_VOLUME, payload: nil)
         if videoSoundBtn.isSelected == true {
             volumeControlBox.action( .setToOrigin )
             videoSoundBtn.isSelected = false
@@ -352,6 +365,7 @@ class SLVideoEditorMainViewController : UIViewController {
     }
     
     @objc func videoSpeedRateBtnTapped(sender : UIButton) {
+        delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_PLAYBACK_SPEED, payload: nil)
         if videoSpeedBtn.isSelected == true {
             speedRateControlBox.action( .setToOrigin )
             videoSpeedBtn.isSelected = false
@@ -373,8 +387,8 @@ class SLVideoEditorMainViewController : UIViewController {
                 self.setPlayerEndBoundaryTime(time: time)
             case .convertFinished(videoPath: let videoPath):
                 self.onConvertFinished(videoPath: videoPath)
-            case .uploadSuccess(shortsId: let shortsId):
-                self.onUploadSuccess(shortsId: shortsId)
+            case .uploadSuccess(result: let result):
+                self.onUploadSuccess(result: result)
             case .onError(let error):
                 self.onError(error: error)
             default:
@@ -454,8 +468,8 @@ class SLVideoEditorMainViewController : UIViewController {
         filterPlayerView.action( .setPlayerEndBoundaryTime(time) )
     }
     
-    private func onUploadSuccess(shortsId : String) {
-        delegate?.videoEditorDidFinishUpload(shortsId: shortsId)
+    private func onUploadSuccess(result : ShopLiveEditorResultInternalData?) {
+        delegate?.videoEditorDidFinishUpload(result: result)
     }
     
     private func onConvertFinished(videoPath : String) {
@@ -511,6 +525,8 @@ class SLVideoEditorMainViewController : UIViewController {
     }
     
     private func onSetSpeedRateResult(value : CGFloat) {
+        timeTrimSliderView.action( .setPlaybackSpeed(value) )
+        timeTrimSliderView.action( .calculateTimeDuration )
         filterPlayerView.action( .setSpeedRate(value) )
     }
     
@@ -673,12 +689,14 @@ extension SLVideoEditorMainViewController {
     }
     
     private func onSpeedControlBoxConfirmWithChange() {
+        delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_PLAYBACK_SPEED_CONFIRM, payload: nil)
         videoSpeedBtn.isSelected = true
         reactor.action( .applyVideoConfiChange(.all) )
         animateControlBox(to : .main)
     }
     
     private func onSpeedControlBoxConfirmWithOrigin() {
+        delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_PLAYBACK_SPEED_CONFIRM, payload: nil)
         videoSpeedBtn.isSelected = false
         reactor.action( .applyVideoConfiChange(.all) )
         animateControlBox(to : .main)
@@ -710,12 +728,14 @@ extension SLVideoEditorMainViewController {
     }
     
     private func onVolumeControlBoxConfirmWithChange() {
+        delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_VOLUME_CONFIRM, payload: nil)
         videoSoundBtn.isSelected = true
         reactor.action( .applyVideoConfiChange(.all) )
         animateControlBox(to: .main)
     }
     
     private func onVolumeControlBoxConfirmWithOrigin() {
+        delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_VOLUME_CONFIRM, payload: nil)
         videoSoundBtn.isSelected = false
         reactor.action( .applyVideoConfiChange(.all) )
         animateControlBox(to: .main)
@@ -746,12 +766,14 @@ extension SLVideoEditorMainViewController {
     }
     
     private func onFilterControlBoxConfirmWithChange() {
+        delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_FILTER_CONFIRM, payload: nil)
         filterAddBtn.isSelected = true
         self.reactor.action( .applyVideoConfiChange(.all) )
         animateControlBox(to : .main)
     }
     
     private func onFilterControlBoxConfirmWithOrigin() {
+        delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_FILTER_CONFIRM, payload: nil)
         filterAddBtn.isSelected = false
         self.reactor.action( .applyVideoConfiChange(.all) )
         animateControlBox(to : .main)
@@ -778,6 +800,7 @@ extension SLVideoEditorMainViewController {
     }
     
     private func onCropControlBoxConfirm() {
+        delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_CROP_CONFIRM, payload: nil)
         videoCropBtn.isSelected = true
         animateControlBox(to: .main )
     }
@@ -958,6 +981,19 @@ extension SLVideoEditorMainViewController {
             filterAddBtn.isHidden = to == .main ? false : true
         }
         
+        switch to {
+        case .speed:
+            pageTitleLabel.text = ShopLiveShortformEditorSDKStrings.Editor.Speed.Page.title
+        case .volume:
+            pageTitleLabel.text = ShopLiveShortformEditorSDKStrings.Editor.Volume.Page.title
+        case .filter:
+            pageTitleLabel.text = ShopLiveShortformEditorSDKStrings.Editor.Filter.Page.title
+        case .crop:
+            pageTitleLabel.text = ShopLiveShortformEditorSDKStrings.Editor.Crop.Page.title
+        case .main:
+            pageTitleLabel.text = ShopLiveShortformEditorSDKStrings.Editor.Main.Page.title
+        }
+        
         UIView.animateKeyframes(withDuration: 0.4, delay: 0, options: []) {
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
                 self.playerBoxEditModeTopAnc.isActive = to == .main ? false : true
@@ -988,12 +1024,7 @@ extension SLVideoEditorMainViewController {
             
             UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.4) {
                 guard let videoSize = self.reactor.getVideoSize() else { return }
-                if to == .main {
-                    self.filterPlayerView.action( .updatePlayerViewHeightToMain(videoSize) )
-                }
-                else {
-                    self.filterPlayerView.action( .updatePlayerViewHeight(self.filterPlayerView.frame.height, videoSize) )
-                }
+                self.filterPlayerView.action( .updatePlayerViewHeight(self.filterPlayerView.frame.height, videoSize) )
                 self.view.layoutIfNeeded()
             }
         } completion: { [weak self] _ in

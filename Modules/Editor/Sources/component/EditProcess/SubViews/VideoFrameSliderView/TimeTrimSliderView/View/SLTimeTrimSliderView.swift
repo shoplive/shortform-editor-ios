@@ -31,6 +31,8 @@ class SLTimeTrimSliderView : UIView, SLReactor {
     
     enum Action {
         case resetAndRedraw
+        case setPlaybackSpeed(CGFloat)
+        case calculateTimeDuration
         case updateTimeIndicatorTime(Float)
         case updateTimeIndicatorTimeToStartPos
     }
@@ -87,6 +89,10 @@ class SLTimeTrimSliderView : UIView, SLReactor {
         switch action {
         case .resetAndRedraw:
             self.onResetAndRedraw()
+        case .setPlaybackSpeed(let speed):
+            self.onSetPlaybackSpeed(speed : speed)
+        case .calculateTimeDuration:
+            self.onCalculateTimeDuration()
         case .updateTimeIndicatorTime(let value):
             self.onUpdateTimeIndicatorTime(value: value)
         case .updateTimeIndicatorTimeToStartPos:
@@ -96,6 +102,14 @@ class SLTimeTrimSliderView : UIView, SLReactor {
     
     private func onResetAndRedraw() {
         frameSliderView.action( .resetAndRedraw )
+    }
+    
+    private func onCalculateTimeDuration() {
+        handleView.action( .calculateTimeDuration )
+    }
+    
+    private func onSetPlaybackSpeed(speed : CGFloat) {
+        handleView.action( .setPlaybackSpeed(speed) )
     }
     
     private func onUpdateTimeIndicatorTime(value : Float) {

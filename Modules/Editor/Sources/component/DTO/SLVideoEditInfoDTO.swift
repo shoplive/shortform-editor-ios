@@ -26,6 +26,7 @@ class SLVideoEditInfoDTO {
     }
     
     var convertedVideoPath : String?
+    var convertedVideoAsset : AVAsset?
     
     var cropTime : (start : CMTime, end : CMTime) = (.zero, .zero)
     /**
@@ -49,4 +50,27 @@ class SLVideoEditInfoDTO {
     var isMuted : Bool = false
     var volume : Int = 100
     var videoSpeed : Double = 1.0
+    
+    
+    
+    private func getConvertedVideoAsset() -> AVAsset? {
+        if let asset = convertedVideoAsset {
+            return asset
+        }
+        guard let videoPath = convertedVideoPath else {
+            return nil
+        }
+        let url = URL(fileURLWithPath: videoPath)
+        return AVURLAsset(url: url)
+    }
+    
+    func getConvertedVideoDuration() -> Double? {
+        return self.getConvertedVideoAsset()?.duration.seconds
+    }
+    
+    func getConvertedVideoSize() -> CGSize? {
+        guard let track = self.getConvertedVideoAsset()?.tracks(withMediaType: AVMediaType.video).first else { return nil }
+        let size = track.naturalSize.applying(track.preferredTransform)
+        return CGSize(width: abs(size.width), height: abs(size.height))
+    }
 }

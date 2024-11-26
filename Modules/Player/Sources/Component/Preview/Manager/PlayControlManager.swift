@@ -23,10 +23,7 @@ public enum ShopLivePlayerControlAction {
     case resume
 }
 
-
-
 class PlayControlManager : NSObject, SLReactor {
-    
     
     enum PlayCommand {
         case play
@@ -46,6 +43,7 @@ class PlayControlManager : NSObject, SLReactor {
         case setNeedReload(Bool)
         case seekTo(CMTime)
         case seekToLatest
+        case setPlayCommandToNone
     }
     
     enum Result {
@@ -73,7 +71,7 @@ class PlayControlManager : NSObject, SLReactor {
     
     
     func action(_ action: Action) {
-        ShopLiveLogger.tempLog("[PLAYCONTROL] action \(action)")
+        ShopLiveLogger.tempLog("[PLAYCONTROLMANAGER] action \(action)")
         switch action {
         case .setAVPlayer(let player):
             self.onSetAVPlayer(player: player)
@@ -93,6 +91,8 @@ class PlayControlManager : NSObject, SLReactor {
             self.onSeekToLatest()
         case .setIsScreenLock(let isScreenLock):
             self.onSetIsScreenLock(isScreenLock : isScreenLock)
+        case .setPlayCommandToNone:
+            self.onSetPlayCommandToNone()
         }
     }
     
@@ -143,7 +143,12 @@ class PlayControlManager : NSObject, SLReactor {
         self.isScreenLock = isScreenLock
     }
     
+    private func onSetPlayCommandToNone() {
+        self.currentPlayCommand = .none
+    }
+    
     func playControlAction(_ action : ShopLivePlayerControlAction) {
+        ShopLiveLogger.publicLog("[PLAYCONTROLMANAGER] action \(action) ")
         switch action {
         case .play:
             self.play()
@@ -210,6 +215,9 @@ class PlayControlManager : NSObject, SLReactor {
     
     private func resume() {
         guard let player = self.player else { return }
+        if currentPlayCommand == .none || currentPlayCommand == .pause || currentPlayCommand == .stop {
+            return
+        }
         self.currentPlayCommand = .resume
         activatePreserveTimeOffsetFromLive()
         if self.isReplayMode {
@@ -218,6 +226,7 @@ class PlayControlManager : NSObject, SLReactor {
         else {
             resultHandler?( .sendEventToWeb(event: .reloadBtn, param: false, wrapping: false, dedicatedCompletionType: nil))
         }
+        
         
         DispatchQueue.main.async {
             player.play()

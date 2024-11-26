@@ -32,6 +32,8 @@ class SLVideoMainFilterSubView : UIView, SLReactor {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.backgroundColor = .clear
+        cv.showsHorizontalScrollIndicator = false
+        cv.showsVerticalScrollIndicator = false
         reactor.action(.registerCv(cv))
         return cv
     }()

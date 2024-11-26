@@ -84,15 +84,15 @@ extension ShopLivePreviewSampleView : UICollectionViewDataSource, UICollectionVi
     }        
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.view.frame.width, height: collectionView.frame.height)
+        return CGSize(width: self.view.frame.width, height: collectionView.frame.height - 40 )
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -108,12 +108,12 @@ extension ShopLivePreviewSampleView : UICollectionViewDataSource, UICollectionVi
         let yContentOffset = scrollView.contentOffset.y
         let currentIndex = Int((yContentOffset) / scrollView.frame.height)
         for cell in cv.visibleCells as! [ShopLivePreviewSampleCell] {
-//            if let indexPath = cell.indexPath, indexPath.row == currentIndex {
-//                cell.play()
-//            }
-//            else {
-//                cell.pause()
-//            }
+            if let indexPath = cell.indexPath, indexPath.row == currentIndex {
+                cell.play()
+            }
+            else {
+                cell.pause()
+            }
         }
     }
     

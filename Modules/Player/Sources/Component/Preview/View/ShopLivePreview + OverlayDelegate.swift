@@ -47,11 +47,13 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
     }
     
     func didReceivePlayVideo() {
-        viewModel.action( .playControlAction(.play ) )
+        // 그냥 PlayerPreview에서는 전적으로 고객사가 컨트롤가능하게 끔 설정
+//        viewModel.action( .playControlAction(.play ) )
     }
     
     func didReceivePauseVideo() {
-        viewModel.action( .playControlAction(.pause) )
+        // 그냥 PlayerPreview에서는 전적으로 고객사가 컨트롤가능하게 끔 설정
+//        viewModel.action( .playControlAction(.pause) )
     }
     
     func didTouchWebViewMuteButton(with isMuted: Bool) {

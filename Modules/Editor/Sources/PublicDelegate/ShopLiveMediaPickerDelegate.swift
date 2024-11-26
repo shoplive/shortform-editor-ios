@@ -15,4 +15,5 @@ import UIKit
     @objc optional func onShopLiveMediaPickerDidPickVideo(absoluteUrl : URL, relativeUrl : URL)
     @objc optional func onShopLiveMediaPickerDidPickImage(imageUrl : URL)
     @objc optional func onShopLiveMediaPickerCancelled()
+    @objc optional func onShopLiveMediaPickerOnEvent(name : String, payload : [String : Any]?)
 }

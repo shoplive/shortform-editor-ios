@@ -26,6 +26,8 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
     typealias globalConfig = ShopLiveEditorConfigurationManager
     
     enum Action {
+        case setPlaybackSpeed(CGFloat)
+        case calculateTimeDuration // 배송 설정하고 나왔으때만 사용
         case setVideoDuration(Double)
         case initializeTimeIndicatorView
         case updateTimeIndicatorSlider(startTime : CMTime, endTime : CMTime)
@@ -138,7 +140,7 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
     }
     
     var timebarLoaded: Bool = false
-    
+    private var playbackSpeed : CGFloat = 1.0
     
     private var handleInitializePosition: CGPoint = .zero
     
@@ -209,8 +211,9 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
     
     private func calculateTrimTimeDuration() {
         let gapWidth = betweenHandleContainerView.bounds.width
-        ShopLiveLogger.tempLog("[TIMETRIMDURATION] gapWidth * timePerPixel \(gapWidth * timePerPixel)")
-        let gapSecond = Int((gapWidth * timePerPixel).rounded())
+        let originVideoDuration = gapWidth * timePerPixel
+        let modifiedVideoDuration = originVideoDuration / self.playbackSpeed
+        let gapSecond = Int(modifiedVideoDuration.rounded())
         
         trimDurationLabel.text = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(gapSecond)
     }
@@ -241,6 +244,10 @@ extension SLVideoEditorSliderHandleView2 {
             self.onUpdateTimeIndicatorToStartPos()
         case .updateTimeIndicatorTime(let time):
             self.onUpdateTimeIndicatorTime(time: time)
+        case .setPlaybackSpeed(let speed):
+            self.onSetPlaybackSpeed(speed : speed)
+        case .calculateTimeDuration:
+            self.onCalculateTimeDuration()
         }
     }
     
@@ -262,6 +269,14 @@ extension SLVideoEditorSliderHandleView2 {
     
     private func onUpdateTimeIndicatorTime(time : Float) {
         timeIndicatorView.action( .setCurrentValue(CGFloat(time), pixelPerTime: pixelPerTime))
+    }
+    
+    private func onSetPlaybackSpeed(speed : CGFloat) {
+        self.playbackSpeed = speed
+    }
+    
+    private func onCalculateTimeDuration() {
+        self.calculateTrimTimeDuration()
     }
     
 }

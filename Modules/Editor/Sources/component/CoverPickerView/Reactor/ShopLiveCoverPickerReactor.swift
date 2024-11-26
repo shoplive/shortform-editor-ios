@@ -31,6 +31,7 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
         case setCurrentMode(Mode)
         case setCropImageResultFromCropableImageView(UIImage?)
         case setPlayerContainerBound(CGRect)
+        case setEditorResultData(ShopLiveEditorResultInternalData?)
     }
     
     enum Result {
@@ -44,7 +45,8 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
         case videoThumbnailResult(UIImage?)
         case requestFinishCoverPicker
         case onError(ShopLiveCommonError)
-        case uploadSuccess(shortsId : String)
+        case uploadSuccess(result : ShopLiveEditorResultInternalData?)
+        case onEvent(name : EventTrace, payload : [String : Any]?)
     }
     
     private var videoUrl : URL?
@@ -57,6 +59,7 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
     private var imageGeneratorQueue = DispatchQueue(label: "shopLiveImageGeneratorQueue",qos: .background)
     private var cropImageResultFromCropableImageView : UIImage?
     private var shopliveCoverPickerData : ShopLiveCoverPickerData?
+    private var editorResultData : ShopLiveEditorResultInternalData?
     
     private var isViewAppeared : Bool = false
     private var blockInitialCropInViewDidLayoutSubView : Bool = false
@@ -97,6 +100,8 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
             self.onSetCropImageResultFromCropableImageView(image: image)
         case .setPlayerContainerBound(let bound):
             self.onSetPlayerContainerBound(bound: bound)
+        case .setEditorResultData(let result):
+            self.onSetEditorResultData(result : result)
             break
         }
     }
@@ -176,6 +181,10 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
         }
     }
     
+    private func onSetEditorResultData(result : ShopLiveEditorResultInternalData?) {
+        self.editorResultData = result
+    }
+    
     private func onSetPlayerContainerBound(bound : CGRect) {
         self.playerContainerBound = bound
     }
@@ -216,6 +225,10 @@ extension ShopLiveCoverPickerReactor {
     
 }
 extension ShopLiveCoverPickerReactor : SLPhotosPickerViewControllerDelegate {
+    func photoPickerOnEvent(name: EventTrace, payload: [String : Any]?) {
+        resultHandler?( .onEvent(name: name, payload: payload))
+    }
+    
     func photoPicker(didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
         
     }
@@ -256,8 +269,15 @@ extension ShopLiveCoverPickerReactor {
             .upload { [weak self] result in
                 guard let self = self else { return }
                 switch result {
-                case .success(let shortsModel):
-                    self.resultHandler?( .uploadSuccess(shortsId: shortsId))
+                case .success(_):
+                    if var resultData = editorResultData {
+                        resultData.coverImage = image
+                        self.resultHandler?( .uploadSuccess(result: resultData))
+                    }
+                    else  {
+                        let result = ShopLiveEditorResultInternalData(shortsId: shortsId,coverImage: image)
+                        self.resultHandler?( .uploadSuccess(result: result) )
+                    }
                     self.resultHandler?( .requestFinishCoverPicker )
                     break
                 case .failure(let error):

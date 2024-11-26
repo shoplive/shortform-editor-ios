@@ -92,7 +92,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         case didFinishLoading
         case requestPopView
         
-        case uploadSuccess(shortsId : String)
+        case uploadSuccess(result : ShopLiveEditorResultInternalData?)
         case convertFinished(videoPath : String)
         case onError(ShopLiveCommonError)
     }
@@ -384,7 +384,6 @@ extension SLVideoEditorMainViewReactor : SLLoadingAlertControllerDelegate {
 extension SLVideoEditorMainViewReactor {
     private func callShortformUploadableAPI() {
         resultHandler?( .showLoadingView )
-        ShopLiveLogger.tempLog("callShortformUploadableAPI start")
         ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result  in
             guard let self = self else { return }
             SLShortformUploadableAPI().request { result in
@@ -450,7 +449,13 @@ extension SLVideoEditorMainViewReactor {
             SLShortformRegisterAPI(parameters: self.makeShortsJson(videoId: videoId, imageUrl: imageUrl)).request { result in
                 switch result {
                 case .success(let response):
-                    self.resultHandler?( .uploadSuccess(shortsId: response.shortsId ?? "" ) )
+                    let resultData =  ShopLiveEditorResultInternalData(shortsId: response.shortsId,
+                                                                       videoUrl: self.videoEditInfoDto.convertedVideoPath,
+                                                                       coverImage: nil,
+                                                                       width: self.videoEditInfoDto.getConvertedVideoSize()?.width,
+                                                                       height: self.videoEditInfoDto.getConvertedVideoSize()?.height,
+                                                                       duration: self.videoEditInfoDto.getConvertedVideoDuration())
+                    self.resultHandler?( .uploadSuccess(result: resultData) )
                     break
                 case .failure(let error):
                     self.resultHandler?( .onError(error) )

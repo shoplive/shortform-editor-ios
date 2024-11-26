@@ -126,6 +126,7 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         
         
         case playControlAction(ShopLivePlayerControlAction)
+        case setPlayControlActionToNone
         
     }
     
@@ -257,10 +258,20 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
             self.onSetPlaybackSpeed(speed : speed)
         case .sendPreviewShowEventTrace:
             self.onSendPreviewShowEventTrace()
+        case .setPlayControlActionToNone:
+            self.onSetPlayControlActionToNone()
         }
     }
     
     private func onInitialize() {
+        if playControlManager == nil {
+            playControlManager = PlayControlManager()
+            bindPlayControlManager()
+        }
+        if timeControlStatusManager == nil {
+            timeControlStatusManager = TimeControlStatusManager()
+            bindTimeControlStatusManager()
+        }
         self.previewUrl = nil
         self.playerItem = nil
         self.currentPlayCommand = .none
@@ -388,9 +399,10 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         retryManager = nil
         timeControlStatusManager?.action( .cleanUpMemory )
         delegate = nil
+        self.currentPlayCommand = .none
+        playControlManager?.action( .setPlayCommandToNone )
         removePlayTimeObserver()
         resetPlayer()
-        
     }
     
     private func onSetNeedSeek(needSeek: Bool) {
@@ -415,7 +427,13 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     }
     
     private func onPlayControlAction(action : ShopLivePlayerControlAction) {
+        ShopLiveLogger.publicLog("[PLAYERPREVIEW-VIEWMODEL] playControl Action \(action)")
         playControlManager?.playControlAction(action)
+    }
+    
+    private func onSetPlayControlActionToNone() {
+        self.currentPlayCommand = .none
+        playControlManager?.action( .setPlayCommandToNone )
     }
     
     private func onCheckIfSnapShotImageFrameNeedReCalculation() {
@@ -1162,7 +1180,8 @@ extension ShopLivePlayerPreviewViewModel : ShopLivePreviewRetryManagerDelegate {
     }
     
     private func onRetryManagerRequestResume() {
-        playControlManager?.playControlAction( .resume )
+        ShopLiveLogger.publicLog("[PLAYERPREVIEW-VIEWMODEL] retryManager resume")
+//      play pause 모든 컨트롤 사항은 고객사에게 핸들링을 맡기는 것으로
     }
     
     
@@ -1217,6 +1236,7 @@ extension ShopLivePlayerPreviewViewModel {
     }
     
     private func onAudioSessionManagerRequestPlayVideo() {
+        ShopLiveLogger.publicLog("[PLAYERPREVIEW-VIEWMODEL] audioSessionManager play")
         playControlManager?.playControlAction( .play )
     }
     
@@ -1225,6 +1245,7 @@ extension ShopLivePlayerPreviewViewModel {
     }
     
     private func onAudioSessionManagerRequestResumeVideo() {
+        ShopLiveLogger.publicLog("[PLAYERPREVIEW-VIEWMODEL] audioSessionManager resume")
         playControlManager?.playControlAction( .resume )
     }
     
