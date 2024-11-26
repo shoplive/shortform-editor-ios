@@ -76,7 +76,7 @@ extension ShopLivePreviewSampleView : UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ShopLivePreviewSampleCell
         
-        cell.setPreview(accessKey: accessKey, campaignKey: campaignKey)
+        cell.setPreview(accessKey: accessKey, campaignKey: campaignKey,indexPath: indexPath)
 
         cell.delegate = self
         cell.indexPath = indexPath

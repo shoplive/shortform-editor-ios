@@ -21,6 +21,8 @@ protocol ShopLivePreviewModelDelegate : NSObjectProtocol {
 class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     
     
+    private let publicLogPrefix = "PLAYERPREVIEW-VIEWMODEL"
+    var indexPath : IndexPath?
     private var overlayUrl : URL?
     private var currentNetworkCapability : String = ""
     private var isMuted: Bool = true
@@ -264,14 +266,6 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     }
     
     private func onInitialize() {
-        if playControlManager == nil {
-            playControlManager = PlayControlManager()
-            bindPlayControlManager()
-        }
-        if timeControlStatusManager == nil {
-            timeControlStatusManager = TimeControlStatusManager()
-            bindTimeControlStatusManager()
-        }
         self.previewUrl = nil
         self.playerItem = nil
         self.currentPlayCommand = .none
@@ -427,7 +421,7 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     }
     
     private func onPlayControlAction(action : ShopLivePlayerControlAction) {
-        ShopLiveLogger.publicLog("[PLAYERPREVIEW-VIEWMODEL] playControl Action \(action)")
+        ShopLiveLogger.publicLog("[\(publicLogPrefix)] playControl Action \(action)")
         playControlManager?.playControlAction(action)
     }
     
@@ -573,6 +567,7 @@ extension ShopLivePlayerPreviewViewModel {
     private func updatePlayerItem(with url: URL,from : String = #function) {
         ShopLiveLogger.tempLog("[UPDATEPLAYERITEM] url \(url) from \(from)")
         guard self.player != nil else { return }
+        ShopLiveLogger.publicLog("[\(publicLogPrefix)]  updatePlayerItem with \(url) index \(self.indexPath)")
         resetPlayer()
         playerLoadingStartTime = Date().timeIntervalSince1970
         let queryAddedUrl = addQueryForLiveUrl(url: url)
@@ -761,6 +756,7 @@ extension ShopLivePlayerPreviewViewModel {
 extension ShopLivePlayerPreviewViewModel {
     private func addAVPlayerObserver() {
         removeAVPlayerObserver()
+        ShopLiveLogger.publicLog("[\(publicLogPrefix)] addPlayerObserver \(self.indexPath) ")
         if let playerItem = self.playerItem {
             playerItemStatusObserver = playerItem.observe(\.status, options: [.initial,.new] , changeHandler: { [weak self] playerItem, value in
                 guard let self = self else { return}
@@ -769,16 +765,16 @@ extension ShopLivePlayerPreviewViewModel {
         }
     }
     
-    private func removeAVPlayerObserver() {
+    private func removeAVPlayerObserver(from : String = #function) {
         playerItemStatusObserver?.invalidate()
         playerItemStatusObserver = nil
         playerLoadedTimeRangeObserver?.invalidate()
         playerLoadedTimeRangeObserver = nil
+        ShopLiveLogger.publicLog("[\(publicLogPrefix)] removePlayerObserver \(self.indexPath) from \(from)")
     }
     
     //MARK: -playerIteStatusChanged
     private func onPlayerItemStatusChanged(status : AVPlayerItem.Status) {
-        
         switch status {
         case .readyToPlay:
             self.onPlayerItemStatusReadyToPlay()
@@ -795,7 +791,7 @@ extension ShopLivePlayerPreviewViewModel {
     private func onPlayerItemStatusReadyToPlay() {
         self.player?.isMuted = isMuted
         guard let pm = playControlManager else { return }
-        ShopLiveLogger.tempLog("[PlayerStatus] playerItemReadyToPlay")
+        ShopLiveLogger.publicLog("[PlayerStatus] playerItemReadyToPlay \(indexPath)")
         if pm.getCurrentPlayCommand() != .pause, pm.getCurrentPlayCommand() != .play {
             if pm.getCurrentPlayCommand() == .resume { return }
             if let duration = pm.getVideoDuration(),
@@ -1180,10 +1176,9 @@ extension ShopLivePlayerPreviewViewModel : ShopLivePreviewRetryManagerDelegate {
     }
     
     private func onRetryManagerRequestResume() {
-        ShopLiveLogger.publicLog("[PLAYERPREVIEW-VIEWMODEL] retryManager resume")
+        ShopLiveLogger.publicLog("[\(publicLogPrefix)] retryManager resume")
 //      play pause 모든 컨트롤 사항은 고객사에게 핸들링을 맡기는 것으로
     }
-    
     
     func getCurrentPreviewUrl() -> URL? {
         return self.previewUrl
@@ -1236,7 +1231,7 @@ extension ShopLivePlayerPreviewViewModel {
     }
     
     private func onAudioSessionManagerRequestPlayVideo() {
-        ShopLiveLogger.publicLog("[PLAYERPREVIEW-VIEWMODEL] audioSessionManager play")
+        ShopLiveLogger.publicLog("[\(publicLogPrefix)] audioSessionManager play")
         playControlManager?.playControlAction( .play )
     }
     
@@ -1245,7 +1240,7 @@ extension ShopLivePlayerPreviewViewModel {
     }
     
     private func onAudioSessionManagerRequestResumeVideo() {
-        ShopLiveLogger.publicLog("[PLAYERPREVIEW-VIEWMODEL] audioSessionManager resume")
+        ShopLiveLogger.publicLog("[\(publicLogPrefix)] audioSessionManager resume")
         playControlManager?.playControlAction( .resume )
     }
     

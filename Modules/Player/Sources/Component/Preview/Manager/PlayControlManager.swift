@@ -166,8 +166,15 @@ class PlayControlManager : NSObject, SLReactor {
     }
     
     private func play() {
-        guard let player = self.player,
-              currentPlayCommand != .play else { return }
+        guard let player = self.player else {
+            ShopLiveLogger.publicLog("[PLAYCONTROLMANAGER] playControlManager player deAllocated")
+            return
+        }
+        
+        guard currentPlayCommand != .play else {
+            ShopLiveLogger.publicLog("[PLAYCONTROLMANAGER] playControlManager currentPlayCommand != .play \(currentPlayCommand != .play)")
+            return
+        }
         
         self.currentPlayCommand = .play
         activatePreserveTimeOffsetFromLive()
@@ -180,9 +187,11 @@ class PlayControlManager : NSObject, SLReactor {
                         self.action( .seekTo( .init(value: 0, timescale: 44100) ) )
                     }
                 }
+                ShopLiveLogger.publicLog("[PLAYCONTROLMANAGER] playControlManager play isReplayMode true")
                 player.play()
             }
             else {
+                ShopLiveLogger.publicLog("[PLAYCONTROLMANAGER] playControlManager play isReplayMode false")
                 player.play()
                 if self.needSeek {
                     self.needSeek = false
@@ -190,6 +199,7 @@ class PlayControlManager : NSObject, SLReactor {
                     let latestVideoTime = lastLoadedTime.start
                     let currentVideoTime = player.currentTime()
                     if latestVideoTime.seconds > currentVideoTime.seconds + 2 {
+                        ShopLiveLogger.publicLog("[PLAYCONTROLMANAGER] playControlManager play seekTo \(latestVideoTime)")
                         player.seek(to: latestVideoTime, toleranceBefore: .zero, toleranceAfter: .zero)
                     }
                 }

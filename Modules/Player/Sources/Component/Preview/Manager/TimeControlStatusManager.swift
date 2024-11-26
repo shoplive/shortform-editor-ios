@@ -62,7 +62,7 @@ class TimeControlStatusManager : NSObject, SLReactor {
     func action(_ action: Action) {
         ShopLiveLogger.tempLog("[TIMECONTROLSTATUS] action \(action)")
         switch action {
-        case .setAVPlayer(let tlayer):
+        case .setAVPlayer(let player):
             self.onSetAVPlayer(player: player)
         case .setAVPlayerItem(let playerItem):
             self.onSetAVPlayerItem(playerItem: playerItem)

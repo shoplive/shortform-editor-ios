@@ -31,6 +31,7 @@ class ShopLivePreviewSampleCell : UICollectionViewCell {
         self.backgroundColor = .clear
         self.setLayout()
         bindPreview()
+        ShopLiveLogger.showLog = true
     }
     
     
@@ -38,12 +39,8 @@ class ShopLivePreviewSampleCell : UICollectionViewCell {
         fatalError()
     }
     
-    func setPreview(accessKey : String, campaignKey : String) {
-        preview.action( .stop )
-        preview.action( .close )
-        preview = ShopLivePlayerPreview()
-        setLayout()
-        bindPreview()
+    func setPreview(accessKey : String, campaignKey : String,indexPath : IndexPath) {
+        preview.action( .setIndex(indexPath) )
         preview.action( .setMuted(true) )
         preview.action( .initialize )
         preview.action( .setResolutionType(DemoConfiguration.shared.previewResolution))
@@ -79,13 +76,13 @@ class ShopLivePreviewSampleCell : UICollectionViewCell {
             case .avPlayerTimeControlStatus(let status):
                 switch status {
                 case .paused:
-                    ShopLiveLogger.tempLog("paused")
+                    ShopLiveLogger.tempLog("[ShopLivePreviewSampleCell] paused")
                 case .playing:
-                    ShopLiveLogger.tempLog("playing")
+                    ShopLiveLogger.tempLog("[ShopLivePreviewSampleCell] playing")
                 case .waitingToPlayAtSpecifiedRate:
-                    ShopLiveLogger.tempLog("waitingToPlayAtSpecifiedRate")
+                    ShopLiveLogger.tempLog("[ShopLivePreviewSampleCell] waitingToPlayAtSpecifiedRate")
                 default:
-                    ShopLiveLogger.tempLog("other")
+                    ShopLiveLogger.tempLog("[ShopLivePreviewSampleCell] other")
                 }
             case .avPlayerItemStatus(let status):
                 if status == .readyToPlay && delegate?.isCellOnWindow(indexPath : indexPath) ?? false  {

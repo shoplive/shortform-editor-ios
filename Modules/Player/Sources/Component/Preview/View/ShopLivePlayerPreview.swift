@@ -17,6 +17,7 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
   
     public enum Action {
         case initialize
+        case setIndex(IndexPath)
         case start(accessKey : String, campaignKey : String, referrer : String?)
         case setMuted(Bool)
         case setReferrer(String?)
@@ -87,6 +88,8 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
         fatalError()
     }
     
+    private var indexPath : IndexPath?
+    
     deinit {
         self.cleanUpOverlayWebView()
         ShopLiveLogger.memoryLog("ShopLivePreview deinit")
@@ -130,6 +133,9 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
             self.onSetEnabledVolumeKey(isEnabledVolumeKey: isEnabledVolumeKey)
         case .setResizeMode(let resizeMode):
             self.onSetResizeMode(resizeMode : resizeMode)
+        case .setIndex(let indexPath):
+            self.indexPath = indexPath
+            viewModel.indexPath = indexPath
         }
     }
     
