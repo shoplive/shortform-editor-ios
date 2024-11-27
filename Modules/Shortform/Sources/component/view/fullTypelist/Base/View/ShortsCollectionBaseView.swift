@@ -275,6 +275,10 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
             cell.pause()
         }
     }
+    
+    func removeData(where shortsIdOrSrn : String) {
+        viewModel.removeData(where: shortsIdOrSrn , collectionView: self.shortsListView)
+    }
 }
 extension ShortsCollectionBaseView {
     func getPreviewEventTraceSrn() -> String? {
@@ -557,7 +561,6 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
         }
     }
 }
-
 extension ShortsCollectionBaseView {
     
     func playWhenReconnect() {
@@ -644,6 +647,10 @@ extension ShortsCollectionBaseView : ShortsCollectionBaseViewModelDelegate {
         }
     }
     
+    func reloadData() {
+        self.shortsListView.reloadData()
+    }
+    
     func insertItemsWithOutAnimation(updateIndexPaths: [IndexPath]) {
         UIView.performWithoutAnimation { [weak self] in
             guard let self = self else { return }
@@ -697,5 +704,9 @@ extension ShortsCollectionBaseView : ShortsCollectionBaseViewModelDelegate {
         guard let parent = self.parentViewController_SL else { return }
         parent.showShareSheet_SL(url: url)
     }
+}
+//MARK: - public functions
+extension ShortsCollectionBaseView {
+    
 }
 

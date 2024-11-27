@@ -29,6 +29,7 @@ class V2ShortformExample  {
         }
     }
 }
+
 extension V2ShortformExample : ShopLiveShortformReceiveHandlerDelegate {
     
 }
@@ -82,7 +83,7 @@ struct TestShortsCollectionAPI: APIDefinition {
     typealias ResultType = ShopLiveShortform.ShortsCollectionModel
 
     var baseUrl: String {
-        "https://dev-shortform-api.shoplive.cloud"
+        "https://qa-shortform-api.shoplive.cloud"
     }
 
     var urlPath: String {

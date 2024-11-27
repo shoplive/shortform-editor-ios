@@ -108,7 +108,7 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
     }
     
     func requestRemoveShortform(shortsId: String) {
-        viewModel.removeShortformByShortsId(shortsId: shortsId, cv: self.shortsListView)
+        viewModel.removeShortformByShortsId(shortsIdOrSrn: shortsId, cv: self.shortsListView)
     }
     
     func setSnapShotForWindow(image: UIImage?) {

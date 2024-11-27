@@ -14,6 +14,7 @@ import AVKit
 
 protocol ShortsCollectionBaseViewModelDelegate : NSObject {
     func reloadData(completion : (() -> ())?)
+    func reloadData()
     func insertItemsWithOutAnimation(updateIndexPaths : [IndexPath])
     func setScrollEnabled(isEnabled : Bool)
     func onViewAppeared()
@@ -289,13 +290,13 @@ extension ShortsCollectionBaseViewModel {
         return indexPath.row == shortsListData.count - 1
     }
     
-    func removeShortformByShortsId(shortsId : String,cv : UICollectionView) {
+    func removeShortformByShortsId(shortsIdOrSrn : String,cv : UICollectionView) {
         let numberOfItemsInSection = cv.numberOfItems(inSection: 0)
-        if numberOfItemsInSection == 1, let _ = self.shortsListData.firstIndex(where: { $0.shortsId ?? "" == shortsId }) {
+        if numberOfItemsInSection == 1, let _ = self.shortsListData.firstIndex(where: { $0.shortsId ?? "" == shortsIdOrSrn  || $0.srn  == shortsIdOrSrn }) {
             // 쇼츠 데이터가 1개 뿐일때 삭제하려고 한다면 그냥 닫아버리는 것으로 무신사 측과 협의 됨
             ShopLiveShortform.close()
         }
-        else if let firstIndex = self.shortsListData.firstIndex(where: { $0.shortsId ?? "" == shortsId }) {
+        else if let firstIndex = self.shortsListData.firstIndex(where: { $0.shortsId ?? "" == shortsIdOrSrn || $0.srn  == shortsIdOrSrn }) {
             if numberOfItemsInSection != self.shortsListData.count {
                 let newlyAppendDataCount : Int = self.shortsListData.count - numberOfItemsInSection
                 let newDatas : [ShopLiveShortform.ShortsModel] = self.originShortsListData.suffix(newlyAppendDataCount)
@@ -313,7 +314,7 @@ extension ShortsCollectionBaseViewModel {
                 }
             }
             else {
-                self.originShortsListData.removeAll(where: { $0.shortsId ?? "" == shortsId })
+                self.originShortsListData.removeAll(where: { $0.shortsId ?? "" == shortsIdOrSrn })
                 cv.deleteItems(at: [IndexPath(row: firstIndex, section: 0)])
             }
         }
@@ -929,6 +930,11 @@ extension ShortsCollectionBaseViewModel {
         else {
             return (0..<3).map{ IndexPath(row: $0, section: 0) }
         }
+    }
+    
+    
+    func removeData(where shortsIdOrSrn : String,collectionView : UICollectionView) {
+        self.removeShortformByShortsId(shortsIdOrSrn: shortsIdOrSrn, cv: collectionView)
     }
     
 }

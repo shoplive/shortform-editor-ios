@@ -17,6 +17,7 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
         case onStartRotation(size : CGSize)
         case onChangingRotation(size : CGSize)
         case onFinishedRotation(size : CGSize)
+        case remove(String)
         case play
         case pause
     }
@@ -81,6 +82,8 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
             onPlay()
         case .pause:
             onPause()
+        case .remove(let shortsIdOrSrn):
+            onRemove(shortsIdOrSrn: shortsIdOrSrn)
         }
     }
     
@@ -113,6 +116,12 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
     private func onPause() {
         guard let shortsCollectionView = getShortsCollectionView() else { return }
         shortsCollectionView.pauseCells()
+    }
+    
+     private func onRemove(shortsIdOrSrn : String) {
+        guard let shortsCollectionView = getShortsCollectionView() else { return }
+         shortsCollectionView.removeData(where: shortsIdOrSrn )
+        
     }
 }
 extension ShopLiveShortsCollectionView {
