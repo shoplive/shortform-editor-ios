@@ -94,7 +94,7 @@ class ShortsCollectionBaseViewModel : NSObject {
     var initialTargetShortsId : String?
     var shopliveSessionId : String?
     var previousActiveSrn : String?
-    var shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?
+    weak var shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?
     
     //currentDatas
     var currentShorts : ShortsModel? {

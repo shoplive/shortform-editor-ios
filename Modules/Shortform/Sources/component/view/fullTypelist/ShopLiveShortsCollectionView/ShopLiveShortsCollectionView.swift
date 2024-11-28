@@ -64,6 +64,10 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        ShopLiveLogger.memoryLog("[SHOPLIVESHORTSCOLLECTIONVIEW] deinit")
+    }
+    
     override public func layoutSubviews() {
         super.layoutSubviews()
         guard let shortsCollectionView = getShortsCollectionView() else { return }

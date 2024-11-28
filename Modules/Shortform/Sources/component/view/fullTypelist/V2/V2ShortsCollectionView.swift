@@ -43,7 +43,7 @@ class V2ShortsCollectionView : ShortsCollectionBaseView {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("V2ShortsCollectionView")
+        ShopLiveLogger.memoryLog("V2ShortsCollectionView")
     }
     
     required init?(coder: NSCoder) {

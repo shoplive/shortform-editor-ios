@@ -44,7 +44,7 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
     
     
     deinit {
-        ShopLiveLogger.debugLog("v2shortscollectionviewmodel deinited")
+        ShopLiveLogger.memoryLog("v2shortscollectionviewmodel deinited")
     }
     
     func setshortFormIdsData(shortformIdsData : ShopLiveShortformIdsData){
