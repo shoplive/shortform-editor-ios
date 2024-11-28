@@ -920,7 +920,7 @@ extension SLVideoEditorMainViewController {
     private func makeOptionBtnStackLayout(stack : UIStackView) -> [NSLayoutConstraint] {
         if stack.arrangedSubviews.count == 1 {
             return [
-                stack.centerXAnchor.constraint(equalTo: filterPlayerView.centerXAnchor),
+                stack.trailingAnchor.constraint(equalTo: filterPlayerView.trailingAnchor, constant: -16),
                 stack.bottomAnchor.constraint(equalTo: filterPlayerView.bottomAnchor,constant: -16),
                 stack.widthAnchor.constraint(equalToConstant: 40),
                 stack.heightAnchor.constraint(equalToConstant: 40)
