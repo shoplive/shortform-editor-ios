@@ -57,15 +57,13 @@ struct ShortFormUploadConfigurationInfoModel {
                   enabledSwipeOut: datas?.enabledSwipeOut,
                   mutedWhenStart: datas?.mutedWhenStart,
                   mixWithOthers: datas?.mixWithOthers,
-                  previewMaxSize: datas?.previewMaxSize,
-                  detailCollectionListAll : datas?.detailCollectionListAll,
-                  eventTraceEndpoint: datas?.eventTraceEndpoint)
+                  previewMaxSize: datas?.previewMaxSize)
     }
     
     init(detailUrl: String?, shortformApiEndPoint : String?, previewEdgeInsets: (left : CGFloat?, top : CGFloat?, right : CGFloat?, bottom :CGFloat?),
         previewPosition: String?, detailApiInitializeCount: Int?, detailApiPaginationCount: Int?,
          listApiInitializeCount: Int?, listApiPaginationCount: Int?, previewUseCloseButton: Bool?, enabledSwipeOut: Bool?,
-         mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?,detailCollectionListAll : Bool?,eventTraceEndpoint : String?) {
+         mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?) {
         
         if let detailUrl = detailUrl {
             self.detailUrl = detailUrl
@@ -91,9 +89,6 @@ struct ShortFormUploadConfigurationInfoModel {
         }
         self.previewEdgeInsets = _previewEdgeInset
         
-//        if let previewPosition = previewPosition {
-//            self.previewPosition = ShopLiveShortform.PreviewPosition.previewPosition(name: previewPosition)
-//        }
         if let previewMaxSize = previewMaxSize {
             self._previewMaxsSize = previewMaxSize * (resolution.width / resolution.height)
         }
@@ -121,12 +116,7 @@ struct ShortFormUploadConfigurationInfoModel {
         if let mixWithOthers = mixWithOthers {
             self.mixWithOthers = mixWithOthers
         }
-        if let detailCollectionListAll = detailCollectionListAll {
-            self.detailCollectionListAll = detailCollectionListAll
-        }
-        if let eventTraceEndpoint = eventTraceEndpoint {
-            self.eventTraceEndpoint = eventTraceEndpoint
-        }
+        
     }
     
 }
