@@ -19,12 +19,11 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
         }
         if let webView = webView {
             let webViewWrapper = ShopLiveWebViewWrapper(webView: webView)
-            shortformDelegate?.onEvent?(webView: webViewWrapper, command: name, payload: jsonString)
+            shortformDelegate?.onEvent?(messenger: webViewWrapper, command: name, payload: jsonString)
         }
         else {
-            shortformDelegate?.onEvent?(webView: nil, command: name, payload: jsonString)
+            shortformDelegate?.onEvent?(messenger: nil, command: name, payload: jsonString)
         }
-//        ShopLiveShortform.Delegate.receiveHandler.delegate?.onEvent?(command: name, payload: jsonString)
     }
     
     func didFinishPlayingShorts(cell: ShortsCell, data: ShopLiveShortform.ShortsModel?) {

@@ -70,7 +70,7 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
         }
         
         if shortFormIdsList.count == 0 {
-            self.shortformDelegate?.onEvent?(webView: nil, command: "DETAIL_EMPTY", payload: nil)
+            self.shortformDelegate?.onEvent?(messenger: nil, command: "DETAIL_EMPTY", payload: nil)
             self.v2delegate?.hideEmptyDataView(hide: false)
         }
         else {
@@ -277,7 +277,7 @@ extension V2ShortsCollectionViewModel {
                     self.appendShortsListData(shortsList,reset: reset,scrollToPage: self.scrollToPage)
                     let hideEmptyDataView = (shortsList.count == 0 && reset == true) ? false : true
                     if hideEmptyDataView == false {
-                        self.shortformDelegate?.onEvent?(webView: nil, command: "DETAIL_EMPTY", payload: nil)
+                        self.shortformDelegate?.onEvent?(messenger: nil, command: "DETAIL_EMPTY", payload: nil)
                     }
                     self.v2delegate?.hideEmptyDataView(hide: hideEmptyDataView )
                     completion(true)

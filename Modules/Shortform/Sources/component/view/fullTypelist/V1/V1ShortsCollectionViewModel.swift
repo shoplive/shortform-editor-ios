@@ -95,7 +95,7 @@ extension V1ShortsCollectionViewModel {
                 switch result {
                 case .success(let response):
                     if isOnInitialLaunch && response.shortsList?.count ?? 0 == 0 {
-                        self.shortformDelegate?.onEvent?(webView: nil, command: "DETAIL_EMPTY", payload: nil)
+                        self.shortformDelegate?.onEvent?(messenger: nil, command: "DETAIL_EMPTY", payload: nil)
                         ShopLiveShortform.close()
                         return
                     }

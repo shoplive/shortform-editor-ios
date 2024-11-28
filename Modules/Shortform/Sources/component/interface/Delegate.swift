@@ -13,7 +13,7 @@ import ShopliveSDKCommon
     @objc optional func handleShare(shareUrl: String)
     @objc optional func handleShare(shareMetadata : ShopLiveShareMetaData)
     @objc optional func onError(error: Error)
-    @objc optional func onEvent(webView : ShopLiveWebViewWrapper?, command: String, payload: String?)
+    @objc optional func onEvent(messenger : ShopLiveShortformMessenger?, command: String, payload: String?)
     @objc optional func onDidDisAppear()
     @objc optional func onDidAppear()
     @objc optional func handleProductItem(shortsId : String, shortsSrn : String, product : ProductData)

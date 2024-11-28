@@ -8,21 +8,22 @@
 
 import Foundation
 import UIKit
+import ShopliveSDKCommon
 
-@objc public class ShopLiveWebViewWrapper: NSObject {
+@objc class ShopLiveWebViewWrapper: NSObject, ShopLiveShortformMessenger {
     
-    public let webView : UIView
+    var view : UIView
     
     init(webView: UIView) {
-        self.webView = webView
+        self.view = webView
     }
     
     deinit {
-        print("ShopLiveWebViewWrapper deinit")
+        ShopLiveLogger.memoryLog("[SHOPLIVEWEBVIEWWRAPPER] deinit")
     }
     
-    public func evaluateJavaScript(command : String, payload : [String : Any]) {
-        guard let webView = webView as? ShortsWebView else { return }
+    func evaluateJavaScript(command : String, payload : [String : Any]) {
+        guard let webView = view as? ShortsWebView else { return }
         let jsRequest : ShortsWebView.JSRequest = (.EXTERNAL_COMMAND(command),payload)
         webView.action( .evaluateJavaScript(jsRequest))
     }
