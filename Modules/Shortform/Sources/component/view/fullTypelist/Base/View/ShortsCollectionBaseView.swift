@@ -279,6 +279,10 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     func removeData(where shortsIdOrSrn : String) {
         viewModel.removeData(where: shortsIdOrSrn , collectionView: self.shortsListView)
     }
+    
+    func setIsScrollEnabled(isScrollEnabled : Bool) {
+        shortsListView.isScrollEnabled = isScrollEnabled
+    }
 }
 extension ShortsCollectionBaseView {
     func getPreviewEventTraceSrn() -> String? {
@@ -704,9 +708,5 @@ extension ShortsCollectionBaseView : ShortsCollectionBaseViewModelDelegate {
         guard let parent = self.parentViewController_SL else { return }
         parent.showShareSheet_SL(url: url)
     }
-}
-//MARK: - public functions
-extension ShortsCollectionBaseView {
-    
 }
 

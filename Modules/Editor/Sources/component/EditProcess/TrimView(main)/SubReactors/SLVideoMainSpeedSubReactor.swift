@@ -86,8 +86,6 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
         self.currentVideoDurationCGFloat = modifiedVideoDuration
         let result = ShopLiveShortformEditorSDKStrings.Editor.Trim.Cut.Sec.shoplive(Int(modifiedVideoDuration))
         
-        
-        
         if result != currentVideoDurationString {
             currentVideoDurationString = result
             resultHandler?( .onValueChanged )

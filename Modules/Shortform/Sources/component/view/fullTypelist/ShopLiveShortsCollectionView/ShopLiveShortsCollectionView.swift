@@ -20,6 +20,7 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
         case remove(String)
         case play
         case pause
+        case isScrollEnabled(Bool)
     }
     
     public enum Result {
@@ -88,6 +89,8 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
             onPause()
         case .remove(let shortsIdOrSrn):
             onRemove(shortsIdOrSrn: shortsIdOrSrn)
+        case .isScrollEnabled(let isScrollEnabled):
+            onIsScrollEnabled(isScrollEnabled: isScrollEnabled)
         }
     }
     
@@ -122,10 +125,14 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
         shortsCollectionView.pauseCells()
     }
     
-     private func onRemove(shortsIdOrSrn : String) {
+    private func onRemove(shortsIdOrSrn : String) {
         guard let shortsCollectionView = getShortsCollectionView() else { return }
-         shortsCollectionView.removeData(where: shortsIdOrSrn )
-        
+        shortsCollectionView.removeData(where: shortsIdOrSrn )
+    }
+    
+    private func onIsScrollEnabled(isScrollEnabled : Bool) {
+        guard let shortsCollectionView = getShortsCollectionView() else { return }
+        shortsCollectionView.setIsScrollEnabled(isScrollEnabled: isScrollEnabled)
     }
 }
 extension ShopLiveShortsCollectionView {
