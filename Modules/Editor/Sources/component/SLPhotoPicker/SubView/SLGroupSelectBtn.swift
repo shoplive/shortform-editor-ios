@@ -15,7 +15,7 @@ class SLPhotosPickerGroupSelectBtn : UIButton {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .set(size: 18, weight: ._600)
-        label.text = ShopLiveShortformEditorSDKStrings.Editor.Photopicker.Btn.Recent.title
+        label.text = ShopLiveShortformEditorSDKStrings.Editor.Folder.All.shoplive
         label.textColor = .white
         return label
     }()

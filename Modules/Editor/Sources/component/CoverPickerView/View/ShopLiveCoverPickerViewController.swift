@@ -41,7 +41,7 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.font = .set(size: 16, weight: ._600)
-        label.text = ShopLiveShortformEditorSDKStrings.Editor.Thumbnail.Page.title
+        label.text = ShopLiveShortformEditorSDKStrings.Editor.Title.Cover.Picker.shoplive
         return label
     }()
     
@@ -63,7 +63,7 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         btn.backgroundColor = design.cameraRollButtonBackgroundColor
         btn.setTitleColor(design.cameraRollButtonTextColor, for: .normal)
         btn.titleLabel?.font = .set(size: 16, weight: ._600)
-        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Thumbnail.Btn.CameraRoll.title, for: .normal)
+        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Select.Gallery.shoplive, for: .normal)
         btn.layer.cornerRadius = design.cameraRollButtonCornerRadius
         btn.clipsToBounds = true
         return btn
@@ -152,7 +152,7 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.label.textColor = .white
         view.label.font = .set(size: 15, weight: ._600)
-        view.label.text = ShopLiveShortformEditorSDKStrings.Toast.Cancel.Uploading.title
+        view.label.text = ShopLiveShortformEditorSDKStrings.Editor.Toast.Upload.cancelled
         view.layer.cornerRadius = 20
         view.clipsToBounds = true
         view._layoutMargin = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)

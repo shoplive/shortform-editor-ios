@@ -239,7 +239,7 @@ extension SLVideoThumbnailReactor : SLLoadingAlertControllerDelegate {
     func didCancelLoading() {
         resultHandler?( .cancelLoading )
         
-        let popUp = SLCustomAlertBox(title: ShopLiveShortformEditorSDKStrings.Editor.Upload.Cancel.Alert.title, confirmTitle: nil, closeTitle: nil)
+        let popUp = SLCustomAlertBox(title: ShopLiveShortformEditorSDKStrings.Editor.Alert.Encoding.Cancel.Title.shoplive, confirmTitle: nil, closeTitle: nil)
         popUp.setBoxCornerRadius(cornerRadius: mainDesign.cancelPopupCornerRadius)
         popUp.setButtonCornerRadius(cornerRadius: mainDesign.cancelPopupButtonCornerRadius)
         popUp.setCloseButtonDesign(backgroundColor: mainDesign.cancelPopupCloseButtonBackgroundColor, textColor: mainDesign.cancelPopupCloseButtonTextColor)

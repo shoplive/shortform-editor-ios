@@ -44,7 +44,7 @@ class SLVideoSpeedRateViewController : UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.font = .set(size: 16, weight: ._600)
-        label.text = ShopLiveShortformEditorSDKStrings.Editor.Speed.Page.title
+        label.text = ShopLiveShortformEditorSDKStrings.Editor.Title.PlaybackSpeed.shoplive
         return label
     }()
     
@@ -75,7 +75,7 @@ class SLVideoSpeedRateViewController : UIViewController {
         btn.backgroundColor = design.confirmButtonBackgroundColor
         btn.setTitleColor(design.confirmButtonTextColor, for: .normal)
         btn.titleLabel?.font = .set(size: 16, weight: ._600)
-        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Volume.Btn.Confirm.title, for: .normal)
+        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.PlaybackSpeed.Btn.Confirm.shoplive, for: .normal)
         btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true
         return btn

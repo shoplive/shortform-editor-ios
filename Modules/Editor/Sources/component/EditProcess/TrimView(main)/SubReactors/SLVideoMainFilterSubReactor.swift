@@ -43,7 +43,7 @@ class SLVideoMainFilterSubReactor : NSObject, SLReactor {
     private var thumbnailImage : UIImage?
 //
     
-    private var filterList : [Filters] = [Filters(title: ShopLiveShortformEditorSDKStrings.Editor.Filter.Origin.Cell.title, content: "", type: "CGE")] + ShopLiveShortformEditorFilterListManager.shared.filterList
+    private var filterList : [Filters] = [Filters(title: ShopLiveShortformEditorSDKStrings.Editor.Filter.Original.shoplive, content: "", type: "CGE")] + ShopLiveShortformEditorFilterListManager.shared.filterList
     private var cv : UICollectionView?
     private var initialIntensity : CGFloat = 0.7
     private var initialFilterConfig : String = ""

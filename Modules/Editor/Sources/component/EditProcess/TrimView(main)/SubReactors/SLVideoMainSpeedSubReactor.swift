@@ -84,7 +84,9 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
         let originVideoDuration = dto.cropTime.end.seconds - dto.cropTime.start.seconds
         let modifiedVideoDuration = originVideoDuration / dto.videoSpeed
         self.currentVideoDurationCGFloat = modifiedVideoDuration
-        let result = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(Int(modifiedVideoDuration))
+        let result = ShopLiveShortformEditorSDKStrings.Editor.Trim.Cut.Sec.shoplive(Int(modifiedVideoDuration))
+        
+        
         
         if result != currentVideoDurationString {
             currentVideoDurationString = result
@@ -104,7 +106,7 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
         let originVideoDuration = dto.cropTime.end.seconds - dto.cropTime.start.seconds
         let modifiedVideoDuration = originVideoDuration / dto.videoSpeed
         self.currentVideoDurationCGFloat = modifiedVideoDuration
-        let result = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(Int(modifiedVideoDuration))
+        let result = ShopLiveShortformEditorSDKStrings.Editor.Trim.Cut.Sec.shoplive(Int(modifiedVideoDuration))
         
         if result != currentVideoDurationString {
             currentVideoDurationString = result
@@ -115,8 +117,15 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
     }
     
     private func onCheckVideoDuration() {
-        if currentVideoDurationCGFloat > 60 {
-            let message = ShopLiveShortformEditorSDKStrings.Editor.Speed.Caution.Duration.Limit.sec(60)
+        let minDuration = ShopLiveEditorConfigurationManager.shared.videoTrimOption.minVideoDuration
+        let maxDuration = ShopLiveEditorConfigurationManager.shared.videoTrimOption.maxVideoDuration
+        
+        if currentVideoDurationCGFloat < minDuration {
+            let message = ShopLiveShortformEditorSDKStrings.Editor.Alert.Min.Duration.shoplive(Int(minDuration))
+            resultHandler?( .showToast(message) )
+        }
+        else if currentVideoDurationCGFloat > maxDuration {
+            let message = ShopLiveShortformEditorSDKStrings.Editor.Alert.Max.Duration.shoplive(Int(maxDuration))
             resultHandler?( .showToast(message) )
         }
         else {
@@ -138,7 +147,7 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
         let modifiedVideoDuration = originVideoDuration / dto.videoSpeed
         self.currentVideoDurationCGFloat = modifiedVideoDuration
         self.currentVideoDurationCGFloat = modifiedVideoDuration
-        let result = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(Int(modifiedVideoDuration))
+        let result = ShopLiveShortformEditorSDKStrings.Editor.Trim.Cut.Sec.shoplive(Int(modifiedVideoDuration))
         if result != currentVideoDurationString {
             currentVideoDurationString = result
             resultHandler?( .onValueChanged )

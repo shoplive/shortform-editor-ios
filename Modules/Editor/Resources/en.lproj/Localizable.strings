@@ -5,90 +5,179 @@
   Created by sangmin han on 2023/07/26.
   
 */
-"alert.yes" = "Ok";
-"alert.no" = "Cancel";
-"toast.cancel.encoding.title" = "Video encoding canceled.";
-"toast.cancel.uploading.title" = "Uploading has been canceled.";
-"editor.page.title" = "Edit";
+//"alert.yes" = "Ok";
+//"alert.no" = "Cancel";
+//"toast.cancel.encoding.title" = "Video encoding canceled.";
+//"toast.cancel.uploading.title" = "Uploading has been canceled.";
+//"editor.page.title" = "Edit";
+//
+//"editor.time.gap.sec.label" = "%ds";
+//"editor.time.gap.min.sec.label" = "%dm%ds";
+//
+//"editor.next.title" = "Next";
+//"editor.encoding.cancel.alert.title" = "Encoding in progressing.\nAre you sure cancel encode video?";
+//"editor.upload.cancel.alert.title" = "Do you really want to quit process?";
+//"uploadinfo.page.title" = "Add detail";
+//"uploadinfo.title.placeholder" = "Title";
+//"uploadinfo.title.title" = "Title";
+//"uploadinfo.description.title" = "Description";
+//"uploadinfo.description.placeholder" = "Description";
+//"uploadinfo.tag.title" = "Tag";
+//"uploadinfo.tag.placeholder" = "#Tag";
+//"uploadinfo.upload.title" = "Upload";
+//"loading.inprocessing.title" = "Processing";
+//"loading.preparing.title" = "Preparing";
+//
+//"picker.warning.duration.min.title" = "Unsupported video under 0.1s.";
+//"picker.warning.duration.invalid.message" = "Please select video duration between %dsec and %dmin";
+//
+//
+////Alert
+//"alert.permission.denied.title" = "Permission request";
+//"alert.permission.denied.description" = "Please grant camera and photo library usage permission to upload videos";
+//"alert.permission.denied.cancel" = "Cancel";
+//"alert.permission.denied.setting" = "Setting";
+//
+////ToastMessage
+//"toast.uploadinfo.empty_video_title" = "please insert video title";
+//"toast.codec.notvalid" = "Unsupported media";
+//
+//
+////loadingview
+//"loading.inprocessing.title" = "Processing";
+//"loading.preparing.title" = "Preparing";
+//
+////photoPicker
+//"editor.photopicker.btn.recent.title" = "recents";
+//
+////videoFrameSlider
+//"video.frame.slider.seconds.label" = "%ds";
+//"video.frame.slider.minute.seconds.label" = "%dm%ds";
+//
+////편집화면(메인)
+//"editor.main.page.title" = "Edit";
+//"editor.main.btn.next.title" = "next";
+//
+//
+//
+////자르기화면
+//"editor.crop.page.title" = "Crop";
+//"editor.crop.btn.confirm.title" = "next";
+//
+////배속
+//"editor.speed.page.title" = "Rate";
+//"editor.speed.btn.confirm.title" = "confirm";
+//"editor.speed.duration.label" = "%ds";
+//"editor.speed.caution.duration.limit.min" = "Only duration under %dm is available.";
+//"editor.speed.caution.duration.limit.sec" = "Only duration under %dsec is available.";
+////필터
+//"editor.filter.page.title" = "Filter";
+//"editor.filter.btn.confirm.title" = "confirm";
+//"editor.filter.origin.cell.title" = "Origin";
+//
+////볼륨
+//"editor.volume.page.title" = "Volume";
+//"editor.volume.btn.confirm.title" = "confirm";
+//
+//
+////커버설정
+//"editor.thumbnail.page.title" = "Thumbnail";
+//"editor.thumbnail.btn.confirm.title" = "confirm";
+//"editor.thumbnail.btn.cameraRoll.title" = "Add from Camera";
+//"editor.thumbnail.toast.upload.cancel.label" = "Upload has been cancelled";
+//
+////커버 설정 popup
+//"editor.thumbnail.toast.title" = "Do you really want to quit upload process?";
+//"editor.thumbnail.toast.btn.close.title" = "No";
+//"editor.thumbnail.toast.btn.confirm.title" = "Yes";
 
-"editor.time.gap.sec.label" = "%ds";
-"editor.time.gap.min.sec.label" = "%dm%ds";
+"editor.header.headline.playback.shoplive" = "Playback Speed";
 
-"editor.next.title" = "Next";
-"editor.encoding.cancel.alert.title" = "Encoding in progressing.\nAre you sure cancel encode video?";
-"editor.upload.cancel.alert.title" = "Do you really want to quit process?";
-"uploadinfo.page.title" = "Add detail";
-"uploadinfo.title.placeholder" = "Title";
-"uploadinfo.title.title" = "Title";
-"uploadinfo.description.title" = "Description";
-"uploadinfo.description.placeholder" = "Description";
-"uploadinfo.tag.title" = "Tag";
-"uploadinfo.tag.placeholder" = "#Tag";
-"uploadinfo.upload.title" = "Upload";
-"loading.inprocessing.title" = "Processing";
-"loading.preparing.title" = "Preparing";
+"editor.title.video.upload.shoplive" = "Add Details";
+"editor.title.shortform.data.edit.shoplive" = "Edit";
+"editor.title.crop.shoplive" = "Crop";
+"editor.title.filter.shoplive" = "Filter";
 
-"picker.warning.duration.min.title" = "Unsupported video under 0.1s.";
-"picker.warning.duration.invalid.message" = "Please select video duration between %dsec and %dmin";
+"editor.gallery.photo.and.video.shoplive" = "Photos & Videos";
+"editor.gallery.photo.shoplive" = "Photo";
+"editor.gallery.video.shoplive" = "Video";
+"editor.gallery.done.shoplive" = "Done";
+"editor.gallery.selected.count.shoplive" = "%1$d / %2$d";
+"editor.gallery.unsupported.media.shoplive" = "Unsupported media";
 
+"editor.crop.btn.confirm.shoplive" = "confirm";
 
-//Alert
-"alert.permission.denied.title" = "Permission request";
-"alert.permission.denied.description" = "Please grant camera and photo library usage permission to upload videos";
-"alert.permission.denied.cancel" = "Cancel";
-"alert.permission.denied.setting" = "Setting";
+"editor.upload.title.shoplive" = "Title";
+"editor.upload.title.hint.shoplive" = "Title";
+"editor.upload.description.shoplive" = "Description";
+"editor.upload.description.hint.shoplive" = "Description";
+"editor.upload.tag.shoplive" = "Tags";
 
-//ToastMessage
-"toast.uploadinfo.empty_video_title" = "please insert video title";
-"toast.codec.notvalid" = "Unsupported media";
+"editor.hint.tag.shoplive" = "#Tags";
 
+//Main
+"editor.title.video.edit.shoplive" = "Edit";
+"editor.main.btn.next.shoplive" = "Next";
 
-//loadingview
-"loading.inprocessing.title" = "Processing";
-"loading.preparing.title" = "Preparing";
+//Thumbnail
+"editor.title.cover.picker.shoplive" = "Set Cover";
+"editor.cover.picker.btn.confirm.shoplive" = "Done"; //
+"editor.cover.picker.btn.cameraRool.shoplive" = "Add from Camera Roll"; //
 
-//photoPicker
-"editor.photopicker.btn.recent.title" = "recents";
+//playbackSpeed
+"editor.title.playbackSpeed.shoplive" = "Playback Speed";
+"editor.playbackSpeed.btn.confirm.shoplive" = "Done";
 
-//videoFrameSlider
-"video.frame.slider.seconds.label" = "%ds";
-"video.frame.slider.minute.seconds.label" = "%dm%ds";
+//volume
+"editor.volume.page.title.shoplive" = "Volume";
+"editor.volume.btn.confirm.shoplive" = "Done";
 
-//편집화면(메인)
-"editor.main.page.title" = "Edit";
-"editor.main.btn.next.title" = "next";
+//Trimg
+"editor.trim.cut.sec.shoplive" = "%1$d sec";
+"editor.trim.cut.start.shoplive" = "%1$s";
+"editor.trim.cut.end.shoplive" = "/ %1$s";
 
+"editor.preparing.shoplive" = "0%";
+"editor.progress.shoplive" = "%1$d%%";
+"editor.encoding.cancel.shoplive" = "Canceling";
+"editor.preview.title.shoplive" = "Preview";
+"editor.progressing.shoplive" = "Processing";
 
+//filter
+"editor.filter.shoplive" = "Filter";
+"editor.filter.btn.confirm.shoplive" = "Done";
+"editor.filter.done.shoplive" = "Done";
 
-//자르기화면
-"editor.crop.page.title" = "Crop";
-"editor.crop.btn.confirm.title" = "next";
+"editor.cover.picker.done.shoplive" = "Done";
+"editor.select.gallery.shoplive" = "Add from Camera Roll";
+"editor.folder.all.shoplive" = "Recent Items";
+"editor.alert.shoot.title.shoplive" = "Capture";
+"editor.alert.shoot.shoplive" = "Select a Photo or Video";
+"editor.picture.shoplive" = "Photo";
+"editor.video.shoplive" = "Video";
+"editor.next.shoplive" = "Next";
+"editor.upload.shoplive" = "Upload";
+"editor.modify.shoplive" = "Edit";
+"editor.yes.shoplive" = "Yes";
+"editor.no.shoplive" = "No";
+"editor.loading.shoplive" = "Loading";
 
-//배속
-"editor.speed.page.title" = "Rate";
-"editor.speed.btn.confirm.title" = "confirm";
-"editor.speed.duration.label" = "%ds";
-"editor.speed.caution.duration.limit.min" = "Only duration under %dm is available.";
-"editor.speed.caution.duration.limit.sec" = "Only duration under %dsec is available.";
-//필터
-"editor.filter.page.title" = "Filter";
-"editor.filter.btn.confirm.title" = "confirm";
-"editor.filter.origin.cell.title" = "Origin";
+"editor.toast.encoding.video.was.not.exist.shoplive" = "Video not found.";
+"editor.toast.encoding.uri.was.not.created.shoplive" = "Failed to create URL.";
+"editor.toast.encoding.canceled.shoplive" = "Encoding canceled";
+"editor.toast.encoding.fail.shoplive" = "Encoding failed";
+"editor.toast.min.duration.shoplive" = "Only videos over %.1f seconds can be uploaded";
+"editor.toast.need.access.gallery.permissions.shoplive" = "Camera and album access is required to upload videos";
+"editor.toast.shortform.creation.failed.shoplive" = "Failed to create short video";
+"editor.toast.upload.cancelled" = "Uploading has been canceled.";
 
-//볼륨
-"editor.volume.page.title" = "Volume";
-"editor.volume.btn.confirm.title" = "confirm";
+//"editor.alert.encoding.now.shoplive" = "Cancel encoding?";
+"editor.alert.encoding.cancel.title.shoplive" = "Cancel encoding?";
+"editor.alert.max.duration.shoplive" = "Only videos up to %d seconds can be uploaded";
+"editor.alert.min.duration.shoplive" = "Only videos over %d seconds can be uploaded";
 
-
-//커버설정
-"editor.thumbnail.page.title" = "Thumbnail";
-"editor.thumbnail.btn.confirm.title" = "confirm";
-"editor.thumbnail.btn.cameraRoll.title" = "Add from Camera";
-"editor.thumbnail.toast.upload.cancel.label" = "Upload has been cancelled";
-
-//커버 설정 popup
-"editor.thumbnail.toast.title" = "Do you really want to quit upload process?";
-"editor.thumbnail.toast.btn.close.title" = "No";
-"editor.thumbnail.toast.btn.confirm.title" = "Yes";
-
+"editor.filter.original.shoplive" = "Original";
+"editor.filter.bright.shoplive" = "Bright";
+"editor.filter.clear.shoplive" = "Clear";
+"editor.filter.warm.shoplive" = "Warm";
 

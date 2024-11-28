@@ -318,7 +318,7 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
                     let maxDuration = mediaPickerVideoDurationOption.maxVideoDuration
                     
                     if duration < Double(minDuration)  || duration > Double(maxDuration) {
-                        let message = ShopLiveShortformEditorSDKStrings.Picker.Warning.Duration.Invalid.message(minDuration, maxDuration / 60)
+                        let message = ShopLiveShortformEditorSDKStrings.Editor.Alert.Min.Duration.shoplive( minDuration)
                         self.resultHandler?( .showToast(message) )
                         self.resultHandler?( .requsetFinishLoading )
                         return
@@ -460,7 +460,13 @@ extension SLPhotosPickerReactor : UIImagePickerControllerDelegate, UINavigationC
                     let maxDuration = mediaPickerVideoDurationOption.maxVideoDuration
                     
                     if duration < Double(minDuration)  || duration > Double(maxDuration) {
-                        let message = ShopLiveShortformEditorSDKStrings.Picker.Warning.Duration.Invalid.message(minDuration, maxDuration / 60)
+                        var message : String = ""
+                        if duration < Double(minDuration) {
+                            message = ShopLiveShortformEditorSDKStrings.Editor.Alert.Min.Duration.shoplive(minDuration)
+                        }
+                        else if duration > Double(maxDuration) {
+                            message = ShopLiveShortformEditorSDKStrings.Editor.Alert.Max.Duration.shoplive(maxDuration)
+                        }
                         DispatchQueue.main.async {
                             picker.dismiss(animated: true) {
                                 self.resultHandler?( .showToast(message) )

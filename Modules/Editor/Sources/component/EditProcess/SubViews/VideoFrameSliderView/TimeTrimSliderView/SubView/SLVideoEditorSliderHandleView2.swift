@@ -215,7 +215,7 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
         let modifiedVideoDuration = originVideoDuration / self.playbackSpeed
         let gapSecond = Int(modifiedVideoDuration.rounded())
         
-        trimDurationLabel.text = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(gapSecond)
+        trimDurationLabel.text = ShopLiveShortformEditorSDKStrings.Editor.Trim.Cut.Sec.shoplive(gapSecond)
     }
     
     private func blockHandleWhenVideoDurationIsShorterThenMinTrimTime() {

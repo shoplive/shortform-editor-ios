@@ -353,7 +353,7 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
 }
 extension SLVideoEditorMainViewReactor : SLLoadingAlertControllerDelegate {
     func didCancelLoading() {
-        let popUp = SLCustomAlertBox(title: ShopLiveShortformEditorSDKStrings.Editor.Upload.Cancel.Alert.title, confirmTitle: nil, closeTitle: nil)
+        let popUp = SLCustomAlertBox(title: ShopLiveShortformEditorSDKStrings.Editor.Alert.Encoding.Cancel.Title.shoplive, confirmTitle: nil, closeTitle: nil)
         popUp.setBoxCornerRadius(cornerRadius: design.cancelPopupCornerRadius)
         popUp.setButtonCornerRadius(cornerRadius: design.cancelPopupButtonCornerRadius)
         popUp.setCloseButtonDesign(backgroundColor: design.cancelPopupCloseButtonBackgroundColor,

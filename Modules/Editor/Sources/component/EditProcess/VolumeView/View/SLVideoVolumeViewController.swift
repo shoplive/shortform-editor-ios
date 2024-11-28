@@ -44,7 +44,7 @@ class SLVideoVolumeViewController : UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.font = .set(size: 16, weight: ._600)
-        label.text = ShopLiveShortformEditorSDKStrings.Editor.Volume.Page.title
+        label.text = ShopLiveShortformEditorSDKStrings.Editor.Volume.Page.Title.shoplive
         return label
     }()
     
@@ -75,7 +75,7 @@ class SLVideoVolumeViewController : UIViewController {
         btn.backgroundColor = design.confirmButtonBackgroundColor
         btn.setTitleColor(design.confirmButtonTextColor, for: .normal)
         btn.titleLabel?.font = .set(size: 16, weight: ._600)
-        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Volume.Btn.Confirm.title, for: .normal)
+        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Volume.Btn.Confirm.shoplive, for: .normal)
         btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true
         return btn

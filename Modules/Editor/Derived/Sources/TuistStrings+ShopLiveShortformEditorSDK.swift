@@ -13,78 +13,207 @@ import Foundation
 // swiftlint:disable nesting type_body_length type_name
 public enum ShopLiveShortformEditorSDKStrings: Sendable {
 
-  public enum Alert: Sendable {
-  /// Cancel
-    public static let no = ShopLiveShortformEditorSDKStrings.tr("Localizable", "alert.no")
-    /// Ok
-    public static let yes = ShopLiveShortformEditorSDKStrings.tr("Localizable", "alert.yes")
+  public enum Editor: Sendable {
 
-    public enum Permission: Sendable {
+    public enum Alert: Sendable {
 
-      public enum Denied: Sendable {
-      /// Cancel
-        public static let cancel = ShopLiveShortformEditorSDKStrings.tr("Localizable", "alert.permission.denied.cancel")
-        /// Please grant camera and photo library usage permission to upload videos
-        public static let description = ShopLiveShortformEditorSDKStrings.tr("Localizable", "alert.permission.denied.description")
-        /// Setting
-        public static let setting = ShopLiveShortformEditorSDKStrings.tr("Localizable", "alert.permission.denied.setting")
-        /// Permission request
-        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "alert.permission.denied.title")
+      public enum Encoding: Sendable {
+
+        public enum Cancel: Sendable {
+
+          public enum Title: Sendable {
+          /// Cancel encoding?
+            public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.alert.encoding.cancel.title.shoplive")
+          }
+        }
+      }
+
+      public enum Max: Sendable {
+
+        public enum Duration: Sendable {
+        /// Only videos up to %d seconds can be uploaded
+          public static func shoplive(_ p1: Int) -> String {
+            return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.alert.max.duration.shoplive",p1)
+          }
+        }
+      }
+
+      public enum Min: Sendable {
+
+        public enum Duration: Sendable {
+        /// Only videos over %d seconds can be uploaded
+          public static func shoplive(_ p1: Int) -> String {
+            return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.alert.min.duration.shoplive",p1)
+          }
+        }
+      }
+
+      public enum Shoot: Sendable {
+      /// Select a Photo or Video
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.alert.shoot.shoplive")
+
+        public enum Title: Sendable {
+        /// Capture
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.alert.shoot.title.shoplive")
+        }
       }
     }
-  }
 
-  public enum Editor: Sendable {
+    public enum Cover: Sendable {
+
+      public enum Picker: Sendable {
+
+        public enum Btn: Sendable {
+
+          public enum CameraRool: Sendable {
+          /// Add from Camera Roll
+            public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.cover.picker.btn.cameraRool.shoplive")
+          }
+
+          public enum Confirm: Sendable {
+          /// Done
+            public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.cover.picker.btn.confirm.shoplive")
+          }
+        }
+
+        public enum Done: Sendable {
+        /// Done
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.cover.picker.done.shoplive")
+        }
+      }
+    }
 
     public enum Crop: Sendable {
 
       public enum Btn: Sendable {
 
         public enum Confirm: Sendable {
-        /// next
-          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.crop.btn.confirm.title")
+        /// confirm
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.crop.btn.confirm.shoplive")
         }
-      }
-
-      public enum Page: Sendable {
-      /// Crop
-        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.crop.page.title")
       }
     }
 
     public enum Encoding: Sendable {
 
       public enum Cancel: Sendable {
-
-        public enum Alert: Sendable {
-        /// Encoding in progressing.\nAre you sure cancel encode video?
-          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.encoding.cancel.alert.title")
-        }
+      /// Canceling
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.encoding.cancel.shoplive")
       }
     }
 
     public enum Filter: Sendable {
+    /// Filter
+      public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.filter.shoplive")
+
+      public enum Bright: Sendable {
+      /// Bright
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.filter.bright.shoplive")
+      }
 
       public enum Btn: Sendable {
 
         public enum Confirm: Sendable {
-        /// confirm
-          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.filter.btn.confirm.title")
+        /// Done
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.filter.btn.confirm.shoplive")
         }
       }
 
-      public enum Origin: Sendable {
+      public enum Clear: Sendable {
+      /// Clear
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.filter.clear.shoplive")
+      }
 
-        public enum Cell: Sendable {
-        /// Origin
-          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.filter.origin.cell.title")
+      public enum Done: Sendable {
+      /// Done
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.filter.done.shoplive")
+      }
+
+      public enum Original: Sendable {
+      /// Original
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.filter.original.shoplive")
+      }
+
+      public enum Warm: Sendable {
+      /// Warm
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.filter.warm.shoplive")
+      }
+    }
+
+    public enum Folder: Sendable {
+
+      public enum All: Sendable {
+      /// Recent Items
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.folder.all.shoplive")
+      }
+    }
+
+    public enum Gallery: Sendable {
+
+      public enum Done: Sendable {
+      /// Done
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.gallery.done.shoplive")
+      }
+
+      public enum Photo: Sendable {
+      /// Photo
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.gallery.photo.shoplive")
+
+        public enum And: Sendable {
+
+          public enum Video: Sendable {
+          /// Photos & Videos
+            public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.gallery.photo.and.video.shoplive")
+          }
         }
       }
 
-      public enum Page: Sendable {
-      /// Filter
-        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.filter.page.title")
+      public enum Selected: Sendable {
+
+        public enum Count: Sendable {
+        /// %1$d / %2$d
+          public static func shoplive(_ p1: Int, _ p2: Int) -> String {
+            return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.gallery.selected.count.shoplive",p1, p2)
+          }
+        }
       }
+
+      public enum Unsupported: Sendable {
+
+        public enum Media: Sendable {
+        /// Unsupported media
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.gallery.unsupported.media.shoplive")
+        }
+      }
+
+      public enum Video: Sendable {
+      /// Video
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.gallery.video.shoplive")
+      }
+    }
+
+    public enum Header: Sendable {
+
+      public enum Headline: Sendable {
+
+        public enum Playback: Sendable {
+        /// Playback Speed
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.header.headline.playback.shoplive")
+        }
+      }
+    }
+
+    public enum Hint: Sendable {
+
+      public enum Tag: Sendable {
+      /// #Tags
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.hint.tag.shoplive")
+      }
+    }
+
+    public enum Loading: Sendable {
+    /// Loading
+      public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.loading.shoplive")
     }
 
     public enum Main: Sendable {
@@ -92,157 +221,270 @@ public enum ShopLiveShortformEditorSDKStrings: Sendable {
       public enum Btn: Sendable {
 
         public enum Next: Sendable {
-        /// next
-          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.main.btn.next.title")
+        /// Next
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.main.btn.next.shoplive")
         }
       }
+    }
 
-      public enum Page: Sendable {
-      /// Edit
-        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.main.page.title")
-      }
+    public enum Modify: Sendable {
+    /// Edit
+      public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.modify.shoplive")
     }
 
     public enum Next: Sendable {
     /// Next
-      public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.next.title")
+      public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.next.shoplive")
     }
 
-    public enum Page: Sendable {
-    /// Edit
-      public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.page.title")
+    public enum No: Sendable {
+    /// No
+      public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.no.shoplive")
     }
 
-    public enum Photopicker: Sendable {
-
-      public enum Btn: Sendable {
-
-        public enum Recent: Sendable {
-        /// recents
-          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.photopicker.btn.recent.title")
-        }
-      }
+    public enum Picture: Sendable {
+    /// Photo
+      public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.picture.shoplive")
     }
 
-    public enum Speed: Sendable {
+    public enum PlaybackSpeed: Sendable {
 
       public enum Btn: Sendable {
 
         public enum Confirm: Sendable {
-        /// confirm
-          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.speed.btn.confirm.title")
+        /// Done
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.playbackSpeed.btn.confirm.shoplive")
         }
-      }
-
-      public enum Caution: Sendable {
-
-        public enum Duration: Sendable {
-
-          public enum Limit: Sendable {
-          /// Only duration under %dm is available.
-            public static func min(_ p1: Int) -> String {
-              return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.speed.caution.duration.limit.min",p1)
-            }
-            /// Only duration under %dsec is available.
-            public static func sec(_ p1: Int) -> String {
-              return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.speed.caution.duration.limit.sec",p1)
-            }
-          }
-        }
-      }
-
-      public enum Duration: Sendable {
-      /// %ds
-        public static func label(_ p1: Int) -> String {
-          return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.speed.duration.label",p1)
-        }
-      }
-
-      public enum Page: Sendable {
-      /// Rate
-        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.speed.page.title")
       }
     }
 
-    public enum Thumbnail: Sendable {
+    public enum Preparing: Sendable {
+    /// 0%
+      public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.preparing.shoplive")
+    }
 
-      public enum Btn: Sendable {
+    public enum Preview: Sendable {
 
-        public enum CameraRoll: Sendable {
-        /// Add from Camera
-          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.thumbnail.btn.cameraRoll.title")
-        }
+      public enum Title: Sendable {
+      /// Preview
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.preview.title.shoplive")
+      }
+    }
 
-        public enum Confirm: Sendable {
-        /// confirm
-          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.thumbnail.btn.confirm.title")
+    public enum Progress: Sendable {
+    /// %1$d%%
+      public static func shoplive(_ p1: Int) -> String {
+        return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.progress.shoplive",p1)
+      }
+    }
+
+    public enum Progressing: Sendable {
+    /// Processing
+      public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.progressing.shoplive")
+    }
+
+    public enum Select: Sendable {
+
+      public enum Gallery: Sendable {
+      /// Add from Camera Roll
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.select.gallery.shoplive")
+      }
+    }
+
+    public enum Title: Sendable {
+
+      public enum Cover: Sendable {
+
+        public enum Picker: Sendable {
+        /// Set Cover
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.title.cover.picker.shoplive")
         }
       }
 
-      public enum Page: Sendable {
-      /// Thumbnail
-        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.thumbnail.page.title")
+      public enum Crop: Sendable {
+      /// Crop
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.title.crop.shoplive")
       }
 
-      public enum Toast: Sendable {
-      /// Do you really want to quit upload process?
-        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.thumbnail.toast.title")
+      public enum Filter: Sendable {
+      /// Filter
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.title.filter.shoplive")
+      }
 
-        public enum Btn: Sendable {
+      public enum PlaybackSpeed: Sendable {
+      /// Playback Speed
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.title.playbackSpeed.shoplive")
+      }
 
-          public enum Close: Sendable {
-          /// No
-            public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.thumbnail.toast.btn.close.title")
+      public enum Shortform: Sendable {
+
+        public enum Data: Sendable {
+
+          public enum Edit: Sendable {
+          /// Edit
+            public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.title.shortform.data.edit.shoplive")
           }
+        }
+      }
 
-          public enum Confirm: Sendable {
-          /// Yes
-            public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.thumbnail.toast.btn.confirm.title")
-          }
+      public enum Video: Sendable {
+
+        public enum Edit: Sendable {
+        /// Edit
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.title.video.edit.shoplive")
         }
 
         public enum Upload: Sendable {
-
-          public enum Cancel: Sendable {
-          /// Upload has been cancelled
-            public static let label = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.thumbnail.toast.upload.cancel.label")
-          }
+        /// Add Details
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.title.video.upload.shoplive")
         }
       }
     }
 
-    public enum Time: Sendable {
+    public enum Toast: Sendable {
 
-      public enum Gap: Sendable {
+      public enum Encoding: Sendable {
 
-        public enum Min: Sendable {
+        public enum Canceled: Sendable {
+        /// Encoding canceled
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.toast.encoding.canceled.shoplive")
+        }
 
-          public enum Sec: Sendable {
-          /// %dm%ds
-            public static func label(_ p1: Int, _ p2: Int) -> String {
-              return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.time.gap.min.sec.label",p1, p2)
+        public enum Fail: Sendable {
+        /// Encoding failed
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.toast.encoding.fail.shoplive")
+        }
+
+        public enum Uri: Sendable {
+
+          public enum Was: Sendable {
+
+            public enum Not: Sendable {
+
+              public enum Created: Sendable {
+              /// Failed to create URL.
+                public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.toast.encoding.uri.was.not.created.shoplive")
+              }
             }
+          }
+        }
+
+        public enum Video: Sendable {
+
+          public enum Was: Sendable {
+
+            public enum Not: Sendable {
+
+              public enum Exist: Sendable {
+              /// Video not found.
+                public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.toast.encoding.video.was.not.exist.shoplive")
+              }
+            }
+          }
+        }
+      }
+
+      public enum Min: Sendable {
+
+        public enum Duration: Sendable {
+        /// Only videos over %.1f seconds can be uploaded
+          public static func shoplive(_ p1: Float) -> String {
+            return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.toast.min.duration.shoplive",p1)
+          }
+        }
+      }
+
+      public enum Need: Sendable {
+
+        public enum Access: Sendable {
+
+          public enum Gallery: Sendable {
+
+            public enum Permissions: Sendable {
+            /// Camera and album access is required to upload videos
+              public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.toast.need.access.gallery.permissions.shoplive")
+            }
+          }
+        }
+      }
+
+      public enum Shortform: Sendable {
+
+        public enum Creation: Sendable {
+
+          public enum Failed: Sendable {
+          /// Failed to create short video
+            public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.toast.shortform.creation.failed.shoplive")
+          }
+        }
+      }
+
+      public enum Upload: Sendable {
+      /// Uploading has been canceled.
+        public static let cancelled = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.toast.upload.cancelled")
+      }
+    }
+
+    public enum Trim: Sendable {
+
+      public enum Cut: Sendable {
+
+        public enum End: Sendable {
+        /// / %1$s
+          public static func shoplive(_ p1: UnsafePointer<CChar>) -> String {
+            return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.trim.cut.end.shoplive",p1)
           }
         }
 
         public enum Sec: Sendable {
-        /// %ds
-          public static func label(_ p1: Int) -> String {
-            return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.time.gap.sec.label",p1)
+        /// %1$d sec
+          public static func shoplive(_ p1: Int) -> String {
+            return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.trim.cut.sec.shoplive",p1)
+          }
+        }
+
+        public enum Start: Sendable {
+        /// %1$s
+          public static func shoplive(_ p1: UnsafePointer<CChar>) -> String {
+            return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.trim.cut.start.shoplive",p1)
           }
         }
       }
     }
 
     public enum Upload: Sendable {
+    /// Upload
+      public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.upload.shoplive")
 
-      public enum Cancel: Sendable {
+      public enum Description: Sendable {
+      /// Description
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.upload.description.shoplive")
 
-        public enum Alert: Sendable {
-        /// Do you really want to quit process?
-          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.upload.cancel.alert.title")
+        public enum Hint: Sendable {
+        /// Description
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.upload.description.hint.shoplive")
         }
       }
+
+      public enum Tag: Sendable {
+      /// Tags
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.upload.tag.shoplive")
+      }
+
+      public enum Title: Sendable {
+      /// Title
+        public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.upload.title.shoplive")
+
+        public enum Hint: Sendable {
+        /// Title
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.upload.title.hint.shoplive")
+        }
+      }
+    }
+
+    public enum Video: Sendable {
+    /// Video
+      public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.video.shoplive")
     }
 
     public enum Volume: Sendable {
@@ -250,135 +492,23 @@ public enum ShopLiveShortformEditorSDKStrings: Sendable {
       public enum Btn: Sendable {
 
         public enum Confirm: Sendable {
-        /// confirm
-          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.volume.btn.confirm.title")
+        /// Done
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.volume.btn.confirm.shoplive")
         }
       }
 
       public enum Page: Sendable {
-      /// Volume
-        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.volume.page.title")
-      }
-    }
-  }
 
-  public enum Loading: Sendable {
-
-    public enum Inprocessing: Sendable {
-    /// Processing
-      public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "loading.inprocessing.title")
-    }
-
-    public enum Preparing: Sendable {
-    /// Preparing
-      public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "loading.preparing.title")
-    }
-  }
-
-  public enum Picker: Sendable {
-
-    public enum Warning: Sendable {
-
-      public enum Duration: Sendable {
-
-        public enum Invalid: Sendable {
-        /// Please select video duration between %dsec and %dmin
-          public static func message(_ p1: Int, _ p2: Int) -> String {
-            return ShopLiveShortformEditorSDKStrings.tr("Localizable", "picker.warning.duration.invalid.message",p1, p2)
-          }
-        }
-
-        public enum Min: Sendable {
-        /// Unsupported video under 0.1s.
-          public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "picker.warning.duration.min.title")
+        public enum Title: Sendable {
+        /// Volume
+          public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.volume.page.title.shoplive")
         }
       }
     }
-  }
 
-  public enum Toast: Sendable {
-
-    public enum Cancel: Sendable {
-
-      public enum Encoding: Sendable {
-      /// Video encoding canceled.
-        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "toast.cancel.encoding.title")
-      }
-
-      public enum Uploading: Sendable {
-      /// Uploading has been canceled.
-        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "toast.cancel.uploading.title")
-      }
-    }
-
-    public enum Codec: Sendable {
-    /// Unsupported media
-      public static let notvalid = ShopLiveShortformEditorSDKStrings.tr("Localizable", "toast.codec.notvalid")
-    }
-
-    public enum Uploadinfo: Sendable {
-    /// please insert video title
-      public static let emptyVideoTitle = ShopLiveShortformEditorSDKStrings.tr("Localizable", "toast.uploadinfo.empty_video_title")
-    }
-  }
-
-  public enum Uploadinfo: Sendable {
-
-    public enum Description: Sendable {
-    /// Description
-      public static let placeholder = ShopLiveShortformEditorSDKStrings.tr("Localizable", "uploadinfo.description.placeholder")
-      /// Description
-      public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "uploadinfo.description.title")
-    }
-
-    public enum Page: Sendable {
-    /// Add detail
-      public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "uploadinfo.page.title")
-    }
-
-    public enum Tag: Sendable {
-    /// #Tag
-      public static let placeholder = ShopLiveShortformEditorSDKStrings.tr("Localizable", "uploadinfo.tag.placeholder")
-      /// Tag
-      public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "uploadinfo.tag.title")
-    }
-
-    public enum Title: Sendable {
-    /// Title
-      public static let placeholder = ShopLiveShortformEditorSDKStrings.tr("Localizable", "uploadinfo.title.placeholder")
-      /// Title
-      public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "uploadinfo.title.title")
-    }
-
-    public enum Upload: Sendable {
-    /// Upload
-      public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "uploadinfo.upload.title")
-    }
-  }
-
-  public enum Video: Sendable {
-
-    public enum Frame: Sendable {
-
-      public enum Slider: Sendable {
-
-        public enum Minute: Sendable {
-
-          public enum Seconds: Sendable {
-          /// %dm%ds
-            public static func label(_ p1: Int, _ p2: Int) -> String {
-              return ShopLiveShortformEditorSDKStrings.tr("Localizable", "video.frame.slider.minute.seconds.label",p1, p2)
-            }
-          }
-        }
-
-        public enum Seconds: Sendable {
-        /// %ds
-          public static func label(_ p1: Int) -> String {
-            return ShopLiveShortformEditorSDKStrings.tr("Localizable", "video.frame.slider.seconds.label",p1)
-          }
-        }
-      }
+    public enum Yes: Sendable {
+    /// Yes
+      public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.yes.shoplive")
     }
   }
 }

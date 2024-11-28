@@ -70,7 +70,7 @@ class SLVideoEditorMainViewController : UIViewController {
         let attributes: [NSAttributedString.Key: Any] = [
             .shadow: shadow
         ]
-        label.attributedText = NSAttributedString(string: ShopLiveShortformEditorSDKStrings.Editor.Main.Page.title, attributes: attributes)
+        label.attributedText = NSAttributedString(string: ShopLiveShortformEditorSDKStrings.Editor.Title.Video.Edit.shoplive, attributes: attributes)
         return label
     }()
     
@@ -204,7 +204,7 @@ class SLVideoEditorMainViewController : UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.label.textColor = .white
         view.label.font = .set(size: 15, weight: ._600)
-        view.label.text = ShopLiveShortformEditorSDKStrings.Toast.Cancel.Uploading.title
+        view.label.text = ShopLiveShortformEditorSDKStrings.Editor.Encoding.Cancel.shoplive
         view.layer.cornerRadius = 20
         view.clipsToBounds = true
         view._layoutMargin = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
@@ -560,7 +560,8 @@ class SLVideoEditorMainViewController : UIViewController {
     }
     
     private func onReactorShowCancelToast() {
-        self.animateToast(message: ShopLiveShortformEditorSDKStrings.Toast.Cancel.Uploading.title)
+        
+        self.animateToast(message: ShopLiveShortformEditorSDKStrings.Editor.Toast.Encoding.Canceled.shoplive)
     }
     
     private func onReactorShowPopUp(popUp: UIView) {
@@ -983,15 +984,15 @@ extension SLVideoEditorMainViewController {
         
         switch to {
         case .speed:
-            pageTitleLabel.text = ShopLiveShortformEditorSDKStrings.Editor.Speed.Page.title
+            pageTitleLabel.text = ShopLiveShortformEditorSDKStrings.Editor.Title.PlaybackSpeed.shoplive
         case .volume:
-            pageTitleLabel.text = ShopLiveShortformEditorSDKStrings.Editor.Volume.Page.title
+            pageTitleLabel.text = ShopLiveShortformEditorSDKStrings.Editor.Volume.Page.Title.shoplive
         case .filter:
-            pageTitleLabel.text = ShopLiveShortformEditorSDKStrings.Editor.Filter.Page.title
+            pageTitleLabel.text = ShopLiveShortformEditorSDKStrings.Editor.Title.Filter.shoplive
         case .crop:
-            pageTitleLabel.text = ShopLiveShortformEditorSDKStrings.Editor.Crop.Page.title
+            pageTitleLabel.text = ShopLiveShortformEditorSDKStrings.Editor.Title.Crop.shoplive
         case .main:
-            pageTitleLabel.text = ShopLiveShortformEditorSDKStrings.Editor.Main.Page.title
+            pageTitleLabel.text = ShopLiveShortformEditorSDKStrings.Editor.Title.Video.Edit.shoplive
         }
         
         UIView.animateKeyframes(withDuration: 0.4, delay: 0, options: []) {

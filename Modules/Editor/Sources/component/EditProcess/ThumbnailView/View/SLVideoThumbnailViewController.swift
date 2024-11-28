@@ -40,7 +40,7 @@ class SLVideoThumbnailViewController : UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.font = .set(size: 16, weight: ._600)
-        label.text = ShopLiveShortformEditorSDKStrings.Editor.Thumbnail.Page.title
+        label.text = ShopLiveShortformEditorSDKStrings.Editor.Title.Cover.Picker.shoplive
         return label
     }()
     
@@ -50,7 +50,7 @@ class SLVideoThumbnailViewController : UIViewController {
         btn.backgroundColor = design.confirmButtonBackgroundColor
         btn.setTitleColor(design.confirmButtonTextColor, for: .normal)
         btn.titleLabel?.font = .set(size: 16, weight: ._600)
-        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Thumbnail.Btn.Confirm.title, for: .normal)
+        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Cover.Picker.Btn.Confirm.shoplive, for: .normal)
         btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true
         return btn
@@ -62,7 +62,7 @@ class SLVideoThumbnailViewController : UIViewController {
         btn.backgroundColor = design.cameraRollButtonBackgroundColor
         btn.setTitleColor(design.cameraRollButtonTextColor, for: .normal)
         btn.titleLabel?.font = .set(size: 16, weight: ._600)
-        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Thumbnail.Btn.CameraRoll.title, for: .normal)
+        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Cover.Picker.Btn.CameraRool.shoplive, for: .normal)
         btn.layer.cornerRadius = design.cameraRollButtonCornerRadius
         btn.clipsToBounds = true
         return btn
@@ -120,7 +120,7 @@ class SLVideoThumbnailViewController : UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.label.textColor = .white
         view.label.font = .set(size: 15, weight: ._600)
-        view.label.text = ShopLiveShortformEditorSDKStrings.Toast.Cancel.Uploading.title
+        view.label.text = ShopLiveShortformEditorSDKStrings.Editor.Toast.Encoding.Canceled.shoplive
         view.layer.cornerRadius = 20
         view.clipsToBounds = true
         view._layoutMargin = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)

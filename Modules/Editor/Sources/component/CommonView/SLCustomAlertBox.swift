@@ -37,7 +37,7 @@ class SLCustomAlertBox : UIView {
     private var confirmBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setTitle(ShopLiveShortformEditorSDKStrings.Alert.yes, for: .normal)
+        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Yes.shoplive, for: .normal)
         btn.setTitleColor(.white, for: .normal)
         btn.backgroundColor = .init(red: 51, green: 51, blue: 51)
         btn.titleLabel?.font = .set(size: 15, weight: ._600)
@@ -49,7 +49,7 @@ class SLCustomAlertBox : UIView {
     private var closeBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setTitle(ShopLiveShortformEditorSDKStrings.Alert.no, for: .normal)
+        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.No.shoplive, for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.titleLabel?.font = .set(size: 15, weight: ._600)
         return btn

@@ -245,7 +245,7 @@ extension SLPhotosPickerViewController {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.loadingProgressVc.modalPresentationStyle = .overFullScreen
-            self.loadingProgressVc.setLoadingText(ShopLiveShortformEditorSDKStrings.Loading.Inprocessing.title)
+            self.loadingProgressVc.setLoadingText(ShopLiveShortformEditorSDKStrings.Editor.Progressing.shoplive)
             
             guard self.loadingProgressVc.isBeingPresented == false else { return }
             self.navigationController?.present(self.loadingProgressVc, animated: false)

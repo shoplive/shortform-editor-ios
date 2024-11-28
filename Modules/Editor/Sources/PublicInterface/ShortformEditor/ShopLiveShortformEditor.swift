@@ -141,7 +141,7 @@ extension ShopLiveShortformEditor {
         public var editingCloseButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         public var editingCloseButtonIconTintColor : UIColor = .white
         
-        public var nextButtonTitle : String = ShopLiveShortformEditorSDKStrings.Editor.Main.Btn.Next.title
+        public var nextButtonTitle : String = ShopLiveShortformEditorSDKStrings.Editor.Main.Btn.Next.shoplive
         public var nextButtonCornerRadius : CGFloat = 20
         
         public var videoSpeedButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slIcSpeedometer.image.withRenderingMode(.alwaysTemplate)
@@ -232,7 +232,7 @@ extension ShopLiveShortformEditor {
         var closeButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         var closeButtonIconTintColor : UIColor = .white
         
-        public var confirmButtonTitle : String = ShopLiveShortformEditorSDKStrings.Editor.Thumbnail.Btn.Confirm.title
+        public var confirmButtonTitle : String = ShopLiveShortformEditorSDKStrings.Editor.Cover.Picker.Btn.Confirm.shoplive
         public var confirmButtonBackgroundColor : UIColor = .white
         public var confirmButtonTextColor : UIColor = .black
         public var confirmButtonCornerRadius : CGFloat = 20

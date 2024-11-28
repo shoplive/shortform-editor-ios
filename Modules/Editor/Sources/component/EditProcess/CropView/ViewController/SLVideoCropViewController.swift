@@ -44,7 +44,7 @@ class SLVideoCropViewController : UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.font = .set(size: 16, weight: ._600)
-        label.text = ShopLiveShortformEditorSDKStrings.Editor.Crop.Page.title
+        label.text = ShopLiveShortformEditorSDKStrings.Editor.Title.Crop.shoplive
         return label
     }()
     
@@ -75,7 +75,7 @@ class SLVideoCropViewController : UIViewController {
         btn.backgroundColor = design.confirmButtonBackgroundColor
         btn.setTitleColor(design.confirmButtonTextColor, for: .normal)
         btn.titleLabel?.font = .set(size: 16, weight: ._600)
-        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Crop.Btn.Confirm.title, for: .normal)
+        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Crop.Btn.Confirm.shoplive, for: .normal)
         btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true
         return btn

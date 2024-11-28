@@ -85,7 +85,7 @@ class SlVideoSpeedRateReactor : NSObject, SLReactor {
         self.initialSpeed = videoEditInfoDto.videoSpeed
         let originVideoDuration = videoEditInfoDto.cropTime.end.seconds - videoEditInfoDto.cropTime.start.seconds
         let modifiedVideoDuration = originVideoDuration / initialSpeed
-        let result = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(Int(modifiedVideoDuration))
+        let result = ShopLiveShortformEditorSDKStrings.Editor.Trim.Cut.Sec.shoplive(Int(modifiedVideoDuration))
         resultHandler?( .setVideoDuration(result) )
     }
     
@@ -109,7 +109,7 @@ class SlVideoSpeedRateReactor : NSObject, SLReactor {
         let originVideoDuration = videoEditInfoDto.cropTime.end.seconds - videoEditInfoDto.cropTime.start.seconds
         let modifiedVideoDuration = originVideoDuration / value
         
-        let result = ShopLiveShortformEditorSDKStrings.Video.Frame.Slider.Seconds.label(Int(modifiedVideoDuration))
+        let result =  ShopLiveShortformEditorSDKStrings.Editor.Trim.Cut.Sec.shoplive(Int(modifiedVideoDuration))
         resultHandler?( .setVideoDuration(result) )
     }
     

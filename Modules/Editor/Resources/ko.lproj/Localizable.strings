@@ -1,92 +1,194 @@
-/* 
-  Localizable.strings
-  matrix-shortform-upload-ios
+///* 
+//  Localizable.strings
+//  matrix-shortform-upload-ios
+//
+//  Created by sangmin han on 2023/07/26.
+//  
+//*/
+//
+//
+//"alert.yes" = "예";
+//"alert.no" = "아니요";
+//"toast.cancel.encoding.title" = "인코딩이 취소되었습니다.";
+//"toast.cancel.uploading.title" = "업로딩이 취소되었습니다.";
+//"editor.page.title" = "편집";
+//
+//
+//
+//"editor.next.title" = "다음";
+//"editor.encoding.cancel.alert.title" = "지금 인코딩 중입니다. \n취소하시겠습니까?";
+//"editor.upload.cancel.alert.title" = "인코딩을 취소하시겠습니까?";
+//"uploadinfo.page.title" = "세부정보 추가";
+//"uploadinfo.title.placeholder" = "제목";
+//"uploadinfo.title.title" = "제목";
+//"uploadinfo.description.title" = "설명";
+//"uploadinfo.description.placeholder" = "설명";
+//"uploadinfo.tag.title" = "태그";
+//"uploadinfo.tag.placeholder" = "#태그";
+//"uploadinfo.upload.title" = "업로드";
+//
+//"picker.warning.duration.min.title" = "0.1초 미만의 영상은 지원하지 않습니다.";
+//"picker.warning.duration.invalid.message" = "%d초 이상 %d분 미만의 영상을 선택해주세요";
+//
+////Alert
+//"alert.permission.denied.title" = "권한 요청";
+//"alert.permission.denied.description" = "동영상을 올리기 위해서 카메라와 앨범 권한을 승인해주세요.";
+//"alert.permission.denied.cancel" = "취소";
+//"alert.permission.denied.setting" = "설정";
+//
+////ToastMessage
+//"toast.uploadinfo.empty.video.title" = "제목을 입력해주세요";
+//"toast.codec.notvalid" = "지원하지 않는 미디어입니다.";
+//
+//
+////loadingview
+//"loading.inprocessing.title" = "처리 중";
+//"loading.preparing.title" = "준비 중";
+//
+////photoPicker
+//"editor.photopicker.btn.recent.title" = "최근항목";
+//
+////videoFrameSlider
+//"video.frame.slider.seconds.label" = "%d초";
+//"video.frame.slider.minute.seconds.label" = "%d분%d초";
+//
+////편집화면(메인)
+//"editor.main.page.title" = "편집";
+//"editor.main.btn.next.title" = "다음";
+//
+//
+//
+////자르기화면
+//"editor.crop.page.title" = "자르기";
+//"editor.crop.btn.confirm.title" = "완료";
+//
+////배속
+//"editor.speed.page.title" = "배속";
+//"editor.speed.btn.confirm.title" = "완료";
+//"editor.speed.duration.label" = "%d초";
+//"editor.speed.caution.duration.limit.min" = "%d분 이하인 영상만 업로드 할 수 있습니다";
+//"editor.speed.caution.duration.limit.sec" = "%d초 이하인 영상만 업로드 할 수 있습니다";
+//
+////필터
+//"editor.filter.page.title" = "필터";
+//"editor.filter.btn.confirm.title" = "완료";
+//"editor.filter.origin.cell.title" = "원본";
+//
+////볼륨
+//"editor.volume.page.title" = "볼륨";
+//"editor.volume.btn.confirm.title" = "완료";
+//
+//
+////커버설정
+//"editor.thumbnail.page.title" = "커버 설정";
+//"editor.thumbnail.btn.confirm.title" = "완료";
+//"editor.thumbnail.btn.cameraRoll.title" = "카메라 롤에서 추가";
+//"editor.thumbnail.toast.upload.cancel.label" = "업로드가 취소되었습니다.";
+//
+////커버 설정 popup
+//"editor.thumbnail.toast.title" = "업로드를 취소하시겠습니까?";
+//"editor.thumbnail.toast.btn.close.title" = "아니요";
+//"editor.thumbnail.toast.btn.confirm.title" = "네";
+//
 
-  Created by sangmin han on 2023/07/26.
-  
-*/
+
+"editor.header.headline.playback.shoplive" = "배속";
 
 
-"alert.yes" = "예";
-"alert.no" = "아니요";
-"toast.cancel.encoding.title" = "인코딩이 취소되었습니다.";
-"toast.cancel.uploading.title" = "업로딩이 취소되었습니다.";
-"editor.page.title" = "편집";
+"editor.title.video.upload.shoplive" = "세부 정보 추가";
+"editor.title.shortform.data.edit.shoplive" = "편집";
+
+"editor.title.crop.shoplive" = "크롭";
+"editor.title.filter.shoplive" = "필터";
 
 
-
-"editor.next.title" = "다음";
-"editor.encoding.cancel.alert.title" = "지금 인코딩 중입니다. \n취소하시겠습니까?";
-"editor.upload.cancel.alert.title" = "인코딩을 취소하시겠습니까?";
-"uploadinfo.page.title" = "세부정보 추가";
-"uploadinfo.title.placeholder" = "제목";
-"uploadinfo.title.title" = "제목";
-"uploadinfo.description.title" = "설명";
-"uploadinfo.description.placeholder" = "설명";
-"uploadinfo.tag.title" = "태그";
-"uploadinfo.tag.placeholder" = "#태그";
-"uploadinfo.upload.title" = "업로드";
-
-"picker.warning.duration.min.title" = "0.1초 미만의 영상은 지원하지 않습니다.";
-"picker.warning.duration.invalid.message" = "%d초 이상 %d분 미만의 영상을 선택해주세요";
-
-//Alert
-"alert.permission.denied.title" = "권한 요청";
-"alert.permission.denied.description" = "동영상을 올리기 위해서 카메라와 앨범 권한을 승인해주세요.";
-"alert.permission.denied.cancel" = "취소";
-"alert.permission.denied.setting" = "설정";
-
-//ToastMessage
-"toast.uploadinfo.empty_video_title" = "제목을 입력해주세요";
-"toast.codec.notvalid" = "지원하지 않는 미디어입니다.";
+"editor.gallery.photo.and.video.shoplive" = "사진 & 비디오";
+"editor.gallery.photo.shoplive" = "사진";
+"editor.gallery.video.shoplive" = "비디오";
+"editor.gallery.done.shoplive" = "완료";
+"editor.gallery.selected.count.shoplive" = "%1$d / %2$d";
+"editor.gallery.unsupported.media.shoplive" = "지원하지 않는 미디어입니다.";
 
 
-//loadingview
-"loading.inprocessing.title" = "처리 중";
-"loading.preparing.title" = "준비 중";
-
-//photoPicker
-"editor.photopicker.btn.recent.title" = "최근항목";
-
-//videoFrameSlider
-"video.frame.slider.seconds.label" = "%d초";
-"video.frame.slider.minute.seconds.label" = "%d분%d초";
-
-//편집화면(메인)
-"editor.main.page.title" = "편집";
-"editor.main.btn.next.title" = "다음";
+"editor.crop.btn.confirm.shoplive" = "완료";
 
 
+"editor.upload.title.shoplive" = "제목";
+"editor.upload.title.hint.shoplive" = "제목";
+"editor.upload.description.shoplive" = "설명";
+"editor.upload.description.hint.shoplive" = "설명";
+"editor.upload.tag.shoplive" = "태그";
 
-//자르기화면
-"editor.crop.page.title" = "자르기";
-"editor.crop.btn.confirm.title" = "완료";
+"editor.hint.tag.shoplive" = "#태그";
 
-//배속
-"editor.speed.page.title" = "배속";
-"editor.speed.btn.confirm.title" = "완료";
-"editor.speed.duration.label" = "%d초";
-"editor.speed.caution.duration.limit.min" = "%d분 이하인 영상만 업로드 할 수 있습니다";
-"editor.speed.caution.duration.limit.sec" = "%d초 이하인 영상만 업로드 할 수 있습니다";
+//Main
+"editor.title.video.edit.shoplive" = "편집";
+"editor.main.btn.next.shoplive" = "다음";
 
-//필터
-"editor.filter.page.title" = "필터";
-"editor.filter.btn.confirm.title" = "완료";
-"editor.filter.origin.cell.title" = "원본";
-
-//볼륨
-"editor.volume.page.title" = "볼륨";
-"editor.volume.btn.confirm.title" = "완료";
+//Thumbnail
+"editor.title.cover.picker.shoplive" = "커버 설정";
+"editor.cover.picker.btn.confirm.shoplive" = "완료"; //
+"editor.cover.picker.btn.cameraRool.shoplive" = "카메라 롤에서 추가"; //
 
 
-//커버설정
-"editor.thumbnail.page.title" = "커버 설정";
-"editor.thumbnail.btn.confirm.title" = "완료";
-"editor.thumbnail.btn.cameraRoll.title" = "카메라 롤에서 추가";
-"editor.thumbnail.toast.upload.cancel.label" = "업로드가 취소되었습니다.";
+//playbackSpeed
+"editor.title.playbackSpeed.shoplive" = "배속";
+"editor.playbackSpeed.btn.confirm.shoplive" = "완료";
 
-//커버 설정 popup
-"editor.thumbnail.toast.title" = "업로드를 취소하시겠습니까?";
-"editor.thumbnail.toast.btn.close.title" = "아니요";
-"editor.thumbnail.toast.btn.confirm.title" = "네";
+//volume
+"editor.volume.page.title.shoplive" = "볼륨";
+"editor.volume.btn.confirm.shoplive" = "완료";
+
+//Trim
+"editor.trim.cut.sec.shoplive" = "%1$d초";
+"editor.trim.cut.start.shoplive" = "%1$s";
+"editor.trim.cut.end.shoplive" = "/ %1$s";
+
+"editor.preparing.shoplive" = "0%";
+"editor.progress.shoplive" = "%1$d%%";
+"editor.encoding.cancel.shoplive" = "취소중";
+"editor.preview.title.shoplive" = "미리 보기";
+"editor.progressing.shoplive" = "처리 중";
+
+//filter
+"editor.filter.shoplive" = "필터";
+"editor.filter.btn.confirm.shoplive" = "완료";
+"editor.filter.done.shoplive" = "완료";
+
+"editor.cover.picker.done.shoplive" = "완료";
+"editor.select.gallery.shoplive" = "카메라 롤에서 추가";
+
+"editor.folder.all.shoplive" = "최근 항목";
+
+"editor.alert.shoot.title.shoplive" = "촬영";
+"editor.alert.shoot.shoplive" = "사진 또는 비디오를 선택하세요.";
+"editor.picture.shoplive" = "사진";
+
+"editor.video.shoplive" = "비디오";
+"editor.next.shoplive" = "다음";
+"editor.upload.shoplive" = "업로드";
+"editor.modify.shoplive" = "수정";
+"editor.yes.shoplive" = "예";
+"editor.no.shoplive" = "아니오";
+"editor.loading.shoplive" = "로딩 중";
+
+//Toast
+"editor.toast.encoding.video.was.not.exist.shoplive" = "동영상을 찾을 수 없습니다.";
+"editor.toast.encoding.uri.was.not.created.shoplive" = "URL 생성에 실패했습니다.";
+"editor.toast.encoding.canceled.shoplive" = "인코딩이 취소되었습니다.";
+"editor.toast.encoding.fail.shoplive" = "인코딩에 실패했습니다.";
+"editor.toast.min.duration.shoplive" = "%.1f초 이상의 영상만 업로드 가능합니다.";
+"editor.toast.need.access.gallery.permissions.shoplive" = "동영상 업로드를 위해 카메라와 앨범 권한을 승인해 주세요.";
+"editor.toast.shortform.creation.failed.shoplive" = "숏폼 생성에 실패했습니다.";
+"editor.toast.upload.cancelled" = "업로딩이 취소되었습니다.";
+
+//"editor.alert.encoding.now.shoplive" = "인코딩을 취소하시겠습니까?";
+"editor.alert.encoding.cancel.title.shoplive" = "인코딩을 취소하시겠습니까?";
+"editor.alert.max.duration.shoplive" = "%d초 이하의 영상만 업로드할 수 있습니다";
+"editor.alert.min.duration.shoplive" = "%d초 이상의 영상만 업로드할 수 있습니다";
+
+"editor.filter.original.shoplive" = "원본";
+"editor.filter.bright.shoplive" = "밝게";
+"editor.filter.clear.shoplive" = "선명하게";
+"editor.filter.warm.shoplive" = "따뜻하게";
 
