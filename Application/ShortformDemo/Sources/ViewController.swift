@@ -254,6 +254,7 @@ extension ViewController : ShopLiveShortformEditorDelegate {
     
     func onShopLiveShortformEditorOnEvent(name: String, payload: [String : Any]?) {
         ShopLiveLogger.tempLog("[EVENTTRACE] name : \(name) payload :  \(payload)")
+        self.showToastOnWindow(message: name)
     }
     
 }
@@ -278,6 +279,7 @@ extension ViewController : ShopLiveVideoEditorDelegate {
     
     func onShopLiveVideoEditorOnEvent(name: String, payload: [String : Any]?) {
         ShopLiveLogger.tempLog("[EVENTTRACE] name : \(name) payload :  \(payload)")
+        self.showToastOnWindow(message: name)
     }
     
 }
@@ -306,6 +308,7 @@ extension ViewController : ShopLiveMediaPickerDelegate {
     
     func onShopLiveMediaPickerOnEvent(name: String, payload: [String : Any]?) {
         ShopLiveLogger.tempLog("[EVENTTRACE] name : \(name) payload :  \(payload)")
+        self.showToastOnWindow(message: name)
     }
 }
 extension ViewController : ShopLiveCoverPickerDelegate {
@@ -332,6 +335,18 @@ extension ViewController : ShopLiveCoverPickerDelegate {
     
     func onShopLiveCoverPickerOnEvent(name: String, payload: [String : Any]?) {
         ShopLiveLogger.tempLog("[EVENTTRACE] name : \(name) payload :  \(payload)")
+        self.showToastOnWindow(message: name)
+        
+    
+    }
+    
+    private func showToastOnWindow(message : String) {
+        DispatchQueue.main.async {
+            guard let scene = UIApplication.shared.connectedScenes.first,
+                let delegate = scene.delegate as? SceneDelegate,
+                let window = delegate.window else { return }
+            window.showToast(message: message)
+        }
     }
 }
 extension ViewController {
