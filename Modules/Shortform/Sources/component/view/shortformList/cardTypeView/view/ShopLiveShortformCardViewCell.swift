@@ -49,7 +49,7 @@ class ShopLiveShortformCardViewCell : UICollectionViewCell {
     }
     
     
-    func configureCell(title : String, description : String?, userThumbnail : String, userName : String, productModel : Product?, productCount : Int, viewCount : String, posterImageUrl : String?, videoURL : String?, youtubeWebView : SLWebView?, currentMediaType : String, viewHideOption : ShopLiveListCellViewHideOptionModel, cellCornerRadius : CGFloat, backgroundColor : UIColor?,currentSrn : String?,indexPath : IndexPath){
+    func configureCell(title : String, description : String?, userThumbnail : String, userName : String, productModel : SLProduct?, productCount : Int, viewCount : String, posterImageUrl : String?, videoURL : String?, youtubeWebView : SLWebView?, currentMediaType : String, viewHideOption : ShopLiveListCellViewHideOptionModel, cellCornerRadius : CGFloat, backgroundColor : UIColor?,currentSrn : String?,indexPath : IndexPath){
         self.currentMediaType = currentMediaType
         basicCardView.setContents(viewCount: viewCount, posterImageUrl: posterImageUrl, videoUrl: videoURL, youtubeWebView: youtubeWebView, currentMediaType: currentMediaType,viewHideOption: viewHideOption,cornerRadius: cellCornerRadius,backgroundColor: backgroundColor,currentSrn: currentSrn, indexPath: indexPath)
         

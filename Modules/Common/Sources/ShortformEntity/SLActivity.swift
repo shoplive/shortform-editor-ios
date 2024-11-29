@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Activity: Codable {
+public struct SLActivity: Codable {
     public let viewCount, likeCount, commentCount, bookmarkCount: Int?
     public let like, bookmark: Bool?
     

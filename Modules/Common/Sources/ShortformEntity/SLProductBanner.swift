@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ProductBanner: Codable {
+public struct SLProductBanner: Codable {
     public let title: String?
     public let imageUrl: String?
     public let scheme, traceId, type: String?

@@ -24,7 +24,7 @@ class ShortformEventTraceManager {
         case TYPE2
     }
     
-    class func processCollectionShowEventTrace(shortsList : [ShortsModel], shortsCollection : ShortsCollectionModel?, listType : ListType, overlayType : OverlayType,  isReset : Bool,paginationCount : Int,tagsAndBrandRequestParameterModel : InternalShortformCollectionDto?, sdkOptionsData : ShopLiveShortformSDKOptionsData?,shopliveSessionId : String?){
+    class func processCollectionShowEventTrace(shortsList : [SLShortsModel], shortsCollection : SLShortsCollectionModel?, listType : ListType, overlayType : OverlayType,  isReset : Bool,paginationCount : Int,tagsAndBrandRequestParameterModel : InternalShortformCollectionDto?, sdkOptionsData : ShopLiveShortformSDKOptionsData?,shopliveSessionId : String?){
         let srn : String? = shortsCollection?.srn
        
        

@@ -50,7 +50,7 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
     }
     
     //related show
-    internal init(shortsMode : ShopLiveShortform.ShortsMode,showType : ShortsApiType, reference : String?, shortsId : String?, shortsSrn : String?, relatedRequestModel : InternalShortformRelatedDTO?, shortsList : [ShortsModel], shortsCollection : ShortsCollectionModel?, viewProvideType : ShortsCollectionBaseViewModel.ViewProvidedType,shopliveSessionId : String?, previewOptionDTO : ShortformPreviewOptionDTO?) {
+    internal init(shortsMode : ShopLiveShortform.ShortsMode,showType : ShortsApiType, reference : String?, shortsId : String?, shortsSrn : String?, relatedRequestModel : InternalShortformRelatedDTO?, shortsList : [SLShortsModel], shortsCollection : SLShortsCollectionModel?, viewProvideType : ShortsCollectionBaseViewModel.ViewProvidedType,shopliveSessionId : String?, previewOptionDTO : ShortformPreviewOptionDTO?) {
         super.init(viewmodel: V1ShortsCollectionViewModel(shopliveSessionId: shopliveSessionId, shortformDelegate: relatedRequestModel?.delegate)
                    ,shortformDelegate: relatedRequestModel?.delegate)
         self.backgroundColor = .clear

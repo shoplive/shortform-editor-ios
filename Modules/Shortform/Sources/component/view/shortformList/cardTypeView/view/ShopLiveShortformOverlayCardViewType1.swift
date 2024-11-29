@@ -162,7 +162,7 @@ class ShopLiveShortformOverlayCardViewType1 : UIView {
         
     }
     
-    func setContent(title : String, description : String?, userThumbnail : String, userName : String, productBannerModel : Product?, viewHideOption : ShopLiveListCellViewHideOptionModel,cellCornerRadius: CGFloat){
+    func setContent(title : String, description : String?, userThumbnail : String, userName : String, productBannerModel : SLProduct?, viewHideOption : ShopLiveListCellViewHideOptionModel,cellCornerRadius: CGFloat){
         self.gradationView.layer.cornerRadius = cellCornerRadius
         self.gradationView.layer.maskedCorners = [.layerMinXMaxYCorner,.layerMaxXMaxYCorner]
         self.titleLabel.isHidden = viewHideOption.isTitleVisible ? false : true

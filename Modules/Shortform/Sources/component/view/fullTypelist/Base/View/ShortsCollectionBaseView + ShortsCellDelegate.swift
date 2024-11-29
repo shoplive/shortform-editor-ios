@@ -26,7 +26,7 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
         }
     }
     
-    func didFinishPlayingShorts(cell: ShortsCell, data: ShortsModel?) {
+    func didFinishPlayingShorts(cell: ShortsCell, data: SLShortsModel?) {
         guard let data = data, viewModel.shortsMode == .preview else { return }
         
         if let nextIndex = viewModel.getNextShortItemIndex(data) {
@@ -137,7 +137,7 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
         }
     }
     
-    func getShortsListDataForV2ActivePage() -> [ShortsModel]? {
+    func getShortsListDataForV2ActivePage() -> [SLShortsModel]? {
         return viewModel.getShortsListDataForV2ActivePage()
     }
     
@@ -202,7 +202,7 @@ extension ShortsCollectionBaseView {
         do {
             let srn = shorts["srn"] as? String
             let shortsId = shorts["shortsId"] as? String
-            let productModel : Product = try Product.decode_SL(dictionary: product)
+            let productModel : SLProduct = try SLProduct.decode_SL(dictionary: product)
             viewModel.postMoveToProductPageNotification(shortsId: shortsId, srn: srn, productModel: productModel)
         }
         catch { }
@@ -215,7 +215,7 @@ extension ShortsCollectionBaseView {
             let srn = shorts["srn"] as? String
             let shortsId = shorts["shortsId"] as? String
             let scheme = payload?["scheme"] as? String
-            let shortsDetailModel : ShortsDetail = try ShortsDetail.decode_SL(dictionary: shortsDetailDict)
+            let shortsDetailModel : SLShortsDetail = try SLShortsDetail.decode_SL(dictionary: shortsDetailDict)
             viewModel.postMoveToProductBannerPageNotification(scheme: scheme, srn: srn, shortsId: shortsId, shortsDetailModel: shortsDetailModel)
         }
         catch {

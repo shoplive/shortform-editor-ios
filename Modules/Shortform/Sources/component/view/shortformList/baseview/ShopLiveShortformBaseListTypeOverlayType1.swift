@@ -61,7 +61,7 @@ class ShopLiveShortformBaseListTypeOverlayType1 : UIView {
         fatalError()
     }
     
-    func setContent(productBannerModel : Product?,viewHideOption : ShopLiveListCellViewHideOptionModel){
+    func setContent(productBannerModel : SLProduct?,viewHideOption : ShopLiveListCellViewHideOptionModel){
         
         guard let productModel = productBannerModel else {
             self.productBannerBox.isHidden = true

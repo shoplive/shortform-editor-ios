@@ -64,7 +64,7 @@ extension ShopLiveShortform.BridgeInterface {
         }
     }
     
-    private func onShowShortformPreview(reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shortsList : [ShortsModel], shortsCollectionModel : ShortsCollectionModel?,shopliveSessionId : String?) {
+    private func onShowShortformPreview(reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shortsList : [SLShortsModel], shortsCollectionModel : SLShortsCollectionModel?,shopliveSessionId : String?) {
         ShopLiveShortform.showRelatedPreview(reference: reference, shortsId: shortsId, shortsSrn: shortsSrn, requestModel: requestModel, shortsList: shortsList, shortsCollectionModel: shortsCollectionModel, shopliveSessionId: shopliveSessionId,previewOptionDto: nil)
     }
     
@@ -79,9 +79,9 @@ extension ShopLiveShortform.BridgeInterface {
 extension ShopLiveShortform {
     
     struct ShortsBridgeModel: Codable {
-        let shortsList : [ShortsModel]?
-        let shorts: ShortsModel?
-        let shortsCollection: ShortsCollectionModel?
+        let shortsList : [SLShortsModel]?
+        let shorts: SLShortsModel?
+        let shortsCollection: SLShortsCollectionModel?
         let relatedQuery : RelatedQueryModel?
         let collectionQuery : CollectionQueryModel?
         

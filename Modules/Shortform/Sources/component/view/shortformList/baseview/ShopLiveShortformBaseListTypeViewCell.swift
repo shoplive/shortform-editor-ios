@@ -104,7 +104,7 @@ final class ShopLiveShortformBaseListTypeViewCell : UICollectionViewCell {
     func configureCell(title : String,
                        userThumbnail : String,
                        userName : String,
-                       productModel : Product?,
+                       productModel : SLProduct?,
                        productCount : Int,
                        viewCount : String,
                        posterImageUrl : String?,

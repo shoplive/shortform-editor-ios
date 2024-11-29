@@ -10,7 +10,7 @@ import ShopliveSDKCommon
 
 
 struct SLShortformRegisterAPI: APIDefinition {
-    typealias ResultType = ShortsModel
+    typealias ResultType = SLShortsModel
     
     var showRequestLog: Bool = true
     var showResponseLog: Bool = true

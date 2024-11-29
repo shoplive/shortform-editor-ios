@@ -22,7 +22,7 @@ class ShopliveBridgeWebMessageHandler : NSObject, SLReactor {
     
     enum Result {
         case requestEvaluatJS((command : String, body : [String : Any]?))
-        case showShortformPreview((reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shortsList : [ShortsModel], shortsCollectionModel : ShortsCollectionModel?,shopliveSessionId : String?))
+        case showShortformPreview((reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shortsList : [SLShortsModel], shortsCollectionModel : SLShortsCollectionModel?,shopliveSessionId : String?))
         case showNormalFullScreen((reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformCollectionDto?,shopliveSessionId : String?))
         case showRelatedFullScreen((reference : String?, shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shopliveSessionId : String?))
         case onChangedUserAuthSdk

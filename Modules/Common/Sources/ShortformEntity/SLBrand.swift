@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct BrandModel : Codable {
+public struct SLBrandModel : Codable {
     public let id : Int?
     public let identifier : String?
     public let imageUrl : String?

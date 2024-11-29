@@ -9,7 +9,7 @@
 import Foundation
 
 //youtube 한정
-public struct LinkButton : Codable {
+public struct SLLinkButton : Codable {
     
     var imageUrl : String?
     var text : String?

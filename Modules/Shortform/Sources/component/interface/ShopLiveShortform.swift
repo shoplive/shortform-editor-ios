@@ -175,7 +175,7 @@ public class ShopLiveShortform {
     }
     
     
-    internal static func showRelatedPreview(reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shortsList : [ShortsModel], shortsCollectionModel : ShortsCollectionModel?,shopliveSessionId : String?,previewOptionDto : ShortformPreviewOptionDTO?){
+    internal static func showRelatedPreview(reference : String? , shortsId : String?, shortsSrn : String?, requestModel : InternalShortformRelatedDTO?,shortsList : [SLShortsModel], shortsCollectionModel : SLShortsCollectionModel?,shopliveSessionId : String?,previewOptionDto : ShortformPreviewOptionDTO?){
         if shortformWindow == nil {
             shortformWindow = SLShortFormWindow(delegate: requestModel?.delegate)
         }

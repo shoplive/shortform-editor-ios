@@ -9,16 +9,16 @@
 import Foundation
 
 
-public struct ShortsDetail : Codable {
+public struct SLShortsDetail : Codable {
     public let title : String?
     public let description : String?
     public let tags : [String]?
     public let productCount : Int?
-    public let productBanner: ProductBanner?
-    public let products : [Product]?
-    public let brand : BrandModel?
-    public let creator : Creator?
-    public let linkButton : LinkButton?
+    public let productBanner: SLProductBanner?
+    public let products : [SLProduct]?
+    public let brand : SLBrandModel?
+    public let creator : SLCreator?
+    public let linkButton : SLLinkButton?
     
 
     
@@ -31,11 +31,11 @@ public struct ShortsDetail : Codable {
         self.tags = try? parser.parse(targetType: [String].self, key: CodingKeys.tags)
         self.productCount = try? parser.parse(targetType: Int.self, key: CodingKeys.productCount)
         
-        self.productBanner = try container.decodeIfPresent(ProductBanner.self, forKey: .productBanner)
-        self.products = try container.decodeIfPresent([Product].self, forKey: .products)
-        self.brand = try container.decodeIfPresent(BrandModel.self, forKey: .brand)
-        self.creator = try container.decodeIfPresent(Creator.self, forKey: .creator)
-        self.linkButton = try container.decodeIfPresent(LinkButton.self, forKey: .linkButton)
+        self.productBanner = try container.decodeIfPresent(SLProductBanner.self, forKey: .productBanner)
+        self.products = try container.decodeIfPresent([SLProduct].self, forKey: .products)
+        self.brand = try container.decodeIfPresent(SLBrandModel.self, forKey: .brand)
+        self.creator = try container.decodeIfPresent(SLCreator.self, forKey: .creator)
+        self.linkButton = try container.decodeIfPresent(SLLinkButton.self, forKey: .linkButton)
     }
     
     

@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-public struct ShortsModel: BaseResponsable, RawDataRepresantable,  Equatable {
+public struct SLShortsModel: BaseResponsable, RawDataRepresantable,  Equatable {
     
-    typealias Model = ShortsModel
+    typealias Model = SLShortsModel
     
     public var _s: Int?
     public var _e: String?
@@ -21,10 +21,10 @@ public struct ShortsModel: BaseResponsable, RawDataRepresantable,  Equatable {
     public let srn: String?
     public let startAt, endAt: Int?
     public let reference: String?
-    public let shortsDetail: ShortsDetail?
-    public let activity: Activity?
+    public let shortsDetail: SLShortsDetail?
+    public let activity: SLActivity?
     public let action, payload: String?
-    public let cards: [CardModel]?
+    public let cards: [SLCardModel]?
     public let shortsType: String?
     public let traceId: String?
     public let url: String?
@@ -51,12 +51,12 @@ public struct ShortsModel: BaseResponsable, RawDataRepresantable,  Equatable {
         self.payload = try? parser.parse(targetType: String.self, key: Model.CodingKeys.payload)
         self.action = try? parser.parse(targetType: String.self, key: Model.CodingKeys.action)
         
-        self.shortsDetail = try? container.decodeIfPresent(ShortsDetail.self, forKey: Model.CodingKeys.shortsDetail)
-        self.activity = try? container.decodeIfPresent(Activity.self, forKey: Model.CodingKeys.activity)
-        self.cards = try? container.decodeIfPresent([CardModel].self, forKey: Model.CodingKeys.cards)
+        self.shortsDetail = try? container.decodeIfPresent(SLShortsDetail.self, forKey: Model.CodingKeys.shortsDetail)
+        self.activity = try? container.decodeIfPresent(SLActivity.self, forKey: Model.CodingKeys.activity)
+        self.cards = try? container.decodeIfPresent([SLCardModel].self, forKey: Model.CodingKeys.cards)
     }
     
-    public static func ==(lhs: ShortsModel, rhs: ShortsModel) -> Bool {
+    public static func ==(lhs: SLShortsModel, rhs: SLShortsModel) -> Bool {
         return (lhs.shortsId == rhs.shortsId && lhs.srn == rhs.srn)
     }
     

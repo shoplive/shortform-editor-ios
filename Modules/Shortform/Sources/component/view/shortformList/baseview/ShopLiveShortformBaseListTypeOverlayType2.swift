@@ -50,7 +50,7 @@ final class ShopLiveShortformBaseListTypeOverlayType2 : UIView {
     }
     
     
-    func setContent( productBannerModel : Product?, productCount : Int, viewHideOption : ShopLiveListCellViewHideOptionModel){
+    func setContent( productBannerModel : SLProduct?, productCount : Int, viewHideOption : ShopLiveListCellViewHideOptionModel){
         guard let productModel = productBannerModel else {
             self.productImage.isHidden = true
             self.productCountLabel.isHidden = true

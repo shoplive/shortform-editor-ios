@@ -232,7 +232,7 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
         v2delegate?.requestForMoreData()
     }
     
-    override func getShortsListDataForV2ActivePage() -> [ShortsModel]? {
+    override func getShortsListDataForV2ActivePage() -> [SLShortsModel]? {
         return shortsListData
     }
 }
@@ -291,7 +291,7 @@ extension V2ShortsCollectionViewModel {
         }
     }
     
-    private func injectSrnToPayloadDict(shortsList : [ShortsModel]) {
+    private func injectSrnToPayloadDict(shortsList : [SLShortsModel]) {
         shortsList.forEach { item in
             if let shortsId = item.shortsId {
                 (shortFormIdPayloadDict[shortsId])??["srn"] = item.srn ?? ""
@@ -346,7 +346,7 @@ extension V2ShortsCollectionViewModel {
     
     
     
-    private func appendShortsListDataForUpwardPagination(shortsList : [ShortsModel]) {
+    private func appendShortsListDataForUpwardPagination(shortsList : [SLShortsModel]) {
         
         self.originShortsListData.insert(contentsOf: shortsList, at: 0) //이게 didSet에서 reload 호출, -> override해서 reloadDataForUpward~가 실행
         self.lastShortsCount = self.originShortsListData.count

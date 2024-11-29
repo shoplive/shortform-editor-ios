@@ -8,13 +8,13 @@
 
 import Foundation
 
-public struct ShortsCollectionModel : BaseResponsable, RawDataRepresantable {
-    typealias Model = ShortsCollectionModel
+public struct SLShortsCollectionModel : BaseResponsable, RawDataRepresantable {
+    typealias Model = SLShortsCollectionModel
     public var _s: Int?
     public var _e: String?
     
     public let srn, title: String?
-    public let shortsList: [ShortsModel]?
+    public let shortsList: [SLShortsModel]?
     public let reference: String?
     public let referenceByType : ReferenceByType?
     public let hasMore: Bool?
@@ -32,7 +32,7 @@ public struct ShortsCollectionModel : BaseResponsable, RawDataRepresantable {
         self._e = try? parser.parse(targetType: String.self, key: Model.CodingKeys._e)
         self.srn = try? parser.parse(targetType: String.self, key: Model.CodingKeys.srn)
         self.title = try? parser.parse(targetType: String.self, key: Model.CodingKeys.title)
-        self.shortsList = try? container.decodeIfPresent([ShortsModel].self, forKey: Model.CodingKeys.shortsList)
+        self.shortsList = try? container.decodeIfPresent([SLShortsModel].self, forKey: Model.CodingKeys.shortsList)
         self.reference = try? parser.parse(targetType: String.self, key: Model.CodingKeys.reference)
         self.referenceByType = try? parser.parse(targetType: ReferenceByType.self, key: Model.CodingKeys.referenceByType)
         self.hasMore = try? parser.parse(targetType: Bool.self, key: Model.CodingKeys.hasMore)

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Product: Codable {
+public struct SLProduct: Codable {
     public let brand: String?
     public let productId: String?
     public let customerProductId : String?

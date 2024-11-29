@@ -33,7 +33,7 @@ public enum SLShortformConvertStatus : Codable {
     }
 }
 
-public struct CardModel : Codable {
+public struct SLCardModel : Codable {
     public let duration, playCount, playDuration: Int?
     public let source: String?
     public let videoId: String?

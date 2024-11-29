@@ -23,7 +23,7 @@ class ShortsCellReactor : NSObject, SLReactor {
     typealias ShortsMode = ShopLiveShortform.ShortsMode
     
     enum Action {
-        case setShortsModel(ShortsModel)
+        case setShortsModel(SLShortsModel)
         case setWebViewUrl(URL)
         case setSetShortsSingleDetailViewPayload([String : Any]? )
         case webToSdk(name : WebToSdk, payload : [String : Any]? )
@@ -31,7 +31,7 @@ class ShortsCellReactor : NSObject, SLReactor {
         case setIsMuted(Bool)
         case setAppState(srn: String?, state : String)
         case setIndexPath(IndexPath)
-        case sendActivePageState(forceIsActive : Bool?, srn : String, shortsList : [ShortsModel]?, previousSrn : String?)
+        case sendActivePageState(forceIsActive : Bool?, srn : String, shortsList : [SLShortsModel]?, previousSrn : String?)
         case onChangedShortsItemTimeControlStatus(AVPlayer.TimeControlStatus)
         case onChangedShortsItemPlayerItemStatus(AVPlayerItem.Status)
         
@@ -102,12 +102,12 @@ class ShortsCellReactor : NSObject, SLReactor {
         case invalidateLayout
         case setVideoLayerGravity(AVLayerVideoGravity)
         case setThumbnailImageContentMode(UIView.ContentMode)
-        case scrollToNextCell(ShortsModel?)
+        case scrollToNextCell(SLShortsModel?)
         case showLoadingIndicator(Bool)
     }
     
     //data
-    private var shortsModel : ShortsModel?
+    private var shortsModel : SLShortsModel?
     private var currentVideoUrl : String? {
         if let card = shortsModel?.cards?.first,
            let convertStatus = card.convertStatus, convertStatus != .COMPLETE,
@@ -318,7 +318,7 @@ class ShortsCellReactor : NSObject, SLReactor {
         self.shopliveSessionId = id
     }
     
-    private func onSetShortsModel(model : ShortsModel) {
+    private func onSetShortsModel(model : SLShortsModel) {
         self.shortsModel = model
     }
     
@@ -340,7 +340,7 @@ class ShortsCellReactor : NSObject, SLReactor {
         self.currentIndexPath = indexPath
     }
     
-    private func onSendActivePageState(forceIsActive : Bool?, srn : String, shortsList : [ShortsModel]?, previousSrn : String?) {
+    private func onSendActivePageState(forceIsActive : Bool?, srn : String, shortsList : [SLShortsModel]?, previousSrn : String?) {
         guard let currentSrn = currentSrn else { return }
         if let forceIsActive = forceIsActive {
             self.isActive = forceIsActive
@@ -896,7 +896,7 @@ extension ShortsCellReactor {
         resultHandler?( .requestEvaluateJS([request]))
     }
     
-    private func sendV2ActivePageToWeb(srn : String, shortsList : [ShortsModel],previousSrn : String?) {
+    private func sendV2ActivePageToWeb(srn : String, shortsList : [SLShortsModel],previousSrn : String?) {
         guard shortsMode == .detail,
             let currentSrn = self.currentSrn else { return }
         let shortsListJson = SLJSONUtil.toJsonString(shortsList) ?? "[]"
@@ -1030,7 +1030,7 @@ extension ShortsCellReactor {
 }
 //MARK: Getter
 extension ShortsCellReactor {
-    func getShortsModel() -> ShortsModel? {
+    func getShortsModel() -> SLShortsModel? {
         return self.shortsModel
     }
     

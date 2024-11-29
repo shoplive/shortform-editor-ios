@@ -10,7 +10,7 @@ import ShopliveSDKCommon
 import UIKit
 
 struct ShortsRelatedCollectionAPI : APIDefinition {
-    typealias ResultType = ShortsCollectionModel
+    typealias ResultType = SLShortsCollectionModel
     
     var baseUrl: String {
         let shortformApiEndPoint = ShortFormConfigurationInfosManager.shared.shortsConfiguration.shortformApiEndpoint

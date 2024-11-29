@@ -8,7 +8,7 @@
 
 import Foundation
 //youtube 한정
-public struct Creator : Codable {
+public struct SLCreator : Codable {
     
     var uid : String?
     var userId : String?

@@ -42,7 +42,7 @@ extension ShopLiveShortform.BridgeInterface {
         Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN.key, payload: payLoad)
     }
     
-    internal static func handleMoveToProductPage(shortsId : String?, srn : String?, product : Product) {
+    internal static func handleMoveToProductPage(shortsId : String?, srn : String?, product : SLProduct) {
         guard isBridgeConnected() else { return }
         guard let urlString = product.url,
               let productUrl = URL(string: urlString) else { return }
@@ -55,7 +55,7 @@ extension ShopLiveShortform.BridgeInterface {
         Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CHANGED_SHORTFORM_DETAIL_PLAYER_SHOWN.key, payload: ["isShown": false,"srn" : srn ?? ""])
     }
     
-    internal static func handleMoveToProductBannerPage(shortsId : String, srn : String, scheme : String, shortsDetail : ShortsDetail) {
+    internal static func handleMoveToProductBannerPage(shortsId : String, srn : String, scheme : String, shortsDetail : SLShortsDetail) {
         guard isBridgeConnected() else { return }
         guard let url = URL(string: scheme) else { return }
         if let webView = Self.shared.webView {
@@ -79,7 +79,7 @@ extension ShopLiveShortform.BridgeInterface {
         Self.shared.onRequestEvaluateJS(command: SdkToWeb.REQUEST_SHORTFORM_PREVIEW.key, payload: payload2)
     }
     
-    internal static func previewShown(shorts : ShortsModel) {
+    internal static func previewShown(shorts : SLShortsModel) {
         guard isBridgeConnected() else { return }
         guard let shortsDict = shorts.dictionary_SL else { return }
         let payload: [String: Any] = [
@@ -88,7 +88,7 @@ extension ShopLiveShortform.BridgeInterface {
         Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_SHORTFORM_PREVIEW_SHOWN.key, payload: payload)
     }
     
-    internal static func clickPreview(shorts : ShortsModel) {
+    internal static func clickPreview(shorts : SLShortsModel) {
         guard isBridgeConnected() else { return }
         guard let shortsDict = shorts.dictionary_SL else { return }
         let payload: [String: Any] = [
@@ -97,7 +97,7 @@ extension ShopLiveShortform.BridgeInterface {
         Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_CLICK_SHORTFORM_PREVIEW.key, payload: payload)
     }
     
-    internal static func previewHidden(shorts : ShortsModel) {
+    internal static func previewHidden(shorts : SLShortsModel) {
         guard isBridgeConnected() else { return }
         guard let shortsDict = shorts.dictionary_SL else { return }
         let payload: [String: Any] = [
@@ -106,7 +106,7 @@ extension ShopLiveShortform.BridgeInterface {
         Self.shared.onRequestEvaluateJS(command: SdkToWeb.ON_SHORTFORM_PREVIEW_HIDDEN.key, payload: payload)
     }
     
-    internal static func previewClose(shorts : ShortsModel) {
+    internal static func previewClose(shorts : SLShortsModel) {
         guard isBridgeConnected() else { return }
         guard let shortsDict = shorts.dictionary_SL else { return }
         let payload: [String: Any] = [

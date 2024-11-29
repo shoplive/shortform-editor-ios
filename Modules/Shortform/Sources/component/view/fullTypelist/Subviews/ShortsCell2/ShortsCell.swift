@@ -12,10 +12,10 @@ import ShopliveSDKCommon
 
 
 protocol ShortsCellDelegate : NSObject {
-    func didFinishPlayingShorts(cell : ShortsCell, data : ShortsModel?)
+    func didFinishPlayingShorts(cell : ShortsCell, data : SLShortsModel?)
     func shortsCommand(name : String, payload : [String : Any]?)
     func didFinishLoadinWebView(indexPath : IndexPath)
-    func getShortsListDataForV2ActivePage() -> [ShortsModel]?
+    func getShortsListDataForV2ActivePage() -> [SLShortsModel]?
     func requestJSRequestForExternalWebView(request : (ShopLiveShortform.ShortsWebInterface.SdkToWeb, [String : Any]?))
     func requestCloseShortsDetailForHybrid(srn : String)
     func requestShowShortsDetailForHybrid(srn : String)
@@ -40,11 +40,11 @@ protocol ShortsCellInterface {
     func isWebViewExist() -> Bool
     func reconfigureWebView()
     func handleDeviceRotation(isLandscape : Bool)
-    func sendActivePageStateToWeb(forceIsActive : Bool?, srn : String?, index : Int, shortsListModel : [ShortsModel]?, previousSrn : String?)
+    func sendActivePageStateToWeb(forceIsActive : Bool?, srn : String?, index : Int, shortsListModel : [SLShortsModel]?, previousSrn : String?)
     func getCurrentIndexPath() -> IndexPath
     func configureCell(webView : SLWebView,
                        youtubeWebView : SLWebView?,
-                       model : ShortsModel,
+                       model : SLShortsModel,
                        delegate : ShortsCellDelegate,
                        shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?,
                        indexPath : IndexPath,
@@ -209,7 +209,7 @@ class ShortsCell : UICollectionViewCell {
     
     func configureCell(webView : SLWebView,
                        youtubeWebView : SLWebView?,
-                       model : ShortsModel,
+                       model : SLShortsModel,
                        delegate : ShortsCellDelegate,
                        shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?,
                        indexPath : IndexPath,
@@ -470,7 +470,7 @@ extension ShortsCell {
         self.thumbnailImageView.contentMode = contentMode
     }
     
-    private func onReactorScrollToNextCell(data : ShortsModel?) {
+    private func onReactorScrollToNextCell(data : SLShortsModel?) {
         delegate?.didFinishPlayingShorts(cell: self, data: data)
     }
     
@@ -763,7 +763,7 @@ extension ShortsCell : ShortsCellInterface {
         reactor.action( .handleDeviceRotation(isLandscape: isLandscape) )
     }
     
-    func sendActivePageStateToWeb(forceIsActive : Bool?, srn: String?, index: Int, shortsListModel: [ShortsModel]?, previousSrn : String?) {
+    func sendActivePageStateToWeb(forceIsActive : Bool?, srn: String?, index: Int, shortsListModel: [SLShortsModel]?, previousSrn : String?) {
         guard let srn = srn else { return }
         reactor.action( .sendActivePageState(forceIsActive: forceIsActive, srn: srn, shortsList: shortsListModel,previousSrn: previousSrn) )
     }

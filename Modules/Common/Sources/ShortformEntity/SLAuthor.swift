@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Author : Codable {
+struct SLAuthor : Codable {
     let name : String?
     let profileUrl : String?
     let action : String?

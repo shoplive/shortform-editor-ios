@@ -28,7 +28,7 @@ class ShortformNativeOnEventsManager {
 
 
     
-    class func sendNativeOnEvents(delegate : ShopLiveShortformReceiveHandlerDelegate?, command : NativeOnEventsCommands, payload : [String : Any]?, shortsId : String?, shortsDetail : ShortsDetail?) {
+    class func sendNativeOnEvents(delegate : ShopLiveShortformReceiveHandlerDelegate?, command : NativeOnEventsCommands, payload : [String : Any]?, shortsId : String?, shortsDetail : SLShortsDetail?) {
         let commandString = command.rawValue
         
         var payLoadJsonString : String? = nil

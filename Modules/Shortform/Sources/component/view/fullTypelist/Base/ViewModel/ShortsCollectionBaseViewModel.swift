@@ -73,14 +73,14 @@ class ShortsCollectionBaseViewModel : NSObject {
     
     //data
     private var previewOptionDto : ShortformPreviewOptionDTO?
-    var shortsCollection: ShortsCollectionModel?
+    var shortsCollection: SLShortsCollectionModel?
     var lastShortsCount: Int = 0
-    var originShortsListData : [ShortsModel] = [] {
+    var originShortsListData : [SLShortsModel] = [] {
         didSet {
             self.reloadData()
         }
     }
-    var shortsListData : [ShortsModel] {
+    var shortsListData : [SLShortsModel] {
         return self.shortsMode == .detail ? originShortsListData : originShortsListData.filter{ $0.validate }
     }
     var hasMore: Bool {
@@ -95,7 +95,7 @@ class ShortsCollectionBaseViewModel : NSObject {
     weak var shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?
     
     //currentDatas
-    var currentShorts : ShortsModel? {
+    var currentShorts : SLShortsModel? {
         guard let currentIndex = latestCell.indexPath,
               let shorts = shortsListData[safe: currentIndex.row] else { return nil }
         return shorts
@@ -222,7 +222,7 @@ class ShortsCollectionBaseViewModel : NSObject {
         addObserver()
     }
     
-    init(shorts : [ShortsModel],shopliveSessionId : String?, shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?) {
+    init(shorts : [SLShortsModel],shopliveSessionId : String?, shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?) {
         super.init()
         self.shortformDelegate = shortformDelegate
         self.webViewLists.removeAll()
@@ -267,7 +267,7 @@ class ShortsCollectionBaseViewModel : NSObject {
      v2 override
      returns nil if called in v1
      */
-    func getShortsListDataForV2ActivePage() -> [ShortsModel]? {
+    func getShortsListDataForV2ActivePage() -> [SLShortsModel]? {
         return nil
     }
     
@@ -297,7 +297,7 @@ extension ShortsCollectionBaseViewModel {
         else if let firstIndex = self.shortsListData.firstIndex(where: { $0.shortsId ?? "" == shortsIdOrSrn || $0.srn  == shortsIdOrSrn }) {
             if numberOfItemsInSection != self.shortsListData.count {
                 let newlyAppendDataCount : Int = self.shortsListData.count - numberOfItemsInSection
-                let newDatas : [ShortsModel] = self.originShortsListData.suffix(newlyAppendDataCount)
+                let newDatas : [SLShortsModel] = self.originShortsListData.suffix(newlyAppendDataCount)
                 self.originShortsListData =  self.originShortsListData.dropLast(newlyAppendDataCount)
                 let removedData = originShortsListData[firstIndex]
                 cv.performBatchUpdates {
@@ -410,11 +410,11 @@ extension ShortsCollectionBaseViewModel {
         return playerType == "YOUTUBE" ? true : false
     }
     
-    func getShortsItemIndex(_ item : ShortsModel?) -> Int? {
+    func getShortsItemIndex(_ item : SLShortsModel?) -> Int? {
         return shortsListData.firstIndex(where:  { $0 == item })
     }
     
-    func getNextShortItemIndex(_ item: ShortsModel?) -> Int? {
+    func getNextShortItemIndex(_ item: SLShortsModel?) -> Int? {
         guard let currentItemIndex = getShortsItemIndex(item) else { return nil }
         guard shortsListData.count > 1 else { return nil }
         
@@ -449,7 +449,7 @@ extension ShortsCollectionBaseViewModel {
         return self.preferredForwardBufferDuration
     }
     
-    func getOverlayUrl(at indexPath : IndexPath, shortsModel : ShortsModel?, isYoutube : Bool) -> URL? {
+    func getOverlayUrl(at indexPath : IndexPath, shortsModel : SLShortsModel?, isYoutube : Bool) -> URL? {
         var payload: String = ""
         
         var payloadDict = self.getOverlayUrlPayload(at: indexPath, shortsModel: shortsModel, isYoutube: isYoutube)
@@ -485,7 +485,7 @@ extension ShortsCollectionBaseViewModel {
         return url
     }
     
-    func getSetShortsSingleDetailViewPayload(at indexPath : IndexPath, shortsModel : ShortsModel?, isYoutube : Bool) -> [String : Any] {
+    func getSetShortsSingleDetailViewPayload(at indexPath : IndexPath, shortsModel : SLShortsModel?, isYoutube : Bool) -> [String : Any] {
         var payloadDict = self.getOverlayUrlPayload(at: indexPath, shortsModel: shortsModel, isYoutube: isYoutube)
         payloadDict["ids"] = self.shortsListData.compactMap({ $0.shortsId }).joined(separator: ",")
         let shortsDict = shortsModel?.getRawDataDict()
@@ -514,7 +514,7 @@ extension ShortsCollectionBaseViewModel {
         return canUseShortformCurrentTimeDTO
     }
     
-    func getOverlayUrlPayload(at indexPath : IndexPath, shortsModel : ShortsModel?, isYoutube : Bool) -> [String : Any] {
+    func getOverlayUrlPayload(at indexPath : IndexPath, shortsModel : SLShortsModel?, isYoutube : Bool) -> [String : Any] {
        
         var payloadDict: [String: Any] = [:]
         
@@ -657,7 +657,7 @@ extension ShortsCollectionBaseViewModel {
         }
     }
     
-    private func appendYoutubeWebViewList(webViewListKey : ShopliveWebViewListKey, shortsModel : ShortsModel?) {
+    private func appendYoutubeWebViewList(webViewListKey : ShopliveWebViewListKey, shortsModel : SLShortsModel?) {
         if let url = getOverlayUrl(at: webViewListKey.indexPath, shortsModel: shortsModel,isYoutube: true) {
             guard youtubeWebViewLists[webViewListKey] == nil else { return }
             let webView = ShopLiveShortform.PreloadWebView()
@@ -823,7 +823,7 @@ extension ShortsCollectionBaseViewModel {
         ShopLiveShortform.BridgeInterface.closeShortsDetail(srn: srn)
     }
     
-    func postMoveToProductPageNotification(shortsId : String?, srn : String?, productModel : Product) {
+    func postMoveToProductPageNotification(shortsId : String?, srn : String?, productModel : SLProduct) {
         guard let shortsId = shortsId,
               let srn = srn else { return }
         
@@ -833,7 +833,7 @@ extension ShortsCollectionBaseViewModel {
         
     }
     
-    func postMoveToProductBannerPageNotification(scheme : String?, srn : String?, shortsId : String?, shortsDetailModel : ShortsDetail) {
+    func postMoveToProductBannerPageNotification(scheme : String?, srn : String?, shortsId : String?, shortsDetailModel : SLShortsDetail) {
         guard let scheme = scheme,
               let srn = srn,
               let shortsId = shortsId else { return }
@@ -879,7 +879,7 @@ extension ShortsCollectionBaseViewModel {
 }
 //MARK: - reload Functions
 extension ShortsCollectionBaseViewModel {
-    func appendShortsListData(_ shortsList: [ShortsModel], reset: Bool = false, scrollToPage : Int? = nil) {
+    func appendShortsListData(_ shortsList: [SLShortsModel], reset: Bool = false, scrollToPage : Int? = nil) {
         if reset {
             if let scrollToPage = scrollToPage {
                 self.scrollToPage = scrollToPage

@@ -13,7 +13,7 @@ import UIKit
 
 
 struct SLShortformThumbnailAPI : APIDefinition {
-    typealias ResultType = ShortsModel
+    typealias ResultType = SLShortsModel
     
     var image: String
     var imageData : UIImage
