@@ -13,8 +13,6 @@ import ShopliveSDKCommon
 
 class ShopliveBridgeWebMessageHandler : NSObject, SLReactor {
     typealias BridgeEventName = ShopLiveShortform.ShortsWebInterface.Bridge
-    typealias ShortsCollectionModel = ShopLiveShortform.ShortsCollectionModel
-    typealias ShortsModel = ShopLiveShortform.ShortsModel
     typealias BridgeModel = ShopLiveShortform.ShortsBridgeModel
     
     

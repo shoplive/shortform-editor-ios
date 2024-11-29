@@ -1,14 +1,12 @@
 //
 //  LinkButton.swift
-//  ShopLiveShortformSDK
+//  ShopliveSDKCommon
 //
-//  Created by sangmin han on 3/19/24.
+//  Created by sangmin han on 11/29/24.
 //  Copyright © 2024 com.app. All rights reserved.
 //
 
 import Foundation
-import ShopliveSDKCommon
-
 
 //youtube 한정
 public struct LinkButton : Codable {
@@ -27,4 +25,3 @@ public struct LinkButton : Codable {
     }
     
 }
-

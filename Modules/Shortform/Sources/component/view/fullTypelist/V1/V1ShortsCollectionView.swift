@@ -14,8 +14,6 @@ import ShopliveSDKCommon
 
 class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
     typealias ShortsApiType = V1ShortsCollectionViewModel.ShortsApiType
-    typealias ShortsModel = ShopLiveShortform.ShortsModel
-    typealias ShortsCollectionModel = ShopLiveShortform.ShortsCollectionModel
     
     
     private var errorView : FullTypeErrorView = {

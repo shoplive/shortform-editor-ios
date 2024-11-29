@@ -486,8 +486,6 @@ extension SLVideoEditorMainViewReactor {
         //        shortsDetailDict["description"] = "ios_seeker_thumbnail_test_2_description"
         //        shortsDetailDict["tags"] = ["ios_test_tag1","ios_test_tag2"]
         //        shortsDetailDict["title"] = "ios_upload_test \(Date())"
-        
-        
         shortsDict["cards"] = [cardsDict]
         shortsDict["shortsDetail"] = shortsDetailDict
         shortsDict["shortsType"] = "CARD"

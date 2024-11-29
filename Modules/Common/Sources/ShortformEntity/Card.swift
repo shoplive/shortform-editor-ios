@@ -1,33 +1,41 @@
-import Foundation
-import ShopliveSDKCommon
+//
+//  Card.swift
+//  ShopliveSDKCommon
+//
+//  Created by sangmin han on 11/29/24.
+//  Copyright © 2024 com.app. All rights reserved.
+//
 
-struct CardModel : Codable {
-    let duration, playCount, playDuration: Int?
-    let source: String?
-    let videoId: String?
-    let campaignId: String?
-    let clips: [Clip]?
+import Foundation
+public struct CardModel : Codable {
+    public let duration, playCount, playDuration: Int?
+    public let source: String?
+    public let videoId: String?
+    public let campaignId: String?
+    public let clips: [Clip]?
     // 웹클라이언트 요청으로 주석처리, 기존에 사용안하고 있음.
     // let srn: String?
-    let videoUrl, previewVideoUrl: String?
-    let screenshotUrl: String? //1순위
-    let specifiedScreenShotUrl : String? //2순위
-    let cardType: String?
+    public let videoUrl, previewVideoUrl: String?
+    public let originVideoUrl : String?
+    public let convertStatus : String?
+    public let screenshotUrl: String? //1순위
+    public let specifiedScreenShotUrl : String? //2순위
+    public let cardType: String?
     
     
     
     //added 2024-03
-    let srn : String?
-    let playerType : String?
-    let timeOnlyClips : [TimeOnlyClip]?
-    let width : CGFloat?
-    let height : CGFloat?
+    public let srn : String?
+    public let playerType : String?
+    public let timeOnlyClips : [TimeOnlyClip]?
+    public let width : CGFloat?
+    public let height : CGFloat?
     
     //유투브용
-    let externalVideoType : String?
-    let externalVideoUrl : String?
-    let externalVideoId : String?
-    let externalVideoThumbnail : String?
+    public let externalVideoType : String?
+    public let externalVideoUrl : String?
+    public let externalVideoId : String?
+    public let externalVideoThumbnail : String?
     
     
     public init(from decoder: Decoder) throws {
@@ -43,6 +51,8 @@ struct CardModel : Codable {
         self.clips = try container.decodeIfPresent([Clip].self, forKey: .clips)
         self.videoUrl = try? parser.parse(targetType: String.self, key: CodingKeys.videoUrl)
         self.previewVideoUrl = try? parser.parse(targetType: String.self, key: CodingKeys.previewVideoUrl)
+        self.originVideoUrl = try? parser.parse(targetType: String.self, key: CodingKeys.originVideoUrl)
+        self.convertStatus = try? parser.parse(targetType: String.self, key: CodingKeys.convertStatus)
         self.screenshotUrl = try? parser.parse(targetType: String.self, key: CodingKeys.screenshotUrl)
         self.specifiedScreenShotUrl = try? parser.parse(targetType: String.self, key: CodingKeys.specifiedScreenShotUrl)
         self.cardType = try? parser.parse(targetType: String.self, key: CodingKeys.cardType)
@@ -60,7 +70,7 @@ struct CardModel : Codable {
         self.height = try? parser.parse(targetType: CGFloat.self, key: CodingKeys.height)
     }
     
-    var validate: Bool {
+    public var validate: Bool {
         guard let cardType = cardType else {
             return false
         }
@@ -83,7 +93,7 @@ struct CardModel : Codable {
         }
     }
     
-    func toShopLiveShortformCardData() -> ShopLiveShortformCardData {
+    public func toShopLiveShortformCardData() -> ShopLiveShortformCardData {
         return .init(duration: duration,
                      playCount: playCount,
                      playDuration: playDuration,
@@ -119,9 +129,9 @@ struct CardModel : Codable {
     
 }
 
-struct Clip: Codable {
-    let title, ClipTitle: String?
-    let from, to: Int?
+public struct Clip: Codable {
+    public let title, ClipTitle: String?
+    public let from, to: Int?
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -133,7 +143,7 @@ struct Clip: Codable {
         self.to = try? parser.parse(targetType: Int.self, key: CodingKeys.to)
     }
     
-    func toShopLiveShortformClipData() -> ShopLiveShortformClipData {
+    public func toShopLiveShortformClipData() -> ShopLiveShortformClipData {
         return .init(title: title,
                      clipTitle: ClipTitle,
                      from: from,
@@ -142,11 +152,11 @@ struct Clip: Codable {
     
 }
 
-struct TimeOnlyClip : Codable {
-    let title : String?
-    let from : Double?
-    let to : Double?
-    let subtitles : [String]?
+public struct TimeOnlyClip : Codable {
+    public let title : String?
+    public let from : Double?
+    public let to : Double?
+    public let subtitles : [String]?
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -158,7 +168,7 @@ struct TimeOnlyClip : Codable {
         self.subtitles = try? parser.parse(targetType: [String].self, key: CodingKeys.subtitles)
     }
     
-    func toShopLiveShortformTimeOnlyClipData() -> ShopLiveShortformTimeOnlyClipData {
+    public func toShopLiveShortformTimeOnlyClipData() -> ShopLiveShortformTimeOnlyClipData {
         return .init(title: title,
                      from: from,
                      to: to,

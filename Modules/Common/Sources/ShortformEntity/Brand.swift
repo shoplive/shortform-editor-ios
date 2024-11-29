@@ -1,19 +1,19 @@
 //
-//  BrandModel.swift
-//  matrix-shortform-ios
+//  Brand.swift
+//  ShopliveSDKCommon
 //
-//  Created by sangmin han on 2023/05/11.
+//  Created by sangmin han on 11/29/24.
+//  Copyright © 2024 com.app. All rights reserved.
 //
 
 import Foundation
-import ShopliveSDKCommon
 
 public struct BrandModel : Codable {
-    let id : Int?
-    let identifier : String?
-    let imageUrl : String?
-    let name : String?
-    let traceId : String?
+    public let id : Int?
+    public let identifier : String?
+    public let imageUrl : String?
+    public let name : String?
+    public let traceId : String?
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -27,7 +27,7 @@ public struct BrandModel : Codable {
         self.traceId = try? parser.parse(targetType: String.self, key: CodingKeys.traceId)
     }
     
-    internal func toBrandData() -> BrandData {
+    public func toBrandData() -> BrandData {
         return BrandData(id: id,identifier: identifier,imageUrl: imageUrl,name: name,traceId: traceId)
     }
     

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import ShopliveSDKCommon
 
 class ShortformNativeOnEventsManager {
 

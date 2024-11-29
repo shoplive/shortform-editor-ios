@@ -1,12 +1,12 @@
 //
 //  Product.swift
-//  matrix-shortform-ios
+//  ShopliveSDKCommon
 //
-//  Created by 김우현 on 2/27/23.
+//  Created by sangmin han on 11/29/24.
+//  Copyright © 2024 com.app. All rights reserved.
 //
 
 import Foundation
-import ShopliveSDKCommon
 
 public struct Product: Codable {
     public let brand: String?
@@ -46,8 +46,8 @@ public struct Product: Codable {
     
     
     
-    internal func toProductData() -> ProductData {
-        var data = ProductData(brand: brand,productId: productId,customerProductId: customerProductId,
+    public func toProductData() -> ProductData {
+        let data = ProductData(brand: brand,productId: productId,customerProductId: customerProductId,
                                name: name,descriptions : description,
         url: url,sku: sku,imageUrl: imageUrl, currency: currency,showPrice: showPrice,originalPrice: originalPrice,discountPrice: discountRate,discountRate: discountRate,stockStatus: stockStatus)
         

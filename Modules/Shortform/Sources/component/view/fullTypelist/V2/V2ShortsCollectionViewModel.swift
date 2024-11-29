@@ -232,7 +232,7 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
         v2delegate?.requestForMoreData()
     }
     
-    override func getShortsListDataForV2ActivePage() -> [ShortsCollectionBaseViewModel.ShortsModel]? {
+    override func getShortsListDataForV2ActivePage() -> [ShortsModel]? {
         return shortsListData
     }
 }

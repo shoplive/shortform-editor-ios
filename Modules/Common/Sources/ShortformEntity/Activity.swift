@@ -1,9 +1,16 @@
-import Foundation
-import ShopliveSDKCommon
+//
+//  Activity.swift
+//  ShopliveSDKCommon
+//
+//  Created by sangmin han on 11/29/24.
+//  Copyright © 2024 com.app. All rights reserved.
+//
 
-struct Activity: Codable {
-    let viewCount, likeCount, commentCount, bookmarkCount: Int?
-    let like, bookmark: Bool?
+import Foundation
+
+public struct Activity: Codable {
+    public let viewCount, likeCount, commentCount, bookmarkCount: Int?
+    public let like, bookmark: Bool?
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)

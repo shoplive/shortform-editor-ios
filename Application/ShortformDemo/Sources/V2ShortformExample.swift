@@ -80,7 +80,7 @@ extension V2ShortformExample : ShortsCollectionViewDataSourcRequestDelegate {
 
 
 struct TestShortsCollectionAPI: APIDefinition {
-    typealias ResultType = ShopLiveShortform.ShortsCollectionModel
+    typealias ResultType = ShortsCollectionModel
 
     var baseUrl: String {
         "https://qa-shortform-api.shoplive.cloud"

@@ -16,7 +16,6 @@ class ShortsYoutubePlayerReactor : NSObject, SLReactor {
     typealias ShortsMode = ShopLiveShortform.ShortsMode
     typealias SdkToWeb = ShopLiveShortform.ShortsWebInterface.SdkToWeb
     typealias WebToSdk = ShopLiveShortform.ShortsWebInterface.WebToSdk
-    typealias ShortsModel = ShopLiveShortform.ShortsModel
     typealias JSRequest = (SdkToWeb, [String : Any])
     typealias ViewProvideType = ShortsCollectionBaseViewModel.ViewProvidedType
     

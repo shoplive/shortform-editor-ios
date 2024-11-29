@@ -26,7 +26,7 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
         }
     }
     
-    func didFinishPlayingShorts(cell: ShortsCell, data: ShopLiveShortform.ShortsModel?) {
+    func didFinishPlayingShorts(cell: ShortsCell, data: ShortsModel?) {
         guard let data = data, viewModel.shortsMode == .preview else { return }
         
         if let nextIndex = viewModel.getNextShortItemIndex(data) {
@@ -137,7 +137,7 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
         }
     }
     
-    func getShortsListDataForV2ActivePage() -> [ShopLiveShortform.ShortsModel]? {
+    func getShortsListDataForV2ActivePage() -> [ShortsModel]? {
         return viewModel.getShortsListDataForV2ActivePage()
     }
     

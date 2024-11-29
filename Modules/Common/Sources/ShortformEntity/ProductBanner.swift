@@ -1,13 +1,12 @@
 //
 //  ProductBanner.swift
-//  ShopLiveShortformSDK
+//  ShopliveSDKCommon
 //
-//  Created by 김우현 on 5/30/23.
+//  Created by sangmin han on 11/29/24.
+//  Copyright © 2024 com.app. All rights reserved.
 //
 
 import Foundation
-import ShopliveSDKCommon
-
 
 public struct ProductBanner: Codable {
     public let title: String?

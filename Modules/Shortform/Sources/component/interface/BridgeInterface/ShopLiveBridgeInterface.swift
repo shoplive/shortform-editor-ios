@@ -13,8 +13,6 @@ import ShopliveSDKCommon
 extension ShopLiveShortform {
     final public class BridgeInterface  {
         typealias SdkToWeb = ShortsWebInterface.SdkToWeb
-        typealias ShortsModel = ShopLiveShortform.ShortsModel
-        typealias ShortsCollectionModel = ShopLiveShortform.ShortsCollectionModel
         
         internal static let shared = BridgeInterface()
         

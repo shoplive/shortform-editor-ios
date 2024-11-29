@@ -13,8 +13,6 @@ import WebKit
 
 
 class ShopliveBridgeInterfaceReactor : NSObject, SLReactor {
-    typealias ShortsCollectionModel = ShopLiveShortform.ShortsCollectionModel
-    typealias ShortsModel = ShopLiveShortform.ShortsModel
     typealias BridgeModel = ShopLiveShortform.ShortsBridgeModel
     typealias ShortsWebInterface = ShopLiveShortform.ShortsWebInterface
     

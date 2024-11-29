@@ -13,7 +13,7 @@ import ShopliveSDKCommon
 
 struct ShopLiveShortformListYoutubeUrlGenerator {
     
-    static func getYoutubeUrl( shortsModel : ShopLiveShortform.ShortsModel?) -> URL? {
+    static func getYoutubeUrl( shortsModel : ShortsModel?) -> URL? {
         var payload: String = ""
         let shortsDict = shortsModel?.getRawDataDict()
         var payloadDict: [String: Any] = [:]

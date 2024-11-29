@@ -47,8 +47,6 @@ class ShortsCollectionBaseViewModel : NSObject {
     }
     
     
-    typealias ShortsCollectionModel = ShopLiveShortform.ShortsCollectionModel
-    typealias ShortsModel = ShopLiveShortform.ShortsModel
     typealias ShortsMode = ShopLiveShortform.ShortsMode
     
     weak var delegate : ShortsCollectionBaseViewModelDelegate?
@@ -299,7 +297,7 @@ extension ShortsCollectionBaseViewModel {
         else if let firstIndex = self.shortsListData.firstIndex(where: { $0.shortsId ?? "" == shortsIdOrSrn || $0.srn  == shortsIdOrSrn }) {
             if numberOfItemsInSection != self.shortsListData.count {
                 let newlyAppendDataCount : Int = self.shortsListData.count - numberOfItemsInSection
-                let newDatas : [ShopLiveShortform.ShortsModel] = self.originShortsListData.suffix(newlyAppendDataCount)
+                let newDatas : [ShortsModel] = self.originShortsListData.suffix(newlyAppendDataCount)
                 self.originShortsListData =  self.originShortsListData.dropLast(newlyAppendDataCount)
                 let removedData = originShortsListData[firstIndex]
                 cv.performBatchUpdates {

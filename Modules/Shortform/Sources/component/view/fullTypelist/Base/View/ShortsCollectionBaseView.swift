@@ -113,8 +113,8 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     var closeButtonLeadingConstraint: NSLayoutConstraint?
     var minimumPreviewViewWidth: CGFloat = 60
     
-    var lastAttachedShortsModel : ShopLiveShortform.ShortsModel?
-    var lastDetachedShortsModel : ShopLiveShortform.ShortsModel?
+    var lastAttachedShortsModel : ShortsModel?
+    var lastDetachedShortsModel : ShortsModel?
     var lastContentOffsetY : CGFloat = 0
     
     init(viewmodel : ShortsCollectionBaseViewModel,shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?) {
@@ -309,7 +309,7 @@ extension ShortsCollectionBaseView {
         return viewModel.currentShortsSrn
     }
     
-    func getCurrentShortsModel() -> ShopLiveShortform.ShortsModel? {
+    func getCurrentShortsModel() -> ShortsModel? {
         return viewModel.currentShorts
     }
     

@@ -1,9 +1,16 @@
+//
+//  ShortsDetail.swift
+//  ShopliveSDKCommon
+//
+//  Created by sangmin han on 11/29/24.
+//  Copyright © 2024 com.app. All rights reserved.
+//
+
 import Foundation
-import ShopliveSDKCommon
 
 
 public struct ShortsDetail : Codable {
-	public let title : String?
+    public let title : String?
     public let description : String?
     public let tags : [String]?
     public let productCount : Int?
@@ -33,7 +40,7 @@ public struct ShortsDetail : Codable {
     
     
     
-    internal func toShortsDetailData() -> ShopLiveShortformDetailData {
+    public func toShortsDetailData() -> ShopLiveShortformDetailData {
         var productBannerData = productBanner?.toProductBannerData()
         var productsData : [ProductData] = []
         for product in products ?? [] {

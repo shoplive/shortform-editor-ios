@@ -1,11 +1,18 @@
+//
+//  Author.swift
+//  ShopliveSDKCommon
+//
+//  Created by sangmin han on 11/29/24.
+//  Copyright © 2024 com.app. All rights reserved.
+//
+
 import Foundation
-import ShopliveSDKCommon
 
 struct Author : Codable {
-	let name : String?
-	let profileUrl : String?
-	let action : String?
-	let payload : String?
+    let name : String?
+    let profileUrl : String?
+    let action : String?
+    let payload : String?
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)

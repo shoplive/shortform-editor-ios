@@ -21,7 +21,6 @@ class ShortsCellYoutubeCommandReactor : NSObject, SLReactor {
     typealias SdkToWeb = ShopLiveShortform.ShortsWebInterface.SdkToWeb
     typealias YoutubeToSdk = ShopLiveShortform.ShortsWebInterface.YoutubeToSdk
     typealias JSRequest = (SdkToWeb, [String : Any])
-    typealias ShortsModel = ShopLiveShortform.ShortsModel
     typealias ShortsMode = ShopLiveShortform.ShortsMode
     
     

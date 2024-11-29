@@ -60,8 +60,8 @@ final class ShopLiveShortformVerticalTypeViewReactor : NSObject, SLReactor {
     private var isSnapEnabled : Bool = false
     private var currentCenteredIndex : CGFloat = 0
     private var playOnIntialLoad : Bool = true
-    private var shortsCollectionModel : ShopLiveShortform.ShortsCollectionModel?
-    private var shortsListModel : [ShopLiveShortform.ShortsModel] = []
+    private var shortsCollectionModel : ShortsCollectionModel?
+    private var shortsListModel : [ShortsModel] = []
     private var isAutoPlayerEnabled : Bool = true
     private var isPlayOnOnlyWifi : Bool = false
     private var networkConnectionType : NetworkMonitor.ConnectionType = .cellular
@@ -568,7 +568,7 @@ extension ShopLiveShortformVerticalTypeViewReactor {
         }
     }
     
-    private func addShortListModel(dataList : [ShopLiveShortform.ShortsModel], isRefresh : Bool){
+    private func addShortListModel(dataList : [ShortsModel], isRefresh : Bool){
         if isRefresh {
             self.shortsListModel.removeAll()
             self.playOnIntialLoad = true
@@ -609,7 +609,7 @@ extension ShopLiveShortformVerticalTypeViewReactor {
         
     }
     
-    private func callCollectionShowEventTrace(shortsListModel : [ShopLiveShortform.ShortsModel], shortsCollection : ShopLiveShortform.ShortsCollectionModel?,isRefresh : Bool, paginationCount : Int ){
+    private func callCollectionShowEventTrace(shortsListModel : [ShortsModel], shortsCollection : ShortsCollectionModel?,isRefresh : Bool, paginationCount : Int ){
         var overlayType : ShortformEventTraceManager.OverlayType = .TYPE0
         switch self.currentCardViewType {
         case .type0:

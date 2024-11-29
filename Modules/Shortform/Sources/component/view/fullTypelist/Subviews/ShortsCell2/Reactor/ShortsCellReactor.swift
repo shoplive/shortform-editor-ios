@@ -19,7 +19,6 @@ class ShortsCellReactor : NSObject, SLReactor {
     typealias WebToSdk = ShopLiveShortform.ShortsWebInterface.WebToSdk
     typealias SdkToWeb = ShopLiveShortform.ShortsWebInterface.SdkToWeb
     typealias JSRequest = (SdkToWeb, [String : Any])
-    typealias ShortsModel = ShopLiveShortform.ShortsModel
     typealias ViewProvideType = ShortsCollectionBaseViewModel.ViewProvidedType
     typealias ShortsMode = ShopLiveShortform.ShortsMode
     

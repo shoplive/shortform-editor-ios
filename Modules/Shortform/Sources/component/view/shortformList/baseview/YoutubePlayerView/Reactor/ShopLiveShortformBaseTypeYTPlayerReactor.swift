@@ -15,7 +15,6 @@ class ShopLiveShortformBaseTypeYTPlayerReactor : NSObject, SLReactor {
     typealias SdkToWeb = ShopLiveShortform.ShortsWebInterface.SdkToWeb
     typealias WebToSdk = ShopLiveShortform.ShortsWebInterface.WebToSdk
     typealias YoutubeToSdk = ShopLiveShortform.ShortsWebInterface.YoutubeToSdk
-    typealias ShortsModel = ShopLiveShortform.ShortsModel
     typealias JSRequest = (SdkToWeb, [String : Any])
     
     enum Action {
