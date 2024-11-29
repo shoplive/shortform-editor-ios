@@ -109,7 +109,12 @@ class ShortsCellReactor : NSObject, SLReactor {
     //data
     private var shortsModel : ShortsModel?
     private var currentVideoUrl : String? {
-        if shortsMode == .detail {
+        if let card = shortsModel?.cards?.first,
+           let convertStatus = card.convertStatus, convertStatus != .COMPLETE,
+           let originVideoUrl = card.originVideoUrl {
+            return originVideoUrl
+        }
+        else if shortsMode == .detail {
             return shortsModel?.cards?.first?.videoUrl
         }
         else {
@@ -253,6 +258,7 @@ class ShortsCellReactor : NSObject, SLReactor {
             resultHandler?( .hideYoutubePosterImage(true) )
             resultHandler?( .requestHideVideoPlayer(false) )
             resultHandler?( .requestHideYoutubePlayer(true) )
+            
             if let currentVideoUrl = currentVideoUrl, let videoUrl = URL(string: currentVideoUrl) {
                 resultHandler?( .setVideoPlayer(videoUrl) )
             }

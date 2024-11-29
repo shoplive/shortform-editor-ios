@@ -7,6 +7,32 @@
 //
 
 import Foundation
+
+public enum SLShortformConvertStatus : Codable {
+    case READY
+    case IN_PROGRESS
+    case COMPLETE
+    case FAILED
+    case CANCELLED
+    
+    init(rawValue : String) {
+        switch rawValue {
+        case "READY":
+            self = .READY
+        case "IN_PROGRESS":
+            self = .IN_PROGRESS
+        case "COMPLETE":
+            self = .COMPLETE
+        case "FAILED":
+            self = .FAILED
+        case "CANCELLED":
+            self = .CANCELLED
+        default:
+            self = .READY
+        }
+    }
+}
+
 public struct CardModel : Codable {
     public let duration, playCount, playDuration: Int?
     public let source: String?
@@ -17,7 +43,7 @@ public struct CardModel : Codable {
     // let srn: String?
     public let videoUrl, previewVideoUrl: String?
     public let originVideoUrl : String?
-    public let convertStatus : String?
+    public let convertStatus : SLShortformConvertStatus?
     public let screenshotUrl: String? //1순위
     public let specifiedScreenShotUrl : String? //2순위
     public let cardType: String?
@@ -52,7 +78,8 @@ public struct CardModel : Codable {
         self.videoUrl = try? parser.parse(targetType: String.self, key: CodingKeys.videoUrl)
         self.previewVideoUrl = try? parser.parse(targetType: String.self, key: CodingKeys.previewVideoUrl)
         self.originVideoUrl = try? parser.parse(targetType: String.self, key: CodingKeys.originVideoUrl)
-        self.convertStatus = try? parser.parse(targetType: String.self, key: CodingKeys.convertStatus)
+        let convertStatusRawValue = try? parser.parse(targetType: String.self, key: CodingKeys.convertStatus)
+        self.convertStatus = SLShortformConvertStatus(rawValue: convertStatusRawValue ?? "")
         self.screenshotUrl = try? parser.parse(targetType: String.self, key: CodingKeys.screenshotUrl)
         self.specifiedScreenShotUrl = try? parser.parse(targetType: String.self, key: CodingKeys.specifiedScreenShotUrl)
         self.cardType = try? parser.parse(targetType: String.self, key: CodingKeys.cardType)
@@ -190,6 +217,8 @@ public struct TimeOnlyClip : Codable {
     public var clips : [ShopLiveShortformClipData]?
     public var videoUrl : String?
     public var previewVideoUrl : String?
+    public let originVideoUrl : String?
+    public let convertStatus : SLShortformConvertStatus?
     public var screenShotUrl : String?
     public var specifiedScreenShotUrl : String?
     public var cardType : String?
@@ -205,7 +234,12 @@ public struct TimeOnlyClip : Codable {
     public var externalVideoId : String?
     public var externalVideoThumbnail : String?
     
-    public init(duration: Int? = nil, playCount: Int? = nil, playDuration: Int? = nil, source: String? = nil, videoId: String? = nil, campaignId: String? = nil, clips: [ShopLiveShortformClipData]? = nil, videoUrl: String? = nil, previewVideoUrl: String? = nil, screenShotUrl: String? = nil, specifiedScreenShotUrl: String? = nil, cardType: String? = nil, srn: String? = nil, playerType: String? = nil, timeOnlyClips: [ShopLiveShortformTimeOnlyClipData]? = nil, width: CGFloat? = nil, heigh: CGFloat? = nil, externalVideoType: String? = nil, externalVideoUrl: String? = nil, externalVideoId: String? = nil, externalVideoThumbnail: String? = nil) {
+    public init(duration: Int? = nil, playCount: Int? = nil, playDuration: Int? = nil, source: String? = nil, videoId: String? = nil,
+                campaignId: String? = nil, clips: [ShopLiveShortformClipData]? = nil, videoUrl: String? = nil, previewVideoUrl: String? = nil,
+                originVideoUrl : String? = nil, convertStatus: SLShortformConvertStatus? = nil, screenShotUrl: String? = nil,
+                specifiedScreenShotUrl: String? = nil, cardType: String? = nil, srn: String? = nil, playerType: String? = nil,
+                timeOnlyClips: [ShopLiveShortformTimeOnlyClipData]? = nil, width: CGFloat? = nil, heigh: CGFloat? = nil,
+                externalVideoType: String? = nil, externalVideoUrl: String? = nil, externalVideoId: String? = nil, externalVideoThumbnail: String? = nil) {
         self.duration = duration
         self.playCount = playCount
         self.playDuration = playDuration
@@ -215,6 +249,8 @@ public struct TimeOnlyClip : Codable {
         self.clips = clips
         self.videoUrl = videoUrl
         self.previewVideoUrl = previewVideoUrl
+        self.originVideoUrl = originVideoUrl
+        self.convertStatus = convertStatus
         self.screenShotUrl = screenShotUrl
         self.specifiedScreenShotUrl = specifiedScreenShotUrl
         self.cardType = cardType

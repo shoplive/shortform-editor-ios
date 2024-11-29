@@ -272,7 +272,10 @@ extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollect
         
         cell.setCardViewType(cardViewType: self.currentCardViewType)
         
-        let videoUrl : String? = cardModel.previewVideoUrl
+        var videoUrl : String? = cardModel.previewVideoUrl
+        if cardModel.convertStatus != .COMPLETE {
+            videoUrl = cardModel.originVideoUrl
+        }
         var title = shortsDetailModel.title ?? ""
         title = title.replacingOccurrences(of: " ", with: "\u{00A0}")
         var description = shortsDetailModel.description ?? ""
