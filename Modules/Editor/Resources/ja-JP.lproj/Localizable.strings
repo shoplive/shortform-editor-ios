@@ -1,10 +1,5 @@
-/* 
-  Localizable.strings
-  matrix-shortform-upload-ios
-
-  Created by sangmin han on 2023/07/26.
-  
-*/
+//PhotoPicker
+"editor.photo.picker.camera.cell.btn.title" = "カメラ";
 
 "editor.header.headline.playback.shoplive" = "";
 
@@ -38,7 +33,6 @@
 "editor.title.cover.picker.shoplive" = "カバーを設定";
 "editor.cover.picker.btn.confirm.shoplive" = "完了"; //
 "editor.cover.picker.btn.cameraRool.shoplive" = "カメラロールから追加"; //
-
 
 //playbackSpeed
 "editor.title.playbackSpeed.shoplive" = "再生速度";

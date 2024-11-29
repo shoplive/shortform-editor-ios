@@ -63,6 +63,7 @@ public extension Project {
         return Project(
             name: name,
             organizationName: organizationName,
+            options: .options(defaultKnownRegions: ["ko","ja-JP","ko-Kore_JP", "en","jp"]),
             packages: packages,
             settings: settings,
             targets: targets,
@@ -105,6 +106,7 @@ public extension Project {
         return Project(
             name: name,
             organizationName: organizationName,
+            options: .options(defaultKnownRegions: ["ko","ja-JP","en","ko-Kore_JP","jp"]),
             packages: packages,
             settings: settings,
             targets: targets,

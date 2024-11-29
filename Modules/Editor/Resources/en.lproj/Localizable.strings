@@ -91,6 +91,9 @@
 //"editor.thumbnail.toast.btn.close.title" = "No";
 //"editor.thumbnail.toast.btn.confirm.title" = "Yes";
 
+//PhotoPicker
+"editor.photo.picker.camera.cell.btn.title" = "camera";
+
 "editor.header.headline.playback.shoplive" = "Playback Speed";
 
 "editor.title.video.upload.shoplive" = "Add Details";
@@ -180,4 +183,3 @@
 "editor.filter.bright.shoplive" = "Bright";
 "editor.filter.clear.shoplive" = "Clear";
 "editor.filter.warm.shoplive" = "Warm";
-

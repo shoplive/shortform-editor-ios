@@ -242,6 +242,23 @@ public enum ShopLiveShortformEditorSDKStrings: Sendable {
       public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.no.shoplive")
     }
 
+    public enum Photo: Sendable {
+
+      public enum Picker: Sendable {
+
+        public enum Camera: Sendable {
+
+          public enum Cell: Sendable {
+
+            public enum Btn: Sendable {
+            /// camera
+              public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.photo.picker.camera.cell.btn.title")
+            }
+          }
+        }
+      }
+    }
+
     public enum Picture: Sendable {
     /// Photo
       public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.picture.shoplive")

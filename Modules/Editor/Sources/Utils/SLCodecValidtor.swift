@@ -7,15 +7,12 @@
 //
 
 import Foundation
-import UIKit
 import ffmpegkit
-import ShopliveSDKCommon
 
 
 
 struct SLCodecValidator {
     static func runFFProbCommand(videoPath : String, completion : @escaping(Bool) -> ()){
-//        ShopLiveLogger.debugLog("[HASSAN LOG] videoPath tossed to ffprobe \(videoPath)")
         let command = "-v quiet -print_format json -show_format -show_streams -i \(videoPath)"
         FFprobeKit.executeAsync(command) { session in
             guard let session = session,

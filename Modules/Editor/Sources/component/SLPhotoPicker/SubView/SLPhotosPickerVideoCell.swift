@@ -56,7 +56,7 @@ class SLPhotosPickerVideoCell : UICollectionViewCell {
         label.textAlignment = .center
         label.font = .set(size: 13, weight: ._500)
         label.textColor = .init(white: 1, alpha: 0.4)
-        label.text = "카메라"
+        label.text = ShopLiveShortformEditorSDKStrings.Editor.Photo.Picker.Camera.Cell.Btn.title
         return label
     }()
     

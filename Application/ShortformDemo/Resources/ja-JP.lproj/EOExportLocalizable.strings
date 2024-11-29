@@ -1,0 +1,27 @@
+/* 
+  EOExportLocalizable.strings
+  Pods  
+*/
+"eo_export_cover_album" = "Import from album";
+"eo_export_cover_frame" = "Select video frame";
+"eo_export_cover_operation" = "Drag the pointer to set select video frame";
+"eo_export_cover_selectagain" = "Select again";
+"eo_export_cover_tip" = "Drag or double finger zoom to adjust the image";
+"eo_export_cover_confirm" = "Confirm";
+"eo_export_cover_finish" = "Done";
+"eo_export_main" = "Export";
+"eo_export_cover_editor" = "Set video cover";
+"eo_export_resolution" = "Resolution";
+"eo_export_resolution_res" = "Resolution";
+"eo_export_resolution_fps" = "Frame Per Second";
+"eo_export_resolution_save" = "Save";
+"eo_export_resolution_reset" = "Reset";
+"eo_export_cover_savetolocal" = "Saved to local album";
+"eo_export_save_error" = "Save error";
+"eo_export_exit_export_tip" = "Cancel export";
+"eo_export_exit_title" = "Confirm to exit export?";
+"eo_export_exit_message" = "Exiting now will loss all current progress, confirm?";
+"eo_export_cancel" = "Cancel";
+"eo_export_confirm" = "Confirm";
+"eo_export_nonsupport_4K" = "Export in 4K is not supported by this phone model";
+"eo_export_nonsupport_1080P" = "Export in 1080P is not supported by this phone model";

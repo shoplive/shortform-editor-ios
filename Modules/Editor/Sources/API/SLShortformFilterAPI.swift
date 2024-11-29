@@ -35,3 +35,97 @@ struct SLShortformFilterAPI : APIDefinition {
         return true
     }
 }
+////PhotoPicker
+//"editor.photo.picker.camera.cell.btn.title" = "カメラ";
+//
+//"editor.header.headline.playback.shoplive" = "";
+//
+//"editor.title.video.upload.shoplive" = "詳細を追加";
+//"editor.title.shortform.data.edit.shoplive" = "編集";
+//"editor.title.crop.shoplive" = "トリミング";
+//"editor.title.filter.shoplive" = "フィルター";
+//
+//"editor.gallery.photo.and.video.shoplive" = "写真 & 動画";
+//"editor.gallery.photo.shoplive" = "写真";
+//"editor.gallery.video.shoplive" = "動画";
+//"editor.gallery.done.shoplive" = "完了";
+//"editor.gallery.selected.count.shoplive" = "%1$d / %2$d";
+//"editor.gallery.unsupported.media.shoplive" = "対応していないメディアです。";
+//
+//"editor.crop.btn.confirm.shoplive" = "完了";
+//
+//"editor.upload.title.shoplive" = "タイトル";
+//"editor.upload.title.hint.shoplive" = "タイトル";
+//"editor.upload.description.shoplive" = "説明";
+//"editor.upload.description.hint.shoplive" = "説明";
+//"editor.upload.tag.shoplive" = "タグ";
+//
+//"editor.hint.tag.shoplive" = "#タグ";
+//
+////Main
+//"editor.title.video.edit.shoplive" = "編集";
+//"editor.main.btn.next.shoplive" = "次へ";
+//
+////Thumbnail
+//"editor.title.cover.picker.shoplive" = "カバーを設定";
+//"editor.cover.picker.btn.confirm.shoplive" = "完了"; //
+//"editor.cover.picker.btn.cameraRool.shoplive" = "カメラロールから追加"; //
+//
+////playbackSpeed
+//"editor.title.playbackSpeed.shoplive" = "再生速度";
+//"editor.playbackSpeed.btn.confirm.shoplive" = "完了";
+//
+////volume
+//"editor.volume.page.title.shoplive" = "音量";
+//"editor.volume.btn.confirm.shoplive" = "完了";
+//
+////Trim
+//"editor.trim.cut.sec.shoplive" = "%1$d秒";
+//"editor.trim.cut.start.shoplive" = "%1$s";
+//"editor.trim.cut.end.shoplive" = "/ %1$s";
+//
+//"editor.preparing.shoplive" = "0%";
+//"editor.progress.shoplive" = "%1$d%%";
+//"editor.encoding.cancel.shoplive" = "キャンセル中";
+//"editor.preview.title.shoplive" = "プレビュー";
+//"editor.progressing.shoplive" = "処理中";
+//
+////filter
+//"editor.filter.shoplive" = "フィルター";
+//"editor.filter.btn.confirm.shoplive" = "完了";
+//"editor.filter.done.shoplive" = "完了";
+//
+//"editor.cover.picker.done.shoplive" = "完了";
+//"editor.select.gallery.shoplive" = "カメラロールから追加";
+//"editor.folder.all.shoplive" = "最近の項目";
+//"editor.alert.shoot.title.shoplive" = "撮影";
+//"editor.alert.shoot.shoplive" = "写真または動画を選択してください。";
+//"editor.picture.shoplive" = "写真";
+//"editor.video.shoplive" = "動画";
+//"editor.next.shoplive" = "次へ";
+//"editor.upload.shoplive" = "アップロード";
+//"editor.modify.shoplive" = "修正";
+//"editor.yes.shoplive" = "はい";
+//"editor.no.shoplive" = "いいえ";
+//"editor.loading.shoplive" = "ロード中";
+//
+//"editor.toast.encoding.video.was.not.exist.shoplive" = "動画が見つかりません。";
+//"editor.toast.encoding.uri.was.not.created.shoplive" = "URLの作成に失敗しました。";
+//"editor.toast.encoding.canceled.shoplive" = "エンコードがキャンセルされました。";
+//"editor.toast.encoding.fail.shoplive" = "エンコードに失敗しました。";
+//"editor.toast.min.duration.shoplive" = "%.1f秒以上の動画のみアップロードできます。";
+//"editor.toast.need.access.gallery.permissions.shoplive" = "動画をアップロードするために、カメラとアルバムへのアクセス許可が必要です。";
+//"editor.toast.shortform.creation.failed.shoplive" = "ショート動画の作成に失敗しました。";
+//"editor.toast.upload.cancelled" = "アップロードがキャンセルされました。";
+//
+//
+////"editor.alert.encoding.now.shoplive" = "エンコードをキャンセルしますか？";
+//"editor.alert.encoding.cancel.title.shoplive" = "エンコードをキャンセルしますか？";
+//"editor.alert.max.duration.shoplive" = "%d秒以下の動画のみアップロードできます。";
+//"editor.alert.min.duration.shoplive" = "%d秒以上の動画のみアップロードできます。";
+//
+//"editor.filter.original.shoplive" = "オリジナル";
+//"editor.filter.bright.shoplive" = "明るさ";
+//"editor.filter.clear.shoplive" = "鮮明さ";
+//"editor.filter.warm.shoplive" = "暖かさ";
+//
