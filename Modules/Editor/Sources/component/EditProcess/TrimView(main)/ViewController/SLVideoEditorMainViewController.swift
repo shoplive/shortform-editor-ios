@@ -312,6 +312,7 @@ class SLVideoEditorMainViewController : UIViewController {
         }
         else if reactor.getCurrentEditingMode() == .filter {
             delegate?.videoEditorOnEvent(name: .VIDEO_EDITOR_CLICK_FILTER_CANCEL, payload: nil)
+            filterControlBox.action( .setToOrigin )
         }
         animateControlBox(to : .main)
     }
