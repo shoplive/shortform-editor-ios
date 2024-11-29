@@ -286,9 +286,7 @@ extension ShopLiveCoverPickerReactor {
                     else  {
                         let resultData = ShopLiveEditorResultInternalData(shortsId: response.shortsId,
                                                                           localVideoUrl: nil,
-                                                                          remoteOriginUrl: response.cards?.first?.originVideoUrl,
-                                                                          remoteVideoUrl: response.cards?.first?.videoUrl,
-                                                                          remotePreviewVideoUrl: response.cards?.first?.previewVideoUrl,
+                                                                          remoteOriginVideoUrl: response.cards?.first?.originVideoUrl,
                                                                           remoteCoverImageUrl: response.cards?.first?.screenshotUrl,
                                                                           localCoverImage: image,
                                                                           width: response.cards?.first?.width ?? 0.0,

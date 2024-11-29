@@ -451,9 +451,7 @@ extension SLVideoEditorMainViewReactor {
                 case .success(let response):
                     let resultData = ShopLiveEditorResultInternalData(shortsId: response.shortsId,
                                                                       localVideoUrl: self.videoEditInfoDto.convertedVideoPath,
-                                                                      remoteOriginUrl: response.cards?.first?.originVideoUrl,
-                                                                      remoteVideoUrl: response.cards?.first?.videoUrl,
-                                                                      remotePreviewVideoUrl: response.cards?.first?.previewVideoUrl,
+                                                                      remoteOriginVideoUrl: response.cards?.first?.originVideoUrl,
                                                                       remoteCoverImageUrl: response.cards?.first?.screenshotUrl,
                                                                       localCoverImage: nil,
                                                                       width: self.videoEditInfoDto.getConvertedVideoSize()?.width,

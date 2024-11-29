@@ -18,18 +18,7 @@ import UIKit
     /**
      서버에 올라간 원본 영상의 주소입니다.
      */
-    public var remoteOriginUrl : String?
-    /**
-    서버에서 트랜스코딩이 완료된 영상의 주소입니다.
-     */
-    public var remoteVideoUrl : String?
-    /**
-     서버에서 내려주는 미리보기 영상의 주소 입니다.
-     */
-    public var remotePreviewVideoUrl : String?
-    /**
-     서버에서 생성한 Default 커버 이미지의 주소입니다.
-     */
+    public var remoteOriginVideoUrl : String?
     public var remoteCoverImageUrl : String? // 이것은 서버에서의 screenShotUrl
     public var localCoverImage : UIImage?
     public var width : CGFloat?
@@ -38,9 +27,7 @@ import UIKit
     
     public init(shortsId: String? = nil,
                 localVideoUrl: String? = nil,
-                remoteOriginUrl : String? = nil,
-                remoteVideoUrl : String? = nil,
-                remotePreviewVideoUrl : String? = nil,
+                remoteOriginVideoUrl : String? = nil,
                 remoteCoverImageUrl : String? = nil,
                 localCoverImage: UIImage? = nil,
                 width: CGFloat? = nil,
@@ -48,9 +35,7 @@ import UIKit
                 duration: Double? = nil) {
         self.shortsId = shortsId
         self.localVideoUrl = localVideoUrl
-        self.remoteOriginUrl = remoteOriginUrl
-        self.remoteVideoUrl = remoteVideoUrl
-        self.remotePreviewVideoUrl = remotePreviewVideoUrl
+        self.remoteOriginVideoUrl = remoteOriginVideoUrl
         self.remoteCoverImageUrl = remoteCoverImageUrl
         self.localCoverImage = localCoverImage
         self.width = width
@@ -70,15 +55,7 @@ struct ShopLiveEditorResultInternalData {
     /**
      서버에 올라간 원본 영상의 주소입니다.
      */
-    var remoteOriginUrl : String?
-    /**
-    서버에서 트랜스코딩이 완료된 영상의 주소입니다.
-     */
-    var remoteVideoUrl : String?
-    /**
-     서버에서 내려주는 미리보기 영상의 주소 입니다.
-     */
-    var remotePreviewVideoUrl : String?
+    var remoteOriginVideoUrl : String?
     /**
      서버에서 생성한 Default 커버 이미지의 주소입니다.
      */
@@ -90,9 +67,7 @@ struct ShopLiveEditorResultInternalData {
     
     init(shortsId: String? = nil,
          localVideoUrl: String? = nil,
-         remoteOriginUrl : String? = nil,
-         remoteVideoUrl : String? = nil,
-         remotePreviewVideoUrl : String? = nil,
+         remoteOriginVideoUrl : String? = nil,
          remoteCoverImageUrl : String? = nil,
          localCoverImage: UIImage? = nil,
          width: CGFloat? = nil,
@@ -100,9 +75,7 @@ struct ShopLiveEditorResultInternalData {
          duration: Double? = nil) {
         self.shortsId = shortsId
         self.localVideoUrl = localVideoUrl
-        self.remoteOriginUrl = remoteOriginUrl
-        self.remoteVideoUrl = remoteVideoUrl
-        self.remotePreviewVideoUrl = remotePreviewVideoUrl
+        self.remoteOriginVideoUrl = remoteOriginVideoUrl
         self.remoteCoverImageUrl = remoteCoverImageUrl
         self.localCoverImage = localCoverImage
         self.width = width
@@ -114,9 +87,7 @@ struct ShopLiveEditorResultInternalData {
     func convertToClass() -> ShopliveEditorResultData {
         return ShopliveEditorResultData(shortsId: shortsId,
                                         localVideoUrl: localVideoUrl,
-                                        remoteOriginUrl: remoteOriginUrl,
-                                        remoteVideoUrl: remoteVideoUrl,
-                                        remotePreviewVideoUrl: remotePreviewVideoUrl,
+                                        remoteOriginVideoUrl: remoteOriginVideoUrl,
                                         remoteCoverImageUrl: remoteCoverImageUrl,
                                         localCoverImage: localCoverImage,
                                         width: width,
