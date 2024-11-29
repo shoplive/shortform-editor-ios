@@ -22,7 +22,7 @@ import ShopliveSDKCommon
         ShopLiveLogger.memoryLog("[SHOPLIVEWEBVIEWWRAPPER] deinit")
     }
     
-    func evaluateJavaScript(command : String, payload : [String : Any]) {
+    func sendCommandMessage(command : String, payload : [String : Any]) {
         guard let webView = view as? ShortsWebView else { return }
         let jsRequest : ShortsWebView.JSRequest = (.EXTERNAL_COMMAND(command),payload)
         webView.action( .evaluateJavaScript(jsRequest))

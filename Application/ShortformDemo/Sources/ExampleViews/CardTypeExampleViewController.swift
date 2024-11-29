@@ -186,7 +186,7 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
     
     func onEvent(messenger: ShopLiveShortformMessenger?, command: String, payload: String?) {
         if let messenger = messenger {
-            messenger.evaluateJavaScript(command: "something", payload: [:])
+            messenger.sendCommandMessage(command: "something", payload: [:])
         }
         switch command {
         case "VIDEO_MUTED", "DETAIL_CLICK_MUTE":

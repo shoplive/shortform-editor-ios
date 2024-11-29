@@ -12,5 +12,5 @@ import UIKit
 
 @objc public protocol ShopLiveShortformMessenger {
     var view : UIView { get }
-    func evaluateJavaScript(command : String, payload : [String : Any])
+    func sendCommandMessage(command : String, payload : [String : Any])
 }
