@@ -20,6 +20,7 @@ class SLVideoMainFilterSubView : UIView, SLReactor {
     lazy private var sliderView : SlCustomUISlider = {
         let view = SlCustomUISlider(frame: .zero,thumbViewColor: design.sliderThumbViewColor, sliderCornerRadius: design.sliderCornerRaidus)
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
         view.action( .setMinValue(0) )
         view.action( .setMaxValue(100) )
         return view
@@ -179,6 +180,8 @@ extension SLVideoMainFilterSubView {
                 switch result {
                 case .activateSlider(let activate):
                     self.onReactorActivateSliderView(activate: activate)
+                case .hideSlider(let hide):
+                    self.onReactorHideSlider(isHidden : hide)
                 case .setFilterConfig(_):
                     self.onReactorSetFilterConfig()
                 case .setInitialIntensity(let intensity):
@@ -194,6 +197,10 @@ extension SLVideoMainFilterSubView {
     
     private func onReactorActivateSliderView(activate : Bool) {
         sliderView.action( .setDeActive(!activate))
+    }
+    
+    private func onReactorHideSlider(isHidden : Bool) {
+        self.sliderView.isHidden = isHidden
     }
     
     private func onReactorSetFilterConfig(){

@@ -25,13 +25,13 @@ class SLVideoMainFilterSubReactor : NSObject, SLReactor {
         case setIntensity(CGFloat)
         case setToOrigin
         case onConfirm
-        
     }
     
     enum Result {
         case setFilterConfig(String)
         case setInitialIntensity(CGFloat)
         case activateSlider(Bool)
+        case hideSlider(Bool)
         case confirmedWithChange
         case confirmedWithOrigin
     }
@@ -193,9 +193,11 @@ extension SLVideoMainFilterSubReactor : UICollectionViewDelegate, UICollectionVi
         }
         
         if indexPath.row == 0 {
+            resultHandler?( .hideSlider(true) )
             resultHandler?( .activateSlider(false) )
         }
         else {
+            resultHandler?( .hideSlider(false) )
             resultHandler?( .activateSlider(true) )
         }
         
