@@ -26,12 +26,14 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
         case seekTo(CMTime)
         
         case setShopLiveCoverPickerData(ShopLiveCoverPickerData?)
+        case setVideoEditInfo(SLVideoEditInfoDTO?)
         case setVideoUrl(URL)
         case requestOnConfirm
         case setCurrentMode(Mode)
         case setCropImageResultFromCropableImageView(UIImage?)
         case setPlayerContainerBound(CGRect)
         case setEditorResultData(ShopLiveEditorResultInternalData?)
+        
     }
     
     enum Result {
@@ -60,6 +62,7 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
     private var cropImageResultFromCropableImageView : UIImage?
     private var shopliveCoverPickerData : ShopLiveCoverPickerData?
     private var editorResultData : ShopLiveEditorResultInternalData?
+    private var videoEditInfo : SLVideoEditInfoDTO?
     
     private var isViewAppeared : Bool = false
     private var blockInitialCropInViewDidLayoutSubView : Bool = false
@@ -88,6 +91,8 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
             self.onViewDidLayoutSubView()
         case .setShopLiveCoverPickerData(let data):
             self.onSetShopLiveCoverPickerData(data : data )
+        case .setVideoEditInfo(let videoEditInfo):
+            self.onSetVideoEditInfo(editInfo : videoEditInfo)
         case .setVideoUrl(let videoUrl):
             self.onSetVideoUrl(url: videoUrl)
         case .seekTo(let time):
@@ -120,6 +125,10 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
     
     private func onSetShopLiveCoverPickerData(data : ShopLiveCoverPickerData?) {
         self.shopliveCoverPickerData = data
+    }
+    
+    private func onSetVideoEditInfo(editInfo : SLVideoEditInfoDTO?) {
+        self.videoEditInfo = editInfo
     }
     
     private func onSetVideoUrl(url : URL) {
@@ -269,14 +278,23 @@ extension ShopLiveCoverPickerReactor {
             .upload { [weak self] result in
                 guard let self = self else { return }
                 switch result {
-                case .success(_):
+                case .success(let response):
                     if var resultData = editorResultData {
-                        resultData.coverImage = image
+                        resultData.localCoverImage = image
                         self.resultHandler?( .uploadSuccess(result: resultData))
                     }
                     else  {
-                        let result = ShopLiveEditorResultInternalData(shortsId: shortsId,coverImage: image)
-                        self.resultHandler?( .uploadSuccess(result: result) )
+                        let resultData = ShopLiveEditorResultInternalData(shortsId: response.shortsId,
+                                                                          localVideoUrl: nil,
+                                                                          remoteOriginUrl: response.cards?.first?.originVideoUrl,
+                                                                          remoteVideoUrl: response.cards?.first?.videoUrl,
+                                                                          remotePreviewVideoUrl: response.cards?.first?.previewVideoUrl,
+                                                                          remoteCoverImageUrl: response.cards?.first?.screenshotUrl,
+                                                                          localCoverImage: image,
+                                                                          width: response.cards?.first?.width ?? 0.0,
+                                                                          height: response.cards?.first?.height ?? 0.0,
+                                                                          duration : Double(response.cards?.first?.duration ?? 0))
+                        self.resultHandler?( .uploadSuccess(result: resultData) )
                     }
                     self.resultHandler?( .requestFinishCoverPicker )
                     break

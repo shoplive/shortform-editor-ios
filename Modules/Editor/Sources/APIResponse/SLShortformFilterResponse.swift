@@ -49,18 +49,13 @@ struct Filters : Codable {
     
     
     func localizedTitle() -> String {
-        let isKorean = Locale.current.languageCode == "ko"
-        guard isKorean else {
-            return self.title ?? ""
-        }
-        
         switch self.title ?? "" {
         case "Bright":
-            return "밝게"
+            return ShopLiveShortformEditorSDKStrings.Editor.Filter.Bright.shoplive
         case "Clear":
-            return "선명하게"
+            return ShopLiveShortformEditorSDKStrings.Editor.Filter.Clear.shoplive
         case "Warm":
-            return "따뜻하게"
+            return ShopLiveShortformEditorSDKStrings.Editor.Filter.Warm.shoplive
         default:
             return self.title ?? ""
         }

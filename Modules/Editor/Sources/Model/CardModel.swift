@@ -16,8 +16,13 @@ struct CardModel : Codable {
     // 웹클라이언트 요청으로 주석처리, 기존에 사용안하고 있음.
     // let srn: String?
     let videoUrl, previewVideoUrl: String?
+    let originVideoUrl : String?
+    let width : Double?
+    let height : Double?
+    let convertStatus : String?
     let screenshotUrl: String?
     let cardType: String?
+    
     
     var validate: Bool {
         guard let cardType = cardType else {

@@ -449,12 +449,17 @@ extension SLVideoEditorMainViewReactor {
             SLShortformRegisterAPI(parameters: self.makeShortsJson(videoId: videoId, imageUrl: imageUrl)).request { result in
                 switch result {
                 case .success(let response):
-                    let resultData =  ShopLiveEditorResultInternalData(shortsId: response.shortsId,
-                                                                       videoUrl: self.videoEditInfoDto.convertedVideoPath,
-                                                                       coverImage: nil,
-                                                                       width: self.videoEditInfoDto.getConvertedVideoSize()?.width,
-                                                                       height: self.videoEditInfoDto.getConvertedVideoSize()?.height,
-                                                                       duration: self.videoEditInfoDto.getConvertedVideoDuration())
+                    let resultData = ShopLiveEditorResultInternalData(shortsId: response.shortsId,
+                                                                      localVideoUrl: self.videoEditInfoDto.convertedVideoPath,
+                                                                      remoteOriginUrl: response.cards?.first?.originVideoUrl,
+                                                                      remoteVideoUrl: response.cards?.first?.videoUrl,
+                                                                      remotePreviewVideoUrl: response.cards?.first?.previewVideoUrl,
+                                                                      remoteCoverImageUrl: response.cards?.first?.screenshotUrl,
+                                                                      localCoverImage: nil,
+                                                                      width: self.videoEditInfoDto.getConvertedVideoSize()?.width,
+                                                                      height: self.videoEditInfoDto.getConvertedVideoSize()?.height,
+                                                                      duration : self.videoEditInfoDto.getConvertedVideoDuration())
+                    
                     self.resultHandler?( .uploadSuccess(result: resultData) )
                     break
                 case .failure(let error):
@@ -478,9 +483,9 @@ extension SLVideoEditorMainViewReactor {
         }
         
         var shortsDetailDict : [String : Any] = [:]
-//        shortsDetailDict["description"] = "ios_seeker_thumbnail_test_2_description"
-//        shortsDetailDict["tags"] = ["ios_test_tag1","ios_test_tag2"]
-//        shortsDetailDict["title"] = "ios_upload_test \(Date())"
+        //        shortsDetailDict["description"] = "ios_seeker_thumbnail_test_2_description"
+        //        shortsDetailDict["tags"] = ["ios_test_tag1","ios_test_tag2"]
+        //        shortsDetailDict["title"] = "ios_upload_test \(Date())"
         
         
         shortsDict["cards"] = [cardsDict]
