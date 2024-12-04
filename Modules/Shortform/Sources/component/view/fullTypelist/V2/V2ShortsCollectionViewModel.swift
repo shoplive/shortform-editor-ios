@@ -273,7 +273,6 @@ extension V2ShortsCollectionViewModel {
                         return
                     }
                     self.shortsCollection = response
-                    self.injectSrnToPayloadDict(shortsList: shortsList)
                     self.appendShortsListData(shortsList,reset: reset,scrollToPage: self.scrollToPage)
                     let hideEmptyDataView = (shortsList.count == 0 && reset == true) ? false : true
                     if hideEmptyDataView == false {
@@ -291,13 +290,6 @@ extension V2ShortsCollectionViewModel {
         }
     }
     
-    private func injectSrnToPayloadDict(shortsList : [SLShortsModel]) {
-        shortsList.forEach { item in
-            if let shortsId = item.shortsId {
-                (shortFormIdPayloadDict[shortsId])??["srn"] = item.srn ?? ""
-            }
-        }
-    }
 }
 //MARK: -Upward pagination functions
 extension V2ShortsCollectionViewModel {
