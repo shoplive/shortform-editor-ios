@@ -58,7 +58,7 @@ extension SLVideoInfo {
         }
         let resolution = CGFloat(globalConfig.shared.videoOutputOption.videoOutputResolution.rawValue)
         if cropRect.width < cropRect.height {
-            return "-1:\(ceil(resolution * videoRatio))"
+            return "-1:\(Int(ceil(resolution * videoRatio)))"
         }
         else {
             return "\(Int(resolution)):-1"
@@ -117,6 +117,10 @@ extension SLVideoInfo {
         return "[crop]setpts=\(1/speed)*PTS[speed]; [a]atempo=\(speed)[aa];"
     }
     
+    var speedCommandForRemovedScale : String {
+        return "[crop]setpts=\(1/speed)*PTS[speed]; [a]atempo=\(speed)[aa]"
+    }
+    
     var modifiedCropWidth : CGFloat {
         let roundedWidth = cropRect.width
         if roundedWidth.truncatingRemainder(dividingBy: 2) != 0 {
@@ -136,7 +140,8 @@ extension SLVideoInfo {
             return roundedHeight
         }
     }
-    
+    //1077
+    //436
     var command720p: String {
         if let filterConfig = ffmpegFilterConfig, filterConfig.isEmpty == false {
             return """
@@ -144,7 +149,7 @@ extension SLVideoInfo {
     -to \(timeRange.end.timeHourMinuteSeconds_SL) \
     -i \(videoPath) \
     -filter_complex "\(filterConfig)[filter]; \
-    [filter]crop=\(modifiedCropWidth):\(modifiedCropHeight):\(cropRect.origin.x):\(cropRect.origin.y)[crop]; \
+    [filter]crop=\(Int(modifiedCropWidth)):\(Int(modifiedCropHeight)):\(Int(cropRect.origin.x)):\(Int(cropRect.origin.y))[crop]; \
     \(volumeCommand) \
     \(speedCommand) \
     [speed]\( drawTextCommand == "" ? "" : "\(drawTextCommand)," )scale=\(scaleValue)[out]" \
@@ -159,7 +164,7 @@ extension SLVideoInfo {
 -ss \(timeRange.start.timeHourMinuteSeconds_SL) \
 -to \(timeRange.end.timeHourMinuteSeconds_SL) \
 -i \(videoPath) \
--filter_complex "[0:v]crop=\(modifiedCropWidth):\(modifiedCropHeight):\(cropRect.origin.x):\(cropRect.origin.y)[crop]; \
+-filter_complex "[0:v]crop=\(Int(modifiedCropWidth)):\(Int(modifiedCropHeight)):\(Int(cropRect.origin.x)):\(Int(cropRect.origin.y))[crop]; \
 \(volumeCommand) \
 \(speedCommand) \
 [speed]\( drawTextCommand == "" ? "" : "\(drawTextCommand)," )scale=\(scaleValue)[out]" \
@@ -172,7 +177,35 @@ extension SLVideoInfo {
     }
     
     var commandRemoveScale: String {
-        "-ss \(timeRange.start.timeHourMinuteSeconds_SL) -to \(timeRange.end.timeHourMinuteSeconds_SL) -i \(videoPath) -filter:v crop='\(modifiedCropWidth):\(modifiedCropHeight):\(cropRect.origin.x):\(cropRect.origin.y)' -y \(ffmpegOutPutVideoPath)"
+        if let filterConfig = ffmpegFilterConfig, filterConfig.isEmpty == false {
+            return """
+    -ss \(timeRange.start.timeHourMinuteSeconds_SL) \
+    -to \(timeRange.end.timeHourMinuteSeconds_SL) \
+    -i \(videoPath) \
+    -filter_complex "\(filterConfig)[filter]; \
+    [filter]crop=\(Int(modifiedCropWidth)):\(Int(modifiedCropHeight)):\(Int(cropRect.origin.x)):\(Int(cropRect.origin.y))[crop]; \
+    \(volumeCommand) \
+    \(speedCommandForRemovedScale)" \
+    -map "[aa]" \
+    -map "[speed]" \
+    \(videoQuality) \
+    -y \(ffmpegOutPutVideoPath)
+    """
+        }
+        else {
+            return """
+-ss \(timeRange.start.timeHourMinuteSeconds_SL) \
+-to \(timeRange.end.timeHourMinuteSeconds_SL) \
+-i \(videoPath) \
+-filter_complex "[0:v]crop=\(Int(modifiedCropWidth)):\(Int(modifiedCropHeight)):\(Int(cropRect.origin.x)):\(Int(cropRect.origin.y))[crop]; \
+\(volumeCommand) \
+\(speedCommandForRemovedScale)" \
+-map "[aa]" \
+-map "[speed]" \
+\(videoQuality) \
+-y \(ffmpegOutPutVideoPath)
+"""
+        }
     }
     
     var commandDefault: String {
