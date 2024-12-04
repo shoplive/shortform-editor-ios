@@ -274,24 +274,23 @@ extension ViewController : ShopLiveVideoEditorDelegate {
     
     func onShopLiveVideoEditorVideoConvertSuccess(editor : UIViewController?,videoPath: String) {
         ShopLiveLogger.tempLog("[HASSAN LOG] videoEditor videoPath \(videoPath)")
-//        DispatchQueue.main.async { [weak self] in
-//            guard let self = self else { return }
-//            self.videoEditorResultPopUp.setVideoPath(videoPath: videoPath)
-//            self.videoEditorResultPopUp.alpha = 1
-//        }
     }
     
     func onShopLiveVideoEditorUploadSuccess(editor : UIViewController?,result: ShopliveEditorResultData?) {
         ShopLiveLogger.tempLog("[HASSAN LOG] onShopLiveVideoEditorUploadSuccess \(dump(result))")
-        if let nav = editorViewController?.navigationController {
-            nav.dismiss(animated: true) { [weak self] in
-                self?.editorViewController = nil
-            }
+        if let nav = editor?.navigationController {
+            editor?.dismiss(animated: true)
+            nav.dismiss(animated: true)
         }
         else {
-            editorViewController?.dismiss(animated: true, completion: { [weak self] in 
-                self?.editorViewController = nil
-            })
+            editor?.dismiss(animated: true)
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            guard let localVideoUrl = result?.localVideoUrl else { return }
+            self.videoEditorResultPopUp.setVideoPath(videoPath: localVideoUrl)
+            self.videoEditorResultPopUp.alpha = 1
         }
     }
     
@@ -335,20 +334,12 @@ extension ViewController : ShopLiveCoverPickerDelegate {
     func onShopLiveCoverPickerCoverImageSuccess(picker : UIViewController?,image: UIImage?) {
         coverPickerImageResultPopUp.setResultImage(image: image)
         coverPickerImageResultPopUp.alpha = 1
-        if let nav = editorViewController?.navigationController {
-            nav.dismiss(animated: true) { [weak self] in
-                self?.coverPickerViewController = nil
-            }
-        }
-        else if let nav = coverPickerViewController?.navigationController {
-            nav.dismiss(animated: true) { [weak self] in
-                self?.coverPickerViewController = nil
-            }
+        if let nav = picker?.navigationController {
+            nav.viewControllers = []
+            nav.dismiss(animated: true)
         }
         else {
-            coverPickerViewController?.dismiss(animated: true, completion: { [weak self] in
-                self?.coverPickerViewController = nil
-            })
+            picker?.dismiss(animated: true)
         }
     }
     

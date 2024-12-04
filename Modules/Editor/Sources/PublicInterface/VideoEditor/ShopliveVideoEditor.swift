@@ -61,15 +61,15 @@ public class ShopliveVideoEditor {
         if let remoteVideoUrl = data.videoRemoteUrl {
             self.showWithRemoteData(remoteUrl: remoteVideoUrl,isCreateShortform: data.isCreatedShortform,completion: completion)
         }
-        else if let videoAbsoluteUrl = data.videoAbsoluteUrl, let videoRelativeUrl =  data.videoRelativeUrl {
-            let tempAbsoluteVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: videoAbsoluteUrl.absoluteString)
+        else if let videoAbsoluteUrl = data.videoAbsoluteUrl, let videoRelativeUrl = data.videoRelativeUrl {
+            let tempAbsoluteVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: videoAbsoluteUrl.relativePath)
             let tempAbsoluteVideoUrl = URL(string: tempAbsoluteVideoUrlString)!
             let tempRelativeVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: videoRelativeUrl.absoluteString)
             let tempRelativeVideoUrl = URL(string: tempRelativeVideoUrlString)!
             self.showWithLocalData(absoluteUrl: tempAbsoluteVideoUrl, relativeUrl: tempRelativeVideoUrl,isCreateShortform: data.isCreatedShortform,completion: completion)
         }
         else if let videoAbsoluteUrl = data.videoAbsoluteUrl {
-            let tempVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: videoAbsoluteUrl.absoluteString)
+            let tempVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: videoAbsoluteUrl.relativePath)
             let tempVideoUrl = URL(string: tempVideoUrlString)!
             self.showWithLocalDataSingleUrl(url: tempVideoUrl,isCreateShortform: data.isCreatedShortform,completion: completion)
         }
