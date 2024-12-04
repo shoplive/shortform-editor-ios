@@ -274,7 +274,7 @@ extension ShopLiveShortCardTypeViewReactor : UICollectionViewDelegate, UICollect
         
         var videoUrl : String? = cardModel.previewVideoUrl
         if cardModel.convertStatus != .COMPLETE {
-            videoUrl = cardModel.originVideoUrl
+            videoUrl = ShopLiveVideoOriginUrlQueryAppender.appendPreviewQuery(to:  cardModel.originVideoUrl)
         }
         var title = shortsDetailModel.title ?? ""
         title = title.replacingOccurrences(of: " ", with: "\u{00A0}")
