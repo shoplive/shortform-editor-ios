@@ -330,6 +330,10 @@ extension ShopLiveCoverPickerReactor {
         let size = track.naturalSize.applying(track.preferredTransform)
         return CGSize(width: abs(size.width), height: abs(size.height))
     }
+    
+    func getCurrentMode() -> Mode {
+        return self.currentMode
+    }
 }
 extension ShopLiveCoverPickerReactor : SLVideoEditorPlayerCropViewDelegate {
     func updateCropRect(frame: CGRect) {

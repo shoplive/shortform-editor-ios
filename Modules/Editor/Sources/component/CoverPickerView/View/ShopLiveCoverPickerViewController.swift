@@ -229,7 +229,8 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
     }
    
     @objc func confirmBtnTapped(sender : UIButton) {
-        resultHandler?( .onEvent(name: .COVER_PICKER_CLICK_CONFIRM, payload: nil))
+        let state = reactor.getCurrentMode() == .video ? "VIDEO" : "CAMERA_ROLL"
+        resultHandler?( .onEvent(name: .COVER_PICKER_CLICK_CONFIRM, payload: ["state" : state]))
         reactor.action( .requestOnConfirm )
     }
     
