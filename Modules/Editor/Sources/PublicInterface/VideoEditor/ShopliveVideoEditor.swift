@@ -62,10 +62,16 @@ public class ShopliveVideoEditor {
             self.showWithRemoteData(remoteUrl: remoteVideoUrl,isCreateShortform: data.isCreatedShortform,completion: completion)
         }
         else if let videoAbsoluteUrl = data.videoAbsoluteUrl, let videoRelativeUrl =  data.videoRelativeUrl {
-            self.showWithLocalData(absoluteUrl: videoAbsoluteUrl, relativeUrl: videoRelativeUrl,isCreateShortform: data.isCreatedShortform,completion: completion)
+            let tempAbsoluteVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: videoAbsoluteUrl.absoluteString)
+            let tempAbsoluteVideoUrl = URL(string: tempAbsoluteVideoUrlString)!
+            let tempRelativeVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: videoRelativeUrl.absoluteString)
+            let tempRelativeVideoUrl = URL(string: tempRelativeVideoUrlString)!
+            self.showWithLocalData(absoluteUrl: tempAbsoluteVideoUrl, relativeUrl: tempRelativeVideoUrl,isCreateShortform: data.isCreatedShortform,completion: completion)
         }
         else if let videoAbsoluteUrl = data.videoAbsoluteUrl {
-            self.showWithLocalDataSingleUrl(url: videoAbsoluteUrl,isCreateShortform: data.isCreatedShortform,completion: completion)
+            let tempVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: videoAbsoluteUrl.absoluteString)
+            let tempVideoUrl = URL(string: tempVideoUrlString)!
+            self.showWithLocalDataSingleUrl(url: tempVideoUrl,isCreateShortform: data.isCreatedShortform,completion: completion)
         }
     }
     

@@ -14,10 +14,8 @@ import ShopliveSDKCommon
 class ShopliveShortformCoordinator : NSObject {
     typealias ShortformEditor = ShopLiveShortformEditor
     
-   
     private weak var permissionHandler : ShopLivePermissionHandler?
     private weak var editorDelegate : ShopLiveShortformEditorDelegate?
-    private var ffmpegValidator = FFmpegVideoValidator()
     private var convertedVideoPath : String?
     private var parentVc : UIViewController?
     
@@ -63,11 +61,23 @@ class ShopliveShortformCoordinator : NSObject {
 }
 
 extension ShopliveShortformCoordinator : SLPhotosPickerViewControllerDelegate  {
-    func photoPicker(picker: UIViewController, didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
-        ffmpegValidator.checkValidCodec(videoUrl: relativeUrl) { [weak self] isValidCodec in
+    func photoPickerOnEvent(name: EventTrace, payload: [String : Any]?) {
+        editorDelegate?.onShopLiveShortformEditorOnEvent?(name: name.rawValue, payload: payload)
+    }
+    
+    func photoPicker(picker : UIViewController,didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
+        let tempAbsoluteVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: absoluteUrl.absoluteString)
+        let tempAbsoluteVideoUrl = URL(string: tempAbsoluteVideoUrlString)!
+        let tempRelativeVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: relativeUrl.absoluteString)
+        let tempRelativeVideoUrl = URL(string: tempRelativeVideoUrlString)!
+        SLCodecValidator.runFFProbCommand(videoPath: tempRelativeVideoUrlString) { [weak self] isValidCodec in
             guard let self = self else { return }
             if isValidCodec {
-                self.showSLVideoEditorViewController(video: ShortsVideo(localAbsoluteUrl: absoluteUrl, localRelativeUrl: relativeUrl))
+                self.showSLVideoEditorViewController(video: ShortsVideo(localAbsoluteUrl: tempAbsoluteVideoUrl, localRelativeUrl: tempRelativeVideoUrl))
+            }
+            else {
+                let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnsupportedMedia, error: nil, message: "Video codec is not valid")
+                self.editorDelegate?.onShopLiveShortformEditorError?(error: commonError)
             }
         }
     }
@@ -77,8 +87,8 @@ extension ShopliveShortformCoordinator : SLPhotosPickerViewControllerDelegate  {
     
     func photoPickerOnEvent(picker: UIViewController, name: EventTrace, payload: [String : Any]?) {
         editorDelegate?.onShopLiveShortformEditorOnEvent?(name: name.rawValue, payload: payload)
-
     }
+    
     func photoPiker(onClose picker: UIViewController) {
         picker.dismiss(animated: true)
         self.close()

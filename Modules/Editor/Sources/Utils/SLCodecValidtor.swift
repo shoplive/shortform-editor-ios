@@ -8,11 +8,14 @@
 
 import Foundation
 import ffmpegkit
+import ShopliveSDKCommon
+
 
 
 
 struct SLCodecValidator {
     static func runFFProbCommand(videoPath : String, completion : @escaping(Bool) -> ()){
+        
         let command = "-v quiet -print_format json -show_format -show_streams -i \(videoPath)"
         FFprobeKit.executeAsync(command) { session in
             guard let session = session,
@@ -48,5 +51,31 @@ struct SLCodecValidator {
             return true
         }
         return false
+    }
+    
+    public static func makeTempVideoUrl(videoPath : String) -> String {
+        if videoPath.contains("http") {
+            return videoPath
+        }
+        else {
+            let fileManager = FileManager.default
+            let tempDirectory = SLFileManager.ffmpegDirectorypath
+            let url = URL(fileURLWithPath: videoPath)
+            let pathExtension = url.pathExtension
+            let tempVideoUrl = tempDirectory.appendingPathComponent("\(UUID().uuidString).\(pathExtension)")
+            do {
+                if fileManager.fileExists(atPath: tempVideoUrl.path) {
+                    // 이미 존재한다면 삭제 후 복사
+                    try fileManager.removeItem(at: tempVideoUrl)
+                }
+                try fileManager.copyItem(at: url, to: tempVideoUrl)
+                
+                return tempVideoUrl.absoluteString
+            }
+            catch(let error) {
+                ShopLiveLogger.tempLog("[SLCODECVALIDATOR] makeTempVideoUrl error : \(error.localizedDescription)")
+            }
+        }
+        return videoPath
     }
 }

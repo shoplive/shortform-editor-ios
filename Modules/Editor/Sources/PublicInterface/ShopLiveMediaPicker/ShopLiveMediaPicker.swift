@@ -22,10 +22,8 @@ public class ShopLiveMediaPicker : NSObject {
     
     
     public static var sdkVersion = ShopLiveCommon.videoEditorSdkversion
-    
     private weak var permissionHandler : ShopLivePermissionHandler?
     private weak var delegate : ShopLiveMediaPickerDelegate?
-    private var ffmpegValidator = FFmpegVideoValidator()
     
     @discardableResult
     public func setPermissionHandler(_ permissionHandler : ShopLivePermissionHandler?) -> Self {
@@ -60,10 +58,15 @@ public class ShopLiveMediaPicker : NSObject {
     }
 }
 extension ShopLiveMediaPicker : SLPhotosPickerViewControllerDelegate {
-    func photoPicker(picker : UIViewController, didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
-        ffmpegValidator.checkValidCodec(videoUrl: relativeUrl) { isValidCodec in
+    func photoPicker(picker : UIViewController,didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
+        let tempAbsoluteVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: absoluteUrl.absoluteString)
+        let tempAbsoluteVideoUrl = URL(string: tempAbsoluteVideoUrlString)!
+        let tempRelativeVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: relativeUrl.absoluteString)
+        let tempRelativeVideoUrl = URL(string: tempRelativeVideoUrlString)!
+        SLCodecValidator.runFFProbCommand(videoPath: tempRelativeVideoUrlString) { [weak self] isValidCodec in
+            guard let self = self else { return }
             if isValidCodec {
-                Self.shared.delegate?.onShopLiveMediaPickerDidPickVideo?(picker: picker, absoluteUrl: absoluteUrl, relativeUrl: relativeUrl)
+                Self.shared.delegate?.onShopLiveMediaPickerDidPickVideo?(picker : picker, absoluteUrl: tempAbsoluteVideoUrl, relativeUrl: tempRelativeVideoUrl)
             }
             else {
                 let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnsupportedMedia, error: nil, message: "Video codec is not valid")
