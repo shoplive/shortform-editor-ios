@@ -11,9 +11,9 @@ import ShopliveSDKCommon
 import UIKit
 
 @objc public protocol ShopLiveMediaPickerDelegate : AnyObject {
-    @objc optional func onShopLiveMediaPickerError(error : ShopLiveCommonError)
-    @objc optional func onShopLiveMediaPickerDidPickVideo(absoluteUrl : URL, relativeUrl : URL)
-    @objc optional func onShopLiveMediaPickerDidPickImage(imageUrl : URL)
-    @objc optional func onShopLiveMediaPickerCancelled()
-    @objc optional func onShopLiveMediaPickerOnEvent(name : String, payload : [String : Any]?)
+    @objc optional func onShopLiveMediaPickerError(picker : UIViewController?,  error : ShopLiveCommonError)
+    @objc optional func onShopLiveMediaPickerDidPickVideo(picker : UIViewController?,absoluteUrl : URL, relativeUrl : URL)
+    @objc optional func onShopLiveMediaPickerDidPickImage(picker : UIViewController?,imageUrl : URL)
+    @objc optional func onShopLiveMediaPickerCancelled(picker : UIViewController?)
+    @objc optional func onShopLiveMediaPickerOnEvent(picker : UIViewController?, name : String, payload : [String : Any]?)
 }

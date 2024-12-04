@@ -28,6 +28,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         case viewDidLayOutSubView
         case setCropStartTime(CMTime)
         case setCropEndTime(CMTime)
+        case setIsCreateShortform(Bool)
         
         case setCropRect(CGRect)
         
@@ -101,6 +102,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     private var isPlaying : Bool = false
     private var isCropTimeUpdated : Bool = false
     private var isViewAppeared : Bool = false
+    private var isCreateShortform : Bool = true
     
     private let videoConverter = SLVideoConverter()
     private var imageGenerator : AVAssetImageGenerator
@@ -144,6 +146,8 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
             self.onSetCropEndTime(endTime: time)
         case .setCropRect(let rect):
             videoEditInfoDto.realVideoCropRect = rect
+        case .setIsCreateShortform(let isCreateShortform):
+            onSetIsCreateShortform(isCreateShortform : isCreateShortform)
         case .requestToggleVideoPlayOrPause:
             self.didTapPlayerView()
         case .didPlayToEndTime:
@@ -218,6 +222,10 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         videoEditInfoDto.cropTime.end = endTime
         self.isCropTimeUpdated = true
         resultHandler?( .setPlayerEndBoundaryTime(endTime) )
+    }
+    
+    private func onSetIsCreateShortform(isCreateShortform : Bool) {
+        self.isCropTimeUpdated = isCreateShortform
     }
     
     private func didTapPlayerView() {
@@ -338,7 +346,9 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
             case .Success(let videoPath):
                 self.videoEditInfoDto.convertedVideoPath = videoPath
                 self.resultHandler?( .convertFinished(videoPath: videoPath) )
-                self.callShortformUploadableAPI()
+                if self.isCreateShortform {
+                    self.callShortformUploadableAPI()
+                }
             case .Failed(let error):
                 let e = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedEncoding, error: error, message: nil)
                 resultHandler?( .onError(e) )

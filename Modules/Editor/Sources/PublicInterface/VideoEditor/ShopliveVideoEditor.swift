@@ -24,7 +24,7 @@ public class ShopliveVideoEditor {
     
     private var delegate : ShopLiveVideoEditorDelegate?
     private var permissionHandler : ShopLivePermissionHandler?
-    private var navigationController : SLPickerNavigationController?
+    private var editorViewController : UIViewController?
     
     @discardableResult
     public func setPermissionHandler(_ permissionHandler : ShopLivePermissionHandler?) -> Self {
@@ -59,101 +59,82 @@ public class ShopliveVideoEditor {
         return self
     }
     
-    public func start(_ vc : UIViewController, data : ShopLiveVideoEditorData) {
+    public func build(data : ShopLiveVideoEditorData,completion : @escaping(UIViewController) -> ()) {
         if let remoteVideoUrl = data.videoRemoteUrl {
-            self.showWithRemoteData(vc, remoteUrl: remoteVideoUrl)
+            self.showWithRemoteData(remoteUrl: remoteVideoUrl,isCreateShortform: data.isCreatedShortform,completion: completion)
         }
         else if let videoAbsoluteUrl = data.videoAbsoluteUrl, let videoRelativeUrl =  data.videoRelativeUrl {
-            self.showWithLocalData(vc, absoluteUrl: videoAbsoluteUrl, relativeUrl: videoRelativeUrl)
+            self.showWithLocalData(absoluteUrl: videoAbsoluteUrl, relativeUrl: videoRelativeUrl,isCreateShortform: data.isCreatedShortform,completion: completion)
         }
         else if let videoAbsoluteUrl = data.videoAbsoluteUrl {
-            self.showWithLocalDataSingleUrl(vc, url: videoAbsoluteUrl)
+            self.showWithLocalDataSingleUrl(url: videoAbsoluteUrl,isCreateShortform: data.isCreatedShortform,completion: completion)
         }
     }
     
-    private func showWithLocalDataSingleUrl(_ vc : UIViewController, url : URL) {
+    private func showWithLocalDataSingleUrl(url : URL, isCreateShortform : Bool,completion : @escaping(UIViewController) -> ()) {
         callFilterListAPI()
         self.callConfigAPI { [weak self] in
             guard let self = self else { return }
             SLCodecValidator.runFFProbCommand(videoPath: url.absoluteString) { isValidCodec in
                 if isValidCodec == false {
-                    self.delegate?.onShopLiveVideoEditorError?(error: ShopLiveCommonErrorGenerator.generateError(errorCase: .UnsupportedMedia, error: nil, message: "codec is not valid"))
+                    self.delegate?.onShopLiveVideoEditorError?(editor: nil, error: ShopLiveCommonErrorGenerator.generateError(errorCase: .UnsupportedMedia, error: nil, message: "codec is not valid"))
                 }
                 else {
+                    let shortsVideo = ShortsVideo(localAbsoluteUrl: url, localRelativeUrl: url)
                     DispatchQueue.main.async {
-                        let shortsVideo = ShortsVideo(localAbsoluteUrl: url, localRelativeUrl: url)
-                        let editorVC = SLVideoEditorMainViewController(video: shortsVideo)
-                        editorVC.delegate = self
-                        let navi = SLPickerNavigationController(rootViewController: editorVC)
-                        Self.shared.navigationController = navi
-                        navi.isNavigationBarHidden = true
-                        navi.modalPresentationCapturesStatusBarAppearance = true
-                        navi.modalPresentationStyle = .overFullScreen
-                        vc.present(navi, animated: true)
+                        let vc = self.showEditorViewController(shortsVideo: shortsVideo,isCreateShortform: isCreateShortform)
+                        completion(vc)
                     }
                 }
             }
         }
     }
     
-    private func showWithLocalData(_ vc : UIViewController, absoluteUrl : URL, relativeUrl : URL) {
+    private func showWithLocalData(absoluteUrl : URL, relativeUrl : URL, isCreateShortform : Bool,completion : @escaping(UIViewController) -> ()) {
         callFilterListAPI()
         self.callConfigAPI { [weak self] in
             guard let self = self else { return }
             SLCodecValidator.runFFProbCommand(videoPath: relativeUrl.absoluteString) { isValidCodec in
                 if isValidCodec == false {
-                    self.delegate?.onShopLiveVideoEditorError?(error: ShopLiveCommonErrorGenerator.generateError(errorCase: .UnsupportedMedia, error: nil, message: "codec is not valid"))
+                    self.delegate?.onShopLiveVideoEditorError?(editor: nil, error: ShopLiveCommonErrorGenerator.generateError(errorCase: .UnsupportedMedia, error: nil, message: "codec is not valid"))
                 }
                 else {
+                    let shortsVideo = ShortsVideo(localAbsoluteUrl: absoluteUrl, localRelativeUrl: relativeUrl)
                     DispatchQueue.main.async {
-                        let shortsVideo = ShortsVideo(localAbsoluteUrl: absoluteUrl, localRelativeUrl: relativeUrl)
-                        let editorVC = SLVideoEditorMainViewController(video: shortsVideo)
-                        editorVC.delegate = self
-                        let navi = SLPickerNavigationController(rootViewController: editorVC)
-                        Self.shared.navigationController = navi
-                        navi.isNavigationBarHidden = true
-                        navi.modalPresentationCapturesStatusBarAppearance = true
-                        navi.modalPresentationStyle = .overFullScreen
-                        vc.present(navi, animated: true)
+                        let vc = self.showEditorViewController(shortsVideo: shortsVideo,isCreateShortform: isCreateShortform)
+                        completion(vc)
                     }
                 }
             }
         }
     }
     
-    private func showWithRemoteData(_ vc : UIViewController, remoteUrl : URL) {
+    private func showWithRemoteData(remoteUrl : URL, isCreateShortform : Bool,completion : @escaping(UIViewController) -> ()) {
         callFilterListAPI()
         self.callConfigAPI { [weak self] in
             guard let self = self else { return }
+            let shortsVideo = ShortsVideo(localAbsoluteUrl: remoteUrl, localRelativeUrl: remoteUrl)
             DispatchQueue.main.async {
-                let shortsVideo = ShortsVideo(localAbsoluteUrl: remoteUrl, localRelativeUrl: remoteUrl)
-                let editorVC = SLVideoEditorMainViewController(video: shortsVideo)
-                editorVC.delegate = self
-                let navi = SLPickerNavigationController(rootViewController: editorVC)
-                Self.shared.navigationController = navi
-                navi.isNavigationBarHidden = true
-                navi.modalPresentationCapturesStatusBarAppearance = true
-                navi.modalPresentationStyle = .overFullScreen
-                vc.present(navi, animated: true)
+                let vc = self.showEditorViewController(shortsVideo: shortsVideo,isCreateShortform: isCreateShortform)
+                completion(vc)
             }
         }
     }
     
-    public func close() {
-        Self.shared.navigationController?.viewControllers.first?.dismiss(animated: true)
-        Self.shared.navigationController?.dismiss(animated: true)
-        Self.shared.navigationController = nil
+    private func showEditorViewController(shortsVideo : ShortsVideo, isCreateShortform : Bool) -> UIViewController {
+        let editorVC = SLVideoEditorMainViewController(video: shortsVideo,isCreateShortform: isCreateShortform)
+        editorVC.delegate = self
+        self.editorViewController = editorVC
+        return editorVC
     }
     
-    
     private func callConfigAPI(completion : @escaping () -> ()) {
-        ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result in
-            guard let self = self else { return }
+        ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { result in
             switch result {
             case .success():
                 completion()
             case .failure(let error):
-                Self.shared.delegate?.onShopLiveVideoEditorError?(error: error)
+                Self.shared.delegate?.onShopLiveVideoEditorError?(editor: nil, error: error)
             }
         }
     }
@@ -167,28 +148,27 @@ public class ShopliveVideoEditor {
     }
 }
 extension ShopliveVideoEditor : SLVideoEditorViewControllerDelegate {
-    func videoEditorRequestPopView() {
-        Self.shared.close()
-        Self.shared.delegate?.onShopLiveVideoEditorCancelled?()
-    }
-    
-    func videoEditorDidCancelConvertVideo() {
+    func videoEditorDidCancelConvertVideo(editor: UIViewController?) {
         
     }
     
-    func videoEditorDidFinishConvertVideo(videoPath: String) {
-        Self.shared.delegate?.onShopLiveVideoEditorVideoConvertSuccess?(videoPath: videoPath)
+    func videoEditorDidFinishConvertVideo(editor: UIViewController?, videoPath: String) {
+        Self.shared.delegate?.onShopLiveVideoEditorVideoConvertSuccess?(editor: editor, videoPath: videoPath)
     }
     
-    func videoEditorDidFinishUpload(result: ShopLiveEditorResultInternalData?) {
-        Self.shared.delegate?.onShopLiveVideoEditorUploadSuccess?(result: result?.convertToClass())
+    func videoEditorRequestPopView(editor: UIViewController?) {
+        Self.shared.delegate?.onShopLiveVideoEditorCancelled?(editor: editor)
+    }
+    
+    func videoEditorDidFinishUpload(editor: UIViewController?, result: ShopLiveEditorResultInternalData?) {
+        Self.shared.delegate?.onShopLiveVideoEditorUploadSuccess?(editor: editor, result: result?.convertToClass())
     }
    
-    func videoEditorError(error: ShopLiveCommonError) {
-        Self.shared.delegate?.onShopLiveVideoEditorError?(error: error)
+    func videoEditorError(editor: UIViewController?,error: ShopLiveCommonError) {
+        Self.shared.delegate?.onShopLiveVideoEditorError?(editor : editor, error: error)
     }
     
-    func videoEditorOnEvent(name: EventTrace, payload: [String : Any]?) {
-        Self.shared.delegate?.onShopLiveVideoEditorOnEvent?(name: name.rawValue, payload: payload)
+    func videoEditorOnEvent(editor: UIViewController?,name: EventTrace, payload: [String : Any]?) {
+        Self.shared.delegate?.onShopLiveVideoEditorOnEvent?(editor : editor, name: name.rawValue, payload: payload)
     }
 }

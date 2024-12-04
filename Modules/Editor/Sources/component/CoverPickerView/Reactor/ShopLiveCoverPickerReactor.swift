@@ -234,6 +234,18 @@ extension ShopLiveCoverPickerReactor {
     
 }
 extension ShopLiveCoverPickerReactor : SLPhotosPickerViewControllerDelegate {
+    func photoPicker(picker: UIViewController, didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
+        
+    }
+    
+    func photoPicker(picker: UIViewController, didSelectImage url: URL) {
+        
+    }
+    
+    func photoPickerOnEvent(picker: UIViewController, name: EventTrace, payload: [String : Any]?) {
+        
+    }
+    
     func photoPickerOnEvent(name: EventTrace, payload: [String : Any]?) {
         resultHandler?( .onEvent(name: name, payload: payload))
     }

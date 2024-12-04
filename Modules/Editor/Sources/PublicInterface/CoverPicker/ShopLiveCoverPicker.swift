@@ -15,10 +15,8 @@ public class ShopLiveCoverPicker {
     public static let shared = ShopLiveCoverPicker()
     private init() { }
     
-    
     private var delegate : ShopLiveCoverPickerDelegate?
     private var permissionHandler : ShopLivePermissionHandler?
-    private var navigationController : SLPickerNavigationController?
     
     @discardableResult
     public func setPermissionHandler(_ permissionHandler : ShopLivePermissionHandler) -> Self {
@@ -43,38 +41,31 @@ public class ShopLiveCoverPicker {
         return self
     }
     
-    public func start(_ vc : UIViewController, data : ShopLiveCoverPickerData) {
+    public func build(data : ShopLiveCoverPickerData, completion : @escaping(UIViewController) -> ()) {
         self.callConfigAPI {
-            let pickerVc = ShopLiveCoverPickerViewController()
-            pickerVc.action( .setShopLiveCoverPickerData(data) )
-            pickerVc.action( .setPlayer )
-            pickerVc.action(. initializeSliderView )
-            Self.shared.bindCoverPickerViewController(pickerController: pickerVc)
-            let navigationController = SLPickerNavigationController(rootViewController: pickerVc)
-            Self.shared.navigationController = navigationController
-            navigationController.isNavigationBarHidden = true
-            navigationController.modalPresentationCapturesStatusBarAppearance = true
-            navigationController.modalPresentationStyle = .overFullScreen
-            vc.present(navigationController, animated: true)
+            let vc = Self.shared.showPickerViewController( data: data)
+            completion(vc)
         }
     }
     
-    public func close() {
-        Self.shared.navigationController?.viewControllers.first?.dismiss(animated: true)
-        Self.shared.navigationController?.dismiss(animated: true)
-        Self.shared.navigationController = nil
+    private func showPickerViewController( data : ShopLiveCoverPickerData) -> UIViewController {
+        let pickerVc = ShopLiveCoverPickerViewController()
+        pickerVc.action( .setShopLiveCoverPickerData(data) )
+        pickerVc.action( .setPlayer )
+        pickerVc.action(. initializeSliderView )
+        Self.shared.bindCoverPickerViewController(pickerController: pickerVc)
+        return pickerVc
     }
     
     private func callConfigAPI(completion : @escaping () -> ()) {
-        ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result in
-            guard let self = self else { return }
+        ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { result in
             switch result {
             case .success():
                 DispatchQueue.main.async{
                     completion()
                 }
             case .failure(let error):
-                Self.shared.delegate?.onShopLiveCoverPickerError?(error: error)
+                Self.shared.delegate?.onShopLiveCoverPickerError?(picker: nil, error: error)
             }
         }
     }
@@ -84,43 +75,42 @@ extension ShopLiveCoverPicker {
         pickerController.resultHandler = { result in
             switch result {
             case .backBtnTapped:
-                Self.shared.onPickerControllerBackBtnTapped()
+                Self.shared.onPickerControllerBackBtnTapped(picker: pickerController)
             case .onFinished:
-                Self.shared.onPickerControllerFinished()
+                Self.shared.onPickerControllerFinished(picker: pickerController)
             case .onError(let error):
-                Self.shared.onPickerControllerError(error: error)
+                Self.shared.onPickerControllerError(picker: pickerController, error: error)
             case .onSuccessImage(let image):
-                Self.shared.onPickerControllerOnSuccessImage(image: image)
+                Self.shared.onPickerControllerOnSuccessImage(picker: pickerController, image: image)
             case .onSuccessUpload(result: let result):
-                Self.shared.onPickerControllerOnSuccessUpload(result: result)
+                Self.shared.onPickerControllerOnSuccessUpload(picker: pickerController, result: result)
             case .onEvent(name: let name, payload: let payload):
-                Self.shared.onPickerControllerOnEvent(name: name, payload: payload)
+                Self.shared.onPickerControllerOnEvent(picker: pickerController, name: name, payload: payload)
             }
         }
     }
     
-    private func onPickerControllerBackBtnTapped() {
-        Self.shared.close()
-        Self.shared.delegate?.onShopLiveCoverPickerCancelled?()
+    private func onPickerControllerBackBtnTapped(picker: UIViewController) {
+        Self.shared.delegate?.onShopLiveCoverPickerCancelled?(picker: picker)
     }
     
-    private func onPickerControllerFinished() {
-        Self.shared.close()
+    private func onPickerControllerFinished(picker: UIViewController) {
+        /* 고객사가 그냥 핸들링 하는 쪽으로 해야함 */
     }
     
-    private func onPickerControllerError(error : ShopLiveCommonError) {
-        Self.shared.delegate?.onShopLiveCoverPickerError?(error: error)
+    private func onPickerControllerError(picker: UIViewController,error : ShopLiveCommonError) {
+        Self.shared.delegate?.onShopLiveCoverPickerError?(picker: picker, error: error)
     }
     
-    private func onPickerControllerOnSuccessImage(image : UIImage?) {
-        Self.shared.delegate?.onShopLiveCoverPickerCoverImageSuccess?(image: image)
+    private func onPickerControllerOnSuccessImage(picker: UIViewController,image : UIImage?) {
+        Self.shared.delegate?.onShopLiveCoverPickerCoverImageSuccess?(picker: picker, image: image)
     }
     
-    private func onPickerControllerOnSuccessUpload(result : ShopLiveEditorResultInternalData?) {
-        Self.shared.delegate?.onShopLiveCoverPickerUploadSuccess?(result: result?.convertToClass())
+    private func onPickerControllerOnSuccessUpload(picker: UIViewController,result : ShopLiveEditorResultInternalData?) {
+        Self.shared.delegate?.onShopLiveCoverPickerUploadSuccess?(picker: picker, result: result?.convertToClass())
     }
     
-    private func onPickerControllerOnEvent(name : EventTrace, payload : [String : Any]?) {
-        Self.shared.delegate?.onShopLiveCoverPickerOnEvent?(name: name.rawValue, payload: payload)
+    private func onPickerControllerOnEvent(picker: UIViewController,name : EventTrace, payload : [String : Any]?) {
+        Self.shared.delegate?.onShopLiveCoverPickerOnEvent?(picker: picker, name: name.rawValue, payload: payload)
     }
 }

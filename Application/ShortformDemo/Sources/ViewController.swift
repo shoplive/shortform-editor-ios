@@ -116,6 +116,10 @@ class ViewController: UIViewController {
         return view
     }()
     
+    var mediaPickerViewController : UIViewController?
+    var editorViewController : UIViewController?
+    var coverPickerViewController : UIViewController?
+    
     var latestItem: PagingItem?
     private var observerAdded : Bool = false
     var v2Shorts : V2ShortformExample?
@@ -130,7 +134,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.tintColor = .white
+//        self.navigationController?.navigationBar.tintColor = .white
+        self.navigationController?.navigationBar.isHidden = true
         SLFileManager.deleteShortformDirectoryFiles()
        
         setupDetaultLanding()
@@ -162,9 +167,7 @@ class ViewController: UIViewController {
     }
     
     func setupDetaultLanding() {
-//        ShopLiveCommon.setAccessKey(accessKey: "KTlqm3bhHzyHeYWF004H")
         ShopLiveCommon.setAccessKey(accessKey: LandingInfo.qa.accessKey)
-        //
     }
     
 
@@ -259,85 +262,117 @@ extension ViewController : ShopLiveShortformEditorDelegate {
     
 }
 extension ViewController : ShopLiveVideoEditorDelegate {
-    func onShopLiveVideoEditorError(error: ShopLiveCommonError) {
-        ShopLiveLogger.tempLog("[HASSAN LOG] videoeditor error \(error.codes) \(error.message)")
-    }
-    
-    func onShopLiveVideoEditorVideoConvertSuccess(videoPath: String) {
-        ShopLiveLogger.tempLog("[HASSAN LOG] videoEditor videoPath \(videoPath)")
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.videoEditorResultPopUp.setVideoPath(videoPath: videoPath)
-            self.videoEditorResultPopUp.alpha = 1
+    func onShopLiveVideoEditorCancelled(editor : UIViewController?) {
+        if let navigationController = editor?.navigationController {
+            navigationController.dismiss(animated: true)
         }
     }
     
-    func onShopLiveVideoEditorUploadSuccess(result: ShopliveEditorResultData?) {
-        ShopLiveLogger.tempLog("[HASSAN LOG] onShopLiveVideoEditorUploadSuccess \(dump(result))")
-        ShopliveVideoEditor.shared.close()
+    func onShopLiveVideoEditorError(editor : UIViewController?,error: ShopLiveCommonError) {
+        ShopLiveLogger.tempLog("[HASSAN LOG] videoeditor error \(error.codes) \(error.message)")
     }
     
-    func onShopLiveVideoEditorOnEvent(name: String, payload: [String : Any]?) {
+    func onShopLiveVideoEditorVideoConvertSuccess(editor : UIViewController?,videoPath: String) {
+        ShopLiveLogger.tempLog("[HASSAN LOG] videoEditor videoPath \(videoPath)")
+//        DispatchQueue.main.async { [weak self] in
+//            guard let self = self else { return }
+//            self.videoEditorResultPopUp.setVideoPath(videoPath: videoPath)
+//            self.videoEditorResultPopUp.alpha = 1
+//        }
+    }
+    
+    func onShopLiveVideoEditorUploadSuccess(editor : UIViewController?,result: ShopliveEditorResultData?) {
+        ShopLiveLogger.tempLog("[HASSAN LOG] onShopLiveVideoEditorUploadSuccess \(dump(result))")
+        if let nav = editorViewController?.navigationController {
+            nav.dismiss(animated: true) { [weak self] in
+                self?.editorViewController = nil
+            }
+        }
+        else {
+            editorViewController?.dismiss(animated: true, completion: { [weak self] in 
+                self?.editorViewController = nil
+            })
+        }
+    }
+    
+    func onShopLiveVideoEditorOnEvent(editor : UIViewController?,name: String, payload: [String : Any]?) {
         ShopLiveLogger.tempLog("[EVENTTRACE] name : \(name) payload :  \(payload)")
         self.showToastOnWindow(message: name)
     }
     
 }
 extension ViewController : ShopLiveMediaPickerDelegate {
-    func onShopLiveMediaPickerCancelled() {
+    func onShopLiveMediaPickerCancelled(picker : UIViewController?) {
         print("onShopLiveMediaPickerCancelled")
     }
     
-    func onShopLiveMediaPickerDidPickVideo(absoluteUrl: URL, relativeUrl: URL) {
+    func onShopLiveMediaPickerDidPickVideo(picker : UIViewController?,absoluteUrl: URL, relativeUrl: URL) {
         print("Picker Video Selected absoluteUrl: \(absoluteUrl) relativeUrl : \(relativeUrl)")
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.videoEditorResultPopUp.setVideoPath(videoPath: absoluteUrl.absoluteString)
             self.videoEditorResultPopUp.alpha = 1
-            ShopLiveMediaPicker.shared.close()
         }
     }
     
-    func onShopLiveMediaPickerDidPickImage(imageUrl: URL) {
+    func onShopLiveMediaPickerDidPickImage(picker : UIViewController?,imageUrl: URL) {
         print("Picker Image Selected image: \(imageUrl)")
         let image = UIImage(contentsOfFile: imageUrl.path)
         coverPickerImageResultPopUp.setResultImage(image: image)
         coverPickerImageResultPopUp.alpha = 1
-        ShopLiveMediaPicker.shared.close()
     }
     
-    func onShopLiveMediaPickerOnEvent(name: String, payload: [String : Any]?) {
+    func onShopLiveMediaPickerOnEvent(picker : UIViewController?,name: String, payload: [String : Any]?) {
         ShopLiveLogger.tempLog("[EVENTTRACE] name : \(name) payload :  \(payload)")
         self.showToastOnWindow(message: name)
     }
 }
 extension ViewController : ShopLiveCoverPickerDelegate {
-    func onShopLiveCoverPickerError(error: ShopLiveCommonError) {
+    func onShopLiveCoverPickerError(picker : UIViewController?,error: ShopLiveCommonError) {
         ShopLiveLogger.tempLog("[HASSAN LOG] coverPicker error \(error.message)")
     }
     
-    func onShopLiveCoverPickerCoverImageSuccess(image: UIImage?) {
+    func onShopLiveCoverPickerCoverImageSuccess(picker : UIViewController?,image: UIImage?) {
         coverPickerImageResultPopUp.setResultImage(image: image)
         coverPickerImageResultPopUp.alpha = 1
+        if let nav = editorViewController?.navigationController {
+            nav.dismiss(animated: true) { [weak self] in
+                self?.coverPickerViewController = nil
+            }
+        }
+        else if let nav = coverPickerViewController?.navigationController {
+            nav.dismiss(animated: true) { [weak self] in
+                self?.coverPickerViewController = nil
+            }
+        }
+        else {
+            coverPickerViewController?.dismiss(animated: true, completion: { [weak self] in
+                self?.coverPickerViewController = nil
+            })
+        }
     }
     
-    func onShopLiveCoverPickerUploadSuccess(result: ShopliveEditorResultData?) {
+    func onShopLiveCoverPickerUploadSuccess(picker : UIViewController?,result: ShopliveEditorResultData?) {
         ShopLiveLogger.tempLog("[HASSAN LOG] onShopLiveCoverPickerUploadSuccess \(dump(result))")
     }
     
-    func onShopLiveCoverPickerClosed() {
-        ShopLiveLogger.tempLog("[HASSAN LOG] coverPicker closed")
-    }
-    
-    func onShopLiveCoverPickerCancelled() {
+    func onShopLiveCoverPickerCancelled(picker : UIViewController?) {
         ShopLiveLogger.tempLog("[HASSAN LOG] coverPickerCancelled")
+        if let navigationController = coverPickerViewController?.navigationController {
+            navigationController.dismiss(animated: true) { [weak self] in
+                self?.coverPickerViewController = nil
+            }
+        }
+        else {
+            coverPickerViewController?.dismiss(animated: true, completion: { [weak self] in
+                self?.coverPickerViewController = nil
+            })
+        }
     }
     
-    func onShopLiveCoverPickerOnEvent(name: String, payload: [String : Any]?) {
+    func onShopLiveCoverPickerOnEvent(picker : UIViewController?, name: String, payload: [String : Any]?) {
         ShopLiveLogger.tempLog("[EVENTTRACE] name : \(name) payload :  \(payload)")
         self.showToastOnWindow(message: name)
-        
-    
     }
     
     private func showToastOnWindow(message : String) {

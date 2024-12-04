@@ -186,7 +186,7 @@ extension SLVideoThumbnailReactor {
             case .Failed(let error):
                 let e = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedEncoding, error: error, message: nil)
                 self.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: e)
-                self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: e)
+//                self.videoEditorDelegate?.onShopLiveVideoEditorError?(editor: nil, error: e)
             }
         }
     }
@@ -206,6 +206,16 @@ extension SLVideoThumbnailReactor {
     }
 }
 extension SLVideoThumbnailReactor : SLPhotosPickerViewControllerDelegate {
+    func photoPicker(picker: UIViewController, didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
+    }
+    
+    func photoPicker(picker: UIViewController, didSelectImage url: URL) {
+        
+    }
+    
+    func photoPickerOnEvent(picker: UIViewController, name: EventTrace, payload: [String : Any]?) {
+    }
+    
     func photoPickerOnEvent(name: EventTrace, payload: [String : Any]?) {
         
     }
@@ -283,7 +293,7 @@ extension SLVideoThumbnailReactor {
                     self.checkThumbnailImage()
                     break
                 case .failure(let error):
-                    self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: error)
+//                    self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: error)
                     self.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: error)
                     self.resultHandler?( .didFinishLoading )
                 }
@@ -321,7 +331,7 @@ extension SLVideoThumbnailReactor {
                         break
 //                        self.callShortformRegisterAPI(videoId: data.videoId ?? -1, imageUrl: data.thumbnailImageUrl)
                     case .failure(let error):
-                        self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: error)
+//                        self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: error)
                         self.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: error)
                         self.resultHandler?( .didFinishLoading )
                     }
@@ -339,7 +349,7 @@ extension SLVideoThumbnailReactor {
                     self.removeVideoFile()
                     break
                 case .failure(let error):
-                    self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: error)
+//                    self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: error)
                     self.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: error)
                     break
                 }

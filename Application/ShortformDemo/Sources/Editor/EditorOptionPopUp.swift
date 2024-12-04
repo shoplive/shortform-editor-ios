@@ -188,7 +188,12 @@ class EditorOptionPopUp : UIView {
             .setDelegate(vc)
             .setConfiguration(.init(videoDurationOption: .init(minVideoDuration: 3,maxVideoDuration: 90)))
             .setPermissionHandler(nil)
-            .start(vc, type: .video)
+            .build(type: .video, completion: { [weak self] mediaPickerViewController in
+                guard let self = self else { return }
+                let nav = UINavigationController(rootViewController: mediaPickerViewController)
+                self.vc?.mediaPickerViewController = mediaPickerViewController
+                self.vc?.present(nav, animated: true)
+            })
     }
     
     @objc func mediaPickerImagetapped(sender : UIButton) {
@@ -197,7 +202,12 @@ class EditorOptionPopUp : UIView {
         ShopLiveMediaPicker.shared
             .setDelegate(vc)
             .setPermissionHandler(nil)
-            .start(vc, type: .image)
+            .build(type: .image, completion: { [weak self] mediaPickerViewController in
+                guard let self = self else { return }
+                let nav = UINavigationController(rootViewController: mediaPickerViewController)
+                self.vc?.mediaPickerViewController = mediaPickerViewController
+                self.vc?.present(nav, animated: true)
+            })
     }
     
 }
@@ -280,7 +290,12 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
                                     videoTrimOption: trimOption,
                                     visibleContents: visibleContents))
             .setDelegate(vc)
-            .start(vc, data: .init(videoUrl: localUrl,isCreatedShortform: true))
+            .build(data: .init(videoUrl: localUrl,isCreatedShortform: true), completion: { [weak self] editorViewController in
+                guard let self = self else { return }
+                let nav = UINavigationController(rootViewController: editorViewController)
+                self.vc?.editorViewController = editorViewController
+                self.vc?.present(nav, animated: true)
+            })
     }
     
     private func openCoverPicker(videoUrl : URL) {
@@ -296,6 +311,11 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
             .setConfiguration(.init(cropOption: cropOption,
                                     visibleActionButton: visibleActionButton))
             .setDelegate(vc)
-            .start(vc, data: .init(videoUrl: videoUrl,shortsId: nil))
+            .build(data: .init(videoUrl: videoUrl,shortsId: nil), completion: { [weak self] coverPickerViewController in
+                guard let self = self else { return }
+                let nav = UINavigationController(rootViewController: coverPickerViewController)
+                self.vc?.coverPickerViewController = nav
+                self.vc?.present(nav, animated: true)
+            })
     }
 }

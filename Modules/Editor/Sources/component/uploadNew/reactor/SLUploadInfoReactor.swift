@@ -360,7 +360,7 @@ extension SLUploadInfoReactor {
                       let uploadAPIEndpoint = uploadable.uploadApiEndpoint else {
                     let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnexpectedError, error: nil, message: "[ShortformEditor] sessionSecrete or updateApiEndPoint missing" )
                     self.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: commonError )
-                    self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: commonError )
+//                    self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: commonError )
                     self.onMainQueueResultHandler?(.setLoadingVisible(false))
                     return
                 }
@@ -412,12 +412,12 @@ extension SLUploadInfoReactor {
     private func passNetworkErrorsToShortformDelegate(error : Error) {
         if let error = error as? ShopLiveCommonError {
             self.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: error)
-            self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: error)
+//            self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: error)
         }
         else {
             let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnexpectedError, error: error, message: nil)
             self.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: commonError )
-            self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: commonError )
+//            self.videoEditorDelegate?.onShopLiveVideoEditorError?(error: commonError )
         }
     }
     

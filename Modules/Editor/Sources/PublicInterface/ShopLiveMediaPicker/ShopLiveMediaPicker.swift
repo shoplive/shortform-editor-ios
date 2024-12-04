@@ -26,7 +26,6 @@ public class ShopLiveMediaPicker : NSObject {
     private var permissionHandler : ShopLivePermissionHandler?
     private var delegate : ShopLiveMediaPickerDelegate?
     private var ffmpegValidator = FFmpegVideoValidator()
-    private var navigationController : SLPickerNavigationController?
     
     @discardableResult
     public func setPermissionHandler(_ permissionHandler : ShopLivePermissionHandler?) -> Self {
@@ -48,48 +47,41 @@ public class ShopLiveMediaPicker : NSObject {
         return self
     }
     
-    public func start(_ vc : UIViewController, type : SLMediaType ) {
+    public func build(type : SLMediaType, completion : @escaping(UIViewController) -> () ) {
         let photoPicker = SLPhotosPickerViewController(mediaType: type , permissionDelegate: permissionHandler)
         photoPicker.delegate = self
-        
-        self.navigationController = SLPickerNavigationController(rootViewController: photoPicker)
-        navigationController?.isNavigationBarHidden = true
-        navigationController?.modalPresentationCapturesStatusBarAppearance = true
-        navigationController?.modalPresentationStyle = .overFullScreen
-        vc.present(navigationController!, animated: true)
+        DispatchQueue.main.async {
+            completion(photoPicker)
+        }
     }
     
-    public func close() {
+    public func cleanUpMemory() {
         SLFileManager.deleteEditorDirectoryFiles()
-        Self.shared.navigationController?.viewControllers.first?.dismiss(animated: true)
-        self.navigationController?.dismiss(animated: true)
-        self.navigationController = nil
     }
 }
 extension ShopLiveMediaPicker : SLPhotosPickerViewControllerDelegate {
-    func photoPicker(didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
+    func photoPicker(picker : UIViewController, didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
         ffmpegValidator.checkValidCodec(videoUrl: relativeUrl) { [weak self] isValidCodec in
             guard let self = self else { return }
             if isValidCodec {
-                Self.shared.delegate?.onShopLiveMediaPickerDidPickVideo?(absoluteUrl: absoluteUrl, relativeUrl: relativeUrl)
+                Self.shared.delegate?.onShopLiveMediaPickerDidPickVideo?(picker: picker, absoluteUrl: absoluteUrl, relativeUrl: relativeUrl)
             }
             else {
                 let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnsupportedMedia, error: nil, message: "Video codec is not valid")
-                Self.shared.delegate?.onShopLiveMediaPickerError?(error: commonError)
+                Self.shared.delegate?.onShopLiveMediaPickerError?(picker: picker, error: commonError)
             }
         }
     }
     
-    func photoPicker(didSelectImage url: URL) {
-        Self.shared.delegate?.onShopLiveMediaPickerDidPickImage?(imageUrl: url)
+    func photoPicker(picker : UIViewController, didSelectImage url: URL) {
+        Self.shared.delegate?.onShopLiveMediaPickerDidPickImage?(picker: picker,imageUrl: url)
     }
     
     func photoPiker(onClose picker: UIViewController) {
-        Self.shared.close()
-        Self.shared.delegate?.onShopLiveMediaPickerCancelled?()
+        Self.shared.delegate?.onShopLiveMediaPickerCancelled?(picker: picker)
     }
     
-    func photoPickerOnEvent(name: EventTrace, payload: [String : Any]?) {
-        Self.shared.delegate?.onShopLiveMediaPickerOnEvent?(name: name.rawValue, payload: payload)
+    func photoPickerOnEvent(picker: UIViewController, name: EventTrace, payload: [String : Any]?) {
+        Self.shared.delegate?.onShopLiveMediaPickerOnEvent?(picker: picker, name: name.rawValue, payload: payload)
     }
 }
