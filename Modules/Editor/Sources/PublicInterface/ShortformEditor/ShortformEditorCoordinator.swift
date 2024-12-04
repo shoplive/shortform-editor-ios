@@ -15,8 +15,8 @@ class ShopliveShortformCoordinator : NSObject {
     typealias ShortformEditor = ShopLiveShortformEditor
     
    
-    private var permissionHandler : ShopLivePermissionHandler?
-    private var editorDelegate : ShopLiveShortformEditorDelegate?
+    private weak var permissionHandler : ShopLivePermissionHandler?
+    private weak var editorDelegate : ShopLiveShortformEditorDelegate?
     private var ffmpegValidator = FFmpegVideoValidator()
     private var convertedVideoPath : String?
     private var parentVc : UIViewController?
@@ -50,6 +50,8 @@ class ShopliveShortformCoordinator : NSObject {
     
     func close() {
         SLFileManager.deleteEditorDirectoryFiles()
+        self.editorDelegate = nil
+        self.permissionHandler = nil
         self.navigationController?.viewControllers.first?.dismiss(animated: true)
         self.navigationController?.dismiss(animated: true)
         self.navigationController = nil

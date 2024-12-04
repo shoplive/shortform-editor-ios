@@ -23,8 +23,8 @@ public class ShopLiveMediaPicker : NSObject {
     
     public static var sdkVersion = ShopLiveCommon.videoEditorSdkversion
     
-    private var permissionHandler : ShopLivePermissionHandler?
-    private var delegate : ShopLiveMediaPickerDelegate?
+    private weak var permissionHandler : ShopLivePermissionHandler?
+    private weak var delegate : ShopLiveMediaPickerDelegate?
     private var ffmpegValidator = FFmpegVideoValidator()
     
     @discardableResult
@@ -61,8 +61,7 @@ public class ShopLiveMediaPicker : NSObject {
 }
 extension ShopLiveMediaPicker : SLPhotosPickerViewControllerDelegate {
     func photoPicker(picker : UIViewController, didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
-        ffmpegValidator.checkValidCodec(videoUrl: relativeUrl) { [weak self] isValidCodec in
-            guard let self = self else { return }
+        ffmpegValidator.checkValidCodec(videoUrl: relativeUrl) { isValidCodec in
             if isValidCodec {
                 Self.shared.delegate?.onShopLiveMediaPickerDidPickVideo?(picker: picker, absoluteUrl: absoluteUrl, relativeUrl: relativeUrl)
             }

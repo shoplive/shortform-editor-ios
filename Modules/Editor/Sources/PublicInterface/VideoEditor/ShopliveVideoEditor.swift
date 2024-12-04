@@ -21,10 +21,8 @@ public class ShopliveVideoEditor {
     }
     
     public static var sdkVersion = ShopLiveCommon.videoEditorSdkversion
-    
-    private var delegate : ShopLiveVideoEditorDelegate?
-    private var permissionHandler : ShopLivePermissionHandler?
-    private var editorViewController : UIViewController?
+    private weak var delegate : ShopLiveVideoEditorDelegate?
+    private weak var permissionHandler : ShopLivePermissionHandler?
     
     @discardableResult
     public func setPermissionHandler(_ permissionHandler : ShopLivePermissionHandler?) -> Self {
@@ -54,7 +52,7 @@ public class ShopliveVideoEditor {
     }
     
     @discardableResult
-    public func setDelegate(_ delegate : ShopLiveVideoEditorDelegate) -> Self {
+    public func setDelegate(_ delegate : ShopLiveVideoEditorDelegate?) -> Self {
         self.delegate = delegate
         return self
     }
@@ -120,11 +118,10 @@ public class ShopliveVideoEditor {
             }
         }
     }
-    
+
     private func showEditorViewController(shortsVideo : ShortsVideo, isCreateShortform : Bool) -> UIViewController {
         let editorVC = SLVideoEditorMainViewController(video: shortsVideo,isCreateShortform: isCreateShortform)
         editorVC.delegate = self
-        self.editorViewController = editorVC
         return editorVC
     }
     

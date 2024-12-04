@@ -15,8 +15,8 @@ public class ShopLiveShortformEditor {
     public static var sdkVersion = ShopLiveCommon.videoEditorSdkversion
     public static let shared = ShopLiveShortformEditor()
     
-    private var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
-    private var permissionHandler : ShopLivePermissionHandler?
+    private weak var shortformEditorDelegate : ShopLiveShortformEditorDelegate?
+    private weak var permissionHandler : ShopLivePermissionHandler?
     private var coordinator : ShopliveShortformCoordinator?
     
     
@@ -49,7 +49,7 @@ public class ShopLiveShortformEditor {
     }
     
     @discardableResult
-    public func setDelegate(delegate : ShopLiveShortformEditorDelegate) -> Self{
+    public func setDelegate(delegate : ShopLiveShortformEditorDelegate?) -> Self{
         Self.shared.shortformEditorDelegate = delegate
         return self
     }
@@ -62,6 +62,8 @@ public class ShopLiveShortformEditor {
     }
     
     public func close() {
+        Self.shared.shortformEditorDelegate = nil
+        Self.shared.permissionHandler = nil
         Self.shared.coordinator?.close()
     }
     
