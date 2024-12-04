@@ -149,6 +149,13 @@ public class ShopliveVideoEditor {
             ShopLiveShortformEditorFilterListManager.shared.callFilterListAPI { }
         }
     }
+    
+    public func cleanUpMemory() {
+        SLFileManager.deleteEditorDirectoryFiles()
+        ShopLiveShortformEditorFilterListManager.shared.videoEditorDelegate = nil
+        Self.shared.permissionHandler = nil
+        Self.shared.delegate = nil
+    }
 }
 extension ShopliveVideoEditor : SLVideoEditorViewControllerDelegate {
     func videoEditorDidCancelConvertVideo(editor: UIViewController?) {

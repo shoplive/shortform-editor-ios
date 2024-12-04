@@ -15,8 +15,8 @@ public class ShopLiveCoverPicker {
     public static let shared = ShopLiveCoverPicker()
     private init() { }
     
-    private var delegate : ShopLiveCoverPickerDelegate?
-    private var permissionHandler : ShopLivePermissionHandler?
+    private weak var delegate : ShopLiveCoverPickerDelegate?
+    private weak var permissionHandler : ShopLivePermissionHandler?
     
     @discardableResult
     public func setPermissionHandler(_ permissionHandler : ShopLivePermissionHandler) -> Self {
@@ -68,6 +68,12 @@ public class ShopLiveCoverPicker {
                 Self.shared.delegate?.onShopLiveCoverPickerError?(picker: nil, error: error)
             }
         }
+    }
+    
+    public func cleanUpMemory() {
+        SLFileManager.deleteEditorDirectoryFiles()
+        Self.shared.permissionHandler = nil
+        Self.shared.delegate = nil
     }
 }
 extension ShopLiveCoverPicker {

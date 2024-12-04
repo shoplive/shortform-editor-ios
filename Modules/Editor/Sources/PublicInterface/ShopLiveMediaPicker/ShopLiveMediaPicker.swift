@@ -55,6 +55,8 @@ public class ShopLiveMediaPicker : NSObject {
     
     public func cleanUpMemory() {
         SLFileManager.deleteEditorDirectoryFiles()
+        Self.shared.permissionHandler = nil
+        Self.shared.delegate = nil
     }
 }
 extension ShopLiveMediaPicker : SLPhotosPickerViewControllerDelegate {
