@@ -20,7 +20,7 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
         case remove(String)
         case play
         case pause
-        case isScrollEnabled(Bool)
+        case setScrollEnabled(Bool)
     }
     
     public enum Result {
@@ -89,7 +89,7 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
             onPause()
         case .remove(let shortsIdOrSrn):
             onRemove(shortsIdOrSrn: shortsIdOrSrn)
-        case .isScrollEnabled(let isScrollEnabled):
+        case .setScrollEnabled(let isScrollEnabled):
             onIsScrollEnabled(isScrollEnabled: isScrollEnabled)
         }
     }
