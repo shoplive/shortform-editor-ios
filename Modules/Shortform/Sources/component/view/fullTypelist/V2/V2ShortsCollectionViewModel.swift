@@ -282,7 +282,6 @@ extension V2ShortsCollectionViewModel {
                     completion(true)
                 case .failure(let error):
                     shortformDelegate?.onError?(error: error)
-//                    ShopLiveShortform.Delegate.receiveHandler.delegate?.onError?(error: error)
                     completion(false)
                     break
                 }

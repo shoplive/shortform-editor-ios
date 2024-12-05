@@ -12,6 +12,11 @@ import ShopliveSDKCommon
 
 
 extension ShortsCollectionBaseView : ShortsCellDelegate {
+    
+    func checkIfCellIsLastAttachedCell(shortsModel: ShopliveSDKCommon.SLShortsModel) {
+        viewModel.checkIfCellIsLastAttachedCellAndSendLastCellEvent(shortsModel: shortsModel)
+    }
+    
     func onExternalEmitEvent(webView : ShortsWebView?, name: String, payload: [String : Any]?) {
         var jsonString : String?
         if let payload = payload {

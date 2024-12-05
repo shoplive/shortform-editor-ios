@@ -189,6 +189,9 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
             messenger.sendCommandMessage(command: "something", payload: [:])
         }
         switch command {
+        case "DETAIL_SHORTFORM_MORE_ENDED":
+            ShopLiveLogger.tempLog("[DETAIL_SHORTFORM_MORE_ENDED]")
+            break
         case "VIDEO_MUTED", "DETAIL_CLICK_MUTE":
             isMuted = true
         case "VIDEO_UNMUTED", "DETAIL_CLICK_UNMUTE":
