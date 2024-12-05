@@ -250,10 +250,11 @@ extension SLVideoThumbnailReactor : SLLoadingAlertControllerDelegate {
         resultHandler?( .cancelLoading )
         
         let popUp = SLCustomAlertBox(title: ShopLiveShortformEditorSDKStrings.Editor.Alert.Encoding.Cancel.Title.shoplive, confirmTitle: nil, closeTitle: nil)
-        popUp.setBoxCornerRadius(cornerRadius: mainDesign.cancelPopupCornerRadius)
-        popUp.setButtonCornerRadius(cornerRadius: mainDesign.cancelPopupButtonCornerRadius)
-        popUp.setCloseButtonDesign(backgroundColor: mainDesign.cancelPopupCloseButtonBackgroundColor, textColor: mainDesign.cancelPopupCloseButtonTextColor)
-        popUp.setConfirmButtonDesign(backgroundColor: mainDesign.cancelPopupConfirmButtonBackgroundColor, textColor: mainDesign.cancelPopupConfirmButtonTextColor)
+        popUp.setBoxCornerRadius(cornerRadius: mainDesign.popupCornerRadius)
+        popUp.setButtonCornerRadius(cornerRadius: mainDesign.popupButtonCornerRadius)
+        popUp.setCloseButtonDesign(backgroundColor: mainDesign.popupCloseButtonBackgroundColor, textColor: mainDesign.popupCloseButtonTextColor,
+                                   font: mainDesign.popupCloseButtonTextFont)
+        popUp.setConfirmButtonDesign(backgroundColor: mainDesign.popupConfirmButtonBackgroundColor, textColor: mainDesign.popupConfirmButtonTextColor,font: mainDesign.popupConfirmButtonTextFont)
         popUp.btnClickCallback = { [weak self] result in
             guard let self = self else { return }
             if result == .yes {

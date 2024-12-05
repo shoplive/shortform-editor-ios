@@ -90,7 +90,7 @@ class SLVideoVolumeViewController : UIViewController {
     }()
     
     lazy private var playerView : ShopLiveFilterPlayer = {
-        let player = ShopLiveFilterPlayer()
+        let player = ShopLiveFilterPlayer(frame: .zero, cropGridViewColor: .white)
         player.translatesAutoresizingMaskIntoConstraints = false
         player.layer.cornerRadius = design.videoPlayerCornerRadius
         player.clipsToBounds = true

@@ -51,7 +51,8 @@ class SLVideoEditorPlayerCropView: UIView, UIGestureRecognizerDelegate {
     private var latestSelfBounds : CGRect = .zero
     
     private var isCropAvailable : Bool = false
-
+    private var cropGridViewColor : UIColor = .white
+    
     weak var delegate: SLVideoEditorPlayerCropViewDelegate?
     
     lazy private var gridView : SLCropInnerGridView = {
@@ -61,8 +62,9 @@ class SLVideoEditorPlayerCropView: UIView, UIGestureRecognizerDelegate {
         return view
     }()
     
-    init() {
+    init(cropGridViewColor : UIColor ) {
         super.init(frame: .zero)
+        self.cropGridViewColor = cropGridViewColor
         layout()
     }
     
@@ -472,28 +474,28 @@ class SLVideoEditorPlayerCropView: UIView, UIGestureRecognizerDelegate {
         context?.fill([rBounds])
         
         // top line
-        context?.setStrokeColor(UIColor.white.cgColor)
+        context?.setStrokeColor(cropGridViewColor.cgColor)
         context?.setLineWidth(lineSize)
         context?.move(to: CGPoint(x: cropRect.origin.x, y: cropRect.origin.y + linePostion))
         context?.addLine(to: CGPoint(x: cropRect.origin.x + cropRect.size.width, y: cropRect.origin.y + linePostion))
         context?.strokePath()
         
         // left line
-        context?.setStrokeColor(UIColor.white.cgColor)
+        context?.setStrokeColor(cropGridViewColor.cgColor)
         context?.setLineWidth(lineSize)
         context?.move(to: CGPoint(x: cropRect.origin.x + linePostion, y: cropRect.origin.y))
         context?.addLine(to: CGPoint(x: cropRect.origin.x + linePostion, y: cropRect.origin.y + cropRect.size.height))
         context?.strokePath()
         
         // right line
-        context?.setStrokeColor(UIColor.white.cgColor)
+        context?.setStrokeColor(cropGridViewColor.cgColor)
         context?.setLineWidth(lineSize)
         context?.move(to: CGPoint(x: cropRect.origin.x + cropRect.size.width - linePostion, y: cropRect.origin.y))
         context?.addLine(to: CGPoint(x: cropRect.origin.x + cropRect.size.width - linePostion, y: cropRect.origin.y + cropRect.size.height))
         context?.strokePath()
         
         // bottom line
-        context?.setStrokeColor(UIColor.white.cgColor)
+        context?.setStrokeColor(cropGridViewColor.cgColor)
         context?.setLineWidth(lineSize)
         context?.move(to: CGPoint(x: cropRect.origin.x, y: cropRect.origin.y + cropRect.size.height - linePostion))
         context?.addLine(to: CGPoint(x: cropRect.origin.x + cropRect.size.width, y: cropRect.origin.y + cropRect.size.height - linePostion))
@@ -503,14 +505,14 @@ class SLVideoEditorPlayerCropView: UIView, UIGestureRecognizerDelegate {
         // left top corner
         if self.isCropAvailable {
             // top
-            context?.setStrokeColor(UIColor.white.cgColor)
+            context?.setStrokeColor(cropGridViewColor.cgColor)
             context?.setLineWidth(cornerSize)
             context?.move(to: CGPoint(x: cropRect.origin.x, y: cropRect.origin.y + cornerPostion))
             context?.addLine(to: CGPoint(x: cropRect.origin.x + handleSize, y: cropRect.origin.y + cornerPostion))
             context?.strokePath()
             
             // left
-            context?.setStrokeColor(UIColor.white.cgColor)
+            context?.setStrokeColor(cropGridViewColor.cgColor)
             context?.setLineWidth(cornerSize)
             context?.move(to: CGPoint(x: cropRect.origin.x + cornerPostion, y: cropRect.origin.y))
             context?.addLine(to: CGPoint(x: cropRect.origin.x + cornerPostion, y: cropRect.origin.y + handleSize))
@@ -518,40 +520,40 @@ class SLVideoEditorPlayerCropView: UIView, UIGestureRecognizerDelegate {
             
             // right top
             // top
-            context?.setStrokeColor(UIColor.white.cgColor)
+            context?.setStrokeColor(cropGridViewColor.cgColor)
             context?.setLineWidth(cornerSize)
             context?.move(to: CGPoint(x: cropRect.origin.x + cropRect.width - handleSize, y: cropRect.origin.y + cornerPostion))
             context?.addLine(to: CGPoint(x: cropRect.origin.x + cropRect.width, y: cropRect.origin.y + cornerPostion))
             context?.strokePath()
             
             // right
-            context?.setStrokeColor(UIColor.white.cgColor)
+            context?.setStrokeColor(cropGridViewColor.cgColor)
             context?.setLineWidth(cornerSize)
             context?.move(to: CGPoint(x: cropRect.origin.x + cropRect.size.width - cornerPostion, y: cropRect.origin.y))
             context?.addLine(to: CGPoint(x: cropRect.origin.x + cropRect.size.width - cornerPostion, y: cropRect.origin.y + handleSize))
             context?.strokePath()
             
             // left bottom
-            context?.setStrokeColor(UIColor.white.cgColor)
+            context?.setStrokeColor(cropGridViewColor.cgColor)
             context?.setLineWidth(cornerSize)
             context?.move(to: CGPoint(x: cropRect.origin.x, y: cropRect.origin.y + cropRect.size.height - cornerPostion))
             context?.addLine(to: CGPoint(x: cropRect.origin.x + handleSize, y: cropRect.origin.y + cropRect.size.height - cornerPostion))
             context?.strokePath()
             
-            context?.setStrokeColor(UIColor.white.cgColor)
+            context?.setStrokeColor(cropGridViewColor.cgColor)
             context?.setLineWidth(cornerSize)
             context?.move(to: CGPoint(x: cropRect.origin.x + cornerPostion, y: cropRect.origin.y + cropRect.size.height - handleSize))
             context?.addLine(to: CGPoint(x: cropRect.origin.x + cornerPostion, y: cropRect.origin.y + cropRect.size.height))
             context?.strokePath()
             
             // right bottom
-            context?.setStrokeColor(UIColor.white.cgColor)
+            context?.setStrokeColor(cropGridViewColor.cgColor)
             context?.setLineWidth(cornerSize)
             context?.move(to: CGPoint(x: cropRect.origin.x + cropRect.size.width - handleSize, y: cropRect.origin.y + cropRect.size.height - cornerPostion))
             context?.addLine(to: CGPoint(x: cropRect.origin.x + cropRect.size.width, y: cropRect.origin.y + cropRect.size.height - cornerPostion))
             context?.strokePath()
             
-            context?.setStrokeColor(UIColor.white.cgColor)
+            context?.setStrokeColor(cropGridViewColor.cgColor)
             context?.setLineWidth(cornerSize)
             context?.move(to: CGPoint(x: cropRect.origin.x + cropRect.size.width - cornerPostion, y: cropRect.origin.y + cropRect.size.height - handleSize))
             context?.addLine(to: CGPoint(x: cropRect.origin.x + cropRect.size.width - cornerPostion, y: cropRect.origin.y + cropRect.size.height))

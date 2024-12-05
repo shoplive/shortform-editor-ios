@@ -85,7 +85,7 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
     }()
     
     lazy private var playerCropView : SLVideoEditorPlayerCropView = {
-        let view = SLVideoEditorPlayerCropView()
+        let view = SLVideoEditorPlayerCropView(cropGridViewColor: design.cropColor)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.delegate = reactor
         view.backgroundColor = .clear
@@ -103,7 +103,7 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
     private var playerLayer : AVPlayerLayer?
     
     lazy private var pickerSelectedThumbnailImageView : SLCropableUIImageView = {
-        let imageView = SLCropableUIImageView()
+        let imageView = SLCropableUIImageView(cropGridViewColor: design.cropColor)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.action( .setClipsToBound(true) )
         imageView.action( .setCornerRadius(design.videoPlayerCornerRadius))
@@ -133,8 +133,8 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
     }()
     
     private lazy var thumbnailSliderView: SLThumbnailSliderView = {
-        let view = SLThumbnailSliderView(containerCornerRadius: design.thumbnailSliderCornerRadius,
-                                         thumbViewBorderColor: design.thumbnailSliderThumbViewBorderColor)
+        let view = SLThumbnailSliderView(containerCornerRadius: design.sliderCornerRadius,
+                                         thumbViewBorderColor: design.sliderThumbColor, thumbviewCornerRadius: design.sliderThumbCornerRadius)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

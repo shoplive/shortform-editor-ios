@@ -37,17 +37,19 @@ class SLCropableUIImageView : UIView, SLReactor {
     }()
     
     private lazy var cropView : SLVideoEditorPlayerCropView = {
-        let view = SLVideoEditorPlayerCropView()
+        let view = SLVideoEditorPlayerCropView(cropGridViewColor: cropGridViewColor)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
         view.setIsCropAvailable(isAvailable: true)
         return view
     }()
    
+    private var cropGridViewColor : UIColor = .white
     var resultHandler: ((Result) -> ())?
     
-    override init(frame : CGRect) {
+    init(cropGridViewColor : UIColor) {
         super.init(frame: .zero)
+        self.cropGridViewColor = cropGridViewColor
         setLayout()
         
     }

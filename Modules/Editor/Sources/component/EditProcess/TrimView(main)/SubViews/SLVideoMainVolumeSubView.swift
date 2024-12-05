@@ -11,10 +11,13 @@ import UIKit
 import ShopliveSDKCommon
 
 class SLVideoMainVolumeSubView : UIView, SLReactor {
-    private let design = ShopLiveShortformEditor.EditorSpeedConfig.global
+    private let design = ShopLiveShortformEditor.EditorVolumeConfig.global
     
     lazy private var sliderView : SlCustomUISlider = {
-        let view = SlCustomUISlider(frame: .zero,thumbViewColor: design.sliderThumbViewColor, sliderCornerRadius: design.sliderCornerRaidus)
+        let view = SlCustomUISlider(frame: .zero,
+                                    thumbViewColor: design.sliderThumbViewColor,
+                                    sliderCornerRadius: design.sliderCornerRaidus,
+                                    backgroundColor: design.sliderBackgroundColor)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.action( .setMinValue(0) )
         view.action( .setMaxValue(100) )
@@ -50,7 +53,7 @@ class SLVideoMainVolumeSubView : UIView, SLReactor {
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = design.confirmButtonBackgroundColor
         btn.setTitleColor(design.confirmButtonTextColor, for: .normal)
-        btn.titleLabel?.font = .set(size: 16, weight: ._600)
+        btn.titleLabel?.font = design.confirmButtonTextFont
         btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Volume.Btn.Confirm.shoplive, for: .normal)
         btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true

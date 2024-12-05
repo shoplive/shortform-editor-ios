@@ -100,9 +100,11 @@ extension ShopLiveShortformEditor {
         public var confirmButtonCornerRadius : CGFloat = 20
         public var confirmButtonBackgroundColor : UIColor = .white
         public var confirmButtonTextColor : UIColor =  .black
+        public var confirmButtonTextFont : UIFont = .set(size: 16, weight: ._600)
         
         public var sliderThumbViewColor : UIColor = .white
-        public var sliderCornerRaidus : CGFloat = 24
+        public var sliderCornerRadius : CGFloat = 24
+        public var sliderBackgroundColor : UIColor = .init(white: 1, alpha: 0.2)
     }
     
     public class EditorSpeedConfig {
@@ -125,9 +127,11 @@ extension ShopLiveShortformEditor {
         public var confirmButtonCornerRadius : CGFloat = 20
         public var confirmButtonBackgroundColor : UIColor = .white
         public var confirmButtonTextColor : UIColor =  .black
+        public var confirmButtonTextFont : UIFont = .set(size: 16, weight: ._600)
         
         public var sliderThumbViewColor : UIColor = .white
-        public var sliderCornerRaidus : CGFloat = 24
+        public var sliderCornerRadius : CGFloat = 24
+        public var sliderBackgroundColor : UIColor = .init(white: 1, alpha: 0.2)
     }
     
     public class EditorMainConfig {
@@ -135,9 +139,14 @@ extension ShopLiveShortformEditor {
         
         public var videoPlayerCornerRadius : CGFloat = 24
         
+        public var titleTextColor : UIColor = .magenta // .white
+        public var titleTextFont : UIFont = .systemFont(ofSize: 16, weight: .medium)
+        
         public var backButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slBackArrow.image.withRenderingMode(.alwaysTemplate)
         public var backButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        public var backButtonIconTintColor : UIColor = .white
+        public var backButtonIconTintColor : UIColor =  .white
+        
+        public var cropColor : UIColor = .white
         
         public var editingCloseButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slCloseButton.image.withRenderingMode(.alwaysTemplate)
         public var editingCloseButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -145,6 +154,9 @@ extension ShopLiveShortformEditor {
         
         public var nextButtonTitle : String = ShopLiveShortformEditorSDKStrings.Editor.Main.Btn.Next.shoplive
         public var nextButtonCornerRadius : CGFloat = 20
+        public var nextButtonBackgroundColor : UIColor = .clear
+        public var nextButtonTitleFont : UIFont = .systemFont(ofSize: 14, weight: .medium)
+        
         
         public var videoSpeedButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slIcSpeedometer.image.withRenderingMode(.alwaysTemplate)
         public var videoSpeedButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 7, left: 10, bottom: 13, right: 10)
@@ -163,14 +175,19 @@ extension ShopLiveShortformEditor {
         public var videofilterButtonIconTintColor : UIColor = .white
         
         public var sliderIndicatorCornerRadius : CGFloat = 2
+        public var sliderIndicatorColor : UIColor = .white
+        public var sliderHandleCornerRadius : CGFloat = 4
+        public var sliderHandleBackgroundColor : UIColor = .white
+        public var sliderHandleBarColor : UIColor = .black
         
-        
-        public var cancelPopupCornerRadius : CGFloat = 16
-        public var cancelPopupButtonCornerRadius : CGFloat = 10
-        public var cancelPopupCloseButtonBackgroundColor : UIColor = .white
-        public var cancelPopupCloseButtonTextColor : UIColor = .black
-        public var cancelPopupConfirmButtonBackgroundColor : UIColor = .init(red: 51, green: 51, blue: 51)
-        public var cancelPopupConfirmButtonTextColor : UIColor = .white
+        public var popupCornerRadius : CGFloat = 16
+        public var popupButtonCornerRadius : CGFloat = 10
+        public var popupCloseButtonBackgroundColor : UIColor = .white
+        public var popupCloseButtonTextColor : UIColor = .black
+        public var popupCloseButtonTextFont : UIFont = .set(size: 15, weight: ._600)
+        public var popupConfirmButtonBackgroundColor : UIColor = .init(red: 51, green: 51, blue: 51)
+        public var popupConfirmButtonTextColor : UIColor = .white
+        public var popupConfirmButtonTextFont : UIFont = .set(size: 15, weight: ._600)
     }
     
     public class EditorFilterConfig {
@@ -194,9 +211,11 @@ extension ShopLiveShortformEditor {
         public var confirmButtonCornerRadius : CGFloat = 20
         public var confirmButtonBackgroundColor : UIColor = .white
         public var confirmButtonTextColor : UIColor =  .black
+        public var confirmButtonTextFont : UIFont = .set(size: 16, weight: ._600)
         
         public var sliderThumbViewColor : UIColor = .white
-        public var sliderCornerRaidus : CGFloat = 24
+        public var sliderCornerRadius : CGFloat = 24
+        public var sliderBackgroundColor : UIColor = .init(white: 1, alpha: 0.2)
         
         public var filterCellCornerRadius : CGFloat = 12
         public var selectedCellBorderColor : UIColor = .white
@@ -223,6 +242,7 @@ extension ShopLiveShortformEditor {
         public var confirmButtonCornerRadius : CGFloat = 20
         public var confirmButtonBackgroundColor : UIColor = .white
         public var confirmButtonTextColor : UIColor =  .black
+        public var confirmButtonTextFont : UIFont = .set(size: 16, weight: ._600)
     }
     
     public class EditorCoverPickerConfig {
@@ -239,8 +259,12 @@ extension ShopLiveShortformEditor {
         public var confirmButtonTextColor : UIColor = .black
         public var confirmButtonCornerRadius : CGFloat = 20
         
-        public var thumbnailSliderCornerRadius : CGFloat = 8
-        public var thumbnailSliderThumbViewBorderColor : UIColor = .white
+        public var sliderCornerRadius : CGFloat = 8
+        public var sliderThumbCornerRadius : CGFloat = 8
+        public var sliderThumbColor : UIColor = .white
+        
+        
+        public var cropColor : UIColor = .white
         
         public var cameraRollButtonBackgroundColor : UIColor = .white
         public var cameraRollButtonTextColor : UIColor = .black

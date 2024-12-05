@@ -39,7 +39,6 @@ class SLTimeTrimTimeIndicator : UIView, SLReactor {
     lazy private var lineView : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
         view.layer.cornerRadius = timeIndicatorCornerRadius
         return view
     }()
@@ -56,9 +55,10 @@ class SLTimeTrimTimeIndicator : UIView, SLReactor {
     
     private var animator : UIViewPropertyAnimator?
     
-    init(frame : CGRect,timeIndicatorCornerRadius : CGFloat) {
+    init(frame : CGRect,timeIndicatorCornerRadius : CGFloat,timeIndicatorbackgroundColor : UIColor) {
         self.timeIndicatorCornerRadius = timeIndicatorCornerRadius
         super.init(frame: frame)
+        self.lineView.backgroundColor = backgroundColor
         setLayout()
         addPangesture()
     }

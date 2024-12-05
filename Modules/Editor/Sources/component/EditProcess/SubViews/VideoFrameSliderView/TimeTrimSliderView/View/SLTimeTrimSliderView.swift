@@ -47,7 +47,11 @@ class SLTimeTrimSliderView : UIView, SLReactor {
     let frameSliderView : SLVideoFrameSliderView
     
     lazy private var handleView : SLVideoEditorSliderHandleView2 = {
-        let view = SLVideoEditorSliderHandleView2(frame: .zero,timeIndicatorCornerRadius : timeIndicatorCornerRadius)
+        let view = SLVideoEditorSliderHandleView2(frame: .zero,timeIndicatorCornerRadius : timeIndicatorCornerRadius,
+                                                  handleCornerRadius: handleCornerRadius,
+                                                  handleBackgroundColor: handleBackgroundColor,
+                                                  handleBarColor: handleBarColor,
+                                                  timeIndicatorbackgroundColor : timeIndicatorbackgroundColor)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -55,15 +59,29 @@ class SLTimeTrimSliderView : UIView, SLReactor {
     
     var resultHandler: ((Result) -> ())?
     private var timeIndicatorCornerRadius : CGFloat = 0
+    private var timeIndicatorbackgroundColor : UIColor = .white
+    private var handleCornerRadius : CGFloat = 4
+    private var handleBackgroundColor : UIColor = .white
+    private var handleBarColor : UIColor = .white
+    
     private let reactor = SLTimeTrimeSliderReactor()
     
-    init(videoUrl : URL,timeIndicatorCornerRadius : CGFloat) {
+    init(videoUrl : URL,
+         timeIndicatorCornerRadius : CGFloat,
+         timeIndicatorbackgroundColor: UIColor,
+         handleCornerRadius : CGFloat,
+         handleBackgroundColor : UIColor,
+         handleBarColor : UIColor ) {
+        self.timeIndicatorbackgroundColor = timeIndicatorbackgroundColor
         self.timeIndicatorCornerRadius = timeIndicatorCornerRadius
         self.frameSliderView = SLVideoFrameSliderView()
         frameSliderView.action( .setVideoUrl(videoUrl) )
         frameSliderView.action( .setVideoTrimMode(.timeTrim) )
         frameSliderView.action( .initialize )
         super.init(frame: .zero)
+        self.handleCornerRadius = handleCornerRadius
+        self.handleBackgroundColor = handleBackgroundColor
+        self.handleBarColor = handleBarColor
         self.backgroundColor = .clear
         bindReactor()
         bindHandleView()

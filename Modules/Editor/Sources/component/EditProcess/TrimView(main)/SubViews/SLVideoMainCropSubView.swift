@@ -13,7 +13,7 @@ import ShopliveSDKCommon
 
 
 class SLVideoMainCropSubView : UIView, SLReactor {
-    private let design = ShopLiveShortformEditor.EditorSpeedConfig.global
+    private let design = ShopLiveShortformEditor.EditorCropConfig.global
     
     private var bottomBar : UIView = {
         let view = UIView()
@@ -41,7 +41,7 @@ class SLVideoMainCropSubView : UIView, SLReactor {
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = design.confirmButtonBackgroundColor
         btn.setTitleColor(design.confirmButtonTextColor, for: .normal)
-        btn.titleLabel?.font = .set(size: 16, weight: ._600)
+        btn.titleLabel?.font = design.confirmButtonTextFont
         btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Volume.Btn.Confirm.shoplive, for: .normal)
         btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true

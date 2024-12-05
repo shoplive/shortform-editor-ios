@@ -12,6 +12,16 @@ class SLDimView: UIView {
     
     private var maskRect: CGRect = .zero
     
+    private var borderColor : UIColor = .white
+    init(borderColor : UIColor ) {
+        super.init(frame: .zero)
+        self.borderColor = borderColor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func draw(_ rect: CGRect) {
         let rBounds = self.bounds
         let context = UIGraphicsGetCurrentContext()
@@ -19,7 +29,7 @@ class SLDimView: UIView {
         context?.setFillColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.4)
         context?.fill([rBounds])
         
-        context?.setStrokeColor(UIColor.white.cgColor)
+        context?.setStrokeColor(borderColor.cgColor)
         context?.setLineWidth(4)
         context?.move(to: CGPoint(x: maskRect.origin.x, y: maskRect.origin.y))
         context?.addLine(to: CGPoint(x: maskRect.origin.x + maskRect.size.width, y: maskRect.origin.y))

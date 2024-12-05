@@ -364,12 +364,14 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
 extension SLVideoEditorMainViewReactor : SLLoadingAlertControllerDelegate {
     func didCancelLoading() {
         let popUp = SLCustomAlertBox(title: ShopLiveShortformEditorSDKStrings.Editor.Alert.Encoding.Cancel.Title.shoplive, confirmTitle: nil, closeTitle: nil)
-        popUp.setBoxCornerRadius(cornerRadius: design.cancelPopupCornerRadius)
-        popUp.setButtonCornerRadius(cornerRadius: design.cancelPopupButtonCornerRadius)
-        popUp.setCloseButtonDesign(backgroundColor: design.cancelPopupCloseButtonBackgroundColor,
-                                   textColor: design.cancelPopupCloseButtonTextColor)
-        popUp.setConfirmButtonDesign(backgroundColor: design.cancelPopupConfirmButtonBackgroundColor,
-                                     textColor: design.cancelPopupConfirmButtonTextColor)
+        popUp.setBoxCornerRadius(cornerRadius: design.popupCornerRadius)
+        popUp.setButtonCornerRadius(cornerRadius: design.popupButtonCornerRadius)
+        popUp.setCloseButtonDesign(backgroundColor: design.popupCloseButtonBackgroundColor,
+                                   textColor: design.popupCloseButtonTextColor,
+                                   font: design.popupCloseButtonTextFont)
+        popUp.setConfirmButtonDesign(backgroundColor: design.popupConfirmButtonBackgroundColor,
+                                     textColor: design.popupConfirmButtonTextColor,
+                                     font: design.popupConfirmButtonTextFont)
         popUp.btnClickCallback = { [weak self] result in
             guard let self = self else { return }
             if result == .yes {

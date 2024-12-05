@@ -59,16 +59,16 @@ class SLVideoEditorMainViewController : UIViewController {
     lazy private var pageTitleLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .white
-        label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textAlignment = .center
-//        label.text = ShopLiveShortformEditorSDKStrings.Editor.Main.Page.title
         let shadow = NSShadow()
         shadow.shadowColor = UIColor.black
         shadow.shadowOffset = CGSize(width: 0, height: 2)
         shadow.shadowBlurRadius = 2
         let attributes: [NSAttributedString.Key: Any] = [
-            .shadow: shadow
+            .shadow: shadow,
+            .font : design.titleTextFont,
+            .foregroundColor : design.titleTextColor
+            
         ]
         label.attributedText = NSAttributedString(string: ShopLiveShortformEditorSDKStrings.Editor.Title.Video.Edit.shoplive, attributes: attributes)
         return label
@@ -81,6 +81,8 @@ class SLVideoEditorMainViewController : UIViewController {
         view.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         view.titleTextLabel.text = design.nextButtonTitle
         view.layer.cornerRadius = design.nextButtonCornerRadius
+        view.setBackgroundColor(color: design.nextButtonBackgroundColor)
+        view.setTitleFont(font: design.nextButtonTitleFont)
         view.clipsToBounds = true
         return view
     }()
@@ -134,7 +136,7 @@ class SLVideoEditorMainViewController : UIViewController {
     }()
     
     lazy private var filterPlayerView : ShopLiveFilterPlayer = {
-        let view = ShopLiveFilterPlayer()
+        let view = ShopLiveFilterPlayer(frame: .zero, cropGridViewColor: design.cropColor)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layerCornerRadius = design.videoPlayerCornerRadius
         return view
@@ -157,7 +159,12 @@ class SLVideoEditorMainViewController : UIViewController {
     }()
     
     private lazy var timeTrimSliderView : SLTimeTrimSliderView = {
-        let view = SLTimeTrimSliderView(videoUrl: reactor.getVideoUrl(), timeIndicatorCornerRadius: design.sliderIndicatorCornerRadius)
+        let view = SLTimeTrimSliderView(videoUrl: reactor.getVideoUrl(),
+                                        timeIndicatorCornerRadius: design.sliderIndicatorCornerRadius,
+                                        timeIndicatorbackgroundColor: design.sliderIndicatorColor,
+                                        handleCornerRadius: design.sliderHandleCornerRadius,
+                                        handleBackgroundColor: design.sliderHandleBackgroundColor,
+                                        handleBarColor: design.sliderHandleBarColor)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

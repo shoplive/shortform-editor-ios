@@ -71,7 +71,6 @@ class ShortsVideoPlayer2 : SLReactor {
     
 }
 extension ShortsVideoPlayer2 {
-    
     func configure(videoUrl : URL,preferredForwardBufferDuration: Double? = 2.5){
         if ShopliveMP4CachingManager.shared.isVideoMP4(url: videoUrl) {
             ShopliveMP4CachingManager.shared.downloadVideo(url: videoUrl) { [weak self] playerItem in

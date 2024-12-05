@@ -18,7 +18,9 @@ class SLVideoMainFilterSubView : UIView, SLReactor {
     
     
     lazy private var sliderView : SlCustomUISlider = {
-        let view = SlCustomUISlider(frame: .zero,thumbViewColor: design.sliderThumbViewColor, sliderCornerRadius: design.sliderCornerRaidus)
+        let view = SlCustomUISlider(frame: .zero,thumbViewColor: design.sliderThumbViewColor,
+                                    sliderCornerRadius: design.sliderCornerRaidus,
+                                    backgroundColor: design.sliderBackgroundColor)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isHidden = true
         view.action( .setMinValue(0) )
@@ -65,7 +67,7 @@ class SLVideoMainFilterSubView : UIView, SLReactor {
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = design.confirmButtonBackgroundColor
         btn.setTitleColor(design.confirmButtonTextColor, for: .normal)
-        btn.titleLabel?.font = .set(size: 16, weight: ._600)
+        btn.titleLabel?.font = design.confirmButtonTextFont
         btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Volume.Btn.Confirm.shoplive, for: .normal)
         btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true

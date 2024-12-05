@@ -44,8 +44,8 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
         case thumbViewOffsetChanged(offset : CGFloat)
     }
     
-    private var dimView : SLDimView = {
-        let dimView = SLDimView()
+    lazy private var dimView : SLDimView = {
+        let dimView = SLDimView(borderColor: handleBackgroundColor)
         dimView.translatesAutoresizingMaskIntoConstraints = false
         dimView.backgroundColor = .clear
         dimView.isUserInteractionEnabled = false
@@ -75,7 +75,9 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
     }()
     
     lazy private var timeIndicatorView : SLTimeTrimTimeIndicator = {
-        let view = SLTimeTrimTimeIndicator(frame: .zero, timeIndicatorCornerRadius: timeIndicatorCornerRadius)
+        let view = SLTimeTrimTimeIndicator(frame: .zero,
+                                           timeIndicatorCornerRadius: timeIndicatorCornerRadius,
+                                           timeIndicatorbackgroundColor : timeIndicatorbackgroundColor )
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isUserInteractionEnabled = true
         return view
@@ -90,18 +92,20 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
         return view
     }()
     
-    private lazy var leftHandle: UIImageView = {
-        let view = UIImageView()
+    private lazy var leftHandle: SLTimeTrimLeftHandleView = {
+        let view = SLTimeTrimLeftHandleView(frame: .zero, cornerRadius: self.handleCornerRadius,
+                                            backgroundColor: self.handleBackgroundColor,
+                                            handleBarColor: self.handleBarColor)
         view.translatesAutoresizingMaskIntoConstraints = true
-        view.image = ShopLiveShortformEditorSDKAsset.slEditorHandleLeft.image
         view.backgroundColor = .clear
         return view
     }()
     
-    private lazy var rightHandle: UIImageView = {
-        let view = UIImageView()
+    private lazy var rightHandle: SLTimeTrimRightHandleView = {
+        let view = SLTimeTrimRightHandleView(frame: .zero, cornerRadius: self.handleCornerRadius,
+                                             backgroundColor: self.handleBackgroundColor,
+                                             handleBarColor: self.handleBarColor)
         view.translatesAutoresizingMaskIntoConstraints = true
-        view.image = ShopLiveShortformEditorSDKAsset.slEditorHandleRight.image
         view.backgroundColor = .clear
         return view
     }()
@@ -143,15 +147,23 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
     private var playbackSpeed : CGFloat = 1.0
     
     private var handleInitializePosition: CGPoint = .zero
+    private var handleCornerRadius : CGFloat = 4
+    private var handleBackgroundColor : UIColor = .white
+    private var handleBarColor : UIColor = .black
     
     
     var resultHandler: ((Result) -> ())?
     private var timeIndicatorCornerRadius : CGFloat = 0
+    private var timeIndicatorbackgroundColor : UIColor = .white
     
     
-    init(frame: CGRect,timeIndicatorCornerRadius : CGFloat) {
+    init(frame: CGRect,timeIndicatorCornerRadius : CGFloat,handleCornerRadius : CGFloat,handleBackgroundColor : UIColor, handleBarColor : UIColor,timeIndicatorbackgroundColor : UIColor) {
         self.timeIndicatorCornerRadius = timeIndicatorCornerRadius
+        self.timeIndicatorbackgroundColor = timeIndicatorbackgroundColor
         super.init(frame: frame)
+        self.handleCornerRadius = handleCornerRadius
+        self.handleBackgroundColor = handleBackgroundColor
+        self.handleBarColor = handleBarColor
         self.backgroundColor = .clear
         setLayout()
         addGesture()

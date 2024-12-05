@@ -80,9 +80,9 @@ class SlCustomUISlider : UIView, SLReactor {
     private var isZeroAvailable : Bool = true
     
 
-    init(frame : CGRect, thumbViewColor : UIColor = .white, sliderCornerRadius : CGFloat = 24) {
+    init(frame : CGRect, thumbViewColor : UIColor = .white, sliderCornerRadius : CGFloat = 24,backgroundColor : UIColor) {
         super.init(frame: frame)
-        self.backgroundColor =  .init(white: 1, alpha: 0.2)
+        self.backgroundColor =  backgroundColor
         self.layer.cornerRadius = sliderCornerRadius
         self.thumbView.backgroundColor = thumbViewColor
         self.clipsToBounds = true

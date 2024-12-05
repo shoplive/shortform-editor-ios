@@ -267,6 +267,15 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
     
     private func openShopLiveEditorOnly(localUrl : URL) {
         guard let vc = self.vc else { return }
+        ShopLiveShortformEditor.EditorMainConfig.global.popupCornerRadius = 0
+        ShopLiveShortformEditor.EditorMainConfig.global.popupButtonCornerRadius = 0
+        
+        ShopLiveShortformEditor.EditorMainConfig.global.popupCloseButtonBackgroundColor = .blue
+        ShopLiveShortformEditor.EditorMainConfig.global.popupCloseButtonTextColor = .red
+        ShopLiveShortformEditor.EditorMainConfig.global.popupConfirmButtonBackgroundColor = .blue
+        ShopLiveShortformEditor.EditorMainConfig.global.popupConfirmButtonTextColor = .red
+        
+        
         let cropOption = ShopliveVideoEditorAspectRatio(width: OptionSettingModel.editorWidth,
                                                         height: OptionSettingModel.editorheight,
                                                         isFixed: OptionSettingModel.editorIsFixed)

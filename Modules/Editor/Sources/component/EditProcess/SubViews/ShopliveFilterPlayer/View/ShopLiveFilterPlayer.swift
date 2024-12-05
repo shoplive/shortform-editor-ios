@@ -110,7 +110,7 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
     }()
     
     private lazy var cropView : SLVideoEditorPlayerCropView = {
-        let view = SLVideoEditorPlayerCropView()
+        let view = SLVideoEditorPlayerCropView(cropGridViewColor: cropGridViewColor)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.delegate = self
         view.backgroundColor = .clear
@@ -124,6 +124,7 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
     private var videoFrameRecorder = ShopliveFilterSDKFrameRecorder()
     
     private let reactor = ShopLiveFilterPlayerReactor()
+    private var cropGridViewColor : UIColor = .white
     
     var layerCornerRadius : CGFloat {
         set {
@@ -136,27 +137,9 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
         }
     }
     
-    init(fileName : String, videoUrl : URL, videoSize : CGSize, centerCrop : Bool = false,isCropMode : Bool = true, isCropAvailable : Bool = true, mode : ShopLiveFilterPlayerReactor.Mode ) {
-        super.init(frame: .zero)
-        self.setLayout()
-        bindReactor()
-        reactor.action( .setMode(mode) )
-        reactor.action( .setIsCropMode(isCropMode) )
-        reactor.action( .setIsCropAvailable(isCropAvailable) )
-        reactor.action( .setIsCenterCrop(centerCrop) )
-        reactor.action( .setFileName(fileName) )
-        reactor.action( .setVideoUrl(videoUrl) )
-        reactor.action( .setVideoSize(videoSize) )
-        reactor.action( .setAVPlayer(videoPlayerDelegate.videoPlayer.avPlayer) )
-        reactor.action( .setUpFilterPlayer )
-        
-        playButton.addTarget(self, action: #selector(playBtnTapped(sender: )), for: .touchUpInside)
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCropView(sender: )))
-        cropView.addGestureRecognizer(tapGesture)
-    }
-    
-    override init(frame: CGRect) {
+    init(frame: CGRect, cropGridViewColor : UIColor) {
         super.init(frame: frame)
+        self.cropGridViewColor = cropGridViewColor
         self.setLayout()
         bindReactor()
         

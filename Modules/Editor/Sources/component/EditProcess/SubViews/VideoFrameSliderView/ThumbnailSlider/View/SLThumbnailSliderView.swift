@@ -36,7 +36,7 @@ class SLThumbnailSliderView : UIView,SLReactor {
     }()
     
     lazy private var handleView : SLThumbnailSliderHandleView = {
-        let view = SLThumbnailSliderHandleView(frame: .zero, borderColor: self.thumbViewBorderColor)
+        let view = SLThumbnailSliderHandleView(frame: .zero, borderColor: self.thumbViewBorderColor, cornerRadius: self.thumbViewCornerRadius)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -46,11 +46,13 @@ class SLThumbnailSliderView : UIView,SLReactor {
     private let reactor = SLThumbnailSliderReactor()
     private var containerCornerRadius : CGFloat = 0
     private var thumbViewBorderColor : UIColor = .white
+    private var thumbViewCornerRadius : CGFloat = 8
     
-    init(containerCornerRadius : CGFloat, thumbViewBorderColor : UIColor) {
+    init(containerCornerRadius : CGFloat, thumbViewBorderColor : UIColor,thumbviewCornerRadius : CGFloat) {
         self.frameSliderView = SLVideoFrameSliderView()
         self.containerCornerRadius = containerCornerRadius
         self.thumbViewBorderColor = thumbViewBorderColor
+        self.thumbViewCornerRadius = thumbviewCornerRadius
         super.init(frame: .zero)
         self.backgroundColor = .clear
         frameSliderView.layer.cornerRadius = 8

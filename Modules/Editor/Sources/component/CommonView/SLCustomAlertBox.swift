@@ -103,14 +103,16 @@ class SLCustomAlertBox : UIView {
         self.closeBtn.layer.cornerRadius = cornerRadius
     }
     
-    func setCloseButtonDesign(backgroundColor : UIColor, textColor : UIColor) {
+    func setCloseButtonDesign(backgroundColor : UIColor, textColor : UIColor, font : UIFont) {
         self.closeBtn.backgroundColor = backgroundColor
         self.closeBtn.setTitleColor(textColor, for: .normal)
+        self.closeBtn.titleLabel?.font = font
     }
     
-    func setConfirmButtonDesign(backgroundColor : UIColor, textColor : UIColor) {
+    func setConfirmButtonDesign(backgroundColor : UIColor, textColor : UIColor,font : UIFont) {
         self.confirmBtn.backgroundColor = backgroundColor
         self.confirmBtn.setTitleColor(textColor, for: .normal)
+        self.confirmBtn.titleLabel?.font = font
     }
 }
 extension SLCustomAlertBox {

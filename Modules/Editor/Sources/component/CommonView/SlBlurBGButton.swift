@@ -21,7 +21,6 @@ class SlBlurBGButton : UIButton {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.font = .systemFont(ofSize: 14, weight: .medium)
         label.textAlignment = .center
         return label
     }()
@@ -64,6 +63,19 @@ class SlBlurBGButton : UIButton {
     
     required init?(coder : NSCoder) {
         fatalError()
+    }
+    
+    func setBackgroundColor(color : UIColor) {
+        if color != .clear {
+            normalBlurEffectView.isHidden = true
+            selectedBlurEffectView.isHidden = true
+        }
+        self.backgroundColor = color
+    }
+    
+    func setTitleFont(font : UIFont) {
+        self.titleTextLabel.font = font
+        self.titleTextLabel.adjustsFontSizeToFitWidth = true
     }
     
     override func setImage(_ image: UIImage?, for state: UIControl.State) {

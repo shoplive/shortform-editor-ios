@@ -76,14 +76,14 @@ class SLVideoThumbnailViewController : UIViewController {
     }()
     
     lazy private var playerView : ShopLiveFilterPlayer = {
-        let player = ShopLiveFilterPlayer()
+        let player = ShopLiveFilterPlayer(frame: .zero, cropGridViewColor: .white)
         player.translatesAutoresizingMaskIntoConstraints = false
         player.layerCornerRadius = design.videoPlayerCornerRadius
         return player
     }()
     
     lazy private var pickerSelectedThumbnailImageView : SLCropableUIImageView = {
-        let imageView = SLCropableUIImageView()
+        let imageView = SLCropableUIImageView(cropGridViewColor: design.cropColor)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.action( .setClipsToBound(true) )
         imageView.action( .setCornerRadius(design.videoPlayerCornerRadius))
@@ -102,7 +102,7 @@ class SLVideoThumbnailViewController : UIViewController {
     }()
     
     private lazy var thumbnailSliderView: SLThumbnailSliderView = {
-        let view = SLThumbnailSliderView(containerCornerRadius: design.thumbnailSliderCornerRadius,thumbViewBorderColor: design.thumbnailSliderThumbViewBorderColor) //videoUrl: reactor.getVideoUrl(),
+        let view = SLThumbnailSliderView(containerCornerRadius: design.sliderCornerRadius,thumbViewBorderColor: design.sliderThumbColor, thumbviewCornerRadius: design.sliderThumbCornerRadius ) //videoUrl: reactor.getVideoUrl(),
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
