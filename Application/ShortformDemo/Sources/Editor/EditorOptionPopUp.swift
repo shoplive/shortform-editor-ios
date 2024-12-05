@@ -136,11 +136,6 @@ class EditorOptionPopUp : UIView {
         mainConfig.popupCornerRadius = 4
         mainConfig.popupButtonCornerRadius = 4
 
-        mainConfig.popupCloseButtonBackgroundColor = .blue
-        mainConfig.popupCloseButtonTextColor = .red
-        mainConfig.popupConfirmButtonBackgroundColor = .blue
-        mainConfig.popupConfirmButtonTextColor = .red
-        
         let volumeConfig = ShopLiveShortformEditor.EditorVolumeConfig.global
         volumeConfig.confirmButtonBackgroundColor = .white
         volumeConfig.confirmButtonCornerRadius = 4
@@ -154,8 +149,6 @@ class EditorOptionPopUp : UIView {
         coverPickerConfig.confirmButtonCornerRadius = 4
         coverPickerConfig.confirmButtonBackgroundColor = .white
         coverPickerConfig.cameraRollButtonCornerRadius = 4
-        
-        
     }
     
     required init?(coder : NSCoder) {

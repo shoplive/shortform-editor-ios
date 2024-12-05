@@ -19,9 +19,7 @@ public protocol ShopLiveCommonDelegate : NSObject {
     static var baseURLGenerator: ((HTTPVersion) -> String)?
     
     private static var delegate : [ShopLiveCommonDelegate] = []
-    
-    
-    
+   
     private static var _auth : ShopLiveCommonAuth?
     private static var auth : ShopLiveCommonAuth? {
         get {
@@ -49,7 +47,6 @@ public protocol ShopLiveCommonDelegate : NSObject {
     public static func removeDelegate(delegate : ShopLiveCommonDelegate) {
         Self.delegate.removeAll(where: { $0.identifier == delegate.identifier })
     }
-    
 }
 //MARK: - common Auth
 extension ShopLiveCommon {
@@ -218,20 +215,19 @@ extension ShopLiveCommon {
     }
 }
 public extension ShopLiveCommon {
-    
     @objc static var sdkVersion: String {
-        return "1.6.1"
+        return "1.6.1.1"
     }
     
     @objc static var playerSdkVersion : String {
-        return "1.6.1"
+        return "1.6.1.1"
     }
     
     @objc static var shortformSdkVersion : String {
-        return "1.6.1"
+        return "1.6.1.1"
     }
     
     @objc static var videoEditorSdkversion : String {
-        return "1.6.1"
+        return "1.6.1.1"
     }
 }
