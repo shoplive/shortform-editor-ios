@@ -20,7 +20,6 @@ class SlBlurBGButton : UIButton {
     let titleTextLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .white
         label.textAlignment = .center
         return label
     }()

@@ -128,6 +128,27 @@ class EditorOptionPopUp : UIView {
         mediaPickerVideo.addTarget(self, action: #selector(mediaPickerVideotapped(sender: )), for: .touchUpInside)
         mediaPickerImage.addTarget(self, action: #selector(mediaPickerImagetapped(sender: )), for: .touchUpInside)
         picker.delegate = self
+        
+        let mainConfig = ShopLiveShortformEditor.EditorMainConfig.global
+        mainConfig.nextButtonBackgroundColor = .white
+        mainConfig.nextButtonCornerRadius = 4
+        mainConfig.nextButtonTitleColor = .black
+        
+        
+        let volumeConfig = ShopLiveShortformEditor.EditorVolumeConfig.global
+        volumeConfig.confirmButtonBackgroundColor = .white
+        volumeConfig.confirmButtonCornerRadius = 4
+        volumeConfig.sliderCornerRadius = 4
+        
+        let coverPickerConfig = ShopLiveShortformEditor.EditorCoverPickerConfig.global
+        coverPickerConfig.cropColor = .blue
+        coverPickerConfig.sliderThumbColor = .blue
+        coverPickerConfig.sliderCornerRadius = 4
+        coverPickerConfig.sliderThumbCornerRadius = 4
+        coverPickerConfig.confirmButtonCornerRadius = 4
+        coverPickerConfig.confirmButtonBackgroundColor = .white
+        coverPickerConfig.cameraRollButtonCornerRadius = 4
+        
     }
     
     required init?(coder : NSCoder) {
@@ -302,6 +323,8 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
             .build(data: .init(videoUrl: localUrl,isCreatedShortform: true), completion: { [weak self] editorViewController in
                 guard let self = self else { return }
                 let nav = UINavigationController(rootViewController: editorViewController)
+                nav.navigationBar.isHidden = true
+                nav.modalPresentationStyle = .fullScreen
                 self.vc?.editorViewController = editorViewController
                 self.vc?.present(nav, animated: true)
             })
@@ -323,6 +346,8 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
             .build(data: .init(videoUrl: videoUrl,shortsId: nil), completion: { [weak self] coverPickerViewController in
                 guard let self = self else { return }
                 let nav = UINavigationController(rootViewController: coverPickerViewController)
+                nav.navigationBar.isHidden = true
+                nav.modalPresentationStyle = .fullScreen
                 self.vc?.coverPickerViewController = nav
                 self.vc?.present(nav, animated: true)
             })

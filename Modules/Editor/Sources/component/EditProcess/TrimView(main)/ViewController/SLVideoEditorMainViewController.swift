@@ -80,6 +80,7 @@ class SLVideoEditorMainViewController : UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         view.titleTextLabel.text = design.nextButtonTitle
+        view.titleTextLabel.textColor = design.nextButtonTitleColor
         view.layer.cornerRadius = design.nextButtonCornerRadius
         view.setBackgroundColor(color: design.nextButtonBackgroundColor)
         view.setTitleFont(font: design.nextButtonTitleFont)

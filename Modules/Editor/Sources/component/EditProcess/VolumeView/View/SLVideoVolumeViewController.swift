@@ -99,7 +99,9 @@ class SLVideoVolumeViewController : UIViewController {
     
     
     lazy private var sliderView : SlCustomUISlider = {
-        let view = SlCustomUISlider(frame: .zero,thumbViewColor: design.sliderThumbViewColor, sliderCornerRadius: design.sliderCornerRaidus)
+        let view = SlCustomUISlider(frame: .zero,thumbViewColor: design.sliderThumbViewColor,
+                                    sliderCornerRadius: design.sliderCornerRadius,
+                                    backgroundColor: design.sliderBackgroundColor)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.action( .setMinValue(0) )
         view.action( .setMaxValue(100) )

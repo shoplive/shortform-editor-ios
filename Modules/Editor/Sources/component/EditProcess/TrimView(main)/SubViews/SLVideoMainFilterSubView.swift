@@ -19,7 +19,7 @@ class SLVideoMainFilterSubView : UIView, SLReactor {
     
     lazy private var sliderView : SlCustomUISlider = {
         let view = SlCustomUISlider(frame: .zero,thumbViewColor: design.sliderThumbViewColor,
-                                    sliderCornerRadius: design.sliderCornerRaidus,
+                                    sliderCornerRadius: design.sliderCornerRadius,
                                     backgroundColor: design.sliderBackgroundColor)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isHidden = true

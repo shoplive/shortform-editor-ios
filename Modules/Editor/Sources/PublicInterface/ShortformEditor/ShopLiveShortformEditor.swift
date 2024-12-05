@@ -139,7 +139,7 @@ extension ShopLiveShortformEditor {
         
         public var videoPlayerCornerRadius : CGFloat = 24
         
-        public var titleTextColor : UIColor = .magenta // .white
+        public var titleTextColor : UIColor = .white
         public var titleTextFont : UIFont = .systemFont(ofSize: 16, weight: .medium)
         
         public var backButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slBackArrow.image.withRenderingMode(.alwaysTemplate)
@@ -155,6 +155,7 @@ extension ShopLiveShortformEditor {
         public var nextButtonTitle : String = ShopLiveShortformEditorSDKStrings.Editor.Main.Btn.Next.shoplive
         public var nextButtonCornerRadius : CGFloat = 20
         public var nextButtonBackgroundColor : UIColor = .clear
+        public var nextButtonTitleColor : UIColor = .white
         public var nextButtonTitleFont : UIFont = .systemFont(ofSize: 14, weight: .medium)
         
         

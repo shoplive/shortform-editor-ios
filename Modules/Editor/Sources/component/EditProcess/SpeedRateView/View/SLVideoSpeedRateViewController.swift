@@ -116,7 +116,9 @@ class SLVideoSpeedRateViewController : UIViewController {
     
     
     lazy private var sliderView : SlCustomUISlider = {
-        let view = SlCustomUISlider(frame: .zero,thumbViewColor: design.sliderThumbViewColor, sliderCornerRadius: design.sliderCornerRaidus)
+        let view = SlCustomUISlider(frame: .zero,thumbViewColor: design.sliderThumbViewColor,
+                                    sliderCornerRadius: design.sliderCornerRadius,
+                                    backgroundColor: design.sliderBackgroundColor)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.action( .setMinValue(0.1) )
         view.action( .setMaxValue(2.1) )
