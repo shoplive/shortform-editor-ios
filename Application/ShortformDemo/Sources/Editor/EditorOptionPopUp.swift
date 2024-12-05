@@ -133,7 +133,13 @@ class EditorOptionPopUp : UIView {
         mainConfig.nextButtonBackgroundColor = .white
         mainConfig.nextButtonCornerRadius = 4
         mainConfig.nextButtonTitleColor = .black
-        
+        mainConfig.popupCornerRadius = 4
+        mainConfig.popupButtonCornerRadius = 4
+
+        mainConfig.popupCloseButtonBackgroundColor = .blue
+        mainConfig.popupCloseButtonTextColor = .red
+        mainConfig.popupConfirmButtonBackgroundColor = .blue
+        mainConfig.popupConfirmButtonTextColor = .red
         
         let volumeConfig = ShopLiveShortformEditor.EditorVolumeConfig.global
         volumeConfig.confirmButtonBackgroundColor = .white
@@ -148,6 +154,7 @@ class EditorOptionPopUp : UIView {
         coverPickerConfig.confirmButtonCornerRadius = 4
         coverPickerConfig.confirmButtonBackgroundColor = .white
         coverPickerConfig.cameraRollButtonCornerRadius = 4
+        
         
     }
     
@@ -288,13 +295,7 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
     
     private func openShopLiveEditorOnly(localUrl : URL) {
         guard let vc = self.vc else { return }
-        ShopLiveShortformEditor.EditorMainConfig.global.popupCornerRadius = 0
-        ShopLiveShortformEditor.EditorMainConfig.global.popupButtonCornerRadius = 0
-        
-        ShopLiveShortformEditor.EditorMainConfig.global.popupCloseButtonBackgroundColor = .blue
-        ShopLiveShortformEditor.EditorMainConfig.global.popupCloseButtonTextColor = .red
-        ShopLiveShortformEditor.EditorMainConfig.global.popupConfirmButtonBackgroundColor = .blue
-        ShopLiveShortformEditor.EditorMainConfig.global.popupConfirmButtonTextColor = .red
+       
         
         
         let cropOption = ShopliveVideoEditorAspectRatio(width: OptionSettingModel.editorWidth,

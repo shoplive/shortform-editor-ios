@@ -257,7 +257,12 @@ extension ViewController : ShopLiveShortformEditorDelegate {
     
     func onShopLiveShortformEditorOnEvent(name: String, payload: [String : Any]?) {
         ShopLiveLogger.tempLog("[EVENTTRACE] name : \(name) payload :  \(payload)")
-        self.showToastOnWindow(message: name)
+        if let payload = payload {
+            self.showToastOnWindow(message: name + "\(payload)")
+        }
+        else {
+            self.showToastOnWindow(message: name)
+        }
     }
     
 }
@@ -296,17 +301,27 @@ extension ViewController : ShopLiveVideoEditorDelegate {
     
     func onShopLiveVideoEditorOnEvent(editor : UIViewController?,name: String, payload: [String : Any]?) {
         ShopLiveLogger.tempLog("[EVENTTRACE] name : \(name) payload :  \(payload)")
-        self.showToastOnWindow(message: name)
+        if let payload = payload {
+            self.showToastOnWindow(message: name + "\(payload)")
+        }
+        else {
+            self.showToastOnWindow(message: name)
+        }
     }
-    
 }
 extension ViewController : ShopLiveMediaPickerDelegate {
     func onShopLiveMediaPickerCancelled(picker : UIViewController?) {
         print("onShopLiveMediaPickerCancelled")
+        if let nav = picker?.navigationController {
+            nav.dismiss(animated: true)
+        }
     }
     
     func onShopLiveMediaPickerDidPickVideo(picker : UIViewController?,absoluteUrl: URL, relativeUrl: URL) {
         print("Picker Video Selected absoluteUrl: \(absoluteUrl) relativeUrl : \(relativeUrl)")
+        if let nav = picker?.navigationController {
+            nav.dismiss(animated: true)
+        }
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.videoEditorResultPopUp.setVideoPath(videoPath: absoluteUrl.absoluteString)
@@ -316,14 +331,23 @@ extension ViewController : ShopLiveMediaPickerDelegate {
     
     func onShopLiveMediaPickerDidPickImage(picker : UIViewController?,imageUrl: URL) {
         print("Picker Image Selected image: \(imageUrl)")
+        if let nav = picker?.navigationController {
+            nav.dismiss(animated: true)
+        }
         let image = UIImage(contentsOfFile: imageUrl.path)
         coverPickerImageResultPopUp.setResultImage(image: image)
         coverPickerImageResultPopUp.alpha = 1
+        
     }
     
     func onShopLiveMediaPickerOnEvent(picker : UIViewController?,name: String, payload: [String : Any]?) {
         ShopLiveLogger.tempLog("[EVENTTRACE] name : \(name) payload :  \(payload)")
-        self.showToastOnWindow(message: name)
+        if let payload = payload {
+            self.showToastOnWindow(message: name + "\(payload)")
+        }
+        else {
+            self.showToastOnWindow(message: name)
+        }
     }
 }
 extension ViewController : ShopLiveCoverPickerDelegate {
@@ -363,7 +387,12 @@ extension ViewController : ShopLiveCoverPickerDelegate {
     
     func onShopLiveCoverPickerOnEvent(picker : UIViewController?, name: String, payload: [String : Any]?) {
         ShopLiveLogger.tempLog("[EVENTTRACE] name : \(name) payload :  \(payload)")
-        self.showToastOnWindow(message: name)
+        if let payload = payload {
+            self.showToastOnWindow(message: name + "\(payload)")
+        }
+        else {
+            self.showToastOnWindow(message: name)
+        }
     }
     
     private func showToastOnWindow(message : String) {

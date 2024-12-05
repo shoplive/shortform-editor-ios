@@ -100,6 +100,7 @@ extension V1ShortsCollectionViewModel {
                         return
                     }
                     self.shortsCollection = response
+                   
                     if let maxCount = self.getPreviewPlayMaxCount() {
                         self.appendShortsListData(Array((response.shortsList ?? []).prefix(maxCount)) ,reset: reset)
                     }

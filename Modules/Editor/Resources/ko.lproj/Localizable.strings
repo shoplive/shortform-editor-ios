@@ -1,13 +1,14 @@
 //PhotoPicker
 
 
+"editor.photo.picker.camera.cell.btn.title" = "카메라";
 "editor.header.headline.playback.shoplive" = "배속";
 
 
 "editor.title.video.upload.shoplive" = "세부 정보 추가";
 "editor.title.shortform.data.edit.shoplive" = "편집";
 
-"editor.title.crop.shoplive" = "크롭";
+"editor.title.crop.shoplive" = "자르기";
 "editor.title.filter.shoplive" = "필터";
 
 
@@ -101,3 +102,9 @@
 "editor.filter.bright.shoplive" = "밝게";
 "editor.filter.clear.shoplive" = "선명하게";
 "editor.filter.warm.shoplive" = "따뜻하게";
+
+//Alert
+"alert.permission.denied.title" = "권한 요청";
+"alert.permission.denied.description" = "비디오를 업로드하려면 카메라 및 사진 라이브러리 사용 권한을 허용해주세요";
+"alert.permission.denied.cancel" = "취소";
+"alert.permission.denied.setting" = "설정";

@@ -13,6 +13,23 @@ import Foundation
 // swiftlint:disable nesting type_body_length type_name
 public enum ShopLiveShortformEditorSDKStrings: Sendable {
 
+  public enum Alert: Sendable {
+
+    public enum Permission: Sendable {
+
+      public enum Denied: Sendable {
+      /// Cancel
+        public static let cancel = ShopLiveShortformEditorSDKStrings.tr("Localizable", "alert.permission.denied.cancel")
+        /// Please grant camera and photo library usage permission to upload videos
+        public static let description = ShopLiveShortformEditorSDKStrings.tr("Localizable", "alert.permission.denied.description")
+        /// Setting
+        public static let setting = ShopLiveShortformEditorSDKStrings.tr("Localizable", "alert.permission.denied.setting")
+        /// Permission request
+        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "alert.permission.denied.title")
+      }
+    }
+  }
+
   public enum Editor: Sendable {
 
     public enum Alert: Sendable {

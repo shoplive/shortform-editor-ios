@@ -62,7 +62,6 @@ extension SLVideoInfo {
         }
         else {
             return "\(Int(resolution)):-1"
-            
         }
     }
     
@@ -243,6 +242,15 @@ class SLVideoConverter : NSObject {
     private(set) var inConvert: Bool = false
     private var didForceCancel : Bool = false
     
+    private var ffmpegConverQueue2 = OperationQueue()
+    private var semaphoreLock : DispatchSemaphore = .init(value: 0)
+    
+    override init(){
+        super.init()
+        ffmpegConverQueue2.maxConcurrentOperationCount = 1
+        ffmpegConverQueue2.qualityOfService = .background
+    }
+    
     func convertVideo(videoInfo: SLVideoInfo, completion: @escaping (SLVideoConvertResult) -> Void) {
         convertCompletion = completion
         self.setDeviceIdleTimer(true)
@@ -294,52 +302,66 @@ class SLVideoConverter : NSObject {
         }
     }
 
-    private var ffmpegSession: FFmpegSession?
+    private var ffmpegSessions : [FFmpegSession] = []
+    
     func cancelConvert() {
-        inConvert = false
-        didForceCancel = true
-        if let session = ffmpegSession {
-            FFmpegKit.cancel(session.getId())
+        ffmpegConverQueue2.addOperation { [weak self] in
+            guard let self = self else { return }
+            self.inConvert = false
+            self.didForceCancel = true
+            FFmpegKit.cancel()
+            self.ffmpegSessions.forEach { session in
+                FFmpegKit.cancel(session.getId())
+                session.cancel()
+            }
+            self.ffmpegSessions = []
+            self.semaphoreLock.wait()
         }
-        FFmpegKit.cancel()
-        ffmpegSession?.cancel()
-        ffmpegSession = nil
-       
     }
     
     private func runFfmpegCommand(command: String, completion: @escaping (SLVideoFFMpegExecuteResult) -> Void) {
-        ShopLiveLogger.tempLog("ffmpeg command \(command)")
-        self.delegate?.updateConvertPercent(percent: Int(0))
-        FFmpegKit.executeAsync(command) { [weak self] session in
-            self?.ffmpegSession = session
-            guard let returnCode = session?.getReturnCode() else { return }
-            
-            if ReturnCode.isSuccess(returnCode) {
-                completion(.Success(()))
-            } else if ReturnCode.isCancel(returnCode) {
-                completion(.Failed(error: SLVideoConvertError.cancel))
-            } else {
-                completion(.Failed(error: SLVideoConvertError.error))
+        ffmpegConverQueue2.addOperation { [weak self] in
+            guard let self = self else { return }
+            self.delegate?.updateConvertPercent(percent: Int(0))
+            ShopLiveLogger.tempLog("ffmpeg command \(command)")
+            let session = FFmpegKit.executeAsync(command) { [weak self] session in
+                guard let self = self else { return }
+                if let session = session {
+                    if session.getState() == .completed {
+                        semaphoreLock.signal()
+                    }
+                }
+                guard let returnCode = session?.getReturnCode() else { return }
+                if ReturnCode.isSuccess(returnCode) {
+                    completion(.Success(()))
+                } else if ReturnCode.isCancel(returnCode) {
+                    completion(.Failed(error: SLVideoConvertError.cancel))
+                } else {
+                    completion(.Failed(error: SLVideoConvertError.error))
+                }
+            } withLogCallback: { log in
+                ShopLiveLogger.tempLog(log?.getMessage() ?? "")
+            } withStatisticsCallback: { [weak self] statistics in
+                guard let self = self,
+                      let convertTime = statistics?.getTime(),
+                      let totalDuration = self.videoInfo?.totalDuration else { return }
+                
+                let total = totalDuration * 1000
+                let current: Float64 = Float64(convertTime)
+                let percent = (current / total) * 100
+                
+                if percent > Double(Int.max) {
+                    self.delegate?.updateConvertPercent(percent: 100)
+                }
+                else {
+                    self.delegate?.updateConvertPercent(percent: min(100,Int(percent)))
+                }
             }
-        } withLogCallback: { log in
-            ShopLiveLogger.tempLog(log?.getMessage() ?? "")
-        } withStatisticsCallback: { [weak self] statistics in
-            guard let self = self,
-                  let convertTime = statistics?.getTime(),
-                  let totalDuration = self.videoInfo?.totalDuration else { return }
             
-            let total = totalDuration * 1000
-            let current: Float64 = Float64(convertTime)
-            let percent = (current / total) * 100
-            
-            if percent > Double(Int.max) {
-                self.delegate?.updateConvertPercent(percent: 100)
-            }
-            else {
-                self.delegate?.updateConvertPercent(percent: min(100,Int(percent)))
+            if let session = session {
+                self.ffmpegSessions.append(session)
             }
         }
-        
     }
     
     private func setDeviceIdleTimer(_ isEnabled : Bool) {

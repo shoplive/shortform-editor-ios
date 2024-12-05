@@ -87,7 +87,7 @@ class SLToastView: UIView {
     }
     
     func showToast() {
-        UIView.animate(withDuration: 0.2) { [weak self] in
+        UIView.animate(withDuration: 1) { [weak self] in
             self?.alpha = 1.0
         } completion: { [weak self] isFinished in
             self?.hideToast()

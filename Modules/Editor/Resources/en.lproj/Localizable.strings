@@ -183,3 +183,10 @@
 "editor.filter.bright.shoplive" = "Bright";
 "editor.filter.clear.shoplive" = "Clear";
 "editor.filter.warm.shoplive" = "Warm";
+
+//Alert
+"alert.permission.denied.title" = "Permission request";
+"alert.permission.denied.description" = "Please grant camera and photo library usage permission to upload videos";
+"alert.permission.denied.cancel" = "Cancel";
+"alert.permission.denied.setting" = "Setting";
+

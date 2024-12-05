@@ -90,7 +90,6 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         case updateLoadingPercent(String)
         case showLoadingView
         case cancelLoading
-        case didFinishLoading
         case requestPopView
         
         case uploadSuccess(result : ShopLiveEditorResultInternalData?)
@@ -361,8 +360,9 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
         onMainQueueResultHandler?( .updateLoadingPercent("\(value)%") )
     }
 }
-extension SLVideoEditorMainViewReactor : SLLoadingAlertControllerDelegate {
-    func didCancelLoading() {
+extension SLVideoEditorMainViewReactor : SLLoadingAlertControllerDelegate2 {
+    
+    func didTapBackground() {
         let popUp = SLCustomAlertBox(title: ShopLiveShortformEditorSDKStrings.Editor.Alert.Encoding.Cancel.Title.shoplive, confirmTitle: nil, closeTitle: nil)
         popUp.setBoxCornerRadius(cornerRadius: design.popupCornerRadius)
         popUp.setButtonCornerRadius(cornerRadius: design.popupButtonCornerRadius)
@@ -381,15 +381,12 @@ extension SLVideoEditorMainViewReactor : SLLoadingAlertControllerDelegate {
                 popUp.removeFromSuperview()
                 resultHandler?( .showCancelToast )
             }
-            else {
-                self.onMainQueueResultHandler?( .showLoadingView )
-            }
         }
         onMainQueueResultHandler?( .showPopUp(popUp) )
     }
     
     func didFinishLoading() {
-        resultHandler?( .didFinishLoading )
+        /** no - op */
     }
 }
 //MARK: - upload process
@@ -406,7 +403,7 @@ extension SLVideoEditorMainViewReactor {
                     break
                 case .failure(let error):
                     self.resultHandler?( .onError(error) )
-                    self.resultHandler?( .didFinishLoading )
+                    self.resultHandler?( .cancelLoading )
                 }
             }
         }
@@ -449,7 +446,7 @@ extension SLVideoEditorMainViewReactor {
                         self.callShortformRegisterAPI(videoId: data.videoID , imageUrl: data.thumbnailImageURL)
                     case .failure(let error):
                         self.resultHandler?( .onError(error) )
-                        self.resultHandler?( .didFinishLoading )
+                        self.resultHandler?( .cancelLoading )
                     }
                 }
         }
@@ -476,7 +473,7 @@ extension SLVideoEditorMainViewReactor {
                     self.resultHandler?( .onError(error) )
                     break
                 }
-                self.onMainQueueResultHandler?( .didFinishLoading )
+                self.onMainQueueResultHandler?( .cancelLoading )
             }
         }
     }

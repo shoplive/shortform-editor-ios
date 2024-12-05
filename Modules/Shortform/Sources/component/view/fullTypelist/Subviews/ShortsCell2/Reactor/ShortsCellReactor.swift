@@ -130,7 +130,6 @@ class ShortsCellReactor : NSObject, SLReactor {
     private var seekToOnInitial : ShortformCurrentTimeDTO?
     
     
-    
     //states
     private var shortsMode : ShortsMode = .detail
     private var viewProvidType : ViewProvideType = .window

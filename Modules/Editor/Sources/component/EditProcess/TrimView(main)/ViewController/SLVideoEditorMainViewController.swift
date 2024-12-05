@@ -199,8 +199,9 @@ class SLVideoEditorMainViewController : UIViewController {
     }()
     
     
-    private lazy var loadingProgress: SLLoadingAlertController = {
-        let vc = SLLoadingAlertController()
+    private lazy var loadingProgress: SLLoadingAlertController2 = {
+        let vc = SLLoadingAlertController2()
+        self.view.addSubview(vc.view)
         vc.useProgress = false
         vc.setLoadingText("loading...")
         vc.delegate = reactor
@@ -452,8 +453,6 @@ class SLVideoEditorMainViewController : UIViewController {
                     self.onReactorShowLoadingView()
                 case .cancelLoading:
                     self.onReactorCancelLoading()
-                case .didFinishLoading:
-                    self.onReactorDidFinishLoading()
                 case .updateLoadingPercent(let value):
                     self.onReactorUpdateLoadingPercent(value: value)
                 case .requestPopView:
@@ -570,29 +569,24 @@ class SLVideoEditorMainViewController : UIViewController {
     }
     
     private func onReactorShowCancelToast() {
-        
         self.animateToast(message: ShopLiveShortformEditorSDKStrings.Editor.Toast.Encoding.Canceled.shoplive)
     }
     
     private func onReactorShowPopUp(popUp: UIView) {
         popUp.frame = self.view.frame
         self.view.addSubview(popUp)
+        self.view.bringSubviewToFront(popUp)
     }
     
     private func onReactorShowLoadingView() {
         self.loadingProgress.modalPresentationStyle = .overFullScreen
         self.loadingProgress.setLoadingText("Loading...")
-        
-        guard self.loadingProgress.isBeingPresented == false else { return }
-        self.present(self.loadingProgress, animated: false)
+        self.loadingProgress.view.alpha = 1
+        self.view.bringSubviewToFront(self.loadingProgress.view)
     }
     
     private func onReactorCancelLoading() {
-        self.loadingProgress.cancelLoading = false
-    }
-    
-    private func onReactorDidFinishLoading() {
-        self.loadingProgress.finishLoading()
+        self.loadingProgress.cancelLoading()
     }
     
     private func onReactorUpdateLoadingPercent(value : String) {

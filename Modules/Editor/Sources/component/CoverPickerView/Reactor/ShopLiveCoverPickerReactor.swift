@@ -239,22 +239,6 @@ extension ShopLiveCoverPickerReactor : SLPhotosPickerViewControllerDelegate {
     }
     
     func photoPicker(picker: UIViewController, didSelectImage url: URL) {
-        
-    }
-    
-    func photoPickerOnEvent(picker: UIViewController, name: EventTrace, payload: [String : Any]?) {
-        
-    }
-    
-    func photoPickerOnEvent(name: EventTrace, payload: [String : Any]?) {
-        resultHandler?( .onEvent(name: name, payload: payload))
-    }
-    
-    func photoPicker(didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
-        
-    }
-    
-    func photoPicker(didSelectImage url: URL) {
         defer {
             self.currentMode = .photo
             resultHandler?( .dismissPhotoPicker )
@@ -266,6 +250,10 @@ extension ShopLiveCoverPickerReactor : SLPhotosPickerViewControllerDelegate {
         }
         catch(_) {
         }
+    }
+    
+    func photoPickerOnEvent(picker: UIViewController, name: EventTrace, payload: [String : Any]?) {
+        resultHandler?( .onEvent(name: name, payload: payload))
     }
     
     func photoPiker(onClose picker: UIViewController) {

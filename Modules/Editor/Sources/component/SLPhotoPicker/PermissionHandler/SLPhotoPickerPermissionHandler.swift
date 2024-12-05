@@ -146,14 +146,10 @@ extension SLPhotoPickerPermissionHandler {
     
     private func openAlertController() {
         let bundle = Bundle(for: type(of: self))
-        let title = "alert.permission.denied.title"
-            //.localizedString(bundle: bundle)
-        let message = "alert.permission.denied.description"
-            //.localizedString(bundle: bundle)
-        let settingBtn = "alert.permission.denied.setting"
-            //.localizedString(bundle: bundle)
-        let cancelBtn = "alert.permission.denied.cancel"
-            //.localizedString(bundle: bundle)
+        let title = ShopLiveShortformEditorSDKStrings.Alert.Permission.Denied.title
+        let message = ShopLiveShortformEditorSDKStrings.Alert.Permission.Denied.description
+        let settingBtn = ShopLiveShortformEditorSDKStrings.Alert.Permission.Denied.setting
+        let cancelBtn = ShopLiveShortformEditorSDKStrings.Alert.Permission.Denied.cancel
         
         let alertController = UIAlertController (title: title, message: message, preferredStyle: .alert)
         

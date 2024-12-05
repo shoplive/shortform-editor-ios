@@ -81,7 +81,6 @@
 "editor.toast.shortform.creation.failed.shoplive" = "ショート動画の作成に失敗しました。";
 "editor.toast.upload.cancelled" = "アップロードがキャンセルされました。";
 
-
 //"editor.alert.encoding.now.shoplive" = "エンコードをキャンセルしますか？";
 "editor.alert.encoding.cancel.title.shoplive" = "エンコードをキャンセルしますか？";
 "editor.alert.max.duration.shoplive" = "%d秒以下の動画のみアップロードできます。";
@@ -92,3 +91,8 @@
 "editor.filter.clear.shoplive" = "鮮明さ";
 "editor.filter.warm.shoplive" = "暖かさ";
 
+//Alert
+"alert.permission.denied.title" = "権限リクエスト";
+"alert.permission.denied.description" = "ビデオをアップロードするには、カメラと写真ライブラリの使用許可を与えてください";
+"alert.permission.denied.cancel" = "キャンセル";
+"alert.permission.denied.setting" = "設定";

@@ -73,20 +73,17 @@ class ShortsVideoPlayer2 : SLReactor {
 extension ShortsVideoPlayer2 {
     func configure(videoUrl : URL,preferredForwardBufferDuration: Double? = 2.5){
         if ShopliveMP4CachingManager.shared.isVideoMP4(url: videoUrl) {
-            ShopliveMP4CachingManager.shared.downloadVideo(url: videoUrl) { [weak self] playerItem in
-                guard let self = self else { return }
-                playerItem.preferredForwardBufferDuration = self.preferredForwardBufferDuration ?? 0
-                self.videoAsset = playerItem.asset as? AVURLAsset
-                self.setPlayerItem(asset: self.videoAsset)
-                self.setVideoOutput()
-                if self.player == nil {
-                    self.player = AVPlayer(playerItem: playerItem)
-                }
-                else {
-                    self.player?.replaceCurrentItem(with: playerItem)
-                }
-                self.resultHandler?( .videoPlayerItemSetComplete )
+            self.setVideoAsset(videoUrl: videoUrl)
+            self.setPlayerItem(asset: videoAsset)
+            self.setVideoOutput()
+            playerItem?.preferredForwardBufferDuration = self.preferredForwardBufferDuration ?? 0
+            if self.player == nil {
+                self.player = AVPlayer(playerItem: playerItem)
             }
+            else {
+                self.player?.replaceCurrentItem(with: playerItem)
+            }
+            resultHandler?( .videoPlayerItemSetComplete )
         }
         else {
             self.setVideoAsset(videoUrl: videoUrl)

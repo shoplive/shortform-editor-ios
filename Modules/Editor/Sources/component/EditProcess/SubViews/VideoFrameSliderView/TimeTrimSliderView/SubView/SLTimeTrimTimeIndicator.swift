@@ -58,7 +58,7 @@ class SLTimeTrimTimeIndicator : UIView, SLReactor {
     init(frame : CGRect,timeIndicatorCornerRadius : CGFloat,timeIndicatorbackgroundColor : UIColor) {
         self.timeIndicatorCornerRadius = timeIndicatorCornerRadius
         super.init(frame: frame)
-        self.lineView.backgroundColor = backgroundColor
+        self.lineView.backgroundColor = timeIndicatorbackgroundColor
         setLayout()
         addPangesture()
     }

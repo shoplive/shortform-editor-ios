@@ -165,7 +165,9 @@ public class ShopliveMP4CachingManager : NSObject {
             
             self.downloadingUrls.append(url)
             
+            
             let exportURL : URL = dirPathURL.appendingPathComponent("\(videoName)")
+            
             
             
             exporter.outputURL = exportURL
