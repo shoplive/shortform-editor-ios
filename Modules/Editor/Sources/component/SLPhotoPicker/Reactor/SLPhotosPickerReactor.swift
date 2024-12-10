@@ -324,7 +324,7 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
                         return
                     }
                 }
-               
+                
                 guard let phAsset = asset.phAsset else  {
                     self.resultHandler?( .requsetFinishLoading )
                     return
@@ -357,14 +357,12 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
         
         PHImageManager.default().requestAVAsset(forVideo: phAsset, options: options, resultHandler: { [weak self] (asset: AVAsset?, audioMix: AVAudioMix?, info: [AnyHashable : Any]?) -> Void in
             guard let asset = asset else { return }
-            
             let dirPath = SLFileManager.editorDirectoryPath
             let outputURL = dirPath.appendingPathComponent("\(UUID().uuidString)_ShopLive.mp4")
             
-            let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality)
+            let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetPassthrough)
             exportSession?.outputURL = outputURL
             exportSession?.outputFileType = .mp4
-            
             exportSession?.exportAsynchronously {
                 if exportSession?.status == .completed {
                     completion((outputURL,outputURL))
