@@ -9,14 +9,7 @@ import UIKit
 
 public extension UIScreen {
     static var currentOrientation_SL: UIInterfaceOrientation {
-        if #available(iOS 13.0, *) {
-            return UIApplication.shared.windows
-                .first?
-                .windowScene?
-                .interfaceOrientation ?? UIDevice.current.orientation.interfaceOrientation_SL
-        } else {
-            return UIApplication.shared.statusBarOrientation
-        }
+        return UIApplication.shared.statusBarOrientation
     }
     
     static var isLandscape_SL: Bool {
