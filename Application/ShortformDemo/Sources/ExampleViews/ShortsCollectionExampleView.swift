@@ -209,6 +209,8 @@ extension ShortsCollectionExampleView : ShopLiveShortformReceiveHandlerDelegate 
             ShopLiveLogger.tempLog("[DETAIL_SHORTFORM_MORE_ENDED]")
             break
         case "DETAIL_ACTIVE":
+            let srn = extractShortsId(payload: payload ?? "")
+            ShopLiveLogger.tempLog("[DETAIL_ACTIVE]")
             break
         default:
             break

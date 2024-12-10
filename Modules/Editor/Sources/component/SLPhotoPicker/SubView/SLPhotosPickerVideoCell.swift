@@ -11,15 +11,16 @@ import UIKit
 
 
 class SLPhotosPickerVideoCell : UICollectionViewCell {
+    private let design = ShopLiveShortformEditor.MediaPickerConfig.global
     
     static let cellId = "slphotosPickerVideoCellId"
-    private var imageView : UIImageView = {
+    lazy private var imageView : UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.backgroundColor = .init(red: 51, green: 51, blue: 51 )
-        imageView.layer.cornerRadius = 6
+        imageView.layer.cornerRadius = design.cellCornerRadius
         return imageView
     }()
     

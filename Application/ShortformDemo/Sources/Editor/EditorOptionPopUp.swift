@@ -129,6 +129,9 @@ class EditorOptionPopUp : UIView {
         mediaPickerImage.addTarget(self, action: #selector(mediaPickerImagetapped(sender: )), for: .touchUpInside)
         picker.delegate = self
         
+        let mediConfig = ShopLiveShortformEditor.MediaPickerConfig.global
+        mediConfig.cellCornerRadius = 0
+        
         let mainConfig = ShopLiveShortformEditor.EditorMainConfig.global
         mainConfig.nextButtonBackgroundColor = .white
         mainConfig.nextButtonCornerRadius = 4
