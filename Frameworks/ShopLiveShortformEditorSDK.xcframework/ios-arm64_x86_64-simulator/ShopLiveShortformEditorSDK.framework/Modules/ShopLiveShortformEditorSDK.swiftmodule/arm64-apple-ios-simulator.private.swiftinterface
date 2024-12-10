@@ -74,6 +74,16 @@ extension SwiftUI.Image {
   @objc deinit
 }
 public enum ShopLiveShortformEditorSDKStrings : Swift.Sendable {
+  public enum Alert : Swift.Sendable {
+    public enum Permission : Swift.Sendable {
+      public enum Denied : Swift.Sendable {
+        public static let cancel: Swift.String
+        public static let description: Swift.String
+        public static let setting: Swift.String
+        public static let title: Swift.String
+      }
+    }
+  }
   public enum Editor : Swift.Sendable {
     public enum Alert : Swift.Sendable {
       public enum Encoding : Swift.Sendable {
@@ -392,18 +402,18 @@ public enum ShopLiveShortformEditorSDKStrings : Swift.Sendable {
   @objc deinit
 }
 @objc public protocol ShopLiveCoverPickerDelegate {
-  @objc optional func onShopLiveCoverPickerError(error: ShopliveSDKCommon.ShopLiveCommonError)
-  @objc optional func onShopLiveCoverPickerCoverImageSuccess(image: UIKit.UIImage?)
-  @objc optional func onShopLiveCoverPickerUploadSuccess(result: ShopLiveShortformEditorSDK.ShopliveEditorResultData?)
-  @objc optional func onShopLiveCoverPickerCancelled()
-  @objc optional func onShopLiveCoverPickerOnEvent(name: Swift.String, payload: [Swift.String : Any]?)
+  @objc optional func onShopLiveCoverPickerError(picker: UIKit.UIViewController?, error: ShopliveSDKCommon.ShopLiveCommonError)
+  @objc optional func onShopLiveCoverPickerCoverImageSuccess(picker: UIKit.UIViewController?, image: UIKit.UIImage?)
+  @objc optional func onShopLiveCoverPickerUploadSuccess(picker: UIKit.UIViewController?, result: ShopLiveShortformEditorSDK.ShopliveEditorResultData?)
+  @objc optional func onShopLiveCoverPickerCancelled(picker: UIKit.UIViewController?)
+  @objc optional func onShopLiveCoverPickerOnEvent(picker: UIKit.UIViewController?, name: Swift.String, payload: [Swift.String : Any]?)
 }
 @objc public protocol ShopLiveMediaPickerDelegate {
-  @objc optional func onShopLiveMediaPickerError(error: ShopliveSDKCommon.ShopLiveCommonError)
-  @objc optional func onShopLiveMediaPickerDidPickVideo(absoluteUrl: Foundation.URL, relativeUrl: Foundation.URL)
-  @objc optional func onShopLiveMediaPickerDidPickImage(imageUrl: Foundation.URL)
-  @objc optional func onShopLiveMediaPickerCancelled()
-  @objc optional func onShopLiveMediaPickerOnEvent(name: Swift.String, payload: [Swift.String : Any]?)
+  @objc optional func onShopLiveMediaPickerError(picker: UIKit.UIViewController?, error: ShopliveSDKCommon.ShopLiveCommonError)
+  @objc optional func onShopLiveMediaPickerDidPickVideo(picker: UIKit.UIViewController?, absoluteUrl: Foundation.URL, relativeUrl: Foundation.URL)
+  @objc optional func onShopLiveMediaPickerDidPickImage(picker: UIKit.UIViewController?, imageUrl: Foundation.URL)
+  @objc optional func onShopLiveMediaPickerCancelled(picker: UIKit.UIViewController?)
+  @objc optional func onShopLiveMediaPickerOnEvent(picker: UIKit.UIViewController?, name: Swift.String, payload: [Swift.String : Any]?)
 }
 @objc public protocol ShopLiveShortformEditorDelegate {
   @objc optional func onShopLiveShortformEditorError(error: ShopliveSDKCommon.ShopLiveCommonError)
@@ -414,12 +424,11 @@ public enum ShopLiveShortformEditorSDKStrings : Swift.Sendable {
   @objc optional func onShopLiveShortformEditorOnEvent(name: Swift.String, payload: [Swift.String : Any]?)
 }
 @objc public protocol ShopLiveVideoEditorDelegate {
-  @objc optional func onShopLiveVideoEditorError(error: ShopliveSDKCommon.ShopLiveCommonError)
-  @objc optional func onShopLiveVideoEditorVideoConvertSuccess(videoPath: Swift.String)
-  @objc optional func onShopLiveVideoEditorUploadSuccess(result: ShopLiveShortformEditorSDK.ShopliveEditorResultData?)
-  @objc optional func onShopLiveVideoEditorClosed()
-  @objc optional func onShopLiveVideoEditorCancelled()
-  @objc optional func onShopLiveVideoEditorOnEvent(name: Swift.String, payload: [Swift.String : Any]?)
+  @objc optional func onShopLiveVideoEditorError(editor: UIKit.UIViewController?, error: ShopliveSDKCommon.ShopLiveCommonError)
+  @objc optional func onShopLiveVideoEditorVideoConvertSuccess(editor: UIKit.UIViewController?, videoPath: Swift.String)
+  @objc optional func onShopLiveVideoEditorUploadSuccess(editor: UIKit.UIViewController?, result: ShopLiveShortformEditorSDK.ShopliveEditorResultData?)
+  @objc optional func onShopLiveVideoEditorCancelled(editor: UIKit.UIViewController?)
+  @objc optional func onShopLiveVideoEditorOnEvent(editor: UIKit.UIViewController?, name: Swift.String, payload: [Swift.String : Any]?)
 }
 public enum SLVideoOutputQuality {
   case normal
@@ -570,8 +579,8 @@ final public class ShopliveVideoEditorConfiguration {
   public func setDelegate(_ delegate: (any ShopLiveShortformEditorSDK.ShopLiveCoverPickerDelegate)?) -> Self
   @discardableResult
   public func setConfiguration(_ configuration: ShopLiveShortformEditorSDK.ShopLiveCoverPickerConfiguration?) -> Self
-  public func start(_ vc: UIKit.UIViewController, data: ShopLiveShortformEditorSDK.ShopLiveCoverPickerData)
-  public func close()
+  public func build(data: ShopLiveShortformEditorSDK.ShopLiveCoverPickerData, completion: @escaping (UIKit.UIViewController) -> ())
+  public func cleanUpMemory()
   @objc deinit
 }
 public class ShopLiveCoverPickerData {
@@ -602,8 +611,8 @@ public class ShopLiveCoverPickerData {
   public func setDelegate(_ delegate: (any ShopLiveShortformEditorSDK.ShopLiveMediaPickerDelegate)?) -> Self
   @discardableResult
   public func setConfiguration(_ configuration: ShopLiveShortformEditorSDK.ShopLiveMediaPickerConfiguration?) -> Self
-  public func start(_ vc: UIKit.UIViewController, type: ShopLiveShortformEditorSDK.SLMediaType)
-  public func close()
+  public func build(type: ShopLiveShortformEditorSDK.SLMediaType, completion: @escaping (UIKit.UIViewController) -> ())
+  public func cleanUpMemory()
   @objc deinit
 }
 public class ShopLiveShortformEditor {
@@ -615,7 +624,7 @@ public class ShopLiveShortformEditor {
   @discardableResult
   public func setConfiguration(_ configuration: ShopLiveShortformEditorSDK.ShopLiveShortformEditorConfiguration?) -> Self
   @discardableResult
-  public func setDelegate(delegate: any ShopLiveShortformEditorSDK.ShopLiveShortformEditorDelegate) -> Self
+  public func setDelegate(delegate: (any ShopLiveShortformEditorSDK.ShopLiveShortformEditorDelegate)?) -> Self
   public func start(_ vc: UIKit.UIViewController)
   public func close()
   @objc deinit
@@ -638,8 +647,10 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var confirmButtonCornerRadius: CoreFoundation.CGFloat
     public var confirmButtonBackgroundColor: UIKit.UIColor
     public var confirmButtonTextColor: UIKit.UIColor
+    public var confirmButtonTextFont: UIKit.UIFont
     public var sliderThumbViewColor: UIKit.UIColor
-    public var sliderCornerRaidus: CoreFoundation.CGFloat
+    public var sliderCornerRadius: CoreFoundation.CGFloat
+    public var sliderBackgroundColor: UIKit.UIColor
     @objc deinit
   }
   @_hasMissingDesignatedInitializers public class EditorSpeedConfig {
@@ -653,21 +664,29 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var confirmButtonCornerRadius: CoreFoundation.CGFloat
     public var confirmButtonBackgroundColor: UIKit.UIColor
     public var confirmButtonTextColor: UIKit.UIColor
+    public var confirmButtonTextFont: UIKit.UIFont
     public var sliderThumbViewColor: UIKit.UIColor
-    public var sliderCornerRaidus: CoreFoundation.CGFloat
+    public var sliderCornerRadius: CoreFoundation.CGFloat
+    public var sliderBackgroundColor: UIKit.UIColor
     @objc deinit
   }
   @_hasMissingDesignatedInitializers public class EditorMainConfig {
     public static let global: ShopLiveShortformEditorSDK.ShopLiveShortformEditor.EditorMainConfig
     public var videoPlayerCornerRadius: CoreFoundation.CGFloat
+    public var titleTextColor: UIKit.UIColor
+    public var titleTextFont: UIKit.UIFont
     public var backButtonIcon: UIKit.UIImage
     public var backButtonIconPadding: UIKit.UIEdgeInsets
     public var backButtonIconTintColor: UIKit.UIColor
+    public var cropColor: UIKit.UIColor
     public var editingCloseButtonIcon: UIKit.UIImage
     public var editingCloseButtonIconPadding: UIKit.UIEdgeInsets
     public var editingCloseButtonIconTintColor: UIKit.UIColor
     public var nextButtonTitle: Swift.String
     public var nextButtonCornerRadius: CoreFoundation.CGFloat
+    public var nextButtonBackgroundColor: UIKit.UIColor
+    public var nextButtonTitleColor: UIKit.UIColor
+    public var nextButtonTitleFont: UIKit.UIFont
     public var videoSpeedButtonIcon: UIKit.UIImage
     public var videoSpeedButtonIconPadding: UIKit.UIEdgeInsets
     public var videoSpeedButtonIconTintColor: UIKit.UIColor
@@ -681,12 +700,18 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var videoFilterButtonIconPadding: UIKit.UIEdgeInsets
     public var videofilterButtonIconTintColor: UIKit.UIColor
     public var sliderIndicatorCornerRadius: CoreFoundation.CGFloat
-    public var cancelPopupCornerRadius: CoreFoundation.CGFloat
-    public var cancelPopupButtonCornerRadius: CoreFoundation.CGFloat
-    public var cancelPopupCloseButtonBackgroundColor: UIKit.UIColor
-    public var cancelPopupCloseButtonTextColor: UIKit.UIColor
-    public var cancelPopupConfirmButtonBackgroundColor: UIKit.UIColor
-    public var cancelPopupConfirmButtonTextColor: UIKit.UIColor
+    public var sliderIndicatorColor: UIKit.UIColor
+    public var sliderHandleCornerRadius: CoreFoundation.CGFloat
+    public var sliderHandleBackgroundColor: UIKit.UIColor
+    public var sliderHandleBarColor: UIKit.UIColor
+    public var popupCornerRadius: CoreFoundation.CGFloat
+    public var popupButtonCornerRadius: CoreFoundation.CGFloat
+    public var popupCloseButtonBackgroundColor: UIKit.UIColor
+    public var popupCloseButtonTextColor: UIKit.UIColor
+    public var popupCloseButtonTextFont: UIKit.UIFont
+    public var popupConfirmButtonBackgroundColor: UIKit.UIColor
+    public var popupConfirmButtonTextColor: UIKit.UIColor
+    public var popupConfirmButtonTextFont: UIKit.UIFont
     @objc deinit
   }
   @_hasMissingDesignatedInitializers public class EditorFilterConfig {
@@ -700,8 +725,10 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var confirmButtonCornerRadius: CoreFoundation.CGFloat
     public var confirmButtonBackgroundColor: UIKit.UIColor
     public var confirmButtonTextColor: UIKit.UIColor
+    public var confirmButtonTextFont: UIKit.UIFont
     public var sliderThumbViewColor: UIKit.UIColor
-    public var sliderCornerRaidus: CoreFoundation.CGFloat
+    public var sliderCornerRadius: CoreFoundation.CGFloat
+    public var sliderBackgroundColor: UIKit.UIColor
     public var filterCellCornerRadius: CoreFoundation.CGFloat
     public var selectedCellBorderColor: UIKit.UIColor
     @objc deinit
@@ -717,6 +744,7 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var confirmButtonCornerRadius: CoreFoundation.CGFloat
     public var confirmButtonBackgroundColor: UIKit.UIColor
     public var confirmButtonTextColor: UIKit.UIColor
+    public var confirmButtonTextFont: UIKit.UIFont
     @objc deinit
   }
   @_hasMissingDesignatedInitializers public class EditorCoverPickerConfig {
@@ -725,8 +753,10 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var confirmButtonBackgroundColor: UIKit.UIColor
     public var confirmButtonTextColor: UIKit.UIColor
     public var confirmButtonCornerRadius: CoreFoundation.CGFloat
-    public var thumbnailSliderCornerRadius: CoreFoundation.CGFloat
-    public var thumbnailSliderThumbViewBorderColor: UIKit.UIColor
+    public var sliderCornerRadius: CoreFoundation.CGFloat
+    public var sliderThumbCornerRadius: CoreFoundation.CGFloat
+    public var sliderThumbColor: UIKit.UIColor
+    public var cropColor: UIKit.UIColor
     public var cameraRollButtonBackgroundColor: UIKit.UIColor
     public var cameraRollButtonTextColor: UIKit.UIColor
     public var cameraRollButtonCornerRadius: CoreFoundation.CGFloat
@@ -752,9 +782,9 @@ public class ShopliveVideoEditor {
   @discardableResult
   public func setConfiguration(_ configuration: ShopLiveShortformEditorSDK.ShopliveVideoEditorConfiguration?) -> Self
   @discardableResult
-  public func setDelegate(_ delegate: any ShopLiveShortformEditorSDK.ShopLiveVideoEditorDelegate) -> Self
-  public func start(_ vc: UIKit.UIViewController, data: ShopLiveShortformEditorSDK.ShopLiveVideoEditorData)
-  public func close()
+  public func setDelegate(_ delegate: (any ShopLiveShortformEditorSDK.ShopLiveVideoEditorDelegate)?) -> Self
+  public func build(data: ShopLiveShortformEditorSDK.ShopLiveVideoEditorData, completion: @escaping (UIKit.UIViewController) -> ())
+  public func cleanUpMemory()
   @objc deinit
 }
 public class ShortsVideo {

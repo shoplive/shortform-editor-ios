@@ -417,6 +417,7 @@ SWIFT_CLASS("_TtC26ShopLiveShortformEditorSDK13SLWSTagsField")
 @property (nonatomic, readonly, strong) UIView * _Nullable inputAccessoryView SWIFT_DEPRECATED_MSG("Use 'inputFieldAccessoryView' instead");
 @end
 
+@class UIViewController;
 @class ShopLiveCommonError;
 @class UIImage;
 @class ShopliveEditorResultData;
@@ -424,11 +425,11 @@ SWIFT_CLASS("_TtC26ShopLiveShortformEditorSDK13SLWSTagsField")
 SWIFT_PROTOCOL("_TtP26ShopLiveShortformEditorSDK27ShopLiveCoverPickerDelegate_")
 @protocol ShopLiveCoverPickerDelegate
 @optional
-- (void)onShopLiveCoverPickerErrorWithError:(ShopLiveCommonError * _Nonnull)error;
-- (void)onShopLiveCoverPickerCoverImageSuccessWithImage:(UIImage * _Nullable)image;
-- (void)onShopLiveCoverPickerUploadSuccessWithResult:(ShopliveEditorResultData * _Nullable)result;
-- (void)onShopLiveCoverPickerCancelled;
-- (void)onShopLiveCoverPickerOnEventWithName:(NSString * _Nonnull)name payload:(NSDictionary<NSString *, id> * _Nullable)payload;
+- (void)onShopLiveCoverPickerErrorWithPicker:(UIViewController * _Nullable)picker error:(ShopLiveCommonError * _Nonnull)error;
+- (void)onShopLiveCoverPickerCoverImageSuccessWithPicker:(UIViewController * _Nullable)picker image:(UIImage * _Nullable)image;
+- (void)onShopLiveCoverPickerUploadSuccessWithPicker:(UIViewController * _Nullable)picker result:(ShopliveEditorResultData * _Nullable)result;
+- (void)onShopLiveCoverPickerCancelledWithPicker:(UIViewController * _Nullable)picker;
+- (void)onShopLiveCoverPickerOnEventWithPicker:(UIViewController * _Nullable)picker name:(NSString * _Nonnull)name payload:(NSDictionary<NSString *, id> * _Nullable)payload;
 @end
 
 
@@ -443,11 +444,11 @@ SWIFT_CLASS("_TtC26ShopLiveShortformEditorSDK19ShopLiveMediaPicker")
 SWIFT_PROTOCOL("_TtP26ShopLiveShortformEditorSDK27ShopLiveMediaPickerDelegate_")
 @protocol ShopLiveMediaPickerDelegate
 @optional
-- (void)onShopLiveMediaPickerErrorWithError:(ShopLiveCommonError * _Nonnull)error;
-- (void)onShopLiveMediaPickerDidPickVideoWithAbsoluteUrl:(NSURL * _Nonnull)absoluteUrl relativeUrl:(NSURL * _Nonnull)relativeUrl;
-- (void)onShopLiveMediaPickerDidPickImageWithImageUrl:(NSURL * _Nonnull)imageUrl;
-- (void)onShopLiveMediaPickerCancelled;
-- (void)onShopLiveMediaPickerOnEventWithName:(NSString * _Nonnull)name payload:(NSDictionary<NSString *, id> * _Nullable)payload;
+- (void)onShopLiveMediaPickerErrorWithPicker:(UIViewController * _Nullable)picker error:(ShopLiveCommonError * _Nonnull)error;
+- (void)onShopLiveMediaPickerDidPickVideoWithPicker:(UIViewController * _Nullable)picker absoluteUrl:(NSURL * _Nonnull)absoluteUrl relativeUrl:(NSURL * _Nonnull)relativeUrl;
+- (void)onShopLiveMediaPickerDidPickImageWithPicker:(UIViewController * _Nullable)picker imageUrl:(NSURL * _Nonnull)imageUrl;
+- (void)onShopLiveMediaPickerCancelledWithPicker:(UIViewController * _Nullable)picker;
+- (void)onShopLiveMediaPickerOnEventWithPicker:(UIViewController * _Nullable)picker name:(NSString * _Nonnull)name payload:(NSDictionary<NSString *, id> * _Nullable)payload;
 @end
 
 
@@ -475,12 +476,11 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) NSBundle * _
 SWIFT_PROTOCOL("_TtP26ShopLiveShortformEditorSDK27ShopLiveVideoEditorDelegate_")
 @protocol ShopLiveVideoEditorDelegate
 @optional
-- (void)onShopLiveVideoEditorErrorWithError:(ShopLiveCommonError * _Nonnull)error;
-- (void)onShopLiveVideoEditorVideoConvertSuccessWithVideoPath:(NSString * _Nonnull)videoPath;
-- (void)onShopLiveVideoEditorUploadSuccessWithResult:(ShopliveEditorResultData * _Nullable)result;
-- (void)onShopLiveVideoEditorClosed;
-- (void)onShopLiveVideoEditorCancelled;
-- (void)onShopLiveVideoEditorOnEventWithName:(NSString * _Nonnull)name payload:(NSDictionary<NSString *, id> * _Nullable)payload;
+- (void)onShopLiveVideoEditorErrorWithEditor:(UIViewController * _Nullable)editor error:(ShopLiveCommonError * _Nonnull)error;
+- (void)onShopLiveVideoEditorVideoConvertSuccessWithEditor:(UIViewController * _Nullable)editor videoPath:(NSString * _Nonnull)videoPath;
+- (void)onShopLiveVideoEditorUploadSuccessWithEditor:(UIViewController * _Nullable)editor result:(ShopliveEditorResultData * _Nullable)result;
+- (void)onShopLiveVideoEditorCancelledWithEditor:(UIViewController * _Nullable)editor;
+- (void)onShopLiveVideoEditorOnEventWithEditor:(UIViewController * _Nullable)editor name:(NSString * _Nonnull)name payload:(NSDictionary<NSString *, id> * _Nullable)payload;
 @end
 
 
