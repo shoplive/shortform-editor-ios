@@ -92,8 +92,3 @@
 "editor.filter.clear.shoplive" = "鮮明さ";
 "editor.filter.warm.shoplive" = "暖かさ";
 
-//Alert
-"alert.permission.denied.title" = "権限リクエスト";
-"alert.permission.denied.description" = "ビデオをアップロードするには、カメラと写真ライブラリの使用許可を与えてください";
-"alert.permission.denied.cancel" = "キャンセル";
-"alert.permission.denied.setting" = "設定";
