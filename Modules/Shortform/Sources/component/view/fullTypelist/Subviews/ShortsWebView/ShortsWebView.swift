@@ -25,6 +25,7 @@ class ShortsWebView : UIView, SLReactor {
         case reloadWebView(URL?)
         
         case reconnectWebView
+        case setIsShortformClientInitialized(Bool)
     }
     
     enum Result {
@@ -68,6 +69,9 @@ class ShortsWebView : UIView, SLReactor {
             self.onReloadWebView(url: overlayURl)
         case .reconnectWebView:
             self.onReconnectWebView()
+        case .setIsShortformClientInitialized(let isInitialized):
+            reactor.action( .isShortFormClientInitialized(isInitialized) )
+            
         }
     }
     
@@ -82,12 +86,15 @@ class ShortsWebView : UIView, SLReactor {
         setLayout()
     }
     
+    private var srn : String = ""
+    
     private func onEvaluateJavaScript(request : JSRequest) {
 //        var log = "[HASSAN LOG] outgoing command ---------->\n"
 //        log += "name : \(request.0.rawValue)\n"
 //        log += "value: \(request.1)\n"
 //        log += "==========="
 //        ShopLiveLogger.debugLog(log)
+        
         
         if let isLoaded = reactor.getIsWebViewLoaded(), isLoaded == true {
             if case .EXTERNAL_COMMAND(let command) = request.0  {
@@ -134,13 +141,25 @@ extension ShortsWebView {
     }
     
     private func onReactorRequestEvaluateJSRequest(request : [JSRequest]) {
-        guard let webView = self.overlayWebView else { return }
-        for request in request {
-            if case .EXTERNAL_COMMAND(let command) = request.0  {
-                webView.sendShortsEvent(event: command, parameter: request.1) { }
-            }
-            else {
-                webView.sendShortsEvent(event: request.0.key, parameter: request.1) { }
+        recursiveEvaluateJsRequest(request : request)
+    }
+    
+    private func recursiveEvaluateJsRequest(request : [JSRequest]) {
+        guard let webView = self.overlayWebView else {
+            return
+        }
+        let leftRequest = request.dropFirst()
+        let currentRequest = request.prefix(1).first
+        guard let currentRequest = currentRequest else {
+            return
+        }
+        
+        if case .EXTERNAL_COMMAND(let command) = currentRequest.0  {
+            webView.sendShortsEvent(event: command, parameter: currentRequest.1) { }
+        }
+        else {
+            webView.sendShortsEvent(event: currentRequest.0.key, parameter: currentRequest.1) { [weak self] in
+                self?.recursiveEvaluateJsRequest(request: Array(leftRequest))
             }
         }
     }

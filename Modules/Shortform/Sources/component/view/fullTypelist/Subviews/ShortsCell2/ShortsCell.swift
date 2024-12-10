@@ -321,6 +321,8 @@ extension ShortsCell {
                 self.onReactorRequestSetCustomShortformForV2(shortsId : shortsId)
             case .showLoadingIndicator(let show):
                 self.onReactorShowLoadingIndicator(show : show)
+            case .setWebViewIsShortformClientInitialized(let isInitialized):
+                self.onSetWebViewIsShortformClientInitialized(isInitialized : isInitialized)
             }
         }
     }
@@ -490,6 +492,10 @@ extension ShortsCell {
                 self?.loadingIndicatorView.isHidden = true
             }
         }
+    }
+    
+    private func onSetWebViewIsShortformClientInitialized(isInitialized : Bool) {
+        webView.action( .setIsShortformClientInitialized(isInitialized) )
     }
     
     private func onReactorEmptyVideoPlayer() {

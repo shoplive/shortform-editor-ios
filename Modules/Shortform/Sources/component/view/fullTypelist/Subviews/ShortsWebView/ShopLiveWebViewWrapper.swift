@@ -19,7 +19,7 @@ import ShopliveSDKCommon
     }
     
     deinit {
-        ShopLiveLogger.memoryLog("[SHOPLIVEWEBVIEWWRAPPER] deinit")
+//        ShopLiveLogger.memoryLog("[SHOPLIVEWEBVIEWWRAPPER] deinit")
     }
     
     func sendCommandMessage(command : String, payload : [String : Any]) {

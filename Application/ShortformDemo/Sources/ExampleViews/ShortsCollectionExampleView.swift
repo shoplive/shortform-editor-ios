@@ -176,7 +176,7 @@ extension ShortsCollectionExampleView : ShortsCollectionViewDataSourcRequestDele
     }
     
     func callShortsCollectionAPI(completion : @escaping((ShopLiveShortformIdsMoreData?,Error?) -> ())) {
-        TestShortsCollectionAPI(reference: self.reference).request { [weak self] result in
+        Test2ShortsCollectionAPI(reference: self.reference).request { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let response):
@@ -203,5 +203,133 @@ extension ShortsCollectionExampleView : ShortsCollectionViewDataSourcRequestDele
     }
 }
 extension ShortsCollectionExampleView : ShopLiveShortformReceiveHandlerDelegate {
+    func onEvent(messenger: ShopLiveShortformMessenger?, command: String, payload: String?) {
+        switch command {
+        case "DETAIL_SHORTFORM_MORE_ENDED":
+            ShopLiveLogger.tempLog("[DETAIL_SHORTFORM_MORE_ENDED]")
+            break
+        case "DETAIL_ACTIVE":
+            break
+        default:
+            break
+        }
+    }
     
+    private func extractShortsId(payload : String) -> String {
+        if let jsonData = payload.data(using: .utf8) {
+            do {
+                if let dictionary = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] {
+                    let shorts = dictionary["shorts"] as? [String : Any]
+                    if let shortsId = shorts?["shortsId"] as? String,
+                       let srn = shorts?["srn"] as? String {
+                        return srn
+                    }
+                }
+            } catch {
+                print("JSON 변환 실패: \(error.localizedDescription)")
+            }
+        }
+        return "no shortsId"
+    }
+}
+struct Test2ShortsCollectionAPI: APIDefinition {
+    typealias ResultType = SLShortsCollectionModel
+
+    var baseUrl: String {
+        guard let ak = ShopLiveCommon.getAccessKey() else {
+            return "https://shortform-api.shoplive.cloud"
+        }
+        if ak == "e4cscSXMMHtEQnMiZI5E" {
+            return "https://qa-shortform-api.shoplive.cloud"
+        }
+        else if ak == "a1AW6QRCXeoZ9MEWRdDQ" {
+            return "https://dev-shortform-api.shoplive.cloud"
+        }
+        else {
+            return "https://shortform-api.shoplive.cloud"
+        }
+        
+    }
+
+    var urlPath: String {
+        if let ak = ShopLiveCommon.getAccessKey(), ak.isEmpty == false {
+            return "/sdk/v1/\(ak)/shorts/collection"
+        }
+        else {
+            return "/sdk/v1/shorts/collection"
+        }
+    }
+
+
+    var method: SLHTTPMethod {
+        .post
+    }
+
+    var headers: [String : String] {
+        var header : [String : String] = [:]
+        header[CommonKeys.x_sl_player_app_version] = UIApplication.appVersion_SL()
+        header[CommonKeys.x_sl_player_sdk_version] = ShopLiveShortform.sdkVersion
+        return header
+    }
+
+
+    var parameters: [String : Any]? {
+        var params: [String: Any] = [:]
+        
+        params["count"] = ShortFormConfigurationInfosManager.shared.getRequestCount()
+
+        if let accessKey = ShopLiveCommon.getAccessKey() {
+            params["accessKey"] = accessKey
+        }
+
+        if let reference = reference, reference.isEmpty == false {
+            params["reference"] = reference
+        }
+        if let shortsId = shortsId {
+            params["shortsId"] = shortsId
+        }
+        if let shortsCollectionsId = shortsCollectionsId {
+            params["shortsCollectionId"] = shortsCollectionsId
+        }
+        if let shortsCollectionSrn = shortsCollectionSrn {
+            params["shortsCollectionSrn"] = shortsCollectionSrn
+        }
+        if let tags = tags {
+            params["tags"] = tags
+        }
+        if let tagSearchOperator = tagSearchOperator {
+            params["tagSearchOperator"] = tagSearchOperator
+        }
+        if let brands = brands {
+            params["brands"] = brands
+        }
+        if let shuffle = shuffle {
+            params["shuffle"] = shuffle
+        }
+        if let type = type {
+            params["type"] = type
+        }
+
+        if let finite = finite {
+            params["finite"] = finite
+        }
+
+        return params
+    }
+
+    var reference : String?
+
+    var shortsId: String?
+
+    var shortsCollectionsId : Int?
+    var shortsCollectionSrn : String?
+    var tags : [String]?
+    var tagSearchOperator : String?
+    var brands : [String]?
+    var shuffle : Bool?
+    var type : String?
+    var finite : Bool?
+
+
+
 }

@@ -158,7 +158,8 @@ public final class SLWebView: SLBaseView {
         
         command += ");"
         
-        webview.evaluateJavaScript(command) { _, _ in
+        
+        webview.evaluateJavaScript(command) { _, error in
             completion()
         }
     }

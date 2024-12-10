@@ -81,6 +81,7 @@ class ShortsCellReactor : NSObject, SLReactor {
         case requestCloseShortform
         case requestRemoveShortform(shortsId : String)
         case setWebViewIsScrollable(Bool)
+        case setWebViewIsShortformClientInitialized(Bool)
         
         case requestPlayVideo
         case requestPauseVideo
@@ -148,6 +149,12 @@ class ShortsCellReactor : NSObject, SLReactor {
     private var isReadyToPlay : Bool = false
     
     private var loadingIndicatorWorkItem : DispatchWorkItem?
+    
+
+    //ON_SHORTFORM_DETAIL_ACTIVE가 webView에서 리스터 마운트 되기전에 호출되면 detail_active가 안들어옴
+    //따라서 Detail_INITIALIZED 이벤트 받은후에 보내도록 보장해야함
+    private var isShortformDetailInitialized : Bool = false
+    private var onShortformDetailActiveCommandReserveCallback : (() -> ())?
     
     lazy private var ytCommandReactor = ShortsCellYoutubeCommandReactor(delegate: self)
     
@@ -720,6 +727,7 @@ extension ShortsCellReactor {
                 resultHandler?( .requestEvaluateJS(jsRequest))
             }
         }
+        resultHandler?( .setWebViewIsShortformClientInitialized(true) )
     }
     
     private func onShortformDetailInitialized() {
@@ -728,6 +736,8 @@ extension ShortsCellReactor {
         if let shortsId = self.shortsModel?.shortsId {
             resultHandler?( .requestSetCustomShortformForV2(shortsId: shortsId) )
         }
+        isShortformDetailInitialized = true
+        onShortformDetailActiveCommandReserveCallback?()
     }
     
     private func onPlayShortformDetail(payload : [String : Any]?) {
@@ -892,7 +902,15 @@ extension ShortsCellReactor {
             request = (.ON_SHORTFORM_DETAIL_PAGE_INACTIVE, payload)
             resultHandler?( .requestStopVideo )
         }
-        resultHandler?( .requestEvaluateJS([request]))
+        
+        if isShortformDetailInitialized == false {
+            onShortformDetailActiveCommandReserveCallback = { [weak self] in
+                self?.resultHandler?( .requestEvaluateJS([request]))
+            }
+        }
+        else {
+            resultHandler?( .requestEvaluateJS([request]))
+        }
     }
     
     private func sendV2ActivePageToWeb(srn : String, shortsList : [SLShortsModel],previousSrn : String?) {
@@ -915,7 +933,14 @@ extension ShortsCellReactor {
             request = (.ON_SHORTFORM_DETAIL_PAGE_INACTIVE, payload)
             resultHandler?( .requestStopVideo )
         }
-        resultHandler?( .requestEvaluateJS([request]))
+        if isShortformDetailInitialized == false {
+            onShortformDetailActiveCommandReserveCallback = { [weak self] in
+                self?.resultHandler?( .requestEvaluateJS([request]))
+            }
+        }
+        else {
+            resultHandler?( .requestEvaluateJS([request]))
+        }
     }
     
     private func sendVersionInfoToWeb() {

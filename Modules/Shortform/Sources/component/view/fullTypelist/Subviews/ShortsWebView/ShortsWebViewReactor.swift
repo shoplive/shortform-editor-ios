@@ -22,6 +22,7 @@ class ShortsWebViewReactor : SLReactor {
         case setisWebViewLoaded(Bool?)
         case queueJSRequest(JSRequest)
         case sendQueuedJSRequest
+        case isShortFormClientInitialized(Bool)
     }
     
     enum Result {
@@ -30,6 +31,7 @@ class ShortsWebViewReactor : SLReactor {
     
     private var jsRequestsList : [JSRequest] = []
     private var isWebViewLoaded : Bool?
+    private var isShortformClientInitialized : Bool = false
     
     var resultHandler: ((Result) -> ())?
     
@@ -46,6 +48,8 @@ class ShortsWebViewReactor : SLReactor {
             self.onQueueJSRequest(request: jSRequest)
         case .sendQueuedJSRequest:
             self.onSendQueuedJSRequest()
+        case .isShortFormClientInitialized(let isInitialized):
+            self.onIsShortformClientInitialized(isInitialized: isInitialized)
         }
         
     }
@@ -62,8 +66,14 @@ class ShortsWebViewReactor : SLReactor {
     }
     
     private func onSendQueuedJSRequest() {
+        guard isShortformClientInitialized else { return }
         resultHandler?( .requestEvaluateJS(jsRequestsList))
         jsRequestsList.removeAll()
+    }
+    
+    private func onIsShortformClientInitialized(isInitialized : Bool) {
+        self.isShortformClientInitialized = isInitialized
+        self.onSendQueuedJSRequest()
     }
     
 }

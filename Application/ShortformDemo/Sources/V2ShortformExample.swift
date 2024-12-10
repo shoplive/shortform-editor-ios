@@ -32,12 +32,14 @@ class V2ShortformExample  {
 
 extension V2ShortformExample : ShopLiveShortformReceiveHandlerDelegate {
     func onEvent(messenger: ShopLiveShortformMessenger?, command: String, payload: String?) {
-        if let messenger = messenger {
-            messenger.sendCommandMessage(command: "something", payload: [:])
-        }
+//        if let messenger = messenger {
+//            messenger.sendCommandMessage(command: "something", payload: [:])
+//        }
         switch command {
         case "DETAIL_SHORTFORM_MORE_ENDED":
             ShopLiveLogger.tempLog("[DETAIL_SHORTFORM_MORE_ENDED]")
+            break
+        case "DETAIL_ACTIVE":
             break
         default:
             break

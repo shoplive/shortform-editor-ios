@@ -11,6 +11,28 @@ import UIKit
 
 class LandingSelectBox : UIView {
     
+    private var musinsaRealBtn : UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("무신사Real", for: .normal)
+        btn.setTitleColor(UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0), for: .normal)
+        btn.setTitleColor(.white, for: .selected)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        btn.backgroundColor = .white
+        btn.layer.cornerRadius = 10
+        btn.layer.borderColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0).cgColor
+        btn.layer.borderWidth = 1
+        btn.tag = -2
+        return btn
+    }()
+    
+    private var musinsaRealLabel : UILabel = {
+        let label = UILabel()
+        label.text = "6mnefY1z9lK0vZlsduRp"
+        label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        label.textColor = .black
+        return label
+    }()
     
     private var musinsaDevBtn : UIButton = {
         let btn = UIButton()
@@ -220,6 +242,7 @@ class LandingSelectBox : UIView {
         self.setLayout()
         
         
+        musinsaRealBtn.addTarget(self, action: #selector(btnTapped(sender: )), for: .touchUpInside)
         musinsaDevBtn.addTarget(self, action: #selector(btnTapped(sender: )), for: .touchUpInside)
         devBtn.addTarget(self, action: #selector(btnTapped(sender: )), for: .touchUpInside)
         stageBtn.addTarget(self, action: #selector(btnTapped(sender: )), for: .touchUpInside)
@@ -239,6 +262,7 @@ class LandingSelectBox : UIView {
     
     
     @objc func btnTapped(sender : UIButton){
+        musinsaRealBtn.isSelected = sender.tag == -2
         musinsaDevBtn.isSelected = sender.tag == -1
         devBtn.isSelected = sender.tag == 0
         stageBtn.isSelected = sender.tag == 1
@@ -248,6 +272,8 @@ class LandingSelectBox : UIView {
         qa11stDevBtn.isSelected = sender.tag == 5
         customBtn.isSelected = sender.tag == 6
         
+        
+        musinsaRealBtn.backgroundColor = sender.tag == -2 ? selectedBtnbackgroundColor : normalBtnbackgroundColor
         musinsaDevBtn.backgroundColor = sender.tag == -1 ? selectedBtnbackgroundColor : normalBtnbackgroundColor
         devBtn.backgroundColor = sender.tag == 0 ? selectedBtnbackgroundColor : normalBtnbackgroundColor
         stageBtn.backgroundColor = sender.tag == 1 ? selectedBtnbackgroundColor : normalBtnbackgroundColor
@@ -258,6 +284,8 @@ class LandingSelectBox : UIView {
         customBtn.backgroundColor = sender.tag == 6 ? selectedBtnbackgroundColor : normalBtnbackgroundColor
         
         switch sender.tag {
+        case -2:
+            self.selectedAccessKey = musinsaRealLabel.text ?? ""
         case -1:
             self.selectedAccessKey = musinsadevLabel.text ?? ""
         case 0:
@@ -307,12 +335,20 @@ class LandingSelectBox : UIView {
         else if musinsaDevBtn.isSelected == true {
             return musinsadevLabel.text ?? ""
         }
+        else if musinsaRealBtn.isSelected == true {
+            return musinsaRealLabel.text ?? ""
+        }
         return self.selectedAccessKey
     }
     
 }
 extension LandingSelectBox {
     private func setLayout(){
+        
+        let musinsaRealStack = UIStackView(arrangedSubviews: [musinsaRealBtn,musinsaRealLabel])
+        musinsaRealStack.translatesAutoresizingMaskIntoConstraints = false
+        musinsaRealStack.axis = .horizontal
+        musinsaRealStack.spacing = 10
         
         let musinsadevStack = UIStackView(arrangedSubviews: [musinsaDevBtn,musinsadevLabel])
         musinsadevStack.translatesAutoresizingMaskIntoConstraints = false
@@ -357,7 +393,7 @@ extension LandingSelectBox {
         customStack.spacing = 10
         
         
-        let wholeStack = UIStackView(arrangedSubviews: [musinsadevStack,devStack,stageStack,qaStack,realStack,qa11Stack,qa11stDevStack,customStack])
+        let wholeStack = UIStackView(arrangedSubviews: [musinsaRealStack ,musinsadevStack,devStack,stageStack,qaStack,realStack,qa11Stack,qa11stDevStack,customStack])
         wholeStack.translatesAutoresizingMaskIntoConstraints = false
         wholeStack.axis = .vertical
         wholeStack.spacing = 10
@@ -366,6 +402,7 @@ extension LandingSelectBox {
         self.addSubviews_SL(wholeStack)
         
         NSLayoutConstraint.activate([
+            musinsaRealBtn.widthAnchor.constraint(equalToConstant: 120),
             musinsaDevBtn.widthAnchor.constraint(equalToConstant: 120),
             devBtn.widthAnchor.constraint(equalToConstant: 120),
             stageBtn.widthAnchor.constraint(equalToConstant: 120),
@@ -375,6 +412,7 @@ extension LandingSelectBox {
             qa11stDevBtn.widthAnchor.constraint(equalToConstant: 120),
             customBtn.widthAnchor.constraint(equalToConstant: 120),
 
+            musinsaRealStack.heightAnchor.constraint(equalToConstant: 30),
             musinsadevStack.heightAnchor.constraint(equalToConstant: 30),
             devStack.heightAnchor.constraint(equalToConstant: 30),
             stageStack.heightAnchor.constraint(equalToConstant: 30),
