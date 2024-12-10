@@ -144,7 +144,7 @@ class SLVideoEditorMainViewController : UIViewController {
     }()
     
     lazy private var playerBoxMainModeTopAnc : NSLayoutConstraint = {
-        return filterPlayerView.topAnchor.constraint(equalTo: self.view.topAnchor)
+        return filterPlayerView.topAnchor.constraint(equalTo: self.naviBar.bottomAnchor)
     }()
     
     lazy private var playerBoxEditModeTopAnc : NSLayoutConstraint = {
