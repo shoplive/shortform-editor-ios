@@ -76,11 +76,11 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         return view
     }()
     
-    private let playerContainerView : UIView = {
+    lazy private var playerContainerView : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
-        view.layer.cornerRadius = 20
+        view.layer.cornerRadius = design.videoPlayerCornerRadius
         return view
     }()
     
@@ -215,7 +215,7 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         reactor.action( .viewDidLayoutSubView )
         reactor.action( .setPlayerContainerBound(playerContainerView.bounds))
         self.playerLayer?.frame = playerContainerView.bounds
-        self.playerLayer?.cornerRadius = 20
+        self.playerLayer?.cornerRadius = design.videoPlayerCornerRadius
         self.playerLayer?.masksToBounds = true
     }
     

@@ -68,6 +68,9 @@ public final class SLWebView: SLBaseView {
         webView.isOpaque = false
         webView.scrollView.backgroundColor = .clear
         webView.translatesAutoresizingMaskIntoConstraints = false
+        if #available(iOS 16.4, *) {
+            webView.isInspectable = true
+        }
         return webView
     }()
     

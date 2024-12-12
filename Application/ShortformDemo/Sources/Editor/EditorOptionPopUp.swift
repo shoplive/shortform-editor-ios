@@ -138,6 +138,8 @@ class EditorOptionPopUp : UIView {
         mainConfig.nextButtonTitleColor = .black
         mainConfig.popupCornerRadius = 4
         mainConfig.popupButtonCornerRadius = 4
+        mainConfig.videoPlayerCornerRadius = 0
+//        ShopLiveShortformEditor.EditorMainConfig.global.videoPlayerCornerRadius = 0
 
         let volumeConfig = ShopLiveShortformEditor.EditorVolumeConfig.global
         volumeConfig.confirmButtonBackgroundColor = .white
@@ -152,6 +154,7 @@ class EditorOptionPopUp : UIView {
         coverPickerConfig.confirmButtonCornerRadius = 4
         coverPickerConfig.confirmButtonBackgroundColor = .white
         coverPickerConfig.cameraRollButtonCornerRadius = 4
+        coverPickerConfig.videoPlayerCornerRadius = 0
     }
     
     required init?(coder : NSCoder) {

@@ -181,6 +181,7 @@ extension ShopLiveShortformEditor {
         public var sliderHandleBackgroundColor : UIColor = .white
         public var sliderHandleBarColor : UIColor = .black
         
+        
         public var popupCornerRadius : CGFloat = 16
         public var popupButtonCornerRadius : CGFloat = 10
         public var popupCloseButtonBackgroundColor : UIColor = .white
@@ -249,7 +250,7 @@ extension ShopLiveShortformEditor {
     public class EditorCoverPickerConfig {
         public static let global = EditorCoverPickerConfig()
         
-        var videoPlayerCornerRadius : CGFloat = 20
+        public var videoPlayerCornerRadius : CGFloat = 20
         
         var closeButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slBackArrow.image.withRenderingMode(.alwaysTemplate)
         var closeButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
