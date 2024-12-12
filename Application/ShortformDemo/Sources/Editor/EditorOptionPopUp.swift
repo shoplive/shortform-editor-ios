@@ -145,6 +145,8 @@ class EditorOptionPopUp : UIView {
         volumeConfig.confirmButtonBackgroundColor = .white
         volumeConfig.confirmButtonCornerRadius = 4
         volumeConfig.sliderCornerRadius = 4
+        volumeConfig.sliderBackgroundColor = .white
+        volumeConfig.sliderThumbViewColor = .black
         
         let coverPickerConfig = ShopLiveShortformEditor.EditorCoverPickerConfig.global
         coverPickerConfig.cropColor = .blue

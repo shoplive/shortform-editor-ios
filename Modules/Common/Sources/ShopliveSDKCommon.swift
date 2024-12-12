@@ -216,18 +216,18 @@ extension ShopLiveCommon {
 }
 public extension ShopLiveCommon {
     @objc static var sdkVersion: String {
-        return "1.6.2"
+        return "1.6.3"
     }
     
     @objc static var playerSdkVersion : String {
-        return "1.6.2"
+        return "1.6.3"
     }
     
     @objc static var shortformSdkVersion : String {
-        return "1.6.2"
+        return "1.6.3"
     }
     
     @objc static var videoEditorSdkversion : String {
-        return "1.6.2"
+        return "1.6.3"
     }
 }
