@@ -490,12 +490,6 @@ extension SLVideoEditorMainViewReactor {
         }
         
         var shortsDetailDict : [String : Any] = [:]
-        //        shortsDetailDict["description"] = "ios_seeker_thumbnail_test_2_description"
-        //        shortsDetailDict["tags"] = ["ios_test_tag1","ios_test_tag2"]
-        //        shortsDetailDict["title"] = "ios_upload_test \(Date())"
-        shortsDict["cards"] = [cardsDict]
-        shortsDict["shortsDetail"] = shortsDetailDict
-        shortsDict["shortsType"] = "CARD"
         
         var creator : [String : Any] = [:]
         
@@ -513,11 +507,17 @@ extension SLVideoEditorMainViewReactor {
         }
         
         if creator.isEmpty == false {
-            return ["shorts" : shortsDict, "shortsStatus" : "OPENED", "creator" : creator , "startAt" : Int64(Date().timeIntervalSince1970 * 1000) ]
+            shortsDetailDict["creator"] = creator
         }
-        else {
-            return ["shorts" : shortsDict, "shortsStatus" : "OPENED", "startAt" : Int64(Date().timeIntervalSince1970 * 1000) ]
-        }
+    
+        //shortsDetailDict["description"] = "ios_seeker_thumbnail_test_2_description"
+        //shortsDetailDict["tags"] = ["ios_test_tag1","ios_test_tag2"]
+        //shortsDetailDict["title"] = "ios_upload_test \(Date())"
+        shortsDict["cards"] = [cardsDict]
+        shortsDict["shortsDetail"] = shortsDetailDict
+        shortsDict["shortsType"] = "CARD"
+        
+        return ["shorts" : shortsDict, "shortsStatus" : "OPENED", "startAt" : Int64(Date().timeIntervalSince1970 * 1000) ]
     }
     
     private func removeVideoFile(){

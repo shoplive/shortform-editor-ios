@@ -46,6 +46,7 @@ class SLPhotosPickerReactor : NSObject, SLReactor {
         case didFinishLoading
         case updateGroupSelectBtnTitle(String)
         case showToast(String)
+        case updateLoadingPercentLabel(String)
         
     }
     
@@ -66,6 +67,8 @@ class SLPhotosPickerReactor : NSObject, SLReactor {
     
     private var queue = DispatchQueue(label: "shoplive.photos.pikcker.queue")
     private var queueForGroupedBy = DispatchQueue(label: "shoplive.photos.pikcker.queue.for.groupedBy", qos: .utility)
+    private var avAssetExportProgressTimer : Timer?
+    private var exportSession : AVAssetExportSession?
     
    
     
@@ -355,23 +358,73 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
         options.version = .current
         options.isNetworkAccessAllowed = true
         
+        
+        if self.avAssetExportProgressTimer != nil {
+            removeAVAssetExportSessionTimer()
+        }
+        self.avAssetExportProgressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.exportProgressTimer), userInfo: nil, repeats: true)
+        self.avAssetExportProgressTimer?.fire()
+        
         PHImageManager.default().requestAVAsset(forVideo: phAsset, options: options, resultHandler: { [weak self] (asset: AVAsset?, audioMix: AVAudioMix?, info: [AnyHashable : Any]?) -> Void in
-            guard let asset = asset else { return }
+            guard let asset = asset, let self = self else {
+                self?.removeAVAssetExportSessionTimer()
+                return
+            }
+            
             let dirPath = SLFileManager.editorDirectoryPath
             let outputURL = dirPath.appendingPathComponent("\(UUID().uuidString)_ShopLive.mp4")
             
-            let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetPassthrough)
-            exportSession?.outputURL = outputURL
-            exportSession?.outputFileType = .mp4
-            exportSession?.exportAsynchronously {
-                if exportSession?.status == .completed {
+            var preset : String = ""
+            
+            if self.isAsset4K(asset: asset) {
+                preset = AVAssetExportPresetMediumQuality
+            }
+            else {
+                preset = AVAssetExportPresetPassthrough
+            }
+            
+            self.exportSession = AVAssetExportSession(asset: asset, presetName: preset )
+            guard let exportSession = self.exportSession else {
+                self.removeAVAssetExportSessionTimer()
+                completion((nil,nil))
+                return
+            }
+            
+            exportSession.outputURL = outputURL
+            exportSession.outputFileType = .mp4
+            exportSession.exportAsynchronously {
+                self.removeAVAssetExportSessionTimer()
+                if exportSession.status == .completed {
                     completion((outputURL,outputURL))
                 } else {
-                    ShopLiveLogger.tempLog("[SLPHOTOPICKER] exportSession error \(exportSession?.error?.localizedDescription)")
+                    ShopLiveLogger.tempLog("[SLPHOTOPICKER] exportSession error \(exportSession.error?.localizedDescription)")
                     completion((nil,nil))
                 }
             }
         })
+    }
+    
+    @objc
+    private func exportProgressTimer(){
+        let percentage = Int((exportSession?.progress ?? 0.0) * 100)
+        let percentLabel = "\(percentage)%"
+        resultHandler?( .updateLoadingPercentLabel(percentLabel) )
+    }
+    
+    func removeAVAssetExportSessionTimer() {
+        self.avAssetExportProgressTimer?.invalidate()
+        self.avAssetExportProgressTimer = nil
+    }
+    
+    private func isAsset4K(asset : AVAsset) -> Bool {
+        guard let videoTrack = asset.tracks(withMediaType: .video).first else {
+            return true
+        }
+        
+        let resolutionWidth = videoTrack.naturalSize.width
+        let resolutionHeight = videoTrack.naturalSize.height
+        
+        return resolutionWidth >= 3840 && resolutionHeight >= 2160
     }
 }
 extension SLPhotosPickerReactor : UICollectionViewDataSourcePrefetching {

@@ -68,16 +68,10 @@ extension SLVideoInfo {
     var totalDuration: Float64 {
         return (timeRange.end - timeRange.start)
     }
-    
-    var filterVideoPath: String {
-        let path = SLFileManager.ffmpegDirectorypath
-        let cacheoutput = path.appendingPathComponent("filtered_\(fileName)").deletingPathExtension().appendingPathExtension("mp4")
-        return cacheoutput.relativePath
-    }
-    
+   
     var ffmpegOutPutVideoPath : String {
         let path = SLFileManager.ffmpegDirectorypath
-        let cacheoutput = path.appendingPathComponent("ffmpeg_\(fileName)").deletingPathExtension().appendingPathExtension("mp4")
+        let cacheoutput = path.appendingPathComponent("\(fileName)_\(Int64(Date().timeIntervalSince1970))").deletingPathExtension().appendingPathExtension("mp4")
         return cacheoutput.relativePath
     }
     
@@ -236,7 +230,6 @@ class SLVideoConverter : NSObject {
     weak var delegate: SLVideoConverterDelegate?
     
     private var videoInfo: SLVideoInfo?
-    private var frameRecorder : ShopliveFilterSDKVideoFrameRecorder?
     private var convertCompletion : ( (SLVideoConvertResult) -> Void )?
     
     private(set) var inConvert: Bool = false
@@ -370,40 +363,8 @@ class SLVideoConverter : NSObject {
         }
     }
     
-    
-    private func processFilterFrameRecording(urlString : String,filterConfig : String) {
-        guard let videoInfo = videoInfo else {
-            convertCompletion?(.Failed(error: SLVideoConvertError.error))
-            return
-        }
-        let dict : [AnyHashable : Any] = [
-            "sourceURL" : URL(string: urlString)!,
-            "filterConfig" : String(cString: filterConfig),
-            "filterIntensity" : 1.0
-        ]
-        let destUrl = URL(string: videoInfo.filterVideoPath)!
-        
-        
-        self.frameRecorder = ShopliveFilterSDKVideoFrameRecorder.generateVideo(withFilter: destUrl, size: .zero, with: self, videoConfig: dict)
-    }
-    
 }
-extension SLVideoConverter : ShopliveFilterSDKVideoFrameRecorderDelegate {
-    func videoReadingComplete(_ videoFrameRecorder: ShopliveFilterSDKVideoFrameRecorder!) {
-        guard let recorder = self.frameRecorder else {
-            convertCompletion?(.Failed(error: SLVideoConvertError.error))
-            return
-        }
-        recorder.endRecording { [weak self] in
-            self?.convertCompletion?(.Success(videoPath: recorder.outputVideoURL.absoluteString))
-            self?.setDeviceIdleTimer(false)
-            self?.inConvert = false
-            
-            self?.frameRecorder?.clear()
-            self?.frameRecorder = nil
-        }
-    }
-}
+
 // ffmpeg -i gizmo.mp4 -filter_complex "[0]drawtext=fontcolor=#000000:text='나라말싸미':x=145.0:y=321.0[out]" -map "[out]" -y test20.mp4
 
 

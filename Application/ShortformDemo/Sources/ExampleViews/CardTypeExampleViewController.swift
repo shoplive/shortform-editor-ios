@@ -162,11 +162,10 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
         
     }
     
-    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShopLiveShortformDetailData) {
+    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String) {
         print("[HASSAN LOG] srn \(shortsSrn)")
         print("[HASSAN LOG] shortsId \(shortsId)")
         print("[HASSAN LOG] scheme \(scheme)")
-        print("[HASSAN LOG] productModel \(shortsDetail.tags ?? [])")
         guard let window = UIApplication.shared.keyWindow else { return }
         window.rootViewController?.showToast(message: "banner clicked" ,duration: .long)
     }

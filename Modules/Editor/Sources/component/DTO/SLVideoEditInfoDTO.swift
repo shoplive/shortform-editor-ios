@@ -65,7 +65,7 @@ class SLVideoEditInfoDTO {
     }
     
     func getConvertedVideoDuration() -> Double? {
-        return self.getConvertedVideoAsset()?.duration.seconds
+        return Double(Int((self.getConvertedVideoAsset()?.duration.seconds ?? 0.0) * 1000))
     }
     
     func getConvertedVideoSize() -> CGSize? {

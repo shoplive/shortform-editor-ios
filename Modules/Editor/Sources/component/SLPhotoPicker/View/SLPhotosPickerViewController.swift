@@ -79,6 +79,7 @@ class SLPhotosPickerViewController : UIViewController {
     private let permissionHandler = SLPhotoPickerPermissionHandler()
     lazy private var loadingProgressVc : SLLoadingAlertController = {
         let vc = SLLoadingAlertController()
+        vc.useProgress = false
         vc.delegate = reactor
         return vc
     }()
@@ -195,6 +196,8 @@ extension SLPhotosPickerViewController {
                 self.onReactorUpdateGroupSelectBtnTitle(title: title)
             case .showToast(let message):
                 self.onReactorShowToast(message : message)
+            case .updateLoadingPercentLabel(let percent):
+                self.onReactorUpdateLoadingPercentLabel(percent : percent)
             }
         }
     }
@@ -245,7 +248,7 @@ extension SLPhotosPickerViewController {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.loadingProgressVc.modalPresentationStyle = .overFullScreen
-            self.loadingProgressVc.setLoadingText(ShopLiveShortformEditorSDKStrings.Editor.Progressing.shoplive)
+            self.loadingProgressVc.setLoadingText("0%")
             
             guard self.loadingProgressVc.isBeingPresented == false else { return }
             self.navigationController?.present(self.loadingProgressVc, animated: false)
@@ -278,7 +281,12 @@ extension SLPhotosPickerViewController {
         self.animateToast(message: message)
     }
     
-    
+    private func onReactorUpdateLoadingPercentLabel(percent : String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.loadingProgressVc.setLoadingText(percent)
+        }
+    }
 }
 extension SLPhotosPickerViewController {
     private func bindPermissionHandler() {
@@ -327,7 +335,6 @@ extension SLPhotosPickerViewController {
         self.view.addSubview(albumSelectView)
         self.view.addSubview(toastLabel)
         
-        
         NSLayoutConstraint.activate([
             topNaviBox.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             topNaviBox.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -360,9 +367,8 @@ extension SLPhotosPickerViewController {
             toastLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             toastLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 400),
             toastLabel.heightAnchor.constraint(equalToConstant: 40)
-            
+
         ])
-        
     }
     
     private func animateToast(message : String) {

@@ -160,7 +160,7 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
                     self?.callShortformThumbnailAPI(image: resultImage)
                 }
                 else {
-                    self?.resultHandler?( .requestFinishCoverPicker )
+                    self?.finishCoverPickerWithoutApi(image: resultImage)
                 }
             }
         }
@@ -171,7 +171,6 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
             else {
                 resultHandler?( .requestNormalImageForCropableImageView )
             }
-            
         }
     }
     
@@ -186,7 +185,7 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
             self.callShortformThumbnailAPI(image: resultImage )
         }
         else {
-            self.resultHandler?( .requestFinishCoverPicker )
+            self.finishCoverPickerWithoutApi(image: image)
         }
     }
     
@@ -197,8 +196,23 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
     private func onSetPlayerContainerBound(bound : CGRect) {
         self.playerContainerBound = bound
     }
+    
 }
 extension ShopLiveCoverPickerReactor {
+    private func finishCoverPickerWithoutApi(image : UIImage?) {
+        let duration = Double(Int((self.videoAsset?.duration.seconds ?? 0.0) * 1000))
+        let resultData = ShopLiveEditorResultInternalData(shortsId: nil,
+                                                          localVideoUrl: self.videoUrl?.absoluteString,
+                                                          remoteOriginVideoUrl: nil,
+                                                          remoteCoverImageUrl: nil,
+                                                          localCoverImage: image,
+                                                          width: nil,
+                                                          height: nil,
+                                                          duration : duration)
+        self.resultHandler?( .uploadSuccess(result: resultData) )
+        self.resultHandler?( .requestFinishCoverPicker )
+    }
+    
     private func getExtractThumbnail(at targetSec : Double, completion : @escaping(UIImage?) -> ()) {
         guard let imageGenerator = imageGenerator else {
             completion(nil)
@@ -279,6 +293,7 @@ extension ShopLiveCoverPickerReactor {
                 guard let self = self else { return }
                 switch result {
                 case .success(let response):
+                    dump(response)
                     if var resultData = editorResultData {
                         resultData.localCoverImage = image
                         self.resultHandler?( .uploadSuccess(result: resultData))

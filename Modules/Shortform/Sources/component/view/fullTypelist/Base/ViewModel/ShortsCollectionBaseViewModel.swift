@@ -857,7 +857,7 @@ extension ShortsCollectionBaseViewModel {
         guard let scheme = scheme,
               let srn = srn,
               let shortsId = shortsId else { return }
-        shortformDelegate?.handleProductBanner?(shortsId: shortsId, shortsSrn: srn, scheme: scheme, shortsDetail: shortsDetailModel.toShortsDetailData())
+        shortformDelegate?.handleProductBanner?(shortsId: shortsId, shortsSrn: srn, scheme: scheme)
 //        ShopLiveShortform.Delegate.receiveHandler.delegate?.handleProductBanner?(shortsId: shortsId, shortsSrn: srn, scheme: scheme, shortsDetail: shortsDetailModel.toShortsDetailData())
         ShopLiveShortform.BridgeInterface.handleMoveToProductBannerPage(shortsId: shortsId, srn: srn, scheme: scheme, shortsDetail: shortsDetailModel)
         

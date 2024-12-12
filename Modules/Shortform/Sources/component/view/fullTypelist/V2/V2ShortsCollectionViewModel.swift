@@ -52,6 +52,8 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
             self.shortFormIdsList = ids.map({ idData in
                 return idData.shortsId
             })
+            .filter({ $0 != "" })
+            
             ids.forEach { idData in
                 shortFormIdPayloadDict[idData.shortsId] = idData.payload
             }
@@ -111,8 +113,10 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
             self.isLoadingMoreData = false
             return
         }
-        self.shortFormIdsMoreData = moreData
-        let appendShortsIds = moreData.ids?.map({ idData in
+        var filteredMoreData = moreData
+        filteredMoreData.ids = filteredMoreData.ids?.filter{ $0.shortsId != "" }
+        self.shortFormIdsMoreData = filteredMoreData
+        let appendShortsIds = filteredMoreData.ids?.map({ idData in
             return idData.shortsId
         })
         (moreData.ids ?? []).forEach { idData in
@@ -122,7 +126,7 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
             self.shortFormIdsList.append(contentsOf: appendShortsIds)
             self.requestedShortFormIdsList.append(contentsOf: appendShortsIds.prefix(5))
         }
-        self.customerHasMore = moreData.hasMore ?? false
+        self.customerHasMore = filteredMoreData.hasMore ?? false
         self.loadShortFormIds(ids: Array(appendShortsIds?.prefix(5) ?? []), reset: false) { [weak self] _ in
             self?.appendCells()
             self?.isLoadingMoreData = false
@@ -255,12 +259,9 @@ extension V2ShortsCollectionViewModel {
     }
 }
 extension V2ShortsCollectionViewModel {
-    
-    
     private func loadShortFormIds(ids : [String]?, reset : Bool,completion : @escaping ((Bool) -> ())) {
         currentPaginationDirection = .down
         self.callShortsConfigurationAPI { [weak self] isSucess in
-            
             guard let self = self else { return }
             if isSucess == false { return }
             self.isLoadingMoreData = true
@@ -288,7 +289,6 @@ extension V2ShortsCollectionViewModel {
             }
         }
     }
-    
 }
 //MARK: -Upward pagination functions
 extension V2ShortsCollectionViewModel {

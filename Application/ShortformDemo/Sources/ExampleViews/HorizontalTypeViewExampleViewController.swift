@@ -338,7 +338,7 @@ extension HorizontalTypeViewExampleViewController : ShopLiveShortformReceiveHand
         
     }
     
-    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShopLiveShortformDetailData) {
+    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String) {
         
         if let url = URL(string: scheme) {
             
@@ -346,7 +346,6 @@ extension HorizontalTypeViewExampleViewController : ShopLiveShortformReceiveHand
         print("[HASSAN LOG] srn \(shortsSrn)")
         print("[HASSAN LOG] shortsId \(shortsId)")
         print("[HASSAN LOG] scheme \(scheme)")
-        print("[HASSAN LOG] productModel \(shortsDetail.tags)")
     }
     func onDidAppear() {
         print("[HASSAN LOG] shortformplayer on HorizontalTypeExampleViewController DidAppear")

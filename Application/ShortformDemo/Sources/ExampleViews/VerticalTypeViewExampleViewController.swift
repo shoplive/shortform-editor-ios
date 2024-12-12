@@ -142,7 +142,7 @@ extension VerticalTypeViewExampleViewController : ShopLiveShortformReceiveHandle
         
     }
     
-    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShopLiveShortformDetailData) {
+    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String) {
         
         if let url = URL(string: scheme) {
             
@@ -150,7 +150,6 @@ extension VerticalTypeViewExampleViewController : ShopLiveShortformReceiveHandle
         print("[HASSAN LOG] srn \(shortsSrn)")
         print("[HASSAN LOG] shortsId \(shortsId)")
         print("[HASSAN LOG] scheme \(scheme)")
-        print("[HASSAN LOG] productModel \(shortsDetail.tags)")
     }
     
     func onDidAppear() {
