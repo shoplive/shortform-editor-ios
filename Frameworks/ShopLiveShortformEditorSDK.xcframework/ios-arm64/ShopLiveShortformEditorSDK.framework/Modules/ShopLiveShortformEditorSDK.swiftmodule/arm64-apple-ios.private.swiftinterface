@@ -294,6 +294,14 @@ public enum ShopLiveShortformEditorSDKStrings : Swift.Sendable {
       }
     }
     public enum Toast : Swift.Sendable {
+      public enum Duration : Swift.Sendable {
+        public enum Minute : Swift.Sendable {
+          public static func shoplive(_ p1: Swift.Int, _ p2: Swift.Int) -> Swift.String
+        }
+        public enum Second : Swift.Sendable {
+          public static func shoplive(_ p1: Swift.Int, _ p2: Swift.Int) -> Swift.String
+        }
+      }
       public enum Encoding : Swift.Sendable {
         public enum Canceled : Swift.Sendable {
           public static let shoplive: Swift.String
@@ -494,7 +502,8 @@ final public class ShopLiveCoverPickerConfiguration {
 final public class ShopLiveMediaPickerVideoDurationOption {
   final public var minVideoDuration: Swift.Int
   final public var maxVideoDuration: Swift.Int
-  public init(minVideoDuration: Swift.Int = 3, maxVideoDuration: Swift.Int = 60 * 15)
+  final public var invalidDurationToastMessage: Swift.String?
+  public init(minVideoDuration: Swift.Int = 3, maxVideoDuration: Swift.Int = 60 * 15, invalidDurationToastMessage: Swift.String? = nil)
   @objc deinit
 }
 final public class ShopLiveMediaPickerConfiguration {
@@ -547,7 +556,8 @@ final public class ShopLiveShortformEditorConfiguration {
   final public var visibleContents: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorVisibleContent
   final public var videoTrimOption: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorTrimOption
   final public var videoOutputOption: ShopLiveShortformEditorSDK.ShopLiveShortformEditorVideoOuputOption
-  public init(videoCropOption: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorAspectRatio, visibleContents: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorVisibleContent?, videoOutputOption: ShopLiveShortformEditorSDK.ShopLiveShortformEditorVideoOuputOption?, minVideoDuration: CoreFoundation.CGFloat? = nil, maxVideoDuration: CoreFoundation.CGFloat? = nil)
+  final public var videoDurationOption: ShopLiveShortformEditorSDK.ShopLiveMediaPickerVideoDurationOption
+  public init(videoCropOption: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorAspectRatio, visibleContents: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorVisibleContent?, videoOutputOption: ShopLiveShortformEditorSDK.ShopLiveShortformEditorVideoOuputOption?, mediaPickerVideoDurationOption: ShopLiveShortformEditorSDK.ShopLiveMediaPickerVideoDurationOption?, minVideoDuration: CoreFoundation.CGFloat? = nil, maxVideoDuration: CoreFoundation.CGFloat? = nil)
   @objc deinit
 }
 final public class ShopliveVideoEditorAspectRatio {
@@ -678,6 +688,7 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var backButtonIcon: UIKit.UIImage
     public var backButtonIconPadding: UIKit.UIEdgeInsets
     public var backButtonIconTintColor: UIKit.UIColor
+    public var backButtonBackgroundColor: UIKit.UIColor?
     public var cropColor: UIKit.UIColor
     public var editingCloseButtonIcon: UIKit.UIImage
     public var editingCloseButtonIconPadding: UIKit.UIEdgeInsets
@@ -690,15 +701,19 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var videoSpeedButtonIcon: UIKit.UIImage
     public var videoSpeedButtonIconPadding: UIKit.UIEdgeInsets
     public var videoSpeedButtonIconTintColor: UIKit.UIColor
+    public var videoSpeedButtonBackgroundColor: UIKit.UIColor?
     public var videoSoundButtonIcon: UIKit.UIImage
     public var videoSoundButtonIconPadding: UIKit.UIEdgeInsets
     public var videoSoundButtonIconTintColor: UIKit.UIColor
+    public var videoSoundButtonBackgroundColor: UIKit.UIColor?
     public var videoCropButtonIcon: UIKit.UIImage
     public var videoCropButtonIconPadding: UIKit.UIEdgeInsets
     public var videoCropButtonIconTintColor: UIKit.UIColor
+    public var videoCropButtonBackgroundColor: UIKit.UIColor?
     public var videoFilterButtonIcon: UIKit.UIImage
     public var videoFilterButtonIconPadding: UIKit.UIEdgeInsets
     public var videofilterButtonIconTintColor: UIKit.UIColor
+    public var videofilterButtonBackgroundColor: UIKit.UIColor?
     public var sliderIndicatorCornerRadius: CoreFoundation.CGFloat
     public var sliderIndicatorColor: UIKit.UIColor
     public var sliderHandleCornerRadius: CoreFoundation.CGFloat
@@ -749,6 +764,11 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
   }
   @_hasMissingDesignatedInitializers public class EditorCoverPickerConfig {
     public static let global: ShopLiveShortformEditorSDK.ShopLiveShortformEditor.EditorCoverPickerConfig
+    public var videoPlayerCornerRadius: CoreFoundation.CGFloat
+    public var backButtonIcon: UIKit.UIImage
+    public var backButtonIconPadding: UIKit.UIEdgeInsets
+    public var backButtonIconTintColor: UIKit.UIColor
+    public var backButtonBackgroundColor: UIKit.UIColor?
     public var confirmButtonTitle: Swift.String
     public var confirmButtonBackgroundColor: UIKit.UIColor
     public var confirmButtonTextColor: UIKit.UIColor
