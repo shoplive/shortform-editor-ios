@@ -170,6 +170,8 @@
 "editor.toast.encoding.canceled.shoplive" = "Encoding canceled";
 "editor.toast.encoding.fail.shoplive" = "Encoding failed";
 "editor.toast.min.duration.shoplive" = "Only videos over %.1f seconds can be uploaded";
+"editor.toast.duration.minute.shoplive" = "Please select a video longer than %d seconds and shorter than %d minutes.";
+"editor.toast.duration.second.shoplive" = "Please select a video longer than %d seconds and shorter than %d seconds.";
 "editor.toast.need.access.gallery.permissions.shoplive" = "Camera and album access is required to upload videos";
 "editor.toast.shortform.creation.failed.shoplive" = "Failed to create short video";
 "editor.toast.upload.cancelled" = "Uploading has been canceled.";

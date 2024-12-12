@@ -29,9 +29,12 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = .init(red: 255, green: 255, blue: 255,aa: 0.2)
         btn.layer.cornerRadius = 20
-        btn.setImage(design.closeButtonIcon, for: .normal)
-        btn.imageView?.tintColor = design.closeButtonIconTintColor
-        btn.imageLayoutMargin = design.closeButtonIconPadding
+        btn.setImage(design.backButtonIcon, for: .normal)
+        btn.imageView?.tintColor = design.backButtonIconTintColor
+        btn.imageLayoutMargin = design.backButtonIconPadding
+        if let backgroundColor = design.backButtonBackgroundColor {
+            btn.backgroundColor = backgroundColor
+        }
         btn.imageView?.contentMode = .scaleAspectFit
         return btn
     }()

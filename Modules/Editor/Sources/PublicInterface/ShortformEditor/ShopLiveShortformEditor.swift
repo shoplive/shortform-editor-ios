@@ -38,6 +38,10 @@ public class ShopLiveShortformEditor {
             ShopLiveEditorConfigurationManager.shared.videoTrimOption = trimOption
         }
         
+        if let mediaPickerOption = configuration?.videoDurationOption {
+            ShopLiveEditorConfigurationManager.shared.mediaPickerVideoDurationOption = mediaPickerOption
+        }
+        
         if let visibleContents = configuration?.visibleContents {
             ShopLiveEditorConfigurationManager.shared.visibleContents = visibleContents
         }
@@ -145,6 +149,7 @@ extension ShopLiveShortformEditor {
         public var backButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slBackArrow.image.withRenderingMode(.alwaysTemplate)
         public var backButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         public var backButtonIconTintColor : UIColor =  .white
+        public var backButtonBackgroundColor : UIColor? = nil
         
         public var cropColor : UIColor = .white
         
@@ -162,18 +167,22 @@ extension ShopLiveShortformEditor {
         public var videoSpeedButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slIcSpeedometer.image.withRenderingMode(.alwaysTemplate)
         public var videoSpeedButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 7, left: 10, bottom: 13, right: 10)
         public var videoSpeedButtonIconTintColor : UIColor = .white
+        public var videoSpeedButtonBackgroundColor : UIColor?
         
         public var videoSoundButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slIcEditUnmute.image.withRenderingMode(.alwaysTemplate)
         public var videoSoundButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         public var videoSoundButtonIconTintColor : UIColor = .white
+        public var videoSoundButtonBackgroundColor : UIColor?
         
         public var videoCropButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slIcCrop.image.withRenderingMode(.alwaysTemplate)
         public var videoCropButtonIconPadding : UIEdgeInsets =  UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         public var videoCropButtonIconTintColor : UIColor = .white
+        public var videoCropButtonBackgroundColor : UIColor?
         
         public var videoFilterButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slIcFilter.image.withRenderingMode(.alwaysTemplate)
         public var videoFilterButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         public var videofilterButtonIconTintColor : UIColor = .white
+        public var videofilterButtonBackgroundColor : UIColor?
         
         public var sliderIndicatorCornerRadius : CGFloat = 2
         public var sliderIndicatorColor : UIColor = .white
@@ -252,9 +261,10 @@ extension ShopLiveShortformEditor {
         
         public var videoPlayerCornerRadius : CGFloat = 20
         
-        var closeButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slBackArrow.image.withRenderingMode(.alwaysTemplate)
-        var closeButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-        var closeButtonIconTintColor : UIColor = .white
+        public var backButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slBackArrow.image.withRenderingMode(.alwaysTemplate)
+        public var backButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        public var backButtonIconTintColor : UIColor = .white
+        public var backButtonBackgroundColor : UIColor? = nil
         
         public var confirmButtonTitle : String = ShopLiveShortformEditorSDKStrings.Editor.Cover.Picker.Btn.Confirm.shoplive
         public var confirmButtonBackgroundColor : UIColor = .white

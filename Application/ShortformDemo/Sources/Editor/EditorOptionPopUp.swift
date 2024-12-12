@@ -139,7 +139,12 @@ class EditorOptionPopUp : UIView {
         mainConfig.popupCornerRadius = 4
         mainConfig.popupButtonCornerRadius = 4
         mainConfig.videoPlayerCornerRadius = 0
-//        ShopLiveShortformEditor.EditorMainConfig.global.videoPlayerCornerRadius = 0
+        mainConfig.backButtonBackgroundColor = .blue
+        mainConfig.videoSoundButtonBackgroundColor = .blue
+        mainConfig.videoSpeedButtonBackgroundColor = .blue
+        mainConfig.videoCropButtonBackgroundColor = .blue
+        mainConfig.videofilterButtonBackgroundColor = .blue
+        
 
         let volumeConfig = ShopLiveShortformEditor.EditorVolumeConfig.global
         volumeConfig.confirmButtonBackgroundColor = .white
@@ -157,6 +162,7 @@ class EditorOptionPopUp : UIView {
         coverPickerConfig.confirmButtonBackgroundColor = .white
         coverPickerConfig.cameraRollButtonCornerRadius = 4
         coverPickerConfig.videoPlayerCornerRadius = 0
+        coverPickerConfig.backButtonBackgroundColor = .blue
     }
     
     required init?(coder : NSCoder) {
@@ -178,12 +184,16 @@ class EditorOptionPopUp : UIView {
                                                                     isTagsVisible: OptionSettingModel.editorShowTags,
                                                                     editOptions: [.volume ])
         
+        let mediaPickOption = ShopLiveMediaPickerVideoDurationOption(minVideoDuration: 3,
+                                                                     maxVideoDuration: 90,
+                                                                     invalidDurationToastMessage: "customToast")
         
         ShopLiveShortformEditor.shared
             .setPermissionHandler(nil)
             .setConfiguration(ShopLiveShortformEditorConfiguration(videoCropOption: cropOption ,
                                                                    visibleContents: visibleContents,
                                                                    videoOutputOption: nil,
+                                                                   mediaPickerVideoDurationOption: mediaPickOption,
                                                                    minVideoDuration: 3,
                                                                    maxVideoDuration: 90))
             .setDelegate(delegate: vc)
@@ -215,7 +225,7 @@ class EditorOptionPopUp : UIView {
         self.currentMode = .mediaPickerVideo
         ShopLiveMediaPicker.shared
             .setDelegate(vc)
-            .setConfiguration(.init(videoDurationOption: .init(minVideoDuration: 3,maxVideoDuration: 90)))
+            .setConfiguration(.init(videoDurationOption: .init(minVideoDuration: 3,maxVideoDuration: 10,invalidDurationToastMessage: "custom_toast_message_for_test")))
             .setPermissionHandler(nil)
             .build(type: .video, completion: { [weak self] mediaPickerViewController in
                 guard let self = self else { return }

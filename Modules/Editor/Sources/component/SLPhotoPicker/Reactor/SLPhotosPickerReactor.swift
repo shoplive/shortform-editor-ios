@@ -321,7 +321,16 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
                     let maxDuration = mediaPickerVideoDurationOption.maxVideoDuration
                     
                     if duration < Double(minDuration)  || duration > Double(maxDuration) {
-                        let message = ShopLiveShortformEditorSDKStrings.Editor.Alert.Min.Duration.shoplive( minDuration)
+                        var message : String
+                        if let toastMessage = mediaPickerVideoDurationOption.invalidDurationToastMessage {
+                            message = toastMessage
+                        }
+                        else if maxDuration >= 60 {
+                            message = ShopLiveShortformEditorSDKStrings.Editor.Toast.Duration.Minute.shoplive(minDuration, Int(maxDuration / 60))
+                        }
+                        else {
+                            message = ShopLiveShortformEditorSDKStrings.Editor.Toast.Duration.Second.shoplive(minDuration, maxDuration)
+                        }
                         self.resultHandler?( .showToast(message) )
                         self.resultHandler?( .requsetFinishLoading )
                         return

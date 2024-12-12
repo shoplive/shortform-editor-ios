@@ -77,6 +77,9 @@
 "editor.toast.encoding.canceled.shoplive" = "エンコードがキャンセルされました。";
 "editor.toast.encoding.fail.shoplive" = "エンコードに失敗しました。";
 "editor.toast.min.duration.shoplive" = "%.1f秒以上の動画のみアップロードできます。";
+"editor.toast.duration.minute.shoplive" = "%d秒以上%d分未満の動画を選択してください。";
+"editor.toast.duration.second.shoplive" = "%d秒以上%d秒未満の動画を選択してください。";
+
 "editor.toast.need.access.gallery.permissions.shoplive" = "動画をアップロードするために、カメラとアルバムへのアクセス許可が必要です。";
 "editor.toast.shortform.creation.failed.shoplive" = "ショート動画の作成に失敗しました。";
 "editor.toast.upload.cancelled" = "アップロードがキャンセルされました。";

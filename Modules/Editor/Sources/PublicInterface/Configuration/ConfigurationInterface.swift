@@ -18,6 +18,7 @@ protocol SLEditorAspectRatio {
 protocol SLMediaPickerVideoDurationOption {
     var minVideoDuration : Int { get set }
     var maxVideoDuration : Int { get set }
+    var invalidDurationToastMessage : String? { get set }
 }
 
 /**

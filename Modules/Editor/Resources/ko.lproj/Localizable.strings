@@ -88,6 +88,8 @@
 "editor.toast.encoding.canceled.shoplive" = "인코딩이 취소되었습니다.";
 "editor.toast.encoding.fail.shoplive" = "인코딩에 실패했습니다.";
 "editor.toast.min.duration.shoplive" = "%.1f초 이상의 영상만 업로드 가능합니다.";
+"editor.toast.duration.minute.shoplive" = "%d초 이상 %d분 미만의 영상을 선택해주세요.";
+"editor.toast.duration.second.shoplive" = "%d초 이상 %d초 미만의 영상을 선택해주세요.";
 "editor.toast.need.access.gallery.permissions.shoplive" = "동영상 업로드를 위해 카메라와 앨범 권한을 승인해 주세요.";
 "editor.toast.shortform.creation.failed.shoplive" = "숏폼 생성에 실패했습니다.";
 "editor.toast.upload.cancelled" = "업로딩이 취소되었습니다.";

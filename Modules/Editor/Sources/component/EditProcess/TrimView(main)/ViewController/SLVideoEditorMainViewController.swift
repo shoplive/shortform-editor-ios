@@ -37,6 +37,9 @@ class SLVideoEditorMainViewController : UIViewController {
         btn.setImage(design.backButtonIcon, for: .normal)
         btn.imageView?.tintColor = design.backButtonIconTintColor
         btn.imageLayoutMargin = design.backButtonIconPadding
+        if let backgroundColor = design.backButtonBackgroundColor {
+            btn.setBackgroundColor(color: backgroundColor)
+        }
         btn.imageView?.contentMode = .scaleAspectFit
         btn.layer.cornerRadius = 20
         btn.clipsToBounds = true
@@ -95,6 +98,9 @@ class SLVideoEditorMainViewController : UIViewController {
         btn.imageView?.tintColor = design.videoSpeedButtonIconTintColor
         btn.imageLayoutMargin = design.videoSpeedButtonIconPadding
         btn.imageView?.contentMode = .scaleAspectFit
+        if let backgroundColor = design.videoSpeedButtonBackgroundColor {
+            btn.setBackgroundColor(color: backgroundColor)
+        }
         btn.clipsToBounds = true
         btn.layer.cornerRadius = 20
         return btn
@@ -106,6 +112,9 @@ class SLVideoEditorMainViewController : UIViewController {
         btn.setImage(design.videoSoundButtonIcon, for: .normal)
         btn.imageView?.tintColor = design.videoSoundButtonIconTintColor
         btn.imageLayoutMargin = design.videoSoundButtonIconPadding
+        if let backgroundColor = design.videoSoundButtonBackgroundColor {
+            btn.setBackgroundColor(color: backgroundColor)
+        }
         btn.imageView?.contentMode = .scaleAspectFit
         btn.clipsToBounds = true
         btn.layer.cornerRadius = 20
@@ -118,6 +127,9 @@ class SLVideoEditorMainViewController : UIViewController {
         btn.setImage(design.videoCropButtonIcon, for: .normal)
         btn.imageView?.tintColor = design.videoCropButtonIconTintColor
         btn.imageLayoutMargin = design.videoCropButtonIconPadding
+        if let backgroundColor = design.videoCropButtonBackgroundColor {
+            btn.setBackgroundColor(color: backgroundColor)
+        }
         btn.imageView?.contentMode = .scaleAspectFit
         btn.clipsToBounds = true
         btn.layer.cornerRadius = 20
@@ -131,6 +143,9 @@ class SLVideoEditorMainViewController : UIViewController {
         btn.imageView?.tintColor = design.videofilterButtonIconTintColor
         btn.imageLayoutMargin = design.videoFilterButtonIconPadding
         btn.imageView?.contentMode = .scaleAspectFit
+        if let backgroundColor = design.videofilterButtonBackgroundColor {
+            btn.setBackgroundColor(color: backgroundColor)
+        }
         btn.clipsToBounds = true
         btn.layer.cornerRadius = 20
         return btn

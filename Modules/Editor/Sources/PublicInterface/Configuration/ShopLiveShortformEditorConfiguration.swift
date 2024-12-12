@@ -67,10 +67,12 @@ public final class ShopLiveShortformEditorConfiguration {
     public var visibleContents : ShopLiveShortFormEditorVisibleContent = .init()
     public var videoTrimOption : ShopLiveShortFormEditorTrimOption = .init()
     public var videoOutputOption : ShopLiveShortformEditorVideoOuputOption = .init()
+    public var videoDurationOption : ShopLiveMediaPickerVideoDurationOption = .init()
     
     public init(videoCropOption: ShopLiveShortFormEditorAspectRatio,
                 visibleContents : ShopLiveShortFormEditorVisibleContent?,
                 videoOutputOption : ShopLiveShortformEditorVideoOuputOption?,
+                mediaPickerVideoDurationOption : ShopLiveMediaPickerVideoDurationOption?,
                 minVideoDuration : CGFloat? = nil,
                 maxVideoDuration : CGFloat? = nil) {
         self.videoCropOption = videoCropOption

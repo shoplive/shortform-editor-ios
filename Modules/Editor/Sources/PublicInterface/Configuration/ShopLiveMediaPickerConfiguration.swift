@@ -13,10 +13,12 @@ import UIKit
 public final class ShopLiveMediaPickerVideoDurationOption : SLMediaPickerVideoDurationOption {
     public var minVideoDuration: Int = 3
     public var maxVideoDuration: Int = 60 * 15
+    public var invalidDurationToastMessage: String?
     
-    public init(minVideoDuration: Int = 3, maxVideoDuration: Int = 60 * 15) {
+    public init(minVideoDuration: Int = 3, maxVideoDuration: Int = 60 * 15, invalidDurationToastMessage : String? = nil) {
         self.minVideoDuration = minVideoDuration
         self.maxVideoDuration = maxVideoDuration
+        self.invalidDurationToastMessage = invalidDurationToastMessage
     }
 }
 

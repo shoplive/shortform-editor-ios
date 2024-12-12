@@ -377,6 +377,23 @@ public enum ShopLiveShortformEditorSDKStrings: Sendable {
 
     public enum Toast: Sendable {
 
+      public enum Duration: Sendable {
+
+        public enum Minute: Sendable {
+        /// Please select a video longer than %d seconds and shorter than %d minutes.
+          public static func shoplive(_ p1: Int, _ p2: Int) -> String {
+            return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.toast.duration.minute.shoplive",p1, p2)
+          }
+        }
+
+        public enum Second: Sendable {
+        /// Please select a video longer than %d seconds and shorter than %d seconds.
+          public static func shoplive(_ p1: Int, _ p2: Int) -> String {
+            return ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.toast.duration.second.shoplive",p1, p2)
+          }
+        }
+      }
+
       public enum Encoding: Sendable {
 
         public enum Canceled: Sendable {
