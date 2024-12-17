@@ -66,7 +66,7 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         btn.backgroundColor = design.cameraRollButtonBackgroundColor
         btn.setTitleColor(design.cameraRollButtonTextColor, for: .normal)
         btn.titleLabel?.font = .set(size: 16, weight: ._600)
-        btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Select.Gallery.shoplive, for: .normal)
+        btn.setTitle(design.cameraRollButtonTitle, for: .normal)
         btn.layer.cornerRadius = design.cameraRollButtonCornerRadius
         btn.clipsToBounds = true
         return btn

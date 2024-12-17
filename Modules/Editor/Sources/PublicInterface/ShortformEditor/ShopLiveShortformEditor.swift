@@ -281,6 +281,7 @@ extension ShopLiveShortformEditor {
         public var cameraRollButtonBackgroundColor : UIColor = .white
         public var cameraRollButtonTextColor : UIColor = .black
         public var cameraRollButtonCornerRadius : CGFloat = 22
+        public var cameraRollButtonTitle : String = ShopLiveShortformEditorSDKStrings.Editor.Select.Gallery.shoplive
         
     }
 }

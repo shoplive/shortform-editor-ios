@@ -225,7 +225,7 @@ class EditorOptionPopUp : UIView {
         self.currentMode = .mediaPickerVideo
         ShopLiveMediaPicker.shared
             .setDelegate(vc)
-            .setConfiguration(.init(videoDurationOption: .init(minVideoDuration: 3,maxVideoDuration: 10,invalidDurationToastMessage: "custom_toast_message_for_test")))
+            .setConfiguration(.init(videoDurationOption: .init(minVideoDuration: 3,maxVideoDuration: 90,invalidDurationToastMessage: "custom_toast_message_for_test")))
             .setPermissionHandler(nil)
             .build(type: .video, completion: { [weak self] mediaPickerViewController in
                 guard let self = self else { return }
