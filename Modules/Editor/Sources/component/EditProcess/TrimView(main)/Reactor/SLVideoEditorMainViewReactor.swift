@@ -433,9 +433,12 @@ extension SLVideoEditorMainViewReactor {
     private func callShortformVideoAPI(image : UIImage?) {
         guard let apiEndpoint = self.shortformUploadableResponseData?.uploadApiEndpoint,
               let sessionSecret = self.shortformUploadableResponseData?.sessionSecret,
-              let videoPath = self.videoEditInfoDto.convertedVideoPath else { return }
+              let videoPath = self.videoEditInfoDto.convertedVideoPath,
+              let videoWidth = self.videoEditInfoDto.getConvertedVideoSize()?.width,
+              let videoHeight = self.videoEditInfoDto.getConvertedVideoSize()?.height,
+              let videoDuration = self.videoEditInfoDto.getConvertedVideoDuration() else { return }
         
-        self.shortformVideoAPI = SLShortformVideoAPI(apiEndpoint: apiEndpoint, image: nil, video: videoPath, imageData : image, sessionSecret: sessionSecret)
+        self.shortformVideoAPI = SLShortformVideoAPI(apiEndpoint: apiEndpoint, image: nil, video: videoPath, imageData : image, sessionSecret: sessionSecret,videoWidth: videoWidth, videoHeight: videoHeight,videoDuration: videoDuration)
         
         ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result in
             guard let self = self else  { return }

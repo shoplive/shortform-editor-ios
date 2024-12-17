@@ -133,6 +133,10 @@ extension SLVideoInfo {
             return roundedHeight
         }
     }
+    
+    var videoCodec : String {
+        return ""
+    }
     //1077
     //436
     var command720p: String {
@@ -168,7 +172,10 @@ extension SLVideoInfo {
 """
         }
     }
-    
+//    -c:v libx264 \
+//    -c:v mpeg2video \
+    //-c:v libvpx-vp9 -cpu-used 5 -threads 4 -tile-columns 4 -row-mt 1 -frame-parallel 1 -g 10 \
+
     var commandRemoveScale: String {
         if let filterConfig = ffmpegFilterConfig, filterConfig.isEmpty == false {
             return """

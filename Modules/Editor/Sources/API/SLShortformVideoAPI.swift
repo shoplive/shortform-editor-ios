@@ -21,6 +21,10 @@ struct SLShortformVideoAPI: APIDefinition {
     var videoFileName: String = ""
     var sessionSecret: String
     
+    var videoWidth : CGFloat?
+    var videoHeight : CGFloat?
+    var videoDuration : Double?
+    
     var showRequestLog: Bool = false
     var showResponseLog: Bool = false
     
@@ -54,6 +58,16 @@ struct SLShortformVideoAPI: APIDefinition {
         params["video"] = (path: videoUrl, name: videoFileName)
         
         params["sessionSecret"] = sessionSecret
+        
+        if let videoWidth = videoWidth {
+            params["videoWidth"] = videoWidth
+        }
+        if let videoHeight = videoHeight {
+            params["videoHeight"] = videoHeight
+        }
+        if let videoDuration = videoDuration {
+            params["videoDuration"] = videoDuration
+        }
         return params
     }
     
