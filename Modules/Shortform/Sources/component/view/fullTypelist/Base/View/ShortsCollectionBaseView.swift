@@ -600,7 +600,6 @@ extension ShortsCollectionBaseView {
             guard let centerItem = self.getCenterItem(),
                   let latestCell = self.viewModel.latestCell.latestCell,
                   latestCell != centerItem else {
-                ShopLiveLogger.tempLog("[HASSAN LOG] getCenterItem returned")
                 return
             }
             latestCell.pause()

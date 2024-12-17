@@ -13,5 +13,6 @@ import Foundation
 @objc public enum ShopLiveResizeMode : Int {
     case CENTER_CROP = 0
     case FIT = 1
+    case AUTO = 2
 }
 

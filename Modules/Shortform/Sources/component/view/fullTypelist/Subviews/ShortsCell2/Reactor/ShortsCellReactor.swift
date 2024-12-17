@@ -271,7 +271,7 @@ class ShortsCellReactor : NSObject, SLReactor {
             else {
                 resultHandler?( .emptyVideoPlayer )
             }
-            
+           
             let videoGravity : AVLayerVideoGravity = self.getVideoGravity()
             
             if videoGravity == .resizeAspect {
@@ -545,7 +545,7 @@ extension ShortsCellReactor {
             videoGravity = .resizeAspectFill
         }
         else {
-            if let resizeMode = ShopLiveShortform.detailPlayerResizeMode {
+            if let resizeMode = ShopLiveShortform.detailPlayerResizeMode, resizeMode != .AUTO {
                 if resizeMode == .CENTER_CROP {
                     videoGravity = .resizeAspectFill
                 }
@@ -554,7 +554,19 @@ extension ShortsCellReactor {
                 }
             }
             else {
-                videoGravity = .resizeAspectFill
+                if let cardModel = shortsModel?.cards?.first {
+                    let width = cardModel.width ?? 0.0
+                    let height = cardModel.height ?? 0.0
+                    if width > height { // horizontal
+                        videoGravity = .resizeAspect
+                    }
+                    else {
+                        videoGravity = .resizeAspectFill
+                    }
+                }
+                else {
+                    videoGravity = .resizeAspectFill
+                }
             }
         }
         return videoGravity
