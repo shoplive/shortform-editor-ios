@@ -16,7 +16,7 @@ public class ShopLiveShortformCollectionData {
     public var shuffle : Bool?
     public var skus : [String]?
     public var shortsCollectionId : String?
-    public var delegate : ShopLiveShortformReceiveHandlerDelegate?
+    public weak var delegate : ShopLiveShortformReceiveHandlerDelegate?
     
     public init(reference: String? = nil, shortsId: String? = nil, tags: [String]? = nil, tagSearchOperator: ShopLiveTagSearchOperator? = nil, brands: [String]? = nil, shuffle: Bool? = nil,referrer : String? = nil, skus : [String]? = nil, shortsCollectionId : String?, delegate : ShopLiveShortformReceiveHandlerDelegate?) {
         self.reference = reference

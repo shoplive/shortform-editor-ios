@@ -47,21 +47,12 @@ class ShortsCollectionExampleView : UIViewController {
         return btn
     }()
 
-//    lazy var shortsCollectionView : ShopLiveShortsCollectionView = {
-//        
-//        
-//        let view = ShopLiveShortsCollectionView(shortformIdsData: <#T##ShopLiveShortformIdsData#>,
-//                                                dataSourceDelegate: <#T##any ShortsCollectionViewDataSourcRequestDelegate#>,
-//                                                shortsCollectionDelegate: <#T##(any ShopLiveShortformReceiveHandlerDelegate)?#>)
-////        let view = ShopLiveShortsCollectionView(requestData: nil)
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        return view
-//    }()
-    
-    var shortsCollectionView : ShopLiveShortsCollectionView?
-    
-    
-    
+    lazy var shortsCollectionView : ShopLiveShortsCollectionView = {
+        let view = ShopLiveShortsCollectionView(requestData: .init(shortsCollectionId: nil, delegate: self))
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+   
     var reference : String? = nil
     var hasMore : Bool? = nil
     var firstIndexShortsIdOrSrn : String = ""
@@ -71,16 +62,17 @@ class ShortsCollectionExampleView : UIViewController {
         self.view.backgroundColor = .white
         self.reference = nil
         self.hasMore = nil
-        self.callShortsCollectionAPI { [weak self] idsMoreData, error in
-            guard let self = self else { return }
-            guard let ids = idsMoreData?.ids else { return }
-            self.firstIndexShortsIdOrSrn = ids.first?.shortsId ?? ""
-            self.shortsCollectionView = ShopLiveShortsCollectionView(shortformIdsData: ShopLiveShortformIdsData(ids: ids),
-                                                                     dataSourceDelegate: self,
-                                                                     shortsCollectionDelegate: self)
-            self.shortsCollectionView?.translatesAutoresizingMaskIntoConstraints = false
-            self.setLayout()
-        }
+        self.setLayout()
+//        self.callShortsCollectionAPI { [weak self] idsMoreData, error in
+//            guard let self = self else { return }
+//            guard let ids = idsMoreData?.ids else { return }
+//            self.firstIndexShortsIdOrSrn = ids.first?.shortsId ?? ""
+//            self.shortsCollectionView = ShopLiveShortsCollectionView(shortformIdsData: ShopLiveShortformIdsData(ids: ids),
+//                                                                     dataSourceDelegate: self,
+//                                                                     shortsCollectionDelegate: self)
+//            self.shortsCollectionView?.translatesAutoresizingMaskIntoConstraints = false
+//            self.setLayout()
+//        }
         backBtn.addTarget(self, action: #selector(backBtnTapped), for: .touchUpInside)
         btn.addTarget(self, action: #selector(nextBtnTapped), for: .touchUpInside)
         removeFirstIndexBtn.addTarget(self, action: #selector(removeFirstIndexBtnTapped), for: .touchUpInside)
@@ -104,26 +96,28 @@ class ShortsCollectionExampleView : UIViewController {
     
     @objc
     private func removeFirstIndexBtnTapped() {
-        guard let shortsCollectionView = shortsCollectionView else { return }
+//        guard let shortsCollectionView = shortsCollectionView else { return }
         ShopLiveLogger.tempLog("[ONREMOVE] firstIndexShortsIdOrSrn \(self.firstIndexShortsIdOrSrn)")
         shortsCollectionView.action( .remove(self.firstIndexShortsIdOrSrn) )
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: any UIViewControllerTransitionCoordinator) {
-        guard let shortsCollectionView = shortsCollectionView else { return }
+//        guard let shortsCollectionView = shortsCollectionView else { return }
         shortsCollectionView.action( .onStartRotation(size: size) )
         
         coordinator.animate { [weak self] context in
-            shortsCollectionView.action( .onChangingRotation(size: size) )
+            guard let self = self else { return }
+            self.shortsCollectionView.action( .onChangingRotation(size: size) )
         } completion: { [weak self] context in
-            shortsCollectionView.action( .onFinishedRotation(size: size) )
+            guard let self = self else { return }
+            self.shortsCollectionView.action( .onFinishedRotation(size: size) )
         }
     }
     
 }
 extension ShortsCollectionExampleView {
     private func setLayout() {
-        guard let shortsCollectionView = shortsCollectionView else { return }
+//        guard let shortsCollectionView = shortsCollectionView else { return }
         self.view.addSubview(shortsCollectionView)
         self.view.addSubview(btn)
         self.view.addSubview(backBtn)
@@ -150,9 +144,6 @@ extension ShortsCollectionExampleView {
             shortsCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             shortsCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             shortsCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            
-            
-            
         ])
     }
 }
