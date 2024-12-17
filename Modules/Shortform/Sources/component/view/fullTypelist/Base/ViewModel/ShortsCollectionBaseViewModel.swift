@@ -30,6 +30,8 @@ protocol ShortsCollectionBaseViewModelDelegate : NSObject {
     func openOsShareSheet(url : String)
     
     func setAudioSessionManager()
+    
+    func playeCurrentCell()
 }
 
 class ShortsCollectionBaseViewModel : NSObject {
@@ -323,17 +325,25 @@ extension ShortsCollectionBaseViewModel {
                 cv.performBatchUpdates {
                     originShortsListData.remove(at: firstIndex)
                     cv.deleteItems(at: [IndexPath(row: firstIndex, section: 0)])
-                } completion: { done in
+                } completion: { [weak self] done in
                     guard done else { return }
-                    ShopLiveLogger.tempLog("[HASSAN LOG] batch complete")
-                    self.shortformDelegate?.onShortsDetached?(data: removedData.toShopLiveShortformData())
-//                    ShopLiveShortform.Delegate.receiveHandler.delegate?.onShortsCellDetached?(data: removedData.toShopLiveShortformData())
-                    self.originShortsListData.append(contentsOf: newDatas)
+                    self?.shortformDelegate?.onShortsDetached?(data: removedData.toShopLiveShortformData())
+                    self?.originShortsListData.append(contentsOf: newDatas)
                 }
             }
             else {
                 self.originShortsListData.removeAll(where: { $0.shortsId ?? "" == shortsIdOrSrn })
+                let oldContentOffsetY = cv.contentOffset.y
                 cv.deleteItems(at: [IndexPath(row: firstIndex, section: 0)])
+                let newContentOffsetY = cv.contentOffset.y
+                
+                if oldContentOffsetY == newContentOffsetY {
+                    guard let currentIndexPath = self.delegate?.getCurrentIndexPath() else { return }
+                    guard let currentCell = self.delegate?.getCellForAt(indexPath: currentIndexPath) as? ShortsCell else { return }
+                    self.latestCell.setLatest(latestCell: currentCell, indexPath: currentIndexPath)
+                    currentCell.setMute(getMuted())
+                    currentCell.play(skipIfPaused: false)
+                }
             }
         }
     }

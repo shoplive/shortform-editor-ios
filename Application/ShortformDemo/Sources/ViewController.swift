@@ -46,7 +46,16 @@ class ViewController: UIViewController {
     private var shortsCollectionViewBtn : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setTitle("UIView", for: .normal)
+        btn.setTitle("V1UIView", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        return btn
+    }()
+    
+    private var v2ShortsCollectionViewBtn : UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("V2UIView", for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         return btn
@@ -151,6 +160,7 @@ class ViewController: UIViewController {
         settingMoreBtn.addTarget(self, action: #selector(didTapSettingMoreBtn(sender: )), for: .touchUpInside)
         v2PlayBtn.addTarget(self, action: #selector(v2PlayBtnTapped(sender: )), for: .touchUpInside)
         shortsCollectionViewBtn.addTarget(self, action: #selector(shortsCollectionViewBtnTapped(sender:)), for: .touchUpInside)
+        v2ShortsCollectionViewBtn.addTarget(self, action: #selector(v2shortsCollectionViewBtnTapped(sender: )), for: .touchUpInside)
         
     }
     
@@ -233,6 +243,12 @@ class ViewController: UIViewController {
     
     @objc func shortsCollectionViewBtnTapped(sender : UIButton) {
         let vc = UINavigationController(rootViewController: ShortsCollectionExampleView())
+        vc.modalPresentationStyle = .overFullScreen
+        self.present(vc, animated: true)
+    }
+    
+    @objc func v2shortsCollectionViewBtnTapped(sender : UIButton) {
+        let vc = UINavigationController(rootViewController: V2ShortsCollectionExampleView())
         vc.modalPresentationStyle = .overFullScreen
         self.present(vc, animated: true)
     }
@@ -429,6 +445,7 @@ extension ViewController {
         self.view.addSubview(settingMoreBtn)
         self.view.addSubview(v2PlayBtn)
         self.view.addSubview(shortsCollectionViewBtn)
+        self.view.addSubview(v2ShortsCollectionViewBtn)
         self.addChild(pagingViewController!)
         view.addSubview(pagingViewController!.view)
         pagingViewController!.didMove(toParent: self)
@@ -456,8 +473,13 @@ extension ViewController {
             
             shortsCollectionViewBtn.centerYAnchor.constraint(equalTo: navBox.centerYAnchor),
             shortsCollectionViewBtn.trailingAnchor.constraint(equalTo: v2PlayBtn.leadingAnchor, constant: -15),
-            shortsCollectionViewBtn.widthAnchor.constraint(equalToConstant: 50),
+            shortsCollectionViewBtn.widthAnchor.constraint(equalToConstant: 70),
             shortsCollectionViewBtn.heightAnchor.constraint(equalToConstant: 25),
+            
+            v2ShortsCollectionViewBtn.centerYAnchor.constraint(equalTo: navBox.centerYAnchor),
+            v2ShortsCollectionViewBtn.trailingAnchor.constraint(equalTo: shortsCollectionViewBtn.leadingAnchor, constant: -15),
+            v2ShortsCollectionViewBtn.widthAnchor.constraint(equalToConstant: 70),
+            v2ShortsCollectionViewBtn.heightAnchor.constraint(equalToConstant: 25),
             
             pagingViewController!.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             pagingViewController!.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),

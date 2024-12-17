@@ -11,16 +11,6 @@ import UIKit
 import ShopLiveShortformSDK
 import ShopliveSDKCommon
 
-
-class ViewController2 : UIViewController {
-    
-    lazy var shortsCollectionView : ShopLiveShortsCollectionView = {
-        let view = ShopLiveShortsCollectionView(requestData: nil)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-}
-
 class ShortsCollectionExampleView : UIViewController {
     
     private var backBtn : UIButton = {

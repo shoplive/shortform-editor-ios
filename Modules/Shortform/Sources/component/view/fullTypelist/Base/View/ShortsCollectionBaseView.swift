@@ -597,11 +597,10 @@ extension ShortsCollectionBaseView {
     func playCurrentItem() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            guard let centerItem = self.getCenterItem() else {
-                return
-            }
-            
-            guard let latestCell = self.viewModel.latestCell.latestCell, latestCell != centerItem else {
+            guard let centerItem = self.getCenterItem(),
+                  let latestCell = self.viewModel.latestCell.latestCell,
+                  latestCell != centerItem else {
+                ShopLiveLogger.tempLog("[HASSAN LOG] getCenterItem returned")
                 return
             }
             latestCell.pause()
