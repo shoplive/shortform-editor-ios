@@ -389,7 +389,7 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
                 preset = AVAssetExportPresetMediumQuality
             }
             else {
-                preset = AVAssetExportPresetPassthrough
+                preset = AVAssetExportPresetHighestQuality
             }
             
             self.exportSession = AVAssetExportSession(asset: asset, presetName: preset )
