@@ -188,6 +188,8 @@ extension V2ShortsCollectionExampleView : ShopLiveShortformReceiveHandlerDelegat
             let srn = extractShortsId(payload: payload ?? "")
             ShopLiveLogger.tempLog("[DETAIL_ACTIVE]")
             break
+        case "VIDEO_TOTAL_VIEWING_TIME":
+            ShopLiveLogger.tempLog("[VIDEO_TOTAL_VIEWING_TIME] payload \(payload)")
         default:
             break
         }
