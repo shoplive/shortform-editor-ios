@@ -186,6 +186,9 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
     
     private let reactor : ShopLiveCoverPickerReactor = ShopLiveCoverPickerReactor()
     
+    private var isLaunched : Bool = false
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         reactor.action( .viewDidLoad )
@@ -204,13 +207,15 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
     
     override func viewDidAppear(_ animated : Bool) {
         super.viewDidAppear(animated)
-        reactor.action( .viewDidAppear )
-        
-        thumbnailSliderView.action( .initializeThumbView )
-        if let videoSize = self.reactor.getVideoSize() {
-            playerCropView.videoResolution = videoSize
+        if isLaunched == false {
+            reactor.action( .viewDidAppear )
+            thumbnailSliderView.action( .initializeThumbView )
+            if let videoSize = self.reactor.getVideoSize() {
+                playerCropView.videoResolution = videoSize
+            }
+            playerCropView.updateCropArea()
+            isLaunched = true
         }
-        playerCropView.updateCropArea()
     }
     
     override func viewDidLayoutSubviews() {
