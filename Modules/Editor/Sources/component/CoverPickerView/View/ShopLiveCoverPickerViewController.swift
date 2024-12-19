@@ -53,7 +53,7 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = design.confirmButtonBackgroundColor
         btn.titleTextLabel.textColor = design.confirmButtonTextColor
-        btn.titleTextLabel.font = .set(size: 16, weight: ._600)
+        btn.titleTextLabel.font = design.confirmButtonTitleFont
         btn.titleTextLabel.text = design.confirmButtonTitle
         btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true
@@ -137,7 +137,8 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
     
     private lazy var thumbnailSliderView: SLThumbnailSliderView = {
         let view = SLThumbnailSliderView(containerCornerRadius: design.sliderCornerRadius,
-                                         thumbViewBorderColor: design.sliderThumbColor, thumbviewCornerRadius: design.sliderThumbCornerRadius)
+                                         thumbViewBorderColor: design.sliderThumbColor,
+                                         thumbviewCornerRadius: design.sliderThumbCornerRadius)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

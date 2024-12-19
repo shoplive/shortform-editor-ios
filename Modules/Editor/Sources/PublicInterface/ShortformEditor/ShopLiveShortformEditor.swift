@@ -270,6 +270,7 @@ extension ShopLiveShortformEditor {
         public var confirmButtonBackgroundColor : UIColor = .white
         public var confirmButtonTextColor : UIColor = .black
         public var confirmButtonCornerRadius : CGFloat = 20
+        public var confirmButtonTitleFont : UIFont = .systemFont(ofSize: 14, weight: .medium)
         
         public var sliderCornerRadius : CGFloat = 8
         public var sliderThumbCornerRadius : CGFloat = 8
