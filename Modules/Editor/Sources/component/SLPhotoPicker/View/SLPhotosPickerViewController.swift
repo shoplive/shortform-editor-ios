@@ -12,7 +12,7 @@ import PhotosUI
 import ShopliveSDKCommon
 
 protocol SLPhotosPickerViewControllerDelegate : NSObjectProtocol {
-    func photoPicker(picker : UIViewController, didSelectVideo absoluteUrl: URL, relativeUrl : URL)
+    func photoPicker(picker : UIViewController, didSelectVideo absoluteUrl: URL, relativeUrl : URL,videoCreationDate : Date?)
     func photoPicker(picker : UIViewController,didSelectImage url: URL)
     func photoPiker(onClose picker : UIViewController)
     func photoPickerOnEvent(picker : UIViewController, name : EventTrace, payload : [String : Any]?)
@@ -174,8 +174,8 @@ extension SLPhotosPickerViewController {
                 self.onReactorOnSetAssetsCollectionForAlbumSelectView(collections : collections)
             case .didSelectImage(let image):
                 self.onReactorDidSelectImage(imageUrl: image)
-            case .didSelectVideo((let absoluteUrl, let relativeUrl)):
-                self.onReactorDidSelectVideo(absoluteUrl: absoluteUrl, relativeUrl: relativeUrl)
+            case .didSelectVideo((let absoluteUrl, let relativeUrl, let videoCreationDate)):
+                self.onReactorDidSelectVideo(absoluteUrl: absoluteUrl, relativeUrl: relativeUrl, videoCreationDate : videoCreationDate)
             case .dismissMediaPicker:
                 break
             case .showCamera(let picker):
@@ -227,9 +227,9 @@ extension SLPhotosPickerViewController {
         delegate?.photoPicker(picker: self, didSelectImage: imageUrl)
     }
     
-    private func onReactorDidSelectVideo(absoluteUrl : URL, relativeUrl : URL) {
+    private func onReactorDidSelectVideo(absoluteUrl : URL, relativeUrl : URL,videoCreationDate : Date?) {
         delegate?.photoPickerOnEvent(picker: self,name: .MEDIA_PICKER_CLICK_CONFIRM, payload: nil)
-        delegate?.photoPicker(picker: self, didSelectVideo: absoluteUrl,relativeUrl: relativeUrl)
+        delegate?.photoPicker(picker: self, didSelectVideo: absoluteUrl,relativeUrl: relativeUrl, videoCreationDate: videoCreationDate)
     }
     
     private func onReactorShowCamera(picker : UIImagePickerController) {

@@ -443,12 +443,17 @@ extension EditorOptionPopUp : ShopLiveVideoEditorDelegate {
 }
 extension EditorOptionPopUp : ShopLiveCoverPickerDelegate {
     
+    
     func onShopLiveCoverPickerCancelled(picker: UIViewController?) {
         picker?.navigationController?.popViewController(animated: true)
     }
     
     func onShopLiveCoverPickerCoverImageSuccess(picker: UIViewController?, image: UIImage?) {
         picker?.navigationController?.dismiss(animated: true)
+    }
+    
+    func onShopLiveCoverPickerUploadSuccess(picker: UIViewController?, result: ShopliveEditorResultData?) {
+        dump(result)
     }
     
 }

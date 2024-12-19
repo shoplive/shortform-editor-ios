@@ -147,6 +147,7 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
     }
     
     private func onRequestOnConfirm() {
+        
         let isCropEnabled = self.config.coverPickerVisibleActionButton.editOptions.contains(where: { $0 == .crop }) ?? false
         if self.currentMode == .video {
             let seconds = CMTimeGetSeconds(currentSeekTime)
@@ -208,7 +209,8 @@ extension ShopLiveCoverPickerReactor {
                                                           localCoverImage: image,
                                                           width: nil,
                                                           height: nil,
-                                                          duration : duration)
+                                                          duration : duration,
+                                                          videoCreatedAt: ShopLiveShortformEditorDataStorage.shared.mediaPickerVideoCreationDate)
         self.resultHandler?( .uploadSuccess(result: resultData) )
         self.resultHandler?( .requestFinishCoverPicker )
     }
@@ -248,10 +250,10 @@ extension ShopLiveCoverPickerReactor {
     
 }
 extension ShopLiveCoverPickerReactor : SLPhotosPickerViewControllerDelegate {
-    func photoPicker(picker: UIViewController, didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
+    func photoPicker(picker: UIViewController, didSelectVideo absoluteUrl: URL, relativeUrl: URL, videoCreationDate: Date?) {
         
     }
-    
+   
     func photoPicker(picker: UIViewController, didSelectImage url: URL) {
         defer {
             self.currentMode = .photo
@@ -293,9 +295,9 @@ extension ShopLiveCoverPickerReactor {
                 guard let self = self else { return }
                 switch result {
                 case .success(let response):
-                    dump(response)
                     if var resultData = editorResultData {
                         resultData.localCoverImage = image
+                        resultData.videoCreatedAt = ShopLiveShortformEditorDataStorage.shared.mediaPickerVideoCreationDate
                         self.resultHandler?( .uploadSuccess(result: resultData))
                     }
                     else  {
@@ -306,7 +308,8 @@ extension ShopLiveCoverPickerReactor {
                                                                           localCoverImage: image,
                                                                           width: response.cards?.first?.width ?? 0.0,
                                                                           height: response.cards?.first?.height ?? 0.0,
-                                                                          duration : Double(response.cards?.first?.duration ?? 0))
+                                                                          duration : Double(response.cards?.first?.duration ?? 0),
+                                                                          videoCreatedAt: ShopLiveShortformEditorDataStorage.shared.mediaPickerVideoCreationDate)
                         self.resultHandler?( .uploadSuccess(result: resultData) )
                     }
                     self.resultHandler?( .requestFinishCoverPicker )

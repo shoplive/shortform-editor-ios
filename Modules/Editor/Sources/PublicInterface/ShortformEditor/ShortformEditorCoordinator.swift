@@ -65,7 +65,8 @@ extension ShopliveShortformCoordinator : SLPhotosPickerViewControllerDelegate  {
         editorDelegate?.onShopLiveShortformEditorOnEvent?(name: name.rawValue, payload: payload)
     }
     
-    func photoPicker(picker : UIViewController,didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
+    func photoPicker(picker: UIViewController, didSelectVideo absoluteUrl: URL, relativeUrl: URL, videoCreationDate: Date?) {
+        ShopLiveShortformEditorDataStorage.shared.mediaPickerVideoCreationDate = videoCreationDate
         let tempAbsoluteVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: absoluteUrl.absoluteString)
         let tempAbsoluteVideoUrl = URL(string: tempAbsoluteVideoUrlString)!
         let tempRelativeVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: relativeUrl.absoluteString)
@@ -80,6 +81,10 @@ extension ShopliveShortformCoordinator : SLPhotosPickerViewControllerDelegate  {
                 self.editorDelegate?.onShopLiveShortformEditorError?(error: commonError)
             }
         }
+    }
+    
+    func photoPicker(picker : UIViewController,didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
+        
     }
     
     func photoPicker(picker: UIViewController, didSelectImage url: URL) {

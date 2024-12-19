@@ -46,6 +46,7 @@ public class ShopLiveMediaPicker : NSObject {
     }
     
     public func build(type : SLMediaType, completion : @escaping(UIViewController) -> () ) {
+        ShopLiveShortformEditorDataStorage.shared.mediaPickerVideoCreationDate = nil
         let photoPicker = SLPhotosPickerViewController(mediaType: type , permissionDelegate: permissionHandler)
         photoPicker.delegate = self
         DispatchQueue.main.async {
@@ -60,7 +61,8 @@ public class ShopLiveMediaPicker : NSObject {
     }
 }
 extension ShopLiveMediaPicker : SLPhotosPickerViewControllerDelegate {
-    func photoPicker(picker : UIViewController,didSelectVideo absoluteUrl: URL, relativeUrl: URL) {
+    func photoPicker(picker: UIViewController, didSelectVideo absoluteUrl: URL, relativeUrl: URL, videoCreationDate: Date?) {
+        ShopLiveShortformEditorDataStorage.shared.mediaPickerVideoCreationDate = videoCreationDate
         let tempAbsoluteVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: absoluteUrl.absoluteString)
         let tempAbsoluteVideoUrl = URL(string: tempAbsoluteVideoUrlString)!
         let tempRelativeVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: relativeUrl.absoluteString)

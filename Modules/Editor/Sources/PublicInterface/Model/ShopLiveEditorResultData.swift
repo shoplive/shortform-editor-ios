@@ -24,6 +24,7 @@ import UIKit
     public var width : CGFloat?
     public var height : CGFloat?
     public var duration : Double?
+    public var videoCreatedAt : Date?
     
     public init(shortsId: String? = nil,
                 localVideoUrl: String? = nil,
@@ -32,7 +33,8 @@ import UIKit
                 localCoverImage: UIImage? = nil,
                 width: CGFloat? = nil,
                 height: CGFloat? = nil,
-                duration: Double? = nil) {
+                duration: Double? = nil,
+                videoCreatedAt : Date? = nil) {
         self.shortsId = shortsId
         self.localVideoUrl = localVideoUrl
         self.remoteOriginVideoUrl = remoteOriginVideoUrl
@@ -41,6 +43,7 @@ import UIKit
         self.width = width
         self.height = height
         self.duration = duration
+        self.videoCreatedAt = videoCreatedAt
     }
 }
 
@@ -64,6 +67,7 @@ struct ShopLiveEditorResultInternalData {
     var width : CGFloat?
     var height : CGFloat?
     var duration : Double?
+    var videoCreatedAt : Date?
     
     init(shortsId: String? = nil,
          localVideoUrl: String? = nil,
@@ -72,7 +76,8 @@ struct ShopLiveEditorResultInternalData {
          localCoverImage: UIImage? = nil,
          width: CGFloat? = nil,
          height: CGFloat? = nil,
-         duration: Double? = nil) {
+         duration: Double? = nil,
+         videoCreatedAt : Date? = nil) {
         self.shortsId = shortsId
         self.localVideoUrl = localVideoUrl
         self.remoteOriginVideoUrl = remoteOriginVideoUrl
@@ -81,6 +86,7 @@ struct ShopLiveEditorResultInternalData {
         self.width = width
         self.height = height
         self.duration = duration
+        self.videoCreatedAt = videoCreatedAt
     }
     
     
@@ -92,7 +98,8 @@ struct ShopLiveEditorResultInternalData {
                                         localCoverImage: localCoverImage,
                                         width: width,
                                         height: height,
-                                        duration: duration)
+                                        duration: duration,
+                                        videoCreatedAt: videoCreatedAt)
     }
     
 }

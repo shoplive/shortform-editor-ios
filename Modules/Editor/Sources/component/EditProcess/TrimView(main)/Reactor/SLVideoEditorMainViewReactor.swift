@@ -471,7 +471,8 @@ extension SLVideoEditorMainViewReactor {
                                                                       localCoverImage: nil,
                                                                       width: self.videoEditInfoDto.getConvertedVideoSize()?.width,
                                                                       height: self.videoEditInfoDto.getConvertedVideoSize()?.height,
-                                                                      duration : self.videoEditInfoDto.getConvertedVideoDuration())
+                                                                      duration : self.videoEditInfoDto.getConvertedVideoDuration(),
+                                                                      videoCreatedAt: ShopLiveShortformEditorDataStorage.shared.mediaPickerVideoCreationDate)
                     
                     self.resultHandler?( .uploadSuccess(result: resultData) )
                     break

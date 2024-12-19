@@ -31,7 +31,7 @@ class SLPhotosPickerReactor : NSObject, SLReactor {
         case setPhotoLibraryForAlbumSelectView(SLPhotoLibrary)
         case setAssetsCollectionForAlbumSelectView([SLAssetsCollection])
         
-        case didSelectVideo((localAbsolutUrl : URL, localRelativeUrl : URL))
+        case didSelectVideo((localAbsolutUrl : URL, localRelativeUrl : URL, videoCreationDate : Date?))
         case didSelectImage(URL)
         
         case dismissMediaPicker
@@ -344,7 +344,8 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
                 self.getVideoUrlFromPhAsset(phAsset: phAsset) { [weak self] absoluteUrl,relativeUrl in
                     guard let absoluteUrl = absoluteUrl, let relativeUrl = relativeUrl else { return }
                     self?.resultHandler?( .requsetFinishLoading )
-                    self?.resultHandler?( .didSelectVideo((absoluteUrl,relativeUrl)))
+                    ShopLiveLogger.tempLog("[CREATIONDATE] date \(phAsset.creationDate)")
+                    self?.resultHandler?( .didSelectVideo((absoluteUrl,relativeUrl,phAsset.creationDate)))
                 }
             }
             else if self.pickerConfigure.mediaType == .image {
@@ -374,6 +375,7 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
         self.avAssetExportProgressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.exportProgressTimer), userInfo: nil, repeats: true)
         self.avAssetExportProgressTimer?.fire()
         
+        
         PHImageManager.default().requestAVAsset(forVideo: phAsset, options: options, resultHandler: { [weak self] (asset: AVAsset?, audioMix: AVAudioMix?, info: [AnyHashable : Any]?) -> Void in
             guard let asset = asset, let self = self else {
                 self?.removeAVAssetExportSessionTimer()
@@ -391,6 +393,7 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
             else {
                 preset = AVAssetExportPresetHighestQuality
             }
+            
             
             self.exportSession = AVAssetExportSession(asset: asset, presetName: preset )
             guard let exportSession = self.exportSession else {
@@ -541,7 +544,7 @@ extension SLPhotosPickerReactor : UIImagePickerControllerDelegate, UINavigationC
                     guard let absoluteUrl = absoluteUrl, let relativeUrl = relativeUrl else { return }
                     DispatchQueue.main.async {
                         picker.dismiss(animated: true) {
-                            self?.resultHandler?( .didSelectVideo((absoluteUrl,relativeUrl)) )
+                            self?.resultHandler?( .didSelectVideo((absoluteUrl,relativeUrl, result.phAsset?.creationDate)) )
                         }
                     }
                 }
