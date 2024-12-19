@@ -29,16 +29,11 @@ struct SLShortformVideoAPI: APIDefinition {
     var showResponseLog: Bool = false
     
     var baseUrl: String {
-        ShortFormUploadConfigurationInfosManager.shared.getBaseUrl()
+        return apiEndpoint
     }
     
     var urlPath: String {
-        if let accessKey = ShopLiveCommon.getAccessKey(), accessKey.isEmpty == false {
-            return "sdk/v1/\(accessKey)/shortform/video"
-        }
-        else {
-            return "sdk/v1/shortform/video"
-        }
+        return ""
     }
     
     var method: SLHTTPMethod {
