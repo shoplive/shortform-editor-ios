@@ -145,6 +145,7 @@ extension SLVideoInfo {
     -ss \(timeRange.start.timeHourMinuteSeconds_SL) \
     -to \(timeRange.end.timeHourMinuteSeconds_SL) \
     -i \(videoPath) \
+    -c:v mpeg4 \
     -filter_complex "\(filterConfig)[filter]; \
     [filter]crop=\(Int(modifiedCropWidth)):\(Int(modifiedCropHeight)):\(Int(cropRect.origin.x)):\(Int(cropRect.origin.y))[crop]; \
     \(volumeCommand) \
@@ -161,6 +162,7 @@ extension SLVideoInfo {
 -ss \(timeRange.start.timeHourMinuteSeconds_SL) \
 -to \(timeRange.end.timeHourMinuteSeconds_SL) \
 -i \(videoPath) \
+-c:v mpeg4 \
 -filter_complex "[0:v]crop=\(Int(modifiedCropWidth)):\(Int(modifiedCropHeight)):\(Int(cropRect.origin.x)):\(Int(cropRect.origin.y))[crop]; \
 \(volumeCommand) \
 \(speedCommand) \
@@ -182,6 +184,7 @@ extension SLVideoInfo {
     -ss \(timeRange.start.timeHourMinuteSeconds_SL) \
     -to \(timeRange.end.timeHourMinuteSeconds_SL) \
     -i \(videoPath) \
+    -c:v mpeg4 \
     -filter_complex "\(filterConfig)[filter]; \
     [filter]crop=\(Int(modifiedCropWidth)):\(Int(modifiedCropHeight)):\(Int(cropRect.origin.x)):\(Int(cropRect.origin.y))[crop]; \
     \(volumeCommand) \
@@ -197,6 +200,7 @@ extension SLVideoInfo {
 -ss \(timeRange.start.timeHourMinuteSeconds_SL) \
 -to \(timeRange.end.timeHourMinuteSeconds_SL) \
 -i \(videoPath) \
+-c:v mpeg4 \
 -filter_complex "[0:v]crop=\(Int(modifiedCropWidth)):\(Int(modifiedCropHeight)):\(Int(cropRect.origin.x)):\(Int(cropRect.origin.y))[crop]; \
 \(volumeCommand) \
 \(speedCommandForRemovedScale)" \

@@ -176,28 +176,39 @@ class EditorOptionPopUp : UIView {
     
     @objc func shortformBtnTapped(sender : UIButton) {
         guard let vc = self.vc else { return }
-        let cropOption = ShopLiveShortFormEditorAspectRatio(width: OptionSettingModel.editorWidth,
-                                                            height: OptionSettingModel.editorheight,
-                                                            isFixed: OptionSettingModel.editorIsFixed)
+//        let cropOption = ShopLiveShortFormEditorAspectRatio(width: OptionSettingModel.editorWidth,
+//                                                            height: OptionSettingModel.editorheight,
+//                                                            isFixed: OptionSettingModel.editorIsFixed)
+//        
+//        let visibleContents = ShopLiveShortFormEditorVisibleContent(isDescriptionVisible: OptionSettingModel.editorShowDescription,
+//                                                                    isTagsVisible: OptionSettingModel.editorShowTags,
+//                                                                    editOptions: [.volume ])
+//        
+//        let mediaPickOption = ShopLiveMediaPickerVideoDurationOption(minVideoDuration: 3,
+//                                                                     maxVideoDuration: 90,
+//                                                                     invalidDurationToastMessage: "customToast")
+//        
+//        ShopLiveShortformEditor.shared
+//            .setPermissionHandler(nil)
+//            .setConfiguration(ShopLiveShortformEditorConfiguration(videoCropOption: cropOption ,
+//                                                                   visibleContents: visibleContents,
+//                                                                   videoOutputOption: nil,
+//                                                                   mediaPickerVideoDurationOption: mediaPickOption,
+//                                                                   minVideoDuration: 3,
+//                                                                   maxVideoDuration: 90))
+//            .setDelegate(delegate: vc)
+//            .start(vc)
         
-        let visibleContents = ShopLiveShortFormEditorVisibleContent(isDescriptionVisible: OptionSettingModel.editorShowDescription,
-                                                                    isTagsVisible: OptionSettingModel.editorShowTags,
-                                                                    editOptions: [.volume ])
-        
-        let mediaPickOption = ShopLiveMediaPickerVideoDurationOption(minVideoDuration: 3,
-                                                                     maxVideoDuration: 90,
-                                                                     invalidDurationToastMessage: "customToast")
-        
-        ShopLiveShortformEditor.shared
-            .setPermissionHandler(nil)
-            .setConfiguration(ShopLiveShortformEditorConfiguration(videoCropOption: cropOption ,
-                                                                   visibleContents: visibleContents,
-                                                                   videoOutputOption: nil,
-                                                                   mediaPickerVideoDurationOption: mediaPickOption,
-                                                                   minVideoDuration: 3,
-                                                                   maxVideoDuration: 90))
-            .setDelegate(delegate: vc)
-            .start(vc)
+        ShopLiveMediaPicker
+            .shared
+            .setDelegate(self)
+            .build(type: .video) { [weak self] mediaPicker in
+                guard let self = self else { return }
+                guard let vc = self.vc else { return }
+                let view = UINavigationController(rootViewController: mediaPicker)
+                view.modalPresentationStyle = .fullScreen
+                self.vc?.present(view, animated: true)
+            }
     }
     
     @objc func editorBtnTapped(sender : UIButton) {
@@ -364,4 +375,80 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
                 self.vc?.present(nav, animated: true)
             })
     }
+}
+
+extension EditorOptionPopUp : ShopLiveMediaPickerDelegate {
+    func onShopLiveMediaPickerCancelled(picker: UIViewController?) {
+        if let nav = picker?.navigationController {
+            nav.dismiss(animated: true)
+        }
+    }
+    
+    func onShopLiveMediaPickerDidPickVideo(picker: UIViewController?, absoluteUrl: URL, relativeUrl: URL) {
+        let cropOption = ShopliveVideoEditorAspectRatio(width: OptionSettingModel.editorWidth,
+                                                        height: OptionSettingModel.editorheight,
+                                                        isFixed: OptionSettingModel.editorIsFixed)
+
+        let trimOption = ShopliveVideoEditorTrimOption(minVideoDuration: OptionSettingModel.editorMinVideoDuration,
+                                                       maxVideoDuration: OptionSettingModel.editorMaxVideoDuration)
+        
+        let videoOutPutOption = ShopLiveShortformEditorVideoOuputOption(videoOutputQuality: .max,
+                                                                        videoOutputResoltuion: ._1080)
+        
+        
+        let visibleContents = ShopLiveShortFormEditorVisibleContent(isDescriptionVisible: OptionSettingModel.editorShowDescription,
+                                                                    isTagsVisible: OptionSettingModel.editorShowTags,
+                                                                    editOptions: [.crop,.filter,.playBackSpeed,.volume])
+        
+        
+        ShopliveVideoEditor.shared
+            .setPermissionHandler(nil)
+            .setConfiguration(.init(videoCropOption: cropOption,
+                                    videoOutputOption: videoOutPutOption,
+                                    videoTrimOption: trimOption,
+                                    visibleContents: visibleContents))
+            .setDelegate(self)
+            .build(data: .init(videoUrl: absoluteUrl,isCreatedShortform: true), completion: { [weak self] editorViewController in
+                guard let self = self else { return }
+                picker?.navigationController?.pushViewController(editorViewController, animated: true)
+            })
+    }
+    
+}
+extension EditorOptionPopUp : ShopLiveVideoEditorDelegate {
+    func onShopLiveVideoEditorCancelled(editor: UIViewController?) {
+        editor?.navigationController?.popViewController(animated: true)
+    }
+    
+    func onShopLiveVideoEditorUploadSuccess(editor: UIViewController?, result: ShopliveEditorResultData?) {
+        let cropOption = ShopLiveShortFormEditorAspectRatio(width: OptionSettingModel.editorWidth,
+                                                        height: OptionSettingModel.editorheight,
+                                                        isFixed: OptionSettingModel.editorIsFixed)
+        
+        let visibleActionButton = ShopLiveCoverPickerVisibleActionButton(editOptions: [.crop])
+        guard let result = result,
+              let localVideoUrlString = result.localVideoUrl else { return }
+        let videoUrl = URL(fileURLWithPath: localVideoUrlString)
+        
+        ShopLiveCoverPicker.shared
+            .setConfiguration(.init(cropOption: cropOption,
+                                    visibleActionButton: visibleActionButton))
+            .setDelegate(self)
+            .build(data: .init(videoUrl: videoUrl,shortsId: result.shortsId), completion: { [weak self] coverPickerViewController in
+                guard let self = self else { return }
+                editor?.navigationController?.pushViewController(coverPickerViewController, animated: true)
+            })
+    }
+    
+}
+extension EditorOptionPopUp : ShopLiveCoverPickerDelegate {
+    
+    func onShopLiveCoverPickerCancelled(picker: UIViewController?) {
+        picker?.navigationController?.popViewController(animated: true)
+    }
+    
+    func onShopLiveCoverPickerCoverImageSuccess(picker: UIViewController?, image: UIImage?) {
+        picker?.navigationController?.dismiss(animated: true)
+    }
+    
 }

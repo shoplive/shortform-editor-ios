@@ -67,14 +67,14 @@ class V2ShortsCollectionExampleView : UIViewController {
         super.viewDidAppear(animated)
         ShopLiveLogger.tempLog("[VIDEO_TOTAL_VIEWING_TIME] viewDidAppear")
         guard let shortsCollectionView = shortsCollectionView else { return }
-        shortsCollectionView.action( .setViewAppeared )
+        shortsCollectionView.action( .setActive )
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         ShopLiveLogger.tempLog("[VIDEO_TOTAL_VIEWING_TIME] viewDidDisappear")
         guard let shortsCollectionView = shortsCollectionView else { return }
-        shortsCollectionView.action( .setActive )
+        shortsCollectionView.action( .setInActive )
     }
     
     @objc
