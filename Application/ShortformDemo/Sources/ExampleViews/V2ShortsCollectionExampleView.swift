@@ -63,6 +63,20 @@ class V2ShortsCollectionExampleView : UIViewController {
         removeFirstIndexBtn.addTarget(self, action: #selector(removeFirstIndexBtnTapped), for: .touchUpInside)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        ShopLiveLogger.tempLog("[VIDEO_TOTAL_VIEWING_TIME] viewDidAppear")
+        guard let shortsCollectionView = shortsCollectionView else { return }
+        shortsCollectionView.action( .setViewAppeared )
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        ShopLiveLogger.tempLog("[VIDEO_TOTAL_VIEWING_TIME] viewDidDisappear")
+        guard let shortsCollectionView = shortsCollectionView else { return }
+        shortsCollectionView.action( .setActive )
+    }
+    
     @objc
     private func backBtnTapped() {
         if self.navigationController?.viewControllers.count == 1 {

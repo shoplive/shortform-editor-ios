@@ -21,6 +21,8 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
         case play
         case pause
         case setScrollEnabled(Bool)
+        case setInActive
+        case setActive
     }
     
     public enum Result {
@@ -75,6 +77,8 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
         shortsCollectionView.updateItemSize(self.frame.size)
     }
     
+    
+    
     public func action(_ action: Action) {
         switch action {
         case .onStartRotation(let size):
@@ -91,6 +95,10 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
             onRemove(shortsIdOrSrn: shortsIdOrSrn)
         case .setScrollEnabled(let isScrollEnabled):
             onIsScrollEnabled(isScrollEnabled: isScrollEnabled)
+        case .setActive:
+            self.onSetActive()
+        case .setInActive:
+            self.onSetInActive()
         }
     }
     
@@ -133,6 +141,16 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
     private func onIsScrollEnabled(isScrollEnabled : Bool) {
         guard let shortsCollectionView = getShortsCollectionView() else { return }
         shortsCollectionView.setIsScrollEnabled(isScrollEnabled: isScrollEnabled)
+    }
+    
+    private func onSetActive() {
+        guard let shortsCollectionView = getShortsCollectionView() else { return }
+        shortsCollectionView.setActive()
+    }
+    
+    private func onSetInActive() {
+        guard let shortsCollectionView = getShortsCollectionView() else { return }
+        shortsCollectionView.setInActive()
     }
 }
 extension ShopLiveShortsCollectionView {

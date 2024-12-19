@@ -201,6 +201,7 @@ extension ShortsWebView : SLWebviewResponseDelegate {
     }
     
     func handleEventMessage(message: WKScriptMessage) {
+        
         guard let body = message.body as? [String: Any],
               let event = body["shopliveShortsEvent"] as? [String : Any],
               let eventName = event["name"] as? String,

@@ -35,6 +35,16 @@ class ShortsCollectionExampleView : UIViewController {
         backBtn.addTarget(self, action: #selector(backBtnTapped), for: .touchUpInside)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        ShopLiveLogger.tempLog("[SHORTSCOLLECTIONVIEW] viewDidAppear")
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        ShopLiveLogger.tempLog("[SHORTSCOLLECTIONVIEW] viewDidDisappear")
+    }
+    
     @objc
     private func backBtnTapped() {
         if self.navigationController?.viewControllers.count == 1 {

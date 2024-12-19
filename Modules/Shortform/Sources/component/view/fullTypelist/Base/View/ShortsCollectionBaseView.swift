@@ -283,6 +283,16 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     func setIsScrollEnabled(isScrollEnabled : Bool) {
         shortsListView.isScrollEnabled = isScrollEnabled
     }
+    
+    func setActive() {
+        guard let index = self.getCenterItemIndexPath()?.row, let srn = self.viewModel.shortsListData[safe: index]?.srn else { return }
+        self.viewModel.postActivePageNotification(srn: srn, index: index)
+    }
+    
+    func setInActive() {
+        guard let index = self.getCenterItemIndexPath()?.row, let srn = self.viewModel.shortsListData[safe: index]?.srn else { return }
+        self.viewModel.postActivePageNotification(forceIsActive: false, srn: srn, index: index)
+    }
 }
 extension ShortsCollectionBaseView {
     func getPreviewEventTraceSrn() -> String? {
@@ -444,9 +454,6 @@ extension ShortsCollectionBaseView {
         closeButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
         self.bringSubviewToFront(inAppPreviewView)
     }
-    
-    
-    
 }
 extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
