@@ -608,7 +608,8 @@ public class ShopLiveCoverPickerData {
   public var width: CoreFoundation.CGFloat?
   public var height: CoreFoundation.CGFloat?
   public var duration: Swift.Double?
-  public init(shortsId: Swift.String? = nil, localVideoUrl: Swift.String? = nil, remoteOriginVideoUrl: Swift.String? = nil, remoteCoverImageUrl: Swift.String? = nil, localCoverImage: UIKit.UIImage? = nil, width: CoreFoundation.CGFloat? = nil, height: CoreFoundation.CGFloat? = nil, duration: Swift.Double? = nil)
+  public var videoCreatedAt: Foundation.Date?
+  public init(shortsId: Swift.String? = nil, localVideoUrl: Swift.String? = nil, remoteOriginVideoUrl: Swift.String? = nil, remoteCoverImageUrl: Swift.String? = nil, localCoverImage: UIKit.UIImage? = nil, width: CoreFoundation.CGFloat? = nil, height: CoreFoundation.CGFloat? = nil, duration: Swift.Double? = nil, videoCreatedAt: Foundation.Date? = nil)
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers public class ShopLiveMediaPicker : ObjectiveC.NSObject {
@@ -773,6 +774,7 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var confirmButtonBackgroundColor: UIKit.UIColor
     public var confirmButtonTextColor: UIKit.UIColor
     public var confirmButtonCornerRadius: CoreFoundation.CGFloat
+    public var confirmButtonTitleFont: UIKit.UIFont
     public var sliderCornerRadius: CoreFoundation.CGFloat
     public var sliderThumbCornerRadius: CoreFoundation.CGFloat
     public var sliderThumbColor: UIKit.UIColor
@@ -780,6 +782,7 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var cameraRollButtonBackgroundColor: UIKit.UIColor
     public var cameraRollButtonTextColor: UIKit.UIColor
     public var cameraRollButtonCornerRadius: CoreFoundation.CGFloat
+    public var cameraRollButtonTitle: Swift.String
     @objc deinit
   }
 }
