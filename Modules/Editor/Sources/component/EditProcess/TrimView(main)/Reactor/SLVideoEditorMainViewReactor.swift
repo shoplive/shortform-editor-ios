@@ -110,6 +110,8 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     
     private var shortformUploadableResponseData : SLUploadableResponse?
     
+    private let appStateObserver = ShopliveAppStateObserver()
+    
     //shortform/video API 경우 긴거 올릴때 중간에 메모리가 유실되는 경우가 있어서 레퍼런스를 잡고 있어야 함
     private var shortformVideoAPI : SLShortformVideoAPI?
     
@@ -124,6 +126,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         self.imageGenerator.maximumSize = CGSize(width: 720, height: 1280)
         self.imageGenerator.apertureMode = .cleanAperture
         super.init()
+        appStateObserver.delegate = self
         videoConverter.delegate = self
     }
     
@@ -528,5 +531,19 @@ extension SLVideoEditorMainViewReactor {
             guard let self = self, let videoUrl = self.videoEditInfoDto.convertedVideoPath else { return }
             try? FileManager.default.removeItem(atPath: videoUrl)
         }
+    }
+}
+extension SLVideoEditorMainViewReactor : ShopliveAppStateObserverDelegate {
+    func handleAppStateNotification(appState: SLAppState) {
+        switch appState {
+        case .willEnterBackground, .didEnterBackground:
+            self.handleAppWillDidEnterbackground()
+        default:
+            break
+        }
+    }
+    
+    private func handleAppWillDidEnterbackground() {
+        onMainQueueResultHandler?( .pauseVideo )
     }
 }
