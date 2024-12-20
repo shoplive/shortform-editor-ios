@@ -36,13 +36,22 @@ class V2ShortsCollectionExampleView : UIViewController {
         btn.setTitle("removeFirstIndex", for: .normal)
         return btn
     }()
+    
+    private var removeLastIndexBtn : UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.backgroundColor = .black
+        btn.setTitle("removeLatIndex", for: .normal)
+        return btn
+    }()
 
     var shortsCollectionView : ShopLiveShortsCollectionView?
    
     var reference : String? = nil
     var hasMore : Bool? = nil
     var firstIndexShortsIdOrSrn : String = ""
-    
+    var ids : [ShopLiveShortformIdData] = []
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -51,6 +60,7 @@ class V2ShortsCollectionExampleView : UIViewController {
         self.callShortsCollectionAPI { [weak self] idsMoreData, error in
             guard let self = self else { return }
             guard let ids = idsMoreData?.ids else { return }
+            self.ids = ids
             self.firstIndexShortsIdOrSrn = ids.first?.shortsId ?? ""
             self.shortsCollectionView = ShopLiveShortsCollectionView(shortformIdsData: ShopLiveShortformIdsData(ids: ids),
                                                                      dataSourceDelegate: self,
@@ -61,6 +71,7 @@ class V2ShortsCollectionExampleView : UIViewController {
         backBtn.addTarget(self, action: #selector(backBtnTapped), for: .touchUpInside)
         btn.addTarget(self, action: #selector(nextBtnTapped), for: .touchUpInside)
         removeFirstIndexBtn.addTarget(self, action: #selector(removeFirstIndexBtnTapped), for: .touchUpInside)
+        removeLastIndexBtn.addTarget(self, action: #selector(removeLastIndexBtnTapped), for: .touchUpInside)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -98,8 +109,19 @@ class V2ShortsCollectionExampleView : UIViewController {
     @objc
     private func removeFirstIndexBtnTapped() {
         guard let shortsCollectionView = shortsCollectionView else { return }
-        ShopLiveLogger.tempLog("[ONREMOVE] firstIndexShortsIdOrSrn \(self.firstIndexShortsIdOrSrn)")
-        shortsCollectionView.action( .remove(self.firstIndexShortsIdOrSrn) )
+        guard let firstShortsId = ids.first?.shortsId else { return }
+        ids = Array(ids.dropFirst())
+        ShopLiveLogger.tempLog("[ONREMOVE] firstIndexShortsIdOrSrn \(firstShortsId)")
+        shortsCollectionView.action( .remove(firstShortsId) )
+    }
+    
+    @objc
+    private func removeLastIndexBtnTapped() {
+        guard let shortsCollectionView = shortsCollectionView else { return }
+        guard let lastShortsId = ids.last?.shortsId else { return }
+        ids = Array(ids.dropLast())
+        ShopLiveLogger.tempLog("[ONREMOVE] firstIndexShortsIdOrSrn \(lastShortsId)")
+        shortsCollectionView.action( .remove(lastShortsId) )
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: any UIViewControllerTransitionCoordinator) {
@@ -120,6 +142,7 @@ extension V2ShortsCollectionExampleView {
         self.view.addSubview(btn)
         self.view.addSubview(backBtn)
         self.view.addSubview(removeFirstIndexBtn)
+        self.view.addSubview(removeLastIndexBtn)
         
         NSLayoutConstraint.activate([
             backBtn.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -138,6 +161,11 @@ extension V2ShortsCollectionExampleView {
             removeFirstIndexBtn.widthAnchor.constraint(equalToConstant: 150),
             removeFirstIndexBtn.heightAnchor.constraint(equalToConstant: 50),
             
+            removeLastIndexBtn.topAnchor.constraint(equalTo: removeFirstIndexBtn.bottomAnchor, constant: 5),
+            removeLastIndexBtn.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            removeLastIndexBtn.widthAnchor.constraint(equalToConstant: 150),
+            removeLastIndexBtn.heightAnchor.constraint(equalToConstant: 50),
+            
             shortsCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor,constant: 60),
             shortsCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             shortsCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
@@ -154,17 +182,18 @@ extension V2ShortsCollectionExampleView : ShortsCollectionViewDataSourcRequestDe
     }
     
     func onShortformListPagination(completion: @escaping (((ShopLiveShortformSDK.ShopLiveShortformIdsMoreData?, Error?)) -> ())) {
-        callShortsCollectionAPI { data,error in
-            if let data = data {
-                completion((data,nil))
-            }
-            else if let error = error {
-                completion((nil,error))
-            }
-            else {
-                completion((nil,nil))
-            }
-        }
+        completion((nil,nil))
+//        callShortsCollectionAPI { data,error in
+//            if let data = data {
+//                completion((data,nil))
+//            }
+//            else if let error = error {
+//                completion((nil,error))
+//            }
+//            else {
+//                completion((nil,nil))
+//            }
+//        }
     }
     
     func callShortsCollectionAPI(completion : @escaping((ShopLiveShortformIdsMoreData?,Error?) -> ())) {
@@ -197,6 +226,8 @@ extension V2ShortsCollectionExampleView : ShortsCollectionViewDataSourcRequestDe
 extension V2ShortsCollectionExampleView : ShopLiveShortformReceiveHandlerDelegate {
     func onEvent(messenger: ShopLiveShortformMessenger?, command: String, payload: String?) {
         switch command {
+        case "DETAIL_EMPTY":
+            ShopLiveLogger.tempLog("[DETAIL_EMPTY]")
         case "DETAIL_SHORTFORM_MORE_ENDED":
             ShopLiveLogger.tempLog("[DETAIL_SHORTFORM_MORE_ENDED]")
             break

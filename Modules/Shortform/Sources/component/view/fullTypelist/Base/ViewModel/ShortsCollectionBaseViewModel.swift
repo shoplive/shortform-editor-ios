@@ -314,9 +314,16 @@ extension ShortsCollectionBaseViewModel {
         let numberOfItemsInSection = cv.numberOfItems(inSection: 0)
         if numberOfItemsInSection == 1, let _ = self.shortsListData.firstIndex(where: { $0.shortsId ?? "" == shortsIdOrSrn  || $0.srn  == shortsIdOrSrn }) {
             // 쇼츠 데이터가 1개 뿐일때 삭제하려고 한다면 그냥 닫아버리는 것으로 무신사 측과 협의 됨
+            self.shortformDelegate?.onEvent?(messenger: nil, command: "DETAIL_EMPTY", payload: nil)
+            self.originShortsListData.removeAll()
+            cv.reloadData()
             ShopLiveShortform.close()
         }
         else if let firstIndex = self.shortsListData.firstIndex(where: { $0.shortsId ?? "" == shortsIdOrSrn || $0.srn  == shortsIdOrSrn }) {
+            //삭제 되는 것이 마지막 data 라면
+            if firstIndex == self.shortsListData.count - 1 {
+                self.shortformDelegate?.onEvent?(messenger: nil, command: "DETAIL_EMPTY", payload: nil)
+            }
             if numberOfItemsInSection != self.shortsListData.count {
                 let newlyAppendDataCount : Int = self.shortsListData.count - numberOfItemsInSection
                 let newDatas : [SLShortsModel] = self.originShortsListData.suffix(newlyAppendDataCount)
