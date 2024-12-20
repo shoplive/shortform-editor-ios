@@ -43,6 +43,14 @@ class SLCropableUIImageView : UIView, SLReactor {
         view.setIsCropAvailable(isAvailable: true)
         return view
     }()
+    
+    private lazy var cropViewHeightAnchor : NSLayoutConstraint = {
+        return cropView.heightAnchor.constraint(equalTo: self.heightAnchor)
+    }()
+    
+    private lazy var cropViewWidthAnchor : NSLayoutConstraint = {
+        return cropView.widthAnchor.constraint(equalTo: self.widthAnchor)
+    }()
    
     private var cropGridViewColor : UIColor = .white
     var resultHandler: ((Result) -> ())?
@@ -98,9 +106,38 @@ class SLCropableUIImageView : UIView, SLReactor {
     
     private func onSetCropViewSize(size : CGSize) {
         self.cropView.videoResolution = size
-        self.cropView.setInitialCropRect(rect: .init(origin: .zero, size: size))
+        let imageSize = getVisibleImageFrame()?.size ?? size
+        self.cropView.setInitialCropRect(rect: .init(origin: .zero, size: imageSize))
+        NSLayoutConstraint.activate([
+            cropView.widthAnchor.constraint(equalToConstant: imageSize.width),
+            cropView.heightAnchor.constraint(equalToConstant: imageSize.height)
+        ])
+        self.layoutIfNeeded()
         self.cropView.updateCropArea()
         self.cropView.setIsCropAvailable(isAvailable: true)
+        
+    }
+    
+    //실제 .scaleAspectFit으로 설정되어서 렌더링 되는 영역의 크기 
+    private func getVisibleImageFrame() -> CGRect? {
+        guard let image = imageView.image else {
+            return nil
+        }
+
+        let imageSize = image.size
+        let imageViewSize = imageView.bounds.size
+        let widthRatio = imageViewSize.width / imageSize.width
+        let heightRatio = imageViewSize.height / imageSize.height
+        let scale = min(widthRatio, heightRatio)
+        
+        
+        let visibleWidth = imageSize.width * scale
+        let visibleHeight = imageSize.height * scale
+        
+        let x = (imageViewSize.width - visibleWidth) / 2
+        let y = (imageViewSize.height - visibleHeight) / 2
+        
+        return CGRect(x: x, y: y, width: visibleWidth, height: visibleHeight)
     }
     
     private func onRequestCroppedImageResult() {
@@ -125,27 +162,26 @@ extension SLCropableUIImageView {
 }
 extension SLCropableUIImageView {
     private func cropped(to rect: CGRect) -> UIImage? {
-        guard let cgImage = self.imageView.image?.cgImage?.cropping(to: rect) else {
+        guard let cgImage = self.imageView.image?.fixedOrientation().cgImage?.cropping(to: rect) else {
             return nil
         }
-        return UIImage(cgImage: cgImage)
+        return UIImage(cgImage: cgImage, scale: 1.0, orientation: .up )
     }
     
     private func convertCropRectToActualImageSize(cropRect : CGRect) -> CGRect? {
         guard let imageSize = imageView.image?.size else {
             return nil
         }
-        
-        let widthRatio = imageSize.width / self.bounds.width
-        let heightRatio = imageSize.height / self.bounds.height
+       
+        let widthRatio = imageSize.width / cropView.frame.width
+        let heightRatio = imageSize.height / cropView.frame.height
         
         let convertedRect = CGRect(
             x: cropRect.origin.x * widthRatio,
-            y: cropRect.origin.y * heightRatio,
+            y: cropRect.origin.y * heightRatio ,
             width: cropRect.width * widthRatio,
             height: cropRect.height * heightRatio
         )
-        
         return convertedRect
     }
 }
@@ -161,10 +197,22 @@ extension SLCropableUIImageView {
             imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
-            cropView.topAnchor.constraint(equalTo: self.topAnchor),
-            cropView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            cropView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            cropView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            cropView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            cropView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
         ])
+    }
+}
+
+fileprivate extension UIImage {
+    func fixedOrientation() -> UIImage {
+        guard imageOrientation != .up else {
+            return self
+        }
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        defer { UIGraphicsEndImageContext() }
+        
+        draw(in: CGRect(origin: .zero, size: size))
+        
+        return UIGraphicsGetImageFromCurrentImageContext() ?? self
     }
 }

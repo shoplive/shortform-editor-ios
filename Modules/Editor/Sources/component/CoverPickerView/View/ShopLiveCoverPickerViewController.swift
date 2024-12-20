@@ -347,8 +347,8 @@ extension ShopLiveCoverPickerViewController {
     
     private func onReactorSetThumbnailImage(image : UIImage) {
         self.photoPickerModeCloseBtn.isHidden = false
-        pickerSelectedThumbnailImageView.action( .setCropViewSize(playerContainerView.frame.size) )
         pickerSelectedThumbnailImageView.action( .setImage(image) )
+        pickerSelectedThumbnailImageView.action( .setCropViewSize(playerContainerView.frame.size) )//
         pickerSelectedThumbnailImageView.isHidden = false
         playerContainerView.isHidden = true
     }
