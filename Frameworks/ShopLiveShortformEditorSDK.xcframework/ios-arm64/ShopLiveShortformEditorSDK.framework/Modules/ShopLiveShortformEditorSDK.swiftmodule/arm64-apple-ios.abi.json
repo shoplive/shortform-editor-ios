@@ -68589,28 +68589,42 @@
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/ThumbnailView\/SubView\/SLCropableUIimageView.swift",
       "kind": "StringLiteral",
-      "offset": 1626,
+      "offset": 1625,
       "length": 39,
       "value": "\"init(coder:) has not been implemented\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/ThumbnailView\/SubView\/SLCropableUIimageView.swift",
       "kind": "BooleanLiteral",
-      "offset": 3278,
+      "offset": 3581,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/ThumbnailView\/SubView\/SLCropableUIimageView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 4278,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/ThumbnailView\/SubView\/SLCropableUIimageView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 4337,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/ThumbnailView\/SubView\/SLCropableUIimageView.swift",
       "kind": "BooleanLiteral",
-      "offset": 3658,
+      "offset": 4800,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/ThumbnailView\/SubView\/SLCropableUIimageView.swift",
       "kind": "BooleanLiteral",
-      "offset": 3666,
+      "offset": 4808,
       "length": 4,
       "value": "true"
     },
@@ -68620,6 +68634,20 @@
       "offset": 227,
       "length": 21,
       "value": "\"ShopLiveShortformEditorSDK.SLCropableUIImageView\""
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/ThumbnailView\/SubView\/SLCropableUIimageView.swift",
+      "kind": "FloatLiteral",
+      "offset": 5396,
+      "length": 3,
+      "value": "1.0"
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/ThumbnailView\/SubView\/SLCropableUIimageView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 6910,
+      "length": 5,
+      "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/ThumbnailView\/View\/SLVideoThumbnailViewController.swift",
@@ -75547,35 +75575,42 @@
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 3342,
+      "offset": 3364,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
+      "kind": "BooleanLiteral",
+      "offset": 3371,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "StringLiteral",
-      "offset": 3468,
+      "offset": 3498,
       "length": 39,
       "value": "\"init(coder:) has not been implemented\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 3685,
+      "offset": 3715,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "StringLiteral",
-      "offset": 4208,
+      "offset": 4238,
       "length": 39,
       "value": "\"SLPhotosPickerViewController deinited\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 4545,
+      "offset": 4575,
       "length": 4,
       "value": "true"
     },
@@ -75589,168 +75624,168 @@
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 9285,
+      "offset": 9315,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "StringLiteral",
-      "offset": 9882,
+      "offset": 9912,
       "length": 4,
       "value": "\"0%\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 9962,
+      "offset": 9992,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 10065,
+      "offset": 10095,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 10191,
+      "offset": 10221,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 11927,
+      "offset": 11957,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 11993,
+      "offset": 12023,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 12163,
+      "offset": 12193,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 13129,
+      "offset": 13159,
       "length": 2,
       "value": "48"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 13331,
+      "offset": 13361,
       "length": 2,
       "value": "16"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 13397,
+      "offset": 13427,
       "length": 2,
       "value": "24"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 13464,
+      "offset": 13494,
       "length": 2,
       "value": "24"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 13726,
+      "offset": 13756,
       "length": 2,
       "value": "30"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 13843,
+      "offset": 13873,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 14712,
+      "offset": 14742,
       "length": 3,
       "value": "400"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 14782,
+      "offset": 14812,
       "length": 2,
       "value": "40"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 14945,
+      "offset": 14975,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 14955,
+      "offset": 14985,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "FloatLiteral",
-      "offset": 15058,
+      "offset": 15088,
       "length": 3,
       "value": "0.0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "FloatLiteral",
-      "offset": 15081,
+      "offset": 15111,
       "length": 3,
       "value": "0.2"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 15128,
+      "offset": 15158,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "FloatLiteral",
-      "offset": 15199,
+      "offset": 15229,
       "length": 3,
       "value": "0.8"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "FloatLiteral",
-      "offset": 15222,
+      "offset": 15252,
       "length": 3,
       "value": "0.2"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/View\/SLPhotosPickerViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 15269,
+      "offset": 15299,
       "length": 1,
       "value": "0"
     },
