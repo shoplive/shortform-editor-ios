@@ -939,9 +939,11 @@ extension ShortsCellReactor {
         
         let request : JSRequest
         if isActive {
-            request = (.ON_SHORTFORM_DETAIL_PAGE_ACTIVE, payload)
+             request = (.ON_SHORTFORM_DETAIL_PAGE_ACTIVE, payload)
         }
         else {
+            
+            
             request = (.ON_SHORTFORM_DETAIL_PAGE_INACTIVE, payload)
             resultHandler?( .requestStopVideo )
         }

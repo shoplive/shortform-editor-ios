@@ -615,6 +615,20 @@ extension ShortsCollectionBaseView {
             centerItem.play(skipIfPaused: false)
         }
     }
+   
+    // 바로 위의 함수에서 왜 latestCell을 비교하는지 확인해보고 필요 없는 과정이라면 삭제 하고 통합해야함.
+    func playCurrentItemOnUserCommand() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            guard let currentIndexPath = self.getCurrentIndexPath() else { return }
+            guard let currentCell = self.getCellForAt(indexPath: currentIndexPath) as? ShortsCell else { return }
+            self.viewModel.latestCell.setLatest(latestCell: currentCell, indexPath: currentIndexPath)
+            currentCell.setMute(viewModel.getMuted())
+            currentCell.play(skipIfPaused: false)
+        }
+    }
+    
+    
 }
 
 extension ShortsCollectionBaseView : ShortsCollectionBaseViewModelDelegate {

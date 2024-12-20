@@ -125,7 +125,7 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
     
     private func onPlay() {
         guard let shortsCollectionView = getShortsCollectionView() else { return }
-        shortsCollectionView.playeCurrentCell()
+        shortsCollectionView.playCurrentItemOnUserCommand()
     }
     
     private func onPause() {

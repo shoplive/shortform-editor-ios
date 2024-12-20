@@ -158,6 +158,7 @@ class EditorOptionPopUp : UIView {
         coverPickerConfig.sliderThumbColor = .blue
         coverPickerConfig.sliderCornerRadius = 4
         coverPickerConfig.sliderThumbCornerRadius = 4
+        
         coverPickerConfig.confirmButtonCornerRadius = 4
         coverPickerConfig.confirmButtonBackgroundColor = .white
         coverPickerConfig.cameraRollButtonCornerRadius = 4
