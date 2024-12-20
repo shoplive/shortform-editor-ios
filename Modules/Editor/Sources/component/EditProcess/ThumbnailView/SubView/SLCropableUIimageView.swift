@@ -43,15 +43,7 @@ class SLCropableUIImageView : UIView, SLReactor {
         view.setIsCropAvailable(isAvailable: true)
         return view
     }()
-    
-    private lazy var cropViewHeightAnchor : NSLayoutConstraint = {
-        return cropView.heightAnchor.constraint(equalTo: self.heightAnchor)
-    }()
-    
-    private lazy var cropViewWidthAnchor : NSLayoutConstraint = {
-        return cropView.widthAnchor.constraint(equalTo: self.widthAnchor)
-    }()
-   
+  
     private var cropGridViewColor : UIColor = .white
     var resultHandler: ((Result) -> ())?
     
