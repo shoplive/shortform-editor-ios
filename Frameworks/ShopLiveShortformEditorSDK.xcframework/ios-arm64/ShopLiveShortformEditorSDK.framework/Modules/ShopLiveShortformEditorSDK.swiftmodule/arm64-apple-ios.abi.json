@@ -38186,16 +38186,6 @@
         ]
       },
       {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "ShopLiveShortformEditorSDK",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
         "kind": "TypeDecl",
         "name": "SLSynchronizedDictionary",
         "printedName": "SLSynchronizedDictionary",
@@ -38681,6 +38671,16 @@
             "usr": "s:SH",
             "mangledName": "$sSH"
           }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ShopLiveShortformEditorSDK",
+        "declAttributes": [
+          "RawDocComment"
         ]
       },
       {
