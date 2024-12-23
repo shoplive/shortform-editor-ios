@@ -69436,224 +69436,224 @@
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "IntegerLiteral",
-      "offset": 13347,
+      "offset": 13961,
       "length": 3,
       "value": "100"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 13409,
+      "offset": 14023,
       "length": 11,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 13418,
+      "offset": 14032,
       "length": 1,
       "value": "\"%\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "BooleanLiteral",
-      "offset": 14651,
+      "offset": 15265,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "IntegerLiteral",
-      "offset": 16247,
+      "offset": 16861,
       "length": 5,
       "value": "44100"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "Dictionary",
-      "offset": 20085,
+      "offset": 20699,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "Dictionary",
-      "offset": 20139,
+      "offset": 20753,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 20161,
+      "offset": 20775,
       "length": 10,
       "value": "\"cardType\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 20175,
+      "offset": 20789,
       "length": 7,
       "value": "\"VIDEO\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 20201,
+      "offset": 20815,
       "length": 8,
       "value": "\"source\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 20213,
+      "offset": 20827,
       "length": 7,
       "value": "\"media\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 20239,
+      "offset": 20853,
       "length": 9,
       "value": "\"videoId\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 20319,
+      "offset": 20933,
       "length": 24,
       "value": "\"specifiedScreenshotUrl\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "Dictionary",
-      "offset": 20423,
+      "offset": 21037,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "Dictionary",
-      "offset": 20475,
+      "offset": 21089,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 20557,
+      "offset": 21171,
       "length": 8,
       "value": "\"userId\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 20629,
+      "offset": 21243,
       "length": 15,
       "value": "\"displayUserId\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 20683,
+      "offset": 21297,
       "length": 15,
       "value": "\"displayUserId\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 20800,
+      "offset": 21414,
       "length": 10,
       "value": "\"userName\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 20885,
+      "offset": 21499,
       "length": 14,
       "value": "\"profileImage\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 20938,
+      "offset": 21552,
       "length": 14,
       "value": "\"profileImage\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "BooleanLiteral",
-      "offset": 21032,
+      "offset": 21646,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 21069,
+      "offset": 21683,
       "length": 9,
       "value": "\"creator\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 21347,
+      "offset": 21961,
       "length": 7,
       "value": "\"cards\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 21389,
+      "offset": 22003,
       "length": 14,
       "value": "\"shortsDetail\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 21443,
+      "offset": 22057,
       "length": 12,
       "value": "\"shortsType\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 21459,
+      "offset": 22073,
       "length": 6,
       "value": "\"CARD\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 21491,
+      "offset": 22105,
       "length": 8,
       "value": "\"shorts\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 21514,
+      "offset": 22128,
       "length": 14,
       "value": "\"shortsStatus\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 21531,
+      "offset": 22145,
       "length": 8,
       "value": "\"OPENED\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 21541,
+      "offset": 22155,
       "length": 9,
       "value": "\"startAt\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "IntegerLiteral",
-      "offset": 21590,
+      "offset": 22204,
       "length": 4,
       "value": "1000"
     },
