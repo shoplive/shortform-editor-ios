@@ -337,6 +337,7 @@ extension HorizontalTypeViewExampleViewController : ShopLiveShortformReceiveHand
                                                       custom: nil))
         
     }
+    //jira test
     
     func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String) {
         
