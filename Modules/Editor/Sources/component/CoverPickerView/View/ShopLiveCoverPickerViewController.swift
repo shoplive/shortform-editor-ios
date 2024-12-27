@@ -331,6 +331,7 @@ extension ShopLiveCoverPickerViewController {
             }
         }
     }
+//jira test
     
     private func onReactorDismissPhotoPicker() {
         guard let picker = picker else { return }
