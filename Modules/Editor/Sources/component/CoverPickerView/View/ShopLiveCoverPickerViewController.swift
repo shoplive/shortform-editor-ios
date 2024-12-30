@@ -122,19 +122,6 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         return imageView
     }()
     
-    lazy private var photoPickerModeCloseBtn : SlBlurBGButton = {
-        let btn = SlBlurBGButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setImage(ShopLiveShortformEditorSDKAsset.slClosebutton.image.withRenderingMode(.alwaysTemplate), for: .normal)
-        btn.imageView?.tintColor = .white
-        btn.imageView?.contentMode = .scaleAspectFit
-        btn.isHidden = true
-        btn.layer.cornerRadius = 14
-        btn.imageLayoutMargin = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
-        btn.clipsToBounds = true
-        return btn
-    }()
-    
     private lazy var thumbnailSliderView: SLThumbnailSliderView = {
         let view = SLThumbnailSliderView(containerCornerRadius: design.sliderCornerRadius,
                                          thumbViewBorderColor: design.sliderThumbColor,
@@ -202,7 +189,6 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         
         cameraBtn.addTarget(self, action: #selector(cameraBtnTapped(sender: )), for: .touchUpInside)
         confirmBtn.addTarget(self, action: #selector(confirmBtnTapped(sender: )), for: .touchUpInside)
-        photoPickerModeCloseBtn.addTarget(self, action: #selector(photoPickerModelCloseButtonTapped), for: .touchUpInside)
         closeBtn.addTarget(self, action: #selector(closeBtnTapped(sender: )), for: .touchUpInside)
     }
     
@@ -250,14 +236,6 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         picker!.delegate = reactor
         picker!.modalPresentationStyle = .overFullScreen
         self.present(picker!, animated: true)
-    }
-    
-    @objc func photoPickerModelCloseButtonTapped() {
-        self.pickerSelectedThumbnailImageView.isHidden = true
-        self.photoPickerModeCloseBtn.isHidden = true
-        self.playerContainerView.isHidden = false
-        self.reactor.action( .setCurrentMode(.video) )
-        self.thumbnailSliderView.action( .changeThumbnailFrameToPickerImage(nil) )
     }
 }
 extension ShopLiveCoverPickerViewController {
@@ -336,6 +314,9 @@ extension ShopLiveCoverPickerViewController {
     private func onReactorDismissPhotoPicker() {
         guard let picker = picker else { return }
         picker.dismiss(animated: true)
+        
+        
+        
     }
     
     private func onReactorCancelLoading() {
@@ -347,7 +328,6 @@ extension ShopLiveCoverPickerViewController {
     }
     
     private func onReactorSetThumbnailImage(image : UIImage) {
-        self.photoPickerModeCloseBtn.isHidden = false
         pickerSelectedThumbnailImageView.action( .setImage(image) )
         pickerSelectedThumbnailImageView.action( .setCropViewSize(playerContainerView.frame.size) )
         pickerSelectedThumbnailImageView.isHidden = false
@@ -404,7 +384,6 @@ extension ShopLiveCoverPickerViewController {
     private func onThumbnailSliderSeekTo(time : CMTime) {
         if pickerSelectedThumbnailImageView.isHidden == false {
             pickerSelectedThumbnailImageView.isHidden = true
-            self.photoPickerModeCloseBtn.isHidden = true
         }
         if playerContainerView.isHidden == true {
             playerContainerView.isHidden = false
@@ -450,7 +429,6 @@ extension ShopLiveCoverPickerViewController {
         self.view.addSubview(playerContainerView)
         
         self.view.addSubview(pickerSelectedThumbnailImageView)
-        self.view.addSubview(photoPickerModeCloseBtn)
         self.view.addSubview(cancelConfirmToast)
         
         playerContainerView.addSubview(playerCropView)
@@ -505,11 +483,6 @@ extension ShopLiveCoverPickerViewController {
             pickerSelectedThumbnailImageView.centerXAnchor.constraint(equalTo: playerHolder.centerXAnchor),
             pickerSelectedThumbnailImageView.widthAnchor.constraint(equalTo: playerHolder.widthAnchor,multiplier: 1 / 2),
             pickerSelectedThumbnailImageView.heightAnchor.constraint(equalTo: pickerSelectedThumbnailImageView.widthAnchor,multiplier: 16 / 9),
-            
-            photoPickerModeCloseBtn.topAnchor.constraint(equalTo: pickerSelectedThumbnailImageView.topAnchor,constant: 8 ),
-            photoPickerModeCloseBtn.trailingAnchor.constraint(equalTo: pickerSelectedThumbnailImageView.trailingAnchor,constant: -8),
-            photoPickerModeCloseBtn.widthAnchor.constraint(equalToConstant: 28),
-            photoPickerModeCloseBtn.heightAnchor.constraint(equalToConstant: 28),
             
             cancelConfirmToast.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
             cancelConfirmToast.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),

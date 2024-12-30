@@ -177,29 +177,6 @@ class EditorOptionPopUp : UIView {
     
     @objc func shortformBtnTapped(sender : UIButton) {
         guard let vc = self.vc else { return }
-//        let cropOption = ShopLiveShortFormEditorAspectRatio(width: OptionSettingModel.editorWidth,
-//                                                            height: OptionSettingModel.editorheight,
-//                                                            isFixed: OptionSettingModel.editorIsFixed)
-//        
-//        let visibleContents = ShopLiveShortFormEditorVisibleContent(isDescriptionVisible: OptionSettingModel.editorShowDescription,
-//                                                                    isTagsVisible: OptionSettingModel.editorShowTags,
-//                                                                    editOptions: [.volume ])
-//        
-//        let mediaPickOption = ShopLiveMediaPickerVideoDurationOption(minVideoDuration: 3,
-//                                                                     maxVideoDuration: 90,
-//                                                                     invalidDurationToastMessage: "customToast")
-//        
-//        ShopLiveShortformEditor.shared
-//            .setPermissionHandler(nil)
-//            .setConfiguration(ShopLiveShortformEditorConfiguration(videoCropOption: cropOption ,
-//                                                                   visibleContents: visibleContents,
-//                                                                   videoOutputOption: nil,
-//                                                                   mediaPickerVideoDurationOption: mediaPickOption,
-//                                                                   minVideoDuration: 3,
-//                                                                   maxVideoDuration: 90))
-//            .setDelegate(delegate: vc)
-//            .start(vc)
-        
         ShopLiveMediaPicker
             .shared
             .setDelegate(self)
