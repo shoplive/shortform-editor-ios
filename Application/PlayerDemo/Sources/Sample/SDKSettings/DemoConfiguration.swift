@@ -782,6 +782,8 @@ final class DemoConfiguration: NSObject {
     var resizeMode : ShopLiveResizeMode {
         set {
             switch newValue {
+            case .AUTO:
+                UserDefaults.standard.set("AUDO", forKey: SDKOptionType.resizeMode.optionKey)
             case .CENTER_CROP:
                 UserDefaults.standard.set("CENTER_CROP", forKey: SDKOptionType.resizeMode.optionKey)
             case .FIT:
@@ -797,8 +799,10 @@ final class DemoConfiguration: NSObject {
                 return .CENTER_CROP
             case "FIT":
                 return .FIT
+            case "AUTO":
+                return .AUTO
             default:
-                return .CENTER_CROP
+                return .AUTO
             }
         }
     }
