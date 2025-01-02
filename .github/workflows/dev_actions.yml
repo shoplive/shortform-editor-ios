@@ -17,7 +17,7 @@ jobs:
  # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest 
+    runs-on: macos-15 
     # Steps represent a sequence of tasks that will be executed as part of the job
     env:
       TITLE: ${{ github.event.pull_request.title }}
@@ -77,29 +77,29 @@ jobs:
         if: "contains(env.TITLE, 'PLAYER')"
         run: |
             echo building shoplive
-            xcodebuild -workspace  "ShopLive.xcworkspace" -scheme "ShopLiveSDK" -destination 'platform=iOS Simulator,name=iPhone 14 Pro'
+            xcodebuild -workspace  "ShopLive.xcworkspace" -scheme "ShopLiveSDK" -destination 'platform=iOS Simulator,name=iPhone 16 Pro'
         
       - name: xcode shortform build
         if: "contains(env.TITLE, 'SHORTFORM')"
         run: |
             echo building shoplive
-            xcodebuild -workspace  "ShopLive.xcworkspace" -scheme "ShopLiveShortformSDK" -destination 'platform=iOS Simulator,name=iPhone 14 Pro'
+            xcodebuild -workspace  "ShopLive.xcworkspace" -scheme "ShopLiveShortformSDK" -destination 'platform=iOS Simulator,name=iPhone 16 Pro'
     
       - name: xcode common build
         if: "contains(env.TITLE, 'COMMON')"
         run: |
             echo building shoplive
-            xcodebuild -workspace  "ShopLive.xcworkspace" -scheme "ShopliveSDKCommon" -destination 'platform=iOS Simulator,name=iPhone 14 Pro'
+            xcodebuild -workspace  "ShopLive.xcworkspace" -scheme "ShopliveSDKCommon" -destination 'platform=iOS Simulator,name=iPhone 16 Pro'
       
       - name: xcode editor build
         if: "contains(env.TITLE, 'EDITOR')"
         run: |
             echo building shoplive
-            xcodebuild -workspace  "ShopLive.xcworkspace" -scheme "ShopLiveShortformEditorSDK" -destination 'platform=iOS Simulator,name=iPhone 14 Pro'
+            xcodebuild -workspace  "ShopLive.xcworkspace" -scheme "ShopLiveShortformEditorSDK" -destination 'platform=iOS Simulator,name=iPhone 16 Pro'
             
       - name: xcode all build
         if: "contains(env.TITLE, 'ALL')"
         run: |
-            xcodebuild -workspace  "ShopLive.xcworkspace" -scheme "ShopLiveDemo" -destination 'platform=iOS Simulator,name=iPhone 14 Pro'
+            xcodebuild -workspace  "ShopLive.xcworkspace" -scheme "ShopLiveDemo" -destination 'platform=iOS Simulator,name=iPhone 16 Pro'
         
     

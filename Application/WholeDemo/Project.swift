@@ -21,7 +21,8 @@ let demoTarget = Target.target(name: "ShopLiveDemo",
                                 .project(target: "ShopLiveShortformSDK", path: .relativeToRoot("Modules/Shortform")),
                                 .project(target: "ShopLiveSDK", path: .relativeToRoot("Modules/Player")),
                                 .project(target: "ShopliveSDKCommon",
-                                         path: .relativeToRoot("Modules/Common"))
+                                         path: .relativeToRoot("Modules/Common")),
+                                .project(target: "ShopLiveShortformEditorSDK", path: .relativeToRoot("Modules/Editor"))
                                ])
 
 

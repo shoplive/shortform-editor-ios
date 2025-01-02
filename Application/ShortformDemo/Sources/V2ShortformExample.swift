@@ -39,6 +39,8 @@ extension V2ShortformExample : ShopLiveShortformReceiveHandlerDelegate {
         case "DETAIL_SHORTFORM_MORE_ENDED":
             ShopLiveLogger.tempLog("[DETAIL_SHORTFORM_MORE_ENDED]")
             break
+        case "VIDEO_TOTAL_VIEWING_TIME":
+            ShopLiveLogger.tempLog("[VIDEO_TOTAL_VIEWING_TIME] \(payload)")
         case "DETAIL_ACTIVE":
             break
         default:
