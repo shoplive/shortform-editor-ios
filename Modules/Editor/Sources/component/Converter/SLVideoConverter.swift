@@ -94,11 +94,11 @@ extension SLVideoInfo {
     var videoQuality : String {
         switch globalConfig.shared.videoOutputOption.videoOutputQuality {
         case .normal:
-            return "-q:v 8"
-        case .high:
             return "-q:v 6"
-        case .max:
+        case .high:
             return "-q:v 4"
+        case .max:
+            return "-q:v 2"
         }
     }
     
