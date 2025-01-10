@@ -178,10 +178,13 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
     
 }
 extension V1ShortsDetailCollectionView {
-    override func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        super.collectionView(collectionView, prefetchItemsAt: indexPaths)
-        viewmodel.prefetchItems(at: indexPaths)
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
+        if indexPath.row >= self.viewmodel.getShortsListDataCount() - 2 {
+            viewmodel.checkForPagination()
+        }
     }
+    
     
     override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         DispatchQueue.main.async { [weak self] in

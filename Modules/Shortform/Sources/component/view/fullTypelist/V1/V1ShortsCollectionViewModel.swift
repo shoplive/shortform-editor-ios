@@ -12,14 +12,16 @@ import ShopliveSDKCommon
 
 
 class V1ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
+    private var isLoading : Bool = false
     
     
     
 }
 extension V1ShortsCollectionViewModel {
-    func prefetchItems(at indexPaths: [IndexPath]) {
+    func checkForPagination() {
+        guard isLoading == false else { return }
         let itemCount = shortsListData.count
-        if indexPaths.contains(where: { $0.item == itemCount - 1 }), self.hasMore, let reference = self.currentReference  {
+        if self.hasMore, let reference = self.currentReference  {
             if self.currentApiType == .normal {
                 self.loadShortsPlayCollection(reference: reference, onPagination: true) { _ in }
             }
@@ -40,6 +42,7 @@ extension V1ShortsCollectionViewModel {
         let skus = self.collectionRequestData?.skus
         
         let count = self.shortsListData.count >= apiInitializeCount ? paginationCount : apiInitializeCount
+        self.isLoading = true
         self.callShortsConfigurationAPI { [weak self] isSucess in
             guard let self = self else { return }
             if isSucess {
@@ -64,6 +67,7 @@ extension V1ShortsCollectionViewModel {
                         completion(error)
                         break
                     }
+                    self.isLoading = false
                 }
             }
         }
@@ -75,7 +79,7 @@ extension V1ShortsCollectionViewModel {
         let paginationCount = ShortFormConfigurationInfosManager.shared.shortsConfiguration.detailApiPaginationCount
         let count = (self.shortsListData.count >= apiInitializeCount && onPagination == true) ? paginationCount : apiInitializeCount
      
-        
+        self.isLoading = true
         self.callShortsConfigurationAPI { [weak self] isSucess in
             guard let self = self else { return }
             if isSucess == false { return }
@@ -116,6 +120,7 @@ extension V1ShortsCollectionViewModel {
                     self.onError(error)
                     completion(error)
                 }
+                self.isLoading = false
             }
         }
     }

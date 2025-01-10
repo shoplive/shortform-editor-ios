@@ -127,7 +127,6 @@ extension V2ShortsCollectionView {
     }
     
     
-    
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         super.scrollViewDidScroll(scrollView)
         

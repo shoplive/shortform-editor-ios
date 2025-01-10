@@ -159,10 +159,6 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
     }
 }
 extension V2ShortsCollectionViewModel {
-    func getShortsListDataCount() -> Int {
-        return self.shortsListData.count
-    }
-    
     func getScrollViewDidScrollPaginationIsBlocked() -> Bool {
         return self.blockScrollViewDidScrollPagination
     }

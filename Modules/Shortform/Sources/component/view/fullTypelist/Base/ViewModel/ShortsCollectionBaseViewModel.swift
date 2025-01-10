@@ -637,6 +637,10 @@ extension ShortsCollectionBaseViewModel {
         return payloadDict
     }
     
+    func getShortsListDataCount() -> Int {
+        return self.shortsListData.count
+    }
+    
 }
 //MARK: - WebViewPool function
 extension ShortsCollectionBaseViewModel {
