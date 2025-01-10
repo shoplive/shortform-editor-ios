@@ -10,7 +10,8 @@ import UIKit
 import ShopliveSDKCommon
 
 protocol V2ShortsCollectioViewModelDelegate : ShortsCollectionBaseViewModelDelegate {
-    func requestForMoreData()
+    func requestDownwardPaginationData()
+    func requestUpwardPaginationData()
     func hideEmptyDataView(hide : Bool)
     func insertCells(at indexPaths : [IndexPath])
 }
@@ -20,14 +21,17 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
     var shortFormIdsList : [String] = []
     var shortFormIdPayloadDict : [String : [String : Any]?] = [:]
     private var requestedShortFormIdsList : [String] = []
-    weak var shortFormIdsMoreData : ShopLiveShortformIdsMoreData?
     var isLoadingMoreData : Bool = false
     
     
     weak var v2delegate : V2ShortsCollectioViewModelDelegate?
-    var customerHasMore : Bool = true
+    var customerDownwardHasMore : Bool = true
+    var customerUpwardHasMore : Bool = true
     override var hasMore: Bool {
-        return customerHasMore
+        /**
+         BaseViewModel에서 DETAIL_SHORTFORM_MORE_ENDED외 사용하는 경우 없음
+         */
+        return customerDownwardHasMore
     }
     var customApiError : Error?
     
@@ -40,23 +44,21 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
         case down
     }
     private var currentPaginationDirection : PaginationDirection = .down
-    private var numberOfInsertedCellAtFirstIndex : Int?
+    private var numberOfInsertedCellsAtFirstIndex : Int?
     
     
     deinit {
         ShopLiveLogger.memoryLog("v2shortscollectionviewmodel deinited")
     }
     
-    func setshortFormIdsData(shortformIdsData : ShopLiveShortformIdsData){
+    func setInitialshortFormIdsData(shortformIdsData : ShopLiveShortformIdsData){
         if let ids = shortformIdsData.ids {
-            self.shortFormIdsList = ids.map({ idData in
-                return idData.shortsId
-            })
-            .filter({ $0 != "" })
-            
-            ids.forEach { idData in
-                shortFormIdPayloadDict[idData.shortsId] = idData.payload
-            }
+            ids
+                .filter{ $0.shortsId != "" }
+                .forEach { idData in
+                    shortFormIdsList.append(idData.shortsId)
+                    shortFormIdPayloadDict[idData.shortsId] = idData.payload
+                }
         }
         else {
             self.requestedShortFormIdsList.removeAll()
@@ -86,11 +88,11 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
                     self.requestedShortFormIdsList.append(contentsOf: self.shortFormIdsList.suffix(5))
                 }
                 else {
-                    ((startIndex - 2)...(startIndex + 2)).forEach({ index  in
-                        if let shortsId = self.shortFormIdsList[safe : index] {
-                            self.requestedShortFormIdsList.append(shortsId)
+                    ((startIndex - 2)...(startIndex + 2))
+                        .compactMap{ self.shortFormIdsList[safe:$0] }
+                        .forEach { shortsId in
+                            requestedShortFormIdsList.append(shortsId)
                         }
-                    })
                 }
                 //배열이 변경되었으므로 scrollToPage도 변경된 배열에 맞춰서 수정
                 if let scrollToPageShortsId = shortformIdsData.currentId, let newScrollToPageIndex = self.requestedShortFormIdsList.firstIndex(of: scrollToPageShortsId) {
@@ -106,37 +108,11 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
             }
         }
     }
-    
-    func setShortformIdsMoreData(moreData : ShopLiveShortformIdsMoreData?){
-        guard let moreData = moreData else {
-            self.customerHasMore = true
-            self.isLoadingMoreData = false
-            return
-        }
-        var filteredMoreData = moreData
-        filteredMoreData.ids = filteredMoreData.ids?.filter{ $0.shortsId != "" }
-        self.shortFormIdsMoreData = filteredMoreData
-        let appendShortsIds = filteredMoreData.ids?.map({ idData in
-            return idData.shortsId
-        })
-        (moreData.ids ?? []).forEach { idData in
-            shortFormIdPayloadDict[idData.shortsId] = idData.payload
-        }
-        if let appendShortsIds = appendShortsIds {
-            self.shortFormIdsList.append(contentsOf: appendShortsIds)
-            self.requestedShortFormIdsList.append(contentsOf: appendShortsIds.prefix(5))
-        }
-        self.customerHasMore = filteredMoreData.hasMore ?? false
-        self.loadShortFormIds(ids: Array(appendShortsIds?.prefix(5) ?? []), reset: false) { [weak self] _ in
-            self?.appendCells()
-            self?.isLoadingMoreData = false
-        }
-    }
-    
+   
     func setShortformIdsMoreDataCustomerError(error : Error?) {
         self.customApiError = error
         self.isLoadingMoreData = false
-        self.customerHasMore = true
+        self.customerDownwardHasMore = true
     }
     
     func startScrollViewDidScrollPaginationBlockTimer() {
@@ -176,65 +152,7 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
         }
     }
     
-    //무조건 아래방향만 고려하면 됨
-    func requestForPagination() {
-        if self.shortFormIdsList.count != self.requestedShortFormIdsList.count {
-            guard let lastRequestId = requestedShortFormIdsList.last,
-                  let lastShortformId = shortFormIdsList.last else { return }
-            let isContainedInLastFiveShorts = self.shortFormIdsList.suffix(5).contains(where: { $0 == lastRequestId })
-            
-            if lastRequestId == lastShortformId {
-                requestForMoreData()
-            }
-            else if lastRequestId != lastShortformId && isContainedInLastFiveShorts {
-                useRemainingShortsIdsAndRequestForMoreData()
-            }
-            else {
-                useRemainingShortsIdsOnly()
-            }
-        }
-        else {
-            requestForMoreData()
-        }
-    }
     
-    private func useRemainingShortsIdsOnly() {
-        var nextShortsIdsToRequest : [String] = []
-        if let lastShortsId = self.requestedShortFormIdsList.last,
-           let index = self.shortFormIdsList.firstIndex(of: lastShortsId) {
-            nextShortsIdsToRequest = ((index + 1)...(index + 5)).compactMap({ index -> String? in
-                return self.shortFormIdsList[safe: index]
-            })
-            self.requestedShortFormIdsList.append(contentsOf: nextShortsIdsToRequest)
-        }
-        self.loadShortFormIds(ids: nextShortsIdsToRequest, reset: false) { [weak self] _ in
-            self?.appendCells()
-            self?.isLoadingMoreData = false
-        }
-    }
-   
-    private func useRemainingShortsIdsAndRequestForMoreData() {
-        guard let lastRequestId = requestedShortFormIdsList.last else { return }
-        guard let startIndex = shortFormIdsList.firstIndex(where: { $0 == lastRequestId }) else { return }
-        let nextShortsIdsToRequest = ((startIndex + 1)...((self.shortFormIdsList.count - 1))).compactMap({ index -> String? in
-            return self.shortFormIdsList[safe: index]
-        })
-        self.requestedShortFormIdsList.append(contentsOf: nextShortsIdsToRequest)
-        self.loadShortFormIds(ids: nextShortsIdsToRequest, reset: false) { [weak self] isSuccess in
-            self?.isLoadingMoreData = false
-            if isSuccess {
-                self?.appendCells()
-                self?.requestForMoreData()
-            }
-        }
-    }
-    
-    private func requestForMoreData() {
-        guard self.hasMore == true &&
-                self.isLoadingMoreData == false &&
-                self.blockScrollViewDidScrollPagination == false else { return }
-        v2delegate?.requestForMoreData()
-    }
     
     override func getShortsListDataForV2ActivePage() -> [SLShortsModel]? {
         return shortsListData
@@ -290,26 +208,171 @@ extension V2ShortsCollectionViewModel {
         }
     }
 }
-//MARK: -Upward pagination functions
+//MARK: -Downward pagingation functions
 extension V2ShortsCollectionViewModel {
-    func requestPaginationUpward() {
-        if let firstShortsId = self.requestedShortFormIdsList.first, let indexInOriginList = self.shortFormIdsList.firstIndex(of: firstShortsId)  {
-            guard indexInOriginList != 0 else { return }
-           
-            let min = max(0,indexInOriginList - 6)
-            let shortsIdToRequest = ((min)...(indexInOriginList - 1)).compactMap { index in
-                if let shortsId = self.shortFormIdsList[safe : index] {
-                    return shortsId
+    func setDownwardShortformIdsMoreData(moreData : ShopLiveShortformIdsMoreData?){
+        guard let moreData = moreData else {
+            self.customerDownwardHasMore = true
+            self.isLoadingMoreData = false
+            return
+        }
+        var currentRequestingShortsIds : [String] = []
+        moreData.ids?
+            .filter({ $0.shortsId != "" })
+            .enumerated()
+            .forEach({ index,idData in
+                if index < 5 {
+                    currentRequestingShortsIds.append(idData.shortsId)
+                    requestedShortFormIdsList.append(idData.shortsId)
                 }
-                return nil
-            }
-            self.requestedShortFormIdsList.insert(contentsOf: shortsIdToRequest, at: 0)
-            self.numberOfInsertedCellAtFirstIndex = shortsIdToRequest.count
-            self.loadShortFormIdsForUpwardPagination(ids: shortsIdToRequest) { [weak self] _ in
-                self?.isLoadingMoreData = false
+                shortFormIdsList.append(idData.shortsId)
+                shortFormIdPayloadDict[idData.shortsId] = idData.payload
+            })
+        
+        self.customerDownwardHasMore = moreData.hasMore ?? false
+        self.loadShortFormIds(ids: currentRequestingShortsIds, reset: false) { [weak self] _ in
+            self?.appendCells()
+            self?.isLoadingMoreData = false
+        }
+    }
+    
+    //무조건 아래방향만 고려하면 됨
+    func requestPaginationDownward() {
+        guard self.shortFormIdsList.count != self.requestedShortFormIdsList.count else {
+            requestDownwardPaginationData()
+            return
+        }
+        
+        guard let lastRequestId = requestedShortFormIdsList.last,
+              let lastShortformId = shortFormIdsList.last else { return }
+        let isContainedInLastFiveShorts = self.shortFormIdsList.suffix(5).contains(where: { $0 == lastRequestId })
+        
+        if lastRequestId == lastShortformId {
+            requestDownwardPaginationData()
+        }
+        else if lastRequestId != lastShortformId && isContainedInLastFiveShorts {
+            useRemainingShortsIdsAndRequestForMoreDataDownward()
+        }
+        else {
+            useRemainingShortsIdsOnlyDownward()
+        }
+    }
+    
+    private func useRemainingShortsIdsAndRequestForMoreDataDownward() {
+        guard let lastRequestId = requestedShortFormIdsList.last else { return }
+        guard let startIndex = shortFormIdsList.firstIndex(where: { $0 == lastRequestId }) else { return }
+        let nextShortsIdsToRequest = ((startIndex + 1)...((self.shortFormIdsList.count - 1))).compactMap({ shortFormIdsList[safe : $0] })
+        self.requestedShortFormIdsList.append(contentsOf: nextShortsIdsToRequest)
+        self.loadShortFormIds(ids: nextShortsIdsToRequest, reset: false) { [weak self] isSuccess in
+            self?.isLoadingMoreData = false
+            if isSuccess {
+                self?.appendCells()
+                self?.requestDownwardPaginationData()
             }
         }
     }
+    
+    private func useRemainingShortsIdsOnlyDownward() {
+        var nextShortsIdsToRequest : [String] = []
+        guard let lastShortsId = self.requestedShortFormIdsList.last else { return }
+        guard let index = self.shortFormIdsList.firstIndex(of: lastShortsId) else { return }
+        nextShortsIdsToRequest = ((index + 1)...(index + 5)).compactMap({ shortFormIdsList[safe : $0] })
+        requestedShortFormIdsList.append(contentsOf: nextShortsIdsToRequest)
+        loadShortFormIds(ids: nextShortsIdsToRequest, reset: false) { [weak self] _ in
+            self?.appendCells()
+            self?.isLoadingMoreData = false
+        }
+    }
+    
+    private func requestDownwardPaginationData() {
+        guard self.hasMore == true &&
+                self.isLoadingMoreData == false &&
+                self.blockScrollViewDidScrollPagination == false else { return }
+        v2delegate?.requestDownwardPaginationData()
+    }
+}
+//MARK: -Upward pagination functions
+extension V2ShortsCollectionViewModel {
+    func setUpwardShortformIdsMoreData(moreData : ShopLiveShortformIdsMoreData?) {
+        guard let moreData = moreData else {
+            self.customerUpwardHasMore = true
+            self.isLoadingMoreData = false
+            return
+        }
+        var currentRequestingShortsIds : [String] = []
+        moreData.ids?
+            .filter({ $0.shortsId != "" })
+            .reversed()
+            .enumerated()
+            .forEach({ (index,idData) in
+                if index < 5 {
+                    currentRequestingShortsIds.insert(idData.shortsId, at: 0)
+                    requestedShortFormIdsList.insert(idData.shortsId, at: 0)
+                }
+                shortFormIdsList.insert(idData.shortsId, at: 0)
+                shortFormIdPayloadDict[idData.shortsId] = idData.payload
+            })
+        
+        self.customerUpwardHasMore = moreData.hasMore ?? false
+        self.numberOfInsertedCellsAtFirstIndex = currentRequestingShortsIds.count
+        self.loadShortFormIdsForUpwardPagination(ids: currentRequestingShortsIds) { [weak self] _ in
+            self?.isLoadingMoreData = false
+        }
+    }
+    
+    func requestPaginationUpward() {
+        guard self.shortFormIdsList.count != self.requestedShortFormIdsList.count else {
+            self.requestUpwardPaginationData()
+            return
+        }
+        guard let firstRequestedId = self.requestedShortFormIdsList.first,
+              let firstOriginShortformId = self.shortFormIdsList.first else {
+            return
+        }
+        
+        let isContainedInFirstFiveShorts = self.shortFormIdsList.prefix(5).contains(where: { $0 == firstRequestedId })
+        
+        if firstRequestedId == firstOriginShortformId {
+            self.requestUpwardPaginationData()
+        }
+        else if firstRequestedId != firstOriginShortformId && isContainedInFirstFiveShorts {
+            self.useRemainingShortsIdsAndRequestForMoreDataUpward()
+        }
+        else {
+            self.useRemainingShortsIdsOnlyUpward()
+        }
+    }
+    
+    private func useRemainingShortsIdsAndRequestForMoreDataUpward() {
+        guard let firstRequestId = requestedShortFormIdsList.first else { return }
+        guard let startIndex = shortFormIdsList.firstIndex(of: firstRequestId) else { return }
+        let nextShortsIdsToRequest = (0...(startIndex - 1)).compactMap({ shortFormIdsList[safe:$0] })
+        self.requestedShortFormIdsList.insert(contentsOf: nextShortsIdsToRequest, at: 0)
+        self.numberOfInsertedCellsAtFirstIndex = nextShortsIdsToRequest.count
+        self.loadShortFormIdsForUpwardPagination(ids: nextShortsIdsToRequest) { [weak self] isSuccess in
+            self?.isLoadingMoreData = false
+            self?.requestUpwardPaginationData()
+        }
+    }
+    
+    private func useRemainingShortsIdsOnlyUpward() {
+        guard let firstRequestId = requestedShortFormIdsList.first else { return }
+        guard let startIndex = shortFormIdsList.firstIndex(of: firstRequestId) else { return }
+        let nextShortsIdsToRequest = ((startIndex - 6)...(startIndex - 1)).compactMap({ shortFormIdsList[safe:$0] })
+        self.requestedShortFormIdsList.insert(contentsOf: nextShortsIdsToRequest, at: 0)
+        self.numberOfInsertedCellsAtFirstIndex = nextShortsIdsToRequest.count
+        self.loadShortFormIdsForUpwardPagination(ids: nextShortsIdsToRequest) { [weak self] isSuccess in
+            self?.isLoadingMoreData = false
+        }
+    }
+   
+    private func requestUpwardPaginationData() {
+        guard self.customerUpwardHasMore == true &&
+                self.isLoadingMoreData == false &&
+                self.blockScrollViewDidScrollPagination == false else { return }
+        v2delegate?.requestUpwardPaginationData()
+    }
+    
     private func loadShortFormIdsForUpwardPagination(ids : [String]?, completion : @escaping( (Bool) -> () ) ) {
         currentPaginationDirection = .up
         self.isLoadingMoreData = true
@@ -329,23 +392,18 @@ extension V2ShortsCollectionViewModel {
                     break
                 case .failure(let error):
                     shortformDelegate?.onError?(error: error)
-//                    ShopLiveShortform.Delegate.receiveHandler.delegate?.onError?(error: error)
                     completion(false)
                 }
             }
     }
-    
-    
-    
+   
     private func appendShortsListDataForUpwardPagination(shortsList : [SLShortsModel]) {
-        
         self.originShortsListData.insert(contentsOf: shortsList, at: 0) //이게 didSet에서 reload 호출, -> override해서 reloadDataForUpward~가 실행
         self.lastShortsCount = self.originShortsListData.count
     }
-    
-    
+   
     private func reloadDataForUpwardPagination() {
-        guard let numberOfInsertedCellAtFirstIndex = self.numberOfInsertedCellAtFirstIndex else { return }
+        guard let numberOfInsertedCellAtFirstIndex = self.numberOfInsertedCellsAtFirstIndex else { return }
         let indexPaths = (0...(numberOfInsertedCellAtFirstIndex - 1)).map { index in
             return IndexPath(row: index, section: 0)
         }

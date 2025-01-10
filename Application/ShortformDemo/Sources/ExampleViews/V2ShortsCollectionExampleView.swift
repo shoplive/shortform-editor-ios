@@ -170,33 +170,44 @@ extension V2ShortsCollectionExampleView {
             shortsCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             shortsCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             shortsCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            
-            
-            
         ])
     }
 }
 extension V2ShortsCollectionExampleView : ShortsCollectionViewDataSourcRequestDelegate {
+    func onShortformListUpwardPagingation(completion: @escaping (((ShopLiveShortformSDK.ShopLiveShortformIdsMoreData?, (any Error)?)) -> ())) {
+        callShortsCollectionAPI(reversed: true) { data,error in
+            if let data = data {
+                let shortsIds = data.ids?.map({ $0.shortsId })
+                completion((data,nil))
+            }
+            else if let error = error {
+                completion((nil,error))
+            }
+            else {
+                completion((nil,nil))
+            }
+        }
+    }
+    
     func onShortformListPaginationError(error: Error) {
         
     }
     
-    func onShortformListPagination(completion: @escaping (((ShopLiveShortformSDK.ShopLiveShortformIdsMoreData?, Error?)) -> ())) {
-        completion((nil,nil))
-//        callShortsCollectionAPI { data,error in
-//            if let data = data {
-//                completion((data,nil))
-//            }
-//            else if let error = error {
-//                completion((nil,error))
-//            }
-//            else {
-//                completion((nil,nil))
-//            }
-//        }
+    func onShortformListDownwardPagination(completion: @escaping (((ShopLiveShortformSDK.ShopLiveShortformIdsMoreData?, Error?)) -> ())) {
+        callShortsCollectionAPI { data,error in
+            if let data = data {
+                completion((data,nil))
+            }
+            else if let error = error {
+                completion((nil,error))
+            }
+            else {
+                completion((nil,nil))
+            }
+        }
     }
     
-    func callShortsCollectionAPI(completion : @escaping((ShopLiveShortformIdsMoreData?,Error?) -> ())) {
+    func callShortsCollectionAPI(reversed : Bool = false,  completion : @escaping((ShopLiveShortformIdsMoreData?,Error?) -> ())) {
         Test2ShortsCollectionAPI(reference: self.reference).request { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -207,9 +218,20 @@ extension V2ShortsCollectionExampleView : ShortsCollectionViewDataSourcRequestDe
                 }
                 self.reference = response.reference
                 self.hasMore = response.hasMore
-                let idsData = response.shortsList?.compactMap({ shortsModel in
-                    return ShopLiveShortformIdData(shortsId: shortsModel.shortsId ?? "", payload: ["createIsFollow" : true] )
+                var idsData = response.shortsList?.compactMap({ shortsModel in
+                    return ShopLiveShortformIdData(shortsId: shortsModel.shortsId ?? "", payload: ["createIsFollow" : true, "description" : "\(shortsModel.shortsId)"] )
                 })
+                
+                if reversed {
+                    idsData = response.shortsList?.reversed().compactMap({ shortsModel in
+                        return ShopLiveShortformIdData(shortsId: shortsModel.shortsId ?? "", payload: ["createIsFollow" : true, "description" : "\(shortsModel.shortsId)"] )
+                    })
+                }
+                else {
+                    idsData = response.shortsList?.compactMap({ shortsModel in
+                        return ShopLiveShortformIdData(shortsId: shortsModel.shortsId ?? "", payload: ["createIsFollow" : true, "description" : "\(shortsModel.shortsId)"] )
+                    })
+                }
                 let moreData = ShopLiveShortformIdsMoreData(ids: idsData ,hasMore: hasMore)
                 DispatchQueue.main.async {
                     completion(moreData,nil)

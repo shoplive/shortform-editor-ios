@@ -12,8 +12,8 @@ import ShopliveSDKCommon
 
 
 public protocol ShortsCollectionViewDataSourcRequestDelegate : AnyObject {
-    func onShortformListPagination(completion : @escaping(((ShopLiveShortformIdsMoreData?,Error?)) -> ()))
-    
+    func onShortformListDownwardPagination(completion : @escaping(((ShopLiveShortformIdsMoreData?,Error?)) -> ()))
+    func onShortformListUpwardPagingation(completion : @escaping(((ShopLiveShortformIdsMoreData?,Error?)) -> ()))
 }
 
 class V2ShortsCollectionView : ShortsCollectionBaseView {
@@ -37,7 +37,7 @@ class V2ShortsCollectionView : ShortsCollectionBaseView {
         super.init(viewmodel: V2ShortsCollectionViewModel(shopliveSessionId: shopliveSessionId,shortformDelegate: shortformDelegate),
                    shortformDelegate: shortformDelegate)
         viewmodel.v2delegate = self
-        viewmodel.setshortFormIdsData(shortformIdsData: shortformIdsData)
+        viewmodel.setInitialshortFormIdsData(shortformIdsData: shortformIdsData)
         viewmodel.latestActivePageIndex = -1
         viewmodel.shortsMode = .detail
     }
@@ -65,15 +65,26 @@ class V2ShortsCollectionView : ShortsCollectionBaseView {
     }
 }
 extension V2ShortsCollectionView : V2ShortsCollectioViewModelDelegate {
-    func requestForMoreData() {
-        requestDelegate?.onShortformListPagination { [weak self] moreData,error in
+    func requestDownwardPaginationData() {
+        requestDelegate?.onShortformListDownwardPagination { [weak self] moreData,error in
             if let error = error {
                 self?.viewmodel.setShortformIdsMoreDataCustomerError(error: error)
             }
             else{
-                self?.viewmodel.setShortformIdsMoreData(moreData: moreData)
+                self?.viewmodel.setDownwardShortformIdsMoreData(moreData: moreData)
             }
         }
+    }
+    
+    func requestUpwardPaginationData() {
+        requestDelegate?.onShortformListUpwardPagingation(completion: { [weak self] moreData, error  in
+            if let error = error {
+                self?.viewmodel.setShortformIdsMoreDataCustomerError(error: error)
+            }
+            else {
+                self?.viewmodel.setUpwardShortformIdsMoreData(moreData: moreData)
+            }
+        })
     }
     
     func hideEmptyDataView(hide: Bool) {
@@ -88,7 +99,16 @@ extension V2ShortsCollectionView : V2ShortsCollectioViewModelDelegate {
     }
     
     func insertCells(at indexPaths: [IndexPath]) {
-        self.shortsListView.insertItems(at: indexPaths)
+        let currentBottomOffset = self.shortsListView.contentSize.height - self.shortsListView.contentOffset.y
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        self.shortsListView.performBatchUpdates { [weak self] in
+            self?.shortsListView.insertItems(at: indexPaths)
+        } completion: { [weak self] _ in
+            self?.shortsListView.contentOffset.y = (self?.shortsListView.contentSize.height ?? currentBottomOffset) - currentBottomOffset
+            CATransaction.commit()
+        }
+        
     }
 }
 extension V2ShortsCollectionView {
@@ -96,14 +116,16 @@ extension V2ShortsCollectionView {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
         if indexPath.row >= self.viewmodel.getShortsListDataCount() - 2 &&
             self.viewmodel.getScrollViewDidScrollPaginationIsBlocked() == false {
-            viewmodel.requestForPagination()
+            viewmodel.requestPaginationDownward()
             viewmodel.startScrollViewDidScrollPaginationBlockTimer()
         }
-        else if indexPath.row == 0 {
+        else if indexPath.row == 0 &&
+                    self.viewmodel.getScrollViewDidScrollPaginationIsBlocked() == false {
             viewmodel.requestPaginationUpward()
             viewmodel.startScrollViewDidScrollPaginationBlockTimer()
         }
     }
+    
     
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -117,7 +139,7 @@ extension V2ShortsCollectionView {
             
             if contentHeight - (contentOffset + frameHeight) <= 50 &&
                 self.viewmodel.getScrollViewDidScrollPaginationIsBlocked() == false {
-                viewmodel.requestForPagination()
+                viewmodel.requestPaginationDownward()
                 viewmodel.startScrollViewDidScrollPaginationBlockTimer()
             }
             else if currentIndexPath.row == 0 &&

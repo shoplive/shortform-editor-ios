@@ -49,11 +49,15 @@ extension V2ShortformExample : ShopLiveShortformReceiveHandlerDelegate {
     }
 }
 extension V2ShortformExample : ShortsCollectionViewDataSourcRequestDelegate {
+    func onShortformListUpwardPagingation(completion: @escaping (((ShopLiveShortformSDK.ShopLiveShortformIdsMoreData?, (any Error)?)) -> ())) {
+        
+    }
+    
     func onShortformListPaginationError(error: Error) {
         
     }
     
-    func onShortformListPagination(completion: @escaping (((ShopLiveShortformSDK.ShopLiveShortformIdsMoreData?, Error?)) -> ())) {
+    func onShortformListDownwardPagination(completion: @escaping (((ShopLiveShortformSDK.ShopLiveShortformIdsMoreData?, Error?)) -> ())) {
         callShortsCollectionAPI { data,error in
             if let data = data {
                 completion((data,nil))
