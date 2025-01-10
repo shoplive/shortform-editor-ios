@@ -19,6 +19,7 @@ public class ShopLiveShortform {
     internal static var detailWebViewViewHideOptionData = ShopLiveShortformVisibleDetailData()
     internal static var isEnabledVolumeKey : Bool = false
     internal static var detailPlayerResizeMode : ShopLiveResizeMode?
+    internal static var enableResumeOnForeGround : Bool = true
     
     
     public static func play(requestData : ShopLiveShortformCollectionData?){
@@ -127,6 +128,10 @@ public class ShopLiveShortform {
     
     public static func setResizeMode(mode : ShopLiveResizeMode) {
         self.detailPlayerResizeMode = mode
+    }
+    
+    public static func setEnableResumeOnForeGround(enable : Bool) {
+        self.enableResumeOnForeGround = enable
     }
     
     //MARK: - internal static funcs

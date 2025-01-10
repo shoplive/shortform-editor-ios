@@ -1007,6 +1007,7 @@ extension ShortsCollectionBaseViewModel : ShopliveAppStateObserverDelegate {
         guard let currentIndexPath = delegate?.getCurrentIndexPath() else { return }
         guard let data = shortsListData[safe: currentIndexPath.row] else { return }
         self.postActivePageNotification(forceIsActive: false, srn: data.srn, index: currentIndexPath.row,isFromAppState: true)
+        guard ShopLiveShortform.enableResumeOnForeGround else { return }
         guard let cells = delegate?.getLoadedCells(from: currentIndexPath.row - 1, to: currentIndexPath.row + 1) else { return }
         cells.forEach { cell in
             cell.pause()
