@@ -362,6 +362,9 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
             case .Failed(let error):
                 self.isLoading = false
                 self.onMainQueueResultHandler?( .cancelLoading )
+                if let error = error as? SLVideoConvertError, error == .cancel {
+                    return
+                }
                 let e = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedEncoding, error: error, message: nil)
                 resultHandler?( .onError(e) )
             }

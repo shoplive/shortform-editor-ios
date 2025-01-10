@@ -121,7 +121,7 @@ public class ShopLiveCommonErrorGenerator {
             return nil
         }
         
-        return .init(code: statusCode, message: "[HTTP status code]", error: error)
+    return .init(code: statusCode, message: "[HTTP status code]", error: error)
     }
 }
 
