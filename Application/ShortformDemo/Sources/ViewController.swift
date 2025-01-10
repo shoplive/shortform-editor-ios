@@ -284,8 +284,10 @@ extension ViewController : ShopLiveShortformEditorDelegate {
 }
 extension ViewController : ShopLiveVideoEditorDelegate {
     func onShopLiveVideoEditorCancelled(editor : UIViewController?) {
-        if let navigationController = editor?.navigationController {
-            navigationController.dismiss(animated: true)
+        DispatchQueue.main.async {
+            if let navigationController = editor?.navigationController {
+                navigationController.dismiss(animated: true)
+            }
         }
     }
     
@@ -299,16 +301,15 @@ extension ViewController : ShopLiveVideoEditorDelegate {
     
     func onShopLiveVideoEditorUploadSuccess(editor : UIViewController?,result: ShopliveEditorResultData?) {
         ShopLiveLogger.tempLog("[HASSAN LOG] onShopLiveVideoEditorUploadSuccess \(dump(result))")
-        if let nav = editor?.navigationController {
-            editor?.dismiss(animated: true)
-            nav.dismiss(animated: true)
-        }
-        else {
-            editor?.dismiss(animated: true)
-        }
-        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            if let nav = editor?.navigationController {
+                editor?.dismiss(animated: true)
+                nav.dismiss(animated: true)
+            }
+            else {
+                editor?.dismiss(animated: true)
+            }
             guard let localVideoUrl = result?.localVideoUrl else { return }
             self.videoEditorResultPopUp.setVideoPath(videoPath: localVideoUrl)
             self.videoEditorResultPopUp.alpha = 1
@@ -328,18 +329,20 @@ extension ViewController : ShopLiveVideoEditorDelegate {
 extension ViewController : ShopLiveMediaPickerDelegate {
     func onShopLiveMediaPickerCancelled(picker : UIViewController?) {
         print("onShopLiveMediaPickerCancelled")
-        if let nav = picker?.navigationController {
-            nav.dismiss(animated: true)
+        DispatchQueue.main.async {
+            if let nav = picker?.navigationController {
+                nav.dismiss(animated: true)
+            }
         }
     }
     
     func onShopLiveMediaPickerDidPickVideo(picker : UIViewController?,absoluteUrl: URL, relativeUrl: URL) {
         print("Picker Video Selected absoluteUrl: \(absoluteUrl) relativeUrl : \(relativeUrl)")
-        if let nav = picker?.navigationController {
-            nav.dismiss(animated: true)
-        }
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            if let nav = picker?.navigationController {
+                nav.dismiss(animated: true)
+            }
             self.videoEditorResultPopUp.setVideoPath(videoPath: absoluteUrl.absoluteString)
             self.videoEditorResultPopUp.alpha = 1
         }
@@ -347,9 +350,12 @@ extension ViewController : ShopLiveMediaPickerDelegate {
     
     func onShopLiveMediaPickerDidPickImage(picker : UIViewController?,imageUrl: URL) {
         print("Picker Image Selected image: \(imageUrl)")
-        if let nav = picker?.navigationController {
-            nav.dismiss(animated: true)
+        DispatchQueue.main.async {
+            if let nav = picker?.navigationController {
+                nav.dismiss(animated: true)
+            }
         }
+        
         let image = UIImage(contentsOfFile: imageUrl.path)
         coverPickerImageResultPopUp.setResultImage(image: image)
         coverPickerImageResultPopUp.alpha = 1
@@ -374,12 +380,14 @@ extension ViewController : ShopLiveCoverPickerDelegate {
     func onShopLiveCoverPickerCoverImageSuccess(picker : UIViewController?,image: UIImage?) {
         coverPickerImageResultPopUp.setResultImage(image: image)
         coverPickerImageResultPopUp.alpha = 1
-        if let nav = picker?.navigationController {
-            nav.viewControllers = []
-            nav.dismiss(animated: true)
-        }
-        else {
-            picker?.dismiss(animated: true)
+        DispatchQueue.main.async {
+            if let nav = picker?.navigationController {
+                nav.viewControllers = []
+                nav.dismiss(animated: true)
+            }
+            else {
+                picker?.dismiss(animated: true)
+            }
         }
     }
     
@@ -389,15 +397,18 @@ extension ViewController : ShopLiveCoverPickerDelegate {
     
     func onShopLiveCoverPickerCancelled(picker : UIViewController?) {
         ShopLiveLogger.tempLog("[HASSAN LOG] coverPickerCancelled")
-        if let navigationController = coverPickerViewController?.navigationController {
-            navigationController.dismiss(animated: true) { [weak self] in
-                self?.coverPickerViewController = nil
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            if let navigationController = self.coverPickerViewController?.navigationController {
+                navigationController.dismiss(animated: true) { [weak self] in
+                    self?.coverPickerViewController = nil
+                }
             }
-        }
-        else {
-            coverPickerViewController?.dismiss(animated: true, completion: { [weak self] in
-                self?.coverPickerViewController = nil
-            })
+            else {
+                self.coverPickerViewController?.dismiss(animated: true, completion: { [weak self] in
+                    self?.coverPickerViewController = nil
+                })
+            }
         }
     }
     
