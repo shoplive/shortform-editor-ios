@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct IndicatingStatus {
+struct SLIndicatingStatus {
     private var indicatingName = [String: Int]()
     
     var count: Int {
@@ -26,12 +26,12 @@ struct IndicatingStatus {
     }
 }
 
-public final class LoadingIndicatorView: UIView {
-    static let shared = LoadingIndicatorView()
+public final class SLLoadingIndicatorView: UIView {
+    static let shared = SLLoadingIndicatorView()
 
     private var backgroundView: UIView!
     private let indicatorView = UIActivityIndicatorView(style: .whiteLarge)
-    private var indicatingStatus = IndicatingStatus()
+    private var indicatingStatus = SLIndicatingStatus()
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

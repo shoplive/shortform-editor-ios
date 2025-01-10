@@ -102,6 +102,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     private var isCropTimeUpdated : Bool = false
     private var isViewAppeared : Bool = false
     private var isCreateShortform : Bool = true
+    private var isLoading : Bool = false
     
     private let videoConverter = SLVideoConverter()
     private var imageGenerator : AVAssetImageGenerator
@@ -227,7 +228,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     }
     
     private func onSetIsCreateShortform(isCreateShortform : Bool) {
-        self.isCropTimeUpdated = isCreateShortform
+        self.isCreateShortform = isCreateShortform
     }
     
     private func didTapPlayerView() {
@@ -301,6 +302,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     }
     
     private func onBackBtnTapped() {
+        guard isLoading == false else { return }
         onMainQueueResultHandler?( .requestPopView )
     }
 }
@@ -327,7 +329,8 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
         guard let videoSize = videoEditInfoDto.shortsVideo.getVideoSize(),
               let startTime = videoEditInfoDto.cropTime.start.timeSeconds_SL,
               let endTime = videoEditInfoDto.cropTime.end.timeSeconds_SL,
-              startTime < endTime else { return }
+              startTime < endTime,
+              isLoading == false else { return }
         let videoUrl = videoEditInfoDto.shortsVideo.localRelativeUrl.absoluteString
         
         let videoInfo = SLVideoInfo(videoPath: videoUrl,
@@ -341,6 +344,7 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
         
         self.onMainQueueResultHandler?( .updateLoadingPercent("0%") )
         self.onMainQueueResultHandler?( .showLoadingView )
+        self.isLoading = true
         
         videoConverter.convertVideo(videoInfo: videoInfo) { [weak self] result in
             guard let self = self else { return }
@@ -351,7 +355,13 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
                 if self.isCreateShortform {
                     self.callShortformUploadableAPI()
                 }
+                else {
+                    self.isLoading = false
+                    self.onMainQueueResultHandler?( .cancelLoading )
+                }
             case .Failed(let error):
+                self.isLoading = false
+                self.onMainQueueResultHandler?( .cancelLoading )
                 let e = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedEncoding, error: error, message: nil)
                 resultHandler?( .onError(e) )
             }
@@ -363,9 +373,9 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
         onMainQueueResultHandler?( .updateLoadingPercent("\(value)%") )
     }
 }
-extension SLVideoEditorMainViewReactor : SLLoadingAlertControllerDelegate2 {
+extension SLVideoEditorMainViewReactor : SLCircularProgressIndicatorViewDelegate {
     
-    func didTapBackground() {
+    func didTapLoadingView(_ alertController: SLCircularProgressIndicatorView) {
         let popUp = SLCustomAlertBox(title: ShopLiveShortformEditorSDKStrings.Editor.Alert.Encoding.Cancel.Title.shoplive, confirmTitle: nil, closeTitle: nil)
         popUp.setBoxCornerRadius(cornerRadius: design.popupCornerRadius)
         popUp.setButtonCornerRadius(cornerRadius: design.popupButtonCornerRadius)
@@ -378,6 +388,7 @@ extension SLVideoEditorMainViewReactor : SLLoadingAlertControllerDelegate2 {
         popUp.btnClickCallback = { [weak self] result in
             guard let self = self else { return }
             if result == .yes {
+                self.isLoading = false
                 self.onMainQueueResultHandler?( .cancelLoading )
                 self.videoConverter.cancelConvert()
                 popUp.isHidden = true
@@ -386,10 +397,6 @@ extension SLVideoEditorMainViewReactor : SLLoadingAlertControllerDelegate2 {
             }
         }
         onMainQueueResultHandler?( .showPopUp(popUp) )
-    }
-    
-    func didFinishLoading() {
-        /** no - op */
     }
 }
 //MARK: - upload process
@@ -406,6 +413,7 @@ extension SLVideoEditorMainViewReactor {
                     break
                 case .failure(let error):
                     self.resultHandler?( .onError(error) )
+                    self.isLoading = false
                     self.resultHandler?( .cancelLoading )
                 }
             }
@@ -452,6 +460,7 @@ extension SLVideoEditorMainViewReactor {
                         self.callShortformRegisterAPI(videoId: data.videoID , imageUrl: data.thumbnailImageURL)
                     case .failure(let error):
                         self.resultHandler?( .onError(error) )
+                        self.isLoading = false
                         self.resultHandler?( .cancelLoading )
                     }
                 }
@@ -480,6 +489,7 @@ extension SLVideoEditorMainViewReactor {
                     self.resultHandler?( .onError(error) )
                     break
                 }
+                self.isLoading = false
                 self.onMainQueueResultHandler?( .cancelLoading )
             }
         }

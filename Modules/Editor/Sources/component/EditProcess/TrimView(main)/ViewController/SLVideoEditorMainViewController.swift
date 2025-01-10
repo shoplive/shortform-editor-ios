@@ -214,10 +214,11 @@ class SLVideoEditorMainViewController : UIViewController {
     }()
     
     
-    private lazy var loadingProgress: SLLoadingAlertController2 = {
-        let vc = SLLoadingAlertController2()
-        self.view.addSubview(vc.view)
-        vc.useProgress = false
+    private lazy var loadingProgress: SLCircularProgressIndicatorView = {
+        let vc = SLCircularProgressIndicatorView()
+        vc.translatesAutoresizingMaskIntoConstraints = false
+        vc.alpha = 0
+        self.view.addSubview(vc)
         vc.setLoadingText("loading...")
         vc.delegate = reactor
         return vc
@@ -594,10 +595,9 @@ class SLVideoEditorMainViewController : UIViewController {
     }
     
     private func onReactorShowLoadingView() {
-        self.loadingProgress.modalPresentationStyle = .overFullScreen
         self.loadingProgress.setLoadingText("Loading...")
-        self.loadingProgress.view.alpha = 1
-        self.view.bringSubviewToFront(self.loadingProgress.view)
+        self.loadingProgress.alpha = 1
+        self.view.bringSubviewToFront(self.loadingProgress)
     }
     
     private func onReactorCancelLoading() {
@@ -863,6 +863,7 @@ extension SLVideoEditorMainViewController {
         self.view.addSubview(filterControlBox)
         self.view.addSubview(cropControlBox)
         self.view.addSubview(toastLabel)
+        self.view.addSubview(loadingProgress)
         
         let constraints1 : [NSLayoutConstraint] = [
             naviBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -929,7 +930,12 @@ extension SLVideoEditorMainViewController {
             toastLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
             toastLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             toastLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 400),
-            toastLabel.heightAnchor.constraint(equalToConstant: 40)
+            toastLabel.heightAnchor.constraint(equalToConstant: 40),
+            
+            loadingProgress.topAnchor.constraint(equalTo: self.view.topAnchor),
+            loadingProgress.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            loadingProgress.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            loadingProgress.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ]
         
         NSLayoutConstraint.activate(constraints1 + makeOptionBtnStackLayout(stack : optionBtnStack) + constraints2)

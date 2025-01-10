@@ -71,7 +71,7 @@ class SLCircularProgressView: UIView {
     }
 
     func setProgress(_ value: CGFloat) {
-        progressLayer.strokeEnd = value
+//        progressLayer.strokeEnd = value
     }
 
 }

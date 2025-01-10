@@ -136,7 +136,7 @@ public extension APIDefinition {
     
     func request(handler: ((Result<ResultType, ShopLiveCommonError>) -> ())? = nil ) {
         if needToShowLoadingIndicator {
-            LoadingIndicatorView.show()
+            SLLoadingIndicatorView.show()
         }
         
         var urlString = baseUrl

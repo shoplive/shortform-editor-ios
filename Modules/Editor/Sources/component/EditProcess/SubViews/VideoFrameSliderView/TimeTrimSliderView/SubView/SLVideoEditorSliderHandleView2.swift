@@ -325,8 +325,7 @@ extension SLVideoEditorSliderHandleView2 {
     private func setLayout() {
         self.addSubview(dimView)
         self.addSubview(betweenHandleContainerView)
-        self.addSubview(trimDurationLabelPaddingView)
-        self.addSubview(trimDurationLabel)
+        
         
         
         self.addSubview(leftHandle)
@@ -335,6 +334,9 @@ extension SLVideoEditorSliderHandleView2 {
         self.addSubview(rightHandleTouchAreaView)
         
         self.addSubview(timeIndicatorView)
+        
+        self.addSubview(trimDurationLabelPaddingView)
+        self.addSubview(trimDurationLabel)
         
         
         NSLayoutConstraint.activate([
