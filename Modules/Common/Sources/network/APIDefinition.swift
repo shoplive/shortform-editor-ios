@@ -398,19 +398,19 @@ public extension APIDefinition {
             body.append("\(sessionSecret)\(lineBreak)".data(using: .utf8)!)
         }
         
-        if let videoWidth = self.uploadParameters["videoWidth"] as? String {
+        if let videoWidth = self.uploadParameters["videoWidth"] as? CGFloat {
             body.append(boundaryPrefix.data(using: .utf8)!)
             body.append("Content-Disposition: form-data; name=\"videoWidth\"\(lineBreak + lineBreak)".data(using: .utf8)!)
             body.append("\(videoWidth)\(lineBreak)".data(using: .utf8)!)
         }
         
-        if let videoHeight = self.uploadParameters["videoHeight"] as? String {
+        if let videoHeight = self.uploadParameters["videoHeight"] as? CGFloat {
             body.append(boundaryPrefix.data(using: .utf8)!)
             body.append("Content-Disposition: form-data; name=\"videoHeight\"\(lineBreak + lineBreak)".data(using: .utf8)!)
             body.append("\(videoHeight)\(lineBreak)".data(using: .utf8)!)
         }
         
-        if let videoDuration = self.uploadParameters["videoDuration"] as? String {
+        if let videoDuration = self.uploadParameters["videoDuration"] as? Double {
             body.append(boundaryPrefix.data(using: .utf8)!)
             body.append("Content-Disposition: form-data; name=\"videoDuration\"\(lineBreak + lineBreak)".data(using: .utf8)!)
             body.append("\(videoDuration)\(lineBreak)".data(using: .utf8)!)
