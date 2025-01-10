@@ -93,7 +93,8 @@ class SLPhotosPickerViewController : UIViewController {
         var config = SLPhotosPickerConfigure()
         self.permissionDelegate = permissionDelegate
         config.mediaType = mediaType == .video ? .video : .image
-        config.usedCameraButton = mediaType == .video ? true : false
+        config.usedCameraButton = true
+//        mediaType == .video ? true : false
         reactor.action( .setPickerConfigure(config) )
     }
     

@@ -173,13 +173,19 @@ extension SLPhotosPickerReactor {
         let picker = UIImagePickerController()
         picker.sourceType = .camera
         var mediaTypes : [String] = []
-        if self.pickerConfigure.allowedVideoRecording {
-            mediaTypes.append(kUTTypeMovie as String)
-            picker.videoQuality = self.pickerConfigure.recordingVideoQuality
-            if let duration = self.pickerConfigure.maxVideoDuration {
-                picker.videoMaximumDuration = duration
+        if pickerConfigure.mediaType == .video {
+            if self.pickerConfigure.allowedVideoRecording {
+                mediaTypes.append(kUTTypeMovie as String)
+                picker.videoQuality = self.pickerConfigure.recordingVideoQuality
+                if let duration = self.pickerConfigure.maxVideoDuration {
+                    picker.videoMaximumDuration = duration
+                }
             }
         }
+        else if pickerConfigure.mediaType == .image {
+            mediaTypes.append(kUTTypeImage as String)
+        }
+        
         guard mediaTypes.count > 0 else {
             return
         }
