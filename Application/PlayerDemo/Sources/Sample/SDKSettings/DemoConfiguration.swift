@@ -783,7 +783,7 @@ final class DemoConfiguration: NSObject {
         set {
             switch newValue {
             case .AUTO:
-                UserDefaults.standard.set("AUDO", forKey: SDKOptionType.resizeMode.optionKey)
+                UserDefaults.standard.set("AUTO", forKey: SDKOptionType.resizeMode.optionKey)
             case .CENTER_CROP:
                 UserDefaults.standard.set("CENTER_CROP", forKey: SDKOptionType.resizeMode.optionKey)
             case .FIT:

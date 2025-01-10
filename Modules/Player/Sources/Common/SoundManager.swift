@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFAudio
+import AVKit
 import ShopliveSDKCommon
 
 class SoundManager: NSObject {
@@ -59,56 +60,10 @@ class SoundItem {
     var url: String
     private var localUrl : URL?
     
-    
-    init(alias: String, url: String) {
-        self.alias = alias
-        self.url = url
-        
-        guard let requestUrl = URL(string: url) else { return }
-        self.checkIfDownloaded(audioUrl: requestUrl)
-    }
-    
-    func downloadSoundItem(requestUrl : URL, destination : URL) {
-        let task = URLSession.shared.downloadTask(with: requestUrl) {  [weak self] localUrl, response , error in
-            guard let self = self else { return }
-            guard let localUrl = localUrl else { return }
-            self.localUrl = destination
-            do {
-                try FileManager.default.moveItem(at: localUrl, to: destination)
-            }
-            catch(let error) {
-                ShopLiveLogger.debugLog("soundItem file directory couldn't be moved \(error)")
-            }
-        }
-        task.resume()
-    }
-    
-    
-    private func checkIfDownloaded(audioUrl : URL) {
-        DispatchQueue.global(qos: .background).async {
-            let documentsUrl = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-            var audioUrlPath = self.alias
-            audioUrlPath = audioUrlPath.replacingOccurrences(of: "/", with: "_")
-            let destination = documentsUrl.appendingPathComponent(audioUrlPath)
-            
-            if FileManager.default.fileExists(atPath: destination.path) {
-                self.localUrl = destination
-            }
-            else {
-                self.downloadSoundItem(requestUrl: audioUrl, destination: destination)
-            }
-        }
-    }
-    
-}
-
-extension SoundItem {
-    
+    //for cached
     var playItem: Data? {
         var item: Data? = nil
-        
         guard let localUrl = self.localUrl else { return nil }
-        
         do {
             item = try Data(contentsOf: localUrl)
         }
@@ -116,36 +71,87 @@ extension SoundItem {
             ShopLiveLogger.debugLog("soundItem failed to read from directory \(error)")
             return nil
         }
-        
         return item
     }
+    
+    //for non cached
+    var avPlayerItem : AVPlayerItem?
+    
+    init(alias: String, url: String) {
+        self.alias = alias
+        self.url = url
+        guard let requestUrl = URL(string: url) else { return }
+        self.checkIfDownloaded(audioUrl: requestUrl)
+    }
+    
+    func downloadSoundItem(requestUrl : URL, destination : URL) {
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let self = self else { return }
+            let task = URLSession.shared.downloadTask(with: requestUrl) { localUrl, response , error in
+                guard let localUrl = localUrl else { return }
+                self.localUrl = destination
+                do {
+                    try FileManager.default.moveItem(at: localUrl, to: destination)
+                }
+                catch(let error) {
+                    ShopLiveLogger.debugLog("soundItem file directory couldn't be moved \(error)")
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    
+    private func checkIfDownloaded(audioUrl : URL) {
+        let documentsUrl = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        var audioUrlPath = self.alias
+        audioUrlPath = audioUrlPath.replacingOccurrences(of: "/", with: "_")
+        let destination = documentsUrl.appendingPathComponent(audioUrlPath)
+        
+        if FileManager.default.fileExists(atPath: destination.path) {
+            self.avPlayerItem = nil
+            self.localUrl = destination
+        }
+        else {
+            self.avPlayerItem = AVPlayerItem(url: audioUrl)
+            self.downloadSoundItem(requestUrl: audioUrl, destination: destination)
+        }
+    }
+    
 }
-
 class SoundPlayer {
     
     private(set) var player: AVAudioPlayer?
+    private(set) var avPlayer : AVPlayer?
     var item: SoundItem
     
     init(item: SoundItem) {
         self.item = item
-        
     }
     
     func play() {
         player = nil
-        guard let playeItem = self.item.playItem else { return }
-        do {
-            player = try AVAudioPlayer(data: playeItem)
+        avPlayer = nil
+        if let playeItem = self.item.playItem {
+            do {
+                player = try AVAudioPlayer(data: playeItem)
+            }
+            catch {
+                ShopLiveLogger.debugLog("SoundPlayer player set failed")
+            }
+            self.avPlayer = nil
+            self.item.avPlayerItem = nil
+            player?.play()
         }
-        catch {
-            ShopLiveLogger.debugLog("SoundPlayer player set failed")
+        else if let avPlayerItem = self.item.avPlayerItem {
+            avPlayer = AVPlayer(playerItem: avPlayerItem)
+            avPlayer?.play()
         }
-        player?.play()
     }
-    
     
     func stop() {
         player?.stop()
+        avPlayer?.pause()
     }
     
 }
