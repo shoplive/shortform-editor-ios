@@ -321,7 +321,7 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
                                     videoTrimOption: trimOption,
                                     visibleContents: visibleContents))
             .setDelegate(vc)
-            .build(data: .init(videoUrl: localUrl,isCreatedShortform: false), completion: { [weak self] editorViewController in
+            .build(data: .init(videoUrl: localUrl,isCreatedShortform: true), completion: { [weak self] editorViewController in
                 guard let self = self else { return }
                 let nav = UINavigationController(rootViewController: editorViewController)
                 nav.navigationBar.isHidden = true

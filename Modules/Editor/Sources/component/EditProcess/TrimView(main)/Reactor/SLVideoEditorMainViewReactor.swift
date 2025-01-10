@@ -302,8 +302,12 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     }
     
     private func onBackBtnTapped() {
-        guard isLoading == false else { return }
-        onMainQueueResultHandler?( .requestPopView )
+        if isLoading {
+            showEncodingCancelPopUp()
+        }
+        else {
+            onMainQueueResultHandler?( .requestPopView )
+        }
     }
 }
 //MARK: - GETTER
@@ -379,6 +383,10 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
 extension SLVideoEditorMainViewReactor : SLCircularProgressIndicatorViewDelegate {
     
     func didTapLoadingView(_ alertController: SLCircularProgressIndicatorView) {
+        self.showEncodingCancelPopUp()
+    }
+    
+    private func showEncodingCancelPopUp() {
         let popUp = SLCustomAlertBox(title: ShopLiveShortformEditorSDKStrings.Editor.Alert.Encoding.Cancel.Title.shoplive, confirmTitle: nil, closeTitle: nil)
         popUp.setBoxCornerRadius(cornerRadius: design.popupCornerRadius)
         popUp.setButtonCornerRadius(cornerRadius: design.popupButtonCornerRadius)
