@@ -250,9 +250,6 @@ extension V2ShortsCollectionExampleView : ShopLiveShortformReceiveHandlerDelegat
         switch command {
         case "DETAIL_EMPTY":
             ShopLiveLogger.tempLog("[DETAIL_EMPTY]")
-        case "DETAIL_SHORTFORM_MORE_ENDED":
-            ShopLiveLogger.tempLog("[DETAIL_SHORTFORM_MORE_ENDED]")
-            break
         case "DETAIL_ACTIVE":
             let srn = extractShortsId(payload: payload ?? "")
             ShopLiveLogger.tempLog("[DETAIL_ACTIVE]")

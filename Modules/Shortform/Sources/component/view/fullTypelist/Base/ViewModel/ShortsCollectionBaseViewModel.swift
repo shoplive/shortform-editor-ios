@@ -276,26 +276,6 @@ class ShortsCollectionBaseViewModel : NSObject {
 //MARK: - util functions
 extension ShortsCollectionBaseViewModel {
     
-    func checkIfCellIsLastAttachedCellAndSendLastCellEvent(shortsModel : SLShortsModel) {
-        guard let lastShortsModel = self.shortsListData.last,
-              let lastShortsId = lastShortsModel.shortsId,
-              let lastShortsSrn = lastShortsModel.srn else { return }
-        
-        guard let currentShortsId = shortsModel.shortsId,
-              let currentShortsSrn = shortsModel.srn else { return }
-        
-        if let v2Viewmodel = self as? V2ShortsCollectionViewModel {
-            if lastShortsId == currentShortsId, lastShortsSrn == currentShortsSrn, v2Viewmodel.hasMore == false {
-                self.shortformDelegate?.onEvent?(messenger: nil, command: "DETAIL_SHORTFORM_MORE_ENDED", payload: nil)
-            }
-        }
-        else {
-            if lastShortsId == currentShortsId, lastShortsSrn == currentShortsSrn, hasMore == false {
-                self.shortformDelegate?.onEvent?(messenger: nil, command: "DETAIL_SHORTFORM_MORE_ENDED", payload: nil)
-            }
-        }
-    }
-    
     func sendCellDetachedEventOnRemoveFromSuperView(indexPaths : [IndexPath]) {
         indexPaths.map({ $0.row })
             .compactMap({ self.shortsListData[safe: $0] })

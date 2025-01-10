@@ -26,7 +26,6 @@ protocol ShortsCellDelegate : NSObject {
     func setSnapShotForWindow(image : UIImage?)
     func getCurrentOnViewIndexPath() -> IndexPath?
     func requestSetCustomShortformForV2(cell : ShortsCell, shortsId : String)
-    func checkIfCellIsLastAttachedCell(shortsModel : SLShortsModel)
 }
 
 
@@ -807,7 +806,6 @@ extension ShortsCell : ShortsCellInterface {
             guard let shortsModel = self.reactor.getShortsModel() else { return }
             attachState = .attached
             shortformDelegate?.onShortsAttached?(data: shortsModel.toShopLiveShortformData())
-            delegate?.checkIfCellIsLastAttachedCell(shortsModel: shortsModel)
         }
         if isIntersected == false && attachState != .detached {// detached
             guard let shortsModel = self.reactor.getShortsModel() else { return }
