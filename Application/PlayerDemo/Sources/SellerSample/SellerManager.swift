@@ -19,8 +19,8 @@ class SellerManager {
     func parseCommand(command : String, payload : [String : Any]?) {
         guard let payload = payload else { return }
         switch command {
-        case "ON_RECEIVED_SELLER_CONFIG":
-            self.onReceivedSellerConfig(payload: payload)
+        case "ON_CLICK_SELLER":
+            self.onOnClickSeller(payload: payload)
         case "ON_CLICK_VIEW_SELLER_STORE":
             self.onClickViewSellerStore(payload: payload)
         case "ON_CLICK_SELLER_SUBSCRIPTION":
@@ -31,7 +31,7 @@ class SellerManager {
     }
     
     
-    private func onReceivedSellerConfig(payload : [String : Any]) {
+    private func onOnClickSeller(payload : [String : Any]) {
         var temp = payload
         temp["saved"] = true
         ShopLive.sendCommandMessage(command: "SET_SELLER_SAVED_STATE", payload: temp)

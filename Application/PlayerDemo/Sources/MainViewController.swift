@@ -689,7 +689,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     
     func handleReceivedCommand(_ command: String, data: [String : Any]?) {
         switch command {
-        case "ON_RECEIVED_SELLER_CONFIG","ON_CLICK_VIEW_SELLER_STORE","ON_CLICK_SELLER_SUBSCRIPTION":
+        case "ON_CLICK_SELLER","ON_RECEIVED_SELLER_CONFIG","ON_CLICK_VIEW_SELLER_STORE","ON_CLICK_SELLER_SUBSCRIPTION":
             SellerManager.shared.parseCommand(command: command, payload: data)
         default:
             break
