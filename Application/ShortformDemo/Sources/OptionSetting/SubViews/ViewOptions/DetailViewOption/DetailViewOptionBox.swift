@@ -28,6 +28,7 @@ class DetailViewOptionBox : UIView {
     
     private let resizeModeBox = DetailViewResizeModeOptionBox()
     private let isEnabledVolumeKeyBox = OptionSetSwitchBox(title: "볼륨키 이벤트 받기", type: .isEnabledVolumeKey)
+    private let isDetailViewMutedBox = OptionSetSwitchBox(title: "전체화면 음소거", type: .detailViewIsMuted)
     
     
     override init(frame: CGRect) {
@@ -36,6 +37,7 @@ class DetailViewOptionBox : UIView {
         self.setLayout()
         resizeModeBox.delegate = self
         isEnabledVolumeKeyBox.delegate = self
+        isDetailViewMutedBox.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -45,6 +47,7 @@ class DetailViewOptionBox : UIView {
     
     func setOption() {
         isEnabledVolumeKeyBox.setSwitchIsOn(isOn: OptionSettingModel.isEnabledVolumeKey)
+        isDetailViewMutedBox.setSwitchIsOn(isOn: OptionSettingModel.isDetailViewMuted)
     }
     
 }
@@ -59,6 +62,8 @@ extension DetailViewOptionBox : OptionSetSwitchBoxDelegate {
         switch type {
         case .isEnabledVolumeKey:
             OptionSettingModel.isEnabledVolumeKey = value
+        case .detailViewIsMuted:
+            OptionSettingModel.isDetailViewMuted = value
         default:
             break
         }
@@ -69,7 +74,8 @@ extension DetailViewOptionBox {
         
         let stack = UIStackView(arrangedSubviews:[titleLabel,
                                                   resizeModeBox,
-                                                 isEnabledVolumeKeyBox])
+                                                  isEnabledVolumeKeyBox,
+                                                  isDetailViewMutedBox])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = 10

@@ -37,7 +37,6 @@ struct ShortFormConfigurationInfoModel {
     var listApiPaginationCount: Int = 10
     var previewUseCloseButton: Bool = true
     var enabledSwipeOut: Bool = true
-    var mutedWhenStart : Bool = false
     var mixWithOthers : Bool = true
     var previewDetailCollectionListAll : Bool = true
     var isCached : Bool = false
@@ -62,7 +61,6 @@ struct ShortFormConfigurationInfoModel {
                   listApiPaginationCount: datas?.listApiPaginationCount,
                   previewUseCloseButton: datas?.previewUseCloseButton,
                   enabledSwipeOut: datas?.enabledSwipeOut,
-                  mutedWhenStart: datas?.mutedWhenStart,
                   mixWithOthers: datas?.mixWithOthers,
                   previewMaxSize: datas?.previewMaxSize,
                   previewDetailCollectionListAll : datas?.previewDetailCollectionListAll,
@@ -75,7 +73,7 @@ struct ShortFormConfigurationInfoModel {
     init(detailUrl: String?, youtubeUrl : String?, shortformApiEndPoint : String?, previewEdgeInsets: (left : CGFloat?, top : CGFloat?, right : CGFloat?, bottom :CGFloat?),
         previewPosition: String?, detailApiInitializeCount: Int?, detailApiPaginationCount: Int?,
          listApiInitializeCount: Int?, listApiPaginationCount: Int?, previewUseCloseButton: Bool?, enabledSwipeOut: Bool?,
-         mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?,previewDetailCollectionListAll : Bool?,isCached : Bool?,previewRadius : CGFloat?, previewIsMuted : Bool?,preferredBufferDuration : Double?) {
+         mixWithOthers: Bool?, previewMaxSize : CGFloat?,previewDetailCollectionListAll : Bool?,isCached : Bool?,previewRadius : CGFloat?, previewIsMuted : Bool?,preferredBufferDuration : Double?) {
         if let detailUrl = detailUrl {
             self.detailUrl = detailUrl
         }
@@ -131,9 +129,6 @@ struct ShortFormConfigurationInfoModel {
         }
         if let enabledSwipeOut = enabledSwipeOut {
             self.enabledSwipeOut = enabledSwipeOut
-        }
-        if let mutedWhenStart = mutedWhenStart {
-            self.mutedWhenStart = mutedWhenStart
         }
         if let mixWithOthers = mixWithOthers {
             self.mixWithOthers = mixWithOthers

@@ -227,7 +227,6 @@ extension ShortsCollectionBaseView {
     private func handleWebViewSetVideoMute(payload : [String : Any]?) {
         guard let isMuted = payload?["mute"] as? Bool else { return }
         viewModel.setIsMuted(isMuted: isMuted)
-        ShortFormConfigurationInfosManager.shared.setWhenMutedStart(isMuted: isMuted)
     }
     
     private func handleWebViewOnClickShareBtn(payload : [String : Any]?) {

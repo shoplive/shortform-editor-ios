@@ -23,6 +23,20 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
     private var requestedShortFormIdsList : [String] = []
     var isLoadingMoreData : Bool = false
     
+    private var _isMuted : Bool = false
+    override var isMuted: Bool {
+        get {
+            let audioSession = AudioSessionManager.shared.audioSession
+            if audioSession.outputVolume == 0 {
+                return true
+            }
+            return _isMuted
+        }
+        set {
+            _isMuted = newValue
+            self.setCellMuted(isMuted: newValue)
+        }
+    }
     
     weak var v2delegate : V2ShortsCollectioViewModelDelegate?
     var customerDownwardHasMore : Bool = true

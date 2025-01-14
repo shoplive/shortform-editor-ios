@@ -12,7 +12,7 @@ import ShopliveSDKCommon
 
 
 public class ShopLiveShortsCollectionView : UIView, SLReactor {
-    
+   
     public enum Action {
         case onStartRotation(size : CGSize)
         case onChangingRotation(size : CGSize)
@@ -23,6 +23,7 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
         case setScrollEnabled(Bool)
         case setInActive
         case setActive
+        case setMuted(Bool)
     }
     
     public enum Result {
@@ -99,6 +100,8 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
             self.onSetActive()
         case .setInActive:
             self.onSetInActive()
+        case .setMuted(let isMuted):
+            self.onSetMuted(isMuted : isMuted)
         }
     }
     
@@ -151,6 +154,11 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
     private func onSetInActive() {
         guard let shortsCollectionView = getShortsCollectionView() else { return }
         shortsCollectionView.setInActive()
+    }
+    
+    private func onSetMuted(isMuted : Bool) {
+        guard let shortsCollectionView = getShortsCollectionView() else { return }
+        shortsCollectionView.setMuted(isMuted: isMuted)
     }
 }
 extension ShopLiveShortsCollectionView {

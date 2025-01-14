@@ -293,6 +293,10 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
         guard let index = self.getCenterItemIndexPath()?.row, let srn = self.viewModel.shortsListData[safe: index]?.srn else { return }
         self.viewModel.postActivePageNotification(forceIsActive: false, srn: srn, index: index)
     }
+    
+    func setMuted(isMuted : Bool) {
+        self.viewModel.setIsMuted(isMuted: isMuted)
+    }
 }
 extension ShortsCollectionBaseView {
     func getPreviewEventTraceSrn() -> String? {

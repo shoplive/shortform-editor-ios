@@ -20,9 +20,19 @@ internal class InternalShortformRelatedDTO {
     var brands : [String]?
     var shuffle : Bool?
     var delegate : ShopLiveShortformReceiveHandlerDelegate?
+    var isMuted : Bool? = true
     
     
-    public init(shortsId : String? = nil, productId: String? = nil, name: String? = nil, skus: [String]? = nil, url: String? = nil, tags: [String]? = nil, tagSearchOperator: String? = nil, brands: [String]? = nil, shuffle: Bool? = nil) {
+    public init(shortsId : String? = nil,
+                productId: String? = nil,
+                name: String? = nil,
+                skus: [String]? = nil,
+                url: String? = nil,
+                tags: [String]? = nil,
+                tagSearchOperator: String? = nil,
+                brands: [String]? = nil,
+                shuffle: Bool? = nil,
+                isMuted : Bool? = true) {
         self.shortsId = shortsId
         self.productId = productId
         self.name = name
@@ -32,6 +42,7 @@ internal class InternalShortformRelatedDTO {
         self.tagSearchOperator = tagSearchOperator
         self.brands = brands
         self.shuffle = shuffle
+        self.isMuted = isMuted
     }
 }
 

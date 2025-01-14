@@ -20,10 +20,23 @@ public class ShopLiveShortformRelatedData {
     public var tagSearchOperator : ShopLiveTagSearchOperator?
     public var brands : [String]?
     public var shuffle : Bool?
+    public var isMuted : Bool? = false
     public var delegate : ShopLiveShortformReceiveHandlerDelegate?
     
     
-    public init(shortsId : String? = nil , reference: String? = nil, productId: String? = nil, name: String? = nil, skus: [String]? = nil, url: String? = nil, tags: [String]? = nil, tagSearchOperator: ShopLiveTagSearchOperator? = nil, brands: [String]? = nil, shuffle: Bool? = nil, referrer : String? = nil, delegate : ShopLiveShortformReceiveHandlerDelegate?) {
+    public init(shortsId : String? = nil,
+                reference: String? = nil,
+                productId: String? = nil,
+                name: String? = nil,
+                skus: [String]? = nil,
+                url: String? = nil,
+                tags: [String]? = nil,
+                tagSearchOperator: ShopLiveTagSearchOperator? = nil,
+                brands: [String]? = nil,
+                shuffle: Bool? = nil,
+                referrer : String? = nil,
+                isMuted : Bool? = false,
+                delegate : ShopLiveShortformReceiveHandlerDelegate?) {
         self.shortsId = shortsId
         self.reference = reference
         self.productId = productId
@@ -35,6 +48,7 @@ public class ShopLiveShortformRelatedData {
         self.brands = brands
         self.shuffle = shuffle
         self.delegate = delegate
+        self.isMuted = isMuted
         ShortFormAuthManager.shared.setReferrer(referrer: referrer)
     }
 }

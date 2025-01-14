@@ -136,24 +136,31 @@ class ShortsCollectionBaseViewModel : NSObject {
     private var videoCurrentTimeWhenPreviewTapped : ShortformCurrentTimeDTO?
     private var videoShortsIdWhenPreviewTapped : String?
     private var canUseShortformCurrentTimeDTO : Bool = false
-    private var _isMuted : Bool?
-    private var isMuted : Bool {
+    var isMuted : Bool {
         get {
-            if let _isMuted = _isMuted {
-                return _isMuted
+            let audioSession = AudioSessionManager.shared.audioSession
+            if audioSession.outputVolume == 0 {
+                return true
+            }
+            
+            if let collectionRequestData = collectionRequestData, let isMuted = collectionRequestData.isMuted {
+                return isMuted
+            }
+            else if let relatedRequestData = relatedRequestData, let isMuted = relatedRequestData.isMuted {
+                return isMuted
             }
             else {
-                let audioSession = AudioSessionManager.shared.audioSession
-                if audioSession.outputVolume == 0 {
-                    return true
-                }
-                return ShortFormConfigurationInfosManager.shared.shortsConfiguration.mutedWhenStart
+                return true
             }
         }
         set {
-            _isMuted = newValue
-            self.postMuteShortsNotification()
-            self.setLatestCellMuted(isMuted: newValue)
+            if let collectionRequestData = collectionRequestData {
+                collectionRequestData.isMuted = newValue
+            }
+            else if let relatedRequestData = relatedRequestData {
+                relatedRequestData.isMuted = newValue
+            }
+            self.setCellMuted(isMuted: newValue)
         }
     }
     private var _previewIsMuted : Bool?
@@ -177,8 +184,7 @@ class ShortsCollectionBaseViewModel : NSObject {
         }
         set {
             _previewIsMuted = newValue
-            self.postMuteShortsNotification()
-            self.setLatestCellMuted(isMuted: newValue)
+            self.setCellMuted(isMuted: newValue)
         }
     }
     private var preferredForwardBufferDuration : Double = ShortFormConfigurationInfosManager.shared.shortsConfiguration.preferredBufferDuration
@@ -361,8 +367,15 @@ extension ShortsCollectionBaseViewModel {
 }
 //MARK: - setter functions
 extension ShortsCollectionBaseViewModel {
-    func setLatestCellMuted(isMuted : Bool) {
+    func setCellMuted(isMuted : Bool) {
         self.latestCell.latestCell?.setMute(isMuted)
+        guard let currentIndexPath = self.delegate?.getCurrentIndexPath(),
+              let cells = self.delegate?.getLoadedCells(from: currentIndexPath.row - 1, to: currentIndexPath.row + 1) else {
+            return
+        }
+        cells.forEach { cell in
+            cell.setMute(self.isMuted)
+        }
     }
     
     func setShopLiveSessionId(sessionId : String?) {
@@ -755,18 +768,6 @@ extension ShortsCollectionBaseViewModel {
     func postPreviewShowNotification() {
         guard let shorts = self.currentShorts else { return }
         ShopLiveShortform.BridgeInterface.previewShown(shorts: shorts)
-    }
-    
-    func postMuteShortsNotification() {
-        //TODO: 나중에 VideoPlayer 없어지면 받을 부분이 사라져서 해당 노티피케이션이 필요가 없어짐에 따라 삭제 에정
-        NotificationCenter.default.post(Notification(name: Notification.Name("muteShorts"), object: nil, userInfo: ["mute": self.isMuted]))
-        guard let currentIndexPath = self.delegate?.getCurrentIndexPath(),
-              let cells = self.delegate?.getLoadedCells(from: currentIndexPath.row - 1, to: currentIndexPath.row + 1) else {
-            return
-        }
-        cells.forEach { cell in
-            cell.setMute(self.isMuted)
-        }
     }
     
     func postOnForegroundNotification() {

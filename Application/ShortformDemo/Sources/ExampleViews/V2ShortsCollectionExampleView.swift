@@ -67,6 +67,7 @@ class V2ShortsCollectionExampleView : UIViewController {
                                                                      shortsCollectionDelegate: self)
             self.shortsCollectionView?.translatesAutoresizingMaskIntoConstraints = false
             self.setLayout()
+            self.shortsCollectionView?.action( .setMuted(OptionSettingModel.isDetailViewMuted) )
         }
         backBtn.addTarget(self, action: #selector(backBtnTapped), for: .touchUpInside)
         btn.addTarget(self, action: #selector(nextBtnTapped), for: .touchUpInside)

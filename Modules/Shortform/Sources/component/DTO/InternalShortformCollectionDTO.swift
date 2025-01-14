@@ -16,6 +16,7 @@ internal class InternalShortformCollectionDto {
     var shuffle : Bool?
     var skus : [String]?
     var shortsCollectionId : String?
+    var isMuted : Bool? = true
     weak var delegate : ShopLiveShortformReceiveHandlerDelegate?
 }
 

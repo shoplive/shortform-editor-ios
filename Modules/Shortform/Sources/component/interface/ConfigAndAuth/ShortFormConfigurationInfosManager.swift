@@ -96,8 +96,4 @@ public class ShortFormConfigurationInfosManager {
     private func setConfiguration(shortformApiEndPoint : String?, settingData : ShortsSettingConfigSDK?){
         shortsConfiguration = ShortFormConfigurationInfoModel( shortformApiEndPoint: shortformApiEndPoint, datas: settingData)
     }
-    
-    func setWhenMutedStart(isMuted : Bool){
-        self.shortsConfiguration.mutedWhenStart = isMuted
-    }
 }

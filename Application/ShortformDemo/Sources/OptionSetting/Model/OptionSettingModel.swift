@@ -44,4 +44,5 @@ class OptionSettingModel {
     static var resizeMode : ShopLiveResizeMode = .AUTO
     static var isEnabledVolumeKey : Bool = false
     static var previewIsMuted : Bool = true
+    static var isDetailViewMuted : Bool = false
 }

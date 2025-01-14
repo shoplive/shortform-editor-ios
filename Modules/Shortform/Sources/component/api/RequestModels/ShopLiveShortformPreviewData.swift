@@ -12,7 +12,6 @@ import UIKit
 
 public final class ShopLiveShortformPreviewData : ShopLiveShortformRelatedData {
     
-    public var isMuted : Bool?
     public var isEnabledVolumeKey : Bool = false
     public var previewPosition : ShopLiveShortform.PreviewPosition?
     public var previewScale : CGFloat?
@@ -26,18 +25,31 @@ public final class ShopLiveShortformPreviewData : ShopLiveShortformRelatedData {
     public var maxCount : Int?
     
     
-    public init(shortsId: String? = nil, isEnabledVolumeKey : Bool = false, reference: String? = nil, productId: String? = nil,
-                name: String? = nil, skus: [String]? = nil, url: String? = nil,
-                tags: [String]? = nil, tagSearchOperator: ShopLiveTagSearchOperator? = nil, brands: [String]? = nil,
-                shuffle: Bool? = nil, referrer: String? = nil, isMuted : Bool? =  nil,
-                previewPosition : ShopLiveShortform.PreviewPosition? = nil, previewScale : CGFloat? = nil, previewRadius : CGFloat? = nil,
+    public init(shortsId: String? = nil,
+                isEnabledVolumeKey : Bool = false,
+                reference: String? = nil,
+                productId: String? = nil,
+                name: String? = nil,
+                skus: [String]? = nil,
+                url: String? = nil,
+                tags: [String]? = nil,
+                tagSearchOperator: ShopLiveTagSearchOperator? = nil,
+                brands: [String]? = nil,
+                shuffle: Bool? = nil,
+                referrer: String? = nil,
+                isMuted : Bool? =  nil,
+                previewPosition : ShopLiveShortform.PreviewPosition? = nil,
+                previewScale : CGFloat? = nil,
+                previewRadius : CGFloat? = nil,
                 previewEdgeInset : UIEdgeInsets? = nil,
-                previewFloatingOffset : UIEdgeInsets? = nil, useCloseButton : Bool? = nil,
-                enableSwipeOut : Bool? = nil, maxCount : Int? = nil , useCustomAction : Bool = false,
+                previewFloatingOffset : UIEdgeInsets? = nil,
+                useCloseButton : Bool? = nil,
+                enableSwipeOut : Bool? = nil,
+                maxCount : Int? = nil,
+                useCustomAction : Bool = false,
                 clickEventCallBack : ( () -> () )? = nil,
                 delegate : ShopLiveShortformReceiveHandlerDelegate?) {
-        super.init(shortsId: shortsId, reference: reference, productId: productId, name: name, skus: skus, url: url, tags: tags, tagSearchOperator: tagSearchOperator, brands: brands, shuffle: shuffle, referrer: referrer, delegate: delegate )
-        self.isMuted = isMuted
+        super.init(shortsId: shortsId, reference: reference, productId: productId, name: name, skus: skus, url: url, tags: tags, tagSearchOperator: tagSearchOperator, brands: brands, shuffle: shuffle, referrer: referrer, isMuted: isMuted, delegate: delegate )
         self.isEnabledVolumeKey = isEnabledVolumeKey
         self.previewPosition = previewPosition
         self.previewScale = previewScale

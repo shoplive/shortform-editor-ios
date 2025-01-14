@@ -31,6 +31,7 @@ public class ShopLiveShortform {
         internalShortFormRequestData.shortsCollectionId = requestData?.shortsCollectionId
         internalShortFormRequestData.skus = requestData?.skus
         internalShortFormRequestData.delegate = requestData?.delegate
+        internalShortFormRequestData.isMuted = requestData?.isMuted
         
         let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
         self.playNormalFullScreen(reference : requestData?.reference, shortsId: requestData?.shortsId, shortsSrn: nil,requestModel: internalShortFormRequestData,shopliveSessionId: shopliveSessionId)
@@ -54,6 +55,7 @@ public class ShopLiveShortform {
         internalShortFormRequestData.shuffle = requestData?.shuffle
         internalShortFormRequestData.shortsId = requestData?.shortsId
         internalShortFormRequestData.delegate = requestData?.delegate
+        internalShortFormRequestData.isMuted = requestData?.isMuted
         
         let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
         self.playRelatedFullScreen(shortsId: nil, shortsSrn: nil, requestModel: internalShortFormRequestData,shopliveSessionId: shopliveSessionId)
@@ -195,7 +197,6 @@ public class ShopLiveShortform {
         guard shortsCollection?.viewModel.shortsMode == .preview else { return }
         Self.close()
     }
-    
 }
 
 extension ShopLiveShortform {

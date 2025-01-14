@@ -38,6 +38,7 @@ class OptionSetSwitchBox : UIView {
         
         case isEnabledVolumeKey
         case previewIsMuted
+        case detailViewIsMuted
     }
     
     private var label : UILabel = {
