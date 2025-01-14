@@ -400,6 +400,7 @@ extension V2ShortsCollectionViewModel {
    
     private func reloadDataForUpwardPagination() {
         guard let numberOfInsertedCellAtFirstIndex = self.numberOfInsertedCellsAtFirstIndex else { return }
+        self.numberOfInsertedCellsAtFirstIndex = nil
         let indexPaths = (0...(numberOfInsertedCellAtFirstIndex - 1)).map { index in
             return IndexPath(row: index, section: 0)
         }
