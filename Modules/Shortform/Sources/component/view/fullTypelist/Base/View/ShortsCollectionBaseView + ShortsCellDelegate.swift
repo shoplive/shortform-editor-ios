@@ -91,6 +91,7 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
             requestModel.brands = collectionQuery.brands
             requestModel.shuffle = collectionQuery.shuffle
             requestModel.delegate = self.shortformDelegate
+            requestModel.isMuted = self.viewModel.getMuted()
         }
         else {
             requestModel.tags = bridgeModel.relatedQuery?.tags
@@ -98,6 +99,7 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
             requestModel.brands = bridgeModel.relatedQuery?.brands
             requestModel.shuffle = bridgeModel.relatedQuery?.shuffle
             requestModel.delegate = self.shortformDelegate
+            requestModel.isMuted = self.viewModel.getMuted()
         }
         
         ShopLiveShortform.playNormalFullScreen(shortsId: bridgeModel.shorts?.shortsId, shortsSrn: bridgeModel.shorts?.srn, requestModel: requestModel,shopliveSessionId: shopliveSessionId)
