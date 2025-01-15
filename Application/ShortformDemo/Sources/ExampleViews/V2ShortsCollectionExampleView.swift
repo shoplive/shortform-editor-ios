@@ -45,12 +45,14 @@ class V2ShortsCollectionExampleView : UIViewController {
         return btn
     }()
 
+    
     var shortsCollectionView : ShopLiveShortsCollectionView?
    
     var reference : String? = nil
     var hasMore : Bool? = nil
     var firstIndexShortsIdOrSrn : String = ""
     var ids : [ShopLiveShortformIdData] = []
+    var upperPaginationCount : Int = 0
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,11 +129,12 @@ class V2ShortsCollectionExampleView : UIViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: any UIViewControllerTransitionCoordinator) {
         guard let shortsCollectionView = shortsCollectionView else { return }
-        shortsCollectionView.action( .onStartRotation(size: size) )
+        
+        shortsCollectionView.action( .onStartRotation(size: shortsCollectionView.frame.size) )
         coordinator.animate { context in
-            shortsCollectionView.action( .onChangingRotation(size: size) )
+            shortsCollectionView.action( .onChangingRotation(size: shortsCollectionView.frame.size) )
         } completion: { context in
-            shortsCollectionView.action( .onFinishedRotation(size: size) )
+            shortsCollectionView.action( .onFinishedRotation(size: shortsCollectionView.frame.size) )
         }
     }
     
@@ -225,12 +228,13 @@ extension V2ShortsCollectionExampleView : ShortsCollectionViewDataSourcRequestDe
                 
                 if reversed {
                     idsData = response.shortsList?.reversed().compactMap({ shortsModel in
-                        return ShopLiveShortformIdData(shortsId: shortsModel.shortsId ?? "", payload: ["createIsFollow" : true, "description" : "\(shortsModel.shortsId)"] )
+                        self.upperPaginationCount += 1
+                        return ShopLiveShortformIdData(shortsId: shortsModel.shortsId ?? "", payload: ["title" : shortsModel.shortsDetail?.title ?? "" ,"createIsFollow" : true, "description" : "\(shortsModel.shortsId) upper count \(self.upperPaginationCount)"] )
                     })
                 }
                 else {
                     idsData = response.shortsList?.compactMap({ shortsModel in
-                        return ShopLiveShortformIdData(shortsId: shortsModel.shortsId ?? "", payload: ["createIsFollow" : true, "description" : "\(shortsModel.shortsId)"] )
+                        return ShopLiveShortformIdData(shortsId: shortsModel.shortsId ?? "", payload: ["title" : shortsModel.shortsDetail?.title ?? "","createIsFollow" : true, "description" : "\(shortsModel.shortsId)"] )
                     })
                 }
                 let moreData = ShopLiveShortformIdsMoreData(ids: idsData ,hasMore: hasMore)
