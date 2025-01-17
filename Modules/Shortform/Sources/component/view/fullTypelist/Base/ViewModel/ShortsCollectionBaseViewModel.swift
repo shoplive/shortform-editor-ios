@@ -213,9 +213,9 @@ class ShortsCollectionBaseViewModel : NSObject {
     var horizontalCollectionBounds : CGSize = UIScreen.main.bounds.size.transpolate_SL
     
     //webviews
-    private var webViewLists :  [ ShopliveWebViewListKey : ShopLiveShortform.PreloadWebView] = [:]
+    private var webViewLists :  [ ShopliveWebViewListKey : SLWebView] = [:]
     private var loadFinishedWebViewIndexPaths : Set<IndexPath> = []
-    private var youtubeWebViewLists : [ShopliveWebViewListKey : ShopLiveShortform.PreloadWebView] = [:]
+    private var youtubeWebViewLists : [ShopliveWebViewListKey : SLWebView] = [:]
     private var youtubeWebViewListKeys: Set<ShopliveWebViewListKey> = []
     
     
@@ -251,7 +251,7 @@ class ShortsCollectionBaseViewModel : NSObject {
     
     private func clearWebViewLists() {
         self.webViewLists.forEach { (key, view) in
-            view.webview.removeFromSuperview()
+            view.removeFromSuperview()
         }
         self.webViewLists.removeAll()
     }
@@ -663,7 +663,7 @@ extension ShortsCollectionBaseViewModel {
         guard let data = shortsListData[safe : currentIndex.row],
               let shortsId = data.shortsId,
               let webview = self.webViewLists[ShopliveWebViewListKey(shortsId: shortsId, indexPath: currentIndex)] else { return }
-        webview.loadWebView()
+        webview.reconnect()
     }
     
     func loadWebViewsFor(indexPath : [IndexPath]) {
@@ -677,14 +677,13 @@ extension ShortsCollectionBaseViewModel {
             let webViewListKey = ShopliveWebViewListKey(shortsId: shortsId, indexPath: indexpath)
             guard  webViewLists[webViewListKey] == nil else {
                 if loadFinishedWebViewIndexPaths.contains(indexpath) == false {
-                    webViewLists[webViewListKey]?.loadWebView()
+                    webViewLists[webViewListKey]?.reconnect()
                 }
                 return
             }
             if let url = getOverlayUrl(at: indexpath, shortsModel: data,isYoutube: false) {
-                let webView = ShopLiveShortform.PreloadWebView()
-                webView.url = url.absoluteString
-                webView.loadWebView()
+                let webView = SLWebView()
+                webView.configure(url: url.absoluteString)
                 webViewLists[webViewListKey] = webView
                 if let playerType = data.cards?.first?.playerType, playerType == "YOUTUBE" {
                     self.appendYoutubeWebViewList(webViewListKey: webViewListKey,shortsModel: data)
@@ -696,9 +695,8 @@ extension ShortsCollectionBaseViewModel {
     private func appendYoutubeWebViewList(webViewListKey : ShopliveWebViewListKey, shortsModel : SLShortsModel?) {
         if let url = getOverlayUrl(at: webViewListKey.indexPath, shortsModel: shortsModel,isYoutube: true) {
             guard youtubeWebViewLists[webViewListKey] == nil else { return }
-            let webView = ShopLiveShortform.PreloadWebView()
-            webView.url = url.absoluteString
-            webView.loadWebView()
+            let webView = SLWebView()
+            webView.configure(url: url.absoluteString)
             youtubeWebViewLists[webViewListKey] = webView
             youtubeWebViewListKeys.insert(webViewListKey)
         }
@@ -724,7 +722,7 @@ extension ShortsCollectionBaseViewModel {
     
     func getWebview(for shortsId : String, indexPath : IndexPath) -> SLWebView {
         if let webView = self.webViewLists[ShopliveWebViewListKey(shortsId: shortsId, indexPath: indexPath)] {
-            return webView.webview
+            return webView
         }
         else {
             return SLWebView()
@@ -733,7 +731,7 @@ extension ShortsCollectionBaseViewModel {
     
     func getYoutubePlayerView(for shortsId : String, indexPath : IndexPath) -> SLWebView? {
         if let webView = self.youtubeWebViewLists[ShopliveWebViewListKey(shortsId: shortsId, indexPath: indexPath)] {
-            return webView.webview
+            return webView
         }
         else {
             return nil

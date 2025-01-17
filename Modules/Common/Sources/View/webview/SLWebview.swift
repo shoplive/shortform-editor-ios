@@ -56,7 +56,7 @@ public final class SLWebView: SLBaseView {
         }
     }
     
-    lazy private var webview: WKWebView = {
+    lazy var webview: WKWebView = {
         let configuration = WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
         configuration.allowsPictureInPictureMediaPlayback = false
@@ -139,6 +139,17 @@ public final class SLWebView: SLBaseView {
             return
         }
         webview.loadHTMLString(html, baseURL: nil)
+    }
+    
+    public func reconnect() {
+        guard let urlString = url else {
+            webview.reload()
+            return
+        }
+        if let url = URL(string: urlString) {
+            var request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
+            webview.load(request)
+        }
     }
     
     public func sendEventToWeb(event: String, parameter: Any? = nil, wrapping: Bool = false) {
