@@ -62,7 +62,7 @@ public final class SLWebView: SLBaseView {
         configuration.allowsPictureInPictureMediaPlayback = false
         configuration.mediaTypesRequiringUserActionForPlayback = []
         configuration.preferences.javaScriptEnabled = true
-        
+        configuration.websiteDataStore = SLWebViewStore.shared.dataStore
         let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
         webView.backgroundColor = .clear
         webView.isOpaque = false

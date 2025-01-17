@@ -13,13 +13,12 @@ import ShopliveSDKCommon
 extension ShopLiveShortform {
     class PreloadWebView {
         var webview = SLWebView()
-        
         var url: String = ""
         
         func loadWebView() {
             if let url = URL(string: url) {
-                var request = URLRequest(url: url)
-                request.cachePolicy = .reloadIgnoringLocalCacheData
+                var request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
+                request.cachePolicy = .returnCacheDataElseLoad
                 webview.load(request)
             }
         }

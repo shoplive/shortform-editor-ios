@@ -548,6 +548,8 @@ extension ShortsCollectionBaseViewModel {
        
         var payloadDict: [String: Any] = [:]
         
+        payloadDict["disableGuide"] = ShopLiveUserDefaults.shortFormGuideOpen
+        
         payloadDict["ak"] = ShopLiveCommon.getAccessKey() ?? ""
         
         if let userJWT = ShortFormAuthManager.shared.getuserJWT() {

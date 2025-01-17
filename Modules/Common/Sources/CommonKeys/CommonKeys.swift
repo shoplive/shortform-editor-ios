@@ -62,4 +62,6 @@ public struct CommonKeys {
     public static let streamApp = "STREAM_APP"
     public static let source = "source"
     public static let duration = "duration"
+    public static let ShopLiveUserDefaultID = "ShopLiveUserDefaultID"
+    public static let shortFormGuideOpen = "shortFormGuideOpen"
 }

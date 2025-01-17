@@ -507,6 +507,9 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
             cell.play(skipIfPaused: false)
         }
         
+        // Tabber - (25.01.15) 초기 숏폼 가이드 노출 여부 업데이트 함수 (true로 바뀌면 함수 액션은 없음)
+        SLWebViewStore.shared.updateState()
+        
         return cell
     }
     
