@@ -16,8 +16,12 @@ public class ShortFormConfigurationInfosManager {
     
     private(set) var shortsConfiguration = ShortFormConfigurationInfoModel(shortformApiEndPoint: nil, datas: nil)
     
-    public func getRequestCount() -> Int {
-        self.shortsConfiguration.detailApiInitializeCount ?? 10
+    public func getDetailApiInitializeCount() -> Int {
+        self.shortsConfiguration.detailApiInitializeCount
+    }
+    
+    public func getDetailApiPaginationCount() -> Int {
+        self.shortsConfiguration.detailApiPaginationCount 
     }
     
     public func getBaseUrl() -> String {

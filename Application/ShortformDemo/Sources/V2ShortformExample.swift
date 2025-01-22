@@ -127,7 +127,7 @@ struct TestShortsCollectionAPI: APIDefinition {
     var parameters: [String : Any]? {
         var params: [String: Any] = [:]
         
-        params["count"] = ShortFormConfigurationInfosManager.shared.getRequestCount()
+        params["count"] = ShortFormConfigurationInfosManager.shared.getDetailApiInitializeCount()
 
         if let accessKey = ShopLiveCommon.getAccessKey() {
             params["accessKey"] = accessKey

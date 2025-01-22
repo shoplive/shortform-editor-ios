@@ -59,7 +59,7 @@ class V2ShortsCollectionExampleView : UIViewController {
         self.view.backgroundColor = .white
         self.reference = nil
         self.hasMore = nil
-        self.callShortsCollectionAPI { [weak self] idsMoreData, error in
+        self.callShortsCollectionAPI(count: ShortFormConfigurationInfosManager.shared.getDetailApiInitializeCount()) { [weak self] idsMoreData, error in
             guard let self = self else { return }
             guard let ids = idsMoreData?.ids else { return }
             self.ids = ids
@@ -179,7 +179,7 @@ extension V2ShortsCollectionExampleView {
 }
 extension V2ShortsCollectionExampleView : ShortsCollectionViewDataSourcRequestDelegate {
     func onShortformListUpwardPagingation(completion: @escaping (((ShopLiveShortformSDK.ShopLiveShortformIdsMoreData?, (any Error)?)) -> ())) {
-        callShortsCollectionAPI(reversed: true) { data,error in
+        callShortsCollectionAPI(reversed: true,count : ShortFormConfigurationInfosManager.shared.getDetailApiPaginationCount()) { data,error in
             if let data = data {
                 let shortsIds = data.ids?.map({ $0.shortsId })
                 completion((data,nil))
@@ -198,7 +198,7 @@ extension V2ShortsCollectionExampleView : ShortsCollectionViewDataSourcRequestDe
     }
     
     func onShortformListDownwardPagination(completion: @escaping (((ShopLiveShortformSDK.ShopLiveShortformIdsMoreData?, Error?)) -> ())) {
-        callShortsCollectionAPI { data,error in
+        callShortsCollectionAPI(count : ShortFormConfigurationInfosManager.shared.getDetailApiPaginationCount()) { data,error in
             if let data = data {
                 completion((data,nil))
             }
@@ -211,8 +211,9 @@ extension V2ShortsCollectionExampleView : ShortsCollectionViewDataSourcRequestDe
         }
     }
     
-    func callShortsCollectionAPI(reversed : Bool = false,  completion : @escaping((ShopLiveShortformIdsMoreData?,Error?) -> ())) {
-        Test2ShortsCollectionAPI(reference: self.reference).request { [weak self] result in
+    func callShortsCollectionAPI(reversed : Bool = false,count : Int,  completion : @escaping((ShopLiveShortformIdsMoreData?,Error?) -> ())) {
+        Test2ShortsCollectionAPI(reference: self.reference,
+                                 count: count).request { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let response):
@@ -327,7 +328,8 @@ struct Test2ShortsCollectionAPI: APIDefinition {
     var parameters: [String : Any]? {
         var params: [String: Any] = [:]
         
-        params["count"] = ShortFormConfigurationInfosManager.shared.getRequestCount()
+        params["count"] = count
+        //ShortFormConfigurationInfosManager.shared.getDetailApiInitializeCount()
 
         if let accessKey = ShopLiveCommon.getAccessKey() {
             params["accessKey"] = accessKey
@@ -380,6 +382,7 @@ struct Test2ShortsCollectionAPI: APIDefinition {
     var shuffle : Bool?
     var type : String?
     var finite : Bool?
+    var count : Int
 
 
 
