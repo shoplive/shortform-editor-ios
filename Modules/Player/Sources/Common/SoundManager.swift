@@ -17,7 +17,6 @@ class SoundManager: NSObject {
     private var players: [SoundPlayer] = []
     private var items: [SoundItem] = []
     
-    
     func play(alias : String) {
         if let playItem = self.items.filter({ $0.alias == alias }).first {
             if let player = self.players.filter({ $0.item.alias == playItem.alias }).first {

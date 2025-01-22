@@ -297,19 +297,9 @@ extension OverlayWebView: WKScriptMessageHandler {
                         HapticManager.impact(style: style)
                     }
                     break
-                case "SET_SOUNDS":
-                    if let sounds = parameters?["sounds"] as? [[String: String]] {
-                        var newItems: [SoundItem] = []
-                        sounds.forEach { sound in
-                            if let alias = sound["alias"], let url = sound["url"] {
-                                newItems.append(.init(alias: alias, url: url))
-                            }
-                        }
-                        SoundManager.shared.addItems(newItems: newItems)
-                    }
-                    break
                 case "PLAY_SOUND":
-                    if let alias = parameters?["alias"] as? String {
+                    if let alias = parameters?["alias"] as? String, let url = parameters?["url"] as? String {
+                        SoundManager.shared.addItems(newItems: [SoundItem(alias: alias, url: url)])
                         SoundManager.shared.play(alias: alias)
                     }
                     break
