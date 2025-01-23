@@ -218,7 +218,11 @@ class ShortsCollectionBaseViewModel : NSObject {
     private var youtubeWebViewLists : [ShopliveWebViewListKey : SLWebView] = [:]
     private var youtubeWebViewListKeys: Set<ShopliveWebViewListKey> = []
     
-    
+    //cell container view list [String:ShortsView]
+    //양방향 페이지네이션때 위로 페이지네이션 하는 경우 현재 보여지는 cell이 한번더 initiate되는 경우가 있음, 썸네일이 2번깜박이는 현상을 방지하기 위해서
+    //보고 있던 shortsView를 다시 삽입
+    //paging의 상황이 생길때 저장
+    var shortsViewList : [String : ShortsView] = [:]
     
     init(shopliveSessionId : String?,shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?) {
         super.init()
@@ -410,9 +414,17 @@ extension ShortsCollectionBaseViewModel {
     func setCanUseShortformCurrentTimeDTO(canUse : Bool) {
         self.canUseShortformCurrentTimeDTO = canUse
     }
+    
+    func removeShortsView(srn : String) {
+        shortsViewList.removeValue(forKey: srn)
+    }
 }
 //MARK: - getter functions
 extension ShortsCollectionBaseViewModel {
+    
+    func getShortsView(srn : String) -> ShortsView? {
+        return shortsViewList[srn]
+    }
     
     func getMuted() -> Bool {
         if self.shortsMode == .preview {

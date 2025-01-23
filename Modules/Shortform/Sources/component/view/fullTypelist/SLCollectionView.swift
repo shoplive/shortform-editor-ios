@@ -10,12 +10,6 @@ import ShopliveSDKCommon
 
 final class SLCollectionView: UICollectionView {
     
-    var maskRect: CGRect = .zero
-    
-    deinit {
-        // print("SLCollectionView deinit")
-    }
-    
     override var contentSize:CGSize {
       didSet {
         invalidateIntrinsicContentSize()
@@ -50,29 +44,3 @@ final class SLCollectionView: UICollectionView {
     }
 }
 
-extension SLCollectionView {
-    
-//    override func draw(_ rect: CGRect) {
-//        super.draw(rect)
-//        let context = UIGraphicsGetCurrentContext()
-//
-//        context?.setFillColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.5)
-//        context?.fill([CGRect(origin: .zero, size: self.contentSize)])
-//
-//        context?.setBlendMode(.clear)
-//        context?.fill([self.maskRect])
-//    }
-//
-//    func dimMasK(_ maskRect: CGRect) {
-//        self.maskRect = maskRect
-//
-//        let context = UIGraphicsGetCurrentContext()
-//        
-//        context?.setFillColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.5)
-//        context?.fill([CGRect(origin: .zero, size: self.contentSize)])
-//
-//        context?.setBlendMode(.clear)
-//        context?.fill([maskRect])
-//        self.setNeedsLayout()
-//    }
-}

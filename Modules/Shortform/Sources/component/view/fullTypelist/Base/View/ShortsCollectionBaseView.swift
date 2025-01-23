@@ -20,7 +20,6 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     var viewModel : ShortsCollectionBaseViewModel
     weak var shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?
     
-    
     lazy var feedListLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -467,13 +466,6 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         viewModel.loadWebViewsFor(indexPath: [indexPath])
         
-        //세로에서 가로모드로 회전할 경우 현재 보고 있는 셀도 다시 생성되어서 seekbar가 처음으로 되돌아감 따라서 이전에 저장해 두었던 셀을 고대로 다시 가져다주면 됨
-        if self.viewModel.isOnRotation, let latestCell = self.viewModel.latestCell.latestCell,
-           self.viewModel.latestActivePageIndex == indexPath.row {
-            latestCell.handleDeviceRotation(isLandscape: UIScreen.isLandscape_SL)
-            latestCell.reloadWebView()
-            return latestCell
-        }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShortsCell.cellId, for: indexPath) as! ShortsCell
         
         if let data = viewModel.shortsListData[safe : indexPath.row] {
@@ -485,21 +477,27 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
                 viewModel.setVideoCurrentTimeWhenPreviewTapped(time: nil)
                 viewModel.setCanUseShortformCurrentTimeDTO(canUse: false)
             }
-            
-            cell.configureCell(webView: viewModel.getWebview(for: data.shortsId ?? "",indexPath: indexPath),
-                               youtubeWebView: viewModel.getYoutubePlayerView(for: data.shortsId ?? "", indexPath: indexPath),
-                               model: data,
-                               delegate: self,
-                               shortformDelegate: shortformDelegate,
-                               indexPath: indexPath,
-                               viewProvideype: viewModel.viewProvideType,
-                               shopliveSessionId: viewModel.getCurrentShopliveSessionId(),
-                               shortsMode: viewModel.shortsMode,
-                               isLandScape: UIScreen.isLandscape_SL,
-                               isMute: viewModel.getMuted(),
-                               seekToOnInitial: seekToOnPreviewToFullScreen,
-                               setShortsSingleDetailViewPayload: self.viewModel.getSetShortsSingleDetailViewPayload(at: indexPath, shortsModel: data, isYoutube: viewModel.checkIsYoutubePlayer(indexPath: indexPath)),
-                               preferredForwardBufferDuration: viewModel.getPreferredForwardBufferDuration())
+           
+            if let shortsView = viewModel.getShortsView(srn: data.srn ?? "") {
+                cell.replaceShortsView(shortsView: shortsView, indexPath: indexPath)
+                viewModel.removeShortsView(srn: data.srn ?? "")
+            }
+            else {
+                cell.configureCell(webView: viewModel.getWebview(for: data.shortsId ?? "",indexPath: indexPath),
+                                   youtubeWebView: viewModel.getYoutubePlayerView(for: data.shortsId ?? "", indexPath: indexPath),
+                                   model: data,
+                                   delegate: self,
+                                   shortformDelegate: shortformDelegate,
+                                   indexPath: indexPath,
+                                   viewProvideype: viewModel.viewProvideType,
+                                   shopliveSessionId: viewModel.getCurrentShopliveSessionId(),
+                                   shortsMode: viewModel.shortsMode,
+                                   isLandScape: UIScreen.isLandscape_SL,
+                                   isMute: viewModel.getMuted(),
+                                   seekToOnInitial: seekToOnPreviewToFullScreen,
+                                   setShortsSingleDetailViewPayload: self.viewModel.getSetShortsSingleDetailViewPayload(at: indexPath, shortsModel: data, isYoutube: viewModel.checkIsYoutubePlayer(indexPath: indexPath)),
+                                   preferredForwardBufferDuration: viewModel.getPreferredForwardBufferDuration())
+            }
         }
         
         if viewModel.didAnimatePreviewToFullScreen && indexPath.row == 0 {

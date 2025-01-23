@@ -408,6 +408,11 @@ extension V2ShortsCollectionViewModel {
     }
    
     private func appendShortsListDataForUpwardPagination(shortsList : [SLShortsModel]) {
+        if let currentIndexPath = delegate?.getCurrentIndexPath(),
+           let currentCell = delegate?.getCellForAt(indexPath: currentIndexPath) as? ShortsCell,
+           let srn = self.shortsListData[currentIndexPath.row].srn {
+            self.shortsViewList[srn] = currentCell.getCurrentShortsView()
+        }
         self.originShortsListData.insert(contentsOf: shortsList, at: 0) //이게 didSet에서 reload 호출, -> override해서 reloadDataForUpward~가 실행
         self.lastShortsCount = self.originShortsListData.count
     }
