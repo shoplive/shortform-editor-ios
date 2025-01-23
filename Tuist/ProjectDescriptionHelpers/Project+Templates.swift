@@ -35,7 +35,8 @@ public extension Project {
                 "PRODUCT_BUNDLE_IDENTIFIER":"$SL_APP_BUNDLE_ID",
                 "PRODUCT_NAME" : "$SL_APP_NAME",
                 "CURRENT_PROJECT_VERSION" : "$SL_APP_BUILD_VERSION",
-                "MARKETING_VERSION" : "$SL_APP_MARKETING_VERSION"
+                "MARKETING_VERSION" : "$SL_APP_MARKETING_VERSION",
+                "ENABLE_TESTING_SEARCH_PATHS": "YES"
             ]
             
             for (key, value)  in headerSearchPaths {

@@ -22,7 +22,7 @@ let demoTarget = Target.target(name: "PlayerDemo",
                                 .project(target: "ShopliveSDKCommon", path: .relativeToRoot("Modules/Common")),
                                 .external(name: "SideMenu"),
                                 .external(name: "Toast"),
-                                .external(name: "SwiftyJWT"),
+                                //.external(name: "SwiftyJWT"),
                                 .external(name: "CryptoSwift"),
                                 .external(name: "iOSDropDown")
                                ])

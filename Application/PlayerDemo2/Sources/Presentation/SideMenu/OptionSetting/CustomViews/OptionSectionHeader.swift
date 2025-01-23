@@ -1,0 +1,77 @@
+//
+//  OptionSectionHeader.swift
+//  PlayerDemo2
+//
+//  Created by Tabber on 1/20/25.
+//  Copyright © 2025 com.app. All rights reserved.
+//
+
+import UIKit
+
+class OptionSectionHeader: UITableViewHeaderFooterView {
+
+    private lazy var sectionTitleLabel: UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.numberOfLines = 0
+        view.textColor = .black
+        view.font = .systemFont(ofSize: 17, weight: .bold)
+        return view
+    }()
+
+    private lazy var topLine: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .lightGray
+        view.isHidden = true
+        return view
+    }()
+
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        setupViews()
+
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupViews() {
+        self.contentView.addSubview(sectionTitleLabel)
+        self.contentView.addSubview(topLine)
+        self.contentView.backgroundColor = .white
+        
+        NSLayoutConstraint.activate([
+            sectionTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            sectionTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 25),
+            sectionTitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            sectionTitleLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor,constant: -15),
+            
+            topLine.topAnchor.constraint(equalTo: contentView.topAnchor),
+            topLine.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            topLine.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            topLine.heightAnchor.constraint(equalToConstant: 1)
+        ])
+        
+//        sectionTitleLabel.snp.makeConstraints {
+//            $0.leading.equalToSuperview().offset(15)
+//            $0.top.equalToSuperview().offset(25)
+//            $0.bottom.equalToSuperview()
+//            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
+//        }
+//
+//        topLine.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.trailing.equalToSuperview()
+//            $0.height.equalTo(1)
+//        }
+    }
+
+    func configure(headerTitle: String, section: Int) {
+        self.sectionTitleLabel.text = headerTitle
+        self.topLine.isHidden = (section == 0)
+    }
+
+}
+

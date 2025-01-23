@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol CampaignInfoCellDelegate: AnyObject{
+protocol CampaignInfoCellDelegate: AnyObject {
     func keysetFieldSelected()
     func updateKeySet(_ keyset: ShopLiveKeySet)
 }

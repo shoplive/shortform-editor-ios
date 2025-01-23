@@ -11,11 +11,7 @@ import UIKit
 import ShopLiveSDK
 import ShopliveSDKCommon
 
-
-
-
 class ShopLivePreviewSampleView : UIViewController {
-    
    
     lazy private var cv : UICollectionView = {
         let layout = UICollectionViewFlowLayout()

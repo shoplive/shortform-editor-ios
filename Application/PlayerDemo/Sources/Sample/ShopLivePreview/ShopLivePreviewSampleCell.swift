@@ -18,8 +18,6 @@ protocol ShopLivePreviewSampleCellDelegate : NSObjectProtocol {
 
 class ShopLivePreviewSampleCell : UICollectionViewCell {
     
-    
-    
     var preview = ShopLivePlayerPreview()
     var indexPath : IndexPath?
     

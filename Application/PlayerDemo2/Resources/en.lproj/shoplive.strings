@@ -1,0 +1,202 @@
+///* 
+//  shoplive.strings
+//  ShopLiveSDK
+//
+//  Created by ShopLive on 2021/12/12.
+//  
+//*/
+
+"alert.msg.ok" = "Yes";
+"alert.msg.no" = "No";
+"alert.msg.confirm" = "Confirm";
+"alert.msg.cancel" = "Cancel";
+"alert.msg.success" = "Success";
+"alert.msg.failed" = "Failed";
+"alert.msg.delete" = "Delete";
+"alert.msg.save" = "Save";
+"alert.login.required.description" = "Login is required. Would you like to go to the login screen?";
+"sdk.play" = "Play";
+"sdk.preview" = "Preview";
+"sdk.user.delete" = "Delete";
+"sdk.user.save" = "Save";
+"sdk.user.secret.add" = "Add";
+"sdk.menu.add" = "Add";
+"menu.campaigns" = "Manage Campaign List";
+"menu.userinfo" = "Enter User Info";
+"menu.userinfo.secretkey" = "SecretKey Setting";
+"menu.options" = "Options";
+"menu.exit" = "Exit Broadcast (End PIP)";
+"menu.coupon" = "Set Coupon Response";
+"menu.removeCache" = "Delete Web Storage Data";
+"menu.msg.removeCache" = "Web storage data has been deleted.";
+"base.section.campaignInfo.title" = "Campaign Info";
+"base.section.campaignInfo.campaign.none.title" = "No campaign selected.";
+"base.section.campaignInfo.button.chooseCampaign.title" = "Select Campaign";
+"base.section.userinfo.title" = "User Info";
+"base.section.userinfo.none.title" = "Enter user information.";
+"base.section.userinfo.button.chooseCampaign.input.title" = "Input";
+"base.section.userinfo.button.chooseCampaign.change.title" = "Change";
+"userinfo.auth.type.guest" = "Guest";
+"userinfo.auth.type.common" = "Common Authentication";
+"userinfo.auth.type.jwt" = "JWT Token Authentication";
+"userinfo.userid.placeholder" = "userId (required)";
+"userinfo.userName.placeholder" = "userName";
+"userinfo.age.placeholder" = "age";
+"userinfo.userScore.placeholder" = "userScore";
+"userinfo.authToken.title" = "[Auth Token]";
+"userinfo.gender.male" = "Male";
+"userinfo.gender.female" = "Female";
+"userinfo.gender.none" = "Do Not Select";
+"userinfo.add.parameter.button.title" = "Add Parameter";
+"userinfo.add.parameter.key.placeholder" = "key";
+"userinfo.add.parameter.value.placeholder" = "value";
+"userinfo.add.parameter.delete.placeholder" = "Delete";
+"userinfo.jwt.button.usersave" = "Save User Info";
+"userinfo.jwt.result.message" = "JWT not generated";
+"userinfo.jwt.button.generate" = "JWT Generate & Save";
+"userinfo.new.button.save" = "Save";
+"userinfo.msg.save.success" = "Saved successfully.";
+"userinfo.msg.save.parameter.error" = "Please re-enter key:value";
+"userinfo.msg.save.failed.noneId" = "userId is required.";
+"userinfo.msg.save.failed.noneToken" = "No token generated.";
+"userinfo.msg.save.failed.sameInfo" = "Token already generated.";
+"userinfo.msg.save.failed.secret.notselected" = "No secret key selected.";
+"userinfo.msg.deleteAll.title" = "Would you like to delete all user information?";
+"userinfo.button.chooseSecret.input.title" = "Input";
+"userinfo.button.chooseSecret.change.title" = "Change";
+"userinfo.alert.placeholder.customer.title" = "Customer";
+"userinfo.alert.placeholder.secretKey.title" = "Secret Key";
+"campaign.menu.write" = "Write Manually";
+"campaign.menu.deleteall" = "Delete All";
+"campaign.msg.deleteAll.title" = "Would you like to delete all campaigns?";
+"campaign.msg.wrongurl" = "Invalid URL.";
+"campaign.input.accesskey.placeholder" = "accessKey";
+"campaign.input.campaignkey.placeholder" = "campaignKey";
+"sdkoption.section.setupPlayer.title" = "Setup Shoplive Player";
+"sdkoption.section.sound.title" = "Sound";
+"sdkoption.section.preview.title" = "Preview";
+"sdkoption.section.pip.title" = "PIP (Picture in Picture)";
+"sdkoption.section.autoPlay.title" = "Auto Play";
+"sdkoption.section.share.title" = "Share";
+"sdkoption.section.progress.title" = "Loading Progress";
+"sdkoption.section.chatFont.title" = "Chat Font";
+"sdkoption.section.clicklog.title" = "Click Log";
+"sdkoption.section.customOption.title" = "Custom Setting";
+"sdkoption.setupPlayer.aspectOnTablet.title" = "Set Video Aspect Ratio on Tablet PC";
+"sdkoption.setupPlayer.aspectOnTablet.description" = "Fill screen with video (off) / Fit video size (on)";
+"sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.title" = "Keep Window State when Play is Executed";
+"sdkoption.setupPlayer.keepWindowStateOnPlayExecuted.description" = "Always launch in full screen (false) / Always keep current window state (true) Default is false, when changing to another broadcast, it is executed in full screen.";
+
+"sdkoption.setupPlayer.mixAudio.title" = "Player Mix Audio Option";
+"sdkoption.setupPlayer.mixAudio.description" = "Allows mixing of player's audio with other audio.";
+
+"sdkoption.setupPlayer.isEnabledVolumeKey.title" = "HW volume btn Event Option";
+"sdkoption.setupPlayer.isEnabledVolumeKey.description" = "Enable listening to hardware volume key events (default : false)";
+
+"sdkoption.setupPlayer.resizeMode.title" = "Player View resize option";
+"sdkoption.setupPlayer.resizeMode.description" = "Set Players render option (default : CENTER_CROP)";
+
+"sdkoption.setupPlayer.manualRotation.title" = "Manual Rotation Control in Horizontal Broadcast";
+"sdkoption.setupPlayer.manualRotation.description" = "Control screen rotation directly in SDK when rotation button is pressed in horizontal broadcast (false - default), Handle rotation directly in client app when rotation button is pressed (true)";
+"sdkoption.sound.mute.title" = "Muted Play Starts";
+"sdkoption.sound.mute.description" = "Muted when play starts video";
+"sdkoption.preview.title" = "Preview Tap to Play";
+"sdkoption.preview.description" = "Play when preview tapped";
+"sdkoption.preview.closebutton.title" = "Use Close Button";
+"sdkoption.preview.closebutton.description" = "Set whether to use the close button in preview and in-app PIP (default is not to use)";
+
+"sdkoption.preview.enableSound.title" = "Preview muted";
+"sdkoption.preview.enableSound.description" = "Set whether to mute in Preview. (Default is true)";
+
+"sdkoption.pipPosition.title" = "PIP Position";
+"sdkoption.pipPosition.description" = "Position of PIP mode when it starts. (default is bottomRight)";
+
+"sdkoption.pinPosition.title" = "PIP Pin Position";
+"sdkoption.pinPosition.description" = "Position of where PIP can be pinned. (default is [topLeft, topRight, bottomLeft, bottomRight])";
+
+
+"sdkoption.pipScale.title" = "PIP Scale";
+"sdkoption.pipScale.description" = "Scale of the PIP mode screen.\nScaled size based on screen width (values between 0 and 1) or minimum and maximum size limits, and scale size adjusted according to the ratio between them (values between 1 and 100) Default value (0.4)\n";
+"sdkOption.pipMaxSize.title" = "PIP Max Size Setting";
+"sdkOption.pipMaxSize.description" = "Displays the video as large as possible within a square of set length without cutting off.";
+"sdkOption.pipFixedHeight.title" = "PIP Fixed Height Setting";
+"sdkOption.pipFixedHeight.description" = "Set a fixed vertical size to maintain the same vertical size across different resolutions.";
+"sdkOption.pipFixedWidth.title" = "PIP Fixed Width Setting";
+"sdkOption.pipFixedWidth.description" = "Set a fixed horizontal size to maintain the same horizontal size across different resolutions.";
+"sdkoption.pipCornerRadius.title" = "InAppPip Corner Radius";
+"sdkoption.pipCornerRadius.description" = "Set the corner radius of InAppPip. (default 10)";
+
+
+"sdkoption.enablepip.title" = "Enable PIP";
+"sdkoption.enablepip.description" = "Enables InAppPip,Preview,OSPIP (default : true)";
+
+"sdkoption.enableOspip.title" = "Enable OSPIP";
+"sdkoption.enableOspip.description" = "Enables OSPIP (Default : true)";
+
+
+
+
+"sdkoption.nextActionTypeOnNavigation.title" = "Synchronized Shoplive Player action when a user taps a link";
+"sdkoption.nextActionTypeOnNavigation.description" = "Sets the Synchronized Shoplive Player action when a user taps a link.";
+"sdkoption.nextActionTypeOnNavigation.item1" = "Switch PIP mode";
+"sdkoption.nextActionTypeOnNavigation.item2" = "No change";
+"sdkoption.nextActionTypeOnNavigation.item3" = "Exit";
+"sdkoption.statusbarvisibility.title" = "Player StatusBar Visibility Option";
+"sdkoption.statusbarvisibility.description" = "Visible player's status bar (default : on)";
+
+"sdkoption.player.preview.title" = "Preview resolution type";
+"sdkoption.player.preview.description" = "Set resolution type in preview. (Default is preview type, ON -> Preview)";
+
+"sdkoption.pipKeepWindowStyle.title" = "Maintain Window Style when returning to app from OS PIP";
+"sdkoption.pipKeepWindowStyle.description" = "Set the option to true if you want to return to the last state running (in-app PIP or Fullscreen) when returning from OS PIP. (default is not maintained)";
+"sdkoption.enablePictureInPictureMode.title" = "Enable PIP Mode";
+"sdkoption.enablePictureInPictureMode.description" = "Enable user to use PIP mode while watching live streaming.";
+"sdkoption.pipEnableSwipeOutOption.title" = "Set whether to exit player when PIP is swiped out of the screen";
+"sdkoption.pipEnableSwipeOutOption.description" = "Set whether to terminate the player when PIP is swiped out of the screen. No application for preview. in-app pip only. (default is to terminate, if not set then will not terminate)";
+"sdkoption.pipFloatingOffset.title" = "PIP Area Setting";
+"sdkoption.pipFloatingOffset.description" = "Set the area of PIP.";
+"sdkoption.pipScale.title" = "View Size";
+"sdkoption.pipScale.description" = "PIP view size.\nDisplays the scaled size based on the View width. (value between 0.1 and 1.0)";
+"sdkoption.callOption.title" = "Call Option";
+"sdkoption.callOption.description" = "Automatically resumes video after a call ends.";
+"sdkoption.headphoneOption1.title" = "When an earphone/headset is disconnected";
+"sdkoption.headphoneOption1.description" = "Enabling this option, the video will keep playing even if the earphone/headset is disconnected.";
+"sdkoption.headphoneOption2.title" = "Mute when earphone/headset is disconnected";
+"sdkoption.headphoneOption2.description" = "If this option is enabled, the video will be muted if the earphone/headset is disconnected. Default: false keep volume, true mute.";
+"sdkoption.headphoneOption1.setting.guide" = "Earphone or headset is disconnected";
+"sdkoption.customShare.title" = "Use Custom Share";
+"sdkoption.customShare.description" = "Implement your own share UI.";
+"sdkoption.shareScheme.title" = "Share Scheme or URL";
+"sdkoption.shareScheme.description" = "Enter the scheme or url to use for sharing";
+"sdkoption.progressColor.title" = "Loading Progress Color (#hex value)";
+"sdkoption.progressColor.description" = "None set (default #FFFFFF)";
+"sdkoption.customProgress.title" = "Use Loading Progress Image Animation";
+"sdkoption.customProgress.description" = "If used, loading progress color will not be applied";
+"sdkoption.chatInputCustomFont.title" = "Use Custom Font for Chat Input";
+"sdkoption.chatInputCustomFont.description" = "If not used, system default font is used";
+"sdkoption.chatSendButtonCustomFont.title" = "Use Custom Font for Chat Send Button";
+"sdkoption.chatSendButtonCustomFont.description" = "If not used, system default font is used";
+"sdkoption.pipFloatingOffset.page.title" = "PIP Area Setting";
+"sdkoption.clicklog.title" = "Click Log Toast Option";
+"sdkoption.addParameter.title" = "Add Custom Parameter";
+"sdkoption.clicklog.description" = "Display Click log as Toast.";
+"sdk.msg.nonekey" = "No key selected.";
+"couponresponse.success.default" = "Successfully downloaded coupon.";
+"couponresponse.failed.default" = "Failed to download coupon.";
+"couponresponse.success.title" = "* Setting Action for Success";
+"couponresponse.failed.title" = "* Setting Action for Failed";
+"couponresponse.msg.message" = "Message";
+"couponresponse.msg.show" = "Show Coupon";
+"couponresponse.msg.alert" = "Alert Setting";
+"sample.coupon.download" = "Download Coupon";
+"sample.coupon.id" = "Coupon ID";
+"guide.customShare" = "Use custom share";
+"login.id.label" = "User ID";
+"login.id.placeholder" = "Enter User ID";
+"login.pwd.label" = "Password";
+"login.pwd.placeholder" = "Enter Password";
+"login.send.title" = "Log In";
+"appversion.alert.placeholder" = "e.g., 1.0.0";
+"referrer.alert.placeholder" = "e.g., shoplive";
+"utm.alert.placeholder" = "e.g., shoplive";
+"sdk.page.addParam.title" = "Set Parameter";

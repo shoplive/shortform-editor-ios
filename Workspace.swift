@@ -30,7 +30,8 @@ public struct ProjectBundlingManager {
                 "Modules/Common",
                 "Modules/Player",
                 "Modules/DropDown",
-                "Application/PlayerDemo"
+                "Application/PlayerDemo",
+                "Application/PlayerDemo2"
             ]
         case "PLAYER":
             result = [

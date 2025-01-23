@@ -6,11 +6,10 @@
 //
 
 import Foundation
-import SwiftyJWT
 import ShopLiveSDK
 import ShopliveSDKCommon
 
-
+/*
 class JWTTool {
     static let config = DemoConfiguration.shared
 
@@ -78,3 +77,4 @@ class JWTTool {
     }
 
 }
+*/

@@ -31,7 +31,7 @@ class CustomBaseAlertController: UIViewController {
         setupViews()
         dimView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(handleTapGesture)))
     }
-
+ 
     @objc private func handleTapGesture() {
         self.dismiss(animated: false, completion: nil)
     }

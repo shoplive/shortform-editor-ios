@@ -1,5 +1,5 @@
 {
-  "originHash" : "d82dd98840d4608bbeccc568a430bb5e5332d112c0be3b8f7bfae508f1aade45",
+  "originHash" : "cd866e467b6fd59afc7d358086d1dd500becd0bcf49b1642003bd1286e19757e",
   "pins" : [
     {
       "identity" : "abseil-cpp-swiftpm",
@@ -260,15 +260,6 @@
       "state" : {
         "revision" : "9bf4b5af6bb4386865636fc504d6c588c2b65040",
         "version" : "3.7.2"
-      }
-    },
-    {
-      "identity" : "swiftyjwt",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/polarcop/SwiftyJWT.git",
-      "state" : {
-        "revision" : "a324856b8f5cffa8764f083e26c3ecd3c9dd36a1",
-        "version" : "1.0.3"
       }
     },
     {

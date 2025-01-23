@@ -215,6 +215,17 @@ final class UserInfoViewController: SideMenuItemViewController {
         return view
     }()
     
+    lazy var scanQRButton: UIButton = {
+        let view = UIButton()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setTitle("userinfo.jwt.button.generate".localized(), for: .normal)
+        view.layer.cornerRadius = 6
+        view.backgroundColor = .red
+        view.addTarget(self, action: #selector(scanQR), for: .touchUpInside)
+        
+        return view
+    }()
+    
     private var parameterList: [String: String] = [:]
     private var keysArray: [Dictionary<String, String>.Keys.Element] = []
     private var valueArray: [Dictionary<String, String>.Values.Element] = []
@@ -264,19 +275,18 @@ final class UserInfoViewController: SideMenuItemViewController {
         self.view.addSubview(parameterTableView)
         self.view.addSubview(addParameterButton)
         
-        
         NSLayoutConstraint.activate([
             parameterTableView.topAnchor.constraint(equalTo: genderView.bottomAnchor, constant: 15),
             parameterTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
             parameterTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
-            parameterTableView.heightAnchor.constraint(lessThanOrEqualToConstant: 100),
+            parameterTableView.heightAnchor.constraint(equalToConstant: 100),
             
             addParameterButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15),
             addParameterButton.topAnchor.constraint(equalTo: parameterTableView.bottomAnchor,constant: 10),
             addParameterButton.widthAnchor.constraint(equalToConstant: self.view.frame.width / 2 - 20),
             addParameterButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 35),
             
-            userIdInputField.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 15),
+            userIdInputField.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 15),
             userIdInputField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor,constant: 15),
             userIdInputField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor,constant: -15),
             userIdInputField.heightAnchor.constraint(greaterThanOrEqualToConstant: 35),
@@ -383,6 +393,12 @@ final class UserInfoViewController: SideMenuItemViewController {
     @objc func tokenGenerateSaveAct() {
         DemoConfiguration.shared.jwtToken =  ShopLiveCommon.getAuthToken()
     }
+    
+    @objc func scanQR() {
+        let qrReaderVC = SLQRReaderViewController()
+        qrReaderVC.delegate = self
+        self.present(qrReaderVC, animated: true)
+    }
 
     private func updateUserInfo() {
         user = DemoConfiguration.shared.user
@@ -450,6 +466,14 @@ extension UserInfoViewController: ShopLiveRadioButtonDelegate {
             return .netural
         }
 
+    }
+}
+
+extension UserInfoViewController: QRKeyReaderDelegate {
+    func updateKeyFromQR(keyset: ShopLiveKeySet?) { }
+    func updateuserJWTFromQR(userJWT: String?) {
+        print("data", userJWT)
+        
     }
 }
 

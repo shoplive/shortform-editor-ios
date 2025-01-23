@@ -25,7 +25,6 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/jonkykong/SideMenu.git",  .upToNextMajor(from: "6.0.0") ),
         .package(url: "https://github.com/scalessec/Toast-Swift.git",  .upToNextMajor(from: "5.0.0")),
-        .package(url: "https://github.com/polarcop/SwiftyJWT.git",  .upToNextMajor(from: "1.0.0")),
         .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git",  .upToNextMajor(from: "1.8.2")),//.branch("main")
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git",  .upToNextMajor(from: "8.0.0")),
         .package(url: "https://github.com/SnapKit/SnapKit.git",  .upToNextMajor(from: "5.0.0")),
@@ -40,6 +39,7 @@ let package = Package(
         .package(url: "https://github.com/malcommac/SwiftRichString.git",  .upToNextMajor(from: "3.0.0")),
         .package(url: "https://github.com/devxoul/Then.git",  .upToNextMajor(from: "2.7.0")),
         .package(url: "https://github.com/scalessec/Toast-Swift.git",  .upToNextMajor(from: "5.0.0")),
+        //.package(url: "https://github.com/polarcop/SwiftyJWT.git",  .upToNextMajor(from: "1.0.0")),
         //      .remote(url: "https://github.com/ashleymills/Reachability.swift", requirement: .branch("master")),
         .package(url: "https://github.com/RxSwiftCommunity/RxGesture.git",  .upToNextMajor(from: "4.0.0")),
         .package(url: "https://github.com/onevcat/Kingfisher.git",  .upToNextMajor(from: "7.0.0"))
