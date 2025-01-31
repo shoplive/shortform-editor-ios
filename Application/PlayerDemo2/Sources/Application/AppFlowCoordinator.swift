@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class AppFlowCoordinator {
+final class AppFlowCoordinator : NSObject {
 
     let window: UIWindow?
     private var navigationController: UINavigationController?
@@ -28,7 +28,10 @@ final class AppFlowCoordinator {
     }
     
     private func makeMainActions() -> MainViewModelActions {
-        return .init(showOptionSetting: {},
+        return .init(showOptionSetting: {
+            self.showOptionSettingViewController()
+            
+        },
                      showCouponResponseSetting: {},
                      showBroadCastList: {},
                      showVideoPlayer: {},
@@ -38,6 +41,27 @@ final class AppFlowCoordinator {
     private func showUserInfo() {
         let vc = container.makeUserInfoViewController()
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+extension AppFlowCoordinator {
+    func showOptionSettingViewController() {
+        let vc = container.makeOptionSettingViewController(routing: self)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+//MARK: - OptionSetting Routing
+//TODO: - need to Move inside to some other SubFlowCoordinator
+extension AppFlowCoordinator: OptionSettingRouting {
+    func showSetPipFloatingOffsetViewController() {
+        
+    }
+    
+    func showAddCustomQueryParameterViewController() {
+        
+    }
+    
+    func showSetPipPinPositionViewController() {
+        
     }
 }
 

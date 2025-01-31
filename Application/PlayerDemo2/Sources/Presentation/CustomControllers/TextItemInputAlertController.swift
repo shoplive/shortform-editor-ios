@@ -116,40 +116,6 @@ class TextItemInputAlertController: CustomBaseAlertController {
             cancelButton.heightAnchor.constraint(equalTo: confirmButton.heightAnchor, multiplier: 1),
             cancelButton.trailingAnchor.constraint(equalTo: confirmButton.leadingAnchor,constant: -15)
         ])
-        
-        
-        
-//        alertItemView.snp.makeConstraints {
-//            $0.center.equalToSuperview()
-//            $0.width.equalToSuperview().multipliedBy(0.9)
-//            $0.height.greaterThanOrEqualTo(160)
-//        }
-//
-//
-//        titleLabel.snp.makeConstraints {
-//            $0.leading.top.equalToSuperview().offset(15)
-//            $0.trailing.equalToSuperview().offset(-15)
-//            $0.height.equalTo(30)
-//        }
-//
-//        textInputField.snp.makeConstraints {
-//            $0.top.equalTo(titleLabel.snp.bottom).offset(15)
-//            $0.leading.trailing.equalTo(titleLabel)
-//            $0.height.greaterThanOrEqualTo(30)
-//        }
-//
-//        confirmButton.snp.makeConstraints {
-//            $0.top.equalTo(textInputField.snp.bottom).offset(20)
-//            $0.bottom.trailing.equalToSuperview().offset(-15)
-//            $0.width.greaterThanOrEqualTo(20)
-//            $0.height.equalTo(30)
-//        }
-//
-//        cancelButton.snp.makeConstraints {
-//            $0.top.bottom.width.height.equalTo(confirmButton)
-//            $0.trailing.equalTo(confirmButton.snp.leading).offset(-15)
-//
-//        }
     }
 
     @objc func cancelAct() {

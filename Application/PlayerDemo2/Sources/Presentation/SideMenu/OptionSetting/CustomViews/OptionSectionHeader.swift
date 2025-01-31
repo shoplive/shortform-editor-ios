@@ -9,6 +9,8 @@
 import UIKit
 
 class OptionSectionHeader: UITableViewHeaderFooterView {
+    
+    static let headerId = "optionsectionheaderviewId"
 
     private lazy var sectionTitleLabel: UILabel = {
         let view = UILabel()

@@ -492,11 +492,6 @@ extension MainViewController: ShopLiveSDKDelegate {
             ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) payload(String:Any) \(payload)")
         }
         
-        if DemoConfiguration.shared.useClickLog && name.contains("player_active_seconds") == false {
-            DispatchQueue.main.async {
-                UIWindow.showToast(message: "evnet log handler \n (String: Any) name \(name) feature \(feature.name) campaignKey \(campaign) payload \(payload)")
-            }
-        }
     }
     
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
@@ -857,8 +852,9 @@ extension MainViewController {
     }
 
     @objc private func openSideMenu(_ sender: UIButton) {
-        sender.debounce()
-        openSideMenuAct()
+//        sender.debounce()
+//        openSideMenuAct()
+        viewModel.showOptionSettingViewController()
     }
     
     

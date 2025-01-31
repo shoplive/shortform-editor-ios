@@ -161,13 +161,6 @@ final class OptionsViewController: SideMenuItemViewController {
 
         items.append(chatFontOptions)
 
-        
-        let clicklogOption = SDKOptionItem(name: "sdkoption.clicklog.title".localized(), optionDescription: "sdkoption.clicklog.description".localized(), optionType: .clicklog)
-        
-        let clicklogOptions = SDKOption(optionTitle: "sdkoption.section.clicklog.title".localized(), optionItems: [clicklogOption])
-        
-        items.append(clicklogOptions)
-        
         let addParameterOPtion = SDKOptionItem(name: "sdkoption.addParameter.title".localized(), optionDescription: "", optionType: .addParameter)
         let customOptions = SDKOption(optionTitle: "sdkoption.section.customOption.title".localized(), optionItems: [addParameterOPtion])
         

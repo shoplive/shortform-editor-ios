@@ -1,12 +1,13 @@
 //
-//  SDKOption.swift
+//  SDKOptionType.swift
 //  PlayerDemo2
 //
-//  Created by Tabber on 1/17/25.
+//  Created by sangmin han on 1/29/25.
 //  Copyright © 2025 com.app. All rights reserved.
 //
 
 import Foundation
+
 
 enum CouponResponseKey: String {
     case downloadCouponSuccessMessage
@@ -44,19 +45,12 @@ enum SDKOptionType: String, CaseIterable {
     case mute
     case pipPadding
     case pipFloatingOffset
-    case pipMarginTop
-    case pipMarginBottom
     case pipEnableSwipeOut
     case keepWindowStateOnPlayExecuted
     case pipKeepWindowStyle
     case manualRotation
     case mixAudio
-    case clicklog
     case addParameter
-    case enablePictureInPictureMode
-    case automaticallyPreservesTimeOffsetFromLive
-    case startsOnFirstEligibleVariant
-    case variantPreferences_scalabilityToLosslessAudio
     case statusBarVisibility
     case previewResolution
     case enablePreviewSound
@@ -77,7 +71,7 @@ enum SDKOptionType: String, CaseIterable {
         switch self {
         case .shareScheme, .progressColor, .pipScale, .maxPipSize, .fixedHeightPipSize, .fixedWidthPipSize, .pipCornerRadius:
             return .showAlert
-        case .pipPosition, .nextActionOnHandleNavigation:
+        case .pipPosition, .nextActionOnHandleNavigation, .resizeMode, .previewResolution:
             return .dropdown
         case .pipFloatingOffset, .addParameter, .pipPinPosition:
             return .routeTo
@@ -89,15 +83,4 @@ enum SDKOptionType: String, CaseIterable {
     var optionKey: String {
         self.rawValue
     }
-}
-
-struct SDKOptionItem {
-    var name: String
-    var optionDescription: String
-    var optionType: SDKOptionType
-}
-
-struct SDKOption {
-    var optionTitle: String
-    var optionItems: [SDKOptionItem] = []
 }

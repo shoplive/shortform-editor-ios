@@ -63,4 +63,8 @@ class MainViewModel {
     func showUserInfoViewController() {
         actions?.showUserInfo()
     }
+    
+    func showOptionSettingViewController() {
+        actions?.showOptionSetting()
+    }
 }

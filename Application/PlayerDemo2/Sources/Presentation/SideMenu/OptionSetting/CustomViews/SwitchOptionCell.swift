@@ -98,31 +98,6 @@ class SwitchOptionCell: UITableViewCell {
             optionDescriptionLabel.topAnchor.constraint(equalTo: optionTitleLabel.bottomAnchor, constant: 4),
             optionDescriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
-
-//        touchArea.snp.makeConstraints {
-//            $0.edges.equalToSuperview()
-//        }
-//
-//        optionSwitch.snp.makeConstraints {
-//            $0.trailing.equalToSuperview().offset(-20)
-//            $0.width.equalTo(50)
-//            $0.centerY.equalToSuperview()
-//        }
-//
-//        optionTitleLabel.snp.makeConstraints {
-//            $0.top.equalToSuperview().offset(20)
-//            $0.leading.equalToSuperview().offset(15)
-//            $0.trailing.equalTo(optionSwitch.snp.leading).offset(-10)
-//            $0.height.greaterThanOrEqualTo(20)
-//        }
-//
-//        optionDescriptionLabel.snp.makeConstraints {
-//            $0.leading.equalToSuperview().offset(15)
-//            $0.trailing.equalTo(optionSwitch.snp.leading).offset(-10)
-//            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
-//            $0.bottom.equalToSuperview().offset(-20)
-//        }
-
     }
 
     func configure(item: SDKOptionItem) {
@@ -184,20 +159,8 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .mixAudio:
             useOption = DemoConfiguration.shared.useMixAudio
-        case .clicklog:
-            useOption = DemoConfiguration.shared.useClickLog
-            break
         case .pipEnableSwipeOut:
             useOption = DemoConfiguration.shared.pipEnableSwipeOut
-            break
-        case .automaticallyPreservesTimeOffsetFromLive:
-            useOption = DemoConfiguration.shared.useAutomaticallyPreservesTimeOffsetFromLive
-            break
-        case .startsOnFirstEligibleVariant:
-            useOption = DemoConfiguration.shared.useStartsOnFirstEligibleVariant
-            break
-        case .variantPreferences_scalabilityToLosslessAudio:
-            useOption = DemoConfiguration.shared.useVariantPreferencesScalabilityToLosslessAudio
             break
         case .statusBarVisibility:
             useOption = DemoConfiguration.shared.statusBarVisibility
@@ -265,19 +228,8 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .mixAudio:
             DemoConfiguration.shared.useMixAudio = useOption
-        case .clicklog:
-            DemoConfiguration.shared.useClickLog = useOption
         case .pipEnableSwipeOut:
             DemoConfiguration.shared.pipEnableSwipeOut = useOption
-            break
-        case .automaticallyPreservesTimeOffsetFromLive:
-            DemoConfiguration.shared.useAutomaticallyPreservesTimeOffsetFromLive = useOption
-            break
-        case .startsOnFirstEligibleVariant:
-            DemoConfiguration.shared.useStartsOnFirstEligibleVariant = useOption
-            break
-        case .variantPreferences_scalabilityToLosslessAudio:
-            DemoConfiguration.shared.useVariantPreferencesScalabilityToLosslessAudio = useOption
             break
         case .statusBarVisibility:
             DemoConfiguration.shared.statusBarVisibility = useOption
