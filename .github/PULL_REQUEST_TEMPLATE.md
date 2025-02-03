@@ -12,6 +12,9 @@
 
 - 유틸 설명 쓰는 부분
 
+## Mention
+
+@shoplive/shoplive-mobile
 
 
 ### 테스트 진행 여부
