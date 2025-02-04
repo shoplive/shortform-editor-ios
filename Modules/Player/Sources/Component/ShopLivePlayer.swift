@@ -25,6 +25,6 @@ final class ShopLivePlayer: AVPlayer {
     
     
     deinit {
-        ShopLiveLogger.debugLog("ShopLivePlayer deallocated")
+        
     }
 }

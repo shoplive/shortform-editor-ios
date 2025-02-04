@@ -67,7 +67,7 @@ class ShortsVideoPlayerView : UIView, SLReactor {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("shortsvideoplayerview deinited")
+        
     }
     
 }

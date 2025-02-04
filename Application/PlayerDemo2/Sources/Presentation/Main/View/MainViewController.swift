@@ -10,13 +10,15 @@ import UIKit
 import SideMenu
 import SafariServices
 import Toast
+import RxSwift
 import ShopLiveSDK
 import ShopliveSDKCommon
+import SnapKit
 
 class MainViewController: UIViewController {
     
     // ViewModel
-    private var viewModel: MainViewModel
+    var viewModel: MainViewModel
     
     // Etc View & ViewController
     private var safari: SFSafariViewController? = nil
@@ -36,13 +38,13 @@ class MainViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.separatorStyle = .none
         view.backgroundColor = .white
-        view.register(CampaignInfoCell.self, forCellReuseIdentifier: "CampaignInfoCell")
         view.register(UserInfoCell.self, forCellReuseIdentifier: "UserInfoCell")
         view.alwaysBounceVertical = false
         view.rowHeight = UITableView.automaticDimension
         view.contentInset = .init(top: 0, left: 0, bottom: ((UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) + 16), right: 0)
         return view
     }()
+    
     
     // 하나 은행 프레임 워크 재현을 위한 더미 뷰
     private var dummyView : UIView = {
@@ -53,8 +55,21 @@ class MainViewController: UIViewController {
         return view
     }()
     
+    
+    // MARK: - ScrollView & Cotainer View
+    private lazy var scrollView: UIScrollView = {
+        let sc = UIScrollView()
+        sc.showsVerticalScrollIndicator = true
+        return sc
+    }()
+    
+    private let contentView: UIView = UIView()
+    
+    private lazy var campaignContainerView = CampaignContainerView()
+    
     // Property
     private var hanaBankTimer : Double = 0
+    private var disposeBag: DisposeBag = DisposeBag()
     
     init(viewModel: MainViewModel) {
         self.viewModel = viewModel
@@ -65,8 +80,14 @@ class MainViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        campaignContainerView.configure(keySet: viewModel.loadCurrentCampaign())
+        super.viewWillAppear(animated)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         configureIDFA()
     }
     
@@ -77,17 +98,63 @@ class MainViewController: UIViewController {
         
         // configure
         configureInit()
-        configureTableView()
-        configureSampleOptions()
+        //configureTableView()
+        SampleOptions.campaignNaviMoreOptions = ["campaign.menu.write".localized(), "QR code", "Dev-Admin", "Admin", "campaign.menu.deleteall".localized()]
         configureTabbar()
         configureShopLive()
+        
+        // MARK: - Setting ScrollView
+        setScrollViewLayout()
+        setScrollViewData()
         
         // Setup
         setupSDKButtons()
         setupSideMenu()
         setupNavigation()
+        bindData()
     }
     
+    func setScrollViewLayout() {
+        self.view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(campaignContainerView)
+        
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            $0.leading.equalTo(self.view.safeAreaLayoutGuide.snp.leading)
+            $0.trailing.equalTo(self.view.safeAreaLayoutGuide.snp.trailing)
+            $0.bottom.equalTo(tabbar.snp.top)
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.width.equalTo(scrollView.snp.width)
+            $0.top.equalTo(self.scrollView.snp.top)
+            $0.leading.equalTo(self.scrollView.snp.leading)
+            $0.trailing.equalTo(self.scrollView.snp.trailing)
+            $0.bottom.equalTo(self.scrollView.snp.bottom)
+            $0.height.equalTo(5000)
+        }
+        
+        campaignContainerView.snp.makeConstraints {
+            $0.top.equalTo(self.contentView.snp.top)
+            $0.leading.equalTo(self.contentView.snp.leading)
+            $0.trailing.equalTo(self.contentView.snp.trailing)
+        }
+    }
+    
+    func setScrollViewData() {
+        campaignContainerView.delegate = self
+        campaignContainerView.configure(keySet: viewModel.loadCurrentCampaign())
+    }
+    
+    func bindData() {
+        viewModel.updateNoti()
+            .withUnretained(self)
+            .subscribe(onNext: { owner, data in
+                owner.campaignContainerView.configure(keySet: owner.viewModel.loadCurrentCampaign())
+            })
+            .disposed(by: disposeBag)
+    }
     
     func configureInit() {
         
@@ -133,8 +200,6 @@ class MainViewController: UIViewController {
         ShopLiveCommon.setUtmMedium(utmMedium: "testUtmMedium")
         ShopLiveCommon.setUtmContent(utmContent: "testUtmContent")
         ShopLiveCommon.setUtmCampaign(utmCampaign: "testUtmCampaign")
-        ShopLiveDemoKeyTools.shared.addKeysetObserver(observer: self)
-        DemoConfiguration.shared.addConfigurationObserver(observer: self)
     }
     
     func configureTabbar() {
@@ -147,57 +212,10 @@ class MainViewController: UIViewController {
         ])
     }
     
-     
-    func configureSampleOptions() {
-        
-        SampleOptions.campaignNaviMoreOptions = ["campaign.menu.write".localized(), "QR code", "Dev-Admin", "Admin", "campaign.menu.deleteall".localized()]
-        
-        SampleOptions.campaignNaviMoreSelectionAction = { (item : String, index: Int, id: Int) in
-            ShopLiveLogger.debugLog("selected item: \(item) index: \(index)")
-            let sourceScheme = "shopliveplayer"
-            switch index {
-            case 0: // Direct input
-                let vc = CampaignInputAlertController()
-                vc.modalPresentationStyle = .overCurrentContext
-                self.navigationController?.present(vc, animated: false, completion: nil)
-                break
-            case 1: // QR-code
-                let qrReaderVC = SLQRReaderViewController()
-                qrReaderVC.delegate = self
-                self.present(qrReaderVC, animated: true)
-                break
-            case 2: // Dev-Admin
-                // getkey
-                DeepLinkManager.shared.sendDeepLink("shoplivestudiodev://getkey?source=\(sourceScheme)")
-                break
-            case 3: // Admin
-                // getkey
-                DeepLinkManager.shared.sendDeepLink("shoplivestudio://getkey?source=\(sourceScheme)")
-                break
-            case 4: // Remove all
-                guard ShopLiveDemoKeyTools.shared.keysets.count > 0 else {
-                    return
-                }
-                let alert = UIAlertController(title: "campaign.msg.deleteAll.title".localized(), message: nil, preferredStyle: .alert)
-                alert.addAction(.init(title: "alert.msg.no".localized(), style: .cancel, handler: { action in
-                    
-                }))
-                alert.addAction(.init(title: "alert.msg.ok".localized(), style: .default, handler: { action in
-                    ShopLiveDemoKeyTools.shared.clearKey()
-                }))
-                self.present(alert, animated: true, completion: nil)
-                break
-            default:
-                break
-            }
-        }
-    }
     
     func configureIDFA() {
         let delgate = UIApplication.shared.delegate as! AppDelegate
-        delgate.requestIDFAPermission { result in
-            ShopLiveLogger.debugLog("adidentifier result \(ShopLiveCommon.getAdIdentifier())")
-        }
+        delgate.requestIDFAPermission { result in }
     }
     
     func setupSDKButtons() {
@@ -487,17 +505,10 @@ class MainViewController: UIViewController {
 // MARK: - ShopLiveSDKDelegate
 extension MainViewController: ShopLiveSDKDelegate {
     
-    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
-        if name.contains("player_active_seconds") == false {
-            ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) payload(String:Any) \(payload)")
-        }
-        
-    }
-    
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
 //        ShopLiveLogger.tempLog("log name \(name) feature \(feature.name) campaignKey \(campaign) parameter(String:String) \(parameter)")
 //        let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, parameter: parameter)
-//        ShopLiveLogger.debugLog("eventLog \(eventLog.name)")
+//        
     }
     
     func onEvent(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String : Any]) {
@@ -522,9 +533,7 @@ extension MainViewController: ShopLiveSDKDelegate {
         }
     }
     
-    func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint) {
-        ShopLiveLogger.debugLog("window gesture state \(state) position \(position)")
-    }
+    func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint) {}
 
     func handleNavigation(with url: URL) {
                 
@@ -567,26 +576,13 @@ extension MainViewController: ShopLiveSDKDelegate {
         }
     }
 
-    func handleChangedPlayerStatus(status: String) {
-        ShopLiveLogger.debugLog("onChangedPlayerStatus \(status)")
-    }
+    func handleChangedPlayerStatus(status: String) {}
     
-    func handleChangeCampaignStatus(status: String) {
-        ShopLiveLogger.debugLog("handleChangeCampaignStatus \(status)")
-    }
+    func handleChangeCampaignStatus(status: String) {}
 
-    func handleError(code: String, message: String) {
-        ShopLiveLogger.debugLog("handleError \(code)  \(message)")
-        
-    }
+    func handleError(code: String, message: String) {}
 
-    func handleCampaignInfo(campaignInfo: [String : Any]) {
-        ShopLiveLogger.debugLog("handleCampaignInfo")
-        
-        campaignInfo.forEach { info in
-            ShopLiveLogger.debugLog("campaignInfo key: \(info.key)  value: \(info.value)")
-        }
-    }
+    func handleCampaignInfo(campaignInfo: [String : Any]) {}
 
     /*
      // deprecated
@@ -595,7 +591,6 @@ extension MainViewController: ShopLiveSDKDelegate {
     */
     
     func handleDownloadCoupon(with couponId: String, result: @escaping (ShopLiveCouponResult) -> Void) {
-        ShopLiveLogger.debugLog("handleDownloadCouponResult")
         let alert = UIAlertController(title: "sample.coupon.download".localized(), message: "sample.coupon.id".localized() + ": \(couponId)", preferredStyle: .alert)
         alert.addAction(.init(title: "alert.msg.failed".localized(), style: .cancel, handler: { _ in
             DispatchQueue.main.async {
@@ -634,7 +629,6 @@ extension MainViewController: ShopLiveSDKDelegate {
      */
     
     func handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLiveCustomActionResult) -> Void) {
-        ShopLiveLogger.debugLog("handleCustomActionResult")
 
         let alert = UIAlertController(title: "CUSTOM ACTION", message: "id: \(id)\ntype: \(type)\npayload: \(String(describing: payload))", preferredStyle: .alert)
         alert.addAction(.init(title: "alert.msg.failed".localized(), style: .cancel, handler: { _ in
@@ -658,10 +652,6 @@ extension MainViewController: ShopLiveSDKDelegate {
         
         if ShopLiveViewTrackEvent.allCases.map({ $0.name }).contains(where: { $0 == command }) {
             guard let payload = payload as? [String : Any] else { return }
-            
-            let debug: String = "[SHOPLIVEVIEWTRACKEVENT] viewTrack \(command) - currentStyle = \((payload["currentStyle"] as? String) ?? "null"), lastStyle = \((payload["lastStyle"] as? String) ?? "null"), isPreview \(payload["isPreview"] as? Bool), viewHiddenActionType = \((payload["viewHiddenActionType"] as? String))"
-            
-            ShopLiveLogger.debugLog(debug)
         }
         
         switch command {
@@ -683,10 +673,6 @@ extension MainViewController: ShopLiveSDKDelegate {
 
     
     func onSetUserName(_ payload: [String : Any]) {
-        ShopLiveLogger.debugLog("onSetUserName")
-        payload.forEach { (key, value) in
-            ShopLiveLogger.debugLog("onSetUserName key: \(key) value: \(value)")
-        }
         
         let alert = UIAlertController(title: "대화명 변경", message: "대화명 변경이 완료되었습니다.".localized(), preferredStyle: .alert)
         alert.addAction(.init(title: "alert.msg.ok".localized(), style: .default, handler: { _ in
@@ -764,7 +750,7 @@ extension MainViewController: ShopLiveSDKDelegate {
 extension MainViewController: LoginDelegate {
     func loginSuccess(name : String?, pwd : String?) {
         
-        guard let currentKey = getCurrentKeySet() else {
+        guard let currentKey = viewModel.getCurrentKeySet() else {
             DispatchQueue.main.async {
                 UIWindow.showToast(message: "sdk.msg.nonekey".localized())
             }
@@ -790,27 +776,8 @@ extension MainViewController: LoginDelegate {
     }
 }
 
-extension MainViewController: QRKeyReaderDelegate {
-    func updateUserJWTFromQR(userJWT: String?) {}
-    
-    func updateKeyFromQR(keyset: ShopLiveKeySet?) {
-        guard let keyset = keyset else { return }
-        let vc = CampaignInputAlertController(keyset: keyset)
-        vc.modalPresentationStyle = .overCurrentContext
-        self.navigationController?.present(vc, animated: false, completion: nil)
-    }
-    
-    
-}
 extension MainViewController : ShopLivePlayerShareDelegate {
     func handleShare(data: ShopLivePlayerShareData) {
-        var log = "ShopLivePlayerShareData \n";
-        log += "url : \(data.url ?? "null") \n"
-        log += "campaignKey : \(data.campaign?.campaignKey ?? "null") \n"
-        log += "title : \(data.campaign?.title ?? "null") \n"
-        log += "descriptions : \(data.campaign?.descriptions ?? "null") \n"
-        log += "thumbnail : \(data.campaign?.thumbnail ?? "null") \n"
-        ShopLiveLogger.debugLog(log)
         
         if let urlString = data.url , let url = URL(string: urlString) {
             let shareAll:[Any] = [url]
@@ -859,7 +826,7 @@ extension MainViewController {
     
     
     @objc func preview() {
-        guard let currentKey = getCurrentKeySet() else {
+        guard let currentKey = viewModel.getCurrentKeySet() else {
             DispatchQueue.main.async {
                 UIWindow.showToast(message: "sdk.msg.nonekey".localized())
             }
@@ -874,11 +841,7 @@ extension MainViewController {
                                              referrer: DemoConfiguration.shared.customReferrer,
                                              isMuted: !DemoConfiguration.shared.enablePreviewSound,
                                              isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey,
-                                             resolution: DemoConfiguration.shared.previewResolution) { campaign in
-            ShopLiveLogger.debugLog(" campaign callBack campaign Title : \(campaign.title)")
-        } brandHandler: { brand in
-            ShopLiveLogger.debugLog(" brand callback brand Name : \(brand.name) \n brand Image : \(brand.imageUrl) \n brand Identifier : \(brand.identifier)")
-        }
+                                             resolution: DemoConfiguration.shared.previewResolution) { campaign in } brandHandler: { brand in }
         
         ShopLive.preview(data: playerData) {
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
@@ -888,7 +851,7 @@ extension MainViewController {
     }
     
     @objc func play() {
-        guard let currentKey = getCurrentKeySet() else {
+        guard let currentKey = viewModel.getCurrentKeySet() else {
             DispatchQueue.main.async {
                 UIWindow.showToast(message: "sdk.msg.nonekey".localized())
             }
@@ -915,7 +878,7 @@ extension MainViewController {
 
     @objc
     func shopLivePreview() {
-        guard let currentKey = getCurrentKeySet() else {
+        guard let currentKey = viewModel.getCurrentKeySet() else {
             DispatchQueue.main.async {
                 UIWindow.showToast(message: "sdk.msg.nonekey".localized())
             }
@@ -943,7 +906,7 @@ extension MainViewController {
         default:
             break
         }
-        scrollToBottom()
+      //  scrollToBottom()
     }
     
     func scrollToBottom(){
@@ -969,70 +932,18 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         }
         cell.configure(parent: self)
         cell.baseDelegate = self
-        
         return cell
     }
 }
 
-extension MainViewController: DemoConfigurationObserver, KeySetObserver {
-    func keysetUpdated() {
-        tableView.reloadData()
-    }
-
-    func currentKeyUpdated() {
-        tableView.reloadData()
-    }
-
-    var identifier: String {
-        "SideMenuBaseViewController"
-    }
-
-    func updatedValues(keys: [String]) {
-        if keys.contains(where: {$0 == "user"}) || keys.contains(where: {$0 == "jwtToken"}) {
-            tableView.reloadData()
-        }
-    }
-
-}
-
-extension MainViewController: CampaignInfoCellDelegate {
-    func getCurrentKeySet() -> ShopLiveKeySet? {
-        if let keyset = viewModel.keyset, !keyset.hasEmptyValue() {
-            if let currentKeySet = ShopLiveDemoKeyTools.shared.currentKey() {
-                if currentKeySet.isEqual(keyset) {
-                    return currentKeySet
-                } else {
-                    ShopLiveDemoKeyTools.shared.save(key: keyset)
-                    ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: keyset.alias)
-                    return keyset
-                }
-            } else {
-                return keyset
-            }
-        } else {
-            if let currentKeySet = ShopLiveDemoKeyTools.shared.currentKey() {
-                return currentKeySet
-            } else {
-                return nil
-            }
-        }
+extension MainViewController: CampaignContainerDelegate {
+    
+    func showCampaignsViewController() {
+        viewModel.showCampaignsViewController()
     }
     
     func updateKeySet(_ keyset: ShopLiveKeySet) {
-        viewModel.settingShopLiveKeySet(keySet: keyset)
-    }
-    
-    func keysetFieldSelected() {
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
-//        self.tableView.snp.remakeConstraints {
-//            $0.left.right.top.equalToSuperview()
-//            $0.bottom.equalToSuperview().offset(-200)
-//        }
+        viewModel.updateSetKey(value: keyset)
     }
 }
 

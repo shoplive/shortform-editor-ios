@@ -99,7 +99,7 @@ class ShortsCellYoutubeCommandReactor : NSObject, SLReactor {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("shortscellyoutubecommandReactor deinited")
+        
     }
     
     func action(_ action: Action) {

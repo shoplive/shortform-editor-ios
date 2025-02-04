@@ -130,7 +130,7 @@ internal class OverlayWebView: SLView {
             guard let defaultUserAgent = result as? String else { return }
             webView.customUserAgent = defaultUserAgent + " shoplive/\(ShopLiveCommon.playerSdkVersion)"
             
-            ShopLiveLogger.debugLog("userAgent: "+defaultUserAgent + " shoplive/\(ShopLiveCommon.playerSdkVersion)")
+            ShopLiveLogger.tempLog("userAgent: "+defaultUserAgent + " shoplive/\(ShopLiveCommon.playerSdkVersion)")
         }
     }
     
@@ -139,7 +139,7 @@ internal class OverlayWebView: SLView {
         self.webView?.removeQueuedRequest()
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            ShopLiveLogger.debugLog("loadOverlay with \(url.absoluteString)")
+            ShopLiveLogger.tempLog("loadOverlay with \(url.absoluteString)")
             self.webView?.load(URLRequest(url: url))
         }
     }
@@ -240,29 +240,29 @@ extension OverlayWebView: WKNavigationDelegate {
     private func handleNSUrlDomainError(errorCode : Int) {
         switch errorCode {
         case NSURLErrorNotConnectedToInternet:
-            ShopLiveLogger.debugLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_URLDOMAIN] No internet connection")
+            ShopLiveLogger.tempLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_URLDOMAIN] No internet connection")
         case NSURLErrorCannotFindHost:
-            ShopLiveLogger.debugLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_URLDOMAIN] Cannot find host.")
+            ShopLiveLogger.tempLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_URLDOMAIN] Cannot find host.")
         default:
-            ShopLiveLogger.debugLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_URLDOMAIN] unknownError \(errorCode).")
+            ShopLiveLogger.tempLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_URLDOMAIN] unknownError \(errorCode).")
         }
     }
     
     private func handleWKErrorDomain(errorCode : Int) {
         switch errorCode {
         case WKError.javaScriptExceptionOccurred.rawValue:
-            ShopLiveLogger.debugLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_WKERRORDOMAIN] JavaScript exception occurred.")
+            ShopLiveLogger.tempLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_WKERRORDOMAIN] JavaScript exception occurred.")
         default:
-            ShopLiveLogger.debugLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_WKERRORDOMAIN] unknownError \(errorCode)")
+            ShopLiveLogger.tempLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_WKERRORDOMAIN] unknownError \(errorCode)")
         }
     }
     
     private func handleNSCocoaErrorDomain(errorCode : Int) {
         switch errorCode {
         case NSUserCancelledError:
-            ShopLiveLogger.debugLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_COCOERROR] User cancelled the operation.")
+            ShopLiveLogger.tempLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_COCOERROR] User cancelled the operation.")
         default:
-            ShopLiveLogger.debugLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_COCOERROR] unknownError \(errorCode)")
+            ShopLiveLogger.tempLog("[WEBVIEW_DIDFAIL_PROVISIONAL_NAVIGATION_COCOERROR] unknownError \(errorCode)")
         }
     }
     
@@ -432,7 +432,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             delegate?.didChangeCampaignStatus(status: status)
             break
         case .setParam(let key, let value):
-            ShopLiveLogger.debugLog("setparam key: \(key) value: \(value)")
+            ShopLiveLogger.tempLog("setparam key: \(key) value: \(value)")
             guard ShopLiveConfiguration.Data.useLocalStorage, key == ShopLiveDefines.shopliveData else { return }
             UserDefaults.standard.set(value, forKey: ShopLiveDefines.shopliveData)
             UserDefaults.standard.synchronize()

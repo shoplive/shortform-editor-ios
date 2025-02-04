@@ -429,7 +429,7 @@ extension ShopLiveFilterPlayer {
         videoPlayerDelegate.start(with: videoUrl) { [weak self] error in
             self?.reactor.action( .setVideoOutput )
             guard let error = error else { return }
-            ShopLiveLogger.debugLog("[ShopliveShortformVideoEditor] error playing filterplayerview error \(error)")
+            
         }
         
         videoPlayerDelegate.pause()

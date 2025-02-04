@@ -62,14 +62,14 @@ class MainViewController: SideMenuBaseViewController {
         super.viewDidAppear(animated)
         let delgate = UIApplication.shared.delegate as! AppDelegate
         delgate.requestIDFAPermission { result in
-            ShopLiveLogger.debugLog("adidentifier result \(ShopLiveCommon.getAdIdentifier())")
+            
         }
     }
     func setupSampleOptions() {
         
         SampleOptions.campaignNaviMoreOptions = ["campaign.menu.write".localized(), "QR code", "Dev-Admin", "Admin", "campaign.menu.deleteall".localized()]
         SampleOptions.campaignNaviMoreSelectionAction = { (item : String, index: Int, id: Int) in
-            ShopLiveLogger.debugLog("selected item: \(item) index: \(index)")
+            
             let sourceScheme = "shopliveplayer"
             switch index {
             case 0: // Direct input
@@ -365,9 +365,9 @@ class MainViewController: SideMenuBaseViewController {
                                              isMuted: !DemoConfiguration.shared.enablePreviewSound,
                                              isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey,
                                              resolution: DemoConfiguration.shared.previewResolution) { campaign in
-            ShopLiveLogger.debugLog(" campaign callBack campaign Title : \(campaign.title)")
+            
         } brandHandler: { brand in
-            ShopLiveLogger.debugLog(" brand callback brand Name : \(brand.name) \n brand Image : \(brand.imageUrl) \n brand Identifier : \(brand.identifier)")
+            
         }
         
         ShopLive.preview(data: playerData) {
@@ -423,7 +423,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
         if name.contains("player_active_seconds") == false {
-            ShopLiveLogger.debugLog("log name \(name) feature \(feature.name) campaignKey \(campaign) payload(String:Any) \(payload)")
+            
         }
         
         if DemoConfiguration.shared.useClickLog && name.contains("player_active_seconds") == false {
@@ -437,7 +437,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
 //        ShopLiveLogger.tempLog("log name \(name) feature \(feature.name) campaignKey \(campaign) parameter(String:String) \(parameter)")
 //        let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, parameter: parameter)
-//        ShopLiveLogger.debugLog("eventLog \(eventLog.name)")
+//        
     }
     
     func onEvent(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String : Any]) {
@@ -462,7 +462,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     }
     
     func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint) {
-        ShopLiveLogger.debugLog("window gesture state \(state) position \(position)")
+        
     }
 
     func handleNavigation(with url: URL) {
@@ -507,23 +507,23 @@ extension MainViewController: ShopLiveSDKDelegate {
     }
 
     func handleChangedPlayerStatus(status: String) {
-        ShopLiveLogger.debugLog("onChangedPlayerStatus \(status)")
+        
     }
     
     func handleChangeCampaignStatus(status: String) {
-        ShopLiveLogger.debugLog("handleChangeCampaignStatus \(status)")
+        
     }
 
     func handleError(code: String, message: String) {
-        ShopLiveLogger.debugLog("handleError \(code)  \(message)")
+        
         
     }
 
     func handleCampaignInfo(campaignInfo: [String : Any]) {
-        ShopLiveLogger.debugLog("handleCampaignInfo")
+        
         
         campaignInfo.forEach { info in
-            ShopLiveLogger.debugLog("campaignInfo key: \(info.key)  value: \(info.value)")
+            
         }
     }
 
@@ -535,7 +535,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     */
     
     func handleDownloadCoupon(with couponId: String, result: @escaping (ShopLiveCouponResult) -> Void) {
-        ShopLiveLogger.debugLog("handleDownloadCouponResult")
+        
         let alert = UIAlertController(title: "sample.coupon.download".localized(), message: "sample.coupon.id".localized() + ": \(couponId)", preferredStyle: .alert)
         alert.addAction(.init(title: "alert.msg.failed".localized(), style: .cancel, handler: { _ in
             DispatchQueue.main.async {
@@ -574,7 +574,7 @@ extension MainViewController: ShopLiveSDKDelegate {
      */
     
     func handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLiveCustomActionResult) -> Void) {
-        ShopLiveLogger.debugLog("handleCustomActionResult")
+        
 
         let alert = UIAlertController(title: "CUSTOM ACTION", message: "id: \(id)\ntype: \(type)\npayload: \(String(describing: payload))", preferredStyle: .alert)
         alert.addAction(.init(title: "alert.msg.failed".localized(), style: .cancel, handler: { _ in
@@ -598,7 +598,7 @@ extension MainViewController: ShopLiveSDKDelegate {
         
         if ShopLiveViewTrackEvent.allCases.map({ $0.name }).contains(where: { $0 == command }) {
             guard let payload = payload as? [String : Any] else { return }
-            ShopLiveLogger.debugLog("[SHOPLIVEVIEWTRACKEVENT] viewTrack \(command) - currentStyle = \((payload["currentStyle"] as? String) ?? "null"), lastStyle = \((payload["lastStyle"] as? String) ?? "null"), isPreview \(payload["isPreview"] as? Bool), viewHiddenActionType = \((payload["viewHiddenActionType"] as? String))")
+            
         }
         
         if command == "didTapCloseButton" {
@@ -619,9 +619,9 @@ extension MainViewController: ShopLiveSDKDelegate {
 
     
     func onSetUserName(_ payload: [String : Any]) {
-        ShopLiveLogger.debugLog("onSetUserName")
+        
         payload.forEach { (key, value) in
-            ShopLiveLogger.debugLog("onSetUserName key: \(key) value: \(value)")
+            
         }
         
         let alert = UIAlertController(title: "대화명 변경", message: "대화명 변경이 완료되었습니다.".localized(), preferredStyle: .alert)
@@ -744,7 +744,7 @@ extension MainViewController : ShopLivePlayerShareDelegate {
         log += "title : \(data.campaign?.title ?? "null") \n"
         log += "descriptions : \(data.campaign?.descriptions ?? "null") \n"
         log += "thumbnail : \(data.campaign?.thumbnail ?? "null") \n"
-        ShopLiveLogger.debugLog(log)
+        
         
         if let urlString = data.url , let url = URL(string: urlString) {
             let shareAll:[Any] = [url]

@@ -155,7 +155,7 @@ class SLVideoSpeedRateViewController : UIViewController {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("SLVideoSpeedRateViewController Deinit")
+        
     }
     
     override func viewDidLayoutSubviews() {

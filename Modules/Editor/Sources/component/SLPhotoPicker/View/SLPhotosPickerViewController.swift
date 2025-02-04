@@ -120,7 +120,7 @@ class SLPhotosPickerViewController : UIViewController {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("SLPhotosPickerViewController deinited")
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

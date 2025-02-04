@@ -26,7 +26,7 @@ class SLCropInnerGridView : UIView {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("[ShopliveShortformEditor] SLCropInnerGridView deinited")
+        
     }
     
     private let lineWidth : CGFloat = 1

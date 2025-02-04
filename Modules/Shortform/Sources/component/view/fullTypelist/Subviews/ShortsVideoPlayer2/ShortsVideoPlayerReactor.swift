@@ -69,7 +69,7 @@ class ShortsVideoPlayerReactor : NSObject, SLReactor {
         self.removePlayTimeObserver()
         self.removeVideoEndDetectObserver()
         self.removePlayerStatusObserver()
-        ShopLiveLogger.debugLog("shortsvideoplayerreactor deinited")
+        
     }
     
     func action(_ action: Action) {

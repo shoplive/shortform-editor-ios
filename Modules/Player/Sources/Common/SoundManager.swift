@@ -67,7 +67,7 @@ class SoundItem {
             item = try Data(contentsOf: localUrl)
         }
         catch (let error) {
-            ShopLiveLogger.debugLog("soundItem failed to read from directory \(error)")
+            ShopLiveLogger.tempLog("soundItem failed to read from directory \(error)")
             return nil
         }
         return item
@@ -93,7 +93,7 @@ class SoundItem {
                     try FileManager.default.moveItem(at: localUrl, to: destination)
                 }
                 catch(let error) {
-                    ShopLiveLogger.debugLog("soundItem file directory couldn't be moved \(error)")
+                    ShopLiveLogger.tempLog("soundItem file directory couldn't be moved \(error)")
                 }
             }
             task.resume()
@@ -136,7 +136,7 @@ class SoundPlayer {
                 player = try AVAudioPlayer(data: playeItem)
             }
             catch {
-                ShopLiveLogger.debugLog("SoundPlayer player set failed")
+                ShopLiveLogger.tempLog("SoundPlayer player set failed")
             }
             self.avPlayer = nil
             self.item.avPlayerItem = nil

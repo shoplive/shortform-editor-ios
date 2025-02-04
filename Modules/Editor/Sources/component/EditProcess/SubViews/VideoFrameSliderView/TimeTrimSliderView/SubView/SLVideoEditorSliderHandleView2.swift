@@ -175,7 +175,7 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("[ShopliveShortformEditor] SLVideoEditorSliderHandleView2 deinited")
+        
     }
     
     override func layoutSubviews() {

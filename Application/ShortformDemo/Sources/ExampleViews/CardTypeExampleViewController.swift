@@ -145,7 +145,7 @@ extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegat
                                                                                 productId: product.productId,
                                                                                 isMuted: OptionSettingModel.previewIsMuted,
                                                                                 maxCount: OptionSettingModel.previewMaxCount,clickEventCallBack: {
-            ShopLiveLogger.debugLog("[HASSAN LOG] shopliveShortform preview clickEventCallBack ")
+            
         }, delegate: self))
         let conversionProductData = ShopLiveConversionProductData(productId: product.productId,
                                                                   customerProductId: product.customerProductId,

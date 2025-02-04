@@ -31,7 +31,7 @@ extension LiveStreamViewController {
     }
     
     @objc func handleInterruption(notification: Notification) {
-        ShopLiveLogger.debugLog("handleInterruption")
+        ShopLiveLogger.tempLog("handleInterruption")
 
         guard let userInfo = notification.userInfo,
                 let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,

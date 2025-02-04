@@ -13,6 +13,9 @@ import ShopliveSDKCommon
 
 final class DeepLinkManager {
     static let shared = DeepLinkManager()
+    
+    //var shopLiveKeySetStorage: (any AppUserDefaults<ShopLiveCampaignsKey>)?
+    var deepLinkUseCase: DeepLinkUseCase?
 
     var isSendBackStatue: Bool = false
 
@@ -63,8 +66,17 @@ final class DeepLinkManager {
         switch command {
         case .live, .video, .deepLinkVideo:
             guard let alias = parameters["alias"] as? String, let ak = parameters["ak"] as? String, let ck = parameters["ck"] as? String else { return }
-            ShopLiveDemoKeyTools.shared.save(key: .init(alias: alias, campaignKey: ck, accessKey: ak))
-            ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: alias)
+            
+            let currentItem = deepLinkUseCase?.loadAllCampaigns()
+            if let index = currentItem?.shopLiveKetSets.firstIndex(where: { $0.alias == alias }), index < currentItem?.shopLiveKetSets.count ?? 0 {
+                let data = currentItem?.shopLiveKetSets[index]
+                guard let data else { return }
+                deepLinkUseCase?.updateCampaign(keySet: data)
+            } else {
+                deepLinkUseCase?.saveCurrentCampaign(keySet: .init(alias: alias, campaignKey: ck, accessKey: ak))
+            }
+            
+            
             ShopLive.configure(with: ak)
             ShopLive.setInAppPipConfiguration(config: .init(enableSwipeOut: true))
             if let showType = parameters["showType"] as? String {

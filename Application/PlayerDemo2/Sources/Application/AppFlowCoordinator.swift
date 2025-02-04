@@ -21,34 +21,37 @@ final class AppFlowCoordinator : NSObject {
     }
     
     func start() {
-        let vc = container.makeMainViewController(actions: makeMainActions())
+        let vc = container.makeMainViewController(actions: self)
         navigationController?.setViewControllers([vc], animated: false)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
     
-    private func makeMainActions() -> MainViewModelActions {
-        return .init(showOptionSetting: {
-            self.showOptionSettingViewController()
-            
-        },
-                     showCouponResponseSetting: {},
-                     showBroadCastList: {},
-                     showVideoPlayer: {},
-                     showUserInfo: showUserInfo)
+}
+
+//MARK: - Main Routing
+extension AppFlowCoordinator: MainRouting {
+    
+    func showOptionSetting() {
+        let vc = container.makeOptionSettingViewController(routing: self)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
-    private func showUserInfo() {
+    func showCouponResponseSetting() { }
+    
+    func showCampaigns() {
+        let vc = container.makeCampaignsViewController(routing: self)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func showVideoPlayer() { }
+    
+    func showUserInfo() {
         let vc = container.makeUserInfoViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
 }
-extension AppFlowCoordinator {
-    func showOptionSettingViewController() {
-        let vc = container.makeOptionSettingViewController(routing: self)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-}
+
 //MARK: - OptionSetting Routing
 //TODO: - need to Move inside to some other SubFlowCoordinator
 extension AppFlowCoordinator: OptionSettingRouting {
@@ -66,4 +69,9 @@ extension AppFlowCoordinator: OptionSettingRouting {
 }
 
 
-
+//MARK: - Campaigns Routing
+extension AppFlowCoordinator: CampaignsRouting {
+    func dismissViewController() {
+        navigationController?.popViewController(animated: true)
+    }
+}

@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol CampaignInputAlertDelegate: NSObjectProtocol {
+    func saveData(data: ShopLiveKeySet)
+}
+
 class CampaignInputAlertController: CustomBaseAlertController {
 
     lazy var titleInputField: UITextField = {
@@ -80,6 +84,8 @@ class CampaignInputAlertController: CustomBaseAlertController {
         return !(titleInputField.text?.isEmpty ?? false) && !(accessInputField.text?.isEmpty ?? false) && !(campaignInputField.text?.isEmpty ?? false)
     }
     
+    weak var delegate: CampaignInputAlertDelegate?
+    
     init(keyset: ShopLiveKeySet) {
         super.init(nibName: nil, bundle: nil)
         titleInputField.text = keyset.alias
@@ -136,48 +142,16 @@ class CampaignInputAlertController: CustomBaseAlertController {
             saveButton.bottomAnchor.constraint(equalTo: alertItemView.bottomAnchor,constant: -10),
             saveButton.heightAnchor.constraint(equalToConstant: 40)
         ])
-        
-//        alertItemView.snp.makeConstraints {
-//            $0.center.equalToSuperview()
-//            $0.width.equalToSuperview().multipliedBy(0.9)
-//            $0.height.greaterThanOrEqualTo(140)
-//        }
-//
-//
-//        titleInputField.snp.makeConstraints {
-//            $0.leading.equalToSuperview().offset(10)
-//            $0.trailing.equalToSuperview().offset(-10)
-//            $0.top.equalToSuperview().offset(10)
-//            $0.height.equalTo(35)
-//        }
-//
-//        accessInputField.snp.makeConstraints {
-//            $0.leading.equalToSuperview().offset(10)
-//            $0.trailing.equalToSuperview().offset(-10)
-//            $0.top.equalTo(titleInputField.snp.bottom).offset(10)
-//            $0.height.equalTo(35)
-//        }
-//
-//        campaignInputField.snp.makeConstraints {
-//            $0.leading.equalToSuperview().offset(10)
-//            $0.trailing.equalToSuperview().offset(-10)
-//            $0.top.equalTo(accessInputField.snp.bottom).offset(10)
-//            $0.height.equalTo(35)
-//        }
-//        saveButton.snp.makeConstraints {
-//            $0.leading.equalToSuperview().offset(10)
-//            $0.trailing.equalToSuperview().offset(-10)
-//            $0.top.equalTo(campaignInputField.snp.bottom).offset(10)
-//            $0.bottom.equalToSuperview().offset(-10)
-//            $0.height.equalTo(40)
-//        }
     }
 
     @objc func saveCampaign() {
         guard saveEnable else { return }
         guard let alias = titleInputField.text else { return }
-        ShopLiveDemoKeyTools.shared.save(key: .init(alias: alias, campaignKey: campaignInputField.text ?? "", accessKey: accessInputField.text ?? ""))
-        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: alias)
+        
+        delegate?.saveData(data: .init(
+            alias: alias,
+            campaignKey: campaignInputField.text ?? "", accessKey: accessInputField.text ?? ""
+        ))
         self.dismiss(animated: false, completion: nil)
 
     }

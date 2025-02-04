@@ -7,20 +7,47 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol MainUseCase {
     func executeCampaign(name: String, accessKey: String, campaignKey: String) async throws -> ShopLiveKeySet
+    func loadCurrentCampaign() -> ShopLiveKeySet?
+    func loadAllCampaigns() -> ShopLiveCampaignsKey?
+    func saveCurrentCampaign(keySet: ShopLiveKeySet)
+    func updateCampaign(keySet: ShopLiveKeySet)
+
+    var updateNoti: Observable<Void> { get }
 }
 
 final class DefaultMainUseCase: MainUseCase {
-    private let mainRepository: MainRepository
+    private let shopLiveKeySetRepository: ShopLiveKeySetRepository
     
-    init(mainRepository: MainRepository) {
-        self.mainRepository = mainRepository
+    init(shopLiveKeySetRepository: ShopLiveKeySetRepository) {
+        self.shopLiveKeySetRepository = shopLiveKeySetRepository
+    }
+    
+    func loadCurrentCampaign() -> ShopLiveKeySet? {
+        shopLiveKeySetRepository.loadCurrentCampaign()
+    }
+    
+    func loadAllCampaigns() -> ShopLiveCampaignsKey? {
+        shopLiveKeySetRepository.loadAllCampaigns()
+    }
+    
+    func saveCurrentCampaign(keySet: ShopLiveKeySet) {
+        shopLiveKeySetRepository.saveCurrentCampaign(keySet: keySet)
+    }
+    
+    func updateCampaign(keySet: ShopLiveKeySet) {
+        shopLiveKeySetRepository.updateCampaign(keySet: keySet)
+    }
+    
+    var updateNoti: Observable<Void> {
+        return shopLiveKeySetRepository.fetchUpdateObservable
     }
     
     func executeCampaign(name: String, accessKey: String, campaignKey: String) async throws -> ShopLiveKeySet {
-        return try await mainRepository.insertBroadCast(name: name, accessKey: accessKey, campaignKey: campaignKey)
+        return try await shopLiveKeySetRepository.insertBroadCast(name: name, accessKey: accessKey, campaignKey: campaignKey)
     }
 }
 

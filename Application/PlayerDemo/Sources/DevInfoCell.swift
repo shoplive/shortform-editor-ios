@@ -317,7 +317,7 @@ extension DevInfoCell: UITextFieldDelegate {
         let predictedText = text.replacingCharacters(in: predictRange, with: newText)
             .trimmingCharacters(in: .whitespacesAndNewlines)
         
-        ShopLiveLogger.debugLog("update customLandingInput \(predictedText)")
+        
         DemoConfiguration.shared.customLandingInput = predictedText
 //
 //        if predictedText.isEmpty {

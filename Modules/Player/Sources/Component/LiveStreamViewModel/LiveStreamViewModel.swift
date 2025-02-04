@@ -530,7 +530,7 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
     private func handlePlayerItemStatus() {
         switch ShopLiveController.playerItemStatus {
         case .readyToPlay:
-            ShopLiveLogger.debugLog("playerItem Status readyToPlay")
+            
             if ShopLiveController.isReplayMode {
                 ShopLiveController.playerItem?.preferredForwardBufferDuration = 5
             }
@@ -553,7 +553,7 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
                 self.delegate?.requestTakeSnapShotView()
             }
         case .failed:
-            ShopLiveLogger.debugLog("playerItem Status failed setting retry = true")
+            
             ShopLiveController.retryPlay = true
             break
         default:
@@ -1195,14 +1195,14 @@ extension LiveStreamViewModel : ShopLiveAVPlayerErrorObserverDelegate {
         lastSentOnVideoError = errorCase
         let liveUrl = ShopLiveController.streamUrl?.absoluteString ?? ""
         let payload : String = ["liveUrl" : liveUrl, "reason" : reason].toJson() ?? ""
-        ShopLiveLogger.debugLog("[HASSAN LOG] error \(errorCase.rawValue) payload \(payload)")
+        
         ShopLiveController.shared.webInstance?.sendEventToWeb(event: .onVideoError, payload)
     }
 }
 extension LiveStreamViewModel : LiveStreamRetryManagerDelegate {
     //MARK: -delegate functions
     func updatePlayerItemInRetry(with url: URL) {
-        ShopLiveLogger.debugLog("updatePlayerItemInRetry")
+        
         self.updatePlayerItem(with: url)
     }
     

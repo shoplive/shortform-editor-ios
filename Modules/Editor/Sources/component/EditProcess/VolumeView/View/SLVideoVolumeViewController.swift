@@ -138,7 +138,7 @@ class SLVideoVolumeViewController : UIViewController {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("slVideoVolumeViewController Deinit")
+        
     }
     
     override func viewDidLayoutSubviews() {

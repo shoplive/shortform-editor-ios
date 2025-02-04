@@ -45,7 +45,7 @@ class ShortsYoutubePlayerView : UIView , SLReactor {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("shortyoutubeplayer deinit")
+        
     }
     
     func action(_ action: Action) {
@@ -194,7 +194,7 @@ extension ShortsYoutubePlayerView : SLWebviewResponseDelegate {
         }
         log += "indexPath : \(reactor.getCurrentIndexPath())\n"
         log += "================"
-        ShopLiveLogger.debugLog(log)
+        
     }
 }
 

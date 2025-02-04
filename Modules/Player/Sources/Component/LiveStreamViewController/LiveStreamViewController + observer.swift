@@ -48,11 +48,11 @@ extension LiveStreamViewController {
             }
             
             if SLAudioSessionManager.shared.audioSession.outputVolume > audioLevel {
-                ShopLiveLogger.debugLog("volume up")
+                
                 isDownward = false
             }
             if SLAudioSessionManager.shared.audioSession.outputVolume < audioLevel {
-                ShopLiveLogger.debugLog("volume down")
+                
                 isDownward = true
             }
             

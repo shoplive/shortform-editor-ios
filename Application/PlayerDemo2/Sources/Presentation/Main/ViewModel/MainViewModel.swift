@@ -7,35 +7,20 @@
 //
 
 import Foundation
-
-struct MainViewModelActions {
-    /// --- 사이드 메뉴
-    // 옵션 선택
-    let showOptionSetting: () -> Void
-    // 쿠폰 적용
-    let showCouponResponseSetting: () -> Void
-    
-    /// --- 홈화면
-    // 방송 선택
-    let showBroadCastList: () -> Void
-    // 재생
-    let showVideoPlayer: () -> Void
-    
-    let showUserInfo: () -> Void
-}
-
+import ShopliveSDKCommon
+import RxSwift
 
 class MainViewModel {
     
     private let useCase: MainUseCase
-    private let actions: MainViewModelActions?
+    private let routing: MainRouting?
     
     private(set) var keyset: ShopLiveKeySet?
-    private(set) var items: [String] = ["CampaignInfoCell", "UserInfoCell"]
+    private(set) var items: [String] = ["UserInfoCell"]
     
-    init(useCase: MainUseCase, actions: MainViewModelActions? = nil) {
+    init(useCase: MainUseCase, actions: MainRouting? = nil) {
         self.useCase = useCase
-        self.actions = actions
+        self.routing = actions
     }
     
     func controlItems(action: ItemAction, value: String, at: Int?) {
@@ -56,15 +41,70 @@ class MainViewModel {
         }
     }
     
-    func settingShopLiveKeySet(keySet: ShopLiveKeySet) {
-        self.keyset = keySet
+    func getCurrentKeySet() -> ShopLiveKeySet? {
+        if let keyset = keyset, !keyset.hasEmptyValue() {
+            if let currentKeySet = loadCurrentCampaign() {
+                if currentKeySet.isEqual(keyset) {
+                    return currentKeySet
+                } else {
+                    saveCurrentCampaign(keySet: keyset)
+                    return keyset
+                }
+            } else {
+                return keyset
+            }
+        } else {
+            if let currentKeySet = loadCurrentCampaign() {
+                return currentKeySet
+            } else {
+                return nil
+            }
+        }
+    }
+    
+    func updateNoti() -> Observable<Void> {
+        useCase.updateNoti
+    }
+    
+    func updateCurrentCampaign() -> Bool {
+        
+        let value = useCase.loadCurrentCampaign()
+        if value?.alias != self.keyset?.alias || self.keyset == nil || value == nil {
+            keyset = value
+            return true
+        }
+        
+        return false
+    }
+    
+    func loadCurrentCampaign() -> ShopLiveKeySet? {
+        let value = useCase.loadCurrentCampaign()
+        return value
+    }
+    
+    func updateSetKey(value: ShopLiveKeySet?) {
+        self.keyset = value
+    }
+    
+    func saveCurrentCampaign(keySet: ShopLiveKeySet) {        
+        let allCampaigns = useCase.loadAllCampaigns()
+        
+        if let _ = allCampaigns?.shopLiveKetSets.firstIndex(where: { $0.alias == keySet.alias }) {
+            useCase.updateCampaign(keySet: keySet)
+        } else {
+            useCase.saveCurrentCampaign(keySet: keySet)
+        }
     }
     
     func showUserInfoViewController() {
-        actions?.showUserInfo()
+        routing?.showUserInfo()
     }
     
     func showOptionSettingViewController() {
-        actions?.showOptionSetting()
+        routing?.showOptionSetting()
+    }
+    
+    func showCampaignsViewController() {
+        routing?.showCampaigns()
     }
 }

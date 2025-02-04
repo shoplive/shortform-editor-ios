@@ -7,38 +7,47 @@
 //
 
 import UIKit
+import ShopliveSDKCommon
 import iOSDropDown
-
-class SampleOptions {
-    static var campaignNaviMoreOptions: [String] = []
-    static var campaignNaviMoreSelectionAction: ( (String,Int,Int) -> Void ) = { _,_,_ in }
-}
-
+import SnapKit
 
 final class CampaignsViewController: UIViewController {
-
-    var viewModel: ViewModel = .init()
     
     var tapGesture: UITapGestureRecognizer?
 
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .plain)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.delegate = self
-        view.dataSource = self
-        view.register(CampaignCell.self, forCellReuseIdentifier: "CampaignCell")
         view.backgroundColor = .white
         view.contentInset = .init(top: 0, left: 0, bottom: ((UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) + 16), right: 0)
         return view
     }()
+    
+    lazy var dropdown: DropDown = {
+        let dropdown = DropDown()
+        dropdown.translatesAutoresizingMaskIntoConstraints = false
+        return dropdown
+    }()
+    
+    var viewModel: CampaignsViewModel
+    
+    init(viewModel: CampaignsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        self.viewModel.delegate = self
+        viewModel.registerTableView(tableView: tableView)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         removeTapGesture()
-        ShopLiveDemoKeyTools.shared.addKeysetObserver(observer: self)
-        viewModel.items = ShopLiveDemoKeyTools.shared.keysets
         self.view.backgroundColor = .white
         setupViews()
+        configureSampleOptions()
         setupNaviItems()
         self.title = "menu.campaigns".localized()
         
@@ -49,37 +58,24 @@ final class CampaignsViewController: UIViewController {
         dropdown.listWillAppear { [weak self] in
             self?.dropdown.isHidden = false
         }
+        
     }
     
+    func setupViews() {
+        self.view.addSubview(tableView)
+        tableView.snp.makeConstraints {
+            $0.top.leading.trailing.bottom.equalTo(self.view)
+        }
+    }
     
     func removeTapGesture() {
         guard let gestureRecognizers = self.view.gestureRecognizers,
                 gestureRecognizers.contains(where: {$0 == tapGesture}) else { return }
-
         self.view.removeGestureRecognizer(tapGesture!)
     }
 
-    lazy var dropdown: DropDown = {
-        let dropdown = DropDown()
-//        dropdown.width = 150
-        dropdown.translatesAutoresizingMaskIntoConstraints = false
-        return dropdown
-    }()
-
-    func setupViews() {
-        self.view.addSubview(tableView)
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
-        
-    }
-
     func setupBackButton() {
-        let backButton = UIBarButtonItem(image: PlayerDemo2Asset.back.image, style: .plain, target: self, action: #selector(handleNaviBack)
-        )
+        let backButton = UIBarButtonItem(image: PlayerDemo2Asset.back.image, style: .plain, target: self, action: #selector(handleNaviBack))
         backButton.tintColor = .white
         self.navigationItem.leftBarButtonItem = backButton
 
@@ -88,13 +84,10 @@ final class CampaignsViewController: UIViewController {
     
     @objc func handleNaviBack() {
         shopliveHideKeyboard_SL()
-        self.navigationController?.popViewController(animated: true)
+        viewModel.dismiss()
     }
 
-    
     func setupNaviItems() {
-        
-        
         setupBackButton()
         let more = UIBarButtonItem(image: .init(named: "more_button"), style: .plain, target: self, action: #selector(moreMenus))
 
@@ -109,7 +102,6 @@ final class CampaignsViewController: UIViewController {
         self.view.addSubview(dropdown)
         dropdown.isHidden = true
         
-        
         NSLayoutConstraint.activate([
             dropdownAnchor.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             dropdownAnchor.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
@@ -122,75 +114,81 @@ final class CampaignsViewController: UIViewController {
             dropdown.heightAnchor.constraint(equalToConstant: 20),
         ])
         dropdown.optionArray = SampleOptions.campaignNaviMoreOptions
-        
         dropdown.didSelect(completion: SampleOptions.campaignNaviMoreSelectionAction)
     }
 
     @objc func moreMenus() {
         dropdown.showList()
     }
-
-    func updateTableView() {
-        self.viewModel.items = ShopLiveDemoKeyTools.shared.keysets
-        self.tableView.reloadData()
-    }
-}
-
-extension CampaignsViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.items.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CampaignCell", for: indexPath) as? CampaignCell, let item = viewModel.items[safe: indexPath.row] else {
-            return UITableViewCell()
-        }
-
-        cell.configure(keySet: item)
-        return cell
-    }
-
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        switch editingStyle {
-        case .delete:
-            if let item = viewModel.items[safe: indexPath.row] {
-                ShopLiveDemoKeyTools.shared.delete(alias: item.alias)
-            }
-            updateTableView()
-            break
-        default:
-            break
-        }
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard viewModel.selectKeySet else { return }
-
-        guard let item = viewModel.items[safe: indexPath.row] else { return }
-
-        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: item.alias)
-        self.navigationController?.popViewController(animated: true)
-    }
-}
-
-extension CampaignsViewController: KeySetObserver {
-    var identifier: String {
-        get {
-            return "CampaignsViewController"
-        }
-    }
-
-    func keysetUpdated() {
-        updateTableView()
-        guard viewModel.items.count > 0 else { return }
-        self.navigationController?.popViewController(animated: true)
-    }
     
-    func currentKeyUpdated() {
-        updateTableView()
+    func configureSampleOptions() {
+        
+        SampleOptions.campaignNaviMoreSelectionAction = { (item : String, index: Int, id: Int) in
+            let sourceScheme = "shopliveplayer"
+            switch index {
+            case 0: // Direct input
+                let vc = CampaignInputAlertController()
+                vc.delegate = self
+                vc.modalPresentationStyle = .overCurrentContext
+                self.navigationController?.present(vc, animated: false, completion: nil)
+                break
+            case 1: // QR-code
+                let qrReaderVC = SLQRReaderViewController()
+                qrReaderVC.delegate = self
+                self.present(qrReaderVC, animated: true)
+                break
+            case 2: // Dev-Admin
+                // getkey
+                DeepLinkManager.shared.sendDeepLink("shoplivestudiodev://getkey?source=\(sourceScheme)")
+                break
+            case 3: // Admin
+                // getkey
+                DeepLinkManager.shared.sendDeepLink("shoplivestudio://getkey?source=\(sourceScheme)")
+                break
+            case 4: // Remove all
+                guard self.viewModel.getKeyCount() > 0 else {
+                    return
+                }
+                let alert = UIAlertController(title: "campaign.msg.deleteAll.title".localized(), message: nil, preferredStyle: .alert)
+                alert.addAction(.init(title: "alert.msg.no".localized(), style: .cancel, handler: { action in
+                    
+                }))
+                alert.addAction(.init(title: "alert.msg.ok".localized(), style: .default, handler: { action in
+                    self.viewModel.removeAll()
+                }))
+                
+                self.present(alert, animated: true, completion: nil)
+                break
+            default:
+                break
+            }
+        }
+    }
+}
+
+extension CampaignsViewController: CampaignsViewModelDelegate {
+    func reloadTableView(dismiss: Bool) {
+        tableView.reloadData()
+        if dismiss {
+            viewModel.dismiss()
+        }
+    }
+}
+
+extension CampaignsViewController: CampaignInputAlertDelegate {
+    func saveData(data: ShopLiveKeySet) {
+        viewModel.appendItems(keySet: data)
+    }
+}
+
+extension CampaignsViewController: QRKeyReaderDelegate {
+    func updateUserJWTFromQR(userJWT: String?) {}
+    
+    func updateKeyFromQR(keyset: ShopLiveKeySet?) {
+        guard let keyset = keyset else { return }
+        let vc = CampaignInputAlertController(keyset: keyset)
+        vc.delegate = self
+        vc.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(vc, animated: false, completion: nil)
     }
 }

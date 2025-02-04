@@ -52,7 +52,7 @@ class SLUploadVideoPreviewReactor : NSObject, SLReactor {
     
     
     deinit {
-        ShopLiveLogger.debugLog("[ShopliveShortformEditor] SLUploadVideoPreviewReactor deinited")
+        
     }
     
     func action(_ action: Action) {

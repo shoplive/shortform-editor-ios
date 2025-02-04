@@ -148,7 +148,7 @@ class SLVideoFilterViewController : UIViewController {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("SLVideoFilterViewController Deinit")
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

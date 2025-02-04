@@ -8,6 +8,7 @@
 
 import Foundation
 import XCTest
+import RxSwift
 @testable import ShopliveSDKCommon
 @testable import PlayerDemo2
 
@@ -24,6 +25,18 @@ class MainViewModelTests: XCTestCase {
     var items: [String] = ["CampaignInfoCell", "UserInfoCell"]
     
     class MainUseCaseMock: MainUseCase {
+        func loadCurrentCampaign() -> PlayerDemo2.ShopLiveKeySet? { return nil }
+        
+        func loadAllCampaigns() -> PlayerDemo2.ShopLiveCampaignsKey? { return nil }
+        
+        func saveCurrentCampaign(keySet: PlayerDemo2.ShopLiveKeySet) { }
+        
+        func updateCampaign(keySet: PlayerDemo2.ShopLiveKeySet) { }
+        
+        var updateNoti: RxSwift.Observable<Void> {
+            return .never()
+        }
+        
         
         var excuteCallCount: Int = 0
         
@@ -47,7 +60,7 @@ class MainViewModelTests: XCTestCase {
         let viewModel = MainViewModel(useCase: mainUseCaseMock)
         
         // when
-        viewModel.settingShopLiveKeySet(keySet: mockData)
+        viewModel.updateSetKey(value: mockData)
         
         guard let viewModelKeySet = viewModel.keyset else { return }
         XCTAssertEqual(viewModelKeySet.alias, mockData.alias)

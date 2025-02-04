@@ -42,7 +42,7 @@ class ShortsYoutubePlayerReactor : NSObject, SLReactor {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("shortsyoutubeplayerreactor deinited")
+        
     }
     
     func action(_ action: Action) {

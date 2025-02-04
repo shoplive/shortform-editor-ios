@@ -217,7 +217,7 @@ final class ShopLiveController: NSObject {
             if let old: Bool = change?[.oldKey] as? Bool, let new: Bool = change?[.newKey] as? Bool {
                 if old != new {
                     guard let videoUrl = ShopLiveController.streamUrl, !videoUrl.absoluteString.isEmpty && videoUrl.absoluteString != "null" else {
-                        // ShopLiveLogger.debugLog("\(keyPath): guard return - videoUrl: \(String(describing: ShopLiveController.streamUrl))")
+                        // 
                         return
                     }
                     postPlayerObservers(key: key)
@@ -290,7 +290,7 @@ final class ShopLiveController: NSObject {
         isHiddenOverlay = false
         overlayUrl = nil
         isPlaying = false
-        ShopLiveLogger.debugLog("[1.3.2] rest retryPlay \(ShopLiveController.retryPlay)")
+        
         retryPlay = false
         streamUrl = nil
         releasePlayer = false

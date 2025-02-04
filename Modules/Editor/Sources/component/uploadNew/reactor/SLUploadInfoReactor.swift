@@ -120,7 +120,7 @@ class SLUploadInfoReactor : NSObject, SLReactor {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("[ShopliveShortformEditor] SLUploadInfoReactor deinited")
+        
         removeObserver()
     }
     

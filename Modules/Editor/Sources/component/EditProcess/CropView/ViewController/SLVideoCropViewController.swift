@@ -143,7 +143,7 @@ class SLVideoCropViewController : UIViewController {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("SLVideoCropViewController deinited")
+        
     }
     
     @objc func closeBtnTapped(sender : UIButton) {

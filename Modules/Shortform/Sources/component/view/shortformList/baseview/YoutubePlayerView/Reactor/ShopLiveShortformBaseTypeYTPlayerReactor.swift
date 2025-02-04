@@ -55,7 +55,7 @@ class ShopLiveShortformBaseTypeYTPlayerReactor : NSObject, SLReactor {
     
     
     deinit {
-        ShopLiveLogger.debugLog("shopliveshortformbaseytplayerReactor deinit")
+        
     }
     
     func action(_ action: Action) {
@@ -103,7 +103,7 @@ class ShopLiveShortformBaseTypeYTPlayerReactor : NSObject, SLReactor {
                 throttle.callAsFunction { [weak self] in
                     self?.sendYoutubeMute()
                     self?.sendYoutubePlayVideo()
-                    ShopLiveLogger.debugLog("playing")
+                    
                 } onCancel: {
                     
                 }

@@ -54,7 +54,7 @@ class ShortsVideoPlayer2 : SLReactor {
         playerItem = nil
         videoAsset = nil
         player = nil
-        ShopLiveLogger.debugLog("ShortsVideoPlayer2 deinited")
+        
     }
     
     

@@ -43,7 +43,7 @@ class LiveStreamRetryManager {
     }
     
     func reserveRetry(waitSecond: Int = 5, from : String = #function) {
-        ShopLiveLogger.debugLog("[HASSAN LOG] reserveRetry \(from)")
+        
         guard isInRetry == false else { return }
         self.requireRetryCheck = true
         ShopLiveController.playerItem?.cancelPendingSeeks()

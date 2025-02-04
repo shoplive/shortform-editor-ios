@@ -83,24 +83,6 @@ class SampleBaseCell: UITableViewCell {
             itemView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             itemView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
-        
-//        self.sectionTitleLabel.snp.makeConstraints {
-//            $0.top.equalToSuperview().offset(15)
-//            $0.leading.equalToSuperview().offset(15)
-//            $0.height.equalTo(22)
-//        }
-//
-//        self.titleMenuView.snp.makeConstraints {
-//            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
-//            $0.leading.equalTo(self.sectionTitleLabel.snp.trailing).offset(15)
-//            $0.centerY.equalTo(self.sectionTitleLabel)
-//            $0.height.equalTo(30)
-//        }
-//
-//        self.itemView.snp.makeConstraints {
-//            $0.top.equalTo(self.titleMenuView.snp.bottom)
-//            $0.leading.trailing.bottom.equalToSuperview()
-//        }
 
     }
 

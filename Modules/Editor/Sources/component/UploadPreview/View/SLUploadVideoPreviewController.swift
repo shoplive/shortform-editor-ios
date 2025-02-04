@@ -155,7 +155,7 @@ class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDeleg
     }
     
     deinit {
-        ShopLiveLogger.debugLog("[ShopliveShortformEditor] SLUploadVideoPreviewController deinited")
+        
     }
     
     private func bindReactor() {

@@ -88,7 +88,7 @@ class ShopLiveAVPlayerErrorObserver {
 //                errorComment \(errorComment ?? "")
 //                ======================================================
 //                """
-//                ShopLiveLogger.debugLog("[HASSAN LOG] \n \(log)")
+//                
                 let errorCase = getErrorCase(errorStatusCode: errorStatusCode, errorDomain: errorDomain, errorComment: errorComment ?? "")
                 switch errorCase {
                 case .extDiscontinuity:

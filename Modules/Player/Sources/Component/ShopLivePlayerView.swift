@@ -43,7 +43,7 @@ final class ShopLivePlayerView: SLView {
 
     
     deinit {
-        ShopLiveLogger.debugLog("ShopLivePlayerView deallocated")
+        
     }
     
     func refreshLayer(videoGravity : AVLayerVideoGravity){

@@ -119,7 +119,7 @@ final class ShopLiveChattingWriteView: SLView {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("ShopLiveChattingWriteView deallocated")
+        ShopLiveLogger.tempLog("ShopLiveChattingWriteView deallocated")
     }
     private var sendButtonTrailing: NSLayoutConstraint!
     private var chatViewLeading: NSLayoutConstraint!
@@ -218,7 +218,7 @@ final class ShopLiveChattingWriteView: SLView {
             guard self.isFocus == false else { return }
             self.isFocus = true
             self.chatInputViewTopBorder.isHidden = !(!UIScreen.isLandscape && ShopLiveController.shared.videoOrientation == .landscape)
-            ShopLiveLogger.debugLog("chat border ishidden : \(!UIScreen.isLandscape && ShopLiveController.shared.videoOrientation == .landscape)")
+            ShopLiveLogger.tempLog("chat border ishidden : \(!UIScreen.isLandscape && ShopLiveController.shared.videoOrientation == .landscape)")
             
             self.chatView.chatTextView.becomeFirstResponder()
         } onCancel: {

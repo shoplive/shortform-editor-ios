@@ -206,7 +206,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
             resultHandler?( .setPlayerEndBoundaryTime(videoEditInfoDto.cropTime.end) )
         }
         else {
-            ShopLiveLogger.debugLog("[HASSAN LOG] settingCropTimeFailed")
+            
         }
     }
     

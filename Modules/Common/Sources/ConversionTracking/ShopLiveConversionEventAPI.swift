@@ -67,7 +67,7 @@ struct ShopLiveConversionEventAPI : APIDefinition {
                 params["products"] = temp
             }
             catch(let error) {
-                ShopLiveLogger.debugLog("error \(error)")
+                ShopLiveLogger.tempLog("error \(error)")
             }
         }
         

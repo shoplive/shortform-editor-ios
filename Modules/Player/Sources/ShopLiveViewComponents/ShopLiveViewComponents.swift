@@ -421,7 +421,7 @@ public class SLWKWebView: WKWebView {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("slwkwebview deallocated")
+        
     }
 }
 

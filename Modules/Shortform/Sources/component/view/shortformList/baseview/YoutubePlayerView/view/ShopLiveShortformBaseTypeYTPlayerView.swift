@@ -49,7 +49,7 @@ class ShopLiveShortformBaseTypeYTPlayerView : UIView, SLReactor {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("shopliveshortformbaseyoutubeplayerView deinit")
+        
     }
     
     

@@ -39,11 +39,11 @@ extension ShortsCollectionBaseViewModel {
             var isDownward : Bool = false
             
             if audioSession.outputVolume > audioLevel {
-                ShopLiveLogger.debugLog("volume up")
+                
                 isDownward = false
             }
             if audioSession.outputVolume < audioLevel {
-                ShopLiveLogger.debugLog("volume down")
+                
                 isDownward = true
             }
             audioLevel = audioSession.outputVolume

@@ -27,7 +27,7 @@ class ShortFormDetailRootViewController : UIViewController {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("ShortformDetailRootViewController deinited")
+        
     }
     
     

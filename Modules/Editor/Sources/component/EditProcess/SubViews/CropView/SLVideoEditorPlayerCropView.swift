@@ -78,7 +78,7 @@ class SLVideoEditorPlayerCropView: UIView, UIGestureRecognizerDelegate {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("[ShopliveShortformEditor] SLVideoEditorCropView deinited")
+        
     }
     
     private lazy var leftTopHandle: SLVideoEditorPlayerCropHandle = {

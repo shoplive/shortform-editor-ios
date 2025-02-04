@@ -10,12 +10,6 @@ import os.log
 
 public class ShopLiveLogger {
     
-    public static func debugLog(_ log: String) {
-        #if DEBUG
-//        os_log("[DEBUG_LOG]%s", log)
-        #endif
-    }
-    
     /**
         메모리 관련 비휘발성 로그볼때 사용
      */

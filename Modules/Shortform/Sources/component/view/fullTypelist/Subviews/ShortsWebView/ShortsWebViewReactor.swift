@@ -37,7 +37,7 @@ class ShortsWebViewReactor : SLReactor {
     
     
     deinit {
-        ShopLiveLogger.debugLog("shortswebviewreactor deinited")
+        
     }
     
     func action(_ action: Action) {

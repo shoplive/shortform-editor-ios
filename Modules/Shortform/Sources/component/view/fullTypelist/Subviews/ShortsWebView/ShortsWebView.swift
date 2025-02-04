@@ -54,7 +54,7 @@ class ShortsWebView : UIView, SLReactor {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("shortswebview deinited")
+        
     }
     
     func action(_ action: Action) {
@@ -93,7 +93,7 @@ class ShortsWebView : UIView, SLReactor {
 //        log += "name : \(request.0.rawValue)\n"
 //        log += "value: \(request.1)\n"
 //        log += "==========="
-//        ShopLiveLogger.debugLog(log)
+//        
         
         
         if let isLoaded = reactor.getIsWebViewLoaded(), isLoaded == true {
@@ -249,7 +249,7 @@ extension ShortsWebView : SLWebviewResponseDelegate {
             log += "values : \(values)\n"
         }
         log += "================"
-        ShopLiveLogger.debugLog(log)
+        
     }
     
 }

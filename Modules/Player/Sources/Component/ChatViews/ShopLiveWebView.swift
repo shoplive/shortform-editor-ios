@@ -78,7 +78,7 @@ internal final class ShopLiveWebView: SLWKWebView {
     func sendMuteStateToWeb(event: WebInterface, _ param: Any? = nil, _ wrapping: Bool = false , completion : @escaping (_ success : Bool) -> ()) {
         let command: String = param == nil ? "window.__receiveAppEvent('\(event.functionString)');" : "window.__receiveAppEvent('\(event.functionString)', " + (wrapping ? "'\(String(describing: param!))');" : "\(String(describing: param!)));")
         if event.functionString != WebInterface.onVideoTimeUpdated.functionString && event.functionString != WebInterface.onVideoMetadataUpdated.functionString {
-            ShopLiveLogger.debugLog("to Web [Interface: \(event.functionString)]: [payload: \(String(describing: param))]")
+            ShopLiveLogger.tempLog("to Web [Interface: \(event.functionString)]: [payload: \(String(describing: param))]")
         }
         if isLoaded == false {
             self.queuedRequest.append(command)

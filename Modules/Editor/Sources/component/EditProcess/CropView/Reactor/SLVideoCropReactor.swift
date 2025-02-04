@@ -62,7 +62,7 @@ class SLVideoCropReactor : NSObject, SLReactor {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("SLVideoCropReactor deinited")
+        
     }
     
     func action(_ action: Action) {

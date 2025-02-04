@@ -11,6 +11,9 @@ import ShopliveSDKCommon
 
 final class DIContainer {
     
+    
+    lazy var defaultShopLiveKeySetRepository = DefaultShopLiveKeySetRepository(shopLiveKeySetStorage: makeShopLiveKeySetAppUserDefaults())
+    
     // API 연결시 주입해야 함
     init() {
        //setInitialUserDefaultsData
@@ -43,6 +46,12 @@ final class DIContainer {
                                                         resizeMode: .CENTER_CROP,
                                                         previewResolution: .LIVE))
         }
+        let shopLiveKeySetAppUserDefaults = makeShopLiveKeySetAppUserDefaults()
+        if shopLiveKeySetAppUserDefaults.get() == nil {
+            shopLiveKeySetAppUserDefaults.save(data: .init(currentSelectKey: "", shopLiveKetSets: []))
+        }
+        
+        DeepLinkManager.shared.deepLinkUseCase = makeDeepLinkUseCase()
     }
     
     private func makeSDKConfigurationMapperUseCase() -> SDKConfigurationMapperUseCase {
@@ -50,7 +59,7 @@ final class DIContainer {
     }
     
     // MARK: - Make ViewController
-    func makeMainViewController(actions: MainViewModelActions) -> MainViewController {
+    func makeMainViewController(actions: MainRouting) -> MainViewController {
         let viewModel = MainViewModel(useCase: makeMainUseCase(),
                                                      actions: actions)
         return MainViewController(viewModel: viewModel)
@@ -61,20 +70,36 @@ final class DIContainer {
         return UserInfoViewController(viewModel: viewModel)
     }
     
-    // MARK: - Make UseCase
-    func makeMainUseCase() -> MainUseCase {
-        let repository = DefaultMainRepository()
-        return DefaultMainUseCase(mainRepository: repository)
+    func makeCampaignsViewController(routing: CampaignsRouting) -> CampaignsViewController {
+        let viewModel = CampaignsViewModel(useCase: makeCampaignsUseCase(), routing: routing)
+        return CampaignsViewController(viewModel: viewModel)
     }
-    func makeUserInfoUseCase() -> UserInfoUseCase {
+    
+    // MARK: - Make UseCase
+    private func makeMainUseCase() -> MainUseCase {
+        return DefaultMainUseCase(shopLiveKeySetRepository: defaultShopLiveKeySetRepository)
+    }
+    
+    private func makeDeepLinkUseCase() -> DeepLinkUseCase {
+        return DefaultDeepLinkUseCase(shopLiveKeySetRepository: defaultShopLiveKeySetRepository)
+    }
+    
+    private func makeUserInfoUseCase() -> UserInfoUseCase {
         let repository = DefaultUserInfoRepository()
         return DefaultUserInfoUseCase(repository: repository)
+    }
+    private func makeCampaignsUseCase() -> CampaignsUseCase {
+        let repository = DefaultCampaignsRepository(userDefaultsStorage: makeShopLiveKeySetAppUserDefaults())
+        return DefaultCampaignsUseCase(campaignsRepository: repository)
     }
 }
 //MARK: - Persistance Storage
 extension DIContainer {
     func makeAppUserDefaults() -> any AppUserDefaults<SDKConfiguration> {
         return DefaultAppUserDefaults(suiteName: "Demo.PlayerDemo2")
+    }
+    func makeShopLiveKeySetAppUserDefaults() -> any AppUserDefaults<ShopLiveCampaignsKey> {
+        return DefaultShopLiveKeySetAppUserDefaults(suiteName: "Demo.PlayerDemo2.ShopLiveKeySet")
     }
 }
 //MARK: - OptionSettingView

@@ -73,7 +73,7 @@ public class ShopliveMP4CachingManager : NSObject {
             return ShopliveFileSizeConverter.convertFileSize(totalSize)
         }
         catch(let error) {
-            ShopLiveLogger.debugLog("[Shoplive] totalSize failed error \(error.localizedDescription)")
+            ShopLiveLogger.tempLog("[Shoplive] totalSize failed error \(error.localizedDescription)")
             return nil
         }
     }
@@ -89,7 +89,7 @@ public class ShopliveMP4CachingManager : NSObject {
                 try fileManager.removeItem(at: path)
             }
             catch(let error) {
-                ShopLiveLogger.debugLog("[Shoplive] removeCache Error \(error.localizedDescription)")
+                ShopLiveLogger.tempLog("[Shoplive] removeCache Error \(error.localizedDescription)")
             }
         }
     }
@@ -200,7 +200,7 @@ public class ShopliveMP4CachingManager : NSObject {
                     break
                 }
                 if let error = exporter.error {
-                    ShopLiveLogger.debugLog("[Shoplive] exporter error \(error.localizedDescription)")
+                    ShopLiveLogger.tempLog("[Shoplive] exporter error \(error.localizedDescription)")
                 }
             })
         }

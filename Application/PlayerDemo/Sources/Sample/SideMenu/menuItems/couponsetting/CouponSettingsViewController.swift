@@ -34,7 +34,7 @@ final class CouponSettingsViewController: SideMenuItemViewController {
         self.title = SideMenuTypes.coupon.stringKey.localized()
         setupNaviItems()
         setupViews()
-//        ShopLiveLogger.debugLog(failedSettingView.resultMessage)
+//        
     }
 
     func setupNaviItems() {

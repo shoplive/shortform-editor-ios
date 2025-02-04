@@ -38,7 +38,7 @@ extension ShopLiveShortform {
         }
         
         deinit {
-            ShopLiveLogger.debugLog("SLShortsWindow deinited")
+            
         }
         
         

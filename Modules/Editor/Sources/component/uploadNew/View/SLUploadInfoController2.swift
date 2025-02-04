@@ -245,7 +245,7 @@ class SLUploadInfoController2 : UIViewController {
     }
     
     deinit {
-        ShopLiveLogger.debugLog("[ShopliveShortformEditor] SLUploadInfoController2 deinited")
+        ShopLiveLogger.tempLog("[ShopliveShortformEditor] SLUploadInfoController2 deinited")
     }
     
     @objc func backBtnTapped(sender : UIButton){
