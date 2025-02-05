@@ -199,7 +199,7 @@ final class UserInfoViewController: UIViewController {
         let paddingView = UIView(frame: .init(origin: .zero, size: .init(width: 10, height: view.frame.height)))
         view.leftView = paddingView
         view.setPlaceholderColor(.darkGray)
-        view.text = DemoConfiguration.shared.jwtToken
+//        view.text = DemoConfiguration.shared.jwtToken
         return view
     }()
 
@@ -386,17 +386,17 @@ final class UserInfoViewController: UIViewController {
     
     private func updateUserInfo() {
         
-        viewModel.setUserModel(DemoConfiguration.shared.user)
+//        viewModel.setUserModel(DemoConfiguration.shared.user)
         
         let user = viewModel.user
         let age = user.age ?? -1
-        let userScore = DemoConfiguration.shared.userScore
+//        let userScore = DemoConfiguration.shared.userScore
         
         userIdInputField.text = user.userId
         userNameInputField.text = user.userName ?? ""
         ageInputField.text = age >= 0 ? "\(age)" : ""
         updateGender(identifier: user.gender?.rawValue ?? "unknown")
-        userScoreInputField.text = userScore != nil ? "\(userScore!)" : ""
+//        userScoreInputField.text = userScore != nil ? "\(userScore!)" : ""
         
         ShopLiveCommon.setUser(user: user)
         
@@ -414,7 +414,7 @@ final class UserInfoViewController: UIViewController {
         
         viewModel.saveParameterList()
         
-        DemoConfiguration.shared.user = viewModel.user
+//        DemoConfiguration.shared.user = viewModel.user
         ShopLiveCommon.setUser(user: viewModel.user)
         
         UIWindow.showToast(message: "userinfo.msg.save.success".localized())
@@ -422,11 +422,11 @@ final class UserInfoViewController: UIViewController {
     }
 
     func updateJwtToken() {
-        if let jwtToken = DemoConfiguration.shared.jwtToken, !jwtToken.isEmpty {
-            jwtResultLabel.text = jwtToken
-        } else {
-            jwtResultLabel.text = "userinfo.jwt.result.message".localized()
-        }
+//        if let jwtToken = DemoConfiguration.shared.jwtToken, !jwtToken.isEmpty {
+//            jwtResultLabel.text = jwtToken
+//        } else {
+//            jwtResultLabel.text = "userinfo.jwt.result.message".localized()
+//        }
     }
 
     func removeTapGesture() {
@@ -547,8 +547,8 @@ extension UserInfoViewController {
 
         }))
         alert.addAction(.init(title: "alert.msg.ok".localized(), style: .default, handler: { action in
-            DemoConfiguration.shared.user = ShopLiveCommonUser(userId: "")
-            DemoConfiguration.shared.jwtToken = nil
+//            DemoConfiguration.shared.user = ShopLiveCommonUser(userId: "")
+//            DemoConfiguration.shared.jwtToken = nil
             self.updateUserInfo()
         }))
         self.present(alert, animated: true, completion: nil)
@@ -570,7 +570,7 @@ extension UserInfoViewController {
 
     @objc func tokenGenerateSaveAct() {
         ShopLiveCommon.setAuthToken(authToken: jwtInputField.text ?? "")
-        DemoConfiguration.shared.jwtToken =  ShopLiveCommon.getAuthToken()
+//        DemoConfiguration.shared.jwtToken =  ShopLiveCommon.getAuthToken()
     }
     
     @objc func scanJWTToken() {

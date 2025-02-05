@@ -65,21 +65,25 @@ extension OptionAlertCell {
         contentView.addSubview(optionDescriptionLabel)
         contentView.addSubview(optionValueLabel)
         
-        NSLayoutConstraint.activate([
-            optionTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            optionTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
-            optionTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -10),
-            optionTitleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 20),
-            
-            optionDescriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
-            optionDescriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -10),
-            optionDescriptionLabel.topAnchor.constraint(equalTo: optionTitleLabel.bottomAnchor,constant: 4),
-            optionDescriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 20),
-            
-            optionValueLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            optionValueLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            optionValueLabel.topAnchor.constraint(equalTo: optionDescriptionLabel.bottomAnchor, constant: 4),
-            optionValueLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10),
-        ])
+        optionTitleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(10)
+            $0.leading.equalToSuperview().offset(15)
+            $0.trailing.equalToSuperview().offset(-10)
+            $0.height.greaterThanOrEqualTo(20)
+        }
+        
+        optionDescriptionLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(15)
+            $0.trailing.equalToSuperview().offset(-10)
+            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
+            $0.height.greaterThanOrEqualTo(20)
+        }
+        
+        optionValueLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(15)
+            $0.trailing.equalToSuperview().offset(10)
+            $0.top.equalTo(optionDescriptionLabel.snp.bottom).offset(4)
+            $0.bottom.equalToSuperview().offset(-10)
+        }
     }
 }

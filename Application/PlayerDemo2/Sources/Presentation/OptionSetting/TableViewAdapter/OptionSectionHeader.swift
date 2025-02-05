@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class OptionSectionHeader: UITableViewHeaderFooterView {
     
@@ -44,30 +45,18 @@ class OptionSectionHeader: UITableViewHeaderFooterView {
         self.contentView.addSubview(topLine)
         self.contentView.backgroundColor = .white
         
-        NSLayoutConstraint.activate([
-            sectionTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            sectionTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 25),
-            sectionTitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            sectionTitleLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor,constant: -15),
-            
-            topLine.topAnchor.constraint(equalTo: contentView.topAnchor),
-            topLine.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            topLine.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            topLine.heightAnchor.constraint(equalToConstant: 1)
-        ])
-        
-//        sectionTitleLabel.snp.makeConstraints {
-//            $0.leading.equalToSuperview().offset(15)
-//            $0.top.equalToSuperview().offset(25)
-//            $0.bottom.equalToSuperview()
-//            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
-//        }
-//
-//        topLine.snp.makeConstraints {
-//            $0.top.equalToSuperview()
-//            $0.leading.trailing.equalToSuperview()
-//            $0.height.equalTo(1)
-//        }
+        sectionTitleLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(15)
+            $0.top.equalToSuperview().offset(25)
+            $0.bottom.equalToSuperview()
+            $0.trailing.lessThanOrEqualToSuperview().offset(-15)
+        }
+
+        topLine.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(1)
+        }
     }
 
     func configure(headerTitle: String, section: Int) {

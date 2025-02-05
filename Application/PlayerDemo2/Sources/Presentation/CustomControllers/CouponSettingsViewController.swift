@@ -51,13 +51,13 @@ final class CouponSettingsViewController: SideMenuItemViewController {
         let successSetting = successSettingView.getSetting()
         let failedSetting = failedSettingView.getSetting()
 
-        DemoConfiguration.shared.downloadCouponSuccessMessage = successSetting.message
-        DemoConfiguration.shared.downloadCouponSuccessStatus = successSetting.resultStatus
-        DemoConfiguration.shared.downloadCouponSuccessAlertType = successSetting.resultalertType
-
-        DemoConfiguration.shared.downloadCouponFailedMessage = failedSetting.message
-        DemoConfiguration.shared.downloadCouponFailedStatus = failedSetting.resultStatus
-        DemoConfiguration.shared.downloadCouponFailedAlertType = failedSetting.resultalertType
+//        DemoConfiguration.shared.downloadCouponSuccessMessage = successSetting.message
+//        DemoConfiguration.shared.downloadCouponSuccessStatus = successSetting.resultStatus
+//        DemoConfiguration.shared.downloadCouponSuccessAlertType = successSetting.resultalertType
+//
+//        DemoConfiguration.shared.downloadCouponFailedMessage = failedSetting.message
+//        DemoConfiguration.shared.downloadCouponFailedStatus = failedSetting.resultStatus
+//        DemoConfiguration.shared.downloadCouponFailedAlertType = failedSetting.resultalertType
 
         handleNaviBack()
     }

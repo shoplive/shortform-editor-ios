@@ -19,65 +19,54 @@ final class VersionInfoCell: SampleBaseCell {
         
         var customAppVersionButtonTitle: String {
             let baseString: String = "고객사 앱 버전: "
-            guard let appVersion = DemoConfiguration.shared.customAppVersion, !appVersion.isEmpty else {
-                return baseString + "미입력"
-            }
+//            guard let appVersion = DemoConfiguration.shared.customAppVersion, !appVersion.isEmpty else {
+//                return baseString + "미입력"
+//            }
             
-            return baseString + "v\(appVersion)"
+            return baseString + "v)"
         }
 
         var customReferrerButtonTitle: String {
-            guard let referrer = DemoConfiguration.shared.customReferrer, !referrer.isEmpty else {
-                return "Referrer 미입력"
-            }
+//            guard let referrer = DemoConfiguration.shared.customReferrer, !referrer.isEmpty else {
+//                return "Referrer 미입력"
+//            }
             
-            return "Referrer: \(referrer)"
+            return "Referrer"
         }
         
         var customAnonIdButtonTitle : String {
-            guard let anonId = DemoConfiguration.shared.anonId, !anonId.isEmpty else {
-                return "anonId 미입력"
-            }
-            return "anonId: \(anonId)"
+//            guard let anonId = DemoConfiguration.shared.anonId, !anonId.isEmpty else {
+//                return "anonId 미입력"
+//            }
+            return "anonId: "
         }
         
         var customAdIdButtonTitle: String {
-            guard let referrer = DemoConfiguration.shared.adId, !referrer.isEmpty else {
-                return "adId: 미입력"
-            }
+//            guard let referrer = DemoConfiguration.shared.adId, !referrer.isEmpty else {
+//                return "adId: 미입력"
+//            }
             
-            return "adId: \(referrer)"
+            return "adId: "
         }
         
         var utmSourceTitle : String {
-            guard let value = DemoConfiguration.shared.utmSource, !value.isEmpty else {
-                return "utmSource: 미입력"
-            }
-            
-            return "utmSource: \(value)"
+           
+            return "utmSource:"
         }
         
         
         var utmContentTitle : String {
-            guard let value = DemoConfiguration.shared.utmContent, !value.isEmpty else {
-                return "utmContent: 미입력"
-            }
             
-            return "utmContent: \(value)"
+            return "utmContent:"
         }
         
         var utmCampaignTitle : String {
-            guard let value = DemoConfiguration.shared.utmCampaign, !value.isEmpty else {
-                return "utmCampaign: 미입력"
-            }
-            return "utmCampaign : \(value)"
+            
+            return "utmCampaign :"
         }
         
         var utmMediumTitle : String {
-            guard let value = DemoConfiguration.shared.utmMedium, !value.isEmpty else {
-                return "utmMedium: 미입력"
-            }
-            return "utmMedium: \(value)"
+            return "utmMedium:"
         }
     }
     

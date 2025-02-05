@@ -8,19 +8,21 @@
 
 import Foundation
 import UIKit
+import SnapKit
 
 
 protocol OptionSwitchCellDelegate : NSObjectProtocol {
     func optionSwitchCellDidChangeValue(at indexPath : IndexPath, isOn: Bool)
 }
 
-class V2OptionSwitchCell : UITableViewCell {
+class OptionSwitchCell : UITableViewCell {
     static let cellId = "v2optionswitchcellId"
     
     
     private lazy var optionTitleLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.lineBreakMode = .byWordWrapping
         view.numberOfLines = 0
         view.textColor = .black
         view.font = .systemFont(ofSize: 15, weight: .regular)
@@ -68,25 +70,33 @@ class V2OptionSwitchCell : UITableViewCell {
         self.indexPath = indexPath
     }
 }
-extension V2OptionSwitchCell {
+extension OptionSwitchCell {
     func setLayout() {
+        contentView.backgroundColor = .white
         contentView.addSubview(optionTitleLabel)
         contentView.addSubview(optionDescriptionLabel)
         contentView.addSubview(optionSwitch)
-        NSLayoutConstraint.activate([
-            optionTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            optionTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            optionTitleLabel.trailingAnchor.constraint(equalTo: optionSwitch.leadingAnchor, constant: -10),
-            optionTitleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 20),
-            
-            optionDescriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            optionDescriptionLabel.trailingAnchor.constraint(equalTo: optionSwitch.leadingAnchor, constant: -10),
-            optionDescriptionLabel.topAnchor.constraint(equalTo: optionTitleLabel.bottomAnchor, constant: 4),
-            optionDescriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
-            
-            optionSwitch.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -20),
-            optionSwitch.widthAnchor.constraint(equalToConstant: 50),
-            optionSwitch.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-        ])
+        
+        optionTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(contentView.snp.top).offset(10)
+            $0.leading.equalTo(contentView.snp.leading).offset(15)
+            $0.trailing.equalTo(optionSwitch.snp.leading).offset(-10)
+            $0.height.greaterThanOrEqualTo(20)
+        }
+        
+        optionDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
+            $0.leading.equalTo(contentView.snp.leading).offset(15)
+            $0.trailing.equalTo(optionSwitch.snp.leading).offset(-10)
+            $0.height.greaterThanOrEqualTo(20)
+            $0.bottom.equalTo(contentView.snp.bottom).offset(-10)
+        }
+        
+        optionSwitch.snp.makeConstraints {
+            $0.width.equalTo(optionSwitch.frame.size.width)
+            $0.trailing.equalTo(contentView.snp.trailing).offset(-20)
+            $0.centerY.equalTo(contentView.snp.centerY)
+        }
+    
     }
 }

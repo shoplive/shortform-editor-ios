@@ -36,7 +36,7 @@ final class OptionTableViewAdapter : NSObject {
     func registerTableView(tableView : UITableView) {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(V2OptionSwitchCell.self, forCellReuseIdentifier: V2OptionSwitchCell.cellId)
+        tableView.register(OptionSwitchCell.self, forCellReuseIdentifier: OptionSwitchCell.cellId)
         tableView.register(OptionRoutingCell.self, forCellReuseIdentifier: OptionRoutingCell.cellId)
         tableView.register(OptionDropDownCell.self, forCellReuseIdentifier: OptionDropDownCell.cellId)
         tableView.register(OptionAlertCell.self, forCellReuseIdentifier: OptionAlertCell.cellId)
@@ -84,7 +84,7 @@ extension OptionTableViewAdapter : UITableViewDelegate, UITableViewDataSource {
             return cell
         }
         else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: V2OptionSwitchCell.cellId) as! V2OptionSwitchCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: OptionSwitchCell.cellId) as! OptionSwitchCell
             cell.configureCell(title: optionItem.name, description: optionItem.optionDescription, isOn: optionItem.value as? Bool ?? false, indexPath: indexPath)
             cell.delegate = self
             return cell

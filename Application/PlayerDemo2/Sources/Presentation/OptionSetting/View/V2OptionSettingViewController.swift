@@ -8,6 +8,7 @@
 
 import Foundation
 import iOSDropDown
+import SnapKit
 import UIKit
 
 
@@ -26,6 +27,7 @@ final class V2OptionSettingViewController : UIViewController {
         view.backgroundColor = .white
         view.separatorStyle = .none
         view.contentInsetAdjustmentBehavior = .never
+        view.estimatedRowHeight = UITableView.automaticDimension
         view.alwaysBounceVertical = false
         return view
     }()
@@ -96,12 +98,12 @@ extension V2OptionSettingViewController {
         self.view.addSubview(tableView)
         self.view.addSubview(dropdown)
         
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-
-        ])
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            $0.leading.equalTo(self.view)
+            $0.trailing.equalTo(self.view)
+            $0.bottom.equalTo(self.view)
+        }
+        
     }
 }

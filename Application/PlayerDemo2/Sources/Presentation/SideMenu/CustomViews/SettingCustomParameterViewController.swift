@@ -30,7 +30,7 @@ class SettingCustomParameterViewController: UIViewController {
     }()
     
     private func setupParameterList() {
-        paramArray = DemoConfiguration.shared.customParameters
+//        paramArray = DemoConfiguration.shared.customParameters
     }
     
     func setupBackButton() {
@@ -109,7 +109,7 @@ class SettingCustomParameterViewController: UIViewController {
     }
     
     private func saveParameterList() {
-        DemoConfiguration.shared.customParameters = self.paramArray
+//        DemoConfiguration.shared.customParameters = self.paramArray
     }
     
 }

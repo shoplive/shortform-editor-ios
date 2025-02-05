@@ -44,7 +44,7 @@ class ShopLivePreviewSampleCell : UICollectionViewCell {
         preview.action( .setIndex(indexPath) )
         preview.action( .setMuted(true) )
         preview.action( .initialize )
-        preview.action( .setResolutionType(DemoConfiguration.shared.previewResolution))
+        preview.action( .setResolutionType(.PREVIEW))
         preview.action( .start(accessKey: accessKey, campaignKey: campaignKey, referrer: nil) )
         preview.action( .setEnabledVolumeKey(isEnabledVolumeKey: true) )
 //        preview.action( .play )

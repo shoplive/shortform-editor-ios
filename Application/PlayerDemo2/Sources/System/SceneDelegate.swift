@@ -34,7 +34,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         appFlowCoordinator = .init(window: window, container: container)
         appFlowCoordinator?.start()
         
-        registerUserDefaults()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -77,29 +76,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 
 extension SceneDelegate {
-    
-    private func registerUserDefaults() {
-        
-        // Override point for customization after application launch.
-        if !UserDefaults.standard.bool(forKey: "streamOptionInitialized") {
-            DemoConfiguration.shared.useCallOption = true
-            UserDefaults.standard.set(true, forKey: "streamOptionInitialized")
-            UserDefaults.standard.synchronize()
-        }
-        
-        UserDefaults.standard.register(defaults: [
-            SDKOptionType.pipEnableSwipeOut.optionKey: true,
-            "playerPhase": "DEV",
-            "isGuestMode": true,
-            SDKOptionType.statusBarVisibility.optionKey : true,
-            SDKOptionType.playWhenPreviewTapped.optionKey : true,
-            SDKOptionType.enablePreviewSound.optionKey : false,
-            SDKOptionType.enablePip.optionKey : true,
-            SDKOptionType.enableOSPip.optionKey : true,
-            SDKOptionType.resizeMode.optionKey : "CENTER_CROP",
-            SDKOptionType.isEnabledVolumeKey.optionKey : false,
-            SDKOptionType.previewResolution.optionKey : "PREVIEW"
-        ])
-        
-    }
 }

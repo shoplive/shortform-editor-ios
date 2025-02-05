@@ -49,21 +49,24 @@ final class OptionRoutingCell : UITableViewCell {
 }
 extension OptionRoutingCell {
     func setLayout() {
+        contentView.backgroundColor = .white
         contentView.addSubview(optionTitleLabel)
         contentView.addSubview(optionDescriptionLabel)
+       
+        optionTitleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().offset(15)
+            $0.trailing.equalToSuperview().offset(-10)
+            $0.height.equalTo(20)
+        }
         
-        NSLayoutConstraint.activate([
-            optionTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            optionTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
-            optionTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -10),
-            optionTitleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 20),
-            
-            optionDescriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15),
-            optionDescriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -10),
-            optionDescriptionLabel.topAnchor.constraint(equalTo: optionTitleLabel.bottomAnchor,constant: 4),
-            optionDescriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 20),
-            
-            contentView.bottomAnchor.constraint(equalTo: optionDescriptionLabel.bottomAnchor)
-        ])
+        optionDescriptionLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(15)
+            $0.trailing.equalToSuperview().offset(-10)
+            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
+            $0.height.greaterThanOrEqualTo(20)
+            $0.bottom.equalTo(contentView.snp.bottom).offset(-10)
+        }
+        
     }
 }

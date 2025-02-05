@@ -65,8 +65,8 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
 
         switch items[indexPath.row].identifier {
         case SideMenuTypes.options.identifier:
-            let page = OptionsViewController()
-            self.navigationController?.pushViewController(page, animated: true)
+//            let page = V2OptionSettingViewController()
+//            self.navigationController?.pushViewController(page, animated: true)
             break
         case SideMenuTypes.coupon.identifier:
             let page = CouponSettingsViewController()

@@ -13,17 +13,17 @@ class CustomAppVersionInputAlertController: CustomInputAlertController {
     private var placeHolder: String = "appversion.alert.placeholder".localized()
 
     override func setupAlert() {
-        textInputField.text = DemoConfiguration.shared.customAppVersion ?? ""
+//        textInputField.text = DemoConfiguration.shared.customAppVersion ?? ""
         textInputField.placeholder = self.placeHolder
         textInputField.setPlaceholderColor(.darkGray)
     }
 
     override func delete() {
-        DemoConfiguration.shared.customAppVersion = ""
+//        DemoConfiguration.shared.customAppVersion = ""
     }
     
     override func save() {
-        DemoConfiguration.shared.customAppVersion = textInputField.text ?? ""
+//        DemoConfiguration.shared.customAppVersion = textInputField.text ?? ""
     }
 
 }

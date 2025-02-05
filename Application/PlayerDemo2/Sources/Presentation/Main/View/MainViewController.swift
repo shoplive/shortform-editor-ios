@@ -269,210 +269,210 @@ class MainViewController: UIViewController {
 
     func setupShopliveSettings() {
         
-        let config = DemoConfiguration.shared
-        
-        if let utmSource = config.utmSource, !utmSource.isEmpty {
-            ShopLiveCommon.setUtmSource(utmSource: utmSource)
-        } else {
-            ShopLiveCommon.setUtmSource(utmSource: "")
-        }
-        
-        if let utmContent = config.utmContent, !utmContent.isEmpty {
-            ShopLiveCommon.setUtmContent(utmContent: utmContent)
-        }
-        else {
-            ShopLiveCommon.setUtmContent(utmContent: "")
-        }
-        
-        if let utmCampaign = config.utmCampaign, !utmCampaign.isEmpty {
-            ShopLiveCommon.setUtmCampaign(utmCampaign: utmCampaign)
-        }
-        else {
-            ShopLiveCommon.setUtmCampaign(utmCampaign: "")
-        }
-        
-        if let utmMedium = config.utmMedium, !utmMedium.isEmpty {
-            ShopLiveCommon.setUtmMedium(utmMedium: utmMedium)
-        }
-        else {
-            ShopLiveCommon.setUtmMedium(utmMedium: "")
-        }
-        
-        if let anonId = config.anonId, !anonId.isEmpty {
-            ShopLiveCommon.setAnonId(anonId: anonId)
-        }
-        else {
-            ShopLiveCommon.setAnonId(anonId: "")
-        }
-        
-        if let adId = config.adId, !adId.isEmpty {
-            ShopLiveCommon.setAdId(adId: adId)
-        }
-        else {
-            ShopLiveCommon.setAdId(adId: nil)
-        }
-        
-        ShopLive.setResizeMode(mode: config.resizeMode)
-        
-        ShopLive.setEnabledPictureInPictureMode(isEnabled: config.enablePip)
-        ShopLive.setEnabledOSPictureInPictureMode(isEnabled: config.enableOsPip)
-        
-        ShopLive.setAppVersion("3.39.0")
-        if !config.isGuestMode {
-            if config.useJWT {
-                ShopLive.authToken = config.jwtToken
-            } else {
-                // user setting
-                if !config.user.userId.isEmpty {
-                    ShopLive.user = config.user
-                } else {
-                    ShopLive.user = nil
-                }
-            }
-        } else {
-            ShopLive.user = nil
-        }
-        
-        DemoConfiguration.shared.customParameters.forEach { customParam in
-            if customParam.isUseParam, let value = customParam.paramValue {
-                ShopLive.addParameter(key: customParam.paramKey, value: value)
-            } else {
-                ShopLive.removeParameter(key: customParam.paramKey)
-            }
-        }
-        
-        
-        ShopLive.setMixWithOthers(isMixAudio: config.useMixAudio)
-        
-        ShopLive.useCloseButton(config.useCloseButton)
-        
-        // Keep play video on headphone unplugged setting
-        ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(config.useHeadPhoneOption1, isMute: config.useHeadPhoneOption2)
-
-        // Auto resume video on call end setting
-        ShopLive.setAutoResumeVideoOnCallEnded(config.useCallOption)
-
-        // Custom Image Animation Indicator setting
-        if config.useCustomProgress {
-            var images: [UIImage] = []
-
-            for i in 1...11 {
-                images.append(.init(named: "loading\(i)")!)
-            }
-
-            ShopLive.setLoadingAnimation(images: images)
-        }
-        
-        if let progressColor = config.progressColor {
-            ShopLive.indicatorColor = UIColor(progressColor)
-        }
-        
-        if let scheme = config.shareScheme {
-            if config.useCustomShare {
-                // Custom Share Setting
-                ShopLive.setShareScheme(scheme, shareDelegate: self)
-                
-            } else {
-                // Default iOS Share
-                ShopLive.setShareScheme(scheme, shareDelegate: nil)
-            }
-        } else {
-            if config.useCustomShare {
-                ShopLive.setShareScheme(nil, shareDelegate: self)
-            } else {
-                // Default iOS Share
-                ShopLive.setShareScheme(nil, shareDelegate: self)
-            }
-        }
-    
-        // Custom Font Setting
-        if let customFont = config.customFont {
-            ShopLive.setChatViewFont(inputBoxFont: config.useChatInputCustomFont ? customFont : nil, sendButtonFont: config.useChatSendButtonCustomFont ? customFont : nil)
-        }
-
-        //
-        if let appVersion = DemoConfiguration.shared.customAppVersion {
-            ShopLive.setAppVersion(appVersion)
-        }
-        
-        // Picture in Picture Setting
-        // legacy type setting
-//        ShopLive.pipScale = config.pipScale ?? 2/5
-//        ShopLive.pipPosition = config.pipPosition
-
-        // handle Navigation Action Type
-        ShopLive.setNextActionOnHandleNavigation(actionType: DemoConfiguration.shared.nextActionTypeOnHandleNavigation)
-        
-        // Pip padding setting
-        let padding = config.pipPadding
-        let paddingSuccessed = ShopLive.setPictureInPicturePadding(padding: .init(top: padding.top, left: padding.left, bottom: padding.bottom, right: padding.right))
-        
-        // Pip floating offset setting
-        let floatingOffset = config.pipFloatingOffset
-        let floatingSuccessed = ShopLive.setPictureInPictureFloatingOffset(offset: .init(top: floatingOffset.top, left: floatingOffset.left, bottom: floatingOffset.bottom, right: floatingOffset.right))
-        
-        // Mute Sound Setting
-        ShopLive.setMuteWhenPlayStart(config.isMuted)
-        
-        
-        // Phase Setting
-        let phase = ShopLiveDevConfiguration.shared.phase
-        
-        var landingUrl: String = "https://www.shoplive.show/v1/sdk.html"
-        switch phase {
-        case "DEV":
-            landingUrl = "https://dev.shoplive.show/v1/sdk.html"
-            break
-        case "QA":
-            landingUrl = "https://qa.shoplive.show/v1/sdk.html"
-            break
-        case "STAGE":
-            landingUrl = "https://stg.shoplive.show/v1/sdk.html"
-            break
-        case "CUSTOM":
-            if let customLanding = config.customLandingInput, !customLanding.isEmpty {
-                landingUrl = customLanding
-                config.customLandingUrl = customLanding
-            } else {
-                landingUrl = ""
-            }
-            break
-        default:
-            break
-        }
-        
-        if !landingUrl.isEmpty {
-            ShopLive.setEndpoint(landingUrl)
-        } else {
-            ShopLive.setEndpoint(nil)
-        }
-        
-        let pipSize : ShopLiveInAppPipSize
-        if let max = DemoConfiguration.shared.maxPipSize {
-            pipSize = .init(pipMaxSize: max)
-        }
-        else if let fixedHeight = DemoConfiguration.shared.fixedHeightPipSize {
-            pipSize = .init(pipFixedHeight: fixedHeight)
-        }
-        else {
-            pipSize = .init(pipFixedWidth: DemoConfiguration.shared.fixedWidthPipSize ?? 100)
-        }
-        
-        let inAppPipConfig = ShopLiveInAppPipConfiguration(useCloseButton: DemoConfiguration.shared.useCloseButton,
-                                                           pipPosition: config.pipPosition,
-                                                           enableSwipeOut: config.pipEnableSwipeOut,
-                                                           pipSize: pipSize,
-                                                           pipRadius: DemoConfiguration.shared.pipCornerRadius ?? 10,
-                                                           pipPinPositions: DemoConfiguration.shared.pipPinPosition)
-        
-        ShopLive.setInAppPipConfiguration(config: inAppPipConfig)
-        
-        ShopLive.setKeepWindowStyleOnReturnFromOsPip(config.usePipKeepWindowStyle)
-        ShopLive.setEnabledPipSwipeOut(config.pipEnableSwipeOut)
-        
-        ShopLive.setVisibleStatusBar(isVisible: DemoConfiguration.shared.statusBarVisibility)
-        
-        previewConverViewMaker.setCustomerPreviewCoverView()
+//        let config = DemoConfiguration.shared
+//        
+//        if let utmSource = config.utmSource, !utmSource.isEmpty {
+//            ShopLiveCommon.setUtmSource(utmSource: utmSource)
+//        } else {
+//            ShopLiveCommon.setUtmSource(utmSource: "")
+//        }
+//        
+//        if let utmContent = config.utmContent, !utmContent.isEmpty {
+//            ShopLiveCommon.setUtmContent(utmContent: utmContent)
+//        }
+//        else {
+//            ShopLiveCommon.setUtmContent(utmContent: "")
+//        }
+//        
+//        if let utmCampaign = config.utmCampaign, !utmCampaign.isEmpty {
+//            ShopLiveCommon.setUtmCampaign(utmCampaign: utmCampaign)
+//        }
+//        else {
+//            ShopLiveCommon.setUtmCampaign(utmCampaign: "")
+//        }
+//        
+//        if let utmMedium = config.utmMedium, !utmMedium.isEmpty {
+//            ShopLiveCommon.setUtmMedium(utmMedium: utmMedium)
+//        }
+//        else {
+//            ShopLiveCommon.setUtmMedium(utmMedium: "")
+//        }
+//        
+//        if let anonId = config.anonId, !anonId.isEmpty {
+//            ShopLiveCommon.setAnonId(anonId: anonId)
+//        }
+//        else {
+//            ShopLiveCommon.setAnonId(anonId: "")
+//        }
+//        
+//        if let adId = config.adId, !adId.isEmpty {
+//            ShopLiveCommon.setAdId(adId: adId)
+//        }
+//        else {
+//            ShopLiveCommon.setAdId(adId: nil)
+//        }
+//        
+//        ShopLive.setResizeMode(mode: config.resizeMode)
+//        
+//        ShopLive.setEnabledPictureInPictureMode(isEnabled: config.enablePip)
+//        ShopLive.setEnabledOSPictureInPictureMode(isEnabled: config.enableOsPip)
+//        
+//        ShopLive.setAppVersion("3.39.0")
+//        if !config.isGuestMode {
+//            if config.useJWT {
+//                ShopLive.authToken = config.jwtToken
+//            } else {
+//                // user setting
+//                if !config.user.userId.isEmpty {
+//                    ShopLive.user = config.user
+//                } else {
+//                    ShopLive.user = nil
+//                }
+//            }
+//        } else {
+//            ShopLive.user = nil
+//        }
+//        
+//        DemoConfiguration.shared.customParameters.forEach { customParam in
+//            if customParam.isUseParam, let value = customParam.paramValue {
+//                ShopLive.addParameter(key: customParam.paramKey, value: value)
+//            } else {
+//                ShopLive.removeParameter(key: customParam.paramKey)
+//            }
+//        }
+//        
+//        
+//        ShopLive.setMixWithOthers(isMixAudio: config.useMixAudio)
+//        
+//        ShopLive.useCloseButton(config.useCloseButton)
+//        
+//        // Keep play video on headphone unplugged setting
+//        ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(config.useHeadPhoneOption1, isMute: config.useHeadPhoneOption2)
+//
+//        // Auto resume video on call end setting
+//        ShopLive.setAutoResumeVideoOnCallEnded(config.useCallOption)
+//
+//        // Custom Image Animation Indicator setting
+//        if config.useCustomProgress {
+//            var images: [UIImage] = []
+//
+//            for i in 1...11 {
+//                images.append(.init(named: "loading\(i)")!)
+//            }
+//
+//            ShopLive.setLoadingAnimation(images: images)
+//        }
+//        
+//        if let progressColor = config.progressColor {
+//            ShopLive.indicatorColor = UIColor(progressColor)
+//        }
+//        
+//        if let scheme = config.shareScheme {
+//            if config.useCustomShare {
+//                // Custom Share Setting
+//                ShopLive.setShareScheme(scheme, shareDelegate: self)
+//                
+//            } else {
+//                // Default iOS Share
+//                ShopLive.setShareScheme(scheme, shareDelegate: nil)
+//            }
+//        } else {
+//            if config.useCustomShare {
+//                ShopLive.setShareScheme(nil, shareDelegate: self)
+//            } else {
+//                // Default iOS Share
+//                ShopLive.setShareScheme(nil, shareDelegate: self)
+//            }
+//        }
+//    
+//        // Custom Font Setting
+//        if let customFont = config.customFont {
+//            ShopLive.setChatViewFont(inputBoxFont: config.useChatInputCustomFont ? customFont : nil, sendButtonFont: config.useChatSendButtonCustomFont ? customFont : nil)
+//        }
+//
+//        //
+//        if let appVersion = DemoConfiguration.shared.customAppVersion {
+//            ShopLive.setAppVersion(appVersion)
+//        }
+//        
+//        // Picture in Picture Setting
+//        // legacy type setting
+////        ShopLive.pipScale = config.pipScale ?? 2/5
+////        ShopLive.pipPosition = config.pipPosition
+//
+//        // handle Navigation Action Type
+//        ShopLive.setNextActionOnHandleNavigation(actionType: DemoConfiguration.shared.nextActionTypeOnHandleNavigation)
+//        
+//        // Pip padding setting
+//        let padding = config.pipPadding
+//        let paddingSuccessed = ShopLive.setPictureInPicturePadding(padding: .init(top: padding.top, left: padding.left, bottom: padding.bottom, right: padding.right))
+//        
+//        // Pip floating offset setting
+//        let floatingOffset = config.pipFloatingOffset
+//        let floatingSuccessed = ShopLive.setPictureInPictureFloatingOffset(offset: .init(top: floatingOffset.top, left: floatingOffset.left, bottom: floatingOffset.bottom, right: floatingOffset.right))
+//        
+//        // Mute Sound Setting
+//        ShopLive.setMuteWhenPlayStart(config.isMuted)
+//        
+//        
+//        // Phase Setting
+//        let phase = ShopLiveDevConfiguration.shared.phase
+//        
+//        var landingUrl: String = "https://www.shoplive.show/v1/sdk.html"
+//        switch phase {
+//        case "DEV":
+//            landingUrl = "https://dev.shoplive.show/v1/sdk.html"
+//            break
+//        case "QA":
+//            landingUrl = "https://qa.shoplive.show/v1/sdk.html"
+//            break
+//        case "STAGE":
+//            landingUrl = "https://stg.shoplive.show/v1/sdk.html"
+//            break
+//        case "CUSTOM":
+//            if let customLanding = config.customLandingInput, !customLanding.isEmpty {
+//                landingUrl = customLanding
+//                config.customLandingUrl = customLanding
+//            } else {
+//                landingUrl = ""
+//            }
+//            break
+//        default:
+//            break
+//        }
+//        
+//        if !landingUrl.isEmpty {
+//            ShopLive.setEndpoint(landingUrl)
+//        } else {
+//            ShopLive.setEndpoint(nil)
+//        }
+//        
+//        let pipSize : ShopLiveInAppPipSize
+//        if let max = DemoConfiguration.shared.maxPipSize {
+//            pipSize = .init(pipMaxSize: max)
+//        }
+//        else if let fixedHeight = DemoConfiguration.shared.fixedHeightPipSize {
+//            pipSize = .init(pipFixedHeight: fixedHeight)
+//        }
+//        else {
+//            pipSize = .init(pipFixedWidth: DemoConfiguration.shared.fixedWidthPipSize ?? 100)
+//        }
+//        
+//        let inAppPipConfig = ShopLiveInAppPipConfiguration(useCloseButton: DemoConfiguration.shared.useCloseButton,
+//                                                           pipPosition: config.pipPosition,
+//                                                           enableSwipeOut: config.pipEnableSwipeOut,
+//                                                           pipSize: pipSize,
+//                                                           pipRadius: DemoConfiguration.shared.pipCornerRadius ?? 10,
+//                                                           pipPinPositions: DemoConfiguration.shared.pipPinPosition)
+//        
+//        ShopLive.setInAppPipConfiguration(config: inAppPipConfig)
+//        
+//        ShopLive.setKeepWindowStyleOnReturnFromOsPip(config.usePipKeepWindowStyle)
+//        ShopLive.setEnabledPipSwipeOut(config.pipEnableSwipeOut)
+//        
+//        ShopLive.setVisibleStatusBar(isVisible: DemoConfiguration.shared.statusBarVisibility)
+//        
+//        previewConverViewMaker.setCustomerPreviewCoverView()
         
     }
     
@@ -539,41 +539,41 @@ extension MainViewController: ShopLiveSDKDelegate {
                 
         var presenter: UIViewController?
         
-        switch DemoConfiguration.shared.nextActionTypeOnHandleNavigation {
-        case .PIP, .CLOSE:
-            presenter = self
-            break
-        case .KEEP:
-            presenter = ShopLive.viewController
-            break
-        @unknown default:
-            break
-        }
-        
-        if url.absoluteString.hasPrefix("http") == false && url.absoluteString.hasPrefix("shoplive") == false {
-            let alert = UIAlertController(title: nil, message: "campaign.msg.wrongurl".localized() + "[\(url.absoluteString)]", preferredStyle: .alert)
-            alert.addAction(.init(title: "alert.msg.confirm".localized(), style: .default, handler: nil))
-            presenter?.present(alert, animated: true, completion: nil)
-            return
-        }
-
-        if #available(iOS 13, *) {
-            if url.absoluteString.hasPrefix("shoplive") {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                return
-            }
-            if let browser = self.safari {
-                browser.dismiss(animated: false, completion: nil)
-            }
-
-            safari = .init(url: url)
-
-            guard let browser = self.safari else { return }
-            presenter?.present(browser, animated: true)
-        } else {
-            // TODO: Single UIWindow 에서 PIP 처리 적용 필요
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
+//        switch DemoConfiguration.shared.nextActionTypeOnHandleNavigation {
+//        case .PIP, .CLOSE:
+//            presenter = self
+//            break
+//        case .KEEP:
+//            presenter = ShopLive.viewController
+//            break
+//        @unknown default:
+//            break
+//        }
+//        
+//        if url.absoluteString.hasPrefix("http") == false && url.absoluteString.hasPrefix("shoplive") == false {
+//            let alert = UIAlertController(title: nil, message: "campaign.msg.wrongurl".localized() + "[\(url.absoluteString)]", preferredStyle: .alert)
+//            alert.addAction(.init(title: "alert.msg.confirm".localized(), style: .default, handler: nil))
+//            presenter?.present(alert, animated: true, completion: nil)
+//            return
+//        }
+//
+//        if #available(iOS 13, *) {
+//            if url.absoluteString.hasPrefix("shoplive") {
+//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//                return
+//            }
+//            if let browser = self.safari {
+//                browser.dismiss(animated: false, completion: nil)
+//            }
+//
+//            safari = .init(url: url)
+//
+//            guard let browser = self.safari else { return }
+//            presenter?.present(browser, animated: true)
+//        } else {
+//            // TODO: Single UIWindow 에서 PIP 처리 적용 필요
+//            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//        }
     }
 
     func handleChangedPlayerStatus(status: String) {}
@@ -772,7 +772,7 @@ extension MainViewController: LoginDelegate {
             ShopLiveCommon.setUser(user: user,accessKey: currentKey.accessKey )
         }
         
-        ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)
+//        ShopLive.play(with: currentKey.campaignKey, keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted, referrer: DemoConfiguration.shared.customReferrer)
     }
 }
 
@@ -826,50 +826,50 @@ extension MainViewController {
     
     
     @objc func preview() {
-        guard let currentKey = viewModel.getCurrentKeySet() else {
-            DispatchQueue.main.async {
-                UIWindow.showToast(message: "sdk.msg.nonekey".localized())
-            }
-            return
-        }
-        
-        ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
-        setupShopliveSettings()
-        
-        let playerData = ShopLivePreviewData(campaignKey: currentKey.campaignKey,
-                                             keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
-                                             referrer: DemoConfiguration.shared.customReferrer,
-                                             isMuted: !DemoConfiguration.shared.enablePreviewSound,
-                                             isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey,
-                                             resolution: DemoConfiguration.shared.previewResolution) { campaign in } brandHandler: { brand in }
-        
-        ShopLive.preview(data: playerData) {
-            if DemoConfiguration.shared.usePlayWhenPreviewTapped {
-                ShopLive.play(with: currentKey.campaignKey,keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,referrer: DemoConfiguration.shared.customReferrer)
-            }
-        }
+//        guard let currentKey = viewModel.getCurrentKeySet() else {
+//            DispatchQueue.main.async {
+//                UIWindow.showToast(message: "sdk.msg.nonekey".localized())
+//            }
+//            return
+//        }
+//        
+//        ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
+//        setupShopliveSettings()
+//        
+//        let playerData = ShopLivePreviewData(campaignKey: currentKey.campaignKey,
+//                                             keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
+//                                             referrer: DemoConfiguration.shared.customReferrer,
+//                                             isMuted: !DemoConfiguration.shared.enablePreviewSound,
+//                                             isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey,
+//                                             resolution: DemoConfiguration.shared.previewResolution) { campaign in } brandHandler: { brand in }
+//        
+//        ShopLive.preview(data: playerData) {
+//            if DemoConfiguration.shared.usePlayWhenPreviewTapped {
+//                ShopLive.play(with: currentKey.campaignKey,keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,referrer: DemoConfiguration.shared.customReferrer)
+//            }
+//        }
     }
     
     @objc func play() {
-        guard let currentKey = viewModel.getCurrentKeySet() else {
-            DispatchQueue.main.async {
-                UIWindow.showToast(message: "sdk.msg.nonekey".localized())
-            }
-            return
-        }
-
-        
-        ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
-        setupShopliveSettings()
-        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        
-        
-        let playerData = ShopLivePlayerData(campaignKey: currentKey.campaignKey ,//"9f59cfe5ae7c"
-                                             keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
-                                             referrer: DemoConfiguration.shared.customReferrer,
-                                             isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey)
-        
-        ShopLive.play(data: playerData )
+//        guard let currentKey = viewModel.getCurrentKeySet() else {
+//            DispatchQueue.main.async {
+//                UIWindow.showToast(message: "sdk.msg.nonekey".localized())
+//            }
+//            return
+//        }
+//
+//        
+//        ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
+//        setupShopliveSettings()
+//        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+//        
+//        
+//        let playerData = ShopLivePlayerData(campaignKey: currentKey.campaignKey ,//"9f59cfe5ae7c"
+//                                             keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
+//                                             referrer: DemoConfiguration.shared.customReferrer,
+//                                             isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey)
+//        
+//        ShopLive.play(data: playerData )
         
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
 //            self.regenerateHanaBankFrameworkIssue()

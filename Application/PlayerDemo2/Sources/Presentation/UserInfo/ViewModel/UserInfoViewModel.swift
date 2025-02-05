@@ -15,7 +15,8 @@ class UserInfoViewModel {
     private(set) var parameterList: [String: String] = [:]
     private(set) var keysArray: [Dictionary<String, String>.Keys.Element] = []
     private(set) var valueArray: [Dictionary<String, String>.Values.Element] = []
-    private(set) var user: ShopLiveCommonUser = DemoConfiguration.shared.user
+    private(set) var user: ShopLiveCommonUser = ShopLiveCommonUser(userId: "")
+//    DemoConfiguration.shared.user
     private(set) var newUser: ShopLiveCommonUser?
     private(set) var radioGroup: [ShopLiveRadioButton] = []
     
@@ -39,14 +40,14 @@ class UserInfoViewModel {
     }
     
     func setupParameterList() {
-        guard let param = DemoConfiguration.shared.userParameters else {
-            return
-        }
-        param.forEach { (key: String, value: Any?) in
-            parameterList[key] = "\(value ?? "null")"
-        }
-        keysArray = Array(parameterList.keys)
-        valueArray = Array(parameterList.values)
+//        guard let param = DemoConfiguration.shared.userParameters else {
+//            return
+//        }
+//        param.forEach { (key: String, value: Any?) in
+//            parameterList[key] = "\(value ?? "null")"
+//        }
+//        keysArray = Array(parameterList.keys)
+//        valueArray = Array(parameterList.values)
     }
     
     func setUser(userId: String, userName: String, gender: ShopliveCommonUserGender, age: String?, userScore: String) {
@@ -73,7 +74,7 @@ class UserInfoViewModel {
         for (key, value) in parameterList {
             user.custom?.updateValue(key, forKey: value)
         }
-        DemoConfiguration.shared.userParameters = self.parameterList
+//        DemoConfiguration.shared.userParameters = self.parameterList
     }
     
     func isEqualUser(user: ShopLiveCommonUser) -> Bool {

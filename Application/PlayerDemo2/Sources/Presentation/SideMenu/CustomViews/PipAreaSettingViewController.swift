@@ -210,11 +210,11 @@ final class PipAreaSettingViewController: UIViewController {
     @objc func saveAct() {
         let padding = UIEdgeInsets(top: paddingTopInput.text?.CGFloatValue() ?? 20, left: paddingLeftInput.text?.CGFloatValue() ?? 20, bottom: paddingBottomInput.text?.CGFloatValue() ?? 20, right: paddingRightInput.text?.CGFloatValue() ?? 20)
         
-        DemoConfiguration.shared.pipPadding = padding
+//        DemoConfiguration.shared.pipPadding = padding
 
         let floatingOffset = UIEdgeInsets(top: marginTopInput.text?.CGFloatValue() ?? 0, left: marginLeftInput.text?.CGFloatValue() ?? 0, bottom: marginBottomInput.text?.CGFloatValue() ?? 0, right: marginRightInput.text?.CGFloatValue() ?? 0)
         
-        DemoConfiguration.shared.pipFloatingOffset = floatingOffset
+//        DemoConfiguration.shared.pipFloatingOffset = floatingOffset
 
         handleNaviBack()
     }
@@ -285,17 +285,17 @@ final class PipAreaSettingViewController: UIViewController {
     }
     
     func loadSetting() {
-        let padding = DemoConfiguration.shared.pipPadding
-        paddingTopInput.text = "\(Int(padding.top))"
-        paddingBottomInput.text = "\(Int(padding.bottom))"
-        paddingLeftInput.text = "\(Int(padding.left))"
-        paddingRightInput.text = "\(Int(padding.right))"
+//        let padding = DemoConfiguration.shared.pipPadding
+//        paddingTopInput.text = "\(Int(padding.top))"
+//        paddingBottomInput.text = "\(Int(padding.bottom))"
+//        paddingLeftInput.text = "\(Int(padding.left))"
+//        paddingRightInput.text = "\(Int(padding.right))"
         
-        let floatingOffset = DemoConfiguration.shared.pipFloatingOffset
-        marginTopInput.text = "\(Int(floatingOffset.top))"
-        marginBottomInput.text = "\(Int(floatingOffset.bottom))"
-        marginLeftInput.text = "\(Int(floatingOffset.left))"
-        marginRightInput.text = "\(Int(floatingOffset.right))"
+//        let floatingOffset = DemoConfiguration.shared.pipFloatingOffset
+//        marginTopInput.text = "\(Int(floatingOffset.top))"
+//        marginBottomInput.text = "\(Int(floatingOffset.bottom))"
+//        marginLeftInput.text = "\(Int(floatingOffset.left))"
+//        marginRightInput.text = "\(Int(floatingOffset.right))"
     }
     
     @objc func resetPipArea() {

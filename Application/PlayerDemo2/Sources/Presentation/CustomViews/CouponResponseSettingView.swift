@@ -220,19 +220,19 @@ final class CouponResponseSettingView: UIView {
     }
 
     func updateDatas() {
-        let config = DemoConfiguration.shared
-        resultMessage = isSuccess ? config.downloadCouponSuccessMessage : config.downloadCouponFailedMessage
-        resultAlertType = isSuccess ? config.downloadCouponSuccessAlertType : config.downloadCouponFailedAlertType
-        resultStatus = isSuccess ? config.downloadCouponSuccessStatus : config.downloadCouponFailedStatus
-
-        messageTextField.text = resultMessage
-        
-        let tag = isSuccess ? "s" : "f"
-        let statusIdentifier = resultStatus.name + tag
-        let alertIdentifier = resultAlertType.name + tag
-
-        updateShowRadio(identifier: statusIdentifier)
-        updateAlertRadio(identifier: alertIdentifier)
+//        let config = DemoConfiguration.shared
+//        resultMessage = isSuccess ? config.downloadCouponSuccessMessage : config.downloadCouponFailedMessage
+//        resultAlertType = isSuccess ? config.downloadCouponSuccessAlertType : config.downloadCouponFailedAlertType
+//        resultStatus = isSuccess ? config.downloadCouponSuccessStatus : config.downloadCouponFailedStatus
+//
+//        messageTextField.text = resultMessage
+//        
+//        let tag = isSuccess ? "s" : "f"
+//        let statusIdentifier = resultStatus.name + tag
+//        let alertIdentifier = resultAlertType.name + tag
+//
+//        updateShowRadio(identifier: statusIdentifier)
+//        updateAlertRadio(identifier: alertIdentifier)
     }
 
     private func setupViews() {
@@ -370,13 +370,13 @@ final class CouponResponseSettingView: UIView {
 
 extension CouponResponseSettingView {
     func updateShowSetting(identifier: String) {
-        resultStatus = ShopLiveResultStatus.allCases.first(where: { $0.name == identifier.dropLast()}) ?? (isSuccess ? DemoConfiguration.shared.downloadCouponSuccessStatus : DemoConfiguration.shared.downloadCouponFailedStatus)
+//        resultStatus = ShopLiveResultStatus.allCases.first(where: { $0.name == identifier.dropLast()}) ?? (isSuccess ? DemoConfiguration.shared.downloadCouponSuccessStatus : DemoConfiguration.shared.downloadCouponFailedStatus)
 
         updateShowRadio(identifier: identifier)
     }
 
     func updateAlertSetting(identifier: String) {
-        resultAlertType = ShopLiveResultAlertType.allCases.first(where: { $0.name == identifier.dropLast()}) ?? (isSuccess ? DemoConfiguration.shared.downloadCouponSuccessAlertType : DemoConfiguration.shared.downloadCouponFailedAlertType)
+//        resultAlertType = ShopLiveResultAlertType.allCases.first(where: { $0.name == identifier.dropLast()}) ?? (isSuccess ? DemoConfiguration.shared.downloadCouponSuccessAlertType : DemoConfiguration.shared.downloadCouponFailedAlertType)
 
         updateAlertRadio(identifier: identifier)
     }

@@ -34,7 +34,7 @@ final class DevInfoCell: SampleBaseCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textColor = .black
         view.placeholder = "landing url"
-        view.text = DemoConfiguration.shared.customLandingUrl ?? ""
+//        view.text = DemoConfiguration.shared.customLandingUrl ?? ""
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.lightGray.cgColor
         view.layer.cornerRadius = 6
@@ -192,13 +192,13 @@ final class DevInfoCell: SampleBaseCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
-        let demoConfig = DemoConfiguration.shared
-        ShopLiveDevConfiguration.shared.addConfigurationObserver(observer: self)
-        updateWebDebugSetting()
-        demoConfig.customLandingInput = demoConfig.customLandingUrl
-        landingField.text = demoConfig.customLandingInput
-        updatePhase(identifier: ShopLiveDevConfiguration.shared.phase)
-        updateLockPortrait()
+////        let demoConfig = DemoConfiguration.shared
+//        ShopLiveDevConfiguration.shared.addConfigurationObserver(observer: self)
+//        updateWebDebugSetting()
+//        demoConfig.customLandingInput = demoConfig.customLandingUrl
+//        landingField.text = demoConfig.customLandingInput
+//        updatePhase(identifier: ShopLiveDevConfiguration.shared.phase)
+//        updateLockPortrait()
     }
 
     required init?(coder: NSCoder) {
@@ -318,7 +318,7 @@ extension DevInfoCell: UITextFieldDelegate {
         let predictedText = text.replacingCharacters(in: predictRange, with: newText)
             .trimmingCharacters(in: .whitespacesAndNewlines)
         
-        DemoConfiguration.shared.customLandingInput = predictedText
+//        DemoConfiguration.shared.customLandingInput = predictedText
 //
 //        if predictedText.isEmpty {
 //            rightViewMode = .never

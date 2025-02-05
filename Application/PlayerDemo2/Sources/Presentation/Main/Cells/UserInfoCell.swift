@@ -15,7 +15,8 @@ import ShopliveSDKCommon
 
 final class UserInfoCell: SampleBaseCell {
 
-    private var user = DemoConfiguration.shared.user
+    private var user = ShopLiveCommonUser(userId: "")
+//    DemoConfiguration.shared.user
 
     private var userButtonTitle: String {
 
@@ -80,7 +81,7 @@ final class UserInfoCell: SampleBaseCell {
         view.textColor = .black
         view.isEditable = false
         view.isScrollEnabled = false
-        view.text = DemoConfiguration.shared.jwtToken
+//        view.text = DemoConfiguration.shared.jwtToken
         return view
     }()
 
@@ -180,7 +181,7 @@ final class UserInfoCell: SampleBaseCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         updateUserInfo()
-        DemoConfiguration.shared.addConfigurationObserver(observer: self)
+//        DemoConfiguration.shared.addConfigurationObserver(observer: self)
     }
 
     required init?(coder: NSCoder) {
@@ -253,20 +254,20 @@ final class UserInfoCell: SampleBaseCell {
     }
 
     private func updateUserInfo() {
-        let demoConfig = DemoConfiguration.shared
-        updateAuthType(identifier: demoConfig.isGuestMode ? "guest" : demoConfig.useJWT ? "token" : "common")
+//        let demoConfig = DemoConfiguration.shared
+//        updateAuthType(identifier: demoConfig.isGuestMode ? "guest" : demoConfig.useJWT ? "token" : "common")
         
-        if demoConfig.isGuestMode {
-            userinfoTitleLabel.text = "Guest mode"
-            jwtTokenTitleLabel.text = ""
-            chooseButton.isHidden = true
-        } else {
-            user = DemoConfiguration.shared.user
-            userinfoTitleLabel.text = userDescription
-            jwtTokenTitleLabel.text = DemoConfiguration.shared.jwtToken ?? ""
-            chooseButton.isHidden = false
-            chooseButton.setTitle(userButtonTitle, for: .normal)
-        }
+//        if demoConfig.isGuestMode {
+//            userinfoTitleLabel.text = "Guest mode"
+//            jwtTokenTitleLabel.text = ""
+//            chooseButton.isHidden = true
+//        } else {
+////            user = DemoConfiguration.shared.user
+//            userinfoTitleLabel.text = userDescription
+//            jwtTokenTitleLabel.text = DemoConfiguration.shared.jwtToken ?? ""
+//            chooseButton.isHidden = false
+//            chooseButton.setTitle(userButtonTitle, for: .normal)
+//        }
         
     }
 
@@ -295,16 +296,15 @@ final class UserInfoCell: SampleBaseCell {
         return true
     }
 }
-
-extension UserInfoCell: DemoConfigurationObserver {
-    var identifier: String {
-        "UserInfoCell"
-    }
-
-    func updatedValues(keys: [String]) {
-         updateUserInfo()
-    }
-}
+//
+//extension UserInfoCell: DemoConfigurationObserver {
+//    var identifier: String {
+//        "UserInfoCell"
+//    }
+//
+//    func updatedValues(keys: [String]) {
+//         updateUserInfo()
+//    }
 
 extension UserInfoCell: ShopLiveRadioButtonDelegate {
 
@@ -317,22 +317,22 @@ extension UserInfoCell: ShopLiveRadioButtonDelegate {
     func didSelectRadioButton(_ sender: ShopLiveRadioButton) {
         updateAuthType(identifier: sender.identifier)
         
-        switch sender.identifier {
-        case "guest":
-            DemoConfiguration.shared.isGuestMode = true
-            DemoConfiguration.shared.useJWT = true
-            break
-        case "common":
-            DemoConfiguration.shared.isGuestMode = false
-            DemoConfiguration.shared.useJWT = false
-            break
-        case "token":
-            DemoConfiguration.shared.isGuestMode = false
-            DemoConfiguration.shared.useJWT = true
-            break
-        default:
-            break
-        }
+//        switch sender.identifier {
+//        case "guest":
+//            DemoConfiguration.shared.isGuestMode = true
+//            DemoConfiguration.shared.useJWT = true
+//            break
+//        case "common":
+//            DemoConfiguration.shared.isGuestMode = false
+//            DemoConfiguration.shared.useJWT = false
+//            break
+//        case "token":
+//            DemoConfiguration.shared.isGuestMode = false
+//            DemoConfiguration.shared.useJWT = true
+//            break
+//        default:
+//            break
+//        }
         
         updateUserInfo()
     }

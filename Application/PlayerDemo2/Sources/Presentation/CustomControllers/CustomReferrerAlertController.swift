@@ -14,16 +14,16 @@ class CustomReferrerAlertController: CustomInputAlertController {
     private var placeHolder: String = "referrer.alert.placeholder".localized()
     
     override func setupAlert() {
-        textInputField.text = DemoConfiguration.shared.customReferrer ?? ""
+//        textInputField.text = DemoConfiguration.shared.customReferrer ?? ""
         textInputField.placeholder = self.placeHolder
         textInputField.setPlaceholderColor(.darkGray)
     }
     
     override func delete() {
-        DemoConfiguration.shared.customReferrer = ""
+//        DemoConfiguration.shared.customReferrer = ""
     }
     
     override func save() {
-        DemoConfiguration.shared.customReferrer = textInputField.text ?? ""
+//        DemoConfiguration.shared.customReferrer = textInputField.text ?? ""
     }
 }
