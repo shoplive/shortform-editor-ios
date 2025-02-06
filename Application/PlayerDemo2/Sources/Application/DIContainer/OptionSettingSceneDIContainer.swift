@@ -59,3 +59,21 @@ extension OptionSettingSceneDIContainer {
         return .init(viewModel: makePipFloatingViewModel(routing: routing))
     }
 }
+//MARK: - PIPPinPositionView
+extension OptionSettingSceneDIContainer {
+    
+    
+    private func makePipPinPositionUseCase() -> PIPPinPositionUseCase {
+        return DefaultPIPPinPositionUseCase(sdkConfigurationRepository: makeOptionSettingRepository(),
+                                            sdkConfigurationMapperUseCase: makeSDKConfigurationMapperUseCase())
+    }
+    
+    private func makePipPinPositionViewModel(routing : PipPinPositionRouting) -> PIPPinPositionViewModel {
+        return .init(useCase: makePipPinPositionUseCase(),
+                     routing: routing)
+    }
+    
+    func makePipPinPositionViewController(routing : PipPinPositionRouting) -> PipPinPositionSettingsViewController {
+        return .init(viewModel: makePipPinPositionViewModel(routing: routing))
+    }
+}

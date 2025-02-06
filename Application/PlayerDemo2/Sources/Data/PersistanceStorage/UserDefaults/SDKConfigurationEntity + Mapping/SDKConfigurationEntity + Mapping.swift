@@ -38,6 +38,8 @@ extension SDKConfiguration {
                      downloadCouponFailedAlertType: downloadCouponFailedAlertType,
                      
                      
+                     pipPosition : pipPosition,
+                     pipPinPosition : pipPinPosition,
                      maxPipSize : maxPipSize,
                      fixedHeightPipSize: fixedHeightPipSize,
                      fixedWidthPipSize : fixedWidthPipSize,

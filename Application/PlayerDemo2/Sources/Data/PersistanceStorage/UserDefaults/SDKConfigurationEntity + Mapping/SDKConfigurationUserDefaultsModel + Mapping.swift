@@ -39,7 +39,8 @@ extension SDKConfigurationUserDefaultsModel {
                      downloadCouponFailedStatus: downloadCouponFailedStatus,
                      downloadCouponFailedAlertType: downloadCouponFailedAlertType,
                      
-                     
+                     pipPosition: pipPosition,
+                     pipPinPosition: pipPinPosition,
                      maxPipSize : maxPipSize,
                      fixedHeightPipSize: fixedHeightPipSize,
                      fixedWidthPipSize : fixedWidthPipSize,

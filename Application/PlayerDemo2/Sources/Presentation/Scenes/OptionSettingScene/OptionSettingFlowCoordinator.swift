@@ -40,12 +40,17 @@ extension OptionSettingFlowCoordinator : OptionSettingRouting {
     
     func showAddCustomQueryParameterViewController() {
         
+        
     }
     
     func showSetPipPinPositionViewController() {
-        
+        let vc = container.makePipPinPositionViewController(routing: self)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 extension OptionSettingFlowCoordinator : PIPFloatingOffsetRouting {
+    
+}
+extension OptionSettingFlowCoordinator : PipPinPositionRouting {
     
 }
