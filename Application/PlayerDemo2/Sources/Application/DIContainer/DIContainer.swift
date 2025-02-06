@@ -102,25 +102,9 @@ extension DIContainer {
         return DefaultShopLiveKeySetAppUserDefaults(suiteName: "Demo.PlayerDemo2.ShopLiveKeySet")
     }
 }
-//MARK: - OptionSettingView
+//MARK: - OptionSettingScene
 extension DIContainer {
-    
-    private func makeOptionSettingRepository() -> any OptionSettingRepository<SDKConfiguration> {
-        return DefaultOptionSettingRepository(userDefaultsStorage: makeAppUserDefaults())
-    }
-    
-    private func makeOptionSettingUseCase() -> any OptionSettingUseCase {
-        return DefaultOptionSettingUseCase(optionSettingRepository: makeOptionSettingRepository())
-    }
-
-    
-    private func makeOptionSettingViewModel(routing : OptionSettingRouting) -> OptionSettingViewModel {
-        return .init(optionSettingUseCase: makeOptionSettingUseCase(),
-                     sdkConfigureMapperUseCase: makeSDKConfigurationMapperUseCase(),
-                     routing: routing)
-    }
-    
-    func makeOptionSettingViewController(routing : OptionSettingRouting) -> V2OptionSettingViewController {
-        return .init(viewModel: makeOptionSettingViewModel(routing: routing))
+    func makeOptionSettingSceneDIContainer() -> OptionSettingSceneDIContainer {
+        return .init(sDKConfigurationUserDefaults: makeAppUserDefaults())
     }
 }

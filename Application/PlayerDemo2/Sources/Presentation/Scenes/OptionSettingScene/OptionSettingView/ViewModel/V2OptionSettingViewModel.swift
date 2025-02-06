@@ -28,7 +28,7 @@ final class OptionSettingViewModel : NSObject {
     
     private var sdkConfiguration : SDKConfiguration?
     private var items : [SDKOption] = []
-    weak var routing : OptionSettingRouting?
+    var routing : OptionSettingRouting?
     weak var delegate : OptionSettingViewModelDelegate?
     
     init(optionSettingUseCase : OptionSettingUseCase,
@@ -42,6 +42,10 @@ final class OptionSettingViewModel : NSObject {
         tableViewAdapter.dataSource = self
         loadSDKConfiguration()
         makeTableViewData()
+    }
+    
+    deinit {
+        print("\(Self.className) deinit")
     }
     
     func registerTableView(tableView : UITableView) {

@@ -9,8 +9,36 @@
 import Foundation
 import ShopliveSDKCommon
 @testable import PlayerDemo2
+@testable import RxSwift
 
-class MockMainRepository: MainRepository {
+
+
+class MockMainRepository: ShopLiveKeySetRepository {
+    func loadCurrentCampaign() -> PlayerDemo2.ShopLiveKeySet? {
+        return nil
+    }
+    
+    func loadAllCampaigns() -> PlayerDemo2.ShopLiveCampaignsKey? {
+        return nil
+    }
+    
+    func saveCurrentCampaign(keySet: PlayerDemo2.ShopLiveKeySet) {
+        
+    }
+    
+    func updateCampaign(keySet: PlayerDemo2.ShopLiveKeySet) {
+        
+    }
+    
+    var fetchUpdateObservable: RxSwift.Observable<Void> {
+        return Observable<Void>.create { seal in
+            seal.onNext(())
+            return Disposables.create {
+
+            }
+        }
+    }
+    
     var shouldFail = false
     var mockKeySet: ShopLiveKeySet?
     

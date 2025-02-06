@@ -67,6 +67,8 @@ class OptionSettingViewController : UIViewController {
         removeObserver()
     }
     
+    
+    
     func setViewType(type : ViewType){
         editorOptionBox.setOptions()
         previewOptionBox.setOptions()

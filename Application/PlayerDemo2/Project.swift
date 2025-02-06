@@ -28,7 +28,8 @@ let demoTarget = Target.target(name: name,
                                 .external(name: "CryptoSwift"),
                                 .external(name: "iOSDropDown"),
                                 .external(name: "SnapKit"),
-                                .external(name: "RxSwift")
+                                .external(name: "RxSwift"),
+                                .external(name: "RxCocoa")
                                ])
 
 let demoTestTarget = Target.target(name: "\(name)Tests",

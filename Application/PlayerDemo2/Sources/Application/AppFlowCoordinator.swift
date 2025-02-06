@@ -33,8 +33,9 @@ final class AppFlowCoordinator : NSObject {
 extension AppFlowCoordinator: MainRouting {
     
     func showOptionSetting() {
-        let vc = container.makeOptionSettingViewController(routing: self)
-        navigationController?.pushViewController(vc, animated: true)
+        let childContainer = self.container.makeOptionSettingSceneDIContainer()
+        let coordinator = OptionSettingFlowCoordinator(window: self.window, container: childContainer, navigationController: self.navigationController)
+        coordinator.start()
     }
     
     func showCouponResponseSetting() { }
@@ -51,23 +52,6 @@ extension AppFlowCoordinator: MainRouting {
         navigationController?.pushViewController(vc, animated: true)
     }
 }
-
-//MARK: - OptionSetting Routing
-//TODO: - need to Move inside to some other SubFlowCoordinator
-extension AppFlowCoordinator: OptionSettingRouting {
-    func showSetPipFloatingOffsetViewController() {
-        
-    }
-    
-    func showAddCustomQueryParameterViewController() {
-        
-    }
-    
-    func showSetPipPinPositionViewController() {
-        
-    }
-}
-
 
 //MARK: - Campaigns Routing
 extension AppFlowCoordinator: CampaignsRouting {

@@ -52,6 +52,10 @@ final class V2OptionSettingViewController : UIViewController {
         setDropDownListener()
     }
     
+    deinit {
+        print("\(Self.className()) deinit")
+    }
+    
     private func setDropDownListener() {
         dropdown.listWillAppear { [weak self] in
             self?.dropdown.isHidden = false

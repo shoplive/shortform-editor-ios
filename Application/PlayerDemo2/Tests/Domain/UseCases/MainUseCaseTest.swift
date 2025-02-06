@@ -34,7 +34,7 @@ final class MainUseCaseTest: XCTestCase {
     func test_방송_입력_테스트() async throws {
         
         mockRepository = MockMainRepository()
-        sut = DefaultMainUseCase(mainRepository: mockRepository)
+        sut = DefaultMainUseCase(shopLiveKeySetRepository: mockRepository)
         
         //given
         let campaignName: String = "Test01"
