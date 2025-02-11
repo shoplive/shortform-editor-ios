@@ -82,7 +82,7 @@ struct SDKConfiguration {
     var utmCampaign : String?
     var utmContent : String?
     var utmMedium : String?
-    var queryParams : [String : Any]?
+    var customParamter : [String : Any]?
     
     
     var statusBarVisibility : Bool

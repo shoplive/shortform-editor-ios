@@ -79,7 +79,7 @@ struct SDKConfigurationUserDefaultsModel : Codable {
     var utmCampaign : String?
     var utmContent : String?
     var utmMedium : String?
-    var queryParams : CodableDictionary?
+    var customParamter : CodableDictionary?
     
     
     var statusBarVisibility : Bool

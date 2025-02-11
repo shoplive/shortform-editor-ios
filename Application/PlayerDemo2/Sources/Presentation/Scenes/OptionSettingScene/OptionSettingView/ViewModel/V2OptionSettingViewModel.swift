@@ -99,7 +99,7 @@ extension OptionSettingViewModel : OptionTableViewAdapterDelegate, OptionTableVi
         case .pipFloatingOffset:
             routing?.showSetPipFloatingOffsetViewController()
         case .addParameter:
-            routing?.showAddCustomQueryParameterViewController()
+            routing?.showCustomParameterSettingViewController()
         case .pipPinPosition:
             routing?.showSetPipPinPositionViewController()
         default:

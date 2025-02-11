@@ -77,3 +77,20 @@ extension OptionSettingSceneDIContainer {
         return .init(viewModel: makePipPinPositionViewModel(routing: routing))
     }
 }
+//MARK: - CustomParameterSetting
+extension OptionSettingSceneDIContainer {
+    
+    private func makeCustomParameterSettingUseCase() -> CustomParameterSettingUseCase {
+        return DefaultCustomParamterSettingUseCase(sdkConfigurationRepository: makeOptionSettingRepository(),
+                                                   sdkConfigurationMapperUseCase: makeSDKConfigurationMapperUseCase())
+    }
+    
+    private func makeCustomParameterSettingViewModel(routing : CustomParameterSettingRouting) -> CustomParameterSettingViewModel {
+        return .init(useCase: makeCustomParameterSettingUseCase(),
+                     routing: routing)
+    }
+    
+    func makeCustomParameterSettingViewController(routing : CustomParameterSettingRouting) -> CustomParameterSettingViewController {
+        return .init(viewModel: makeCustomParameterSettingViewModel(routing: routing))
+    }
+}

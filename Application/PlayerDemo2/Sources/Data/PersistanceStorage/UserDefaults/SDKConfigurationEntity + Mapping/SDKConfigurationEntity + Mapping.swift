@@ -73,7 +73,7 @@ extension SDKConfiguration {
                      utmCampaign: utmCampaign,
                      utmContent: utmContent,
                      utmMedium: utmMedium,
-                     queryParams: queryParamsToCodableDict(),
+                     customParamter: queryParamsToCodableDict(),
                      
                      statusBarVisibility: statusBarVisibility,
                      resizeMode : resizeMode,
@@ -101,7 +101,7 @@ extension SDKConfiguration {
     }
     
     func queryParamsToCodableDict() -> CodableDictionary? {
-        if let queryParams = self.queryParams {
+        if let queryParams = self.customParamter {
             return CodableDictionary(dictionary: queryParams)
         }
         return nil

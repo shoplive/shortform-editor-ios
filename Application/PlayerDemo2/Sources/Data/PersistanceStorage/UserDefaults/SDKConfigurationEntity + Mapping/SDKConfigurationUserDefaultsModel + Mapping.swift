@@ -74,7 +74,7 @@ extension SDKConfigurationUserDefaultsModel {
                      utmCampaign: utmCampaign,
                      utmContent: utmContent,
                      utmMedium: utmMedium,
-                     queryParams: self.queryParams?.dictionary,
+                     customParamter: self.customParamter?.dictionary,
                      
                      statusBarVisibility: statusBarVisibility,
                      resizeMode : resizeMode,

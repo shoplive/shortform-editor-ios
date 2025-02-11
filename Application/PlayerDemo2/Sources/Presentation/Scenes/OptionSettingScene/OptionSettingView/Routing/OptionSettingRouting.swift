@@ -10,7 +10,7 @@ import Foundation
 
 protocol OptionSettingRouting : NSObjectProtocol {
     func showSetPipFloatingOffsetViewController()
-    func showAddCustomQueryParameterViewController()
+    func showCustomParameterSettingViewController()
     func showSetPipPinPositionViewController()
     
 }

@@ -78,7 +78,7 @@ final class DefaultSDKConfigurationMapperUseCase : NSObject, SDKConfigurationMap
         case .mixAudio:
             return data.useMixAudio
         case .addParameter:
-            return data.queryParams
+            return data.customParamter
         case .statusBarVisibility:
             return data.statusBarVisibility
         case .previewResolution:
@@ -154,7 +154,7 @@ final class DefaultSDKConfigurationMapperUseCase : NSObject, SDKConfigurationMap
         case .mixAudio:
             newValue.useMixAudio = value as? Bool ?? false
         case .addParameter:
-            newValue.queryParams = value as? [String : Any]
+            newValue.customParamter = value as? [String : Any]
         case .statusBarVisibility:
             newValue.statusBarVisibility = value as? Bool ?? true
         case .previewResolution:
