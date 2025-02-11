@@ -16,7 +16,7 @@ final class ShopLiveRadioButton: UIView {
 
     weak var delegate: ShopLiveRadioButtonDelegate?
 
-    var identifier: String = ""
+    var identifier: UserMode = .Guest
 
     lazy var radioButton: UIButton = {
         let view = UIButton(type: .custom)
@@ -99,7 +99,7 @@ final class ShopLiveRadioButton: UIView {
 //        }
     }
 
-    func configure(identifier: String, description: String) {
+    func configure(identifier: UserMode, description: String) {
         self.identifier = identifier
         self.descriptionLabel.text = description
     }

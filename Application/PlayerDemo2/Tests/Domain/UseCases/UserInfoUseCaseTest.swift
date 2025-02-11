@@ -39,7 +39,7 @@ final class UserInfoUseCaseTest: XCTestCase {
     func test_유저_생성_테스트() async throws {
         
         mockRepository = MockUserRepository()
-        sut = DefaultUserInfoUseCase(repository: mockRepository)
+        sut = DefaultUserInfoUseCase(userInfoRepository: mockRepository)
         
         //given
         let userID = "dsa"

@@ -16,6 +16,8 @@ extension SDKConfiguration {
         return .init(user: self.commonUserToUser(),
                      isGuestMode: isGuestMode,
                      useJWTToken: useJWTToken,
+                     jwtToken: jwtToken,
+                     userMode: userMode,
                      stopVideoOnHeadphoneDisconnected: stopVideoOnHeadphoneDisconnected,
                      muteVideoOnHeadphoneDisconnected: muteVideoOnHeadphoneDisconnected,
                      useCallOption: useCallOption,

@@ -11,7 +11,7 @@ import ShopliveSDKCommon
 
 final class DevInfoCell: SampleBaseCell {
 
-    var radioGroup: [ShopLiveRadioButton] = []
+    var radioGroup: [ShopLiveRadioOptionButton] = []
 
     lazy var checkButton: ShopLiveCheckBoxButton = {
         let view = ShopLiveCheckBoxButton(frame: .zero)
@@ -51,40 +51,40 @@ final class DevInfoCell: SampleBaseCell {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        let devRadio: ShopLiveRadioButton = {
-            let view = ShopLiveRadioButton()
+        let devRadio: ShopLiveRadioOptionButton = {
+            let view = ShopLiveRadioOptionButton()
             view.translatesAutoresizingMaskIntoConstraints = false
             view.configure(identifier: "DEV", description: "DEV player")
             view.delegate = self
             return view
         }()
 
-        let qaRadio : ShopLiveRadioButton = {
-            let view = ShopLiveRadioButton()
+        let qaRadio : ShopLiveRadioOptionButton = {
+            let view = ShopLiveRadioOptionButton()
             view.translatesAutoresizingMaskIntoConstraints = false
             view.configure(identifier: "QA", description: "QA player")
             view.delegate = self
             return view
         }()
         
-        let stageRadio: ShopLiveRadioButton = {
-            let view = ShopLiveRadioButton()
+        let stageRadio: ShopLiveRadioOptionButton = {
+            let view = ShopLiveRadioOptionButton()
             view.translatesAutoresizingMaskIntoConstraints = false
             view.configure(identifier: "STAGE", description: "STAGE player")
             view.delegate = self
             return view
         }()
 
-        let realRadio: ShopLiveRadioButton = {
-            let view = ShopLiveRadioButton()
+        let realRadio: ShopLiveRadioOptionButton = {
+            let view = ShopLiveRadioOptionButton()
             view.translatesAutoresizingMaskIntoConstraints = false
             view.configure(identifier: "REAL", description: "REAL player")
             view.delegate = self
             return view
         }()
         
-        let setRadio: ShopLiveRadioButton = {
-            let view = ShopLiveRadioButton()
+        let setRadio: ShopLiveRadioOptionButton = {
+            let view = ShopLiveRadioOptionButton()
             view.translatesAutoresizingMaskIntoConstraints = false
             view.configure(identifier: "CUSTOM", description: "랜딩 Url 직접 입력")
             view.delegate = self
@@ -272,8 +272,8 @@ extension DevInfoCell: ShopLiveCheckBoxButtonDelegate {
     }
 }
 
-extension DevInfoCell: ShopLiveRadioButtonDelegate {
-    func didSelectRadioButton(_ sender: ShopLiveRadioButton) {
+extension DevInfoCell: ShopLiveRadioOptionButtonDelegate {
+    func didSelectRadioButton(_ sender: ShopLiveRadioOptionButton) {
 //        guard let phase = ShopLive.Phase(name: sender.identifier) else {
 //            return
 //        }

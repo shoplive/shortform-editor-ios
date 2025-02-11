@@ -10,9 +10,24 @@ import Foundation
 import ShopliveSDKCommon
 @testable import PlayerDemo2
 
-class MockUserRepository: UserInfoRepository {
+class MockUserInfoRepository: UserInfoRepository {
+    
+    let userDefaults: any AppUserDefaults<SDKConfiguration>
+    
     var shouldFail = false
     var mockUser: ShopLiveCommonUser?
+    
+    init(userDefaults: any AppUserDefaults<SDKConfiguration>) {
+        self.userDefaults = userDefaults
+    }
+    
+    func loadUserData() -> (ShopliveSDKCommon.ShopLiveCommonUser?, String?) { (nil, nil) }
+    
+    func fetchUserData(user: ShopliveSDKCommon.ShopLiveCommonUser?, userToken: String?) {}
+    
+    func fetchUserMode(userMode: PlayerDemo2.UserMode) {}
+    
+    func loadUserMode() -> PlayerDemo2.UserMode? { nil }
     
     func fetchUser(userId: String?, userName: String?, age: String?, userScore: String?, gender: ShopliveCommonUserGender?) async throws -> ShopLiveCommonUser {
         if shouldFail {

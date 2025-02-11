@@ -19,6 +19,7 @@ struct SDKConfigurationUserDefaultsModel : Codable {
     var isGuestMode : Bool
     var useJWTToken : Bool
     var jwtToken : String?
+    var userMode: UserMode?
     
     var stopVideoOnHeadphoneDisconnected : Bool
     var muteVideoOnHeadphoneDisconnected : Bool

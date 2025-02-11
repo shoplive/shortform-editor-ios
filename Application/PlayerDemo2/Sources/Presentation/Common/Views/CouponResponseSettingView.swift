@@ -16,10 +16,10 @@ final class CouponResponseSettingView: UIView {
     var resultStatus: ShopLiveResultStatus = .SHOW
     var resultAlertType: ShopLiveResultAlertType = .ALERT
 
-    var showRadioGroup: [ShopLiveRadioButton] = []
-    var alertRadioGroup: [ShopLiveRadioButton] = []
+    var showRadioGroup: [ShopLiveRadioOptionButton] = []
+    var alertRadioGroup: [ShopLiveRadioOptionButton] = []
 
-    weak var radioDelegate: ShopLiveRadioButtonDelegate? {
+    weak var radioDelegate: ShopLiveRadioOptionButtonDelegate? {
         didSet {
             showRadioGroup.forEach {
                 $0.delegate = radioDelegate
@@ -89,8 +89,8 @@ final class CouponResponseSettingView: UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         
-        let showRadio: ShopLiveRadioButton = {
-            let view = ShopLiveRadioButton()
+        let showRadio: ShopLiveRadioOptionButton = {
+            let view = ShopLiveRadioOptionButton()
             view.translatesAutoresizingMaskIntoConstraints = false
             view.configure(identifier: ShopLiveResultStatus.SHOW.name +  (self.isSuccess ? "s": "f"), description: ShopLiveResultStatus.SHOW.name)
             view.updateRadio(selected: true)
@@ -98,16 +98,16 @@ final class CouponResponseSettingView: UIView {
             return view
         }()
 
-        let hideRadio: ShopLiveRadioButton = {
-            let view = ShopLiveRadioButton()
+        let hideRadio: ShopLiveRadioOptionButton = {
+            let view = ShopLiveRadioOptionButton()
             view.translatesAutoresizingMaskIntoConstraints = false
             view.configure(identifier: ShopLiveResultStatus.HIDE.name +  (self.isSuccess ? "s": "f"), description: ShopLiveResultStatus.HIDE.name)
             view.delegate = radioDelegate
             return view
         }()
 
-        let keepRadio: ShopLiveRadioButton = {
-            let view = ShopLiveRadioButton()
+        let keepRadio: ShopLiveRadioOptionButton = {
+            let view = ShopLiveRadioOptionButton()
             view.translatesAutoresizingMaskIntoConstraints = false
             view.configure(identifier: ShopLiveResultStatus.KEEP.name +  (self.isSuccess ? "s": "f"), description: ShopLiveResultStatus.KEEP.name)
             view.delegate = radioDelegate
@@ -160,8 +160,8 @@ final class CouponResponseSettingView: UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        let alertRadio: ShopLiveRadioButton = {
-            let view = ShopLiveRadioButton()
+        let alertRadio: ShopLiveRadioOptionButton = {
+            let view = ShopLiveRadioOptionButton()
             view.translatesAutoresizingMaskIntoConstraints = false
             view.configure(identifier: ShopLiveResultAlertType.ALERT.name +  (self.isSuccess ? "s": "f"), description: ShopLiveResultAlertType.ALERT.name)
             view.updateRadio(selected: true)
@@ -169,8 +169,8 @@ final class CouponResponseSettingView: UIView {
             return view
         }()
 
-        let toastRadio: ShopLiveRadioButton = {
-            let view = ShopLiveRadioButton()
+        let toastRadio: ShopLiveRadioOptionButton = {
+            let view = ShopLiveRadioOptionButton()
             view.translatesAutoresizingMaskIntoConstraints = false
             view.configure(identifier: ShopLiveResultAlertType.TOAST.name +  (self.isSuccess ? "s": "f"), description: ShopLiveResultAlertType.TOAST.name)
             view.delegate = radioDelegate

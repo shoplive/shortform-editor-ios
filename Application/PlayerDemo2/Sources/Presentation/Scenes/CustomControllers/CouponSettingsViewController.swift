@@ -89,8 +89,8 @@ final class CouponSettingsViewController: SideMenuItemViewController {
 
 }
 
-extension CouponSettingsViewController: ShopLiveRadioButtonDelegate {
-    func didSelectRadioButton(_ sender: ShopLiveRadioButton) {
+extension CouponSettingsViewController: ShopLiveRadioOptionButtonDelegate {
+    func didSelectRadioButton(_ sender: ShopLiveRadioOptionButton) {
 
         let identifier = sender.identifier
         let isSuccess = identifier.last == "s"

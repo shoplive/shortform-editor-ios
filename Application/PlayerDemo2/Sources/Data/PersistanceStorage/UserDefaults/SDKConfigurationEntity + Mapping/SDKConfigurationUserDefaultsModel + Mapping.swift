@@ -18,6 +18,8 @@ extension SDKConfigurationUserDefaultsModel {
         return .init(user: self.toShopLiveCommonUser(),
                      isGuestMode: isGuestMode,
                      useJWTToken: useJWTToken,
+                     jwtToken: jwtToken,
+                     userMode: userMode,
                      stopVideoOnHeadphoneDisconnected: stopVideoOnHeadphoneDisconnected,
                      muteVideoOnHeadphoneDisconnected: muteVideoOnHeadphoneDisconnected,
                      useCallOption: useCallOption,

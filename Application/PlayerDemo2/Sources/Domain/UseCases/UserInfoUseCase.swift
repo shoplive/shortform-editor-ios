@@ -11,14 +11,25 @@ import ShopliveSDKCommon
 import ShopLiveSDK
 
 protocol UserInfoUseCase {
+    func loadUserData() -> (ShopLiveCommonUser?, String?)
+    func fetchUserData(user: ShopLiveCommonUser?, userToken: String?)
+    
     func execute(userId: String?, userName: String?, age: String?, userScore: String?, gender: ShopliveCommonUserGender?) async throws -> ShopLiveCommonUser
 }
 
 final class DefaultUserInfoUseCase: UserInfoUseCase {
     private let repository: UserInfoRepository
     
-    init(repository: UserInfoRepository) {
-        self.repository = repository
+    init(userInfoRepository: UserInfoRepository) {
+        self.repository = userInfoRepository
+    }
+    
+    func loadUserData() -> (ShopLiveCommonUser?, String?) {
+        repository.loadUserData()
+    }
+    
+    func fetchUserData(user: ShopLiveCommonUser?, userToken: String?) {
+        repository.fetchUserData(user: user,userToken: userToken)
     }
     
     func execute(userId: String?, userName: String?, age: String?, userScore: String?, gender: ShopliveCommonUserGender?) async throws -> ShopLiveCommonUser {

@@ -25,6 +25,13 @@ class MainViewModelTests: XCTestCase {
     var items: [String] = ["CampaignInfoCell", "UserInfoCell"]
     
     class MainUseCaseMock: MainUseCase {
+        func loadUserInfo() -> (ShopliveSDKCommon.ShopLiveCommonUser?, String?) { (nil, nil) }
+        
+        func loadUserMode() -> PlayerDemo2.UserMode? { nil }
+        
+        func fetchUserMode(userMode: PlayerDemo2.UserMode) {}
+        
+        
         func loadCurrentCampaign() -> PlayerDemo2.ShopLiveKeySet? { return nil }
         
         func loadAllCampaigns() -> PlayerDemo2.ShopLiveCampaignsKey? { return nil }

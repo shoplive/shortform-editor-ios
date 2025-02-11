@@ -8,21 +8,12 @@
 
 import UIKit
 import ShopLiveSDK
+import RxSwift
+import RxCocoa
 import ShopliveSDKCommon
 import SnapKit
 
 final class UserInfoViewController: UIViewController {
-    
-    private var viewModel: UserInfoViewModel
-    
-    init(viewModel: UserInfoViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     var tapGesture: UITapGestureRecognizer?
 
@@ -96,7 +87,6 @@ final class UserInfoViewController: UIViewController {
         view.backgroundColor = .red
         view.setTitle("userinfo.add.parameter.button.title".localized(), for: .normal)
         view.titleLabel?.textColor = .white
-        view.addTarget(self, action: #selector(addParameter), for: .touchUpInside)
         return view
     }()
     
@@ -105,10 +95,9 @@ final class UserInfoViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.register(AddUserParameterCell.self, forCellReuseIdentifier: "AddUserParameterCell")
         view.backgroundColor = .white
-        view.delegate = self
         view.rowHeight = 50
         view.allowsSelection = false
-        view.dataSource = self
+        
         view.separatorStyle = .singleLine
         view.isUserInteractionEnabled = true
         return view
@@ -118,31 +107,31 @@ final class UserInfoViewController: UIViewController {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        let maleRadio: ShopLiveRadioButton = {
-            let view = ShopLiveRadioButton()
+        let maleRadio: ShopLiveRadioOptionButton = {
+            let view = ShopLiveRadioOptionButton()
             view.translatesAutoresizingMaskIntoConstraints = false
             view.configure(identifier: "m", description: "userinfo.gender.male".localized())
             view.delegate = self
             return view
         }()
 
-        let femaleRadio: ShopLiveRadioButton = {
-            let view = ShopLiveRadioButton()
+        let femaleRadio: ShopLiveRadioOptionButton = {
+            let view = ShopLiveRadioOptionButton()
             view.translatesAutoresizingMaskIntoConstraints = false
             view.configure(identifier: "f", description: "userinfo.gender.female".localized())
             view.delegate = self
             return view
         }()
 
-        let noneRadio: ShopLiveRadioButton = {
-            let view = ShopLiveRadioButton()
+        let noneRadio: ShopLiveRadioOptionButton = {
+            let view = ShopLiveRadioOptionButton()
             view.translatesAutoresizingMaskIntoConstraints = false
-            view.configure(identifier: "unknown", description: "userinfo.gender.none".localized())
+            view.configure(identifier: "n", description: "userinfo.gender.none".localized())
             view.delegate = self
             view.updateRadio(selected: true)
             return view
         }()
-
+        
         viewModel.setRadioGroup([maleRadio, femaleRadio, noneRadio])
         
         view.addSubview(maleRadio)
@@ -172,7 +161,6 @@ final class UserInfoViewController: UIViewController {
         view.backgroundColor = .red
         view.setTitle("userinfo.jwt.button.usersave".localized(), for: .normal)
         view.titleLabel?.textColor = .white
-        view.addTarget(self, action: #selector(saveAct), for: .touchUpInside)
         return view
     }()
 
@@ -199,7 +187,6 @@ final class UserInfoViewController: UIViewController {
         let paddingView = UIView(frame: .init(origin: .zero, size: .init(width: 10, height: view.frame.height)))
         view.leftView = paddingView
         view.setPlaceholderColor(.darkGray)
-//        view.text = DemoConfiguration.shared.jwtToken
         return view
     }()
 
@@ -217,7 +204,6 @@ final class UserInfoViewController: UIViewController {
         view.setTitle(PlayerDemo2Strings.Userinfo.Jwt.Button.generate, for: .normal)
         view.layer.cornerRadius = 6
         view.backgroundColor = .red
-        view.addTarget(self, action: #selector(tokenGenerateSaveAct), for: .touchUpInside)
         return view
     }()
     
@@ -230,6 +216,19 @@ final class UserInfoViewController: UIViewController {
         view.addTarget(self, action: #selector(scanJWTToken), for: .touchUpInside)
         return view
     }()
+    
+    private var viewModel: UserInfoViewModel
+    private let disposeBag = DisposeBag()
+    
+    init(viewModel: UserInfoViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        viewModel.registerTableView(tableView: parameterTableView)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     //MARK: - ViewDidLoad()
     override func viewDidLoad() {
@@ -240,8 +239,188 @@ final class UserInfoViewController: UIViewController {
         setupBackButton()
         setupNaviItems()
         setupViews()
-        viewModel.setupParameterList()
-        updateUserInfo()
+        
+        bindViewModel()
+    }
+    
+    private func bindViewModel() {
+        
+        let viewDidLoadPublish = PublishSubject<Void>()
+        
+        let input = UserInfoViewModel.Input(viewDidLoad: viewDidLoadPublish,
+                                            userIdInputFieldChangeEvent: userIdInputField.rx.text,
+                                            userNameInputFieldChangeEvent: userNameInputField.rx.text,
+                                            userAgeInputFieldChangeEvent: ageInputField.rx.text,
+                                            userScoreInputFieldChangeEvent: userScoreInputField.rx.text,
+                                            jwtTokenChangeEvent: jwtInputField.rx.text,
+                                            saveButtonTap: saveUserInfoButton.rx.tap,
+                                            addParameterButtonTap: addParameterButton.rx.tap)
+        
+        let output = viewModel.transform(input: input)
+        
+        output.userDataSaved
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                self.shopliveHideKeyboard_SL()
+                if self.userIdInputField.text == nil || (self.userIdInputField.text ?? "").isEmpty {
+                    UIWindow.showToast(message: "userinfo.msg.save.failed.noneId".localized())
+                } else {
+                    UIWindow.showToast(message: "userinfo.msg.save.success".localized())
+                    self.handleNaviBack()
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        output.userParameter
+            .drive(onNext: { [weak self] _ in
+                self?.parameterTableView.reloadData()
+            })
+            .disposed(by: disposeBag)
+        
+        output.paramterAdded
+            .drive(onNext: { _ in
+                self.parameterTableView.reloadData()
+            })
+            .disposed(by: disposeBag)
+        
+        output.userDataUpdated
+            .withUnretained(self)
+            .subscribe(onNext: { owner, data in
+                print("UserDataUpdated Called")
+                owner.updateTextField(data: data)
+            })
+            .disposed(by: disposeBag)
+        
+        viewDidLoadPublish.onNext(())
+        
+    }
+    
+    deinit {
+        removeTapGesture()
+    }
+    
+}
+
+//MARK: - layout
+extension UserInfoViewController {
+    private func setupViews() {
+        view.addSubview(userIdInputField)
+        view.addSubview(userNameInputField)
+        view.addSubview(ageInputField)
+        view.addSubview(userScoreInputField)
+        view.addSubview(genderView)
+        view.addSubview(saveUserInfoButton)
+        view.addSubview(authTokenTitle)
+        view.addSubview(jwtInputField)
+        view.addSubview(jwtResultLabel)
+        view.addSubview(jwtGenerateButton)
+        view.addSubview(parameterTableView)
+        view.addSubview(addParameterButton)
+        view.addSubview(jwtQRScanButton)
+        
+        parameterTableView.snp.makeConstraints {
+            $0.top.equalTo(genderView.snp.bottom).offset(15)
+            $0.leading.equalTo(self.view.snp.leading).offset(15)
+            $0.trailing.equalTo(self.view.snp.trailing).offset(-15)
+            $0.height.equalTo(100)
+        }
+        
+        addParameterButton.snp.makeConstraints {
+            $0.top.equalTo(parameterTableView.snp.bottom).offset(10)
+            $0.trailing.equalTo(self.view.snp.trailing).offset(-15)
+            $0.width.equalTo(self.view.frame.width / 2 - 20)
+            $0.height.greaterThanOrEqualTo(35)
+        }
+        
+        userIdInputField.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(15)
+            $0.leading.equalTo(self.view.snp.leading).offset(15)
+            $0.trailing.equalTo(self.view.snp.trailing).offset(-15)
+            $0.height.greaterThanOrEqualTo(35)
+        }
+        
+        userNameInputField.snp.makeConstraints {
+            $0.top.equalTo(userIdInputField.snp.bottom).offset(10)
+            $0.leading.equalTo(self.view.snp.leading).offset(15)
+            $0.trailing.equalTo(self.view.snp.trailing).offset(-15)
+            $0.height.greaterThanOrEqualTo(35)
+        }
+        
+        ageInputField.snp.makeConstraints {
+            $0.top.equalTo(userNameInputField.snp.bottom).offset(10)
+            $0.leading.equalTo(self.view.snp.leading).offset(15)
+            $0.trailing.equalTo(self.view.snp.trailing).offset(-15)
+            $0.height.greaterThanOrEqualTo(35)
+        }
+        
+        userScoreInputField.snp.makeConstraints {
+            $0.top.equalTo(ageInputField.snp.bottom).offset(10)
+            $0.leading.equalTo(self.view.snp.leading).offset(15)
+            $0.trailing.equalTo(self.view.snp.trailing).offset(-15)
+            $0.height.greaterThanOrEqualTo(35)
+        }
+        
+        genderView.snp.makeConstraints {
+            $0.top.equalTo(userScoreInputField.snp.bottom).offset(15)
+            $0.leading.equalTo(self.view.snp.leading).offset(15)
+            $0.trailing.equalTo(self.view.snp.trailing).offset(-15)
+            $0.height.equalTo(20)
+        }
+        
+        saveUserInfoButton.snp.makeConstraints {
+            $0.top.equalTo(parameterTableView.snp.bottom).offset(10)
+            $0.leading.equalTo(self.view.snp.leading).offset(15)
+            $0.width.equalTo(self.view.frame.width / 2 - 20)
+            $0.height.equalTo(35)
+        }
+        
+        authTokenTitle.snp.makeConstraints {
+            $0.top.equalTo(saveUserInfoButton.snp.bottom).offset(35)
+            $0.leading.equalTo(self.view.snp.leading).offset(15)
+            $0.trailing.equalTo(self.view.snp.trailing).offset(-15)
+            $0.height.equalTo(30)
+        }
+        
+        jwtInputField.snp.makeConstraints {
+            $0.top.equalTo(authTokenTitle.snp.bottom).offset(10)
+            $0.leading.equalTo(self.view.snp.leading).offset(15)
+            $0.trailing.equalTo(self.view.snp.trailing).offset(-15)
+            $0.height.equalTo(35)
+        }
+        
+        jwtResultLabel.snp.makeConstraints {
+            $0.top.equalTo(jwtInputField.snp.bottom).offset(5)
+            $0.leading.equalTo(self.view.snp.leading).offset(15)
+            $0.trailing.equalTo(self.view.snp.trailing).offset(-15)
+            $0.height.greaterThanOrEqualTo(20)
+        }
+        
+        jwtGenerateButton.snp.makeConstraints {
+            $0.top.equalTo(jwtResultLabel.snp.bottom).offset(5)
+            $0.leading.equalTo(self.view.snp.leading).offset(15)
+            $0.trailing.equalTo(self.view.snp.trailing).offset(-15)
+            $0.height.equalTo(30)
+        }
+
+        jwtQRScanButton.snp.makeConstraints {
+            $0.top.equalTo(jwtGenerateButton.snp.bottom).offset(10)
+            $0.leading.equalTo(self.view.snp.leading).offset(15)
+            $0.trailing.equalTo(self.view.snp.trailing).offset(-15)
+            $0.height.equalTo(30)
+            $0.bottom.lessThanOrEqualTo(self.view.snp.bottom)
+        }
+    }
+}
+
+// MARK: - setup / reset
+extension UserInfoViewController {
+    
+    private func updateTextField(data: UserInfoViewLoadData) {
+        userIdInputField.text = data.user?.userId ?? ""
+        userNameInputField.text = data.user?.userName ?? ""
+        ageInputField.text = data.user?.age != nil ? String(data.user?.age ?? 0) : ""
+        userScoreInputField.text = data.user?.userScore != nil ? String(data.user?.userScore ?? 0) : ""
+        jwtInputField.text = data.jwt ?? ""
     }
     
     private func setupEdgeGesture() {
@@ -271,164 +450,9 @@ final class UserInfoViewController: UIViewController {
 
         delete.tintColor = .white
 
-        self.navigationItem.rightBarButtonItems = [delete] //save,
+        self.navigationItem.rightBarButtonItems = [delete]
     }
     
-    func setupViews() {
-        self.view.addSubview(userIdInputField)
-        self.view.addSubview(userNameInputField)
-        self.view.addSubview(ageInputField)
-        self.view.addSubview(userScoreInputField)
-        self.view.addSubview(genderView)
-        self.view.addSubview(saveUserInfoButton)
-        self.view.addSubview(authTokenTitle)
-        self.view.addSubview(jwtInputField)
-//        self.view.addSubview(jwtInputButton)
-        self.view.addSubview(jwtResultLabel)
-        self.view.addSubview(jwtGenerateButton)
-        self.view.addSubview(parameterTableView)
-        self.view.addSubview(addParameterButton)
-        self.view.addSubview(jwtQRScanButton)
-        
-        parameterTableView.snp.makeConstraints {
-            $0.top.equalTo(genderView.snp.bottom).offset(15)
-            $0.leading.equalTo(self.view.snp.leading).offset(15)
-            $0.trailing.equalTo(self.view.snp.trailing).inset(15)
-            $0.height.equalTo(100)
-        }
-        
-        addParameterButton.snp.makeConstraints {
-            $0.top.equalTo(parameterTableView.snp.bottom).offset(10)
-            $0.trailing.equalTo(self.view.snp.trailing).inset(15)
-            $0.width.equalTo(self.view.frame.width / 2 - 20)
-            $0.height.greaterThanOrEqualTo(35)
-        }
-        
-        userIdInputField.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(15)
-            $0.leading.equalTo(self.view.snp.leading).offset(15)
-            $0.trailing.equalTo(self.view.snp.trailing).inset(15)
-            $0.height.greaterThanOrEqualTo(35)
-        }
-        
-        userNameInputField.snp.makeConstraints {
-            $0.top.equalTo(userIdInputField.snp.bottom).offset(10)
-            $0.leading.equalTo(self.view.snp.leading).offset(15)
-            $0.trailing.equalTo(self.view.snp.trailing).inset(15)
-            $0.height.greaterThanOrEqualTo(35)
-        }
-        
-        ageInputField.snp.makeConstraints {
-            $0.top.equalTo(userNameInputField.snp.bottom).offset(10)
-            $0.leading.equalTo(self.view.snp.leading).offset(15)
-            $0.trailing.equalTo(self.view.snp.trailing).inset(15)
-            $0.height.greaterThanOrEqualTo(35)
-        }
-        
-        userScoreInputField.snp.makeConstraints {
-            $0.top.equalTo(ageInputField.snp.bottom).offset(10)
-            $0.leading.equalTo(self.view.snp.leading).offset(15)
-            $0.trailing.equalTo(self.view.snp.trailing).inset(15)
-            $0.height.greaterThanOrEqualTo(35)
-        }
-        
-        genderView.snp.makeConstraints {
-            $0.top.equalTo(userScoreInputField.snp.bottom).offset(15)
-            $0.leading.equalTo(self.view.snp.leading).offset(15)
-            $0.trailing.equalTo(self.view.snp.trailing).inset(15)
-            $0.height.equalTo(20)
-        }
-        
-        saveUserInfoButton.snp.makeConstraints {
-            $0.top.equalTo(parameterTableView.snp.bottom).offset(10)
-            $0.leading.equalTo(self.view.snp.leading).offset(15)
-            $0.width.equalTo(self.view.frame.width / 2 - 20)
-            $0.height.equalTo(35)
-        }
-        
-        authTokenTitle.snp.makeConstraints {
-            $0.top.equalTo(saveUserInfoButton.snp.bottom).offset(35)
-            $0.leading.equalTo(self.view.snp.leading).offset(15)
-            $0.trailing.equalTo(self.view.snp.trailing).inset(15)
-            $0.height.equalTo(30)
-        }
-        
-        jwtInputField.snp.makeConstraints {
-            $0.top.equalTo(authTokenTitle.snp.bottom).offset(10)
-            $0.leading.equalTo(self.view.snp.leading).offset(15)
-            $0.trailing.equalTo(self.view.snp.trailing).inset(15)
-            $0.height.equalTo(35)
-        }
-        
-        jwtResultLabel.snp.makeConstraints {
-            $0.top.equalTo(jwtInputField.snp.bottom).offset(5)
-            $0.leading.equalTo(self.view.snp.leading).offset(15)
-            $0.trailing.equalTo(self.view.snp.trailing).inset(15)
-            $0.height.greaterThanOrEqualTo(20)
-        }
-        
-        jwtGenerateButton.snp.makeConstraints {
-            $0.top.equalTo(jwtResultLabel.snp.bottom).offset(5)
-            $0.leading.equalTo(self.view.snp.leading).offset(15)
-            $0.trailing.equalTo(self.view.snp.trailing).inset(15)
-            $0.height.equalTo(30)
-        }
-
-        jwtQRScanButton.snp.makeConstraints {
-            $0.top.equalTo(jwtGenerateButton.snp.bottom).offset(10)
-            $0.leading.equalTo(self.view.snp.leading).offset(15)
-            $0.trailing.equalTo(self.view.snp.trailing).inset(15)
-            $0.height.equalTo(30)
-            $0.bottom.lessThanOrEqualTo(self.view.snp.bottom)
-        }
-        
-    }
-    
-    private func updateUserInfo() {
-        
-//        viewModel.setUserModel(DemoConfiguration.shared.user)
-        
-        let user = viewModel.user
-        let age = user.age ?? -1
-//        let userScore = DemoConfiguration.shared.userScore
-        
-        userIdInputField.text = user.userId
-        userNameInputField.text = user.userName ?? ""
-        ageInputField.text = age >= 0 ? "\(age)" : ""
-        updateGender(identifier: user.gender?.rawValue ?? "unknown")
-//        userScoreInputField.text = userScore != nil ? "\(userScore!)" : ""
-        
-        ShopLiveCommon.setUser(user: user)
-        
-        jwtInputField.text = ShopLiveCommon.getAuthToken()
-        
-    }
-    
-    private func save() {
-        
-        viewModel.setUser(userId: userIdInputField.text ?? "",
-                          userName: userNameInputField.text ?? "",
-                          gender: selectedGender(),
-                          age: ageInputField.text,
-                          userScore: userScoreInputField.text ?? "")
-        
-        viewModel.saveParameterList()
-        
-//        DemoConfiguration.shared.user = viewModel.user
-        ShopLiveCommon.setUser(user: viewModel.user)
-        
-        UIWindow.showToast(message: "userinfo.msg.save.success".localized())
-        handleNaviBack()
-    }
-
-    func updateJwtToken() {
-//        if let jwtToken = DemoConfiguration.shared.jwtToken, !jwtToken.isEmpty {
-//            jwtResultLabel.text = jwtToken
-//        } else {
-//            jwtResultLabel.text = "userinfo.jwt.result.message".localized()
-//        }
-    }
-
     func removeTapGesture() {
         guard let gestureRecognizers = self.view.gestureRecognizers,
                 gestureRecognizers.contains(where: {$0 == tapGesture}) else { return }
@@ -436,14 +460,10 @@ final class UserInfoViewController: UIViewController {
         self.view.removeGestureRecognizer(tapGesture!)
     }
     
-    deinit {
-        removeTapGesture()
-    }
-    
 }
 
 // MARK: - ShopLiveRadioButtonDelegate
-extension UserInfoViewController: ShopLiveRadioButtonDelegate {
+extension UserInfoViewController: ShopLiveRadioOptionButtonDelegate {
 
     func updateGender(identifier: String) {
         viewModel.radioGroup.forEach { radio in
@@ -451,7 +471,7 @@ extension UserInfoViewController: ShopLiveRadioButtonDelegate {
         }
     }
 
-    func didSelectRadioButton(_ sender: ShopLiveRadioButton) {
+    func didSelectRadioButton(_ sender: ShopLiveRadioOptionButton) {
         updateGender(identifier: sender.identifier)
     }
 
@@ -468,78 +488,11 @@ extension UserInfoViewController: ShopLiveRadioButtonDelegate {
         default:
             return .netural
         }
-
     }
 }
-
-// MARK: - UITableViewDelegate, UITableViewDataSource
-extension UserInfoViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.keysArray.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "AddUserParameterCell", for: indexPath) as? AddUserParameterCell else { return UITableViewCell(style: .default, reuseIdentifier: "Cell") }
-        
-        let key = viewModel.keysArray[indexPath.row]
-        let value = viewModel.valueArray[indexPath.row]
-        
-        cell.configure(key: key, value: value)
-        cell.keyInputField.delegate = self
-        cell.valueInputField.delegate = self
-        cell.keyInputField.tag = indexPath.row
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-            if editingStyle == .delete {
-                viewModel.deleteDatas(indexPath.row)
-                self.parameterTableView.deleteRows(at: [indexPath], with: .fade)
-                viewModel.saveParameterList()
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
-    
-}
-
-// MARK: - UITextFieldDelegate
-extension UserInfoViewController: UITextFieldDelegate {
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let text = textField.text else {
-            return
-        }
-        
-        switch(textField.accessibilityIdentifier) {
-        case "keyInputField":
-            viewModel.appendKey(text: text)
-            break
-        case "valueInputField":
-            viewModel.appendValue(text: text)
-            break
-        case _:
-            break
-        }
-        if viewModel.keysArray.count == viewModel.valueArray.count {
-            viewModel.saveParameterList()
-        }
-    }
-}
-
 
 // MARK: - Objc func
 extension UserInfoViewController {
-    @objc func addParameter() {
-        viewModel.appendData()
-        self.parameterTableView.reloadData()
-    }
     
     @objc func deleteAct() {
         let alert = UIAlertController(title: "userinfo.msg.deleteAll.title".localized(), message: nil, preferredStyle: .alert)
@@ -547,9 +500,7 @@ extension UserInfoViewController {
 
         }))
         alert.addAction(.init(title: "alert.msg.ok".localized(), style: .default, handler: { action in
-//            DemoConfiguration.shared.user = ShopLiveCommonUser(userId: "")
-//            DemoConfiguration.shared.jwtToken = nil
-            self.updateUserInfo()
+            self.viewModel.allRemoveData()
         }))
         self.present(alert, animated: true, completion: nil)
     }
@@ -558,19 +509,9 @@ extension UserInfoViewController {
         shopliveHideKeyboard_SL()
         self.navigationController?.popViewController(animated: true)
     }
-    
-    @objc func saveAct() {
-        shopliveHideKeyboard_SL()
-        if userIdInputField.text == nil || (userIdInputField.text ?? "").isEmpty {
-            UIWindow.showToast(message: "userinfo.msg.save.failed.noneId".localized())
-        } else {
-            save()
-        }
-    }
 
     @objc func tokenGenerateSaveAct() {
         ShopLiveCommon.setAuthToken(authToken: jwtInputField.text ?? "")
-//        DemoConfiguration.shared.jwtToken =  ShopLiveCommon.getAuthToken()
     }
     
     @objc func scanJWTToken() {
@@ -596,11 +537,13 @@ extension UserInfoViewController {
 }
 
 
+// MARK: - QR Reader Delegate
 extension UserInfoViewController: QRKeyReaderDelegate {
     func updateKeyFromQR(keyset: ShopLiveKeySet?) { }
     
     func updateUserJWTFromQR(userJWT: String?) {
         jwtInputField.text = userJWT
+        viewModel.updateJwt(text: userJWT ?? "")
     }
     
     

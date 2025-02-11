@@ -11,7 +11,6 @@ import ShopliveSDKCommon
 
 final class DIContainer {
     
-    
     lazy var defaultShopLiveKeySetRepository = DefaultShopLiveKeySetRepository(shopLiveKeySetStorage: makeShopLiveKeySetAppUserDefaults())
     
     // API 연결시 주입해야 함
@@ -58,40 +57,10 @@ final class DIContainer {
         return DefaultSDKConfigurationMapperUseCase()
     }
     
-    // MARK: - Make ViewController
-    func makeMainViewController(actions: MainRouting) -> MainViewController {
-        let viewModel = MainViewModel(useCase: makeMainUseCase(),
-                                                     actions: actions)
-        return MainViewController(viewModel: viewModel)
-    }
-    
-    func makeUserInfoViewController() -> UserInfoViewController {
-        let viewModel = UserInfoViewModel(userInfoUseCase: makeUserInfoUseCase())
-        return UserInfoViewController(viewModel: viewModel)
-    }
-    
-    func makeCampaignsViewController(routing: CampaignsRouting) -> CampaignsViewController {
-        let viewModel = CampaignsViewModel(useCase: makeCampaignsUseCase(), routing: routing)
-        return CampaignsViewController(viewModel: viewModel)
-    }
-    
-    // MARK: - Make UseCase
-    private func makeMainUseCase() -> MainUseCase {
-        return DefaultMainUseCase(shopLiveKeySetRepository: defaultShopLiveKeySetRepository)
-    }
-    
     private func makeDeepLinkUseCase() -> DeepLinkUseCase {
         return DefaultDeepLinkUseCase(shopLiveKeySetRepository: defaultShopLiveKeySetRepository)
     }
     
-    private func makeUserInfoUseCase() -> UserInfoUseCase {
-        let repository = DefaultUserInfoRepository()
-        return DefaultUserInfoUseCase(repository: repository)
-    }
-    private func makeCampaignsUseCase() -> CampaignsUseCase {
-        let repository = DefaultCampaignsRepository(userDefaultsStorage: makeShopLiveKeySetAppUserDefaults())
-        return DefaultCampaignsUseCase(campaignsRepository: repository)
-    }
 }
 //MARK: - Persistance Storage
 extension DIContainer {
@@ -102,9 +71,11 @@ extension DIContainer {
         return DefaultShopLiveKeySetAppUserDefaults(suiteName: "Demo.PlayerDemo2.ShopLiveKeySet")
     }
 }
-//MARK: - OptionSettingScene
+// MARK: - MainScene
 extension DIContainer {
-    func makeOptionSettingSceneDIContainer() -> OptionSettingSceneDIContainer {
-        return .init(sDKConfigurationUserDefaults: makeAppUserDefaults())
+    func makeMainSceneDIContainer() -> MainSceneDIContainer {
+        return .init(defaultShopLiveKeySetRepository: defaultShopLiveKeySetRepository,
+                     shopLiveKeySetUserDefaults: makeShopLiveKeySetAppUserDefaults(),
+                     appUserDefaults: makeAppUserDefaults())
     }
 }

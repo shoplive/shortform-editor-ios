@@ -10,7 +10,56 @@ import Foundation
 import ShopliveSDKCommon
 import RxSwift
 
-class MainViewModel {
+class MainViewModel: ViewModelType {
+    
+    struct Input {
+        // 상위뷰 -> 하위뷰
+        var viewDidLoad: PublishSubject<Void>
+    }
+    
+    struct Output {
+        // 상위뷰 -> 하위뷰
+        var updatedData: PublishSubject<UserInfoViewLoadData>
+        
+        // 하위뷰 -> 상위뷰
+        let showUserInfoViewController: PublishSubject<Void>
+        let updatedUserMode: PublishSubject<UserMode>
+    }
+    
+    private var showVCSubject = PublishSubject<Void>()
+    private var updatedDataSubject = PublishSubject<UserInfoViewLoadData>()
+    private var updatedUserMode = PublishSubject<UserMode>()
+    
+    var disposeBag: DisposeBag = DisposeBag()
+    
+    func transform(input: Input) -> Output {
+        
+        input.viewDidLoad
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                let (user, jwt, mode) = owner.loadUserData()
+                owner.updatedDataSubject.onNext(.init(user: user, jwt: jwt, userMode: mode ?? .Guest))
+            })
+            .disposed(by: disposeBag)
+        
+        showVCSubject
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                owner.routing?.showUserInfo()
+            })
+            .disposed(by: disposeBag)
+        
+        updatedUserMode
+            .withUnretained(self)
+            .subscribe(onNext: { owner, data in
+                owner.updateUserMode(userMode: data)
+            })
+            .disposed(by: disposeBag)
+        
+        return .init(updatedData: updatedDataSubject,
+                     showUserInfoViewController: showVCSubject,
+                     updatedUserMode: updatedUserMode)
+    }
     
     private let useCase: MainUseCase
     private let routing: MainRouting?
@@ -94,6 +143,20 @@ class MainViewModel {
         } else {
             useCase.saveCurrentCampaign(keySet: keySet)
         }
+    }
+    
+    func updatedUserData() {
+        let userData = loadUserData()
+        updatedDataSubject.onNext(.init(user: userData.0 ?? .init(userId: ""), jwt: userData.1, userMode: userData.2 ?? .Guest))
+    }
+    
+    func loadUserData() -> (ShopLiveCommonUser?, String?, UserMode?) {
+        let data = useCase.loadUserInfo()
+        return (data.0, data.1, useCase.loadUserMode())
+    }
+    
+    func updateUserMode(userMode: UserMode) {
+        useCase.fetchUserMode(userMode: userMode)
     }
     
     func showUserInfoViewController() {

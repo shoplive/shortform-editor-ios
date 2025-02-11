@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import ShopliveSDKCommon
 
 protocol MainUseCase {
     func executeCampaign(name: String, accessKey: String, campaignKey: String) async throws -> ShopLiveKeySet
@@ -15,15 +16,20 @@ protocol MainUseCase {
     func loadAllCampaigns() -> ShopLiveCampaignsKey?
     func saveCurrentCampaign(keySet: ShopLiveKeySet)
     func updateCampaign(keySet: ShopLiveKeySet)
+    func loadUserInfo() -> (ShopLiveCommonUser?, String?)
+    func loadUserMode() -> UserMode?
+    func fetchUserMode(userMode: UserMode)
 
     var updateNoti: Observable<Void> { get }
 }
 
 final class DefaultMainUseCase: MainUseCase {
     private let shopLiveKeySetRepository: ShopLiveKeySetRepository
+    private let userInfoRepository: UserInfoRepository
     
-    init(shopLiveKeySetRepository: ShopLiveKeySetRepository) {
+    init(shopLiveKeySetRepository: ShopLiveKeySetRepository, userInfoRepository: UserInfoRepository) {
         self.shopLiveKeySetRepository = shopLiveKeySetRepository
+        self.userInfoRepository = userInfoRepository
     }
     
     func loadCurrentCampaign() -> ShopLiveKeySet? {
@@ -44,6 +50,18 @@ final class DefaultMainUseCase: MainUseCase {
     
     var updateNoti: Observable<Void> {
         return shopLiveKeySetRepository.fetchUpdateObservable
+    }
+    
+    func loadUserInfo() -> (ShopLiveCommonUser?, String?) {
+        userInfoRepository.loadUserData()
+    }
+    
+    func loadUserMode() -> UserMode? {
+        userInfoRepository.loadUserMode()
+    }
+    
+    func fetchUserMode(userMode: UserMode) {
+        userInfoRepository.fetchUserMode(userMode: userMode)
     }
     
     func executeCampaign(name: String, accessKey: String, campaignKey: String) async throws -> ShopLiveKeySet {

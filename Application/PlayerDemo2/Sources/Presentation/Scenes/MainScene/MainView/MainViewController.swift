@@ -11,6 +11,7 @@ import SideMenu
 import SafariServices
 import Toast
 import RxSwift
+import RxCocoa
 import ShopLiveSDK
 import ShopliveSDKCommon
 import SnapKit
@@ -38,7 +39,6 @@ class MainViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.separatorStyle = .none
         view.backgroundColor = .white
-        view.register(UserInfoCell.self, forCellReuseIdentifier: "UserInfoCell")
         view.alwaysBounceVertical = false
         view.rowHeight = UITableView.automaticDimension
         view.contentInset = .init(top: 0, left: 0, bottom: ((UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) + 16), right: 0)
@@ -66,6 +66,7 @@ class MainViewController: UIViewController {
     private let contentView: UIView = UIView()
     
     private lazy var campaignContainerView = CampaignContainerView()
+    private lazy var userInfoContainerView = UserInfoContainerView()
     
     // Property
     private var hanaBankTimer : Double = 0
@@ -82,6 +83,7 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         campaignContainerView.configure(keySet: viewModel.loadCurrentCampaign())
+        viewModel.updatedUserData()
         super.viewWillAppear(animated)
     }
     
@@ -111,13 +113,45 @@ class MainViewController: UIViewController {
         setupSDKButtons()
         setupSideMenu()
         setupNavigation()
-        bindData()
+        
+        // MARK: - Bind
+        bind()
+    }
+    
+    func bind() {
+        
+        let viewDidLoadSubject = PublishSubject<Void>()
+        
+        let input = MainViewModel.Input(viewDidLoad: viewDidLoadSubject)
+        let output = viewModel.transform(input: input)
+        
+        viewModel.updateNoti()
+            .withUnretained(self)
+            .subscribe(onNext: { owner, data in
+                owner.campaignContainerView.configure(keySet: owner.viewModel.loadCurrentCampaign())
+            })
+            .disposed(by: disposeBag)
+        
+        let containerInput: UserInfoContainerView.Input = .init(
+            updatedData: output.updatedData
+        )
+        
+        let containerOutput: UserInfoContainerView.Output = .init(
+            showUserInfoViewController: output.showUserInfoViewController,
+            updateData: output.updatedUserMode
+        )
+        
+        userInfoContainerView.configure(input: containerInput, output: containerOutput)
+        campaignContainerView.configure(keySet: viewModel.loadCurrentCampaign())
+        
+        viewDidLoadSubject.onNext(())
     }
     
     func setScrollViewLayout() {
         self.view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(campaignContainerView)
+        contentView.addSubview(userInfoContainerView)
         
         scrollView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
@@ -139,21 +173,19 @@ class MainViewController: UIViewController {
             $0.top.equalTo(self.contentView.snp.top)
             $0.leading.equalTo(self.contentView.snp.leading)
             $0.trailing.equalTo(self.contentView.snp.trailing)
+            $0.bottom.equalTo(self.userInfoContainerView.snp.top)
+        }
+        
+        userInfoContainerView.snp.makeConstraints {
+            $0.top.equalTo(self.campaignContainerView.snp.bottom)
+            $0.leading.equalTo(self.contentView.snp.leading)
+            $0.trailing.equalTo(self.contentView.snp.trailing)
+            $0.height.lessThanOrEqualTo(150)
         }
     }
     
     func setScrollViewData() {
         campaignContainerView.delegate = self
-        campaignContainerView.configure(keySet: viewModel.loadCurrentCampaign())
-    }
-    
-    func bindData() {
-        viewModel.updateNoti()
-            .withUnretained(self)
-            .subscribe(onNext: { owner, data in
-                owner.campaignContainerView.configure(keySet: owner.viewModel.loadCurrentCampaign())
-            })
-            .disposed(by: disposeBag)
     }
     
     func configureInit() {
@@ -758,14 +790,14 @@ extension MainViewController: LoginDelegate {
         }
         
         if let name = name, let pwd = pwd {
-            var user = ShopLiveCommonUser(userId: name)
+            let user = ShopLiveCommonUser(userId: name)
             user.userName = pwd
             user.gender = .male
             user.age = 20
             ShopLiveCommon.setUser(user: user,accessKey: currentKey.accessKey )
         }
         else {
-            var user = ShopLiveCommonUser(userId: "ShopLive")
+            let user = ShopLiveCommonUser(userId: "ShopLive")
             user.userName = "loginUser"
             user.gender = .male
             user.age = 20
