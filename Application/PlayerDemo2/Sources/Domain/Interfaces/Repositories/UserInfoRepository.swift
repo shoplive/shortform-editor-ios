@@ -18,6 +18,7 @@ protocol UserInfoRepository {
     func fetchUserData(user: ShopLiveCommonUser?, userToken: String?)
     func fetchUserMode(userMode: UserMode)
     func fetchLandingUrl(url: String)
+    func fetchVersionInfoDatas(type: VersionInfoButtonType, value: String)
     
 }
 
@@ -93,6 +94,34 @@ final class DefaultUserInfoRepository: UserInfoRepository {
         var currentData = userDefaultsStorage.get()
         
         currentData?.customLandingUrl = url
+        
+        guard let currentData else { return }
+        userDefaultsStorage.save(data: currentData)
+    }
+    
+    func fetchVersionInfoDatas(type: VersionInfoButtonType, value: String) {
+        var currentData = userDefaultsStorage.get()
+        
+        switch type {
+        case .AppVersion:
+            currentData?.customerAppVersion = value
+        case .Referrer:
+            currentData?.referrer = value
+        case .AdId:
+            currentData?.adId = value
+        case .AnonId:
+            currentData?.anonId = value
+        case .UtmSource:
+            currentData?.utmSource = value
+        case .UtmContent:
+            currentData?.utmContent = value
+        case .UtmCampaign:
+            currentData?.utmCampaign = value
+        case .UtmMedium:
+            currentData?.utmMedium = value
+        default:
+            break
+        }
         
         guard let currentData else { return }
         userDefaultsStorage.save(data: currentData)

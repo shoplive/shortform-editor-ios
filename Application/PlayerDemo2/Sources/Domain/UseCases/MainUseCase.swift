@@ -21,6 +21,7 @@ protocol MainUseCase {
     func saveCurrentCampaign(keySet: ShopLiveKeySet)
     func fetchUserMode(userMode: UserMode)
     func fetchLandingUrl(url: String)
+    func fetchVersionInfoDatas(type: VersionInfoButtonType, value: String)
 
     var updateNoti: Observable<Void> { get }
 }
@@ -68,6 +69,10 @@ final class DefaultMainUseCase: MainUseCase {
     
     func fetchLandingUrl(url: String) {
         userInfoRepository.fetchLandingUrl(url: url)
+    }
+    
+    func fetchVersionInfoDatas(type: VersionInfoButtonType, value: String) {
+        userInfoRepository.fetchVersionInfoDatas(type: type, value: value)
     }
     
     func executeCampaign(name: String, accessKey: String, campaignKey: String) async throws -> ShopLiveKeySet {

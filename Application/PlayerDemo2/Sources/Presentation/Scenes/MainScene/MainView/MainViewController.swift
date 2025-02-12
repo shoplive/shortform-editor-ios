@@ -34,17 +34,6 @@ class MainViewController: UIViewController {
         return view
     }()
     
-    private var tableView: UITableView = {
-        let view = UITableView(frame: .zero, style: .plain)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.separatorStyle = .none
-        view.backgroundColor = .white
-        view.alwaysBounceVertical = false
-        view.rowHeight = UITableView.automaticDimension
-        view.contentInset = .init(top: 0, left: 0, bottom: ((UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) + 16), right: 0)
-        return view
-    }()
-    
     
     // 하나 은행 프레임 워크 재현을 위한 더미 뷰
     private var dummyView : UIView = {
@@ -65,9 +54,10 @@ class MainViewController: UIViewController {
     
     private let contentView: UIView = UIView()
     
-    private lazy var campaignContainerView = CampaignContainerView()
-    private lazy var userInfoContainerView = UserInfoContainerView()
+    private lazy var versionInfoContainerView = VersionInfoContainerView()
     private lazy var devInfoContainerView = DevInfoContainerView()
+    private lazy var userInfoContainerView = UserInfoContainerView()
+    private lazy var campaignContainerView = CampaignContainerView()
     
     // Property
     private var hanaBankTimer : Double = 0
@@ -122,6 +112,7 @@ class MainViewController: UIViewController {
         
         let viewDidLoadSubject = PublishSubject<Void>()
         let updateLandingUrl = PublishSubject<String>()
+        let updateVersionInfoData = PublishSubject<(VersionInfoButtonType, String)>()
         
         let radioOptionObservable = PublishSubject<ShopLiveButtonType>()
         let boxButtonObservable = PublishSubject<ShopLiveButtonType>()
@@ -129,8 +120,10 @@ class MainViewController: UIViewController {
         // MARK: - MainView Input/Output
         let input = MainViewModel.Input(viewDidLoad: viewDidLoadSubject,
                                         updateLadingUrl: updateLandingUrl,
+                                        updateVersionInfoData: updateVersionInfoData,
                                         radioOptionObservable: radioOptionObservable,
                                         boxButtonObservable: boxButtonObservable)
+
         let output = viewModel.transform(input: input)
         
         viewModel.updateNoti()
@@ -155,6 +148,11 @@ class MainViewController: UIViewController {
         
         devInfoContainerView.configurationContainer(input: devInfoInput, output: devInfoOutput)
         
+        let versionInfoInput = VersionInfoContainerView.Input(setData: output.loadSDKConfiguration)
+        let versionInfoOutput = VersionInfoContainerView.Output(saveButton: input.updateVersionInfoData)
+        
+        versionInfoContainerView.configureContent(input: versionInfoInput, output: versionInfoOutput)
+        
         viewDidLoadSubject.onNext(())
     }
     
@@ -162,6 +160,8 @@ class MainViewController: UIViewController {
         self.view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
+
+        contentView.addSubview(versionInfoContainerView)
         contentView.addSubview(devInfoContainerView)
         contentView.addSubview(campaignContainerView)
         contentView.addSubview(userInfoContainerView)
@@ -179,11 +179,17 @@ class MainViewController: UIViewController {
             $0.leading.equalTo(self.scrollView.snp.leading)
             $0.trailing.equalTo(self.scrollView.snp.trailing)
             $0.bottom.equalTo(self.scrollView.snp.bottom)
-            $0.height.equalTo(5000)
+        }
+        
+        versionInfoContainerView.snp.makeConstraints {
+            $0.top.equalTo(self.contentView.snp.top)
+            $0.leading.equalTo(self.contentView.snp.leading)
+            $0.trailing.equalTo(self.contentView.snp.trailing)
+            $0.bottom.equalTo(devInfoContainerView.snp.top)
         }
 
         devInfoContainerView.snp.makeConstraints {
-            $0.top.equalTo(self.contentView.snp.top)
+            $0.top.equalTo(self.versionInfoContainerView.snp.bottom)
             $0.leading.equalTo(self.view.snp.leading)
             $0.trailing.equalTo(self.view.snp.trailing)
             $0.bottom.equalTo(campaignContainerView.snp.top)
@@ -200,6 +206,7 @@ class MainViewController: UIViewController {
             $0.top.equalTo(self.campaignContainerView.snp.bottom)
             $0.leading.equalTo(self.contentView.snp.leading)
             $0.trailing.equalTo(self.contentView.snp.trailing)
+            $0.bottom.equalTo(self.contentView.snp.bottom).offset(-20)
         }
         
     }
@@ -301,47 +308,47 @@ class MainViewController: UIViewController {
     func setupShopliveSettings() {
         
         guard let config = viewModel.loadUserData() else { return }
-//
-//        if let utmSource = config.utmSource, !utmSource.isEmpty {
-//            ShopLiveCommon.setUtmSource(utmSource: utmSource)
-//        } else {
-//            ShopLiveCommon.setUtmSource(utmSource: "")
-//        }
-//        
-//        if let utmContent = config.utmContent, !utmContent.isEmpty {
-//            ShopLiveCommon.setUtmContent(utmContent: utmContent)
-//        }
-//        else {
-//            ShopLiveCommon.setUtmContent(utmContent: "")
-//        }
-//        
-//        if let utmCampaign = config.utmCampaign, !utmCampaign.isEmpty {
-//            ShopLiveCommon.setUtmCampaign(utmCampaign: utmCampaign)
-//        }
-//        else {
-//            ShopLiveCommon.setUtmCampaign(utmCampaign: "")
-//        }
-//        
-//        if let utmMedium = config.utmMedium, !utmMedium.isEmpty {
-//            ShopLiveCommon.setUtmMedium(utmMedium: utmMedium)
-//        }
-//        else {
-//            ShopLiveCommon.setUtmMedium(utmMedium: "")
-//        }
-//        
-//        if let anonId = config.anonId, !anonId.isEmpty {
-//            ShopLiveCommon.setAnonId(anonId: anonId)
-//        }
-//        else {
-//            ShopLiveCommon.setAnonId(anonId: "")
-//        }
-//        
-//        if let adId = config.adId, !adId.isEmpty {
-//            ShopLiveCommon.setAdId(adId: adId)
-//        }
-//        else {
-//            ShopLiveCommon.setAdId(adId: nil)
-//        }
+
+        if let utmSource = config.utmSource, !utmSource.isEmpty {
+            ShopLiveCommon.setUtmSource(utmSource: utmSource)
+        } else {
+            ShopLiveCommon.setUtmSource(utmSource: "")
+        }
+        
+        if let utmContent = config.utmContent, !utmContent.isEmpty {
+            ShopLiveCommon.setUtmContent(utmContent: utmContent)
+        }
+        else {
+            ShopLiveCommon.setUtmContent(utmContent: "")
+        }
+        
+        if let utmCampaign = config.utmCampaign, !utmCampaign.isEmpty {
+            ShopLiveCommon.setUtmCampaign(utmCampaign: utmCampaign)
+        }
+        else {
+            ShopLiveCommon.setUtmCampaign(utmCampaign: "")
+        }
+        
+        if let utmMedium = config.utmMedium, !utmMedium.isEmpty {
+            ShopLiveCommon.setUtmMedium(utmMedium: utmMedium)
+        }
+        else {
+            ShopLiveCommon.setUtmMedium(utmMedium: "")
+        }
+        
+        if let anonId = config.anonId, !anonId.isEmpty {
+            ShopLiveCommon.setAnonId(anonId: anonId)
+        }
+        else {
+            ShopLiveCommon.setAnonId(anonId: "")
+        }
+        
+        if let adId = config.adId, !adId.isEmpty {
+            ShopLiveCommon.setAdId(adId: adId)
+        }
+        else {
+            ShopLiveCommon.setAdId(adId: nil)
+        }
 //        
 //        ShopLive.setResizeMode(mode: config.resizeMode)
 //        
@@ -421,10 +428,10 @@ class MainViewController: UIViewController {
 //            ShopLive.setChatViewFont(inputBoxFont: config.useChatInputCustomFont ? customFont : nil, sendButtonFont: config.useChatSendButtonCustomFont ? customFont : nil)
 //        }
 //
-//        //
-//        if let appVersion = DemoConfiguration.shared.customAppVersion {
-//            ShopLive.setAppVersion(appVersion)
-//        }
+//        // Custom App Version Setting
+        if let appVersion = config.customerAppVersion {
+            ShopLive.setAppVersion(appVersion)
+        }
 //        
 //        // Picture in Picture Setting
 //        // legacy type setting
@@ -832,10 +839,8 @@ extension MainViewController {
     @objc func handleNotification(_ notification: Notification) {
         switch notification.name {
         case UIResponder.keyboardWillShowNotification:
-            self.setKeyboard(notification: notification)
             break
         case UIResponder.keyboardWillHideNotification:
-            self.setKeyboard(notification: notification)
             break
         default:
             break
@@ -920,33 +925,6 @@ extension MainViewController {
         ShopLive.setMuteWhenPlayStart(false)
         let vc = ShopLivePreviewSampleView(accessKey: currentKey.accessKey, campaignkey: currentKey.campaignKey)
         self.navigationController?.pushViewController(vc, animated: true)
-    }
-}
-
-extension MainViewController {
-    private func setKeyboard(notification: Notification) {
-        guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-        let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
-        
-        switch notification.name.rawValue {
-        case "UIKeyboardWillHideNotification":
-            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-            break
-        case "UIKeyboardWillShowNotification":
-            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardScreenEndFrame.height, right: 0)
-            break
-        default:
-            break
-        }
-      //  scrollToBottom()
-    }
-    
-    func scrollToBottom(){
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            let indexPath = IndexPath(row: self.viewModel.items.count-1, section: 0)
-            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-        }
     }
 }
 

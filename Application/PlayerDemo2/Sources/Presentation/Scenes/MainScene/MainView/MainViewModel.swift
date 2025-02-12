@@ -13,17 +13,18 @@ import RxSwift
 class MainViewModel: ViewModelType {
     
     struct Input {
-        // 상위뷰 -> 하위뷰
         var viewDidLoad: PublishSubject<Void>
         var updateLadingUrl: PublishSubject<String>
+
+        let updateVersionInfoData: PublishSubject<(VersionInfoButtonType, String)>
         var radioOptionObservable: PublishSubject<ShopLiveButtonType>
         var boxButtonObservable: PublishSubject<ShopLiveButtonType>
     }
     
     struct Output {
-        // 상위뷰 -> 하위뷰
         var updatedData: PublishSubject<UserInfoViewLoadData>
         var loadSDKConfiguration: PublishSubject<SDKConfiguration>
+
         var radioButtonSender: PublishSubject<ShopLiveButtonReceiveModel>
         var boxButtonSender: PublishSubject<ShopLiveButtonReceiveModel>
         // 하위뷰 -> 상위뷰
@@ -107,6 +108,18 @@ class MainViewModel: ViewModelType {
                     break
                 default: break
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        input.updateVersionInfoData
+            .withUnretained(self)
+            .subscribe(onNext: { owner, value in
+                let type = value.0
+                let stringValue = value.1
+                owner.updateVersionInfo(type: type, value: stringValue)
+                
+                guard let currentData = owner.loadUserData() else { return }
+                loadSDK.onNext(currentData)
             })
             .disposed(by: disposeBag)
         
@@ -218,6 +231,10 @@ class MainViewModel: ViewModelType {
     
     func updateUserMode(userMode: UserMode) {
         useCase.fetchUserMode(userMode: userMode)
+    }
+    
+    func updateVersionInfo(type: VersionInfoButtonType, value: String) {
+        useCase.fetchVersionInfoDatas(type: type, value: value)
     }
     
     func showUserInfoViewController() {
