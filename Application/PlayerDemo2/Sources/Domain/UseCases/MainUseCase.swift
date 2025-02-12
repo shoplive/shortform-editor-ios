@@ -14,11 +14,13 @@ protocol MainUseCase {
     func executeCampaign(name: String, accessKey: String, campaignKey: String) async throws -> ShopLiveKeySet
     func loadCurrentCampaign() -> ShopLiveKeySet?
     func loadAllCampaigns() -> ShopLiveCampaignsKey?
-    func saveCurrentCampaign(keySet: ShopLiveKeySet)
-    func updateCampaign(keySet: ShopLiveKeySet)
-    func loadUserInfo() -> (ShopLiveCommonUser?, String?)
+    func loadSDKConfiguration() -> SDKConfiguration?
     func loadUserMode() -> UserMode?
+    
+    func updateCampaign(keySet: ShopLiveKeySet)
+    func saveCurrentCampaign(keySet: ShopLiveKeySet)
     func fetchUserMode(userMode: UserMode)
+    func fetchLandingUrl(url: String)
 
     var updateNoti: Observable<Void> { get }
 }
@@ -52,8 +54,8 @@ final class DefaultMainUseCase: MainUseCase {
         return shopLiveKeySetRepository.fetchUpdateObservable
     }
     
-    func loadUserInfo() -> (ShopLiveCommonUser?, String?) {
-        userInfoRepository.loadUserData()
+    func loadSDKConfiguration() -> SDKConfiguration? {
+        userInfoRepository.loadSDKConfiguration()
     }
     
     func loadUserMode() -> UserMode? {
@@ -62,6 +64,10 @@ final class DefaultMainUseCase: MainUseCase {
     
     func fetchUserMode(userMode: UserMode) {
         userInfoRepository.fetchUserMode(userMode: userMode)
+    }
+    
+    func fetchLandingUrl(url: String) {
+        userInfoRepository.fetchLandingUrl(url: url)
     }
     
     func executeCampaign(name: String, accessKey: String, campaignKey: String) async throws -> ShopLiveKeySet {

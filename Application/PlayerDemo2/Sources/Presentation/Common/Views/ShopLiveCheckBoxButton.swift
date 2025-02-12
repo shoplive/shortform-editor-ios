@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import SnapKit
 
 protocol ShopLiveCheckBoxButtonDelegate: AnyObject {
     func didChecked(_ sender: ShopLiveCheckBoxButton)
@@ -91,20 +94,6 @@ final class ShopLiveCheckBoxButton: UIView {
             touchArea.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             touchArea.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
-
-//        checkButton.snp.makeConstraints {
-//            $0.leading.top.bottom.equalToSuperview()
-//            $0.height.equalTo(20)
-//        }
-//
-//        descriptionLabel.snp.makeConstraints {
-//            $0.top.bottom.trailing.equalToSuperview()
-//            $0.leading.equalTo(checkButton.snp.trailing).offset(5)
-//        }
-//
-//        touchArea.snp.makeConstraints {
-//            $0.edges.equalToSuperview()
-//        }
     }
 
     func configure(identifier: String, description: String) {
@@ -115,5 +104,26 @@ final class ShopLiveCheckBoxButton: UIView {
     @objc func didTouchCheckbox() {
         checkButton.isSelected = !checkButton.isSelected
         delegate?.didChecked(self)
+    }
+}
+
+
+extension UIButton {
+    func setInsets(
+        forContentPadding contentPadding: UIEdgeInsets,
+        imageTitlePadding: CGFloat
+    ) {
+        self.contentEdgeInsets = UIEdgeInsets(
+            top: contentPadding.top,
+            left: contentPadding.left,
+            bottom: contentPadding.bottom,
+            right: contentPadding.right + imageTitlePadding
+        )
+        self.titleEdgeInsets = UIEdgeInsets(
+            top: 0,
+            left: imageTitlePadding,
+            bottom: 0,
+            right: -imageTitlePadding
+        )
     }
 }

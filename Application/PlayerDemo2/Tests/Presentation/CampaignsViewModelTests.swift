@@ -39,7 +39,6 @@ class CampaignsViewModelTests: NSObject {
         #expect(viewModelKeySet.alias == mockKeySet.alias)
         #expect(viewModelKeySet.campaignKey == mockKeySet.campaignKey)
         #expect(viewModelKeySet.accessKey == mockKeySet.accessKey)
-        
     }
 }
 

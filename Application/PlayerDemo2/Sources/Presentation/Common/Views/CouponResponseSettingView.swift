@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 import ShopLiveSDK
 
 final class CouponResponseSettingView: UIView {

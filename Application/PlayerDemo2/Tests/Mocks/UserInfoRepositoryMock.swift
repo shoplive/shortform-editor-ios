@@ -29,6 +29,10 @@ class MockUserInfoRepository: UserInfoRepository {
     
     func loadUserMode() -> PlayerDemo2.UserMode? { nil }
     
+    func loadSDKConfiguration() -> PlayerDemo2.SDKConfiguration? { nil }
+    
+    func fetchLandingUrl(url: String) { }
+    
     func fetchUser(userId: String?, userName: String?, age: String?, userScore: String?, gender: ShopliveCommonUserGender?) async throws -> ShopLiveCommonUser {
         if shouldFail {
             throw NSError(domain: "Test", code: -1)

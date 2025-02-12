@@ -10,6 +10,19 @@ import Foundation
 
 import UIKit
 
+final class ShopLiveRadioOptionCustomButton: UIButton {
+    var id: ShopLiveButtonType
+    
+    init(id: ShopLiveButtonType) {
+        self.id = id
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 protocol ShopLiveRadioOptionButtonDelegate: AnyObject {
     func didSelectRadioButton(_ sender: ShopLiveRadioOptionButton)
 }

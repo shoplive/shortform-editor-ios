@@ -25,6 +25,10 @@ class MainViewModelTests: XCTestCase {
     var items: [String] = ["CampaignInfoCell", "UserInfoCell"]
     
     class MainUseCaseMock: MainUseCase {
+        func loadSDKConfiguration() -> PlayerDemo2.SDKConfiguration? { nil }
+        
+        func fetchLandingUrl(url: String) { }
+        
         func loadUserInfo() -> (ShopliveSDKCommon.ShopLiveCommonUser?, String?) { (nil, nil) }
         
         func loadUserMode() -> PlayerDemo2.UserMode? { nil }

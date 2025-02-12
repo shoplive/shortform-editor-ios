@@ -11,10 +11,13 @@ import ShopliveSDKCommon
 
 protocol UserInfoRepository {
     func loadUserData() -> (ShopLiveCommonUser?, String?)
+    func loadSDKConfiguration() -> SDKConfiguration?
+    func loadUserMode() -> UserMode?
+    
     func fetchUser(userId: String?, userName: String?, age: String?, userScore: String?, gender: ShopliveCommonUserGender?) async throws -> ShopLiveCommonUser
     func fetchUserData(user: ShopLiveCommonUser?, userToken: String?)
     func fetchUserMode(userMode: UserMode)
-    func loadUserMode() -> UserMode?
+    func fetchLandingUrl(url: String)
     
 }
 
@@ -29,6 +32,10 @@ final class DefaultUserInfoRepository: UserInfoRepository {
     func loadUserData() -> (ShopLiveCommonUser?, String?) {
         let data = userDefaultsStorage.get()
         return (data?.user, data?.jwtToken)
+    }
+    
+    func loadSDKConfiguration() -> SDKConfiguration? {
+        userDefaultsStorage.get()
     }
     
     func loadUserMode() -> UserMode? {
@@ -77,6 +84,15 @@ final class DefaultUserInfoRepository: UserInfoRepository {
         currentData?.userMode = userMode
         currentData?.isGuestMode = userMode.isGuestMode
         currentData?.useJWTToken = userMode.useJWT
+        
+        guard let currentData else { return }
+        userDefaultsStorage.save(data: currentData)
+    }
+
+    func fetchLandingUrl(url: String) {
+        var currentData = userDefaultsStorage.get()
+        
+        currentData?.customLandingUrl = url
         
         guard let currentData else { return }
         userDefaultsStorage.save(data: currentData)

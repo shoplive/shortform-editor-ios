@@ -15,12 +15,17 @@ class MainViewModel: ViewModelType {
     struct Input {
         // 상위뷰 -> 하위뷰
         var viewDidLoad: PublishSubject<Void>
+        var updateLadingUrl: PublishSubject<String>
+        var radioOptionObservable: PublishSubject<ShopLiveButtonType>
+        var boxButtonObservable: PublishSubject<ShopLiveButtonType>
     }
     
     struct Output {
         // 상위뷰 -> 하위뷰
         var updatedData: PublishSubject<UserInfoViewLoadData>
-        
+        var loadSDKConfiguration: PublishSubject<SDKConfiguration>
+        var radioButtonSender: PublishSubject<ShopLiveButtonReceiveModel>
+        var boxButtonSender: PublishSubject<ShopLiveButtonReceiveModel>
         // 하위뷰 -> 상위뷰
         let showUserInfoViewController: PublishSubject<Void>
         let updatedUserMode: PublishSubject<UserMode>
@@ -30,15 +35,24 @@ class MainViewModel: ViewModelType {
     private var updatedDataSubject = PublishSubject<UserInfoViewLoadData>()
     private var updatedUserMode = PublishSubject<UserMode>()
     
+    private(set) var landingUrl: String = ""
     var disposeBag: DisposeBag = DisposeBag()
     
     func transform(input: Input) -> Output {
         
+        let loadSDK = PublishSubject<SDKConfiguration>()
+        let radioButtonSender = PublishSubject<ShopLiveButtonReceiveModel>()
+        let boxButtonSender = PublishSubject<ShopLiveButtonReceiveModel>()
+        
         input.viewDidLoad
             .withUnretained(self)
             .subscribe(onNext: { owner, _ in
-                let (user, jwt, mode) = owner.loadUserData()
-                owner.updatedDataSubject.onNext(.init(user: user, jwt: jwt, userMode: mode ?? .Guest))
+                let sdkConfiguration = owner.loadUserData()
+                owner.updatedDataSubject.onNext(.init(user: sdkConfiguration?.user,
+                                                      jwt: sdkConfiguration?.jwtToken,
+                                                      userMode: sdkConfiguration?.userMode ?? .Guest))
+                guard let sdkConfiguration else { return }
+                loadSDK.onNext(sdkConfiguration)
             })
             .disposed(by: disposeBag)
         
@@ -56,7 +70,50 @@ class MainViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
         
+        input.updateLadingUrl
+            .withUnretained(self)
+            .subscribe(onNext: { owner, value in
+                owner.landingUrl = value
+            })
+            .disposed(by: disposeBag)
+           
+        input.radioOptionObservable
+            .subscribe(onNext: { value in
+                ShopLiveDevConfiguration.shared.phase = value.stringValue
+                radioButtonSender.onNext(.init(type: value, isSelected: true))
+            })
+            .disposed(by: disposeBag)
+        
+        input.boxButtonObservable
+            .withUnretained(self)
+            .subscribe(onNext: { owner, value in
+                
+                switch value {
+                case .webDebug:
+                    ShopLiveDevConfiguration.shared.useWebLog = !ShopLiveDevConfiguration.shared.useWebLog
+                    let boolValue: Bool = ShopLiveDevConfiguration.shared.useWebLog
+                    boxButtonSender.onNext(.init(type: value, isSelected: boolValue))
+                    break
+                case .useLockPortrait:
+                    ShopLiveDevConfiguration.shared.useLockPortrait = !ShopLiveDevConfiguration.shared.useLockPortrait
+                    let boolValue: Bool = ShopLiveDevConfiguration.shared.useLockPortrait
+                    
+                    if ShopLiveDevConfiguration.shared.useLockPortrait {
+                        DemoAppUtility.lockOrientation(.portrait)
+                    } else {
+                        DemoAppUtility.lockOrientation(.all)
+                    }
+                    boxButtonSender.onNext(.init(type: value, isSelected: boolValue))
+                    break
+                default: break
+                }
+            })
+            .disposed(by: disposeBag)
+        
         return .init(updatedData: updatedDataSubject,
+                     loadSDKConfiguration: loadSDK,
+                     radioButtonSender: radioButtonSender,
+                     boxButtonSender: boxButtonSender,
                      showUserInfoViewController: showVCSubject,
                      updatedUserMode: updatedUserMode)
     }
@@ -147,12 +204,16 @@ class MainViewModel: ViewModelType {
     
     func updatedUserData() {
         let userData = loadUserData()
-        updatedDataSubject.onNext(.init(user: userData.0 ?? .init(userId: ""), jwt: userData.1, userMode: userData.2 ?? .Guest))
+        updatedDataSubject.onNext(.init(user: userData?.user ?? .init(userId: ""), jwt: userData?.jwtToken, userMode: userData?.userMode ?? .Guest))
     }
     
-    func loadUserData() -> (ShopLiveCommonUser?, String?, UserMode?) {
-        let data = useCase.loadUserInfo()
-        return (data.0, data.1, useCase.loadUserMode())
+    func loadUserData() -> SDKConfiguration? {
+        let data = useCase.loadSDKConfiguration()
+        return data
+    }
+    
+    func updateCustomLandingUrl() {
+        useCase.fetchLandingUrl(url: landingUrl)
     }
     
     func updateUserMode(userMode: UserMode) {

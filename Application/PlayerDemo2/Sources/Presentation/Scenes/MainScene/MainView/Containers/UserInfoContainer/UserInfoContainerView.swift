@@ -239,6 +239,7 @@ extension UserInfoContainerView {
             $0.top.equalTo(userinfoTitleLabel.snp.bottom).offset(15)
             $0.leading.equalTo(userinfoTitleLabel.snp.leading)
             $0.trailing.equalTo(self.snp.trailing).offset(-15)
+            $0.bottom.equalTo(self.snp.bottom)
         }
     }
 }

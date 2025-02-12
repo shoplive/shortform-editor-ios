@@ -67,6 +67,7 @@ class MainViewController: UIViewController {
     
     private lazy var campaignContainerView = CampaignContainerView()
     private lazy var userInfoContainerView = UserInfoContainerView()
+    private lazy var devInfoContainerView = DevInfoContainerView()
     
     // Property
     private var hanaBankTimer : Double = 0
@@ -100,7 +101,6 @@ class MainViewController: UIViewController {
         
         // configure
         configureInit()
-        //configureTableView()
         SampleOptions.campaignNaviMoreOptions = ["campaign.menu.write".localized(), "QR code", "Dev-Admin", "Admin", "campaign.menu.deleteall".localized()]
         configureTabbar()
         configureShopLive()
@@ -121,28 +121,39 @@ class MainViewController: UIViewController {
     func bind() {
         
         let viewDidLoadSubject = PublishSubject<Void>()
+        let updateLandingUrl = PublishSubject<String>()
         
-        let input = MainViewModel.Input(viewDidLoad: viewDidLoadSubject)
+        let radioOptionObservable = PublishSubject<ShopLiveButtonType>()
+        let boxButtonObservable = PublishSubject<ShopLiveButtonType>()
+        
+        // MARK: - MainView Input/Output
+        let input = MainViewModel.Input(viewDidLoad: viewDidLoadSubject,
+                                        updateLadingUrl: updateLandingUrl,
+                                        radioOptionObservable: radioOptionObservable,
+                                        boxButtonObservable: boxButtonObservable)
         let output = viewModel.transform(input: input)
         
         viewModel.updateNoti()
             .withUnretained(self)
-            .subscribe(onNext: { owner, data in
-                owner.campaignContainerView.configure(keySet: owner.viewModel.loadCurrentCampaign())
-            })
+            .subscribe(onNext: { owner, data in owner.campaignContainerView.configure(keySet: owner.viewModel.loadCurrentCampaign()) })
             .disposed(by: disposeBag)
         
-        let containerInput: UserInfoContainerView.Input = .init(
-            updatedData: output.updatedData
-        )
-        
-        let containerOutput: UserInfoContainerView.Output = .init(
-            showUserInfoViewController: output.showUserInfoViewController,
-            updateData: output.updatedUserMode
-        )
-        
-        userInfoContainerView.configure(input: containerInput, output: containerOutput)
+        // MARK: - UserInfo Input/Output
+        let containerInput: UserInfoContainerView.Input = .init(updatedData: output.updatedData)
+        let containerOutput: UserInfoContainerView.Output = .init(showUserInfoViewController: output.showUserInfoViewController, updateData: output.updatedUserMode)
+        userInfoContainerView.configure(input: containerInput,
+                                        output: containerOutput)
         campaignContainerView.configure(keySet: viewModel.loadCurrentCampaign())
+        
+        // MARK: - devInfoContainerView Input/Output
+        let devInfoInput = DevInfoContainerView.Input(setData: output.loadSDKConfiguration,
+                                                      radioButtonSender: output.radioButtonSender,
+                                                      boxButtonSender: output.boxButtonSender)
+        let devInfoOutput = DevInfoContainerView.Output(checkBoxObservable: input.boxButtonObservable,
+                                                        radioOptionObservable: input.radioOptionObservable,
+                                                        urlTextObservable: input.updateLadingUrl)
+        
+        devInfoContainerView.configurationContainer(input: devInfoInput, output: devInfoOutput)
         
         viewDidLoadSubject.onNext(())
     }
@@ -150,6 +161,8 @@ class MainViewController: UIViewController {
     func setScrollViewLayout() {
         self.view.addSubview(scrollView)
         scrollView.addSubview(contentView)
+        
+        contentView.addSubview(devInfoContainerView)
         contentView.addSubview(campaignContainerView)
         contentView.addSubview(userInfoContainerView)
         
@@ -168,9 +181,16 @@ class MainViewController: UIViewController {
             $0.bottom.equalTo(self.scrollView.snp.bottom)
             $0.height.equalTo(5000)
         }
+
+        devInfoContainerView.snp.makeConstraints {
+            $0.top.equalTo(self.contentView.snp.top)
+            $0.leading.equalTo(self.view.snp.leading)
+            $0.trailing.equalTo(self.view.snp.trailing)
+            $0.bottom.equalTo(campaignContainerView.snp.top)
+        }
         
         campaignContainerView.snp.makeConstraints {
-            $0.top.equalTo(self.contentView.snp.top)
+            $0.top.equalTo(self.devInfoContainerView.snp.bottom)
             $0.leading.equalTo(self.contentView.snp.leading)
             $0.trailing.equalTo(self.contentView.snp.trailing)
             $0.bottom.equalTo(self.userInfoContainerView.snp.top)
@@ -180,8 +200,8 @@ class MainViewController: UIViewController {
             $0.top.equalTo(self.campaignContainerView.snp.bottom)
             $0.leading.equalTo(self.contentView.snp.leading)
             $0.trailing.equalTo(self.contentView.snp.trailing)
-            $0.height.lessThanOrEqualTo(150)
         }
+        
     }
     
     func setScrollViewData() {
@@ -203,27 +223,6 @@ class MainViewController: UIViewController {
         view.addGestureRecognizer(tap)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    func configureTableView() {
-        
-        self.view.addSubview(tableView)
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        viewModel.controlItems(action: .insert, value: "DemoInfoCell", at: 0)
-        viewModel.controlItems(action: .insert, value: "VersionInfoCell", at: 0)
-        
-        tableView.register(DevInfoCell.self, forCellReuseIdentifier: "DemoInfoCell")
-        tableView.register(VersionInfoCell.self, forCellReuseIdentifier: "VersionInfoCell")
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
     }
     
     func configureShopLive() {
@@ -301,8 +300,8 @@ class MainViewController: UIViewController {
 
     func setupShopliveSettings() {
         
-//        let config = DemoConfiguration.shared
-//        
+        guard let config = viewModel.loadUserData() else { return }
+//
 //        if let utmSource = config.utmSource, !utmSource.isEmpty {
 //            ShopLiveCommon.setUtmSource(utmSource: utmSource)
 //        } else {
@@ -447,37 +446,38 @@ class MainViewController: UIViewController {
 //        ShopLive.setMuteWhenPlayStart(config.isMuted)
 //        
 //        
-//        // Phase Setting
-//        let phase = ShopLiveDevConfiguration.shared.phase
-//        
-//        var landingUrl: String = "https://www.shoplive.show/v1/sdk.html"
-//        switch phase {
-//        case "DEV":
-//            landingUrl = "https://dev.shoplive.show/v1/sdk.html"
-//            break
-//        case "QA":
-//            landingUrl = "https://qa.shoplive.show/v1/sdk.html"
-//            break
-//        case "STAGE":
-//            landingUrl = "https://stg.shoplive.show/v1/sdk.html"
-//            break
-//        case "CUSTOM":
-//            if let customLanding = config.customLandingInput, !customLanding.isEmpty {
-//                landingUrl = customLanding
-//                config.customLandingUrl = customLanding
-//            } else {
-//                landingUrl = ""
-//            }
-//            break
-//        default:
-//            break
-//        }
-//        
-//        if !landingUrl.isEmpty {
-//            ShopLive.setEndpoint(landingUrl)
-//        } else {
-//            ShopLive.setEndpoint(nil)
-//        }
+        // Phase Setting
+        let phase = ShopLiveDevConfiguration.shared.phase
+        
+        var landingUrl: String = "https://www.shoplive.show/v1/sdk.html"
+        switch phase {
+        case "DEV":
+            landingUrl = "https://dev.shoplive.show/v1/sdk.html"
+            break
+        case "QA":
+            landingUrl = "https://qa.shoplive.show/v1/sdk.html"
+            break
+        case "STAGE":
+            landingUrl = "https://stg.shoplive.show/v1/sdk.html"
+            break
+        case "CUSTOM":
+            
+            if !viewModel.landingUrl.isEmpty {
+                landingUrl = viewModel.landingUrl
+                viewModel.updateCustomLandingUrl()
+            } else {
+                landingUrl = ""
+            }
+            break
+        default:
+            break
+        }
+        
+        if !landingUrl.isEmpty {
+            ShopLive.setEndpoint(landingUrl)
+        } else {
+            ShopLive.setEndpoint(nil)
+        }
 //        
 //        let pipSize : ShopLiveInAppPipSize
 //        if let max = DemoConfiguration.shared.maxPipSize {
@@ -892,7 +892,7 @@ extension MainViewController {
 //
 //        
 //        ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
-//        setupShopliveSettings()
+        setupShopliveSettings()
 //        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
 //        
 //        
@@ -950,24 +950,6 @@ extension MainViewController {
     }
 }
 
-extension MainViewController: UITableViewDelegate, UITableViewDataSource {
-    
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.items.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        guard let item = viewModel.items[safe: indexPath.row], let cell = tableView.dequeueReusableCell(withIdentifier: item, for: indexPath) as? SampleBaseCell else {
-            return UITableViewCell()
-        }
-        cell.configure(parent: self)
-        cell.baseDelegate = self
-        return cell
-    }
-}
-
 extension MainViewController: CampaignContainerDelegate {
     
     func showCampaignsViewController() {
@@ -976,15 +958,5 @@ extension MainViewController: CampaignContainerDelegate {
     
     func updateKeySet(_ keyset: ShopLiveKeySet) {
         viewModel.updateSetKey(value: keyset)
-    }
-}
-
-extension MainViewController: SampleBaseCellDelegate {
-    func updateDatas() {
-        self.tableView.reloadData()
-    }
-    
-    func showUserInfoView() {
-        viewModel.showUserInfoViewController()
     }
 }
