@@ -839,7 +839,7 @@ extension ShortsCollectionBaseViewModel {
     }
     
     func postHandleShareNotification(payload : [String : Any]?) {
-        guard let url = payload?["url"] as? String else { return }
+        ShopLiveLogger.tempLog("[SHAHRE] payload \(payload)")
         if let url = payload?["url"] as? String {
             self.onShareWithUrl(url: url)
         }
