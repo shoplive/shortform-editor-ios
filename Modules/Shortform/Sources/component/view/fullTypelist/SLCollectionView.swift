@@ -22,6 +22,10 @@ final class SLCollectionView: UICollectionView {
     }
     
     private var reloadDataCompletionBlock: (() -> Void)?
+    
+    
+    private var isContentViewDrawed : Bool = false
+    var didRenderContentView : (() -> ())?
         
     func reloadDataWithCompletion(items: [IndexPath], _ complete: @escaping () -> Void) {
         reloadDataCompletionBlock = complete
@@ -36,6 +40,12 @@ final class SLCollectionView: UICollectionView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        if isContentViewDrawed == false && self.contentSize != .zero {
+            isContentViewDrawed = true
+            self.didRenderContentView?()
+        }
+        
         if let block = reloadDataCompletionBlock {
             block()
             self.reloadDataCompletionBlock = nil

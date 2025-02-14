@@ -77,6 +77,7 @@ class V2ShortsCollectionExampleView : UIViewController {
         removeLastIndexBtn.addTarget(self, action: #selector(removeLastIndexBtnTapped), for: .touchUpInside)
     }
     
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         ShopLiveLogger.tempLog("[VIDEO_TOTAL_VIEWING_TIME] viewDidAppear")

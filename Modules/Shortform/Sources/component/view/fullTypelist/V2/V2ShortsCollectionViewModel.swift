@@ -93,7 +93,6 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
         }
         else {
             self.v2delegate?.hideEmptyDataView(hide: true)
-            
             if let startIndex = self.scrollToPage {
                 if startIndex < 3 {
                     self.requestedShortFormIdsList.append(contentsOf: self.shortFormIdsList.prefix(5))

@@ -123,7 +123,7 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
         viewmodel.delegate = self
         layout()
         setupObserver()
-        bindData()
+        bindShortsListContentRenderer()
     }
     
     required init?(coder: NSCoder) {
@@ -145,11 +145,7 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
         if inAppPreviewView.frame.width != .zero {
             setCloseButtonVisible(viewModel.shortsMode == .preview && viewModel.getPreviewUseCloseBtn() )
         }
-        
-        if let selfSize = viewModel.superviewSize, selfSize == self.frame.size, !viewModel.isViewAppeared {
-            viewModel.isViewAppeared = true
-        }
-        
+       
         updateCloseButtonDim()
     }
     
@@ -174,8 +170,6 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     }
     
     
-    func bindData() {}
-    
     @objc func didTouchCloseButton() {
         guard viewModel.getPreviewUseCloseBtn() else { return }
         if viewModel.currentApiType == .related && viewModel.isFullNative {
@@ -187,6 +181,15 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
             ShortformNativeOnEventsManager.sendNativeOnEvents(delegate: shortformDelegate, command: .preview_hidden, payload: nil, shortsId: viewModel.currentShortsId, shortsDetail: viewModel.currentShorts?.shortsDetail)
         }
         ShopLiveShortform.close()
+    }
+    
+    private func bindShortsListContentRenderer() {
+        shortsListView.didRenderContentView = { [weak self] in
+            guard let self = self else { return }
+            if !viewModel.isViewAppeared {
+                viewModel.isViewAppeared = true
+            }
+        }
     }
     
     func setSnapShotViewHidden(animate : Bool, isHidden : Bool) {
