@@ -131,7 +131,6 @@ class ShortsCollectionBaseViewModel : NSObject {
     
     
     //cell state
-    var shortsDetailInitialized: Bool = false
     var latestActivePageIndex : Int = -1
     private var videoCurrentTimeWhenPreviewTapped : ShortformCurrentTimeDTO?
     private var videoShortsIdWhenPreviewTapped : String?

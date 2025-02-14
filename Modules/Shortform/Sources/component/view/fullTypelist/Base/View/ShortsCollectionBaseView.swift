@@ -188,6 +188,9 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
             guard let self = self else { return }
             if !viewModel.isViewAppeared {
                 viewModel.isViewAppeared = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.checkShortsCellAttachedDetached()
+                }
             }
         }
     }
@@ -557,12 +560,9 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
         if viewModel.blockScrollViewDidScrollForRotation == false {
             self.playCurrentItem()
         }
-        if let shortsCell = self.shortsListView.visibleCells as? [ShortsCell] {
-            shortsCell.forEach { cell in
-                cell.checkAttachedAndDetached(scrollView: shortsListView, coordinateView: self)
-            }
-        }
+        checkShortsCellAttachedDetached()
     }
+    
     
     /**
      v1 overrided
@@ -635,8 +635,14 @@ extension ShortsCollectionBaseView {
             currentCell.play(skipIfPaused: false)
         }
     }
-    
-    
+   
+    private func checkShortsCellAttachedDetached() {
+        if let shortsCell = self.shortsListView.visibleCells as? [ShortsCell] {
+            shortsCell.forEach { cell in
+                cell.checkAttachedAndDetached(scrollView: shortsListView, coordinateView: self)
+            }
+        }
+    }
 }
 
 extension ShortsCollectionBaseView : ShortsCollectionBaseViewModelDelegate {

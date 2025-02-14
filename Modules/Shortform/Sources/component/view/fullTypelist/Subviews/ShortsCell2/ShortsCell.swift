@@ -128,6 +128,7 @@ class ShortsCell : UICollectionViewCell {
                        setShortsSingleDetailViewPayload : [String : Any]?,
                        preferredForwardBufferDuration : Double) {
         self.attachState = nil
+        bindShortsView()
         shortsView.configureShortsView(webView: webView,
                                        youtubeWebView: youtubeWebView,
                                        model: model,

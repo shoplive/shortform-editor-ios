@@ -76,7 +76,6 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
         super.layoutSubviews()
         guard let shortsCollectionView = getShortsCollectionView() else { return }
         shortsCollectionView.updateItemSize(self.frame.size)
-        shortsCollectionView.triggerViewDidAppear()
     }
     
     public func action(_ action: Action) {

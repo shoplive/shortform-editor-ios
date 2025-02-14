@@ -253,6 +253,14 @@ extension V2ShortsCollectionExampleView : ShortsCollectionViewDataSourcRequestDe
     }
 }
 extension V2ShortsCollectionExampleView : ShopLiveShortformReceiveHandlerDelegate {
+    func onShortsAttached(data: ShopLiveShortformData) {
+        ShopLiveLogger.tempLog("[SHORTFORMATTACH] attach \(data.shortsId)")
+    }
+    
+    func onShortsDetached(data: ShopLiveShortformData) {
+        ShopLiveLogger.tempLog("[SHORTFORMATTACH] detach \(data.shortsId)")
+    }
+    
     func onEvent(messenger: ShopLiveShortformMessenger?, command: String, payload: String?) {
         switch command {
         case "DETAIL_EMPTY":

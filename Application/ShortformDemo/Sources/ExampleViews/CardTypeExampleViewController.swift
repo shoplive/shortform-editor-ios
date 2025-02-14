@@ -134,6 +134,14 @@ extension CardTypeExampleViewController : ShopLiveShortformListViewDelegate {
     func applyShortsSettings(model : OptionSettingModel) {
         self.optionModels = model
     }
+    
+    func onShortsAttached(data: ShopLiveShortformData) {
+        ShopLiveLogger.tempLog("[SHORTFORMATTACH] attach \(data.shortsId)")
+    }
+    
+    func onShortsDetached(data: ShopLiveShortformData) {
+        ShopLiveLogger.tempLog("[SHORTFORMATTACH] detach \(data.shortsId)")
+    }
 }
 extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegate {
     func handleProductItem(shortsId : String, shortsSrn : String, product : ProductData) {
