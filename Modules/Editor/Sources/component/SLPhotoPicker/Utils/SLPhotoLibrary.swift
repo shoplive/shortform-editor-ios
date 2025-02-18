@@ -154,9 +154,9 @@ extension SLPhotoLibrary {
             let durationPredicate = NSPredicate(format: "duration < %f", maxVideoDuration)
             options.merge(predicate: durationPredicate)
         }
-        
-        let notLivePhotoPredicate = NSPredicate(format: "NOT ((mediaSubtype & %d) != 0)", PHAssetMediaSubtype.photoLive.rawValue)
-        options.merge(predicate: notLivePhotoPredicate)
+       
+        let livePhotoPredicate = NSPredicate(format: "(mediaSubtype & %d) != 0", PHAssetMediaSubtype.photoLive.rawValue)
+        options.merge(predicate: livePhotoPredicate)
         return options
     }
     
