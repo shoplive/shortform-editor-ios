@@ -213,7 +213,14 @@ extension SLVideoInfo {
     }
     
     var commandDefault: String {
-        "-ss \(timeRange.start.timeHourMinuteSeconds_SL) -to \(timeRange.end.timeHourMinuteSeconds_SL) -i \(videoPath) -filter:v crop='\(modifiedCropWidth):\(modifiedCropHeight):\(cropRect.origin.x):\(cropRect.origin.y)' -y \(ffmpegOutPutVideoPath)"
+        """
+-ss \(timeRange.start.timeHourMinuteSeconds_SL) \
+-to \(timeRange.end.timeHourMinuteSeconds_SL) \
+-i \(videoPath) \
+-filter:v crop='\(modifiedCropWidth):\(modifiedCropHeight):\(cropRect.origin.x):\(cropRect.origin.y)' -y \
+\(videoQuality) \
+\(ffmpegOutPutVideoPath)
+"""
     }
 }
 
