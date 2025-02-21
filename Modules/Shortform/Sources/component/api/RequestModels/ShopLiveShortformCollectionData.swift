@@ -27,7 +27,7 @@ public class ShopLiveShortformCollectionData {
                 shuffle: Bool? = nil,
                 referrer : String? = nil,
                 skus : [String]? = nil,
-                shortsCollectionId : String?,
+                shortsCollectionId : String? = nil,
                 isMuted : Bool? = false,
                 delegate : ShopLiveShortformReceiveHandlerDelegate?) {
         self.reference = reference

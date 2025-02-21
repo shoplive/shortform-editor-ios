@@ -142,9 +142,19 @@ extension SLPhotoLibrary {
             options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         }
         if let mediaType = configure.mediaType {
-            let mediaPredicate = NSPredicate(format: "mediaType = %i", mediaType.rawValue)
-            options.merge(predicate: mediaPredicate)
+            if configure.mediaType == .image {
+                let predicate = NSPredicate(format: "mediaType == %d OR (mediaType == %d AND mediaSubtypes & %d > 0)",
+                                            PHAssetMediaType.image.rawValue,
+                                            PHAssetMediaType.image.rawValue,
+                                            PHAssetMediaSubtype.photoLive.rawValue)
+                options.merge(predicate: predicate)
+            }
+            else {
+                let mediaPredicate = NSPredicate(format: "mediaType = %i", mediaType.rawValue)
+                options.merge(predicate: mediaPredicate)
+            }
         }
+        
         if configure.allowedVideo == false {
             let notVideoPredicate = NSPredicate(format: "mediaType != %i", PHAssetMediaType.video.rawValue)
             options.merge(predicate: notVideoPredicate)
@@ -155,8 +165,11 @@ extension SLPhotoLibrary {
             options.merge(predicate: durationPredicate)
         }
        
-        let livePhotoPredicate = NSPredicate(format: "(mediaSubtype & %d) != 0", PHAssetMediaSubtype.photoLive.rawValue)
-        options.merge(predicate: livePhotoPredicate)
+        if configure.mediaType == .video {
+            let notLivePhotoPredicate = NSPredicate(format: "NOT ((mediaSubtype & %d) != 0)", PHAssetMediaSubtype.photoLive.rawValue)
+            options.merge(predicate: notLivePhotoPredicate)
+        }
+
         return options
     }
     

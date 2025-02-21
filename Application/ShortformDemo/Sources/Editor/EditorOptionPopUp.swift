@@ -428,10 +428,13 @@ extension EditorOptionPopUp : ShopLiveCoverPickerDelegate {
     
     func onShopLiveCoverPickerCoverImageSuccess(picker: UIViewController?, image: UIImage?) {
         picker?.navigationController?.dismiss(animated: true)
+        
     }
     
     func onShopLiveCoverPickerUploadSuccess(picker: UIViewController?, result: ShopliveEditorResultData?) {
-        dump(result)
+        if let nav = picker?.navigationController {
+            nav.dismiss(animated: true)
+        }
     }
     
 }
