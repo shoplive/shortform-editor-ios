@@ -58161,21 +58161,21 @@
       "kind": "StringLiteral",
       "offset": 3140,
       "length": 8,
-      "value": "\"-q:v 6\""
+      "value": "\"-q:v 5\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
       "offset": 3188,
       "length": 8,
-      "value": "\"-q:v 4\""
+      "value": "\"-q:v 3\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
       "offset": 3235,
       "length": 8,
-      "value": "\"-q:v 2\""
+      "value": "\"-q:v 1\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
@@ -58748,272 +58748,279 @@
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
       "offset": 6666,
-      "length": 6544,
+      "length": 69,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
       "offset": 6733,
-      "length": 241,
+      "length": 273,
       "value": "\"-ss \""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
-      "offset": 6781,
+      "offset": 6784,
       "length": 1,
       "value": "\" -to \""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
-      "offset": 6827,
+      "offset": 6832,
       "length": 1,
       "value": "\" -i \""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
-      "offset": 6843,
+      "offset": 6850,
       "length": 1,
       "value": "\" -filter:v crop='\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
-      "offset": 6880,
+      "offset": 6889,
       "length": 1,
       "value": "\":\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
-      "offset": 6902,
+      "offset": 6911,
       "length": 1,
       "value": "\":\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
-      "offset": 6923,
+      "offset": 6932,
       "length": 1,
       "value": "\":\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
-      "offset": 6944,
-      "length": 30,
+      "offset": 6953,
+      "length": 6,
       "value": "\"' -y \""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
-      "offset": 6973,
+      "offset": 6975,
       "length": 1,
+      "value": "\" \""
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
+      "kind": "StringLiteral",
+      "offset": 7002,
+      "length": 6240,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 7584,
+      "offset": 7616,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 7630,
+      "offset": 7662,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "IntegerLiteral",
-      "offset": 7760,
+      "offset": 7792,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "IntegerLiteral",
-      "offset": 7867,
+      "offset": 7899,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 8111,
+      "offset": 8143,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 8137,
+      "offset": 8169,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 8356,
+      "offset": 8388,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 8397,
+      "offset": 8429,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 8590,
+      "offset": 8622,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 8646,
+      "offset": 8678,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 8975,
+      "offset": 9007,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 9024,
+      "offset": 9056,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 9248,
+      "offset": 9280,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 9312,
+      "offset": 9344,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 9693,
+      "offset": 9725,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 9750,
+      "offset": 9782,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 9994,
+      "offset": 10026,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "Array",
-      "offset": 10312,
+      "offset": 10344,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 10483,
+      "offset": 10515,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 10523,
+      "offset": 10555,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "Array",
-      "offset": 10743,
+      "offset": 10775,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "IntegerLiteral",
-      "offset": 11086,
+      "offset": 11118,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
-      "offset": 11125,
+      "offset": 11157,
       "length": 27,
       "value": "\"ffmpeg command \""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
-      "offset": 11151,
+      "offset": 11183,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
-      "offset": 12010,
+      "offset": 12042,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "IntegerLiteral",
-      "offset": 12331,
+      "offset": 12363,
       "length": 4,
       "value": "1000"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "IntegerLiteral",
-      "offset": 12446,
+      "offset": 12478,
       "length": 3,
       "value": "100"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "IntegerLiteral",
-      "offset": 12579,
+      "offset": 12611,
       "length": 3,
       "value": "100"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "IntegerLiteral",
-      "offset": 12694,
+      "offset": 12726,
       "length": 3,
       "value": "100"
     },
@@ -75232,91 +75239,98 @@
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/Utils\/SLPhotoLibrary.swift",
       "kind": "StringLiteral",
-      "offset": 5952,
+      "offset": 5998,
+      "length": 65,
+      "value": "\"mediaType == %d OR (mediaType == %d AND mediaSubtypes & %d > 0)\""
+    },
+    {
+      "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/Utils\/SLPhotoLibrary.swift",
+      "kind": "StringLiteral",
+      "offset": 6445,
       "length": 16,
       "value": "\"mediaType = %i\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/Utils\/SLPhotoLibrary.swift",
       "kind": "BooleanLiteral",
-      "offset": 6090,
+      "offset": 6610,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/Utils\/SLPhotoLibrary.swift",
       "kind": "StringLiteral",
-      "offset": 6154,
+      "offset": 6674,
       "length": 17,
       "value": "\"mediaType != %i\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/Utils\/SLPhotoLibrary.swift",
       "kind": "StringLiteral",
-      "offset": 6400,
+      "offset": 6920,
       "length": 15,
       "value": "\"duration < %f\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/Utils\/SLPhotoLibrary.swift",
       "kind": "StringLiteral",
-      "offset": 6566,
+      "offset": 7132,
       "length": 32,
       "value": "\"NOT ((mediaSubtype & %d) != 0)\""
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/Utils\/SLPhotoLibrary.swift",
       "kind": "Array",
-      "offset": 7199,
+      "offset": 7780,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/Utils\/SLPhotoLibrary.swift",
       "kind": "BooleanLiteral",
-      "offset": 8090,
+      "offset": 8671,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/Utils\/SLPhotoLibrary.swift",
       "kind": "IntegerLiteral",
-      "offset": 8771,
+      "offset": 9352,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/Utils\/SLPhotoLibrary.swift",
       "kind": "BooleanLiteral",
-      "offset": 9044,
+      "offset": 9625,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/Utils\/SLPhotoLibrary.swift",
       "kind": "BooleanLiteral",
-      "offset": 9765,
+      "offset": 10346,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/Utils\/SLPhotoLibrary.swift",
       "kind": "IntegerLiteral",
-      "offset": 10134,
+      "offset": 10715,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/Utils\/SLPhotoLibrary.swift",
       "kind": "IntegerLiteral",
-      "offset": 10980,
+      "offset": 11561,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/sangminhan\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/SLPhotoPicker\/Utils\/SLPhotoLibrary.swift",
       "kind": "IntegerLiteral",
-      "offset": 12727,
+      "offset": 13308,
       "length": 1,
       "value": "0"
     },
