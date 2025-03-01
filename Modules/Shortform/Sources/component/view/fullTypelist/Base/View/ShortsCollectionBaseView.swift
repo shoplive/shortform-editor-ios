@@ -10,6 +10,10 @@ import UIKit
 import ShopliveSDKCommon
 import AVKit
 
+protocol ShortsCollectionBaseViewDelegate : NSObjectProtocol {
+    func didScrollToShortsId(shortsId : String?)
+}
+
 class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewable {
     typealias ShortsMode = ShopLiveShortform.ShortsMode
     
@@ -19,6 +23,7 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
     
     var viewModel : ShortsCollectionBaseViewModel
     weak var shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?
+    weak var collectionBaseViewDelegate : ShortsCollectionBaseViewDelegate?
     
     lazy var feedListLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
@@ -194,6 +199,13 @@ class ShortsCollectionBaseView : ShopLiveWindowItemView, SLShortsWindowItemViewa
             }
         }
     }
+   
+    // ShortsCollectionView UIview로 제공할 경우
+    // 외부에서 이벤트를 받아와서 처리
+    func onViewDidLayoutSubView() {
+        self.playPageByViewDidLayoutSubView()
+    }
+    
     
     func setSnapShotViewHidden(animate : Bool, isHidden : Bool) {
         snapShotViewBackgroundView.isHidden = isHidden
@@ -636,7 +648,7 @@ extension ShortsCollectionBaseView {
         }
     }
    
-    private func checkShortsCellAttachedDetached() {
+    func checkShortsCellAttachedDetached() {
         if let shortsCell = self.shortsListView.visibleCells as? [ShortsCell] {
             shortsCell.forEach { cell in
                 cell.checkAttachedAndDetached(scrollView: shortsListView, coordinateView: self)
@@ -701,6 +713,7 @@ extension ShortsCollectionBaseView : ShortsCollectionBaseViewModelDelegate {
     
     func onViewAppeared() {
         if let pageTo = self.viewModel.scrollToPage {
+            ShopLiveLogger.publicLog("scroll To index -> \(pageTo)")
             self.playPage(pageTo)
         }
     }

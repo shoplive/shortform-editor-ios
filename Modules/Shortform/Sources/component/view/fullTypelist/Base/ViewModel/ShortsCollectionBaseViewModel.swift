@@ -96,6 +96,7 @@ class ShortsCollectionBaseViewModel : NSObject {
     var previousActiveSrn : String?
     weak var shortformDelegate : ShopLiveShortformReceiveHandlerDelegate?
     
+    
     //currentDatas
     var currentShorts : SLShortsModel? {
         guard let currentIndex = latestCell.indexPath,
@@ -201,6 +202,8 @@ class ShortsCollectionBaseViewModel : NSObject {
             }
         }
     }
+    var isViewDidLayoutSubView : Bool = false
+    
     var viewProvideType : ViewProvidedType = .window
     var didAnimatePreviewToFullScreen : Bool = false
     private var didConfigAudioSessionManager : Bool = false
@@ -416,6 +419,10 @@ extension ShortsCollectionBaseViewModel {
     
     func removeShortsView(srn : String) {
         shortsViewList.removeValue(forKey: srn)
+    }
+    
+    func setViewDidLayoutSubView(isViewDidLayoutSubView : Bool) {
+        self.isViewDidLayoutSubView = isViewDidLayoutSubView
     }
 }
 //MARK: - getter functions
@@ -665,6 +672,14 @@ extension ShortsCollectionBaseViewModel {
     
     func getShortsListDataCount() -> Int {
         return self.shortsListData.count
+    }
+    
+    func getIsViewDidLayoutSubView() -> Bool {
+        return self.isViewDidLayoutSubView
+    }
+    
+    func getShortsId(for index : Int) -> String? {
+        return self.shortsListData[safe : index]?.shortsId
     }
     
 }
@@ -1010,6 +1025,7 @@ extension ShortsCollectionBaseViewModel : ShopliveAppStateObserverDelegate {
     
     private func handleAppDidEnterForeground() {
         delegate?.setScrollEnabled(isEnabled: isSwipable)
+        guard ShopLiveShortform.enableResumeOnForeGround else { return }
         guard let currentIndexPath = delegate?.getCurrentIndexPath() else { return }
         guard let data = shortsListData[safe: currentIndexPath.row] else { return }
         self.postActivePageNotification(srn: data.srn, index: currentIndexPath.row,isFromAppState: true)
@@ -1023,7 +1039,6 @@ extension ShortsCollectionBaseViewModel : ShopliveAppStateObserverDelegate {
         guard let currentIndexPath = delegate?.getCurrentIndexPath() else { return }
         guard let data = shortsListData[safe: currentIndexPath.row] else { return }
         self.postActivePageNotification(forceIsActive: false, srn: data.srn, index: currentIndexPath.row,isFromAppState: true)
-        guard ShopLiveShortform.enableResumeOnForeGround else { return }
         guard let cells = delegate?.getLoadedCells(from: currentIndexPath.row - 1, to: currentIndexPath.row + 1) else { return }
         cells.forEach { cell in
             cell.pause()

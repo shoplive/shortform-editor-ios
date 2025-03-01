@@ -270,4 +270,11 @@ extension ShortsCollectionBaseView {
             }
         }
     }
+    
+    
+    //V2 overrided
+    @objc func playPageByViewDidLayoutSubView() {
+        
+    }
+    
 }

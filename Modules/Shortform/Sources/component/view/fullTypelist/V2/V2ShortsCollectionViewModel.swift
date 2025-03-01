@@ -66,6 +66,8 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
     }
     
     func setInitialshortFormIdsData(shortformIdsData : ShopLiveShortformIdsData){
+        ShopLiveLogger.publicLog("received shortformIdsData : \(shortformIdsData.ids?.map({ $0.shortsId }) )")
+        
         if let ids = shortformIdsData.ids {
             ids
                 .filter{ $0.shortsId != "" }
@@ -80,10 +82,12 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
         }
         
         if let currentShortsId = shortformIdsData.currentId,let index = self.shortFormIdsList.firstIndex(of: currentShortsId) {
+            ShopLiveLogger.publicLog("landing Index -> \(index), currentShortsId \(currentShortsId) ")
             self.scrollToPage = index
             self.initialTargetShortsId = currentShortsId
         }
         else {
+            ShopLiveLogger.publicLog("scrollToPage set to nil ")
             self.scrollToPage = nil
         }
         
@@ -109,12 +113,14 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
                 }
                 //배열이 변경되었으므로 scrollToPage도 변경된 배열에 맞춰서 수정
                 if let scrollToPageShortsId = shortformIdsData.currentId, let newScrollToPageIndex = self.requestedShortFormIdsList.firstIndex(of: scrollToPageShortsId) {
+                    ShopLiveLogger.publicLog("landing Index rearranged -> \(newScrollToPageIndex), currentShortsId \(scrollToPageShortsId) ")
                     self.scrollToPage = newScrollToPageIndex
                 }
             }
             else {
                 self.requestedShortFormIdsList.append(contentsOf: self.shortFormIdsList.prefix(5))
             }
+            ShopLiveLogger.publicLog("totalRequestedShortsIds -> \(self.requestedShortFormIdsList)")
             
             self.loadShortFormIds(ids: self.requestedShortFormIdsList, reset: true) { [weak self] _ in
                 self?.isLoadingMoreData = false

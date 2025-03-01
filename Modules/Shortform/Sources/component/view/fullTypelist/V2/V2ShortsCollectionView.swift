@@ -25,7 +25,7 @@ class V2ShortsCollectionView : ShortsCollectionBaseView {
         return view
     }()
     
-    var viewmodel : V2ShortsCollectionViewModel {
+    var childViewModel : V2ShortsCollectionViewModel {
         return viewModel as! V2ShortsCollectionViewModel
     }
     
@@ -36,10 +36,10 @@ class V2ShortsCollectionView : ShortsCollectionBaseView {
         let shopliveSessionId = ShopLiveCommon.makeShopLiveSessionId()
         super.init(viewmodel: V2ShortsCollectionViewModel(shopliveSessionId: shopliveSessionId,shortformDelegate: shortformDelegate),
                    shortformDelegate: shortformDelegate)
-        viewmodel.v2delegate = self
-        viewmodel.setInitialshortFormIdsData(shortformIdsData: shortformIdsData)
-        viewmodel.latestActivePageIndex = -1
-        viewmodel.shortsMode = .detail
+        childViewModel.v2delegate = self
+        childViewModel.setInitialshortFormIdsData(shortformIdsData: shortformIdsData)
+        childViewModel.latestActivePageIndex = -1
+        childViewModel.shortsMode = .detail
     }
     
     deinit {
@@ -68,10 +68,10 @@ extension V2ShortsCollectionView : V2ShortsCollectioViewModelDelegate {
     func requestDownwardPaginationData() {
         requestDelegate?.onShortformListDownwardPagination { [weak self] moreData,error in
             if let error = error {
-                self?.viewmodel.setShortformIdsMoreDataCustomerError(error: error)
+                self?.childViewModel.setShortformIdsMoreDataCustomerError(error: error)
             }
             else{
-                self?.viewmodel.setDownwardShortformIdsMoreData(moreData: moreData)
+                self?.childViewModel.setDownwardShortformIdsMoreData(moreData: moreData)
             }
         }
     }
@@ -79,16 +79,16 @@ extension V2ShortsCollectionView : V2ShortsCollectioViewModelDelegate {
     func requestUpwardPaginationData() {
         requestDelegate?.onShortformListUpwardPagingation(completion: { [weak self] moreData, error  in
             if let error = error {
-                self?.viewmodel.setShortformIdsMoreDataCustomerError(error: error)
+                self?.childViewModel.setShortformIdsMoreDataCustomerError(error: error)
             }
             else {
-                self?.viewmodel.setUpwardShortformIdsMoreData(moreData: moreData)
+                self?.childViewModel.setUpwardShortformIdsMoreData(moreData: moreData)
             }
         })
     }
     
     func hideEmptyDataView(hide: Bool) {
-        if self.viewmodel.shortsMode == .preview {
+        if self.childViewModel.shortsMode == .preview {
             emptyDataView.isHidden = true
             return
         }
@@ -114,15 +114,15 @@ extension V2ShortsCollectionView : V2ShortsCollectioViewModelDelegate {
 extension V2ShortsCollectionView {
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-        if indexPath.row >= self.viewmodel.getShortsListDataCount() - 2 &&
-            self.viewmodel.getScrollViewDidScrollPaginationIsBlocked() == false {
-            viewmodel.requestPaginationDownward()
-            viewmodel.startScrollViewDidScrollPaginationBlockTimer()
+        if indexPath.row >= self.childViewModel.getShortsListDataCount() - 2 &&
+            self.childViewModel.getScrollViewDidScrollPaginationIsBlocked() == false {
+            childViewModel.requestPaginationDownward()
+            childViewModel.startScrollViewDidScrollPaginationBlockTimer()
         }
         else if indexPath.row == 0 &&
-                    self.viewmodel.getScrollViewDidScrollPaginationIsBlocked() == false {
-            viewmodel.requestPaginationUpward()
-            viewmodel.startScrollViewDidScrollPaginationBlockTimer()
+                    self.childViewModel.getScrollViewDidScrollPaginationIsBlocked() == false {
+            childViewModel.requestPaginationUpward()
+            childViewModel.startScrollViewDidScrollPaginationBlockTimer()
         }
     }
     
@@ -130,22 +130,22 @@ extension V2ShortsCollectionView {
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         super.scrollViewDidScroll(scrollView)
         
-        if self.viewmodel.shortsMode == .detail {
+        if self.childViewModel.shortsMode == .detail {
             let contentHeight = feedListLayout.collectionViewContentSize.height
             let contentOffset = scrollView.contentOffset.y
             let frameHeight = shortsListView.frame.height
             guard let currentIndexPath = shortsListView.indexPathsForVisibleItems.last else { return }
             
             if contentHeight - (contentOffset + frameHeight) <= 50 &&
-                self.viewmodel.getScrollViewDidScrollPaginationIsBlocked() == false {
-                viewmodel.requestPaginationDownward()
-                viewmodel.startScrollViewDidScrollPaginationBlockTimer()
+                self.childViewModel.getScrollViewDidScrollPaginationIsBlocked() == false {
+                childViewModel.requestPaginationDownward()
+                childViewModel.startScrollViewDidScrollPaginationBlockTimer()
             }
             else if currentIndexPath.row == 0 &&
                 contentOffset <= -50 &&
-                self.viewmodel.getScrollViewDidScrollPaginationIsBlocked() == false {
-                viewmodel.requestPaginationUpward()
-                viewmodel.startScrollViewDidScrollPaginationBlockTimer()
+                self.childViewModel.getScrollViewDidScrollPaginationIsBlocked() == false {
+                childViewModel.requestPaginationUpward()
+                childViewModel.startScrollViewDidScrollPaginationBlockTimer()
             }
         }
     }
@@ -164,11 +164,36 @@ extension V2ShortsCollectionView {
             }
         }
     }
+    
+    
+    override func playPageByViewDidLayoutSubView() {
+        if let index = childViewModel.scrollToPage {
+            let pageTo = CGPoint(x: 0, y: CGFloat(index) * self.frame.height)
+            let currentContentOffset = self.shortsListView.contentOffset.y
+            if pageTo.y == currentContentOffset {
+                return
+            }
+            
+            DispatchQueue.main.async(flags : .barrier) { [weak self] in
+                self?.shortsListView.setContentOffset(pageTo, animated: false)
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                guard let self = self else { return }
+                let currentContentOffset2 = self.shortsListView.contentOffset.y
+                if currentContentOffset2 == pageTo.y {
+                    let shortsId = self.childViewModel.getShortsId(for: index)
+                    self.collectionBaseViewDelegate?.didScrollToShortsId(shortsId: shortsId)
+                    self.checkShortsCellAttachedDetached()
+                }
+            }
+        }
+    }
 }
 //MARK: - ShortsCellDelegate override
 extension V2ShortsCollectionView {
     override func requestSetCustomShortformForV2(cell: ShortsCell, shortsId: String) {
-        let payload = viewmodel.getCustomShortformPayloadDictFor(shortsId: shortsId)
+        let payload = childViewModel.getCustomShortformPayloadDictFor(shortsId: shortsId)
         cell.sendJSRequestToWeb(sdkToWeb: .SET_CUSTOM_SHORTFORM, payload: payload)
     }
 }

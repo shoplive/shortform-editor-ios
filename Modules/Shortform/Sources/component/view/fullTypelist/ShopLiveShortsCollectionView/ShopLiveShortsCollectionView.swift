@@ -24,16 +24,19 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
         case setInActive
         case setActive
         case setMuted(Bool)
+        case viewDidLayoutSubView
     }
     
     public enum Result {
-        
+       case didScrollToShortsId(String?)
     }
    
     public var resultHandler: ((Result) -> ())?
     
     var shortsV1CollectionView : V1ShortsDetailCollectionView?
     var shortsV2CollectionView : V2ShortsCollectionView?
+    
+    
 
     public init(requestData : ShopLiveShortformCollectionData?){
         super.init(frame: .zero)
@@ -61,6 +64,7 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
     public init(shortformIdsData : ShopLiveShortformIdsData, dataSourceDelegate : ShortsCollectionViewDataSourcRequestDelegate, shortsCollectionDelegate : ShopLiveShortformReceiveHandlerDelegate?) {
         super.init(frame: .zero)
         shortsV2CollectionView = V2ShortsCollectionView(shortformIdsData: shortformIdsData, requestDelegate: dataSourceDelegate, shortformDelegate: shortsCollectionDelegate)
+        shortsV2CollectionView?.collectionBaseViewDelegate = self
         setV2Layout()
     }
     
@@ -100,6 +104,8 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
             self.onSetInActive()
         case .setMuted(let isMuted):
             self.onSetMuted(isMuted : isMuted)
+        case .viewDidLayoutSubView:
+            self.onViewDidLayoutSubView()
         }
     }
     
@@ -158,6 +164,11 @@ public class ShopLiveShortsCollectionView : UIView, SLReactor {
         guard let shortsCollectionView = getShortsCollectionView() else { return }
         shortsCollectionView.setMuted(isMuted: isMuted)
     }
+    
+    private func onViewDidLayoutSubView() {
+        guard let shortsCollectionView = getShortsCollectionView() else { return }
+        shortsCollectionView.onViewDidLayoutSubView()
+    }
 }
 extension ShopLiveShortsCollectionView {
     private func getShortsCollectionView() -> ShortsCollectionBaseView? {
@@ -172,6 +183,11 @@ extension ShopLiveShortsCollectionView {
             return nil
         }
         return shortsCollectionView
+    }
+}
+extension ShopLiveShortsCollectionView : ShortsCollectionBaseViewDelegate {
+    func didScrollToShortsId(shortsId: String?) {
+        resultHandler?( .didScrollToShortsId(shortsId) )
     }
 }
 extension ShopLiveShortsCollectionView {

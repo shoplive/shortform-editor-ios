@@ -23,7 +23,7 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
         return view
     }()
     
-     var viewmodel : V1ShortsCollectionViewModel {
+     var childViewModel : V1ShortsCollectionViewModel {
         return self.viewModel as! V1ShortsCollectionViewModel
     }
     
@@ -32,13 +32,13 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
     internal init(reference : String?, shortsMode : ShopLiveShortform.ShortsMode, showType : ShortsApiType, shortsId : String?, shortsSrn : String?, normalRequestParameterModel : InternalShortformCollectionDto?,viewProvideType : ShortsCollectionBaseViewModel.ViewProvidedType,shopliveSessionId : String?){
         super.init(viewmodel: V1ShortsCollectionViewModel(shopliveSessionId: shopliveSessionId, shortformDelegate: normalRequestParameterModel?.delegate)
                    ,shortformDelegate: normalRequestParameterModel?.delegate)
-        viewmodel.latestActivePageIndex = -1
-        viewmodel.shortsMode = shortsMode
-        viewmodel.currentApiType = showType
-        viewmodel.viewProvideType = viewProvideType
+        childViewModel.latestActivePageIndex = -1
+        childViewModel.shortsMode = shortsMode
+        childViewModel.currentApiType = showType
+        childViewModel.viewProvideType = viewProvideType
         
-        self.viewmodel.collectionRequestData = normalRequestParameterModel
-        self.viewmodel.loadShortsPlayCollection(isOnInitialLaunch : true, reference: reference,onPagination: false, shortsId: shortsId, reset: true) { [weak self] error in
+        self.childViewModel.collectionRequestData = normalRequestParameterModel
+        self.childViewModel.loadShortsPlayCollection(isOnInitialLaunch : true, reference: reference,onPagination: false, shortsId: shortsId, reset: true) { [weak self] error in
             guard let self = self else { return }
             if self.handleInitializeError(error: error) == false {
                 return
@@ -54,18 +54,18 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
         super.init(viewmodel: V1ShortsCollectionViewModel(shopliveSessionId: shopliveSessionId, shortformDelegate: relatedRequestModel?.delegate)
                    ,shortformDelegate: relatedRequestModel?.delegate)
         self.backgroundColor = .clear
-        viewmodel.latestActivePageIndex = -1
-        viewmodel.shortsMode = shortsMode
+        childViewModel.latestActivePageIndex = -1
+        childViewModel.shortsMode = shortsMode
         if shortsMode == .preview {
-            viewmodel.setPreviewOptionDTO(dto: previewOptionDTO)
+            childViewModel.setPreviewOptionDTO(dto: previewOptionDTO)
         }
-        viewmodel.currentApiType = showType
-        viewmodel.shortsCollection = shortsCollection
-        viewmodel.isFullNative = shortsList.isEmpty // shortsList가 empty가 아니라면 bridge를 통해서 넘어온 데이터 이므로 풀 네이티브 가 아님.
-        viewmodel.relatedRequestData = relatedRequestModel
-        viewmodel.viewProvideType = viewProvideType
+        childViewModel.currentApiType = showType
+        childViewModel.shortsCollection = shortsCollection
+        childViewModel.isFullNative = shortsList.isEmpty // shortsList가 empty가 아니라면 bridge를 통해서 넘어온 데이터 이므로 풀 네이티브 가 아님.
+        childViewModel.relatedRequestData = relatedRequestModel
+        childViewModel.viewProvideType = viewProvideType
         if shortsMode == .preview  && shortsList.count == 0 {//풀 네이트브여서 바로 프리뷰를 킨 경우
-            viewmodel.loadShortsRelatedCollection(isOnInitialLaunch : true, reference: nil, onPagination: false, shortsId: shortsId, shortsSrn: shortsSrn, reset: true) { [weak self] error in
+            childViewModel.loadShortsRelatedCollection(isOnInitialLaunch : true, reference: nil, onPagination: false, shortsId: shortsId, shortsSrn: shortsSrn, reset: true) { [weak self] error in
                 DispatchQueue.main.async { [weak self] in
                     self?.backgroundColor = .black
                 }
@@ -81,10 +81,10 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
         }
         else if shortsMode == .preview && shortsList.count != 0 { //bridge interface통해서 들어온 경우
             self.backgroundColor = .black
-            self.viewmodel.appendShortsListData(shortsList,reset: true)
+            self.childViewModel.appendShortsListData(shortsList,reset: true)
         }
         else {
-            viewmodel.loadShortsRelatedCollection(isOnInitialLaunch : true, reference: nil, onPagination: false, shortsId: shortsId, shortsSrn: shortsSrn, reset: true) { [weak self] error in
+            childViewModel.loadShortsRelatedCollection(isOnInitialLaunch : true, reference: nil, onPagination: false, shortsId: shortsId, shortsSrn: shortsSrn, reset: true) { [weak self] error in
                 DispatchQueue.main.async { [weak self] in
                     self?.backgroundColor = .black
                 }
@@ -107,8 +107,8 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
     
     override func setPreviewToDetailMaintainTimeInfo() {
         if let cell = self.shortsListView.visibleCells.first as? ShortsCell {
-            viewmodel.setVideoCurrentTimeWhenPreviewTapped(time: cell.getCurrentVidoeTime())
-            viewmodel.setVideoShortsIdWhenPreviewTapped()
+            childViewModel.setVideoCurrentTimeWhenPreviewTapped(time: cell.getCurrentVidoeTime())
+            childViewModel.setVideoShortsIdWhenPreviewTapped()
         }
     }
     
@@ -116,14 +116,14 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
         let config = ShortFormConfigurationInfosManager.shared.shortsConfiguration
         if reset == false { return }
         viewModel.latestCell.latestCell?.stop()
-        viewmodel.removeAllWebViewLists()
+        childViewModel.removeAllWebViewLists()
         viewModel.latestCell.setLatest()
         viewModel.didAnimatePreviewToFullScreen = true
         self.viewModel.latestActivePageIndex = -1
-        viewmodel.setCanUseShortformCurrentTimeDTO(canUse: true)
+        childViewModel.setCanUseShortformCurrentTimeDTO(canUse: true)
         if config.previewDetailCollectionListAll {
             viewModel.currentApiType = .normal
-            self.viewmodel.loadShortsPlayCollection(reference: nil,onPagination: false, shortsId: shortsId, reset: true) { [weak self] _ in
+            self.childViewModel.loadShortsPlayCollection(reference: nil,onPagination: false, shortsId: shortsId, reset: true) { [weak self] _ in
                 guard let self = self else { return }
                 self.shortsListView.isScrollEnabled = self.viewModel.isSwipable
                 self.viewModel.fromPreview = true
@@ -133,7 +133,7 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
         }
         else {
             viewModel.currentApiType = .related
-            self.viewmodel.loadShortsRelatedCollection(reference: nil, onPagination: false,shortsId: shortsId, shortsSrn : srn, reset: reset) { [weak self] _ in
+            self.childViewModel.loadShortsRelatedCollection(reference: nil, onPagination: false,shortsId: shortsId, shortsSrn : srn, reset: reset) { [weak self] _ in
                 guard let self = self else { return }
                 self.shortsListView.isScrollEnabled = self.viewModel.isSwipable
                 self.viewModel.fromPreview = true
@@ -180,8 +180,8 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
 extension V1ShortsDetailCollectionView {
     override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         super.collectionView(collectionView, willDisplay: cell, forItemAt: indexPath)
-        if indexPath.row >= self.viewmodel.getShortsListDataCount() - 2 {
-            viewmodel.checkForPagination()
+        if indexPath.row >= self.childViewModel.getShortsListDataCount() - 2 {
+            childViewModel.checkForPagination()
         }
     }
     
@@ -198,7 +198,7 @@ extension V1ShortsDetailCollectionView {
                 self.viewModel.postActivePageNotification(srn: srn, index: index)
             }
             
-            viewmodel.appendCells()
+            childViewModel.appendCells()
         }
     }
     

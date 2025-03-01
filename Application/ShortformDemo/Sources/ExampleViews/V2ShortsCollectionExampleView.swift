@@ -53,18 +53,28 @@ class V2ShortsCollectionExampleView : UIViewController {
     var firstIndexShortsIdOrSrn : String = ""
     var ids : [ShopLiveShortformIdData] = []
     var upperPaginationCount : Int = 0
+    var currentLandingId : String?
+    var blockViewDidlayoutSubView : Bool = false
+    
  
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         self.reference = nil
         self.hasMore = nil
-        self.callShortsCollectionAPI(count: ShortFormConfigurationInfosManager.shared.getDetailApiInitializeCount()) { [weak self] idsMoreData, error in
+        ShopLiveLogger.showLog = true
+        self.callShortsCollectionAPI(count: ShortFormConfigurationInfosManager.shared.getDetailApiInitializeCount() ) { [weak self] idsMoreData, error in
             guard let self = self else { return }
             guard let ids = idsMoreData?.ids else { return }
             self.ids = ids
             self.firstIndexShortsIdOrSrn = ids.first?.shortsId ?? ""
-            self.shortsCollectionView = ShopLiveShortsCollectionView(shortformIdsData: ShopLiveShortformIdsData(ids: ids),
+            var currentId : String = ""
+            if let fifthCurrentId = ids[safe : 6]?.shortsId {
+                currentId = fifthCurrentId
+            }
+            self.currentLandingId = currentId
+            ShopLiveLogger.tempLog("[HASSAN LOG] \(ids.map({ $0.shortsId }))")
+            self.shortsCollectionView = ShopLiveShortsCollectionView(shortformIdsData: ShopLiveShortformIdsData(ids: ids,currentId: currentId ),
                                                                      dataSourceDelegate: self,
                                                                      shortsCollectionDelegate: self)
             self.shortsCollectionView?.translatesAutoresizingMaskIntoConstraints = false
@@ -78,12 +88,19 @@ class V2ShortsCollectionExampleView : UIViewController {
     }
     
     
+    override func viewWillAppear(_ animated : Bool) {
+        super.viewWillAppear(animated)
+        guard let shortsCollectionView = shortsCollectionView else { return }
+    }
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         ShopLiveLogger.tempLog("[VIDEO_TOTAL_VIEWING_TIME] viewDidAppear")
         guard let shortsCollectionView = shortsCollectionView else { return }
         shortsCollectionView.action( .play )
         shortsCollectionView.action( .setActive )
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -92,6 +109,14 @@ class V2ShortsCollectionExampleView : UIViewController {
         guard let shortsCollectionView = shortsCollectionView else { return }
         shortsCollectionView.action( .pause )
         shortsCollectionView.action( .setInActive )
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard let shortsCollectionView = shortsCollectionView else { return }
+        if blockViewDidlayoutSubView == false {
+            shortsCollectionView.action( .viewDidLayoutSubView )
+        }
     }
     
     @objc
@@ -176,6 +201,18 @@ extension V2ShortsCollectionExampleView {
             shortsCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             shortsCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
         ])
+        
+        
+        shortsCollectionView.resultHandler = { [weak self] result in
+            switch result {
+            case .didScrollToShortsId(let shortsId):
+                ShopLiveLogger.tempLog("didScrollToShortsId \(shortsId)")
+                if self?.currentLandingId ?? "" == shortsId ?? "-1" {
+                    self?.blockViewDidlayoutSubView = true
+                }
+                break
+            }
+        }
     }
 }
 extension V2ShortsCollectionExampleView : ShortsCollectionViewDataSourcRequestDelegate {
