@@ -56,8 +56,8 @@ class MainViewController: UIViewController {
     
     private lazy var versionInfoContainerView = VersionInfoContainerView()
     private lazy var devInfoContainerView = DevInfoContainerView()
-    private lazy var userInfoContainerView = UserInfoContainerView()
     private lazy var campaignContainerView = CampaignContainerView()
+    private lazy var userInfoContainerView = UserInfoContainerView()
     
     // Property
     private var hanaBankTimer : Double = 0
@@ -530,9 +530,7 @@ class MainViewController: UIViewController {
     }
     
     func openSideMenuAct() {
-        let menu: ShopliveSideMenuNavagation = UIStoryboard(name: "Sample", bundle: nil).instantiateViewController(withIdentifier: "ShopliveSideMenuNavagation") as! ShopliveSideMenuNavagation
-
-        present(menu, animated: true, completion: nil)
+        viewModel.showSideMenuViewController()
     }
  
     deinit {
@@ -856,9 +854,9 @@ extension MainViewController {
     }
 
     @objc private func openSideMenu(_ sender: UIButton) {
-//        sender.debounce()
-//        openSideMenuAct()
-        viewModel.showOptionSettingViewController()
+        sender.debounce()
+        openSideMenuAct()
+//        viewModel.showOptionSettingViewController()
     }
     
     

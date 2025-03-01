@@ -2,7 +2,6 @@
 //  V2SideMenuViewController.swift
 //  PlayerDemo2
 //
-//  Created by sangmin han on 2/11/25.
 //  Copyright © 2025 com.app. All rights reserved.
 //
 
@@ -11,10 +10,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 import SnapKit
-
-
-
-
 
 final class V2SideMenuViewController : UIViewController {
     

@@ -241,11 +241,12 @@ class MainViewModel: ViewModelType {
         routing?.showUserInfo()
     }
     
-    func showOptionSettingViewController() {
-        routing?.showOptionSetting()
-    }
-    
     func showCampaignsViewController() {
         routing?.showCampaigns()
     }
+    
+    func showSideMenuViewController() {
+        routing?.showSideMenuViewController()
+    }
+    
 }

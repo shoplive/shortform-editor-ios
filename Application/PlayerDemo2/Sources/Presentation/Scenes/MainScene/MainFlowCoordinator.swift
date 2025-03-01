@@ -30,12 +30,12 @@ final class MainFlowCoordinator : NSObject {
 }
 
 extension MainFlowCoordinator: MainRouting {
-    func showOptionSetting() {
-        let childContainer = self.container.makeOptionSettingSceneDIContainer()
-        let coordinator = OptionSettingFlowCoordinator(window: self.window, container: childContainer, navigationController: self.navigationController)
+    func showSideMenuViewController() {
+        let childContainer = self.container.makeSideMenuSceneDIContainer()
+        let coordinator = SideMenuFlowCoordinator(window: self.window, container: childContainer, navigationController: self.navigationController)
         coordinator.start()
     }
-    
+   
     func showCouponResponseSetting() {
     }
     

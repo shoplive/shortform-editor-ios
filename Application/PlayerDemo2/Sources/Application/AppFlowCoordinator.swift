@@ -27,3 +27,9 @@ final class AppFlowCoordinator : NSObject {
     }
     
 }
+//MARK: - Campaigns Routing
+extension AppFlowCoordinator: CampaignsRouting {
+    func dismissViewController() {
+        navigationController?.popViewController(animated: true)
+    }
+}

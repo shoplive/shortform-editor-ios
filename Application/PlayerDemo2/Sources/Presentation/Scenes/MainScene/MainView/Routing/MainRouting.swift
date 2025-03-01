@@ -9,11 +9,9 @@
 import Foundation
 
 protocol MainRouting: NSObjectProtocol {
-    /// --- 사이드 메뉴
-    // 옵션 선택
-    func showOptionSetting()
-    // 쿠폰 적용
-    func showCouponResponseSetting()
+    
+    // 사이드메뉴
+    func showSideMenuViewController()
     
     /// --- 홈화면
     // 방송 선택

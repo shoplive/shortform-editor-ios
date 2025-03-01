@@ -106,15 +106,14 @@ class UserInfoContainerView: UIView {
         }
         
         commonRadio.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top)
-            $0.leading.equalTo(guestRadio.snp.trailing).offset(15)
+            $0.top.equalTo(guestRadio.snp.bottom).offset(10)
+            $0.leading.equalTo(guestRadio.snp.leading)
             $0.height.equalTo(20)
         }
         
         tokenRadio.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top)
-            $0.leading.equalTo(commonRadio.snp.trailing).offset(15)
-            $0.trailing.equalTo(view.snp.trailing)
+            $0.top.equalTo(commonRadio.snp.bottom).offset(10)
+            $0.leading.equalTo(guestRadio.snp.leading)
             $0.height.equalTo(20)
         }
 
@@ -217,9 +216,9 @@ extension UserInfoContainerView {
         
         authView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.top)
-            $0.leading.equalTo(titleLabel.snp.trailing).offset(15)
+            $0.leading.equalTo(titleLabel.snp.trailing).offset(5)
             $0.trailing.equalTo(self.snp.trailing).offset(-30)
-            $0.height.equalTo(20)
+            $0.height.equalTo(80)
         }
         
         userinfoTitleLabel.snp.makeConstraints {

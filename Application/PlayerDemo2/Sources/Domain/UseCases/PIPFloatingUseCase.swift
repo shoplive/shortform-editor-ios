@@ -36,6 +36,7 @@ final class DefaultPIPFloatingUseCase : PIPFloatingUseCase {
     
     private func loadSDKConfiguration() {
         self.sdkConfiguration = sdkConfigurationRepository.getOptions()
+        
     }
     
     func setPipPaddingInset(inset: UIEdgeInsets) {

@@ -137,6 +137,7 @@ extension CampaignContainerView {
         chooseButton.snp.makeConstraints {
             $0.trailing.equalTo(self.snp.trailing).inset(15)
             $0.centerY.equalTo(guideTitleInputField.snp.centerY)
+            $0.width.lessThanOrEqualTo(60)
             $0.height.equalTo(35)
         }
         

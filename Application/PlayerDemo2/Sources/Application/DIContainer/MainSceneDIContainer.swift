@@ -66,6 +66,12 @@ extension MainSceneDIContainer {
     }
     
 }
+//MARK: - SideMenuScene
+extension MainSceneDIContainer {
+    func makeSideMenuSceneDIContainer() -> SideMenuSceneDIContainer {
+        return .init(sDKConfigurationUserDefaults: appUserDefaults)
+    }
+}
 
 //MARK: - OptionSettingScene
 extension MainSceneDIContainer {
