@@ -49,7 +49,10 @@ public struct SLProduct: Codable {
     public func toProductData() -> ProductData {
         let data = ProductData(brand: brand,productId: productId,customerProductId: customerProductId,
                                name: name,descriptions : description,
-        url: url,sku: sku,imageUrl: imageUrl, currency: currency,showPrice: showPrice,originalPrice: originalPrice,discountPrice: discountRate,discountRate: discountRate,stockStatus: stockStatus)
+                               url: url,sku: sku,imageUrl: imageUrl,
+                               currency: currency,showPrice: showPrice,
+                               originalPrice: originalPrice,discountPrice: discountPrice,
+                               discountRate: discountRate,stockStatus: stockStatus)
         
         return data
     }
