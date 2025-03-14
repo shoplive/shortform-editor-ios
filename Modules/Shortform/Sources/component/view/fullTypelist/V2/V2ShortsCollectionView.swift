@@ -37,7 +37,12 @@ class V2ShortsCollectionView : ShortsCollectionBaseView {
         super.init(viewmodel: V2ShortsCollectionViewModel(shopliveSessionId: shopliveSessionId,shortformDelegate: shortformDelegate),
                    shortformDelegate: shortformDelegate)
         childViewModel.v2delegate = self
-        childViewModel.setInitialshortFormIdsData(shortformIdsData: shortformIdsData)
+        
+        childViewModel.setInitialshortFormIdsData(shortformIdsData: shortformIdsData) { [weak self] in
+            ShopLiveLogger.tempLog("[V2ShortCollectionView] setInitialshortFormIdsData Completion Handler Called")
+            self?.sendShortsId()
+        }
+        
         childViewModel.latestActivePageIndex = -1
         childViewModel.shortsMode = .detail
     }
@@ -176,18 +181,24 @@ extension V2ShortsCollectionView {
             
             DispatchQueue.main.async(flags : .barrier) { [weak self] in
                 self?.shortsListView.setContentOffset(pageTo, animated: false)
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                guard let self = self else { return }
-                let currentContentOffset2 = self.shortsListView.contentOffset.y
+                
+                let currentContentOffset2 = self?.shortsListView.contentOffset.y
                 if currentContentOffset2 == pageTo.y {
-                    let shortsId = self.childViewModel.getShortsId(for: index)
-                    self.collectionBaseViewDelegate?.didScrollToShortsId(shortsId: shortsId)
-                    self.checkShortsCellAttachedDetached()
+                    self?.checkShortsCellAttachedDetached()
                 }
             }
         }
+    }
+    
+    private func sendShortsId() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            let shortsId = self.childViewModel.getv2initalTargetShortsId()
+            ShopLiveLogger.tempLog("[sendShortId] shortId : \(shortsId ?? "is nil")")
+            self.collectionBaseViewDelegate?.didScrollToShortsId(shortsId: shortsId)
+            self.childViewModel.removev2initalTargetShortId()
+        }
+        
     }
 }
 //MARK: - ShortsCellDelegate override

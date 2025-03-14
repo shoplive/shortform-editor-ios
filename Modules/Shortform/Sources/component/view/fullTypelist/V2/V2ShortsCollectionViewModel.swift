@@ -22,6 +22,7 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
     var shortFormIdPayloadDict : [String : [String : Any]?] = [:]
     private var requestedShortFormIdsList : [String] = []
     var isLoadingMoreData : Bool = false
+    private var v2initalTargetShortsId: String?
     
     private var _isMuted : Bool = false
     override var isMuted: Bool {
@@ -65,7 +66,7 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
         ShopLiveLogger.memoryLog("v2shortscollectionviewmodel deinited")
     }
     
-    func setInitialshortFormIdsData(shortformIdsData : ShopLiveShortformIdsData){
+    func setInitialshortFormIdsData(shortformIdsData : ShopLiveShortformIdsData, completion: @escaping (() -> ())){
         ShopLiveLogger.publicLog("received shortformIdsData : \(shortformIdsData.ids?.map({ $0.shortsId }) )")
         
         if let ids = shortformIdsData.ids {
@@ -85,6 +86,8 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
             ShopLiveLogger.publicLog("landing Index -> \(index), currentShortsId \(currentShortsId) ")
             self.scrollToPage = index
             self.initialTargetShortsId = currentShortsId
+            self.v2initalTargetShortsId = currentShortsId
+            
         }
         else {
             ShopLiveLogger.publicLog("scrollToPage set to nil ")
@@ -124,6 +127,8 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
             
             self.loadShortFormIds(ids: self.requestedShortFormIdsList, reset: true) { [weak self] _ in
                 self?.isLoadingMoreData = false
+                ShopLiveLogger.tempLog("[loadShortFormIds] Completion Called")
+                completion()
             }
         }
     }
@@ -208,6 +213,7 @@ extension V2ShortsCollectionViewModel {
                     }
                     self.shortsCollection = response
                     self.appendShortsListData(shortsList,reset: reset,scrollToPage: self.scrollToPage)
+                    ShopLiveLogger.tempLog("[loadShortFormIds] Data is Init")
                     let hideEmptyDataView = (shortsList.count == 0 && reset == true) ? false : true
                     if hideEmptyDataView == false {
                         self.shortformDelegate?.onEvent?(messenger: nil, command: "DETAIL_EMPTY", payload: nil)
@@ -221,6 +227,14 @@ extension V2ShortsCollectionViewModel {
                 }
             }
         }
+    }
+    
+    func getv2initalTargetShortsId() -> String? {
+        return v2initalTargetShortsId
+    }
+    
+    func removev2initalTargetShortId() {
+        v2initalTargetShortsId = nil
     }
 }
 //MARK: -Downward pagingation functions
