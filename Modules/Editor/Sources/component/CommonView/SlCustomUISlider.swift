@@ -27,17 +27,16 @@ class SlCustomUISlider : UIView, SLReactor {
         case didStartDragging
         case currentValue(CGFloat)
     }
-    
-    
-    
-    private var thumbView : UIView = {
-        let view = UIView()
+
+    private var thumbView : SLThumbView = {
+        let view = SLThumbView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         view.layer.cornerRadius = 10
         view.clipsToBounds = true
         return view
     }()
+    
     
     lazy private var thumViewCentXAnc : NSLayoutConstraint = {
         return thumbView.centerXAnchor.constraint(equalTo: self.lineView.leadingAnchor)
