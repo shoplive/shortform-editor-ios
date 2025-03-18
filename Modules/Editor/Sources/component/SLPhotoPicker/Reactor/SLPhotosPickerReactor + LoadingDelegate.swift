@@ -12,7 +12,7 @@ import ShopliveSDKCommon
 
 extension SLPhotosPickerReactor : SLLoadingAlertControllerDelegate {
     func didCancelLoading() {
-        removeAVAssetExportSessionTimer()
+        cancelExportSession()
         resultHandler?( .requestCancelLoading )
     }
     

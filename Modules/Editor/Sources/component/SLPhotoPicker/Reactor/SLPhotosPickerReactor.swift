@@ -308,6 +308,9 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        ShopLiveLogger.tempLog("[\(#function)] didTap")
+        
         guard let focusedCollection = self.focusedCollection else { return }
         
         let isCameraRow = focusedCollection.useCameraButton && indexPath.section == 0 && indexPath.row == 0
@@ -412,14 +415,30 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
             exportSession.outputFileType = .mp4
             exportSession.exportAsynchronously {
                 self.removeAVAssetExportSessionTimer()
-                if exportSession.status == .completed {
+                
+                switch exportSession.status {
+                case .completed:
                     completion((outputURL,outputURL))
-                } else {
-                    ShopLiveLogger.tempLog("[SLPHOTOPICKER] exportSession error \(exportSession.error?.localizedDescription)")
+                case .failed:
+                    ShopLiveLogger.tempLog("[SLPHOTOPICKER] exportSession failed \(String(describing: exportSession.error?.localizedDescription))")
+                    completion((nil,nil))
+                case .cancelled:
+                    ShopLiveLogger.tempLog("[SLPHOTOPICKER] exportSession cancelled \(String(describing: exportSession.error?.localizedDescription))")
+                    completion((nil,nil))
+                default:
+                    ShopLiveLogger.tempLog("[SLPHOTOPICKER] exportSession error \(String(describing: exportSession.error?.localizedDescription))")
                     completion((nil,nil))
                 }
             }
         })
+    }
+    
+    private func cancelExportSession() {
+        if let exportSession = self.exportSession {
+            exportSession.cancelExport()
+            removeAVAssetExportSessionTimer()
+            ShopLiveLogger.tempLog("[SLPHOTOPICKER] \(#function) Export session cancelled")
+        }
     }
     
     @objc
