@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import ShopliveSDKCommon
 
 
 
@@ -21,12 +22,12 @@ class SLFFmpegTestCreateYTVersionViewController : UIViewController {
         return view
     }()
     
-    private var confirmBtn : UIButton = {
-        let btn = UIButton()
+    private var confirmBtn : SLButton = {
+        let btn = SLButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("완료", for: .normal)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        btn.setFont(font: .init(size: 15, weight: .regular))
         return btn
     }()
     

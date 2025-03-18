@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import ShopliveSDKCommon
 
 
 class SlBlurBGLabel : UIView {
@@ -15,7 +16,7 @@ class SlBlurBGLabel : UIView {
     lazy var blurEffectView = UIVisualEffectView(effect: normalblurEffect)
     
     private let stack = UIStackView()
-    let label = UILabel()
+    let label = SLLabel()
     
     
     var _layoutMargin : UIEdgeInsets = .zero {

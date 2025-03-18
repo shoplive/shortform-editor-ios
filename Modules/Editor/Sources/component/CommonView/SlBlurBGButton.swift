@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import ShopliveSDKCommon
 
 class SlBlurBGButton : UIButton {
     let normalblurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
@@ -17,8 +18,8 @@ class SlBlurBGButton : UIButton {
     
     private let stack = UIStackView()
     private let myimageView = UIImageView()
-    let titleTextLabel : UILabel = {
-        let label = UILabel()
+    let titleTextLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         return label
@@ -72,9 +73,9 @@ class SlBlurBGButton : UIButton {
         self.backgroundColor = color
     }
     
-    func setTitleFont(font : UIFont) {
-        self.titleTextLabel.font = font
+    func setTitleFont(font: ShopLiveFont) {
         self.titleTextLabel.adjustsFontSizeToFitWidth = true
+        self.titleTextLabel.setFont(font: font)
     }
     
     override func setImage(_ image: UIImage?, for state: UIControl.State) {

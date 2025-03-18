@@ -28,10 +28,7 @@ class OptionSettingModel {
     var playOnlyWifi : Bool = false
     var cardType : ShopLiveShortform.CardViewType = .type1
     
-    
-    
-    
-    
+    static var font: String = ""
     static var editorMinVideoDuration : Double = 1
     static var editorMaxVideoDuration : Double = 60
     static var editorShowDescription : Bool = true

@@ -13,7 +13,7 @@ import ShopliveSDKCommon
 
 
 
-class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
+class ShopLiveCoverPickerViewController : UIViewController, SLReactor {
     private let design = ShopLiveShortformEditor.EditorCoverPickerConfig.global
     private let config = ShopLiveEditorConfigurationManager.shared
     
@@ -39,11 +39,11 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         return btn
     }()
     
-    private var pageTitle : UILabel = {
-        let label = UILabel()
+    private var pageTitle : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.font = .set(size: 16, weight: ._600)
+        label.setFont(font: .init(size: 16, weight: .bold))
         label.text = ShopLiveShortformEditorSDKStrings.Editor.Title.Cover.Picker.shoplive
         return label
     }()
@@ -53,19 +53,19 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = design.confirmButtonBackgroundColor
         btn.titleTextLabel.textColor = design.confirmButtonTextColor
-        btn.titleTextLabel.font = design.confirmButtonTitleFont
+        btn.titleTextLabel.setFont(font: .init(size: design.confirmButtonTitleSize, weight: design.confirmButtonTitleWeight))
         btn.titleTextLabel.text = design.confirmButtonTitle
         btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true
         return btn
     }()
     
-    lazy private var cameraBtn : UIButton = {
-        let btn = UIButton()
+    lazy private var cameraBtn : SLButton = {
+        let btn = SLButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = design.cameraRollButtonBackgroundColor
         btn.setTitleColor(design.cameraRollButtonTextColor, for: .normal)
-        btn.titleLabel?.font = .set(size: 16, weight: ._600)
+        btn.setFont(font: .init(size: 16, weight: .bold))
         btn.setTitle(design.cameraRollButtonTitle, for: .normal)
         btn.layer.cornerRadius = design.cameraRollButtonCornerRadius
         btn.clipsToBounds = true
@@ -142,7 +142,7 @@ class ShopLiveCoverPickerViewController : UIViewController,SLReactor {
         let view = SlBlurBGLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.label.textColor = .white
-        view.label.font = .set(size: 15, weight: ._600)
+        view.label.setFont(font: .init(size: 15, weight: .bold))
         view.label.text = ShopLiveShortformEditorSDKStrings.Editor.Toast.Upload.cancelled
         view.layer.cornerRadius = 20
         view.clipsToBounds = true

@@ -35,33 +35,33 @@ class SLVideoThumbnailViewController : UIViewController {
         return btn
     }()
     
-    private var pageTitle : UILabel = {
-        let label = UILabel()
+    private var pageTitle : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.font = .set(size: 16, weight: ._600)
+        label.setFont(font: .init(size: 16, weight: .bold))
         label.text = ShopLiveShortformEditorSDKStrings.Editor.Title.Cover.Picker.shoplive
         return label
     }()
     
-    lazy private var confirmBtn : UIButton = {
-        let btn = UIButton()
+    lazy private var confirmBtn : SLButton = {
+        let btn = SLButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = design.confirmButtonBackgroundColor
         btn.setTitleColor(design.confirmButtonTextColor, for: .normal)
-        btn.titleLabel?.font = .set(size: 16, weight: ._600)
+        btn.setFont(font: .init(size: 16, weight: .bold))
         btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Cover.Picker.Btn.Confirm.shoplive, for: .normal)
         btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true
         return btn
     }()
     
-    lazy private var cameraBtn : UIButton = {
-        let btn = UIButton()
+    lazy private var cameraBtn : SLButton = {
+        let btn = SLButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = design.cameraRollButtonBackgroundColor
         btn.setTitleColor(design.cameraRollButtonTextColor, for: .normal)
-        btn.titleLabel?.font = .set(size: 16, weight: ._600)
+        btn.setFont(font: .init(size: 16, weight: .bold))
         btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Cover.Picker.Btn.CameraRool.shoplive, for: .normal)
         btn.layer.cornerRadius = design.cameraRollButtonCornerRadius
         btn.clipsToBounds = true
@@ -119,7 +119,7 @@ class SLVideoThumbnailViewController : UIViewController {
         let view = SlBlurBGLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.label.textColor = .white
-        view.label.font = .set(size: 15, weight: ._600)
+        view.label.setFont(font: .init(size: 15, weight: .bold))
         view.label.text = ShopLiveShortformEditorSDKStrings.Editor.Toast.Encoding.Canceled.shoplive
         view.layer.cornerRadius = 20
         view.clipsToBounds = true

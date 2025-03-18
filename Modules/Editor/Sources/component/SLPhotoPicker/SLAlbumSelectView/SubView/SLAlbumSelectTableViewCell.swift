@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import ShopliveSDKCommon
 
 
 
@@ -26,19 +27,19 @@ class SLAlbumSelectTableViewCell : UITableViewCell {
     }()
     
     
-    private var titleLabel : UILabel = {
-        let label = UILabel()
+    private var titleLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.set(size: 16, weight: ._600)
+        label.setFont(font: .init(size: 16, weight: .bold))
         label.textColor = .white
         label.text = "album title"
         return label
     }()
     
-    private var contentsCountLabel : UILabel = {
-        let label = UILabel()
+    private var contentsCountLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.set(size: 13, weight: ._500)
+        label.setFont(font: .init(size: 13, weight: .semibold))
         label.textColor = .init(red: 143, green: 143, blue: 143, aa: 1)
         label.text = "11,111"
         return label

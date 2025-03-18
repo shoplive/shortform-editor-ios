@@ -42,11 +42,11 @@ class SLUploadInfoController2 : UIViewController {
         return btn
     }()
     
-    lazy private var pageTitleLabel : UILabel = {
-        let label = UILabel()
+    lazy private var pageTitleLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .baseLabelColor
-        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.setFont(font: .init(size: 16, weight: .medium))
         label.textAlignment = .center
         label.text = "uploadinfo.page.title".localizedString(bundle: bundle)
         return label
@@ -82,11 +82,11 @@ class SLUploadInfoController2 : UIViewController {
         return btn
     }()
     
-    lazy private var titleLabel : UILabel = {
-        let label = UILabel()
+    lazy private var titleLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0)
-        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.setFont(font: .init(size: 16, weight: .medium))
         label.text = "uploadinfo.title.title".localizedString(bundle: bundle)
         return label
     }()
@@ -137,11 +137,11 @@ class SLUploadInfoController2 : UIViewController {
         return view
     }()
     
-    lazy private var tagLabel: UILabel = {
-        let view = UILabel()
+    lazy private var tagLabel: SLLabel = {
+        let view = SLLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0)
-        view.font = .systemFont(ofSize: 16, weight: .medium)
+        view.setFont(font: .init(size: 16, weight: .medium))
         view.text =  "uploadinfo.tag.title".localizedString(bundle: bundle)
         return view
     }()

@@ -56,6 +56,12 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>NanumBrush.ttf</string>
+		<string>온글잎 밑미.ttf</string>
+		<string>ChosunKm.TTF</string>
+		<string>CookieRun Regular.otf</string>
+		<string>GmarketSansTTFMedium.ttf</string>
+		<string>NanumSquareB.otf</string>
+		<string>NanumSquareL.otf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

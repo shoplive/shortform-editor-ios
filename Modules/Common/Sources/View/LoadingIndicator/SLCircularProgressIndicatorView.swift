@@ -32,11 +32,11 @@ public class SLCircularProgressIndicatorView: UIView, UIGestureRecognizerDelegat
         return view
     }()
     
-    private lazy var indicatorLabel: UILabel = {
-        let view = UILabel()
+    private lazy var indicatorLabel: SLLabel = {
+        let view = SLLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
-        view.font = .systemFont(ofSize: 15, weight: .semibold)
+        view.setFont(font: .init(size: 15, weight: .semibold))
         view.textColor = .white
         view.textAlignment = .center
         view.isUserInteractionEnabled = false

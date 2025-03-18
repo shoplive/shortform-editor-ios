@@ -33,13 +33,13 @@ class SLVideoFilterSelectionCell : UICollectionViewCell {
     private var filterConfig : String = ""
 
     
-    private var filterNameLabel : UILabel = {
-        let label = UILabel()
+    private var filterNameLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.backgroundColor = .clear
-        label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        label.setFont(font: .init(size: 13, weight: .regular))
         label.textColor = .black
         return label
     }()

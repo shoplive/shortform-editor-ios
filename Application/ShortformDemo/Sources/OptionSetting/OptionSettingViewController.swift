@@ -28,6 +28,7 @@ class OptionSettingViewController : UIViewController {
     private var detailViewOptionBox = DetailViewOptionBox()
     private var editorOptionBox = EditorViewOptionBox()
     private var previewOptionBox = PreviewOptionBox()
+    private var fontOptionBox = FontOptionBox()
     
     private var confirmBtn : UIButton = {
         let btn = UIButton()
@@ -74,6 +75,7 @@ class OptionSettingViewController : UIViewController {
         previewOptionBox.setOptions()
         cacheBox.reloadCacheSize()
         detailViewOptionBox.setOption()
+        fontOptionBox.setFont(font: OptionSettingModel.font)
         self.viewType = type
         switch type {
         case .card:
@@ -103,6 +105,7 @@ class OptionSettingViewController : UIViewController {
             break
         }
         detailWebViewOptionsBox.applyOption()
+        fontOptionBox.applyFontOption()
         self.dismiss(animated: true)
     }
     
@@ -124,8 +127,8 @@ extension OptionSettingViewController {
         stack.addArrangedSubview(detailViewOptionBox)
         stack.addArrangedSubview(editorOptionBox)
         stack.addArrangedSubview(previewOptionBox)
+        stack.addArrangedSubview(fontOptionBox)
         stack.addArrangedSubview(confirmBtn)
-        
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),

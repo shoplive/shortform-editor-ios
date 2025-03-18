@@ -39,11 +39,11 @@ class SLVideoVolumeViewController : UIViewController {
         return btn
     }()
     
-    private var pageTitle : UILabel = {
-        let label = UILabel()
+    private var pageTitle : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.font = .set(size: 16, weight: ._600)
+        label.setFont(font: .init(size: 16, weight: .bold))
         label.text = ShopLiveShortformEditorSDKStrings.Editor.Volume.Page.Title.shoplive
         return label
     }()
@@ -69,12 +69,12 @@ class SLVideoVolumeViewController : UIViewController {
         return btn
     }()
     
-    lazy private var confirmBtn : UIButton = {
-        let btn = UIButton()
+    lazy private var confirmBtn : SLButton = {
+        let btn = SLButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = design.confirmButtonBackgroundColor
         btn.setTitleColor(design.confirmButtonTextColor, for: .normal)
-        btn.titleLabel?.font = .set(size: 16, weight: ._600)
+        btn.setFont(font: .init(size: 16, weight: .bold))
         btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Volume.Btn.Confirm.shoplive, for: .normal)
         btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true

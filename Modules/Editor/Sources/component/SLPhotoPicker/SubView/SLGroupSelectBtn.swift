@@ -6,15 +6,16 @@
 //
 
 import Foundation
+import ShopliveSDKCommon
 import UIKit
 
 class SLPhotosPickerGroupSelectBtn : UIButton {
     
     
-    private var label : UILabel = {
-        let label = UILabel()
+    private var label : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .set(size: 18, weight: ._600)
+        label.setFont(font: .init(size: 18, weight: .bold))
         label.text = ShopLiveShortformEditorSDKStrings.Editor.Folder.All.shoplive
         label.textColor = .white
         return label

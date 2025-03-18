@@ -6,18 +6,19 @@
 //
 
 import UIKit
+import ShopliveSDKCommon
 
 class SLVideoPlayTimeView: UIView {
 
     private var totalTime: CGFloat = 0
     private var currentTime: CGFloat = 0
     
-    private lazy var timeLabel: UILabel = {
-        let view = UILabel()
+    private lazy var timeLabel: SLLabel = {
+        let view = SLLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textAlignment = .right
         view.textColor = .white
-        view.font = .systemFont(ofSize: 10)
+        view.setFont(font: .init(size: 10, weight: .medium))
         view.numberOfLines = 1
         return view
     }()

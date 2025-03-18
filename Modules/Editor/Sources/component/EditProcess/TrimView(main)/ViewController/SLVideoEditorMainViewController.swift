@@ -59,21 +59,22 @@ class SLVideoEditorMainViewController : UIViewController {
         return btn
     }()
     
-    lazy private var pageTitleLabel : UILabel = {
-        let label = UILabel()
+    lazy private var pageTitleLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         let shadow = NSShadow()
         shadow.shadowColor = UIColor.black
         shadow.shadowOffset = CGSize(width: 0, height: 2)
         shadow.shadowBlurRadius = 2
+        
         let attributes: [NSAttributedString.Key: Any] = [
             .shadow: shadow,
-            .font : design.titleTextFont,
             .foregroundColor : design.titleTextColor
-            
         ]
+        
         label.attributedText = NSAttributedString(string: ShopLiveShortformEditorSDKStrings.Editor.Title.Video.Edit.shoplive, attributes: attributes)
+        label.setAttributedFont(font: .init(size: design.titleTextSize, weight: design.titleTextWeight))
         return label
     }()
     
@@ -81,12 +82,12 @@ class SLVideoEditorMainViewController : UIViewController {
     private lazy var nextButton: SlBlurBGButton = {
         let view = SlBlurBGButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        view.titleTextLabel.setFont(font: .init(size: 14, weight: .medium))
         view.titleTextLabel.text = design.nextButtonTitle
         view.titleTextLabel.textColor = design.nextButtonTitleColor
         view.layer.cornerRadius = design.nextButtonCornerRadius
         view.setBackgroundColor(color: design.nextButtonBackgroundColor)
-        view.setTitleFont(font: design.nextButtonTitleFont)
+        view.setTitleFont(font: .init(size: design.nextButtonTitleSize, weight: design.nextButtonTitleWeight))
         view.clipsToBounds = true
         return view
     }()
@@ -228,7 +229,7 @@ class SLVideoEditorMainViewController : UIViewController {
         let view = SlBlurBGLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.label.textColor = .white
-        view.label.font = .set(size: 15, weight: ._600)
+        view.label.setFont(font: .init(size: 15, weight: .bold))
         view.label.text = ShopLiveShortformEditorSDKStrings.Editor.Encoding.Cancel.shoplive
         view.layer.cornerRadius = 20
         view.clipsToBounds = true

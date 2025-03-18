@@ -104,7 +104,8 @@ extension ShopLiveShortformEditor {
         public var confirmButtonCornerRadius : CGFloat = 20
         public var confirmButtonBackgroundColor : UIColor = .white
         public var confirmButtonTextColor : UIColor =  .black
-        public var confirmButtonTextFont : UIFont = .set(size: 16, weight: ._600)
+        public var confirmButtonTextWeight: UIFont.Weight = .bold
+        public var confirmButtonTextSize: CGFloat = 16
         
         public var sliderThumbViewColor : UIColor = .white
         public var sliderCornerRadius : CGFloat = 24
@@ -131,7 +132,8 @@ extension ShopLiveShortformEditor {
         public var confirmButtonCornerRadius : CGFloat = 20
         public var confirmButtonBackgroundColor : UIColor = .white
         public var confirmButtonTextColor : UIColor =  .black
-        public var confirmButtonTextFont : UIFont = .set(size: 16, weight: ._600)
+        public var confirmButtonTextWeight: UIFont.Weight = .bold
+        public var confirmButtonTextSize: CGFloat = 16
         
         public var sliderThumbViewColor : UIColor = .white
         public var sliderCornerRadius : CGFloat = 24
@@ -144,7 +146,8 @@ extension ShopLiveShortformEditor {
         public var videoPlayerCornerRadius : CGFloat = 24
         
         public var titleTextColor : UIColor = .white
-        public var titleTextFont : UIFont = .systemFont(ofSize: 16, weight: .medium)
+        public var titleTextWeight : UIFont.Weight = .medium
+        public var titleTextSize : CGFloat = 16
         
         public var backButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slBackArrow.image.withRenderingMode(.alwaysTemplate)
         public var backButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -161,7 +164,8 @@ extension ShopLiveShortformEditor {
         public var nextButtonCornerRadius : CGFloat = 20
         public var nextButtonBackgroundColor : UIColor = .clear
         public var nextButtonTitleColor : UIColor = .white
-        public var nextButtonTitleFont : UIFont = .systemFont(ofSize: 14, weight: .medium)
+        public var nextButtonTitleWeight: UIFont.Weight = .regular
+        public var nextButtonTitleSize: CGFloat = 14
         
         
         public var videoSpeedButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slIcSpeedometer.image.withRenderingMode(.alwaysTemplate)
@@ -195,10 +199,13 @@ extension ShopLiveShortformEditor {
         public var popupButtonCornerRadius : CGFloat = 10
         public var popupCloseButtonBackgroundColor : UIColor = .white
         public var popupCloseButtonTextColor : UIColor = .black
-        public var popupCloseButtonTextFont : UIFont = .set(size: 15, weight: ._600)
+        public var popupCloseButtonTextWeight: UIFont.Weight = .bold
+        public var popupCloseButtonTextSize: CGFloat = 15
+        
         public var popupConfirmButtonBackgroundColor : UIColor = .init(red: 51, green: 51, blue: 51)
         public var popupConfirmButtonTextColor : UIColor = .white
-        public var popupConfirmButtonTextFont : UIFont = .set(size: 15, weight: ._600)
+        public var popupConfirmButtonTextWeight: UIFont.Weight = .bold
+        public var popupConfirmButtonTextSize: CGFloat = 15
     }
     
     public class EditorFilterConfig {
@@ -222,7 +229,8 @@ extension ShopLiveShortformEditor {
         public var confirmButtonCornerRadius : CGFloat = 20
         public var confirmButtonBackgroundColor : UIColor = .white
         public var confirmButtonTextColor : UIColor =  .black
-        public var confirmButtonTextFont : UIFont = .set(size: 16, weight: ._600)
+        public var confirmButtonTextWeight: UIFont.Weight = .bold
+        public var confirmButtonTextSize: CGFloat = 16
         
         public var sliderThumbViewColor : UIColor = .white
         public var sliderCornerRadius : CGFloat = 24
@@ -253,7 +261,8 @@ extension ShopLiveShortformEditor {
         public var confirmButtonCornerRadius : CGFloat = 20
         public var confirmButtonBackgroundColor : UIColor = .white
         public var confirmButtonTextColor : UIColor =  .black
-        public var confirmButtonTextFont : UIFont = .set(size: 16, weight: ._600)
+        public var confirmButtonTextWeight: UIFont.Weight = .bold
+        public var confirmButtonTextSize: CGFloat = 16
     }
     
     public class EditorCoverPickerConfig {
@@ -270,7 +279,8 @@ extension ShopLiveShortformEditor {
         public var confirmButtonBackgroundColor : UIColor = .white
         public var confirmButtonTextColor : UIColor = .black
         public var confirmButtonCornerRadius : CGFloat = 20
-        public var confirmButtonTitleFont : UIFont = .systemFont(ofSize: 14, weight: .medium)
+        public var confirmButtonTitleWeight: UIFont.Weight = .medium
+        public var confirmButtonTitleSize: CGFloat = 14
         
         public var sliderCornerRadius : CGFloat = 8
         public var sliderThumbCornerRadius : CGFloat = 8

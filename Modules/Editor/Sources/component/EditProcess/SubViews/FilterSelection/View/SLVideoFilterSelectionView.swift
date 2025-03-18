@@ -68,31 +68,31 @@ class SLVideoFilterSelectionView : UIView, SLReactor {
         return view
     }()
     
-    private var filterTitleLabel : UILabel = {
-        let label = UILabel()
+    private var filterTitleLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        label.setFont(font: .init(size: 15, weight: .bold))
         label.text = "Filter"
         return label
     }()
     
-    private var cancelBtn : UIButton = {
-        let btn = UIButton()
+    private var cancelBtn : SLButton = {
+        let btn = SLButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("cancel", for: .normal)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        btn.setFont(font: .init(size: 13, weight: .regular))
         btn.isHidden = true
         return btn
     }()
     
-    private var doneBtn : UIButton = {
-        let btn = UIButton()
+    private var doneBtn : SLButton = {
+        let btn = SLButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("done", for: .normal)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        btn.setFont(font: .init(size: 13, weight: .regular))
         return btn
     }()
     

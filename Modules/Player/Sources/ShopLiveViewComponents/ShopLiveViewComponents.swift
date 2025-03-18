@@ -281,18 +281,6 @@ public class  SLView: UIView {
     // Custom implementation for SLView
 }
 
-// Custom subpublic class  of UIButton
-public class  SLButton: UIButton {
-    let identity : String = "ShopLiveViewComponents"
-    // Custom implementation for SLButton
-}
-
-// Custom subpublic class  of UILabel
-public class  SLLabel: UILabel {
-    let identity : String = "ShopLiveViewComponents"
-    // Custom implementation for SLLabel
-}
-
 // Custom subpublic class  of UITextField
 public class  SLTextField: UITextField {
     let identity : String = "ShopLiveViewComponents"

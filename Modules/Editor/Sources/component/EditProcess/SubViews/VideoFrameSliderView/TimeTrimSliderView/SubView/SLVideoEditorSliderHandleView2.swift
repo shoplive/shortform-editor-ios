@@ -52,11 +52,11 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
         return dimView
     }()
     
-    private var trimDurationLabel : UILabel = {
-        let label = UILabel()
+    private var trimDurationLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0)
-        label.font = .systemFont(ofSize: 12, weight: .semibold)
+        label.setFont(font: .init(size: 12, weight: .semibold))
         label.backgroundColor = .white
         label.cornerRadiusV_SL = 4
         label.clipsToBounds = true

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import ShopliveSDKCommon
 
 
 class SLCustomAlertBox : UIView {
@@ -22,11 +23,11 @@ class SLCustomAlertBox : UIView {
     }()
     
 
-    private var titleLabel : UILabel = {
-        let label = UILabel()
+    private var titleLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
-        label.font = .set(size: 17, weight: ._600)
+        label.setFont(font: .init(size: 17, weight: .bold))
         label.textAlignment = .center
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
@@ -34,24 +35,24 @@ class SLCustomAlertBox : UIView {
     }()
     
     
-    private var confirmBtn : UIButton = {
-        let btn = UIButton()
+    private var confirmBtn : SLButton = {
+        let btn = SLButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Yes.shoplive, for: .normal)
         btn.setTitleColor(.white, for: .normal)
         btn.backgroundColor = .init(red: 51, green: 51, blue: 51)
-        btn.titleLabel?.font = .set(size: 15, weight: ._600)
+        btn.setFont(font: .init(size: 15, weight: .bold))
         btn.layer.cornerRadius = 10
         btn.clipsToBounds = true
         return btn
     }()
     
-    private var closeBtn : UIButton = {
-        let btn = UIButton()
+    private var closeBtn : SLButton = {
+        let btn = SLButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.No.shoplive, for: .normal)
         btn.setTitleColor(.black, for: .normal)
-        btn.titleLabel?.font = .set(size: 15, weight: ._600)
+        btn.setFont(font: .init(size: 15, weight: .bold))
         return btn
     }()
     
@@ -103,16 +104,16 @@ class SLCustomAlertBox : UIView {
         self.closeBtn.layer.cornerRadius = cornerRadius
     }
     
-    func setCloseButtonDesign(backgroundColor : UIColor, textColor : UIColor, font : UIFont) {
+    func setCloseButtonDesign(backgroundColor : UIColor, textColor : UIColor, size: CGFloat, weight: UIFont.Weight) {
         self.closeBtn.backgroundColor = backgroundColor
         self.closeBtn.setTitleColor(textColor, for: .normal)
-        self.closeBtn.titleLabel?.font = font
+        self.closeBtn.setFont(font: .init(size: size, weight: weight))
     }
     
-    func setConfirmButtonDesign(backgroundColor : UIColor, textColor : UIColor,font : UIFont) {
+    func setConfirmButtonDesign(backgroundColor : UIColor, textColor : UIColor, size: CGFloat, weight: UIFont.Weight) {
         self.confirmBtn.backgroundColor = backgroundColor
         self.confirmBtn.setTitleColor(textColor, for: .normal)
-        self.confirmBtn.titleLabel?.font = font
+        self.confirmBtn.setFont(font: .init(size: size, weight: weight))
     }
 }
 extension SLCustomAlertBox {

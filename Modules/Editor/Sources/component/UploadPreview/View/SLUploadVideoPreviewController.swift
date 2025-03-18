@@ -52,10 +52,10 @@ class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDeleg
         return imageView
     }()
     
-    private lazy var titleLabel: UILabel = {
-        let view = UILabel()
+    private lazy var titleLabel: SLLabel = {
+        let view = SLLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = .systemFont(ofSize: 16, weight: .medium)
+        view.setFont(font: .init(size: 16, weight: .medium))
         view.textColor = .white
         view.numberOfLines = 1
         view.lineBreakMode = .byTruncatingTail
@@ -63,20 +63,20 @@ class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDeleg
         return view
     }()
     
-    private lazy var videoTitleLabel: UILabel = {
-        let view = UILabel()
+    private lazy var videoTitleLabel: SLLabel = {
+        let view = SLLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = .systemFont(ofSize: 16, weight: .medium)
+        view.setFont(font: .init(size: 16, weight: .medium))
         view.textColor = .white
         view.numberOfLines = 1
         view.lineBreakMode = .byTruncatingTail
         return view
     }()
     
-    private lazy var videoDescriptionLabel: UILabel = {
-        let view = UILabel()
+    private lazy var videoDescriptionLabel: SLLabel = {
+        let view = SLLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = .systemFont(ofSize: 13, weight: .regular)
+        view.setFont(font: .init(size: 13, weight: .regular))
         view.textColor = .white
         view.numberOfLines = 1
         view.lineBreakMode = .byTruncatingTail

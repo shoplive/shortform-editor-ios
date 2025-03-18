@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import OSLog
 
 
@@ -230,5 +231,17 @@ public extension ShopLiveCommon {
     
     @objc static var videoEditorSdkversion : String {
         return "1.6.6.2"
+    }
+}
+
+//MARK: - Font
+extension ShopLiveCommon {
+    private static var fontFamily: UIFont? = nil
+    
+    public static func setFontFamily(font: String) {
+        ShopLiveCommon.fontFamily = .init(name: font, size: 16)
+    }
+    public static func getFontFamily() -> UIFont? {
+        ShopLiveCommon.fontFamily
     }
 }

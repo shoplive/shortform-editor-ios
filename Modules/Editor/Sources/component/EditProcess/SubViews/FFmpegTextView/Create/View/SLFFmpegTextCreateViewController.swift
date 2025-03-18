@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ShopliveSDKCommon
 import UIKit
 
 
@@ -33,11 +34,11 @@ class SLFFmpegTextCreateViewController : UIViewController {
         return btn
     }()
     
-    lazy private var pageTitleLabel : UILabel = {
-        let label = UILabel()
+    lazy private var pageTitleLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.setFont(font: .init(size: 16, weight: .medium))
         label.textAlignment = .center
         label.text = "TextCreate"
         return label
@@ -59,20 +60,20 @@ class SLFFmpegTextCreateViewController : UIViewController {
     }()
     
     
-    private var fontSizeTitleLabel : UILabel = {
-        let label = UILabel()
+    private var fontSizeTitleLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 15)
+        label.setFont(font: .init(size: 15, weight: .medium))
         label.text = "Fontsize"
         return label
     }()
     
-    private var fontSizeValueLabel : UILabel = {
-        let label = UILabel()
+    private var fontSizeValueLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 15)
+        label.setFont(font: .init(size: 15, weight: .medium))
         label.text = "15"
         return label
     }()
@@ -85,11 +86,11 @@ class SLFFmpegTextCreateViewController : UIViewController {
         return stepper
     }()
     
-    private var fontColorTitleLabel : UILabel = {
-        let label = UILabel()
+    private var fontColorTitleLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 15)
+        label.setFont(font: .init(size: 15, weight: .medium))
         label.text = "Fontcolor"
         return label
     }()
@@ -104,11 +105,11 @@ class SLFFmpegTextCreateViewController : UIViewController {
         return view
     }()
     
-    private var fontColorValueLabel : UILabel = {
-        let textField = UILabel()
+    private var fontColorValueLabel : SLLabel = {
+        let textField = SLLabel()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = .black
-        textField.font = UIFont.systemFont(ofSize: 15)
+        textField.setFont(font: .init(size: 15, weight: .medium))
         textField.textColor = .white
         textField.textAlignment = .right
         textField.text = "#000000"
@@ -123,11 +124,11 @@ class SLFFmpegTextCreateViewController : UIViewController {
         return view
     }()
     
-    private var textBackgroundColorTitlelabel : UILabel = {
-        let label = UILabel()
+    private var textBackgroundColorTitlelabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 15)
+        label.setFont(font: .init(size: 15, weight: .medium))
         label.text = "Backgroundcolor"
         return label
     }()
@@ -141,11 +142,11 @@ class SLFFmpegTextCreateViewController : UIViewController {
         return view
     }()
     
-    private var textBackgroundColorValueLabel : UILabel = {
-        let textField = UILabel()
+    private var textBackgroundColorValueLabel : SLLabel = {
+        let textField = SLLabel()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = .black
-        textField.font = UIFont.systemFont(ofSize: 15)
+        textField.setFont(font: .init(size: 15, weight: .medium))
         textField.textColor = .white
         textField.textAlignment = .right
         textField.text = "#000000"
@@ -160,11 +161,11 @@ class SLFFmpegTextCreateViewController : UIViewController {
         return view
     }()
     
-    private var timeRangeTitlelabel : UILabel = {
-        let label = UILabel()
+    private var timeRangeTitlelabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 15)
+        label.setFont(font: .init(size: 15, weight: .medium))
         label.text = "TimeRange"
         return label
     }()
@@ -207,11 +208,12 @@ class SLFFmpegTextCreateViewController : UIViewController {
     
     
     
-    private var confirmBtn : UIButton = {
-        let btn = UIButton()
+    private var confirmBtn : SLButton = {
+        let btn = SLButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = .white
         btn.setTitle("confirm", for: .normal)
+        btn.setFont(font: .init(size: 10, weight: .medium))
         btn.setTitleColor(.black, for: .normal)
         btn.layer.cornerRadius = 15
         return btn

@@ -53,12 +53,12 @@ class SlCustomUISlider : UIView, SLReactor {
         return view
     }()
     
-    private var valueLabel : UILabel = {
-        let label = UILabel()
+    private var valueLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontSizeToFitWidth = true
         label.textColor = .white
-        label.font = .set(size: 16, weight: ._600)
+        label.setFont(font: .init(size: 16, weight: .bold))
         label.textAlignment = .right
         return label
     }()

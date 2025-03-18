@@ -62,12 +62,12 @@ class SLVideoMainFilterSubView : UIView, SLReactor {
         return btn
     }()
     
-    lazy private var confirmBtn : UIButton = {
-        let btn = UIButton()
+    lazy private var confirmBtn : SLButton = {
+        let btn = SLButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = design.confirmButtonBackgroundColor
         btn.setTitleColor(design.confirmButtonTextColor, for: .normal)
-        btn.titleLabel?.font = design.confirmButtonTextFont
+        btn.setFont(font: .init(size: design.confirmButtonTextSize, weight: design.confirmButtonTextWeight))
         btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.Volume.Btn.Confirm.shoplive, for: .normal)
         btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true

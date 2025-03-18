@@ -8,16 +8,16 @@
 
 import Foundation
 import UIKit
+import ShopliveSDKCommon
 
 
 class SLLabelButton : UIButton {
     
     
-    let titleTextLabel : UILabel = {
-        let label = UILabel()
+    let titleTextLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.font = .systemFont(ofSize: 14, weight: .medium)
         label.textAlignment = .center
         return label
     }()

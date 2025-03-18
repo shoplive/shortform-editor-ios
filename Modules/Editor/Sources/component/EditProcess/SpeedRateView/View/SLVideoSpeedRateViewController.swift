@@ -39,11 +39,11 @@ class SLVideoSpeedRateViewController : UIViewController {
         return btn
     }()
     
-    private var pageTitle : UILabel = {
-        let label = UILabel()
+    private var pageTitle : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.font = .set(size: 16, weight: ._600)
+        label.setFont(font: .init(size: 16, weight: .bold))
         label.text = ShopLiveShortformEditorSDKStrings.Editor.Title.PlaybackSpeed.shoplive
         return label
     }()
@@ -69,12 +69,12 @@ class SLVideoSpeedRateViewController : UIViewController {
         return btn
     }()
     
-    lazy private var confirmBtn : UIButton = {
-        let btn = UIButton()
+    lazy private var confirmBtn : SLButton = {
+        let btn = SLButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = design.confirmButtonBackgroundColor
         btn.setTitleColor(design.confirmButtonTextColor, for: .normal)
-        btn.titleLabel?.font = .set(size: 16, weight: ._600)
+        btn.setFont(font: .init(size: 16, weight: .bold))
         btn.setTitle(ShopLiveShortformEditorSDKStrings.Editor.PlaybackSpeed.Btn.Confirm.shoplive, for: .normal)
         btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true
@@ -105,11 +105,11 @@ class SLVideoSpeedRateViewController : UIViewController {
         return view
     }()
     
-    private var durationlabel : UILabel = {
-        let label = UILabel()
+    private var durationlabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
-        label.font = .set(size: 10, weight: ._500)
+        label.setFont(font: .init(size: 10, weight: .semibold))
         label.textColor = .white
         return label
     }()

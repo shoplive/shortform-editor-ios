@@ -67,7 +67,7 @@ class SLPhotosPickerViewController : UIViewController {
         let view = SlBlurBGLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.label.textColor = .white
-        view.label.font = .set(size: 15, weight: ._600)
+        view.label.setFont(font: .init(size: 15, weight: .bold))
         view.layer.cornerRadius = 20
         view.clipsToBounds = true
         view._layoutMargin = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)

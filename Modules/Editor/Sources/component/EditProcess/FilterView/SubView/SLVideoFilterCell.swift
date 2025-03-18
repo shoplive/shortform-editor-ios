@@ -51,11 +51,11 @@ class SLVideoFilterCell : UICollectionViewCell {
         return view
     }()
     
-    private var filterNameLabel : UILabel = {
-        let label = UILabel()
+    private var filterNameLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.backgroundColor = .clear
-        label.font = .set(size: 13, weight: ._500)
+        label.setFont(font: .init(size: 13, weight: .bold))
         label.textColor = .white
         label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping

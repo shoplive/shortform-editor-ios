@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ShopliveSDKCommon
 import UIKit
 
 
@@ -33,10 +34,10 @@ class SLPhotosPickerVideoCell : UICollectionViewCell {
         view.clipsToBounds = true
         return view
     }()
-    private var durationLabel : UILabel = {
-        let label = UILabel()
+    private var durationLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.set(size: 11, weight: ._600)
+        label.setFont(font: .init(size: 11, weight: .bold))
         label.textColor = .white
         label.text = " 0:00 "
         return label
@@ -51,11 +52,11 @@ class SLPhotosPickerVideoCell : UICollectionViewCell {
         return imageView
     }()
     
-    private var cameraLabel : UILabel = {
-        let label = UILabel()
+    private var cameraLabel : SLLabel = {
+        let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
-        label.font = .set(size: 13, weight: ._500)
+        label.setFont(font: .init(size: 13, weight: .semibold))
         label.textColor = .init(white: 1, alpha: 0.4)
         label.text = ShopLiveShortformEditorSDKStrings.Editor.Photo.Picker.Camera.Cell.Btn.title
         return label
