@@ -36,7 +36,10 @@ public extension Project {
                 "PRODUCT_NAME" : "$SL_APP_NAME",
                 "CURRENT_PROJECT_VERSION" : "$SL_APP_BUILD_VERSION",
                 "MARKETING_VERSION" : "$SL_APP_MARKETING_VERSION",
-                "ENABLE_TESTING_SEARCH_PATHS": "YES"
+                "ENABLE_TESTING_SEARCH_PATHS": "YES",
+                "CODE_SIGN_STYLE": "Automatic",
+                "DEVELOPMENT_TEAM": "D237UGRPX6",
+                "CODE_SIGN_IDENTITY": "Apple Development"
             ]
             
             for (key, value)  in headerSearchPaths {
@@ -55,7 +58,7 @@ public extension Project {
             schemeTargetName = target.name
         }
         var schemes : [Scheme] = [.makeScheme(target: .debug, name: schemeTargetName),
-                                  .makeScheme(target: .release, name: schemeTargetName)]
+                                  .makeScheme(target: .release, name: schemeTargetName, useDebugMode: true)]
         
         
         
@@ -100,7 +103,7 @@ public extension Project {
                                       dependencies: dependencies)
         
         let schemes: [Scheme] = [.makeScheme(target: .debug, name: name),
-                                 .makeScheme(target: .release, name: name)]
+                                 .makeScheme(target: .release, name: name, useDebugMode: true)]
         
         let targets: [Target] = [appTarget]
         
@@ -118,11 +121,11 @@ public extension Project {
 }
 
 extension Scheme {
-    static func makeScheme(target: ConfigurationName, name: String) -> Scheme {
+    static func makeScheme(target: ConfigurationName, name: String, useDebugMode: Bool = false) -> Scheme {
         return Scheme.scheme(name: name,
                              shared: true,
                              buildAction: .buildAction(targets: ["\(name)"]),
-                             runAction: .runAction(configuration: target),
+                             runAction: .runAction(configuration: useDebugMode ? .debug : target),
                              archiveAction: .archiveAction(configuration: target),
                              profileAction: .profileAction(configuration: target),
                              analyzeAction: .analyzeAction(configuration: target))
