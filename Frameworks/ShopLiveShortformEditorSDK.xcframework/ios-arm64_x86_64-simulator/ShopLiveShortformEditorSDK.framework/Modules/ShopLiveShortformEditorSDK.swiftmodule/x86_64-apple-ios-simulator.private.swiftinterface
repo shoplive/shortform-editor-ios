@@ -658,7 +658,8 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var confirmButtonCornerRadius: CoreFoundation.CGFloat
     public var confirmButtonBackgroundColor: UIKit.UIColor
     public var confirmButtonTextColor: UIKit.UIColor
-    public var confirmButtonTextFont: UIKit.UIFont
+    public var confirmButtonTextWeight: UIKit.UIFont.Weight
+    public var confirmButtonTextSize: CoreFoundation.CGFloat
     public var sliderThumbViewColor: UIKit.UIColor
     public var sliderCornerRadius: CoreFoundation.CGFloat
     public var sliderBackgroundColor: UIKit.UIColor
@@ -675,7 +676,8 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var confirmButtonCornerRadius: CoreFoundation.CGFloat
     public var confirmButtonBackgroundColor: UIKit.UIColor
     public var confirmButtonTextColor: UIKit.UIColor
-    public var confirmButtonTextFont: UIKit.UIFont
+    public var confirmButtonTextWeight: UIKit.UIFont.Weight
+    public var confirmButtonTextSize: CoreFoundation.CGFloat
     public var sliderThumbViewColor: UIKit.UIColor
     public var sliderCornerRadius: CoreFoundation.CGFloat
     public var sliderBackgroundColor: UIKit.UIColor
@@ -685,7 +687,8 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public static let global: ShopLiveShortformEditorSDK.ShopLiveShortformEditor.EditorMainConfig
     public var videoPlayerCornerRadius: CoreFoundation.CGFloat
     public var titleTextColor: UIKit.UIColor
-    public var titleTextFont: UIKit.UIFont
+    public var titleTextWeight: UIKit.UIFont.Weight
+    public var titleTextSize: CoreFoundation.CGFloat
     public var backButtonIcon: UIKit.UIImage
     public var backButtonIconPadding: UIKit.UIEdgeInsets
     public var backButtonIconTintColor: UIKit.UIColor
@@ -698,7 +701,8 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var nextButtonCornerRadius: CoreFoundation.CGFloat
     public var nextButtonBackgroundColor: UIKit.UIColor
     public var nextButtonTitleColor: UIKit.UIColor
-    public var nextButtonTitleFont: UIKit.UIFont
+    public var nextButtonTitleWeight: UIKit.UIFont.Weight
+    public var nextButtonTitleSize: CoreFoundation.CGFloat
     public var videoSpeedButtonIcon: UIKit.UIImage
     public var videoSpeedButtonIconPadding: UIKit.UIEdgeInsets
     public var videoSpeedButtonIconTintColor: UIKit.UIColor
@@ -724,10 +728,12 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var popupButtonCornerRadius: CoreFoundation.CGFloat
     public var popupCloseButtonBackgroundColor: UIKit.UIColor
     public var popupCloseButtonTextColor: UIKit.UIColor
-    public var popupCloseButtonTextFont: UIKit.UIFont
+    public var popupCloseButtonTextWeight: UIKit.UIFont.Weight
+    public var popupCloseButtonTextSize: CoreFoundation.CGFloat
     public var popupConfirmButtonBackgroundColor: UIKit.UIColor
     public var popupConfirmButtonTextColor: UIKit.UIColor
-    public var popupConfirmButtonTextFont: UIKit.UIFont
+    public var popupConfirmButtonTextWeight: UIKit.UIFont.Weight
+    public var popupConfirmButtonTextSize: CoreFoundation.CGFloat
     @objc deinit
   }
   @_hasMissingDesignatedInitializers public class EditorFilterConfig {
@@ -741,7 +747,8 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var confirmButtonCornerRadius: CoreFoundation.CGFloat
     public var confirmButtonBackgroundColor: UIKit.UIColor
     public var confirmButtonTextColor: UIKit.UIColor
-    public var confirmButtonTextFont: UIKit.UIFont
+    public var confirmButtonTextWeight: UIKit.UIFont.Weight
+    public var confirmButtonTextSize: CoreFoundation.CGFloat
     public var sliderThumbViewColor: UIKit.UIColor
     public var sliderCornerRadius: CoreFoundation.CGFloat
     public var sliderBackgroundColor: UIKit.UIColor
@@ -760,7 +767,8 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var confirmButtonCornerRadius: CoreFoundation.CGFloat
     public var confirmButtonBackgroundColor: UIKit.UIColor
     public var confirmButtonTextColor: UIKit.UIColor
-    public var confirmButtonTextFont: UIKit.UIFont
+    public var confirmButtonTextWeight: UIKit.UIFont.Weight
+    public var confirmButtonTextSize: CoreFoundation.CGFloat
     @objc deinit
   }
   @_hasMissingDesignatedInitializers public class EditorCoverPickerConfig {
@@ -774,7 +782,8 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var confirmButtonBackgroundColor: UIKit.UIColor
     public var confirmButtonTextColor: UIKit.UIColor
     public var confirmButtonCornerRadius: CoreFoundation.CGFloat
-    public var confirmButtonTitleFont: UIKit.UIFont
+    public var confirmButtonTitleWeight: UIKit.UIFont.Weight
+    public var confirmButtonTitleSize: CoreFoundation.CGFloat
     public var sliderCornerRadius: CoreFoundation.CGFloat
     public var sliderThumbCornerRadius: CoreFoundation.CGFloat
     public var sliderThumbColor: UIKit.UIColor

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ShopLiveShortformEditorSDK'
-  s.version          = '1.6.6.2'
+  s.version          = '1.6.7'
   s.summary          = "ShopLive Shortform Editor Framework for iOS"
 
   s.homepage         = 'http://shoplive.cloud'
