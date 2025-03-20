@@ -433,7 +433,7 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
         })
     }
     
-    private func cancelExportSession() {
+    func cancelExportSession() {
         if let exportSession = self.exportSession {
             exportSession.cancelExport()
             removeAVAssetExportSessionTimer()
