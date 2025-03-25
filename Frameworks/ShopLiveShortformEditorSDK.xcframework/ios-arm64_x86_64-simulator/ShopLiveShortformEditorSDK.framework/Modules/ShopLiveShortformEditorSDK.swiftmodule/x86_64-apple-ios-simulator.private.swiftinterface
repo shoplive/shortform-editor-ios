@@ -1,7 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)
-// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name ShopLiveShortformEditorSDK
-// swift-module-flags-ignorable: -enable-bare-slash-regex
+// swift-compiler-version: Apple Swift version 6.0 effective-5.10 (swiftlang-6.0.0.9.10 clang-1600.0.26.2)
+// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name ShopLiveShortformEditorSDK
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface
 import AVFoundation
 import AVKit
 import AssetsLibrary
@@ -55,15 +55,15 @@ public struct ShopLiveShortformEditorSDKImages : Swift.Sendable {
   public var image: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages.Image {
     get
   }
-  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, xrOS 1.0, *)
-  public var swiftUIImage: SwiftUI.Image {
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, visionOS 1.0, *)
+  public var swiftUIImage: SwiftUICore.Image {
     get
   }
 }
-@available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, xrOS 1.0, *)
-extension SwiftUI.Image {
+@available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, visionOS 1.0, *)
+extension SwiftUICore.Image {
   public init(asset: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages)
-  public init(asset: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages, label: SwiftUI.Text)
+  public init(asset: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages, label: SwiftUICore.Text)
   public init(decorative asset: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages)
 }
 @_inheritsConvenienceInitializers @objc public class ShopLiveShortformEditorSDKResources : ObjectiveC.NSObject {
@@ -481,7 +481,7 @@ public enum SLCoverEditOptions : Swift.CaseIterable {
   public static func == (a: ShopLiveShortformEditorSDK.SLCoverEditOptions, b: ShopLiveShortformEditorSDK.SLCoverEditOptions) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
   public typealias AllCases = [ShopLiveShortformEditorSDK.SLCoverEditOptions]
-  public static var allCases: [ShopLiveShortformEditorSDK.SLCoverEditOptions] {
+  nonisolated public static var allCases: [ShopLiveShortformEditorSDK.SLCoverEditOptions] {
     get
   }
   public var hashValue: Swift.Int {
@@ -531,7 +531,7 @@ public enum SLEditOptions : Swift.CaseIterable {
   public static func == (a: ShopLiveShortformEditorSDK.SLEditOptions, b: ShopLiveShortformEditorSDK.SLEditOptions) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
   public typealias AllCases = [ShopLiveShortformEditorSDK.SLEditOptions]
-  public static var allCases: [ShopLiveShortformEditorSDK.SLEditOptions] {
+  nonisolated public static var allCases: [ShopLiveShortformEditorSDK.SLEditOptions] {
     get
   }
   public var hashValue: Swift.Int {
@@ -963,11 +963,11 @@ public enum SLMediaType {
     get
   }
 }
-@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) open class SLBackspaceDetectingTextField : UIKit.UITextField {
-  @_Concurrency.MainActor(unsafe) open var onDeleteBackwards: (() -> Swift.Void)?
-  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func deleteBackward()
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func paste(_ sender: Any?)
+@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency open class SLBackspaceDetectingTextField : UIKit.UITextField {
+  @_Concurrency.MainActor @preconcurrency open var onDeleteBackwards: (() -> Swift.Void)?
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func deleteBackward()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func paste(_ sender: Any?)
   @objc deinit
 }
 public struct SLWSTag : Swift.Hashable {
@@ -981,81 +981,81 @@ public struct SLWSTag : Swift.Hashable {
   }
 }
 public func == (lhs: ShopLiveShortformEditorSDK.SLWSTag, rhs: ShopLiveShortformEditorSDK.SLWSTag) -> Swift.Bool
-@objc @_Concurrency.MainActor(unsafe) open class SLWSTagView : UIKit.UIView, UIKit.UITextInputTraits {
-  @_Concurrency.MainActor(unsafe) open var displayText: Swift.String {
+@objc @_Concurrency.MainActor @preconcurrency open class SLWSTagView : UIKit.UIView, UIKit.UITextInputTraits {
+  @_Concurrency.MainActor @preconcurrency open var displayText: Swift.String {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) open var displayDelimiter: Swift.String {
+  @_Concurrency.MainActor @preconcurrency open var displayDelimiter: Swift.String {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) open var font: UIKit.UIFont? {
+  @_Concurrency.MainActor @preconcurrency open var font: UIKit.UIFont? {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) open var cornerRadius: CoreFoundation.CGFloat {
+  @_Concurrency.MainActor @preconcurrency open var cornerRadius: CoreFoundation.CGFloat {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) open var borderWidth: CoreFoundation.CGFloat {
+  @_Concurrency.MainActor @preconcurrency open var borderWidth: CoreFoundation.CGFloat {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) open var borderColor: UIKit.UIColor? {
+  @_Concurrency.MainActor @preconcurrency open var borderColor: UIKit.UIColor? {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open var tintColor: UIKit.UIColor! {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open var tintColor: UIKit.UIColor! {
     @objc get
     @objc set
   }
-  @_Concurrency.MainActor(unsafe) open var selectedColor: UIKit.UIColor? {
+  @_Concurrency.MainActor @preconcurrency open var selectedColor: UIKit.UIColor? {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) open var textColor: UIKit.UIColor? {
+  @_Concurrency.MainActor @preconcurrency open var textColor: UIKit.UIColor? {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) open var selectedTextColor: UIKit.UIColor? {
+  @_Concurrency.MainActor @preconcurrency open var selectedTextColor: UIKit.UIColor? {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) open var selected: Swift.Bool {
+  @_Concurrency.MainActor @preconcurrency open var selected: Swift.Bool {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) @objc public var autocapitalizationType: UIKit.UITextAutocapitalizationType
-  @_Concurrency.MainActor(unsafe) @objc public var autocorrectionType: UIKit.UITextAutocorrectionType
-  @_Concurrency.MainActor(unsafe) @objc public var spellCheckingType: UIKit.UITextSpellCheckingType
-  @_Concurrency.MainActor(unsafe) @objc public var keyboardType: UIKit.UIKeyboardType
-  @_Concurrency.MainActor(unsafe) @objc public var keyboardAppearance: UIKit.UIKeyboardAppearance
-  @_Concurrency.MainActor(unsafe) @objc public var returnKeyType: UIKit.UIReturnKeyType
-  @_Concurrency.MainActor(unsafe) @objc public var enablesReturnKeyAutomatically: Swift.Bool
-  @_Concurrency.MainActor(unsafe) @objc public var isSecureTextEntry: Swift.Bool
-  @_Concurrency.MainActor(unsafe) public init(tag: ShopLiveShortformEditorSDK.SLWSTag)
-  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open var intrinsicContentSize: CoreFoundation.CGSize {
+  @_Concurrency.MainActor @preconcurrency @objc public var autocapitalizationType: UIKit.UITextAutocapitalizationType
+  @_Concurrency.MainActor @preconcurrency @objc public var autocorrectionType: UIKit.UITextAutocorrectionType
+  @_Concurrency.MainActor @preconcurrency @objc public var spellCheckingType: UIKit.UITextSpellCheckingType
+  @_Concurrency.MainActor @preconcurrency @objc public var keyboardType: UIKit.UIKeyboardType
+  @_Concurrency.MainActor @preconcurrency @objc public var keyboardAppearance: UIKit.UIKeyboardAppearance
+  @_Concurrency.MainActor @preconcurrency @objc public var returnKeyType: UIKit.UIReturnKeyType
+  @_Concurrency.MainActor @preconcurrency @objc public var enablesReturnKeyAutomatically: Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc public var isSecureTextEntry: Swift.Bool
+  @_Concurrency.MainActor @preconcurrency public init(tag: ShopLiveShortformEditorSDK.SLWSTag)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open var intrinsicContentSize: CoreFoundation.CGSize {
     @objc get
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func sizeThatFits(_ size: CoreFoundation.CGSize) -> CoreFoundation.CGSize
-  @_Concurrency.MainActor(unsafe) open func sizeToFit(_ size: CoreFoundation.CGSize) -> CoreFoundation.CGSize
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func layoutSubviews()
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open var canBecomeFirstResponder: Swift.Bool {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func sizeThatFits(_ size: CoreFoundation.CGSize) -> CoreFoundation.CGSize
+  @_Concurrency.MainActor @preconcurrency open func sizeToFit(_ size: CoreFoundation.CGSize) -> CoreFoundation.CGSize
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func layoutSubviews()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open var canBecomeFirstResponder: Swift.Bool {
     @objc get
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func becomeFirstResponder() -> Swift.Bool
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func resignFirstResponder() -> Swift.Bool
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func hitTest(_ point: CoreFoundation.CGPoint, with event: UIKit.UIEvent?) -> UIKit.UIView?
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func becomeFirstResponder() -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func resignFirstResponder() -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func hitTest(_ point: CoreFoundation.CGPoint, with event: UIKit.UIEvent?) -> UIKit.UIView?
   @objc deinit
 }
 extension ShopLiveShortformEditorSDK.SLWSTagView : UIKit.UIKeyInput {
-  @_Concurrency.MainActor(unsafe) @objc dynamic public var hasText: Swift.Bool {
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public var hasText: Swift.Bool {
     @objc get
   }
-  @_Concurrency.MainActor(unsafe) @objc dynamic public func insertText(_ text: Swift.String)
-  @_Concurrency.MainActor(unsafe) @objc dynamic public func deleteBackward()
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func insertText(_ text: Swift.String)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func deleteBackward()
 }
 public struct SLWSTagAcceptOption : Swift.OptionSet {
   public let rawValue: Swift.Int
@@ -1068,224 +1068,224 @@ public struct SLWSTagAcceptOption : Swift.OptionSet {
   public typealias Element = ShopLiveShortformEditorSDK.SLWSTagAcceptOption
   public typealias RawValue = Swift.Int
 }
-@objc @_inheritsConvenienceInitializers @IBDesignable @_Concurrency.MainActor(unsafe) open class SLWSTagsField : UIKit.UIScrollView {
-  @_Concurrency.MainActor(unsafe) final public let textField: ShopLiveShortformEditorSDK.SLBackspaceDetectingTextField
-  @_Concurrency.MainActor(unsafe) public var isDisplayMode: Swift.Bool
-  @_Concurrency.MainActor(unsafe) weak open var textDelegate: (any UIKit.UITextFieldDelegate)?
-  @IBInspectable @_Concurrency.MainActor(unsafe) @objc override dynamic open var tintColor: UIKit.UIColor! {
+@objc @_inheritsConvenienceInitializers @IBDesignable @_Concurrency.MainActor @preconcurrency open class SLWSTagsField : UIKit.UIScrollView {
+  @_Concurrency.MainActor @preconcurrency final public let textField: ShopLiveShortformEditorSDK.SLBackspaceDetectingTextField
+  @_Concurrency.MainActor @preconcurrency public var isDisplayMode: Swift.Bool
+  @_Concurrency.MainActor @preconcurrency weak open var textDelegate: (any UIKit.UITextFieldDelegate)?
+  @IBInspectable @_Concurrency.MainActor @preconcurrency @objc override dynamic open var tintColor: UIKit.UIColor! {
     @objc get
     @objc set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var textColor: UIKit.UIColor? {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var textColor: UIKit.UIColor? {
     @objc get
     @objc set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var selectedColor: UIKit.UIColor? {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var selectedColor: UIKit.UIColor? {
     @objc get
     @objc set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var selectedTextColor: UIKit.UIColor? {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var selectedTextColor: UIKit.UIColor? {
     @objc get
     @objc set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var delimiter: Swift.String {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var delimiter: Swift.String {
     @objc get
     @objc set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var isDelimiterVisible: Swift.Bool {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var isDelimiterVisible: Swift.Bool {
     @objc get
     @objc set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var shouldTokenizeAfterResigningFirstResponder: Swift.Bool
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var maxHeight: CoreFoundation.CGFloat {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var shouldTokenizeAfterResigningFirstResponder: Swift.Bool
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var maxHeight: CoreFoundation.CGFloat {
     @objc get
     @objc set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var numberOfLines: Swift.Int {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var numberOfLines: Swift.Int {
     @objc get
     @objc set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var enableScrolling: Swift.Bool
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var cornerRadius: CoreFoundation.CGFloat {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var enableScrolling: Swift.Bool
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var cornerRadius: CoreFoundation.CGFloat {
     @objc get
     @objc set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var borderWidth: CoreFoundation.CGFloat {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var borderWidth: CoreFoundation.CGFloat {
     @objc get
     @objc set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var borderColor: UIKit.UIColor? {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var borderColor: UIKit.UIColor? {
     @objc get
     @objc set
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open var layoutMargins: UIKit.UIEdgeInsets {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open var layoutMargins: UIKit.UIEdgeInsets {
     @objc get
     @objc set
   }
   @available(*, deprecated, message: "use 'textField.textColor' directly.")
-  @_Concurrency.MainActor(unsafe) open var fieldTextColor: UIKit.UIColor? {
+  @_Concurrency.MainActor @preconcurrency open var fieldTextColor: UIKit.UIColor? {
     get
     set
   }
   @available(iOS 10.0, *)
   @available(*, deprecated, message: "use 'textField.fieldTextContentType' directly.")
-  @_Concurrency.MainActor(unsafe) open var fieldTextContentType: UIKit.UITextContentType! {
+  @_Concurrency.MainActor @preconcurrency open var fieldTextContentType: UIKit.UITextContentType! {
     get
     set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var placeholder: Swift.String {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var placeholder: Swift.String {
     @objc get
     @objc set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var placeholderColor: UIKit.UIColor? {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var placeholderColor: UIKit.UIColor? {
     @objc get
     @objc set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var placeholderFont: UIKit.UIFont? {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var placeholderFont: UIKit.UIFont? {
     @objc get
     @objc set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var placeholderAlwaysVisible: Swift.Bool {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var placeholderAlwaysVisible: Swift.Bool {
     @objc get
     @objc set
   }
-  @_Concurrency.MainActor(unsafe) open var font: UIKit.UIFont? {
+  @_Concurrency.MainActor @preconcurrency open var font: UIKit.UIFont? {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) open var keyboardAppearance: UIKit.UIKeyboardAppearance {
+  @_Concurrency.MainActor @preconcurrency open var keyboardAppearance: UIKit.UIKeyboardAppearance {
     get
     set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var readOnly: Swift.Bool {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var readOnly: Swift.Bool {
     @objc get
     @objc set
   }
-  @_Concurrency.MainActor(unsafe) open var acceptTagOptions: [ShopLiveShortformEditorSDK.SLWSTagAcceptOption]
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open var contentInset: UIKit.UIEdgeInsets {
+  @_Concurrency.MainActor @preconcurrency open var acceptTagOptions: [ShopLiveShortformEditorSDK.SLWSTagAcceptOption]
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open var contentInset: UIKit.UIEdgeInsets {
     @objc get
     @objc set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var spaceBetweenTags: CoreFoundation.CGFloat {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var spaceBetweenTags: CoreFoundation.CGFloat {
     @objc get
     @objc set
   }
-  @objc @IBInspectable @_Concurrency.MainActor(unsafe) open var spaceBetweenLines: CoreFoundation.CGFloat {
+  @objc @IBInspectable @_Concurrency.MainActor @preconcurrency open var spaceBetweenLines: CoreFoundation.CGFloat {
     @objc get
     @objc set
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open var isFirstResponder: Swift.Bool {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open var isFirstResponder: Swift.Bool {
     @objc get
   }
-  @_Concurrency.MainActor(unsafe) open var tags: [ShopLiveShortformEditorSDK.SLWSTag] {
+  @_Concurrency.MainActor @preconcurrency open var tags: [ShopLiveShortformEditorSDK.SLWSTag] {
     get
   }
-  @_Concurrency.MainActor(unsafe) open var tagViews: [ShopLiveShortformEditorSDK.SLWSTagView]
-  @_Concurrency.MainActor(unsafe) open var onShouldAcceptTag: ((ShopLiveShortformEditorSDK.SLWSTagsField) -> Swift.Bool)?
-  @_Concurrency.MainActor(unsafe) open var onDidChangeText: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ text: Swift.String?) -> Swift.Void)?
-  @_Concurrency.MainActor(unsafe) open var onDidAddTag: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ tag: ShopLiveShortformEditorSDK.SLWSTag) -> Swift.Void)?
-  @_Concurrency.MainActor(unsafe) open var onDidRemoveTag: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ tag: ShopLiveShortformEditorSDK.SLWSTag) -> Swift.Void)?
-  @_Concurrency.MainActor(unsafe) open var onDidSelectTagView: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ tag: ShopLiveShortformEditorSDK.SLWSTagView) -> Swift.Void)?
-  @_Concurrency.MainActor(unsafe) open var onDidUnselectTagView: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ tag: ShopLiveShortformEditorSDK.SLWSTagView) -> Swift.Void)?
-  @_Concurrency.MainActor(unsafe) open var onValidateTag: ((ShopLiveShortformEditorSDK.SLWSTag, [ShopLiveShortformEditorSDK.SLWSTag]) -> Swift.Bool)?
-  @_Concurrency.MainActor(unsafe) open var onVerifyTag: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ text: Swift.String) -> Swift.Bool)?
-  @_Concurrency.MainActor(unsafe) open var onDidChangeHeightTo: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ height: CoreFoundation.CGFloat) -> Swift.Void)?
-  @_Concurrency.MainActor(unsafe) open var useCloseButton: Swift.Bool
-  @_Concurrency.MainActor(unsafe) open var preferredMaxLayoutWidth: CoreFoundation.CGFloat {
+  @_Concurrency.MainActor @preconcurrency open var tagViews: [ShopLiveShortformEditorSDK.SLWSTagView]
+  @_Concurrency.MainActor @preconcurrency open var onShouldAcceptTag: ((ShopLiveShortformEditorSDK.SLWSTagsField) -> Swift.Bool)?
+  @_Concurrency.MainActor @preconcurrency open var onDidChangeText: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ text: Swift.String?) -> Swift.Void)?
+  @_Concurrency.MainActor @preconcurrency open var onDidAddTag: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ tag: ShopLiveShortformEditorSDK.SLWSTag) -> Swift.Void)?
+  @_Concurrency.MainActor @preconcurrency open var onDidRemoveTag: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ tag: ShopLiveShortformEditorSDK.SLWSTag) -> Swift.Void)?
+  @_Concurrency.MainActor @preconcurrency open var onDidSelectTagView: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ tag: ShopLiveShortformEditorSDK.SLWSTagView) -> Swift.Void)?
+  @_Concurrency.MainActor @preconcurrency open var onDidUnselectTagView: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ tag: ShopLiveShortformEditorSDK.SLWSTagView) -> Swift.Void)?
+  @_Concurrency.MainActor @preconcurrency open var onValidateTag: ((ShopLiveShortformEditorSDK.SLWSTag, [ShopLiveShortformEditorSDK.SLWSTag]) -> Swift.Bool)?
+  @_Concurrency.MainActor @preconcurrency open var onVerifyTag: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ text: Swift.String) -> Swift.Bool)?
+  @_Concurrency.MainActor @preconcurrency open var onDidChangeHeightTo: ((ShopLiveShortformEditorSDK.SLWSTagsField, _ height: CoreFoundation.CGFloat) -> Swift.Void)?
+  @_Concurrency.MainActor @preconcurrency open var useCloseButton: Swift.Bool
+  @_Concurrency.MainActor @preconcurrency open var preferredMaxLayoutWidth: CoreFoundation.CGFloat {
     get
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open var intrinsicContentSize: CoreFoundation.CGSize {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open var intrinsicContentSize: CoreFoundation.CGSize {
     @objc get
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func sizeThatFits(_ size: CoreFoundation.CGSize) -> CoreFoundation.CGSize
-  @_Concurrency.MainActor(unsafe) open var suggestions: [Swift.String]
-  @_Concurrency.MainActor(unsafe) open var caseSensitiveSuggestions: Swift.Bool
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
-  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func sizeThatFits(_ size: CoreFoundation.CGSize) -> CoreFoundation.CGSize
+  @_Concurrency.MainActor @preconcurrency open var suggestions: [Swift.String]
+  @_Concurrency.MainActor @preconcurrency open var caseSensitiveSuggestions: Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
   @objc deinit
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func willMove(toSuperview newSuperview: UIKit.UIView?)
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func layoutSubviews()
-  @_Concurrency.MainActor(unsafe) open func setCornerRadius(to cornerRadius: CoreFoundation.CGFloat)
-  @_Concurrency.MainActor(unsafe) open func acceptCurrentTextAsTag()
-  @_Concurrency.MainActor(unsafe) open var isEditing: Swift.Bool {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func willMove(toSuperview newSuperview: UIKit.UIView?)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func layoutSubviews()
+  @_Concurrency.MainActor @preconcurrency open func setCornerRadius(to cornerRadius: CoreFoundation.CGFloat)
+  @_Concurrency.MainActor @preconcurrency open func acceptCurrentTextAsTag()
+  @_Concurrency.MainActor @preconcurrency open var isEditing: Swift.Bool {
     get
   }
-  @_Concurrency.MainActor(unsafe) open func beginEditing()
-  @_Concurrency.MainActor(unsafe) open func endEditing()
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func reloadInputViews()
-  @_Concurrency.MainActor(unsafe) open func addTags(_ tags: [Swift.String])
-  @_Concurrency.MainActor(unsafe) open func addTags(_ tags: [ShopLiveShortformEditorSDK.SLWSTag])
-  @_Concurrency.MainActor(unsafe) open func addTag(_ tag: Swift.String)
-  @_Concurrency.MainActor(unsafe) open func addTag(_ tag: ShopLiveShortformEditorSDK.SLWSTag)
-  @_Concurrency.MainActor(unsafe) open func removeTag(_ tag: Swift.String)
-  @_Concurrency.MainActor(unsafe) open func removeTag(_ tag: ShopLiveShortformEditorSDK.SLWSTag)
-  @_Concurrency.MainActor(unsafe) open func removeTagAtIndex(_ index: Swift.Int)
-  @_Concurrency.MainActor(unsafe) open func removeTags()
+  @_Concurrency.MainActor @preconcurrency open func beginEditing()
+  @_Concurrency.MainActor @preconcurrency open func endEditing()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func reloadInputViews()
+  @_Concurrency.MainActor @preconcurrency open func addTags(_ tags: [Swift.String])
+  @_Concurrency.MainActor @preconcurrency open func addTags(_ tags: [ShopLiveShortformEditorSDK.SLWSTag])
+  @_Concurrency.MainActor @preconcurrency open func addTag(_ tag: Swift.String)
+  @_Concurrency.MainActor @preconcurrency open func addTag(_ tag: ShopLiveShortformEditorSDK.SLWSTag)
+  @_Concurrency.MainActor @preconcurrency open func removeTag(_ tag: Swift.String)
+  @_Concurrency.MainActor @preconcurrency open func removeTag(_ tag: ShopLiveShortformEditorSDK.SLWSTag)
+  @_Concurrency.MainActor @preconcurrency open func removeTagAtIndex(_ index: Swift.Int)
+  @_Concurrency.MainActor @preconcurrency open func removeTags()
   @discardableResult
-  @_Concurrency.MainActor(unsafe) open func tokenizeTextFieldText() -> ShopLiveShortformEditorSDK.SLWSTag?
-  @objc @_Concurrency.MainActor(unsafe) open func onTextFieldDidChange(_ sender: Swift.AnyObject)
-  @_Concurrency.MainActor(unsafe) open func selectNextTag()
-  @_Concurrency.MainActor(unsafe) open func selectPrevTag()
-  @_Concurrency.MainActor(unsafe) open func selectTagView(_ tagView: ShopLiveShortformEditorSDK.SLWSTagView, animated: Swift.Bool = false)
-  @_Concurrency.MainActor(unsafe) open func unselectAllTagViewsAnimated(_ animated: Swift.Bool = false)
+  @_Concurrency.MainActor @preconcurrency open func tokenizeTextFieldText() -> ShopLiveShortformEditorSDK.SLWSTag?
+  @objc @_Concurrency.MainActor @preconcurrency open func onTextFieldDidChange(_ sender: Swift.AnyObject)
+  @_Concurrency.MainActor @preconcurrency open func selectNextTag()
+  @_Concurrency.MainActor @preconcurrency open func selectPrevTag()
+  @_Concurrency.MainActor @preconcurrency open func selectTagView(_ tagView: ShopLiveShortformEditorSDK.SLWSTagView, animated: Swift.Bool = false)
+  @_Concurrency.MainActor @preconcurrency open func unselectAllTagViewsAnimated(_ animated: Swift.Bool = false)
 }
 extension ShopLiveShortformEditorSDK.SLWSTagsField {
   @available(*, deprecated, message: "use 'textField.keyboardType' directly.")
-  @_Concurrency.MainActor(unsafe) public var keyboardType: UIKit.UIKeyboardType {
+  @_Concurrency.MainActor @preconcurrency public var keyboardType: UIKit.UIKeyboardType {
     get
     set
   }
   @available(*, deprecated, message: "use 'textField.returnKeyType' directly.")
-  @_Concurrency.MainActor(unsafe) public var returnKeyType: UIKit.UIReturnKeyType {
+  @_Concurrency.MainActor @preconcurrency public var returnKeyType: UIKit.UIReturnKeyType {
     get
     set
   }
   @available(*, deprecated, message: "use 'textField.spellCheckingType' directly.")
-  @_Concurrency.MainActor(unsafe) public var spellCheckingType: UIKit.UITextSpellCheckingType {
+  @_Concurrency.MainActor @preconcurrency public var spellCheckingType: UIKit.UITextSpellCheckingType {
     get
     set
   }
   @available(*, deprecated, message: "use 'textField.autocapitalizationType' directly.")
-  @_Concurrency.MainActor(unsafe) public var autocapitalizationType: UIKit.UITextAutocapitalizationType {
+  @_Concurrency.MainActor @preconcurrency public var autocapitalizationType: UIKit.UITextAutocapitalizationType {
     get
     set
   }
   @available(*, deprecated, message: "use 'textField.autocorrectionType' directly.")
-  @_Concurrency.MainActor(unsafe) public var autocorrectionType: UIKit.UITextAutocorrectionType {
+  @_Concurrency.MainActor @preconcurrency public var autocorrectionType: UIKit.UITextAutocorrectionType {
     get
     set
   }
   @available(*, deprecated, message: "use 'textField.enablesReturnKeyAutomatically' directly.")
-  @_Concurrency.MainActor(unsafe) public var enablesReturnKeyAutomatically: Swift.Bool {
+  @_Concurrency.MainActor @preconcurrency public var enablesReturnKeyAutomatically: Swift.Bool {
     get
     set
   }
-  @_Concurrency.MainActor(unsafe) public var text: Swift.String? {
+  @_Concurrency.MainActor @preconcurrency public var text: Swift.String? {
     get
     set
   }
   @available(*, deprecated, message: "Use 'inputFieldAccessoryView' instead")
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open var inputAccessoryView: UIKit.UIView? {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open var inputAccessoryView: UIKit.UIView? {
     @objc get
   }
-  @_Concurrency.MainActor(unsafe) open var inputFieldAccessoryView: UIKit.UIView? {
+  @_Concurrency.MainActor @preconcurrency open var inputFieldAccessoryView: UIKit.UIView? {
     get
     set
   }
 }
 extension ShopLiveShortformEditorSDK.SLWSTagsField : UIKit.UITextFieldDelegate {
-  @_Concurrency.MainActor(unsafe) @objc dynamic public func textFieldShouldBeginEditing(_ textField: UIKit.UITextField) -> Swift.Bool
-  @_Concurrency.MainActor(unsafe) @objc dynamic public func textFieldDidBeginEditing(_ textField: UIKit.UITextField)
-  @_Concurrency.MainActor(unsafe) @objc dynamic public func textFieldShouldEndEditing(_ textField: UIKit.UITextField) -> Swift.Bool
-  @_Concurrency.MainActor(unsafe) @objc dynamic public func textFieldDidEndEditing(_ textField: UIKit.UITextField)
-  @_Concurrency.MainActor(unsafe) @objc dynamic public func textFieldShouldReturn(_ textField: UIKit.UITextField) -> Swift.Bool
-  @_Concurrency.MainActor(unsafe) @objc dynamic public func textField(_ textField: UIKit.UITextField, shouldChangeCharactersIn range: Foundation.NSRange, replacementString string: Swift.String) -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func textFieldShouldBeginEditing(_ textField: UIKit.UITextField) -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func textFieldDidBeginEditing(_ textField: UIKit.UITextField)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func textFieldShouldEndEditing(_ textField: UIKit.UITextField) -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func textFieldDidEndEditing(_ textField: UIKit.UITextField)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func textFieldShouldReturn(_ textField: UIKit.UITextField) -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func textField(_ textField: UIKit.UITextField, shouldChangeCharactersIn range: Foundation.NSRange, replacementString string: Swift.String) -> Swift.Bool
 }
 extension ShopLiveShortformEditorSDK.SLWSTagsField {
-  @_Concurrency.MainActor(unsafe) public static func == (lhs: UIKit.UITextField, rhs: ShopLiveShortformEditorSDK.SLWSTagsField) -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency public static func == (lhs: UIKit.UITextField, rhs: ShopLiveShortformEditorSDK.SLWSTagsField) -> Swift.Bool
 }
 extension ShopLiveShortformEditorSDK.SLWSTagsField {
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func hitTest(_ point: CoreFoundation.CGPoint, with event: UIKit.UIEvent?) -> UIKit.UIView?
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func hitTest(_ point: CoreFoundation.CGPoint, with event: UIKit.UIEvent?) -> UIKit.UIView?
 }
 extension ShopLiveShortformEditorSDK.SLVideoOutputQuality : Swift.Equatable {}
 extension ShopLiveShortformEditorSDK.SLVideoOutputQuality : Swift.Hashable {}

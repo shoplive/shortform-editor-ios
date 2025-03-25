@@ -6,55 +6,55 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		zQ969PHRTaTuVj6WizKwOjciyCI=
+		1eqUxNuXviNLuE5sy6UCgzLGVsE=
 		</data>
 		<key>Headers/ShopLiveShortformEditorSDK-Swift.h</key>
 		<data>
-		JQUESQZlSFGaB/xzn50bc0Oze94=
+		QmmeBbOsmh1DcWS26xZbfigWmLI=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		bsYs6EuK0tqksrw1QFBF06Q4x/M=
+		IlAPg08vEbvnAaumrD6OWl+8ipk=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		XSWFyn2DzvblHweaKd3pC4Eocyc=
+		myT83CHAHHHjm0Lc8r1ynXIxZQw=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		Wn3V2eloheAEYZREdBD/LtbvM6A=
+		kic+SWT69+bnYqvq1r5wS8HoFBE=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		mUmxvzPCdnvieHsUFMIg/hq2AxA=
+		000JV11flxDuj2o6Fgwy6palngY=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		Wn3V2eloheAEYZREdBD/LtbvM6A=
+		kic+SWT69+bnYqvq1r5wS8HoFBE=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		0RzMSNZ62i3OWQodsjicwrFC2ro=
+		OMjRBwXkpgGzqUQJJxfFoQpY4+M=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		XSWFyn2DzvblHweaKd3pC4Eocyc=
+		myT83CHAHHHjm0Lc8r1ynXIxZQw=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		ifrBtNOKGu2gFhcOIRP8AucPHqw=
+		TUqjy/hJyhlzIWxq/3We86DnNLE=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		x/tsKKHWg+bm6Z4BZnoJkDbo1dY=
+		tIs2zp8O3aa00u4x9IZs28QCdzI=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		ifrBtNOKGu2gFhcOIRP8AucPHqw=
+		TUqjy/hJyhlzIWxq/3We86DnNLE=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		dS8tALov742ba8XKD2FkmH9Zpvo=
+		n8PzHY1k1eQntFushSWke9D7W8s=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -78,11 +78,11 @@
 		</data>
 		<key>SLPhotosPickerViewController.nib/objects-14.0+.nib</key>
 		<data>
-		brFFCyUT7gIs9mfyQ2ajP8tcb1U=
+		hSswb7XwsfxRxNXZ41nofBYbDJw=
 		</data>
 		<key>SLPhotosPickerViewController.nib/runtime.nib</key>
 		<data>
-		xcVKiDv7fuTQbJ9ojf+aLYHObxI=
+		JWT+pmySKYg/E9H52iB1IYGAqiU=
 		</data>
 		<key>en.lproj/Localizable.strings</key>
 		<dict>
@@ -118,84 +118,84 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			SP462/F1GnQfpcX0D0NOg6ulVHv1NNFfdKMmCJ0GMjo=
+			D86fr0wQ87wSyoW6F19gwvVeQ7l+efx6N+f4A4WlLiI=
 			</data>
 		</dict>
 		<key>Headers/ShopLiveShortformEditorSDK-Swift.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			7dzFqNaDuloV2H8yWsj0TU8A4j4XK9wf+7ZwanK9ELU=
+			OaC8RionUe3H5QK9bg5amKCJLlDlAdfDGM2ycLbB8Ug=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			W1HbWf9ry7P5OLv9w+O6KmJ0+SlkhHgerwGzqjlEFcQ=
+			WRBLGEUcAGQMC5M9QYZLNyO6T1ZWgehc6cu7jSuHdb4=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			//qUyJ9IzXKxn0PijA/Gl4y9XJ6JqsoKCEhzvpxsG3Q=
+			SRG53OSXK38T94qXxEedT3Dy/N2z/ZqWCVeagLfmvC8=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			W/1pg2K7oUz6+Bs54oeDnrGeP0xeMHroebt85Qgg+Z8=
+			6b3Hv7lCWKfKyqn3aUnBh1De71hDYg1wLehWx4DdnBU=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			//qUyJ9IzXKxn0PijA/Gl4y9XJ6JqsoKCEhzvpxsG3Q=
+			SRG53OSXK38T94qXxEedT3Dy/N2z/ZqWCVeagLfmvC8=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			aj30RL5iuP9GLU0aMxp47/OMSqkm2nSQ4Qr+8Wl4DTo=
+			rWLi9oicEE7rjGpk2M+D4BzrXS90Idkb8rk/yyVPAic=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			W1HbWf9ry7P5OLv9w+O6KmJ0+SlkhHgerwGzqjlEFcQ=
+			WRBLGEUcAGQMC5M9QYZLNyO6T1ZWgehc6cu7jSuHdb4=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			R7LUNlEolS4kua+9I4L/XuDeWRiYnP9fJ+JHV0pLdF0=
+			Zf36Ac+X3z7236Dd4uMlsr5VJk9R1E+d2gtNyQNIZ/4=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			K/xtTaWhhXwpzqmp6LkVnty/wYHNdpqu0o5Ye9yYSKQ=
+			YRq9ISOhCAQQ2VGE39A8ZgDmHg7mIR0cY1uUuGlRoA8=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			R7LUNlEolS4kua+9I4L/XuDeWRiYnP9fJ+JHV0pLdF0=
+			Zf36Ac+X3z7236Dd4uMlsr5VJk9R1E+d2gtNyQNIZ/4=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			FC/KcFlyw4FjvjpBjOJZcwkC6WGM9ppmb98B22m6/4c=
+			yTriUY21NAC16j9QZSoVQSkY6qWee7UK1HNTASjJBd0=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -237,14 +237,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			51M8ni2JaB0xkm00aHC0ExVhdz0xesGzqRQSx8jwuC4=
+			yRqKPakLsgvTENfbwMV/1eaOTRuUUQ8iOItj0TLau48=
 			</data>
 		</dict>
 		<key>SLPhotosPickerViewController.nib/runtime.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			MiMgzt/qMxb/tinb26QM/2xd4nEYMdew97RkftDIojU=
+			aB5E7bfydbsDOHbuHRQGFAxnHOsfhbszi01pkvhjxTQ=
 			</data>
 		</dict>
 		<key>en.lproj/Localizable.strings</key>
