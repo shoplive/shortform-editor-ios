@@ -147,6 +147,7 @@ internal final class LiveStreamViewController: SLViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.accessibilityIdentifier = "live-stream-viewcontroller"
         viewModel.delegate = self
         viewModel.setVc(vc: self)
         setupView()
