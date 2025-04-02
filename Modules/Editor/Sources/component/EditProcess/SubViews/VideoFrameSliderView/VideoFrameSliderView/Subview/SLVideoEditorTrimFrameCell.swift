@@ -32,11 +32,9 @@ class SLVideoEditorTrimFrameCell : UICollectionViewCell {
         fatalError()
     }
     
-    
     func setImage(image : UIImage){
         self.frameImage.image = image
     }
-    
 }
 extension SLVideoEditorTrimFrameCell {
     private func setLayout(){

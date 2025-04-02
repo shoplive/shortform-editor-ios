@@ -41,7 +41,7 @@ extension SLVideoEditorFooterView {
         NSLayoutConstraint.activate([
             frameImage.topAnchor.constraint(equalTo: self.topAnchor),
             frameImage.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            frameImage.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -28),
+            frameImage.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: -SLEditProcessCommon.trimPadding),
             frameImage.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }

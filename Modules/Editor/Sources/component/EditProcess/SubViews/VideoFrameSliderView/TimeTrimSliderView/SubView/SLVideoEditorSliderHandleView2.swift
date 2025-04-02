@@ -180,7 +180,7 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        dimView.updateMaskDim(CGRect(x: leftHandle.frame.maxX, y: 0, width: rightHandle.frame.minX - leftHandle.frame.maxX, height: self.frame.height))
+        dimView.updateMaskDim(CGRect(x: leftHandle.frame.maxX, y: 0, width: rightHandle.frame.minX - leftHandle.frame.maxX + SLEditProcessCommon.dimmedPadding, height: self.frame.height))
         calculateTrimTimeDuration()
     }
     
@@ -272,6 +272,9 @@ extension SLVideoEditorSliderHandleView2 {
     }
     
     private func onUpdateTimeIndicatorSlider(start : CMTime, end : CMTime) {
+        
+        ShopLiveLogger.tempLog("[onUpdateTimeIndicatorSlideronUpdateTimeIndicatorSlider] start \(start), end \(end)")
+        
         updateTimeIndicatorSliderTime(start: start, end: end)
     }
     
@@ -341,8 +344,8 @@ extension SLVideoEditorSliderHandleView2 {
         
         NSLayoutConstraint.activate([
             dimView.topAnchor.constraint(equalTo: self.topAnchor),
-            dimView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            dimView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            dimView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: -SLEditProcessCommon.dimmedPadding),
+            dimView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: SLEditProcessCommon.dimmedPadding),
             dimView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
             

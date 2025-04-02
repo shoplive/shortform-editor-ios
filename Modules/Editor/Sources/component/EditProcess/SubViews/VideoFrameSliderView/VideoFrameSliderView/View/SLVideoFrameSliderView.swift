@@ -39,7 +39,7 @@ class SLVideoFrameSliderView : UIView, SLReactor {
     lazy private var frameCollectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.sectionInset =  UIEdgeInsets(top: 0, left: 28, bottom: 0, right: 0)
+        layout.sectionInset =  UIEdgeInsets(top: 0, left: SLEditProcessCommon.trimPadding, bottom: 0, right: 0)
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         reactor.action( .registerCv(cv) )

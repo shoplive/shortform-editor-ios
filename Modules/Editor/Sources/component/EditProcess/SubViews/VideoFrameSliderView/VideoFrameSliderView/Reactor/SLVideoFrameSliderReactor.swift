@@ -49,10 +49,10 @@ class SLVideoFrameSliderReactor : NSObject, SLReactor {
         if UIScreen.isLandscape_SL {
             let leftSafe = UIScreen.leftSafeArea_SL
             let righSafe = UIScreen.rightSafeArea_SL
-            return UIScreen.main.bounds.width - (28 * 2) - (leftSafe + righSafe)
+            return UIScreen.main.bounds.width - ((SLEditProcessCommon.trimPadding * 2)) - (leftSafe + righSafe)
         }
         else {
-            return UIScreen.main.bounds.width - (28 * 2)
+            return UIScreen.main.bounds.width - ((SLEditProcessCommon.trimPadding * 2))
         }
         
     }
@@ -190,14 +190,14 @@ extension SLVideoFrameSliderReactor {
         var footerWidth : CGFloat
         if totalTime > self.videoDuration {
             let overedTime = totalTime - self.videoDuration
-             footerWidth = exactWidthOfPerFrame - (overedTime / timePerPixel) + 28
+             footerWidth = exactWidthOfPerFrame - (overedTime / timePerPixel) + SLEditProcessCommon.trimPadding
         }
         else if totalTime == self.videoDuration {
-             footerWidth = exactWidthOfPerFrame + 28
+             footerWidth = exactWidthOfPerFrame + SLEditProcessCommon.trimPadding
         }
         else {
             let shortageTime =  self.videoDuration - totalTime
-             footerWidth = exactWidthOfPerFrame + (shortageTime / timePerPixel) + 28
+             footerWidth = exactWidthOfPerFrame + (shortageTime / timePerPixel) + SLEditProcessCommon.trimPadding
         }
         self.collectionViewFooterSize = .init(width: footerWidth, height: 60)
         
@@ -238,14 +238,14 @@ extension SLVideoFrameSliderReactor {
         var footerWidth : CGFloat
         if totalTime > (self.videoDuration + extraVideoDuration) {
             let overedTime = totalTime - (self.videoDuration + extraVideoDuration)
-             footerWidth = WidthOfPerFrame - (overedTime / timePerPixel) + 28
+             footerWidth = WidthOfPerFrame - (overedTime / timePerPixel) + SLEditProcessCommon.trimPadding
         }
         else if totalTime == (self.videoDuration + extraVideoDuration) {
-             footerWidth = WidthOfPerFrame + 28
+             footerWidth = WidthOfPerFrame + SLEditProcessCommon.trimPadding
         }
         else {
             let shortageTime =  (self.videoDuration + extraVideoDuration) - totalTime
-             footerWidth = WidthOfPerFrame + (shortageTime / timePerPixel) + 28
+             footerWidth = WidthOfPerFrame + (shortageTime / timePerPixel) + SLEditProcessCommon.trimPadding
         }
         self.collectionViewFooterSize = .init(width: footerWidth, height: 60)
         self.reloadCollectionViewData()

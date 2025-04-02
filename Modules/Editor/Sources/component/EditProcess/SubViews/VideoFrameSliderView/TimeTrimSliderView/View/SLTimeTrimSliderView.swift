@@ -294,8 +294,8 @@ extension SLTimeTrimSliderView {
             
             
             handleView.topAnchor.constraint(equalTo: self.topAnchor),
-            handleView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            handleView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            handleView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            handleView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             handleView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
         

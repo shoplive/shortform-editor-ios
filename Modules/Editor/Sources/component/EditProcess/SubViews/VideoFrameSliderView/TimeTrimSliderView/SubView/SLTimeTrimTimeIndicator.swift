@@ -132,7 +132,11 @@ class SLTimeTrimTimeIndicator : UIView, SLReactor {
     
     private func onSetCurrentValueToStart(pixelPerTime : CGFloat) {
         guard self.isDragging == false else { return }
-        self.onSetCurrentValue(value: self.minValue, pixelPerTime: pixelPerTime)
+        animator?.stopAnimation(true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) { [weak self] in
+            guard let self = self else { return }
+            self.onSetCurrentValue(value: self.minValue, pixelPerTime: pixelPerTime)
+        }
     }
     
     

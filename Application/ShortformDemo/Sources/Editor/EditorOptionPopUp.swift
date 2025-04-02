@@ -144,6 +144,7 @@ class EditorOptionPopUp : UIView {
         mainConfig.videoSpeedButtonBackgroundColor = .blue
         mainConfig.videoCropButtonBackgroundColor = .blue
         mainConfig.videofilterButtonBackgroundColor = .blue
+        mainConfig.sliderHandleCornerRadius = 8
         
 
         let volumeConfig = ShopLiveShortformEditor.EditorVolumeConfig.global
