@@ -393,11 +393,13 @@ extension SLVideoEditorMainViewReactor : SLCircularProgressIndicatorViewDelegate
         popUp.setCloseButtonDesign(backgroundColor: design.popupCloseButtonBackgroundColor,
                                    textColor: design.popupCloseButtonTextColor,
                                    size: design.popupCloseButtonTextSize,
-                                   weight: design.popupCloseButtonTextWeight)
+                                   weight: design.popupCloseButtonTextWeight,
+                                   customFont: design.popupCloseButtonTextFont)
         popUp.setConfirmButtonDesign(backgroundColor: design.popupConfirmButtonBackgroundColor,
                                      textColor: design.popupConfirmButtonTextColor,
                                      size: design.popupConfirmButtonTextSize,
-                                     weight: design.popupConfirmButtonTextWeight)
+                                     weight: design.popupConfirmButtonTextWeight,
+                                     customFont: design.popupConfirmButtonTextFont)
         popUp.btnClickCallback = { [weak self] result in
             guard let self = self else { return }
             if result == .yes {

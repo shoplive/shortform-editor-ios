@@ -254,9 +254,9 @@ extension SLVideoThumbnailReactor : SLLoadingAlertControllerDelegate {
         popUp.setBoxCornerRadius(cornerRadius: mainDesign.popupCornerRadius)
         popUp.setButtonCornerRadius(cornerRadius: mainDesign.popupButtonCornerRadius)
         popUp.setCloseButtonDesign(backgroundColor: mainDesign.popupCloseButtonBackgroundColor, textColor: mainDesign.popupCloseButtonTextColor,
-                                   size: mainDesign.popupCloseButtonTextSize, weight: mainDesign.popupCloseButtonTextWeight)
+                                   size: mainDesign.popupCloseButtonTextSize, weight: mainDesign.popupCloseButtonTextWeight, customFont: mainDesign.popupCloseButtonTextFont)
         popUp.setConfirmButtonDesign(backgroundColor: mainDesign.popupConfirmButtonBackgroundColor, textColor: mainDesign.popupConfirmButtonTextColor,
-                                     size: mainDesign.popupConfirmButtonTextSize, weight: mainDesign.popupConfirmButtonTextWeight)
+                                     size: mainDesign.popupConfirmButtonTextSize, weight: mainDesign.popupConfirmButtonTextWeight, customFont: mainDesign.popupConfirmButtonTextFont)
         popUp.btnClickCallback = { [weak self] result in
             guard let self = self else { return }
             if result == .yes {

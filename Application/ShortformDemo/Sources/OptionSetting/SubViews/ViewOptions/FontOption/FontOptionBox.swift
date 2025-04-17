@@ -82,7 +82,29 @@ class FontOptionBox: UIView {
         return label
     }()
     
+    private var specificFontTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "특정 커스텀 영역 Font 옵션"
+        label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        label.textColor = .black
+        label.backgroundColor = .white
+        
+        return label
+    }()
+    
+    private var specificFontSubLabel: UILabel = {
+        let label = UILabel()
+        label.text = "해당 Font는 Title, NextButton, 팝업 닫기/확인 버튼 , 완료 버튼에만 적용됩니다.(무신사 요구사항)"
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.numberOfLines = 0
+        label.textColor = .black
+        label.backgroundColor = .white
+        
+        return label
+    }()
+    
     private var selectFont: String = ""
+    private var selectSpecificFont: String = ""
     
     private let buttonArray: [FontType] = [
         .시스템기본,
@@ -95,9 +117,13 @@ class FontOptionBox: UIView {
     ]
     
     private var buttons: [UIButton] = []
+    private var specificButtons: [UIButton] = []
     
-    private var scrollView: UIScrollView = UIScrollView()
-    private var scrollContentView: UIView = UIView()
+    private var defaultFontScrollView: UIScrollView = UIScrollView()
+    private var defaultFontScrollContentView: UIView = UIView()
+    
+    private var specificFontScrollView: UIScrollView = UIScrollView()
+    private var specificFontScrollContentView: UIView = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -110,7 +136,12 @@ class FontOptionBox: UIView {
     
     private func setLayout() {
         
+        
         self.addSubview(titleLabel)
+        self.addSubview(specificFontTitleLabel)
+        self.addSubview(specificFontSubLabel)
+                
+      
         
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(self.snp.top)
@@ -121,6 +152,16 @@ class FontOptionBox: UIView {
         let stackView: UIStackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 5
+        
+        // 특정 Font 설정
+        let specificStackView: UIStackView = UIStackView()
+        specificStackView.axis = .horizontal
+        specificStackView.spacing = 5
+        specificStackView.isLayoutMarginsRelativeArrangement = true
+        
+        self.addSubview(specificFontScrollView)
+        self.specificFontScrollView.addSubview(specificFontScrollContentView)
+        self.specificFontScrollContentView.addSubview(specificStackView)
         
         buttonArray.forEach { font in
             let btn = UIButton()
@@ -159,44 +200,127 @@ class FontOptionBox: UIView {
         }
         stackView.isLayoutMarginsRelativeArrangement = true
         
-        self.addSubview(scrollView)
-        self.scrollView.addSubview(scrollContentView)
-        self.scrollContentView.addSubview(stackView)
+        self.addSubview(defaultFontScrollView)
+        self.defaultFontScrollView.addSubview(defaultFontScrollContentView)
+        self.defaultFontScrollContentView.addSubview(stackView)
         
-        scrollView.snp.makeConstraints {
+        defaultFontScrollView.snp.makeConstraints {
             $0.top.equalTo(self.titleLabel.snp.bottom).offset(15)
+            $0.leading.equalTo(self.snp.leading)
+            $0.trailing.equalTo(self.snp.trailing)
+            $0.bottom.equalTo(self.specificFontTitleLabel.snp.top)
+            $0.height.equalTo(100)
+        }
+        
+        defaultFontScrollContentView.snp.makeConstraints {
+            $0.top.equalTo(self.defaultFontScrollView.snp.top)
+            $0.leading.equalTo(self.defaultFontScrollView.snp.leading)
+            $0.trailing.equalTo(self.defaultFontScrollView.snp.trailing)
+            $0.bottom.equalTo(self.defaultFontScrollView.snp.bottom)
+        }
+        
+        stackView.snp.makeConstraints {
+            $0.top.equalTo(self.defaultFontScrollContentView.snp.top)
+            $0.leading.equalTo(self.defaultFontScrollContentView.snp.leading)
+            $0.trailing.equalTo(self.defaultFontScrollContentView.snp.trailing)
+            $0.bottom.equalTo(self.defaultFontScrollContentView.snp.bottom)
+        }
+        
+          
+        buttonArray.forEach { font in
+            let btn = UIButton()
+            btn.translatesAutoresizingMaskIntoConstraints = false
+            btn.setTitle(font.fontKor, for: .normal)
+            btn.titleLabel?.font = .init(name: font.fontStringValue, size: 13)
+            
+            if font.fontStringValue == "" {
+                btn.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+            }
+            
+            btn.setTitleColor(UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0), for: .normal)
+            btn.setTitleColor(.white, for: .selected)
+            btn.titleLabel?.minimumScaleFactor = 0.5
+            btn.backgroundColor = .white
+            btn.layer.cornerRadius = 10
+            btn.layer.borderColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0).cgColor
+            btn.layer.borderWidth = 1
+            btn.addTarget(self, action: #selector(specificButtonSelect), for: .touchUpInside)
+            btn.tag = font.rawValue
+            
+            btn.titleLabel?.lineBreakMode = .byTruncatingTail
+            btn.titleLabel?.numberOfLines = 0
+            btn.titleEdgeInsets = .init(top: 0, left: 5, bottom: 0, right: 5)
+            btn.setContentHuggingPriority(.required, for: .horizontal)
+            btn.setContentCompressionResistancePriority(.required, for: .horizontal)
+            
+            self.specificButtons.append(btn)
+            
+            specificStackView.addArrangedSubview(btn)
+            
+            btn.snp.makeConstraints {
+                $0.width.equalTo(90)
+            }
+            
+        }
+        
+        specificFontTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(self.defaultFontScrollView.snp.bottom).offset(15)
+            $0.leading.equalTo(self.snp.leading).offset(15)
+        }
+
+        specificFontSubLabel.snp.makeConstraints {
+            $0.top.equalTo(self.specificFontTitleLabel.snp.bottom).offset(5)
+            $0.leading.equalTo(self.snp.leading).offset(15)
+            $0.trailing.equalTo(self.snp.trailing).inset(15)
+        }
+
+        specificFontScrollView.snp.makeConstraints {
+            $0.top.equalTo(self.specificFontSubLabel.snp.bottom).offset(15)
             $0.leading.equalTo(self.snp.leading)
             $0.trailing.equalTo(self.snp.trailing)
             $0.bottom.equalTo(self.snp.bottom)
             $0.height.equalTo(100)
         }
         
-        scrollContentView.snp.makeConstraints {
-            $0.top.equalTo(self.scrollView.snp.top)
-            $0.leading.equalTo(self.scrollView.snp.leading)
-            $0.trailing.equalTo(self.scrollView.snp.trailing)
-            $0.bottom.equalTo(self.scrollView.snp.bottom)
+        specificFontScrollContentView.snp.makeConstraints {
+            $0.top.equalTo(self.specificFontScrollView.snp.top)
+            $0.leading.equalTo(self.specificFontScrollView.snp.leading)
+            $0.trailing.equalTo(self.specificFontScrollView.snp.trailing)
+            $0.bottom.equalTo(self.specificFontScrollView.snp.bottom)
         }
         
-        stackView.snp.makeConstraints {
-            $0.top.equalTo(self.scrollContentView.snp.top)
-            $0.leading.equalTo(self.scrollContentView.snp.leading)
-            $0.trailing.equalTo(self.scrollContentView.snp.trailing)
-            $0.bottom.equalTo(self.scrollContentView.snp.bottom)
+        specificStackView.snp.makeConstraints {
+            $0.top.equalTo(self.specificFontScrollContentView.snp.top)
+            $0.leading.equalTo(self.specificFontScrollContentView.snp.leading)
+            $0.trailing.equalTo(self.specificFontScrollContentView.snp.trailing)
+            $0.bottom.equalTo(self.specificFontScrollContentView.snp.bottom)
         }
         
     }
     
-    func setFont(font: String) {
+    func setFont(font: String, specificFont: String) {
         self.selectFont = font
+        self.selectSpecificFont = specificFont
         
-        let convertFont = FontType.convert(font)
+        let convertDefaultFont = FontType.convert(font)
+        let convertSpecificFont = FontType.convert(specificFont)
         
-        let targetButton = buttons[convertFont.rawValue]
+        let targetDefaultButton = buttons[convertDefaultFont.rawValue]
+        let targetSpecificButton = specificButtons[convertSpecificFont.rawValue]
         
         
         self.buttons.forEach {
-            if $0.tag == convertFont.rawValue {
+            if $0.tag == convertDefaultFont.rawValue {
+                $0.isSelected = true
+                $0.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0)
+            } else {
+                $0.backgroundColor = .white
+                $0.isSelected = false
+            }
+        }
+        
+        self.specificButtons.forEach {
+            if $0.tag == convertSpecificFont.rawValue {
                 $0.isSelected = true
                 $0.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0)
             } else {
@@ -206,13 +330,17 @@ class FontOptionBox: UIView {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            let targetOffset = CGPoint(x: targetButton.frame.origin.x / 2, y: 0)
-            self.scrollView.setContentOffset(targetOffset, animated: true)
+            let targetDefaultOffset = CGPoint(x: targetDefaultButton.frame.origin.x / 2, y: 0)
+            self.defaultFontScrollView.setContentOffset(targetDefaultOffset, animated: true)
+            
+            let targetSpecificOffset = CGPoint(x: targetSpecificButton.frame.origin.x / 2, y: 0)
+            self.specificFontScrollView.setContentOffset(targetSpecificOffset, animated: true)
         }
     }
     
     func applyFontOption() {
         OptionSettingModel.font = selectFont
+        OptionSettingModel.specificFont = UIFont(name: selectSpecificFont, size: 15)
         ShopLiveCommon.setFontFamily(font: selectFont)
     }
     
@@ -230,7 +358,25 @@ class FontOptionBox: UIView {
             }
             
             let targetOffset = CGPoint(x: sender.frame.origin.x / 2, y: 0)
-            self.scrollView.setContentOffset(targetOffset, animated: true)
+            self.defaultFontScrollView.setContentOffset(targetOffset, animated: true)
+        }
+    }
+    
+    @objc func specificButtonSelect(sender: UIButton) {
+        if let type = FontType(rawValue: sender.tag) {
+            self.selectSpecificFont = type.fontStringValue
+            self.specificButtons.forEach {
+                if $0.tag == type.rawValue {
+                    $0.backgroundColor = UIColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1.0)
+                    $0.isSelected = true
+                } else {
+                    $0.backgroundColor = .white
+                    $0.isSelected = false
+                }
+            }
+            
+            let targetOffset = CGPoint(x: sender.frame.origin.x / 2, y: 0)
+            self.specificFontScrollView.setContentOffset(targetOffset, animated: true)
         }
     }
 }

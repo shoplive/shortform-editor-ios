@@ -75,7 +75,7 @@ class OptionSettingViewController : UIViewController {
         previewOptionBox.setOptions()
         cacheBox.reloadCacheSize()
         detailViewOptionBox.setOption()
-        fontOptionBox.setFont(font: OptionSettingModel.font)
+        fontOptionBox.setFont(font: OptionSettingModel.font, specificFont: OptionSettingModel.specificFont?.fontName ?? "")
         self.viewType = type
         switch type {
         case .card:

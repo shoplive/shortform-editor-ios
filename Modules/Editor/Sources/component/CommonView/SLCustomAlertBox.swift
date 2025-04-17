@@ -104,16 +104,16 @@ class SLCustomAlertBox : UIView {
         self.closeBtn.layer.cornerRadius = cornerRadius
     }
     
-    func setCloseButtonDesign(backgroundColor : UIColor, textColor : UIColor, size: CGFloat, weight: UIFont.Weight) {
+    func setCloseButtonDesign(backgroundColor : UIColor, textColor : UIColor, size: CGFloat, weight: UIFont.Weight, customFont: UIFont?) {
         self.closeBtn.backgroundColor = backgroundColor
         self.closeBtn.setTitleColor(textColor, for: .normal)
-        self.closeBtn.setFont(font: .init(size: size, weight: weight))
+        self.closeBtn.setFont(font: .init(customFont: customFont, size: size, weight: weight))
     }
     
-    func setConfirmButtonDesign(backgroundColor : UIColor, textColor : UIColor, size: CGFloat, weight: UIFont.Weight) {
+    func setConfirmButtonDesign(backgroundColor : UIColor, textColor : UIColor, size: CGFloat, weight: UIFont.Weight, customFont: UIFont?) {
         self.confirmBtn.backgroundColor = backgroundColor
         self.confirmBtn.setTitleColor(textColor, for: .normal)
-        self.confirmBtn.setFont(font: .init(size: size, weight: weight))
+        self.confirmBtn.setFont(font: .init(customFont: customFont,size: size, weight: weight))
     }
 }
 extension SLCustomAlertBox {

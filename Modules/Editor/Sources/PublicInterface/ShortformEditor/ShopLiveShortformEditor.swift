@@ -145,6 +145,7 @@ extension ShopLiveShortformEditor {
         
         public var videoPlayerCornerRadius : CGFloat = 24
         
+        public var titleTextFont: UIFont? = nil
         public var titleTextColor : UIColor = .white
         public var titleTextWeight : UIFont.Weight = .medium
         public var titleTextSize : CGFloat = 16
@@ -160,6 +161,7 @@ extension ShopLiveShortformEditor {
         public var editingCloseButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         public var editingCloseButtonIconTintColor : UIColor = .white
         
+        public var nextButtonTitleFont: UIFont? = nil
         public var nextButtonTitle : String = ShopLiveShortformEditorSDKStrings.Editor.Main.Btn.Next.shoplive
         public var nextButtonCornerRadius : CGFloat = 20
         public var nextButtonBackgroundColor : UIColor = .clear
@@ -197,11 +199,13 @@ extension ShopLiveShortformEditor {
         
         public var popupCornerRadius : CGFloat = 16
         public var popupButtonCornerRadius : CGFloat = 10
+        public var popupCloseButtonTextFont: UIFont? = nil
         public var popupCloseButtonBackgroundColor : UIColor = .white
         public var popupCloseButtonTextColor : UIColor = .black
         public var popupCloseButtonTextWeight: UIFont.Weight = .bold
         public var popupCloseButtonTextSize: CGFloat = 15
         
+        public var popupConfirmButtonTextFont: UIFont? = nil
         public var popupConfirmButtonBackgroundColor : UIColor = .init(red: 51, green: 51, blue: 51)
         public var popupConfirmButtonTextColor : UIColor = .white
         public var popupConfirmButtonTextWeight: UIFont.Weight = .bold
@@ -275,6 +279,7 @@ extension ShopLiveShortformEditor {
         public var backButtonIconTintColor : UIColor = .white
         public var backButtonBackgroundColor : UIColor? = nil
         
+        public var confirmButtonTitleFont: UIFont? = nil
         public var confirmButtonTitle : String = ShopLiveShortformEditorSDKStrings.Editor.Cover.Picker.Btn.Confirm.shoplive
         public var confirmButtonBackgroundColor : UIColor = .white
         public var confirmButtonTextColor : UIColor = .black

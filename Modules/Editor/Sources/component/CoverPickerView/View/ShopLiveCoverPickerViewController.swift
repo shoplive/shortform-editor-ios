@@ -53,7 +53,7 @@ class ShopLiveCoverPickerViewController : UIViewController, SLReactor {
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = design.confirmButtonBackgroundColor
         btn.titleTextLabel.textColor = design.confirmButtonTextColor
-        btn.titleTextLabel.setFont(font: .init(size: design.confirmButtonTitleSize, weight: design.confirmButtonTitleWeight))
+        btn.titleTextLabel.setFont(font: .init(customFont: design.confirmButtonTitleFont, size: design.confirmButtonTitleSize, weight: design.confirmButtonTitleWeight))
         btn.titleTextLabel.text = design.confirmButtonTitle
         btn.layer.cornerRadius = design.confirmButtonCornerRadius
         btn.clipsToBounds = true

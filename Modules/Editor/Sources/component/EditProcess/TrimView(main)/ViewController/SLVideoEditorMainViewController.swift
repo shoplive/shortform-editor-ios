@@ -74,7 +74,7 @@ class SLVideoEditorMainViewController : UIViewController {
         ]
         
         label.attributedText = NSAttributedString(string: ShopLiveShortformEditorSDKStrings.Editor.Title.Video.Edit.shoplive, attributes: attributes)
-        label.setAttributedFont(font: .init(size: design.titleTextSize, weight: design.titleTextWeight))
+        label.setAttributedFont(font: .init(customFont: design.titleTextFont, size: design.titleTextSize, weight: design.titleTextWeight))
         return label
     }()
     
@@ -82,12 +82,12 @@ class SLVideoEditorMainViewController : UIViewController {
     private lazy var nextButton: SlBlurBGButton = {
         let view = SlBlurBGButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.titleTextLabel.setFont(font: .init(size: 14, weight: .medium))
+        view.setTitleFont(font: .init(customFont: design.nextButtonTitleFont, size: design.nextButtonTitleSize, weight: design.nextButtonTitleWeight))
         view.titleTextLabel.text = design.nextButtonTitle
         view.titleTextLabel.textColor = design.nextButtonTitleColor
         view.layer.cornerRadius = design.nextButtonCornerRadius
         view.setBackgroundColor(color: design.nextButtonBackgroundColor)
-        view.setTitleFont(font: .init(size: design.nextButtonTitleSize, weight: design.nextButtonTitleWeight))
+
         view.clipsToBounds = true
         return view
     }()

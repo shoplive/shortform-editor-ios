@@ -131,8 +131,11 @@ class EditorOptionPopUp : UIView {
         
         let mediConfig = ShopLiveShortformEditor.MediaPickerConfig.global
         mediConfig.cellCornerRadius = 0
-        
         let mainConfig = ShopLiveShortformEditor.EditorMainConfig.global
+        mainConfig.titleTextFont = OptionSettingModel.specificFont
+        mainConfig.nextButtonTitleFont = OptionSettingModel.specificFont
+        mainConfig.popupCloseButtonTextFont = OptionSettingModel.specificFont
+        mainConfig.popupConfirmButtonTextFont = OptionSettingModel.specificFont
         mainConfig.nextButtonBackgroundColor = .white
         mainConfig.nextButtonCornerRadius = 4
         mainConfig.nextButtonTitleColor = .black
@@ -155,6 +158,7 @@ class EditorOptionPopUp : UIView {
         volumeConfig.sliderThumbViewColor = .black
         
         let coverPickerConfig = ShopLiveShortformEditor.EditorCoverPickerConfig.global
+        coverPickerConfig.confirmButtonTitleFont = OptionSettingModel.specificFont
         coverPickerConfig.cropColor = .blue
         coverPickerConfig.sliderThumbColor = .blue
         coverPickerConfig.sliderCornerRadius = 4
@@ -178,6 +182,7 @@ class EditorOptionPopUp : UIView {
     
     @objc func shortformBtnTapped(sender : UIButton) {
         guard let vc = self.vc else { return }
+        setSpecificFont()
         ShopLiveMediaPicker
             .shared
             .setDelegate(self)
@@ -274,6 +279,17 @@ extension EditorOptionPopUp {
             boxView.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 20),
             boxView.bottomAnchor.constraint(equalTo: stack.bottomAnchor,constant: 20),
         ])
+    }
+    
+    private func setSpecificFont() {
+        let mainConfig = ShopLiveShortformEditor.EditorMainConfig.global
+        mainConfig.titleTextFont = OptionSettingModel.specificFont
+        mainConfig.nextButtonTitleFont = OptionSettingModel.specificFont
+        mainConfig.popupCloseButtonTextFont = OptionSettingModel.specificFont
+        mainConfig.popupConfirmButtonTextFont = OptionSettingModel.specificFont
+        
+        let coverPickerConfig = ShopLiveShortformEditor.EditorCoverPickerConfig.global
+        coverPickerConfig.confirmButtonTitleFont = OptionSettingModel.specificFont
     }
 }
 
