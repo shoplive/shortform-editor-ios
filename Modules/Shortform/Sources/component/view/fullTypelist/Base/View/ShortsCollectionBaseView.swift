@@ -659,6 +659,11 @@ extension ShortsCollectionBaseView {
 
 extension ShortsCollectionBaseView : ShortsCollectionBaseViewModelDelegate {
     
+    func scrollToAfterLoadShortsID(index: Int) {
+        ShopLiveLogger.publicLog("[ShopLiveShortformV2] page to Scroll scrollToAfterLoadShortsID | received Index : \(index)")
+        self.playPage(index)
+    }
+    
     func setAudioSessionManager() {
         let audioSessionManager = AudioSessionManager.shared
         audioSessionManager.setCategory(category: .playback, options: audioSessionManager.currentCategoryOptions)
@@ -709,13 +714,6 @@ extension ShortsCollectionBaseView : ShortsCollectionBaseViewModelDelegate {
     
     func setScrollEnabled(isEnabled: Bool) {
         self.shortsListView.isScrollEnabled = isEnabled
-    }
-    
-    func onViewAppeared() {
-        if let pageTo = self.viewModel.scrollToPage {
-            ShopLiveLogger.publicLog("scroll To index -> \(pageTo)")
-            self.playPage(pageTo)
-        }
     }
     
     func playToPage(index: Int) {

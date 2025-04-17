@@ -67,7 +67,7 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
     }
     
     func setInitialshortFormIdsData(shortformIdsData : ShopLiveShortformIdsData, completion: @escaping (() -> ())){
-        ShopLiveLogger.publicLog("received shortformIdsData : \(shortformIdsData.ids?.map({ $0.shortsId }) )")
+        ShopLiveLogger.publicLog("[ShopLiveShortformV2] 1. received shortformIdsData : \(shortformIdsData.ids?.map({ $0.shortsId }) )")
         
         if let ids = shortformIdsData.ids {
             ids
@@ -82,52 +82,76 @@ class V2ShortsCollectionViewModel : ShortsCollectionBaseViewModel {
             self.shortFormIdsList.removeAll()
         }
         
+        ShopLiveLogger.publicLog("[ShopLiveShortformV2] 2. received currentID : \(shortformIdsData.currentId ?? "nil value")")
+        
         if let currentShortsId = shortformIdsData.currentId,let index = self.shortFormIdsList.firstIndex(of: currentShortsId) {
-            ShopLiveLogger.publicLog("landing Index -> \(index), currentShortsId \(currentShortsId) ")
+            ShopLiveLogger.publicLog("[ShopLiveShortformV2] 2-1. landing Index -> \(index), currentShortsId \(currentShortsId) ")
             self.scrollToPage = index
             self.initialTargetShortsId = currentShortsId
             self.v2initalTargetShortsId = currentShortsId
             
         }
         else {
-            ShopLiveLogger.publicLog("scrollToPage set to nil ")
+            ShopLiveLogger.publicLog("[ShopLiveShortformV2] 2-2. scrollToPage set to nil ")
             self.scrollToPage = nil
         }
         
         if shortFormIdsList.count == 0 {
+            ShopLiveLogger.publicLog("[ShopLiveShortformV2] 3. shortFormIdsList count is zero ")
             self.shortformDelegate?.onEvent?(messenger: nil, command: "DETAIL_EMPTY", payload: nil)
             self.v2delegate?.hideEmptyDataView(hide: false)
         }
         else {
             self.v2delegate?.hideEmptyDataView(hide: true)
             if let startIndex = self.scrollToPage {
+                ShopLiveLogger.publicLog("[ShopLiveShortformV2] 3-1. scrollToPage is NOT nil")
+                
+                ShopLiveLogger.publicLog("[ShopLiveShortformV2] 4-1. startIndex : \(startIndex)")
+                
                 if startIndex < 3 {
+                    
+                    ShopLiveLogger.publicLog("[ShopLiveShortformV2] 5. startIndex in to [startIndex < 3] : \(startIndex)")
+                    
                     self.requestedShortFormIdsList.append(contentsOf: self.shortFormIdsList.prefix(5))
                 }
                 else if startIndex > ((self.shortFormIdsList.count - 1) - 3) {
+                    
+                    ShopLiveLogger.publicLog("[ShopLiveShortformV2] 5-1. startIndex in to [startIndex > ((self.shortFormIdsList.count - 1) - 3)] : \(startIndex)")
+                    
                     self.requestedShortFormIdsList.append(contentsOf: self.shortFormIdsList.suffix(5))
                 }
                 else {
+                    
+                    ShopLiveLogger.publicLog("[ShopLiveShortformV2] 5-2. startIndex in to else : \(startIndex)")
+                    
                     ((startIndex - 2)...(startIndex + 2))
                         .compactMap{ self.shortFormIdsList[safe:$0] }
                         .forEach { shortsId in
                             requestedShortFormIdsList.append(shortsId)
                         }
                 }
+                
                 //배열이 변경되었으므로 scrollToPage도 변경된 배열에 맞춰서 수정
                 if let scrollToPageShortsId = shortformIdsData.currentId, let newScrollToPageIndex = self.requestedShortFormIdsList.firstIndex(of: scrollToPageShortsId) {
-                    ShopLiveLogger.publicLog("landing Index rearranged -> \(newScrollToPageIndex), currentShortsId \(scrollToPageShortsId) ")
+                    ShopLiveLogger.publicLog("[ShopLiveShortformV2] 6. landing Index rearranged -> \(newScrollToPageIndex), currentShortsId \(scrollToPageShortsId) ")
                     self.scrollToPage = newScrollToPageIndex
                 }
+                
+                ShopLiveLogger.publicLog("[ShopLiveShortformV2] 7. requestedShortFormIdsList : \(startIndex)")
             }
             else {
+                
+                ShopLiveLogger.publicLog("[ShopLiveShortformV2] 3-2. scrollToPage is nil")
+                
                 self.requestedShortFormIdsList.append(contentsOf: self.shortFormIdsList.prefix(5))
             }
-            ShopLiveLogger.publicLog("totalRequestedShortsIds -> \(self.requestedShortFormIdsList)")
+            ShopLiveLogger.publicLog("[ShopLiveShortformV2] 8. totalRequestedShortsIds -> \(self.requestedShortFormIdsList)")
+            
+            ShopLiveLogger.publicLog("[ShopLiveShortformV2] 9. loadShortFormIds called from [setInitialshortFormIdsData]")
             
             self.loadShortFormIds(ids: self.requestedShortFormIdsList, reset: true) { [weak self] _ in
                 self?.isLoadingMoreData = false
-                ShopLiveLogger.tempLog("[loadShortFormIds] Completion Called")
+                ShopLiveLogger.tempLog("[ShopLiveShortformV2] 11. [loadShortFormIds] Completion Called")
                 completion()
             }
         }
@@ -213,7 +237,14 @@ extension V2ShortsCollectionViewModel {
                     }
                     self.shortsCollection = response
                     self.appendShortsListData(shortsList,reset: reset,scrollToPage: self.scrollToPage)
-                    ShopLiveLogger.tempLog("[loadShortFormIds] Data is Init")
+                    
+                    // Functions that are only called during list data init
+                    if let scrollToPage = self.scrollToPage {
+                        self.delegate?.scrollToAfterLoadShortsID(index: scrollToPage)
+                        self.scrollToPage = nil
+                    }
+                    
+                    ShopLiveLogger.publicLog("[ShopLiveShortformV2] 10. [loadShortFormIds] Data is Init")
                     let hideEmptyDataView = (shortsList.count == 0 && reset == true) ? false : true
                     if hideEmptyDataView == false {
                         self.shortformDelegate?.onEvent?(messenger: nil, command: "DETAIL_EMPTY", payload: nil)
@@ -259,6 +290,9 @@ extension V2ShortsCollectionViewModel {
             })
         
         self.customerDownwardHasMore = moreData.hasMore ?? false
+        
+        ShopLiveLogger.publicLog("[ShopLiveShortformV2] 9. loadShortFormIds called from [setDownwardShortformIdsMoreData]")
+        
         self.loadShortFormIds(ids: currentRequestingShortsIds, reset: false) { [weak self] _ in
             self?.appendCells()
             self?.isLoadingMoreData = false
@@ -292,6 +326,9 @@ extension V2ShortsCollectionViewModel {
         guard let startIndex = shortFormIdsList.firstIndex(where: { $0 == lastRequestId }) else { return }
         let nextShortsIdsToRequest = ((startIndex + 1)...((self.shortFormIdsList.count - 1))).compactMap({ shortFormIdsList[safe : $0] })
         self.requestedShortFormIdsList.append(contentsOf: nextShortsIdsToRequest)
+        
+        ShopLiveLogger.publicLog("[ShopLiveShortformV2] 9. loadShortFormIds called from [useRemainingShortsIdsAndRequestForMoreDataDownward]")
+        
         self.loadShortFormIds(ids: nextShortsIdsToRequest, reset: false) { [weak self] isSuccess in
             self?.isLoadingMoreData = false
             if isSuccess {
@@ -307,6 +344,9 @@ extension V2ShortsCollectionViewModel {
         guard let index = self.shortFormIdsList.firstIndex(of: lastShortsId) else { return }
         nextShortsIdsToRequest = ((index + 1)...(index + 5)).compactMap({ shortFormIdsList[safe : $0] })
         requestedShortFormIdsList.append(contentsOf: nextShortsIdsToRequest)
+        
+        ShopLiveLogger.publicLog("[ShopLiveShortformV2] 9. loadShortFormIds called from [useRemainingShortsIdsOnlyDownward]")
+        
         loadShortFormIds(ids: nextShortsIdsToRequest, reset: false) { [weak self] _ in
             self?.appendCells()
             self?.isLoadingMoreData = false

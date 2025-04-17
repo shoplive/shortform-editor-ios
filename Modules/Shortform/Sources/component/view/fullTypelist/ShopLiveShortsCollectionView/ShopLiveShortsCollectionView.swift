@@ -187,6 +187,7 @@ extension ShopLiveShortsCollectionView {
 }
 extension ShopLiveShortsCollectionView : ShortsCollectionBaseViewDelegate {
     func didScrollToShortsId(shortsId: String?) {
+        ShopLiveLogger.publicLog("[ShopLiveShortformV2] 12. didScrollToShortsId resultHandler is Called")
         resultHandler?( .didScrollToShortsId(shortsId) )
     }
 }

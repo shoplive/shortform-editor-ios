@@ -74,12 +74,13 @@ class V2ShortsCollectionExampleView : UIViewController {
             }
             self.currentLandingId = currentId
             ShopLiveLogger.tempLog("[HASSAN LOG] \(ids.map({ $0.shortsId }))")
-            self.shortsCollectionView = ShopLiveShortsCollectionView(shortformIdsData: ShopLiveShortformIdsData(ids: ids,currentId: currentId ),
+            self.shortsCollectionView = ShopLiveShortsCollectionView(shortformIdsData: ShopLiveShortformIdsData(ids: ids, currentId: currentId ),
                                                                      dataSourceDelegate: self,
                                                                      shortsCollectionDelegate: self)
             self.shortsCollectionView?.translatesAutoresizingMaskIntoConstraints = false
             self.setLayout()
             self.shortsCollectionView?.action( .setMuted(OptionSettingModel.isDetailViewMuted) )
+            
         }
         backBtn.addTarget(self, action: #selector(backBtnTapped), for: .touchUpInside)
         btn.addTarget(self, action: #selector(nextBtnTapped), for: .touchUpInside)
@@ -113,10 +114,6 @@ class V2ShortsCollectionExampleView : UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        guard let shortsCollectionView = shortsCollectionView else { return }
-        if blockViewDidlayoutSubView == false {
-            shortsCollectionView.action( .viewDidLayoutSubView )
-        }
     }
     
     @objc
@@ -207,9 +204,6 @@ extension V2ShortsCollectionExampleView {
             switch result {
             case .didScrollToShortsId(let shortsId):
                 ShopLiveLogger.tempLog("didScrollToShortsId \(shortsId)")
-                if self?.currentLandingId ?? "" == shortsId ?? "-1" {
-                    self?.blockViewDidlayoutSubView = true
-                }
                 break
             }
         }

@@ -172,14 +172,25 @@ extension V2ShortsCollectionView {
     
     
     override func playPageByViewDidLayoutSubView() {
+        
+        ShopLiveLogger.publicLog("[ShopLiveShortformV2] [playPageByViewDidLayoutSubView] is Called")
+        
         if let index = childViewModel.scrollToPage {
+            
+            ShopLiveLogger.publicLog("[ShopLiveShortformV2] [playPageByViewDidLayoutSubView] scrollToPage is NOT nil")
+            
             let pageTo = CGPoint(x: 0, y: CGFloat(index) * self.frame.height)
             let currentContentOffset = self.shortsListView.contentOffset.y
             if pageTo.y == currentContentOffset {
+                ShopLiveLogger.publicLog("[ShopLiveShortformV2] [playPageByViewDidLayoutSubView] currentContentOffset == pageTo.y")
                 return
             }
             
+            ShopLiveLogger.publicLog("[playPageByViewDidLayoutSubView] currentContentOffset != pageTo.y")
+            
             DispatchQueue.main.async(flags : .barrier) { [weak self] in
+                ShopLiveLogger.publicLog("[ShopLiveShortformV2] [playPageByViewDidLayoutSubView] setContentOffset is Called")
+                ShopLiveLogger.publicLog("[ShopLiveShortformV2] [playPageByViewDidLayoutSubView] pageTo offset is \(pageTo)")
                 self?.shortsListView.setContentOffset(pageTo, animated: false)
                 
                 let currentContentOffset2 = self?.shortsListView.contentOffset.y
@@ -187,6 +198,8 @@ extension V2ShortsCollectionView {
                     self?.checkShortsCellAttachedDetached()
                 }
             }
+        } else {
+            ShopLiveLogger.publicLog("[playPageByViewDidLayoutSubView] scrollToPage is nil")
         }
     }
     
@@ -195,6 +208,7 @@ extension V2ShortsCollectionView {
             guard let self else { return }
             let shortsId = self.childViewModel.getv2initalTargetShortsId()
             ShopLiveLogger.tempLog("[sendShortId] shortId : \(shortsId ?? "is nil")")
+            ShopLiveLogger.publicLog("[ShopLiveShortformV2] 11. [sendShortId] shortId : \(shortsId ?? "is nil")")
             self.collectionBaseViewDelegate?.didScrollToShortsId(shortsId: shortsId)
             self.childViewModel.removev2initalTargetShortId()
         }

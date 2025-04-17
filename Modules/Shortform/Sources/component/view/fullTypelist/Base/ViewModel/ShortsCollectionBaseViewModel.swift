@@ -17,7 +17,6 @@ protocol ShortsCollectionBaseViewModelDelegate : NSObject {
     func reloadData()
     func insertItemsWithOutAnimation(updateIndexPaths : [IndexPath])
     func setScrollEnabled(isEnabled : Bool)
-    func onViewAppeared()
     func setCloseBtnVisible(isVisible : Bool)
     func playToPage(index : Int)
     func playWhenNetworkReconnected()
@@ -32,6 +31,7 @@ protocol ShortsCollectionBaseViewModelDelegate : NSObject {
     func setAudioSessionManager()
     
     func playeCurrentCell()
+    func scrollToAfterLoadShortsID(index: Int)
 }
 
 class ShortsCollectionBaseViewModel : NSObject {
@@ -195,13 +195,7 @@ class ShortsCollectionBaseViewModel : NSObject {
     var isSwipable : Bool {
         return shortsMode == .detail
     }
-    var isViewAppeared : Bool = false {
-        didSet {
-            if isViewAppeared {
-                delegate?.onViewAppeared()
-            }
-        }
-    }
+    var isViewAppeared : Bool = false
     var isViewDidLayoutSubView : Bool = false
     
     var viewProvideType : ViewProvidedType = .window
