@@ -686,6 +686,7 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
   @_hasMissingDesignatedInitializers public class EditorMainConfig {
     public static let global: ShopLiveShortformEditorSDK.ShopLiveShortformEditor.EditorMainConfig
     public var videoPlayerCornerRadius: CoreFoundation.CGFloat
+    public var titleTextFont: UIKit.UIFont?
     public var titleTextColor: UIKit.UIColor
     public var titleTextWeight: UIKit.UIFont.Weight
     public var titleTextSize: CoreFoundation.CGFloat
@@ -697,6 +698,7 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var editingCloseButtonIcon: UIKit.UIImage
     public var editingCloseButtonIconPadding: UIKit.UIEdgeInsets
     public var editingCloseButtonIconTintColor: UIKit.UIColor
+    public var nextButtonTitleFont: UIKit.UIFont?
     public var nextButtonTitle: Swift.String
     public var nextButtonCornerRadius: CoreFoundation.CGFloat
     public var nextButtonBackgroundColor: UIKit.UIColor
@@ -726,10 +728,12 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var sliderHandleBarColor: UIKit.UIColor
     public var popupCornerRadius: CoreFoundation.CGFloat
     public var popupButtonCornerRadius: CoreFoundation.CGFloat
+    public var popupCloseButtonTextFont: UIKit.UIFont?
     public var popupCloseButtonBackgroundColor: UIKit.UIColor
     public var popupCloseButtonTextColor: UIKit.UIColor
     public var popupCloseButtonTextWeight: UIKit.UIFont.Weight
     public var popupCloseButtonTextSize: CoreFoundation.CGFloat
+    public var popupConfirmButtonTextFont: UIKit.UIFont?
     public var popupConfirmButtonBackgroundColor: UIKit.UIColor
     public var popupConfirmButtonTextColor: UIKit.UIColor
     public var popupConfirmButtonTextWeight: UIKit.UIFont.Weight
@@ -778,6 +782,7 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var backButtonIconPadding: UIKit.UIEdgeInsets
     public var backButtonIconTintColor: UIKit.UIColor
     public var backButtonBackgroundColor: UIKit.UIColor?
+    public var confirmButtonTitleFont: UIKit.UIFont?
     public var confirmButtonTitle: Swift.String
     public var confirmButtonBackgroundColor: UIKit.UIColor
     public var confirmButtonTextColor: UIKit.UIColor
