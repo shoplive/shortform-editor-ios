@@ -239,9 +239,8 @@ extension V2ShortsCollectionViewModel {
                     self.appendShortsListData(shortsList,reset: reset,scrollToPage: self.scrollToPage)
                     
                     // Functions that are only called during list data init
-                    if let scrollToPage = self.scrollToPage {
+                    if let scrollToPage = self.scrollToPage, reset {
                         self.delegate?.scrollToAfterLoadShortsID(index: scrollToPage)
-                        self.scrollToPage = nil
                     }
                     
                     ShopLiveLogger.publicLog("[ShopLiveShortformV2] 10. [loadShortFormIds] Data is Init")
