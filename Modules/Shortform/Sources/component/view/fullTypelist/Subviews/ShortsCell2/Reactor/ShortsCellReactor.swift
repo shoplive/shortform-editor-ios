@@ -168,6 +168,7 @@ class ShortsCellReactor : NSObject, SLReactor {
     }
     
     deinit {
+        isPausedByUser = false
         ytCommandReactor.action( .invalidateTimer )
         ShopLiveLogger.memoryLog("shortscellreactor deinited")
     }
@@ -304,11 +305,15 @@ class ShortsCellReactor : NSObject, SLReactor {
         ytCommandReactor.action( .setCurrentShortsMode(self.shortsMode) )
         
         cancelLoadingIndicatorWorkItem()
-        loadingIndicatorWorkItem = DispatchWorkItem(block: { [weak self] in
-            self?.resultHandler?( .showLoadingIndicator(true) )
-        })
-        if let workItem = loadingIndicatorWorkItem {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: workItem)
+        
+        if !getIsYoutubePlayer() {
+            loadingIndicatorWorkItem = DispatchWorkItem(block: { [weak self] in
+                self?.resultHandler?( .showLoadingIndicator(true) )
+            })
+            
+            if let loadingIndicatorWorkItem {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: loadingIndicatorWorkItem)
+            }
         }
     }
     
@@ -799,6 +804,7 @@ extension ShortsCellReactor {
         guard let payload = payload else { return }
         guard let isPaused = payload["pause"] as? Bool else { return }
         if getIsYoutubePlayer() {
+            isPausedByUser = true
             if ytCommandReactor.getYoutubeState() == .playing {
                 ytCommandReactor.action( .pauseVideo )
             }
