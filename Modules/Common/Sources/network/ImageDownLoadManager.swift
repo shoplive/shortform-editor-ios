@@ -25,8 +25,8 @@ public class ImageDownLoaderManager {
         let task = URLSession.shared.downloadTask(with: imageUrl) { [unowned self] url, response, error in
             
             
-            let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
-            if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: nil) {
+            let statusCode = (response as? HTTPURLResponse)?.statusCode
+            if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: nil, endpoint: url?.path ?? "") {
                 DispatchQueue.main.async {
                     completion( .failure(commonError))
                 }
@@ -73,8 +73,8 @@ public class ImageDownLoaderManager {
         
         let task = URLSession.shared.downloadTask(with: imageUrl) { [unowned self] url, response, error in
             
-            let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
-            if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: nil) {
+            let statusCode = (response as? HTTPURLResponse)?.statusCode
+            if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: nil, endpoint: url?.path ?? "") {
                 return
             }
             

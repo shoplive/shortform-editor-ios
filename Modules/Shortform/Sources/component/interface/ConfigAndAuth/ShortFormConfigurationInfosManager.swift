@@ -56,9 +56,9 @@ public class ShortFormConfigurationInfosManager {
         }
         
         let task = URLSession(configuration: .default).dataTask(with: url) { [unowned self] data , response , error  in
-            let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
             
-            if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: data) {
+            let statusCode = (response as? HTTPURLResponse)?.statusCode
+            if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: data, endpoint: url.path) {
                 completion( .failure(commonError) )
                 return
             }

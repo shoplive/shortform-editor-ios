@@ -223,8 +223,8 @@ public extension APIDefinition {
         
         let task = URLSession.shared.dataTask(with: requestUrl) { data, response, error  in
             
-            let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
-            if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: data) {
+            let statusCode = (response as? HTTPURLResponse)?.statusCode
+            if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: data, endpoint: requestUrl.url?.path ?? "") {
                 DispatchQueue.main.async {
                     handler?( .failure(commonError) )
                 }
@@ -337,8 +337,9 @@ public extension APIDefinition {
             if self.showResponseLog {
                 ShopLiveLogger.tempLog("[UPLOADRESPONSE] \(String(data: data!, encoding: .utf8) ?? "no data")")
             }
-            let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
-            if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: data) {
+            
+            let statusCode = (response as? HTTPURLResponse)?.statusCode
+            if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: data, endpoint: request.url?.path ?? "") {
                 DispatchQueue.main.async {
                     handler?( .failure(commonError) )
                 }

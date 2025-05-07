@@ -109,7 +109,7 @@ public class ShopLiveCommonErrorGenerator {
         }
     }
     
-    public class func generateErrorFromNetwork(statusCode : Int, error : Error?, responseData : Data?) -> ShopLiveCommonError? {
+    public class func generateErrorFromNetwork(statusCode : Int?, error : Error?, responseData : Data?, endpoint: String) -> ShopLiveCommonError? {
         if let responseData = responseData, let decoded = try? JSONDecoder().decode(ShopLiveCommonNetworkBaseErrorResponse.self, from: responseData) {
             guard let s = decoded._s, s != 0 else {
                 return nil
@@ -117,11 +117,57 @@ public class ShopLiveCommonErrorGenerator {
             return .init(code: s, message: decoded._e, error: error)
         }
         
-        guard (200...399).contains(statusCode) == false, let error = error else {
+        let code: Int = generateStatusCode(statusCode: statusCode, endpoint: endpoint)
+        
+        guard (200...399).contains(code) == false, let error = error else {
             return nil
         }
         
-    return .init(code: statusCode, message: "[HTTP status code]", error: error)
+        return .init(code: code, message: "[HTTP status code] API Endpoint: \(endpoint)", error: error)
+    }
+    
+    
+    private class func generateStatusCode(statusCode: Int?, endpoint: String) -> Int {
+        
+        // statusCode가 nil이 아닐경우에는 그대로 반환
+        if let statusCode {
+            return statusCode
+        }
+        
+        // shorts : -1000X
+        // shortform: -2000X
+        // video: -3000X
+        // none: -1
+        
+        switch endpoint {
+        case let endpoint where endpoint.contains("shorts"):
+            return shortsErrorParse(endpoint: endpoint)
+        case let endpoint where endpoint.contains("shortform"):
+            return shortformErrorParse(endpoint: endpoint)
+        case let endpoint where endpoint.contains("video"):
+            return -30001
+        default: return -1
+        }
+    }
+    
+    private class func shortsErrorParse(endpoint: String) -> Int {
+        switch endpoint {
+        case let endpoint where endpoint.contains("uploadable"):
+            return -10001
+        case let endpoint where endpoint.contains("video"):
+            return -10002
+        default:
+            return -10003
+        }
+    }
+     
+    private class func shortformErrorParse(endpoint: String) -> Int {
+        switch endpoint {
+        case let endpoint where endpoint.contains("thumbnail"):
+            return -20001
+        default:
+            return -20002
+        }
     }
 }
 
