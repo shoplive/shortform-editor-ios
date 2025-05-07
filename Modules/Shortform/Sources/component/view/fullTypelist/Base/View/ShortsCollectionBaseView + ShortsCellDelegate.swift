@@ -30,18 +30,35 @@ extension ShortsCollectionBaseView : ShortsCellDelegate {
     func didFinishPlayingShorts(cell: ShortsCell, data: SLShortsModel?) {
         guard let data = data, viewModel.shortsMode == .preview else { return }
         
+//        if let nextIndex = viewModel.getNextShortItemIndex(data) {
+//            if let latestCell = viewModel.latestCell.latestCell {
+//                latestCell.stop()
+//            }
+//            if let srn = self.viewModel.shortsListData[safe : nextIndex]?.srn {
+//                viewModel.postActivePageNotification(srn: srn, index: nextIndex)
+//            }
+//            viewModel.postPreviewShowNotification()
+//            playPage(nextIndex)
+//        }
+//        else if let latestCell = viewModel.latestCell.latestCell {
+//            latestCell.replay()
+//        }
+        
         if let nextIndex = viewModel.getNextShortItemIndex(data) {
-            if let latestCell = viewModel.latestCell.latestCell {
-                latestCell.stop()
+            if let currenIndexPath = self.getCurrentIndexPath(),
+               let currentCell = self.shortsListView.cellForItem(at: currenIndexPath) as? ShortsCell {
+                currentCell.stop()
             }
+            
             if let srn = self.viewModel.shortsListData[safe : nextIndex]?.srn {
                 viewModel.postActivePageNotification(srn: srn, index: nextIndex)
             }
             viewModel.postPreviewShowNotification()
             playPage(nextIndex)
         }
-        else if let latestCell = viewModel.latestCell.latestCell {
-            latestCell.replay()
+        else if let currenIndexPath = self.getCurrentIndexPath(),
+                let currentCell = self.shortsListView.cellForItem(at: currenIndexPath) as? ShortsCell {
+            currentCell.replay()
         }
     }
     
@@ -236,9 +253,11 @@ extension ShortsCollectionBaseView {
     }
     
     private func handleWebViewOnShortformDetailInitialized(payload : [String : Any]?) {
-        if let srn = self.viewModel.currentShortsSrn, let index = self.viewModel.latestCell.indexPath?.row, self.viewModel.latestActivePageIndex != index {
-            self.viewModel.latestActivePageIndex = index
-            viewModel.postActivePageNotification(srn: srn, index: index)
+        if let srn = self.viewModel.currentShortsSrn,
+           let indexPathRow = self.getCurrentIndexPath()?.row,
+           self.viewModel.latestActivePageIndex != indexPathRow {
+            self.viewModel.latestActivePageIndex = indexPathRow
+            viewModel.postActivePageNotification(srn: srn, index: indexPathRow)
         }
     }
     
@@ -247,7 +266,6 @@ extension ShortsCollectionBaseView {
             viewModel.postRequestShortsPreview(url: viewModel.currentOverlayUrl, srn: viewModel.currentShortsSrn)
         } else {
             viewModel.postCloseShortsDetail(srn: viewModel.currentShortsSrn)
-            viewModel.latestCell.setLatest(latestCell: nil,indexPath: nil)
             ShopLiveShortform.close()
         }
     }

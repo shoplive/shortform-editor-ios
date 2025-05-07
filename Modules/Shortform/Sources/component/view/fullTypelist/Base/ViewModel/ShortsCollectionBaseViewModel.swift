@@ -55,7 +55,7 @@ class ShortsCollectionBaseViewModel : NSObject {
     
     var networkMonitor = NetworkMonitor()
     var networkAvailable: Bool? = true
-    var latestCell: LatestShortsCell = LatestShortsCell()
+//    var latestCell: LatestShortsCell = LatestShortsCell()
     var scrollToPage : Int? = nil
     let appStateObserver = ShopliveAppStateObserver()
     var audioLevel : Float = 0.0
@@ -99,7 +99,7 @@ class ShortsCollectionBaseViewModel : NSObject {
     
     //currentDatas
     var currentShorts : SLShortsModel? {
-        guard let currentIndex = latestCell.indexPath,
+        guard let currentIndex = delegate?.getCurrentIndexPath(),
               let shorts = shortsListData[safe: currentIndex.row] else { return nil }
         return shorts
     }
@@ -108,17 +108,17 @@ class ShortsCollectionBaseViewModel : NSObject {
         return reference
     }
     var currentShortsId: String? {
-        guard let currentIndex = latestCell.indexPath,
+        guard let currentIndex = delegate?.getCurrentIndexPath(),
               let shortsId = shortsListData[safe: currentIndex.row]?.shortsId else { return nil }
         return shortsId
     }
     var currentOverlayUrl: String? {
-        guard let currentIndex = latestCell.indexPath,
+        guard let currentIndex = delegate?.getCurrentIndexPath(),
               let overlayUrl = self.getOverlayUrl(at: currentIndex, shortsModel: shortsListData[safe: currentIndex.row], isYoutube: false)  else { return nil }
         return overlayUrl.absoluteString
     }
     var currentShortsSrn: String? {
-        if let latestIndexPath = latestCell.indexPath, let srn = shortsListData[safe: latestIndexPath.row]?.srn  {
+        if let latestIndexPath = delegate?.getCurrentIndexPath(), let srn = shortsListData[safe: latestIndexPath.row]?.srn  {
             return srn
         }
         else if let srn = shortsListData[safe: 0]?.srn {
@@ -243,7 +243,7 @@ class ShortsCollectionBaseViewModel : NSObject {
     
     deinit {
         ShopLiveLogger.memoryLog("shortscollectionBaseView deinted")
-        self.latestCell.setLatest()
+//        self.latestCell.setLatest()
         clearWebViewLists()
         appStateObserver.delegate = nil
         removeObserver()
@@ -333,7 +333,7 @@ extension ShortsCollectionBaseViewModel {
                 if oldContentOffsetY == newContentOffsetY {
                     guard let currentIndexPath = self.delegate?.getCurrentIndexPath() else { return }
                     guard let currentCell = self.delegate?.getCellForAt(indexPath: currentIndexPath) as? ShortsCell else { return }
-                    self.latestCell.setLatest(latestCell: currentCell, indexPath: currentIndexPath)
+//                    self.latestCell.setLatest(latestCell: currentCell, indexPath: currentIndexPath)
                     currentCell.setMute(getMuted())
                     currentCell.play(skipIfPaused: false)
                 }
@@ -368,11 +368,16 @@ extension ShortsCollectionBaseViewModel {
 //MARK: - setter functions
 extension ShortsCollectionBaseViewModel {
     func setCellMuted(isMuted : Bool) {
-        self.latestCell.latestCell?.setMute(isMuted)
+        if let currentIndex = delegate?.getCurrentIndexPath(),
+           let cell = delegate?.getCellForAt(indexPath: currentIndex) as? ShortsCell {
+            cell.setMute(isMuted)
+        }
+        
         guard let currentIndexPath = self.delegate?.getCurrentIndexPath(),
               let cells = self.delegate?.getLoadedCells(from: currentIndexPath.row - 1, to: currentIndexPath.row + 1) else {
             return
         }
+        
         cells.forEach { cell in
             cell.setMute(self.isMuted)
         }
@@ -945,7 +950,8 @@ extension ShortsCollectionBaseViewModel {
     
     //v2 override
     @objc func appendCells() {
-        guard let latestIndex = latestCell.indexPath?.row else { return }
+//        guard let latestIndex = latestCell.indexPath?.row else { return }
+        guard let latestIndex = self.delegate?.getCurrentIndexPath()?.row else { return }
         if latestIndex != self.lastShortsCount - 1 { return }
         delegate?.insertItemsWithOutAnimation(updateIndexPaths: self.getUpdatingIndexPaths())
         lastShortsCount = shortsListData.count

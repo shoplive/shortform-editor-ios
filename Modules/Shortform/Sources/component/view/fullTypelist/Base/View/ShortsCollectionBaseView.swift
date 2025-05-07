@@ -531,13 +531,16 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if self.viewModel.isOnRotation { return }
-        if let latestCell = viewModel.latestCell.latestCell {
-            latestCell.setMute(viewModel.getMuted())
-        }
+//        if let latestCell = viewModel.latestCell.latestCell {
+//            latestCell.setMute(viewModel.getMuted())
+//        }
+//        ShopLiveLogger.publicLog("[MOLA] willDisplay cell 1 \( viewModel.scrollToPage ) \(indexPath.row) \(collectionView.numberOfItems(inSection: 0))")
         
-        if let toPlayPage = viewModel.scrollToPage , toPlayPage == indexPath.row, let playCell = cell as? ShortsCell {
-            viewModel.latestCell.setLatest(latestCell: playCell, indexPath: indexPath)
-        }
+//        if let toPlayPage = viewModel.scrollToPage , toPlayPage == indexPath.row, let playCell = cell as? ShortsCell {
+////            viewModel.scrollToPage = nil
+//            ShopLiveLogger.publicLog("[MOLA] willDisplay cell 2")
+//            viewModel.latestCell.setLatest(latestCell: playCell, indexPath: indexPath)
+//        }
         if let cell = cell as? ShortsCell {
             if self.viewModel.shortsMode != .preview && cell.isWebViewExist() == false {
                 cell.reloadWebView()
@@ -570,6 +573,7 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if viewModel.blockScrollViewDidScrollForRotation == false {
+            ShopLiveLogger.tempLog("[MOLA] scrollViewDidScroll")
             self.playCurrentItem()
         }
         checkShortsCellAttachedDetached()
@@ -582,12 +586,21 @@ extension ShortsCollectionBaseView : UICollectionViewDataSource, UICollectionVie
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            guard let index = self.getCenterItemIndexPath()?.row, let srn = self.viewModel.shortsListData[safe: index]?.srn, let latestCell = self.viewModel.latestCell.latestCell else { return }
+//            guard let index = self.getCenterItemIndexPath()?.row, let srn = self.viewModel.shortsListData[safe: index]?.srn, let latestCell = self.viewModel.latestCell.latestCell else {
+//                ShopLiveLogger.publicLog("[MOLA] scrollViewDidEndDecelerating 1 ")
+//                return
+//            }
             
-            latestCell.play(skipIfPaused: true)
-            if self.viewModel.latestActivePageIndex != index {
-                self.viewModel.latestActivePageIndex = index
-                self.viewModel.postActivePageNotification(srn: srn, index: index)
+            guard let index = self.getCenterItemIndexPath(), let srn = self.viewModel.shortsListData[safe: index.row]?.srn else {
+                return
+            }
+            if let cell = self.shortsListView.cellForItem(at: index) as? ShortsCell {
+                cell.play(skipIfPaused: true)
+            }
+            
+            if self.viewModel.latestActivePageIndex != index.row {
+                self.viewModel.latestActivePageIndex = index.row
+                self.viewModel.postActivePageNotification(srn: srn, index: index.row)
             }
         }
     }
@@ -603,7 +616,7 @@ extension ShortsCollectionBaseView {
                 guard let cell = self.shortsListView.cellForItem(at: currentIndexPath) as? ShortsCell else { return }
                 self.viewModel.updateWebViewPoolForReconnection(currentIndex: currentIndexPath)
                 self.viewModel.postActivePageNotification(srn: srn, index: currentIndexPath.row)
-                self.viewModel.latestCell.setLatest(latestCell: cell,indexPath: currentIndexPath)
+//                self.viewModel.latestCell.setLatest(latestCell: cell,indexPath: currentIndexPath)
                 cell.play(skipIfPaused: false)
             }
         }
@@ -624,28 +637,46 @@ extension ShortsCollectionBaseView {
     func playCurrentItem() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            guard let centerItem = self.getCenterItem(),
-                  let latestCell = self.viewModel.latestCell.latestCell,
-                  latestCell != centerItem else {
-                return
+            guard let currentIndexPath = self.getCurrentIndexPath() else { return }
+//            guard let centerItem = self.getCenterItem(),
+//                  let latestCell = self.viewModel.latestCell.latestCell,
+//                  latestCell != centerItem
+//            else {
+//                ShopLiveLogger.publicLog("[MOLA]  playCurrentItem 1")
+//                return
+//            }
+
+//            latestCell.pause()
+//            ShopLiveLogger.publicLog("[MOLA]  playCurrentItem 2")
+//            self.viewModel.latestCell.setLatest(latestCell: centerItem, indexPath: self.shortsListView.indexPath(for: centerItem))
+//            centerItem.setMute(self.viewModel.getMuted())
+//            centerItem.play(skipIfPaused: false)
+            
+            for visibleIndexPath in self.shortsListView.indexPathsForVisibleItems {
+                if let cell = self.shortsListView.cellForItem(at: visibleIndexPath) as? ShortsCell {
+                    if visibleIndexPath == currentIndexPath {
+                        cell.setMute(self.viewModel.getMuted())
+                        cell.play(skipIfPaused: false)
+                    }
+                    else {
+                        cell.pause()
+                        cell.setMute(false)
+                    }
+                }
             }
-            latestCell.pause()
-            self.viewModel.latestCell.setLatest(latestCell: centerItem, indexPath: self.shortsListView.indexPath(for: centerItem))
-            centerItem.setMute(self.viewModel.getMuted())
-            centerItem.play(skipIfPaused: false)
         }
     }
    
     // 바로 위의 함수에서 왜 latestCell을 비교하는지 확인해보고 필요 없는 과정이라면 삭제 하고 통합해야함.
     func playCurrentItemOnUserCommand() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            guard let currentIndexPath = self.getCurrentIndexPath() else { return }
-            guard let currentCell = self.getCellForAt(indexPath: currentIndexPath) as? ShortsCell else { return }
-            self.viewModel.latestCell.setLatest(latestCell: currentCell, indexPath: currentIndexPath)
-            currentCell.setMute(viewModel.getMuted())
-            currentCell.play(skipIfPaused: false)
-        }
+//        DispatchQueue.main.async { [weak self] in
+//            guard let self = self else { return }
+//            guard let currentIndexPath = self.getCurrentIndexPath() else { return }
+//            guard let currentCell = self.getCellForAt(indexPath: currentIndexPath) as? ShortsCell else { return }
+//            self.viewModel.latestCell.setLatest(latestCell: currentCell, indexPath: currentIndexPath)
+//            currentCell.setMute(viewModel.getMuted())
+//            currentCell.play(skipIfPaused: false)
+//        }
     }
    
     func checkShortsCellAttachedDetached() {

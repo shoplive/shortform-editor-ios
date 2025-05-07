@@ -115,9 +115,9 @@ class V1ShortsDetailCollectionView : ShortsCollectionBaseView {
     override func viewTappedInPreviewMode(reset: Bool, shortsId: String?, srn: String?, completion: (() -> ())? = nil) {
         let config = ShortFormConfigurationInfosManager.shared.shortsConfiguration
         if reset == false { return }
-        viewModel.latestCell.latestCell?.stop()
+//        viewModel.latestCell.latestCell?.stop()
         childViewModel.removeAllWebViewLists()
-        viewModel.latestCell.setLatest()
+//        viewModel.latestCell.setLatest()
         viewModel.didAnimatePreviewToFullScreen = true
         self.viewModel.latestActivePageIndex = -1
         childViewModel.setCanUseShortformCurrentTimeDTO(canUse: true)
@@ -189,13 +189,17 @@ extension V1ShortsDetailCollectionView {
     override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            guard let index = self.getCenterItemIndexPath()?.row, let srn = self.viewModel.shortsListData[safe: index]?.srn, let latestCell = self.viewModel.latestCell.latestCell else { return }
+            guard let index = self.getCenterItemIndexPath(), let srn = self.viewModel.shortsListData[safe: index.row]?.srn else { return }
+            
+            if let cell = self.shortsListView.cellForItem(at: index) as? ShortsCell {
+                cell.play(skipIfPaused: true)
+            }
 
-            latestCell.play(skipIfPaused: true)
+//            latestCell.play(skipIfPaused: true)
 //            latestCell.play(true)
-            if self.viewModel.latestActivePageIndex != index {
-                self.viewModel.latestActivePageIndex = index
-                self.viewModel.postActivePageNotification(srn: srn, index: index)
+            if self.viewModel.latestActivePageIndex != index.row {
+                self.viewModel.latestActivePageIndex = index.row
+                self.viewModel.postActivePageNotification(srn: srn, index: index.row)
             }
             
             childViewModel.appendCells()
