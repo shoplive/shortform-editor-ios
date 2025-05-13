@@ -52,7 +52,7 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
     
     var webViewConfiguration: WKWebViewConfiguration?
     var overlayView: OverlayWebView?
-    var backgroundPosterImageWebView: SLWKWebView?
+    var backgroundPosterImageWebView: ShopLiveBackgroundPosterImageWebView?
     var snapShotImageView: SLImageView?
     var playerView: ShopLivePlayerView?
     
@@ -548,17 +548,14 @@ extension ShopLivePlayerPreview {
     
     private func setBackgroundPosterImageView() {
         guard let playerView = playerView else { return }
-        self.backgroundPosterImageWebView = SLWKWebView()
+        self.backgroundPosterImageWebView = ShopLiveBackgroundPosterImageWebView()
         guard let backgroundPosterImageWebView = self.backgroundPosterImageWebView else { return }
         self.addSubview(backgroundPosterImageWebView)
         backgroundPosterImageWebView.translatesAutoresizingMaskIntoConstraints = false
         backgroundPosterImageWebView.isOpaque = false
         backgroundPosterImageWebView.backgroundColor = .black
-        backgroundPosterImageWebView.scrollView.backgroundColor = .black
         backgroundPosterImageWebView.layer.masksToBounds = true
         backgroundPosterImageWebView.clipsToBounds = true
-        backgroundPosterImageWebView.scrollView.contentInsetAdjustmentBehavior = .never
-        backgroundPosterImageWebView.scrollView.contentInset = .zero
        
         
         let centxConstraint  = backgroundPosterImageWebView.centerXAnchor.constraint(equalTo: playerView.centerXAnchor)

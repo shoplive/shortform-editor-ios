@@ -34,7 +34,7 @@ internal final class LiveStreamViewController: SLViewController {
     // - snapShotImageView
     //overlayView
     var overlayView: OverlayWebView?
-    var backgroundPosterImageWebView: SLWKWebView?
+    var backgroundPosterImageWebView: ShopLiveBackgroundPosterImageWebView?
     var snapShotImageView: SLImageView?
     var playerView: ShopLivePlayerView?
     
@@ -692,17 +692,14 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
 extension LiveStreamViewController {
     private func setUpBackgroundPosterImageWebView() {
         guard let playerView = playerView else { return }
-        self.backgroundPosterImageWebView = SLWKWebView()
+        self.backgroundPosterImageWebView = ShopLiveBackgroundPosterImageWebView()
         guard let backgroundPosterImageWebView = self.backgroundPosterImageWebView else { return }
         self.view.addSubview(backgroundPosterImageWebView)
         backgroundPosterImageWebView.translatesAutoresizingMaskIntoConstraints = false
         backgroundPosterImageWebView.isOpaque = false
         backgroundPosterImageWebView.backgroundColor = .black
-        backgroundPosterImageWebView.scrollView.backgroundColor = .black
         backgroundPosterImageWebView.layer.masksToBounds = true
         backgroundPosterImageWebView.clipsToBounds = true
-        backgroundPosterImageWebView.scrollView.contentInsetAdjustmentBehavior = .never
-        backgroundPosterImageWebView.scrollView.contentInset = .zero
        
         
         let centxConstraint  = backgroundPosterImageWebView.centerXAnchor.constraint(equalTo: playerView.centerXAnchor)

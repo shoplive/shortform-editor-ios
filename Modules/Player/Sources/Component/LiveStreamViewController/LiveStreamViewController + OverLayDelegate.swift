@@ -88,7 +88,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     func didUpdatePoster(with url: URL) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.backgroundPosterImageWebView?.load(.init(url: url))
+            self.backgroundPosterImageWebView?.action( .setBackgroundUrl(url: url) )
         }
     }
 

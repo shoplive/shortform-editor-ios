@@ -30,7 +30,7 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
     func didUpdatePoster(with url: URL) {
         ShopLiveLogger.tempLog("[SET_POSTER_URL] url \(url)")
         DispatchQueue.main.async { [weak self] in
-            self?.backgroundPosterImageWebView?.load(.init(url: url))
+            self?.backgroundPosterImageWebView?.action( .setBackgroundUrl(url: url) )
         }
     }
    

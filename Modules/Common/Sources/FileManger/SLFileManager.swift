@@ -35,6 +35,13 @@ public class SLFileManager {
         return shopLiveTempUrl
     }
     
+    public static var backgroundPosterDirectoryPath: URL {
+        let tempUrl =  URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+        let shopLiveTempUrl = tempUrl.appendingPathComponent("Shoplive/Temp/BackgroundPoster", isDirectory: true)
+        Self.createShopLiveDirectory(with: shopLiveTempUrl)
+        return shopLiveTempUrl
+    }
+    
     
     public static func createShopLiveDirectory(with path : URL) {
         guard isDirectoryExists(at: path) == false else { return }
@@ -47,7 +54,7 @@ public class SLFileManager {
         }
     }
     
-    private static func  isDirectoryExists(at url: URL) -> Bool {
+    private static func isDirectoryExists(at url: URL) -> Bool {
         var isDirectory: ObjCBool = false
         let exists = FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory)
         return exists && isDirectory.boolValue
@@ -104,6 +111,23 @@ public class SLFileManager {
         }
     }
     
+    public static func deleteBackgroundPosterDirectoryFiles() {
+        let path = Self.backgroundPosterDirectoryPath
+        DispatchQueue.global(qos: .background).async {
+            do {
+                let files = try FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil, options: [])
+                
+                for file in files {
+                    try FileManager.default.removeItem(at: file)
+                    ShopLiveLogger.tempLog("[SLFILEMANAGER] Deleted: \(file.lastPathComponent)")
+                }
+            }
+            catch {
+                ShopLiveLogger.tempLog("[SLFILEMANAGER] Error deleting ShopLive files: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     public static  func getShortformDirectorySize() -> String? {
         let path : URL = Self.shortformDirectoryPath
         let fileManager = FileManager.default
@@ -123,5 +147,4 @@ public class SLFileManager {
             return nil
         }
     }
-    
 }
