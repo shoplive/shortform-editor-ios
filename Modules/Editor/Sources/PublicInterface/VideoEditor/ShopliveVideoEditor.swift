@@ -48,6 +48,10 @@ public class ShopliveVideoEditor {
             ShopLiveEditorConfigurationManager.shared.visibleContents = visibleContents
         }
         
+        if let videoUploadOption = configuration?.videoUploadOption {
+            ShopLiveEditorConfigurationManager.shared.videoUploadOption = videoUploadOption
+        }
+        
         return self
     }
     
@@ -59,14 +63,19 @@ public class ShopliveVideoEditor {
     
     public func build(data : ShopLiveVideoEditorData,completion : @escaping(UIViewController) -> ()) {
         if let remoteVideoUrl = data.videoRemoteUrl {
-            self.showWithRemoteData(remoteUrl: remoteVideoUrl,isCreateShortform: data.isCreatedShortform,completion: completion)
+            self.showWithRemoteData(data: data, completion: completion)
         }
         else if let videoAbsoluteUrl = data.videoAbsoluteUrl, let videoRelativeUrl = data.videoRelativeUrl {
             let tempAbsoluteVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: videoAbsoluteUrl.relativePath)
             let tempAbsoluteVideoUrl = URL(string: tempAbsoluteVideoUrlString)!
+            
             let tempRelativeVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: videoRelativeUrl.absoluteString)
             let tempRelativeVideoUrl = URL(string: tempRelativeVideoUrlString)!
-            self.showWithLocalData(absoluteUrl: tempAbsoluteVideoUrl, relativeUrl: tempRelativeVideoUrl,isCreateShortform: data.isCreatedShortform,completion: completion)
+            
+            data.videoAbsoluteUrl = tempAbsoluteVideoUrl
+            data.videoRelativeUrl = tempRelativeVideoUrl
+            
+            self.showWithLocalData(data: data, completion: completion)
         }
         else if let videoAbsoluteUrl = data.videoAbsoluteUrl {
             if ((data.videoAbsoluteUrl?.absoluteString.contains("ShopLive")) ?? false == true) {
@@ -74,20 +83,30 @@ public class ShopliveVideoEditor {
                 let tempAbsoluteVideoUrl = URL(string: tempAbsoluteVideoUrlString)!
                 let tempRelativeVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: videoAbsoluteUrl.absoluteString)
                 let tempRelativeVideoUrl = URL(string: tempRelativeVideoUrlString)!
-                self.showWithLocalData(absoluteUrl: tempAbsoluteVideoUrl, relativeUrl: tempRelativeVideoUrl,isCreateShortform: data.isCreatedShortform,completion: completion)
+                
+                data.videoAbsoluteUrl = tempAbsoluteVideoUrl
+                data.videoRelativeUrl = tempRelativeVideoUrl
+                
+                self.showWithLocalData(data: data, completion: completion)
             }
             else {
                 let tempVideoUrlString = SLCodecValidator.makeTempVideoUrl(videoPath: videoAbsoluteUrl.relativePath)
                 let tempVideoUrl = URL(string: tempVideoUrlString)!
-                self.showWithLocalDataSingleUrl(url: tempVideoUrl,isCreateShortform: data.isCreatedShortform,completion: completion)
+                
+                data.videoAbsoluteUrl = tempVideoUrl
+                
+                self.showWithLocalDataSingleUrl(data: data,completion: completion)
             }
         }
     }
     
-    private func showWithLocalDataSingleUrl(url : URL, isCreateShortform : Bool,completion : @escaping(UIViewController) -> ()) {
+    private func showWithLocalDataSingleUrl(data : ShopLiveVideoEditorData,completion : @escaping(UIViewController) -> ()) {
         callFilterListAPI()
         self.callConfigAPI { [weak self] in
             guard let self = self else { return }
+            
+            guard let url = validateUrl(url: data.videoAbsoluteUrl) else { return }
+            
             SLCodecValidator.runFFProbCommand(videoPath: url.absoluteString) { isValidCodec in
                 if isValidCodec == false {
                     self.delegate?.onShopLiveVideoEditorError?(editor: nil, error: ShopLiveCommonErrorGenerator.generateError(errorCase: .UnsupportedMedia, error: nil, message: "codec is not valid"))
@@ -95,7 +114,7 @@ public class ShopliveVideoEditor {
                 else {
                     let shortsVideo = ShortsVideo(localAbsoluteUrl: url, localRelativeUrl: url)
                     DispatchQueue.main.async {
-                        let vc = self.showEditorViewController(shortsVideo: shortsVideo,isCreateShortform: isCreateShortform)
+                        let vc = self.showEditorViewController(shortsVideo: shortsVideo)
                         completion(vc)
                     }
                 }
@@ -103,10 +122,14 @@ public class ShopliveVideoEditor {
         }
     }
     
-    private func showWithLocalData(absoluteUrl : URL, relativeUrl : URL, isCreateShortform : Bool,completion : @escaping(UIViewController) -> ()) {
+    private func showWithLocalData(data : ShopLiveVideoEditorData,completion : @escaping(UIViewController) -> ()) {
         callFilterListAPI()
         self.callConfigAPI { [weak self] in
             guard let self = self else { return }
+            
+            guard let relativeUrl = validateUrl(url: data.videoRelativeUrl) else { return }
+            guard let absoluteUrl = validateUrl(url: data.videoAbsoluteUrl) else { return }
+            
             SLCodecValidator.runFFProbCommand(videoPath: relativeUrl.absoluteString) { isValidCodec in
                 if isValidCodec == false {
                     self.delegate?.onShopLiveVideoEditorError?(editor: nil, error: ShopLiveCommonErrorGenerator.generateError(errorCase: .UnsupportedMedia, error: nil, message: "codec is not valid"))
@@ -114,7 +137,7 @@ public class ShopliveVideoEditor {
                 else {
                     let shortsVideo = ShortsVideo(localAbsoluteUrl: absoluteUrl, localRelativeUrl: relativeUrl)
                     DispatchQueue.main.async {
-                        let vc = self.showEditorViewController(shortsVideo: shortsVideo,isCreateShortform: isCreateShortform)
+                        let vc = self.showEditorViewController(shortsVideo: shortsVideo)
                         completion(vc)
                     }
                 }
@@ -122,22 +145,33 @@ public class ShopliveVideoEditor {
         }
     }
     
-    private func showWithRemoteData(remoteUrl : URL, isCreateShortform : Bool,completion : @escaping(UIViewController) -> ()) {
+    private func showWithRemoteData(data : ShopLiveVideoEditorData, completion : @escaping(UIViewController) -> ()) {
         callFilterListAPI()
         self.callConfigAPI { [weak self] in
             guard let self = self else { return }
+            
+            guard let remoteUrl = validateUrl(url: data.videoRemoteUrl) else { return }
+            
             let shortsVideo = ShortsVideo(localAbsoluteUrl: remoteUrl, localRelativeUrl: remoteUrl)
             DispatchQueue.main.async {
-                let vc = self.showEditorViewController(shortsVideo: shortsVideo,isCreateShortform: isCreateShortform)
+                let vc = self.showEditorViewController(shortsVideo: shortsVideo)
                 completion(vc)
             }
         }
     }
 
-    private func showEditorViewController(shortsVideo : ShortsVideo, isCreateShortform : Bool) -> UIViewController {
-        let editorVC = SLVideoEditorMainViewController(video: shortsVideo,isCreateShortform: isCreateShortform)
+    private func showEditorViewController(shortsVideo : ShortsVideo) -> UIViewController {
+        let editorVC = SLVideoEditorMainViewController(video: shortsVideo)
         editorVC.delegate = self
         return editorVC
+    }
+    
+    private func validateUrl(url: URL?) -> URL? {
+        guard let url else {
+            self.delegate?.onShopLiveVideoEditorError?(editor: nil, error: ShopLiveCommonErrorGenerator.generateError(errorCase: .InValidURL, error: nil, message: "Invalid URL."))
+            return nil
+        }
+        return url
     }
     
     private func callConfigAPI(completion : @escaping () -> ()) {
@@ -180,7 +214,9 @@ extension ShopliveVideoEditor : SLVideoEditorViewControllerDelegate {
     }
     
     func videoEditorDidFinishUpload(editor: UIViewController?, result: ShopLiveEditorResultInternalData?) {
-        Self.shared.delegate?.onShopLiveVideoEditorUploadSuccess?(editor: editor, result: result?.convertToClass())
+        let result = result?.convertToClass()
+        Self.shared.delegate?.onShopLiveVideoEditorUploadSuccess?(editor: editor, result: result)
+        ShopLiveDelegateInternalManager.shared.getMessageDelegate()?.upload?(id: result?.shortsId ?? "")
     }
    
     func videoEditorError(editor: UIViewController?,error: ShopLiveCommonError) {

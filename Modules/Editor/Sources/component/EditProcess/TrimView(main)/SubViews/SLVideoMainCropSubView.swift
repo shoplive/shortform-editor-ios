@@ -32,7 +32,7 @@ class SLVideoMainCropSubView : UIView, SLReactor {
         btn.imageView?.tintColor = design.pauseButtonIconTintColor
         btn.imageLayoutMargin = design.pauseButtonIconPadding
         btn.imageView?.contentMode = .scaleAspectFit
-    
+        
         return btn
     }()
     

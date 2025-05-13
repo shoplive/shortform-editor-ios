@@ -186,7 +186,9 @@ class SLVideoEditorPlayerCropView: UIView, UIGestureRecognizerDelegate {
         
         switch recognizer.state {
         case .began:
-            gridView.alpha = 1
+            UIView.animate(withDuration: 0.1) { [weak self] in
+                self?.gridView.alpha = 1
+            }
             break
         case .changed:
             let yChange = translation.y
@@ -219,7 +221,9 @@ class SLVideoEditorPlayerCropView: UIView, UIGestureRecognizerDelegate {
             recognizer.setTranslation(.zero, in: view)
             break
         case .ended:
-            gridView.alpha = 0
+            UIView.animate(withDuration: 0.1) { [weak self] in
+                self?.gridView.alpha = 0
+            }
             delegate?.updateCropRect(frame: self.getCropRect())
             break
         default:

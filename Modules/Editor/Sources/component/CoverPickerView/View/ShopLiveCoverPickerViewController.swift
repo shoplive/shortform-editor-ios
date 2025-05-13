@@ -176,6 +176,8 @@ class ShopLiveCoverPickerViewController : UIViewController, SLReactor {
     
     private var isLaunched : Bool = false
     
+    var imageConstraints: [NSLayoutConstraint] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -328,10 +330,75 @@ extension ShopLiveCoverPickerViewController {
     }
     
     private func onReactorSetThumbnailImage(image : UIImage) {
+        
+        ShopLiveLogger.tempLog("image size \(image.size.width) | \(image.size.height)")
+        adjustImageViewAspectRatio(image: image)
+        
+        ShopLiveLogger.tempLog("pickerSelectedThumbnailImageView.frame.size \(pickerSelectedThumbnailImageView.frame.size)")
+        
         pickerSelectedThumbnailImageView.action( .setImage(image) )
-        pickerSelectedThumbnailImageView.action( .setCropViewSize(playerContainerView.frame.size) )
+        pickerSelectedThumbnailImageView.action( .setCropViewSize(pickerSelectedThumbnailImageView.frame.size) )
         pickerSelectedThumbnailImageView.isHidden = false
         playerContainerView.isHidden = true
+        
+    }
+    
+    // 이미지 뷰에 이미지가 설정된 후 호출할 함수
+    func adjustImageViewAspectRatio(image: UIImage) {
+        // 이미지의 실제 비율 계산
+        let imageRatio = image.size.height / image.size.width
+        print("실제 이미지 비율: \(imageRatio), 크기: \(image.size)")
+        
+        // 이미지 비율 기반으로 더 나은 화면 활용을 위한 adjustedWidthMultiplier 계산
+        let adjustedWidthMultiplier: CGFloat
+        
+        // 이미지 비율 기반 최적 너비 계산 (스크린에 따라 조절)
+        if imageRatio <= 0.5 {
+            // 매우 넓은 이미지 (파노라마 등)
+            adjustedWidthMultiplier = 0.9  // 거의 전체 너비 사용
+        } else if imageRatio <= 0.75 {
+            // 와이드스크린 비율 (16:9, 4:3 등)
+            adjustedWidthMultiplier = 0.85
+        } else if imageRatio <= 1.25 {
+            // 정사각형에 가까운 이미지
+            adjustedWidthMultiplier = 0.8
+        } else if imageRatio <= 2.0 {
+            // 일반 세로 이미지
+            adjustedWidthMultiplier = 0.7
+        } else {
+            // 매우 세로로 긴 이미지
+            adjustedWidthMultiplier = 0.6
+        }
+        
+        // 현재 스크린/뷰 크기 기반으로 적절한 너비 계산
+        let screenWidth = UIScreen.main.bounds.width
+        let availableWidth = playerHolder.frame.width
+        let idealWidth = min(image.size.width, availableWidth * adjustedWidthMultiplier)
+        
+        print("화면 너비: \(screenWidth), 사용 가능 너비: \(availableWidth)")
+        print("이상적인 너비: \(idealWidth), 계산된 multiplier: \(adjustedWidthMultiplier)")
+        
+        // 기존 제약 조건 비활성화
+        NSLayoutConstraint.deactivate(imageConstraints)
+        
+        // 새 제약 조건 설정
+        let width = pickerSelectedThumbnailImageView.widthAnchor.constraint(equalTo: playerHolder.widthAnchor, multiplier: adjustedWidthMultiplier)
+        let height = pickerSelectedThumbnailImageView.heightAnchor.constraint(equalTo: pickerSelectedThumbnailImageView.widthAnchor, multiplier: imageRatio)
+        
+        // 디버깅을 위한 식별자 추가
+        width.identifier = "ThumbnailWidth"
+        height.identifier = "ThumbnailHeight"
+        
+        imageConstraints = [width, height]
+        
+        NSLayoutConstraint.activate(imageConstraints)
+        
+        // 레이아웃 즉시 적용
+        pickerSelectedThumbnailImageView.layoutIfNeeded()
+        //pickerSelectedThumbnailImageView.action( .)
+        view.layoutIfNeeded()
+        
+        print("적용 후 이미지뷰 크기: \(pickerSelectedThumbnailImageView.frame.size)")
     }
     
     private func onReactorRequestCropImageForCropableImageView() {
@@ -433,8 +500,6 @@ extension ShopLiveCoverPickerViewController {
         
         playerContainerView.addSubview(playerCropView)
         
-       
-        
         NSLayoutConstraint.activate([
             naviBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 0),
             naviBar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -472,27 +537,22 @@ extension ShopLiveCoverPickerViewController {
             playerHolder.topAnchor.constraint(equalTo: naviBar.bottomAnchor),
             playerHolder.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             playerHolder.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            playerHolder.bottomAnchor.constraint(equalTo: thumbnailSliderView.topAnchor,constant: -20)]  +
-                                    self.getLayoutForPlayerContainerView() +
-            [playerCropView.topAnchor.constraint(equalTo: playerContainerView.topAnchor),
+            playerHolder.bottomAnchor.constraint(equalTo: thumbnailSliderView.topAnchor),
+            
+            playerCropView.topAnchor.constraint(equalTo: playerContainerView.topAnchor),
             playerCropView.leadingAnchor.constraint(equalTo: playerContainerView.leadingAnchor),
             playerCropView.trailingAnchor.constraint(equalTo: playerContainerView.trailingAnchor),
             playerCropView.bottomAnchor.constraint(equalTo: playerContainerView.bottomAnchor),
             
             pickerSelectedThumbnailImageView.centerYAnchor.constraint(equalTo: playerHolder.centerYAnchor),
             pickerSelectedThumbnailImageView.centerXAnchor.constraint(equalTo: playerHolder.centerXAnchor),
-            pickerSelectedThumbnailImageView.widthAnchor.constraint(equalTo: playerHolder.widthAnchor,multiplier: 1 / 2),
-            pickerSelectedThumbnailImageView.heightAnchor.constraint(equalTo: pickerSelectedThumbnailImageView.widthAnchor,multiplier: 16 / 9),
             
             cancelConfirmToast.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
             cancelConfirmToast.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             cancelConfirmToast.widthAnchor.constraint(lessThanOrEqualToConstant: 400),
             cancelConfirmToast.heightAnchor.constraint(equalToConstant: 40)
         ])
-    }
-    
-    
-    private func getLayoutForPlayerContainerView() -> [NSLayoutConstraint] {
+        
         var videoRatio : CGFloat = 16 / 9
         
         var isVerticalVideo : Bool = true
@@ -507,20 +567,20 @@ extension ShopLiveCoverPickerViewController {
         }
         
         if isVerticalVideo {
-            return [
+            NSLayoutConstraint.activate([
                 playerContainerView.centerYAnchor.constraint(equalTo: playerHolder.centerYAnchor),
                 playerContainerView.centerXAnchor.constraint(equalTo: playerHolder.centerXAnchor),
                 playerContainerView.widthAnchor.constraint(equalTo: playerHolder.widthAnchor,multiplier: 1 / 2),
                 playerContainerView.heightAnchor.constraint(equalTo: playerContainerView.widthAnchor,multiplier: videoRatio)
-            ]
+            ])
         }
         else {
-            return [
+            NSLayoutConstraint.activate([
                 playerContainerView.centerYAnchor.constraint(equalTo: playerHolder.centerYAnchor),
                 playerContainerView.centerXAnchor.constraint(equalTo: playerHolder.centerXAnchor),
                 playerContainerView.widthAnchor.constraint(equalTo: playerHolder.widthAnchor),
                 playerContainerView.heightAnchor.constraint(equalTo: playerContainerView.widthAnchor, multiplier: videoRatio)
-            ]
+            ])
         }
     }
     

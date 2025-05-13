@@ -319,6 +319,9 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
             resultHandler?( .requestForCameraPermission )
         }
         else {
+            
+            resultHandler?( .requestStartLoading )
+            
             //TODO: - HASSAN need loading View
             guard let asset = focusedCollection.getSLAsset(at: indexPath) else { return }
             
@@ -358,10 +361,17 @@ extension SLPhotosPickerReactor : UICollectionViewDelegate, UICollectionViewDele
                 }
             }
             else if self.pickerConfigure.mediaType == .image {
-                asset.phAsset?.getImageUrl(completion: { [weak self] imageUrl in
+                asset.phAsset?.getImageUrl(progress: { [weak self] value in
+                    self?.resultHandler?(.updateLoadingPercentLabel("\(Int(value * 100))%") )
+                }, completion: { [weak self] imageUrl in
                     guard let url = imageUrl else { return }
                     self?.resultHandler?( .requsetFinishLoading )
-                    self?.resultHandler?( .didSelectImage(url) )
+                    // .requsetFinishLoading 으로 SLLoadingAlertController가 (present로 열립니다.)
+                    // Dismiss 되고 난 다음 PhotoPicker를 닫아야 하기 때문에 딜레이를 줌
+                    // 순서를 지키지 않을 경우, 로딩만 닫히고 Photo Picker가 닫히지 않는 이슈 발생
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self?.resultHandler?( .didSelectImage(url) )
+                    }
                 })
             }
         }
@@ -516,14 +526,16 @@ extension SLPhotosPickerReactor : UIImagePickerControllerDelegate, UINavigationC
                 var result = SLPHAsset(asset: asset)
                 result.selectedOrder = 1
                 result.isSelectedFromCamera = true
-                asset.getImageUrl { [weak self] url in
+                asset.getImageUrl(progress: { [weak self] value in
+                    //self?.resultHandler?( .updateLoadingPercentLabel("\(Int(value))%") )
+                }, completion: { [weak self] url in
                     guard let url = url else { return }
                     DispatchQueue.main.async {
                         picker.dismiss(animated: true) {
                             self?.resultHandler?( .didSelectImage(url) )
                         }
                     }
-                }
+                })
             }
         }
     }

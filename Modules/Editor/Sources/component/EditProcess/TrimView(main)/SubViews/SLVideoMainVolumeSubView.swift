@@ -44,7 +44,7 @@ class SLVideoMainVolumeSubView : UIView, SLReactor {
         btn.imageView?.tintColor = design.pauseButtonIconTintColor
         btn.imageLayoutMargin = design.pauseButtonIconPadding
         btn.imageView?.contentMode = .scaleAspectFit
-    
+        
         return btn
     }()
     
@@ -228,7 +228,6 @@ extension SLVideoMainVolumeSubView {
             sliderView.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 16),
             sliderView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             sliderView.heightAnchor.constraint(equalToConstant: 48),
-            
             
             bottomBar.topAnchor.constraint(equalTo: sliderView.bottomAnchor, constant: 20),
             bottomBar.leadingAnchor.constraint(equalTo: self.leadingAnchor),

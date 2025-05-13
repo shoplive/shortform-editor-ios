@@ -245,15 +245,17 @@ class ShopLiveFilterPlayerReactor : NSObject, SLReactor {
     
     private func onSetPlayerEndBoundaryTimer(time : CMTime) {
         
+        ShopLiveLogger.tempLog("onSetPlayerEndBoundaryTimer is Called \(time)")
+        
         self.avPlayer?.pause()
         self.avPlayer?.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero)
         
         mainQueueResultHandler?( .setPlayBtnHidden(false) )
         self.removePlayerBoundaryEndTimer()
+
         
-        boundaryTimeObserver = avPlayer?.addBoundaryTimeObserver(forTimes: [NSValue(time:time)], queue: nil, using: { [weak self] in
+        boundaryTimeObserver = avPlayer?.addBoundaryTimeObserver(forTimes: [NSValue(time:time)], queue: DispatchQueue.main, using: { [weak self] in
             guard let self = self else { return }
-            self.avPlayer?.pause()
             self.resultHandler?( .didPlayToEndTime )
         })
     }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ShopliveSDKCommon
 import UIKit
 
 class SLVideoEditorFooterView : UICollectionReusableView {

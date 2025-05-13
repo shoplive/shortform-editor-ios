@@ -111,7 +111,7 @@ public extension APIDefinition {
     }
     
     var showRequestLog : Bool {
-        return false
+        return true
     }
     
     var showResponseLog : Bool {
@@ -312,6 +312,8 @@ public extension APIDefinition {
             }
         }
        
+        ShopLiveLogger.tempLog("URL String \(urlString)")
+        
         var request = URLRequest(url: URL(string: urlString)!)
         request.httpMethod = method.converted
         for (key, value) in finalHeaders {

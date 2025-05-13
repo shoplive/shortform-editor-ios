@@ -19,6 +19,10 @@ public class ShortFormUploadConfigurationInfosManager {
         return shortsConfiguration.shortformApiEndpoint
     }
     
+    public func getUgcUrl() -> String {
+        return shortsConfiguration.ugcUrl
+    }
+    
     func setConfigurationURLToEmpty() {
         shortsConfiguration.baseUrl = ""
         shortsConfiguration.detailUrl = ""

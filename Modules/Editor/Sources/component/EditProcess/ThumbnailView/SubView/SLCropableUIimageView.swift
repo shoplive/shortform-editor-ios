@@ -44,6 +44,14 @@ class SLCropableUIImageView : UIView, SLReactor {
         return view
     }()
   
+    lazy private var cropWidthAnc: NSLayoutConstraint = {
+        return cropView.widthAnchor.constraint(equalToConstant: 100)
+    }()
+    
+    lazy private var cropHeightAnc: NSLayoutConstraint = {
+        return cropView.heightAnchor.constraint(equalToConstant: 100)
+    }()
+    
     private var cropGridViewColor : UIColor = .white
     var resultHandler: ((Result) -> ())?
     
@@ -100,10 +108,12 @@ class SLCropableUIImageView : UIView, SLReactor {
         self.cropView.videoResolution = size
         let imageSize = getVisibleImageFrame()?.size ?? size
         self.cropView.setInitialCropRect(rect: .init(origin: .zero, size: imageSize))
-        NSLayoutConstraint.activate([
-            cropView.widthAnchor.constraint(equalToConstant: imageSize.width),
-            cropView.heightAnchor.constraint(equalToConstant: imageSize.height)
-        ])
+        
+        cropWidthAnc.isActive = true
+        cropHeightAnc.isActive = true
+        cropWidthAnc.constant = imageSize.width
+        cropHeightAnc.constant = imageSize.height
+        
         self.layoutIfNeeded()
         self.cropView.updateCropArea()
         self.cropView.setIsCropAvailable(isAvailable: true)

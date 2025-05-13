@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import ShopliveSDKCommon
 import ShopLiveShortformSDK
+import ShopLiveShortformEditorSDK
 import FirebaseDynamicLinks
 
 
@@ -137,14 +138,213 @@ extension CardTypeExampleViewController : ShopLiveShortformListViewDelegate {
     
     func onShortsAttached(data: ShopLiveShortformData) {
         ShopLiveLogger.tempLog("[SHORTFORMATTACH] attach \(data.shortsId)")
+        
+        if OptionSettingModel.shortFormEditMode {
+            ShopLiveShortformUploader.shared
+                .setUploaderData(.init(
+                    shortsId: data.shortsId ?? "",
+                    ui: .init(hashTag: OptionSettingModel.shortFormUploadUsingHashTag,
+                                                 videoChange: OptionSettingModel.shortFormUploadUsingVideoChage,
+                                                 rating: OptionSettingModel.shortFormUploadUsingRating),
+                                       tags: OptionSettingModel.shortFormUploadTags,
+                                       products: OptionSettingModel.shortFormUploadSkus.map({ ShopLiveConversionProductData(sku: $0)} )))
+                .setDelegate(self)
+                .build(completion: { [weak self] ugcUploadViewController in
+                    guard let self = self else { return }
+                    let view = UINavigationController(rootViewController: ugcUploadViewController)
+                    view.modalPresentationStyle = .fullScreen
+                    self.present(view, animated: true)
+                })
+            
+            ShopLiveShortform.close()
+        }
     }
     
     func onShortsDetached(data: ShopLiveShortformData) {
         ShopLiveLogger.tempLog("[SHORTFORMATTACH] detach \(data.shortsId)")
     }
 }
+extension CardTypeExampleViewController : ShopLiveShortformUploaderDelegate {
+    func onShopLiveShortformUploaderOpenVideoEditor() {
+        ShopLiveMediaPicker
+            .shared
+            .setDelegate(self)
+            .build(type: .video) { [weak self] mediaPicker in
+                guard let self = self else { return }
+                let view = UINavigationController(rootViewController: mediaPicker)
+                view.modalPresentationStyle = .fullScreen
+                self.presentedViewController?.present(view, animated: true)
+            }
+    }
+    
+    func onShopLiveShortformUploaderPlayPreview(root: UIViewController, url: String) {
+        ShopLiveVideoUploadPreview
+            .shared
+            .setUrl(url: url)
+            .build { [weak self] preview in
+                guard let _ = self else { return }
+                root.navigationController?.pushViewController(preview, animated: true)
+            }
+    }
+    
+    func onShopLiveShortformUploaderOpenCoverPicker(editor: UIViewController?, shortsId: String, videoUrl: String?) {
+        let cropOption = ShopLiveShortFormEditorAspectRatio()
+        
+        let visibleActionButton = ShopLiveCoverPickerVisibleActionButton(editOptions: [.crop])
+        guard let result = videoUrl else { return }
+        let videoUrl = URL(fileURLWithPath: result)
+        
+        ShopLiveCoverPicker.shared
+            .setConfiguration(.init(cropOption: cropOption,
+                                    visibleActionButton: visibleActionButton))
+            .setDelegate(self)
+            .build(data: .init(videoUrl: videoUrl, shortsId: shortsId), completion: { [weak self] coverPickerViewController in
+                guard let _ = self else { return }
+                let view = UINavigationController(rootViewController: coverPickerViewController)
+                view.isNavigationBarHidden = true
+                view.modalPresentationStyle = .fullScreen
+                self?.presentedViewController?.present(view, animated: true)
+            })
+    }
+    
+    func onShopLiveShortformUploaderEvent(command: String, payload: [String : Any]?) {
+        ShopLiveLogger.tempLog("[EVENTTRACE] name : \(command) payload : \(payload)")
+    }
+    
+    func onShopLiveShortformUploaderError(error: ShopLiveCommonError) {
+        ShopLiveLogger.tempLog("[SHOPLIVEERROR] error: \(error)")
+        let alert = UIAlertController(title: nil, message: error.message, preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "닫기", style: .cancel, handler:  { [weak self] _ in
+            guard let self = self else { return }
+            SLLoadingIndicatorView.hide()
+            self.dismiss(animated: true)
+        })
+        
+        alert.addAction(cancel)
+        
+        self.presentedViewController?.present(alert, animated: true)
+    }
+    
+    func onShopLiveShortformUploaderUploadSuccess() {
+        ShopLiveLogger.tempLog("[onShopLiveShortformUploaderUploadSuccess] is Called")
+    }
+}
+
+extension CardTypeExampleViewController : ShopLiveMediaPickerDelegate {
+    func onShopLiveMediaPickerCancelled(picker: UIViewController?) {
+        if let nav = picker?.navigationController {
+            nav.dismiss(animated: true)
+        }
+    }
+    
+    func onShopLiveMediaPickerDidPickVideo(picker: UIViewController?, absoluteUrl: URL, relativeUrl: URL) {
+        let cropOption = ShopliveVideoEditorAspectRatio(width: OptionSettingModel.editorWidth,
+                                                        height: OptionSettingModel.editorheight,
+                                                        isFixed: OptionSettingModel.editorIsFixed)
+
+        let trimOption = ShopliveVideoEditorTrimOption(minVideoDuration: OptionSettingModel.editorMinVideoDuration,
+                                                       maxVideoDuration: OptionSettingModel.editorMaxVideoDuration)
+        
+        let videoOutPutOption = ShopLiveShortformEditorVideoOuputOption(videoOutputQuality: .max,
+                                                                        videoOutputResoltuion: ._1080)
+        
+        
+        let visibleContents = ShopLiveShortFormEditorVisibleContent(isDescriptionVisible: OptionSettingModel.editorShowDescription,
+                                                                    isTagsVisible: OptionSettingModel.editorShowTags,
+                                                                    editOptions: [.crop,.filter,.playBackSpeed,.volume])
+        
+        let videoUploadOption = ShopLiveShortFormEditorVideoUploadOption(shortsStatus: .OPENED, isCreatedShortform: true)
+        
+        ShopliveVideoEditor.shared
+            .setPermissionHandler(nil)
+            .setConfiguration(.init(videoCropOption: cropOption,
+                                    videoOutputOption: videoOutPutOption,
+                                    videoTrimOption: trimOption,
+                                    visibleContents: visibleContents,
+                                    videoUploadOption: videoUploadOption))
+            .setDelegate(self)
+            .build(data: .init(videoUrl: absoluteUrl,isCreatedShortform: true), completion: { [weak self] editorViewController in
+                guard let self = self else { return }
+                picker?.navigationController?.pushViewController(editorViewController, animated: true)
+            })
+    }
+    
+}
+
+extension CardTypeExampleViewController : ShopLiveVideoEditorDelegate {
+    func onShopLiveVideoEditorCancelled(editor: UIViewController?) {
+        editor?.navigationController?.popViewController(animated: true)
+    }
+    
+    func onShopLiveVideoEditorError(editor: UIViewController?, error: ShopLiveCommonError) {
+        
+        print("error", error.localizedDescription)
+        
+        let alert = UIAlertController(title: "에러", message: error.localizedDescription, preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "닫기", style: .cancel, handler:  { [weak self] _ in
+            guard let self = self else { return }
+            //self.vc?.dismiss(animated: true)
+            editor?.dismiss(animated: true)
+        })
+        
+        alert.addAction(cancel)
+        
+        editor?.present(alert, animated: true)
+    }
+    
+    func onShopLiveVideoEditorUploadSuccess(editor: UIViewController?, result: ShopliveEditorResultData?) {
+        let cropOption = ShopLiveShortFormEditorAspectRatio(width: OptionSettingModel.editorWidth,
+                                                            height: OptionSettingModel.editorheight,
+                                                            isFixed: OptionSettingModel.editorIsFixed)
+        
+        editor?.dismiss(animated: true)
+        
+        let visibleActionButton = ShopLiveCoverPickerVisibleActionButton(editOptions: [.crop])
+        guard let result = result,
+              let localVideoUrlString = result.localVideoUrl else { return }
+        let videoUrl = URL(fileURLWithPath: localVideoUrlString)
+        
+//        ShopLiveCoverPicker.shared
+//            .setConfiguration(.init(cropOption: cropOption,
+//                                    visibleActionButton: visibleActionButton))
+//            .setDelegate(self)
+//            .build(data: .init(videoUrl: videoUrl, shortsId: result.shortsId), completion: { [weak self] coverPickerViewController in
+//                guard let self = self else { return }
+//                editor?.navigationController?.pushViewController(coverPickerViewController, animated: true)
+//            })
+    }
+    
+}
+
+extension CardTypeExampleViewController : ShopLiveCoverPickerDelegate {
+    
+    
+    func onShopLiveCoverPickerCancelled(picker: UIViewController?) {
+        if let _ = picker?.presentingViewController {
+            picker?.dismiss(animated: true)
+        } else {
+            picker?.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    func onShopLiveCoverPickerCoverImageSuccess(picker: UIViewController?, image: UIImage?) {
+        picker?.navigationController?.dismiss(animated: true)
+        
+    }
+    
+    func onShopLiveCoverPickerUploadSuccess(picker: UIViewController?, result: ShopliveEditorResultData?) {
+        if let nav = picker?.navigationController {
+            nav.dismiss(animated: true)
+        }
+    }
+    
+}
+
 extension CardTypeExampleViewController : ShopLiveShortformReceiveHandlerDelegate {
     func handleProductItem(shortsId : String, shortsSrn : String, product : ProductData) {
+        
         print("[HASSAN LOG] srn \(shortsSrn)")
         print("[HASSAN LOG] shortsId \(shortsId)")
         print("[HASSAN LOG] productModel \(product.sku ?? "")")

@@ -252,7 +252,7 @@ extension SLPhotosPickerViewController {
             self.loadingProgressVc.setLoadingText("0%")
             
             guard self.loadingProgressVc.isBeingPresented == false else { return }
-            self.navigationController?.present(self.loadingProgressVc, animated: false)
+            self.present(self.loadingProgressVc, animated: false)
         }
     }
     

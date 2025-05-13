@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SLUploadAttachmentInfo {
+public struct SLUploadAttachmentInfo {
     var title: String?
     var description: String?
     var tags: [String]?

@@ -24,6 +24,7 @@ class SLVideoEditorMainViewController : UIViewController {
     let design = ShopLiveShortformEditor.EditorMainConfig.global
     let globalConfig = ShopLiveEditorConfigurationManager.shared
     
+    // MARK: - 상단 화면 UI들
     private var naviBar : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -46,19 +47,6 @@ class SLVideoEditorMainViewController : UIViewController {
         return btn
     }()
     
-    lazy private var editingCloseBtn : SlBlurBGButton = {
-        let btn = SlBlurBGButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setImage(design.editingCloseButtonIcon, for: .normal)
-        btn.imageView?.tintColor = design.editingCloseButtonIconTintColor
-        btn.imageLayoutMargin = design.editingCloseButtonIconPadding
-        btn.imageView?.contentMode = .scaleAspectFit
-        btn.layer.cornerRadius = 20
-        btn.clipsToBounds = true
-        btn.isHidden = true
-        return btn
-    }()
-    
     lazy private var pageTitleLabel : SLLabel = {
         let label = SLLabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -77,7 +65,6 @@ class SLVideoEditorMainViewController : UIViewController {
         label.setAttributedFont(font: .init(customFont: design.titleTextFont, size: design.titleTextSize, weight: design.titleTextWeight))
         return label
     }()
-    
     
     private lazy var nextButton: SlBlurBGButton = {
         let view = SlBlurBGButton()
@@ -152,6 +139,21 @@ class SLVideoEditorMainViewController : UIViewController {
         return btn
     }()
     
+    // MARK: - 하단 화면 UI들
+    lazy private var editingCloseBtn : SlBlurBGButton = {
+        let btn = SlBlurBGButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setImage(design.editingCloseButtonIcon, for: .normal)
+        btn.imageView?.tintColor = design.editingCloseButtonIconTintColor
+        btn.imageLayoutMargin = design.editingCloseButtonIconPadding
+        btn.imageView?.contentMode = .scaleAspectFit
+        btn.layer.cornerRadius = 20
+        btn.clipsToBounds = true
+        btn.isHidden = true
+        return btn
+    }()
+    
+    // MARK: - Main Video Player
     lazy private var filterPlayerView : ShopLiveFilterPlayer = {
         let view = ShopLiveFilterPlayer(frame: .zero, cropGridViewColor: design.cropColor)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -186,6 +188,7 @@ class SLVideoEditorMainViewController : UIViewController {
         return view
     }()
     
+    // MARK: - 에디팅 모드 화면들
     private var speedRateControlBox : SLVideoMainSpeedSubView = {
         let view = SLVideoMainSpeedSubView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -213,7 +216,6 @@ class SLVideoEditorMainViewController : UIViewController {
         view.isHidden = true
         return view
     }()
-    
     
     private lazy var loadingProgress: SLCircularProgressIndicatorView = {
         let vc = SLCircularProgressIndicatorView()
@@ -247,24 +249,30 @@ class SLVideoEditorMainViewController : UIViewController {
         return .lightContent
     }
     
-    init(video : ShortsVideo, isCreateShortform : Bool = true){
+    init(video : ShortsVideo){
         self.reactor = SLVideoEditorMainViewReactor(shortsVideo: video)
         super.init(nibName: nil, bundle: nil)
-        self.reactor.action( .setIsCreateShortform(isCreateShortform) )
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.filterPlayerView.action( .hideCropView(hide: true, notAnimate: true) )
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
         self.view.backgroundColor = .black
+        
         setLayout()
         bindReactor()
         bindFilterPlayerView()
         bindTimeTrimSliderView()
+        
         //subComponents binding
         bindSpeedControlBox()
         bindVolumeControlBox()
@@ -286,8 +294,6 @@ class SLVideoEditorMainViewController : UIViewController {
         videoCropBtn.addTarget(self, action: #selector(cropBtnTapped(sender: )), for: .touchUpInside)
         videoSoundBtn.addTarget(self, action: #selector(videoSoundBtnTapped(sender: )), for: .touchUpInside)
         videoSpeedBtn.addTarget(self, action: #selector(videoSpeedRateBtnTapped(sender: )), for: .touchUpInside)
-        
-        filterPlayerView.action( .hideCropView(true) )
     }
     
     
@@ -299,7 +305,6 @@ class SLVideoEditorMainViewController : UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         filterPlayerView.action( .playVideo )
-        
         speedRateControlBox.action( .initialize )
         volumeControlBox.action( .initialize )
         filterControlBox.action( .initialize )
@@ -327,6 +332,7 @@ class SLVideoEditorMainViewController : UIViewController {
     @objc func editingCloseBtnTapped(sender : UIButton) {
         if reactor.getCurrentEditingMode() == .crop {
             delegate?.videoEditorOnEvent(editor: self,name: .VIDEO_EDITOR_CLICK_CROP_CANCEL, payload: nil)
+            filterPlayerView.action( .hideCropView(hide: true, notAnimate: false) )
             filterPlayerView.action( .revertCropChange )
         }
         else if reactor.getCurrentEditingMode() == .speed {
@@ -351,6 +357,7 @@ class SLVideoEditorMainViewController : UIViewController {
     }
     
     @objc func filterAddBtnTapped(sender : UIButton) {
+        
         delegate?.videoEditorOnEvent(editor: self,name: .VIDEO_EDITOR_CLICK_FILTER, payload: nil)
         if filterAddBtn.isSelected == true {
             filterControlBox.action( .setToOrigin )
@@ -370,13 +377,16 @@ class SLVideoEditorMainViewController : UIViewController {
     @objc func cropBtnTapped(sender : UIButton) {
         delegate?.videoEditorOnEvent(editor: self,name: .VIDEO_EDITOR_CLICK_CROP, payload: nil)
         if videoCropBtn.isSelected == true {
-            filterPlayerView.action( .setCropViewToOrigin )
+            filterPlayerView.action( .hideCropView(hide: true, notAnimate: false) )
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+                self?.filterPlayerView.action( .setCropViewToOrigin )
+            }
             videoCropBtn.isSelected = false
             return
         }
         reactor.action( .setEditingMode(.crop) )
         animateControlBox(to: .crop)
-        filterPlayerView.action( .hideCropView(false) )
+        filterPlayerView.action( .hideCropView(hide: false, notAnimate: false) )
         filterPlayerView.action( .saveStartCropRect )
     }
     
@@ -528,6 +538,7 @@ class SLVideoEditorMainViewController : UIViewController {
     
     private func onPlayVideo() {
         filterPlayerView.action( .playVideo )
+        reactor.action( .setSpeedRate )
         speedRateControlBox.action( .changePlayOrPauseBtnState(isPlaying: true) )
         volumeControlBox.action( .changePlayOrPauseBtnState(isPlaying: true) )
         filterControlBox.action( .changePlayOrPauseBtnState(isPlaying: true) )
@@ -834,8 +845,8 @@ extension SLVideoEditorMainViewController {
         self.view.addSubview(backBtn)
         self.view.addSubview(editingCloseBtn)
         self.view.addSubview(pageTitleLabel)
+        //self.view.addSubview(pageBottomTitleLabel)
         self.view.addSubview(nextButton)
-        
        
         let optionBtnStack = UIStackView()
         optionBtnStack.translatesAutoresizingMaskIntoConstraints = false
@@ -878,13 +889,14 @@ extension SLVideoEditorMainViewController {
             backBtn.heightAnchor.constraint(equalToConstant: 40),
             
             editingCloseBtn.centerYAnchor.constraint(equalTo: naviBar.centerYAnchor),
-            editingCloseBtn.leadingAnchor.constraint(equalTo: self.view.leadingAnchor,constant: 20),
+            editingCloseBtn.leadingAnchor.constraint(equalTo: self.view.leadingAnchor,constant: 16),
+//            editingCloseBtn.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor,constant: -12),
             editingCloseBtn.widthAnchor.constraint(equalToConstant: 40),
             editingCloseBtn.heightAnchor.constraint(equalToConstant: 40),
             
             nextButton.centerYAnchor.constraint(equalTo: naviBar.centerYAnchor),
-            nextButton.trailingAnchor.constraint(equalTo: naviBar.trailingAnchor,constant: -20),
-            nextButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 70),
+            nextButton.trailingAnchor.constraint(equalTo: naviBar.trailingAnchor,constant: -16),
+            nextButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 60),
             nextButton.heightAnchor.constraint(equalToConstant: 40),
             
             pageTitleLabel.centerYAnchor.constraint(equalTo: naviBar.centerYAnchor),
@@ -1023,6 +1035,7 @@ extension SLVideoEditorMainViewController {
         
         UIView.animateKeyframes(withDuration: 0.4, delay: 0, options: []) {
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
+                
                 self.playerBoxEditModeTopAnc.isActive = to == .main ? false : true
                 self.playerBoxMainModeTopAnc.isActive = to == .main ? true : false
                 

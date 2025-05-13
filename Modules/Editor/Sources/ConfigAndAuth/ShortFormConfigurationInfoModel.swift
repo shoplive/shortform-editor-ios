@@ -41,6 +41,7 @@ struct ShortFormUploadConfigurationInfoModel {
     var mixWithOthers : Bool = true
     var detailCollectionListAll : Bool = true
     var eventTraceEndpoint : String = ""
+    var ugcUrl: String = ""
     
     
     
@@ -57,13 +58,14 @@ struct ShortFormUploadConfigurationInfoModel {
                   enabledSwipeOut: datas?.enabledSwipeOut,
                   mutedWhenStart: datas?.mutedWhenStart,
                   mixWithOthers: datas?.mixWithOthers,
-                  previewMaxSize: datas?.previewMaxSize)
+                  previewMaxSize: datas?.previewMaxSize,
+                  ugcUrl: datas?.ugcUrl)
     }
     
     init(detailUrl: String?, shortformApiEndPoint : String?, previewEdgeInsets: (left : CGFloat?, top : CGFloat?, right : CGFloat?, bottom :CGFloat?),
         previewPosition: String?, detailApiInitializeCount: Int?, detailApiPaginationCount: Int?,
          listApiInitializeCount: Int?, listApiPaginationCount: Int?, previewUseCloseButton: Bool?, enabledSwipeOut: Bool?,
-         mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?) {
+         mutedWhenStart: Bool?, mixWithOthers: Bool?, previewMaxSize : CGFloat?, ugcUrl: String?) {
         
         if let detailUrl = detailUrl {
             self.detailUrl = detailUrl
@@ -115,6 +117,9 @@ struct ShortFormUploadConfigurationInfoModel {
         }
         if let mixWithOthers = mixWithOthers {
             self.mixWithOthers = mixWithOthers
+        }
+        if let ugcUrl = ugcUrl {
+            self.ugcUrl = ugcUrl
         }
         
     }

@@ -49,8 +49,13 @@ public class ShopLiveShortformEditor {
         if let videoOutputOption = configuration?.videoOutputOption {
             ShopLiveEditorConfigurationManager.shared.videoOutputOption = videoOutputOption
         }
+        
+        if let videoUploadOption = configuration?.videoUploadOption {
+            ShopLiveEditorConfigurationManager.shared.videoUploadOption = videoUploadOption
+        }
         return self
     }
+
     
     @discardableResult
     public func setDelegate(delegate : ShopLiveShortformEditorDelegate?) -> Self{
@@ -149,6 +154,10 @@ extension ShopLiveShortformEditor {
         public var titleTextColor : UIColor = .white
         public var titleTextWeight : UIFont.Weight = .medium
         public var titleTextSize : CGFloat = 16
+        
+        public var bottomTitleTextColor: UIColor = .white
+        public var bottomTitleTextWeight: UIFont.Weight = .medium
+        public var bottomTitleTextSize: CGFloat = 16
         
         public var backButtonIcon : UIImage = ShopLiveShortformEditorSDKAsset.slBackArrow.image.withRenderingMode(.alwaysTemplate)
         public var backButtonIconPadding : UIEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)

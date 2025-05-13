@@ -18,6 +18,7 @@ class ShopliveShortformCoordinator : NSObject {
     private weak var editorDelegate : ShopLiveShortformEditorDelegate?
     private var convertedVideoPath : String?
     private var parentVc : UIViewController?
+    private var videoUploadOption : ShopLiveShortFormEditorVideoUploadOption?
     
     private var navigationController : SLPickerNavigationController?
     

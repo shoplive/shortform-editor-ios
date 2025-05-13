@@ -45,7 +45,6 @@ class SLVideoMainSpeedSubView : UIView, SLReactor {
         return view
     }()
     
-    
     private var bottomBar : UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +62,7 @@ class SLVideoMainSpeedSubView : UIView, SLReactor {
         btn.imageView?.tintColor = design.pauseButtonIconTintColor
         btn.imageLayoutMargin = design.pauseButtonIconPadding
         btn.imageView?.contentMode = .scaleAspectFit
-    
+        
         return btn
     }()
     
@@ -258,8 +257,8 @@ extension SLVideoMainSpeedSubView {
         self.addSubview(durationlabel)
         self.addSubview(sliderView)
         self.addSubview(bottomBar)
-        self.addSubview(playPauseBtn)
         self.addSubview(confirmBtn)
+        self.addSubview(playPauseBtn)
         
         NSLayoutConstraint.activate([
             durationlabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 4),

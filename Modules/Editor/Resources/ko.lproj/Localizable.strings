@@ -65,6 +65,9 @@
 "editor.filter.btn.confirm.shoplive" = "완료";
 "editor.filter.done.shoplive" = "완료";
 
+//Preview
+"editor.ugc.preview.title" = "미리보기";
+
 "editor.cover.picker.done.shoplive" = "완료";
 "editor.select.gallery.shoplive" = "카메라 롤에서 추가";
 

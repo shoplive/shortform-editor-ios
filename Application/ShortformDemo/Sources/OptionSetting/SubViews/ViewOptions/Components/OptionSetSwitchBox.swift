@@ -25,6 +25,11 @@ class OptionSetSwitchBox : UIView {
         case snap
         case playOnlyOnWifi
         
+        case hashTag
+        case videoChange
+        case rating
+        case shortformEdit
+        
         //DetailWebViewOptions -> used in DetailWebviewOptionBox.swift
         case detailWebViewBookMark
         case detailWebViewShareBtn

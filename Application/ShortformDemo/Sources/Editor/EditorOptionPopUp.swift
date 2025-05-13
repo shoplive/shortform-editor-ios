@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import ShopliveSDKCommon
 import ShopLiveShortformEditorSDK
+import ShopLiveShortformSDK
 import UniformTypeIdentifiers
 import MobileCoreServices
 import Photos
@@ -103,12 +104,25 @@ class EditorOptionPopUp : UIView {
         return btn
     }()
     
+    private var ugcUpload: UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("UGC Upload", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        btn.layer.cornerRadius = 10
+        btn.layer.borderWidth = 1
+        btn.layer.borderColor = UIColor.black.cgColor
+        return btn
+    }()
+    
     enum Mode {
         case galleryAndEditor
         case editorOnly
         case coverPicker
         case mediaPickerVideo
         case mediaPickerImage
+        case ugcUpload
     }
     
     private var currentMode : Mode = .galleryAndEditor
@@ -127,10 +141,12 @@ class EditorOptionPopUp : UIView {
         coverPickerBtn.addTarget(self, action: #selector(coverPickerBtnTapped(sender: )), for: .touchUpInside)
         mediaPickerVideo.addTarget(self, action: #selector(mediaPickerVideotapped(sender: )), for: .touchUpInside)
         mediaPickerImage.addTarget(self, action: #selector(mediaPickerImagetapped(sender: )), for: .touchUpInside)
+        ugcUpload.addTarget(self, action: #selector(ugcUploadTapped(sender: )), for: .touchUpInside)
         picker.delegate = self
         
         let mediConfig = ShopLiveShortformEditor.MediaPickerConfig.global
-        mediConfig.cellCornerRadius = 0
+        mediConfig.cellCornerRadius = 8
+        
         let mainConfig = ShopLiveShortformEditor.EditorMainConfig.global
         mainConfig.titleTextFont = OptionSettingModel.specificFont
         mainConfig.nextButtonTitleFont = OptionSettingModel.specificFont
@@ -141,34 +157,35 @@ class EditorOptionPopUp : UIView {
         mainConfig.nextButtonTitleColor = .black
         mainConfig.popupCornerRadius = 4
         mainConfig.popupButtonCornerRadius = 4
-        mainConfig.videoPlayerCornerRadius = 0
-        mainConfig.backButtonBackgroundColor = .blue
-        mainConfig.videoSoundButtonBackgroundColor = .blue
-        mainConfig.videoSpeedButtonBackgroundColor = .blue
-        mainConfig.videoCropButtonBackgroundColor = .blue
-        mainConfig.videofilterButtonBackgroundColor = .blue
+        mainConfig.videoPlayerCornerRadius = 24
+        mainConfig.backButtonBackgroundColor = .clear
+        mainConfig.videoSoundButtonBackgroundColor = .clear
+        mainConfig.videoSpeedButtonBackgroundColor = .clear
+        mainConfig.videoCropButtonBackgroundColor = .clear
+        mainConfig.videofilterButtonBackgroundColor = .clear
         mainConfig.sliderHandleCornerRadius = 8
-        
+        mainConfig.titleTextSize = 18
+        mainConfig.titleTextWeight = .bold
 
         let volumeConfig = ShopLiveShortformEditor.EditorVolumeConfig.global
         volumeConfig.confirmButtonBackgroundColor = .white
         volumeConfig.confirmButtonCornerRadius = 4
-        volumeConfig.sliderCornerRadius = 4
-        volumeConfig.sliderBackgroundColor = .white
-        volumeConfig.sliderThumbViewColor = .black
+        volumeConfig.sliderCornerRadius = 24
+        volumeConfig.sliderThumbViewColor = .white
         
         let coverPickerConfig = ShopLiveShortformEditor.EditorCoverPickerConfig.global
+        coverPickerConfig.cropColor = .white
+        coverPickerConfig.sliderThumbColor = .white
+        coverPickerConfig.sliderThumbCornerRadius = 8
+        coverPickerConfig.backButtonIcon = ShopLiveShortformEditorSDKAsset.slBackArrow.image.withRenderingMode(.alwaysTemplate)
         coverPickerConfig.confirmButtonTitleFont = OptionSettingModel.specificFont
-        coverPickerConfig.cropColor = .blue
-        coverPickerConfig.sliderThumbColor = .blue
-        coverPickerConfig.sliderCornerRadius = 4
-        coverPickerConfig.sliderThumbCornerRadius = 4
         
-        coverPickerConfig.confirmButtonCornerRadius = 4
+        coverPickerConfig.confirmButtonCornerRadius = 20
         coverPickerConfig.confirmButtonBackgroundColor = .white
-        coverPickerConfig.cameraRollButtonCornerRadius = 4
-        coverPickerConfig.videoPlayerCornerRadius = 0
-        coverPickerConfig.backButtonBackgroundColor = .blue
+        coverPickerConfig.cameraRollButtonCornerRadius = 10
+        coverPickerConfig.videoPlayerCornerRadius = 24
+        coverPickerConfig.backButtonBackgroundColor = .white.withAlphaComponent(0.2)
+        
     }
     
     required init?(coder : NSCoder) {
@@ -244,6 +261,23 @@ class EditorOptionPopUp : UIView {
             })
     }
     
+    @objc func ugcUploadTapped(sender: UIButton) {
+        self.currentMode = .ugcUpload
+        ShopLiveShortformUploader.shared
+            .setUploaderData(.init(ui: .init(hashTag: OptionSettingModel.shortFormUploadUsingHashTag,
+                                             videoChange: OptionSettingModel.shortFormUploadUsingVideoChage,
+                                             rating: OptionSettingModel.shortFormUploadUsingRating),
+                                   tags: OptionSettingModel.shortFormUploadTags,
+                                   products: OptionSettingModel.shortFormUploadSkus.map({ ShopLiveConversionProductData(sku: $0)} )))
+            .setDelegate(self)
+            .build(completion: { [weak self] ugcUploadViewController in
+                guard let self = self else { return }
+                let view = UINavigationController(rootViewController: ugcUploadViewController)
+                view.modalPresentationStyle = .fullScreen
+                self.vc?.present(view, animated: true)
+            })
+    }
+    
 }
 extension EditorOptionPopUp {
     private func setLayout() {
@@ -255,6 +289,7 @@ extension EditorOptionPopUp {
         stack.addArrangedSubview(coverPickerBtn)
         stack.addArrangedSubview(mediaPickerVideo)
         stack.addArrangedSubview(mediaPickerImage)
+        stack.addArrangedSubview(ugcUpload)
         
         NSLayoutConstraint.activate([
             dimBtn.topAnchor.constraint(equalTo: self.topAnchor),
@@ -273,6 +308,7 @@ extension EditorOptionPopUp {
             coverPickerBtn.heightAnchor.constraint(equalToConstant: 40),
             mediaPickerVideo.heightAnchor.constraint(equalToConstant: 40),
             mediaPickerImage.heightAnchor.constraint(equalToConstant: 40),
+            ugcUpload.heightAnchor.constraint(equalToConstant: 40),
             
             boxView.topAnchor.constraint(equalTo: stack.topAnchor,constant: -20),
             boxView.leadingAnchor.constraint(equalTo: stack.leadingAnchor,constant: -20),
@@ -330,13 +366,16 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
                                                                     isTagsVisible: OptionSettingModel.editorShowTags,
                                                                     editOptions: [.crop,.filter,.playBackSpeed,.volume])
         
+        let videoUploadOption = ShopLiveShortFormEditorVideoUploadOption(shortsStatus: .OPENED, isCreatedShortform: true)
+        
         
         ShopliveVideoEditor.shared
             .setPermissionHandler(nil)
             .setConfiguration(.init(videoCropOption: cropOption,
                                     videoOutputOption: videoOutPutOption,
                                     videoTrimOption: trimOption,
-                                    visibleContents: visibleContents))
+                                    visibleContents: visibleContents,
+                                    videoUploadOption: videoUploadOption))
             .setDelegate(vc)
             .build(data: .init(videoUrl: localUrl,isCreatedShortform: true), completion: { [weak self] editorViewController in
                 guard let self = self else { return }
@@ -395,13 +434,15 @@ extension EditorOptionPopUp : ShopLiveMediaPickerDelegate {
                                                                     isTagsVisible: OptionSettingModel.editorShowTags,
                                                                     editOptions: [.crop,.filter,.playBackSpeed,.volume])
         
+        let videoUploadOption = ShopLiveShortFormEditorVideoUploadOption(shortsStatus: .OPENED, isCreatedShortform: true)
         
         ShopliveVideoEditor.shared
             .setPermissionHandler(nil)
             .setConfiguration(.init(videoCropOption: cropOption,
                                     videoOutputOption: videoOutPutOption,
                                     videoTrimOption: trimOption,
-                                    visibleContents: visibleContents))
+                                    visibleContents: visibleContents,
+                                    videoUploadOption: videoUploadOption))
             .setDelegate(self)
             .build(data: .init(videoUrl: absoluteUrl,isCreatedShortform: true), completion: { [weak self] editorViewController in
                 guard let self = self else { return }
@@ -415,32 +456,56 @@ extension EditorOptionPopUp : ShopLiveVideoEditorDelegate {
         editor?.navigationController?.popViewController(animated: true)
     }
     
+    func onShopLiveVideoEditorError(editor: UIViewController?, error: ShopLiveCommonError) {
+        
+        print("error", error.localizedDescription)
+        
+        let alert = UIAlertController(title: "에러", message: error.localizedDescription, preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "닫기", style: .cancel, handler:  { [weak self] _ in
+            guard let self = self else { return }
+            //self.vc?.dismiss(animated: true)
+            editor?.dismiss(animated: true)
+        })
+        
+        alert.addAction(cancel)
+        
+        editor?.present(alert, animated: true)
+    }
+    
     func onShopLiveVideoEditorUploadSuccess(editor: UIViewController?, result: ShopliveEditorResultData?) {
         let cropOption = ShopLiveShortFormEditorAspectRatio(width: OptionSettingModel.editorWidth,
-                                                        height: OptionSettingModel.editorheight,
-                                                        isFixed: OptionSettingModel.editorIsFixed)
+                                                            height: OptionSettingModel.editorheight,
+                                                            isFixed: OptionSettingModel.editorIsFixed)
+        
+        editor?.dismiss(animated: true)
         
         let visibleActionButton = ShopLiveCoverPickerVisibleActionButton(editOptions: [.crop])
         guard let result = result,
               let localVideoUrlString = result.localVideoUrl else { return }
         let videoUrl = URL(fileURLWithPath: localVideoUrlString)
         
-        ShopLiveCoverPicker.shared
-            .setConfiguration(.init(cropOption: cropOption,
-                                    visibleActionButton: visibleActionButton))
-            .setDelegate(self)
-            .build(data: .init(videoUrl: videoUrl,shortsId: result.shortsId), completion: { [weak self] coverPickerViewController in
-                guard let self = self else { return }
-                editor?.navigationController?.pushViewController(coverPickerViewController, animated: true)
-            })
+//        ShopLiveCoverPicker.shared
+//            .setConfiguration(.init(cropOption: cropOption,
+//                                    visibleActionButton: visibleActionButton))
+//            .setDelegate(self)
+//            .build(data: .init(videoUrl: videoUrl, shortsId: result.shortsId), completion: { [weak self] coverPickerViewController in
+//                guard let self = self else { return }
+//                editor?.navigationController?.pushViewController(coverPickerViewController, animated: true)
+//            })
     }
     
 }
+
 extension EditorOptionPopUp : ShopLiveCoverPickerDelegate {
     
     
     func onShopLiveCoverPickerCancelled(picker: UIViewController?) {
-        picker?.navigationController?.popViewController(animated: true)
+        if let _ = picker?.presentingViewController {
+            picker?.dismiss(animated: true)
+        } else {
+            picker?.navigationController?.popViewController(animated: true)
+        }
     }
     
     func onShopLiveCoverPickerCoverImageSuccess(picker: UIViewController?, image: UIImage?) {
@@ -454,4 +519,73 @@ extension EditorOptionPopUp : ShopLiveCoverPickerDelegate {
         }
     }
     
+}
+
+
+
+extension EditorOptionPopUp: ShopLiveShortformUploaderDelegate {
+    func onShopLiveShortformUploaderOpenVideoEditor() {
+        ShopLiveMediaPicker
+            .shared
+            .setDelegate(self)
+            .build(type: .video) { [weak self] mediaPicker in
+                guard let self = self else { return }
+                let view = UINavigationController(rootViewController: mediaPicker)
+                view.modalPresentationStyle = .fullScreen
+                self.vc?.presentedViewController?.present(view, animated: true)
+            }
+    }
+    
+    func onShopLiveShortformUploaderPlayPreview(root: UIViewController, url: String) {
+        ShopLiveVideoUploadPreview
+            .shared
+            .setUrl(url: url)
+            .build { [weak self] preview in
+                guard let _ = self else { return }
+                root.navigationController?.pushViewController(preview, animated: true)
+            }
+    }
+    
+    func onShopLiveShortformUploaderOpenCoverPicker(editor: UIViewController?, shortsId: String, videoUrl: String?) {
+        let cropOption = ShopLiveShortFormEditorAspectRatio()
+        
+        let visibleActionButton = ShopLiveCoverPickerVisibleActionButton(editOptions: [.crop])
+        guard let result = videoUrl else { return }
+        let videoUrl = URL(fileURLWithPath: result)
+        
+        ShopLiveCoverPicker.shared
+            .setConfiguration(.init(cropOption: cropOption,
+                                    visibleActionButton: visibleActionButton))
+            .setDelegate(self)
+            .build(data: .init(videoUrl: videoUrl, shortsId: shortsId), completion: { [weak self] coverPickerViewController in
+                guard let _ = self else { return }
+                let view = UINavigationController(rootViewController: coverPickerViewController)
+                view.isNavigationBarHidden = true
+                view.modalPresentationStyle = .fullScreen
+                self?.vc?.presentedViewController?.present(view, animated: true)
+            })
+    }
+    
+    func onShopLiveShortformUploaderEvent(command: String, payload: [String : Any]?) {
+        ShopLiveLogger.tempLog("[EVENTTRACE] name : \(command) payload : \(payload)")
+    }
+    
+    func onShopLiveShortformUploaderError(error: ShopLiveCommonError) {
+        ShopLiveLogger.tempLog("[SHOPLIVEERROR] error: \(error)")
+        let alert = UIAlertController(title: nil, message: error.message, preferredStyle: .alert)
+        
+        let cancel = UIAlertAction(title: "닫기", style: .cancel, handler:  { [weak self] _ in
+            guard let self = self else { return }
+            SLLoadingIndicatorView.hide()
+            self.vc?.dismiss(animated: true)
+        })
+        
+        alert.addAction(cancel)
+        
+        self.vc?.presentedViewController?.present(alert, animated: true)
+    }
+    
+    func onShopLiveShortformUploaderUploadSuccess() {
+        ShopLiveLogger.tempLog("[onShopLiveShortformUploaderUploadSuccess] is Called")
+    }
 }

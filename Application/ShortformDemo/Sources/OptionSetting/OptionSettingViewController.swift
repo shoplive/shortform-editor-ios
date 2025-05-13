@@ -22,6 +22,7 @@ class OptionSettingViewController : UIViewController {
     
     private var landingBox = LandingSelectBox()
     private var commonUserSetupBox = CommonUserSetUpBox()
+    private var shortformUploadOptionBox = ShortformUploadOptionBox()
     private var cacheBox = CacheOptionBox()
     private var listViewOptionBox = ListViewOptionBox()
     private var detailWebViewOptionsBox = DetailWebViewOptionBox()
@@ -66,6 +67,7 @@ class OptionSettingViewController : UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         removeObserver()
+        self.scrollView.setContentOffset(.zero, animated: false)
     }
     
     
@@ -106,6 +108,7 @@ class OptionSettingViewController : UIViewController {
         }
         detailWebViewOptionsBox.applyOption()
         fontOptionBox.applyFontOption()
+        shortformUploadOptionBox.applyConfirm()
         self.dismiss(animated: true)
     }
     
@@ -113,6 +116,7 @@ class OptionSettingViewController : UIViewController {
 extension OptionSettingViewController {
     private func setLayout(){
         self.view.addSubview(scrollView)
+        self.view.addSubview(confirmBtn)
         scrollView.keyboardDismissMode = .onDrag
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(stack)
@@ -121,6 +125,7 @@ extension OptionSettingViewController {
         stack.axis = .vertical
         stack.addArrangedSubview(landingBox)
         stack.addArrangedSubview(commonUserSetupBox)
+        stack.addArrangedSubview(shortformUploadOptionBox)
         stack.addArrangedSubview(cacheBox)
         stack.addArrangedSubview(listViewOptionBox)
         stack.addArrangedSubview(detailWebViewOptionsBox)
@@ -128,7 +133,6 @@ extension OptionSettingViewController {
         stack.addArrangedSubview(editorOptionBox)
         stack.addArrangedSubview(previewOptionBox)
         stack.addArrangedSubview(fontOptionBox)
-        stack.addArrangedSubview(confirmBtn)
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -136,7 +140,10 @@ extension OptionSettingViewController {
             scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             
-            confirmBtn.heightAnchor.constraint(equalToConstant: 50),
+            confirmBtn.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            confirmBtn.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            confirmBtn.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            confirmBtn.heightAnchor.constraint(equalToConstant: 75),
             
             stack.topAnchor.constraint(equalTo: scrollView.topAnchor),
             stack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),

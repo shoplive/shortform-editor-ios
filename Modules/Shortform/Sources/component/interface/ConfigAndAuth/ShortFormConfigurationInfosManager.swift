@@ -28,6 +28,10 @@ public class ShortFormConfigurationInfosManager {
         return shortsConfiguration.shortformApiEndpoint
     }
     
+    public func getDetailUrl() -> String {
+        return shortsConfiguration.detailUrl
+    }
+    
     public func setConfigurationURLToEmpty() {
         shortsConfiguration.detailUrl = ""
         shortsConfiguration.shortformApiEndpoint = ""

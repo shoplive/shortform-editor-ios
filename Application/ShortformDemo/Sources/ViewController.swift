@@ -336,7 +336,7 @@ extension ViewController : ShopLiveMediaPickerDelegate {
         }
     }
     
-    func onShopLiveMediaPickerDidPickVideo(picker : UIViewController?,absoluteUrl: URL, relativeUrl: URL) {
+    func onShopLiveMediaPickerDidPickVideo(picker: UIViewController?, absoluteUrl: URL, relativeUrl: URL) {
         print("Picker Video Selected absoluteUrl: \(absoluteUrl) relativeUrl : \(relativeUrl)")
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -431,6 +431,7 @@ extension ViewController : ShopLiveCoverPickerDelegate {
         }
     }
 }
+
 extension ViewController {
     
     func setupTab() {

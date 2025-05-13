@@ -14,6 +14,7 @@ import AVKit
 class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     typealias globalConfig = ShopLiveEditorConfigurationManager
     private let design = ShopLiveShortformEditor.EditorMainConfig.global
+    private let videoUploadOption = globalConfig.shared.videoUploadOption
     
     enum VideoConfigApplyType {
         case all
@@ -28,8 +29,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         case viewDidLayOutSubView
         case setCropStartTime(CMTime)
         case setCropEndTime(CMTime)
-        case setIsCreateShortform(Bool)
-        
+        case setSpeedRate
         case setCropRect(CGRect)
         
         case resetDataOnViewRotation
@@ -101,7 +101,6 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     private var isPlaying : Bool = false
     private var isCropTimeUpdated : Bool = false
     private var isViewAppeared : Bool = false
-    private var isCreateShortform : Bool = true
     private var isLoading : Bool = false
     
     private let videoConverter = SLVideoConverter()
@@ -149,8 +148,8 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
             self.onSetCropEndTime(endTime: time)
         case .setCropRect(let rect):
             videoEditInfoDto.realVideoCropRect = rect
-        case .setIsCreateShortform(let isCreateShortform):
-            onSetIsCreateShortform(isCreateShortform : isCreateShortform)
+        case .setSpeedRate:
+            self.onSetSpeedRate()
         case .requestToggleVideoPlayOrPause:
             self.didTapPlayerView()
         case .didPlayToEndTime:
@@ -203,6 +202,8 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
                 videoEditInfoDto.cropTime.end = CMTime(seconds: initialEndTime , preferredTimescale: 44100)
             }
             
+            ShopLiveLogger.tempLog("[SLVideoEditorMainViewController] video Time \(videoEditInfoDto.cropTime.end)")
+            
             resultHandler?( .setPlayerEndBoundaryTime(videoEditInfoDto.cropTime.end) )
         }
         else {
@@ -227,10 +228,6 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         resultHandler?( .setPlayerEndBoundaryTime(endTime) )
     }
     
-    private func onSetIsCreateShortform(isCreateShortform : Bool) {
-        self.isCreateShortform = isCreateShortform
-    }
-    
     private func didTapPlayerView() {
         if isCropTimeUpdated {
             onMainQueueResultHandler?( .seekTo(videoEditInfoDto.cropTime.start) )
@@ -248,7 +245,9 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     private func onDidPlayToEndTime() {
         onMainQueueResultHandler?( .seekTo(videoEditInfoDto.cropTime.start))
         onMainQueueResultHandler?( .resetTimeIndicatorLine )
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) { [weak self] in
+        // Tabber - (2025.04.07) seekTo가 다 끝나지 않은 상태에서 play를 할 경우
+        // play 자체가 안먹히는 상황이 발생하여 딜레이를 주었습니다.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
             self?.onMainQueueResultHandler?( .playVideo )
         }
     }
@@ -272,6 +271,10 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     
     private func onSetFilterConfig(filterConfig : SLFilterConfig?){
         videoEditInfoDto.filterConfig = filterConfig
+    }
+    
+    private func onSetSpeedRate() {
+        onMainQueueResultHandler?( .setSpeedRateResult(videoEditInfoDto.videoSpeed) )
     }
     
     private func onProcessConvertVideo() {
@@ -356,7 +359,7 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
             case .Success(let videoPath):
                 self.videoEditInfoDto.convertedVideoPath = videoPath
                 self.resultHandler?( .convertFinished(videoPath: videoPath) )
-                if self.isCreateShortform {
+                if videoUploadOption.isCreatedShortform {
                     self.callShortformUploadableAPI()
                 }
                 else {
@@ -485,9 +488,15 @@ extension SLVideoEditorMainViewReactor {
     private func callShortformRegisterAPI(videoId : String, imageUrl : String?){
         ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result in
             guard let self = self else { return }
+            
+            ShopLiveLogger.tempLog("[SLVideoEditorMainViewReactor] self.makeShortsJson(videoId: videoId, imageUrl: imageUrl) \(self.makeShortsJson(videoId: videoId, imageUrl: imageUrl))")
+            
             SLShortformRegisterAPI(parameters: self.makeShortsJson(videoId: videoId, imageUrl: imageUrl)).request { result in
                 switch result {
                 case .success(let response):
+                    
+                    ShopLiveLogger.tempLog("[SLVideoEditorMainViewReactor] originSLShortsModel \(response.dictionary_SL)")
+                    
                     let resultData = ShopLiveEditorResultInternalData(shortsId: response.shortsId,
                                                                       localVideoUrl: self.videoEditInfoDto.convertedVideoPath,
                                                                       remoteOriginVideoUrl: response.cards?.first?.originVideoUrl,
@@ -549,7 +558,7 @@ extension SLVideoEditorMainViewReactor {
         shortsDict["shortsDetail"] = shortsDetailDict
         shortsDict["shortsType"] = "CARD"
         
-        return ["shorts" : shortsDict, "shortsStatus" : "OPENED", "startAt" : Int64(Date().timeIntervalSince1970 * 1000) ]
+        return ["shorts" : shortsDict, "shortsStatus" : videoUploadOption.shortsStatus.rawValue, "startAt" : Int64(Date().timeIntervalSince1970 * 1000) ]
     }
     
     private func removeVideoFile(){

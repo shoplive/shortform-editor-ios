@@ -12,6 +12,11 @@ class SLDimView: UIView {
     
     private var maskRect: CGRect = .zero
     
+    
+    // Tabber - (2025.04.07) Slider 자체에 Padding값을 주었기에 dimView도 동일한 값으로 위치를 이동합니다.
+    // 위 값을 사용하는 동일한 곳은 SLVideoEditorSliderHandleView2 -> dimView constraint 설정 입니다.
+    private var whiteBorderPadding: CGFloat = 16
+    
     private var borderColor : UIColor = .white
     init(borderColor : UIColor ) {
         super.init(frame: .zero)
@@ -31,12 +36,12 @@ class SLDimView: UIView {
         
         context?.setStrokeColor(borderColor.cgColor)
         context?.setLineWidth(4)
-        context?.move(to: CGPoint(x: maskRect.origin.x, y: maskRect.origin.y))
-        context?.addLine(to: CGPoint(x: maskRect.origin.x + maskRect.size.width, y: maskRect.origin.y))
+        context?.move(to: CGPoint(x: maskRect.origin.x + whiteBorderPadding, y: maskRect.origin.y))
+        context?.addLine(to: CGPoint(x: maskRect.origin.x + maskRect.size.width - whiteBorderPadding, y: maskRect.origin.y))
         context?.strokePath()
         
-        context?.move(to: CGPoint(x: maskRect.origin.x, y: maskRect.origin.y + maskRect.size.height))
-        context?.addLine(to: CGPoint(x: maskRect.origin.x + maskRect.size.width, y: maskRect.origin.y + maskRect.size.height))
+        context?.move(to: CGPoint(x: maskRect.origin.x + whiteBorderPadding, y: maskRect.origin.y + maskRect.size.height))
+        context?.addLine(to: CGPoint(x: maskRect.origin.x + maskRect.size.width - whiteBorderPadding, y: maskRect.origin.y + maskRect.size.height))
         context?.strokePath()
 
         context?.setBlendMode(.clear)

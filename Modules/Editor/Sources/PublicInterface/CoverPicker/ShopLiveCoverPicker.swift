@@ -42,6 +42,7 @@ public class ShopLiveCoverPicker {
     }
     
     public func build(data : ShopLiveCoverPickerData, completion : @escaping(UIViewController) -> ()) {
+        SLEditProcessCommon.trimPadding = 28
         self.callConfigAPI {
             let vc = Self.shared.showPickerViewController( data: data)
             completion(vc)
@@ -114,6 +115,8 @@ extension ShopLiveCoverPicker {
     
     private func onPickerControllerOnSuccessUpload(picker: UIViewController,result : ShopLiveEditorResultInternalData?) {
         Self.shared.delegate?.onShopLiveCoverPickerUploadSuccess?(picker: picker, result: result?.convertToClass())
+        ShopLiveDelegateInternalManager.shared.getMessageDelegate()?.upload?(id: result?.shortsId ?? "")
+        ShopLiveDelegateInternalManager.shared.getMessageDelegate()?.successCoverChange?()
     }
     
     private func onPickerControllerOnEvent(picker: UIViewController,name : EventTrace, payload : [String : Any]?) {

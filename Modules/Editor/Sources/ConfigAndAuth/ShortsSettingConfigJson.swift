@@ -49,6 +49,7 @@ struct ShortsSettingConfigSDK: Codable {
     let previewRadius : CGFloat?
     let previewIsMuted : Bool?
     let preferredForwardBufferDuration : Double?
+    let ugcUrl: String?
     
     
     public init(from decoder: Decoder) throws {
@@ -73,6 +74,7 @@ struct ShortsSettingConfigSDK: Codable {
         self.previewRadius = try? parser.parse(targetType: CGFloat.self, key: CodingKeys.previewRadius)
         self.previewIsMuted = try? parser.parse(targetType: Bool.self, key: CodingKeys.previewIsMuted)
         self.preferredForwardBufferDuration = try? parser.parse(targetType: Double.self, key: CodingKeys.preferredForwardBufferDuration)
+        self.ugcUrl = try? parser.parse(targetType: String.self, key: CodingKeys.ugcUrl)
     }
 }
 

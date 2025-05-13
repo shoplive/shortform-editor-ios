@@ -149,8 +149,14 @@ class ShopLiveCoverPickerReactor : NSObject, SLReactor {
     private func onRequestOnConfirm() {
         
         let isCropEnabled = self.config.coverPickerVisibleActionButton.editOptions.contains(where: { $0 == .crop }) ?? false
+        
+        ShopLiveLogger.tempLog("[ShopLive Cover Picker] onRequestOnConfirm current Mode \(self.currentMode)")
+        
         if self.currentMode == .video {
             let seconds = CMTimeGetSeconds(currentSeekTime)
+            
+            ShopLiveLogger.tempLog("[ShopLive Cover Picker] onRequestOnConfirm seconds \(seconds)")
+            
             self.getExtractThumbnail(at: seconds) { [weak self] resultImage in
                 guard var resultImage = resultImage else { return }
                 if let croppedImage = self?.getVideoThumbnailCroppedImage(image: resultImage), isCropEnabled {

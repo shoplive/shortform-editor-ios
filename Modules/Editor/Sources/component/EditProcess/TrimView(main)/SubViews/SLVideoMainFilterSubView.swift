@@ -22,7 +22,8 @@ class SLVideoMainFilterSubView : UIView, SLReactor {
                                     sliderCornerRadius: design.sliderCornerRadius,
                                     backgroundColor: design.sliderBackgroundColor)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.isHidden = true
+        view.alpha = 0.2
+        view.isUserInteractionEnabled = false
         view.action( .setMinValue(0) )
         view.action( .setMaxValue(100) )
         return view
@@ -58,7 +59,7 @@ class SLVideoMainFilterSubView : UIView, SLReactor {
         btn.imageView?.tintColor = design.pauseButtonIconTintColor
         btn.imageLayoutMargin = design.pauseButtonIconPadding
         btn.imageView?.contentMode = .scaleAspectFit
-    
+        
         return btn
     }()
     
@@ -82,6 +83,7 @@ class SLVideoMainFilterSubView : UIView, SLReactor {
         case setThumbnail(UIImage)
         case changePlayOrPauseBtnState(isPlaying : Bool)
         case setToOrigin
+        case hideSlider(Bool)
         
     }
     
@@ -103,6 +105,8 @@ class SLVideoMainFilterSubView : UIView, SLReactor {
         setLayout()
         bindReactor()
         bindSliderView()
+        
+        onReactorHideSlider(isHidden: true)
         
         playPauseBtn.addTarget(self, action: #selector(playPauseBtnTapped(sender:)), for: .touchUpInside)
         confirmBtn.addTarget(self, action: #selector(confirmBtnTapped(sender: )), for: .touchUpInside)
@@ -137,6 +141,8 @@ extension SLVideoMainFilterSubView {
             self.onChangePlayOrPauseBtnState(isPlaying: isPlaying)
         case .setToOrigin:
             self.onSetToOrigin()
+        case .hideSlider(let hide):
+            self.onReactorHideSlider(isHidden: hide)
         }
     }
     
@@ -202,7 +208,8 @@ extension SLVideoMainFilterSubView {
     }
     
     private func onReactorHideSlider(isHidden : Bool) {
-        self.sliderView.isHidden = isHidden
+        self.sliderView.isUserInteractionEnabled = !isHidden
+        self.sliderView.alpha = isHidden ? 0.5 : 1.0
     }
     
     private func onReactorSetFilterConfig(){
@@ -274,7 +281,6 @@ extension SLVideoMainFilterSubView {
             bottomBar.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: 0),
             bottomBar.heightAnchor.constraint(equalToConstant: 60),
             
-        
             playPauseBtn.centerYAnchor.constraint(equalTo: bottomBar.centerYAnchor),
             playPauseBtn.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 16),
             playPauseBtn.widthAnchor.constraint(equalToConstant: 40),

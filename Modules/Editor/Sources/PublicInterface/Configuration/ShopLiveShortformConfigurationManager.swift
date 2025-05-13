@@ -19,5 +19,6 @@ class ShopLiveEditorConfigurationManager {
     var videoOutputOption : SLVideoOutputConfigOption = ShopLiveShortformEditorVideoOuputOption()
     var coverPickerVisibleActionButton : ShopLiveCoverPickerVisibleActionButton = ShopLiveCoverPickerVisibleActionButton()
     var mediaPickerVideoDurationOption : SLMediaPickerVideoDurationOption = ShopLiveMediaPickerVideoDurationOption()
+    var videoUploadOption : SLVideoUploadOption = ShopLiveShortFormEditorVideoUploadOption()
     
 }

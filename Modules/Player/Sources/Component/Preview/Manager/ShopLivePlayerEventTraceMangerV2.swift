@@ -264,6 +264,7 @@ extension ShopLivePlayerEventTraceManagerImpl {
                      streamEdgeType: streamEdgeType,
                      campaignId: campaignId, shopliveSessionId: shopliveSessionId,
                      val1: pipType.rawValue, val2: nil, val3: nil, val4: nil, val5: nil)
+        
     }
     
     private func playerToPip(campaignId : String?, shopliveSessionId : String?, activityType : StreamActivityType,streamEdgeType : String?) {

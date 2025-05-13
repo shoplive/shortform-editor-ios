@@ -81,6 +81,7 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
     
     private func calculateVideoDuation() {
         guard let dto = self.videoEditInfoDTO else { return }
+        //let originVideoDuration = dto.shortsVideo.getVideoDuration()
         let originVideoDuration = dto.cropTime.end.seconds - dto.cropTime.start.seconds
         let modifiedVideoDuration = originVideoDuration / dto.videoSpeed
         self.currentVideoDurationCGFloat = modifiedVideoDuration
@@ -141,6 +142,7 @@ class SLVideoMainSpeedSubReactor : NSObject, SLReactor {
         self.editingStartSpeedValue = 1.0
         self.videoEditInfoDTO?.videoSpeed = Double(1.0)
         guard let dto = self.videoEditInfoDTO else { return }
+        //let originVideoDuration = dto.shortsVideo.getVideoDuration()
         let originVideoDuration = dto.cropTime.end.seconds - dto.cropTime.start.seconds
         let modifiedVideoDuration = originVideoDuration / dto.videoSpeed
         self.currentVideoDurationCGFloat = modifiedVideoDuration

@@ -315,7 +315,7 @@ extension SLVideoThumbnailViewController {
     
     private func onReactorSetInitialCropRect(crop : CGRect) {
         DispatchQueue.main.async { [weak self] in
-            self?.playerView.action( .hideCropView(crop == .zero) )
+            self?.playerView.action( .hideCropView(hide: crop == .zero, notAnimate: true) )
             self?.playerView.action( .setInitialCropRectByRatio(crop) )
         }
     }

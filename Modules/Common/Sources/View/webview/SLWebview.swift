@@ -174,10 +174,12 @@ public final class SLWebView: SLBaseView {
         
         
         webview.evaluateJavaScript(command) { _, error in
+            if let error {
+                ShopLiveLogger.tempLog("WebView SendShortEvent Error \(error.localizedDescription)")
+            }
             completion()
         }
     }
-    
     
 }
 

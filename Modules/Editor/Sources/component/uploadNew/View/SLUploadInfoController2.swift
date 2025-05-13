@@ -393,7 +393,7 @@ class SLUploadInfoController2 : UIViewController {
     private func showUploadPreviewController(attachInfo : SLUploadAttachmentInfo) {
         self.wrapTagWhenKeyboardHides(textField: tagField.textField) { [weak self] in
             guard let self = self else { return }
-            let preview = SLUploadVideoPreviewController(uploadInfo: attachInfo)
+            let preview = ShopLiveShortformUploaderPreviewController(url: attachInfo.videoUrl)
             preview.modalPresentationStyle = .overFullScreen
             preview.modalPresentationCapturesStatusBarAppearance = true
             self.navigationController?.present(preview, animated: true)

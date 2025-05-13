@@ -58,6 +58,9 @@
 "editor.filter.btn.confirm.shoplive" = "完了";
 "editor.filter.done.shoplive" = "完了";
 
+//Preview
+"editor.ugc.preview.title" = "Preview";
+
 "editor.cover.picker.done.shoplive" = "完了";
 "editor.select.gallery.shoplive" = "カメラロールから追加";
 "editor.folder.all.shoplive" = "最近の項目";

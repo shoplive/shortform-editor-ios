@@ -25,8 +25,8 @@ struct SLShortformVideoAPI: APIDefinition {
     var videoHeight : CGFloat?
     var videoDuration : Double?
     
-    var showRequestLog: Bool = false
-    var showResponseLog: Bool = false
+    var showRequestLog: Bool = true
+    var showResponseLog: Bool = true
     
     var baseUrl: String {
         return apiEndpoint

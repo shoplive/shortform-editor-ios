@@ -52,7 +52,7 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
         case setInitialCropRectByRatio(CGRect)
         case setSpeedRate(CGFloat)
         case setVideoVolume(CGFloat)
-        case hideCropView(Bool)
+        case hideCropView(hide: Bool, notAnimate: Bool)
         case setCropIsAvailable(Bool)
         // 에디팅 시작할때의 크롭 영역을 기억하기 위해서 사용
         // xbtn 눌러서 돌아갈때 이 크기 값으로 되돌리기 위해서
@@ -114,6 +114,7 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.delegate = self
         view.backgroundColor = .clear
+        view.isHidden = true
         return view
     }()
     
@@ -198,8 +199,8 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
             self.onSetSpeedRate(rate: rate)
         case .setVideoVolume(let volume):
             self.onSetVideoVolume(volume : volume)
-        case .hideCropView(let hide):
-            self.onHideCropView(hide : hide)
+        case .hideCropView(let hide, let notAnimate):
+            self.onHideCropView(hide : hide, notAnimate: notAnimate)
         case .setCropIsAvailable(let isAvailable):
             self.onSetIsCropAvailable(isAvailable: isAvailable)
         case .saveStartCropRect:
@@ -348,8 +349,12 @@ class ShopLiveFilterPlayer : UIView, SLReactor {
         reactor.action( .setSpeedRate(rate) )
     }
     
-    private func onHideCropView(hide : Bool) {
-        self.cropView.isHidden = hide
+    private func onHideCropView(hide : Bool, notAnimate: Bool = false) {
+        UIView.animate(withDuration: notAnimate ? 0.0 : 0.1, animations: { [weak self] in
+            self?.cropView.alpha = hide ? 0 : 1
+        }, completion: { [weak self] _ in
+            self?.cropView.isHidden = hide
+        })
     }
     
     private func onSetIsCropAvailable(isAvailable : Bool) {

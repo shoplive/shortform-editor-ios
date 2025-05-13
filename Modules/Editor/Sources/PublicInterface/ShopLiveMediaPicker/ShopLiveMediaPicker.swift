@@ -46,6 +46,7 @@ public class ShopLiveMediaPicker : NSObject {
     }
     
     public func build(type : SLMediaType, completion : @escaping(UIViewController) -> () ) {
+        SLEditProcessCommon.trimPadding = 44
         ShopLiveShortformEditorDataStorage.shared.mediaPickerVideoCreationDate = nil
         let photoPicker = SLPhotosPickerViewController(mediaType: type , permissionDelegate: permissionHandler)
         photoPicker.delegate = self

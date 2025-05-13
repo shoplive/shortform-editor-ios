@@ -503,6 +503,14 @@ public enum ShopLiveShortformEditorSDKStrings: Sendable {
       }
     }
 
+    public enum Ugc: Sendable {
+
+      public enum Preview: Sendable {
+      /// Preview
+        public static let title = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.ugc.preview.title")
+      }
+    }
+
     public enum Upload: Sendable {
     /// Upload
       public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.upload.shoplive")

@@ -156,6 +156,10 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
     private var timeIndicatorCornerRadius : CGFloat = 0
     private var timeIndicatorbackgroundColor : UIColor = .white
     
+    // Tabber - (2025.04.07) Slider 자체에 Padding값을 주었기에 dimView도 동일한 값으로 위치를 이동합니다.
+    // 위 값을 사용하는 동일한 곳은 SLDimView -> whiteBorderPadding 설정 입니다.
+    private var whiteBorderPadding: CGFloat = 16
+    
     
     init(frame: CGRect,timeIndicatorCornerRadius : CGFloat,handleCornerRadius : CGFloat,handleBackgroundColor : UIColor, handleBarColor : UIColor,timeIndicatorbackgroundColor : UIColor) {
         self.timeIndicatorCornerRadius = timeIndicatorCornerRadius
@@ -180,7 +184,7 @@ class SLVideoEditorSliderHandleView2 : UIView, SLReactor {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        dimView.updateMaskDim(CGRect(x: leftHandle.frame.maxX, y: 0, width: rightHandle.frame.minX - leftHandle.frame.maxX + SLEditProcessCommon.dimmedPadding, height: self.frame.height))
+        dimView.updateMaskDim(CGRect(x: leftHandle.frame.maxX, y: 0, width: (rightHandle.frame.minX + whiteBorderPadding) - (leftHandle.frame.maxX - whiteBorderPadding), height: self.frame.height))
         calculateTrimTimeDuration()
     }
     
@@ -344,8 +348,8 @@ extension SLVideoEditorSliderHandleView2 {
         
         NSLayoutConstraint.activate([
             dimView.topAnchor.constraint(equalTo: self.topAnchor),
-            dimView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: -SLEditProcessCommon.dimmedPadding),
-            dimView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: SLEditProcessCommon.dimmedPadding),
+            dimView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: -whiteBorderPadding),
+            dimView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: whiteBorderPadding),
             dimView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
             

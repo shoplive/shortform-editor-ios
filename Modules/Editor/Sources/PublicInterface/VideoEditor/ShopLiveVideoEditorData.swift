@@ -33,3 +33,5 @@ public class ShopLiveVideoEditorData {
         self.isCreatedShortform = isCreatedShortform
     }
 }
+
+

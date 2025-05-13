@@ -28,6 +28,14 @@ class OptionSettingModel {
     var playOnlyWifi : Bool = false
     var cardType : ShopLiveShortform.CardViewType = .type1
     
+    static var shortFormUploadTags: [String] = []
+    static var shortFormUploadSkus: [String] = []
+    static var shortFormUploadUsingHashTag: Bool = true
+    static var shortFormUploadUsingVideoChage: Bool = false
+    static var shortFormUploadUsingRating: Bool = false
+    static var shortFormEditMode: Bool = false
+    
+    
     static var font: String = ""
     static var specificFont: UIFont? = nil
     static var editorMinVideoDuration : Double = 1

@@ -40,11 +40,13 @@ public final class ShopliveVideoEditorConfiguration {
     public var videoTrimOption : ShopliveVideoEditorTrimOption = .init()
     public var videoOutputOption : ShopLiveShortformEditorVideoOuputOption = .init()
     public var visibleContents : ShopLiveShortFormEditorVisibleContent = .init()
+    public var videoUploadOption : ShopLiveShortFormEditorVideoUploadOption = .init()
     
     public init(videoCropOption: ShopliveVideoEditorAspectRatio,
                 videoOutputOption : ShopLiveShortformEditorVideoOuputOption?,
                 videoTrimOption : ShopliveVideoEditorTrimOption?,
                 visibleContents : ShopLiveShortFormEditorVisibleContent?,
+                videoUploadOption: ShopLiveShortFormEditorVideoUploadOption?,
                 minVideoDuration : CGFloat? = nil,
                 maxVideoDuration : CGFloat? = nil) {
         self.videoCropOption = videoCropOption
@@ -63,6 +65,10 @@ public final class ShopliveVideoEditorConfiguration {
         
         if let videoTrimOption = videoTrimOption {
             self.videoTrimOption = videoTrimOption
+        }
+        
+        if let videoUploadOption = videoUploadOption {
+            self.videoUploadOption = videoUploadOption
         }
         
         if let maxVideoDuration = maxVideoDuration  {

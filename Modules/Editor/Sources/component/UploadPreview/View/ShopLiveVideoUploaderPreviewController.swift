@@ -1,5 +1,5 @@
 //
-//  SLUploadVideoPreviewController.swift
+//  ShopLiveShortformUploaderPreviewController.swift
 //  matrix-shortform-ios
 //
 //  Created by 김우현 on 4/30/23.
@@ -11,7 +11,7 @@ import UIKit
 import AVKit
 import ShopliveSDKCommon
 
-class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDelegate {
+class ShopLiveShortformUploaderPreviewController: UIViewController, UIGestureRecognizerDelegate {
     
     private lazy var playerLayer = AVPlayerLayer()
     
@@ -26,18 +26,32 @@ class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDeleg
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         let dim = UIView()
-        dim.backgroundColor = .black
-        dim.alpha = 0.2
+        dim.backgroundColor = .clear
         view.addSubview(dim)
         dim.fit_SL()
         return view
     }()
     
-    private lazy var closeButton: UIButton = {
+    private var topDimmedView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private var bottomDimmedView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private var topGradient: CAGradientLayer?
+    private var bottomGradient: CAGradientLayer?
+    
+    private lazy var backButton: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setImage(ShopLiveShortformEditorSDKAsset.slClosebutton.image.withRenderingMode(.alwaysOriginal), for: .normal)
-        view.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
+        view.setImage(ShopLiveShortformEditorSDKAsset.slBackArrow.image, for: .normal)
+        view.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
         view.imageView?.tintColor = .white
         return view
     }()
@@ -55,61 +69,18 @@ class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDeleg
     private lazy var titleLabel: SLLabel = {
         let view = SLLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setFont(font: .init(size: 16, weight: .medium))
+        view.setFont(font: .init(size: 16, weight: .bold))
         view.textColor = .white
         view.numberOfLines = 1
         view.lineBreakMode = .byTruncatingTail
-        view.text = "Preview"
-        return view
-    }()
-    
-    private lazy var videoTitleLabel: SLLabel = {
-        let view = SLLabel()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.setFont(font: .init(size: 16, weight: .medium))
-        view.textColor = .white
-        view.numberOfLines = 1
-        view.lineBreakMode = .byTruncatingTail
-        return view
-    }()
-    
-    private lazy var videoDescriptionLabel: SLLabel = {
-        let view = SLLabel()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.setFont(font: .init(size: 13, weight: .regular))
-        view.textColor = .white
-        view.numberOfLines = 1
-        view.lineBreakMode = .byTruncatingTail
-        return view
-    }()
-    
-    private lazy var tagField: SLWSTagsField = {
-        let view = SLWSTagsField(frame: .zero)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.tintColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.2)
-        view.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-        view.textColor = .white
-        view.cornerRadius = 3.0
-        view.spaceBetweenLines = 10
-        view.spaceBetweenTags = 10
-        view.placeholderAlwaysVisible = false
-        view.layoutMargins = UIEdgeInsets(top: 2, left: 6, bottom: 2, right: 6)
-        view.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        view.placeholder = ""
-        view.placeholderColor = UIColor(red: 143/255, green: 143/255, blue: 143/255, alpha: 1.0)
-        view.textField.returnKeyType = .continue
-        view.backgroundColor = UIColor(red: 246/255, green: 246/255, blue: 246/255, alpha: 1.0)
-        view.useCloseButton = false
-        view.isDisplayMode = true
-        view.isUserInteractionEnabled = false
-        view.backgroundColor = .clear
+        view.text = ShopLiveShortformEditorSDKStrings.Editor.Ugc.Preview.title
         return view
     }()
     
     private lazy var timeSlider: UISlider = {
         let view = UISlider()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setThumbImage(ShopLiveShortformEditorSDKAsset.slTimeSliderThumb.image.withRenderingMode(.alwaysOriginal), for: .normal)
+        view.setThumbImage(ShopLiveShortformEditorSDKAsset.slTimeSliderThumb.image, for: .normal)
         view.minimumTrackTintColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
         view.maximumTrackTintColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
         return view
@@ -121,14 +92,18 @@ class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDeleg
     
     private let reactor = SLUploadVideoPreviewReactor()
     
-    init(uploadInfo: SLUploadAttachmentInfo) {
+    init(url: String) {
         super.init(nibName: nil, bundle: nil)
-        reactor.action( .setUploadInfo(uploadInfo) )
+        reactor.action( .setUrl(url) )
         
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewDidLoad() {
@@ -151,11 +126,14 @@ class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDeleg
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         playerLayer.frame = playerView.frame
-        playerLayer.videoGravity = .resizeAspect
+        playerLayer.videoGravity = .resizeAspectFill
+        
+        topGradient?.frame = topDimmedView.bounds
+        bottomGradient?.frame = bottomDimmedView.bounds
     }
     
     deinit {
-        
+        ShopLiveLogger.memoryLog("SLUploadVideoPreviewController deinited")
     }
     
     private func bindReactor() {
@@ -165,13 +143,6 @@ class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDeleg
             switch result {
             case .setAVplayer(let player):
                 self.onSetAVplayer(player: player)
-            case .setTitle(let title):
-                self.onSetTitle(title: title)
-            case .setDescription(let description):
-                self.onSetDescription(description: description)
-            case .setTags(let tags):
-                self.onSetTags(tags: tags)
-            
             case .setPlayBtnIsHidden(let isHidden):
                 self.onSetPlayBtnIsHidden(isHidden: isHidden)
             case .setSliderMaximumValue(let value):
@@ -186,19 +157,6 @@ class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDeleg
     
     private func onSetAVplayer(player : AVPlayer) {
         self.playerLayer.player = player
-    }
-    
-    private func onSetTitle(title : String) {
-        videoTitleLabel.text = title
-    }
-    
-    private func onSetDescription(description : String) {
-        videoDescriptionLabel.text = description
-    }
-    
-    private func onSetTags(tags : [String]) {
-        tagField.addTags(tags)
-        tagField.textField.text = ""
     }
     
     private func onSetPlayBtnIsHidden(isHidden : Bool) {
@@ -217,8 +175,8 @@ class SLUploadVideoPreviewController: UIViewController, UIGestureRecognizerDeleg
         self.timeSlider.value = value
     }
 }
-extension SLUploadVideoPreviewController {
-    @objc private func didTapClose() {
+extension ShopLiveShortformUploaderPreviewController {
+    @objc private func didTapBack() {
         if let nav = self.navigationController {
             nav.popViewController(animated: true)
         }
@@ -249,89 +207,84 @@ extension SLUploadVideoPreviewController {
     }
 }
 
-extension SLUploadVideoPreviewController {
+extension ShopLiveShortformUploaderPreviewController {
     private func layout() {
         self.view.backgroundColor = .black
         
         self.view.addSubview(playerView)
+        self.view.addSubview(topDimmedView)
+        self.view.addSubview(bottomDimmedView)
         self.view.addSubview(overlayView)
         
-        self.overlayView.addSubview(closeButton)
+        let topGradientLayer = CAGradientLayer()
+        let bottomGradientLayer = CAGradientLayer()
+        
+        topGradient = topGradientLayer
+        bottomGradient = bottomGradientLayer
+        
+        if #available(iOS 13.0, *) {
+            let colors: [CGColor] = [
+                UIColor.black.withAlphaComponent(0.5).cgColor,
+                UIColor.clear.cgColor
+            ]
+            
+            topGradientLayer.colors = colors
+            topGradientLayer.startPoint = .init(x: 0.5, y: 0.0)
+            topGradientLayer.endPoint = .init(x: 0.5, y: 1.0)
+            
+            topDimmedView.layer.addSublayer(topGradientLayer)
+            
+            bottomGradientLayer.colors = colors.reversed()
+            
+            bottomGradientLayer.startPoint = .init(x: 0.5, y: 0.0)
+            bottomGradientLayer.endPoint = .init(x: 0.5, y: 1.0)
+            
+            bottomDimmedView.layer.addSublayer(bottomGradientLayer)
+        }
+        
+        self.overlayView.addSubview(backButton)
         self.overlayView.addSubview(titleLabel)
-        self.overlayView.addSubview(videoTitleLabel)
-        self.overlayView.addSubview(videoDescriptionLabel)
         self.overlayView.addSubview(timeSlider)
-        self.overlayView.addSubview(tagField)
         self.overlayView.addSubview(playBtnImageView)
         
-        let closeButtonConstraint = [
-            closeButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 12),
-            closeButton.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -12),
-            closeButton.widthAnchor.constraint(equalToConstant: 24),
-            closeButton.heightAnchor.constraint(equalToConstant: 24),
-        ]
-        
-        let titleLabelConstraint = [
+        NSLayoutConstraint.activate([
+            backButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 12),
+            backButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 12),
+            backButton.widthAnchor.constraint(equalToConstant: 24),
+            backButton.heightAnchor.constraint(equalToConstant: 24),
+            
             titleLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 12),
             titleLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0),
-            titleLabel.rightAnchor.constraint(lessThanOrEqualTo: closeButton.leftAnchor, constant: 0)
-        ]
-        
-        let videoTitleLabelConstraint = [
-            videoTitleLabel.bottomAnchor.constraint(equalTo: self.videoDescriptionLabel.topAnchor, constant: -4),
-            videoTitleLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 16),
-            videoTitleLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -16)
-        ]
-        
-        let videoDescriptionLabelConstraint = [
-            videoDescriptionLabel.bottomAnchor.constraint(equalTo: self.tagField.topAnchor, constant: -6),
-            videoDescriptionLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 16),
-            videoDescriptionLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -16)
-        ]
-        
-        let timeSliderConstraint = [
+            
             timeSlider.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
             timeSlider.leftAnchor.constraint(equalTo: overlayView.leftAnchor, constant: 20),
             timeSlider.rightAnchor.constraint(equalTo: overlayView.rightAnchor, constant: -20),
-        ]
-        
-        let tagFieldConstraint = [
-            tagField.bottomAnchor.constraint(equalTo: self.timeSlider.topAnchor, constant: -10),
-            tagField.leftAnchor.constraint(equalTo: overlayView.leftAnchor, constant: 10),
-            tagField.rightAnchor.constraint(equalTo: overlayView.rightAnchor, constant: -10),
-        ]
-        
-        let playBtnImageViewConstraint = [
+            
             playBtnImageView.centerYAnchor.constraint(equalTo: overlayView.centerYAnchor),
             playBtnImageView.centerXAnchor.constraint(equalTo: overlayView.centerXAnchor),
             playBtnImageView.widthAnchor.constraint(equalToConstant: 72),
-            playBtnImageView.heightAnchor.constraint(equalToConstant: 72)
-        ]
-        
-        let playerViewConstraint = [
+            playBtnImageView.heightAnchor.constraint(equalToConstant: 72),
+            
             playerView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             playerView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            playerView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            playerView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-        ]
-        
-        let overlayViewConstraint = [
+            playerView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            playerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            
             overlayView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             overlayView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             overlayView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            overlayView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-        ]
-        
-        NSLayoutConstraint.activate(closeButtonConstraint)
-        NSLayoutConstraint.activate(titleLabelConstraint)
-        NSLayoutConstraint.activate(timeSliderConstraint)
-        NSLayoutConstraint.activate(tagFieldConstraint)
-        NSLayoutConstraint.activate(videoDescriptionLabelConstraint)
-        NSLayoutConstraint.activate(videoTitleLabelConstraint)
-        NSLayoutConstraint.activate(playBtnImageViewConstraint)
-        NSLayoutConstraint.activate(playerViewConstraint)
-        NSLayoutConstraint.activate(overlayViewConstraint)
-        
+            overlayView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            
+            topDimmedView.topAnchor.constraint(equalTo: view.topAnchor),
+            topDimmedView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            topDimmedView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            topDimmedView.heightAnchor.constraint(equalToConstant: UIScreen.topSafeArea_SL + 80),
+            
+            bottomDimmedView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            bottomDimmedView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bottomDimmedView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomDimmedView.heightAnchor.constraint(equalToConstant: UIScreen.bottomSafeArea_SL + 80)
+        ])
         
         self.view.bringSubviewToFront(overlayView)
     }

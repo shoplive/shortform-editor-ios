@@ -44,17 +44,29 @@ extension PHAsset {
         })
     }
     
-    func getImageUrl(completion : @escaping (URL?) -> () ) {
+    func getImageUrl(progress: @escaping (Double) -> Void, completion: @escaping (URL?) -> Void) {
         guard self.mediaType == .image else {
             completion(nil)
             return
         }
+        
         let options: PHContentEditingInputRequestOptions = PHContentEditingInputRequestOptions()
-        options.canHandleAdjustmentData = {(adjustmeta: PHAdjustmentData) -> Bool in
+        
+        options.isNetworkAccessAllowed = true
+        
+        options.canHandleAdjustmentData = { (adjustmeta: PHAdjustmentData) -> Bool in
             return true
         }
-        self.requestContentEditingInput(with: options, completionHandler: {(contentEditingInput: PHContentEditingInput?, info: [AnyHashable : Any]) -> Void in
-            completion(contentEditingInput!.fullSizeImageURL as URL?)
+        
+        options.progressHandler = { (progressPercent, error) in
+            progress(progressPercent)
+        }
+        
+        self.requestContentEditingInput(with: options, completionHandler: { (contentEditingInput: PHContentEditingInput?, info: [AnyHashable : Any]) -> Void in
+            DispatchQueue.main.async {
+                // When complete, pass the URL
+                completion(contentEditingInput?.fullSizeImageURL as URL?)
+            }
         })
     }
     

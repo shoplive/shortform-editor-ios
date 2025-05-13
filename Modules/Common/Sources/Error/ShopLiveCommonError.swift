@@ -31,6 +31,7 @@ public enum ShopLiveErrorCases {
     case FailedNetwork
     case FailedJSONParsing
     case UnexpectedError
+    case InValidURL
     
     
     func getErrorCodeAndMessage() -> (Int,String) {
@@ -61,6 +62,8 @@ public enum ShopLiveErrorCases {
             return (9001, "There is no shared URL")
         case .NotInitializedShortformConfig:
             return (9002, "To use Shoplive Short-form, please contact ask@shoplive.cloud")
+        case .InValidURL:
+            return (9003, "Invalid URL")
         case .FailedEncoding:
             return (9300, "Failed encoding")
         case .RemovedVideo:

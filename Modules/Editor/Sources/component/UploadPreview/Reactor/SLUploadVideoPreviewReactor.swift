@@ -15,7 +15,7 @@ class SLUploadVideoPreviewReactor : NSObject, SLReactor {
     
     
     enum Action {
-        case setUploadInfo(SLUploadAttachmentInfo)
+        case setUrl(String)
         
         case seekTo(CMTime)
         case toggleVideoPlayOrPause
@@ -25,9 +25,6 @@ class SLUploadVideoPreviewReactor : NSObject, SLReactor {
     
     enum Result {
         case setAVplayer(AVPlayer)
-        case setTitle(String)
-        case setDescription(String)
-        case setTags([String])
         
         case setPlayBtnIsHidden(Bool)
         case setSLiderMinimumValue(Float)
@@ -43,7 +40,7 @@ class SLUploadVideoPreviewReactor : NSObject, SLReactor {
     private var playTimeObserver : Any?
     private var isTimeControlStatusObserved : Bool = false
     private var isPlayItemStatusObserved : Bool = false
-    private var uploadInfo : SLUploadAttachmentInfo?
+    private var videoUrl : String?
     
     
     
@@ -59,8 +56,8 @@ class SLUploadVideoPreviewReactor : NSObject, SLReactor {
         switch action {
         case .viewDidLoad:
             self.onViewDidLoad()
-        case .setUploadInfo(let uploadInfo):
-            self.onSetUploadInfo(info: uploadInfo)
+        case .setUrl(let url):
+            self.onSetUrl(url: url)
         case .seekTo(let time):
             self.onSeekTo(time: time)
         case .toggleVideoPlayOrPause:
@@ -69,17 +66,14 @@ class SLUploadVideoPreviewReactor : NSObject, SLReactor {
     }
     
     private func onViewDidLoad() {
-        guard let info = self.uploadInfo else { return }
-        guard let url = URL(string: info.videoUrl) else { return }
+        guard let videoUrl = videoUrl else { return }
+        guard let url = URL(string: videoUrl) else { return }
         let asset = AVURLAsset(url: url)
         let playItem = AVPlayerItem(asset: asset)
         self.player = AVPlayer(playerItem: playItem)
         
         
         resultHandler?( .setAVplayer(self.player!) )
-        resultHandler?( .setTitle(info.title ?? "") )
-        resultHandler?( .setDescription(info.description ?? "") )
-        resultHandler?( .setTags(info.tags ?? []) )
         
         self.player?.play()
         
@@ -88,8 +82,8 @@ class SLUploadVideoPreviewReactor : NSObject, SLReactor {
         self.addTimeControlStatusObserver()
     }
     
-    private func onSetUploadInfo(info : SLUploadAttachmentInfo){
-        self.uploadInfo = info
+    private func onSetUrl(url: String){
+        self.videoUrl = url
     }
     
     private func onSeekTo(time : CMTime) {

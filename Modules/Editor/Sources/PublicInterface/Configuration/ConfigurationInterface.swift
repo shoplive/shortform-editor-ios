@@ -52,3 +52,8 @@ protocol SLVideoOutputConfigOption {
     var videoOutputQuality : SLVideoOutputQuality { get set }
     var videoOutputResolution : SLVideoOutputResolution { get set }
 }
+
+protocol SLVideoUploadOption {
+    var shortsStatus: ShopLiveShortsStatus { get set }
+    var isCreatedShortform: Bool { get set }
+}

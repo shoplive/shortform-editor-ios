@@ -61,6 +61,16 @@ public final class ShopLiveShortformEditorVideoOuputOption : SLVideoOutputConfig
     }
 }
 
+public final class ShopLiveShortFormEditorVideoUploadOption: SLVideoUploadOption {
+    public var shortsStatus: ShopLiveShortsStatus
+    public var isCreatedShortform: Bool
+    
+    public init(shortsStatus: ShopLiveShortsStatus = .OPENED, isCreatedShortform: Bool = true) {
+        self.shortsStatus = shortsStatus
+        self.isCreatedShortform = isCreatedShortform
+    }
+}
+
 public final class ShopLiveShortformEditorConfiguration {
     
     public var videoCropOption : ShopLiveShortFormEditorAspectRatio = .init()
@@ -68,11 +78,13 @@ public final class ShopLiveShortformEditorConfiguration {
     public var videoTrimOption : ShopLiveShortFormEditorTrimOption = .init()
     public var videoOutputOption : ShopLiveShortformEditorVideoOuputOption = .init()
     public var videoDurationOption : ShopLiveMediaPickerVideoDurationOption = .init()
+    public var videoUploadOption : ShopLiveShortFormEditorVideoUploadOption = .init()
     
     public init(videoCropOption: ShopLiveShortFormEditorAspectRatio,
                 visibleContents : ShopLiveShortFormEditorVisibleContent?,
                 videoOutputOption : ShopLiveShortformEditorVideoOuputOption?,
                 mediaPickerVideoDurationOption : ShopLiveMediaPickerVideoDurationOption?,
+                videoUploadOption: ShopLiveShortFormEditorVideoUploadOption?,
                 minVideoDuration : CGFloat? = nil,
                 maxVideoDuration : CGFloat? = nil) {
         self.videoCropOption = videoCropOption
@@ -88,6 +100,10 @@ public final class ShopLiveShortformEditorConfiguration {
             self.videoOutputOption = videoOutputOption
         }
         
+        if let videoUploadOption = videoUploadOption {
+            self.videoUploadOption = videoUploadOption
+        }
+        
         if let maxVideoDuration = maxVideoDuration  {
             if maxVideoDuration <= (minVideoDuration ?? 1) {
                 self.videoTrimOption = .init()
@@ -98,3 +114,4 @@ public final class ShopLiveShortformEditorConfiguration {
         }
     }
 }
+

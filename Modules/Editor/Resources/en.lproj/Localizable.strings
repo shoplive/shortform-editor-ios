@@ -165,6 +165,9 @@
 "editor.no.shoplive" = "No";
 "editor.loading.shoplive" = "Loading";
 
+//Preview
+"editor.ugc.preview.title" = "Preview";
+
 "editor.toast.encoding.video.was.not.exist.shoplive" = "Video not found.";
 "editor.toast.encoding.uri.was.not.created.shoplive" = "Failed to create URL.";
 "editor.toast.encoding.canceled.shoplive" = "Encoding canceled";
