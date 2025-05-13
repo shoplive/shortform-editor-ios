@@ -49,7 +49,7 @@ public class SLCircularProgressIndicatorView: UIView, UIGestureRecognizerDelegat
         self.setLayout()
         
         let loadingViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleLoadingViewTapGesture))
-        loadingView.addGestureRecognizer(loadingViewTapGesture)
+        self.addGestureRecognizer(loadingViewTapGesture)
         loadingViewTapGesture.delegate = self
         loadingViewTapGesture.isEnabled = true
         
@@ -62,9 +62,9 @@ public class SLCircularProgressIndicatorView: UIView, UIGestureRecognizerDelegat
     
     
     public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        let loadingViewBounds = self.loadingView.frame
+        let loadingViewBounds = self.frame
         if loadingViewBounds.contains(point) && self.alpha == 1 && self.isHidden == false {
-            return loadingView
+            return self
         }
         return nil
     }
