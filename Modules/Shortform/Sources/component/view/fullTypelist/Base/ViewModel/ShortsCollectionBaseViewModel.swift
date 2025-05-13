@@ -379,7 +379,7 @@ extension ShortsCollectionBaseViewModel {
         }
         
         cells.forEach { cell in
-            cell.setMute(self.isMuted)
+            cell.setMute(isMuted)
         }
     }
     
