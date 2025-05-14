@@ -19,7 +19,7 @@ protocol ShopLiveShortformUploaderViewControllerDelegate: NSObjectProtocol {
     func onUploadComplete()
 }
 
-class ShopLiveShortformUploaderViewController: SLBaseViewController {
+class ShopLiveShortformUploaderViewController: UIViewController {
     private let webView: SLWebView = SLWebView()
     let reactor: ShopLiveShortformUploaderReactor
     
