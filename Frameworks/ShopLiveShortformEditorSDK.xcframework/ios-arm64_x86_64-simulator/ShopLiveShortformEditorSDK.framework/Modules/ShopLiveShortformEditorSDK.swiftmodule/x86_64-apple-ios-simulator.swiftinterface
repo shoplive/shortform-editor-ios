@@ -18,6 +18,7 @@ import Swift
 import SwiftUI
 import UIKit
 import VideoToolbox
+import WebKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
@@ -366,6 +367,11 @@ public enum ShopLiveShortformEditorSDKStrings : Swift.Sendable {
         }
       }
     }
+    public enum Ugc : Swift.Sendable {
+      public enum Preview : Swift.Sendable {
+        public static let title: Swift.String
+      }
+    }
     public enum Upload : Swift.Sendable {
       public static let shoplive: Swift.String
       public enum Description : Swift.Sendable {
@@ -407,7 +413,24 @@ public enum ShopLiveShortformEditorSDKStrings : Swift.Sendable {
 @_hasMissingDesignatedInitializers public class ShortFormUploadConfigurationInfosManager {
   public static let shared: ShopLiveShortformEditorSDK.ShortFormUploadConfigurationInfosManager
   public func getBaseUrl() -> Swift.String
+  public func getUgcUrl() -> Swift.String
   @objc deinit
+}
+public enum ShopLiveShortsStatus : Swift.String {
+  case OPENED
+  case CLOSED
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers final public class ShopLiveDelegateInternalManager {
+  public static let shared: ShopLiveShortformEditorSDK.ShopLiveDelegateInternalManager
+  final public func getMessageDelegate() -> (any ShopLiveShortformEditorSDK.ShopLiveShortformUploaderMessageDelegate)?
+  @objc deinit
+}
+public struct SLUploadAttachmentInfo {
 }
 @objc public protocol ShopLiveCoverPickerDelegate {
   @objc optional func onShopLiveCoverPickerError(picker: UIKit.UIViewController?, error: ShopliveSDKCommon.ShopLiveCommonError)
@@ -437,6 +460,18 @@ public enum ShopLiveShortformEditorSDKStrings : Swift.Sendable {
   @objc optional func onShopLiveVideoEditorUploadSuccess(editor: UIKit.UIViewController?, result: ShopLiveShortformEditorSDK.ShopliveEditorResultData?)
   @objc optional func onShopLiveVideoEditorCancelled(editor: UIKit.UIViewController?)
   @objc optional func onShopLiveVideoEditorOnEvent(editor: UIKit.UIViewController?, name: Swift.String, payload: [Swift.String : Any]?)
+}
+@objc public protocol ShopLiveShortformUploaderDelegate {
+  @objc optional func onShopLiveShortformUploaderOpenVideoEditor()
+  @objc optional func onShopLiveShortformUploaderUploadSuccess()
+  @objc optional func onShopLiveShortformUploaderPlayPreview(root: UIKit.UIViewController, url: Swift.String)
+  @objc optional func onShopLiveShortformUploaderOpenCoverPicker(editor: UIKit.UIViewController?, shortsId: Swift.String, videoUrl: Swift.String?)
+  @objc optional func onShopLiveShortformUploaderEvent(command: Swift.String, payload: [Swift.String : Any]?)
+  @objc optional func onShopLiveShortformUploaderError(error: ShopliveSDKCommon.ShopLiveCommonError)
+}
+@objc public protocol ShopLiveShortformUploaderMessageDelegate {
+  @objc optional func upload(id: Swift.String)
+  @objc optional func successCoverChange()
 }
 public enum SLVideoOutputQuality {
   case normal
@@ -551,13 +586,20 @@ final public class ShopLiveShortformEditorVideoOuputOption {
   public init(videoOutputQuality: ShopLiveShortformEditorSDK.SLVideoOutputQuality = .high, videoOutputResoltuion: ShopLiveShortformEditorSDK.SLVideoOutputResolution = ._720)
   @objc deinit
 }
+final public class ShopLiveShortFormEditorVideoUploadOption {
+  final public var shortsStatus: ShopLiveShortformEditorSDK.ShopLiveShortsStatus
+  final public var isCreatedShortform: Swift.Bool
+  public init(shortsStatus: ShopLiveShortformEditorSDK.ShopLiveShortsStatus = .OPENED, isCreatedShortform: Swift.Bool = true)
+  @objc deinit
+}
 final public class ShopLiveShortformEditorConfiguration {
   final public var videoCropOption: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorAspectRatio
   final public var visibleContents: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorVisibleContent
   final public var videoTrimOption: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorTrimOption
   final public var videoOutputOption: ShopLiveShortformEditorSDK.ShopLiveShortformEditorVideoOuputOption
   final public var videoDurationOption: ShopLiveShortformEditorSDK.ShopLiveMediaPickerVideoDurationOption
-  public init(videoCropOption: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorAspectRatio, visibleContents: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorVisibleContent?, videoOutputOption: ShopLiveShortformEditorSDK.ShopLiveShortformEditorVideoOuputOption?, mediaPickerVideoDurationOption: ShopLiveShortformEditorSDK.ShopLiveMediaPickerVideoDurationOption?, minVideoDuration: CoreFoundation.CGFloat? = nil, maxVideoDuration: CoreFoundation.CGFloat? = nil)
+  final public var videoUploadOption: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorVideoUploadOption
+  public init(videoCropOption: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorAspectRatio, visibleContents: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorVisibleContent?, videoOutputOption: ShopLiveShortformEditorSDK.ShopLiveShortformEditorVideoOuputOption?, mediaPickerVideoDurationOption: ShopLiveShortformEditorSDK.ShopLiveMediaPickerVideoDurationOption?, videoUploadOption: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorVideoUploadOption?, minVideoDuration: CoreFoundation.CGFloat? = nil, maxVideoDuration: CoreFoundation.CGFloat? = nil)
   @objc deinit
 }
 final public class ShopliveVideoEditorAspectRatio {
@@ -578,7 +620,8 @@ final public class ShopliveVideoEditorConfiguration {
   final public var videoTrimOption: ShopLiveShortformEditorSDK.ShopliveVideoEditorTrimOption
   final public var videoOutputOption: ShopLiveShortformEditorSDK.ShopLiveShortformEditorVideoOuputOption
   final public var visibleContents: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorVisibleContent
-  public init(videoCropOption: ShopLiveShortformEditorSDK.ShopliveVideoEditorAspectRatio, videoOutputOption: ShopLiveShortformEditorSDK.ShopLiveShortformEditorVideoOuputOption?, videoTrimOption: ShopLiveShortformEditorSDK.ShopliveVideoEditorTrimOption?, visibleContents: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorVisibleContent?, minVideoDuration: CoreFoundation.CGFloat? = nil, maxVideoDuration: CoreFoundation.CGFloat? = nil)
+  final public var videoUploadOption: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorVideoUploadOption
+  public init(videoCropOption: ShopLiveShortformEditorSDK.ShopliveVideoEditorAspectRatio, videoOutputOption: ShopLiveShortformEditorSDK.ShopLiveShortformEditorVideoOuputOption?, videoTrimOption: ShopLiveShortformEditorSDK.ShopliveVideoEditorTrimOption?, visibleContents: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorVisibleContent?, videoUploadOption: ShopLiveShortformEditorSDK.ShopLiveShortFormEditorVideoUploadOption?, minVideoDuration: CoreFoundation.CGFloat? = nil, maxVideoDuration: CoreFoundation.CGFloat? = nil)
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class ShopLiveCoverPicker {
@@ -624,6 +667,24 @@ public class ShopLiveCoverPickerData {
   public func setConfiguration(_ configuration: ShopLiveShortformEditorSDK.ShopLiveMediaPickerConfiguration?) -> Self
   public func build(type: ShopLiveShortformEditorSDK.SLMediaType, completion: @escaping (UIKit.UIViewController) -> ())
   public func cleanUpMemory()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class ShopLiveShortformUploader : ObjectiveC.NSObject {
+  public static let shared: ShopLiveShortformEditorSDK.ShopLiveShortformUploader
+  @objc override dynamic public init()
+  @discardableResult
+  public func setDelegate(_ delegate: (any ShopLiveShortformEditorSDK.ShopLiveShortformUploaderDelegate)?) -> Self
+  @discardableResult
+  public func setUploaderData(_ data: ShopLiveShortformEditorSDK.ShopLiveShortformUploaderData) -> Self
+  public func build(completion: @escaping (UIKit.UIViewController) -> ())
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class ShopLiveVideoUploadPreview : ObjectiveC.NSObject {
+  public static let shared: ShopLiveShortformEditorSDK.ShopLiveVideoUploadPreview
+  @discardableResult
+  public func setUrl(url: Swift.String) -> Self
+  public func build(completion: @escaping (UIKit.UIViewController) -> ())
+  @objc override dynamic public init()
   @objc deinit
 }
 public class ShopLiveShortformEditor {
@@ -690,6 +751,9 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var titleTextColor: UIKit.UIColor
     public var titleTextWeight: UIKit.UIFont.Weight
     public var titleTextSize: CoreFoundation.CGFloat
+    public var bottomTitleTextColor: UIKit.UIColor
+    public var bottomTitleTextWeight: UIKit.UIFont.Weight
+    public var bottomTitleTextSize: CoreFoundation.CGFloat
     public var backButtonIcon: UIKit.UIImage
     public var backButtonIconPadding: UIKit.UIEdgeInsets
     public var backButtonIconTintColor: UIKit.UIColor
@@ -833,6 +897,12 @@ public class ShortsVideo {
   public func getVideoDuration() -> Swift.Double
   public func getVideoSize() -> CoreFoundation.CGSize?
 }
+public struct ShopLiveShortformUploaderUiDTO : Swift.Encodable {
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public struct ShopLiveConversionProductDTO : Swift.Encodable {
+  public func encode(to encoder: any Swift.Encoder) throws
+}
 public struct SLPhotosPickerConfigure {
   public var customLocalizedTitle: [Swift.String : Swift.String]
   public var tapHereToChange: Swift.String
@@ -967,6 +1037,27 @@ public enum SLMediaType {
   public var hashValue: Swift.Int {
     get
   }
+}
+public struct ShopLiveShortformUploaderData {
+  public init(shortsId: Swift.String? = nil, ui: ShopLiveShortformEditorSDK.ShopLiveUgcUploaderUiData = .init(), tags: [Swift.String] = [], products: [ShopLiveShortformEditorSDK.ShopLiveConversionProductData] = [])
+}
+public struct ShopLiveUgcUploaderUiData {
+  public init(hashTag: Swift.Bool = true, videoChange: Swift.Bool = false, rating: Swift.Bool = false)
+}
+public struct ShopLiveConversionProductData {
+  public init(sku: Swift.String? = nil, url: Swift.String? = nil, productId: Swift.String? = nil, customProductId: Swift.String? = nil)
+}
+public enum ShopLiveShortformUploaderWebInterface {
+  case setUgcInitialized
+  case setShowUgcEditPage
+  case ugcNetworkError(message: Swift.String)
+  case clickVideoEdit
+  case clickVideoPlay(data: ShopLiveShortformEditorSDK.SLUploadAttachmentInfo)
+  case clickCoverChange(shortsId: Swift.String, videoUrl: Swift.String?)
+  case sendUGCEditPageWithShorts
+  case ugcUploadComplete
+  case closeShortformUgcDetail
+  case closeUgcListPage
 }
 @objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) open class SLBackspaceDetectingTextField : UIKit.UITextField {
   @_Concurrency.MainActor(unsafe) open var onDeleteBackwards: (() -> Swift.Void)?
@@ -1292,6 +1383,9 @@ extension ShopLiveShortformEditorSDK.SLWSTagsField {
 extension ShopLiveShortformEditorSDK.SLWSTagsField {
   @_Concurrency.MainActor(unsafe) @objc override dynamic open func hitTest(_ point: CoreFoundation.CGPoint, with event: UIKit.UIEvent?) -> UIKit.UIView?
 }
+extension ShopLiveShortformEditorSDK.ShopLiveShortsStatus : Swift.Equatable {}
+extension ShopLiveShortformEditorSDK.ShopLiveShortsStatus : Swift.Hashable {}
+extension ShopLiveShortformEditorSDK.ShopLiveShortsStatus : Swift.RawRepresentable {}
 extension ShopLiveShortformEditorSDK.SLVideoOutputQuality : Swift.Equatable {}
 extension ShopLiveShortformEditorSDK.SLVideoOutputQuality : Swift.Hashable {}
 extension ShopLiveShortformEditorSDK.SLVideoOutputResolution : Swift.Equatable {}

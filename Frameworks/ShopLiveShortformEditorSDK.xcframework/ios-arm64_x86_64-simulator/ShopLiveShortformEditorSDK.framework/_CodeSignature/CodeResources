@@ -6,11 +6,11 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		zQ969PHRTaTuVj6WizKwOjciyCI=
+		fL+eb+lAR2SqRManlROpqnfbDqQ=
 		</data>
 		<key>Headers/ShopLiveShortformEditorSDK-Swift.h</key>
 		<data>
-		JQUESQZlSFGaB/xzn50bc0Oze94=
+		1JG4AFKBiE42Q6kQ9Zv6vyvwvc8=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -18,43 +18,43 @@
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		c4Yx5a6SPkdvfznNax3phouJMVw=
+		7iweqplDhH/VBYSACf+TGrF+k9I=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		kpyb+PkLLsJjBj9r2vk65wgXtZ0=
+		hrdQZsqFh1O/xbS2im7wTc3xCpY=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		mUmxvzPCdnvieHsUFMIg/hq2AxA=
+		ZsOHRILeMMVg5H9f3+rHmtCdffI=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		kpyb+PkLLsJjBj9r2vk65wgXtZ0=
+		hrdQZsqFh1O/xbS2im7wTc3xCpY=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		v+Sk7LQ9tdYRf8cl+1GK5nE/QeE=
+		k1EPWgAFZN7qvtNTUMngPY1lWWk=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		c4Yx5a6SPkdvfznNax3phouJMVw=
+		7iweqplDhH/VBYSACf+TGrF+k9I=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		L/DjSoxiJX8P8fKLROLuQh2KFAg=
+		M1ARiG1nNE9GhbKhk0f4PYnd04o=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		x/tsKKHWg+bm6Z4BZnoJkDbo1dY=
+		h2usx1s5cOYo3+AsqpnY9l4J6BY=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		L/DjSoxiJX8P8fKLROLuQh2KFAg=
+		M1ARiG1nNE9GhbKhk0f4PYnd04o=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		l/g/5ZnFMNLkJRFRwk7qnEQcA6Y=
+		K5iBeZjlDZ7FVvOxumKZ2NG+DvA=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -88,7 +88,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			mITbpnnogJur/HgbUUkofqYgACE=
+			cU9+aFPIxfko1marRrL9X3UbPB8=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -97,7 +97,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			S777UKslzBbIkgG5k6A8J29yXvI=
+			5kj417d9x0pLDwTKoyFPsAaXOt8=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -106,7 +106,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			PXvJZqSV6XbSAmEz2OHET/hO6RI=
+			czw8t7dKJAR/f+BYjYaPtwpvm8Q=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -118,84 +118,84 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			SP462/F1GnQfpcX0D0NOg6ulVHv1NNFfdKMmCJ0GMjo=
+			TIRdD1CkJsHnDl0sizsrKd1RwC7pqwhBt7JUzdr2QE8=
 			</data>
 		</dict>
 		<key>Headers/ShopLiveShortformEditorSDK-Swift.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			7dzFqNaDuloV2H8yWsj0TU8A4j4XK9wf+7ZwanK9ELU=
+			TitZDoMFmIjTmt63PPGHT0CWQTn18/fCZxZdKtn7ovg=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			xBaUnZKd5jACU/TFr+tZY2DUqWRGm94lZrfpzrAtrMM=
+			J0msYK/o7GBWEIx4C9UtUinwQO1eIAuwqVm44qAX6wU=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			xBLdrbm78VupbH0+yyeavpsdsHMYaZJWTg8QtV7y5p0=
+			YsAIiNZFBOGY/dnCyc8v9fQQhYnyB3Yw4cnRkN+W/tc=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			W/1pg2K7oUz6+Bs54oeDnrGeP0xeMHroebt85Qgg+Z8=
+			pdkOIXPj17dcDp+sM2I6fPqFgehha3zDUoLTtq7UTMI=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			xBLdrbm78VupbH0+yyeavpsdsHMYaZJWTg8QtV7y5p0=
+			YsAIiNZFBOGY/dnCyc8v9fQQhYnyB3Yw4cnRkN+W/tc=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			zijRmeD4C77PbrZ89mCWztY2hJ+BcqeQ2p8RjzSdnk8=
+			89HAR3ECZKDd6E3AyapLGCqV4lJoX0NV3ffMfw8uvCI=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			xBaUnZKd5jACU/TFr+tZY2DUqWRGm94lZrfpzrAtrMM=
+			J0msYK/o7GBWEIx4C9UtUinwQO1eIAuwqVm44qAX6wU=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			VEUnjBCmFyLF0/W+OLtl7I6lU8o99BGyinQZiL+xkGY=
+			+eTtZU26hzlH4Ulll3KQtZ21MsZ+eiIWFBSJaM6NNjw=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			K/xtTaWhhXwpzqmp6LkVnty/wYHNdpqu0o5Ye9yYSKQ=
+			P89puOWBDoXOAeXAovGXoXNUV35U51F4ecf7MjEgeMA=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			VEUnjBCmFyLF0/W+OLtl7I6lU8o99BGyinQZiL+xkGY=
+			+eTtZU26hzlH4Ulll3KQtZ21MsZ+eiIWFBSJaM6NNjw=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ud1X8dCji3CEuyzUxjpsRLCm8Ih8EVS3OcF5LKg+ljQ=
+			9XcuyzMsuRgdi0I7mXlZUs1Y/IfBoex7d7phQuTqH5g=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -251,7 +251,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			vvq32rxcayQDFsDXSXNefSmpuToax4IdPVEfnYDlmL4=
+			yFC5V3YVgdgqvfO593FlOWOkNlrISjpTYZaMgRANiOM=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -260,7 +260,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			y5e0DXV+7Whv+makvRHtbnDtPcI6pbUl1CK+FXU9Ves=
+			Iw0strxyFVgXB1rJZgeoCe7ytu5CvUtfZuRQRg+p99E=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -269,7 +269,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ZWnzuVP/+hk6zq6oB5ZD7uei1JrYyAUmYgrG1+5o5QI=
+			zCkZmRhVK2tRtWRK0Kco0ktfWewVhtP2UrZBMBNmsXQ=
 			</data>
 			<key>optional</key>
 			<true/>

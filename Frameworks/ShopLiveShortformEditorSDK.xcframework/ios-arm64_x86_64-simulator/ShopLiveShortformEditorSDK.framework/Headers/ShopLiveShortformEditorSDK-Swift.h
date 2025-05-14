@@ -473,6 +473,33 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) NSBundle * _
 @end
 
 
+SWIFT_CLASS("_TtC26ShopLiveShortformEditorSDK25ShopLiveShortformUploader")
+@interface ShopLiveShortformUploader : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+
+SWIFT_PROTOCOL("_TtP26ShopLiveShortformEditorSDK33ShopLiveShortformUploaderDelegate_")
+@protocol ShopLiveShortformUploaderDelegate
+@optional
+- (void)onShopLiveShortformUploaderOpenVideoEditor;
+- (void)onShopLiveShortformUploaderUploadSuccess;
+- (void)onShopLiveShortformUploaderPlayPreviewWithRoot:(UIViewController * _Nonnull)root url:(NSString * _Nonnull)url;
+- (void)onShopLiveShortformUploaderOpenCoverPickerWithEditor:(UIViewController * _Nullable)editor shortsId:(NSString * _Nonnull)shortsId videoUrl:(NSString * _Nullable)videoUrl;
+- (void)onShopLiveShortformUploaderEventWithCommand:(NSString * _Nonnull)command payload:(NSDictionary<NSString *, id> * _Nullable)payload;
+- (void)onShopLiveShortformUploaderErrorWithError:(ShopLiveCommonError * _Nonnull)error;
+@end
+
+
+SWIFT_PROTOCOL("_TtP26ShopLiveShortformEditorSDK40ShopLiveShortformUploaderMessageDelegate_")
+@protocol ShopLiveShortformUploaderMessageDelegate
+@optional
+- (void)uploadWithId:(NSString * _Nonnull)id;
+- (void)successCoverChange;
+@end
+
+
 SWIFT_PROTOCOL("_TtP26ShopLiveShortformEditorSDK27ShopLiveVideoEditorDelegate_")
 @protocol ShopLiveVideoEditorDelegate
 @optional
@@ -481,6 +508,12 @@ SWIFT_PROTOCOL("_TtP26ShopLiveShortformEditorSDK27ShopLiveVideoEditorDelegate_")
 - (void)onShopLiveVideoEditorUploadSuccessWithEditor:(UIViewController * _Nullable)editor result:(ShopliveEditorResultData * _Nullable)result;
 - (void)onShopLiveVideoEditorCancelledWithEditor:(UIViewController * _Nullable)editor;
 - (void)onShopLiveVideoEditorOnEventWithEditor:(UIViewController * _Nullable)editor name:(NSString * _Nonnull)name payload:(NSDictionary<NSString *, id> * _Nullable)payload;
+@end
+
+
+SWIFT_CLASS("_TtC26ShopLiveShortformEditorSDK26ShopLiveVideoUploadPreview")
+@interface ShopLiveVideoUploadPreview : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -980,6 +1013,33 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) NSBundle * _
 @end
 
 
+SWIFT_CLASS("_TtC26ShopLiveShortformEditorSDK25ShopLiveShortformUploader")
+@interface ShopLiveShortformUploader : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+
+SWIFT_PROTOCOL("_TtP26ShopLiveShortformEditorSDK33ShopLiveShortformUploaderDelegate_")
+@protocol ShopLiveShortformUploaderDelegate
+@optional
+- (void)onShopLiveShortformUploaderOpenVideoEditor;
+- (void)onShopLiveShortformUploaderUploadSuccess;
+- (void)onShopLiveShortformUploaderPlayPreviewWithRoot:(UIViewController * _Nonnull)root url:(NSString * _Nonnull)url;
+- (void)onShopLiveShortformUploaderOpenCoverPickerWithEditor:(UIViewController * _Nullable)editor shortsId:(NSString * _Nonnull)shortsId videoUrl:(NSString * _Nullable)videoUrl;
+- (void)onShopLiveShortformUploaderEventWithCommand:(NSString * _Nonnull)command payload:(NSDictionary<NSString *, id> * _Nullable)payload;
+- (void)onShopLiveShortformUploaderErrorWithError:(ShopLiveCommonError * _Nonnull)error;
+@end
+
+
+SWIFT_PROTOCOL("_TtP26ShopLiveShortformEditorSDK40ShopLiveShortformUploaderMessageDelegate_")
+@protocol ShopLiveShortformUploaderMessageDelegate
+@optional
+- (void)uploadWithId:(NSString * _Nonnull)id;
+- (void)successCoverChange;
+@end
+
+
 SWIFT_PROTOCOL("_TtP26ShopLiveShortformEditorSDK27ShopLiveVideoEditorDelegate_")
 @protocol ShopLiveVideoEditorDelegate
 @optional
@@ -988,6 +1048,12 @@ SWIFT_PROTOCOL("_TtP26ShopLiveShortformEditorSDK27ShopLiveVideoEditorDelegate_")
 - (void)onShopLiveVideoEditorUploadSuccessWithEditor:(UIViewController * _Nullable)editor result:(ShopliveEditorResultData * _Nullable)result;
 - (void)onShopLiveVideoEditorCancelledWithEditor:(UIViewController * _Nullable)editor;
 - (void)onShopLiveVideoEditorOnEventWithEditor:(UIViewController * _Nullable)editor name:(NSString * _Nonnull)name payload:(NSDictionary<NSString *, id> * _Nullable)payload;
+@end
+
+
+SWIFT_CLASS("_TtC26ShopLiveShortformEditorSDK26ShopLiveVideoUploadPreview")
+@interface ShopLiveVideoUploadPreview : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
