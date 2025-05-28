@@ -322,8 +322,7 @@ public extension APIDefinition {
         request.httpBody = createBody(boundary: boundary)
         
         let sessionConfg = URLSessionConfiguration.default
-        sessionConfg.timeoutIntervalForRequest = 100
-        sessionConfg.timeoutIntervalForResource = 100
+        sessionConfg.timeoutIntervalForRequest = 999
         
         if self.showRequestLog {
             var log = "[HASSAN LOG] requestLog \n"
@@ -337,7 +336,7 @@ public extension APIDefinition {
         
         let task = URLSession(configuration: sessionConfg).dataTask(with: request) { data , response , error  in
             if self.showResponseLog {
-                ShopLiveLogger.tempLog("[UPLOADRESPONSE] \(String(data: data!, encoding: .utf8) ?? "no data")")
+                ShopLiveLogger.tempLog("[UPLOADRESPONSE] \(String(data: data ?? Data(), encoding: .utf8) ?? "no data")")
             }
             
             let statusCode = (response as? HTTPURLResponse)?.statusCode
