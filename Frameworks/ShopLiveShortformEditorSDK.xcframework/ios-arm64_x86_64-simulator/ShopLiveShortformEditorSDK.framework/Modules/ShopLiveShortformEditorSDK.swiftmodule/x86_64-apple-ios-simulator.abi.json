@@ -63112,111 +63112,104 @@
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
       "offset": 7002,
-      "length": 6240,
+      "length": 6635,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 7616,
+      "offset": 7673,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 7662,
+      "offset": 7719,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "IntegerLiteral",
-      "offset": 7792,
+      "offset": 7849,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "IntegerLiteral",
-      "offset": 7899,
+      "offset": 7956,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 8143,
+      "offset": 8200,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 8169,
+      "offset": 8226,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 8388,
+      "offset": 8445,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 8429,
+      "offset": 8486,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 8622,
+      "offset": 8679,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 8678,
+      "offset": 8735,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 9007,
+      "offset": 9064,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 9056,
+      "offset": 9113,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 9280,
+      "offset": 9337,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 9344,
-      "length": 5,
-      "value": "false"
-    },
-    {
-      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
-      "kind": "BooleanLiteral",
-      "offset": 9725,
+      "offset": 9401,
       "length": 5,
       "value": "false"
     },
@@ -63230,91 +63223,119 @@
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 10026,
+      "offset": 9839,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
+      "kind": "BooleanLiteral",
+      "offset": 10083,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "Array",
-      "offset": 10344,
+      "offset": 10401,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 10515,
+      "offset": 10572,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 10555,
+      "offset": 10612,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "Array",
-      "offset": 10775,
+      "offset": 10832,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "IntegerLiteral",
-      "offset": 11118,
+      "offset": 11175,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
-      "offset": 11157,
+      "offset": 11214,
       "length": 27,
       "value": "\"ffmpeg command \""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
-      "offset": 11183,
+      "offset": 11240,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "StringLiteral",
-      "offset": 12042,
+      "offset": 11891,
+      "length": 9,
+      "value": "\"No Logs\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
+      "kind": "StringLiteral",
+      "offset": 12109,
+      "length": 16,
+      "value": "\"No stack trace\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
+      "kind": "StringLiteral",
+      "offset": 12193,
+      "length": 9,
+      "value": "\"No Logs\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
+      "kind": "StringLiteral",
+      "offset": 12437,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "IntegerLiteral",
-      "offset": 12363,
+      "offset": 12758,
       "length": 4,
       "value": "1000"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "IntegerLiteral",
-      "offset": 12478,
+      "offset": 12873,
       "length": 3,
       "value": "100"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "IntegerLiteral",
-      "offset": 12611,
+      "offset": 13006,
       "length": 3,
       "value": "100"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "IntegerLiteral",
-      "offset": 12726,
+      "offset": 13121,
       "length": 3,
       "value": "100"
     },
@@ -72049,274 +72070,309 @@
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
+      "kind": "StringLiteral",
+      "offset": 13771,
+      "length": 37,
+      "value": "\"processVideoConvert error: \""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
+      "kind": "StringLiteral",
+      "offset": 13807,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
+      "kind": "StringLiteral",
+      "offset": 14190,
+      "length": 16,
+      "value": "\"No stack trace\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
+      "kind": "StringLiteral",
+      "offset": 14661,
+      "length": 49,
+      "value": "\"processVideoConvert error not Cancel : \""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
+      "kind": "StringLiteral",
+      "offset": 14709,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "IntegerLiteral",
-      "offset": 14140,
+      "offset": 15076,
       "length": 3,
       "value": "100"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 14202,
+      "offset": 15138,
       "length": 11,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 14211,
+      "offset": 15147,
       "length": 1,
       "value": "\"%\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "BooleanLiteral",
-      "offset": 15803,
+      "offset": 16739,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "BooleanLiteral",
-      "offset": 15959,
+      "offset": 16895,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "BooleanLiteral",
-      "offset": 16868,
+      "offset": 17804,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "IntegerLiteral",
-      "offset": 17534,
+      "offset": 18470,
       "length": 5,
       "value": "44100"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "BooleanLiteral",
-      "offset": 19216,
+      "offset": 20152,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 19631,
+      "offset": 20567,
       "length": 151,
       "value": "\"[SLVideoEditorMainViewReactor] self.makeShortsJson(videoId: videoId, imageUrl: imageUrl) \""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 19781,
+      "offset": 20717,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 20064,
+      "offset": 21000,
       "length": 78,
       "value": "\"[SLVideoEditorMainViewReactor] originSLShortsModel \""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 20141,
+      "offset": 21077,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "BooleanLiteral",
-      "offset": 21600,
+      "offset": 22536,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "Dictionary",
-      "offset": 21837,
+      "offset": 22773,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "Dictionary",
-      "offset": 21891,
+      "offset": 22827,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 21913,
+      "offset": 22849,
       "length": 10,
       "value": "\"cardType\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 21927,
+      "offset": 22863,
       "length": 7,
       "value": "\"VIDEO\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 21953,
+      "offset": 22889,
       "length": 8,
       "value": "\"source\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 21965,
+      "offset": 22901,
       "length": 7,
       "value": "\"media\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 21991,
+      "offset": 22927,
       "length": 9,
       "value": "\"videoId\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 22071,
+      "offset": 23007,
       "length": 24,
       "value": "\"specifiedScreenshotUrl\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "Dictionary",
-      "offset": 22175,
+      "offset": 23111,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "Dictionary",
-      "offset": 22227,
+      "offset": 23163,
       "length": 3,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 22309,
+      "offset": 23245,
       "length": 8,
       "value": "\"userId\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 22381,
+      "offset": 23317,
       "length": 15,
       "value": "\"displayUserId\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 22435,
+      "offset": 23371,
       "length": 15,
       "value": "\"displayUserId\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 22552,
+      "offset": 23488,
       "length": 10,
       "value": "\"userName\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 22637,
+      "offset": 23573,
       "length": 14,
       "value": "\"profileImage\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 22690,
+      "offset": 23626,
       "length": 14,
       "value": "\"profileImage\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "BooleanLiteral",
-      "offset": 22784,
+      "offset": 23720,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 22821,
+      "offset": 23757,
       "length": 9,
       "value": "\"creator\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 23099,
+      "offset": 24035,
       "length": 7,
       "value": "\"cards\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 23141,
+      "offset": 24077,
       "length": 14,
       "value": "\"shortsDetail\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 23195,
+      "offset": 24131,
       "length": 12,
       "value": "\"shortsType\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 23211,
+      "offset": 24147,
       "length": 6,
       "value": "\"CARD\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 23243,
+      "offset": 24179,
       "length": 8,
       "value": "\"shorts\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 23266,
+      "offset": 24202,
       "length": 14,
       "value": "\"shortsStatus\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 23324,
+      "offset": 24260,
       "length": 9,
       "value": "\"startAt\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "IntegerLiteral",
-      "offset": 23373,
+      "offset": 24309,
       "length": 4,
       "value": "1000"
     },
