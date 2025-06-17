@@ -234,9 +234,9 @@ enum SLVideoFFMpegExecuteResult {
     case Failed(error: Error)
 }
 
-enum SLVideoConvertError: Error {
-    case cancel
-    case error
+enum SLVideoConvertError: Error, Equatable {
+    case cancel(log: String)
+    case error(failLog: String, allLog: String)
 }
 
 protocol SLVideoConverterDelegate: AnyObject {
@@ -343,12 +343,17 @@ class SLVideoConverter : NSObject {
                     }
                 }
                 guard let returnCode = session?.getReturnCode() else { return }
+                
                 if ReturnCode.isSuccess(returnCode) {
                     completion(.Success(()))
                 } else if ReturnCode.isCancel(returnCode) {
-                    completion(.Failed(error: SLVideoConvertError.cancel))
+                    let allLogs = session?.getAllLogsAsString() ?? "No Logs"
+                    completion(.Failed(error: SLVideoConvertError.cancel(log: allLogs)))
+                    
                 } else {
-                    completion(.Failed(error: SLVideoConvertError.error))
+                    let failStackTrace = session?.getFailStackTrace() ?? "No stack trace"
+                    let allLogs = session?.getAllLogsAsString() ?? "No Logs"
+                    completion(.Failed(error: SLVideoConvertError.error(failLog: failStackTrace, allLog: allLogs)))
                 }
             } withLogCallback: { log in
                 ShopLiveLogger.tempLog(log?.getMessage() ?? "")

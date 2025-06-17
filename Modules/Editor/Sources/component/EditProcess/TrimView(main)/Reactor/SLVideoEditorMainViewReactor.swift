@@ -369,10 +369,29 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
             case .Failed(let error):
                 self.isLoading = false
                 self.onMainQueueResultHandler?( .cancelLoading )
-                if let error = error as? SLVideoConvertError, error == .cancel {
-                    return
+                ShopLiveLogger.tempLog("processVideoConvert error: \(error)")
+                
+                var e : ShopLiveCommonError
+                
+                if let error = error as? SLVideoConvertError {
+                    switch error {
+                    case .error(let failLog, let allLog):
+                        
+                        var sendMessage: String = failLog
+                        
+                        if failLog == "No stack trace" {
+                            sendMessage = allLog
+                        }
+                        
+                        e = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedEncoding, error: error, message: sendMessage)
+                    case .cancel(let log):
+                        e = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedEncoding, error: error, message: nil)
+                        ShopLiveLogger.tempLog("processVideoConvert error not Cancel : \(error)")
+                    }
+                } else {
+                    e = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedEncoding, error: error, message: nil)
                 }
-                let e = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedEncoding, error: error, message: nil)
+                
                 resultHandler?( .onError(e) )
             }
         }
