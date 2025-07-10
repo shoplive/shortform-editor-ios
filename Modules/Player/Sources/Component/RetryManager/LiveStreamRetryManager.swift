@@ -16,7 +16,7 @@ protocol LiveStreamRetryManagerDelegate {
     func getCurrentWebViewUrl() -> URL?
 }
 
-class LiveStreamRetryManager {
+final class LiveStreamRetryManager {
     
     private var inBuffering : Bool = false
     private var requireRetryCheck : Bool = false
@@ -26,10 +26,8 @@ class LiveStreamRetryManager {
     private var isInRetry : Bool = false
     private var blockRetry : Bool = false
     
-    
     var delegate : LiveStreamRetryManagerDelegate?
 
-    
     func getIsBuffering() -> Bool {
         return inBuffering
     }
@@ -42,8 +40,7 @@ class LiveStreamRetryManager {
         self.requireRetryCheck = isRequired
     }
     
-    func reserveRetry(waitSecond: Int = 5, from : String = #function) {
-        
+    func reserveRetry(waitSecond: Int = 5, from: String = #function) {
         guard isInRetry == false else { return }
         self.requireRetryCheck = true
         ShopLiveController.playerItem?.cancelPendingSeeks()
@@ -55,7 +52,7 @@ class LiveStreamRetryManager {
         }
     }
     
-    func resetRetry(triggerFromWebView : Bool = false) {
+    func resetRetry(triggerFromWebView: Bool = false) {
         if triggerFromWebView == true && self.isTryingToRecoverFormNetworkDisconnected == false {
             return
         }
@@ -67,13 +64,11 @@ class LiveStreamRetryManager {
     
     func handleRetryPlay() {
         resetRetry()
-        if self.blockRetry == true {
-            return
-        }
+        guard self.blockRetry != true else { return }
         if ShopLiveController.retryPlay {
             isInRetry = true
             retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
-                guard let self = self else {
+                guard let self else {
                     timer.invalidate()
                     return
                 }

@@ -68,6 +68,7 @@ public class NetworkReachability {
         return ReachabilityStatus(reachabilityFlags: flags)
     }
 
+    /// Google.com에 대한 네트워크 연결 상태에 대한 감지
     func monitorReachabilityChanges() {
         let host = "google.com"
         var context = SCNetworkReachabilityContext(version: 0, info: nil, retain: nil, release: nil, copyDescription: nil)

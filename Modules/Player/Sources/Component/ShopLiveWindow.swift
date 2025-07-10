@@ -14,7 +14,6 @@ public class ShopliveWindow: SLWindow {
     private var timer : Timer?
     private var dispatchSource : DispatchSourceTimer?
     
-    
     func startBlockAddSubViewTimer(){
         blockAddSubView = true
         dispatchSource?.cancel()
@@ -87,6 +86,5 @@ public class ShopliveWindow: SLWindow {
     public func forceAddSubView(_ view : UIView){
         super.addSubview(view)
     }
-    
     
 }

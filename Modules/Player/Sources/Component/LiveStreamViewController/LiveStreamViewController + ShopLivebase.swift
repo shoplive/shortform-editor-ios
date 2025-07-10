@@ -16,40 +16,37 @@ import ShopliveSDKCommon
  */
 extension LiveStreamViewController {
     
+    // 오버레이 URL을 다시 설정하여 스트림 화면 갱신
     func reload() {
         ShopLiveController.overlayUrl = viewModel.getOverLayUrlWithInfosAttached()
     }
 
+    /// 쿠폰 다운로드 완료 후 오버레이에 반영
     func didCompleteDownLoadCoupon(with couponId: String) {
         overlayView?.didCompleteDownloadCoupon(with: couponId)
     }
 
+    /// 쿠폰 다운로드 결과를 오버레이에 전달
     func didCompleteDownLoadCoupon(with couponResult: ShopLiveCouponResult) {
         overlayView?.didCompleteDownloadCoupon(with: couponResult)
     }
-    
-    @available(*, deprecated, message: "use didCompleteDownLoadCoupon(with couponResult: ShopLiveCouponResult) instead")
-    func didCompleteDownLoadCoupon(with couponResult: CouponResult) {
-        overlayView?.didCompleteDownloadCoupon(with: couponResult)
-    }
 
+    /// 커스텀 액션 완료 후 오버레이에 알림
     func didCompleteCustomAction(with id: String) {
         overlayView?.didCompleteCustomAction(with: id)
     }
 
+    /// 커스텀 액션 결과를 오버레이에 전달
     func didCompleteCustomAction(with customActionResult: ShopLiveCustomActionResult) {
         overlayView?.didCompleteCustomAction(with: customActionResult)
     }
     
-    @available(*, deprecated, message: "use didCompleteCustomAction(with customActionResult: ShopLiveCustomActionResult) instead")
-    func didCompleteCustomAction(with customActionResult: CustomActionResult) {
-        overlayView?.didCompleteCustomAction(with: customActionResult)
-    }
-    
+    /// 세션 종료 시 웹소켓 연결 해제
     func onTerminated() {
         overlayView?.closeWebSocket()
     }
 
+    /// 화면 잠금 시 백그라운드 상태 전환 및 이벤트 전달
     func onLockScreen() {
         guard ShopLiveBase.sessionState != .background else {
             return
@@ -58,6 +55,7 @@ extension LiveStreamViewController {
         overlayView?.sendEventToWeb(event: .onBackground)
     }
     
+    /// 화면 잠금 해제 시 포그라운드 상태 복구 처리
     func onUnlockScreen() {
         guard ShopLiveController.windowStyle == .osPip else {
             return
@@ -70,6 +68,7 @@ extension LiveStreamViewController {
         overlayView?.sendEventToWeb(event: .onForeground)
     }
     
+    /// 앱이 백그라운드로 전환될 때 스트림 일시정지 처리
     func onBackground() {
         if ShopLiveController.windowStyle == .osPip {
             return
@@ -83,6 +82,7 @@ extension LiveStreamViewController {
         overlayView?.sendEventToWeb(event: .onBackground)
     }
 
+    /// 앱이 포그라운드로 돌아왔을 때 스트림 복원 및 상태 전환 처리
     func onForeground() {
         if ShopLiveController.windowStyle == .osPip {
             return

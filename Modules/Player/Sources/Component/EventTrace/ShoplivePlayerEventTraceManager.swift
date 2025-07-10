@@ -33,24 +33,7 @@ class ShoplivePlayerEventTraceManager {
         
         case detailOnSdkPlayerShow = "DETAIL_ON_SDK_PLAYER_SHOW"
         case detailOnSdkPlayerDismiss = "DETAIL_ON_SDK_PLAYER_DISMISS"
-        
-        
-        //web에서 찍는 것
-//        case previewActive = "PREVIEW_ACTIVE"
-//        case previewViewingSeconds = "PREVIEW_VIEWING_SECONDS"
-//        case pipActive = "PIP_ACTIVE"
-//        case pipViewingSeconds = "PIP_VIEWING_SECONDS"
-//        case pipPauseVideo = "PIP_PAUSE_VIDEO"
-//        case pipResumeVideo = "PIP_RESUME_VIDEO"
-        
-//        case pipOnHide, pipOnExpose 이벤트 캐치 불가능해서 쓰지 않기로 협의됨
-        
-        //폐기된 이벤트들
-//        case previewClickClose = "PREVIEW_CLICK_CLOSE"
-//        case previewSwipeOutClose = "PREVIEW_SWIPEOUT_CLOSE"
-//        case pipShow = "PIP_SHOW"
-//        case pipDismiss = "PIP_DISMISS"
-//        case pipClickClose = "PIP_CLICK_CLOSE"
+
     }
     
     enum EventCategory : String {

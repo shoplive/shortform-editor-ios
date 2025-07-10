@@ -23,7 +23,7 @@ import ShopliveSDKCommon
     private var blockWindowTapGesture : Bool = false
     private var inAppPipConfiguration : ShopLiveInAppPipConfiguration?
     private var blockLiveWindowPangestureHapticSound : Bool = false
-
+    
     private var windowAnimator : UIViewPropertyAnimator?
     private var reservedPlayInfo : (playStyle : ShopLiveWindowStyle, campaignKey : String, referrer : String?, campaignHandler : ((ShopLivePlayerCampaign) -> ())?, brandHandler : ((ShopLivePlayerBrand) -> ())?)?
     private var statusBarVisibility : Bool = true
@@ -222,7 +222,7 @@ import ShopliveSDKCommon
         else {
             self.liveStreamViewController?.setStatusBarVisiblityOnFullScreen(isVisible: statusBarVisibility)
         }
-       
+        
         
         mainWindow = (UIApplication.shared.windows.first(where: { $0.isKeyWindow }))
         
@@ -289,7 +289,7 @@ import ShopliveSDKCommon
         self.liveStreamViewController?.updateStatusBarToDefault()
         ShopLiveController.shared.execusedClose = true
         UIApplication.shared.isIdleTimerDisabled = false
-       
+        
         if ShopLiveBase.sessionState != .terminated {
             ShopLiveController.webInstance?.sendEventToWeb(event: .onTerminated)
         }
@@ -351,13 +351,16 @@ import ShopliveSDKCommon
         
         self.shopLiveWindow = nil
         self.delegate?.handleChangedPlayerStatus?(status: "DESTROYED")
-        delegate?.log?(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: ["type" : (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
-        delegate?.log?(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type" : (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
+        delegate?.onEvent?(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type" : (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
+        delegate?.onEvent?(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type" : (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
         self.delegate?.handleCommand?("didShopLiveOff", with: ["style" : self.style.rawValue])
-        self.delegate?.handleCommand?(ShopLiveViewTrackEvent.viewDidDisAppear.name, with: ["lastStyle" : self._lastStyle.name,
-                                                                                           "currentStyle" : self.style.name,
-                                                                                           "isPreview" : ShopLiveController.shared.isPreview,
-                                                                                           "viewHiddenActionType" : viewHideActionType.name])
+        self.delegate?.handleCommand?(
+            ShopLiveViewTrackEvent.viewDidDisAppear.name,
+            with: ["lastStyle" : self._lastStyle.name,
+                   "currentStyle" : self.style.name,
+                   "isPreview" : ShopLiveController.shared.isPreview,
+                   "viewHiddenActionType" : viewHideActionType.name]
+        )
         self._style = .unknown
         self._lastStyle = .unknown
         ShopLiveBase.sessionState = .terminated
@@ -473,8 +476,8 @@ import ShopliveSDKCommon
         case .bottomLeft:
             origin.x = safeAreaInsets.left + pipEdgeInsets.left + pipFloatingOffset.left
             origin.y = screenSize.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight - pipFloatingOffsetBottom
-        
-        
+            
+            
         case .topRight:
             origin.x = screenSize.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width - pipFloatingOffset.right
             if isOutOfScreen {
@@ -607,8 +610,7 @@ import ShopliveSDKCommon
                     ShopLiveController.webInstance?.isHidden = true
                 }
                 
-                self.delegate?.log?(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, parameter: [:])
-                self.delegate?.log?(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
+                self.delegate?.onEvent?(name: "player_to_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
                 self.liveStreamViewController?.viewModel.sendPlayerToPipMode()
                 self.sendCommandChangeToPip()
                 self.delegate?.handleCommand?("didShopLiveOff", with: ["style" : self._lastStyle.rawValue])
@@ -616,8 +618,6 @@ import ShopliveSDKCommon
                                                                                                 "currentStyle" : self.style.name,
                                                                                                 "isPreview" : ShopLiveController.shared.isPreview,
                                                                                                 "from" : #function ])
-                
-                
                 self.showPreviewCoverView()
                 self.windowAnimator = nil
             })
@@ -853,7 +853,7 @@ import ShopliveSDKCommon
                     self.delegate?.handleCommand?( ShopLiveViewTrackEvent.pipDidAppear.name, with: ["lastStyle" : self.style.name , "currentStyle" : self.style.name, "isPreview" : ShopLiveController.shared.isPreview, "from" : #function])
                     self.shopLiveWindow?.layer.masksToBounds = false
                     if ShopLiveController.shared.isPreview == false {
-//                        self.liveStreamViewController?.viewModel.sendPipActive(pipType: .APP)
+                        //                        self.liveStreamViewController?.viewModel.sendPipActive(pipType: .APP)
                     }
                 }
                 self.handleWindowChangeCommand()
@@ -903,7 +903,7 @@ import ShopliveSDKCommon
             self.handleWindowChangeCommand()
             
             if ShopLiveController.shared.isPreview == false {
-//                self.liveStreamViewController?.viewModel.sendPipActive(pipType: .APP)
+                //                self.liveStreamViewController?.viewModel.sendPipActive(pipType: .APP)
             }
         }
     }
@@ -1092,7 +1092,7 @@ import ShopliveSDKCommon
         let rightCenterX = screenSize.width - safeAreaInsets.right - pipEdgeInsets.right - (pipSize.width / 2) - pipFloatingOffset.right
         let midCenterX = screenSize.width / 2
         
-        //실제 Pip가 이동가능한 높이 
+        //실제 Pip가 이동가능한 높이
         let actualViewHeight = (screenSize.height - (keyboardHeight + safeAreaInsets.top + pipEdgeInsets.top + pipFloatingOffset.top))
         let isOutOfScreen = actualViewHeight < pipSize.height
         
@@ -1234,7 +1234,7 @@ import ShopliveSDKCommon
                         }
                     }
                 }
-            } 
+            }
             else if pipPosition == .topRight || pipPosition == .bottomRight || pipPosition == .middleRight{
                 if velocity.x > 0 {
                     if velocity.x.magnitude > 600 {
@@ -1253,7 +1253,7 @@ import ShopliveSDKCommon
                         }
                     }
                 }
-            } 
+            }
             else if pipPosition == .bottomLeft || pipPosition == .bottomRight || pipPosition == .bottomCenter {
                 if velocity.y < 0 {
                     if velocity.y.magnitude > 600 {
@@ -1326,7 +1326,7 @@ import ShopliveSDKCommon
                 centerY = (mainWindowHeight) / 2
                 break
                 
-
+                
             case .default:
                 centerX = maxX
                 centerY = maxY
@@ -1500,7 +1500,7 @@ import ShopliveSDKCommon
         animator.startAnimation()
     }
     
-
+    
     
     
     private var backgroundPlayerBlockTimer : Timer?
@@ -1788,7 +1788,7 @@ extension ShopLiveBase: ShopLiveComponent {
         ShopLiveConfiguration.UI.setLoadingAnimation(images: images)
     }
     
-    // 1.5.10 부터 deprecate 처리 
+    // 1.5.10 부터 deprecate 처리
     func setKeepAspectOnTabletPortrait(_ keep: Bool) { }
     
     var playerWindow: ShopliveWindow? {
@@ -2173,7 +2173,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
         ShopLiveController.windowStyle = .osPip
         ShopLiveController.shared.lastPipPlaying = ShopLiveController.timeControlStatus == .playing
         self.liveStreamViewController?.shopliveHideKeyboard_SL()
-       
+        
         
     }
     
@@ -2185,7 +2185,6 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
             didChangeOSPIP()
         }
         self.liveStreamViewController?.setIsOsPipFailedHasOccured(hasOccured: false)
-//        self.liveStreamViewController?.viewModel.sendPipActive(pipType: .OS)
     }
     
     public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
@@ -2218,11 +2217,10 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
         }
     }
     
-    //
     public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
         self.activeFromBackground = true
         
-      
+        
         if !isRestoredPip { //touch stop pip button in OS PIP view
             self.hideShopLiveView(viewHideActionType: .onRestoringPip)
         }
@@ -2268,7 +2266,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
         self.osPictureInPictureController = nil
     }
     
-
+    
     
     private func resetQueryParameters() {
         queryParameters.removeAll()
@@ -2284,7 +2282,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     func handleShopLivePlayerBrand(brand: ShopLivePlayerBrand) {
         shopLivePlayerBrandHandler?(brand)
     }
-   
+    
     func resetPictureInPicture() {
         if osPictureInPictureController == nil {
             setupOsPictureInPicture()
@@ -2388,23 +2386,18 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     func didTouchCustomAction(id: String, type: String, payload: Any?) {
-        let completion: () -> Void = {
-            self.liveStreamViewController?.didCompleteCustomAction(with: id) }
-        _delegate?.handleCustomAction?(with: id, type: type, payload: payload, completion: completion)
         
-        let completionResult: (ShopLiveCustomActionResult?) -> Void = { [weak self] customActionResult in
-            if let result = customActionResult {
-                self?.liveStreamViewController?.didCompleteCustomAction(with: result)
-            }
+        _delegate?.handleCustomAction?(with: id, type: type, payload: payload) { [weak self] _ in
+            self?.liveStreamViewController?.didCompleteCustomAction(with: id)
         }
-        _delegate?.handleCustomAction?(with: id, type: type, payload: payload, result: completionResult)
         
-        let deprecatedCompletionResult: (CustomActionResult?) -> Void = { [weak self] customActionResult in
-            if let result = customActionResult {
-                self?.liveStreamViewController?.didCompleteCustomAction(with: result)
-            }
+        _delegate?.handleCustomAction?(with: id, type: type, payload: payload) { [weak self] customActionResult in
+            self?.liveStreamViewController?.didCompleteCustomAction(with: customActionResult)
         }
-        _delegate?.handleCustomActionResult?(with: id, type: type, payload: payload, completion: deprecatedCompletionResult)
+        
+        _delegate?.handleCustomAction?(with: id, type: type, payload: payload) { [weak self] customActionResult in
+            self?.liveStreamViewController?.didCompleteCustomAction(with: customActionResult)
+        }
     }
     
     func didTouchPipButton() {
@@ -2436,25 +2429,17 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     func didTouchCoupon(with couponId: String) {
-        let completion: () -> Void = { [weak self] in
+        _delegate?.handleDownloadCoupon?(with: couponId) { [weak self] result in
             self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponId)
         }
         
-        _delegate?.handleDownloadCoupon?(with: couponId, completion: completion)
-        
-        let completionResult: (ShopLiveCouponResult?) -> Void = { [weak self] couponResult in
-            if let result = couponResult {
-                self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: result)
-            }
+        _delegate?.handleDownloadCoupon?(with: couponId) { [weak self] couponResult in
+            self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponResult)
         }
-        _delegate?.handleDownloadCoupon?(with: couponId, result: completionResult)
         
-        let deprecatedCompletionResult: (CouponResult?) -> Void = { [weak self] couponResult in
-            if let result = couponResult {
-                self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: result)
-            }
+        _delegate?.handleDownloadCoupon?(with: couponId) { [weak self] couponResult in
+            self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponResult)
         }
-        _delegate?.handleDownloadCouponResult?(with: couponId, completion: deprecatedCompletionResult)
     }
     
     func handleCommand(_ command: String, with payload: Any?) {

@@ -33,11 +33,11 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
             self?.backgroundPosterImageWebView?.action( .setBackgroundUrl(url: url) )
         }
     }
-   
+    
     func setVideoCurrentTime(to: CMTime) {
         viewModel.action( .seekTo(to) )
     }
-        
+    
     func didTouchWebViewCustomAction(id: String, type: String, payload: Any?) {
         //coupont touch action -> shopliveBase -> user
     }
@@ -48,12 +48,12 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
     
     func didReceivePlayVideo() {
         // 그냥 PlayerPreview에서는 전적으로 고객사가 컨트롤가능하게 끔 설정
-//        viewModel.action( .playControlAction(.play ) )
+        //        viewModel.action( .playControlAction(.play ) )
     }
     
     func didReceivePauseVideo() {
         // 그냥 PlayerPreview에서는 전적으로 고객사가 컨트롤가능하게 끔 설정
-//        viewModel.action( .playControlAction(.pause) )
+        //        viewModel.action( .playControlAction(.pause) )
     }
     
     func didTouchWebViewMuteButton(with isMuted: Bool) {

@@ -15,7 +15,7 @@ extension LiveStreamViewController : ShopLiveChattingWriteDelegate {
         overlayView?.sendEventToWeb(event: .write, message.toJson())
         chatInputView.clearChatText()
     }
-
+    
     func updateHeight() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
             let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("value", "\(Int((self.hasKeyboard ? 0 : self.lastKeyboardHeight) + self.chatInputView.frame.height))px"), ("keyboard", self.hasKeyboard))

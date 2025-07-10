@@ -21,7 +21,7 @@ extension RawRepresentable where RawValue == String, Self: SLNotificationName {
     }
 }
 
-internal final class ShopLiveConfiguration: NSObject {
+final class ShopLiveConfiguration: NSObject {
 
     enum SLNotifications: String, SLNotificationName {
         case soundPolicyUpdate

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import WebKit
 
-class SLLeakAvoider : NSObject, WKScriptMessageHandler {
+final class SLLeakAvoider : NSObject, WKScriptMessageHandler {
     weak var delegate : WKScriptMessageHandler?
     init(delegate:WKScriptMessageHandler) {
         self.delegate = delegate

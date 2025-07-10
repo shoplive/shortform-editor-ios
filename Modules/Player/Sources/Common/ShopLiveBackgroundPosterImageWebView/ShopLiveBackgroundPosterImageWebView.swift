@@ -44,11 +44,7 @@ public class ShopLiveBackgroundPosterImageWebView: SLView, SLReactor {
             self.onReload()
         }
     }
-    
-    deinit {
-        ShopLiveLogger.memoryLog("ShopLiveBackgroundImageWebView deinit")
-    }
-    
+
     private func onSetBackgroundUrl(url: URL?) {
         guard let url else { return }
         
@@ -78,14 +74,7 @@ extension ShopLiveBackgroundPosterImageWebView: WKNavigationDelegate {
     public func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         let script: String = ShopLiveBackgroundPosterWebViewInterface.setBackgroundImageSrc(cacheManager?.getUrl() ?? "").stringValue
         
-        self.webView?.evaluateJavaScript(script) { _, error in
-            if let error {
-                ShopLiveLogger.tempLog("[ShopLiveBackgroundPosterImageWebView] evaluateJavaScript Error \(error.localizedDescription)")
-                return
-            }
-            ShopLiveLogger.tempLog("[ShopLiveBackgroundPosterImageWebView] Apply Background Image Success")
-        }
-         
+        self.webView?.evaluateJavaScript(script)
     }
 }
 

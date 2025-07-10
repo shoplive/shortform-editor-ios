@@ -22,7 +22,7 @@ protocol LiveStreamViewModelDelegate : NSObjectProtocol {
     func requestHideOrShowBackgroundPosterImageWebView(isHidden : Bool)
 }
 
-internal final class LiveStreamViewModel: NSObject {
+final class LiveStreamViewModel: NSObject {
     
     weak var delegate : LiveStreamViewModelDelegate?
     
@@ -56,9 +56,6 @@ internal final class LiveStreamViewModel: NSObject {
     private var liveKeepUpTimerPreviousCurrentTime : Double?
     private var liveKeepUpSeekOccured : Bool = false
     
-    
-    
-    
     private var inAppPipConfiguration : ShopLiveInAppPipConfiguration?
     private var lastPipPosition : ShopLive.PipPosition?
     private var isWebViewDidCompleteLoading : Bool = false
@@ -89,9 +86,7 @@ internal final class LiveStreamViewModel: NSObject {
     //web에서 set_video_position으로 playerView의 frame이 변경될경우 실제 videoRect가 이전 것으로 인식되어 깨지는 경우 방지하기 위한 변수
     private var blockSnapShotWhenPlayerViewFrameUpdatedByWeb : Bool = false
     
-    deinit {
-        ShopLiveLogger.memoryLog("liveStreamViewModel deinited")
-    }
+    private let notificationQueue = DispatchQueue(label: "com.shoplive.player.notificationQueue")
     
     override init() {
         super.init()
@@ -251,14 +246,23 @@ internal final class LiveStreamViewModel: NSObject {
             if ShopLiveController.isReplayMode {
                 playerItem.preferredForwardBufferDuration = 2.5
             }
-            
             playerItem.audioTimePitchAlgorithm = .timeDomain
             
             ShopLiveController.playerItem = playerItem
             self.playerItem = playerItem
-            
-            NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase)
-            NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .AVPlayerItemPlaybackStalled, object: self.playerItem)
+            NotificationCenter.default.addObserver(forName: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase, queue: .main) { [weak self] notification in
+                guard let self else { return }
+                if let timebase = ShopLiveController.timebase {
+                    let rate = CMTimebaseGetRate(timebase)
+                    self.perfMeasurements?.rateChanged(rate: rate)
+                }
+            }
+            NotificationCenter.default.addObserver(forName: .AVPlayerItemPlaybackStalled, object: self.playerItem, queue: .main) { [weak self] notification in
+                guard let self else { return }
+                if let _ = ShopLiveController.playerItem {
+                    self.perfMeasurements?.playbackStalled()
+                }
+            }
             ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
             playerErrorObserver = ShopLiveAVPlayerErrorObserver(player: ShopLiveController.player!)
             playerErrorObserver?.delegate = self
@@ -292,7 +296,7 @@ internal final class LiveStreamViewModel: NSObject {
         return resultUrl
     }
     
-    
+    ///reset and stop player
     func resetPlayer() {
         guard ShopLiveController.player != nil else { return }
         if ShopLiveController.player?.currentItem == nil {
@@ -314,8 +318,10 @@ internal final class LiveStreamViewModel: NSObject {
         ShopLiveController.perfMeasurements?.playbackEnded()
         ShopLiveController.perfMeasurements = nil
         
-        NotificationCenter.default.removeObserver(self, name: .TimebaseEffectiveRateChangedNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemPlaybackStalled, object: nil)
+        notificationQueue.sync {
+            NotificationCenter.default.removeObserver(self, name: .TimebaseEffectiveRateChangedNotification, object: nil)
+            NotificationCenter.default.removeObserver(self, name: .AVPlayerItemPlaybackStalled, object: nil)
+        }
         
         ShopLiveController.playControl = .none
     }
@@ -333,25 +339,7 @@ internal final class LiveStreamViewModel: NSObject {
         ShopLiveController.shared.currentPlayTime = to
         ShopLiveController.player?.seek(to: to)
     }
-    
-    @objc func handleNotification(_ notification: Notification) {
-        switch notification.name {
-        case .TimebaseEffectiveRateChangedNotification:
-            if let timebase = ShopLiveController.timebase {
-                let rate = CMTimebaseGetRate(timebase)
-                self.perfMeasurements?.rateChanged(rate: rate)
-            }
-            break
-        case .AVPlayerItemPlaybackStalled:
-            if let _ = ShopLiveController.playerItem {
-                self.perfMeasurements?.playbackStalled()
-            }
-            break
-        default:
-            break
-        }
-    }
-    
+
     func parseRatioStringAndSetData(ratio : String?) {
         if let ratio = ratio {
             let parseRatio = ratio.split(separator: ":")

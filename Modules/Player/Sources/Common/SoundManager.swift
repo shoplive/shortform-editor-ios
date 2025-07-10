@@ -10,7 +10,7 @@ import AVFAudio
 import AVKit
 import ShopliveSDKCommon
 
-class SoundManager: NSObject {
+final class SoundManager: NSObject {
     
     static let shared: SoundManager = SoundManager()
     
@@ -54,7 +54,7 @@ class SoundManager: NSObject {
     
 }
 
-class SoundItem {
+final class SoundItem {
     var alias: String
     var url: String
     private var localUrl : URL?
@@ -118,7 +118,7 @@ class SoundItem {
     }
     
 }
-class SoundPlayer {
+final class SoundPlayer {
     
     private(set) var player: AVAudioPlayer?
     private(set) var avPlayer : AVPlayer?

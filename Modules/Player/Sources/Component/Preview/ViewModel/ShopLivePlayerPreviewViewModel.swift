@@ -18,7 +18,7 @@ protocol ShopLivePreviewModelDelegate : NSObjectProtocol {
 }
 
 
-class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
+final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     
     
     private let publicLogPrefix = "PLAYERPREVIEW-VIEWMODEL"
@@ -180,86 +180,116 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         switch action {
         case .initialize:
             onInitialize()
+            
         case .setDelegate(let delegate):
             onSetDelegate(delegate : delegate)
+            
         case .reloadOverlayWebView:
             onReloadOverlayWebView()
+            
         case .loadOverlayWebView:
             onLoadOverlayWebView()
+            
         case .retryOnNetworkDisConnect:
             onRetryOnNetworkDisConnect()
-        case .setOverlayUrl(let uRL):
-            onSetOverlayUrl(url: uRL)
+            
+        case let .setOverlayUrl(url):
+            self.overlayUrl = url
+            
         case .setSoundMuteStateOnWebViewSetConf:
             onSetSoundMuteStateOnWebViewSetConf()
+            
         case .setSoundMute(let isMuted, let needToSendToWeb):
             onSetSoundMute(isMuted: isMuted, needToSendToWeb: needToSendToWeb)
+            
         case .setStreamEdgeType(let type):
             onSetStreamEdgeType(type: type)
+            
         case .setCampaignId(let campaignId):
             onSetCampaignId(campaignId: campaignId)
+            
         case .setCampaignKey(let campaignKey):
             onSetCampaignKey(campaignKey: campaignKey)
+            
         case .setCampaignStatus(let status):
-            onSetCampaignStatus(status: status)
+            self.campaignStatus = status
+            
         case .setResizeMode(let mode):
             onSetResizeMode(mode: mode)
+            
         case .setStreamActivityType(let type):
             onSetStreamActivityType(type: type)
+            
         case .setWebViewLoadingCompleted(let isCompleted):
             onSetWebViewLoadingCompleted(isCompleted: isCompleted)
+            
         case .setRefreshTimer:
             onSetRefreshTimer()
+            
         case .setResolution(let resolution):
             self.onSetResolution(resolution : resolution)
+            
         case .setAudioSessonCategory:
             self.onSetAudioSessionCategory()
-        case .parseRatioStringAndSetData(let ratio):
+            
+        case let .parseRatioStringAndSetData(ratio):
             onParseRatioStringAndSetData(ratio: ratio)
+            
         case .tearDownViewModel:
             onTearDownViewModel()
-            
-            
             
             //MARK: - hls actions
         case .reloadVideo:
             onReloadVideo()
+            
         case .seekTo(let time): // CMTime
             onSeekTo(time: time)
+            
         case .seekToLatest:
             onSeekToLatest()
+            
         case .didUpdateVideoUrl(let url): // URL
             onDidUpdateVideoUrl(url: url)
+            
         case .requestTakeSnapshot:
             onRequestTakeSnapshot()
+            
         case .requestTakeSnapShotWithCompletion(let completion): // (() -> ())?
             onRequestTakeSnapShotWithCompletion(completion: completion)
+            
         case .resetRetryFromWebview:
             onResetRetryFromWebview()
+            
         case .resetPlayer:
             onResetPlayer()
+            
         case .initPlayer(let url): // URL?
             onInitPlayer(url: url)
+            
         case .setAVPlayer(let player): // AVPlayer?
             onSetAVPlayer(player: player)
+            
         case .setAVPlayerLayer(let layer):
             onSetAVPlayerLayer(layer : layer)
+            
         case .setIsReplayMode(let isReplayMode): // Bool
             onSetIsReplayMode(isReplayMode: isReplayMode)
+            
         case .setNeedSeek(let needSeek): // Bool
             onSetNeedSeek(needSeek: needSeek)
+            
         case .setNeedReload(let needReload): // bool
             onSetNeedReload(needReload: needReload)
-//        case .setPreviewURl(let url): // URL?
-//            onSetPreviewURL(url: url)
-//        case .setLiveUrl(let url): // URL?
-//            onSetLiveUrl(url: url)
+            
         case .playControlAction(let playControl):
             onPlayControlAction(action : playControl)
+            
         case .setPlaybackSpeed(let speed):
-            self.onSetPlaybackSpeed(speed : speed)
+            self.player?.rate = speed
+            
         case .sendPreviewShowEventTrace:
             self.onSendPreviewShowEventTrace()
+            
         case .setPlayControlActionToNone:
             self.onSetPlayControlActionToNone()
         }
@@ -300,10 +330,6 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         retryManager?.action( .retryWebViewOnNetworkDisconnected )
     }
     
-    private func onSetOverlayUrl(url : URL?) {
-        self.overlayUrl = url
-    }
-    
     private func onSetSoundMuteStateOnWebViewSetConf() {
         ShopLivePlayerPreviewAudioSessionManager.shared.action( .setSoundMuteStateOnFirstPlay(isMuted: self.isMuted) )
     }
@@ -328,10 +354,6 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     
     private func onSetCampaignKey(campaignKey : String) {
         self.campaignKey = campaignKey
-    }
-    
-    private func onSetCampaignStatus(status : ShopLiveCampaignStatus) {
-        self.campaignStatus = status
     }
     
     private func onSetResizeMode(mode : ShopLiveResizeMode?) {
@@ -405,15 +427,6 @@ class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     
     private func onSetNeedReload(needReload: Bool) {
         playControlManager?.action( .setNeedReload(needReload) )
-    }
-    
-//    private func onSetPreviewURL(url: URL?) {
-//        self.previewUrl = url
-//        self.playControlManager?.action( .setLiveUrl(url) )
-//    }
-    
-    private func onSetPlaybackSpeed(speed : Float) {
-        self.player?.rate = speed
     }
     
     private func onSendPreviewShowEventTrace() {

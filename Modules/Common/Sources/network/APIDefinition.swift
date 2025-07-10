@@ -465,7 +465,6 @@ public extension APIDefinition {
         
     }
 
-    
     private static var commonQueries : [String : String] {
         var queries : [String : String] = [:]
         

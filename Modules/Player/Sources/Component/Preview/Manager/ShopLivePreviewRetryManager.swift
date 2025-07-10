@@ -49,7 +49,6 @@ class ShopLivePreviewRetryManager : NSObject, SLReactor {
     }
     
     func action(_ action: Action) {
-        ShopLiveLogger.tempLog("[HLSRETRYMANAGER] action \(action)")
         switch action {
         case .startRetry(delayed: let delayed):
             self.startRetry(delaySecond: delayed)
@@ -58,10 +57,6 @@ class ShopLivePreviewRetryManager : NSObject, SLReactor {
         case .stopRetry:
             self.stopRetry()
         }
-    }
-    
-    deinit {
-        ShopLiveLogger.memoryLog("HLSRetryManager deinit")
     }
     
     private func stopRetry() {
@@ -86,7 +81,6 @@ class ShopLivePreviewRetryManager : NSObject, SLReactor {
     
     private func updateRetry() {
         self.retryCount += 1
-        ShopLiveLogger.tempLog("[RETRYMANAGER] retryCount \(retryCount)")
         if delegate?.getCurrentPreviewUrl() == nil {
             self.stopRetry()
         }
@@ -124,9 +118,4 @@ class ShopLivePreviewRetryManager : NSObject, SLReactor {
             }
         }
     }
-}
-
-//MARK: - getter
-extension ShopLivePreviewRetryManager {
-    
 }

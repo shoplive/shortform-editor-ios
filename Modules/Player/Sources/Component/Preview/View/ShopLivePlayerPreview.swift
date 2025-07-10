@@ -12,9 +12,9 @@ import ShopliveSDKCommon
 import AVKit
 import WebKit
 
-    
+
 public class ShopLivePlayerPreview : UIView , SLReactor {
-  
+    
     public enum Action {
         case initialize
         case setIndex(IndexPath)
@@ -92,7 +92,6 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
     
     deinit {
         self.cleanUpOverlayWebView()
-        ShopLiveLogger.memoryLog("ShopLivePreview deinit")
     }
     
     private func cleanUpOverlayWebView() {
@@ -161,7 +160,7 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
         self.viewModel.action( .loadOverlayWebView )
     }
     
- 
+    
     private func onSetIsMuted(isMuted : Bool) {
         viewModel.action( .setSoundMute(isMuted: isMuted, needToSendToWeb: true) )
     }
@@ -234,7 +233,7 @@ extension ShopLivePlayerPreview {
             default:
                 ShopLiveLogger.tempLog("viewModel result \(result)")
             }
-           
+            
             guard let self = self else { return }
             switch result {
             case .requestShowOrHideSnapShotImageView(needToShow: let needToShow):
@@ -357,7 +356,7 @@ extension ShopLivePlayerPreview {
                 (newWidthAnc, newHeightAnc) = redrawSnapShotOnVerticalModeAndHorizontalFit(ratio : ratio)
             }
         }
-
+        
         widthAnc.isActive = false
         heightAnc.isActive = false
         snapShotImageView.removeConstraints([widthAnc,heightAnc])
@@ -405,7 +404,7 @@ extension ShopLivePlayerPreview {
         if self.viewModel.getCurrentResolution() == .LIVE {
             queryItems.append(URLQueryItem(name: "useLiveUrlOnPreview", value: "1"))
         }
-      
+        
         if let referrer = self.referrer {
             queryItems.append(URLQueryItem(name: "referrer", value: String(referrer.prefix(1024))))
         }
@@ -422,8 +421,8 @@ extension ShopLivePlayerPreview {
         }
         
         return url
-    } 
-
+    }
+    
     private func redrawSnapShotOnSameHeightAndHorizontalFit(ratio : CGSize) -> (w : NSLayoutConstraint?, h : NSLayoutConstraint?) {
         guard let srcView = self.snapShotImageView else { return (nil, nil) }
         guard let playerView = self.playerView else {
@@ -531,7 +530,7 @@ extension ShopLivePlayerPreview {
         playerView.translatesAutoresizingMaskIntoConstraints = false
         playerView.playerLayer?.player = playerView.player
         playerView.playerLayer?.needsDisplayOnBoundsChange = true
-       
+        
         viewModel.action( .setAVPlayer(playerView.player) )
         if let playerLayer = playerView.playerLayer {
             playerLayer.videoGravity = .resizeAspectFill
@@ -542,7 +541,7 @@ extension ShopLivePlayerPreview {
         playerLeadingConstraint = playerView.leadingAnchor.constraint(equalTo: leadingAnchor)
         playerRightConstraint   = playerView.trailingAnchor.constraint(equalTo: trailingAnchor)
         playerBottomConstraint  = playerView.bottomAnchor.constraint(equalTo: bottomAnchor)
-
+        
         NSLayoutConstraint.activate([playerTopConstraint, playerLeadingConstraint, playerRightConstraint, playerBottomConstraint])
     }
     
@@ -556,7 +555,7 @@ extension ShopLivePlayerPreview {
         backgroundPosterImageWebView.backgroundColor = .black
         backgroundPosterImageWebView.layer.masksToBounds = true
         backgroundPosterImageWebView.clipsToBounds = true
-       
+        
         
         let centxConstraint  = backgroundPosterImageWebView.centerXAnchor.constraint(equalTo: playerView.centerXAnchor)
         let centYConstraint  = backgroundPosterImageWebView.centerYAnchor.constraint(equalTo: playerView.centerYAnchor)
@@ -597,7 +596,7 @@ extension ShopLivePlayerPreview {
         
         let widthConstraint = snapShotImageView.widthAnchor.constraint(equalTo: playerView.widthAnchor,multiplier: 1)
         let heightConstraint = snapShotImageView.heightAnchor.constraint(equalTo: playerView.heightAnchor,multiplier: 1)
-
+        
         snapShotWidthAnc = widthConstraint
         snapShotheightAnc = heightConstraint
         NSLayoutConstraint.activate([ centerXConstraint, centerYConstraint, widthConstraint, heightConstraint ])
@@ -610,11 +609,12 @@ extension ShopLivePlayerPreview {
         overlayView.delegate = self
         addSubview(overlayView)
         overlayView.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([overlayView.topAnchor.constraint(equalTo: topAnchor),
-                                     overlayView.bottomAnchor.constraint(equalTo: bottomAnchor),
-                                     overlayView.centerXAnchor.constraint(equalTo: centerXAnchor),
-                                     overlayView.widthAnchor.constraint(equalTo: widthAnchor)
+        
+        NSLayoutConstraint.activate([
+            overlayView.topAnchor.constraint(equalTo: topAnchor),
+            overlayView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            overlayView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            overlayView.widthAnchor.constraint(equalTo: widthAnchor)
         ])
         self.overlayView = overlayView
         self.overlayView?.alpha = 0

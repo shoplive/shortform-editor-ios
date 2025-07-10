@@ -242,7 +242,6 @@ extension WebInterface {
         let function = WebFunction(rawValue: command)
         let parameters = body["payload"] as? [String: Any]
         
-        ShopLiveLogger.tempLog("from Web [Interface: \(String(describing: function))]: [payload: \(String(describing: parameters))]")
         switch function {
         case .systemInit:
             self = .systemInit
@@ -333,19 +332,16 @@ extension WebInterface {
             self = .customAction(id: id, type: type, payload: payload)
         case .onCampaignStatusChanged:
             guard let status = parameters?["status"] as? String else { return nil }
-            ShopLiveLogger.tempLog("campaign status: \(status)")
             self = .onCampaignStatusChanged(status: status)
         case .disableSwipeDown:
             self = .disableSwipeDown
         case .enableSwipeDown:
             self = .enableSwipeDown
         case .setParam:
-            ShopLiveLogger.tempLog("receive setparam \(String(describing: parameters?["key"]))  \(String(describing: parameters?["value"]))")
             guard let key = parameters?["key"] as? String else { return nil }
             guard let value = parameters?["value"] as? String else { return nil }
             self = .setParam(key: key, value: value)
         case .delParam:
-            ShopLiveLogger.tempLog("receive delparam \(String(describing: parameters?["key"]))")
             guard let key = parameters?["key"] as? String else { return nil }
             self = .delParam(key: key)
         case .showNativeDebug:

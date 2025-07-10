@@ -10,7 +10,7 @@ import AVFoundation
 import os.log
 
 /// - Tag: PerfMeasurements
-class PerfMeasurements: NSObject {
+final class PerfMeasurements: NSObject {
     
     /// Time when this class was created.
     private var creationTime: CFAbsoluteTime = 0.0

@@ -37,7 +37,7 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
     }
     
     
-
+    
     var audioSessionObservationInfo: UnsafeMutableRawPointer?
     var audioLevel : Float = 0.0
     var voiceOverIsOn: Bool = UIAccessibility.isVoiceOverRunning
@@ -69,23 +69,14 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
     }
     
     private func onSetAudioSessionCategory() {
-        ShopLiveLogger.publicLog("[SHOPLIVEPLAYERPREVIEWMODEL] setting isMixWithOther start \(ShopLiveConfiguration.SoundPolicy.useMixWithOthers)")
-        
-        if ShopLiveConfiguration.SoundPolicy.useMixWithOthers {
-            SLAudioSessionManager.shared.setCategory(category: ShopLiveConfiguration.SoundPolicy.audioSessionCategory, options: [.mixWithOthers])
-        }
-        else {
-            SLAudioSessionManager.shared.setCategory(category: ShopLiveConfiguration.SoundPolicy.audioSessionCategory, options: [])
-        }
-        
-        ShopLiveLogger.publicLog("[SHOPLIVEPLAYERPREVIEWMODEL] setting isMixWithOther end \(ShopLiveConfiguration.SoundPolicy.useMixWithOthers)")
-        
+        let options = ShopLiveConfiguration.SoundPolicy.useMixWithOthers ? AVAudioSession.CategoryOptions.mixWithOthers : []
+        SLAudioSessionManager.shared.setCategory(category: ShopLiveConfiguration.SoundPolicy.audioSessionCategory, options: options)
         SLAudioSessionManager.shared.setMode(.default)
         SLAudioSessionManager.shared.setActive(true, options: [.notifyOthersOnDeactivation])
     }
-
+    
     private func onSetSoundMuteStateOnFirstPlay(isMuted : Bool) {
-//        var isMuted = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
+        //        var isMuted = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
         var isMuted = isMuted
         if SLAudioSessionManager.shared.audioSession.outputVolume == 0 {
             isMuted = true
@@ -99,15 +90,13 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
     }
     
     func addObserver() {
-        do {
-            SLAudioSessionManager.shared.audioSession.addObserver(self, forKeyPath: "outputVolume",
-                               options: NSKeyValueObservingOptions.new, context: nil)
-            audioSessionObservationInfo = SLAudioSessionManager.shared.audioSession.observationInfo
-            audioLevel = SLAudioSessionManager.shared.audioSession.outputVolume
-        } catch {
-            ShopLiveLogger.tempLog("setup failed - outputVolume observe")
-        }
-        
+        SLAudioSessionManager.shared.audioSession.addObserver(
+            self, forKeyPath: "outputVolume",
+            options: NSKeyValueObservingOptions.new,
+            context: nil
+        )
+        audioSessionObservationInfo = SLAudioSessionManager.shared.audioSession.observationInfo
+        audioLevel = SLAudioSessionManager.shared.audioSession.outputVolume
         
         NotificationCenter.default.addObserver(self, selector: #selector(voiceOverStatusChanged), name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(audioRouteChangeListener(notification:)),name: AVAudioSession.routeChangeNotification,object: nil)
@@ -132,13 +121,7 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
             var isDownward : Bool = false
             
             if ShopLiveConfiguration.SoundPolicy.isEnabledVolumeKeyInPreview == false { return }
-            
-            if SLAudioSessionManager.shared.audioSession.outputVolume > audioLevel {
-                isDownward = false
-            }
-            if SLAudioSessionManager.shared.audioSession.outputVolume < audioLevel {
-                isDownward = true
-            }
+            isDownward = SLAudioSessionManager.shared.audioSession.outputVolume < audioLevel ? true : false
             
             audioLevel = SLAudioSessionManager.shared.audioSession.outputVolume
             
@@ -159,28 +142,20 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
     
     
     @objc func handleInterruption(notification: Notification) {
-
+        
         guard let userInfo = notification.userInfo,
-                let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
-                let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
-                    return
-            }
+              let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+              let type = AVAudioSession.InterruptionType(rawValue: typeValue)
+        else { return }
+        
+        if type == .began {
+            resultHandler?( .log(name: "audio_loss", feature: .ACTION, payload: [:]))
+            resultHandler?( .requestVideoPause )
+        } else {
+            guard userInfo[AVAudioSessionInterruptionOptionKey] != nil, ShopLiveConfiguration.SoundPolicy.autoResumeVideoOnCallEnded else { return }
+            SLAudioSessionManager.shared.setActive(true, options: [.notifyOthersOnDeactivation])
 
-          if type == .began {
-              resultHandler?( .log(name: "audio_loss", feature: .ACTION, payload: [:]))
-              resultHandler?( .requestVideoPause )
-          } else {
-              guard userInfo[AVAudioSessionInterruptionOptionKey] != nil else {
-                return
-            }
-
-              SLAudioSessionManager.shared.setActive(true, options: [.notifyOthersOnDeactivation])
-          
-
-            guard ShopLiveConfiguration.SoundPolicy.autoResumeVideoOnCallEnded else {
-                return
-            }
-              resultHandler?( .log(name: "audio_gain", feature: .ACTION, payload: [:]))
+            resultHandler?( .log(name: "audio_gain", feature: .ACTION, payload: [:]))
             if isReplayMode {
                 DispatchQueue.main.async { [weak self] in
                     self?.resultHandler?( .requestVideoPlay )
@@ -189,13 +164,13 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
                 resultHandler?( .sendEventToWeb(event: .reloadBtn, param: false, wrapping: false) )
                 resultHandler?( .requestVideoResume )
             }
-          }
+        }
     }
     
     
     @objc func audioRouteChangeListener(notification: NSNotification) {
         let audioRouteChangeReason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] as! UInt
-
+        
         var isEarphoneHeadphone: Bool = false
         let currentRoute = SLAudioSessionManager.shared.audioSession.currentRoute
         if currentRoute.outputs.count != 0 {
@@ -226,8 +201,5 @@ class ShopLivePlayerPreviewAudioSessionManager : NSObject, SLReactor {
         self.voiceOverIsOn = UIAccessibility.isVoiceOverRunning
         resultHandler?( .sendCommandToWeb(command: "SET_USE_SCREEN_READER", payload: ["useScreenReader" : self.voiceOverIsOn]))
     }
-    
-}
-extension ShopLivePlayerPreviewAudioSessionManager {
     
 }

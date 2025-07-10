@@ -14,45 +14,43 @@ import ShopliveSDKCommon
 extension LiveStreamViewController {
     func setupAudioConfig() {
         NotificationCenter.default.addObserver(
-                self,
-                selector: #selector(audioRouteChangeListener(notification:)),
-                name: AVAudioSession.routeChangeNotification,
-                object: nil)
-        NotificationCenter.default.addObserver(self,
-                           selector: #selector(handleInterruption),
-                           name: AVAudioSession.interruptionNotification,
-                                               object: SLAudioSessionManager.shared.audioSession)
-
+            self,
+            selector: #selector(audioRouteChangeListener(notification:)),
+            name: AVAudioSession.routeChangeNotification,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleInterruption),
+            name: AVAudioSession.interruptionNotification,
+            object: SLAudioSessionManager.shared.audioSession
+        )
     }
     
-     func teardownAudioConfig() {
+    func teardownAudioConfig() {
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.routeChangeNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.interruptionNotification, object: nil)
     }
     
     @objc func handleInterruption(notification: Notification) {
-        ShopLiveLogger.tempLog("handleInterruption")
-
         guard let userInfo = notification.userInfo,
-                let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
-                let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
-                    return
-            }
-
-          if type == .began {
-              delegate?.log(name: "audio_loss", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
-              ShopLiveController.playControl = .pause
-          } else {
-              guard userInfo[AVAudioSessionInterruptionOptionKey] != nil else {
-                return
-            }
-
-              SLAudioSessionManager.shared.setActive(true, options: [.notifyOthersOnDeactivation])
-
+              let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+              let type = AVAudioSession.InterruptionType(rawValue: typeValue)
+        else {
+            return
+        }
+        
+        if type == .began {
+            delegate?.log(name: "audio_loss", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
+            ShopLiveController.playControl = .pause
+        } else {
+            guard userInfo[AVAudioSessionInterruptionOptionKey] != nil else { return }
+            
+            SLAudioSessionManager.shared.setActive(true, options: [.notifyOthersOnDeactivation])
+            
             guard ShopLiveConfiguration.SoundPolicy.autoResumeVideoOnCallEnded else {
                 return
             }
-              delegate?.log(name: "audio_gain", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
+            delegate?.log(name: "audio_gain", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
             if ShopLiveController.isReplayMode {
                 DispatchQueue.main.async {
                     ShopLiveController.player?.play()
@@ -62,13 +60,13 @@ extension LiveStreamViewController {
                 
                 ShopLiveController.playControl = .resume
             }
-          }
+        }
     }
     
-    
+    /// 오디오 라우트 변경 리스너, -> 이어폰 끼고 안끼고에 따른 동작
     @objc func audioRouteChangeListener(notification: NSNotification) {
         let audioRouteChangeReason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] as! UInt
-
+        
         var isEarphoneHeadphone: Bool = false
         let currentRoute = SLAudioSessionManager.shared.audioSession.currentRoute
         if currentRoute.outputs.count != 0 {
@@ -97,6 +95,7 @@ extension LiveStreamViewController {
         }
     }
     
+    /// 헤드폰 상태에 따른 볼륨, 재생 조절 함수
     private func updateHeadPhoneStatus(plugged: Bool) {
         DispatchQueue.main.async {
             if !ShopLiveConfiguration.SoundPolicy.keepPlayVideoOnHeadphoneUnplugged {

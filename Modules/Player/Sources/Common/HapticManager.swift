@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class HapticManager {
+final class HapticManager {
     
     static func impact(style: UIImpactFeedbackGenerator.FeedbackStyle) {
         let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: style)

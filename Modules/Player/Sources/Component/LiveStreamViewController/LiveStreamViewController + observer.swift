@@ -10,6 +10,8 @@ import UIKit
 import ShopliveSDKCommon
 
 extension LiveStreamViewController {
+    
+    /// 옵저버 및 오디오 세션 초기 설정
     func addObserver() {
         ShopLiveController.shared.addPlayerDelegate(delegate: self)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -27,6 +29,8 @@ extension LiveStreamViewController {
         
 
     }
+    
+    /// 옵저버 및 오디오 세션 해제 처리
     func removeObserver() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -39,6 +43,7 @@ extension LiveStreamViewController {
         }
     }
     
+    /// 오디오 볼륨 및 화면 캡처 상태 변화 감지
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         switch keyPath {
         case "outputVolume":
@@ -92,11 +97,13 @@ extension LiveStreamViewController {
         }
     }
     
+    /// VoiceOver 상태 변경 감지 후 처리
     @objc func voiceOverStatusChanged() {
         self.voiceOverIsOn = UIAccessibility.isVoiceOverRunning
         self.updateVoiceOverStatus()
     }
 
+    /// 키보드 show/hide 알림 처리
     @objc func handleNotification(_ notification: Notification) {
         switch notification.name {
         case UIResponder.keyboardWillShowNotification:
@@ -113,6 +120,7 @@ extension LiveStreamViewController {
         }
     }
     
+    /// 키보드 높이에 따라 채팅 뷰 위치 및 숨김 처리
     func setKeyboard(notification: Notification) {
         guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
               let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,

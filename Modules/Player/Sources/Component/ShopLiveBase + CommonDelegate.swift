@@ -22,6 +22,4 @@ extension ShopLiveBase : ShopLiveCommonDelegate {
     func onChangeShopLiveUser(to: ShopliveSDKCommon.ShopLiveCommonUser?) {
         /** no op */
     }
-    
-    
 }

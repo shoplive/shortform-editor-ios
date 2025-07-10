@@ -9,7 +9,7 @@ import UIKit
 import WebKit
 import ShopliveSDKCommon
 
-internal class OverlayWebView: SLView {
+final class OverlayWebView: SLView {
     private var _isPipMode : Bool = false
     var isPipMode: Bool  {
         set {

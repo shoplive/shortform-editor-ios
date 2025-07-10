@@ -13,7 +13,7 @@ import ShopliveSDKCommon
     Send data to web client
         - Sending the data to Web Client
  */
-internal final class ShopLiveWebView: SLWKWebView {
+final class ShopLiveWebView: SLWKWebView {
   
     enum ViewMode : String {
         case fullPlayer
@@ -37,11 +37,6 @@ internal final class ShopLiveWebView: SLWKWebView {
     private var isLoaded : Bool = false
     
     private var queuedRequest : [String] = []
-    
-
-    deinit {
-        ShopLiveLogger.memoryLog("ShopLiveWebView deinit")
-    }
     
     func setIsLoaded(isLoaded : Bool) {
         self.isLoaded = isLoaded

@@ -498,14 +498,14 @@ extension ShopLiveController {
     }
 
     static var playControl: ShopLiveConfiguration.SLPlayControl {
+        get {
+            return shared.playControl
+        }
         set {
             if UIApplication.shared.applicationState == .background && ShopLiveController.windowStyle != .osPip {
                 return
             }
             shared.playControl = newValue
-        }
-        get {
-            return shared.playControl
         }
     }
 

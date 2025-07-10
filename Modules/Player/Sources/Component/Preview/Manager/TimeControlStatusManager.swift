@@ -13,7 +13,7 @@ import ShopliveSDKCommon
 
 
 
-class TimeControlStatusManager : NSObject, SLReactor {
+final class TimeControlStatusManager : NSObject, SLReactor {
     
     enum Action {
         case setAVPlayer(AVPlayer?)
@@ -27,7 +27,6 @@ class TimeControlStatusManager : NSObject, SLReactor {
         case setCurrentPlayCommand(PlayControlManager.PlayCommand)
         
     }
-    
     
     enum Result {
         case requestStopRetry
@@ -53,41 +52,25 @@ class TimeControlStatusManager : NSObject, SLReactor {
     
     var resultHandler: ((Result) -> ())?
     
-    
-    deinit {
-        ShopLiveLogger.memoryLog("[HLSTIMECONTROLSTATUS] deinit")
-    }
-    
-    
     func action(_ action: Action) {
-        ShopLiveLogger.tempLog("[TIMECONTROLSTATUS] action \(action)")
         switch action {
         case .setAVPlayer(let player):
-            self.onSetAVPlayer(player: player)
+            self.player = player
         case .setAVPlayerItem(let playerItem):
-            self.onSetAVPlayerItem(playerItem: playerItem)
+            self.playerItem = playerItem
         case .startObserving:
             self.onStartObserving()
         case .setIsReplayMode(let isReplayMode):
             self.isReplayMode = isReplayMode
         case .setCampaignStatus(let status):
-            self.onSetCampaignStatus(status: status)
+            self.campaignStatus = status
         case .setIsAlreadyPlayedOnce(let isPlayedOnce):
-            self.onSetIsAlreadyPlayedOnce(isAlreadyPlayedOnce: isPlayedOnce)
+            self.isAlreadyPlayedOnce = isPlayedOnce
         case .cleanUpMemory:
             self.onCleanUpMemory()
         case .setCurrentPlayCommand(let command):
-            self.onSetCurrentPlayCommand(command : command)
+            self.currentPlayCommand = command
         }
-    }
-    
-    
-    private func onSetAVPlayer(player : AVPlayer?) {
-        self.player = player
-    }
-    
-    private func onSetAVPlayerItem(playerItem : AVPlayerItem?) {
-        self.playerItem = playerItem
     }
     
     private func onStartObserving() {
@@ -101,18 +84,6 @@ class TimeControlStatusManager : NSObject, SLReactor {
         }
     }
     
-    private func onSetIsReplayMode(isReplayMode : Bool) {
-        self.isReplayMode = isReplayMode
-    }
-    
-    private func onSetCampaignStatus(status : ShopLiveCampaignStatus) {
-        self.campaignStatus = status
-    }
-    
-    private func onSetIsAlreadyPlayedOnce(isAlreadyPlayedOnce : Bool) {
-        self.isAlreadyPlayedOnce = isAlreadyPlayedOnce
-    }
-    
     private func onCleanUpMemory() {
         playerTimeControlStatusObserver?.invalidate()
         playerTimeControlStatusObserver = nil
@@ -120,13 +91,8 @@ class TimeControlStatusManager : NSObject, SLReactor {
         self.playerItem = nil
     }
     
-    private func onSetCurrentPlayCommand(command : PlayControlManager.PlayCommand) {
-        self.currentPlayCommand = command
-    }
-    
     private func onTimeControlStatusChanged() {
-        guard let player = player else { return }
-        ShopLiveLogger.tempLog("[timeControlStatus] \(player.timeControlStatus.name_SL)")
+        guard let player else { return }
         switch player.timeControlStatus {
         case .playing:
             self.onTimeControlStatusPlaying()
@@ -166,7 +132,6 @@ class TimeControlStatusManager : NSObject, SLReactor {
                     return
                 }
                 if playerItem?.status == .readyToPlay {
-                    ShopLiveLogger.tempLog("[timeControlStatus] called pause and called resume")
                     resultHandler?( .requestPlayControl(.resume) )
                 }
             }
@@ -181,16 +146,10 @@ class TimeControlStatusManager : NSObject, SLReactor {
         
         switch reason {
         case .toMinimizeStalls:
-            ShopLiveLogger.tempLog("[timeControlStatusManager] [toMinimizeStalls]")
             self.onReasonForWaitingToMinimizeStalls()
-        case .evaluatingBufferingRate:
-            ShopLiveLogger.tempLog("[timeControlStatusManager] [evaluatingBufferingRate]")
-            break
         case .noItemToPlay:
-            ShopLiveLogger.tempLog("[timeControlStatusManager] [noItemToPlay]")
             self.onReasonForWaitingNoItemToPlay()
         default:
-            ShopLiveLogger.tempLog("[timeControlStatusManager] [reasonForWaitingToPlay] reason \(reason.rawValue)")
             break
         }
     }
@@ -201,17 +160,15 @@ class TimeControlStatusManager : NSObject, SLReactor {
                 resultHandler?( .requestRetryOnNetworkDisConnected )
             }
             else {
-                ShopLiveLogger.tempLog("[toMinimizeStalls] retry in 0 sec")
                 resultHandler?( .requestRetry(delay: 0) )
             }
         }
     }
     
     private func onReasonForWaitingNoItemToPlay() {
-        guard let currentPlayTime = self.player?.currentTime().seconds else { return }
-        if currentPlayTime < 5 || currentPlayTime == .nan  {
-            return
-        }
+        guard let currentPlayTime = self.player?.currentTime().seconds,
+              currentPlayTime >= 5 && !currentPlayTime.isNaN
+        else { return }
         resultHandler?( .sendVideoError(errorCase: .noItemToPlay, reason: "noItemToPlay") )
     }
     

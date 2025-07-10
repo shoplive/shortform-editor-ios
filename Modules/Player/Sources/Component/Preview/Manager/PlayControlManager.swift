@@ -15,7 +15,6 @@ public enum DedicatedWebViewCommandCompletionType {
     case isMuted
 }
 
-
 public enum ShopLivePlayerControlAction {
     case play
     case pause
@@ -23,7 +22,7 @@ public enum ShopLivePlayerControlAction {
     case resume
 }
 
-class PlayControlManager : NSObject, SLReactor {
+final class PlayControlManager : NSObject, SLReactor {
     
     enum PlayCommand {
         case play
@@ -64,67 +63,34 @@ class PlayControlManager : NSObject, SLReactor {
     private var isScreenLock : Bool = false
     private var currentPlayCommand : PlayCommand = .none
     
-    
     var resultHandler: ((Result) -> ())?
     
-    
-    
-    
     func action(_ action: Action) {
-        ShopLiveLogger.tempLog("[PLAYCONTROLMANAGER] action \(action)")
         switch action {
         case .setAVPlayer(let player):
-            self.onSetAVPlayer(player: player)
+            self.player = player
         case .setAVPlayerItem(let playerItem):
-            self.onSetAVPlayerItem(playerItem: playerItem)
-        case .setLiveUrl(let uRL):
-            self.onSetLiveUrl(url: uRL)
+            self.playerItem = playerItem
+        case .setLiveUrl(let url):
+            self.liveUrl = url
         case .setIsReplayMode(let isReplayMode):
-            self.onSetIsReplayMode(isReplayMode: isReplayMode)
+            self.isReplayMode = isReplayMode
         case .setNeedSeek(let needSeek):
-            self.onSetNeedSeek(needSeek: needSeek)
+            self.needSeek = needSeek
         case .setNeedReload(let needReload):
-            self.onSetNeedReload(needReload: needReload)
+            self.needReload = needReload
         case .seekTo(let time):
-            self.onSeekTo(time: time)
+            resultHandler?( .requestSetCurrentPlayTime(time) )
+            player?.seek(to: time)
         case .seekToLatest:
             self.onSeekToLatest()
         case .setIsScreenLock(let isScreenLock):
-            self.onSetIsScreenLock(isScreenLock : isScreenLock)
+            self.isScreenLock = isScreenLock
         case .setPlayCommandToNone:
-            self.onSetPlayCommandToNone()
+            self.currentPlayCommand = .none
         }
     }
-    
-    private func onSetAVPlayer(player : AVPlayer?) {
-        self.player = player
-    }
-    
-    private func onSetAVPlayerItem(playerItem : AVPlayerItem?) {
-        self.playerItem = playerItem
-    }
-    
-    private func onSetLiveUrl(url : URL?) {
-        self.liveUrl = url
-    }
-    
-    private func onSetIsReplayMode(isReplayMode : Bool) {
-        self.isReplayMode = isReplayMode
-    }
-    
-    private func onSetNeedSeek(needSeek : Bool) {
-        self.needSeek = needSeek
-    }
-    
-    private func onSetNeedReload(needReload : Bool) {
-        self.needReload = needReload
-    }
-    
-    private func onSeekTo(time : CMTime) {
-        resultHandler?( .requestSetCurrentPlayTime(time) )
-        player?.seek(to: time)
-    }
-    
+
     private func onSeekToLatest() {
         guard let player = self.player,
               let seekableTimeRange = player.currentItem?.seekableTimeRanges.last?.timeRangeValue else { return }
@@ -138,17 +104,9 @@ class PlayControlManager : NSObject, SLReactor {
                         toleranceAfter: .init(value: 1, timescale: 44100))
         }
     }
-    
-    private func onSetIsScreenLock(isScreenLock : Bool) {
-        self.isScreenLock = isScreenLock
-    }
-    
-    private func onSetPlayCommandToNone() {
-        self.currentPlayCommand = .none
-    }
-    
+
+    /// player 상태 조절 후 didChangeCurrentPlayCommand 방출
     func playControlAction(_ action : ShopLivePlayerControlAction) {
-        ShopLiveLogger.publicLog("[PLAYCONTROLMANAGER] action \(action) ")
         switch action {
         case .play:
             self.play()
@@ -166,42 +124,28 @@ class PlayControlManager : NSObject, SLReactor {
     }
     
     private func play() {
-        guard let player = self.player else {
-            ShopLiveLogger.publicLog("[PLAYCONTROLMANAGER] playControlManager player deAllocated")
-            return
-        }
-        
-        guard currentPlayCommand != .play else {
-            ShopLiveLogger.publicLog("[PLAYCONTROLMANAGER] playControlManager currentPlayCommand != .play \(currentPlayCommand != .play)")
-            return
-        }
-        
+        guard let player, currentPlayCommand != .play else { return }
         self.currentPlayCommand = .play
+        
         activatePreserveTimeOffsetFromLive()
         
         DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             if self.isReplayMode {
-                if self.isReplayMode {
-                    if self.isReplayFinised() {
-                        self.action( .seekTo( .init(value: 0, timescale: 44100) ) )
-                    }
+                if self.isReplayFinised() {
+                    self.action( .seekTo( .init(value: 0, timescale: 44100) ) )
                 }
-                ShopLiveLogger.publicLog("[PLAYCONTROLMANAGER] playControlManager play isReplayMode true")
                 player.play()
+                return
             }
-            else {
-                ShopLiveLogger.publicLog("[PLAYCONTROLMANAGER] playControlManager play isReplayMode false")
-                player.play()
-                if self.needSeek {
-                    self.needSeek = false
-                    guard let lastLoadedTime = player.currentItem?.loadedTimeRanges.first as? CMTimeRange else { return }
-                    let latestVideoTime = lastLoadedTime.start
-                    let currentVideoTime = player.currentTime()
-                    if latestVideoTime.seconds > currentVideoTime.seconds + 2 {
-                        ShopLiveLogger.publicLog("[PLAYCONTROLMANAGER] playControlManager play seekTo \(latestVideoTime)")
-                        player.seek(to: latestVideoTime, toleranceBefore: .zero, toleranceAfter: .zero)
-                    }
+            player.play()
+            if self.needSeek {
+                self.needSeek = false
+                guard let lastLoadedTime = player.currentItem?.loadedTimeRanges.first as? CMTimeRange else { return }
+                let latestVideoTime = lastLoadedTime.start
+                let currentVideoTime = player.currentTime()
+                if latestVideoTime.seconds > currentVideoTime.seconds + 2 {
+                    player.seek(to: latestVideoTime, toleranceBefore: .zero, toleranceAfter: .zero)
                 }
             }
         }
@@ -209,12 +153,13 @@ class PlayControlManager : NSObject, SLReactor {
     
     
     private func pause() {
-        guard let player = self.player,
-              currentPlayCommand != .pause else { return }
+        guard let player, currentPlayCommand != .pause else { return }
+        
         self.currentPlayCommand = .pause
         deactivatePreserveTimeOffsetFromLive()
         if Thread.isMainThread {
-            player.pause() //정확히 어떤 이유인지는 모르겠지만,
+            player.pause()
+            //정확히 어떤 이유인지는 모르겠지만,
             //async로 감싸지 않고 바로 한번 호출 해주고 다시 또 async에서 호출해야지 로딩 되자마자 pause되는 현상이 있음
             //asyncAfter 2초까지도 되지 않음
         }
@@ -224,10 +169,9 @@ class PlayControlManager : NSObject, SLReactor {
     }
     
     private func resume() {
-        guard let player = self.player else { return }
-        if currentPlayCommand == .none || currentPlayCommand == .pause || currentPlayCommand == .stop {
-            return
-        }
+        guard let player else { return }
+        guard currentPlayCommand == .play || currentPlayCommand == .resume else { return }
+        
         self.currentPlayCommand = .resume
         activatePreserveTimeOffsetFromLive()
         if self.isReplayMode {
@@ -237,7 +181,6 @@ class PlayControlManager : NSObject, SLReactor {
             resultHandler?( .sendEventToWeb(event: .reloadBtn, param: false, wrapping: false, dedicatedCompletionType: nil))
         }
         
-        
         DispatchQueue.main.async {
             player.play()
         }
@@ -245,23 +188,20 @@ class PlayControlManager : NSObject, SLReactor {
     
     private func stop() {
         self.currentPlayCommand = .stop
-        ShopLiveLogger.tempLog("[RESET_PLAYER]")
         self.resultHandler?( .resetPlayer )
     }
     
 }
 extension PlayControlManager {
     private func getCurrentUrl() -> URL? {
-        if let url = self.liveUrl {
-            return url
+        if let liveUrl {
+            return liveUrl
         }
-        else {
-            return (player?.currentItem as? AVURLAsset)?.url
-        }
+        return (player?.currentItem as? AVURLAsset)?.url
     }
     
     private func activatePreserveTimeOffsetFromLive() {
-        guard let player = player else { return }
+        guard let player else { return }
         if #available(iOS 13.0, *) {
             //해당 옵션이 켜져 있으면 pause상태에서도 최신으로 따라잡으려는 성질 때문에 화면이 렌더링 됨
             player.currentItem?.automaticallyPreservesTimeOffsetFromLive = true
@@ -272,12 +212,11 @@ extension PlayControlManager {
     }
     
     private func deactivatePreserveTimeOffsetFromLive() {
-        guard let player = player else { return }
+        guard let player else { return }
         if #available(iOS 13.0, *) {
             //해당 옵션이 켜져 있으면 pause상태에서도 최신으로 따라잡으려는 성질 때문에 화면이 렌더링 됨
             player.currentItem?.automaticallyPreservesTimeOffsetFromLive = false
         }
-        
     }
     
 }

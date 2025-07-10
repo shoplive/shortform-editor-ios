@@ -41,11 +41,6 @@ final class ShopLivePlayerView: SLView {
         super.init(coder: coder)
     }
 
-    
-    deinit {
-        
-    }
-    
     func refreshLayer(videoGravity : AVLayerVideoGravity){
         self.playerLayerContainer?.removeFromSuperview()
         self.playerLayerContainer = nil
@@ -55,7 +50,6 @@ final class ShopLivePlayerView: SLView {
         self.playerLayer?.player = player
         self.playerLayer?.frame = self.frame
     }
-    
     
     private func setLayout(){
         self.playerLayerContainer = PlayerLayerContainerView()

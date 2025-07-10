@@ -21,10 +21,4 @@ final class ShopLivePlayer: AVPlayer {
         super.init()
         self.superview = superview
     }
-    
-    
-    
-    deinit {
-        
-    }
 }

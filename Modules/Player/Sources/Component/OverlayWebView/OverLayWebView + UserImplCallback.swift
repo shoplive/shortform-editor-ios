@@ -10,9 +10,7 @@ import Foundation
 import UIKit
 import ShopliveSDKCommon
 
-
-
-
+// OverlayWebView의 델리게이트 처리
 extension OverlayWebView {
     func handleUserImplementsCallback(type: String, name : String, param : [String : Any]? ) {
         var passToReceivedCommand : Bool = true
@@ -33,7 +31,6 @@ extension OverlayWebView {
         }
     }
     
-    
     private func onWillRedirectCampaign(param : [String : Any]?) {
         if let campaignKey: String = param?["ck"] as? String {
             ShopLiveController.shared.campaignKey = campaignKey
@@ -49,17 +46,12 @@ extension OverlayWebView {
               let featureType = ShopLiveLog.Feature.featureFrom(type: feature),
               let name = param?["name"] as? String else { return }
         
-        var logPayload: [String: Any] = (param?["parameter"] as? [String : Any]) ?? [:]
+        let logPayload: [String: Any] = (param?["parameter"] as? [String : Any]) ?? [:]
         var logParameter: [String: String] = [:]
         logPayload.forEach {
             logParameter[$0.key] = "\($0.value)"
         }
-        
         let campaignKey: String = (param?["campaignKey"] as? String) ?? ShopLiveController.shared.campaignKey
-        
         delegate?.log(name: name, feature: featureType, campaign: campaignKey, payload: logPayload)
-        
     }
-    
-    
 }

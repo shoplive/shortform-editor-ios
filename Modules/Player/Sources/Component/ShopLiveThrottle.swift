@@ -33,7 +33,7 @@ struct ShopLiveThrottle {
     }
 }
 
-fileprivate class DelayOperation : Operation {
+fileprivate class DelayOperation : Operation, @unchecked Sendable {
     private let timeInterval: TimeInterval
     
     override var isAsynchronous: Bool {

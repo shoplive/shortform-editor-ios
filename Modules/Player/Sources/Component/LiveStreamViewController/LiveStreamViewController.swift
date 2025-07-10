@@ -13,7 +13,7 @@ import ExternalAccessory
 import Foundation
 import ShopliveSDKCommon
 
-internal final class LiveStreamViewController: SLViewController {
+final class LiveStreamViewController: SLViewController {
 
     @objc dynamic lazy var viewModel: LiveStreamViewModel = LiveStreamViewModel()
     weak var delegate: LiveStreamViewControllerDelegate?

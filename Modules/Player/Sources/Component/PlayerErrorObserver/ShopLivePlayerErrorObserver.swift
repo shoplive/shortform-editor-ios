@@ -75,7 +75,6 @@ class ShopLiveAVPlayerErrorObserver {
         let errorLogEntries = errorLog.events
         for logEntry in errorLogEntries {
             // Extract and handle the error details
-            let errorDate = logEntry.date
             let errorStatusCode = logEntry.errorStatusCode
             let errorDomain = logEntry.errorDomain
             let errorComment = logEntry.errorComment
