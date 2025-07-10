@@ -1,7 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 6.1 effective-5.10 (swiftlang-6.1.0.110.21 clang-1700.0.13.3)
-// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name ShopLiveShortformEditorSDK
-// swift-module-flags-ignorable: -no-verify-emitted-module-interface -interface-compiler-version 6.1
+// swift-compiler-version: Apple Swift version 6.0 effective-5.10 (swiftlang-6.0.0.9.10 clang-1600.0.26.2)
+// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name ShopLiveShortformEditorSDK
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface
 import AVFoundation
 import AVKit
 import AssetsLibrary
@@ -514,11 +514,11 @@ public enum SLVideoOutputResolution : Swift.Int {
 public enum SLCoverEditOptions : Swift.CaseIterable {
   case crop
   public static func == (a: ShopLiveShortformEditorSDK.SLCoverEditOptions, b: ShopLiveShortformEditorSDK.SLCoverEditOptions) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
   public typealias AllCases = [ShopLiveShortformEditorSDK.SLCoverEditOptions]
   nonisolated public static var allCases: [ShopLiveShortformEditorSDK.SLCoverEditOptions] {
     get
   }
-  public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
     get
   }
@@ -564,11 +564,11 @@ public enum SLEditOptions : Swift.CaseIterable {
   case volume
   case crop
   public static func == (a: ShopLiveShortformEditorSDK.SLEditOptions, b: ShopLiveShortformEditorSDK.SLEditOptions) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
   public typealias AllCases = [ShopLiveShortformEditorSDK.SLEditOptions]
   nonisolated public static var allCases: [ShopLiveShortformEditorSDK.SLEditOptions] {
     get
   }
-  public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
     get
   }
@@ -999,11 +999,11 @@ public struct SLPHAsset {
   public var originalFileName: Swift.String? {
     get
   }
-  public func photoSize(options: Photos.PHImageRequestOptions? = nil, completion: @escaping (Swift.Int) -> Swift.Void, livePhotoVideoSize: Swift.Bool = false)
-  public func videoSize(options: Photos.PHVideoRequestOptions? = nil, completion: @escaping (Swift.Int) -> Swift.Void)
+  public func photoSize(options: Photos.PHImageRequestOptions? = nil, completion: @escaping ((Swift.Int) -> Swift.Void), livePhotoVideoSize: Swift.Bool = false)
+  public func videoSize(options: Photos.PHVideoRequestOptions? = nil, completion: @escaping ((Swift.Int) -> Swift.Void))
   @discardableResult
-  public func tempCopyMediaFile(videoRequestOptions: Photos.PHVideoRequestOptions? = nil, imageRequestOptions: Photos.PHImageRequestOptions? = nil, livePhotoRequestOptions: Photos.PHLivePhotoRequestOptions? = nil, exportPreset: Swift.String = AVAssetExportPresetHighestQuality, convertLivePhotosToJPG: Swift.Bool = false, progressBlock: ((Swift.Double) -> Swift.Void)? = nil, completionBlock: @escaping (Foundation.URL, Swift.String) -> Swift.Void) -> Photos.PHImageRequestID?
-  public func exportVideoFile(options: Photos.PHVideoRequestOptions? = nil, outputURL: Foundation.URL? = nil, outputFileType: AVFoundation.AVFileType = .mov, progressBlock: ((Swift.Double) -> Swift.Void)? = nil, completionBlock: @escaping (Foundation.URL, Swift.String) -> Swift.Void)
+  public func tempCopyMediaFile(videoRequestOptions: Photos.PHVideoRequestOptions? = nil, imageRequestOptions: Photos.PHImageRequestOptions? = nil, livePhotoRequestOptions: Photos.PHLivePhotoRequestOptions? = nil, exportPreset: Swift.String = AVAssetExportPresetHighestQuality, convertLivePhotosToJPG: Swift.Bool = false, progressBlock: ((Swift.Double) -> Swift.Void)? = nil, completionBlock: @escaping ((Foundation.URL, Swift.String) -> Swift.Void)) -> Photos.PHImageRequestID?
+  public func exportVideoFile(options: Photos.PHVideoRequestOptions? = nil, outputURL: Foundation.URL? = nil, outputFileType: AVFoundation.AVFileType = .mov, progressBlock: ((Swift.Double) -> Swift.Void)? = nil, completionBlock: @escaping ((Foundation.URL, Swift.String) -> Swift.Void))
   public static func asset(with localIdentifier: Swift.String) -> ShopLiveShortformEditorSDK.SLPHAsset?
 }
 extension ShopLiveShortformEditorSDK.SLPHAsset : Swift.Equatable {
@@ -1023,7 +1023,7 @@ public protocol SLPhotopickerDataSourcesProtocol {
   @objc deinit
   public func removeAll()
   public func removeValue(forKey: K)
-  public func forEach(_ closure: (K, V) -> Swift.Void)
+  public func forEach(_ closure: ((K, V) -> Swift.Void))
   public subscript(key: K) -> V? {
     get
     set
