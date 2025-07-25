@@ -523,7 +523,6 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
                 ShopLiveController.playerItem?.preferredForwardBufferDuration = 5
             }
             if ShopLiveController.playControl != .pause, ShopLiveController.playControl != .play, ShopLiveController.windowStyle != .osPip {
-                if ShopLiveController.isReplayMode && ShopLiveController.playControl == .resume { return }
                 if ShopLiveController.isReplayMode, let duration = ShopLiveController.duration {
                     ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoDurationChanged, CMTimeGetSeconds(duration))
                 }
