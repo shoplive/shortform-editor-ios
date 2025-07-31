@@ -218,57 +218,61 @@ final class LiveStreamViewModel: NSObject {
         guard ShopLiveController.player != nil else { return }
         resetPlayer()
         playerLoadingStartTime = Date().timeIntervalSince1970
-        let asset = AVURLAsset(url: addQueryForLiveUrl(url: url) )
-        let playerItem = AVPlayerItem(asset: asset)
         
-        setSoundMuteStateOnFirstPlay()
-        
-        if asset.isPlayable {
-            ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
-            let metadataOutput = AVPlayerItemMetadataOutput(identifiers: nil)
-            metadataOutput.setDelegate(self, queue: DispatchQueue.main)
-            playerItem.add(metadataOutput)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+            let asset = AVURLAsset(url: addQueryForLiveUrl(url: url) )
+            let playerItem = AVPlayerItem(asset: asset)
             
-            if #available(iOS 13.0, *) {
-                playerItem.automaticallyPreservesTimeOffsetFromLive = true
-                playerItem.configuredTimeOffsetFromLive = asset.minimumTimeOffsetFromLive
-            }
+            setSoundMuteStateOnFirstPlay()
             
-            if #available(iOS 14.0, *) {
-                playerItem.startsOnFirstEligibleVariant = true
-            }
-            
-            if #available(iOS 14.5, *) {
-                playerItem.variantPreferences = .scalabilityToLosslessAudio
-            }
-            
-            
-            if ShopLiveController.isReplayMode {
-                playerItem.preferredForwardBufferDuration = 2.5
-            }
-            playerItem.audioTimePitchAlgorithm = .timeDomain
-            
-            ShopLiveController.playerItem = playerItem
-            self.playerItem = playerItem
-            NotificationCenter.default.addObserver(forName: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase, queue: .main) { [weak self] notification in
-                guard let self else { return }
-                if let timebase = ShopLiveController.timebase {
-                    let rate = CMTimebaseGetRate(timebase)
-                    self.perfMeasurements?.rateChanged(rate: rate)
+            if asset.isPlayable {
+                ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
+                let metadataOutput = AVPlayerItemMetadataOutput(identifiers: nil)
+                metadataOutput.setDelegate(self, queue: .main)
+                playerItem.add(metadataOutput)
+                
+                if #available(iOS 13.0, *) {
+                    playerItem.automaticallyPreservesTimeOffsetFromLive = true
+                    playerItem.configuredTimeOffsetFromLive = asset.minimumTimeOffsetFromLive
                 }
-            }
-            NotificationCenter.default.addObserver(forName: .AVPlayerItemPlaybackStalled, object: self.playerItem, queue: .main) { [weak self] notification in
-                guard let self else { return }
-                if let _ = ShopLiveController.playerItem {
-                    self.perfMeasurements?.playbackStalled()
+                
+                if #available(iOS 14.0, *) {
+                    playerItem.startsOnFirstEligibleVariant = true
                 }
+                
+                if #available(iOS 14.5, *) {
+                    playerItem.variantPreferences = .scalabilityToLosslessAudio
+                }
+                
+                
+                if ShopLiveController.isReplayMode {
+                    playerItem.preferredForwardBufferDuration = 2.5
+                }
+                playerItem.audioTimePitchAlgorithm = .timeDomain
+                
+                ShopLiveController.playerItem = playerItem
+                self.playerItem = playerItem
+                NotificationCenter.default.addObserver(forName: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase, queue: .main) { [weak self] notification in
+                    guard let self else { return }
+                    if let timebase = ShopLiveController.timebase {
+                        let rate = CMTimebaseGetRate(timebase)
+                        self.perfMeasurements?.rateChanged(rate: rate)
+                    }
+                }
+                NotificationCenter.default.addObserver(forName: .AVPlayerItemPlaybackStalled, object: self.playerItem, queue: .main) { [weak self] notification in
+                    guard let self else { return }
+                    if let _ = ShopLiveController.playerItem {
+                        self.perfMeasurements?.playbackStalled()
+                    }
+                }
+                
+                ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
+                playerErrorObserver = ShopLiveAVPlayerErrorObserver(player: ShopLiveController.player!)
+                playerErrorObserver?.delegate = self
+                addPlayTimeObserver()
             }
-            ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
-            playerErrorObserver = ShopLiveAVPlayerErrorObserver(player: ShopLiveController.player!)
-            playerErrorObserver?.delegate = self
-            addPlayTimeObserver()
         }
-        
     }
     
     
