@@ -86,11 +86,10 @@ final class LiveStreamViewController: SLViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setImage(ShopLiveSDKAsset.closebutton.image, for: .normal)
         view.addTarget(self, action: #selector(inAppPipCloseBtnTapped), for: .touchUpInside)
+        view.contentEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
         return view
     }()
-    var closeButtonTopConstraint: NSLayoutConstraint?
-    var closeButtonLeadingConstraint: NSLayoutConstraint?
-    
+
     lazy var indicatorView: SLActivityIndicatorView = {
         let activityIndicator = SLActivityIndicatorView()
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -221,79 +220,16 @@ final class LiveStreamViewController: SLViewController {
         pipDim.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: 0).isActive = true
         
         inAppPipView.addSubview(closeButton)
-        closeButtonLeadingConstraint = closeButton.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: 8)
-        closeButtonLeadingConstraint?.isActive = true
-        closeButtonTopConstraint = closeButton.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: 8)
-        closeButtonTopConstraint?.isActive = true
-        closeButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
-        closeButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        closeButton.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor).isActive = true
+        closeButton.topAnchor.constraint(equalTo: inAppPipView.topAnchor).isActive = true
+        closeButton.widthAnchor.constraint(equalToConstant: 36).isActive = true
+        closeButton.heightAnchor.constraint(equalToConstant: 36).isActive = true
         self.view.bringSubviewToFront(inAppPipView)
     }
     
     @objc private func inAppPipCloseBtnTapped(sender : UIButton) {
         delegate?.didTouchCloseButton()
-        
     }
-    
-    func updateImageConstraint(from: CGRect,targetWindowStyle : ShopLiveWindowStyle) {
-        guard let bgImageView = self.backgroundPosterImageWebView else { return }
-       
-        let ratio = ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height
-        let screenSize = UIScreen.main.bounds
-        let imageFrame = CGSize(width: screenSize.width - from.origin.x - from.size.width, height: screenSize.height - from.origin.y - from.size.height)
-        
-        let imageFrameRatio = imageFrame.width / imageFrame.height
-        var posterConstraints : UIEdgeInsets = .zero
-        
-        guard targetWindowStyle != .inAppPip else {
-            posterConstraints = .zero
-            return
-        }
-        
-        if ShopLiveController.shared.videoOrientation == .portrait {
-            if UIScreen.isLandscape {
-                let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
-                posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-            } else {
-                if imageFrameRatio == ratio {
-                    posterConstraints = .zero
-                } else {
-                    let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
-                    posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                }
-            }
-            if ShopLiveController.shared.videoOrientation == .portrait {
-                bgImageView.clipsToBounds = true
-                bgImageView.layer.masksToBounds = true
-            } else {
-                bgImageView.clipsToBounds = true
-                bgImageView.layer.masksToBounds = true
-            }
-        }
-        else {
-            self.backgroundPosterImageWebView?.clipsToBounds = true
-            self.backgroundPosterImageWebView?.layer.masksToBounds = true
-            if imageFrameRatio == ratio {
-                posterConstraints = .zero
-            } else {
-                let videoZoomed: Bool = (self.playerView?.playerLayer?.videoGravity ?? .resizeAspect) == .resizeAspectFill
-                if imageFrameRatio < ratio  {
-                    let letterSpacing = (imageFrame.height - (imageFrame.width * (ShopLiveController.shared.videoRatio.height / ShopLiveController.shared.videoRatio.width))) / 2
-                    posterConstraints = .init(top: letterSpacing, left: 0, bottom: -letterSpacing, right: 0)
-                    
-                } else {
-                    let letterSpacing = (imageFrame.width - (imageFrame.height * (ShopLiveController.shared.videoRatio.width / ShopLiveController.shared.videoRatio.height))) / 2
-                    posterConstraints = .init(top: 0, left: letterSpacing, bottom: 0, right: -letterSpacing)
-                }
-            }
-        }
-        posterTopContraint?.constant = posterConstraints.top
-        posterBottomContraint?.constant = posterConstraints.bottom
-        posterLeftContraint?.constant = posterConstraints.left
-        posterRightContraint?.constant = posterConstraints.right
-        
-    }
-
     
     func updateCloseButtonDim() {
         pipDimLayer.frame = pipDim.frame
@@ -309,10 +245,6 @@ final class LiveStreamViewController: SLViewController {
         if inappPipViewWidth < minimumPipViewWidth {
             inAppPipView.isHidden = true
         } else {
-            let constraintGap = (inappPipViewWidth - minimumPipViewWidth) / 25
-            let gap = 4 + (constraintGap > 4 ? 4 : constraintGap)
-            closeButtonTopConstraint?.constant = gap
-            closeButtonLeadingConstraint?.constant = gap
             self.view.bringSubviewToFront(inAppPipView)
             inAppPipView.isHidden = !visible
             updateCloseButtonDim()
@@ -338,11 +270,6 @@ final class LiveStreamViewController: SLViewController {
         posterBottomContraint?.constant = 0
         posterLeftContraint?.constant = 0
         posterRightContraint?.constant = 0
-        
-//        snapshotTopContraint?.constant = 0
-//        snapshotBottomContraint?.constant = 0
-//        snapshotLeftContraint?.constant = 0
-//        snapshotRightContraint?.constant = 0
         
         self.backgroundPosterImageWebView?.layoutIfNeeded()
         self.snapShotImageView?.layoutIfNeeded()
@@ -660,7 +587,7 @@ extension LiveStreamViewController : LiveStreamViewModelDelegate {
         guard let snapShotView = self.snapShotImageView else {
             return false
         }
-        var oldSize = CGSize.init(width: floor(snapShotView.frame.size.width), height: floor(snapShotView.frame.size.height))
+        let oldSize = CGSize.init(width: floor(snapShotView.frame.size.width), height: floor(snapShotView.frame.size.height))
         var newSize : CGSize
         if isHorizontal {
             newSize = .init(width: floor(base), height: floor(base * ratio))

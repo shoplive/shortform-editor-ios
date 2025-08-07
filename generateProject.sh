@@ -4,7 +4,7 @@ set -euo pipefail
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 
 # 선택 메뉴
-OPTIONS=("PlayerDemo" "PlayerDemo2" "ShortformDemo" "ShopLiveDemo-eBay")
+OPTIONS=("PlayerDemo" "PlayerDemo2" "ShortformDemo" "ShopLiveDemo-eBay" "OnlyDomesticModule")
 
 echo "생성할 프로젝트를 선택해주세요:"
 for idx in "${!OPTIONS[@]}"; do
@@ -45,6 +45,10 @@ case "$choice" in
   4)
     echo "🚀 tuist generate ShopLiveDemo 실행 중..."
     tuist generate PlayerDemo ShopLiveDemo
+    ;;
+  5)
+    echo "🚀 tuist generate OnlyDomesticModule 실행 중..."
+    tuist generate OnlyDomesticModule
     ;;
 esac
 

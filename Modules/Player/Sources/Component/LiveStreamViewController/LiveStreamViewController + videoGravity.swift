@@ -26,8 +26,6 @@ extension LiveStreamViewController {
             self.playerRightConstraint.constant = -targetFrame.size.width
             self.playerBottomConstraint.constant = -targetFrame.size.height
             
-            self.updateImageConstraint(from: targetFrame,targetWindowStyle: .normal)
-            
             self.refreshSnapShotImageViewWhenPlayerViewFrameUpdatedFromWebAndBlock()
             self.playerView?.setNeedsLayout()
             self.playerView?.layoutIfNeeded()
@@ -52,7 +50,6 @@ extension LiveStreamViewController {
             self.playerLeadingConstraint.constant = targetFrame.origin.x
             self.playerRightConstraint.constant = -targetFrame.size.width
             self.playerBottomConstraint.constant = -targetFrame.size.height
-            self.updateImageConstraint(from: targetFrame,targetWindowStyle: .normal)
             
             playerView.setNeedsLayout()
             playerView.layoutIfNeeded()
@@ -93,7 +90,6 @@ extension LiveStreamViewController {
             let targetVideoGravity = self.getVideoGravity(windowStyle: .normal)
             playerView?.playerLayer?.videoGravity = targetVideoGravity
             self.setPlayerViewFrameToFitParent()
-            self.updateImageConstraint(from: .zero,targetWindowStyle: .normal)
         }
     }
     
@@ -109,7 +105,6 @@ extension LiveStreamViewController {
             let targetVideoGravity = self.getVideoGravity(windowStyle: .normal)
             playerView?.playerLayer?.videoGravity = targetVideoGravity
             self.setPlayerViewFrameToFitParent()
-            self.updateImageConstraint(from: .zero,targetWindowStyle: .normal)
         }
     }
     
@@ -131,7 +126,6 @@ extension LiveStreamViewController {
             let targetVideoGravity = self.getVideoGravity(windowStyle: targetWindowStyle)
             playerView?.playerLayer?.videoGravity = targetVideoGravity
             self.setPlayerViewFrameToFitParent()
-            self.updateImageConstraint(from: .zero,targetWindowStyle: targetWindowStyle)
         }
     }
     
@@ -154,7 +148,6 @@ extension LiveStreamViewController {
             let targetVideoGravity = self.getVideoGravity(windowStyle: targetWindowStyle)
             playerView?.playerLayer?.videoGravity = targetVideoGravity
             self.setPlayerViewFrameToFitParent()
-            self.updateImageConstraint(from: .zero,targetWindowStyle: targetWindowStyle)
         }
     }
     
@@ -163,7 +156,6 @@ extension LiveStreamViewController {
         let targetVideoGravity = self.getVideoGravity(windowStyle: ShopLiveController.windowStyle)
         playerView?.playerLayer?.videoGravity = targetVideoGravity
         self.setPlayerViewFrameToFitParent()
-        self.updateImageConstraint(from: .zero,targetWindowStyle: ShopLiveController.windowStyle)
     }
     
     /// OS PiP 복귀 시 비디오 레이어 Gravity 설정
