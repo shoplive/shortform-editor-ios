@@ -1645,34 +1645,33 @@ extension ShopLiveBase {
 //MARK: - customerPreviewConverView
 extension ShopLiveBase {
     func showPreviewCoverView() {
-        guard let coverView = self.customerPreviewCoverView else {
-            return
-        }
-        guard let liveVc = self.liveStreamViewController else {
-            return
-        }
+        guard let coverView = self.customerPreviewCoverView,
+              let liveStreamViewController else { return }
         coverView.isHidden = false
         if let superView = coverView.superview {
-            if liveVc.view !== superView { //이미 쓰워져 있으니까 hidden false처리만 하고 return
-                liveVc.view.addSubview(coverView)
+            if liveStreamViewController.view !== superView {
+                liveStreamViewController.inAppPipView.addSubview(coverView)
                 setCustomerPreviewCoverViewLayout()
             }
         }
         else {
-            liveVc.view.addSubview(coverView)
+            liveStreamViewController.inAppPipView.addSubview(coverView)
             setCustomerPreviewCoverViewLayout()
         }
     }
     
     private func setCustomerPreviewCoverViewLayout() {
         guard let coverView = self.customerPreviewCoverView,
-              let vc = self.liveStreamViewController else { return }
+              let liveStreamViewController else { return }
+        
+        coverView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            coverView.topAnchor.constraint(equalTo: vc.view.topAnchor),
-            coverView.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor),
-            coverView.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor),
-            coverView.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor)
+            coverView.topAnchor.constraint(equalTo: liveStreamViewController.inAppPipView.topAnchor),
+            coverView.leadingAnchor.constraint(equalTo: liveStreamViewController.inAppPipView.leadingAnchor),
+            coverView.trailingAnchor.constraint(equalTo: liveStreamViewController.inAppPipView.trailingAnchor),
+            coverView.bottomAnchor.constraint(equalTo: liveStreamViewController.inAppPipView.bottomAnchor)
         ])
+        liveStreamViewController.inAppPipView.bringSubviewToFront(liveStreamViewController.closeButton)
     }
     
     func hidePreviewCoverView() {
@@ -2394,10 +2393,6 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
         _delegate?.handleCustomAction?(with: id, type: type, payload: payload) { [weak self] customActionResult in
             self?.liveStreamViewController?.didCompleteCustomAction(with: customActionResult)
         }
-        
-        _delegate?.handleCustomAction?(with: id, type: type, payload: payload) { [weak self] customActionResult in
-            self?.liveStreamViewController?.didCompleteCustomAction(with: customActionResult)
-        }
     }
     
     func didTouchPipButton() {
@@ -2431,10 +2426,6 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     func didTouchCoupon(with couponId: String) {
         _delegate?.handleDownloadCoupon?(with: couponId) { [weak self] result in
             self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponId)
-        }
-        
-        _delegate?.handleDownloadCoupon?(with: couponId) { [weak self] couponResult in
-            self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponResult)
         }
         
         _delegate?.handleDownloadCoupon?(with: couponId) { [weak self] couponResult in

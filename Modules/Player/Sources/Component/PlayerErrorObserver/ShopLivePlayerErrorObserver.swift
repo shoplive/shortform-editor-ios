@@ -12,7 +12,7 @@ import ShopliveSDKCommon
 
 
 
-protocol ShopLiveAVPlayerErrorObserverDelegate {
+protocol ShopLiveAVPlayerErrorObserverDelegate: AnyObject {
     func pauseAndWaitForBufferFromPlayerObserveError()
     func onStallDangerFromPlayerObserveError()
     func onMissingRenditionReport()
@@ -44,7 +44,7 @@ class ShopLiveAVPlayerErrorObserver {
     private var isInErrorRetry : Bool = false
     private var currentErrorCase : ErrorCase = .none
     
-    var delegate : ShopLiveAVPlayerErrorObserverDelegate?
+    weak var delegate : ShopLiveAVPlayerErrorObserverDelegate?
     
     init(player : AVPlayer) {
         self.player = player

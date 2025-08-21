@@ -215,7 +215,7 @@ final class LiveStreamViewModel: NSObject {
     
     
     func updatePlayerItem(with url: URL,from : String = #function) {
-        guard ShopLiveController.player != nil else { return }
+        guard let player = ShopLiveController.player else { return }
         resetPlayer()
         playerLoadingStartTime = Date().timeIntervalSince1970
         
@@ -267,9 +267,12 @@ final class LiveStreamViewModel: NSObject {
                     }
                 }
                 
-                ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
-                playerErrorObserver = ShopLiveAVPlayerErrorObserver(player: ShopLiveController.player!)
-                playerErrorObserver?.delegate = self
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
+                    self.playerErrorObserver = ShopLiveAVPlayerErrorObserver(player: player)
+                    self.playerErrorObserver?.delegate = self
+                }
                 addPlayTimeObserver()
             }
         }

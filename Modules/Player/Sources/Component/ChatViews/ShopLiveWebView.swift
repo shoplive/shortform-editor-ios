@@ -47,47 +47,64 @@ final class ShopLiveWebView: SLWKWebView {
     }
     
     func invokeQueuedRequest() {
-        guard let firstCommand = self.queuedRequest.first else { return }
-        self.queuedRequest.removeFirst()
-        self.evaluateJavaScript(firstCommand) { [weak self] some, error  in
-            self?.invokeQueuedRequest()
+        DispatchQueue.main.async { [weak self] in
+            guard let self,
+                  let firstCommand = self.queuedRequest.first else { return }
+            self.queuedRequest.removeFirst()
+            self.evaluateJavaScript(firstCommand) { [weak self] some, error in
+                guard error != nil else {
+                    self?.invokeQueuedRequest()
+                    return
+                }
+            }
         }
     }
 
     func sendEventToWeb(event: WebInterface, _ param: Any? = nil, _ wrapping: Bool = false) {
-        let command: String = param == nil ? "window.__receiveAppEvent('\(event.functionString)');" : "window.__receiveAppEvent('\(event.functionString)', " + (wrapping ? "'\(String(describing: param!))');" : "\(String(describing: param!)));")
-//        ShopLiveLogger.tempLog("[WEBVIEWESEND] \(command)")
-//        ShopLiveLogger.tempLog("to Web [Interface: \(event.functionString)]: [payload: \(String(describing: param))]")
-        if event.functionString != WebInterface.onVideoTimeUpdated.functionString && event.functionString != WebInterface.onVideoMetadataUpdated.functionString {
-            ShopLiveLogger.tempLog(" \(currentViewMode.rawValue) to Web [Interface: \(event.functionString)]: [payload: \(String(describing: param))]")
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            let command: String
+            if let param {
+                let paramString = wrapping ? "'\(param)'" : "\(param)"
+                command = "window.__receiveAppEvent('\(event.functionString)', \(paramString));"
+            } else {
+                command = "window.__receiveAppEvent('\(event.functionString)');"
+            }
+            
+            if !isLoaded {
+                self.queuedRequest.append(command)
+            }
+            self.evaluateJavaScript(command, completionHandler: nil)
         }
-        if isLoaded == false {
-            self.queuedRequest.append(command)
-        }
-        self.evaluateJavaScript(command, completionHandler: nil)
     }
     
     /**
      mute가 보내 졌는지 아닌지 확실한 반응을 얻기 위해서 새로 추가 
      */
     func sendMuteStateToWeb(event: WebInterface, _ param: Any? = nil, _ wrapping: Bool = false , completion : @escaping (_ success : Bool) -> ()) {
-        let command: String = param == nil ? "window.__receiveAppEvent('\(event.functionString)');" : "window.__receiveAppEvent('\(event.functionString)', " + (wrapping ? "'\(String(describing: param!))');" : "\(String(describing: param!)));")
-        if event.functionString != WebInterface.onVideoTimeUpdated.functionString && event.functionString != WebInterface.onVideoMetadataUpdated.functionString {
-            ShopLiveLogger.tempLog("to Web [Interface: \(event.functionString)]: [payload: \(String(describing: param))]")
-        }
-        if isLoaded == false {
-            self.queuedRequest.append(command)
-        }
-        else {
-            self.evaluateJavaScript(command) { _, error  in
-                guard let error = error else {
-                    completion(true)
-                    return
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            let command: String
+            if let param {
+                let paramString = wrapping ? "'\(param)'" : "\(param)"
+                command = "window.__receiveAppEvent('\(event.functionString)', \(paramString));"
+            } else {
+                command = "window.__receiveAppEvent('\(event.functionString)');"
+            }
+            
+            if !isLoaded {
+                self.queuedRequest.append(command)
+            }
+            else {
+                self.evaluateJavaScript(command) { _, error in
+                    guard error != nil else {
+                        completion(true)
+                        return
+                    }
+                    completion(false)
                 }
-                completion(false)
             }
         }
-        
     }
 }
 

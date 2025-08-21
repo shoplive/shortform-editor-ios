@@ -237,13 +237,13 @@ final class LiveStreamViewController: SLViewController {
     
     func setCloseButtonVisible(_ visible: Bool) {
         guard viewModel.getUseCloseBtnIsEnabled() else {
-            inAppPipView.isHidden = true
+            inAppPipView.isHidden = !visible
             return
         }
         
         let inappPipViewWidth = inAppPipView.frame.width
         if inappPipViewWidth < minimumPipViewWidth {
-            inAppPipView.isHidden = true
+            inAppPipView.isHidden = !visible
         } else {
             self.view.bringSubviewToFront(inAppPipView)
             inAppPipView.isHidden = !visible
