@@ -237,7 +237,7 @@ final class LiveStreamViewController: SLViewController {
     
     func setCloseButtonVisible(_ visible: Bool) {
         guard viewModel.getUseCloseBtnIsEnabled() else {
-            inAppPipView.isHidden = !visible
+            inAppPipView.isHidden = true
             return
         }
         
