@@ -87,6 +87,7 @@ final class LiveStreamViewController: SLViewController {
         view.setImage(ShopLiveSDKAsset.closebutton.image, for: .normal)
         view.addTarget(self, action: #selector(inAppPipCloseBtnTapped), for: .touchUpInside)
         view.contentEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
+        view.isHidden = true
         return view
     }()
 
@@ -236,19 +237,11 @@ final class LiveStreamViewController: SLViewController {
     }
     
     func setCloseButtonVisible(_ visible: Bool) {
-        guard viewModel.getUseCloseBtnIsEnabled() else {
-            inAppPipView.isHidden = true
-            return
-        }
-        
-        let inappPipViewWidth = inAppPipView.frame.width
-        if inappPipViewWidth < minimumPipViewWidth {
-            inAppPipView.isHidden = !visible
-        } else {
-            self.view.bringSubviewToFront(inAppPipView)
-            inAppPipView.isHidden = !visible
-            updateCloseButtonDim()
-        }
+        closeButton.isHidden = !visible
+    }
+    
+    func setInAppViewVisible(_ visible: Bool) {
+        inAppPipView.isHidden = !visible
     }
     
     func setCloseDimLayerVisible(_ visible: Bool) {
@@ -264,7 +257,6 @@ final class LiveStreamViewController: SLViewController {
         self.chatInputBG.isHidden = true
     }
     
-    
     func updateImageFit() {
         posterTopContraint?.constant = 0
         posterBottomContraint?.constant = 0
@@ -275,8 +267,6 @@ final class LiveStreamViewController: SLViewController {
         self.snapShotImageView?.layoutIfNeeded()
     }
 
-
-    
     
     func changeOrientation(toLandscape: Bool) {
         DispatchQueue.main.async { [weak self] in

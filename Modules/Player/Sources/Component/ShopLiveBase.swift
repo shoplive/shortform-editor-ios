@@ -597,7 +597,8 @@ import ShopliveSDKCommon
                 shopLiveWindow.layer.masksToBounds = true
                 liveVc.view.layer.masksToBounds = true
                 liveVc.view.clipsToBounds = true
-                liveVc.setCloseButtonVisible(true)
+                liveVc.setInAppViewVisible(true)
+                liveVc.setCloseButtonVisible(liveVc.viewModel.getUseCloseBtnIsEnabled())
                 
                 ShopLiveController.shared.videoExpanded = true
                 
@@ -674,6 +675,8 @@ import ShopliveSDKCommon
             if onOsPipRestoration == false {
                 liveVc.updatePlayerViewFrameFromStartFromCampaignFullScreen(needExecuteFullScreen: self.needExecuteFullScreen)
             }
+            
+            liveVc.setInAppViewVisible(false)
             liveVc.setCloseButtonVisible(false)
             
             if windowAnimator != nil {
@@ -762,6 +765,7 @@ import ShopliveSDKCommon
             shopLiveWindow.layer.cornerRadius = 0
             shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
             self.liveStreamViewController?.updatePlayerViewFrameFromStopCustomPictureInPicture()
+            self.liveStreamViewController?.setInAppViewVisible(false)
             self.liveStreamViewController?.setCloseButtonVisible(false)
             self.liveStreamViewController?.setStatusBarVisiblityOnFullScreen(isVisible: self.statusBarVisibility)
         }
@@ -894,7 +898,8 @@ import ShopliveSDKCommon
             shopLiveWindow.setNeedsLayout()
             shopLiveWindow.layoutIfNeeded()
             
-            self.liveStreamViewController?.setCloseButtonVisible(true)
+            self.liveStreamViewController?.setInAppViewVisible(false)
+            self.liveStreamViewController?.setCloseButtonVisible(self.liveStreamViewController?.viewModel.getUseCloseBtnIsEnabled() ?? true)
             self.liveStreamViewController?.setStatusBarVisiblityOnFullScreen(isVisible: true)
             self.sendCommandChangeToPip()
             self.delegate?.handleCommand?("didShopLiveOff", with: ["style" : self._lastStyle.rawValue])
@@ -971,7 +976,8 @@ import ShopliveSDKCommon
             }
             windowAnimator?.addCompletion({ [weak self] position in
                 guard let self = self, position == .end else { return }
-                liveVC.setCloseButtonVisible(true)
+                self.liveStreamViewController?.setInAppViewVisible(true)
+                liveVC.setCloseButtonVisible(liveVC.viewModel.getUseCloseBtnIsEnabled())
                 slWindow.isHidden = false
                 slWindow.layer.masksToBounds = true
                 liveVC.view.layer.masksToBounds = true
@@ -1033,6 +1039,7 @@ import ShopliveSDKCommon
             shopLiveWindow.setNeedsLayout()
             shopLiveWindow.layoutIfNeeded()
             
+            self.liveStreamViewController?.setInAppViewVisible(false)
             self.liveStreamViewController?.setCloseButtonVisible(false)
         }
     }
