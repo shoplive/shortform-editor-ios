@@ -429,16 +429,25 @@ extension ShopLive: ShopLiveSDKInterface {
         }
     }
 
-    public static func preview(data: ShopLivePlayerData,completion : (() -> Void)? = nil) {
+    public static func preview(
+        data: ShopLivePlayerData,
+        completion : (() -> Void)? = nil
+    ) {
         var previewResolution : ShopLivePlayerPreviewResolution = .PREVIEW
         if let data = data as? ShopLivePreviewData {
-            ShopLiveConfiguration.SoundPolicy.previewSoundEnabled = !(data.isMuted ?? false)
+            ShopLiveConfiguration.SoundPolicy.isPreviewMute = data.isMuted ?? true
             previewResolution = data.previewResolution
         }
         
         ShopLiveConfiguration.SoundPolicy.isEnabledVolumeKeyInPreview = data.isEnabledVolumeKey
-        shared.instance?.preview(with: data.campaignKey, referrer: data.referrer,resolution : previewResolution, campaignHandler: data.campaignHandler, brandHandler: data.brandHandler, completion: completion)
-        
+        shared.instance?.preview(
+            with: data.campaignKey,
+            referrer: data.referrer,
+            resolution: previewResolution,
+            campaignHandler: data.campaignHandler,
+            brandHandler: data.brandHandler,
+            completion: completion
+        )
     }
     
     @available(iOS, deprecated, message: "Use preview(data : ShopLivePlayerData) instead")

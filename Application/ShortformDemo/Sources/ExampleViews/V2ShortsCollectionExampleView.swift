@@ -284,6 +284,37 @@ extension V2ShortsCollectionExampleView : ShortsCollectionViewDataSourcRequestDe
     }
 }
 extension V2ShortsCollectionExampleView : ShopLiveShortformReceiveHandlerDelegate {
+    
+    func onError(error: any Error) {
+        guard let window = ShopLiveShortform.getCurrentKeyWindow() else { return }
+        window.showToast(message: "\(error.localizedDescription)")
+    }
+    
+    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String) {
+        guard let window = ShopLiveShortform.getCurrentKeyWindow() else { return }
+        window.rootViewController?.showToast(message: "banner clicked" ,duration: .long)
+    }
+    
+    func handleShare(shareMetadata: ShopLiveShareMetaData) {
+        var objectsToShare = [String]()
+        objectsToShare.append(shareMetadata.title ?? "no title")
+       
+        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        guard let window = UIApplication.shared.keyWindow else { return }
+        
+        self.present(activityVC, animated: true, completion: nil)
+    }
+    
+    func handleProductItem(shortsId: String, shortsSrn: String, product: ProductData) {
+        ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(shortsId: shortsId,
+                                                                                isEnabledVolumeKey: OptionSettingModel.isEnabledVolumeKey,
+                                                                                productId: product.productId,
+                                                                                isMuted: OptionSettingModel.previewIsMuted,
+                                                                                maxCount: OptionSettingModel.previewMaxCount,clickEventCallBack: {
+            
+        }, delegate: self))
+    }
+    
     func onShortsAttached(data: ShopLiveShortformData) {
         ShopLiveLogger.tempLog("[SHORTFORMATTACH] attach \(data.shortsId)")
     }

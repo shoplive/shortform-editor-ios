@@ -107,6 +107,7 @@ final class ShopLiveChatView: SLScrollView, UITextViewDelegate {
         view.typingAttributes = viewModel.chatInputAttributes
         view.placeholderAttributedText = viewModel.chatInputPlaceholderText
         view.textContainer.maximumNumberOfLines = 0
+        view.inputAccessoryView = nil
         return view
     }()
     

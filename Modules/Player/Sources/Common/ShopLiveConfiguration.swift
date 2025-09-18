@@ -64,9 +64,10 @@ final class ShopLiveConfiguration: NSObject {
         static var autoResumeVideoOnCallEnded: Bool = false
         static var isMutedWhenStart: Bool = false
         static var useMixWithOthers: Bool = true
-        static var previewSoundEnabled : Bool = false
-        static var isEnabledVolumeKeyInPreview : Bool = false
-        static var audioSessionCategory : AVAudioSession.Category = .playback
+        static var isPreviewMute: Bool = true
+//        static var previewSoundEnabled: Bool = false
+        static var isEnabledVolumeKeyInPreview: Bool = false
+        static var audioSessionCategory: AVAudioSession.Category = .playback
     }
 
     class Data {

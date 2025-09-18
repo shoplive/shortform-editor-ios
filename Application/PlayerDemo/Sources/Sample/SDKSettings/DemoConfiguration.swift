@@ -514,14 +514,14 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var enablePreviewSound: Bool {
+    var isPreviewMute: Bool {
         set {
-            UserDefaults.standard.set(newValue, forKey: SDKOptionType.enablePreviewSound.optionKey)
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.isPreviewMuted.optionKey)
             UserDefaults.standard.synchronize()
-            notifyObservers(key: SDKOptionType.enablePreviewSound.optionKey)
+            notifyObservers(key: SDKOptionType.isPreviewMuted.optionKey)
         }
         get {
-            return UserDefaults.standard.bool(forKey:  SDKOptionType.enablePreviewSound.optionKey)
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.isPreviewMuted.optionKey)
         }
     }
     

@@ -364,9 +364,9 @@ extension ShopLiveShortform {
         }
         
         private func preview() {
-            self.shortsCollectionView?.updateItemSize(self.previewPosition().size)
+            self.shortsCollectionView?.updateItemSize(self.previewPosition(position: reactor.previewPosition).size)
             self.reactor.shortsMode = .preview
-            self.shortformWindow.frame = self.previewPosition()
+            self.shortformWindow.frame = self.previewPosition(position: reactor.previewPosition)
             self.shortformWindow.isHidden  = false
             self.shortformWindow.layer.cornerRadius = reactor.previewCornerRadius
             self.shortformWindow.layoutIfNeeded()
@@ -430,7 +430,7 @@ extension ShopLiveShortform {
             window.windowLevel = .statusBar - 1
             window.layer.masksToBounds = true
             window.frame = UIScreen.main.bounds
-            window.center = self.previewPosition().center_SL
+            window.center = self.previewPosition(position: reactor.previewPosition).center_SL
             window.rootViewController = rootViewController
             window.isHidden = true
             return window
@@ -494,7 +494,7 @@ extension ShopLiveShortform {
         }
         
         private func previewPosition(with scale: CGFloat = ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewScale,
-                                     position: ShopLiveShortform.PreviewPosition = ShortFormConfigurationInfosManager.shared.shortsConfiguration.previewPosition) -> CGRect {
+                                     position: ShopLiveShortform.PreviewPosition) -> CGRect {
             guard let mainWindow = UIApplication.topWindow_SL else { return .zero }
             var previewPosition: CGRect = .zero
             var origin = CGPoint.zero

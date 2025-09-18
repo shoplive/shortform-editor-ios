@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import ShopliveSDKCommon
 import ShopLiveShortformSDK
-
+import Toast
 
  
 class V2ShortformExample  {
@@ -31,6 +31,39 @@ class V2ShortformExample  {
 }
 
 extension V2ShortformExample : ShopLiveShortformReceiveHandlerDelegate {
+    
+    func onError(error: any Error) {
+        guard let window = ShopLiveShortform.getCurrentKeyWindow() else { return }
+        window.showToast(message: "\(error.localizedDescription)")
+    }
+    
+    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String) {
+        guard let window = ShopLiveShortform.getCurrentKeyWindow() else { return }
+        window.rootViewController?.showToast(message: "banner clicked" ,duration: .long)
+    }
+    
+    func handleShare(shareMetadata: ShopLiveShareMetaData) {
+        var objectsToShare = [String]()
+        objectsToShare.append(shareMetadata.title ?? "no title")
+       
+        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        guard let window = ShopLiveShortform.getCurrentKeyWindow() else { return }
+        
+        activityVC.popoverPresentationController?.sourceView = window
+        window.rootViewController?.present(activityVC, animated: true, completion: nil)
+        
+    }
+    
+    func handleProductItem(shortsId: String, shortsSrn: String, product: ProductData) {
+        ShopLiveShortform.showPreview(requestData: ShopLiveShortformPreviewData(shortsId: shortsId,
+                                                                                isEnabledVolumeKey: OptionSettingModel.isEnabledVolumeKey,
+                                                                                productId: product.productId,
+                                                                                isMuted: OptionSettingModel.previewIsMuted,
+                                                                                maxCount: OptionSettingModel.previewMaxCount,clickEventCallBack: {
+            
+        }, delegate: self))
+    }
+    
     func onEvent(messenger: ShopLiveShortformMessenger?, command: String, payload: String?) {
         switch command {
         case "DETAIL_SHORTFORM_MORE_ENDED":

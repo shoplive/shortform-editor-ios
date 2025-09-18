@@ -121,17 +121,8 @@ final class ShopLiveChattingWriteView: SLView {
     deinit {
         ShopLiveLogger.tempLog("ShopLiveChattingWriteView deallocated")
     }
-    private var sendButtonTrailing: NSLayoutConstraint!
-    private var chatViewLeading: NSLayoutConstraint!
     private var chatHeight: NSLayoutConstraint!
-    private var selfHeight: NSLayoutConstraint!
-    private var topShadowLeading: NSLayoutConstraint!
-    private var topShadowtrailing: NSLayoutConstraint!
-    private var topShadowHeight: NSLayoutConstraint!
-    private var sendBottom: NSLayoutConstraint!
-    private var sendWidth: NSLayoutConstraint!
-    private var sendHeight: NSLayoutConstraint!
-    private var chatTrailing: NSLayoutConstraint!
+    
     private func setupChattingWriteView() {
         self.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
         self.addSubview(chatView)
@@ -139,30 +130,31 @@ final class ShopLiveChattingWriteView: SLView {
         self.addSubview(sendButton)
         self.addSubview(chatInputViewTopBorder)
         
-        let topShadowTop = NSLayoutConstraint.init(item: topShadow, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0)
-        topShadowLeading = NSLayoutConstraint.init(item: topShadow, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0)
-        topShadowtrailing = NSLayoutConstraint.init(item: topShadow, attribute: .trailing, relatedBy: .equal, toItem: sendButton, attribute: .leading, multiplier: 1.0, constant: 0)
-        topShadowHeight = NSLayoutConstraint.init(item: topShadow, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0)
-        topShadow.addConstraint(topShadowHeight)
-        
-        self.sendButtonTrailing = sendButton.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-        sendBottom = NSLayoutConstraint.init(item: sendButton, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0)
-        sendWidth = NSLayoutConstraint.init(item: sendButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0)
-        sendHeight = NSLayoutConstraint.init(item: sendButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0)
-        sendButton.addConstraints([sendWidth, sendHeight])
-        
-        self.chatViewLeading = chatView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
-        let chatTop = NSLayoutConstraint.init(item: chatView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0)
-        let chatBottom = NSLayoutConstraint.init(item: chatView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0)
-        chatTrailing = NSLayoutConstraint.init(item: chatView, attribute: .trailing, relatedBy: .equal, toItem: sendButton, attribute: .leading, multiplier: 1.0, constant: 0)
-        chatHeight = NSLayoutConstraint.init(item: chatView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: ShopLiveChattingWriteView.minimumHeightChatView)
-        orientationChattingWritrViewConstraint()
-        
-        chatView.addConstraints([chatHeight])
-        
-        self.addConstraints([topShadowTop, topShadowLeading, topShadowtrailing,
-                             chatTop, chatViewLeading, chatTrailing, chatBottom,
-                             sendBottom, sendButtonTrailing])
+       
+        chatHeight = chatView.heightAnchor.constraint(equalToConstant: ShopLiveChattingWriteView.minimumHeightChatView)
+        NSLayoutConstraint.activate([
+            sendButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            sendButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
+            sendButton.widthAnchor.constraint(equalToConstant: 60),
+            sendButton.heightAnchor.constraint(equalToConstant: 36),
+            
+            chatView.topAnchor.constraint(equalTo: topAnchor),
+            chatView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            chatView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            chatView.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor),
+            
+            chatInputViewTopBorder.topAnchor.constraint(equalTo: topAnchor),
+            chatInputViewTopBorder.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -4),
+            chatInputViewTopBorder.trailingAnchor.constraint(equalTo: trailingAnchor),
+            chatInputViewTopBorder.heightAnchor.constraint(equalToConstant: 1),
+            
+            topShadow.topAnchor.constraint(equalTo: topAnchor),
+            topShadow.leadingAnchor.constraint(equalTo: leadingAnchor),
+            topShadow.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor),
+            topShadow.heightAnchor.constraint(equalToConstant: 9),
+            
+            chatHeight
+        ])
     }
     
     private func teardownChattingWriteView() {
@@ -173,43 +165,6 @@ final class ShopLiveChattingWriteView: SLView {
         sendButton.setAttributedTitle(viewModel.sendButtonNormalTitle, for: .normal)
         sendButton.setAttributedTitle(viewModel.sendButtonDisableTitle, for: .disabled)
         chatView.updateShopLiveChatView()
-    }
-    
-    func orientationChattingWritrViewConstraint() {
-        if ShopLiveController.shared.isPreview {
-            chatViewLeading.constant = 0
-            sendButtonTrailing.constant = 0
-        } else if UIScreen.currentOrientation.deviceOrientation == .landscapeRight {
-            chatViewLeading.constant = UIScreen.safeArea.right == .zero ? 0 : UIScreen.safeArea.right / 3
-            sendButtonTrailing.constant = -UIScreen.safeArea.right
-        } else if UIScreen.currentOrientation.deviceOrientation == .landscapeLeft {
-            chatViewLeading.constant = UIScreen.safeArea.left
-            sendButtonTrailing.constant = UIScreen.safeArea.left == .zero ? 0 : -(UIScreen.safeArea.right / 3)
-        } else {
-            chatViewLeading.constant = 0
-            sendButtonTrailing.constant = -4
-        }
-    }
-    
-    func updateChattingWriteViewConstraint() {
-        if ShopLiveController.windowStyle == .inAppPip {
-            topShadowLeading.constant = 0
-            topShadowtrailing.constant = 0
-            topShadowHeight.constant = 0
-            sendBottom.constant = 0
-            sendWidth.constant = 0
-            sendHeight.constant = 0
-            chatTrailing.constant = 0
-        } else {
-            topShadowLeading.constant = 12
-            topShadowtrailing.constant = -16
-            topShadowHeight.constant = 9
-            sendBottom.constant = -6
-            sendWidth.constant = 60
-            sendHeight.constant = 36
-            chatTrailing.constant = -4
-        }
-        chatView.updateShopLiveChatViewConstraint()
     }
     
     func focus() {

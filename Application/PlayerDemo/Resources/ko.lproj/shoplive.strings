@@ -105,8 +105,8 @@
 "sdkoption.preview.closebutton.title" = "Use close button";
 "sdkoption.preview.closebutton.description" = "Preview 와 Inapp PIP에서 닫기버튼 사용여부를 설정합니다.(기본은 사용안함)";
 
-"sdkoption.preview.enableSound.title" = "Preview muted";
-"sdkoption.preview.enableSound.description" = "Preview 에서 음소거를 설정합니다. (기본은 사용)";
+"sdkoption.preview.enableSound.title" = "Preview isMuted";
+"sdkoption.preview.enableSound.description" = "Preview 에서 음소거를 설정합니다.";
 
 "sdkoption.pipPosition.title" = "PIP 위치";
 "sdkoption.pipPosition.description" = "PIP 모드가 시작될 때 위치입니다. (기본은 bottomRight)";

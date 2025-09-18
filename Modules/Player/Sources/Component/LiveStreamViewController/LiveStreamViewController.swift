@@ -175,10 +175,6 @@ final class LiveStreamViewController: SLViewController {
         tearDownLiveStreamViewController()
     }
     
-    deinit {
-        ShopLiveLogger.memoryLog("LiveStreamViewController deinited")
-    }
-    
     func setupLiveStreamViewController() {
         ShopLiveController.overlayUrl = viewModel.getOverLayUrlWithInfosAttached()
         setupAudioConfig()
@@ -271,27 +267,32 @@ final class LiveStreamViewController: SLViewController {
     func changeOrientation(toLandscape: Bool) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            let orientation = toLandscape ? (UIScreen.isLandscape ? UIScreen.currentOrientation.deviceOrientation.rawValue :  ShopLiveController.shared.prevLandscapeOrientation.rawValue) : (UIScreen.isLandscape ? UIInterfaceOrientation.portrait.rawValue : UIDevice.current.orientation.rawValue)
             
-            let lastOrientation = UIDevice.current.orientation
-            
-            guard UIScreen.currentOrientation.deviceOrientation.rawValue != orientation else { return }
+            // 0) 전역 마스크 먼저 갱신
+            ShopLiveCommon.setShopLiveOrientation(orientation: toLandscape ? [.landscapeLeft, .landscapeRight] : .portrait)
             
             if #available(iOS 16.0, *) {
+                // 1) VC/내비 구조 갱신
                 self.setNeedsUpdateOfSupportedInterfaceOrientations()
                 self.navigationController?.setNeedsUpdateOfSupportedInterfaceOrientations()
-                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-                let orientationMask = UIDeviceOrientation(rawValue: orientation)?.orientationMask ?? (toLandscape ? .landscape : .portrait)
                 
-                windowScene?.requestGeometryUpdate(.iOS(interfaceOrientations: toLandscape ? orientationMask : .portrait))
-            } else {
-                UIDevice.current.setValue(orientation, forKey: "orientation")
-                UIViewController.attemptRotationToDeviceOrientation()
-                
-                if orientation != UIScreen.currentOrientation.deviceOrientation.rawValue {
-                    UIDevice.current.setValue(lastOrientation.rawValue, forKey: "orientation")
-                    UIViewController.attemptRotationToDeviceOrientation()
+                // 2) iOS16+ 지오메트리 업데이트 (throw 처리)
+                if let windowScene = (self.view.window?.windowScene) ?? (UIApplication.shared.connectedScenes.first as? UIWindowScene) {
+                    let mask: UIInterfaceOrientationMask = toLandscape ? [.landscapeLeft, .landscapeRight] : .portrait
+                    do {
+                        try windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: mask))
+                    } catch {
+                        // 실패하면 아래 트리거로 폴백
+                    }
                 }
+                
+                // 3) 회전 트리거
+                UIViewController.attemptRotationToDeviceOrientation()
+            } else {
+                // iOS15 이하 폴백 (비권장이지만 실무적으로 사용)
+                let orientation: UIDeviceOrientation = toLandscape ? .landscapeLeft : .portrait
+                UIDevice.current.setValue(orientation.rawValue, forKey: "orientation")
+                UIViewController.attemptRotationToDeviceOrientation()
             }
         }
     }
@@ -299,7 +300,6 @@ final class LiveStreamViewController: SLViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         let currentOrientation: ShopLiveDefines.ShopLiveOrientaion = UIScreen.isLandscape ? .landscape : .portrait
-        self.chatInputView.orientationChattingWritrViewConstraint()
         guard ShopLiveController.windowStyle != .osPip else {
             ShopLiveController.shared.lastOrientaion = (currentOrientation, UIScreen.currentOrientation.deviceOrientation)
             return

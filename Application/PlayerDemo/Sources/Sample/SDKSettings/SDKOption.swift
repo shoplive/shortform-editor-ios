@@ -58,7 +58,7 @@ enum SDKOptionType: String, CaseIterable {
     case variantPreferences_scalabilityToLosslessAudio
     case statusBarVisibility
     case previewResolution
-    case enablePreviewSound
+    case isPreviewMuted
     case enablePip
     case enableOSPip
     case resizeMode

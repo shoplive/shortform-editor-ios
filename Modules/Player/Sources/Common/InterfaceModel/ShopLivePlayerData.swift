@@ -16,9 +16,14 @@ public class ShopLivePlayerData : NSObject {
     public var brandHandler : ((ShopLivePlayerBrand) -> ())?
     public var isEnabledVolumeKey : Bool = false
     
-    
-    
-    public init(campaignKey: String, keepWindowStateOnPlayExecuted: Bool = true, referrer: String? = nil, isEnabledVolumeKey : Bool = false, campaignHandler : ((ShopLivePlayerCampaign) -> ())? = nil, brandHandler : ((ShopLivePlayerBrand) -> ())? = nil) {
+    public init(
+        campaignKey: String,
+        keepWindowStateOnPlayExecuted: Bool = true,
+        referrer: String? = nil,
+        isEnabledVolumeKey : Bool = false,
+        campaignHandler : ((ShopLivePlayerCampaign) -> ())? = nil,
+        brandHandler : ((ShopLivePlayerBrand) -> ())? = nil
+    ) {
         self.isEnabledVolumeKey = isEnabledVolumeKey
         self.campaignKey = campaignKey
         self.keepWindowStateOnPlayExecuted = keepWindowStateOnPlayExecuted

@@ -330,13 +330,17 @@ final class ShopLiveController: NSObject {
         }
     }
     
-    func setSoundMute(isMuted: Bool,from : String = #function) {
+    func setSoundMute(isMuted: Bool) {
         ShopLiveController.player?.isMuted = isMuted
-        ShopLiveController.webInstance?.sendMuteStateToWeb(event: .setVideoMute(isMuted: isMuted), isMuted, completion: { success in
-            if success {
-                ShopLiveController.player?.isMuted = isMuted
+        ShopLiveController.webInstance?.sendMuteStateToWeb(
+            event: .setVideoMute(isMuted: isMuted),
+            isMuted,
+            completion: { success in
+                if success {
+                    ShopLiveController.player?.isMuted = isMuted
+                }
             }
-        })
+        )
     }
 
     func seekToLatest() {

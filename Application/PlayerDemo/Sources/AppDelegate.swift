@@ -28,19 +28,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.synchronize()
         }
         
-        UserDefaults.standard.register(defaults: [SDKOptionType.enablePictureInPictureMode.optionKey: true,
-                                                  SDKOptionType.pipEnableSwipeOut.optionKey: true,
-                                                  "playerPhase": "DEV",
-                                                  "isGuestMode": true,
-                                                  SDKOptionType.statusBarVisibility.optionKey : true,
-                                                  SDKOptionType.playWhenPreviewTapped.optionKey : true,
-                                                  SDKOptionType.enablePreviewSound.optionKey : false,
-                                                  SDKOptionType.enablePip.optionKey : true,
-                                                  SDKOptionType.enableOSPip.optionKey : true,
-                                                  SDKOptionType.resizeMode.optionKey : "CENTER_CROP",
-                                                  SDKOptionType.isEnabledVolumeKey.optionKey : false,
-                                                  SDKOptionType.previewResolution.optionKey : "PREVIEW"                                                ])
-        
+        UserDefaults.standard.register(defaults: [
+            SDKOptionType.enablePictureInPictureMode.optionKey: true,
+            SDKOptionType.pipEnableSwipeOut.optionKey: true,
+            "playerPhase": "DEV",
+            "isGuestMode": true,
+            SDKOptionType.statusBarVisibility.optionKey : true,
+            SDKOptionType.playWhenPreviewTapped.optionKey : true,
+            SDKOptionType.isPreviewMuted.optionKey : true,
+            SDKOptionType.enablePip.optionKey : true,
+            SDKOptionType.enableOSPip.optionKey : true,
+            SDKOptionType.resizeMode.optionKey : "CENTER_CROP",
+            SDKOptionType.isEnabledVolumeKey.optionKey : false,
+            SDKOptionType.previewResolution.optionKey : "PREVIEW"
+        ])
 
         return true
     }

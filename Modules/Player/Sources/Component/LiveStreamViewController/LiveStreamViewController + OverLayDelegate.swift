@@ -34,12 +34,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     func updateOrientation(toLandscape: Bool) {
         self.changeOrientation(toLandscape: toLandscape)
     }
-
-    func updateVideoConstraint() {
-        self.chatInputView.updateChattingWriteViewConstraint()
-        guard let playerView = playerView else { return }
-        playerView.layoutIfNeeded()
-    }
     
     func handleReceivedCommand(_ command: String, with payload: [String : Any]?) {
         delegate?.handleReceivedCommand(command, with: payload)
@@ -169,7 +163,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         let sendText = payload?["chatInputSendText"] as? String
         let chatInputMaxLength = payload?["chatInputMaxLength"] as? Int
         let campaignInfo = payload?["campaignInfo"] as? [String : Any]
-        var isMuted = ShopLiveController.shared.isPreview ? !ShopLiveConfiguration.SoundPolicy.previewSoundEnabled : ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
+        var isMuted = ShopLiveController.shared.isPreview ? ShopLiveConfiguration.SoundPolicy.isPreviewMute : ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
         if SLAudioSessionManager.shared.audioSession.outputVolume == 0 {
             isMuted = true
         }
@@ -195,8 +189,8 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             ShopLiveController.isReplayMode = false
         }
         
-        ShopLiveConfiguration.UI.chatInputPlaceholderString = placeHolder ?? "chat.placeholder".localizedString()
-        ShopLiveConfiguration.UI.chatInputSendString = sendText ?? "chat.send.title".localizedString()
+        ShopLiveConfiguration.UI.chatInputPlaceholderString = placeHolder ?? ShopLiveSDKStrings.Chat.placeholder
+        ShopLiveConfiguration.UI.chatInputSendString = sendText ?? ShopLiveSDKStrings.Chat.Send.title
         ShopLiveConfiguration.UI.chatInputMaxLength = chatInputMaxLength ?? 200
         updateChattingWriteView()
         

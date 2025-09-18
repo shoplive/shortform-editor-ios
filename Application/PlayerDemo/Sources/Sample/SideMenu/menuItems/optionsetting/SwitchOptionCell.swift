@@ -97,31 +97,6 @@ class SwitchOptionCell: UITableViewCell {
             optionDescriptionLabel.topAnchor.constraint(equalTo: optionTitleLabel.bottomAnchor, constant: 4),
             optionDescriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
-
-//        touchArea.snp.makeConstraints {
-//            $0.edges.equalToSuperview()
-//        }
-//        
-//        optionSwitch.snp.makeConstraints {
-//            $0.trailing.equalToSuperview().offset(-20)
-//            $0.width.equalTo(50)
-//            $0.centerY.equalToSuperview()
-//        }
-//        
-//        optionTitleLabel.snp.makeConstraints {
-//            $0.top.equalToSuperview().offset(20)
-//            $0.leading.equalToSuperview().offset(15)
-//            $0.trailing.equalTo(optionSwitch.snp.leading).offset(-10)
-//            $0.height.greaterThanOrEqualTo(20)
-//        }
-//        
-//        optionDescriptionLabel.snp.makeConstraints {
-//            $0.leading.equalToSuperview().offset(15)
-//            $0.trailing.equalTo(optionSwitch.snp.leading).offset(-10)
-//            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
-//            $0.bottom.equalToSuperview().offset(-20)
-//        }
-
     }
 
     func configure(item: SDKOptionItem) {
@@ -200,8 +175,8 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .statusBarVisibility:
             useOption = DemoConfiguration.shared.statusBarVisibility
-        case .enablePreviewSound:
-            useOption = !DemoConfiguration.shared.enablePreviewSound
+        case .isPreviewMuted:
+            useOption = DemoConfiguration.shared.isPreviewMute
         case .enablePip:
             useOption = DemoConfiguration.shared.enablePip
         case .enableOSPip:
@@ -280,9 +255,8 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .statusBarVisibility:
             DemoConfiguration.shared.statusBarVisibility = useOption
-        case .enablePreviewSound:
-            DemoConfiguration.shared.enablePreviewSound = !useOption
-            break
+        case .isPreviewMuted:
+            DemoConfiguration.shared.isPreviewMute = useOption
         case .enablePip:
             DemoConfiguration.shared.enablePip = useOption
         case .enableOSPip:

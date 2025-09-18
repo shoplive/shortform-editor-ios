@@ -365,6 +365,17 @@ extension OverlayWebView: WKScriptMessageHandler {
                     }
                     
                     self.delegate?.updateOrientation(toLandscape: ("LANDSCAPE" == orientation))
+                    
+                    let param: Dictionary = Dictionary<String, Any>.init(
+                        dictionaryLiteral: ("top", UIScreen.safeArea.top),
+                        ("left", UIScreen.safeArea.left),
+                        ("right", UIScreen.safeArea.right),
+                        ("bottom", UIScreen.safeArea.bottom),
+                        ("orientation", "LANDSCAPE" == orientation ? 270 : 0)
+                    )
+                    
+                    sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
+                    
                     break
                 case "SET_PLAYBACK_SPEED":
                     if let playBackSpeed = parameters?["rate"] as? Float {
@@ -385,13 +396,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             self.isSystemInitialized = true
             ShopLiveController.shared.initialize()
             self.webView?.sendEventToWeb(event: .videoInitialized)
-            if !ShopLiveController.shared.isPreview {
-                let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("top", UIScreen.safeArea.top), ("left", UIScreen.safeArea.left),
-                                                                     ("right", UIScreen.safeArea.right), ("bottom", UIScreen.safeArea.bottom), ("orientation", UIScreen.currentOrientation.angle))
-                
-                self.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
-                
-            }
+            
             self.delegate?.requestNetworkCapabilityOnSystemInit()
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
                 self.webView?.sendEventToWeb(event: .onPipModeChanged, self.isPipMode)

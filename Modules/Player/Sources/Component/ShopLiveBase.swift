@@ -581,7 +581,6 @@ import ShopliveSDKCommon
                 liveVc.setStatusBarVisiblityOnFullScreen(isVisible: true)
                 shopLiveWindow.frame = pipPosition
                 liveVc.updatePlayerViewToPipMode()
-                liveVc.updateVideoConstraint()
                 
                 shopLiveWindow.layer.cornerRadius = self.inAppPipConfiguration?.pipRadius ?? 10
                 shopLiveWindow.rootViewController?.view.backgroundColor = .clear
@@ -643,7 +642,6 @@ import ShopliveSDKCommon
                         liveVc.updatePlayerViewFrameFromStartFromCampaignFullScreen(needExecuteFullScreen: false)
                     }
                 }
-                self.liveStreamViewController?.updateVideoConstraint()
                 self.delegate?.handleCommand?("willShopLiveOn", with: nil)
                 self.delegate?.handleCommand?("didShopLiveOn", with: self._lastStyle)
                 self.delegate?.handleCommand?( ShopLiveViewTrackEvent.fullScreenWillAppear.name, with: ["lastStyle" : self._lastStyle.name, "currentStyle" : self.style.name])
@@ -689,7 +687,6 @@ import ShopliveSDKCommon
             windowAnimator?.addAnimations { [weak self] in
                 guard let self = self else { return }
                 liveVc.setStatusBarVisiblityOnFullScreen(isVisible: statusBarVisibility)
-                liveVc.updateVideoConstraint()
                 shopLiveWindow.frame = mainWindow.bounds
                 shopLiveWindow.layer.cornerRadius = 0
                 shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
@@ -792,7 +789,6 @@ import ShopliveSDKCommon
         _lastStyle = .fullScreen
         ShopLiveController.windowStyle = .normal
         ShopLiveController.shared.needForceSetVideoPositionUpdate = false
-        self.liveStreamViewController?.updateVideoConstraint()
         delegate?.handleCommand?("didShopLiveOn", with: nil)
         self.delegate?.handleCommand?( ShopLiveViewTrackEvent.fullScreenDidAppear.name, with: ["lastStyle" : self.style.name, "currentStyle" : self.style.name])
         
@@ -806,12 +802,30 @@ import ShopliveSDKCommon
             guard let self = self else { return }
             
             self.isWindowChanging = true
+            
+            let orientation = UIDevice.current.orientation
+            
+            var rotate: CGFloat = 0
+            
+            switch orientation {
+            case .landscapeLeft:
+                rotate = 270
+            case .landscapeRight:
+                rotate = 90
+            case .unknown:
+                rotate = 270
+            case .portrait, .portraitUpsideDown:
+                rotate = 0
+            default: rotate = 270
+            }
             if isRotation {
-                let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("top", UIScreen.safeArea.top),
-                                                                     ("left", UIScreen.safeArea.left),
-                                                                     ("right", UIScreen.safeArea.right),
-                                                                     ("bottom", UIScreen.safeArea.bottom),
-                                                                     ("orientation", UIScreen.currentOrientation.angle))
+                let param: Dictionary = Dictionary<String, Any>.init(
+                    dictionaryLiteral: ("top", UIScreen.safeArea.top),
+                    ("left", UIScreen.safeArea.left),
+                    ("right", UIScreen.safeArea.right),
+                    ("bottom", UIScreen.safeArea.bottom),
+                    ("orientation", rotate)
+                )
                 
                 self.liveStreamViewController?.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
             } else {
@@ -837,9 +851,6 @@ import ShopliveSDKCommon
             windowAnimator?.addAnimations({ [weak self] in
                 guard let self = self else { return }
                 UIView.animateKeyframes(withDuration: 0.4, delay: 0) {
-                    UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.25) {
-                        self.liveStreamViewController?.updateVideoConstraint()
-                    }
                     UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 1) {
                         self.shopLiveWindow?.frame = pipSize
                         self.shopLiveWindow?.layoutIfNeeded()
@@ -966,7 +977,6 @@ import ShopliveSDKCommon
                 guard let self = self else { return }
                 liveVC.setStatusBarVisiblityOnFullScreen(isVisible: true)
                 liveVC.updatePlayerViewToPipMode()
-                liveVC.updateVideoConstraint()
                 
                 slWindow.rootViewController?.view.layer.cornerRadius = self.inAppPipConfiguration?.pipRadius ?? 10
                 slWindow.rootViewController?.view.backgroundColor = .clear
@@ -1376,7 +1386,26 @@ import ShopliveSDKCommon
         delegate?.log?(name: "swipe_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
         if ShopLiveController.shared.videoOrientation == .landscape {
             if UIScreen.isLandscape {
-                self.liveStreamViewController?.updateOrientation(toLandscape: false)
+                let param: Dictionary = Dictionary<String, Any>.init(
+                    dictionaryLiteral: ("top", UIScreen.safeArea.top),
+                    ("left", UIScreen.safeArea.left),
+                    ("right", UIScreen.safeArea.right),
+                    ("bottom", UIScreen.safeArea.bottom),
+                    ("orientation", 0)
+                )
+                
+                self.liveStreamViewController?.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
+                self.liveStreamViewController?.updatePlayerViewFrameFromChangeOrientation(targetWindowStyle :ShopLiveController.windowStyle)
+                self.shopLiveWindow?.layer.removeAllAnimations()
+                
+                let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut)
+                animator.addAnimations({ [weak self] in
+                    guard let self = self else { return }
+                    self.shopLiveWindow?.layoutIfNeeded()
+                })
+                
+                animator.startAnimation()
+                
             } else {
                 self.startCustomPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
             }
@@ -1844,7 +1873,14 @@ extension ShopLiveBase: ShopLiveComponent {
         startPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
     }
     
-    func preview(with campaignKey: String?, referrer: String? = nil, resolution : ShopLivePlayerPreviewResolution, campaignHandler: ((ShopLivePlayerCampaign) -> ())?, brandHandler: ((ShopLivePlayerBrand) -> ())?, completion: (() -> Void)?) {
+    func preview(
+        with campaignKey: String?,
+        referrer: String? = nil,
+        resolution: ShopLivePlayerPreviewResolution,
+        campaignHandler: ((ShopLivePlayerCampaign) -> ())?,
+        brandHandler: ((ShopLivePlayerBrand) -> ())?,
+        completion: (() -> Void)?
+    ) {
         checkForceStartWithPortraitMode()
         if let campaignKey = campaignKey, ShopLiveController.windowStyle == .osPip {
             self.reservedPlayInfo = (.inAppPip, campaignKey  , referrer, campaignHandler, brandHandler)
@@ -1936,7 +1972,7 @@ extension ShopLiveBase: ShopLiveComponent {
               let vc = self.liveStreamViewController,
               ShopLiveController.shared.isPreview else { return }
         //TODO: - enablePreviewSound
-        ShopLiveController.shared.setSoundMute(isMuted: !ShopLiveConfiguration.SoundPolicy.previewSoundEnabled)
+        ShopLiveController.shared.setSoundMute(isMuted: ShopLiveConfiguration.SoundPolicy.isPreviewMute)
         
         videoWindowPanGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? true : false
         videoWindowTapGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? true : false
@@ -1945,7 +1981,11 @@ extension ShopLiveBase: ShopLiveComponent {
         
         vc.viewModel.setPreviewResolution(resolution: resolution)
         self.osPictureInPictureController = nil
-        vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: accessKey, campaignKey: ShopLiveController.shared.campaignKey, isPreview: true) { [weak self] _ in
+        vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(
+            accessKey: accessKey,
+            campaignKey: ShopLiveController.shared.campaignKey,
+            isPreview: true
+        ) { [weak self] _ in
             guard let self = self else { return }
             vc.viewModel.overayUrl = url
             vc.reload()
@@ -1966,14 +2006,16 @@ extension ShopLiveBase: ShopLiveComponent {
         self.showShopLiveView(with: url,isPreview: true) { [weak self] in
             guard let self = self else { return }
             //TODO: - enablePreviewSound
-            ShopLiveController.shared.setSoundMute(isMuted: !ShopLiveConfiguration.SoundPolicy.previewSoundEnabled)
+            ShopLiveController.shared.setSoundMute(isMuted: ShopLiveConfiguration.SoundPolicy.isPreviewMute)
             if let ak = ShopLiveCommon.getAccessKey(),
                let vc = self.liveStreamViewController,
                ShopLiveController.shared.isPreview {
                 vc.viewModel.setPreviewResolution(resolution: resolution)
-                vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
-                                                                 campaignKey: ShopLiveController.shared.campaignKey,
-                                                                 isPreview: true) { isSuccess in
+                vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(
+                    accessKey: ak,
+                    campaignKey: ShopLiveController.shared.campaignKey,
+                    isPreview: true
+                ) { isSuccess in
                     guard isSuccess else { return }
                     self.updatePictureInPicture()
                 }
@@ -2321,8 +2363,27 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
             updatePip(isRotation: true)
         } else {
             
-            let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("top", UIScreen.safeArea.top), ("left", UIScreen.safeArea.left),
-                                                                 ("right", UIScreen.safeArea.right), ("bottom", UIScreen.safeArea.bottom), ("orientation", UIScreen.currentOrientation.angle))
+            let orientation = UIDevice.current.orientation
+            
+            var rotate: CGFloat = 0
+            switch orientation {
+            case .landscapeLeft:
+                rotate = 270
+            case .landscapeRight:
+                rotate = 90
+            case .unknown:
+                rotate = 270
+            case .portrait, .portraitUpsideDown:
+                rotate = 0
+            default: rotate = 270
+            }
+            let param: Dictionary = Dictionary<String, Any>.init(
+                dictionaryLiteral: ("top", UIScreen.safeArea.top),
+                ("left", UIScreen.safeArea.left),
+                ("right", UIScreen.safeArea.right),
+                ("bottom", UIScreen.safeArea.bottom),
+                ("orientation", rotate)
+            )
             
             self.liveStreamViewController?.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
             
@@ -2332,7 +2393,6 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
             let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut)
             animator.addAnimations({ [weak self] in
                 guard let self = self else { return }
-                self.liveStreamViewController?.updateVideoConstraint()
                 self.shopLiveWindow?.layoutIfNeeded()
             })
             
@@ -2432,11 +2492,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     
     func didTouchCoupon(with couponId: String) {
         _delegate?.handleDownloadCoupon?(with: couponId) { [weak self] result in
-            self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponId)
-        }
-        
-        _delegate?.handleDownloadCoupon?(with: couponId) { [weak self] couponResult in
-            self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponResult)
+            self?.liveStreamViewController?.didCompleteDownLoadCoupon(couponId: couponId, couponResult: result)
         }
     }
     

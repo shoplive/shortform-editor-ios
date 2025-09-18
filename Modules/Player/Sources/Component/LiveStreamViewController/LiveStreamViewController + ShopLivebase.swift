@@ -21,14 +21,9 @@ extension LiveStreamViewController {
         ShopLiveController.overlayUrl = viewModel.getOverLayUrlWithInfosAttached()
     }
 
-    /// 쿠폰 다운로드 완료 후 오버레이에 반영
-    func didCompleteDownLoadCoupon(with couponId: String) {
-        overlayView?.didCompleteDownloadCoupon(with: couponId)
-    }
-
-    /// 쿠폰 다운로드 결과를 오버레이에 전달
-    func didCompleteDownLoadCoupon(with couponResult: ShopLiveCouponResult) {
-        overlayView?.didCompleteDownloadCoupon(with: couponResult)
+    /// 쿠폰 다운로드 완료 후 오버레이에 반영/전달
+    func didCompleteDownLoadCoupon(couponId: String, couponResult: ShopLiveCouponResult) {
+        overlayView?.didCompleteDownloadCoupon(couponId: couponId, couponResult: couponResult)
     }
 
     /// 커스텀 액션 완료 후 오버레이에 알림

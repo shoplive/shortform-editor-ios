@@ -359,20 +359,23 @@ class MainViewController: SideMenuBaseViewController {
         ShopLiveCommon.setAccessKey(accessKey: currentKey.accessKey)
         setupShopliveSettings()
         
-        let playerData = ShopLivePreviewData(campaignKey: currentKey.campaignKey,
-                                             keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
-                                             referrer: DemoConfiguration.shared.customReferrer,
-                                             isMuted: !DemoConfiguration.shared.enablePreviewSound,
-                                             isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey,
-                                             resolution: DemoConfiguration.shared.previewResolution) { campaign in
-            
-        } brandHandler: { brand in
-            
-        }
+        let playerData = ShopLivePreviewData(
+            campaignKey: currentKey.campaignKey,
+            keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
+            referrer: DemoConfiguration.shared.customReferrer,
+            isMuted: DemoConfiguration.shared.isPreviewMute,
+            isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey,
+            resolution: DemoConfiguration.shared.previewResolution
+        ) { campaign in }
+        brandHandler: { brand in }
         
         ShopLive.preview(data: playerData) {
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
-                ShopLive.play(with: currentKey.campaignKey,keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,referrer: DemoConfiguration.shared.customReferrer)
+                ShopLive.play(
+                    with: currentKey.campaignKey,
+                    keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
+                    referrer: DemoConfiguration.shared.customReferrer
+                )
             }
         }
     }

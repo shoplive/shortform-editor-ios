@@ -105,7 +105,7 @@
 "sdkoption.preview.closebutton.title" = "Use Close Button";
 "sdkoption.preview.closebutton.description" = "Set whether to use the close button in preview and in-app PIP (default is not to use)";
 
-"sdkoption.preview.enableSound.title" = "Preview muted";
+"sdkoption.preview.enableSound.title" = "Preview isMuted";
 "sdkoption.preview.enableSound.description" = "Set whether to mute in Preview. (Default is true)";
 
 "sdkoption.pipPosition.title" = "PIP Position";

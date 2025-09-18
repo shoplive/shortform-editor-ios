@@ -25,24 +25,9 @@ extension OverlayWebView {
         self.webView?.sendEventToWeb(event: .sendCommandMessage, message.toJson() ?? "", false)
     }
     
-    func didCompleteDownloadCoupon(with couponId: String) {
+    func didCompleteDownloadCoupon(couponId: String, couponResult: ShopLiveCouponResult) {
+        guard let couponResultJson = couponResult.toJson() else { return }
         self.webView?.sendEventToWeb(event: .completeDownloadCoupon, couponId, true)
-    }
-    
-    func didCompleteDownloadCoupon(with couponResult: ShopLiveCouponResult) {
-        guard let couponResultJson = couponResult.toJson() else {
-            return
-        }
-        
-        self.webView?.sendEventToWeb(event: .downloadCouponResult, couponResultJson)
-    }
-    
-    @available(*, deprecated, message: "use didCompleteDownloadCoupon(with couponResult: ShopLiveCouponResult) instead")
-    func didCompleteDownloadCoupon(with couponResult: CouponResult) {
-        guard let couponResultJson = couponResult.toJson() else {
-            return
-        }
-        
         self.webView?.sendEventToWeb(event: .downloadCouponResult, couponResultJson)
     }
     
