@@ -95,6 +95,7 @@ final class ChatInputView: SLScrollView {
         view.returnKeyType = .send
         view.isScrollEnabled = false
         view.typingAttributes = styleConfig.inputTextAttribute
+        view.inputAccessoryView = nil
         return view
     }()
     

@@ -142,6 +142,7 @@ final class LiveStreamViewController: SLViewController {
         chatView.delegate = self
         return chatView
     }()
+    
     lazy var chatInputBG: SLView = {
         let chatBG = SLView()
         chatBG.translatesAutoresizingMaskIntoConstraints = false
@@ -149,8 +150,6 @@ final class LiveStreamViewController: SLViewController {
         chatBG.isHidden = true
         return chatBG
     }()
-
-    
     
     private var forceStatusBarLightContent: Bool = true
     

@@ -441,5 +441,4 @@ public class SLTextView: UITextView {
 
 public class SLPictureInPictureController: AVPictureInPictureController {
     let identity: String = "ShopLiveViewComponents"
-    
 }
