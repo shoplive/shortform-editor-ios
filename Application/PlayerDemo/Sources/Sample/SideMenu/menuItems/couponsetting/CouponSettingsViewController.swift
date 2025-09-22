@@ -95,7 +95,7 @@ extension CouponSettingsViewController: ShopLiveRadioButtonDelegate {
         let identifier = sender.identifier
         let isSuccess = identifier.last == "s"
 
-        let setting = isSuccess ? successSettingView : failedSettingView
+        let setting = isSuccess ? successSettingView: failedSettingView
         if setting.alertRadioGroup.contains(where:  {$0.identifier == identifier}) {
             setting.updateAlertSetting(identifier: identifier)
         } else {

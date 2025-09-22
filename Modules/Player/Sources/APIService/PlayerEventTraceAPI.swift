@@ -11,7 +11,7 @@ import ShopliveSDKCommon
 import UIKit
 
 
-struct PlayerEventTraceAPI : APIDefinition {
+struct PlayerEventTraceAPI: APIDefinition {
     typealias ResultType = BaseResponse
     
     var baseUrl: String {
@@ -27,11 +27,11 @@ struct PlayerEventTraceAPI : APIDefinition {
         return .post
     }
     
-    var parameters: [String : Any]? {
-        var param : [String : Any] = [:]
+    var parameters: [String: Any]? {
+        var param: [String: Any] = [:]
         
         
-        var campaignEventTraceInfos : [String : Any ] = [ : ]
+        var campaignEventTraceInfos: [String: Any ] = [: ]
         
         
         if let eventName = eventName {
@@ -73,18 +73,18 @@ struct PlayerEventTraceAPI : APIDefinition {
         return param
     }
     
-    var eventName : String?
-    var eventCategory : String?
-    var eventType : String?
-    var activityType : String?
-    var campaignId : String?
-    var shopliveSessionId : String?
-    var streamEdgeType : String?
+    var eventName: String?
+    var eventCategory: String?
+    var eventType: String?
+    var activityType: String?
+    var campaignId: String?
+    var shopliveSessionId: String?
+    var streamEdgeType: String?
     
-    var val1 : Any?
-    var val2 : Any?
-    var val3 : Any?
-    var val4 : Any?
-    var val5 : Any?
+    var val1: Any?
+    var val2: Any?
+    var val3: Any?
+    var val4: Any?
+    var val5: Any?
     
 }

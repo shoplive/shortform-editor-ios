@@ -7,9 +7,9 @@
 
 import Foundation
 
-@objc public class ShopLiveCommonUserObjc : ShopLiveCommonUser {
+@objc public class ShopLiveCommonUserObjc: ShopLiveCommonUser {
     
-    @objc public var _userId : String {
+    @objc public var _userId: String {
         set{
             super.userId = newValue
         }
@@ -18,7 +18,7 @@ import Foundation
         }
     }
     
-    @objc public var _userName : String {
+    @objc public var _userName: String {
         set {
             super.userName = newValue
         }
@@ -27,7 +27,7 @@ import Foundation
         }
     }
     
-    @objc public var _age : NSNumber {
+    @objc public var _age: NSNumber {
         set {
             super.age = newValue.intValue
         }
@@ -36,7 +36,7 @@ import Foundation
         }
     }
     
-    @objc public var _gender : String {
+    @objc public var _gender: String {
         set {
             self.parseStringToGenderType(text: newValue)
         }
@@ -45,7 +45,7 @@ import Foundation
         }
     }
     
-    @objc public var _userScore : NSNumber {
+    @objc public var _userScore: NSNumber {
         set {
             super.userScore = newValue.intValue
         }
@@ -54,7 +54,7 @@ import Foundation
         }
     }
     
-    @objc public var _custom : [String : Any]? {
+    @objc public var _custom: [String: Any]? {
         set {
             super.custom = newValue
         }
@@ -64,14 +64,14 @@ import Foundation
     }
     
     
-    @objc public override init(userId : String, userName : String?, age : NSNumber?, gender : String?, userScore : NSNumber?, custom : Dictionary<String,Any>?) {
+    @objc public override init(userId: String, userName: String?, age: NSNumber?, gender: String?, userScore: NSNumber?, custom: Dictionary<String,Any>?) {
         super.init(userId: userId, userName: userName, age: age, gender: gender, userScore: userScore, custom: custom)
     }
     
     
 }
 extension ShopLiveCommonUserObjc {
-    private func parseStringToGenderType(text : String) {
+    private func parseStringToGenderType(text: String) {
         switch text {
         case "m":
             super.gender = .male

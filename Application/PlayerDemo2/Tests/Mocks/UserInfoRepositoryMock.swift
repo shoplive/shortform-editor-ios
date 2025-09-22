@@ -11,6 +11,10 @@ import ShopliveSDKCommon
 @testable import PlayerDemo2
 
 class MockUserInfoRepository: UserInfoRepository {
+    func fetchVersionInfoDatas(type: PlayerDemo2.VersionInfoButtonType, value: String) {
+        
+    }
+    
     
     let userDefaults: any AppUserDefaults<SDKConfiguration>
     

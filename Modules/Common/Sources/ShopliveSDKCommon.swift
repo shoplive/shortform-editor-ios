@@ -10,19 +10,19 @@ import UIKit
 import OSLog
 
 
-public protocol ShopLiveCommonDelegate : NSObject {
-    var identifier : String { get }
-    func onChangedShopLiveUserJWT(to : String?)
-    func onChangeShopLiveUser(to : ShopLiveCommonUser?)
+public protocol ShopLiveCommonDelegate: NSObject {
+    var identifier: String { get }
+    func onChangedShopLiveUserJWT(to: String?)
+    func onChangeShopLiveUser(to: ShopLiveCommonUser?)
 }
 
-@objc final public class ShopLiveCommon : NSObject {
+@objc final public class ShopLiveCommon: NSObject {
     static var baseURLGenerator: ((HTTPVersion) -> String)?
     
-    private static var delegate : [ShopLiveCommonDelegate] = []
+    private static var delegate: [ShopLiveCommonDelegate] = []
    
-    private static var _auth : ShopLiveCommonAuth?
-    private static var auth : ShopLiveCommonAuth? {
+    private static var _auth: ShopLiveCommonAuth?
+    private static var auth: ShopLiveCommonAuth? {
         get {
             if _auth == nil {
                 _auth = ShopLiveCommonAuth()
@@ -37,15 +37,15 @@ public protocol ShopLiveCommonDelegate : NSObject {
         }
     }
     
-    private static var _user : ShopLiveCommonUser?
+    private static var _user: ShopLiveCommonUser?
     
-    public static func setDelegate(delegate : ShopLiveCommonDelegate) {
+    public static func setDelegate(delegate: ShopLiveCommonDelegate) {
         if Self.delegate.contains(where: { $0.identifier == delegate.identifier }) == false {
             Self.delegate.append(delegate)
         }
     }
     
-    public static func removeDelegate(delegate : ShopLiveCommonDelegate) {
+    public static func removeDelegate(delegate: ShopLiveCommonDelegate) {
         Self.delegate.removeAll(where: { $0.identifier == delegate.identifier })
     }
 }
@@ -54,7 +54,7 @@ extension ShopLiveCommon {
     
     
     @objc(setAuthToken:)
-    public static func setAuthToken(authToken : String?) {
+    public static func setAuthToken(authToken: String?) {
         if auth?.customerUserJWT ?? "" != authToken {
             Self.delegate.forEach { delegate in
                 delegate.onChangedShopLiveUserJWT(to: authToken)
@@ -83,7 +83,7 @@ extension ShopLiveCommon {
     }
     
     @objc(setUser:accessKey:)
-    public static func setUser(user : ShopLiveCommonUser?, accessKey : String?) {
+    public static func setUser(user: ShopLiveCommonUser?, accessKey: String?) {
         _user = user
         guard let accessKey = accessKey else {
             os_log("[Shoplive] failed to create authToken because accessKey is not defined", type: .error)
@@ -102,12 +102,12 @@ extension ShopLiveCommon {
     }
     
     @objc(setUser:)
-    public static func setUser(user : ShopLiveCommonUser?) {
+    public static func setUser(user: ShopLiveCommonUser?) {
         Self.setUser(user: user, accessKey: ShopLiveCommon.getAccessKey())
     }
     
     @available(iOS, deprecated, message: "Enable AppTrackingTransparency instead")
-    @objc public static func setAdId(adId : String?) {
+    @objc public static func setAdId(adId: String?) {
         auth?.adId = adId
     }
     
@@ -121,22 +121,22 @@ extension ShopLiveCommon {
     }
     
     @objc(setUtmSource:)
-    public static func setUtmSource(utmSource : String?){
+    public static func setUtmSource(utmSource: String?){
         auth?.utmSource = utmSource
     }
     
     @objc(setUtmMedium:)
-    public static func setUtmMedium(utmMedium : String?){
+    public static func setUtmMedium(utmMedium: String?){
         auth?.utmMedium = utmMedium
     }
     
     @objc(setUtmCampaign:)
-    public static func setUtmCampaign(utmCampaign : String?){
+    public static func setUtmCampaign(utmCampaign: String?){
         auth?.utmCampaign = utmCampaign
     }
     
     @objc(setUtmContent:)
-    public static func setUtmContent(utmContent : String?){
+    public static func setUtmContent(utmContent: String?){
         auth?.utmContent = utmContent
     }
     
@@ -157,7 +157,7 @@ extension ShopLiveCommon {
     }
 
     @objc(setAccessKey:)
-    public static func setAccessKey(accessKey : String?){
+    public static func setAccessKey(accessKey: String?){
         auth?.accessKey = accessKey
     }
 
@@ -166,7 +166,7 @@ extension ShopLiveCommon {
     }
 
     @objc(setGuestUid:)
-    public static func setGuestUid(guestUid : String?){
+    public static func setGuestUid(guestUid: String?){
         auth?.guestUid = guestUid
     }
     
@@ -178,7 +178,7 @@ extension ShopLiveCommon {
     }
     
     @objc(setAnonId:)
-    public static func setAnonId(anonId : String?) {
+    public static func setAnonId(anonId: String?) {
         auth?.anonId = anonId
     }
     

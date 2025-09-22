@@ -17,19 +17,19 @@ public enum ShopliveCacheType {
 }
 
 
-public class ShopliveMP4CachingManager : NSObject {
+public class ShopliveMP4CachingManager: NSObject {
     public static let shared = ShopliveMP4CachingManager()
     
 
-    private let assetKeysRequiredToPlay : [String] = [ "playable", "hasProtectedContent"]
-    private var cachedSize : UInt64 = 0
-    private lazy var maxCacheSize : UInt64 = oneGB
-    private let oneGB : UInt64 = 1024 * 1024 * 1024
-    private var cacheType : ShopliveCacheType = .memory
-    private var downloadingUrls : [URL] = []
+    private let assetKeysRequiredToPlay: [String] = [ "playable", "hasProtectedContent"]
+    private var cachedSize: UInt64 = 0
+    private lazy var maxCacheSize: UInt64 = oneGB
+    private let oneGB: UInt64 = 1024 * 1024 * 1024
+    private var cacheType: ShopliveCacheType = .memory
+    private var downloadingUrls: [URL] = []
     
     
-    private var dirPathURL : URL? {
+    private var dirPathURL: URL? {
         return SLFileManager.shortformDirectoryPath
     }
     
@@ -42,25 +42,25 @@ public class ShopliveMP4CachingManager : NSObject {
         return self.cacheType
     }
     
-    public func isVideoMP4(url : URL) -> Bool {
+    public func isVideoMP4(url: URL) -> Bool {
         return url.pathExtension.lowercased() == "mp4"
     }
     
-    public func setCacheType(type : ShopliveCacheType = .memory) {
+    public func setCacheType(type: ShopliveCacheType = .memory) {
         self.cacheType = type
     }
     
-    public func setMaxCacheSize(maxSize : UInt64 = 1024 * 1024 * 1024) {
+    public func setMaxCacheSize(maxSize: UInt64 = 1024 * 1024 * 1024) {
         self.maxCacheSize = maxSize
     }
     
     public func getCachedSize() -> String? {
         guard let dirPathURL = dirPathURL else { return nil }
-        let path : URL = dirPathURL
+        let path: URL = dirPathURL
 
         
         let fileManager = FileManager.default
-        var totalSize : UInt64 = 0
+        var totalSize: UInt64 = 0
         do {
             let contents = try fileManager.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
             for item in contents {
@@ -72,8 +72,7 @@ public class ShopliveMP4CachingManager : NSObject {
             self.cachedSize = totalSize
             return ShopliveFileSizeConverter.convertFileSize(totalSize)
         }
-        catch(let error) {
-            ShopLiveLogger.tempLog("[Shoplive] totalSize failed error \(error.localizedDescription)")
+        catch {
             return nil
         }
     }
@@ -81,20 +80,18 @@ public class ShopliveMP4CachingManager : NSObject {
     public func removeCaches() {
         DispatchQueue.global(qos: .background).async {
             guard let dirPathURL = self.dirPathURL else { return }
-            var path : URL = dirPathURL
+            var path: URL = dirPathURL
             
             
             let fileManager = FileManager.default
             do {
                 try fileManager.removeItem(at: path)
             }
-            catch(let error) {
-                ShopLiveLogger.tempLog("[Shoplive] removeCache Error \(error.localizedDescription)")
-            }
+            catch { }
         }
     }
     
-    public func downloadVideo(url : URL,completion : @escaping(AVPlayerItem) -> ()) {
+    public func downloadVideo(url: URL,completion: @escaping(AVPlayerItem) -> ()) {
         DispatchQueue.global(qos: .background).async {
             if url.pathExtension.lowercased() != "mp4" {
                 DispatchQueue.main.async {
@@ -117,7 +114,7 @@ public class ShopliveMP4CachingManager : NSObject {
         
     }
     
-    private func asynchronouslyLoadURLAssets(_ asset: AVURLAsset, completion : @escaping(AVPlayerItem) -> ()) {
+    private func asynchronouslyLoadURLAssets(_ asset: AVURLAsset, completion: @escaping(AVPlayerItem) -> ()) {
         asset.loadValuesAsynchronously(forKeys: assetKeysRequiredToPlay) {
             var error: NSError?
             for key in self.assetKeysRequiredToPlay {
@@ -145,7 +142,7 @@ public class ShopliveMP4CachingManager : NSObject {
     }
     
     
-    private func saveVideoDataToDevice(asset : AVURLAsset, url : URL) {
+    private func saveVideoDataToDevice(asset: AVURLAsset, url: URL) {
         guard let dirPathURL = dirPathURL else { return }
         guard let videoName = url.pathComponents.last else { return }
         
@@ -166,7 +163,7 @@ public class ShopliveMP4CachingManager : NSObject {
             self.downloadingUrls.append(url)
             
             
-            let exportURL : URL = dirPathURL.appendingPathComponent("\(videoName)")
+            let exportURL: URL = dirPathURL.appendingPathComponent("\(videoName)")
             
             
             
@@ -199,17 +196,14 @@ public class ShopliveMP4CachingManager : NSObject {
                 @unknown default:
                     break
                 }
-                if let error = exporter.error {
-                    ShopLiveLogger.tempLog("[Shoplive] exporter error \(error.localizedDescription)")
-                }
             })
         }
     }
     
-    private func findCachedVideo(url : URL) -> URL? {
+    private func findCachedVideo(url: URL) -> URL? {
         guard let dirPathURL = dirPathURL else { return nil }
         guard let videoName = url.pathComponents.last else { return nil }
-        let searchURL : URL = dirPathURL.appendingPathComponent("\(videoName)")
+        let searchURL: URL = dirPathURL.appendingPathComponent("\(videoName)")
         
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: searchURL.path) {
@@ -221,12 +215,12 @@ public class ShopliveMP4CachingManager : NSObject {
     }
     
 }
-extension ShopliveMP4CachingManager : AVAssetResourceLoaderDelegate {
+extension ShopliveMP4CachingManager: AVAssetResourceLoaderDelegate {
     
 }
 
 //mp4 캐싱 테스트용
-//private let testMp4 : [String] = ["http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+//private let testMp4: [String] = ["http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
 //                                  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
 //                                  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
 //                                  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",

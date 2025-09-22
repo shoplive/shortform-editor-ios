@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc public enum ShopLivePlayerPreviewResolution : Int {
+@objc public enum ShopLivePlayerPreviewResolution: Int {
     case LIVE = 1
     case PREVIEW = 2
 }

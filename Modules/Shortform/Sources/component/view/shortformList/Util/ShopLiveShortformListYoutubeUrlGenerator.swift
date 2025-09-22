@@ -82,10 +82,8 @@ struct ShopLiveShortformListYoutubeUrlGenerator {
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
         
         queryItems.append(URLQueryItem(name: "payload", value: payload))
-       
-        guard let params = URLUtil_SL.query(queryItems) else {
-            return URL(string: urlString)
-        }
+    
+        let params = queryItems.queryString
 
         guard let url = URL(string: urlString + "?" + params) else {
             return URL(string: urlString)

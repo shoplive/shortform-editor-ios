@@ -53,14 +53,10 @@ public class ShopLiveWebViewCacheManager: NSObject, URLSessionDownloadDelegate {
         
         guard let encodedString = absoluteString.removingPercentEncoding,
               let url = URL(string: encodedString) else {
-            ShopLiveLogger.tempLog("[ShopLiveWebViewCacheManager] Invalid URL")
             return
         }
         
         let imageInfo = extractImageInfo(from: encodedString)
-        
-        // url 파싱이 실패했을 경우 HTML nil 값 전송
-        ShopLiveLogger.tempLog("[ShopLiveWebViewCacheManager]\nimageInfo.fileName: \(imageInfo.fileName)\nimageInfo.fullUrl: \(imageInfo.fullUrl)\ndomain: \(imageInfo.cacheFileName)")
         
         guard imageInfo.fileName != "" || imageInfo.fullUrl != "" || imageInfo.cacheFileName != "" else {
             completionHandler?(nil)
@@ -72,22 +68,15 @@ public class ShopLiveWebViewCacheManager: NSObject, URLSessionDownloadDelegate {
         let documentsDirectory = SLFileManager.backgroundPosterDirectoryPath
         let destinationURL = documentsDirectory.appendingPathComponent(imageInfo.cacheFileName)
         
-        ShopLiveLogger.tempLog("[ShopLiveWebViewCacheManager] fileName : \(imageInfo.cacheFileName)")
-        
         if FileManager.default.fileExists(atPath: destinationURL.path) {
             do {
                 let htmlString = try String(contentsOf: destinationURL, encoding: .utf8)
-                ShopLiveLogger.tempLog("[ShopLiveWebViewCacheManager] File already exists, returning cached version")
-                ShopLiveLogger.tempLog(htmlString)
                 completionHandler?(htmlString)
                 return
-            } catch {
-                ShopLiveLogger.tempLog("[ShopLiveWebViewCacheManager] Error reading existing file: \(error.localizedDescription)")
-            }
+            } catch { }
         }
         
         if downloadTask?.state == .running {
-            ShopLiveLogger.tempLog("[ShopLiveWebViewCacheManager] Running Download Cancel")
             downloadTask?.cancel()
         }
         
@@ -97,14 +86,12 @@ public class ShopLiveWebViewCacheManager: NSObject, URLSessionDownloadDelegate {
     
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
-        ShopLiveLogger.tempLog("[ShopLiveWebViewCacheManager] Download progress: \(progress * 100)%")
     }
     
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         do {
             
             guard let originalUrl = downloadTask.originalRequest?.url else {
-                ShopLiveLogger.tempLog("[ShopLiveWebViewCacheManager] Failed to extract domain from URL")
                 completionHandler?(nil)
                 return
             }
@@ -113,7 +100,6 @@ public class ShopLiveWebViewCacheManager: NSObject, URLSessionDownloadDelegate {
             
             let data = try Data(contentsOf: location)
             guard let htmlString = String(data: data, encoding: .utf8) else {
-                ShopLiveLogger.tempLog("[ShopLiveWebViewCacheManager] Failed to convert data to string")
                 return
             }
             
@@ -121,23 +107,16 @@ public class ShopLiveWebViewCacheManager: NSObject, URLSessionDownloadDelegate {
             let destinationURL = documentsDirectory.appendingPathComponent(cacheFileName)
             
             try data.write(to: destinationURL)
-            ShopLiveLogger.tempLog("[ShopLiveWebViewCacheManager] File saved to: \(destinationURL.path)")
-            
-            ShopLiveLogger.tempLog("[ShopLiveWebViewCacheManager] Original HTML \n")
-            ShopLiveLogger.tempLog(htmlString)
-            
             completionHandler?(htmlString)
             
         } catch {
             completionHandler?(nil)
-            ShopLiveLogger.tempLog("[ShopLiveWebViewCacheManager] Error processing file: \(error.localizedDescription)")
         }
     }
     
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         if let error = error {
             completionHandler?(nil)
-            ShopLiveLogger.tempLog("[ShopLiveWebViewCacheManager] Download failed: \(error.localizedDescription)")
         }
     }
 }

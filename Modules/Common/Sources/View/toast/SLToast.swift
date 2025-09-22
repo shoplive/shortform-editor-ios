@@ -245,7 +245,7 @@ extension UIViewController {
 
 extension UIWindow {
     
-    public func showToast(message : String, duration : SLToastDuration = .middle){
+    public func showToast(message: String, duration: SLToastDuration = .middle){
         let toastView = SLToastView(message: message,duration: duration)
         self.addSubview(toastView)
         let toastViewConstraint = [

@@ -13,53 +13,51 @@ import AVKit
 import CoreVideo
 import VideoToolbox
 
-protocol ShopLivePreviewModelDelegate : NSObjectProtocol {
+protocol ShopLivePreviewModelDelegate: NSObjectProtocol {
     func getCurrentWebViewUrl() -> URL?
 }
 
-
-final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
-    
+final class ShopLivePlayerPreviewViewModel: NSObject, SLReactor {
     
     private let publicLogPrefix = "PLAYERPREVIEW-VIEWMODEL"
-    var indexPath : IndexPath?
-    private var overlayUrl : URL?
-    private var currentNetworkCapability : String = ""
+    var indexPath: IndexPath?
+    private var overlayUrl: URL?
+    private var currentNetworkCapability: String = ""
     private var isMuted: Bool = true
 //    ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
-    private var player : AVPlayer?
-    private var urlAsset : AVURLAsset?
-    private var playerItem : AVPlayerItem?
-    private var videoOutput : AVPlayerItemVideoOutput?
-    private var playerLayer : AVPlayerLayer?
-    private var currentPlayCommand : PlayControlManager.PlayCommand = .none
-    private var refreshTimer : DispatchSourceTimer? // 30초우에 preview 갱신하는 타이머
+    private var player: AVPlayer?
+    private var urlAsset: AVURLAsset?
+    private var playerItem: AVPlayerItem?
+    private var videoOutput: AVPlayerItemVideoOutput?
+    private var playerLayer: AVPlayerLayer?
+    private var currentPlayCommand: PlayControlManager.PlayCommand = .none
+    private var refreshTimer: DispatchSourceTimer? // 30초우에 preview 갱신하는 타이머
     
     
 
-    private var previewUrl : URL?
-//    private var liveUrl : URL?
+    private var previewUrl: URL?
+//    private var liveUrl: URL?
     
     private var playTimeObserver: Any?
-    private var playerItemStatusObserver : NSKeyValueObservation?
-    private var playerLoadedTimeRangeObserver : NSKeyValueObservation?
-    private var isAlreadyPlayedOnce : Bool = false
-    private var playerLoadingStartTime : Double?
+    private var playerItemStatusObserver: NSKeyValueObservation?
+    private var playerLoadedTimeRangeObserver: NSKeyValueObservation?
+    private var isAlreadyPlayedOnce: Bool = false
+    private var playerLoadingStartTime: Double?
     
     
     //stream data
-    private var streamActivityType : StreamActivityType = .ready
-    private var campaignId : String = ""
-    private var shopliveSessionId : String? = nil
-    private var streamEdgeType : String?
-    private var currentPlayTime : CMTime?
-    private var currentResolution : ShopLivePlayerPreviewResolution = .LIVE
+    private var streamActivityType: StreamActivityType = .ready
+    private var campaignId: String = ""
+    private var shopliveSessionId: String? = nil
+    private var streamEdgeType: String?
+    private var currentPlayTime: CMTime?
+    private var currentResolution: ShopLivePlayerPreviewResolution = .LIVE
     
     //viewdata
-    private var actualVideoRenderedRect : CGRect = .zero
-    private var customVideoResizeMode : ShopLiveResizeMode?
-    private var useCloseButton : Bool = false
-    private var isWebViewDidCompleteLoading : Bool = false
+    private var actualVideoRenderedRect: CGRect = .zero
+    private var customVideoResizeMode: ShopLiveResizeMode?
+    private var useCloseButton: Bool = false
+    private var isWebViewDidCompleteLoading: Bool = false
     var videoOrientation: ShopLiveDefines.ShopLiveOrientaion {
         switch supportOrientation {
         case .portrait, .unknown:
@@ -69,20 +67,20 @@ final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         }
     }
     var supportOrientation: ShopLive.VideoOrientation = .unknown
-    lazy var videoRatio: CGSize = videoOrientation == .landscape ? CGSize(width: 16, height: 9) : CGSize(width: 9, height: 16)
+    lazy var videoRatio: CGSize = videoOrientation == .landscape ? CGSize(width: 16, height: 9): CGSize(width: 9, height: 16)
     
     //campaignState
-    private var campaignStatus : ShopLiveCampaignStatus = .close
-    private var campaignKey : String = ""
-    private var isSuccessCampaignJoin : Bool = false
+    private var campaignStatus: ShopLiveCampaignStatus = .close
+    private var campaignKey: String = ""
+    private var isSuccessCampaignJoin: Bool = false
     
     
-    private var playControlManager : PlayControlManager?
-    private var timeControlStatusManager : TimeControlStatusManager?
-    private var eventTraceManager : ShopLivePlayerEventTraceManagerImpl?
-    private var retryManager : ShopLivePreviewRetryManager?
+    private var playControlManager: PlayControlManager?
+    private var timeControlStatusManager: TimeControlStatusManager?
+    private var eventTraceManager: ShopLivePlayerEventTraceManagerImpl?
+    private var retryManager: PreviewRetryManager?
     
-    private weak var delegate : ShopLivePreviewModelDelegate?
+    private weak var delegate: ShopLivePreviewModelDelegate?
     
     enum Action {
         case initialize
@@ -91,8 +89,8 @@ final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         case setDelegate(ShopLivePreviewModelDelegate?)
         case setOverlayUrl(URL?)
         case setSoundMuteStateOnWebViewSetConf
-        case setSoundMute(isMuted : Bool, needToSendToWeb : Bool)
-        case setStreamEdgeType(type : String?)
+        case setSoundMute(isMuted: Bool, needToSendToWeb: Bool)
+        case setStreamEdgeType(type: String?)
         case setCampaignId(String)
         case setCampaignKey(String)
         case setCampaignStatus(ShopLiveCampaignStatus)
@@ -111,7 +109,7 @@ final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         case seekToLatest
         case didUpdateVideoUrl(URL?)
         case requestTakeSnapshot
-        case requestTakeSnapShotWithCompletion(completion : (() -> ())?)
+        case requestTakeSnapShotWithCompletion(completion: (() -> ())?)
         case retryOnNetworkDisConnect
         case resetRetryFromWebview
         case resetPlayer
@@ -121,32 +119,30 @@ final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         case setIsReplayMode(Bool)
         case setNeedSeek(Bool)
         case setNeedReload(Bool)
-//        case setPreviewURl(URL?)
-//        case setLiveUrl(URL?)
         case setPlaybackSpeed(Float)
         case sendPreviewShowEventTrace
         
         
-        case playControlAction(ShopLivePlayerControlAction)
+        case playControlAction(PlayControlManager.PlayCommand)
         case setPlayControlActionToNone
         
     }
     
     enum Result {
-        case requestShowOrHideSnapShotImageView(needToShow : Bool)
-        case requestShowOrHideBackgroundPosterImageView(needToSHow : Bool)
-        case requestShowOrHideOSPictureInPicture(needToShow : Bool)
+        case requestShowOrHideSnapShotImageView(needToShow: Bool)
+        case requestShowOrHideBackgroundPosterImageView(needToSHow: Bool)
+        case requestShowOrHideOSPictureInPicture(needToShow: Bool)
         case requestSetShopLivePlayerSessionState(PlayerSessionState)
-        case requestSetAlphaToWebView(alpha : CGFloat)
+        case requestSetAlphaToWebView(alpha: CGFloat)
         
-        case reloadWebView(url : URL)
-        case sendNetworkCapabilityOnChanged(networkCapability : String)
-        case updateSnapShotImageViewFrameWithRatio(ratio : CGSize)
+        case reloadWebView(url: URL)
+        case sendNetworkCapabilityOnChanged(networkCapability: String)
+        case updateSnapShotImageViewFrameWithRatio(ratio: CGSize)
         
         
-        case log(name : String, feature : ShopLiveLog.Feature, campaignKey : String , payload : [String : Any]?)
-        case sendEventToWeb(event : WebInterface, param : Any?, wrapping : Bool = false, dedicatedCompletionType : DedicatedWebViewCommandCompletionType?)
-        case sendCommandMessageToWeb(command : String, payload : [String : Any]?)
+        case log(name: String, feature: ShopLiveLog.Feature, campaignKey: String , payload: [String: Any]?)
+        case sendEventToWeb(event: WebInterface, param: Any?, wrapping: Bool = false)
+        case sendCommandMessageToWeb(command: String, payload: [String: Any]?)
         case setSnapShotImage(UIImage?)
         
         case didChangeAVPlayerTimeControlStatus(AVPlayer.TimeControlStatus)
@@ -162,7 +158,7 @@ final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         super.init()
         playControlManager = PlayControlManager()
         timeControlStatusManager = TimeControlStatusManager()
-        retryManager = ShopLivePreviewRetryManager(delegate: self)
+        retryManager = PreviewRetryManager(delegate: self)
         self.bindPlayControlManager()
         self.bindTimeControlStatusManager()
         self.bindRetryManager()
@@ -171,66 +167,64 @@ final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         self.eventTraceManager?.stateAction( .setShopLiveSessionId(self.shopliveSessionId))
     }
     
-    deinit {
-        ShopLiveLogger.tempLog("ShopLivePreviewViewModel deinit")
-    }
-    
     func action(_ action: Action) {
-        ShopLiveLogger.tempLog("viewmodel action \(action)")
         switch action {
         case .initialize:
             onInitialize()
             
         case .setDelegate(let delegate):
-            onSetDelegate(delegate : delegate)
+            self.delegate = delegate
             
         case .reloadOverlayWebView:
             onReloadOverlayWebView()
             
         case .loadOverlayWebView:
-            onLoadOverlayWebView()
+            guard let url = self.getOverLayUrlWithInfosAttached() else { return }
+            resultHandler?( .reloadWebView(url: url) )
             
         case .retryOnNetworkDisConnect:
-            onRetryOnNetworkDisConnect()
+            retryManager?.action( .retryWebViewOnNetworkDisconnected )
             
         case let .setOverlayUrl(url):
             self.overlayUrl = url
             
         case .setSoundMuteStateOnWebViewSetConf:
-            onSetSoundMuteStateOnWebViewSetConf()
+            PlayerPreviewAudioSessionManager.shared.action( .setSoundMuteStateOnFirstPlay(isMuted: self.isMuted) )
             
         case .setSoundMute(let isMuted, let needToSendToWeb):
             onSetSoundMute(isMuted: isMuted, needToSendToWeb: needToSendToWeb)
             
         case .setStreamEdgeType(let type):
-            onSetStreamEdgeType(type: type)
+            self.streamEdgeType = type
+            eventTraceManager?.stateAction( .setStreamEdgeType(type) )
             
         case .setCampaignId(let campaignId):
-            onSetCampaignId(campaignId: campaignId)
+            eventTraceManager?.stateAction(.setCampaignId(campaignId))
+            self.campaignId = campaignId
             
         case .setCampaignKey(let campaignKey):
-            onSetCampaignKey(campaignKey: campaignKey)
+            self.campaignKey = campaignKey
             
         case .setCampaignStatus(let status):
             self.campaignStatus = status
             
         case .setResizeMode(let mode):
-            onSetResizeMode(mode: mode)
+            self.customVideoResizeMode = mode
             
         case .setStreamActivityType(let type):
             onSetStreamActivityType(type: type)
             
         case .setWebViewLoadingCompleted(let isCompleted):
-            onSetWebViewLoadingCompleted(isCompleted: isCompleted)
+            self.isWebViewDidCompleteLoading = isCompleted
             
         case .setRefreshTimer:
-            onSetRefreshTimer()
+            setRefreshTimer()
             
         case .setResolution(let resolution):
-            self.onSetResolution(resolution : resolution)
+            self.currentResolution = resolution
             
         case .setAudioSessonCategory:
-            self.onSetAudioSessionCategory()
+            PlayerPreviewAudioSessionManager.shared.action( .setAudioSessionCategory )
             
         case let .parseRatioStringAndSetData(ratio):
             onParseRatioStringAndSetData(ratio: ratio)
@@ -246,7 +240,7 @@ final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
             onSeekTo(time: time)
             
         case .seekToLatest:
-            onSeekToLatest()
+            playControlManager?.action( .seekToLatest )
             
         case .didUpdateVideoUrl(let url): // URL
             onDidUpdateVideoUrl(url: url)
@@ -261,37 +255,40 @@ final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
             onResetRetryFromWebview()
             
         case .resetPlayer:
-            onResetPlayer()
+            self.resetPlayer()
             
         case .initPlayer(let url): // URL?
-            onInitPlayer(url: url)
+            guard let url = url else { return }
+            playControlManager?.setLiveURL(url)
+            self.updatePlayerItem(with: url)
             
         case .setAVPlayer(let player): // AVPlayer?
-            onSetAVPlayer(player: player)
+            self.player = player
             
         case .setAVPlayerLayer(let layer):
-            onSetAVPlayerLayer(layer : layer)
+            self.playerLayer = layer
             
         case .setIsReplayMode(let isReplayMode): // Bool
-            onSetIsReplayMode(isReplayMode: isReplayMode)
+            PlayerPreviewAudioSessionManager.shared.action( .setIsReplayMode(isReplayMode))
+            playControlManager?.setIsReplayMode(by: isReplayMode)
             
         case .setNeedSeek(let needSeek): // Bool
-            onSetNeedSeek(needSeek: needSeek)
+            playControlManager?.setNeedSeek(needSeek)
             
         case .setNeedReload(let needReload): // bool
-            onSetNeedReload(needReload: needReload)
+            playControlManager?.setNeedReload(needReload)
             
-        case .playControlAction(let playControl):
-            onPlayControlAction(action : playControl)
-            
+        case .playControlAction(let command):
+            playControlManager?.action(.controlPlayer(command))
         case .setPlaybackSpeed(let speed):
             self.player?.rate = speed
             
         case .sendPreviewShowEventTrace:
-            self.onSendPreviewShowEventTrace()
+            eventTraceManager?.eventTraceAction( .previewShow )
             
         case .setPlayControlActionToNone:
-            self.onSetPlayControlActionToNone()
+            self.currentPlayCommand = .none
+            playControlManager?.setPlayCommandToNone()
         }
     }
     
@@ -312,55 +309,20 @@ final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         useCloseButton = false
     }
     
-    private func onSetDelegate(delegate : ShopLivePreviewModelDelegate?) {
-        self.delegate = delegate
-    }
-    
     private func onReloadOverlayWebView() {
         guard let url = self.getOverLayUrlWithInfosAttached() else { return }
         resultHandler?( .reloadWebView(url: url) )
-    }
-    
-    private func onLoadOverlayWebView() {
-        guard let url = self.getOverLayUrlWithInfosAttached() else { return }
-        resultHandler?( .reloadWebView(url: url) )
-    }
-    
-    private func onRetryOnNetworkDisConnect() {
-        retryManager?.action( .retryWebViewOnNetworkDisconnected )
-    }
-    
-    private func onSetSoundMuteStateOnWebViewSetConf() {
-        ShopLivePlayerPreviewAudioSessionManager.shared.action( .setSoundMuteStateOnFirstPlay(isMuted: self.isMuted) )
     }
     
     private func onSetSoundMute(isMuted: Bool, needToSendToWeb: Bool) {
         self.isMuted = isMuted
         player?.isMuted = isMuted
         if needToSendToWeb {
-            resultHandler?( .sendEventToWeb(event: .setVideoMute(isMuted: isMuted), param: isMuted, wrapping: false, dedicatedCompletionType: .isMuted))
+            resultHandler?( .sendEventToWeb(event: .setVideoMute(isMuted: isMuted), param: isMuted, wrapping: false))
         }
     }
     
-    private func onSetStreamEdgeType(type : String?) {
-        self.streamEdgeType = type
-        eventTraceManager?.stateAction( .setStreamEdgeType(type) )
-    }
-    
-    private func onSetCampaignId(campaignId : String) {
-        eventTraceManager?.stateAction( .setCampaignId(campaignId) )
-        self.campaignId = campaignId
-    }
-    
-    private func onSetCampaignKey(campaignKey : String) {
-        self.campaignKey = campaignKey
-    }
-    
-    private func onSetResizeMode(mode : ShopLiveResizeMode?) {
-        self.customVideoResizeMode = mode
-    }
-    
-    private func onSetStreamActivityType(type : String) {
+    private func onSetStreamActivityType(type: String) {
         for aType in StreamActivityType.allCases {
             if aType.rawValue == type {
                 self.streamActivityType = aType
@@ -369,23 +331,7 @@ final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         }
     }
     
-    private func onSetWebViewLoadingCompleted(isCompleted : Bool) {
-        self.isWebViewDidCompleteLoading = isCompleted
-    }
-    
-    private func onSetAudioSessionCategory() {
-        ShopLivePlayerPreviewAudioSessionManager.shared.action( .setAudioSessionCategory )
-    }
-    
-    private func onSetResolution(resolution : ShopLivePlayerPreviewResolution) {
-        self.currentResolution = resolution
-    }
-    
-    private func onSetRefreshTimer() {
-        self.setRefreshTimer()
-    }
-    
-    func onParseRatioStringAndSetData(ratio : String?) {
+    private func onParseRatioStringAndSetData(ratio: String?) {
         if let ratio = ratio {
             let parseRatio = ratio.split(separator: ":")
             if parseRatio.isEmpty {
@@ -394,7 +340,7 @@ final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
             } else {
                 if parseRatio.count == 2, let width = Int(parseRatio[0]), let height = Int(parseRatio[1]) {
                     videoRatio = CGSize(width: width, height: height)
-                    supportOrientation = width > height ? .landscape : .portrait
+                    supportOrientation = width > height ? .landscape: .portrait
                 } else {
                     videoRatio = ShopLiveDefines.defVideoRatio
                     supportOrientation = .portrait
@@ -416,31 +362,9 @@ final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         timeControlStatusManager?.action( .cleanUpMemory )
         delegate = nil
         self.currentPlayCommand = .none
-        playControlManager?.action( .setPlayCommandToNone )
+        playControlManager?.setPlayCommandToNone()
         removePlayTimeObserver()
         resetPlayer()
-    }
-    
-    private func onSetNeedSeek(needSeek: Bool) {
-        playControlManager?.action( .setNeedSeek(needSeek) )
-    }
-    
-    private func onSetNeedReload(needReload: Bool) {
-        playControlManager?.action( .setNeedReload(needReload) )
-    }
-    
-    private func onSendPreviewShowEventTrace() {
-        eventTraceManager?.eventTraceAction( .previewShow )
-    }
-    
-    private func onPlayControlAction(action : ShopLivePlayerControlAction) {
-        ShopLiveLogger.publicLog("[\(publicLogPrefix)] playControl Action \(action)")
-        playControlManager?.playControlAction(action)
-    }
-    
-    private func onSetPlayControlActionToNone() {
-        self.currentPlayCommand = .none
-        playControlManager?.action( .setPlayCommandToNone )
     }
     
     private func onCheckIfSnapShotImageFrameNeedReCalculation() {
@@ -470,14 +394,8 @@ final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
     }
     
     private func onSeekTo(time: CMTime) {
-        ShopLiveLogger.tempLog("[HLSVIEMODEL] seekTO \(time)")
         self.currentPlayTime = time
         playControlManager?.action( .seekTo(time) )
-    }
-    
-    private func onSeekToLatest() {
-        ShopLiveLogger.tempLog("[HLSVIEMODEL] seekToLatest")
-        playControlManager?.action( .seekToLatest )
     }
     
     private func onDidUpdateVideoUrl(url: URL?) {
@@ -494,10 +412,10 @@ final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         self.onRequestTakeSnapshot()
         let previewQueryAddedUrl = self.checkIfLiveUrlContainsPreviewQueryAndAppendIfNotExist(url: url)
         self.previewUrl = previewQueryAddedUrl
-        playControlManager?.action( .setLiveUrl(previewQueryAddedUrl) )
+        playControlManager?.setLiveURL(previewQueryAddedUrl)
         self.updatePlayerItem(with: previewQueryAddedUrl)
         if let playControlManager = playControlManager,
-           playControlManager.getIsReplayMode(), let startTime = self.currentPlayTime {
+           playControlManager.isReplayMode, let startTime = self.currentPlayTime {
             playControlManager.action( .seekTo(startTime) )
         }
     }
@@ -543,7 +461,7 @@ final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
         completion?()
     }
     
-    private func onUpdatePlayBackSpeed(rate : Float) {
+    private func onUpdatePlayBackSpeed(rate: Float) {
         self.player?.rate = rate
     }
     
@@ -552,35 +470,10 @@ final class ShopLivePlayerPreviewViewModel : NSObject, SLReactor {
             retryManager?.action( .stopRetry )
         }
     }
-    
-    private func onResetPlayer() {
-        self.resetPlayer()
-    }
-    
-    private func onInitPlayer(url : URL?) {
-        guard let url = url else { return }
-        playControlManager?.action( .setLiveUrl(url) )
-        self.updatePlayerItem(with: url)
-    }
-    
-    private func onSetAVPlayer(player : AVPlayer?) {
-        self.player = player
-    }
-    
-    private func onSetAVPlayerLayer(layer: AVPlayerLayer?) {
-        self.playerLayer = layer
-    }
-    
-    private func onSetIsReplayMode(isReplayMode : Bool){
-        ShopLivePlayerPreviewAudioSessionManager.shared.action( .setIsReplayMode(isReplayMode) )
-        playControlManager?.action( .setIsReplayMode(isReplayMode) )
-    }
 }
 extension ShopLivePlayerPreviewViewModel {
-    private func updatePlayerItem(with url: URL,from : String = #function) {
-        ShopLiveLogger.tempLog("[UPDATEPLAYERITEM] url \(url) from \(from)")
+    private func updatePlayerItem(with url: URL,from: String = #function) {
         guard self.player != nil else { return }
-        ShopLiveLogger.publicLog("[\(publicLogPrefix)]  updatePlayerItem with \(url) index \(self.indexPath)")
         resetPlayer()
         playerLoadingStartTime = Date().timeIntervalSince1970
         let queryAddedUrl = addQueryForLiveUrl(url: url)
@@ -602,7 +495,7 @@ extension ShopLivePlayerPreviewViewModel {
             playerItem.variantPreferences = .scalabilityToLosslessAudio
         }
         
-        if playControlManager?.getIsReplayMode() ?? false {
+        if playControlManager?.isReplayMode ?? false {
             playerItem.preferredForwardBufferDuration = 2.5
         }
         
@@ -612,14 +505,14 @@ extension ShopLivePlayerPreviewViewModel {
         self.player?.replaceCurrentItem(with: playerItem)
         if let player = self.player {
             addAVPlayerObserver()
-            playControlManager?.action( .setAVPlayer(player) )
-            playControlManager?.action( .setAVPlayerItem(playerItem) )
+            playControlManager?.setAVPlayer(player)
+            playControlManager?.setAVPlayerItem(playerItem)
             
             
             timeControlStatusManager?.action( .setAVPlayer(player) )
             timeControlStatusManager?.action( .setAVPlayerItem(playerItem) )
             timeControlStatusManager?.action( .setCampaignStatus(campaignStatus) )
-            timeControlStatusManager?.action( .setIsReplayMode(playControlManager?.getIsReplayMode() ?? false) )
+            timeControlStatusManager?.action( .setIsReplayMode(playControlManager?.isReplayMode ?? false) )
             timeControlStatusManager?.action( .startObserving )
         }
         addPlayTimeObserver()
@@ -628,7 +521,7 @@ extension ShopLivePlayerPreviewViewModel {
     
     private func setSoundMuteStateOnFirstPlay() {
         guard timeControlStatusManager?.getIsAlreadyPlayedOnce() == false else { return }
-        ShopLivePlayerPreviewAudioSessionManager.shared.action( .setSoundMuteStateOnFirstPlay(isMuted: self.isMuted) )
+        PlayerPreviewAudioSessionManager.shared.action( .setSoundMuteStateOnFirstPlay(isMuted: self.isMuted) )
     }
     
     /**
@@ -655,9 +548,9 @@ extension ShopLivePlayerPreviewViewModel {
 
     }
     
-    private func addQueryForLiveUrl(url : URL) -> URL {
+    private func addQueryForLiveUrl(url: URL) -> URL {
         guard var urlComponents = URLComponents(string: url.absoluteString) else { return url }
-        var addQueryItems : [URLQueryItem] = []
+        var addQueryItems: [URLQueryItem] = []
         
         for (key, value) in AVPlayerHeaderMaker.defaultHeaders {
             if key != "Authorization" {
@@ -681,7 +574,7 @@ extension ShopLivePlayerPreviewViewModel {
         return resultUrl
     }
     
-    private func checkIfLiveUrlContainsPreviewQueryAndAppendIfNotExist(url : URL) -> URL {
+    private func checkIfLiveUrlContainsPreviewQueryAndAppendIfNotExist(url: URL) -> URL {
         guard var urlComponents = URLComponents(string: url.absoluteString) else { return url }
         
         for query in urlComponents.queryItems ?? [] {
@@ -730,7 +623,7 @@ extension ShopLivePlayerPreviewViewModel {
         }
     }
 }
-extension ShopLivePlayerPreviewViewModel  : AVPlayerItemMetadataOutputPushDelegate {
+extension ShopLivePlayerPreviewViewModel : AVPlayerItemMetadataOutputPushDelegate {
     public func metadataOutput(_ output: AVPlayerItemMetadataOutput, didOutputTimedMetadataGroups groups: [AVTimedMetadataGroup], from track: AVPlayerItemTrack?) {
         let payloads: NSMutableDictionary = .init()
         var timedMeta: String = "[timedMeta]\n"
@@ -744,7 +637,7 @@ extension ShopLivePlayerPreviewViewModel  : AVPlayerItemMetadataOutputPushDelega
         }
         
         if payloads.count > 0 {
-            resultHandler?( .sendEventToWeb(event: .onVideoMetadataUpdated, param: payloads.toJson_SL(), wrapping: false, dedicatedCompletionType: nil))
+            resultHandler?( .sendEventToWeb(event: .onVideoMetadataUpdated, param: payloads.toJson_SL(), wrapping: false))
         }
     }
 }
@@ -755,7 +648,7 @@ extension ShopLivePlayerPreviewViewModel {
         let time = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         playTimeObserver = player?.addPeriodicTimeObserver(forInterval: time, queue: nil) { [weak self] (time) in
             let curTime = CMTimeGetSeconds(time)
-            self?.resultHandler?( .sendEventToWeb(event: .onVideoTimeUpdated, param: curTime, wrapping: false, dedicatedCompletionType: nil))
+            self?.resultHandler?( .sendEventToWeb(event: .onVideoTimeUpdated, param: curTime, wrapping: false))
         }
     }
     
@@ -769,34 +662,25 @@ extension ShopLivePlayerPreviewViewModel {
 extension ShopLivePlayerPreviewViewModel {
     private func addAVPlayerObserver() {
         removeAVPlayerObserver()
-        ShopLiveLogger.publicLog("[\(publicLogPrefix)] addPlayerObserver \(self.indexPath) ")
         if let playerItem = self.playerItem {
             playerItemStatusObserver = playerItem.observe(\.status, options: [.initial,.new] , changeHandler: { [weak self] playerItem, value in
                 guard let self = self else { return}
-                self.onPlayerItemStatusChanged(status : playerItem.status)
+                self.onPlayerItemStatusChanged(status: playerItem.status)
             })
         }
     }
     
-    private func removeAVPlayerObserver(from : String = #function) {
+    private func removeAVPlayerObserver(from: String = #function) {
         playerItemStatusObserver?.invalidate()
         playerItemStatusObserver = nil
         playerLoadedTimeRangeObserver?.invalidate()
         playerLoadedTimeRangeObserver = nil
-        ShopLiveLogger.publicLog("[\(publicLogPrefix)] removePlayerObserver \(self.indexPath) from \(from)")
     }
     
     //MARK: -playerIteStatusChanged
-    private func onPlayerItemStatusChanged(status : AVPlayerItem.Status) {
-        switch status {
-        case .readyToPlay:
+    private func onPlayerItemStatusChanged(status: AVPlayerItem.Status) {
+        if .readyToPlay == status {
             self.onPlayerItemStatusReadyToPlay()
-        case .failed:
-            self.onPlayerItemStatusFailed()
-        default:
-            ShopLiveLogger.tempLog("[PlayerStatus] playerItem unknown")
-            self.onPlayerItemStatusFailed()
-            break
         }
         resultHandler?( .didChangeAVPlayerItemStatus(status) )
     }
@@ -804,24 +688,20 @@ extension ShopLivePlayerPreviewViewModel {
     private func onPlayerItemStatusReadyToPlay() {
         self.player?.isMuted = isMuted
         guard let pm = playControlManager else { return }
-        ShopLiveLogger.publicLog("[PlayerStatus] playerItemReadyToPlay \(indexPath)")
-        if pm.getCurrentPlayCommand() != .pause, pm.getCurrentPlayCommand() != .play {
-            if pm.getCurrentPlayCommand() == .resume { return }
+        if pm.currentPlayCommand != .pause,
+           pm.currentPlayCommand != .play {
+            if pm.currentPlayCommand == .resume { return }
             if let duration = pm.getVideoDuration(),
-               pm.getIsReplayMode() {
-                resultHandler?( .sendEventToWeb(event: .onVideoDurationChanged, param: CMTimeGetSeconds(duration), wrapping: false, dedicatedCompletionType: nil))
+               pm.isReplayMode {
+                resultHandler?( .sendEventToWeb(event: .onVideoDurationChanged, param: CMTimeGetSeconds(duration), wrapping: false))
             }
-            pm.playControlAction( .pause )
+            pm.action(.controlPlayer(.pause))
             retryManager?.action( .stopRetry )
             self.onRequestTakeSnapshot()
         }
     }
-    
-    private func onPlayerItemStatusFailed() {
-        /** do nothing 고객사에게 핸들링 전가  */
-    }
-    
 }
+
 extension ShopLivePlayerPreviewViewModel {
     public func getOverLayUrlWithInfosAttached() -> URL? {
         guard let baseUrl = overlayUrl else { return nil }
@@ -851,7 +731,7 @@ extension ShopLivePlayerPreviewViewModel {
             
             
             if let additional = user.custom, !additional.isEmpty {
-                let nilAvoided = (additional  as [String : Any?]).filter({ $0.value != nil })
+                let nilAvoided = (additional  as [String: Any?]).filter({ $0.value != nil })
                 nilAvoided.forEach { (key: String, value: Any?) in
                     guard let value = value else { return }
                     if value is [Any] {
@@ -925,9 +805,7 @@ extension ShopLivePlayerPreviewViewModel {
         }
         
         let urlString: String = ShopLiveConfiguration.AppPreference.landingUrl
-        guard let params = URLUtil_SL.query(queryItems) else {
-            return URL(string: urlString)
-        }
+        let params = queryItems.queryStringRFC3986
         
         guard let url = URL(string: urlString + "?" + params) else {
             return URL(string: urlString)
@@ -984,11 +862,11 @@ extension ShopLivePlayerPreviewViewModel {
     }
     
     public func getIsReplayMode() -> Bool {
-        return playControlManager?.getIsReplayMode() ?? false
+        return playControlManager?.isReplayMode ?? false
     }
     
     public func getNeedSeek() -> Bool {
-        return playControlManager?.getNeedSeek() ?? false
+        return playControlManager?.needSeek ?? false
     }
     
     public func getTimeControlStatus() -> AVPlayer.TimeControlStatus {
@@ -1012,15 +890,14 @@ extension ShopLivePlayerPreviewViewModel {
     }
     
     func getCurrentPlayCommand() -> PlayControlManager.PlayCommand {
-        return playControlManager?.getCurrentPlayCommand() ?? .none
+        return playControlManager?.currentPlayCommand ?? .none
     }
 }
 //MARK: - bind PlayControlManager
 extension ShopLivePlayerPreviewViewModel {
     private func bindPlayControlManager() {
         playControlManager?.resultHandler = { [weak self] result in
-            guard let self = self else { return }
-            ShopLiveLogger.tempLog("[VIEWVMODEL] playControlManager result \(result)")
+            guard let self else { return }
             switch result {
             case .didChangeCurrentPlayCommand(let playCommand):
                 self.onPlayControlManagerDidChangeCurrentPlayCommand(playCommand: playCommand)
@@ -1032,29 +909,29 @@ extension ShopLivePlayerPreviewViewModel {
                 self.onPlayControlManagerRequestSetNeedReload(needReload: needReload)
             case .resetPlayer:
                 self.onPlayControlManagerResetPlay()
-            case .sendEventToWeb(event: let event, param: let param, wrapping: let wrapping, dedicatedCompletionType: let dedicatedCompletionType):
-                self.onPlayControlManagerSendEventToWeb(event: event, param: param, wrapping: wrapping, dedicatedCompletionType: dedicatedCompletionType)
+            case .sendEventToWeb(event: let event, param: let param, wrapping: let wrapping):
+                self.onPlayControlManagerSendEventToWeb(event: event, param: param, wrapping: wrapping)
             }
         }
     }
     
     
-    private func onPlayControlManagerDidChangeCurrentPlayCommand(playCommand : PlayControlManager.PlayCommand) {
+    private func onPlayControlManagerDidChangeCurrentPlayCommand(playCommand: PlayControlManager.PlayCommand) {
         self.currentPlayCommand = playCommand
         timeControlStatusManager?.action( .setCurrentPlayCommand(playCommand) )
     }
     
-    private func onPlayControlManagerRequestInitPlayer(url : URL?) {
+    private func onPlayControlManagerRequestInitPlayer(url: URL?) {
         guard let url = url else { return }
         self.previewUrl = url
         self.updatePlayerItem(with: url)
     }
     
-    private func onPlayControlManagerRequestSetCurrentPlayTime(time : CMTime?) {
+    private func onPlayControlManagerRequestSetCurrentPlayTime(time: CMTime?) {
         self.currentPlayTime = time
     }
     
-    private func onPlayControlManagerRequestSetNeedReload(needReload : Bool) {
+    private func onPlayControlManagerRequestSetNeedReload(needReload: Bool) {
         //
     }
     
@@ -1062,8 +939,8 @@ extension ShopLivePlayerPreviewViewModel {
         self.resetPlayer()
     }
     
-    private func onPlayControlManagerSendEventToWeb(event : WebInterface, param : Any?, wrapping : Bool = false, dedicatedCompletionType : DedicatedWebViewCommandCompletionType?) {
-        self.resultHandler?( .sendEventToWeb(event: event, param: param, wrapping: wrapping, dedicatedCompletionType: dedicatedCompletionType))
+    private func onPlayControlManagerSendEventToWeb(event: WebInterface, param: Any?, wrapping: Bool = false) {
+        self.resultHandler?( .sendEventToWeb(event: event, param: param, wrapping: wrapping))
     }
 }
 //MARK: - bind timeControlStatus
@@ -1071,126 +948,66 @@ extension ShopLivePlayerPreviewViewModel {
     private func bindTimeControlStatusManager() {
         timeControlStatusManager?.resultHandler = { [weak self] result in
             guard let self = self else { return }
-            ShopLiveLogger.tempLog("[VIEWMODEL] timeControlStatusManager result \(result)")
             switch result {
-            case .requestPlayControl(let playControl):
-                self.onTimeControlStatusManagerRequestPlayControl(playControl: playControl)
+            case .requestPlayControl(let command):
+                playControlManager?.action(.controlPlayer(command))
             case .requestRetry(delay: let delay):
-                self.onTimeControlStatusManagerRequestRetry(delay: delay)
+                retryManager?.action( .startRetry(delayed: delay) )
             case .requestRetryOnNetworkDisConnected:
-                self.onTimeControlStatusManagerRequestRetryOnNetworkDisConnected()
+                retryManager?.action( .retryWebViewOnNetworkDisconnected )
             case .requestSetNeedSeek(let needSeek):
-                self.onTimeControlStatusManagerRequestSetNeedSeek(needSeek: needSeek)
+                playControlManager?.setNeedSeek(needSeek)
             case .requestShowOrHideBackgroundPosterImageView(needToShow: let needToShow):
-                self.onTimeControlStatusManagerRequestShowOrHideBackgroundPosterImageView(needToShow: needToShow)
-            case .requestShowOrHideLoading(needToShow: let needToShow):
-                self.onTimeControlStatusManagerRequestShowOrHideLoading(needToShow: needToShow)
+                self.resultHandler?( .requestShowOrHideBackgroundPosterImageView(needToSHow: needToShow) )
+            case .requestShowOrHideLoading:
+                break
             case .requestStopRetry:
-                self.onTimeControlStatusManagerRequestStopRetry()
+                retryManager?.action( .stopRetry )
             case .requestTakeSnapShot:
                 self.onRequestTakeSnapshot()
-            case .sendEventToWeb(event: let event, param: let param, wrapping: let wrapping , dedicatedCompletionType: let dedicatedCompletionType):
-                self.onTimeControlStatusManagerSendEventToWeb(event: event, param: param, wrapping: wrapping, dedicatedCompletionType: dedicatedCompletionType)
+            case .sendEventToWeb(event: let event, param: let param, wrapping: let wrapping):
+                self.onTimeControlStatusManagerSendEventToWeb(event: event, param: param, wrapping: wrapping)
             case .sendVideoError(errorCase: let errorCase, reason: let reason):
-                self.onTimeControlStatusManagerSendVideoError(errorCase: errorCase, reason: reason)
+                break
             case .timeControlStatusDidChange(let timeControlStatus):
                 self.onTimeControlStatusManagerTimeControlStatusDidChange(status: timeControlStatus)
             }
         }
     }
-    
-    private func onTimeControlStatusManagerRequestPlayControl(playControl : ShopLivePlayerControlAction ) {
-        playControlManager?.playControlAction( playControl )
+
+    private func onTimeControlStatusManagerSendEventToWeb(event: WebInterface, param: Any?, wrapping: Bool = false) {
+        self.resultHandler?( .sendEventToWeb(event: event, param: param, wrapping: wrapping))
     }
     
-    private func onTimeControlStatusManagerRequestRetry(delay : Int) {
-//        retryManager?.action( .startRetry(delayed: delay) )
-    }
-    
-    private func onTimeControlStatusManagerRequestRetryOnNetworkDisConnected() {
-        retryManager?.action( .retryWebViewOnNetworkDisconnected )
-    }
-    
-    private func onTimeControlStatusManagerRequestSetNeedSeek(needSeek : Bool) {
-        playControlManager?.action( .setNeedSeek(needSeek) )
-    }
-    
-    private func onTimeControlStatusManagerRequestShowOrHideBackgroundPosterImageView(needToShow : Bool) {
-        self.resultHandler?( .requestShowOrHideBackgroundPosterImageView(needToSHow: needToShow) )
-    }
-    
-    private func onTimeControlStatusManagerRequestShowOrHideLoading(needToShow : Bool) {
-    }
-    
-    private func onTimeControlStatusManagerRequestStopRetry() {
-        retryManager?.action( .stopRetry )
-    }
-    
-    private func onTimeControlStatusManagerRequestTakeSnapShot() {
-        self.onRequestTakeSnapshot()
-    }
-    
-    private func onTimeControlStatusManagerSendEventToWeb(event : WebInterface, param : Any?, wrapping : Bool = false, dedicatedCompletionType : DedicatedWebViewCommandCompletionType?) {
-        self.resultHandler?( .sendEventToWeb(event: event, param: param, wrapping: wrapping, dedicatedCompletionType: dedicatedCompletionType))
-    }
-    
-    private func onTimeControlStatusManagerSendVideoError(errorCase : ShopLiveAVPlayerErrorObserver.ErrorCase, reason : String) {
-        
-    }
-    
-    private func onTimeControlStatusManagerTimeControlStatusDidChange(status : AVPlayer.TimeControlStatus) {
+    private func onTimeControlStatusManagerTimeControlStatusDidChange(status: AVPlayer.TimeControlStatus) {
         resultHandler?( .didChangeAVPlayerTimeControlStatus(status) )
     }
 }
-extension ShopLivePlayerPreviewViewModel : ShopLivePreviewRetryManagerDelegate {
+extension ShopLivePlayerPreviewViewModel: PreviewRetryManagerDelegate {
     private func bindRetryManager(){
         retryManager?.resultHandler = { [weak self] result in
-            guard let self = self else { return }
-            ShopLiveLogger.tempLog("[VIEWMODEL] retryManager result \(result)")
+            guard let self else { return }
             switch result {
             case .playerItemCancelPendingSeek:
-                self.onRetryManagerPlayerItemCancelPendingSeeks()
+                player?.currentItem?.cancelPendingSeeks()
             case .requestSeekToLatest:
-                self.onRetryManagerSeekToLatest()
+                playControlManager?.action( .seekToLatest )
             case .requestResume:
-                self.onRetryManagerRequestResume()
+                break
             case .reloadWebView:
                 self.onRetryManagerReloadWebView()
             case .updatePlayerItem:
-                self.onRetryManagerUpdatePlayerItem()
-            case .requestHideOrShowLoading(needToShow: let needToShow):
-                self.onRetryManagerRequestHideOrShowLoading(needToShow: needToShow)
+                guard let url = self.previewUrl else { return }
+                self.updatePlayerItem(with: url)
+            case .requestHideOrShowLoading:
+                break
             }
         }
-    }
-    
-    private func onRetryManagerPlayerItemCancelPendingSeeks() {
-        player?.currentItem?.cancelPendingSeeks()
     }
     
     private func onRetryManagerReloadWebView() {
         guard let url = self.getOverLayUrlWithInfosAttached() else { return }
         resultHandler?( .reloadWebView(url: url) )
-    }
-    
-    private func onRetryManagerRequestHideOrShowLoading(needToShow : Bool) {
-    }
-    
-    private func onRetryManagerSeekToLatest() {
-        self.onSeekToLatest()
-    }
-    
-    private func onRetryManagerUpdatePlayerItem() {
-        guard let url = self.previewUrl else {
-            ShopLiveLogger.tempLog("[RETRYMANAGER] updatePlayerItem with null liveUrl")
-            return
-        }
-        self.updatePlayerItem(with: url)
-    }
-    
-    private func onRetryManagerRequestResume() {
-        ShopLiveLogger.publicLog("[\(publicLogPrefix)] retryManager resume")
-//      play pause 모든 컨트롤 사항은 고객사에게 핸들링을 맡기는 것으로
     }
     
     func getCurrentPreviewUrl() -> URL? {
@@ -1200,64 +1017,45 @@ extension ShopLivePlayerPreviewViewModel : ShopLivePreviewRetryManagerDelegate {
 //MARK: - bind audioSessionManager
 extension ShopLivePlayerPreviewViewModel {
     private func bindAudioSessionManager() {
-        ShopLivePlayerPreviewAudioSessionManager.shared.resultHandler = { [weak self] result in
+        PlayerPreviewAudioSessionManager.shared.resultHandler = { [weak self] result in
             guard let self = self else { return }
-            ShopLiveLogger.tempLog("[VIEWMODEL] audioSessionManager result \(result)")
             switch result {
             case .log(name: let name, feature: let feature, payload: let payload):
                 self.onAudioSessionManagerLog(name: name, feature: feature, campaignKey: campaignKey, payload: payload)
             case .setIsMuted(isMuted: let isMuted):
                 self.onAudioSessionManagerSetIsMute(isMuted: isMuted)
             case .sendEventToWeb(event: let event, param: let param, wrapping: let wrapping):
-                self.onAudioSessionManagerSendEventToWeb(event: event, param: param,wrapping: wrapping, dedicatedCompletionType: nil)
+                self.onAudioSessionManagerSendEventToWeb(event: event, param: param,wrapping: wrapping)
             case .sendCommandToWeb(command: let command, payload: let payload):
                 self.onAudioSessionManagerSendCommandToWeb(command: command, payload: payload)
             case .requestVideoPlay:
-                self.onAudioSessionManagerRequestPlayVideo()
+                playControlManager?.action(.controlPlayer(.play))
             case .requestVideoPause:
-                self.onAudioSessionManagerRequestPauseVideo()
+                playControlManager?.action(.controlPlayer(.pause))
             case .requestVideoResume:
-                self.onAudioSessionManagerRequestResumeVideo()
+                playControlManager?.action(.controlPlayer(.resume))
             case .requestVideoStop:
-                self.onAudioSessionManagerRequestStopVideo()
+                playControlManager?.action(.controlPlayer(.stop))
             }
         }
     }
     
-    private func onAudioSessionManagerLog(name : String, feature : ShopLiveLog.Feature, campaignKey : String , payload : [String : Any]?) {
+    private func onAudioSessionManagerLog(name: String, feature: ShopLiveLog.Feature, campaignKey: String , payload: [String: Any]?) {
         resultHandler?( .log(name: name, feature: feature, campaignKey: campaignKey, payload: payload))
     }
     
-    private func onAudioSessionManagerSetIsMute(isMuted : Bool){
+    private func onAudioSessionManagerSetIsMute(isMuted: Bool){
         self.isMuted = isMuted
         DispatchQueue.main.async { [weak self] in
             self?.player?.isMuted = isMuted
         }
     }
     
-    private func onAudioSessionManagerSendEventToWeb(event : WebInterface, param : Any?, wrapping : Bool = false, dedicatedCompletionType : DedicatedWebViewCommandCompletionType?) {
-        resultHandler?( .sendEventToWeb(event: event, param: param, wrapping: wrapping, dedicatedCompletionType: dedicatedCompletionType))
+    private func onAudioSessionManagerSendEventToWeb(event: WebInterface, param: Any?, wrapping: Bool = false) {
+        resultHandler?( .sendEventToWeb(event: event, param: param, wrapping: wrapping))
     }
     
-    private func onAudioSessionManagerSendCommandToWeb(command : String, payload : [String : Any]?) {
+    private func onAudioSessionManagerSendCommandToWeb(command: String, payload: [String: Any]?) {
         resultHandler?( .sendCommandMessageToWeb(command: command, payload: payload) )
-    }
-    
-    private func onAudioSessionManagerRequestPlayVideo() {
-        ShopLiveLogger.publicLog("[\(publicLogPrefix)] audioSessionManager play")
-        playControlManager?.playControlAction( .play )
-    }
-    
-    private func onAudioSessionManagerRequestPauseVideo() {
-        playControlManager?.playControlAction( .pause )
-    }
-    
-    private func onAudioSessionManagerRequestResumeVideo() {
-        ShopLiveLogger.publicLog("[\(publicLogPrefix)] audioSessionManager resume")
-        playControlManager?.playControlAction( .resume )
-    }
-    
-    private func onAudioSessionManagerRequestStopVideo() {
-        playControlManager?.playControlAction( .stop )
     }
 }

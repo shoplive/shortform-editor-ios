@@ -10,15 +10,15 @@ import AppTrackingTransparency
 import AdSupport
 
 public struct ShopLiveCommonAuth {
-    var generatedUserJWT : String? = nil
-    var customerUserJWT : String? = nil
-    var guestUid : String? = nil
-    var accessKey : String? = nil
+    var generatedUserJWT: String? = nil
+    var customerUserJWT: String? = nil
+    var guestUid: String? = nil
+    var accessKey: String? = nil
     
     //플레이어 전용
-    var adId : String? = nil
+    var adId: String? = nil
     
-    var adIdentifier : String? {
+    var adIdentifier: String? {
         get {
             if #available(iOS 14, *) {
                 let status = ATTrackingManager.trackingAuthorizationStatus
@@ -36,12 +36,12 @@ public struct ShopLiveCommonAuth {
         }
     }
     
-    var utmSource : String? = nil
-    var utmMedium : String? = nil
-    var utmCampaign : String? = nil
-    var utmContent : String? = nil
+    var utmSource: String? = nil
+    var utmMedium: String? = nil
+    var utmCampaign: String? = nil
+    var utmContent: String? = nil
     
-    var anonId : String? = nil
+    var anonId: String? = nil
     
 }
 

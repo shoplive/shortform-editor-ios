@@ -28,7 +28,7 @@ public struct SLShortsModel: BaseResponsable, RawDataRepresantable,  Equatable {
     public let shortsType: String?
     public let traceId: String?
     public let url: String?
-    public let reasonKey : String?
+    public let reasonKey: String?
     public var rawData: Data?
     
     public init(from decoder: Decoder) throws {
@@ -70,11 +70,11 @@ public struct SLShortsModel: BaseResponsable, RawDataRepresantable,  Equatable {
     }
     
     
-    public func getRawDataDict() -> [String : Any]? {
+    public func getRawDataDict() -> [String: Any]? {
         guard let data = rawData else { return nil }
         do {
-            guard let json = try JSONSerialization.jsonObject(with: data) as? [String : Any],
-                  let shortsList = json["shortsList"] as? [[String : Any]] else { return nil }
+            guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let shortsList = json["shortsList"] as? [[String: Any]] else { return nil }
             
             for shortsDetail in shortsList {
                 if let shortsIdFromArr = shortsDetail["shortsId"] as? String,
@@ -101,17 +101,17 @@ public struct SLShortsModel: BaseResponsable, RawDataRepresantable,  Equatable {
     }
 }
 
-@objc public final class ShopLiveShortformData : NSObject {
+@objc public final class ShopLiveShortformData: NSObject {
     
-    public var shortsId : String?
-    public var srn : String?
-    public var activity : ShopLiveShortformActivityData?
-    public var cards : [ShopLiveShortformCardData]?
-    public var shortsDetail : ShopLiveShortformDetailData?
-    public var shortsType : String?
-    public var rawDictionary : [String : Any]?
+    public var shortsId: String?
+    public var srn: String?
+    public var activity: ShopLiveShortformActivityData?
+    public var cards: [ShopLiveShortformCardData]?
+    public var shortsDetail: ShopLiveShortformDetailData?
+    public var shortsType: String?
+    public var rawDictionary: [String: Any]?
     
-    public init(shortsId: String? = nil, srn: String? = nil, activity: ShopLiveShortformActivityData? = nil, cards: [ShopLiveShortformCardData]? = nil, shortsDetail: ShopLiveShortformDetailData? = nil, shortsType: String? = nil, rawDictionary: [String : Any]? = nil) {
+    public init(shortsId: String? = nil, srn: String? = nil, activity: ShopLiveShortformActivityData? = nil, cards: [ShopLiveShortformCardData]? = nil, shortsDetail: ShopLiveShortformDetailData? = nil, shortsType: String? = nil, rawDictionary: [String: Any]? = nil) {
         self.shortsId = shortsId
         self.srn = srn
         self.activity = activity

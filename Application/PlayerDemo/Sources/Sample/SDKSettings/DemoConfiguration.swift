@@ -270,7 +270,7 @@ final class DemoConfiguration: NSObject {
         get {
             let message = UserDefaults.standard.string(forKey: CouponResponseKey.downloadCouponSuccessMessage.key) ?? "couponresponse.success.default".localized()
             
-            return message.isEmpty ? "couponresponse.success.default".localized() : message
+            return message.isEmpty ? "couponresponse.success.default".localized(): message
         }
     }
     
@@ -304,7 +304,7 @@ final class DemoConfiguration: NSObject {
         get {
             let message = UserDefaults.standard.string(forKey: CouponResponseKey.downloadCouponFailedMessage.key) ?? "couponresponse.failed.default".localized()
             
-            return message.isEmpty ? "couponresponse.failed.default".localized() : message
+            return message.isEmpty ? "couponresponse.failed.default".localized(): message
         }
     }
     
@@ -395,7 +395,7 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var fixedHeightPipSize : CGFloat? {
+    var fixedHeightPipSize: CGFloat? {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.fixedHeightPipSize.optionKey)
             UserDefaults.standard.synchronize()
@@ -413,7 +413,7 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var fixedWidthPipSize : CGFloat? {
+    var fixedWidthPipSize: CGFloat? {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.fixedWidthPipSize.optionKey)
             UserDefaults.standard.synchronize()
@@ -431,7 +431,7 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var pipCornerRadius : CGFloat? {
+    var pipCornerRadius: CGFloat? {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipCornerRadius.optionKey)
             UserDefaults.standard.synchronize()
@@ -644,7 +644,7 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var adId : String? {
+    var adId: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: "adId")
             UserDefaults.standard.synchronize()
@@ -674,7 +674,7 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var utmCampaign : String? {
+    var utmCampaign: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: "utmCampaign")
             UserDefaults.standard.synchronize()
@@ -684,7 +684,7 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var utmContent : String? {
+    var utmContent: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: "utmContent")
             UserDefaults.standard.synchronize()
@@ -694,7 +694,7 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var utmMedium : String? {
+    var utmMedium: String? {
         set {
             UserDefaults.standard.set(newValue, forKey: "utmMedium")
             UserDefaults.standard.synchronize()
@@ -748,7 +748,7 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var statusBarVisibility : Bool {
+    var statusBarVisibility: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.statusBarVisibility.optionKey)
             notifyObservers(key: SDKOptionType.statusBarVisibility.optionKey)
@@ -759,7 +759,7 @@ final class DemoConfiguration: NSObject {
     }
     
     
-    var enablePip : Bool {
+    var enablePip: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.enablePip.optionKey)
             notifyObservers(key: SDKOptionType.enablePip.optionKey)
@@ -769,7 +769,7 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var enableOsPip : Bool {
+    var enableOsPip: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.enableOSPip.optionKey)
             notifyObservers(key: SDKOptionType.enableOSPip.optionKey)
@@ -779,7 +779,7 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var resizeMode : ShopLiveResizeMode {
+    var resizeMode: ShopLiveResizeMode {
         set {
             switch newValue {
             case .AUTO:
@@ -807,7 +807,7 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var isEnabledVolumeKey : Bool {
+    var isEnabledVolumeKey: Bool {
         set {
             UserDefaults.standard.setValue(newValue, forKey: SDKOptionType.isEnabledVolumeKey.optionKey)
             notifyObservers(key: SDKOptionType.isEnabledVolumeKey.optionKey)
@@ -817,7 +817,7 @@ final class DemoConfiguration: NSObject {
         }
     }
     
-    var previewResolution : ShopLivePlayerPreviewResolution {
+    var previewResolution: ShopLivePlayerPreviewResolution {
         set {
             let value = newValue == .LIVE ? "LIVE" : "PREVIEW"
             UserDefaults.standard.setValue(value, forKey: SDKOptionType.previewResolution.optionKey)

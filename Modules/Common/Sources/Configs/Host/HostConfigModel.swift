@@ -11,15 +11,15 @@ import UIKit
 
 
 
-struct HostConfigModel : BaseResponsable {
+struct HostConfigModel: BaseResponsable {
     public var _s: Int?
     public var _e: String?
     
     let campaign: Campaign?
-    let shortform : Shortform?
+    let shortform: Shortform?
     
-    internal struct Campaign : Codable {
-        let eventTraceHost, conversionTrackingHost : String?
+    internal struct Campaign: Codable {
+        let eventTraceHost, conversionTrackingHost: String?
         
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -30,8 +30,8 @@ struct HostConfigModel : BaseResponsable {
         }
     }
     
-    internal struct Shortform : Codable {
-        let eventTraceHost, conversionTrackingHost : String?
+    internal struct Shortform: Codable {
+        let eventTraceHost, conversionTrackingHost: String?
         
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)

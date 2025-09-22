@@ -15,7 +15,7 @@ public class ImageDownLoaderManager {
     private let cache = NSCache<NSString,NSData>()
     
     
-    public func download(imageUrl : URL,completion : @escaping((Result<Data,ShopLiveCommonError>) -> ()))  {
+    public func download(imageUrl: URL,completion: @escaping((Result<Data,ShopLiveCommonError>) -> ()))  {
         
         if let imageData = cache.object(forKey: imageUrl.absoluteString as NSString) {
             completion(.success(imageData as Data))
@@ -65,7 +65,7 @@ public class ImageDownLoaderManager {
     }
     
     
-    public func preDownloadImage(imageUrl : URL) {
+    public func preDownloadImage(imageUrl: URL) {
         if let imageData = cache.object(forKey: imageUrl.absoluteString as NSString) {
             return
         }

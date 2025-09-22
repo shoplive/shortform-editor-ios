@@ -9,22 +9,22 @@ import Foundation
 import UIKit
 
 
-@objc public protocol ShopLiveAppDelegateHandler : AnyObject {
-    @objc optional func application(_ application : UIApplication,_ window : UIWindow?,_ orientation : UIInterfaceOrientationMask)
+@objc public protocol ShopLiveAppDelegateHandler: AnyObject {
+    @objc optional func application(_ application: UIApplication,_ window: UIWindow?,_ orientation: UIInterfaceOrientationMask)
 }
 
-class ShopLiveAppDelegate : NSObject, UIApplicationDelegate {
+class ShopLiveAppDelegate: NSObject, UIApplicationDelegate {
     static let shared = ShopLiveAppDelegate()
     
-    private var orientations : UIInterfaceOrientationMask = .portrait
-    private var enableOrientationSwizzle : Bool = true
-    weak var delegate : ShopLiveAppDelegateHandler?
+    private var orientations: UIInterfaceOrientationMask = .portrait
+    private var enableOrientationSwizzle: Bool = true
+    weak var delegate: ShopLiveAppDelegateHandler?
     
 }
 //MARK: - orientation swizzle
 extension ShopLiveAppDelegate {
     
-    func setEnableOrientationSwizzle(enable : Bool){
+    func setEnableOrientationSwizzle(enable: Bool){
         self.enableOrientationSwizzle = enable
     }
     
@@ -32,7 +32,7 @@ extension ShopLiveAppDelegate {
         return self.enableOrientationSwizzle
     }
     
-    func setOrientation(_ orientation : UIInterfaceOrientationMask){
+    func setOrientation(_ orientation: UIInterfaceOrientationMask){
         self.orientations = orientation
     }
     

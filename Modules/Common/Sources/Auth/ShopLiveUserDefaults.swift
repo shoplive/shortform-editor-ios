@@ -7,7 +7,7 @@
 
 import Foundation
 public final class ShopLiveUserDefaults {
-    static var guestId : String? {
+    static var guestId: String? {
         get {
             return UserDefaults.standard.string(forKey: CommonKeys.x_sl_guest_uid)
         }
@@ -16,7 +16,7 @@ public final class ShopLiveUserDefaults {
         }
     }
     
-    static var ceId : String? {
+    static var ceId: String? {
         get {
             return UserDefaults.standard.string(forKey: CommonKeys.x_sl_ce_id)
         }

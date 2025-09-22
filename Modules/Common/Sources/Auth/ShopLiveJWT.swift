@@ -8,12 +8,12 @@
 import Foundation
 
 class ShopLiveJWT {
-    typealias Header = [String : Any]
-    typealias Payload = [String : Any]
+    typealias Header = [String: Any]
+    typealias Payload = [String: Any]
     
-    static func make(accessKey : String, userData : ShopLiveCommonUser, iat : Double? = nil) -> String? {
+    static func make(accessKey: String, userData: ShopLiveCommonUser, iat: Double? = nil) -> String? {
         var dict = userData.toDictionary()
-        var payLoad : Payload = [ "accessKey" : accessKey ]
+        var payLoad: Payload = [ "accessKey": accessKey ]
         if let iat = iat {
             payLoad["iat"] = iat
         }
@@ -26,7 +26,7 @@ class ShopLiveJWT {
     
     
     
-    static func make(header : Header, payload : Payload ) -> String? {
+    static func make(header: Header, payload: Payload ) -> String? {
         guard var header64BaseEncoded = header.toJson_SL()?.base64Encoded_SL else { return nil }
         header64BaseEncoded = header64BaseEncoded.replacingOccurrences(of: "=", with: "")
         var payLoad = payload
@@ -40,8 +40,8 @@ class ShopLiveJWT {
     }
     
     
-    static func make(payload : Payload) -> String? {
-        return make(header: ["typ" : "JWT"], payload: payload)
+    static func make(payload: Payload) -> String? {
+        return make(header: ["typ": "JWT"], payload: payload)
     }
     
 }

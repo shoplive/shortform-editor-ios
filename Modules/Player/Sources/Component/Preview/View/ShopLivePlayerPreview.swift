@@ -13,12 +13,12 @@ import AVKit
 import WebKit
 
 
-public class ShopLivePlayerPreview : UIView , SLReactor {
+public class ShopLivePlayerPreview: UIView, SLReactor {
     
     public enum Action {
         case initialize
         case setIndex(IndexPath)
-        case start(accessKey : String, campaignKey : String, referrer : String?)
+        case start(accessKey: String, campaignKey: String, referrer: String?)
         case setMuted(Bool)
         case setReferrer(String?)
         case setResolutionType(ShopLivePlayerPreviewResolution)
@@ -29,22 +29,22 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
         case retry
         case setCornerRadius(CGFloat)
         case useCloseButton(Bool)
-        case setEnabledVolumeKey(isEnabledVolumeKey : Bool)
+        case setEnabledVolumeKey(isEnabledVolumeKey: Bool)
         case setResizeMode(ShopLiveResizeMode)
     }
     
     public enum Result {
-        case log(name : String, feature : ShopLiveLog.Feature, campaignKey : String , payload : [String : Any]?)
-        case handleReceivedCommand(command : String, payload : [String : Any]?)
+        case log(name: String, feature: ShopLiveLog.Feature, campaignKey: String , payload: [String: Any]?)
+        case handleReceivedCommand(command: String, payload: [String: Any]?)
         case avPlayerTimeControlStatus(AVPlayer.TimeControlStatus)
         case avPlayerItemStatus(AVPlayerItem.Status)
         case requestShowAlertController(UIAlertController)
         case didChangeCampaignStatus(ShopLiveCampaignStatus)
-        case onError(code : String, message : String)
-        case handleCommand(command : String, payload : Any?)
-        case onSetUserName(payload : [String : Any])
-        case handleShare(data : ShopLivePlayerShareData)
-        case didChangeCampaignInfo([String : Any])
+        case onError(code: String, message: String)
+        case handleCommand(command: String, payload: Any?)
+        case onSetUserName(payload: [String: Any])
+        case handleShare(data: ShopLivePlayerShareData)
+        case didChangeCampaignInfo([String: Any])
         case didChangeVideoDimension(CGSize)
         case handleShopLivePlayerCampaign(ShopLivePlayerCampaign)
         case handleShopLivePlayerBrand(ShopLivePlayerBrand)
@@ -70,25 +70,25 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
     var posterRightContraint: NSLayoutConstraint?
     var posterBottomContraint: NSLayoutConstraint?
     
-    var snapShotWidthAnc : NSLayoutConstraint?
-    var snapShotheightAnc : NSLayoutConstraint?
+    var snapShotWidthAnc: NSLayoutConstraint?
+    var snapShotheightAnc: NSLayoutConstraint?
     
     var viewModel = ShopLivePlayerPreviewViewModel()
-    private var referrer : String?
+    private var referrer: String?
     public var resultHandler: ((Result) -> ())?
     
-    override init(frame : CGRect) {
+    override init(frame: CGRect) {
         super.init(frame:.zero)
         self.clipsToBounds = true
         bindViewModel()
         self.setLayout()
     }
     
-    required init?(coder : NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError()
     }
     
-    private var indexPath : IndexPath?
+    private var indexPath: IndexPath?
     
     deinit {
         self.cleanUpOverlayWebView()
@@ -102,37 +102,38 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
     }
     
     public func action(_ action: Action) {
-        ShopLiveLogger.publicLog("[PLAYERPREVIEW] action \(action)")
         switch action {
         case .initialize:
             self.onInitialize()
-        case .start(let accessKey, let campaignKey,referrer : let referrer):
-            self.onStart(accessKey: accessKey, campaignKey: campaignKey, referrer : referrer)
-        case .setMuted(let isMuted):
-            self.onSetIsMuted(isMuted: isMuted)
-        case .setReferrer(let referrer):
-            self.onSetReferrer(referrer: referrer)
-        case .setResolutionType(let resolution):
-            self.onSetResolutionType(resolution : resolution)
+        case let .start(accessKey, campaignKey, referrer):
+            self.onStart(accessKey: accessKey, campaignKey: campaignKey, referrer: referrer)
+        case let .setMuted(isMuted):
+            viewModel.action( .setSoundMute(isMuted: isMuted, needToSendToWeb: true) )
+        case let .setReferrer(referrer):
+            self.referrer = referrer
+        case let .setResolutionType(resolution):
+            viewModel.action( .setResolution(resolution) )
         case .play:
-            self.onPlay()
+            let action: ShopLivePlayerPreviewViewModel.Action = viewModel.getPlayerItem() == nil ? .reloadVideo : .playControlAction(.play)
+            viewModel.action(action)
         case .pause:
-            self.onPause()
+            viewModel.action(.playControlAction(.pause))
         case .stop:
-            self.onStop()
+            viewModel.action(.playControlAction(.stop) )
         case .close:
-            self.onClose()
+            viewModel.action( .tearDownViewModel )
+            self.removeFromSuperview()
         case .retry:
-            self.onRetry()
-        case .setCornerRadius(let cornerRadius):
+            viewModel.action( .loadOverlayWebView )
+        case let .setCornerRadius(cornerRadius):
             self.onSetCornerRadius(cornerRadius: cornerRadius)
-        case .useCloseButton(let useCloseButton):
-            self.onUseCloseButton(useCloseButton: useCloseButton)
-        case .setEnabledVolumeKey(isEnabledVolumeKey: let isEnabledVolumeKey):
-            self.onSetEnabledVolumeKey(isEnabledVolumeKey: isEnabledVolumeKey)
-        case .setResizeMode(let resizeMode):
-            self.onSetResizeMode(resizeMode : resizeMode)
-        case .setIndex(let indexPath):
+        case .useCloseButton:
+            break
+        case let .setEnabledVolumeKey(isEnabledVolumeKey):
+            ShopLiveConfiguration.SoundPolicy.isEnabledVolumeKeyInPreview = isEnabledVolumeKey
+        case let .setResizeMode(resizeMode):
+            self.onSetResizeMode(resizeMode: resizeMode)
+        case let .setIndex(indexPath):
             self.indexPath = indexPath
             viewModel.indexPath = indexPath
         }
@@ -150,7 +151,7 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
         }
     }
     
-    private func onStart(accessKey : String, campaignKey : String,referrer : String?) {
+    private func onStart(accessKey: String, campaignKey: String,referrer: String?) {
         self.referrer = referrer
         ShopLiveCommon.setAccessKey(accessKey: accessKey)
         viewModel.action( .setCampaignKey(campaignKey) )
@@ -159,147 +160,56 @@ public class ShopLivePlayerPreview : UIView , SLReactor {
         self.viewModel.action( .setOverlayUrl(previewOverlayUrl) )
         self.viewModel.action( .loadOverlayWebView )
     }
-    
-    
-    private func onSetIsMuted(isMuted : Bool) {
-        viewModel.action( .setSoundMute(isMuted: isMuted, needToSendToWeb: true) )
-    }
-    
-    private func onSetResolutionType(resolution : ShopLivePlayerPreviewResolution) {
-        viewModel.action( .setResolution(resolution) )
-    }
-    
-    private func onSetReferrer(referrer : String?) {
-        self.referrer = referrer
-    }
-    
-    private func onPlay() {
-        if viewModel.getPlayerItem() == nil {
-            viewModel.action( .reloadVideo )
-        }
-        else {
-            viewModel.action(.playControlAction(.play))
-        }
-    }
-    
-    private func onPause() {
-        viewModel.action(.playControlAction(.pause))
-    }
-    
-    private func onStop() {
-        viewModel.action(.playControlAction(.stop) )
-    }
-    
-    private func onClose() {
-        viewModel.action( .tearDownViewModel )
-        self.removeFromSuperview()
-    }
-    
-    private func onRetry() {
-        viewModel.action( .loadOverlayWebView )
-    }
-    
-    private func onSeekTo(time : CMTime) {
-        viewModel.action( .seekTo(time) )
-    }
-    
-    private func onSetCornerRadius(cornerRadius : CGFloat) {
+
+    private func onSetCornerRadius(cornerRadius: CGFloat) {
         self.layer.cornerRadius = cornerRadius
         self.setNeedsDisplay()
     }
     
-    private func onUseCloseButton(useCloseButton : Bool) {
-        
-    }
-    
-    private func onSetEnabledVolumeKey(isEnabledVolumeKey : Bool) {
-        ShopLiveConfiguration.SoundPolicy.isEnabledVolumeKeyInPreview = isEnabledVolumeKey
-    }
-    
-    private func onSetResizeMode(resizeMode : ShopLiveResizeMode) {
+    private func onSetResizeMode(resizeMode: ShopLiveResizeMode) {
         playerView?.playerLayer?.videoGravity = resizeMode == .CENTER_CROP ? .resizeAspectFill : .resizeAspect
     }
 }
 extension ShopLivePlayerPreview {
     private func bindViewModel() {
         viewModel.resultHandler = { [weak self] result in
+            guard let self else { return }
             switch result {
-            case .sendEventToWeb(event: let event, param: _, wrapping: _, dedicatedCompletionType: _):
-                if event.functionString == WebInterface.onVideoTimeUpdated.functionString ||
-                    event.functionString == WebInterface.onVideoMetadataUpdated.functionString {
-                    break
-                }
-                ShopLiveLogger.tempLog("viewModel result \(result)")
-            default:
-                ShopLiveLogger.tempLog("viewModel result \(result)")
-            }
-            
-            guard let self = self else { return }
-            switch result {
-            case .requestShowOrHideSnapShotImageView(needToShow: let needToShow):
-                self.onViewModelRequestShowOrHideSnapShotImageView(needToShow: needToShow)
-            case .requestShowOrHideBackgroundPosterImageView(needToSHow: let needToSHow):
-                self.onViewModelRequestShowOrHideBackgroundPosterImageView(needToShow: needToSHow)
+            case let .requestShowOrHideSnapShotImageView(needToShow):
+                self.snapShotImageView?.isHidden = needToShow ? false : true
+            case let .requestShowOrHideBackgroundPosterImageView(needToShow):
+                self.backgroundPosterImageWebView?.isHidden = needToShow ? false : true
             case .requestShowOrHideOSPictureInPicture(needToShow:_):
                 break
             case .requestSetShopLivePlayerSessionState(_):
                 break
             case .requestSetAlphaToWebView(alpha:_):
                 break
-            case .reloadWebView(url: let url):
-                self.onViewModelReloadWebView(url : url)
-            case .sendNetworkCapabilityOnChanged(networkCapability: let networkCapability):
-                self.onViewModelsendNetworkCapabilityOnChanged(networkCapability: networkCapability)
-            case .updateSnapShotImageViewFrameWithRatio(ratio: let ratio):
+            case let .reloadWebView(url):
+                self.overlayView?.reload(with: url)
+            case let .sendNetworkCapabilityOnChanged(networkCapability):
+                overlayView?.sendCommandMessage(command: WebInterface.onNetworkChangeCapability.functionString, payload: ["capability": networkCapability])
+            case let .updateSnapShotImageViewFrameWithRatio(ratio):
                 self.onViewModelUpdateSnapShotImageViewFrameWithRatio(ratio: ratio)
-            case .log(name: let name, feature: let feature, campaignKey: let campaignKey, payload: let payload):
-                self.onViewModelLog(name: name, feature: feature, campaignKey: campaignKey, payload: payload)
-            case .sendEventToWeb(event: let event, param: let param, wrapping: let wrapping, dedicatedCompletionType: let dedicatedCompletionType):
-                self.onViewModelSendEventToWeb(event: event, param: param, wrapping: wrapping, dedicatedCompletionType: dedicatedCompletionType)
-            case .sendCommandMessageToWeb(command: let command, payload: let payload):
-                self.onViewModelSendCommandMessageToWeb(command: command, payload: payload)
-            case .setSnapShotImage(let image):
-                self.onViewModelSetSnapShotImage(image: image)
-            case .didChangeAVPlayerTimeControlStatus(let status):
-                self.onViewModelDidChangeAVPlayerTimeControlStatus(status: status)
-            case .didChangeAVPlayerItemStatus(let status):
-                self.onViewModelDidChangeAVPlayerItemStatus(status: status)
-            case .didChangeVideoDimension(let videoDimension):
-                self.onViewModelDidChangeVideoDimension(videoDimension : videoDimension)
+            case let .log(name, feature, campaignKey, payload):
+                resultHandler?( .log(name: name, feature: feature, campaignKey: campaignKey, payload: payload))
+            case let .sendEventToWeb(event, param, wrapping):
+                self.overlayView?.sendEventToWeb(event: event, param, wrapping)
+            case let .sendCommandMessageToWeb(command, payload):
+                self.overlayView?.sendCommandMessage(command: command, payload: payload)
+            case let .setSnapShotImage(image):
+                self.snapShotImageView?.image = image
+            case let .didChangeAVPlayerTimeControlStatus(status):
+                resultHandler?( .avPlayerTimeControlStatus(status) )
+            case let .didChangeAVPlayerItemStatus(status):
+                resultHandler?( .avPlayerItemStatus(status) )
+            case let .didChangeVideoDimension(videoDimension):
+                resultHandler?( .didChangeVideoDimension(videoDimension) )
             }
         }
     }
     
-    private func onViewModelRequestShowOrHideSnapShotImageView(needToShow : Bool) {
-        self.snapShotImageView?.isHidden = needToShow ? false : true
-    }
-    
-    func onViewModelRequestShowOrHideBackgroundPosterImageView(needToShow : Bool) {
-        self.backgroundPosterImageWebView?.isHidden = needToShow ? false : true
-    }
-    
-    private func onViewModelRequestSetShopLivePlayerSessionState() {
-        
-    }
-    
-    private func onViewModelRequestSetAlphaToWebView(alpha : CGFloat) {
-        
-    }
-    
-    private func onViewModelReloadWebView(url : URL?) {
-        if let url = url {
-            self.overlayView?.reload(with: url)
-        }
-        else {
-            self.overlayView?.reload()
-        }
-    }
-    
-    private func onViewModelsendNetworkCapabilityOnChanged(networkCapability : String) {
-        overlayView?.sendCommandMessage(command: WebInterface.onNetworkChangeCapability.functionString, payload: ["capability" : networkCapability])
-    }
-    
-    private func onViewModelUpdateSnapShotImageViewFrameWithRatio(ratio : CGSize) {
+    private func onViewModelUpdateSnapShotImageViewFrameWithRatio(ratio: CGSize) {
         guard let snapShotImageView = self.snapShotImageView,
               let widthAnc = self.snapShotWidthAnc,
               let heightAnc = self.snapShotheightAnc,
@@ -311,8 +221,8 @@ extension ShopLivePlayerPreview {
         }
         self.snapShotImageView?.isHidden = false
         
-        var newWidthAnc : NSLayoutConstraint?
-        var newHeightAnc : NSLayoutConstraint?
+        var newWidthAnc: NSLayoutConstraint?
+        var newHeightAnc: NSLayoutConstraint?
         
         if floor(ratio.height) == floor(playerView.frame.height) {
             if (ratio.width) > playerView.frame.width {
@@ -337,11 +247,11 @@ extension ShopLivePlayerPreview {
             let videoRatio = ratio.width / ratio.height
             if standardRatio > videoRatio {
                 guard needSnapShotReDraw(base: playerView.frame.height, isHorizontal: false, ratio: ratio.width / ratio.height) else { return }
-                (newWidthAnc, newHeightAnc) = redrawSnapShotOnHorizontalModeAndVerticalFit(ratio : ratio)
+                (newWidthAnc, newHeightAnc) = redrawSnapShotOnHorizontalModeAndVerticalFit(ratio: ratio)
             }
             else {
                 guard needSnapShotReDraw(base: playerView.frame.width, isHorizontal: true, ratio: ratio.height / ratio.width) else { return }
-                (newWidthAnc, newHeightAnc) = redrawSnapShotOnHorizontalModelAndHorizontalFit(ratio : ratio)
+                (newWidthAnc, newHeightAnc) = redrawSnapShotOnHorizontalModelAndHorizontalFit(ratio: ratio)
             }
         }
         else {
@@ -349,11 +259,11 @@ extension ShopLivePlayerPreview {
             let videoRatio = ratio.height / ratio.width
             if standardRatio > videoRatio {
                 guard needSnapShotReDraw(base: playerView.frame.height, isHorizontal: false, ratio: ratio.width / ratio.height) else { return }
-                (newWidthAnc, newHeightAnc) = redrawSnapShotOnVerticalModeAndVerticalFit(ratio : ratio)
+                (newWidthAnc, newHeightAnc) = redrawSnapShotOnVerticalModeAndVerticalFit(ratio: ratio)
             }
             else {
                 guard needSnapShotReDraw(base: playerView.frame.width, isHorizontal: true, ratio: ratio.height / ratio.width) else { return }
-                (newWidthAnc, newHeightAnc) = redrawSnapShotOnVerticalModeAndHorizontalFit(ratio : ratio)
+                (newWidthAnc, newHeightAnc) = redrawSnapShotOnVerticalModeAndHorizontalFit(ratio: ratio)
             }
         }
         
@@ -365,37 +275,9 @@ extension ShopLivePlayerPreview {
         self.snapShotWidthAnc?.isActive = true
         self.snapShotheightAnc?.isActive = true
     }
-    
-    private func onViewModelLog(name : String, feature : ShopLiveLog.Feature, campaignKey : String , payload : [String : Any]?) {
-        resultHandler?( .log(name: name, feature: feature, campaignKey: campaignKey, payload: payload))
-    }
-    
-    private func onViewModelSendEventToWeb(event : WebInterface, param : Any?, wrapping : Bool = false, dedicatedCompletionType : DedicatedWebViewCommandCompletionType?) {
-        self.overlayView?.sendEventToWeb(event: event, param, wrapping)
-    }
-    
-    private func onViewModelSendCommandMessageToWeb(command : String, payload : [String : Any]?) {
-        self.overlayView?.sendCommandMessage(command: command, payload: payload )
-    }
-    
-    private func onViewModelSetSnapShotImage(image : UIImage?) {
-        self.snapShotImageView?.image = image
-    }
-    
-    private func onViewModelDidChangeAVPlayerTimeControlStatus(status : AVPlayer.TimeControlStatus) {
-        resultHandler?( .avPlayerTimeControlStatus(status) )
-    }
-    
-    private func onViewModelDidChangeAVPlayerItemStatus(status : AVPlayerItem.Status) {
-        resultHandler?( .avPlayerItemStatus(status) )
-    }
-    
-    private func onViewModelDidChangeVideoDimension(videoDimension : CGSize) {
-        resultHandler?( .didChangeVideoDimension(videoDimension) )
-    }
 }
 extension ShopLivePlayerPreview {
-    func fetchOverlayUrl(with campaignKey : String?) -> URL? {
+    func fetchOverlayUrl(with campaignKey: String?) -> URL? {
         let urlComponents = URLComponents(string: ShopLiveConfiguration.AppPreference.landingUrl)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
         
@@ -412,9 +294,7 @@ extension ShopLivePlayerPreview {
         
         
         let baseUrl = URL(string: ShopLiveConfiguration.AppPreference.landingUrl)
-        guard let params = URLUtil.query(queryItems) else {
-            return baseUrl
-        }
+        let params = queryItems.queryStringRFC3986
         
         guard let url = URL(string: ShopLiveConfiguration.AppPreference.landingUrl + "?" + params) else {
             return baseUrl
@@ -423,7 +303,7 @@ extension ShopLivePlayerPreview {
         return url
     }
     
-    private func redrawSnapShotOnSameHeightAndHorizontalFit(ratio : CGSize) -> (w : NSLayoutConstraint?, h : NSLayoutConstraint?) {
+    private func redrawSnapShotOnSameHeightAndHorizontalFit(ratio: CGSize) -> (w: NSLayoutConstraint?, h: NSLayoutConstraint?) {
         guard let srcView = self.snapShotImageView else { return (nil, nil) }
         guard let playerView = self.playerView else {
             return (nil,nil)
@@ -432,7 +312,7 @@ extension ShopLivePlayerPreview {
                 srcView.heightAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: 1))
     }
     
-    private func redrawSnapShotOnSameHeightAndHorizontalScaled(ratio : CGSize) -> (w : NSLayoutConstraint?, h : NSLayoutConstraint?) {
+    private func redrawSnapShotOnSameHeightAndHorizontalScaled(ratio: CGSize) -> (w: NSLayoutConstraint?, h: NSLayoutConstraint?) {
         guard let srcView = self.snapShotImageView else { return (nil, nil) }
         guard let playerView = self.playerView else {
             return (nil,nil)
@@ -441,7 +321,7 @@ extension ShopLivePlayerPreview {
                 srcView.heightAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: 1))
     }
     
-    private func redrawSnapShotOnSameWithAndVerticalFit(ratio : CGSize)  -> (w : NSLayoutConstraint?, h : NSLayoutConstraint?)  {
+    private func redrawSnapShotOnSameWithAndVerticalFit(ratio: CGSize)  -> (w: NSLayoutConstraint?, h: NSLayoutConstraint?)  {
         guard let srcView = self.snapShotImageView else { return (nil, nil) }
         guard let playerView = self.playerView else {
             return (nil,nil)
@@ -450,7 +330,7 @@ extension ShopLivePlayerPreview {
                 srcView.heightAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: 1))
     }
     
-    private func redrawSnapShotOnSameWidthAndVerticalScaled(ratio : CGSize)  -> (w : NSLayoutConstraint?, h : NSLayoutConstraint?) {
+    private func redrawSnapShotOnSameWidthAndVerticalScaled(ratio: CGSize)  -> (w: NSLayoutConstraint?, h: NSLayoutConstraint?) {
         guard let srcView = self.snapShotImageView else { return (nil, nil) }
         guard let playerView = self.playerView else {
             return (nil,nil)
@@ -459,7 +339,7 @@ extension ShopLivePlayerPreview {
                 srcView.heightAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: ratio.height / ratio.width))
     }
     
-    private func redrawSnapShotOnHorizontalModeAndVerticalFit(ratio : CGSize) -> (w : NSLayoutConstraint?, h : NSLayoutConstraint?) {
+    private func redrawSnapShotOnHorizontalModeAndVerticalFit(ratio: CGSize) -> (w: NSLayoutConstraint?, h: NSLayoutConstraint?) {
         guard let srcView = self.snapShotImageView else { return (nil, nil) }
         guard let playerView = self.playerView else {
             return (nil,nil)
@@ -468,7 +348,7 @@ extension ShopLivePlayerPreview {
                 srcView.heightAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: 1))
     }
     
-    private func redrawSnapShotOnHorizontalModelAndHorizontalFit(ratio : CGSize) -> (w : NSLayoutConstraint?, h : NSLayoutConstraint?) {
+    private func redrawSnapShotOnHorizontalModelAndHorizontalFit(ratio: CGSize) -> (w: NSLayoutConstraint?, h: NSLayoutConstraint?) {
         guard let srcView = self.snapShotImageView else { return (nil, nil) }
         guard let playerView = self.playerView else {
             return (nil,nil)
@@ -477,7 +357,7 @@ extension ShopLivePlayerPreview {
                 srcView.heightAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: ratio.height / ratio.width))
     }
     
-    private func redrawSnapShotOnVerticalModeAndVerticalFit(ratio : CGSize) -> (w : NSLayoutConstraint?, h : NSLayoutConstraint?) {
+    private func redrawSnapShotOnVerticalModeAndVerticalFit(ratio: CGSize) -> (w: NSLayoutConstraint?, h: NSLayoutConstraint?) {
         guard let srcView = self.snapShotImageView else { return (nil, nil) }
         guard let playerView = self.playerView else {
             return (nil,nil)
@@ -486,7 +366,7 @@ extension ShopLivePlayerPreview {
                 srcView.heightAnchor.constraint(equalTo: playerView.heightAnchor, multiplier: 1))
     }
     
-    private func redrawSnapShotOnVerticalModeAndHorizontalFit(ratio : CGSize) -> (w : NSLayoutConstraint?, h : NSLayoutConstraint?) {
+    private func redrawSnapShotOnVerticalModeAndHorizontalFit(ratio: CGSize) -> (w: NSLayoutConstraint?, h: NSLayoutConstraint?) {
         guard let srcView = self.snapShotImageView else { return (nil, nil) }
         guard let playerView = self.playerView else {
             return (nil,nil)
@@ -495,12 +375,12 @@ extension ShopLivePlayerPreview {
                 srcView.heightAnchor.constraint(equalTo: playerView.widthAnchor, multiplier: ratio.height / ratio.width))
     }
     
-    private func needSnapShotReDraw(base : CGFloat, isHorizontal : Bool, ratio : CGFloat) -> Bool {
+    private func needSnapShotReDraw(base: CGFloat, isHorizontal: Bool, ratio: CGFloat) -> Bool {
         guard let snapShotView = self.snapShotImageView else {
             return false
         }
-        var oldSize = CGSize.init(width: floor(snapShotView.frame.size.width), height: floor(snapShotView.frame.size.height))
-        var newSize : CGSize
+        let oldSize = CGSize.init(width: floor(snapShotView.frame.size.width), height: floor(snapShotView.frame.size.height))
+        var newSize: CGSize
         if isHorizontal {
             newSize = .init(width: floor(base), height: floor(base * ratio))
         }
@@ -622,7 +502,7 @@ extension ShopLivePlayerPreview {
     
 }
 //MARK: - ShopLivePreviewViewModelDelegate
-extension ShopLivePlayerPreview : ShopLivePreviewModelDelegate {
+extension ShopLivePlayerPreview: ShopLivePreviewModelDelegate {
     func getCurrentWebViewUrl() -> URL? {
         return overlayView?.getCurrentUrl()
     }

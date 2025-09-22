@@ -10,7 +10,7 @@ import Foundation
 
 
 public struct SLJSONUtil {
-    public static func toJsonString(_ value : Encodable) -> String? {
+    public static func toJsonString(_ value: Encodable) -> String? {
         do {
             let jsonData = try JSONEncoder().encode(value)
             let jsonString = String(data: jsonData, encoding: .utf8)

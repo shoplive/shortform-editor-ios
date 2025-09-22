@@ -35,7 +35,7 @@ final class CouponResponseSettingView: UIView {
         view.numberOfLines = 1
         view.font = .systemFont(ofSize: 16, weight: .heavy)
         view.textColor = .black
-        view.text = self.isSuccess ? "couponresponse.success.title".localized() : "couponresponse.failed.title".localized()
+        view.text = self.isSuccess ? "couponresponse.success.title".localized(): "couponresponse.failed.title".localized()
         return view
     }()
 
@@ -79,7 +79,7 @@ final class CouponResponseSettingView: UIView {
         view.leftViewMode = .always
         let paddingView = UIView(frame: .init(origin: .zero, size: .init(width: 10, height: view.frame.height)))
         view.leftView = paddingView
-        view.placeholder = isSuccess ? "couponresponse.success.default".localized() : "couponresponse.failed.default".localized()
+        view.placeholder = isSuccess ? "couponresponse.success.default".localized(): "couponresponse.failed.default".localized()
         view.setPlaceholderColor(.darkGray)
         return view
     }()
@@ -220,13 +220,13 @@ final class CouponResponseSettingView: UIView {
 
     func updateDatas() {
         let config = DemoConfiguration.shared
-        resultMessage = isSuccess ? config.downloadCouponSuccessMessage : config.downloadCouponFailedMessage
-        resultAlertType = isSuccess ? config.downloadCouponSuccessAlertType : config.downloadCouponFailedAlertType
-        resultStatus = isSuccess ? config.downloadCouponSuccessStatus : config.downloadCouponFailedStatus
+        resultMessage = isSuccess ? config.downloadCouponSuccessMessage: config.downloadCouponFailedMessage
+        resultAlertType = isSuccess ? config.downloadCouponSuccessAlertType: config.downloadCouponFailedAlertType
+        resultStatus = isSuccess ? config.downloadCouponSuccessStatus: config.downloadCouponFailedStatus
 
         messageTextField.text = resultMessage
         
-        let tag = isSuccess ? "s" : "f"
+        let tag = isSuccess ? "s": "f"
         let statusIdentifier = resultStatus.name + tag
         let alertIdentifier = resultAlertType.name + tag
 
@@ -369,13 +369,13 @@ final class CouponResponseSettingView: UIView {
 
 extension CouponResponseSettingView {
     func updateShowSetting(identifier: String) {
-        resultStatus = ShopLiveResultStatus.allCases.first(where: { $0.name == identifier.dropLast()}) ?? (isSuccess ? DemoConfiguration.shared.downloadCouponSuccessStatus : DemoConfiguration.shared.downloadCouponFailedStatus)
+        resultStatus = ShopLiveResultStatus.allCases.first(where: { $0.name == identifier.dropLast()}) ?? (isSuccess ? DemoConfiguration.shared.downloadCouponSuccessStatus: DemoConfiguration.shared.downloadCouponFailedStatus)
 
         updateShowRadio(identifier: identifier)
     }
 
     func updateAlertSetting(identifier: String) {
-        resultAlertType = ShopLiveResultAlertType.allCases.first(where: { $0.name == identifier.dropLast()}) ?? (isSuccess ? DemoConfiguration.shared.downloadCouponSuccessAlertType : DemoConfiguration.shared.downloadCouponFailedAlertType)
+        resultAlertType = ShopLiveResultAlertType.allCases.first(where: { $0.name == identifier.dropLast()}) ?? (isSuccess ? DemoConfiguration.shared.downloadCouponSuccessAlertType: DemoConfiguration.shared.downloadCouponFailedAlertType)
 
         updateAlertRadio(identifier: identifier)
     }

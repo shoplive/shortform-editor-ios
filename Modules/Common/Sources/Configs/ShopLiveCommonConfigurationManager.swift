@@ -13,7 +13,7 @@ public class ShopLiveCommonConfigurationManager {
     public static let shared = ShopLiveCommonConfigurationManager()
     
     
-    private var hostConfigModel : HostConfigModel?
+    private var hostConfigModel: HostConfigModel?
     
     public func getShortformEventTraceHostUrl() -> String {
         return hostConfigModel?.shortform?.eventTraceHost ?? ""
@@ -24,12 +24,12 @@ public class ShopLiveCommonConfigurationManager {
         hostConfigModel = nil
     }
     
-    func setHostConfigModel(model : HostConfigModel) {
+    func setHostConfigModel(model: HostConfigModel) {
         self.hostConfigModel = model
     }
     
     
-    public func callHostConfigAPI(completion : @escaping ( (Result<Void,ShopLiveCommonError>) -> () )) {
+    public func callHostConfigAPI(completion: @escaping ( (Result<Void,ShopLiveCommonError>) -> () )) {
         if hostConfigModel != nil {
             completion(.success(()) )
             return

@@ -45,15 +45,10 @@ extension UIApplication {
 
 public extension AVAudioSession {
     //    audioSessionObservationInfo
-    public func safeRemoveObserver(_ observer: Any, forKeyPath keyPath: String, observeInfo: UnsafeMutableRawPointer?, completion: @escaping (Bool)->Void) {
+    func safeRemoveObserver(_ observer: Any, forKeyPath keyPath: String, observeInfo: UnsafeMutableRawPointer?, completion: @escaping (Bool)->Void) {
         guard let obverb: NSObject = observer as? NSObject else { return }
         if observeInfo != nil {
-            do {
-                try self.removeObserver(obverb, forKeyPath: keyPath)
-            } catch {
-                completion(false)
-            }
-            
+            self.removeObserver(obverb, forKeyPath: keyPath)
             completion(true)
         } else {
             completion(false)
@@ -65,11 +60,7 @@ extension NSObject {
     public func safeRemoveObserver(_ observer: Any, forKeyPath keyPath: String) {
         guard let obverb: NSObject = observer as? NSObject else { return }
         if self.observationInfo != nil {
-            do {
-                try self.removeObserver(obverb, forKeyPath: keyPath)
-            } catch {
-                
-            }
+            self.removeObserver(obverb, forKeyPath: keyPath)
         }
     }
 }
@@ -79,11 +70,7 @@ extension NotificationCenter {
         guard let obverb: NSObject = observer as? NSObject else { return }
         
         if self.observationInfo != nil {
-            do {
-                try self.removeObserver(obverb, name: aName, object: anObject)
-            } catch {
-                
-            }
+            self.removeObserver(obverb, name: aName, object: anObject)
         }
     }
 }
@@ -629,4 +616,17 @@ extension UIWindow {
     static var mainWindowFrame: UIWindow {
         UIWindow(frame: UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.frame ?? UIScreen.main.bounds)
     }
+}
+
+extension RawRepresentable where RawValue == String, Self: SLNotificationName {
+    var name: Notification.Name {
+        get {
+            return Notification.Name(self.rawValue)
+        }
+    }
+}
+
+//MARK: Notification.Name
+extension Notification.Name {
+    static let TimebaseEffectiveRateChangedNotification = Notification.Name(rawValue: kCMTimebaseNotification_EffectiveRateChanged as String)
 }

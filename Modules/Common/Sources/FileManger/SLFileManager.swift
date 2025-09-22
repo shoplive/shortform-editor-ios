@@ -14,21 +14,21 @@ public class SLFileManager {
         
     }
     
-    public static var shortformDirectoryPath : URL {
+    public static var shortformDirectoryPath: URL {
         let tempUrl =  URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
         let shopLiveTempUrl = tempUrl.appendingPathComponent("Shoplive/Temp/Shortform", isDirectory: true)
         Self.createShopLiveDirectory(with: shopLiveTempUrl)
         return shopLiveTempUrl
     }
     
-    public static var editorDirectoryPath : URL {
+    public static var editorDirectoryPath: URL {
         let tempUrl =  URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
         let shopLiveTempUrl = tempUrl.appendingPathComponent("Shoplive/Temp/Editor", isDirectory: true)
         Self.createShopLiveDirectory(with: shopLiveTempUrl)
         return shopLiveTempUrl
     }
     
-    public static var ffmpegDirectorypath : URL {
+    public static var ffmpegDirectorypath: URL {
         let tempUrl =  URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
         let shopLiveTempUrl = tempUrl.appendingPathComponent("Shoplive/Temp/FFmpeg", isDirectory: true)
         Self.createShopLiveDirectory(with: shopLiveTempUrl)
@@ -43,15 +43,12 @@ public class SLFileManager {
     }
     
     
-    public static func createShopLiveDirectory(with path : URL) {
+    public static func createShopLiveDirectory(with path: URL) {
         guard isDirectoryExists(at: path) == false else { return }
         do {
             try FileManager.default.createDirectory(at: path, withIntermediateDirectories: true)
-            ShopLiveLogger.tempLog("[SLFILEMANAGER] directory created \(path) ")
         }
-        catch( let error) {
-            ShopLiveLogger.tempLog("[SLFILEMANAGER] cache directory creation error \(error.localizedDescription)")
-        }
+        catch { }
     }
     
     private static func isDirectoryExists(at url: URL) -> Bool {
@@ -68,12 +65,9 @@ public class SLFileManager {
                 
                 for file in files {
                     try FileManager.default.removeItem(at: file)
-                    ShopLiveLogger.tempLog("[SLFILEMANAGER] Deleted: \(file.lastPathComponent)")
                 }
             }
-            catch {
-                ShopLiveLogger.tempLog("[SLFILEMANAGER] Error deleting ShopLive files: \(error.localizedDescription)")
-            }
+            catch { }
         }
     }
     
@@ -85,12 +79,9 @@ public class SLFileManager {
                 
                 for file in files {
                     try FileManager.default.removeItem(at: file)
-                    ShopLiveLogger.tempLog("[SLFILEMANAGER] Deleted: \(file.lastPathComponent)")
                 }
             }
-            catch {
-                ShopLiveLogger.tempLog("[SLFILEMANAGER] Error deleting ShopLive files: \(error.localizedDescription)")
-            }
+            catch { }
         }
     }
     
@@ -102,12 +93,9 @@ public class SLFileManager {
                 
                 for file in files {
                     try FileManager.default.removeItem(at: file)
-                    ShopLiveLogger.tempLog("[SLFILEMANAGER] Deleted: \(file.lastPathComponent)")
                 }
             }
-            catch {
-                ShopLiveLogger.tempLog("[SLFILEMANAGER] Error deleting ShopLive files: \(error.localizedDescription)")
-            }
+            catch { }
         }
     }
     
@@ -119,19 +107,16 @@ public class SLFileManager {
                 
                 for file in files {
                     try FileManager.default.removeItem(at: file)
-                    ShopLiveLogger.tempLog("[SLFILEMANAGER] Deleted: \(file.lastPathComponent)")
                 }
             }
-            catch {
-                ShopLiveLogger.tempLog("[SLFILEMANAGER] Error deleting ShopLive files: \(error.localizedDescription)")
-            }
+            catch { }
         }
     }
     
     public static  func getShortformDirectorySize() -> String? {
-        let path : URL = Self.shortformDirectoryPath
+        let path: URL = Self.shortformDirectoryPath
         let fileManager = FileManager.default
-        var totalSize : UInt64 = 0
+        var totalSize: UInt64 = 0
         do {
             let contents = try fileManager.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
             for item in contents {
@@ -142,8 +127,7 @@ public class SLFileManager {
             }
             return ShopliveFileSizeConverter.convertFileSize(totalSize)
         }
-        catch(let error) {
-            ShopLiveLogger.tempLog("[SLFILEMANAGER] shortform totalSize failed error \(error.localizedDescription)")
+        catch {
             return nil
         }
     }

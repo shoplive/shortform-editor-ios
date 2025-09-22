@@ -33,7 +33,7 @@ public struct SLProductBanner: Codable {
 }
 
 
-@objc public class ProductBannerData : NSObject {
+@objc public class ProductBannerData: NSObject {
     public var title: String?
     public var imageUrl: String?
     public var scheme, traceId, type: String?

@@ -14,7 +14,7 @@ import AVKit
 
 
 
-extension ShopLivePlayerPreview : OverlayWebViewDelegate {
+extension ShopLivePlayerPreview: OverlayWebViewDelegate {
     func didUpdatePlaybackSpeed(speed: Float) {
         viewModel.action( .setPlaybackSpeed(speed) )
     }
@@ -28,7 +28,6 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
     }
     
     func didUpdatePoster(with url: URL) {
-        ShopLiveLogger.tempLog("[SET_POSTER_URL] url \(url)")
         DispatchQueue.main.async { [weak self] in
             self?.backgroundPosterImageWebView?.action( .setBackgroundUrl(url: url) )
         }
@@ -91,11 +90,11 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
         resultHandler?( .onError(code: code, message: message) )
     }
     
-    func onSetUserName(_ payload: [String : Any]) {
+    func onSetUserName(_ payload: [String: Any]) {
         resultHandler?( .onSetUserName(payload: payload) )
     }
     
-    func handleReceivedCommand(_ command: String, with payload: [String : Any]?) {
+    func handleReceivedCommand(_ command: String, with payload: [String: Any]?) {
         resultHandler?( .handleReceivedCommand(command: command, payload: payload) )
     }
     
@@ -107,7 +106,7 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
         //
     }
     
-    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String : Any]) {
+    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
         resultHandler?( .log(name: name, feature: feature, campaignKey: campaign, payload: payload) )
     }
     
@@ -128,11 +127,11 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
     }
     
     func requestNetworkCapabilityOnSystemInit() {
-        overlayView?.sendCommandMessage(command: WebInterface.onNetworkChangeCapability.functionString, payload: ["capability" : viewModel.getCurrentNetworkType()])
+        overlayView?.sendCommandMessage(command: WebInterface.onNetworkChangeCapability.functionString, payload: ["capability": viewModel.getCurrentNetworkType()])
     }
     
     func requestHandleShare(data: ShopLivePlayerShareData) {
-        guard let url = data.url else {
+        guard data.url != nil else {
             resultHandler?( .onError(code: "9001", message: "share.url.empty.error".localizedString()))
             return
         }
@@ -150,13 +149,9 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
         }
     }
     
-    private func handleSetConf(payload : Any?) {
-        let payload = payload as? [String : Any]
-        let placeHolder = payload?["chatInputPlaceholderText"] as? String
-        let sendText = payload?["chatInputSendText"] as? String
-        let chatInputMaxLength = payload?["chatInputMaxLength"] as? Int
-        let campaignInfo = payload?["campaignInfo"] as? [String : Any]
-        var isMuted = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
+    private func handleSetConf(payload: Any?) {
+        let payload = payload as? [String: Any]
+        let campaignInfo = payload?["campaignInfo"] as? [String: Any]
         
         viewModel.action( .setSoundMuteStateOnWebViewSetConf )
         if let videoApsectRatio = payload?["videoAspectRatio"] as? String {
@@ -170,7 +165,7 @@ extension ShopLivePlayerPreview : OverlayWebViewDelegate {
             viewModel.action( .setIsReplayMode(false) )
         }
         
-        if let configJson = payload?["configJson"] as? [String : Any] {
+        if let configJson = payload?["configJson"] as? [String: Any] {
             if let streamEdgeType = configJson["streamEdgeType"] as? String {
                 if streamEdgeType == "TS_BROADCAST" {
                     viewModel.action(.setStreamEdgeType(type: streamEdgeType) )

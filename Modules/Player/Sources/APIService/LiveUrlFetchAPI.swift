@@ -10,12 +10,12 @@ import ShopliveSDKCommon
 import UIKit
 
 
-struct LiveUrlFetchAPI : APIDefinition {
+struct LiveUrlFetchAPI: APIDefinition {
     typealias ResultType = LiveFetchUrlModel
     
-    private var campaignKey : String = ""
+    private var campaignKey: String = ""
     
-    init(campaignKey : String){
+    init(campaignKey: String){
         self.campaignKey = campaignKey
     }
     

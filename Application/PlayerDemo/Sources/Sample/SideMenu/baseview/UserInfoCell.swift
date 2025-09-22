@@ -251,7 +251,7 @@ final class UserInfoCell: SampleBaseCell {
 
     private func updateUserInfo() {
         let demoConfig = DemoConfiguration.shared
-        updateAuthType(identifier: demoConfig.isGuestMode ? "guest" : demoConfig.useJWT ? "token" : "common")
+        updateAuthType(identifier: demoConfig.isGuestMode ? "guest": demoConfig.useJWT ? "token": "common")
         
         if demoConfig.isGuestMode {
             userinfoTitleLabel.text = "Guest mode"

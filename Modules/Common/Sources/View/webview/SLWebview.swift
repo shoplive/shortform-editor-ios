@@ -50,7 +50,7 @@ public final class SLWebView: SLBaseView {
     
     public weak var slWebResponseDelegate: SLWebviewResponseDelegate?
     public weak var slWebScrollDelegate: SLWebviewScrollDelegate?
-    public weak var webViewNavigationDelegate : WKNavigationDelegate? {
+    public weak var webViewNavigationDelegate: WKNavigationDelegate? {
         didSet {
             webview.navigationDelegate = webViewNavigationDelegate
         }
@@ -196,8 +196,8 @@ extension SLWebView: UIScrollViewDelegate {
 }
 
 // MARK: LeakAvoider
-public class LeakAvoider : NSObject, WKScriptMessageHandler {
-    weak var delegate : WKScriptMessageHandler?
+public class LeakAvoider: NSObject, WKScriptMessageHandler {
+    weak var delegate: WKScriptMessageHandler?
     public init(delegate:WKScriptMessageHandler) {
         self.delegate = delegate
         super.init()

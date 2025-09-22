@@ -12,23 +12,23 @@ import ShopLiveSDK
 
 
 
-class PreviewCoverViewMaker : NSObject {
+class PreviewCoverViewMaker: NSObject {
     
     
-    var previewViewCoverView : UIView = {
+    var previewViewCoverView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    var previewCoverViewTagView : UIView = {
+    var previewCoverViewTagView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .red
         return view
     }()
     
-    var previewCoverViewTitleView : UIButton = {
+    var previewCoverViewTitleView: UIButton = {
         let label = UIButton()
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -42,7 +42,7 @@ class PreviewCoverViewMaker : NSObject {
         previewCoverViewTitleView.addTarget(self, action: #selector(tapped(sender: )), for: .touchUpInside)
     }
     
-    @objc func tapped(sender : UIButton) {
+    @objc func tapped(sender: UIButton) {
         ShopLive.close(actionType: .onBtnTapped)
     }
     

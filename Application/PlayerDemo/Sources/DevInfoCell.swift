@@ -58,7 +58,7 @@ final class DevInfoCell: SampleBaseCell {
             return view
         }()
 
-        let qaRadio : ShopLiveRadioButton = {
+        let qaRadio: ShopLiveRadioButton = {
             let view = ShopLiveRadioButton()
             view.translatesAutoresizingMaskIntoConstraints = false
             view.configure(identifier: "QA", description: "QA player")

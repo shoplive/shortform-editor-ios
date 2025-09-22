@@ -81,7 +81,7 @@ final class DeepLinkManager {
             break
         case .product:
             ShopLive.startPictureInPicture()
-            let alert = UIAlertController(title: command.command, message: (parameters != nil ? parameters.toJson() : ""), preferredStyle: .alert)
+            let alert = UIAlertController(title: command.command, message: (parameters != nil ? parameters.toJson(): ""), preferredStyle: .alert)
             alert.addAction(.init(title: "Ok", style: UIAlertAction.Style.default))
             UIApplication.topViewController(base: AppDelegate.rootViewController)?.present(alert, animated: true)
             break
@@ -147,7 +147,7 @@ extension UIApplication {
         class func versionBuild() -> String {
             let version = appVersion(), build = appBuild()
 
-            return version == build ? "v\(version)" : "v\(version)(\(build))"
+            return version == build ? "v\(version)": "v\(version)(\(build))"
         }
 }
 

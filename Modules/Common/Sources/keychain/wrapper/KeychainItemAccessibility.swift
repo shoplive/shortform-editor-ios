@@ -108,7 +108,7 @@ private let keychainItemAccessibilityLookup: [KeychainItemAccessibility:CFString
         .afterFirstUnlockThisDeviceOnly: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
         .always: kSecAttrAccessibleAfterFirstUnlock,
         .whenPasscodeSetThisDeviceOnly: kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
-        .alwaysThisDeviceOnly : kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
+        .alwaysThisDeviceOnly: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
         .whenUnlocked: kSecAttrAccessibleWhenUnlocked,
         .whenUnlockedThisDeviceOnly: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
     ]
@@ -116,7 +116,7 @@ private let keychainItemAccessibilityLookup: [KeychainItemAccessibility:CFString
     return lookup
 }()
 
-extension KeychainItemAccessibility : KeychainAttrRepresentable {
+extension KeychainItemAccessibility: KeychainAttrRepresentable {
     internal var keychainAttrValue: CFString {
         return keychainItemAccessibilityLookup[self]!
     }

@@ -46,13 +46,11 @@ class ShopLiveShortformBaseTypeYTPlayerReactor : NSObject, SLReactor {
     private var youtubeCurrentPlayState : ShopliveYoutubePlayState = .notReady
     
     var resultHandler: ((Result) -> ())?
-    let throttle = ShopLiveThrottle(queue: DispatchQueue.main, delay: 0.1)
-    
+    let throttle = SLThrottle(queue: DispatchQueue.main, delay: 0.1)
     
     override init() {
         super.init()
     }
-    
     
     deinit {
         

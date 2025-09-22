@@ -344,7 +344,7 @@ public enum PlayerDemoStrings: Sendable {
     }
 
     public enum EnableOspip: Sendable {
-    /// Enables OSPIP (Default : true)
+    /// Enables OSPIP (Default: true)
       public static let description = PlayerDemoStrings.tr("shoplive", "sdkoption.enableOspip.description")
       /// Enable OSPIP
       public static let title = PlayerDemoStrings.tr("shoplive", "sdkoption.enableOspip.title")
@@ -358,7 +358,7 @@ public enum PlayerDemoStrings: Sendable {
     }
 
     public enum Enablepip: Sendable {
-    /// Enables InAppPip,Preview,OSPIP (default : true)
+    /// Enables InAppPip,Preview,OSPIP (default: true)
       public static let description = PlayerDemoStrings.tr("shoplive", "sdkoption.enablepip.description")
       /// Enable PIP
       public static let title = PlayerDemoStrings.tr("shoplive", "sdkoption.enablepip.title")
@@ -476,7 +476,7 @@ public enum PlayerDemoStrings: Sendable {
       public enum EnableSound: Sendable {
       /// Set whether to mute in Preview. (Default is true)
         public static let description = PlayerDemoStrings.tr("shoplive", "sdkoption.preview.enableSound.description")
-        /// Preview muted
+        /// Preview isMuted
         public static let title = PlayerDemoStrings.tr("shoplive", "sdkoption.preview.enableSound.title")
       }
     }
@@ -551,7 +551,7 @@ public enum PlayerDemoStrings: Sendable {
       }
 
       public enum IsEnabledVolumeKey: Sendable {
-      /// Enable listening to hardware volume key events (default : false)
+      /// Enable listening to hardware volume key events (default: false)
         public static let description = PlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.isEnabledVolumeKey.description")
         /// HW volume btn Event Option
         public static let title = PlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.isEnabledVolumeKey.title")
@@ -579,7 +579,7 @@ public enum PlayerDemoStrings: Sendable {
       }
 
       public enum ResizeMode: Sendable {
-      /// Set Players render option (default : CENTER_CROP)
+      /// Set Players render option (default: CENTER_CROP)
         public static let description = PlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.resizeMode.description")
         /// Player View resize option
         public static let title = PlayerDemoStrings.tr("shoplive", "sdkoption.setupPlayer.resizeMode.title")
@@ -604,7 +604,7 @@ public enum PlayerDemoStrings: Sendable {
     }
 
     public enum Statusbarvisibility: Sendable {
-    /// Visible player's status bar (default : on)
+    /// Visible player's status bar (default: on)
       public static let description = PlayerDemoStrings.tr("shoplive", "sdkoption.statusbarvisibility.description")
       /// Player StatusBar Visibility Option
       public static let title = PlayerDemoStrings.tr("shoplive", "sdkoption.statusbarvisibility.title")

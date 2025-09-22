@@ -32,7 +32,7 @@ enum ShopLiveWindowStyle {
     case osPip
     case normal
     
-    var name : String {
+    var name: String {
         switch self {
         case .none:
             return "none"
@@ -47,7 +47,7 @@ enum ShopLiveWindowStyle {
     
 }
 
-enum StreamActivityType : String, CaseIterable {
+enum StreamActivityType: String, CaseIterable {
     case ready = "READY"
     case rehearsal = "REHEARSAL"
     case live = "LIVE"
@@ -69,14 +69,14 @@ extension ShopLivePlayerDelegate where Self: Equatable {
     }
 }
  
-protocol ShopLiveControllerDelegate : NSObjectProtocol {
-    func setPresentationStyle(style : ShopLive.PresentationStyle )
+protocol ShopLiveControllerDelegate: NSObjectProtocol {
+    func setPresentationStyle(style: ShopLive.PresentationStyle )
 }
 
 final class ShopLiveController: NSObject {
     static let shared = ShopLiveController()
 
-    weak var delegate : ShopLiveControllerDelegate?
+    weak var delegate: ShopLiveControllerDelegate?
     
     
     private override init() {
@@ -136,7 +136,7 @@ final class ShopLiveController: NSObject {
     /**
      가로 모드 방송에서 stopCustomPictureInPicture실핼될때 setVideoPosition받아서 애니메이션 처리 필요, 자세한 이유는 pr:  https://github.com/shoplive/matrix-sdk-ios/pull/318  댓글 참조
      */
-    var needForceSetVideoPositionUpdate : Bool = false
+    var needForceSetVideoPositionUpdate: Bool = false
     var keepOrientationWhenPlayStart: Bool = false
 
     var snapShot: UIImage? = nil
@@ -179,24 +179,24 @@ final class ShopLiveController: NSObject {
     var supportOrientation: ShopLive.VideoOrientation = .unknown
     var videoExpanded: Bool = true
     
-    lazy var videoRatio: CGSize = videoOrientation == .landscape ? CGSize(width: 16, height: 9) : CGSize(width: 9, height: 16)
+    lazy var videoRatio: CGSize = videoOrientation == .landscape ? CGSize(width: 16, height: 9): CGSize(width: 9, height: 16)
     var videoFrame: (portrait: CGRect?, landscape: (expanded: CGRect?, standard: CGRect?)) = (portrait: nil, landscape: (expanded: nil, standard: nil))
     
     var prevLandscapeOrientation: UIDeviceOrientation = .landscapeLeft
-    var lastOrientaion: (direction: ShopLiveDefines.ShopLiveOrientaion, orientation: UIDeviceOrientation) = ((UIScreen.isLandscape ? .landscape : .portrait, UIScreen.currentOrientation.deviceOrientation))
+    var lastOrientaion: (direction: ShopLiveDefines.ShopLiveOrientaion, orientation: UIDeviceOrientation) = ((UIScreen.isLandscape ? .landscape: .portrait, UIScreen.currentOrientation.deviceOrientation))
     
     var videoCenterCrop: Bool {
         set {
             self._videoCenterCrop = newValue
         }
         get {
-            return self.videoExpanded && UIScreen.isLandscape && videoOrientation == .landscape ? _videoCenterCrop : false
+            return self.videoExpanded && UIScreen.isLandscape && videoOrientation == .landscape ? _videoCenterCrop: false
         }
     }
     
     private var _videoCenterCrop: Bool = false
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath, let key = ShopLivePlayerObserveValue(rawValue: keyPath), let _ = change?[.newKey] else { return }
         switch key {
         case .loadedTimeRanges:
@@ -302,7 +302,7 @@ final class ShopLiveController: NSObject {
     }
     
     func resetVideoDatas() {
-        lastOrientaion = (UIScreen.isLandscape ? .landscape : .portrait, UIScreen.currentOrientation.deviceOrientation)
+        lastOrientaion = (UIScreen.isLandscape ? .landscape: .portrait, UIScreen.currentOrientation.deviceOrientation)
         supportOrientation = .unknown
         videoRatio = ShopLiveDefines.defVideoRatio
         videoFrame = (nil, (nil, nil))
@@ -585,7 +585,10 @@ extension ShopLiveController {
     }
 
     static var isReplayFinished: Bool {
-        guard ShopLiveController.isReplayMode, var duration = ShopLiveController.duration, var currentTime = shared.currentPlayTime else {
+        guard ShopLiveController.isReplayMode,
+              let duration = ShopLiveController.duration,
+              let currentTime = shared.currentPlayTime
+        else {
             return false
         }
         let roundedCurrentTime = Int64(round(Double(currentTime.value) / 1000000000))

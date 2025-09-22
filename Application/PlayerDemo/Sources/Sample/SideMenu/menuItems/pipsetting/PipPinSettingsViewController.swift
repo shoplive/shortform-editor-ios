@@ -12,10 +12,10 @@ import ShopLiveSDK
 import ShopliveSDKCommon
 
 
-class PipPinSettingsViewController : UIViewController {
+class PipPinSettingsViewController: UIViewController {
     
     
-    private var stack : UIStackView?
+    private var stack: UIStackView?
     
     
     override func viewDidLoad() {
@@ -25,7 +25,7 @@ class PipPinSettingsViewController : UIViewController {
     }
     
     
-    @objc private func btnTapped(sender : UIButton) {
+    @objc private func btnTapped(sender: UIButton) {
         guard let btns = (stack?.arrangedSubviews as? [UIStackView])?.compactMap({ $0.arrangedSubviews as? [UIButton] }).flatMap({ $0 }) else { return }
         
         var values = DemoConfiguration.shared.pipPinPosition
@@ -92,7 +92,7 @@ extension PipPinSettingsViewController {
     }
     
     
-    private func makeBtns(from : Int, to : Int) -> [UIButton] {
+    private func makeBtns(from: Int, to: Int) -> [UIButton] {
         let values = DemoConfiguration.shared.pipPinPosition.map { $0.rawValue }
         
         return (from...to).map { tag in

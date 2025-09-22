@@ -8,15 +8,15 @@
 import Foundation
 import UIKit
 
-public struct SLFlexibleParser<K : CodingKey> {
+public struct SLFlexibleParser<K: CodingKey> {
     
-    private var container : KeyedDecodingContainer<K>?
+    private var container: KeyedDecodingContainer<K>?
     
-    public init(container : KeyedDecodingContainer<K>) {
+    public init(container: KeyedDecodingContainer<K>) {
         self.container = container
     }
     
-    public func parse<T>(targetType : T.Type, key : CodingKey ) throws -> T? {
+    public func parse<T>(targetType: T.Type, key: CodingKey ) throws -> T? {
         
         guard let container = container else {
             return nil
@@ -25,7 +25,7 @@ public struct SLFlexibleParser<K : CodingKey> {
             return nil
         }
         
-        var result : T?
+        var result: T?
         if T.self is Double.Type {
             if let originValue = try? container.decodeIfPresent(Double.self, forKey: Key) {
                 result = originValue as? T

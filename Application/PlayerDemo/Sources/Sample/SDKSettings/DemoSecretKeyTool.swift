@@ -93,7 +93,7 @@ final class DemoSecretKeyTool {
         self.keys.removeAll(where: {$0.name == name})
     }
 
-    private func archiveData(keysets : [DemoSecretKeySet]) -> Data {
+    private func archiveData(keysets: [DemoSecretKeySet]) -> Data {
         do {
             let data = try NSKeyedArchiver.archivedData(withRootObject: keysets, requiringSecureCoding: false)
 

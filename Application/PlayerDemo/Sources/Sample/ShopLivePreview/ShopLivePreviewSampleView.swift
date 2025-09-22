@@ -11,9 +11,9 @@ import UIKit
 import ShopLiveSDK
 import ShopliveSDKCommon
 
-class ShopLivePreviewSampleView : UIViewController {
+class ShopLivePreviewSampleView: UIViewController {
    
-    lazy private var cv : UICollectionView = {
+    lazy private var cv: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -26,12 +26,12 @@ class ShopLivePreviewSampleView : UIViewController {
         return cv
     }()
     
-    private var playOnLaunch : Bool = true
+    private var playOnLaunch: Bool = true
     
-    private var accessKey : String = ""
-    private var campaignKey : String = ""
+    private var accessKey: String = ""
+    private var campaignKey: String = ""
     
-    init(accessKey : String, campaignkey : String) {
+    init(accessKey: String, campaignkey: String) {
         super.init(nibName: nil, bundle: nil)
         self.accessKey = accessKey
         self.campaignKey = campaignkey
@@ -64,7 +64,7 @@ extension ShopLivePreviewSampleView {
         ])
     }
 }
-extension ShopLivePreviewSampleView : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, ShopLivePreviewSampleCellDelegate {
+extension ShopLivePreviewSampleView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, ShopLivePreviewSampleCellDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
@@ -113,7 +113,7 @@ extension ShopLivePreviewSampleView : UICollectionViewDataSource, UICollectionVi
         }
     }
     
-    func isCellOnWindow(indexPath : IndexPath?) -> Bool {
+    func isCellOnWindow(indexPath: IndexPath?) -> Bool {
         guard let indexPath = indexPath else {
             return false
         }

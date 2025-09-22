@@ -11,7 +11,7 @@ import Foundation
 public struct SLProduct: Codable {
     public let brand: String?
     public let productId: String?
-    public let customerProductId : String?
+    public let customerProductId: String?
     public let name: String?
     public let description: String?
     public let url: String?
@@ -48,7 +48,7 @@ public struct SLProduct: Codable {
     
     public func toProductData() -> ProductData {
         let data = ProductData(brand: brand,productId: productId,customerProductId: customerProductId,
-                               name: name,descriptions : description,
+                               name: name,descriptions: description,
                                url: url,sku: sku,imageUrl: imageUrl,
                                currency: currency,showPrice: showPrice,
                                originalPrice: originalPrice,discountPrice: discountPrice,
@@ -62,7 +62,7 @@ public struct SLProduct: Codable {
 @objc public class ProductData: NSObject {
     public var brand: String?
     public var productId: String?
-    public var customerProductId : String?
+    public var customerProductId: String?
     public var name: String?
     public var descriptions: String?
     public var url: String?

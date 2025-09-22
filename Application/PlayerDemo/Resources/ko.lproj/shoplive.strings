@@ -90,10 +90,10 @@
 "sdkoption.setupPlayer.mixAudio.description" = "Player의 audio와 다른 audio와 혼용가능합니다.";
 
 "sdkoption.setupPlayer.isEnabledVolumeKey.title" = "음량 버튼 이벤트 옵션";
-"sdkoption.setupPlayer.isEnabledVolumeKey.description" = "기기의 음량 버튼의 이벤트를 받을 수 있습니다. (기본값 : false)";
+"sdkoption.setupPlayer.isEnabledVolumeKey.description" = "기기의 음량 버튼의 이벤트를 받을 수 있습니다. (기본값: false)";
 
 "sdkoption.setupPlayer.resizeMode.title" = "Player Resize 옵션(On -> Center_Crop)";
-"sdkoption.setupPlayer.resizeMode.description" = "Player의 영상 렌더링 방식을 정합니다.(기본값 : CENTER_CROP)";
+"sdkoption.setupPlayer.resizeMode.description" = "Player의 영상 렌더링 방식을 정합니다.(기본값: CENTER_CROP)";
 
 "sdkoption.setupPlayer.manualRotation.title" = "가로방송에서 회전 버튼에 대한 화면 회전 컨트롤을 직접 설정";
 "sdkoption.setupPlayer.manualRotation.description" = "가로방송에서 회전 버튼이 눌렸을 때 SDK에서 화면 회전을 직접 컨트롤(false - 기본값), 회전 버튼이 눌렸을 때 고객사 앱에서 직접 회전에 대한 처리(true)";
@@ -152,16 +152,16 @@
 "sdkoption.pipCornerRadius.description" = "InAppPip의 모서리 반경을 설정합니다.(기본 10)";
 
 "sdkoption.enablepip.title" = "PIP 가능 여부 설정";
-"sdkoption.enablepip.description" = "InAppPip,Preview,OSPIP 가능 여부를 설정합니다. (기본값 : true)";
+"sdkoption.enablepip.description" = "InAppPip,Preview,OSPIP 가능 여부를 설정합니다. (기본값: true)";
 
 "sdkoption.enableOspip.title" = "OSPIP 가능 여부 설정";
-"sdkoption.enableOspip.description" = "OSPIP 가능 여부를 설정합니다. (기본값 : true)";
+"sdkoption.enableOspip.description" = "OSPIP 가능 여부를 설정합니다. (기본값: true)";
 
 
 "sdkoption.headphoneOption1.title" = "이어폰/헤드셋 옵션";
 "sdkoption.headphoneOption1.description" = "이어폰/헤드셋 연결이 끊기면 영상을 멈추지 않습니다.";
 "sdkoption.headphoneOption2.title" = "이어폰/헤드셋 연결이 끊겼을 때 음소거";
-"sdkoption.headphoneOption2.description" = "이 옵션을 활성화 하면 이어폰/헤드셋 연결이 끊겼을 때 음소거 상태로 처리할 수 있습니다. 기본 : false 볼륨 유지, true 음소거 처리.";
+"sdkoption.headphoneOption2.description" = "이 옵션을 활성화 하면 이어폰/헤드셋 연결이 끊겼을 때 음소거 상태로 처리할 수 있습니다. 기본: false 볼륨 유지, true 음소거 처리.";
 "sdkoption.headphoneOption1.title" = "When an earphone/headset is disconnected";
 "sdkoption.headphoneOption1.description" = "Enabling this option, the video will keep playing even if the earphone/headset is disconnected.";
 "sdkoption.headphoneOption1.setting.guide" = "Earphone or headset is disconnected";

@@ -11,7 +11,7 @@ import AVKit
 
 
 protocol QRKeyReaderDelegate: NSObjectProtocol {
-    func updateKeyFromQR(keyset : ShopLiveKeySet?)
+    func updateKeyFromQR(keyset: ShopLiveKeySet?)
 }
 
 

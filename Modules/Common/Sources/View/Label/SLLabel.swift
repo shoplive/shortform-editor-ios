@@ -9,7 +9,7 @@
 import UIKit
 
 public class SLLabel: UILabel {
-    let identity : String = "ShopLiveViewComponents"
+    let identity: String = "ShopLiveViewComponents"
     
     override init(frame: CGRect) {
         super.init(frame: frame)

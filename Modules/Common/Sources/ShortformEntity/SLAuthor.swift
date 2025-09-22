@@ -8,11 +8,11 @@
 
 import Foundation
 
-struct SLAuthor : Codable {
-    let name : String?
-    let profileUrl : String?
-    let action : String?
-    let payload : String?
+struct SLAuthor: Codable {
+    let name: String?
+    let profileUrl: String?
+    let action: String?
+    let payload: String?
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)

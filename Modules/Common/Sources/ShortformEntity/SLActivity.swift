@@ -35,14 +35,14 @@ public struct SLActivity: Codable {
     
 }
 
-@objc public final class ShopLiveShortformActivityData : NSObject {
+@objc public final class ShopLiveShortformActivityData: NSObject {
 
-    public var viewCount : Int?
-    public var likeCount : Int?
-    public var commentCount : Int?
-    public var bookmarkCount : Int?
-    public var like : Bool?
-    public var bookmark : Bool?
+    public var viewCount: Int?
+    public var likeCount: Int?
+    public var commentCount: Int?
+    public var bookmarkCount: Int?
+    public var like: Bool?
+    public var bookmark: Bool?
 
     public init(viewCount: Int? = nil, likeCount: Int? = nil, commentCount: Int? = nil, bookmarkCount: Int? = nil, like: Bool? = nil, bookmark: Bool? = nil) {
         self.viewCount = viewCount

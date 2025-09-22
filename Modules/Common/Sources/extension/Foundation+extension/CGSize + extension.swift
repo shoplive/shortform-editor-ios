@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 public extension CGSize {
-    var transpolate_SL : CGSize {
+    var transpolate_SL: CGSize {
         return CGSize(width: self.height, height: self.width)
     }
 }

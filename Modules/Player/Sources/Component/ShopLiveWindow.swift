@@ -10,9 +10,9 @@ import UIKit
 
 public class ShopliveWindow: SLWindow {
     
-    private var blockAddSubView : Bool = false
-    private var timer : Timer?
-    private var dispatchSource : DispatchSourceTimer?
+    private var blockAddSubView: Bool = false
+    private var timer: Timer?
+    private var dispatchSource: DispatchSourceTimer?
     
     func startBlockAddSubViewTimer(){
         blockAddSubView = true
@@ -34,7 +34,7 @@ public class ShopliveWindow: SLWindow {
     }
     
     
-    private var blackLists : Set<UIView> = []
+    private var blackLists: Set<UIView> = []
     
     public override func addSubview(_ view: UIView) {
         
@@ -60,15 +60,15 @@ public class ShopliveWindow: SLWindow {
         super.addSubview(view)
     }
     
-    private func findShopLiveTagView(view : UIView) -> [UIView]  {
-        var subviews : [UIView] = view.subviews
+    private func findShopLiveTagView(view: UIView) -> [UIView]  {
+        var subviews: [UIView] = view.subviews
         for subview in view.subviews {
             subviews.append(contentsOf: findShopLiveTagView(view: subview))
         }
         return subviews
     }
     
-    private func detectIfShopLiveViewisBeingAdded(view : UIView){
+    private func detectIfShopLiveViewisBeingAdded(view: UIView){
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             let subViews = self.findShopLiveTagView(view: view)
@@ -83,7 +83,7 @@ public class ShopliveWindow: SLWindow {
         }
     }
     
-    public func forceAddSubView(_ view : UIView){
+    public func forceAddSubView(_ view: UIView){
         super.addSubview(view)
     }
     

@@ -10,11 +10,11 @@ import UIKit
 
 
 extension ShopLiveCommon {
-    public static func setShopLiveOrientation(orientation : UIInterfaceOrientationMask){
+    public static func setShopLiveOrientation(orientation: UIInterfaceOrientationMask) {
         ShopLiveAppDelegate.shared.setOrientation(orientation)
     }
   
-    public static func setEnabledShopLiveOrientationLock(enable : Bool){
+    public static func setEnabledShopLiveOrientationLock(enable: Bool) {
         ShopLiveAppDelegate.shared.setEnableOrientationSwizzle(enable: enable)
     }
     
@@ -22,7 +22,7 @@ extension ShopLiveCommon {
         return ShopLiveAppDelegate.shared.getEnableOrientationSwizzle()
     }
     
-    public static func setShopLiveAppDelegateHandler(handler : ShopLiveAppDelegateHandler?){
+    public static func setShopLiveAppDelegateHandler(handler: ShopLiveAppDelegateHandler?) {
         ShopLiveAppDelegate.shared.delegate = handler
     }
 }

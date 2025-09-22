@@ -14,7 +14,7 @@ final class OptionsViewController: SideMenuItemViewController {
 
     var items: [SDKOption] = []
     
-    lazy private var dropdown : DropDown = {
+    lazy private var dropdown: DropDown = {
         let dropdown = DropDown()
 //        dropdown.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(dropdown)
@@ -236,7 +236,7 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 self.navigationController?.present(schemeAlert, animated: false, completion: nil)
                 break
             case .pipScale:
-                let pipData = DemoConfiguration.shared.pipScale == nil ? "" : String(format: "%.1f",  DemoConfiguration.shared.pipScale!)
+                let pipData = DemoConfiguration.shared.pipScale == nil ? "": String(format: "%.1f",  DemoConfiguration.shared.pipScale!)
                 let pipScaleAlert = TextItemInputAlertController(header: "sdkoption.pipScale.title".localized(), data: pipData, placeHolder: "ex) 0.4") { scale in
                     DemoConfiguration.shared.pipScale = scale.cgfloatValue
                     self.tableView.reloadData()
@@ -245,7 +245,7 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 self.navigationController?.present(pipScaleAlert, animated: false, completion: nil)
                 break
             case .maxPipSize:
-                let fixedPipWidth = DemoConfiguration.shared.maxPipSize == nil ? "" : String(format: "%.0f",  DemoConfiguration.shared.maxPipSize!)
+                let fixedPipWidth = DemoConfiguration.shared.maxPipSize == nil ? "": String(format: "%.0f",  DemoConfiguration.shared.maxPipSize!)
                 let fixedPipWidthAlert = TextItemInputAlertController(header: "sdkOption.pipMaxSize.title".localized(), data: fixedPipWidth, placeHolder: "ex) 200") { fixedWidth in
                     DemoConfiguration.shared.maxPipSize = fixedWidth.cgfloatValue
                     DemoConfiguration.shared.fixedWidthPipSize = nil
@@ -256,7 +256,7 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 self.navigationController?.present(fixedPipWidthAlert, animated: false, completion: nil)
                 break
             case .fixedHeightPipSize:
-                let size = DemoConfiguration.shared.fixedHeightPipSize == nil ? "" : String(format: "%.0f",  DemoConfiguration.shared.fixedHeightPipSize!)
+                let size = DemoConfiguration.shared.fixedHeightPipSize == nil ? "": String(format: "%.0f",  DemoConfiguration.shared.fixedHeightPipSize!)
                 let alert = TextItemInputAlertController(header: "sdkOption.pipFixedHeight.title".localized(), data: size, placeHolder: "ex) 200") { size in
                     DemoConfiguration.shared.fixedHeightPipSize = size.cgfloatValue
                     DemoConfiguration.shared.maxPipSize = nil
@@ -267,7 +267,7 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 self.navigationController?.present(alert, animated: false, completion: nil)
                 break
             case .fixedWidthPipSize:
-                let size = DemoConfiguration.shared.fixedWidthPipSize == nil ? "" : String(format: "%.0f",  DemoConfiguration.shared.fixedWidthPipSize!)
+                let size = DemoConfiguration.shared.fixedWidthPipSize == nil ? "": String(format: "%.0f",  DemoConfiguration.shared.fixedWidthPipSize!)
                 let alert = TextItemInputAlertController(header: "sdkOption.pipFixedWidth.title".localized(), data: size, placeHolder: "ex) 200") { size in
                     DemoConfiguration.shared.fixedWidthPipSize = size.cgfloatValue
                     DemoConfiguration.shared.fixedHeightPipSize = nil
@@ -278,7 +278,7 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 self.navigationController?.present(alert, animated: false, completion: nil)
                 break
             case .pipCornerRadius:
-                let size = DemoConfiguration.shared.pipCornerRadius == nil ? "" : String(format: "%.0f",  DemoConfiguration.shared.pipCornerRadius!)
+                let size = DemoConfiguration.shared.pipCornerRadius == nil ? "": String(format: "%.0f",  DemoConfiguration.shared.pipCornerRadius!)
                 let alert = TextItemInputAlertController(header: "sdkOption.pipCornerRadius.title".localized(), data: size, placeHolder: "ex) 10") { size in
                     DemoConfiguration.shared.pipCornerRadius = size.cgfloatValue
                     self.tableView.reloadData()

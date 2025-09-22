@@ -47,7 +47,7 @@ class LoginTextField: BaseTextField {
                                     .paragraphStyle: paragraphStyle
                                 ]
         let placeholderFont: UIFont = customFont?.withSize(14) ?? .systemFont(ofSize: 14, weight: .regular)
-        attributedPlaceholder = .init(string: type == .id ? "login.id.placeholder".localized() : "login.pwd.placeholder".localized(), attributes: [ .font: placeholderFont,
+        attributedPlaceholder = .init(string: type == .id ? "login.id.placeholder".localized(): "login.pwd.placeholder".localized(), attributes: [ .font: placeholderFont,
                                                                                                  .foregroundColor: UIColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1),
                                                                                                  .kern: -0.14,
                                                                                                  .paragraphStyle: paragraphStyle,
@@ -63,8 +63,8 @@ class LoginTextField: BaseTextField {
 
         rightView = clearButton
         rightViewMode = .whileEditing
-        textContentType = (type == .id) ? .emailAddress : .password
-        isSecureTextEntry = (type == .id) ? false : true
+        textContentType = (type == .id) ? .emailAddress: .password
+        isSecureTextEntry = (type == .id) ? false: true
     }
 
     // MARK: - Interaction

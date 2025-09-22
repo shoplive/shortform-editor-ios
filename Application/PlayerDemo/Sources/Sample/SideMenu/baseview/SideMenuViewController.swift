@@ -59,7 +59,7 @@ final class SideMenuViewController: UIViewController {
         
         var appVersion: String = ""
         if let version = bundleVersion {
-            appVersion = version + (buildVersion != nil ? " (\(buildVersion ?? "x"))" : "")
+            appVersion = version + (buildVersion != nil ? " (\(buildVersion ?? "x"))": "")
         }
         demoVersionLabel.text = appVersion
         sdkVersionLabel.text = ShopLive.sdkVersion

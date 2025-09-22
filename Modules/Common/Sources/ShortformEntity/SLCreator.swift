@@ -8,12 +8,12 @@
 
 import Foundation
 //youtube 한정
-public struct SLCreator : Codable {
+public struct SLCreator: Codable {
     
-    var uid : String?
-    var userId : String?
-    var displayUserId : String?
-    var customerCreatorType : String?
+    var uid: String?
+    var userId: String?
+    var displayUserId: String?
+    var customerCreatorType: String?
     
     
     public init(from decoder: Decoder) throws {

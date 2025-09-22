@@ -16,7 +16,7 @@ class SellerManager {
     
     
     
-    func parseCommand(command : String, payload : [String : Any]?) {
+    func parseCommand(command: String, payload: [String: Any]?) {
         guard let payload = payload else { return }
         switch command {
         case "ON_CLICK_SELLER":
@@ -31,22 +31,22 @@ class SellerManager {
     }
     
     
-    private func onOnClickSeller(payload : [String : Any]) {
+    private func onOnClickSeller(payload: [String: Any]) {
         var temp = payload
         temp["saved"] = true
         ShopLive.sendCommandMessage(command: "SET_SELLER_SAVED_STATE", payload: temp)
     }
     
-    private func onClickViewSellerStore(payload : [String : Any]) {
+    private func onClickViewSellerStore(payload: [String: Any]) {
         var sellerStoreData = SellerStoreData(dict: payload)
         if let urlString = sellerStoreData.seller?.storeUrl, let url = URL(string: urlString)  {
             UIApplication.shared.canOpenURL(url)
         }
     }
     
-    private func onClickSellerSubscription(payload : [String : Any]) {
+    private func onClickSellerSubscription(payload: [String: Any]) {
         var sellerSubsciptionData = SellerSubscriptionData(dict: payload)
-        var sellerSavedData : [String : Any] = ["saved" : !(sellerSubsciptionData.saved ?? true)]
+        var sellerSavedData: [String: Any] = ["saved": !(sellerSubsciptionData.saved ?? true)]
         
         ShopLive.sendCommandMessage(command: "SET_SELLER_SAVED_STATE", payload: sellerSavedData)
         ShopLivePlayerToastCommandManager.shared.showToast(message: "SET_SELLER_SAVED_DATA: \(!(sellerSubsciptionData.saved ?? true))")

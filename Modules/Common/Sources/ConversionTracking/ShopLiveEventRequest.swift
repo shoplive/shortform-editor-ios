@@ -9,23 +9,23 @@
 import Foundation
 
 
-public struct ShopLiveEventRequest : BaseResponsable {
+public struct ShopLiveEventRequest: BaseResponsable {
     public var _e: String?
     public var _s: Int?
     
-    public var anonId : String?
-    public var custom : String?
-    public var env : String?
-    public var ceId : String?
-    public var idfv : String?
-    public var idfa : String?
-    public var osType : String?
-    public var products : [ShopLiveEventProduct]?
-    public var referrer : String?
-    public var type : String?
-    public var userId : String?
-    public var orderId : String?
-    public var createdAt : Int?
+    public var anonId: String?
+    public var custom: String?
+    public var env: String?
+    public var ceId: String?
+    public var idfv: String?
+    public var idfa: String?
+    public var osType: String?
+    public var products: [ShopLiveEventProduct]?
+    public var referrer: String?
+    public var type: String?
+    public var userId: String?
+    public var orderId: String?
+    public var createdAt: Int?
     
     
     public init(from decoder: Decoder) throws {

@@ -10,12 +10,12 @@ import Foundation
 
 
 class SellerSubscriptionData {
-    var campaignKey : String?
-    var campaignStatus : String?
-    var campaignTitle : String?
-    var isLogin : Bool?
-    var saved : Bool?
-    var seller : SellerData?
+    var campaignKey: String?
+    var campaignStatus: String?
+    var campaignTitle: String?
+    var isLogin: Bool?
+    var saved: Bool?
+    var seller: SellerData?
     
     init(campaignKey: String? = nil, campaignStatus: String? = nil, campaignTitle: String? = nil, isLogin: Bool? = nil, saved: Bool? = nil, seller: SellerData? = nil) {
         self.campaignKey = campaignKey
@@ -27,13 +27,13 @@ class SellerSubscriptionData {
     }
     
     
-    init(dict  : [String : Any] ) {
+    init(dict : [String: Any] ) {
         self.campaignKey = dict["campaignKey"] as? String
         self.campaignStatus = dict["campaignStatus"] as? String
         self.campaignTitle = dict["campaignTitle"] as? String
         self.isLogin = dict["isLogin"] as? Bool
         self.saved = dict["saved"] as? Bool
-        self.seller = SellerData(dict: dict["seller"] as? [String : Any] ?? [:])
+        self.seller = SellerData(dict: dict["seller"] as? [String: Any] ?? [:])
         
     }
     

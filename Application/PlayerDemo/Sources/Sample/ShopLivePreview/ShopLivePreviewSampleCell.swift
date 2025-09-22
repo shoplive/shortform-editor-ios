@@ -12,16 +12,16 @@ import ShopliveSDKCommon
 import ShopLiveSDK
 import AVKit
 
-protocol ShopLivePreviewSampleCellDelegate : NSObjectProtocol {
-    func isCellOnWindow(indexPath : IndexPath?) -> Bool
+protocol ShopLivePreviewSampleCellDelegate: NSObjectProtocol {
+    func isCellOnWindow(indexPath: IndexPath?) -> Bool
 }
 
-class ShopLivePreviewSampleCell : UICollectionViewCell {
+class ShopLivePreviewSampleCell: UICollectionViewCell {
     
     var preview = ShopLivePlayerPreview()
-    var indexPath : IndexPath?
+    var indexPath: IndexPath?
     
-    weak var delegate : ShopLivePreviewSampleCellDelegate?
+    weak var delegate: ShopLivePreviewSampleCellDelegate?
     
     
     override init(frame: CGRect) {
@@ -33,11 +33,11 @@ class ShopLivePreviewSampleCell : UICollectionViewCell {
     }
     
     
-    required init?(coder : NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError()
     }
     
-    func setPreview(accessKey : String, campaignKey : String,indexPath : IndexPath) {
+    func setPreview(accessKey: String, campaignKey: String,indexPath: IndexPath) {
         preview.action( .setIndex(indexPath) )
         preview.action( .setMuted(true) )
         preview.action( .initialize )
@@ -83,7 +83,7 @@ class ShopLivePreviewSampleCell : UICollectionViewCell {
                     ShopLiveLogger.tempLog("[ShopLivePreviewSampleCell] other")
                 }
             case .avPlayerItemStatus(let status):
-                if status == .readyToPlay && delegate?.isCellOnWindow(indexPath : indexPath) ?? false  {
+                if status == .readyToPlay && delegate?.isCellOnWindow(indexPath: indexPath) ?? false  {
 //                    preview.action( .play )
                 }
                 else {

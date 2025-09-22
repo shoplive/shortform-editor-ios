@@ -84,12 +84,12 @@ public enum ShopLiveErrorCases {
 
 
 
-@objc public class ShopLiveCommonError : NSError {
-    public var codes : Int
-    public var message : String?
-    public var error : Error?
+@objc public class ShopLiveCommonError: NSError {
+    public var codes: Int
+    public var message: String?
+    public var error: Error?
     
-    public init(code : Int, message : String?, error : Error?){
+    public init(code: Int, message: String?, error: Error?){
         self.codes = code
         self.message = message
         self.error = error
@@ -102,7 +102,7 @@ public enum ShopLiveErrorCases {
 }
 
 public class ShopLiveCommonErrorGenerator {
-    public class func generateError(errorCase : ShopLiveErrorCases,error : Error?, message : String?) -> ShopLiveCommonError {
+    public class func generateError(errorCase: ShopLiveErrorCases,error: Error?, message: String?) -> ShopLiveCommonError {
         let (code, defaultMessage) = errorCase.getErrorCodeAndMessage()
         if let message = message {
             return .init(code: code, message: message, error: error)
@@ -112,7 +112,7 @@ public class ShopLiveCommonErrorGenerator {
         }
     }
     
-    public class func generateErrorFromNetwork(statusCode : Int?, error : Error?, responseData : Data?, endpoint: String) -> ShopLiveCommonError? {
+    public class func generateErrorFromNetwork(statusCode: Int?, error: Error?, responseData: Data?, endpoint: String) -> ShopLiveCommonError? {
         if let responseData = responseData, let decoded = try? JSONDecoder().decode(ShopLiveCommonNetworkBaseErrorResponse.self, from: responseData) {
             guard let s = decoded._s, s != 0 else {
                 return nil
@@ -137,7 +137,7 @@ public class ShopLiveCommonErrorGenerator {
             return statusCode
         }
         
-        // shorts : -1000X
+        // shorts: -1000X
         // shortform: -2000X
         // video: -3000X
         // none: -1

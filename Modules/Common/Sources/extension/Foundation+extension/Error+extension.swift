@@ -17,7 +17,6 @@ public extension Error {
         let nsErr = self as NSError
         let invalidDomains = ["SLAlamofire.AFError"]
         let notContainErrorMessage = nsErr.domain.isEmpty || invalidDomains.contains(nsErr.domain)
-        // let errorMsg = notContainErrorMessage ? "\(Strings.Error.Msg.base)" : nsErr.domain
         let errorMsg = nsErr.domain
         return errorMsg
     }

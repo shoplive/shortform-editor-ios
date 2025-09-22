@@ -68,7 +68,7 @@ class MainViewController: SideMenuBaseViewController {
     func setupSampleOptions() {
         
         SampleOptions.campaignNaviMoreOptions = ["campaign.menu.write".localized(), "QR code", "Dev-Admin", "Admin", "campaign.menu.deleteall".localized()]
-        SampleOptions.campaignNaviMoreSelectionAction = { (item : String, index: Int, id: Int) in
+        SampleOptions.campaignNaviMoreSelectionAction = { (item: String, index: Int, id: Int) in
             
             let sourceScheme = "shopliveplayer"
             switch index {
@@ -230,7 +230,7 @@ class MainViewController: SideMenuBaseViewController {
     
         // Custom Font Setting
         if let customFont = config.customFont {
-            ShopLive.setChatViewFont(inputBoxFont: config.useChatInputCustomFont ? customFont : nil, sendButtonFont: config.useChatSendButtonCustomFont ? customFont : nil)
+            ShopLive.setChatViewFont(inputBoxFont: config.useChatInputCustomFont ? customFont: nil, sendButtonFont: config.useChatSendButtonCustomFont ? customFont: nil)
         }
 
         //
@@ -292,7 +292,7 @@ class MainViewController: SideMenuBaseViewController {
             ShopLive.setEndpoint(nil)
         }
         
-        let pipSize : ShopLiveInAppPipSize
+        let pipSize: ShopLiveInAppPipSize
         if let max = DemoConfiguration.shared.maxPipSize {
             pipSize = .init(pipMaxSize: max)
         }
@@ -324,7 +324,7 @@ class MainViewController: SideMenuBaseViewController {
     let previewConverViewMaker = PreviewCoverViewMaker()
     
     // 하나 은행 프레임 워크 재현을 위한 더미 뷰
-    var dummyView : UIView = {
+    var dummyView: UIView = {
         let view = UIView()
         view.frame = UIScreen.main.bounds
         view.backgroundColor = .yellow
@@ -332,7 +332,7 @@ class MainViewController: SideMenuBaseViewController {
         return view
     }()
     
-    var hanaBankTimer : Double = 0
+    var hanaBankTimer: Double = 0
     
     private func regenerateHanaBankFrameworkIssue(){
         hanaBankTimer = 0
@@ -437,13 +437,13 @@ extension MainViewController: ShopLiveSDKDelegate {
         }
     }
     
-    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
+    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String: String]) {
 //        ShopLiveLogger.tempLog("log name \(name) feature \(feature.name) campaignKey \(campaign) parameter(String:String) \(parameter)")
 //        let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, parameter: parameter)
 //        
     }
     
-    func onEvent(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String : Any]) {
+    func onEvent(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
         switch name {
         case "product_list":
             handleProductList(payload: payload)
@@ -452,7 +452,7 @@ extension MainViewController: ShopLiveSDKDelegate {
         }
     }
     
-    private func handleProductList(payload: [String : Any]) {
+    private func handleProductList(payload: [String: Any]) {
         ShopLiveEvent.sendConversionEvent(data: .init(type: "purchase",
                                                       products: [.init(productId: payload["goodsId"] as? String,
                                                                        sku: payload["sku"] as? String,
@@ -461,7 +461,7 @@ extension MainViewController: ShopLiveSDKDelegate {
                                                                        purchaseUnitPrice: payload["discountedPrice"] as? Double )],
                                                       orderId: "customOrderId",
                                                      referrer: "customReferrer",
-                                                      custom: ["key" : "value" ]))
+                                                      custom: ["key": "value" ]))
     }
     
     func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint) {
@@ -522,7 +522,7 @@ extension MainViewController: ShopLiveSDKDelegate {
         
     }
 
-    func handleCampaignInfo(campaignInfo: [String : Any]) {
+    func handleCampaignInfo(campaignInfo: [String: Any]) {
         
         
         campaignInfo.forEach { info in
@@ -600,7 +600,7 @@ extension MainViewController: ShopLiveSDKDelegate {
     func handleCommand(_ command: String, with payload: Any?) {
         
         if ShopLiveViewTrackEvent.allCases.map({ $0.name }).contains(where: { $0 == command }) {
-            guard let payload = payload as? [String : Any] else { return }
+            guard let payload = payload as? [String: Any] else { return }
             
         }
         
@@ -613,15 +613,15 @@ extension MainViewController: ShopLiveSDKDelegate {
         }
         else {
 //            var log = "\nhandleCommand\n"
-//            log += "command : \(command)\n"
-//            log += "payload : \(payload)\n"
+//            log += "command: \(command)\n"
+//            log += "payload: \(payload)\n"
 //            log += "=================="
 //            ShopLiveLogger.tempLog(log)
         }
     }
 
     
-    func onSetUserName(_ payload: [String : Any]) {
+    func onSetUserName(_ payload: [String: Any]) {
         
         payload.forEach { (key, value) in
             
@@ -676,22 +676,61 @@ extension MainViewController: ShopLiveSDKDelegate {
                   let identifier = parameters["identifier"] as? String else {
                 return
             }
-            let result: [String: Any] = ["identifier" : identifier, "favorite" : !favorite]
+            let result: [String: Any] = ["identifier": identifier, "favorite": !favorite]
             ShopLive.sendCommandMessage(command: "SET_BRAND_FAVORITE", payload: result)
             
-            ShopLivePlayerToastCommandManager.shared.showToast(message: "ON_CLICK_BRAND_FAVORITE_BUTTON : \(!favorite)")
-            break
-        case "CLICK_BACK_BUTTON":
-            preview()
-        
+            ShopLivePlayerToastCommandManager.shared.showToast(message: "ON_CLICK_BRAND_FAVORITE_BUTTON: \(!favorite)")
             break
         default:
             break
         }
     }
     
-    func handleReceivedCommand(_ command: String, data: [String : Any]?) {
+    func handleReceivedCommand(_ command: String, data: [String: Any]?) {
         switch command {
+        case "LOGIN_REQUIRED":
+            let alert = UIAlertController(title: command, message: "alert.login.required.description".localized(), preferredStyle: .alert)
+            alert.addAction(.init(title: "alert.msg.ok".localized(), style: .default, handler: { _ in
+                /*
+                    1. 로그인 화면으로 이동
+                    2. 로그인이 성공하면, 인증 사용자 계정을 연동하여 샵라이브플레이어를 다시 호출
+                 */
+                ShopLive.startPictureInPicture()
+                let login = LoginViewController()
+                login.delegate = self
+                self.navigationController?.pushViewController(login, animated: true)
+            }))
+            alert.addAction(.init(title: "alert.msg.no".localized(), style: .default, handler: { _ in
+                alert.dismiss(animated: true)
+            }))
+            ShopLive.viewController?.present(alert, animated: true, completion: nil)
+            break
+        case "CLICK_ROTATE_BUTTON":
+            DispatchQueue.main.async {
+                UIWindow.showToast(message: "[CLICK_ROTATE_BUTTON]\n 회전버튼이 클릭되었습니다.\n고객사앱에서 이 커맨드를 수신하여 회전처리")
+            }
+            break
+        case "CLICK_BACK_BUTTON":
+            preview()
+            break
+        case "ON_CHANGED_BRAND_FAVORITE":
+            guard let parameters = data,
+                  let _ = parameters["favorite"],
+                  let _ = parameters["identifier"] else {
+                return
+            }
+            break
+        case "ON_CLICK_BRAND_FAVORITE_BUTTON":
+            guard let parameters = data,
+                  let favorite = parameters["favorite"] as? Bool,
+                  let identifier = parameters["identifier"] as? String else {
+                return
+            }
+            let result: [String: Any] = ["identifier": identifier, "favorite": !favorite]
+            ShopLive.sendCommandMessage(command: "SET_BRAND_FAVORITE", payload: result)
+            
+            ShopLivePlayerToastCommandManager.shared.showToast(message: "ON_CLICK_BRAND_FAVORITE_BUTTON: \(!favorite)")
+            break
         case "ON_CLICK_SELLER","ON_RECEIVED_SELLER_CONFIG","ON_CLICK_VIEW_SELLER_STORE","ON_CLICK_SELLER_SUBSCRIPTION":
             SellerManager.shared.parseCommand(command: command, payload: data)
         default:
@@ -701,7 +740,7 @@ extension MainViewController: ShopLiveSDKDelegate {
 }
 
 extension MainViewController: LoginDelegate {
-    func loginSuccess(name : String?, pwd : String?) {
+    func loginSuccess(name: String?, pwd: String?) {
         
         guard let currentKey = getCurrentKeySet() else {
             DispatchQueue.main.async {
@@ -739,14 +778,14 @@ extension MainViewController: QRKeyReaderDelegate {
     
     
 }
-extension MainViewController : ShopLivePlayerShareDelegate {
+extension MainViewController: ShopLivePlayerShareDelegate {
     func handleShare(data: ShopLivePlayerShareData) {
         var log = "ShopLivePlayerShareData \n";
-        log += "url : \(data.url ?? "null") \n"
-        log += "campaignKey : \(data.campaign?.campaignKey ?? "null") \n"
-        log += "title : \(data.campaign?.title ?? "null") \n"
-        log += "descriptions : \(data.campaign?.descriptions ?? "null") \n"
-        log += "thumbnail : \(data.campaign?.thumbnail ?? "null") \n"
+        log += "url: \(data.url ?? "null") \n"
+        log += "campaignKey: \(data.campaign?.campaignKey ?? "null") \n"
+        log += "title: \(data.campaign?.title ?? "null") \n"
+        log += "descriptions: \(data.campaign?.descriptions ?? "null") \n"
+        log += "thumbnail: \(data.campaign?.thumbnail ?? "null") \n"
         
         
         if let urlString = data.url , let url = URL(string: urlString) {

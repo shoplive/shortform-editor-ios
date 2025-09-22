@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 @objc public protocol SLCircularProgressIndicatorViewDelegate: AnyObject {
-    func didTapLoadingView(_ alertController : SLCircularProgressIndicatorView)
+    func didTapLoadingView(_ alertController: SLCircularProgressIndicatorView)
 }
 
 public class SLCircularProgressIndicatorView: UIView, UIGestureRecognizerDelegate {
@@ -56,7 +56,7 @@ public class SLCircularProgressIndicatorView: UIView, UIGestureRecognizerDelegat
         indicatorView.startAnimating()
     }
    
-    required init?(coder : NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("")
     }
     

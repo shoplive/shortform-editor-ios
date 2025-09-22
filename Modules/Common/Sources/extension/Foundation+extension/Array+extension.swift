@@ -53,3 +53,20 @@ public extension Array where Element == String {
         return r
     }
 }
+
+
+extension Array where Element == URLQueryItem {
+    public var queryString: String {
+        self.compactMap { param in
+            let encodedValue = param.value?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            return "\(param.name)=\(encodedValue)"
+        }.joined(separator: "&")
+    }
+    
+    public var queryStringRFC3986: String {
+        self.compactMap { item in
+            let encodedValue = item.value?.urlEncodedRFC3986 ?? ""
+            return "\(item.name)=\(encodedValue)"
+        }.joined(separator: "&")
+    }
+}

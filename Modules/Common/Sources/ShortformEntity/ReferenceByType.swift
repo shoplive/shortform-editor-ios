@@ -8,15 +8,15 @@
 
 import Foundation
 
-public struct ReferenceByType : BaseResponsable, RawDataRepresantable {
+public struct ReferenceByType: BaseResponsable, RawDataRepresantable {
     typealias Model = ReferenceByType
     
-    public var _s : Int?
-    public var _e : String?
+    public var _s: Int?
+    public var _e: String?
     
-    public let generalShortformReference : String?
-    public let promotionShortformReference : String?
-    public let externalShortformReference : String?
+    public let generalShortformReference: String?
+    public let promotionShortformReference: String?
+    public let externalShortformReference: String?
     public var rawData: Data?
     
     
@@ -37,10 +37,10 @@ public struct ReferenceByType : BaseResponsable, RawDataRepresantable {
         self.externalShortformReference = try? parser.parse(targetType: String.self, key: Model.CodingKeys.externalShortformReference)
     }
     
-    public func getRawDataDict() -> [String : Any]? {
+    public func getRawDataDict() -> [String: Any]? {
         guard let data = rawData else { return nil }
         do {
-            let json = try JSONSerialization.jsonObject(with: data) as? [String : Any]
+            let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
             return json
         }
         catch(_) {

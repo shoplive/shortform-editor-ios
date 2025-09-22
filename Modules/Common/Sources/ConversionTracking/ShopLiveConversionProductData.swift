@@ -9,12 +9,12 @@
 import Foundation
 
 public struct ShopLiveConversionProductData {
-    public var productId : String?
-    public var customerProductId : String?
-    public var sku : String?
-    public var url : String?
-    public var purchaseQuantity : Int?
-    public var purchaseUnitPrice : Double?
+    public var productId: String?
+    public var customerProductId: String?
+    public var sku: String?
+    public var url: String?
+    public var purchaseQuantity: Int?
+    public var purchaseUnitPrice: Double?
     
     
     public init(productId: String? = nil, customerProductId: String? = nil, sku: String? = nil, url: String? = nil, purchaseQuantity: Int? = nil, purchaseUnitPrice: Double? = nil) {

@@ -9,13 +9,13 @@
 import Foundation
 
 
-public struct ShopLiveEventProduct : Codable {
-    public var productId : String?
-    public var customerProductId : String?
-    public var sku : String?
-    public var url : String?
-    public var purchaseQuantity : Int?
-    public var purchaseUnitPrice : Double?
+public struct ShopLiveEventProduct: Codable {
+    public var productId: String?
+    public var customerProductId: String?
+    public var sku: String?
+    public var url: String?
+    public var purchaseQuantity: Int?
+    public var purchaseUnitPrice: Double?
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -30,7 +30,7 @@ public struct ShopLiveEventProduct : Codable {
     
     
     
-    public init(productId : String?, customerProductId : String?, sku : String?, url : String?, purchaseQuantity : Int?, purchaseUnitPrice : Double?) {
+    public init(productId: String?, customerProductId: String?, sku: String?, url: String?, purchaseQuantity: Int?, purchaseUnitPrice: Double?) {
         self.productId = productId
         self.customerProductId = customerProductId
         self.sku = sku

@@ -13,7 +13,7 @@ public class ShopLiveLogger {
     /**
         메모리 관련 비휘발성 로그볼때 사용
      */
-    public static func memoryLog(_ log : String) {
+    public static func memoryLog(_ log: String) {
         #if DEBUG
         os_log("[MEMORY_LOG] %s",log)
         #endif
@@ -22,17 +22,17 @@ public class ShopLiveLogger {
     /**
     개발 단계 일시적으로 로그 볼때 사용
      */
-    public static func tempLog(_ log : String) {
+    public static func tempLog(_ log: String) {
         #if DEBUG
         os_log("[TEMP_LOG] %s",log)
         #endif
     }
     
-    public static func publicLog(_ log : String) {
+    public static func publicLog(_ log: String) {
         guard Self.showLog else { return }
-        let isMainThread = Thread.isMainThread ? "MAIN" : "OTHER"
+        let isMainThread = Thread.isMainThread ? "MAIN": "OTHER"
         os_log("[SHOPLIVE - THREAD %s] %s",isMainThread,log)
     }
     
-    public static var showLog : Bool = false
+    public static var showLog: Bool = false
 }

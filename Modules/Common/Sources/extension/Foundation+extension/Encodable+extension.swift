@@ -25,7 +25,7 @@ public extension Encodable {
 }
 
 public extension Decodable {
-    static func decode_SL<T: Decodable>(dictionary : [String : Any]) throws -> T {
+    static func decode_SL<T: Decodable>(dictionary: [String: Any]) throws -> T {
         let data = try JSONSerialization.data(withJSONObject: dictionary, options: [.fragmentsAllowed])
         return try JSONDecoder().decode(T.self,from: data)
     }

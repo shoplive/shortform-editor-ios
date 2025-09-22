@@ -9,7 +9,7 @@
 import Foundation
 import os
 
-struct HostConfigAPI : APIDefinition {
+struct HostConfigAPI: APIDefinition {
     typealias ResultType = HostConfigModel
     
     

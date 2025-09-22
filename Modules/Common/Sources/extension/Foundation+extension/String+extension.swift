@@ -56,10 +56,10 @@ public extension String {
     }
     
     var dictionary_SL: [AnyHashable: Any]? {
-        var dicData : Dictionary<AnyHashable, Any> = [AnyHashable : Any]()
+        var dicData: Dictionary<AnyHashable, Any> = [AnyHashable: Any]()
         do {
             // 딕셔너리에 데이터 저장 실시
-            dicData = try JSONSerialization.jsonObject(with: Data(self.utf8), options: []) as! [AnyHashable : Any]
+            dicData = try JSONSerialization.jsonObject(with: Data(self.utf8), options: []) as! [AnyHashable: Any]
         } catch {
             return nil
         }
@@ -104,6 +104,13 @@ public extension String {
         return plainData?.base64EncodedString()
     }
     
+    var urlEncodedRFC3986: String? {
+        let generalDelimitersToEncode = ":#[]@"
+        let subDelimitersToEncode = "!$&'()*+,;="
+        var allowed = CharacterSet.urlQueryAllowed
+        allowed.remove(charactersIn: generalDelimitersToEncode + subDelimitersToEncode)
+        return self.addingPercentEncoding(withAllowedCharacters: allowed)
+    }
     
     func convert_SL<T>(to type: T.Type) -> T? where T: Codable {
         guard let selfData = self.data(using: .utf8) else { return nil }

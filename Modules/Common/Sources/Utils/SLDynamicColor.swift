@@ -13,10 +13,10 @@ import UIKit
 
 @propertyWrapper
 public struct SLDynamicColor {
-    let light : UIColor
-    let dark : UIColor
+    let light: UIColor
+    let dark: UIColor
 
-    public var wrappedValue : UIColor {
+    public var wrappedValue: UIColor {
         if #available(iOS 13.0, *) {
             return UIColor.init { traitCollection in
                 switch traitCollection.userInterfaceStyle {

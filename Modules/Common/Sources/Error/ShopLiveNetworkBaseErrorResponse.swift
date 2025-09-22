@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class ShopLiveCommonNetworkBaseErrorResponse : Codable {
-    let _s : Int?
-    let _e : String?
+public class ShopLiveCommonNetworkBaseErrorResponse: Codable {
+    let _s: Int?
+    let _e: String?
 }

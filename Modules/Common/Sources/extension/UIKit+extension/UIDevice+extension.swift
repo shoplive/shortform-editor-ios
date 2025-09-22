@@ -13,7 +13,7 @@ public extension UIDevice {
         self.current.userInterfaceIdiom == .pad
     }
     
-    static var deviceIdentifier_sl : String {
+    static var deviceIdentifier_sl: String {
         var systemInfo = utsname()
         uname(&systemInfo)
         let machineMirror = Mirror(reflecting: systemInfo.machine)
@@ -25,7 +25,7 @@ public extension UIDevice {
         return identifier
     }
     
-    static var idfv_sl : String? {
+    static var idfv_sl: String? {
         return Self.current.identifierForVendor?.uuidString
     }
 }

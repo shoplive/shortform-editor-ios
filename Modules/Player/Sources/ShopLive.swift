@@ -23,13 +23,13 @@ import ShopliveSDKCommon
     
     @objc func isSuccessCampaignJoin() -> Bool
 
-    @objc func preview(with campaignKey: String?, referrer: String?,resolution : ShopLivePlayerPreviewResolution, campaignHandler : ((ShopLivePlayerCampaign) ->())?, brandHandler : ((ShopLivePlayerBrand) -> ())?,  completion: (() -> Void)?)
-    @objc func play(with campaignKey: String?, referrer: String?, campaignHandler : ((ShopLivePlayerCampaign) ->())?, brandHandler : ((ShopLivePlayerBrand) -> ())?)
+    @objc func preview(with campaignKey: String?, referrer: String?,resolution: ShopLivePlayerPreviewResolution, campaignHandler: ((ShopLivePlayerCampaign) ->())?, brandHandler: ((ShopLivePlayerBrand) -> ())?,  completion: (() -> Void)?)
+    @objc func play(with campaignKey: String?, referrer: String?, campaignHandler: ((ShopLivePlayerCampaign) ->())?, brandHandler: ((ShopLivePlayerBrand) -> ())?)
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
     @objc func startPictureInPicture()
     @objc func stopPictureInPicture()
-    @objc func setEnabledPictureInPictureMode(isEnabled : Bool)
-    @objc func setEnabledOSPictureInPictureMode(isEnabled : Bool)
+    @objc func setEnabledPictureInPictureMode(isEnabled: Bool)
+    @objc func setEnabledOSPictureInPictureMode(isEnabled: Bool)
     @objc func setKeepAspectOnTabletPortrait(_ keep: Bool)
 
     @objc func setLoadingAnimation(images: [UIImage])
@@ -43,27 +43,27 @@ import ShopliveSDKCommon
     @objc func onTerminated()
 
     @objc func hookNavigation(navigation: @escaping ((URL) -> Void))
-    @objc func setShareScheme(_ scheme: String?, shareDelegate : ShopLivePlayerShareDelegate?)
+    @objc func setShareScheme(_ scheme: String?, shareDelegate: ShopLivePlayerShareDelegate?)
     @objc func setChatViewFont(inputBoxFont: UIFont?, sendButtonFont: UIFont?)
-    @objc func close(actionType : ShopLiveViewHiddenActionType)
+    @objc func close(actionType: ShopLiveViewHiddenActionType)
 
     
     @objc func awakePlayer()
     
     @objc func setMixWithOthers(isMixAudio: Bool)
-    @objc func setAudioSessionCategory(category : AVAudioSession.Category)
+    @objc func setAudioSessionCategory(category: AVAudioSession.Category)
     
-    @objc func setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration)
+    @objc func setInAppPipConfiguration(config: ShopLiveInAppPipConfiguration)
     
     
-    @objc func setStatusBarVisibility(isVisible : Bool)
+    @objc func setStatusBarVisibility(isVisible: Bool)
     @objc func getStatusBarVisibility() -> Bool
     
     
-    @objc func addSubViewToPreview(subView : UIView)
-    @objc func getPreviewSize(inAppPipConfiguration : ShopLiveInAppPipConfiguration, videoRatio : CGSize) -> CGSize
-    @objc func setResizeMode(mode : ShopLiveResizeMode)
-    @objc func forceStartWithPortraitMode(_ isForced : Bool)
+    @objc func addSubViewToPreview(subView: UIView)
+    @objc func getPreviewSize(inAppPipConfiguration: ShopLiveInAppPipConfiguration, videoRatio: CGSize) -> CGSize
+    @objc func setResizeMode(mode: ShopLiveResizeMode)
+    @objc func forceStartWithPortraitMode(_ isForced: Bool)
 }
 
 public enum ShopLiveCampaignStatus: String, CaseIterable {
@@ -187,7 +187,7 @@ extension ShopLive {
 
 extension ShopLive: ShopLiveSDKInterface {
     
-    @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
+    @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config: ShopLiveInAppPipConfiguration) instead")
     public static func setEnabledPipSwipeOut(_ enabled: Bool) {
         ShopLiveConfiguration.UI.enablePipSwipeOut = enabled
     }
@@ -209,11 +209,11 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.setMixWithOthers(isMixAudio: isMixAudio)
     }
     
-    public static func setAudioSessionCategory(category : AVAudioSession.Category) {
+    public static func setAudioSessionCategory(category: AVAudioSession.Category) {
         shared.instance?.setAudioSessionCategory(category: category)
     }
     
-    @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
+    @available(iOS, deprecated, message: "Will be deprecated soon Use setInAppPipConfiguration(config: ShopLiveInAppPipConfiguration) instead")
     public static func useCloseButton(_ use: Bool) {
         ShopLiveConfiguration.UI.closeButton = use
     }
@@ -266,12 +266,12 @@ extension ShopLive: ShopLiveSDKInterface {
         return true
     }
 
-    public static func sendCommandMessage(command: String, payload: [String : Any]?) {
+    public static func sendCommandMessage(command: String, payload: [String: Any]?) {
         guard let payload = payload else {
             return
         }
 
-        var message: [String : Any] = [:]
+        var message: [String: Any] = [:]
 
         message["command"] = command
         message["payload"] = payload
@@ -308,7 +308,7 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.viewController
     }
 
-    public static func close(actionType : ShopLiveViewHiddenActionType = .onClose) {
+    public static func close(actionType: ShopLiveViewHiddenActionType = .onClose) {
         ShopLiveController.shared.execusedClose = true
         shared.instance?.close(actionType: actionType)
     }
@@ -317,7 +317,7 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.setChatViewFont(inputBoxFont: inputBoxFont, sendButtonFont: sendButtonFont)
     }
     
-    public static func setShareScheme(_ scheme: String? = nil , shareDelegate : ShopLivePlayerShareDelegate?) {
+    public static func setShareScheme(_ scheme: String? = nil , shareDelegate: ShopLivePlayerShareDelegate?) {
         shared.instance?.setShareScheme(scheme, shareDelegate: shareDelegate)
     }
 
@@ -357,7 +357,7 @@ extension ShopLive: ShopLiveSDKInterface {
         return shared.instance?.playerWindow
     }
     
-    @available(iOS, deprecated, message: "Will be deprecated soon use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
+    @available(iOS, deprecated, message: "Will be deprecated soon use setInAppPipConfiguration(config: ShopLiveInAppPipConfiguration) instead")
     public static var fixedPipWidth: NSNumber? {
         get {
             return shared.instance?.fixedPipWidth
@@ -383,7 +383,7 @@ extension ShopLive: ShopLiveSDKInterface {
         return shared.instance?.style ?? .unknown
     }
 
-    @available(iOS, deprecated, message: "Will be deprecated soon use setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
+    @available(iOS, deprecated, message: "Will be deprecated soon use setInAppPipConfiguration(config: ShopLiveInAppPipConfiguration) instead")
     public static var pipPosition: PipPosition {
         get {
             return ShopLiveController.shared.initialPipPosition
@@ -392,7 +392,7 @@ extension ShopLive: ShopLiveSDKInterface {
             ShopLiveController.shared.initialPipPosition = newValue
         }
     }
-    @available(iOS, deprecated, message: "Will be deprecated soon use pipMaxSize in setInAppPipConfiguration(config : ShopLiveInAppPipConfiguration) instead")
+    @available(iOS, deprecated, message: "Will be deprecated soon use pipMaxSize in setInAppPipConfiguration(config: ShopLiveInAppPipConfiguration) instead")
     public static var pipScale: CGFloat {
         get {
             shared.instance?.pipScale ?? ShopLiveController.shared.lastPipScale
@@ -450,18 +450,18 @@ extension ShopLive: ShopLiveSDKInterface {
         )
     }
     
-    @available(iOS, deprecated, message: "Use preview(data : ShopLivePlayerData) instead")
+    @available(iOS, deprecated, message: "Use preview(data: ShopLivePlayerData) instead")
     public static func preview(with campaignKey: String?, referrer: String? = nil, completion: (() -> Void)? = nil) {
         shared.instance?.preview(with: campaignKey, referrer: referrer, resolution: .PREVIEW, campaignHandler: nil, brandHandler: nil, completion: completion)
     }
 
-    public static func play(data : ShopLivePlayerData) {
+    public static func play(data: ShopLivePlayerData) {
         ShopLiveConfiguration.UI.keepWindowStateOnPlayExecuted = data.keepWindowStateOnPlayExecuted
         ShopLiveConfiguration.SoundPolicy.isEnabledVolumeKeyInPreview = data.isEnabledVolumeKey
         shared.instance?.play(with: data.campaignKey, referrer: data.referrer, campaignHandler: data.campaignHandler, brandHandler: data.brandHandler)
     }
     
-    @available(iOS, deprecated, message: "Use play(data : ShopLivePlayerData) instead")
+    @available(iOS, deprecated, message: "Use play(data: ShopLivePlayerData) instead")
     public static func play(with campaignKey: String?, keepWindowStateOnPlayExecuted: Bool = false, referrer: String? = nil) {
         ShopLiveConfiguration.UI.keepWindowStateOnPlayExecuted = keepWindowStateOnPlayExecuted
         shared.instance?.play(with: campaignKey, referrer: referrer,campaignHandler: nil, brandHandler: nil)
@@ -487,7 +487,7 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.reloadLive()
     }
     
-    public static func setEnabledPictureInPictureMode(isEnabled : Bool){
+    public static func setEnabledPictureInPictureMode(isEnabled: Bool){
         shared.instance?.setEnabledPictureInPictureMode(isEnabled: isEnabled)
     }
     
@@ -555,7 +555,7 @@ extension ShopLive: ShopLiveSDKInterface {
         return ShopLiveCommon.getUtmContent()
     }
     
-    public static func setVisibleStatusBar(isVisible : Bool) {
+    public static func setVisibleStatusBar(isVisible: Bool) {
         shared.instance?.setStatusBarVisibility(isVisible: isVisible)
     }
     

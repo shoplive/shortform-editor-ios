@@ -93,7 +93,7 @@ final class ShopLiveDemoKeyTools {
         self.keys.removeAll(where: {$0.alias == alias})
     }
 
-    private func archiveData(keysets : [ShopLiveKeySet]) -> Data {
+    private func archiveData(keysets: [ShopLiveKeySet]) -> Data {
         do {
             let data = try NSKeyedArchiver.archivedData(withRootObject: keysets, requiringSecureCoding: false)
 

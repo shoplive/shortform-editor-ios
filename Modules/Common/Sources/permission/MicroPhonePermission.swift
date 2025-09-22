@@ -16,7 +16,6 @@ final class MicroPhonePermission: Permission, SLResultObservable {
     var resultHandler: ((Result) -> ())?
     var status: PermissionStatus {
         get {
-//            ShopLiveLogger.devLog("[status get \(name)] permissions status")
             updatePermission()
             return self.permissionState
         }
@@ -42,8 +41,6 @@ final class MicroPhonePermission: Permission, SLResultObservable {
         
         AVCaptureDevice.requestAccess(for: AVMediaType.audio, completionHandler: { [weak self] in
             guard let self = self else { return }
-//            ShopLiveLogger.devLog("[\(self.name)] requestAccess status: \(self.status.description)")
-//            ShopLiveLogger.devLog("[requestPermission \(self.name)] permissions status")
             self.permissionState = $0 ? .authorized : .denied
             self.checked = true
             self.resultHandler?(.permissionStatusChanged(self.permissionState))
@@ -52,7 +49,6 @@ final class MicroPhonePermission: Permission, SLResultObservable {
 
     func updatePermission() {
         let authorizedStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.audio)
-//        ShopLiveLogger.devLog("[updatePermission\(name)] permissions status")
         switch (authorizedStatus) {
         case AVAuthorizationStatus.authorized:
             permissionState = .authorized

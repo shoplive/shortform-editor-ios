@@ -11,7 +11,7 @@ import UIKit
 import WebKit
 
 
-extension ShopLivePlayerPreview : WKUIDelegate {
+extension ShopLivePlayerPreview: WKUIDelegate {
     public func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
         let alertController = SLAlertController(myTitle: nil, myMessage: message, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in

@@ -13,14 +13,14 @@
 #import <ShopliveSDKCommon/ShopliveSDKCommon-Swift.h>
 
 
-@interface ViewController : UIViewController <ShopLiveSDKDelegate>
+@interface ViewController: UIViewController <ShopLiveSDKDelegate>
 
 // Class properties and methods
 
 @end
 
 
-@implementation ViewController : UIViewController
+@implementation ViewController: UIViewController
 
 - (void) viewDidLoad {
     [super viewDidLoad];

@@ -35,10 +35,10 @@ public final class SLKeyChainUtil {
         
         addKeychain(service: service, account: account)
         
-        let keyChainQuery : NSDictionary = [
-            kSecClass : kSecClassGenericPassword,
-            kSecAttrService : service,
-            kSecAttrAccount : account,
+        let keyChainQuery: NSDictionary = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrService: service,
+            kSecAttrAccount: account,
             kSecValueData: value.data(using: .utf8, allowLossyConversion: false)!
         ]
         
@@ -52,14 +52,14 @@ public final class SLKeyChainUtil {
     
     public static func load(service: String, account: String) -> String? {
         let keyChainQuery :NSDictionary = [
-            kSecClass : kSecClassGenericPassword,
-            kSecAttrService : service,
-            kSecAttrAccount : account,
-            kSecReturnData : kCFBooleanTrue!,
-            kSecMatchLimit : kSecMatchLimitOne
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrService: service,
+            kSecAttrAccount: account,
+            kSecReturnData: kCFBooleanTrue!,
+            kSecMatchLimit: kSecMatchLimitOne
         ]
         
-        var dataTypeRef : AnyObject?
+        var dataTypeRef: AnyObject?
         let status = SecItemCopyMatching(keyChainQuery, &dataTypeRef)
 
         if (status == errSecSuccess) {
@@ -77,8 +77,8 @@ public final class SLKeyChainUtil {
         
         let keyChainQuery: NSDictionary = [
             kSecClass: kSecClassGenericPassword,
-            kSecAttrService : service,
-            kSecAttrAccount : account
+            kSecAttrService: service,
+            kSecAttrAccount: account
         ]
         
         _ = SecItemDelete(keyChainQuery)

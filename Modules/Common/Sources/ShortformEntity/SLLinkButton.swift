@@ -9,11 +9,11 @@
 import Foundation
 
 //youtube 한정
-public struct SLLinkButton : Codable {
+public struct SLLinkButton: Codable {
     
-    var imageUrl : String?
-    var text : String?
-    var scheme : String?
+    var imageUrl: String?
+    var text: String?
+    var scheme: String?
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)

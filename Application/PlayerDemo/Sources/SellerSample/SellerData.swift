@@ -9,13 +9,13 @@
 import Foundation
 
 class SellerData {
-    var descriptions : String?
-    var name : String?
-    var profileUrl : String?
-    var scheme : String?
-    var sellerId : Int?
-    var sellerIdentifier : String?
-    var storeUrl : String
+    var descriptions: String?
+    var name: String?
+    var profileUrl: String?
+    var scheme: String?
+    var sellerId: Int?
+    var sellerIdentifier: String?
+    var storeUrl: String
     
     init(descriptions: String? = nil, name: String? = nil, profileUrl: String? = nil, scheme: String? = nil, sellerId: Int? = nil, sellerIdentifier: String? = nil, storeUrl: String) {
         self.descriptions = descriptions
@@ -28,7 +28,7 @@ class SellerData {
     }
     
     
-    init(dict : [String : Any]) {
+    init(dict: [String: Any]) {
         self.descriptions = dict["descriptions"] as? String
         self.name = dict["name"] as? String
         self.profileUrl = dict["profileUrl"] as? String

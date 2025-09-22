@@ -25,6 +25,10 @@ class MainViewModelTests: XCTestCase {
     var items: [String] = ["CampaignInfoCell", "UserInfoCell"]
     
     class MainUseCaseMock: MainUseCase {
+        func fetchVersionInfoDatas(type: PlayerDemo2.VersionInfoButtonType, value: String) {
+            
+        }
+        
         func loadSDKConfiguration() -> PlayerDemo2.SDKConfiguration? { nil }
         
         func fetchLandingUrl(url: String) { }

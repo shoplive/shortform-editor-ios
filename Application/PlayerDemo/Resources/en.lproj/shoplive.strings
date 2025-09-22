@@ -91,10 +91,10 @@
 "sdkoption.setupPlayer.mixAudio.description" = "Allows mixing of player's audio with other audio.";
 
 "sdkoption.setupPlayer.isEnabledVolumeKey.title" = "HW volume btn Event Option";
-"sdkoption.setupPlayer.isEnabledVolumeKey.description" = "Enable listening to hardware volume key events (default : false)";
+"sdkoption.setupPlayer.isEnabledVolumeKey.description" = "Enable listening to hardware volume key events (default: false)";
 
 "sdkoption.setupPlayer.resizeMode.title" = "Player View resize option";
-"sdkoption.setupPlayer.resizeMode.description" = "Set Players render option (default : CENTER_CROP)";
+"sdkoption.setupPlayer.resizeMode.description" = "Set Players render option (default: CENTER_CROP)";
 
 "sdkoption.setupPlayer.manualRotation.title" = "Manual Rotation Control in Horizontal Broadcast";
 "sdkoption.setupPlayer.manualRotation.description" = "Control screen rotation directly in SDK when rotation button is pressed in horizontal broadcast (false - default), Handle rotation directly in client app when rotation button is pressed (true)";
@@ -128,10 +128,10 @@
 
 
 "sdkoption.enablepip.title" = "Enable PIP";
-"sdkoption.enablepip.description" = "Enables InAppPip,Preview,OSPIP (default : true)";
+"sdkoption.enablepip.description" = "Enables InAppPip,Preview,OSPIP (default: true)";
 
 "sdkoption.enableOspip.title" = "Enable OSPIP";
-"sdkoption.enableOspip.description" = "Enables OSPIP (Default : true)";
+"sdkoption.enableOspip.description" = "Enables OSPIP (Default: true)";
 
 
 
@@ -142,7 +142,7 @@
 "sdkoption.nextActionTypeOnNavigation.item2" = "No change";
 "sdkoption.nextActionTypeOnNavigation.item3" = "Exit";
 "sdkoption.statusbarvisibility.title" = "Player StatusBar Visibility Option";
-"sdkoption.statusbarvisibility.description" = "Visible player's status bar (default : on)";
+"sdkoption.statusbarvisibility.description" = "Visible player's status bar (default: on)";
 
 "sdkoption.player.preview.title" = "Preview resolution type";
 "sdkoption.player.preview.description" = "Set resolution type in preview. (Default is preview type, ON -> Preview)";

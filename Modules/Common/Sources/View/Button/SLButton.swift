@@ -9,7 +9,7 @@
 import UIKit
 
 public class SLButton: UIButton {
-    let identity : String = "ShopLiveViewComponents"
+    let identity: String = "ShopLiveViewComponents"
     
     override init(frame: CGRect) {
         super.init(frame: frame)

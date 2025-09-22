@@ -9,16 +9,16 @@
 import Foundation
 
 
-public struct SLShortsDetail : Codable {
-    public let title : String?
-    public let description : String?
-    public let tags : [String]?
-    public let productCount : Int?
+public struct SLShortsDetail: Codable {
+    public let title: String?
+    public let description: String?
+    public let tags: [String]?
+    public let productCount: Int?
     public let productBanner: SLProductBanner?
-    public let products : [SLProduct]?
-    public let brand : SLBrandModel?
-    public let creator : SLCreator?
-    public let linkButton : SLLinkButton?
+    public let products: [SLProduct]?
+    public let brand: SLBrandModel?
+    public let creator: SLCreator?
+    public let linkButton: SLLinkButton?
     
 
     
@@ -42,7 +42,7 @@ public struct SLShortsDetail : Codable {
     
     public func toShortsDetailData() -> ShopLiveShortformDetailData {
         var productBannerData = productBanner?.toProductBannerData()
-        var productsData : [ProductData] = []
+        var productsData: [ProductData] = []
         for product in products ?? [] {
             productsData.append(product.toProductData())
         }
@@ -56,14 +56,14 @@ public struct SLShortsDetail : Codable {
 
 
 
-@objc public class ShopLiveShortformDetailData : NSObject {
-    public var title : String?
-    public var descriptions : String?
-    public var tags : [String]?
-    public var productCount : Int?
+@objc public class ShopLiveShortformDetailData: NSObject {
+    public var title: String?
+    public var descriptions: String?
+    public var tags: [String]?
+    public var productCount: Int?
     public var productBanner: ProductBannerData?
-    public var products : [ProductData]?
-    public var brand : BrandData?
+    public var products: [ProductData]?
+    public var brand: BrandData?
     
     init(title: String? = nil, descriptions: String? = nil, tags: [String]? = nil, productCount: Int? = nil, productBanner: ProductBannerData? = nil, products: [ProductData]? = nil, brand: BrandData? = nil) {
         self.title = title

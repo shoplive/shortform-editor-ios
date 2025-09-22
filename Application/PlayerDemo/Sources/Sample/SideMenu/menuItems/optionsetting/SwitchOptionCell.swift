@@ -184,9 +184,9 @@ class SwitchOptionCell: UITableViewCell {
         case .isEnabledVolumeKey:
             useOption = DemoConfiguration.shared.isEnabledVolumeKey
         case .resizeMode:
-            useOption = DemoConfiguration.shared.resizeMode == .CENTER_CROP ? true : false
+            useOption = DemoConfiguration.shared.resizeMode == .CENTER_CROP ? true: false
         case .previewResolution:
-            useOption = DemoConfiguration.shared.previewResolution == .LIVE ? false : true
+            useOption = DemoConfiguration.shared.previewResolution == .LIVE ? false: true
         default:
             break
         }
@@ -264,9 +264,9 @@ class SwitchOptionCell: UITableViewCell {
         case .isEnabledVolumeKey:
             DemoConfiguration.shared.isEnabledVolumeKey = useOption
         case .resizeMode:
-            DemoConfiguration.shared.resizeMode = useOption ? .CENTER_CROP : .FIT
+            DemoConfiguration.shared.resizeMode = useOption ? .CENTER_CROP: .FIT
         case .previewResolution:
-            DemoConfiguration.shared.previewResolution = useOption ? ShopLivePlayerPreviewResolution.PREVIEW : ShopLivePlayerPreviewResolution.LIVE
+            DemoConfiguration.shared.previewResolution = useOption ? ShopLivePlayerPreviewResolution.PREVIEW: ShopLivePlayerPreviewResolution.LIVE
         default:
             break
         }

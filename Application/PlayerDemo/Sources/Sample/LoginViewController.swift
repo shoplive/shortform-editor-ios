@@ -8,7 +8,7 @@
 import UIKit
 
 protocol LoginDelegate: AnyObject {
-    func loginSuccess(name : String?, pwd : String?)
+    func loginSuccess(name: String?, pwd: String?)
 }
 
 final class LoginViewController: UIViewController {
@@ -116,7 +116,7 @@ final class LoginViewController: UIViewController {
     }
     
     @objc func loginAction() {
-        delegate?.loginSuccess(name : userIdField.text, pwd : userPwdField.text)
+        delegate?.loginSuccess(name: userIdField.text, pwd: userPwdField.text)
         self.navigationController?.popViewController(animated: true)
     }
 

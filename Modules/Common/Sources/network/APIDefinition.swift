@@ -13,7 +13,7 @@ import UIKit
 public protocol RawDataRepresantable {
     var rawData: Data? { set get }
     
-    func getRawDataDict() -> [String : Any]?
+    func getRawDataDict() -> [String: Any]?
 }
 
 public protocol BaseResponsable: Codable {
@@ -36,9 +36,9 @@ public struct BaseResponse: BaseResponsable {
     public var _e: String?
 }
 
-public struct EmptyResponse : BaseResponsable {
-    public var _s : Int?
-    public var _e : String?
+public struct EmptyResponse: BaseResponsable {
+    public var _s: Int?
+    public var _e: String?
 }
 
 public enum HTTPVersion: String {
@@ -72,8 +72,8 @@ public protocol APIDefinition {
     var headers: [String:String] { get }
     var version: HTTPVersion { get }
     var needToShowLoadingIndicator: Bool { get }
-    var showRequestLog : Bool { get }
-    var showResponseLog : Bool { get }
+    var showRequestLog: Bool { get }
+    var showResponseLog: Bool { get }
 }
 
 public extension APIDefinition {
@@ -110,11 +110,11 @@ public extension APIDefinition {
         return [:]
     }
     
-    var showRequestLog : Bool {
+    var showRequestLog: Bool {
         return true
     }
     
-    var showResponseLog : Bool {
+    var showResponseLog: Bool {
         return false
     }
 }
@@ -154,7 +154,7 @@ public extension APIDefinition {
         self.processNetworkRequest(urlString: urlString, handler: handler)
     }
     
-    private func processNetworkRequest(urlString : String, handler : ((Result<ResultType, ShopLiveCommonError>) -> ())? = nil) {
+    private func processNetworkRequest(urlString: String, handler: ((Result<ResultType, ShopLiveCommonError>) -> ())? = nil) {
         // Headers
         guard var urlComponents = URLComponents(string: urlString) else {
             let error = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnexpectedError, error: nil, message: "failed to make urlComponents")
@@ -163,7 +163,7 @@ public extension APIDefinition {
         }
         
         //utm관련된 것들은 모든 api에 query로 붙여서 보냄
-        var utmQueryItems : [URLQueryItem] = []
+        var utmQueryItems: [URLQueryItem] = []
         for (key, value) in Self.commonQueries {
             let queryItem = URLQueryItem(name: key, value: String(describing: value ))
             utmQueryItems.append(queryItem)
@@ -171,7 +171,7 @@ public extension APIDefinition {
         urlComponents.queryItems = utmQueryItems
         
         if method == .get || method == .delete {
-            var queryItems : [URLQueryItem] = []
+            var queryItems: [URLQueryItem] = []
             for (key, value) in parameters ?? [:] {
                 let queryItem = URLQueryItem(name: key, value: String(describing: value ))
                 queryItems.append(queryItem)
@@ -214,9 +214,9 @@ public extension APIDefinition {
         
         if self.showRequestLog {
             var log = "[HASSAN LOG] requestLog \n"
-            log += "url : \(requestUrl.url?.absoluteString ?? "")\n"
-            log += "param : \(parameters ?? [:])\n"
-            log += "header : \(finalHeaders)\n"
+            log += "url: \(requestUrl.url?.absoluteString ?? "")\n"
+            log += "param: \(parameters ?? [:])\n"
+            log += "header: \(finalHeaders)\n"
             log += "=========================="
             ShopLiveLogger.tempLog(log)
         }
@@ -239,11 +239,11 @@ public extension APIDefinition {
             
             if self.showResponseLog {
                 var log = "[HASSAN LOG] responseLog \n"
-                log += "url : \(requestUrl.url?.absoluteString ?? "")\n"
-                log += "param : \(parameters ?? [:])\n"
-                log += "header : \(finalHeaders)\n"
-                log += "statusCode : \(statusCode)"
-                log += "body : \n"
+                log += "url: \(requestUrl.url?.absoluteString ?? "")\n"
+                log += "param: \(parameters ?? [:])\n"
+                log += "header: \(finalHeaders)\n"
+                log += "statusCode: \(statusCode)"
+                log += "body: \n"
                 log += "\(String(data: data, encoding: .utf8) ?? "") \n "
                 log += "=========================="
                 ShopLiveLogger.tempLog(log)
@@ -286,7 +286,7 @@ public extension APIDefinition {
         
     }
     
-    func upload(handler : ((Result<ResultType, ShopLiveCommonError>) -> ())? = nil ) {
+    func upload(handler: ((Result<ResultType, ShopLiveCommonError>) -> ())? = nil ) {
         
         // Headers
         var finalHeaders = Self.defaultHeaders
@@ -326,9 +326,9 @@ public extension APIDefinition {
         
         if self.showRequestLog {
             var log = "[HASSAN LOG] requestLog \n"
-            log += "url : \(request.url?.absoluteString ?? "")\n"
-            log += "param : \(parameters ?? [:])\n"
-            log += "header : \(finalHeaders)\n"
+            log += "url: \(request.url?.absoluteString ?? "")\n"
+            log += "param: \(parameters ?? [:])\n"
+            log += "header: \(finalHeaders)\n"
             log += "=========================="
             ShopLiveLogger.tempLog(log)
         }
@@ -383,7 +383,7 @@ public extension APIDefinition {
     }
     
     
-    func createBody(boundary : String) -> Data {
+    func createBody(boundary: String) -> Data {
         var body = Data()
         let lineBreak = "\r\n"
         let boundaryPrefix = "--\(boundary)\r\n"
@@ -421,7 +421,7 @@ public extension APIDefinition {
         
         if let video = self.uploadParameters["video"] as? (path: URL, name: String) {
             body.append(boundaryPrefix.data(using: .utf8)!)
-            let fileName = video.name.isEmpty ? video.path.lastPathComponent : video.name
+            let fileName = video.name.isEmpty ? video.path.lastPathComponent: video.name
             body.append("Content-Disposition: form-data; name=\"video\"; filename=\"\(fileName)\"\(lineBreak)".data(using: .utf8)!)
             body.append("Content-Type: video/mp4\(lineBreak + lineBreak)".data(using: .utf8)!)
             
@@ -465,8 +465,8 @@ public extension APIDefinition {
         
     }
 
-    private static var commonQueries : [String : String] {
-        var queries : [String : String] = [:]
+    private static var commonQueries: [String: String] {
+        var queries: [String: String] = [:]
         
         if let utmSource = ShopLiveCommon.getUtmSource(), utmSource.isNotEmpty_SL {
             queries["utm_source"] = utmSource
@@ -564,7 +564,7 @@ public extension APIDefinition {
     }
     
     
-    private static func parseHeaders(headers: [AnyHashable : Any]?) {
+    private static func parseHeaders(headers: [AnyHashable: Any]?) {
         guard let headers = headers else { return }
         if let authorization = headers["Authorization"] as? String {
             let token = authorization.replacingOccurrences(of: "Bearer", with: "").trimmed_SL

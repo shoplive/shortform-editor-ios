@@ -7,20 +7,20 @@
 
 import Foundation
 
-public class ShopLiveCommonUser : NSObject  {
-    public var userId : String
-    public var userName : String?
-    public var age : Int?
-    public var gender : ShopliveCommonUserGender?
-    public var userScore : Int?
-    public var custom : [String : Any]?
+public class ShopLiveCommonUser: NSObject  {
+    public var userId: String
+    public var userName: String?
+    public var age: Int?
+    public var gender: ShopliveCommonUserGender?
+    public var userScore: Int?
+    public var custom: [String: Any]?
     
     
     
     
     
-    public func toDictionary() -> [String : Any]{
-        var dict : [String : Any] = [:]
+    public func toDictionary() -> [String: Any]{
+        var dict: [String: Any] = [:]
         
         dict["userId"] = userId
         
@@ -44,7 +44,7 @@ public class ShopLiveCommonUser : NSObject  {
         return dict
     }
     
-    public init(userId: String, userName: String? = nil, age: Int? = nil, gender: ShopliveCommonUserGender? = nil, userScore: Int? = nil, custom: [String : Any]? = nil) {
+    public init(userId: String, userName: String? = nil, age: Int? = nil, gender: ShopliveCommonUserGender? = nil, userScore: Int? = nil, custom: [String: Any]? = nil) {
         self.userId = userId
         self.userName = userName
         self.age = age
@@ -53,7 +53,7 @@ public class ShopLiveCommonUser : NSObject  {
         self.custom = custom
     }
     
-    public init(userId : String, userName : String?, age : NSNumber?, gender : String?, userScore : NSNumber?, custom : Dictionary<String,Any>? ) {
+    public init(userId: String, userName: String?, age: NSNumber?, gender: String?, userScore: NSNumber?, custom: Dictionary<String,Any>? ) {
         self.userId = userId
         self.userName = userName
         self.age = age?.intValue
@@ -74,7 +74,7 @@ public class ShopLiveCommonUser : NSObject  {
     }
 }
 
-public enum ShopliveCommonUserGender : String, CaseIterable {
+public enum ShopliveCommonUserGender: String, CaseIterable {
     case male = "m"
     case female = "f"
     case netural = "n"

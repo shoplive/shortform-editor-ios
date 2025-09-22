@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct SLShortsCollectionModel : BaseResponsable, RawDataRepresantable {
+public struct SLShortsCollectionModel: BaseResponsable, RawDataRepresantable {
     typealias Model = SLShortsCollectionModel
     public var _s: Int?
     public var _e: String?
@@ -16,7 +16,7 @@ public struct SLShortsCollectionModel : BaseResponsable, RawDataRepresantable {
     public let srn, title: String?
     public let shortsList: [SLShortsModel]?
     public let reference: String?
-    public let referenceByType : ReferenceByType?
+    public let referenceByType: ReferenceByType?
     public let hasMore: Bool?
     public var rawData: Data?
     
@@ -38,10 +38,10 @@ public struct SLShortsCollectionModel : BaseResponsable, RawDataRepresantable {
         self.hasMore = try? parser.parse(targetType: Bool.self, key: Model.CodingKeys.hasMore)
     }
     
-    public func getRawDataDict() -> [String : Any]? {
+    public func getRawDataDict() -> [String: Any]? {
         guard let data = rawData else { return nil }
         do {
-            let json = try JSONSerialization.jsonObject(with: data) as? [String : Any]
+            let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
             return json
         }
         catch(_) {

@@ -21,7 +21,7 @@ class CustomUtmSourceAlertController: CustomInputAlertController {
     
     private var placeHolder: String = "utm.alert.placeholder".localized()
     
-    var utmType : UtmType = .source {
+    var utmType: UtmType = .source {
         didSet {
             switch utmType {
             case .source:

@@ -33,7 +33,7 @@ final class VersionInfoCell: SampleBaseCell {
             return "Referrer: \(referrer)"
         }
         
-        var customAnonIdButtonTitle : String {
+        var customAnonIdButtonTitle: String {
             guard let anonId = DemoConfiguration.shared.anonId, !anonId.isEmpty else {
                 return "anonId 미입력"
             }
@@ -48,7 +48,7 @@ final class VersionInfoCell: SampleBaseCell {
             return "adId: \(referrer)"
         }
         
-        var utmSourceTitle : String {
+        var utmSourceTitle: String {
             guard let value = DemoConfiguration.shared.utmSource, !value.isEmpty else {
                 return "utmSource: 미입력"
             }
@@ -57,7 +57,7 @@ final class VersionInfoCell: SampleBaseCell {
         }
         
         
-        var utmContentTitle : String {
+        var utmContentTitle: String {
             guard let value = DemoConfiguration.shared.utmContent, !value.isEmpty else {
                 return "utmContent: 미입력"
             }
@@ -65,14 +65,14 @@ final class VersionInfoCell: SampleBaseCell {
             return "utmContent: \(value)"
         }
         
-        var utmCampaignTitle : String {
+        var utmCampaignTitle: String {
             guard let value = DemoConfiguration.shared.utmCampaign, !value.isEmpty else {
                 return "utmCampaign: 미입력"
             }
-            return "utmCampaign : \(value)"
+            return "utmCampaign: \(value)"
         }
         
-        var utmMediumTitle : String {
+        var utmMediumTitle: String {
             guard let value = DemoConfiguration.shared.utmMedium, !value.isEmpty else {
                 return "utmMedium: 미입력"
             }
@@ -134,7 +134,7 @@ final class VersionInfoCell: SampleBaseCell {
     }()
 
 
-    private lazy var utmSourceBtn : UIButton = {
+    private lazy var utmSourceBtn: UIButton = {
         let view = UIButton(type: .custom)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
@@ -148,7 +148,7 @@ final class VersionInfoCell: SampleBaseCell {
     }()
     
     
-    private lazy var utmCampaignBtn : UIButton = {
+    private lazy var utmCampaignBtn: UIButton = {
         let view = UIButton(type: .custom)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
@@ -161,7 +161,7 @@ final class VersionInfoCell: SampleBaseCell {
         return view
     }()
     
-    private lazy var utmContentBtn : UIButton = {
+    private lazy var utmContentBtn: UIButton = {
         let view = UIButton(type: .custom)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
@@ -174,7 +174,7 @@ final class VersionInfoCell: SampleBaseCell {
         return view
     }()
     
-    private lazy var utmMediumBtn : UIButton = {
+    private lazy var utmMediumBtn: UIButton = {
         let view = UIButton(type: .custom)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
@@ -367,7 +367,7 @@ final class VersionInfoCell: SampleBaseCell {
     }
     
     @objc
-    private func didTapUtmBtns(sender : UIButton) {
+    private func didTapUtmBtns(sender: UIButton) {
         let vc = CustomUtmSourceAlertController(completion: { [weak self] in
                 self?.updateAdId()
                 self?.baseDelegate?.updateDatas()

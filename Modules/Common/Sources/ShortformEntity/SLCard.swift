@@ -8,14 +8,14 @@
 
 import Foundation
 
-public enum SLShortformConvertStatus : Codable {
+public enum SLShortformConvertStatus: Codable {
     case READY
     case IN_PROGRESS
     case COMPLETE
     case FAILED
     case CANCELLED
     
-    init(rawValue : String) {
+    init(rawValue: String) {
         switch rawValue {
         case "READY":
             self = .READY
@@ -33,7 +33,7 @@ public enum SLShortformConvertStatus : Codable {
     }
 }
 
-public struct SLCardModel : Codable {
+public struct SLCardModel: Codable {
     public let duration, playCount, playDuration: Int?
     public let source: String?
     public let videoId: String?
@@ -42,26 +42,26 @@ public struct SLCardModel : Codable {
     // 웹클라이언트 요청으로 주석처리, 기존에 사용안하고 있음.
     // let srn: String?
     public let videoUrl, previewVideoUrl: String?
-    public let originVideoUrl : String?
-    public let convertStatus : SLShortformConvertStatus?
+    public let originVideoUrl: String?
+    public let convertStatus: SLShortformConvertStatus?
     public let screenshotUrl: String? //1순위
-    public let specifiedScreenShotUrl : String? //2순위
+    public let specifiedScreenShotUrl: String? //2순위
     public let cardType: String?
     
     
     
     //added 2024-03
-    public let srn : String?
-    public let playerType : String?
-    public let timeOnlyClips : [TimeOnlyClip]?
-    public let width : CGFloat?
-    public let height : CGFloat?
+    public let srn: String?
+    public let playerType: String?
+    public let timeOnlyClips: [TimeOnlyClip]?
+    public let width: CGFloat?
+    public let height: CGFloat?
     
     //유투브용
-    public let externalVideoType : String?
-    public let externalVideoUrl : String?
-    public let externalVideoId : String?
-    public let externalVideoThumbnail : String?
+    public let externalVideoType: String?
+    public let externalVideoUrl: String?
+    public let externalVideoId: String?
+    public let externalVideoThumbnail: String?
     
     
     public init(from decoder: Decoder) throws {
@@ -179,11 +179,11 @@ public struct Clip: Codable {
     
 }
 
-public struct TimeOnlyClip : Codable {
-    public let title : String?
-    public let from : Double?
-    public let to : Double?
-    public let subtitles : [String]?
+public struct TimeOnlyClip: Codable {
+    public let title: String?
+    public let from: Double?
+    public let to: Double?
+    public let subtitles: [String]?
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -207,36 +207,36 @@ public struct TimeOnlyClip : Codable {
 
 
 
-@objc public final class ShopLiveShortformCardData : NSObject {
-    public var duration : Int?
-    public var playCount : Int?
-    public var playDuration : Int?
-    public var source : String?
-    public var videoId : String?
-    public var campaignId : String?
-    public var clips : [ShopLiveShortformClipData]?
-    public var videoUrl : String?
-    public var previewVideoUrl : String?
-    public let originVideoUrl : String?
-    public let convertStatus : SLShortformConvertStatus?
-    public var screenShotUrl : String?
-    public var specifiedScreenShotUrl : String?
-    public var cardType : String?
+@objc public final class ShopLiveShortformCardData: NSObject {
+    public var duration: Int?
+    public var playCount: Int?
+    public var playDuration: Int?
+    public var source: String?
+    public var videoId: String?
+    public var campaignId: String?
+    public var clips: [ShopLiveShortformClipData]?
+    public var videoUrl: String?
+    public var previewVideoUrl: String?
+    public let originVideoUrl: String?
+    public let convertStatus: SLShortformConvertStatus?
+    public var screenShotUrl: String?
+    public var specifiedScreenShotUrl: String?
+    public var cardType: String?
     
-    public var srn : String?
-    public var playerType : String?
-    public var timeOnlyClips : [ShopLiveShortformTimeOnlyClipData]?
-    public var width : CGFloat?
-    public var heigh : CGFloat?
+    public var srn: String?
+    public var playerType: String?
+    public var timeOnlyClips: [ShopLiveShortformTimeOnlyClipData]?
+    public var width: CGFloat?
+    public var heigh: CGFloat?
     
-    public var externalVideoType : String?
-    public var externalVideoUrl : String?
-    public var externalVideoId : String?
-    public var externalVideoThumbnail : String?
+    public var externalVideoType: String?
+    public var externalVideoUrl: String?
+    public var externalVideoId: String?
+    public var externalVideoThumbnail: String?
     
     public init(duration: Int? = nil, playCount: Int? = nil, playDuration: Int? = nil, source: String? = nil, videoId: String? = nil,
                 campaignId: String? = nil, clips: [ShopLiveShortformClipData]? = nil, videoUrl: String? = nil, previewVideoUrl: String? = nil,
-                originVideoUrl : String? = nil, convertStatus: SLShortformConvertStatus? = nil, screenShotUrl: String? = nil,
+                originVideoUrl: String? = nil, convertStatus: SLShortformConvertStatus? = nil, screenShotUrl: String? = nil,
                 specifiedScreenShotUrl: String? = nil, cardType: String? = nil, srn: String? = nil, playerType: String? = nil,
                 timeOnlyClips: [ShopLiveShortformTimeOnlyClipData]? = nil, width: CGFloat? = nil, heigh: CGFloat? = nil,
                 externalVideoType: String? = nil, externalVideoUrl: String? = nil, externalVideoId: String? = nil, externalVideoThumbnail: String? = nil) {
@@ -267,12 +267,12 @@ public struct TimeOnlyClip : Codable {
     
 }
 
-@objc public final class ShopLiveShortformClipData : NSObject {
+@objc public final class ShopLiveShortformClipData: NSObject {
     
-    public var title : String?
-    public var clipTitle : String?
-    public var from : Int?
-    public var to : Int?
+    public var title: String?
+    public var clipTitle: String?
+    public var from: Int?
+    public var to: Int?
     
     public init(title: String? = nil, clipTitle: String? = nil, from: Int? = nil, to: Int? = nil) {
         self.title = title
@@ -283,11 +283,11 @@ public struct TimeOnlyClip : Codable {
 }
 
 
-@objc public final class ShopLiveShortformTimeOnlyClipData : NSObject {
-    public var title : String?
-    public var from : Double?
-    public var to : Double?
-    public var subTitles : [String]?
+@objc public final class ShopLiveShortformTimeOnlyClipData: NSObject {
+    public var title: String?
+    public var from: Double?
+    public var to: Double?
+    public var subTitles: [String]?
     
     public init(title: String? = nil, from: Double? = nil, to: Double? = nil, subTitles: [String]? = nil) {
         self.title = title

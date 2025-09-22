@@ -8,12 +8,12 @@
 
 import Foundation
 
-public struct SLBrandModel : Codable {
-    public let id : Int?
-    public let identifier : String?
-    public let imageUrl : String?
-    public let name : String?
-    public let traceId : String?
+public struct SLBrandModel: Codable {
+    public let id: Int?
+    public let identifier: String?
+    public let imageUrl: String?
+    public let name: String?
+    public let traceId: String?
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -33,12 +33,12 @@ public struct SLBrandModel : Codable {
     
 }
 
-@objc public class BrandData : NSObject {
-    public var id : Int?
-    public var identifier : String?
-    public var imageUrl : String?
-    public var name : String?
-    public var traceId : String?
+@objc public class BrandData: NSObject {
+    public var id: Int?
+    public var identifier: String?
+    public var imageUrl: String?
+    public var name: String?
+    public var traceId: String?
     
     init(id: Int? = nil, identifier: String? = nil, imageUrl: String? = nil, name: String? = nil, traceId: String? = nil) {
         self.id = id

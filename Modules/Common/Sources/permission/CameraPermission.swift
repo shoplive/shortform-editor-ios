@@ -42,8 +42,6 @@ final class CameraPermission: Permission, SLResultObservable {
         
         AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { [weak self] in
             guard let self = self else { return }
-//            ShopLiveLogger.devLog("[\(self.name)] requestAccess status: \(self.status.description)")
-
             self.permissionState = $0 ? .authorized : .denied
             self.resultHandler?(.permissionStatusChanged(self.permissionState))
         })

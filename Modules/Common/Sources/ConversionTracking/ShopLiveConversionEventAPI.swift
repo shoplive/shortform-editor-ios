@@ -9,10 +9,10 @@
 import Foundation
 
 
-struct ShopLiveConversionEventAPI : APIDefinition {
+struct ShopLiveConversionEventAPI: APIDefinition {
     typealias ResultType = ShopLiveEventRequest
     
-    static var baseurl : String = "https://dev-capi.shoplive.cloud"
+    static var baseurl: String = "https://dev-capi.shoplive.cloud"
     
     var baseUrl: String {
         return Self.baseurl
@@ -31,8 +31,8 @@ struct ShopLiveConversionEventAPI : APIDefinition {
         .post
     }
     
-    var parameters: [String : Any]? {
-        var params : [String : Any] = [:]
+    var parameters: [String: Any]? {
+        var params: [String: Any] = [:]
         if let anonId = anonId {
             params["anonId"] = anonId
         }
@@ -57,18 +57,16 @@ struct ShopLiveConversionEventAPI : APIDefinition {
         
         if let products = products, products.isEmpty == false {
             do {
-                var temp : [[String:Any]] = []
+                var temp: [[String:Any]] = []
                 for item in products {
                     let jsonData = try JSONEncoder().encode(item)
-                    if let dict = try JSONSerialization.jsonObject(with: jsonData,options: .allowFragments) as? [String : Any] {
+                    if let dict = try JSONSerialization.jsonObject(with: jsonData,options: .allowFragments) as? [String: Any] {
                         temp.append(dict)
                     }
                 }
                 params["products"] = temp
             }
-            catch(let error) {
-                ShopLiveLogger.tempLog("error \(error)")
-            }
+            catch { }
         }
         
         if let referrer = referrer {
@@ -90,18 +88,18 @@ struct ShopLiveConversionEventAPI : APIDefinition {
     }
     
     
-    var anonId : String?
-    var custom : String?
-    var env : String?
-    var ceId : String?
-    var idfv : String?
-    var idfa : String?
-    var osType : String?
-    var products : [ShopLiveEventProduct]?
-    var referrer : String?
-    var type : String?
-    var userId : String?
-    var orderId : String?
-    var createdAt : Int?
+    var anonId: String?
+    var custom: String?
+    var env: String?
+    var ceId: String?
+    var idfv: String?
+    var idfa: String?
+    var osType: String?
+    var products: [ShopLiveEventProduct]?
+    var referrer: String?
+    var type: String?
+    var userId: String?
+    var orderId: String?
+    var createdAt: Int?
     
 }

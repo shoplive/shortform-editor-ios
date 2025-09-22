@@ -14,7 +14,7 @@ import UIKit
 
 public struct ShopLiveEvent {
     
-    public static func sendConversionEvent(data : ShopLiveConversionData) {
+    public static func sendConversionEvent(data: ShopLiveConversionData) {
         
         ShopLiveCommonConfigurationManager.shared.callHostConfigAPI { result in
             switch result {
@@ -33,8 +33,8 @@ public struct ShopLiveEvent {
                                            osType: "i",
                                            products: data.products?.map{ $0.toShopLiveEventProduct() },
                                            referrer: data.referrer,
-                                           type : data.type,
-                                           userId : ShopLiveCommon.getUser()?.userId,
+                                           type: data.type,
+                                           userId: ShopLiveCommon.getUser()?.userId,
                                            orderId: data.orderId,
                                            createdAt: currentMilliSeconds ).request { result in
                     

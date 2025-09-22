@@ -405,10 +405,10 @@ final class UserInfoViewController: SideMenuItemViewController {
         userIdInputField.text = user.userId
         userNameInputField.text = user.userName ?? ""
         let age = user.age ?? -1
-        ageInputField.text = age >= 0 ? "\(age)" : ""
+        ageInputField.text = age >= 0 ? "\(age)": ""
         updateGender(identifier: user.gender?.rawValue ?? "unknown")
         let userScore = DemoConfiguration.shared.userScore
-        userScoreInputField.text = userScore != nil ? "\(userScore!)" : ""
+        userScoreInputField.text = userScore != nil ? "\(userScore!)": ""
         ShopLiveCommon.setUser(user: user)
         jwtInputField.text = ShopLiveCommon.getAuthToken()
         
