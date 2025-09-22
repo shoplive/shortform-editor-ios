@@ -37,8 +37,7 @@ import ShopliveSDKCommon
     private var customerVideoResizeMode: ShopLiveResizeMode?
     private var isForceStartWithPortraitMode: Bool = true
     
-    ///타임 핸들링용 타이머
-    private var debounceTimer: Timer?
+    private let throttle = SLThrottle(queue: .main, delay: 0.5)
     
 #if EBAY
 #else
@@ -1896,69 +1895,69 @@ extension ShopLiveBase: ShopLiveComponent {
         
         ShopLiveController.shared._playerMode = .preview
         let delay = ShopLiveController.shared.execusedClose ? 0.8: 0.0
-        debounceTimer?.invalidate()
-        debounceTimer = Timer.scheduledTimer(withTimeInterval: delay, repeats: false) { [weak self] _ in
-               guard let self else { return }
-               self.resetQueryParameters()
-               
-               ShopLiveController.shared.execusedClose = false
-               guard ShopLiveCommon.getAccessKey() != nil else { return }
-               
-               let audioSessionManager = SLAudioSessionManager.shared
-               if self._style == .unknown {
-                   audioSessionManager.customerAudioCategoryOptions = audioSessionManager.currentCategoryOptions
-               }
-               
-               audioSessionManager.setCategory(category: ShopLiveConfiguration.SoundPolicy.audioSessionCategory, options: .mixWithOthers)
-               
-               if let referrer = referrer {
-                   self.queryParameters["referrer"] = String(referrer.prefix(1024))
-               }
-               
-               self.queryParameters["_from"] = "sdk_direct"
-               
-               ShopLiveController.shared.campaignKey = campaignKey ?? ""
-               
-               self.delegate?.onEvent?(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type": "preview"])
-               
-               self.addObserver()
-               
-               
-               if !ShopLiveController.shared.isPreview && ShopLiveController.windowStyle == .normal {
-                   if ShopLiveController.shared.isSameCampaign {
-                       self.liveStreamViewController?.takeSnapShot(completion: {
+        throttle.callAsFunction {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+                   guard let self else { return }
+                   self.resetQueryParameters()
+                   
+                   ShopLiveController.shared.execusedClose = false
+                   guard ShopLiveCommon.getAccessKey() != nil else { return }
+                   
+                   let audioSessionManager = SLAudioSessionManager.shared
+                   if self._style == .unknown {
+                       audioSessionManager.customerAudioCategoryOptions = audioSessionManager.currentCategoryOptions
+                   }
+                   
+                   audioSessionManager.setCategory(category: ShopLiveConfiguration.SoundPolicy.audioSessionCategory, options: .mixWithOthers)
+                   
+                   if let referrer = referrer {
+                       self.queryParameters["referrer"] = String(referrer.prefix(1024))
+                   }
+                   
+                   self.queryParameters["_from"] = "sdk_direct"
+                   
+                   ShopLiveController.shared.campaignKey = campaignKey ?? ""
+                   
+                   self.delegate?.onEvent?(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type": "preview"])
+                   
+                   self.addObserver()
+                   
+                   
+                   if !ShopLiveController.shared.isPreview && ShopLiveController.windowStyle == .normal {
+                       if ShopLiveController.shared.isSameCampaign {
+                           self.liveStreamViewController?.takeSnapShot(completion: {
+                               self.liveStreamViewController?.updateImageFit()
+                               self.startCustomPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
+                           })
+                       } else {
                            self.liveStreamViewController?.updateImageFit()
                            self.startCustomPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
-                       })
-                   } else {
-                       self.liveStreamViewController?.updateImageFit()
-                       self.startCustomPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
+                       }
                    }
-               }
-               
-               ShopLiveController.shared.isPreview = true
-               
-               self.previewCallback = completion
-               self.campaignKey = campaignKey
-               self.fetchOverlayUrl(with: campaignKey,isPreview: true,previewResolution: resolution) { [weak self] url in
-                   guard let url = url,
-                         let self = self else {
-                       self?.removeObserver()
-                       return
-                   }
-                   self.windowChangeCommand = .none
-                   self.isWindowChanging = false
                    
-                   //가로에서 세로, 세로에서 가로로 갈때도 분기를 쳐줘야 함.
-                   if ShopLiveController.windowStyle == .inAppPip && (windowAnimator?.isRunning ?? false) == false {
-                       self.changePlayerItemOnlyInPreview(url: url, resolution: resolution)
+                   ShopLiveController.shared.isPreview = true
+                   
+                   self.previewCallback = completion
+                   self.campaignKey = campaignKey
+                   self.fetchOverlayUrl(with: campaignKey,isPreview: true,previewResolution: resolution) { [weak self] url in
+                       guard let url = url,
+                             let self = self else {
+                           self?.removeObserver()
+                           return
+                       }
+                       self.windowChangeCommand = .none
+                       self.isWindowChanging = false
+                       
+                       //가로에서 세로, 세로에서 가로로 갈때도 분기를 쳐줘야 함.
+                       if ShopLiveController.windowStyle == .inAppPip && (windowAnimator?.isRunning ?? false) == false {
+                           self.changePlayerItemOnlyInPreview(url: url, resolution: resolution)
+                       }
+                       else {
+                           self.callShopLiveViewFromPreview(url: url,resolution: resolution)
+                       }
                    }
-                   else {
-                       self.callShopLiveViewFromPreview(url: url,resolution: resolution)
-                   }
-               }
-           
-        }
+            }
+        } onCancel: { }
     }
     
     private func changePlayerItemOnlyInPreview(url: URL,resolution: ShopLivePlayerPreviewResolution) {
@@ -2032,52 +2031,53 @@ extension ShopLiveBase: ShopLiveComponent {
         
         ShopLiveController.shared._playerMode = .play
         let delay = ShopLiveController.shared.execusedClose ? 0.8 : 0.0
-        debounceTimer?.invalidate()
-        debounceTimer = Timer.scheduledTimer(withTimeInterval: delay, repeats: false) { [weak self] _ in
-            guard let self else { return }
-            resetQueryParameters()
-            ShopLiveController.shared.execusedClose = false
-            guard ShopLiveCommon.getAccessKey() != nil else { return }
-            
-            if let referrer = referrer {
-                queryParameters["referrer"] = String(referrer.prefix(1024))
-            }
-            
-            ShopLiveController.shared.campaignKey = campaignKey ?? ""
-            
-            needExecuteFullScreen = ShopLiveController.shared.isPreview
-            
-            let audioSessionManager = SLAudioSessionManager.shared
-            if _style == .unknown {
-                audioSessionManager.customerAudioCategoryOptions = audioSessionManager.currentCategoryOptions
-            }
-            
-            let categoryOption: AVAudioSession.CategoryOptions = ShopLiveConfiguration.SoundPolicy.useMixWithOthers ? .mixWithOthers: audioSessionManager.customerAudioCategoryOptions
-            
-            audioSessionManager.setCategory(category: ShopLiveConfiguration.SoundPolicy.audioSessionCategory, options: categoryOption)
-            
-            if needExecuteFullScreen {
-                queryParameters["_from"] = "sdk_preview"
-                delegate?.onEvent?(name: "preview_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
-            } else {
-                queryParameters["_from"] = "sdk_direct"
-            }
-            delegate?.onEvent?(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type": "normal"])
-            ShopLiveController.shared.isPreview = false
-            addObserver()
-            campaignChanged = (campaignKey != self.campaignKey)
-            self.campaignKey = campaignKey
-            
-            fetchOverlayUrl(with: campaignKey,isPreview: false) { [weak self] url in
-                guard let self, let url else {
-                    self?.removeObserver()
-                    return
+        throttle.callAsFunction {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+                guard let self else { return }
+                resetQueryParameters()
+                ShopLiveController.shared.execusedClose = false
+                guard ShopLiveCommon.getAccessKey() != nil else { return }
+                
+                if let referrer = referrer {
+                    queryParameters["referrer"] = String(referrer.prefix(1024))
                 }
-                windowChangeCommand = .none
-                isWindowChanging = false
-                callShowShopLiveViewFromPlay(url: url)
+                
+                ShopLiveController.shared.campaignKey = campaignKey ?? ""
+                
+                needExecuteFullScreen = ShopLiveController.shared.isPreview
+                
+                let audioSessionManager = SLAudioSessionManager.shared
+                if _style == .unknown {
+                    audioSessionManager.customerAudioCategoryOptions = audioSessionManager.currentCategoryOptions
+                }
+                
+                let categoryOption: AVAudioSession.CategoryOptions = ShopLiveConfiguration.SoundPolicy.useMixWithOthers ? .mixWithOthers: audioSessionManager.customerAudioCategoryOptions
+                
+                audioSessionManager.setCategory(category: ShopLiveConfiguration.SoundPolicy.audioSessionCategory, options: categoryOption)
+                
+                if needExecuteFullScreen {
+                    queryParameters["_from"] = "sdk_preview"
+                    delegate?.onEvent?(name: "preview_to_player_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
+                } else {
+                    queryParameters["_from"] = "sdk_direct"
+                }
+                delegate?.onEvent?(name: "player_start", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type": "normal"])
+                ShopLiveController.shared.isPreview = false
+                addObserver()
+                campaignChanged = (campaignKey != self.campaignKey)
+                self.campaignKey = campaignKey
+                
+                fetchOverlayUrl(with: campaignKey,isPreview: false) { [weak self] url in
+                    guard let self, let url else {
+                        self?.removeObserver()
+                        return
+                    }
+                    windowChangeCommand = .none
+                    isWindowChanging = false
+                    callShowShopLiveViewFromPlay(url: url)
+                }
             }
-        }
+        } onCancel: { }
     }
     
     private func callShowShopLiveViewFromPlay(url: URL) {
