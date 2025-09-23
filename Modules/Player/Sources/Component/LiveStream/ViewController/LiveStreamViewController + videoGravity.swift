@@ -15,47 +15,35 @@ import AVKit
 extension LiveStreamViewController {
     
     /// 웹에서 SET_VIDEO_POSITION 명령으로 재생 뷰 프레임 변경
-    func updatePlayerViewFrameFromWeb(targetFrame: CGRect) {
+    func updatePlayerViewFrameFromWeb(targetFrame: CGRect, isCenterCrop: Bool) {
         let targetVideoGravity = self.getVideoGravity(windowStyle: .normal)
         playerView.playerLayer?.videoGravity = targetVideoGravity
-        
-        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .linear) { [weak self] in
-            guard let self = self else { return }
-            self.playerTopConstraint.constant = targetFrame.origin.y
-            self.playerLeadingConstraint.constant = targetFrame.origin.x
-            self.playerRightConstraint.constant = -targetFrame.size.width
-            self.playerBottomConstraint.constant = -targetFrame.size.height
-            
-            self.refreshSnapShotImageViewWhenPlayerViewFrameUpdatedFromWebAndBlock()
-            self.playerView.setNeedsLayout()
-            self.playerView.layoutIfNeeded()
+        if !isCenterCrop {
+            playerView.playerLayer?.videoGravity = .resizeAspect
         }
         
-        animator.startAnimation()
+        self.refreshSnapShotImageViewWhenPlayerViewFrameUpdatedFromWebAndBlock()
+        self.playerTopConstraint.constant = targetFrame.origin.y
+        self.playerLeadingConstraint.constant = targetFrame.origin.x
+        self.playerRightConstraint.constant = -targetFrame.size.width
+        self.playerBottomConstraint.constant = -targetFrame.size.height
+        self.playerView.layoutIfNeeded()
     }
     
     /**
      ShopliveBase에서  play()에서 불림, 나머지 경우는 전부 현재 파일안에서 불림
      앱 내부에서 재생 뷰 프레임 변경 요청
      */
-    func updatePlayerViewFrameFromApp(targetFrame: CGRect,from: String = #function) {
-//        guard let playerView = self.playerView else { return }
+    func updatePlayerViewFrameFromApp(targetFrame: CGRect) {
         
         let targetVideoGravity = self.getVideoGravity(windowStyle: .normal)
         playerView.playerLayer?.videoGravity = targetVideoGravity
+        self.playerTopConstraint.constant = targetFrame.origin.y
+        self.playerLeadingConstraint.constant = targetFrame.origin.x
+        self.playerRightConstraint.constant = -targetFrame.size.width
+        self.playerBottomConstraint.constant = -targetFrame.size.height
         
-        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .linear) { [weak self] in
-            guard let self = self else { return }
-            self.playerTopConstraint.constant = targetFrame.origin.y
-            self.playerLeadingConstraint.constant = targetFrame.origin.x
-            self.playerRightConstraint.constant = -targetFrame.size.width
-            self.playerBottomConstraint.constant = -targetFrame.size.height
-            
-            playerView.setNeedsLayout()
-            playerView.layoutIfNeeded()
-        }
-        
-        animator.startAnimation()
+        playerView.layoutIfNeeded()
     }
     
     
@@ -160,7 +148,7 @@ extension LiveStreamViewController {
     
     /// OS PiP 복귀 시 비디오 레이어 Gravity 설정
     private func setVideoDefaultFrame() {
-        if UIScreen.isLandscape {
+        if UIScreen.isLandscape_SL {
             ShopLiveController.shared.videoFrame.landscape.expanded = .zero
         } else {
             let height = UIScreen.main.bounds.height - (UIScreen.main.bounds.width * (ShopLiveController.shared.videoRatio.height / ShopLiveController.shared.videoRatio.width))
@@ -171,7 +159,7 @@ extension LiveStreamViewController {
     /// 초기 재생 시 AVPlayerLayer의 videoGravity 설정
     private func getTargetFrameForUpdatePlayerView() -> CGRect? {
         var playerFrame: CGRect?
-        if UIScreen.isLandscape {
+        if UIScreen.isLandscape_SL {
             if ShopLiveController.shared.videoExpanded {
                 playerFrame = ShopLiveController.shared.videoFrame.landscape.expanded
             }
@@ -198,14 +186,14 @@ extension LiveStreamViewController {
 extension LiveStreamViewController {
     
     
-    private func getVideoGravity(windowStyle: ShopLiveWindowStyle, from: String = #function) -> AVLayerVideoGravity {
+    private func getVideoGravity(windowStyle: ShopLiveWindowStyle) -> AVLayerVideoGravity {
         if windowStyle == .inAppPip {
             return .resizeAspectFill
         }
         else if UIDevice.isIpad {
             return .resizeAspectFill
         }
-        else if UIScreen.isLandscape {
+        else if UIScreen.isLandscape_SL {
             return .resizeAspect
         }
         else if let resizeMode = self.getResizeMode() {
@@ -217,7 +205,7 @@ extension LiveStreamViewController {
     }
     
     private func getResizeMode() -> AVLayerVideoGravity? {
-        if let resizeMode = self.viewModel.getResizeMode(), UIDevice.isIpad == false, UIScreen.isLandscape == false, ShopLiveController.shared.isPreview == false {
+        if let resizeMode = self.viewModel.getResizeMode(), UIDevice.isIpad == false, UIScreen.isLandscape_SL == false, ShopLiveController.shared.isPreview == false {
             return resizeMode == .CENTER_CROP ? .resizeAspectFill : .resizeAspect
         }
         else {
@@ -226,11 +214,10 @@ extension LiveStreamViewController {
     }
     
     /**
-        OsPip에서 올라올때 사용
-        keepWindowStyleOnReturnFromOsPip 의 여부는 무시해도 됨. 결국은 전체 화면 -> preview, pip로 가는 것이기 때문
+     OsPip에서 올라올때 사용
+     keepWindowStyleOnReturnFromOsPip 의 여부는 무시해도 됨. 결국은 전체 화면 -> preview, pip로 가는 것이기 때문
      */
     func setVideoLayerGravityOnOsPipRestoration(){
-//        guard let playerView = playerView else { return }
         playerView.playerLayer?.videoGravity = self.getVideoGravity(windowStyle: .normal)
     }
     

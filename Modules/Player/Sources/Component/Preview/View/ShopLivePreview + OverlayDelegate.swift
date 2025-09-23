@@ -98,7 +98,7 @@ extension ShopLivePlayerPreview: OverlayWebViewDelegate {
         resultHandler?( .handleReceivedCommand(command: command, payload: payload) )
     }
     
-    func updatePlayerViewFrameFromWeb(targetFrame: CGRect) {
+    func updatePlayerViewFrameFromWeb(targetFrame: CGRect, isCenterCrop: Bool) {
         //
     }
     

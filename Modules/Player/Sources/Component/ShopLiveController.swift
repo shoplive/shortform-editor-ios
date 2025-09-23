@@ -78,7 +78,6 @@ final class ShopLiveController: NSObject {
 
     weak var delegate: ShopLiveControllerDelegate?
     
-    
     private override init() {
         super.init()
     }
@@ -117,7 +116,6 @@ final class ShopLiveController: NSObject {
     @objc dynamic var isPreview: Bool = false
     @objc var isMuted: Bool = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
     
-
     var playerResumeCount: Int = 0
     
     var _playerMode: ShopLive.PlayerMode = .none
@@ -179,7 +177,7 @@ final class ShopLiveController: NSObject {
     }
     var supportOrientation: ShopLive.VideoOrientation = .unknown
     
-    var lastOrientaion: (direction: ShopLiveDefines.ShopLiveOrientaion, orientation: UIDeviceOrientation) = ((UIScreen.isLandscape ? .landscape: .portrait, UIScreen.currentOrientation.deviceOrientation))
+    var lastOrientaion: (direction: ShopLiveDefines.ShopLiveOrientaion, orientation: UIDeviceOrientation) = ((UIScreen.isLandscape_SL ? .landscape: .portrait, UIScreen.currentOrientation_SL.deviceOrientation_SL))
     
     var videoExpanded: Bool = true
     
@@ -286,12 +284,11 @@ final class ShopLiveController: NSObject {
         windowStyle = .none
         needReload = false
         isMuted = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
-        
         resetVideoDatas()
     }
     
     func resetVideoDatas() {
-        lastOrientaion = (UIScreen.isLandscape ? .landscape: .portrait, UIScreen.currentOrientation.deviceOrientation)
+        lastOrientaion = (UIScreen.isLandscape_SL ? .landscape: .portrait, UIScreen.currentOrientation_SL.deviceOrientation_SL)
         supportOrientation = .unknown
         videoRatio = ShopLiveDefines.defVideoRatio
         videoFrame = (nil, (nil, nil))

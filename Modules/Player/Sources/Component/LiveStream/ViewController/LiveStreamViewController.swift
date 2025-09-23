@@ -290,14 +290,10 @@ final class LiveStreamViewController: SLViewController {
                 self.setNeedsUpdateOfSupportedInterfaceOrientations()
                 self.navigationController?.setNeedsUpdateOfSupportedInterfaceOrientations()
                 
+                let mask: UIInterfaceOrientationMask = toLandscape ? [.landscapeLeft, .landscapeRight] : .portrait
                 // 2) iOS16+ 지오메트리 업데이트 (throw 처리)
                 if let windowScene = (self.view.window?.windowScene) ?? (UIApplication.shared.connectedScenes.first as? UIWindowScene) {
-                    let mask: UIInterfaceOrientationMask = toLandscape ? [.landscapeLeft, .landscapeRight] : .portrait
-                    do {
-                        try windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: mask))
-                    } catch {
-                        // 실패하면 아래 트리거로 폴백
-                    }
+                    windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: mask))
                 }
                 
                 // 3) 회전 트리거
@@ -313,9 +309,9 @@ final class LiveStreamViewController: SLViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        let currentOrientation: ShopLiveDefines.ShopLiveOrientaion = UIScreen.isLandscape ? .landscape : .portrait
+        let currentOrientation: ShopLiveDefines.ShopLiveOrientaion = UIScreen.isLandscape_SL ? .landscape : .portrait
         guard ShopLiveController.windowStyle != .osPip else {
-            ShopLiveController.shared.lastOrientaion = (currentOrientation, UIScreen.currentOrientation.deviceOrientation)
+            ShopLiveController.shared.lastOrientaion = (currentOrientation, UIScreen.currentOrientation_SL.deviceOrientation_SL)
             return
         }
         
@@ -333,13 +329,14 @@ final class LiveStreamViewController: SLViewController {
             self.shopliveHideKeyboard_SL()
         }
         
-        ShopLiveController.shared.lastOrientaion = (currentOrientation, UIScreen.currentOrientation.deviceOrientation)
+        ShopLiveController.shared.lastOrientaion = (currentOrientation, UIScreen.currentOrientation_SL.deviceOrientation_SL)
         
         self.requestHideOrShowSnapShotImageView(isHidden: true)
         coordinator.animate { _ in
             ShopLiveController.shared.inRotating = true
             self.delegate?.changeOrientation(to: currentOrientation)
-        } completion: { _ in
+        } completion: { [weak self] _ in
+            guard let self else { return }
             self.viewModel.checkIfSnapShotImageFrameNeedReCalculation()
             ShopLiveController.shared.inRotating = false
             self.delegate?.finishRotation()

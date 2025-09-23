@@ -37,7 +37,7 @@ import ShopliveSDKCommon
     private var customerVideoResizeMode: ShopLiveResizeMode?
     private var isForceStartWithPortraitMode: Bool = true
     
-    private let throttle = SLThrottle(queue: .main, delay: 0.5)
+    private let throttle = SLThrottle(queue: .main, delay: 0.9)
     
 #if EBAY
 #else
@@ -54,7 +54,7 @@ import ShopliveSDKCommon
     
     private var pipMax: CGFloat {
         let videoOrientaion: ShopLiveDefines.ShopLiveOrientaion = ShopLiveController.shared.videoOrientation
-        let maxHeight = (UIScreen.isLandscape ? UIScreen.main.bounds.height : UIScreen.main.bounds.width)
+        let maxHeight = (UIScreen.isLandscape_SL ? UIScreen.main.bounds.height : UIScreen.main.bounds.width)
         switch videoOrientaion {
         case .portrait:
             return UIDevice.isIpad ? maxHeight * 0.7 : maxHeight * 0.84615385
@@ -70,9 +70,9 @@ import ShopliveSDKCommon
         switch videoOrientaion {
         case .portrait:
             let minWidth = pipMin * (ShopLiveController.shared.videoRatio.width/ShopLiveController.shared.videoRatio.height)
-            return UIScreen.isLandscape ? minWidth / UIScreen.main.bounds.height : minWidth / UIScreen.main.bounds.width
+            return UIScreen.isLandscape_SL ? minWidth / UIScreen.main.bounds.height : minWidth / UIScreen.main.bounds.width
         case .landscape:
-            return UIScreen.isLandscape ? pipMin / UIScreen.main.bounds.height : pipMin / UIScreen.main.bounds.width
+            return UIScreen.isLandscape_SL ? pipMin / UIScreen.main.bounds.height : pipMin / UIScreen.main.bounds.width
         }
     }
     
@@ -82,9 +82,9 @@ import ShopliveSDKCommon
         switch videoOrientaion {
         case .portrait:
             let maxWidth = pipMax * (ShopLiveController.shared.videoRatio.width/ShopLiveController.shared.videoRatio.height)
-            return UIScreen.isLandscape ? maxWidth / UIScreen.main.bounds.height : maxWidth / UIScreen.main.bounds.width
+            return UIScreen.isLandscape_SL ? maxWidth / UIScreen.main.bounds.height : maxWidth / UIScreen.main.bounds.width
         case .landscape:
-            return UIScreen.isLandscape ? pipMax / UIScreen.main.bounds.height : pipMax / UIScreen.main.bounds.width
+            return UIScreen.isLandscape_SL ? pipMax / UIScreen.main.bounds.height : pipMax / UIScreen.main.bounds.width
         }
     }
     
@@ -442,7 +442,7 @@ import ShopliveSDKCommon
                 return CGSize(width: pipFixedWidthSize, height: pipFixedWidthSize * (defSize.height / defSize.width))
             }
         }
-        let width =  (UIScreen.isLandscape ? UIScreen.main.bounds.height : UIScreen.main.bounds.width) * scale
+        let width =  (UIScreen.isLandscape_SL ? UIScreen.main.bounds.height : UIScreen.main.bounds.width) * scale
         let height = (defSize.height / defSize.width) * width
         return CGSize(width: width, height: height)
     }
@@ -815,13 +815,12 @@ import ShopliveSDKCommon
             }
             if isRotation {
                 let param: Dictionary = Dictionary<String, Any>.init(
-                    dictionaryLiteral: ("top", UIScreen.safeArea.top),
-                    ("left", UIScreen.safeArea.left),
-                    ("right", UIScreen.safeArea.right),
-                    ("bottom", UIScreen.safeArea.bottom),
+                    dictionaryLiteral: ("top", UIScreen.safeArea_SL.top),
+                    ("left", UIScreen.safeArea_SL.left),
+                    ("right", UIScreen.safeArea_SL.right),
+                    ("bottom", UIScreen.safeArea_SL.bottom),
                     ("orientation", rotate)
                 )
-                
                 self.liveStreamViewController?.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
             } else {
                 self.delegate?.handleCommand?("willShopLiveOff", with: nil)
@@ -1364,41 +1363,20 @@ import ShopliveSDKCommon
     }
     
     @objc private func swipeDownGestureHandler(_ recognizer: UISwipeGestureRecognizer) {
-        if self.enabledPictureInPictureMode == false {
-            return
-        }
-        
-        guard ShopLiveController.shared.swipeEnabled else { return }
-        guard !ShopLiveController.shared.isPreview else { return }
-        guard _style == .fullScreen else { return }
+        guard enabledPictureInPictureMode != false,
+              ShopLiveController.shared.swipeEnabled,
+              !ShopLiveController.shared.isPreview,
+              _style == .fullScreen
+        else { return }
         guard let topViewController = UIApplication.topViewController(base: self.liveStreamViewController), topViewController.isKind(of: LiveStreamViewController.self) else {
             self.shopLiveWindow?.rootViewController?.dismiss(animated: false, completion: nil)
             return
         }
         delegate?.onEvent?(name: "swipe_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
+        
         if ShopLiveController.shared.videoOrientation == .landscape {
-            if UIScreen.isLandscape {
+            if UIScreen.isLandscape_SL {
                 self.liveStreamViewController?.updateOrientation(toLandscape: false)
-                let param: Dictionary = Dictionary<String, Any>.init(
-                    dictionaryLiteral: ("top", UIScreen.safeArea.top),
-                    ("left", UIScreen.safeArea.left),
-                    ("right", UIScreen.safeArea.right),
-                    ("bottom", UIScreen.safeArea.bottom),
-                    ("orientation", 0)
-                )
-                
-                self.liveStreamViewController?.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
-                self.liveStreamViewController?.updatePlayerViewFrameFromChangeOrientation(targetWindowStyle :ShopLiveController.windowStyle)
-                self.shopLiveWindow?.layer.removeAllAnimations()
-                
-                let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut)
-                animator.addAnimations({ [weak self] in
-                    guard let self = self else { return }
-                    self.shopLiveWindow?.layoutIfNeeded()
-                })
-                
-                animator.startAnimation()
-                
             } else {
                 self.startCustomPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
             }
@@ -2080,9 +2058,11 @@ extension ShopLiveBase: ShopLiveComponent {
                let vc = self.liveStreamViewController,
                ShopLiveController.shared.isPreview == false {
                 vc.refreshSnapShotImageViewAndBackgroundPosterImageWebViewWhenPlayCalled()
-                vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(accessKey: ak,
-                                                                 campaignKey: ShopLiveController.shared.campaignKey,
-                                                                 isPreview: false) { isSuccess in
+                vc.viewModel.updatePlayerItemWithLiveUrlFetchAPI(
+                    accessKey: ak,
+                    campaignKey: ShopLiveController.shared.campaignKey,
+                    isPreview: false
+                ) { isSuccess in
                     guard let playerFrame = vc.viewModel.getEstimatedPlayerFrameForFullScreenOnInitalize(), isSuccess else {
                         return
                     }
@@ -2144,7 +2124,7 @@ extension ShopLiveBase: ShopLiveComponent {
                 return convertPipScale(userScale: ShopLiveController.shared.lastPipScale)
             }
             
-            let fixedScale = fixPipWidth / (UIScreen.isLandscape ? UIScreen.main.bounds.height: UIScreen.main.bounds.width)
+            let fixedScale = fixPipWidth / (UIScreen.isLandscape_SL ? UIScreen.main.bounds.height: UIScreen.main.bounds.width)
             return (fixedScale >= 0.0 && fixedScale <= 1.0) ? fixedScale: (fixedScale < 0 ? 0.0: 1.0)
         }
         set {
@@ -2338,46 +2318,27 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     
-    func changeOrientation(to: ShopLiveDefines.ShopLiveOrientaion) {
+    func changeOrientation(to orientation: ShopLiveDefines.ShopLiveOrientaion) {
         self.inRotating = true
         if _style == .pip, ShopLiveController.windowStyle == .inAppPip {
             updatePip(isRotation: true)
         } else {
+
+            self.liveStreamViewController?.updatePlayerViewFrameFromChangeOrientation(targetWindowStyle :ShopLiveController.windowStyle)
+            self.shopLiveWindow?.layoutIfNeeded()
             
-            let orientation = UIDevice.current.orientation
             
-            var rotate: CGFloat = 0
-            switch orientation {
-            case .landscapeLeft:
-                rotate = 270
-            case .landscapeRight:
-                rotate = 90
-            case .unknown:
-                rotate = 270
-            case .portrait, .portraitUpsideDown:
-                rotate = 0
-            default: rotate = 270
-            }
+            let orientation = UIScreen.currentOrientation_SL.angl_SLe
+            
             let param: Dictionary = Dictionary<String, Any>.init(
-                dictionaryLiteral: ("top", UIScreen.safeArea.top),
-                ("left", UIScreen.safeArea.left),
-                ("right", UIScreen.safeArea.right),
-                ("bottom", UIScreen.safeArea.bottom),
-                ("orientation", rotate)
+                dictionaryLiteral: ("top", UIScreen.safeArea_SL.top),
+                ("left", UIScreen.safeArea_SL.left),
+                ("right", UIScreen.safeArea_SL.right),
+                ("bottom", UIScreen.safeArea_SL.bottom),
+                ("orientation", orientation)
             )
             
             self.liveStreamViewController?.sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
-            
-            self.liveStreamViewController?.updatePlayerViewFrameFromChangeOrientation(targetWindowStyle :ShopLiveController.windowStyle)
-            self.shopLiveWindow?.layer.removeAllAnimations()
-            
-            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut)
-            animator.addAnimations({ [weak self] in
-                guard let self = self else { return }
-                self.shopLiveWindow?.layoutIfNeeded()
-            })
-            
-            animator.startAnimation()
         }
     }
     

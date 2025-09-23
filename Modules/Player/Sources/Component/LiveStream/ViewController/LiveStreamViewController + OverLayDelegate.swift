@@ -23,7 +23,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
     
     func didUpdatePlaybackSpeed(speed: Float) {
-//        guard let playerView = playerView else { return }
         playerView.player.rate = speed
     }
     

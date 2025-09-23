@@ -380,10 +380,10 @@ final class LiveStreamViewModel: NSObject {
         
         var originX: CGFloat = 0
         if UIDevice.isIpad {
-            originX = UIScreen.leftSafeArea
+            originX = UIScreen.leftSafeArea_SL
         }
         else {
-            originX = UIScreen.isLandscape ? UIScreen.topSafeArea: UIScreen.leftSafeArea
+            originX = UIScreen.isLandscape_SL ? UIScreen.topSafeArea_SL : UIScreen.leftSafeArea_SL
         }
         let originY: CGFloat = 0
         
