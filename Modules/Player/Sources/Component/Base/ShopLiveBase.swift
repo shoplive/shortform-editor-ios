@@ -197,7 +197,6 @@ import ShopliveSDKCommon
         }
         
         if !ShopLiveController.shared.isPreview {
-            let audioSession = AVAudioSession.sharedInstance()
             let audioSessionManager = SLAudioSessionManager.shared
             audioSessionManager.setCategory(category: ShopLiveConfiguration.SoundPolicy.audioSessionCategory, options: audioSessionManager.currentCategoryOptions)
         }

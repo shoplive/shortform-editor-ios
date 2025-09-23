@@ -341,7 +341,6 @@ extension OverlayWebView: WKScriptMessageHandler {
                     }
                     
                     guard let orientation = parameters?["orientation"] as? String else {
-                        self.delegate?.updateOrientation(toLandscape: false)
                         return
                     }
                     
@@ -354,10 +353,10 @@ extension OverlayWebView: WKScriptMessageHandler {
                         ("bottom", UIScreen.safeArea.bottom),
                         ("orientation", "LANDSCAPE" == orientation ? 270 : 0)
                     )
-                    
+
                     sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
-                    
                     break
+                    
                 case "SET_PLAYBACK_SPEED":
                     if let playBackSpeed = parameters?["rate"] as? Float {
                         self.delegate?.didUpdatePlaybackSpeed(speed: playBackSpeed)
