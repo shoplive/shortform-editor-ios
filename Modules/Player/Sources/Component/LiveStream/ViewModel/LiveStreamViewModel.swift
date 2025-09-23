@@ -429,7 +429,7 @@ final class LiveStreamViewModel: NSObject {
     
     func checkIfSnapShotImageFrameNeedReCalculation() {
         guard ShopLiveController.windowStyle == .normal else { return }
-        if let current = liveStreamViewController?.playerView?.playerLayer?.videoRect {
+        if let current = liveStreamViewController?.playerView.playerLayer?.videoRect {
             if current != .zero && current.width != 0 && current.height != 0 &&
                 ShopLiveController.windowStyle == .normal {
                 //프리뷰 inAppPip를 제외시키는 이유는 preview 자체 크기로 인해서 videoRect가 결정이 되서
@@ -537,7 +537,7 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
                 setSoundMuteStateOnFirstPlay()
                 self.play()
                 
-                if let current = liveStreamViewController?.playerView?.playerLayer?.videoRect {
+                if let current = liveStreamViewController?.playerView.playerLayer?.videoRect {
                     if current != .zero && current.width != 0 && current.height != 0 &&
                         ShopLiveController.windowStyle == .normal {
                         //프리뷰 inAppPip를 제외시키는 이유는 preview 자체 크기로 인해서 videoRect가 결정이 되서

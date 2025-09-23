@@ -122,7 +122,6 @@ import ShopliveSDKCommon
     var osPictureInPictureController: SLPictureInPictureController?
     
     var pipPossibleObservation: NSKeyValueObservation?
-    var originAudioSessionCategory: AVAudioSession.Category?
     
     var isWindowChanging = false
     var windowChangeCommand: ShopLiveWindowChangeCommand = .none
@@ -159,7 +158,7 @@ import ShopliveSDKCommon
         if _style != .unknown {
             self.liveStreamViewController?.viewModel.overayUrl = overlayUrl
             self.liveStreamViewController?.reload()
-            self.liveStreamViewController?.updateChattingWriteView()
+            self.liveStreamViewController?.updateChattingViewPlaceholderVisibility()
             if self.needExecuteFullScreen {
                 if ShopLiveController.shared.isSameCampaign {
                     self.liveStreamViewController?.takeSnapShot()
@@ -200,7 +199,6 @@ import ShopliveSDKCommon
         if !ShopLiveController.shared.isPreview {
             let audioSession = AVAudioSession.sharedInstance()
             let audioSessionManager = SLAudioSessionManager.shared
-            originAudioSessionCategory = audioSession.category
             audioSessionManager.setCategory(category: ShopLiveConfiguration.SoundPolicy.audioSessionCategory, options: audioSessionManager.currentCategoryOptions)
         }
         
@@ -309,12 +307,9 @@ import ShopliveSDKCommon
             delegate?.handleCommand?( ShopLiveViewTrackEvent.viewWillDisAppear.name, with: ["lastStyle": self._lastStyle.name , "currentStyle": self.style.name, "isPreview": ShopLiveController.shared.isPreview])
         }
         
-        if let originAudioSessionCategory = self.originAudioSessionCategory {
-            let audioSessionManager = SLAudioSessionManager.shared
-            audioSessionManager.setCategory(category: originAudioSessionCategory, options: audioSessionManager.customerAudioCategoryOptions)
-        }
         
-        self.originAudioSessionCategory = nil
+        let audioSessionManager = SLAudioSessionManager.shared
+        audioSessionManager.setCategory(category: AVAudioSession.sharedInstance().category, options: audioSessionManager.customerAudioCategoryOptions)
         
         if let videoWindowPanGestureRecognizer = self.videoWindowPanGestureRecognizer {
             shopLiveWindow?.removeGestureRecognizer(videoWindowPanGestureRecognizer)
@@ -383,7 +378,7 @@ import ShopliveSDKCommon
         guard osPictureInPictureController == nil else { return }
         SLAudioSessionManager.shared.setActive(true, options: [.notifyOthersOnDeactivation])
         
-        guard let playerLayer = liveStreamViewController?.playerLayer else { return }
+        guard let playerLayer = liveStreamViewController?.playerView.playerLayer else { return }
         if AVPictureInPictureController.isPictureInPictureSupported() {
             osPictureInPictureController = SLPictureInPictureController(playerLayer: playerLayer)
             osPictureInPictureController?.delegate = self
@@ -1384,6 +1379,7 @@ import ShopliveSDKCommon
         delegate?.onEvent?(name: "swipe_pip_mode", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: [:])
         if ShopLiveController.shared.videoOrientation == .landscape {
             if UIScreen.isLandscape {
+                self.liveStreamViewController?.updateOrientation(toLandscape: false)
                 let param: Dictionary = Dictionary<String, Any>.init(
                     dictionaryLiteral: ("top", UIScreen.safeArea.top),
                     ("left", UIScreen.safeArea.left),
@@ -1926,11 +1922,9 @@ extension ShopLiveBase: ShopLiveComponent {
                    if !ShopLiveController.shared.isPreview && ShopLiveController.windowStyle == .normal {
                        if ShopLiveController.shared.isSameCampaign {
                            self.liveStreamViewController?.takeSnapShot(completion: {
-                               self.liveStreamViewController?.updateImageFit()
                                self.startCustomPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
                            })
                        } else {
-                           self.liveStreamViewController?.updateImageFit()
                            self.startCustomPictureInPicture(with: self.getPipPosition(), scale: self.pipScale)
                        }
                    }

@@ -168,6 +168,7 @@ final class ShopLiveController: NSObject {
     
     var inRotating: Bool = false
     var willStartPip: Bool = false
+    
     var videoOrientation: ShopLiveDefines.ShopLiveOrientaion {
         switch supportOrientation {
         case .portrait, .unknown:
@@ -177,24 +178,13 @@ final class ShopLiveController: NSObject {
         }
     }
     var supportOrientation: ShopLive.VideoOrientation = .unknown
+    
+    var lastOrientaion: (direction: ShopLiveDefines.ShopLiveOrientaion, orientation: UIDeviceOrientation) = ((UIScreen.isLandscape ? .landscape: .portrait, UIScreen.currentOrientation.deviceOrientation))
+    
     var videoExpanded: Bool = true
     
     lazy var videoRatio: CGSize = videoOrientation == .landscape ? CGSize(width: 16, height: 9): CGSize(width: 9, height: 16)
     var videoFrame: (portrait: CGRect?, landscape: (expanded: CGRect?, standard: CGRect?)) = (portrait: nil, landscape: (expanded: nil, standard: nil))
-    
-    var prevLandscapeOrientation: UIDeviceOrientation = .landscapeLeft
-    var lastOrientaion: (direction: ShopLiveDefines.ShopLiveOrientaion, orientation: UIDeviceOrientation) = ((UIScreen.isLandscape ? .landscape: .portrait, UIScreen.currentOrientation.deviceOrientation))
-    
-    var videoCenterCrop: Bool {
-        set {
-            self._videoCenterCrop = newValue
-        }
-        get {
-            return self.videoExpanded && UIScreen.isLandscape && videoOrientation == .landscape ? _videoCenterCrop: false
-        }
-    }
-    
-    private var _videoCenterCrop: Bool = false
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath, let key = ShopLivePlayerObserveValue(rawValue: keyPath), let _ = change?[.newKey] else { return }
@@ -283,7 +273,6 @@ final class ShopLiveController: NSObject {
     }
     private func reset() {
         keepOrientationWhenPlayStart = false
-        ShopLiveController.shared.prevLandscapeOrientation = .landscapeLeft
         playerResumeCount = 0
         playControl = .none
         isReplayMode = false
@@ -306,7 +295,6 @@ final class ShopLiveController: NSObject {
         supportOrientation = .unknown
         videoRatio = ShopLiveDefines.defVideoRatio
         videoFrame = (nil, (nil, nil))
-        videoCenterCrop = false
         videoExpanded = true
     }
 

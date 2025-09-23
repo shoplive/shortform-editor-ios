@@ -146,7 +146,7 @@ final class ShopLiveChattingView: SLView {
         ])
     }
 
-    func updateChattingWriteView() {
+    func updatePlaceholderVisibility() {
         chatView.updatePlaceholderVisibility()
     }
     

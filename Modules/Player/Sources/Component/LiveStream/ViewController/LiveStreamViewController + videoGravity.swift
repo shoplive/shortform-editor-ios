@@ -17,7 +17,7 @@ extension LiveStreamViewController {
     /// 웹에서 SET_VIDEO_POSITION 명령으로 재생 뷰 프레임 변경
     func updatePlayerViewFrameFromWeb(targetFrame: CGRect) {
         let targetVideoGravity = self.getVideoGravity(windowStyle: .normal)
-        playerView?.playerLayer?.videoGravity = targetVideoGravity
+        playerView.playerLayer?.videoGravity = targetVideoGravity
         
         let animator = UIViewPropertyAnimator(duration: 0.3, curve: .linear) { [weak self] in
             guard let self = self else { return }
@@ -27,8 +27,8 @@ extension LiveStreamViewController {
             self.playerBottomConstraint.constant = -targetFrame.size.height
             
             self.refreshSnapShotImageViewWhenPlayerViewFrameUpdatedFromWebAndBlock()
-            self.playerView?.setNeedsLayout()
-            self.playerView?.layoutIfNeeded()
+            self.playerView.setNeedsLayout()
+            self.playerView.layoutIfNeeded()
         }
         
         animator.startAnimation()
@@ -39,7 +39,7 @@ extension LiveStreamViewController {
      앱 내부에서 재생 뷰 프레임 변경 요청
      */
     func updatePlayerViewFrameFromApp(targetFrame: CGRect,from: String = #function) {
-        guard let playerView = self.playerView else { return }
+//        guard let playerView = self.playerView else { return }
         
         let targetVideoGravity = self.getVideoGravity(windowStyle: .normal)
         playerView.playerLayer?.videoGravity = targetVideoGravity
@@ -67,7 +67,7 @@ extension LiveStreamViewController {
     /// inAppPiP 모드 전환 시 플레이어 뷰 업데이트
     func updatePlayerViewToPipMode(from: String = #function) {
         let targetVideoGravity = self.getVideoGravity(windowStyle: .inAppPip)
-        playerView?.playerLayer?.videoGravity = targetVideoGravity
+        playerView.playerLayer?.videoGravity = targetVideoGravity
         self.setPlayerViewFrameToFitParent()
     }
     
@@ -77,7 +77,7 @@ extension LiveStreamViewController {
         if ShopLiveController.shared.videoOrientation == .landscape {
             if needExecuteFullScreen {
                 let targetVideoGravity = self.getVideoGravity(windowStyle: .normal)
-                playerView?.playerLayer?.videoGravity = targetVideoGravity
+                playerView.playerLayer?.videoGravity = targetVideoGravity
                 self.setVideoDefaultFrame()
                 return
             }
@@ -88,7 +88,7 @@ extension LiveStreamViewController {
         }
         else {
             let targetVideoGravity = self.getVideoGravity(windowStyle: .normal)
-            playerView?.playerLayer?.videoGravity = targetVideoGravity
+            playerView.playerLayer?.videoGravity = targetVideoGravity
             self.setPlayerViewFrameToFitParent()
         }
     }
@@ -98,12 +98,12 @@ extension LiveStreamViewController {
         guard !ShopLiveController.shared.isPreview else { return }
         if ShopLiveController.shared.videoOrientation == .landscape {
             let targetVideoGravity = self.getVideoGravity(windowStyle: .normal)
-            playerView?.playerLayer?.videoGravity = targetVideoGravity
+            playerView.playerLayer?.videoGravity = targetVideoGravity
             self.setVideoDefaultFrame()
         }
         else {
             let targetVideoGravity = self.getVideoGravity(windowStyle: .normal)
-            playerView?.playerLayer?.videoGravity = targetVideoGravity
+            playerView.playerLayer?.videoGravity = targetVideoGravity
             self.setPlayerViewFrameToFitParent()
         }
     }
@@ -114,7 +114,7 @@ extension LiveStreamViewController {
         if ShopLiveController.shared.videoOrientation == .landscape {
             if targetWindowStyle == .inAppPip {
                 let targetVideoGravity = self.getVideoGravity(windowStyle: targetWindowStyle)
-                playerView?.playerLayer?.videoGravity = targetVideoGravity
+                playerView.playerLayer?.videoGravity = targetVideoGravity
                 setPlayerViewFrameToFitParent()
             }
             else {
@@ -124,7 +124,7 @@ extension LiveStreamViewController {
         }
         else {
             let targetVideoGravity = self.getVideoGravity(windowStyle: targetWindowStyle)
-            playerView?.playerLayer?.videoGravity = targetVideoGravity
+            playerView.playerLayer?.videoGravity = targetVideoGravity
             self.setPlayerViewFrameToFitParent()
         }
     }
@@ -136,7 +136,7 @@ extension LiveStreamViewController {
         if ShopLiveController.shared.videoOrientation == .landscape {
             if targetWindowStyle == .inAppPip {
                 let targetVideoGravity = self.getVideoGravity(windowStyle: targetWindowStyle)
-                playerView?.playerLayer?.videoGravity = targetVideoGravity
+                playerView.playerLayer?.videoGravity = targetVideoGravity
                 setPlayerViewFrameToFitParent()
             }
             else {
@@ -146,7 +146,7 @@ extension LiveStreamViewController {
         }
         else {
             let targetVideoGravity = self.getVideoGravity(windowStyle: targetWindowStyle)
-            playerView?.playerLayer?.videoGravity = targetVideoGravity
+            playerView.playerLayer?.videoGravity = targetVideoGravity
             self.setPlayerViewFrameToFitParent()
         }
     }
@@ -154,7 +154,7 @@ extension LiveStreamViewController {
     /// 뷰 회전 시 플레이어 뷰 위치 및 크기 갱신
     func updatePlayerViewFrameForViewRotation() {
         let targetVideoGravity = self.getVideoGravity(windowStyle: ShopLiveController.windowStyle)
-        playerView?.playerLayer?.videoGravity = targetVideoGravity
+        playerView.playerLayer?.videoGravity = targetVideoGravity
         self.setPlayerViewFrameToFitParent()
     }
     
@@ -230,7 +230,7 @@ extension LiveStreamViewController {
         keepWindowStyleOnReturnFromOsPip 의 여부는 무시해도 됨. 결국은 전체 화면 -> preview, pip로 가는 것이기 때문
      */
     func setVideoLayerGravityOnOsPipRestoration(){
-        guard let playerView = playerView else { return }
+//        guard let playerView = playerView else { return }
         playerView.playerLayer?.videoGravity = self.getVideoGravity(windowStyle: .normal)
     }
     
@@ -239,16 +239,16 @@ extension LiveStreamViewController {
      showShopLiveView(with 에서 처음이자 마지막으로 불림
      */
     func setInitialAVPlayerLayerVideoGravity(isPreview: Bool) {
-        playerView?.playerLayer?.videoGravity = self.getVideoGravity(windowStyle: isPreview ? .inAppPip : .normal)
+        playerView.playerLayer?.videoGravity = self.getVideoGravity(windowStyle: isPreview ? .inAppPip : .normal)
     }
     
     
     func refreshAvPlayerLayerWhenOSPipFailedAndOnForeground() {
-       if let previousVideoGravity = self.playerLayer?.videoGravity {
-            playerView?.refreshLayer(videoGravity: previousVideoGravity)
+        if let previousVideoGravity = self.playerView.playerLayer?.videoGravity {
+            playerView.refreshLayer(videoGravity: previousVideoGravity)
         }
         else {
-            playerView?.refreshLayer(videoGravity: getVideoGravity(windowStyle: ShopLiveController.windowStyle))
+            playerView.refreshLayer(videoGravity: getVideoGravity(windowStyle: ShopLiveController.windowStyle))
         }
     }
 }

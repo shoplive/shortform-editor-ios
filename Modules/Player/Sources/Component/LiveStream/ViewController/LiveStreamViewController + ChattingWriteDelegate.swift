@@ -12,7 +12,7 @@ import UIKit
 extension LiveStreamViewController: ShopLiveChattingViewDelegate {
     func didTouchSendButton() {
         let message: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("message", chatInputView.chatText))
-        overlayView?.sendEventToWeb(event: .write, message.toJson())
+        overlayView.sendEventToWeb(event: .write, message.toJson())
         chatInputView.clearChatText()
     }
     
