@@ -286,7 +286,7 @@ public extension APIDefinition {
         
     }
     
-    func upload(handler: ((Result<ResultType, ShopLiveCommonError>) -> ())? = nil ) {
+    func upload(handler: ((Result<ResultType, ShopLiveCommonError>) -> ())? = nil, progressHandler: ((Double) -> ())? = nil ) {
         
         // Headers
         var finalHeaders = Self.defaultHeaders
@@ -319,7 +319,7 @@ public extension APIDefinition {
         for (key, value) in finalHeaders {
             request.setValue(value, forHTTPHeaderField: key)
         }
-        request.httpBody = createBody(boundary: boundary)
+        // httpBody를 설정하지 않음 - uploadTask에서 직접 처리
         
         let sessionConfg = URLSessionConfiguration.default
         sessionConfg.timeoutIntervalForRequest = 999
@@ -333,8 +333,20 @@ public extension APIDefinition {
             ShopLiveLogger.tempLog(log)
         }
         
+        // 임시 파일에 body 데이터를 저장
+        let tempFileURL = FileManager.default.temporaryDirectory.appendingPathComponent("upload_\(UUID().uuidString).tmp")
+        do {
+            let bodyData = createBody(boundary: boundary)
+            try bodyData.write(to: tempFileURL)
+        } catch {
+            let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnexpectedError, error: error, message: "Failed to create temporary file")
+            handler?(.failure(commonError))
+            return
+        }
         
-        let task = URLSession(configuration: sessionConfg).dataTask(with: request) { data , response , error  in
+        let task = URLSession(configuration: sessionConfg).uploadTask(with: request, fromFile: tempFileURL) { data , response , error  in
+            // 임시 파일 삭제
+            try? FileManager.default.removeItem(at: tempFileURL)
             if self.showResponseLog {
                 ShopLiveLogger.tempLog("[UPLOADRESPONSE] \(String(data: data ?? Data(), encoding: .utf8) ?? "no data")")
             }

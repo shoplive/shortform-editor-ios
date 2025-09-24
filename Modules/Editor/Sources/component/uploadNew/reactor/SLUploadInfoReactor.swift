@@ -376,7 +376,7 @@ extension SLUploadInfoReactor {
     
     
     private func processUploadAPI(sessionSecret : String, apiEndPoint : String) {
-        guard let videoUrl = self.videoUrl else { return }
+        guard let videoUrl = self.videoUrl else { return }        
         SLShortformVideoAPI(apiEndpoint: apiEndPoint, image: self.thumbnailPath, video: videoUrl, sessionSecret: sessionSecret).upload { [weak self] result in
             guard let self = self else { return }
             switch result {

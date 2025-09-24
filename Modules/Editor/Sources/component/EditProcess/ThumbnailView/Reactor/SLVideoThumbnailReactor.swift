@@ -78,6 +78,8 @@ class SLVideoThumbnailReactor : NSObject, SLReactor {
         self.imageGenerator.appliesPreferredTrackTransform = true
         self.imageGenerator.maximumSize = CGSize(width: 720, height: 1280)
         self.imageGenerator.apertureMode = .cleanAperture
+        self.imageGenerator.requestedTimeToleranceBefore = .zero
+        self.imageGenerator.requestedTimeToleranceAfter = .zero
         super.init()
         videoConverter.delegate = self
     }
@@ -164,13 +166,13 @@ extension SLVideoThumbnailReactor {
               let startTime = videoEditInfoDto.cropTime.start.timeSeconds_SL,
               let endTime = videoEditInfoDto.cropTime.end.timeSeconds_SL,
               startTime < endTime else { return }
-        let videoUrl = videoEditInfoDto.shortsVideo.localAbsoluteUrl.absoluteString
+        let videoUrl = videoEditInfoDto.shortsVideo.localAbsoluteUrl.path
         
         let videoInfo = SLVideoInfo(videoPath: videoUrl,
                                     cropRect: videoEditInfoDto.realVideoCropRect,
                                     videoSize: videoSize,
                                     timeRange: (startTime,endTime),
-                                    fileName: (videoUrl as NSString).lastPathComponent,
+                                    fileName: "converted_video",
                                     filterConfig: videoEditInfoDto.filterConfig,
                                     volume: 50,
                                     speed: 1)
@@ -192,16 +194,70 @@ extension SLVideoThumbnailReactor {
     }
     
     private func getExtractThumbnail(at targetSec : Double, completion : @escaping(UIImage?) -> ()) {
-        imageGeneratorQueue.sync { [weak self] in
+        prepareImageGeneratorIfNeeded { [weak self] in
             guard let self = self else { return }
-            let time = CMTime(seconds: targetSec, preferredTimescale: 44100)
-            do {
-                let cgImage = try imageGenerator.copyCGImage(at: time, actualTime: nil)
-                completion(UIImage.init(cgImage: cgImage))
-            }
-            catch(_) {
+            self.imageGeneratorQueue.async { [weak self] in
+                guard let self = self else { return }
+                let time1 = CMTime(seconds: targetSec, preferredTimescale: 44100)
+                
+                if let image = self.tryCopyImage(at: time1, strict: true) {
+                    completion(image)
+                    return
+                }
+                
+                let time2 = CMTime(seconds: targetSec, preferredTimescale: 600)
+                if let image = self.tryCopyImage(at: time2, strict: false) {
+                    completion(image)
+                    return
+                }
+                
                 completion(nil)
             }
+        }
+    }
+
+    private func tryCopyImage(at time: CMTime, strict: Bool) -> UIImage? {
+        let generator = self.imageGenerator
+        if strict == false {
+            generator.requestedTimeToleranceBefore = CMTime.positiveInfinity
+            generator.requestedTimeToleranceAfter = CMTime.positiveInfinity
+        } else {
+            generator.requestedTimeToleranceBefore = .zero
+            generator.requestedTimeToleranceAfter = .zero
+        }
+        do {
+            let cg = try generator.copyCGImage(at: time, actualTime: nil)
+            return UIImage(cgImage: cg)
+        } catch {
+            return nil
+        }
+    }
+
+    private func prepareImageGeneratorIfNeeded(completion: (() -> Void)?) {
+        guard let asset = self.videoAsset else {
+            completion?()
+            return
+        }
+        
+        asset.loadValuesAsynchronously(forKeys: ["tracks","duration"]) { [weak self] in
+            guard let self = self else { return }
+            var error: NSError?
+            let tracks = asset.statusOfValue(forKey: "tracks", error: &error)
+            let duration = asset.statusOfValue(forKey: "duration", error: &error)
+            
+            guard tracks == .loaded || duration == .loaded else {
+                completion?()
+                return
+            }
+            
+            let generator = AVAssetImageGenerator(asset: asset)
+            generator.appliesPreferredTrackTransform = true
+            generator.maximumSize = CGSize(width: 720, height: 1280)
+            generator.apertureMode = .cleanAperture
+            generator.requestedTimeToleranceBefore = .zero
+            generator.requestedTimeToleranceAfter = .zero
+            self.imageGenerator = generator
+            completion?()
         }
     }
 }
@@ -392,5 +448,4 @@ extension SLVideoThumbnailReactor {
             try? FileManager.default.removeItem(atPath: videoUrl)
         }
     }
-    
 }

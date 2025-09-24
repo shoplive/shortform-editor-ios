@@ -344,7 +344,7 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
                                     cropRect: videoEditInfoDto.realVideoCropRect,
                                     videoSize: videoSize,
                                     timeRange: (startTime,endTime),
-                                    fileName: (videoUrl as NSString).lastPathComponent,
+                                    fileName: "converted_video",
                                     filterConfig: videoEditInfoDto.filterConfig,
                                     volume: Double(videoEditInfoDto.volume),
                                     speed: videoEditInfoDto.videoSpeed)
@@ -468,12 +468,26 @@ extension SLVideoEditorMainViewReactor {
         imageGeneratorQueue.sync { [weak self] in
             guard let self = self else { return }
             let time = CMTime(seconds: targetSec, preferredTimescale: 44100)
-            do {
-                let cgImage = try imageGenerator.copyCGImage(at: time, actualTime: nil)
-                completion(UIImage.init(cgImage: cgImage))
-            }
-            catch(_) {
-                completion(nil)
+            
+            if #available(iOS 16.0, *) {
+                Task {
+                    do {
+                        let (cgImage, _) = try await self.imageGenerator.image(at: time)
+                        completion(UIImage(cgImage: cgImage))
+                    } catch {
+                        self.resultHandler?(.onError(.init(code: 60001, message: "getExtractThumbnail iOS 16 Upper Error", error: error)))
+                        completion(nil)
+                    }
+                }
+            } else {
+                do {
+                    let cgImage = try imageGenerator.copyCGImage(at: time, actualTime: nil)
+                    completion(UIImage.init(cgImage: cgImage))
+                }
+                catch {
+                    self.resultHandler?(.onError(.init(code: 60002, message: "getExtractThumbnail iOS 16 Under Error", error: error)))
+                    completion(nil)
+                }
             }
         }
     }
@@ -482,11 +496,68 @@ extension SLVideoEditorMainViewReactor {
         guard let apiEndpoint = self.shortformUploadableResponseData?.uploadApiEndpoint,
               let sessionSecret = self.shortformUploadableResponseData?.sessionSecret,
               let videoPath = self.videoEditInfoDto.convertedVideoPath,
-              let videoWidth = self.videoEditInfoDto.getConvertedVideoSize()?.width,
-              let videoHeight = self.videoEditInfoDto.getConvertedVideoSize()?.height,
-              let videoDuration = self.videoEditInfoDto.getConvertedVideoDuration() else { return }
+              let videoDuration = self.videoEditInfoDto.getConvertedVideoDuration() else {
+            
+            resultHandler?(.onError(.init(code: 60003, message: """
+callShortformVideoAPI data is nil
+        apiEndpoint : \(String(describing: self.shortformUploadableResponseData?.uploadApiEndpoint))
+        sessionSecret : \(String(describing: self.shortformUploadableResponseData?.sessionSecret))
+        videoPath : \(String(describing: self.videoEditInfoDto.convertedVideoPath))
+        videoDuration : \(String(describing: self.videoEditInfoDto.getConvertedVideoDuration)) 
+""", error: nil)))
+            
+            return
+        }
         
-        self.shortformVideoAPI = SLShortformVideoAPI(apiEndpoint: apiEndpoint, image: nil, video: videoPath, imageData : image, sessionSecret: sessionSecret,videoWidth: videoWidth, videoHeight: videoHeight,videoDuration: videoDuration)
+        if #available(iOS 16.0, *) {
+            Task {
+                do {
+                    let size = try await self.videoEditInfoDto.getConvertedVideoSizeAsync()
+                    
+                    shortformUpload(
+                        apiEndpoint: apiEndpoint,
+                        videoPath: videoPath,
+                        image: image,
+                        videoWidth: size?.width,
+                        videoHeight: size?.height,
+                        videoDuration: videoDuration,
+                        sessionSecret: sessionSecret
+                    )
+                } catch {
+                    await MainActor.run { [weak self] in
+                        self?.resultHandler?(.onError(.init(code: 60004, message: "getConvertedVideoSizeAsync error", error: error)))
+                    }
+                    
+                }
+            }
+        } else {
+            let videoWidth = self.videoEditInfoDto.getConvertedVideoSize()?.width
+            let videoHeight = self.videoEditInfoDto.getConvertedVideoSize()?.height
+            
+            shortformUpload(
+                apiEndpoint: apiEndpoint,
+                videoPath: videoPath,
+                image: image,
+                videoWidth: videoWidth,
+                videoHeight: videoHeight,
+                videoDuration: videoDuration,
+                sessionSecret: sessionSecret
+            )
+        }
+        
+    }
+    
+    private func shortformUpload(apiEndpoint: String, videoPath: String, image: UIImage?, videoWidth: CGFloat? = nil, videoHeight: CGFloat? = nil, videoDuration: Double, sessionSecret: String) {
+        self.shortformVideoAPI = SLShortformVideoAPI(
+            apiEndpoint: apiEndpoint,
+            image: nil,
+            video: videoPath,
+            imageData : image,
+            sessionSecret: sessionSecret,
+            videoWidth: videoWidth,
+            videoHeight: videoHeight,
+            videoDuration: videoDuration
+        )
         
         ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result in
             guard let self = self else  { return }

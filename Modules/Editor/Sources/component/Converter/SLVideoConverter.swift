@@ -71,7 +71,7 @@ extension SLVideoInfo {
    
     var ffmpegOutPutVideoPath : String {
         let path = SLFileManager.ffmpegDirectorypath
-        let cacheoutput = path.appendingPathComponent("\(fileName)_\(Int64(Date().timeIntervalSince1970))").deletingPathExtension().appendingPathExtension("mp4")
+        let cacheoutput = path.appendingPathComponent("\(fileName)").deletingPathExtension().appendingPathExtension("mp4")
         return cacheoutput.relativePath
     }
     
