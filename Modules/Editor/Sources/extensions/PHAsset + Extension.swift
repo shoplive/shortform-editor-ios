@@ -23,7 +23,6 @@ extension PHAsset {
         options.version = .current
         options.isNetworkAccessAllowed = true
         
-        // requestExportSession 경로로 통일 (iOS 16+ 호환성)
         let dirPath = SLFileManager.editorDirectoryPath
         let outputURL = dirPath.appendingPathComponent("\(UUID().uuidString)_ShopLive.mp4")
         PHImageManager.default().requestExportSession(forVideo: self, options: options, exportPreset: AVAssetExportPresetHighestQuality) { session, info in

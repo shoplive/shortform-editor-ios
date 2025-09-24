@@ -562,7 +562,7 @@ callShortformVideoAPI data is nil
         ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result in
             guard let self = self else  { return }
             self.shortformVideoAPI?
-                .upload { result  in
+                .upload { result in
                     switch result {
                     case .success(let data):
                         self.callShortformRegisterAPI(videoId: data.videoID , imageUrl: data.thumbnailImageURL)

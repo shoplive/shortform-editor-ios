@@ -188,7 +188,6 @@ extension SLVideoThumbnailReactor {
             case .Failed(let error):
                 let e = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedEncoding, error: error, message: nil)
                 self.shortformEditorDelegate?.onShopLiveShortformEditorError?(error: e)
-//                self.videoEditorDelegate?.onShopLiveVideoEditorError?(editor: nil, error: e)
             }
         }
     }
@@ -196,7 +195,7 @@ extension SLVideoThumbnailReactor {
     private func getExtractThumbnail(at targetSec : Double, completion : @escaping(UIImage?) -> ()) {
         prepareImageGeneratorIfNeeded { [weak self] in
             guard let self = self else { return }
-            self.imageGeneratorQueue.async { [weak self] in
+            self.imageGeneratorQueue.sync { [weak self] in
                 guard let self = self else { return }
                 let time1 = CMTime(seconds: targetSec, preferredTimescale: 44100)
                 
