@@ -310,7 +310,6 @@ extension OverlayWebView: WKScriptMessageHandler {
                           let width = parameters?["width"] as? CGFloat,
                           let centerCrop = parameters?["centerCrop"] as? Int,
                           let isCenterCrop = String(describing: centerCrop).boolValue
-                        //이 centerCrop을 가지고 세팅해줘야함
                     else { return }
                     
                     if ShopLiveController.shared.supportOrientation == .landscape {
