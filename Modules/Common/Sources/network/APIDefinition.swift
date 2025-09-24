@@ -8,7 +8,8 @@
 import Foundation
 import UIKit
 
-
+private var uploadDelegates: [String: UploadProgressDelegate] = [:]
+private let uploadDelegatesQueue = DispatchQueue(label: "upload.delegates.queue", attributes: .concurrent)
 
 public protocol RawDataRepresantable {
     var rawData: Data? { set get }
@@ -286,6 +287,7 @@ public extension APIDefinition {
         
     }
     
+    
     func upload(handler: ((Result<ResultType, ShopLiveCommonError>) -> ())? = nil, progressHandler: ((Double) -> ())? = nil ) {
         
         // Headers
@@ -311,7 +313,7 @@ public extension APIDefinition {
                 urlString += "/\(urlPath)"
             }
         }
-       
+        
         ShopLiveLogger.tempLog("URL String \(urlString)")
         
         var request = URLRequest(url: URL(string: urlString)!)
@@ -342,53 +344,76 @@ public extension APIDefinition {
             return
         }
         
-        let task = URLSession(configuration: sessionConfg).uploadTask(with: request, fromFile: tempFileURL) { data , response , error  in
-            try? FileManager.default.removeItem(at: tempFileURL)
-            if self.showResponseLog {
-                ShopLiveLogger.tempLog("[UPLOADRESPONSE] \(String(data: data ?? Data(), encoding: .utf8) ?? "no data")")
-            }
-            
-            let statusCode = (response as? HTTPURLResponse)?.statusCode
-            if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: data, endpoint: request.url?.path ?? "") {
-                DispatchQueue.main.async {
-                    handler?( .failure(commonError) )
+        let delegateKey = UUID().uuidString
+        
+        let delegate = UploadProgressDelegate(
+            delegateKey: delegateKey,
+            progressHandler: progressHandler,
+            completionHandler: { data, response, error in
+                try? FileManager.default.removeItem(at: tempFileURL)
+                
+                uploadDelegatesQueue.async(flags: .barrier) {
+                    uploadDelegates.removeValue(forKey: delegateKey)
                 }
-                return
-            }
-            
-            guard let data = data else {
-                let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnexpectedError, error: error, message: "empty response")
-                handler?( .failure(commonError) )
-                return
-            }
-            
-            do {
-                let decoded = try JSONDecoder().decode(ResultType.self, from: data)
-                DispatchQueue.main.async {
-                    handler?(.success(decoded))
-                }
-            }
-            catch( let error) {
+                
                 if self.showResponseLog {
-                    ShopLiveLogger.tempLog("[UPLOADRESPONSE] JsonDecoding Error \(error.localizedDescription)")
+                    ShopLiveLogger.tempLog("[UPLOADRESPONSE] \(String(data: data ?? Data(), encoding: .utf8) ?? "no data")")
                 }
-                let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedJSONParsing, error: error, message: nil)
-                DispatchQueue.main.async {
-                    handler?( .failure(commonError) )
+                
+                let statusCode = (response as? HTTPURLResponse)?.statusCode
+                if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: data, endpoint: request.url?.path ?? "") {
+                    DispatchQueue.main.async {
+                        handler?(.failure(commonError))
+                    }
+                    return
                 }
-                return
+                
+                guard let data = data else {
+                    let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnexpectedError, error: error, message: "empty response")
+                    DispatchQueue.main.async {
+                        handler?(.failure(commonError))
+                    }
+                    return
+                }
+                
+                do {
+                    let decoded = try JSONDecoder().decode(ResultType.self, from: data)
+                    DispatchQueue.main.async {
+                        handler?(.success(decoded))
+                    }
+                } catch let decodeError {
+                    if self.showResponseLog {
+                        ShopLiveLogger.tempLog("[UPLOADRESPONSE] JsonDecoding Error \(decodeError.localizedDescription)")
+                    }
+                    let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedJSONParsing, error: decodeError, message: nil)
+                    DispatchQueue.main.async {
+                        handler?(.failure(commonError))
+                    }
+                    return
+                }
+                
+                Self.parseHeaders(headers: (response as? HTTPURLResponse)?.allHeaderFields)
             }
-            
-            Self.parseHeaders(headers: (response as? HTTPURLResponse)?.allHeaderFields)
-            
-           
+        )
+        
+        uploadDelegatesQueue.async(flags: .barrier) {
+            uploadDelegates[delegateKey] = delegate
+        }
+        
+        let session = URLSession(configuration: sessionConfg, delegate: delegate, delegateQueue: nil)
+        let task = session.uploadTask(with: request, fromFile: tempFileURL)
+        
+        DispatchQueue.global().asyncAfter(deadline: .now() + Double(sessionConfg.timeoutIntervalForRequest) + 10) {
+            uploadDelegatesQueue.async(flags: .barrier) {
+                if uploadDelegates[delegateKey] != nil {
+                    uploadDelegates.removeValue(forKey: delegateKey)
+                }
+            }
         }
         
         DispatchQueue.global(qos: .background).async {
             task.resume()
         }
-        
-        
     }
     
     
@@ -585,4 +610,3 @@ public extension APIDefinition {
         }
     }
 }
-

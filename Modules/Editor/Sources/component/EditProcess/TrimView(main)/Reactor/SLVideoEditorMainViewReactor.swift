@@ -88,7 +88,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         case showCancelToast
         
         case updateLoadingPercent(String)
-        case showLoadingView
+        case showLoadingView(String)
         case cancelLoading
         case requestPopView
         
@@ -350,7 +350,7 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
                                     speed: videoEditInfoDto.videoSpeed)
         
         self.onMainQueueResultHandler?( .updateLoadingPercent("0%") )
-        self.onMainQueueResultHandler?( .showLoadingView )
+        self.onMainQueueResultHandler?( .showLoadingView("Loading...") )
         self.isLoading = true
         
         videoConverter.convertVideo(videoInfo: videoInfo) { [weak self] result in
@@ -439,12 +439,14 @@ extension SLVideoEditorMainViewReactor : SLCircularProgressIndicatorViewDelegate
 //MARK: - upload process
 extension SLVideoEditorMainViewReactor {
     private func callShortformUploadableAPI() {
-        resultHandler?( .showLoadingView )
+        onMainQueueResultHandler?( .updateLoadingPercent("0%"))
+        onMainQueueResultHandler?( .showLoadingView("썸네일 업로드 중...") )
         ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result  in
             guard let self = self else { return }
             SLShortformUploadableAPI().request { result in
                 switch result {
                 case .success(let data):
+                    self.onMainQueueResultHandler?( .updateLoadingPercent("100%"))
                     self.shortformUploadableResponseData = data
                     self.checkThumbnailImage()
                     break
@@ -509,6 +511,9 @@ callShortformVideoAPI data is nil
             return
         }
         
+        onMainQueueResultHandler?(.updateLoadingPercent("0%"))
+        onMainQueueResultHandler?(.showLoadingView("숏폼 업로드 중..."))
+        
         if #available(iOS 16.0, *) {
             Task {
                 do {
@@ -571,6 +576,9 @@ callShortformVideoAPI data is nil
                         self.isLoading = false
                         self.resultHandler?( .cancelLoading )
                     }
+                } progressHandler: { [weak self] value in
+                    let percent = Int(round(Double(value) * 100))
+                    self?.onMainQueueResultHandler?(.updateLoadingPercent("\(percent)%"))
                 }
         }
     }
