@@ -2439,6 +2439,165 @@
                         "mangledName": "$ss8SendableP"
                       }
                     ]
+                  },
+                  {
+                    "kind": "TypeDecl",
+                    "name": "Uploading",
+                    "printedName": "Uploading",
+                    "children": [
+                      {
+                        "kind": "TypeDecl",
+                        "name": "Cancel",
+                        "printedName": "Cancel",
+                        "children": [
+                          {
+                            "kind": "TypeDecl",
+                            "name": "Title",
+                            "printedName": "Title",
+                            "children": [
+                              {
+                                "kind": "Var",
+                                "name": "shoplive",
+                                "printedName": "shoplive",
+                                "children": [
+                                  {
+                                    "kind": "TypeNominal",
+                                    "name": "String",
+                                    "printedName": "Swift.String",
+                                    "usr": "s:SS"
+                                  }
+                                ],
+                                "declKind": "Var",
+                                "usr": "s:26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O5AlertO9UploadingO6CancelO5TitleO8shopliveSSvpZ",
+                                "mangledName": "$s26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O5AlertO9UploadingO6CancelO5TitleO8shopliveSSvpZ",
+                                "moduleName": "ShopLiveShortformEditorSDK",
+                                "static": true,
+                                "declAttributes": [
+                                  "HasInitialValue",
+                                  "HasStorage",
+                                  "AccessControl",
+                                  "RawDocComment"
+                                ],
+                                "isLet": true,
+                                "hasStorage": true,
+                                "accessors": [
+                                  {
+                                    "kind": "Accessor",
+                                    "name": "Get",
+                                    "printedName": "Get()",
+                                    "children": [
+                                      {
+                                        "kind": "TypeNominal",
+                                        "name": "String",
+                                        "printedName": "Swift.String",
+                                        "usr": "s:SS"
+                                      }
+                                    ],
+                                    "declKind": "Accessor",
+                                    "usr": "s:26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O5AlertO9UploadingO6CancelO5TitleO8shopliveSSvgZ",
+                                    "mangledName": "$s26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O5AlertO9UploadingO6CancelO5TitleO8shopliveSSvgZ",
+                                    "moduleName": "ShopLiveShortformEditorSDK",
+                                    "static": true,
+                                    "implicit": true,
+                                    "accessorKind": "get"
+                                  }
+                                ]
+                              }
+                            ],
+                            "declKind": "Enum",
+                            "usr": "s:26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O5AlertO9UploadingO6CancelO5TitleO",
+                            "mangledName": "$s26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O5AlertO9UploadingO6CancelO5TitleO",
+                            "moduleName": "ShopLiveShortformEditorSDK",
+                            "declAttributes": [
+                              "AccessControl"
+                            ],
+                            "conformances": [
+                              {
+                                "kind": "Conformance",
+                                "name": "Copyable",
+                                "printedName": "Copyable",
+                                "usr": "s:s8CopyableP",
+                                "mangledName": "$ss8CopyableP"
+                              },
+                              {
+                                "kind": "Conformance",
+                                "name": "Escapable",
+                                "printedName": "Escapable",
+                                "usr": "s:s9EscapableP",
+                                "mangledName": "$ss9EscapableP"
+                              },
+                              {
+                                "kind": "Conformance",
+                                "name": "Sendable",
+                                "printedName": "Sendable",
+                                "usr": "s:s8SendableP",
+                                "mangledName": "$ss8SendableP"
+                              }
+                            ]
+                          }
+                        ],
+                        "declKind": "Enum",
+                        "usr": "s:26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O5AlertO9UploadingO6CancelO",
+                        "mangledName": "$s26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O5AlertO9UploadingO6CancelO",
+                        "moduleName": "ShopLiveShortformEditorSDK",
+                        "declAttributes": [
+                          "AccessControl"
+                        ],
+                        "conformances": [
+                          {
+                            "kind": "Conformance",
+                            "name": "Copyable",
+                            "printedName": "Copyable",
+                            "usr": "s:s8CopyableP",
+                            "mangledName": "$ss8CopyableP"
+                          },
+                          {
+                            "kind": "Conformance",
+                            "name": "Escapable",
+                            "printedName": "Escapable",
+                            "usr": "s:s9EscapableP",
+                            "mangledName": "$ss9EscapableP"
+                          },
+                          {
+                            "kind": "Conformance",
+                            "name": "Sendable",
+                            "printedName": "Sendable",
+                            "usr": "s:s8SendableP",
+                            "mangledName": "$ss8SendableP"
+                          }
+                        ]
+                      }
+                    ],
+                    "declKind": "Enum",
+                    "usr": "s:26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O5AlertO9UploadingO",
+                    "mangledName": "$s26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O5AlertO9UploadingO",
+                    "moduleName": "ShopLiveShortformEditorSDK",
+                    "declAttributes": [
+                      "AccessControl"
+                    ],
+                    "conformances": [
+                      {
+                        "kind": "Conformance",
+                        "name": "Copyable",
+                        "printedName": "Copyable",
+                        "usr": "s:s8CopyableP",
+                        "mangledName": "$ss8CopyableP"
+                      },
+                      {
+                        "kind": "Conformance",
+                        "name": "Escapable",
+                        "printedName": "Escapable",
+                        "usr": "s:s9EscapableP",
+                        "mangledName": "$ss9EscapableP"
+                      },
+                      {
+                        "kind": "Conformance",
+                        "name": "Sendable",
+                        "printedName": "Sendable",
+                        "usr": "s:s8SendableP",
+                        "mangledName": "$ss8SendableP"
+                      }
+                    ]
                   }
                 ],
                 "declKind": "Enum",
@@ -4806,6 +4965,54 @@
                 "children": [
                   {
                     "kind": "Var",
+                    "name": "compress",
+                    "printedName": "compress",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Var",
+                    "usr": "s:26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O7LoadingO8compressSSvpZ",
+                    "mangledName": "$s26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O7LoadingO8compressSSvpZ",
+                    "moduleName": "ShopLiveShortformEditorSDK",
+                    "static": true,
+                    "declAttributes": [
+                      "HasInitialValue",
+                      "HasStorage",
+                      "AccessControl",
+                      "RawDocComment"
+                    ],
+                    "isLet": true,
+                    "hasStorage": true,
+                    "accessors": [
+                      {
+                        "kind": "Accessor",
+                        "name": "Get",
+                        "printedName": "Get()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          }
+                        ],
+                        "declKind": "Accessor",
+                        "usr": "s:26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O7LoadingO8compressSSvgZ",
+                        "mangledName": "$s26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O7LoadingO8compressSSvgZ",
+                        "moduleName": "ShopLiveShortformEditorSDK",
+                        "static": true,
+                        "implicit": true,
+                        "accessorKind": "get"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "Var",
                     "name": "shoplive",
                     "printedName": "shoplive",
                     "children": [
@@ -4845,6 +5052,102 @@
                         "declKind": "Accessor",
                         "usr": "s:26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O7LoadingO8shopliveSSvgZ",
                         "mangledName": "$s26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O7LoadingO8shopliveSSvgZ",
+                        "moduleName": "ShopLiveShortformEditorSDK",
+                        "static": true,
+                        "implicit": true,
+                        "accessorKind": "get"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "Var",
+                    "name": "thumbnail",
+                    "printedName": "thumbnail",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Var",
+                    "usr": "s:26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O7LoadingO9thumbnailSSvpZ",
+                    "mangledName": "$s26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O7LoadingO9thumbnailSSvpZ",
+                    "moduleName": "ShopLiveShortformEditorSDK",
+                    "static": true,
+                    "declAttributes": [
+                      "HasInitialValue",
+                      "HasStorage",
+                      "AccessControl",
+                      "RawDocComment"
+                    ],
+                    "isLet": true,
+                    "hasStorage": true,
+                    "accessors": [
+                      {
+                        "kind": "Accessor",
+                        "name": "Get",
+                        "printedName": "Get()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          }
+                        ],
+                        "declKind": "Accessor",
+                        "usr": "s:26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O7LoadingO9thumbnailSSvgZ",
+                        "mangledName": "$s26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O7LoadingO9thumbnailSSvgZ",
+                        "moduleName": "ShopLiveShortformEditorSDK",
+                        "static": true,
+                        "implicit": true,
+                        "accessorKind": "get"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "Var",
+                    "name": "upload",
+                    "printedName": "upload",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Var",
+                    "usr": "s:26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O7LoadingO6uploadSSvpZ",
+                    "mangledName": "$s26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O7LoadingO6uploadSSvpZ",
+                    "moduleName": "ShopLiveShortformEditorSDK",
+                    "static": true,
+                    "declAttributes": [
+                      "HasInitialValue",
+                      "HasStorage",
+                      "AccessControl",
+                      "RawDocComment"
+                    ],
+                    "isLet": true,
+                    "hasStorage": true,
+                    "accessors": [
+                      {
+                        "kind": "Accessor",
+                        "name": "Get",
+                        "printedName": "Get()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "String",
+                            "printedName": "Swift.String",
+                            "usr": "s:SS"
+                          }
+                        ],
+                        "declKind": "Accessor",
+                        "usr": "s:26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O7LoadingO6uploadSSvgZ",
+                        "mangledName": "$s26ShopLiveShortformEditorSDK0abcD10SDKStringsO0D0O7LoadingO6uploadSSvgZ",
                         "moduleName": "ShopLiveShortformEditorSDK",
                         "static": true,
                         "implicit": true,
@@ -9995,6 +10298,13 @@
         "kind": "Import",
         "name": "UIKit",
         "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "ShopLiveShortformEditorSDK"
+      },
+      {
+        "kind": "Import",
+        "name": "ShopliveSDKCommon",
+        "printedName": "ShopliveSDKCommon",
         "declKind": "Import",
         "moduleName": "ShopLiveShortformEditorSDK"
       },
@@ -57788,590 +58098,618 @@
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 2980,
+      "offset": 2937,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 2995,
+      "offset": 2952,
+      "length": 46,
+      "value": "\"editor.alert.uploading.cancel.title.shoplive\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 3305,
+      "length": 13,
+      "value": "\"Localizable\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 3320,
       "length": 45,
       "value": "\"editor.cover.picker.btn.cameraRool.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 3194,
+      "offset": 3519,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 3209,
+      "offset": 3534,
       "length": 42,
       "value": "\"editor.cover.picker.btn.confirm.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 3406,
+      "offset": 3731,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 3421,
+      "offset": 3746,
       "length": 35,
       "value": "\"editor.cover.picker.done.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 3688,
+      "offset": 4013,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 3703,
+      "offset": 4028,
       "length": 34,
       "value": "\"editor.crop.btn.confirm.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 3933,
+      "offset": 4258,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 3948,
+      "offset": 4273,
       "length": 33,
       "value": "\"editor.encoding.cancel.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 4120,
+      "offset": 4445,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 4135,
+      "offset": 4460,
       "length": 24,
       "value": "\"editor.filter.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 4290,
+      "offset": 4615,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 4305,
+      "offset": 4630,
       "length": 31,
       "value": "\"editor.filter.bright.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 4515,
+      "offset": 4840,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 4530,
+      "offset": 4855,
       "length": 36,
       "value": "\"editor.filter.btn.confirm.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 4713,
+      "offset": 5038,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 4728,
+      "offset": 5053,
       "length": 30,
       "value": "\"editor.filter.clear.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 4893,
+      "offset": 5218,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 4908,
+      "offset": 5233,
       "length": 29,
       "value": "\"editor.filter.done.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 5080,
+      "offset": 5405,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 5095,
+      "offset": 5420,
       "length": 33,
       "value": "\"editor.filter.original.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 5263,
+      "offset": 5588,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 5278,
+      "offset": 5603,
       "length": 29,
       "value": "\"editor.filter.warm.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 5491,
+      "offset": 5816,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 5506,
+      "offset": 5831,
       "length": 28,
       "value": "\"editor.folder.all.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 5712,
+      "offset": 6037,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 5727,
+      "offset": 6052,
       "length": 30,
       "value": "\"editor.gallery.done.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 5894,
+      "offset": 6219,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 5909,
+      "offset": 6234,
       "length": 31,
       "value": "\"editor.gallery.photo.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 6128,
+      "offset": 6453,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 6143,
+      "offset": 6468,
       "length": 41,
       "value": "\"editor.gallery.photo.and.video.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 6729,
+      "offset": 7054,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 6744,
+      "offset": 7069,
       "length": 43,
       "value": "\"editor.gallery.unsupported.media.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 6934,
+      "offset": 7259,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 6949,
+      "offset": 7274,
       "length": 31,
       "value": "\"editor.gallery.video.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 7217,
+      "offset": 7542,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 7232,
+      "offset": 7557,
       "length": 42,
       "value": "\"editor.header.headline.playback.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 7459,
+      "offset": 7784,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 7474,
+      "offset": 7799,
       "length": 26,
       "value": "\"editor.hint.tag.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 7641,
+      "offset": 7979,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 7656,
+      "offset": 7994,
+      "length": 25,
+      "value": "\"editor.loading.compress\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 8111,
+      "length": 13,
+      "value": "\"Localizable\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 8126,
       "length": 25,
       "value": "\"editor.loading.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 7889,
+      "offset": 8259,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 7904,
+      "offset": 8274,
+      "length": 26,
+      "value": "\"editor.loading.thumbnail\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 8395,
+      "length": 13,
+      "value": "\"Localizable\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 8410,
+      "length": 23,
+      "value": "\"editor.loading.upload\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 8641,
+      "length": 13,
+      "value": "\"Localizable\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 8656,
       "length": 31,
       "value": "\"editor.main.btn.next.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 8082,
+      "offset": 8834,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 8097,
+      "offset": 8849,
       "length": 24,
       "value": "\"editor.modify.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 8248,
+      "offset": 9000,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 8263,
+      "offset": 9015,
       "length": 22,
       "value": "\"editor.next.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 8408,
+      "offset": 9160,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 8423,
+      "offset": 9175,
       "length": 20,
       "value": "\"editor.no.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 8745,
+      "offset": 9497,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 8760,
+      "offset": 9512,
       "length": 43,
       "value": "\"editor.photo.picker.camera.cell.btn.title\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 8978,
+      "offset": 9730,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 8993,
+      "offset": 9745,
       "length": 25,
       "value": "\"editor.picture.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 9238,
+      "offset": 9990,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 9253,
+      "offset": 10005,
       "length": 43,
       "value": "\"editor.playbackSpeed.btn.confirm.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 9444,
+      "offset": 10196,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 9459,
+      "offset": 10211,
       "length": 27,
       "value": "\"editor.preparing.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 9660,
+      "offset": 10412,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 9675,
+      "offset": 10427,
       "length": 31,
       "value": "\"editor.preview.title.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 10076,
+      "offset": 10828,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 10091,
+      "offset": 10843,
       "length": 29,
       "value": "\"editor.progressing.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 10308,
+      "offset": 11060,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 10323,
+      "offset": 11075,
       "length": 32,
       "value": "\"editor.select.gallery.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 10581,
+      "offset": 11333,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 10596,
+      "offset": 11348,
       "length": 36,
       "value": "\"editor.title.cover.picker.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 10777,
+      "offset": 11529,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 10792,
+      "offset": 11544,
       "length": 28,
       "value": "\"editor.title.crop.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 10959,
+      "offset": 11711,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 10974,
+      "offset": 11726,
       "length": 30,
       "value": "\"editor.title.filter.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 11158,
+      "offset": 11910,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 11173,
+      "offset": 11925,
       "length": 37,
       "value": "\"editor.title.playbackSpeed.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 11436,
+      "offset": 12188,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 11451,
+      "offset": 12203,
       "length": 43,
       "value": "\"editor.title.shortform.data.edit.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 11694,
+      "offset": 12446,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 11709,
+      "offset": 12461,
       "length": 34,
       "value": "\"editor.title.video.edit.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 11895,
+      "offset": 12647,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 11910,
+      "offset": 12662,
       "length": 36,
       "value": "\"editor.title.video.upload.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 12921,
+      "offset": 13673,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 12936,
+      "offset": 13688,
       "length": 41,
       "value": "\"editor.toast.encoding.canceled.shoplive\""
-    },
-    {
-      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
-      "kind": "StringLiteral",
-      "offset": 13131,
-      "length": 13,
-      "value": "\"Localizable\""
-    },
-    {
-      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
-      "kind": "StringLiteral",
-      "offset": 13146,
-      "length": 37,
-      "value": "\"editor.toast.encoding.fail.shoplive\""
-    },
-    {
-      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
-      "kind": "StringLiteral",
-      "offset": 13481,
-      "length": 13,
-      "value": "\"Localizable\""
-    },
-    {
-      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
-      "kind": "StringLiteral",
-      "offset": 13496,
-      "length": 52,
-      "value": "\"editor.toast.encoding.uri.was.not.created.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
@@ -58384,202 +58722,230 @@
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
       "offset": 13898,
+      "length": 37,
+      "value": "\"editor.toast.encoding.fail.shoplive\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 14233,
+      "length": 13,
+      "value": "\"Localizable\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 14248,
+      "length": 52,
+      "value": "\"editor.toast.encoding.uri.was.not.created.shoplive\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 14635,
+      "length": 13,
+      "value": "\"Localizable\""
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
+      "kind": "StringLiteral",
+      "offset": 14650,
       "length": 52,
       "value": "\"editor.toast.encoding.video.was.not.exist.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 14669,
+      "offset": 15421,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 14684,
+      "offset": 15436,
       "length": 55,
       "value": "\"editor.toast.need.access.gallery.permissions.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 15031,
+      "offset": 15783,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 15046,
+      "offset": 15798,
       "length": 49,
       "value": "\"editor.toast.shortform.creation.failed.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 15279,
+      "offset": 16031,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 15294,
+      "offset": 16046,
       "length": 31,
       "value": "\"editor.toast.upload.cancelled\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 16358,
+      "offset": 17110,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 16373,
+      "offset": 17125,
       "length": 26,
       "value": "\"editor.ugc.preview.title\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 16538,
+      "offset": 17290,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 16553,
+      "offset": 17305,
       "length": 24,
       "value": "\"editor.upload.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 16718,
+      "offset": 17470,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 16733,
+      "offset": 17485,
       "length": 36,
       "value": "\"editor.upload.description.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 16909,
+      "offset": 17661,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 16924,
+      "offset": 17676,
       "length": 41,
       "value": "\"editor.upload.description.hint.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 17109,
+      "offset": 17861,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 17124,
+      "offset": 17876,
       "length": 28,
       "value": "\"editor.upload.tag.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 17289,
+      "offset": 18041,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 17304,
+      "offset": 18056,
       "length": 30,
       "value": "\"editor.upload.title.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 17468,
+      "offset": 18220,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 17483,
+      "offset": 18235,
       "length": 35,
       "value": "\"editor.upload.title.hint.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 17665,
+      "offset": 18417,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 17680,
+      "offset": 18432,
       "length": 23,
       "value": "\"editor.video.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 17916,
+      "offset": 18668,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 17931,
+      "offset": 18683,
       "length": 36,
       "value": "\"editor.volume.btn.confirm.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 18157,
+      "offset": 18909,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 18172,
+      "offset": 18924,
       "length": 35,
       "value": "\"editor.volume.page.title.shoplive\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 18350,
+      "offset": 19102,
       "length": 13,
       "value": "\"Localizable\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Derived\/Sources\/TuistStrings+ShopLiveShortformEditorSDK.swift",
       "kind": "StringLiteral",
-      "offset": 18365,
+      "offset": 19117,
       "length": 21,
       "value": "\"editor.yes.shoplive\""
     },
@@ -58712,168 +59078,168 @@
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "StringLiteral",
-      "offset": 226,
+      "offset": 251,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "StringLiteral",
-      "offset": 269,
+      "offset": 294,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "StringLiteral",
-      "offset": 301,
+      "offset": 326,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "IntegerLiteral",
-      "offset": 350,
+      "offset": 375,
       "length": 2,
       "value": "16"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "IntegerLiteral",
-      "offset": 360,
+      "offset": 385,
       "length": 2,
       "value": "16"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "IntegerLiteral",
-      "offset": 372,
+      "offset": 397,
       "length": 2,
       "value": "16"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "IntegerLiteral",
-      "offset": 383,
+      "offset": 408,
       "length": 2,
       "value": "16"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "IntegerLiteral",
-      "offset": 437,
+      "offset": 462,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "IntegerLiteral",
-      "offset": 446,
+      "offset": 471,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "IntegerLiteral",
-      "offset": 457,
+      "offset": 482,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "IntegerLiteral",
-      "offset": 467,
+      "offset": 492,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "IntegerLiteral",
-      "offset": 505,
+      "offset": 530,
       "length": 1,
       "value": "9"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "IntegerLiteral",
-      "offset": 516,
+      "offset": 541,
       "length": 2,
       "value": "16"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "IntegerLiteral",
-      "offset": 1115,
+      "offset": 1140,
       "length": 1,
       "value": "3"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "IntegerLiteral",
-      "offset": 1157,
+      "offset": 1182,
       "length": 2,
       "value": "10"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "IntegerLiteral",
-      "offset": 1198,
+      "offset": 1223,
       "length": 2,
       "value": "10"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "IntegerLiteral",
-      "offset": 1239,
+      "offset": 1264,
       "length": 2,
       "value": "10"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "BooleanLiteral",
-      "offset": 1280,
+      "offset": 1305,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "BooleanLiteral",
-      "offset": 1317,
+      "offset": 1342,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "BooleanLiteral",
-      "offset": 1354,
+      "offset": 1379,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "BooleanLiteral",
-      "offset": 1391,
+      "offset": 1416,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "BooleanLiteral",
-      "offset": 1437,
+      "offset": 1462,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "StringLiteral",
-      "offset": 1480,
+      "offset": 1505,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/ConfigAndAuth\/ShortFormConfigurationInfoModel.swift",
       "kind": "StringLiteral",
-      "offset": 1508,
+      "offset": 1533,
       "length": 2,
       "value": "\"\""
     },
@@ -60924,28 +61290,28 @@
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 7673,
+      "offset": 7634,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 7719,
+      "offset": 7680,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "IntegerLiteral",
-      "offset": 7849,
+      "offset": 7810,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "Array",
-      "offset": 10401,
+      "offset": 10362,
       "length": 2,
       "value": "[]"
     },
@@ -63906,35 +64272,49 @@
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "BooleanLiteral",
-      "offset": 2867,
+      "offset": 2875,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "BooleanLiteral",
-      "offset": 2916,
+      "offset": 2924,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "BooleanLiteral",
-      "offset": 2962,
+      "offset": 2970,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "BooleanLiteral",
-      "offset": 3003,
+      "offset": 3011,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
+      "kind": "BooleanLiteral",
+      "offset": 3059,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
+      "kind": "BooleanLiteral",
+      "offset": 3106,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/tabber\/Desktop\/github\/matrix-sdk-ios\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 3180,
+      "offset": 3283,
       "length": 29,
       "value": "\"shopLiveImageGeneratorQueue\""
     },

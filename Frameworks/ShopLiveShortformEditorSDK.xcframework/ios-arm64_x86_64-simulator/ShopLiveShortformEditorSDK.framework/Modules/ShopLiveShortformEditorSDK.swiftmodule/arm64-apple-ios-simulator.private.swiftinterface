@@ -110,6 +110,13 @@ public enum ShopLiveShortformEditorSDKStrings : Swift.Sendable {
           public static let shoplive: Swift.String
         }
       }
+      public enum Uploading : Swift.Sendable {
+        public enum Cancel : Swift.Sendable {
+          public enum Title : Swift.Sendable {
+            public static let shoplive: Swift.String
+          }
+        }
+      }
     }
     public enum Cover : Swift.Sendable {
       public enum Picker : Swift.Sendable {
@@ -205,7 +212,10 @@ public enum ShopLiveShortformEditorSDKStrings : Swift.Sendable {
       }
     }
     public enum Loading : Swift.Sendable {
+      public static let compress: Swift.String
       public static let shoplive: Swift.String
+      public static let thumbnail: Swift.String
+      public static let upload: Swift.String
     }
     public enum Main : Swift.Sendable {
       public enum Btn : Swift.Sendable {
