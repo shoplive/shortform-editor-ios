@@ -403,7 +403,7 @@ public extension APIDefinition {
         let session = URLSession(configuration: sessionConfg, delegate: delegate, delegateQueue: nil)
         let task = session.uploadTask(with: request, fromFile: tempFileURL)
         
-        DispatchQueue.global().asyncAfter(deadline: .now() + Double(sessionConfg.timeoutIntervalForRequest) + 10) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + Double(sessionConfg.timeoutIntervalForRequest)) {
             uploadDelegatesQueue.async(flags: .barrier) {
                 if uploadDelegates[delegateKey] != nil {
                     uploadDelegates.removeValue(forKey: delegateKey)
