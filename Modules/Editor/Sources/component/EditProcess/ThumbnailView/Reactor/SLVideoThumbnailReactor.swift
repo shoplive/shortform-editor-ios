@@ -244,7 +244,7 @@ extension SLVideoThumbnailReactor {
             let tracks = asset.statusOfValue(forKey: "tracks", error: &error)
             let duration = asset.statusOfValue(forKey: "duration", error: &error)
             
-            guard tracks == .loaded || duration == .loaded else {
+            guard tracks == .loaded && duration == .loaded else {
                 completion?()
                 return
             }

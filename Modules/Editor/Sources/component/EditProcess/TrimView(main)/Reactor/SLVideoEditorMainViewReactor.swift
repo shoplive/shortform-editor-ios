@@ -363,15 +363,13 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
             switch result {
             case .Success(let videoPath):
                 self.videoEditInfoDto.convertedVideoPath = videoPath
-                DispatchQueue.main.async {
-                    self.resultHandler?( .convertFinished(videoPath: videoPath) )
-                    if self.videoUploadOption.isCreatedShortform {
-                        self.callShortformUploadableAPI()
-                    }
-                    else {
-                        self.isLoading = false
-                        self.onMainQueueResultHandler?( .cancelLoading )
-                    }
+                self.resultHandler?( .convertFinished(videoPath: videoPath) )
+                if self.videoUploadOption.isCreatedShortform {
+                    self.callShortformUploadableAPI()
+                }
+                else {
+                    self.isLoading = false
+                    self.onMainQueueResultHandler?( .cancelLoading )
                 }
             case .Failed(let error):
                 ShopLiveLogger.tempLog("processVideoConvert error: \(error)")
@@ -574,11 +572,12 @@ callShortformVideoAPI data is nil
         isUserUploadStop = false
         
         if #available(iOS 16.0, *) {
-            Task {
+            Task { [weak self] in
+                guard let self else { return }
                 do {
                     let size = try await self.videoEditInfoDto.getConvertedVideoSizeAsync()
                     
-                    shortformUpload(
+                    self.shortformUpload(
                         apiEndpoint: apiEndpoint,
                         videoPath: videoPath,
                         image: image,

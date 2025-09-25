@@ -13,7 +13,7 @@ class UploadProgressDelegate: NSObject, URLSessionTaskDelegate, URLSessionDataDe
     private let progressHandler: ((Double) -> ())?
     private let completionHandler: (Data?, URLResponse?, Error?) -> ()
     private var responseData = Data()
-    private var hasCompleted = false // 중복 completion 방지
+    private var hasCompleted = false
     
     init(delegateKey: String, progressHandler: ((Double) -> ())?, completionHandler: @escaping (Data?, URLResponse?, Error?) -> ()) {
         self.delegateKey = delegateKey
