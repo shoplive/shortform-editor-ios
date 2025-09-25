@@ -253,14 +253,14 @@ final class LiveStreamViewModel: NSObject {
                 
                 ShopLiveController.playerItem = playerItem
                 self.playerItem = playerItem
-                NotificationCenter.default.addObserver(forName: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase, queue: .main) { [weak self] notification in
+                NotificationCenter.default.addObserver(forName: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase, queue: nil) { [weak self] notification in
                     guard let self else { return }
                     if let timebase = ShopLiveController.timebase {
                         let rate = CMTimebaseGetRate(timebase)
                         self.perfMeasurements?.rateChanged(rate: rate)
                     }
                 }
-                NotificationCenter.default.addObserver(forName: .AVPlayerItemPlaybackStalled, object: self.playerItem, queue: .main) { [weak self] notification in
+                NotificationCenter.default.addObserver(forName: .AVPlayerItemPlaybackStalled, object: self.playerItem, queue: nil) { [weak self] notification in
                     guard let self else { return }
                     if let _ = ShopLiveController.playerItem {
                         self.perfMeasurements?.playbackStalled()
@@ -325,10 +325,8 @@ final class LiveStreamViewModel: NSObject {
         ShopLiveController.perfMeasurements?.playbackEnded()
         ShopLiveController.perfMeasurements = nil
         
-        notificationQueue.sync {
-            NotificationCenter.default.removeObserver(self, name: .TimebaseEffectiveRateChangedNotification, object: nil)
-            NotificationCenter.default.removeObserver(self, name: .AVPlayerItemPlaybackStalled, object: nil)
-        }
+        NotificationCenter.default.removeObserver(self, name: .TimebaseEffectiveRateChangedNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemPlaybackStalled, object: nil)
         
         ShopLiveController.playControl = .none
     }

@@ -16,15 +16,24 @@ extension LiveStreamViewModel {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty, (ShopLiveController.playerItemStatus == .failed || ShopLiveController.player?.reasonForWaitingToPlay == AVPlayer.WaitingReason.evaluatingBufferingRate) {
-                self.updatePlayerItem(with: url)
-            }
-            else {
-                if ShopLiveController.isReplayMode {
-                    if ShopLiveController.isReplayFinished {
-                        self.seek(to: .init(value: 0, timescale: 1))
+                if ShopLiveController.windowStyle != .osPip {
+                    self.updatePlayerItem(with: url)
+                } else {
+                    if let player = ShopLiveController.player {
+                        player.play()
                     }
                 }
-                ShopLiveController.player?.play()
+            }
+            else {
+                if ShopLiveController.isReplayMode, ShopLiveController.isReplayFinished {
+                    self.seek(to: .init(value: 0, timescale: 1))
+                }
+                if let player = ShopLiveController.player {
+                    if ShopLiveController.windowStyle == .osPip {
+                        ShopLiveController.shared.lastPipPlaying = true
+                    }
+                    player.play()
+                }
             }
         }
     }

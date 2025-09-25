@@ -190,7 +190,7 @@ final class ShopLiveController: NSObject {
         case .loadedTimeRanges:
             if let loadedTimeRanges = change?[.newKey] as? [NSValue], let timeRange = loadedTimeRanges.last as? CMTimeRange {
                 let timeLoaded = Int(timeRange.duration.value) / Int(timeRange.duration.timescale)
-                if timeLoaded >= 4 && ShopLiveController.timeControlStatus == .waitingToPlayAtSpecifiedRate {
+                if timeLoaded >= 4 && ShopLiveController.timeControlStatus == .waitingToPlayAtSpecifiedRate && ShopLiveController.playControl != .play {
                     ShopLiveController.playControl = .play
                 }
             }
