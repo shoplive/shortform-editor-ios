@@ -350,7 +350,8 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
                                     speed: videoEditInfoDto.videoSpeed)
         
         self.onMainQueueResultHandler?( .updateLoadingPercent("0%") )
-        self.onMainQueueResultHandler?( .showLoadingView("Loading...") )
+        self.onMainQueueResultHandler?( .showLoadingView(ShopLiveShortformEditorSDKStrings.Editor.Loading.compress) )
+        
         self.isLoading = true
         
         videoConverter.convertVideo(videoInfo: videoInfo) { [weak self] result in
@@ -440,7 +441,7 @@ extension SLVideoEditorMainViewReactor : SLCircularProgressIndicatorViewDelegate
 extension SLVideoEditorMainViewReactor {
     private func callShortformUploadableAPI() {
         onMainQueueResultHandler?( .updateLoadingPercent("0%"))
-        onMainQueueResultHandler?( .showLoadingView("썸네일 업로드 중...") )
+        onMainQueueResultHandler?( .showLoadingView(ShopLiveShortformEditorSDKStrings.Editor.Loading.thumbnail) )
         ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result  in
             guard let self = self else { return }
             SLShortformUploadableAPI().request { result in
@@ -512,7 +513,7 @@ callShortformVideoAPI data is nil
         }
         
         onMainQueueResultHandler?(.updateLoadingPercent("0%"))
-        onMainQueueResultHandler?(.showLoadingView("숏폼 업로드 중..."))
+        onMainQueueResultHandler?(.showLoadingView(ShopLiveShortformEditorSDKStrings.Editor.Loading.upload))
         
         if #available(iOS 16.0, *) {
             Task {

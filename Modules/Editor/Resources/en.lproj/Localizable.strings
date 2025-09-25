@@ -164,6 +164,9 @@
 "editor.yes.shoplive" = "Yes";
 "editor.no.shoplive" = "No";
 "editor.loading.shoplive" = "Loading";
+"editor.loading.compress" = "Video Compressing...";
+"editor.loading.thumbnail" = "Thumbnail Uploading...";
+"editor.loading.upload" = "Uploading...";
 
 //Preview
 "editor.ugc.preview.title" = "Preview";

@@ -229,8 +229,14 @@ public enum ShopLiveShortformEditorSDKStrings: Sendable {
     }
 
     public enum Loading: Sendable {
-    /// Loading
+    /// Video Compressing...
+      public static let compress = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.loading.compress")
+      /// Loading
       public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.loading.shoplive")
+      /// Thumbnail Uploading...
+      public static let thumbnail = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.loading.thumbnail")
+      /// Uploading...
+      public static let upload = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.loading.upload")
     }
 
     public enum Main: Sendable {

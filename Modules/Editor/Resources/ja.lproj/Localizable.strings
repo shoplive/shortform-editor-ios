@@ -74,6 +74,9 @@
 "editor.yes.shoplive" = "はい";
 "editor.no.shoplive" = "いいえ";
 "editor.loading.shoplive" = "ロード中";
+"editor.loading.compress" = "映像圧縮中...";
+"editor.loading.thumbnail" = "サムネイルをアップロード中...";
+"editor.loading.upload" = "アップロード中...";
 
 "editor.toast.encoding.video.was.not.exist.shoplive" = "動画が見つかりません。";
 "editor.toast.encoding.uri.was.not.created.shoplive" = "URLの作成に失敗しました。";
