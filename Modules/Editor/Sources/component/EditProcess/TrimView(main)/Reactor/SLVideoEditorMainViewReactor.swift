@@ -88,7 +88,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
         case showCancelToast
         
         case updateLoadingPercent(String)
-        case showLoadingView
+        case showLoadingView(String)
         case cancelLoading
         case requestPopView
         
@@ -102,6 +102,8 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     private var isCropTimeUpdated : Bool = false
     private var isViewAppeared : Bool = false
     private var isLoading : Bool = false
+    private var isUserConvertStop: Bool = false
+    private var isUserUploadStop: Bool = false
     
     private let videoConverter = SLVideoConverter()
     private var imageGenerator : AVAssetImageGenerator
@@ -114,6 +116,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     
     //shortform/video API 경우 긴거 올릴때 중간에 메모리가 유실되는 경우가 있어서 레퍼런스를 잡고 있어야 함
     private var shortformVideoAPI : SLShortformVideoAPI?
+    private var uploadCancellable : APIDefinitionCancellable?
     
     var resultHandler: ((Result) -> ())?
     var onMainQueueResultHandler : ((Result) -> ())?
@@ -306,7 +309,7 @@ class SLVideoEditorMainViewReactor : NSObject,  SLReactor {
     
     private func onBackBtnTapped() {
         if isLoading {
-            showEncodingCancelPopUp()
+            showUploadCancelPopUp()
         }
         else {
             onMainQueueResultHandler?( .requestPopView )
@@ -344,14 +347,16 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
                                     cropRect: videoEditInfoDto.realVideoCropRect,
                                     videoSize: videoSize,
                                     timeRange: (startTime,endTime),
-                                    fileName: (videoUrl as NSString).lastPathComponent,
+                                    fileName: "converted_video",
                                     filterConfig: videoEditInfoDto.filterConfig,
                                     volume: Double(videoEditInfoDto.volume),
                                     speed: videoEditInfoDto.videoSpeed)
         
         self.onMainQueueResultHandler?( .updateLoadingPercent("0%") )
-        self.onMainQueueResultHandler?( .showLoadingView )
+        self.onMainQueueResultHandler?( .showLoadingView(ShopLiveShortformEditorSDKStrings.Editor.Loading.compress) )
+        
         self.isLoading = true
+        self.isUserConvertStop = false
         
         videoConverter.convertVideo(videoInfo: videoInfo) { [weak self] result in
             guard let self = self else { return }
@@ -359,7 +364,7 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
             case .Success(let videoPath):
                 self.videoEditInfoDto.convertedVideoPath = videoPath
                 self.resultHandler?( .convertFinished(videoPath: videoPath) )
-                if videoUploadOption.isCreatedShortform {
+                if self.videoUploadOption.isCreatedShortform {
                     self.callShortformUploadableAPI()
                 }
                 else {
@@ -367,8 +372,6 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
                     self.onMainQueueResultHandler?( .cancelLoading )
                 }
             case .Failed(let error):
-                self.isLoading = false
-                self.onMainQueueResultHandler?( .cancelLoading )
                 ShopLiveLogger.tempLog("processVideoConvert error: \(error)")
                 
                 var e : ShopLiveCommonError
@@ -385,14 +388,19 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
                         
                         e = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedEncoding, error: error, message: sendMessage)
                     case .cancel(let log):
-                        e = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedEncoding, error: error, message: nil)
+                        e = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedEncoding, error: error, message: log)
                         ShopLiveLogger.tempLog("processVideoConvert error not Cancel : \(error)")
                     }
                 } else {
                     e = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedEncoding, error: error, message: nil)
                 }
                 
-                resultHandler?( .onError(e) )
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                    self.onMainQueueResultHandler?( .cancelLoading )
+                    guard !self.isUserConvertStop else { return }
+                    self.resultHandler?( .onError(e) )
+                }
             }
         }
     }
@@ -405,7 +413,11 @@ extension SLVideoEditorMainViewReactor : SLVideoConverterDelegate {
 extension SLVideoEditorMainViewReactor : SLCircularProgressIndicatorViewDelegate {
     
     func didTapLoadingView(_ alertController: SLCircularProgressIndicatorView) {
-        self.showEncodingCancelPopUp()
+        if uploadCancellable != nil {
+            self.showUploadCancelPopUp()
+        } else {
+            self.showEncodingCancelPopUp()
+        }
     }
     
     private func showEncodingCancelPopUp() {
@@ -422,16 +434,60 @@ extension SLVideoEditorMainViewReactor : SLCircularProgressIndicatorViewDelegate
                                      size: design.popupConfirmButtonTextSize,
                                      weight: design.popupConfirmButtonTextWeight,
                                      customFont: design.popupConfirmButtonTextFont)
-        popUp.btnClickCallback = { [weak self] result in
+        popUp.btnClickCallback = { [weak self] (result: SLCustomAlertBox.ResultType) in
             guard let self = self else { return }
             if result == .yes {
                 self.isLoading = false
+                self.isUserConvertStop = true
                 self.onMainQueueResultHandler?( .cancelLoading )
                 self.videoConverter.cancelConvert()
-                popUp.isHidden = true
-                popUp.removeFromSuperview()
                 resultHandler?( .showCancelToast )
             }
+            
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                popUp.alpha = 0
+            }, completion: { _ in
+                popUp.isHidden = true
+                popUp.removeFromSuperview()
+            })
+        }
+        onMainQueueResultHandler?( .showPopUp(popUp) )
+    }
+    
+    private func showUploadCancelPopUp() {
+        let popUp = SLCustomAlertBox(title: ShopLiveShortformEditorSDKStrings.Editor.Alert.Uploading.Cancel.Title.shoplive, confirmTitle: nil, closeTitle: nil)
+        
+        popUp.setBoxCornerRadius(cornerRadius: design.popupCornerRadius)
+        popUp.setButtonCornerRadius(cornerRadius: design.popupButtonCornerRadius)
+        popUp.setCloseButtonDesign(backgroundColor: design.popupCloseButtonBackgroundColor,
+                                   textColor: design.popupCloseButtonTextColor,
+                                   size: design.popupCloseButtonTextSize,
+                                   weight: design.popupCloseButtonTextWeight,
+                                   customFont: design.popupCloseButtonTextFont)
+        
+        popUp.setConfirmButtonDesign(backgroundColor: design.popupConfirmButtonBackgroundColor,
+                                     textColor: design.popupConfirmButtonTextColor,
+                                     size: design.popupConfirmButtonTextSize,
+                                     weight: design.popupConfirmButtonTextWeight,
+                                     customFont: design.popupConfirmButtonTextFont)
+        
+        popUp.btnClickCallback = { [weak self] (result: SLCustomAlertBox.ResultType) in
+            guard let self = self else { return }
+            if result == .yes {
+                self.isLoading = false
+                self.isUserUploadStop = true
+                self.onMainQueueResultHandler?( .cancelLoading )
+                resultHandler?( .showCancelToast )
+                self.uploadCancellable?.cancel()
+            }
+            
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                popUp.alpha = 0
+            }, completion: { _ in
+                popUp.isHidden = true
+                popUp.removeFromSuperview()
+            })
+            
         }
         onMainQueueResultHandler?( .showPopUp(popUp) )
     }
@@ -439,12 +495,14 @@ extension SLVideoEditorMainViewReactor : SLCircularProgressIndicatorViewDelegate
 //MARK: - upload process
 extension SLVideoEditorMainViewReactor {
     private func callShortformUploadableAPI() {
-        resultHandler?( .showLoadingView )
+        onMainQueueResultHandler?( .updateLoadingPercent("0%"))
+        onMainQueueResultHandler?( .showLoadingView(ShopLiveShortformEditorSDKStrings.Editor.Loading.thumbnail) )
         ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result  in
             guard let self = self else { return }
             SLShortformUploadableAPI().request { result in
                 switch result {
                 case .success(let data):
+                    self.onMainQueueResultHandler?( .updateLoadingPercent("100%"))
                     self.shortformUploadableResponseData = data
                     self.checkThumbnailImage()
                     break
@@ -468,12 +526,26 @@ extension SLVideoEditorMainViewReactor {
         imageGeneratorQueue.sync { [weak self] in
             guard let self = self else { return }
             let time = CMTime(seconds: targetSec, preferredTimescale: 44100)
-            do {
-                let cgImage = try imageGenerator.copyCGImage(at: time, actualTime: nil)
-                completion(UIImage.init(cgImage: cgImage))
-            }
-            catch(_) {
-                completion(nil)
+            
+            if #available(iOS 16.0, *) {
+                Task {
+                    do {
+                        let (cgImage, _) = try await self.imageGenerator.image(at: time)
+                        completion(UIImage(cgImage: cgImage))
+                    } catch {
+                        self.resultHandler?(.onError(.init(code: 60001, message: "getExtractThumbnail iOS 16 Upper Error", error: error)))
+                        completion(nil)
+                    }
+                }
+            } else {
+                do {
+                    let cgImage = try imageGenerator.copyCGImage(at: time, actualTime: nil)
+                    completion(UIImage.init(cgImage: cgImage))
+                }
+                catch {
+                    self.resultHandler?(.onError(.init(code: 60002, message: "getExtractThumbnail iOS 16 Under Error", error: error)))
+                    completion(nil)
+                }
             }
         }
     }
@@ -482,24 +554,92 @@ extension SLVideoEditorMainViewReactor {
         guard let apiEndpoint = self.shortformUploadableResponseData?.uploadApiEndpoint,
               let sessionSecret = self.shortformUploadableResponseData?.sessionSecret,
               let videoPath = self.videoEditInfoDto.convertedVideoPath,
-              let videoWidth = self.videoEditInfoDto.getConvertedVideoSize()?.width,
-              let videoHeight = self.videoEditInfoDto.getConvertedVideoSize()?.height,
-              let videoDuration = self.videoEditInfoDto.getConvertedVideoDuration() else { return }
+              let videoDuration = self.videoEditInfoDto.getConvertedVideoDuration() else {
+            
+            resultHandler?(.onError(.init(code: 60003, message: """
+callShortformVideoAPI data is nil
+        apiEndpoint : \(String(describing: self.shortformUploadableResponseData?.uploadApiEndpoint))
+        sessionSecret : \(String(describing: self.shortformUploadableResponseData?.sessionSecret))
+        videoPath : \(String(describing: self.videoEditInfoDto.convertedVideoPath))
+        videoDuration : \(String(describing: self.videoEditInfoDto.getConvertedVideoDuration)) 
+""", error: nil)))
+            
+            return
+        }
         
-        self.shortformVideoAPI = SLShortformVideoAPI(apiEndpoint: apiEndpoint, image: nil, video: videoPath, imageData : image, sessionSecret: sessionSecret,videoWidth: videoWidth, videoHeight: videoHeight,videoDuration: videoDuration)
+        onMainQueueResultHandler?(.updateLoadingPercent("0%"))
+        onMainQueueResultHandler?(.showLoadingView(ShopLiveShortformEditorSDKStrings.Editor.Loading.upload))
+        isUserUploadStop = false
+        
+        if #available(iOS 16.0, *) {
+            Task { [weak self] in
+                guard let self else { return }
+                do {
+                    let size = try await self.videoEditInfoDto.getConvertedVideoSizeAsync()
+                    
+                    self.shortformUpload(
+                        apiEndpoint: apiEndpoint,
+                        videoPath: videoPath,
+                        image: image,
+                        videoWidth: size?.width,
+                        videoHeight: size?.height,
+                        videoDuration: videoDuration,
+                        sessionSecret: sessionSecret
+                    )
+                } catch {
+                    await MainActor.run { [weak self] in
+                        self?.resultHandler?(.onError(.init(code: 60004, message: "getConvertedVideoSizeAsync error", error: error)))
+                    }
+                    
+                }
+            }
+        } else {
+            let videoWidth = self.videoEditInfoDto.getConvertedVideoSize()?.width
+            let videoHeight = self.videoEditInfoDto.getConvertedVideoSize()?.height
+            
+            shortformUpload(
+                apiEndpoint: apiEndpoint,
+                videoPath: videoPath,
+                image: image,
+                videoWidth: videoWidth,
+                videoHeight: videoHeight,
+                videoDuration: videoDuration,
+                sessionSecret: sessionSecret
+            )
+        }
+        
+    }
+    
+    private func shortformUpload(apiEndpoint: String, videoPath: String, image: UIImage?, videoWidth: CGFloat? = nil, videoHeight: CGFloat? = nil, videoDuration: Double, sessionSecret: String) {
+        self.shortformVideoAPI = SLShortformVideoAPI(
+            apiEndpoint: apiEndpoint,
+            image: nil,
+            video: videoPath,
+            imageData : image,
+            sessionSecret: sessionSecret,
+            videoWidth: videoWidth,
+            videoHeight: videoHeight,
+            videoDuration: videoDuration
+        )
         
         ShortFormUploadConfigurationInfosManager.shared.callShortsConfigurationAPI { [weak self] result in
             guard let self = self else  { return }
-            self.shortformVideoAPI?
-                .upload { result  in
+            self.uploadCancellable = self.shortformVideoAPI?
+                .upload { result in
+                    self.uploadCancellable = nil
                     switch result {
                     case .success(let data):
                         self.callShortformRegisterAPI(videoId: data.videoID , imageUrl: data.thumbnailImageURL)
                     case .failure(let error):
-                        self.resultHandler?( .onError(error) )
                         self.isLoading = false
                         self.resultHandler?( .cancelLoading )
+                        
+                        guard !self.isUserUploadStop else { return }
+                        self.resultHandler?( .onError(error) )
                     }
+                } progressHandler: { [weak self] value in
+                    let percent = Int(round(Double(value) * 100))
+                    self?.onMainQueueResultHandler?(.updateLoadingPercent("\(percent)%"))
                 }
         }
     }

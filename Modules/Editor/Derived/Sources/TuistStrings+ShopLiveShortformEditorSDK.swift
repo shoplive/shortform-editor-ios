@@ -74,6 +74,17 @@ public enum ShopLiveShortformEditorSDKStrings: Sendable {
           public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.alert.shoot.title.shoplive")
         }
       }
+
+      public enum Uploading: Sendable {
+
+        public enum Cancel: Sendable {
+
+          public enum Title: Sendable {
+          /// Cancel uploading?
+            public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.alert.uploading.cancel.title.shoplive")
+          }
+        }
+      }
     }
 
     public enum Cover: Sendable {
@@ -229,8 +240,14 @@ public enum ShopLiveShortformEditorSDKStrings: Sendable {
     }
 
     public enum Loading: Sendable {
-    /// Loading
+    /// Video Compressing...
+      public static let compress = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.loading.compress")
+      /// Loading
       public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.loading.shoplive")
+      /// Thumbnail Uploading...
+      public static let thumbnail = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.loading.thumbnail")
+      /// Uploading...
+      public static let upload = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.loading.upload")
     }
 
     public enum Main: Sendable {

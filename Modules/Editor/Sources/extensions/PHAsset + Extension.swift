@@ -22,26 +22,34 @@ extension PHAsset {
         options.deliveryMode = .automatic
         options.version = .current
         options.isNetworkAccessAllowed = true
-        PHImageManager.default().requestAVAsset(forVideo: self, options: options, resultHandler: {(asset: AVAsset?, audioMix: AVAudioMix?, info: [AnyHashable : Any]?) -> Void in
-            
-            guard let asset = asset else { return }
-            
-            let dirPath = SLFileManager.editorDirectoryPath
-            let outputURL = dirPath.appendingPathComponent("\(UUID().uuidString)_ShopLive.mp4")
-            
-            let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality)
-            exportSession?.outputURL = outputURL
-            exportSession?.outputFileType = .mp4
-            
-            exportSession?.exportAsynchronously {
-                if exportSession?.status == .completed {
-                    completion((outputURL,outputURL))
-                } else {
-                    ShopLiveLogger.tempLog("[SLPHOTOPICKER] exportSession error \(exportSession?.error?.localizedDescription)")
+        
+        let dirPath = SLFileManager.editorDirectoryPath
+        let outputURL = dirPath.appendingPathComponent("\(UUID().uuidString)_ShopLive.mp4")
+        PHImageManager.default().requestExportSession(forVideo: self, options: options, exportPreset: AVAssetExportPresetHighestQuality) { session, info in
+            guard let session = session else {
+                completion((nil,nil))
+                return
+            }
+            session.outputURL = outputURL
+            session.shouldOptimizeForNetworkUse = true
+            if session.supportedFileTypes.contains(.mp4) {
+                session.outputFileType = .mp4
+            } else if let first = session.supportedFileTypes.first {
+                session.outputFileType = first
+            } else {
+                session.outputFileType = .mov
+            }
+            session.exportAsynchronously {
+                switch session.status {
+                case .completed:
+                    completion((outputURL, outputURL))
+                case .failed, .cancelled:
                     completion((nil,nil))
+                default:
+                    break
                 }
             }
-        })
+        }
     }
     
     func getImageUrl(progress: @escaping (Double) -> Void, completion: @escaping (URL?) -> Void) {

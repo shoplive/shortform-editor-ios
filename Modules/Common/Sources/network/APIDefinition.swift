@@ -8,7 +8,8 @@
 import Foundation
 import UIKit
 
-
+private var uploadDelegates: [String: UploadProgressDelegate] = [:]
+private let uploadDelegatesQueue = DispatchQueue(label: "upload.delegates.queue", attributes: .concurrent)
 
 public protocol RawDataRepresantable {
     var rawData: Data? { set get }
@@ -120,7 +121,7 @@ public extension APIDefinition {
 }
 
 public final class APIDefinitionCancellable {
-    init(task: URLSessionTask) {
+    init(task: URLSessionTask?) {
         self.task = task
     }
     
@@ -286,7 +287,8 @@ public extension APIDefinition {
         
     }
     
-    func upload(handler: ((Result<ResultType, ShopLiveCommonError>) -> ())? = nil ) {
+    
+    func upload(handler: ((Result<ResultType, ShopLiveCommonError>) -> ())? = nil, progressHandler: ((Double) -> ())? = nil ) -> APIDefinitionCancellable {
         
         // Headers
         var finalHeaders = Self.defaultHeaders
@@ -311,7 +313,7 @@ public extension APIDefinition {
                 urlString += "/\(urlPath)"
             }
         }
-       
+        
         ShopLiveLogger.tempLog("URL String \(urlString)")
         
         var request = URLRequest(url: URL(string: urlString)!)
@@ -319,7 +321,6 @@ public extension APIDefinition {
         for (key, value) in finalHeaders {
             request.setValue(value, forHTTPHeaderField: key)
         }
-        request.httpBody = createBody(boundary: boundary)
         
         let sessionConfg = URLSessionConfiguration.default
         sessionConfg.timeoutIntervalForRequest = 999
@@ -333,53 +334,80 @@ public extension APIDefinition {
             ShopLiveLogger.tempLog(log)
         }
         
-        
-        let task = URLSession(configuration: sessionConfg).dataTask(with: request) { data , response , error  in
-            if self.showResponseLog {
-                ShopLiveLogger.tempLog("[UPLOADRESPONSE] \(String(data: data ?? Data(), encoding: .utf8) ?? "no data")")
-            }
-            
-            let statusCode = (response as? HTTPURLResponse)?.statusCode
-            if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: data, endpoint: request.url?.path ?? "") {
-                DispatchQueue.main.async {
-                    handler?( .failure(commonError) )
-                }
-                return
-            }
-            
-            guard let data = data else {
-                let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnexpectedError, error: error, message: "empty response")
-                handler?( .failure(commonError) )
-                return
-            }
-            
-            do {
-                let decoded = try JSONDecoder().decode(ResultType.self, from: data)
-                DispatchQueue.main.async {
-                    handler?(.success(decoded))
-                }
-            }
-            catch( let error) {
-                if self.showResponseLog {
-                    ShopLiveLogger.tempLog("[UPLOADRESPONSE] JsonDecoding Error \(error.localizedDescription)")
-                }
-                let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedJSONParsing, error: error, message: nil)
-                DispatchQueue.main.async {
-                    handler?( .failure(commonError) )
-                }
-                return
-            }
-            
-            Self.parseHeaders(headers: (response as? HTTPURLResponse)?.allHeaderFields)
-            
-           
+        let tempFileURL = FileManager.default.temporaryDirectory.appendingPathComponent("upload_\(UUID().uuidString).tmp")
+        do {
+            let bodyData = createBody(boundary: boundary)
+            try bodyData.write(to: tempFileURL)
+        } catch {
+            let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnexpectedError, error: error, message: "Failed to create temporary file")
+            handler?(.failure(commonError))
+            return APIDefinitionCancellable(task: nil)
         }
+        
+        let delegateKey = UUID().uuidString
+        
+        let delegate = UploadProgressDelegate(
+            delegateKey: delegateKey,
+            progressHandler: progressHandler,
+            completionHandler: { data, response, error in
+                try? FileManager.default.removeItem(at: tempFileURL)
+                
+                uploadDelegatesQueue.async(flags: .barrier) {
+                    uploadDelegates.removeValue(forKey: delegateKey)
+                }
+                
+                if self.showResponseLog {
+                    ShopLiveLogger.tempLog("[UPLOADRESPONSE] \(String(data: data ?? Data(), encoding: .utf8) ?? "no data")")
+                }
+                
+                let statusCode = (response as? HTTPURLResponse)?.statusCode
+                if let commonError = ShopLiveCommonErrorGenerator.generateErrorFromNetwork(statusCode: statusCode, error: error, responseData: data, endpoint: request.url?.path ?? "") {
+                    DispatchQueue.main.async {
+                        handler?(.failure(commonError))
+                    }
+                    return
+                }
+                
+                guard let data = data else {
+                    let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnexpectedError, error: error, message: "empty response")
+                    DispatchQueue.main.async {
+                        handler?(.failure(commonError))
+                    }
+                    return
+                }
+                
+                do {
+                    let decoded = try JSONDecoder().decode(ResultType.self, from: data)
+                    DispatchQueue.main.async {
+                        handler?(.success(decoded))
+                    }
+                } catch let decodeError {
+                    if self.showResponseLog {
+                        ShopLiveLogger.tempLog("[UPLOADRESPONSE] JsonDecoding Error \(decodeError.localizedDescription)")
+                    }
+                    let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .FailedJSONParsing, error: decodeError, message: nil)
+                    DispatchQueue.main.async {
+                        handler?(.failure(commonError))
+                    }
+                    return
+                }
+                
+                Self.parseHeaders(headers: (response as? HTTPURLResponse)?.allHeaderFields)
+            }
+        )
+        
+        uploadDelegatesQueue.async(flags: .barrier) {
+            uploadDelegates[delegateKey] = delegate
+        }
+        
+        let session = URLSession(configuration: sessionConfg, delegate: delegate, delegateQueue: nil)
+        let task = session.uploadTask(with: request, fromFile: tempFileURL)
         
         DispatchQueue.global(qos: .background).async {
             task.resume()
         }
         
-        
+        return APIDefinitionCancellable(task: task)
     }
     
     
@@ -576,4 +604,3 @@ public extension APIDefinition {
         }
     }
 }
-
