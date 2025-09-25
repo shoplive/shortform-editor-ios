@@ -146,7 +146,7 @@ final class ShopLiveChattingView: SLView {
         ])
     }
 
-    func updateChattingWriteView() {
+    func updatePlaceholderVisibility() {
         chatView.updatePlaceholderVisibility()
     }
     
@@ -155,7 +155,7 @@ final class ShopLiveChattingView: SLView {
             guard let self = self else { return }
             guard self.isFocus == false else { return }
             self.isFocus = true
-            self.chatInputViewTopBorder.isHidden = !(!UIScreen.isLandscape && ShopLiveController.shared.videoOrientation == .landscape)
+            self.chatInputViewTopBorder.isHidden = !(!UIScreen.isLandscape_SL && ShopLiveController.shared.videoOrientation == .landscape)
             self.chatView.chatTextView.becomeFirstResponder()
         } onCancel: { }
     }

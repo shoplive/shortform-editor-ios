@@ -78,7 +78,6 @@ final class ShopLiveController: NSObject {
 
     weak var delegate: ShopLiveControllerDelegate?
     
-    
     private override init() {
         super.init()
     }
@@ -117,7 +116,6 @@ final class ShopLiveController: NSObject {
     @objc dynamic var isPreview: Bool = false
     @objc var isMuted: Bool = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
     
-
     var playerResumeCount: Int = 0
     
     var _playerMode: ShopLive.PlayerMode = .none
@@ -168,6 +166,7 @@ final class ShopLiveController: NSObject {
     
     var inRotating: Bool = false
     var willStartPip: Bool = false
+    
     var videoOrientation: ShopLiveDefines.ShopLiveOrientaion {
         switch supportOrientation {
         case .portrait, .unknown:
@@ -177,24 +176,13 @@ final class ShopLiveController: NSObject {
         }
     }
     var supportOrientation: ShopLive.VideoOrientation = .unknown
+    
+    var lastOrientaion: (direction: ShopLiveDefines.ShopLiveOrientaion, orientation: UIDeviceOrientation) = ((UIScreen.isLandscape_SL ? .landscape: .portrait, UIScreen.currentOrientation_SL.deviceOrientation_SL))
+    
     var videoExpanded: Bool = true
     
     lazy var videoRatio: CGSize = videoOrientation == .landscape ? CGSize(width: 16, height: 9): CGSize(width: 9, height: 16)
     var videoFrame: (portrait: CGRect?, landscape: (expanded: CGRect?, standard: CGRect?)) = (portrait: nil, landscape: (expanded: nil, standard: nil))
-    
-    var prevLandscapeOrientation: UIDeviceOrientation = .landscapeLeft
-    var lastOrientaion: (direction: ShopLiveDefines.ShopLiveOrientaion, orientation: UIDeviceOrientation) = ((UIScreen.isLandscape ? .landscape: .portrait, UIScreen.currentOrientation.deviceOrientation))
-    
-    var videoCenterCrop: Bool {
-        set {
-            self._videoCenterCrop = newValue
-        }
-        get {
-            return self.videoExpanded && UIScreen.isLandscape && videoOrientation == .landscape ? _videoCenterCrop: false
-        }
-    }
-    
-    private var _videoCenterCrop: Bool = false
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath, let key = ShopLivePlayerObserveValue(rawValue: keyPath), let _ = change?[.newKey] else { return }
@@ -202,7 +190,7 @@ final class ShopLiveController: NSObject {
         case .loadedTimeRanges:
             if let loadedTimeRanges = change?[.newKey] as? [NSValue], let timeRange = loadedTimeRanges.last as? CMTimeRange {
                 let timeLoaded = Int(timeRange.duration.value) / Int(timeRange.duration.timescale)
-                if timeLoaded >= 4 && ShopLiveController.timeControlStatus == .waitingToPlayAtSpecifiedRate {
+                if timeLoaded >= 4 && ShopLiveController.timeControlStatus == .waitingToPlayAtSpecifiedRate && ShopLiveController.playControl != .play {
                     ShopLiveController.playControl = .play
                 }
             }
@@ -283,7 +271,6 @@ final class ShopLiveController: NSObject {
     }
     private func reset() {
         keepOrientationWhenPlayStart = false
-        ShopLiveController.shared.prevLandscapeOrientation = .landscapeLeft
         playerResumeCount = 0
         playControl = .none
         isReplayMode = false
@@ -297,16 +284,14 @@ final class ShopLiveController: NSObject {
         windowStyle = .none
         needReload = false
         isMuted = ShopLiveConfiguration.SoundPolicy.isMutedWhenStart
-        
         resetVideoDatas()
     }
     
     func resetVideoDatas() {
-        lastOrientaion = (UIScreen.isLandscape ? .landscape: .portrait, UIScreen.currentOrientation.deviceOrientation)
+        lastOrientaion = (UIScreen.isLandscape_SL ? .landscape: .portrait, UIScreen.currentOrientation_SL.deviceOrientation_SL)
         supportOrientation = .unknown
         videoRatio = ShopLiveDefines.defVideoRatio
         videoFrame = (nil, (nil, nil))
-        videoCenterCrop = false
         videoExpanded = true
     }
 

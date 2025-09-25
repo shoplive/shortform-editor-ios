@@ -253,14 +253,14 @@ final class LiveStreamViewModel: NSObject {
                 
                 ShopLiveController.playerItem = playerItem
                 self.playerItem = playerItem
-                NotificationCenter.default.addObserver(forName: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase, queue: .main) { [weak self] notification in
+                NotificationCenter.default.addObserver(forName: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase, queue: nil) { [weak self] notification in
                     guard let self else { return }
                     if let timebase = ShopLiveController.timebase {
                         let rate = CMTimebaseGetRate(timebase)
                         self.perfMeasurements?.rateChanged(rate: rate)
                     }
                 }
-                NotificationCenter.default.addObserver(forName: .AVPlayerItemPlaybackStalled, object: self.playerItem, queue: .main) { [weak self] notification in
+                NotificationCenter.default.addObserver(forName: .AVPlayerItemPlaybackStalled, object: self.playerItem, queue: nil) { [weak self] notification in
                     guard let self else { return }
                     if let _ = ShopLiveController.playerItem {
                         self.perfMeasurements?.playbackStalled()
@@ -325,10 +325,8 @@ final class LiveStreamViewModel: NSObject {
         ShopLiveController.perfMeasurements?.playbackEnded()
         ShopLiveController.perfMeasurements = nil
         
-        notificationQueue.sync {
-            NotificationCenter.default.removeObserver(self, name: .TimebaseEffectiveRateChangedNotification, object: nil)
-            NotificationCenter.default.removeObserver(self, name: .AVPlayerItemPlaybackStalled, object: nil)
-        }
+        NotificationCenter.default.removeObserver(self, name: .TimebaseEffectiveRateChangedNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemPlaybackStalled, object: nil)
         
         ShopLiveController.playControl = .none
     }
@@ -380,10 +378,10 @@ final class LiveStreamViewModel: NSObject {
         
         var originX: CGFloat = 0
         if UIDevice.isIpad {
-            originX = UIScreen.leftSafeArea
+            originX = UIScreen.leftSafeArea_SL
         }
         else {
-            originX = UIScreen.isLandscape ? UIScreen.topSafeArea: UIScreen.leftSafeArea
+            originX = UIScreen.isLandscape_SL ? UIScreen.topSafeArea_SL : UIScreen.leftSafeArea_SL
         }
         let originY: CGFloat = 0
         
@@ -429,7 +427,7 @@ final class LiveStreamViewModel: NSObject {
     
     func checkIfSnapShotImageFrameNeedReCalculation() {
         guard ShopLiveController.windowStyle == .normal else { return }
-        if let current = liveStreamViewController?.playerView?.playerLayer?.videoRect {
+        if let current = liveStreamViewController?.playerView.playerLayer?.videoRect {
             if current != .zero && current.width != 0 && current.height != 0 &&
                 ShopLiveController.windowStyle == .normal {
                 //프리뷰 inAppPip를 제외시키는 이유는 preview 자체 크기로 인해서 videoRect가 결정이 되서
@@ -537,7 +535,7 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
                 setSoundMuteStateOnFirstPlay()
                 self.play()
                 
-                if let current = liveStreamViewController?.playerView?.playerLayer?.videoRect {
+                if let current = liveStreamViewController?.playerView.playerLayer?.videoRect {
                     if current != .zero && current.width != 0 && current.height != 0 &&
                         ShopLiveController.windowStyle == .normal {
                         //프리뷰 inAppPip를 제외시키는 이유는 preview 자체 크기로 인해서 videoRect가 결정이 되서

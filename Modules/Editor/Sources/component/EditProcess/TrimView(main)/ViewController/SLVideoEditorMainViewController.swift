@@ -476,8 +476,8 @@ class SLVideoEditorMainViewController : UIViewController {
                     self.onReactorShowCancelToast()
                 case .showPopUp(let popup):
                     self.onReactorShowPopUp(popUp: popup)
-                case .showLoadingView:
-                    self.onReactorShowLoadingView()
+                case let .showLoadingView(text):
+                    self.onReactorShowLoadingView(text: text)
                 case .cancelLoading:
                     self.onReactorCancelLoading()
                 case .updateLoadingPercent(let value):
@@ -602,12 +602,17 @@ class SLVideoEditorMainViewController : UIViewController {
     
     private func onReactorShowPopUp(popUp: UIView) {
         popUp.frame = self.view.frame
+        popUp.alpha = 0
         self.view.addSubview(popUp)
         self.view.bringSubviewToFront(popUp)
+        
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            popUp.alpha = 1
+        }, completion: nil)
     }
     
-    private func onReactorShowLoadingView() {
-        self.loadingProgress.setLoadingText("Loading...")
+    private func onReactorShowLoadingView(text: String) {
+        self.loadingProgress.setTitleText(text)
         self.loadingProgress.alpha = 1
         self.view.bringSubviewToFront(self.loadingProgress)
     }

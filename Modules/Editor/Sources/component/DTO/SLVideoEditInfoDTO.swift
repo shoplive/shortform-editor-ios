@@ -68,6 +68,17 @@ class SLVideoEditInfoDTO {
         return Double(Int((self.getConvertedVideoAsset()?.duration.seconds ?? 0.0) * 1000))
     }
     
+    @available(iOS 16.0, *)
+    func getConvertedVideoSizeAsync() async throws -> CGSize? {
+        do {
+            let track = try await self.getConvertedVideoAsset()?.loadTracks(withMediaType: .video).first
+            let size = track?.naturalSize.applying(track?.preferredTransform ?? .identity)
+            return size
+        } catch {
+            throw error
+        }
+    }
+    
     func getConvertedVideoSize() -> CGSize? {
         guard let track = self.getConvertedVideoAsset()?.tracks(withMediaType: AVMediaType.video).first else { return nil }
         let size = track.naturalSize.applying(track.preferredTransform)

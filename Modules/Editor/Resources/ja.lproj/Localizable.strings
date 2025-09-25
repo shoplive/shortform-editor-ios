@@ -74,6 +74,9 @@
 "editor.yes.shoplive" = "はい";
 "editor.no.shoplive" = "いいえ";
 "editor.loading.shoplive" = "ロード中";
+"editor.loading.compress" = "映像圧縮中...";
+"editor.loading.thumbnail" = "サムネイルをアップロード中...";
+"editor.loading.upload" = "アップロード中...";
 
 "editor.toast.encoding.video.was.not.exist.shoplive" = "動画が見つかりません。";
 "editor.toast.encoding.uri.was.not.created.shoplive" = "URLの作成に失敗しました。";
@@ -90,6 +93,7 @@
 
 //"editor.alert.encoding.now.shoplive" = "エンコードをキャンセルしますか？";
 "editor.alert.encoding.cancel.title.shoplive" = "エンコードをキャンセルしますか？";
+"editor.alert.uploading.cancel.title.shoplive" = "アップロードをキャンセルしますか？";
 "editor.alert.max.duration.shoplive" = "%d秒以下の動画のみアップロードできます。";
 "editor.alert.min.duration.shoplive" = "%d秒以上の動画のみアップロードできます。";
 

@@ -84,6 +84,10 @@
 "editor.yes.shoplive" = "예";
 "editor.no.shoplive" = "아니오";
 "editor.loading.shoplive" = "로딩 중";
+"editor.loading.compress" = "영상 압축 중...";
+"editor.loading.thumbnail" = "썸네일 업로드 중...";
+"editor.loading.upload" = "업로드 중...";
+
 
 //Toast
 "editor.toast.encoding.video.was.not.exist.shoplive" = "동영상을 찾을 수 없습니다.";
@@ -100,6 +104,7 @@
 
 //
 "editor.alert.encoding.cancel.title.shoplive" = "인코딩을 취소하시겠습니까?";
+"editor.alert.uploading.cancel.title.shoplive" = "업로딩을 취소하시겠습니까?";
 "editor.alert.max.duration.shoplive" = "%d초 이하의 영상만 업로드할 수 있습니다";
 "editor.alert.min.duration.shoplive" = "%d초 이상의 영상만 업로드할 수 있습니다";
 

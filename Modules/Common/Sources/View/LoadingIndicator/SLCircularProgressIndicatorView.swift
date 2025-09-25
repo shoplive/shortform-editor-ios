@@ -32,7 +32,19 @@ public class SLCircularProgressIndicatorView: UIView, UIGestureRecognizerDelegat
         return view
     }()
     
-    private lazy var indicatorLabel: SLLabel = {
+    private lazy var indicatorTitleLabel: SLLabel = {
+        let view = SLLabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+        view.setFont(font: .init(size: 15, weight: .semibold))
+        view.textColor = .white
+        view.textAlignment = .center
+        view.minimumScaleFactor = 0.5
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+    
+    private lazy var indicatorProgressLabel: SLLabel = {
         let view = SLLabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
@@ -75,7 +87,11 @@ public class SLCircularProgressIndicatorView: UIView, UIGestureRecognizerDelegat
     }
     
     public func setLoadingText(_ text: String) {
-        indicatorLabel.text = text
+        indicatorProgressLabel.text = text
+    }
+    
+    public func setTitleText(_ text: String) {
+        indicatorTitleLabel.text = text
     }
     
     public func cancelLoading() {
@@ -86,12 +102,13 @@ extension SLCircularProgressIndicatorView {
     private func setLayout() {
         self.addSubview(loadingView)
         loadingView.addSubview(indicatorView)
-        loadingView.addSubview(indicatorLabel)
+        loadingView.addSubview(indicatorProgressLabel)
+        loadingView.addSubview(indicatorTitleLabel)
         
         NSLayoutConstraint.activate([
             loadingView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             loadingView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            loadingView.heightAnchor.constraint(equalToConstant: 92),
+            loadingView.heightAnchor.constraint(equalToConstant: 130),
             loadingView.widthAnchor.constraint(equalToConstant: 146),
             
             indicatorView.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
@@ -99,10 +116,15 @@ extension SLCircularProgressIndicatorView {
             indicatorView.heightAnchor.constraint(equalToConstant: 24),
             indicatorView.widthAnchor.constraint(equalToConstant: 24),
             
-            indicatorLabel.leftAnchor.constraint(equalTo: loadingView.leftAnchor, constant: 10),
-            indicatorLabel.rightAnchor.constraint(equalTo: loadingView.rightAnchor, constant: -10),
-            indicatorLabel.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20),
-            indicatorLabel.heightAnchor.constraint(equalToConstant: 16)
+            indicatorTitleLabel.leftAnchor.constraint(equalTo: loadingView.leftAnchor, constant: 10),
+            indicatorTitleLabel.rightAnchor.constraint(equalTo: loadingView.rightAnchor, constant: -10),
+            indicatorTitleLabel.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 20),
+            indicatorTitleLabel.heightAnchor.constraint(equalToConstant: 16),
+            
+            indicatorProgressLabel.leftAnchor.constraint(equalTo: loadingView.leftAnchor, constant: 10),
+            indicatorProgressLabel.rightAnchor.constraint(equalTo: loadingView.rightAnchor, constant: -10),
+            indicatorProgressLabel.topAnchor.constraint(equalTo: indicatorTitleLabel.bottomAnchor, constant: 20),
+            indicatorProgressLabel.heightAnchor.constraint(equalToConstant: 16)
         ])
     }
 }

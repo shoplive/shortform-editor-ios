@@ -803,11 +803,14 @@ extension ShortsCollectionBaseViewModel {
     }
     
     func postOnBackGroundNotification() {
-        guard let srn = currentShortsSrn else { return }
-        guard let indexPath = delegate?.getCurrentIndexPath(),
-              let cells = delegate?.getLoadedCells(from: indexPath.row - 1, to: indexPath.row + 1) else { return }
-        cells.forEach { cell in
-            cell.setAppState(srn: srn, state: "background")
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            guard let srn = self.currentShortsSrn else { return }
+            guard let indexPath = self.delegate?.getCurrentIndexPath(),
+                  let cells = self.delegate?.getLoadedCells(from: indexPath.row - 1, to: indexPath.row + 1) else { return }
+            cells.forEach { cell in
+                cell.setAppState(srn: srn, state: "background")
+            }
         }
     }
     
@@ -1033,24 +1036,41 @@ extension ShortsCollectionBaseViewModel : ShopliveAppStateObserverDelegate {
     }
     
     private func handleAppWillEnterBackground() {
-        postOnBackGroundNotification()
         guard let currentIndexPath = delegate?.getCurrentIndexPath() else { return }
-        guard let data = shortsListData[safe: currentIndexPath.row] else { return }
-        self.postActivePageNotification(forceIsActive: false, srn: data.srn, index: currentIndexPath.row,isFromAppState: true)
-        guard let cells = delegate?.getLoadedCells(from: currentIndexPath.row - 1, to: currentIndexPath.row + 1) else { return }
-        cells.forEach { cell in
-            cell.pause()
+        let row = currentIndexPath.row
+        guard shortsListData.indices.contains(row) else { return }
+        
+        postActivePageNotification(
+            forceIsActive: false,
+            srn: shortsListData[safe: row]?.srn,
+            index: row,
+            isFromAppState: true
+        )
+        
+        if let cells = delegate?.getLoadedCells(from: row - 1, to: row + 1) {
+            cells.forEach { $0.pause() }
         }
+        
+        postOnBackGroundNotification()
     }
     
     private func handleAppDidEnterBackground() {
-        postOnBackGroundNotification()
         guard let currentIndexPath = delegate?.getCurrentIndexPath() else { return }
-        self.postActivePageNotification(forceIsActive: false, srn: shortsListData[currentIndexPath.row].srn, index: currentIndexPath.row,isFromAppState: true)
-        guard let cells = delegate?.getLoadedCells(from: currentIndexPath.row - 1, to: currentIndexPath.row + 1) else { return }
-        cells.forEach { cell in
-            cell.pause()
+        let row = currentIndexPath.row
+        guard shortsListData.indices.contains(row) else { return }
+        
+        postActivePageNotification(
+            forceIsActive: false,
+            srn: shortsListData[safe: row]?.srn,
+            index: row,
+            isFromAppState: true
+        )
+        
+        if let cells = delegate?.getLoadedCells(from: row - 1, to: row + 1) {
+            cells.forEach { $0.pause() }
         }
+        
+        postOnBackGroundNotification()
     }
 }
 

@@ -23,16 +23,11 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
     
     func didUpdatePlaybackSpeed(speed: Float) {
-        guard let playerView = playerView else { return }
         playerView.player.rate = speed
     }
     
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) {
         delegate?.log(name: name, feature: feature, campaign: campaign, payload: payload)
-    }
-    
-    func updateOrientation(toLandscape: Bool) {
-        self.changeOrientation(toLandscape: toLandscape)
     }
     
     func handleReceivedCommand(_ command: String, with payload: [String: Any]?) {
@@ -82,7 +77,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     func didUpdatePoster(with url: URL) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.backgroundPosterImageWebView?.action( .setBackgroundUrl(url: url) )
+            self.backgroundPosterImageWebView.action( .setBackgroundUrl(url: url) )
         }
     }
 
@@ -128,7 +123,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func updatePipStyle(with style: ShopLive.PresentationStyle) {
-        overlayView?.updatePipStyle(with: style)
+        overlayView.updatePipStyle(with: style)
     }
 
     func didTouchWebViewPipButton() {
@@ -192,7 +187,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         ShopLiveConfiguration.UI.chatInputPlaceholderString = placeHolder ?? ShopLiveSDKStrings.Chat.placeholder
         ShopLiveConfiguration.UI.chatInputSendString = sendText ?? ShopLiveSDKStrings.Chat.Send.title
         ShopLiveConfiguration.UI.chatInputMaxLength = chatInputMaxLength ?? 200
-        updateChattingWriteView()
+        updateChattingViewPlaceholderVisibility()
         
         
         if let configJson = payload?["configJson"] as? [String: Any] {
@@ -300,7 +295,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     
     func requestReloadWebView() {
         guard let overlayUrl = viewModel.getOverLayUrlWithInfosAttached() else { return }
-        self.overlayView?.reload(with: overlayUrl)
+        self.overlayView.reload(with: overlayUrl)
     }
     
 }
