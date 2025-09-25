@@ -25,7 +25,7 @@ extension LiveStreamViewModel {
                 }
             }
             else {
-                if ShopLiveController.isReplayMode && ShopLiveController.isReplayFinished {
+                if ShopLiveController.isReplayMode, ShopLiveController.isReplayFinished {
                     self.seek(to: .init(value: 0, timescale: 1))
                 }
                 if let player = ShopLiveController.player {
