@@ -93,6 +93,7 @@
 
 //"editor.alert.encoding.now.shoplive" = "エンコードをキャンセルしますか？";
 "editor.alert.encoding.cancel.title.shoplive" = "エンコードをキャンセルしますか？";
+"editor.alert.uploading.cancel.title.shoplive" = "アップロードをキャンセルしますか？";
 "editor.alert.max.duration.shoplive" = "%d秒以下の動画のみアップロードできます。";
 "editor.alert.min.duration.shoplive" = "%d秒以上の動画のみアップロードできます。";
 

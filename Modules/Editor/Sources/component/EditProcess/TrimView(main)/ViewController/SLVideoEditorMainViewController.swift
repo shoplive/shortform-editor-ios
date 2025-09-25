@@ -602,8 +602,13 @@ class SLVideoEditorMainViewController : UIViewController {
     
     private func onReactorShowPopUp(popUp: UIView) {
         popUp.frame = self.view.frame
+        popUp.alpha = 0
         self.view.addSubview(popUp)
         self.view.bringSubviewToFront(popUp)
+        
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+            popUp.alpha = 1
+        }, completion: nil)
     }
     
     private func onReactorShowLoadingView(text: String) {

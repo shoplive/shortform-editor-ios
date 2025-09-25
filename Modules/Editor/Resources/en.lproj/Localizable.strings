@@ -168,6 +168,7 @@
 "editor.loading.thumbnail" = "Thumbnail Uploading...";
 "editor.loading.upload" = "Uploading...";
 
+
 //Preview
 "editor.ugc.preview.title" = "Preview";
 
@@ -184,6 +185,7 @@
 
 //"editor.alert.encoding.now.shoplive" = "Cancel encoding?";
 "editor.alert.encoding.cancel.title.shoplive" = "Cancel encoding?";
+"editor.alert.uploading.cancel.title.shoplive" = "Cancel uploading?";
 "editor.alert.max.duration.shoplive" = "Only videos up to %d seconds can be uploaded";
 "editor.alert.min.duration.shoplive" = "Only videos over %d seconds can be uploaded";
 

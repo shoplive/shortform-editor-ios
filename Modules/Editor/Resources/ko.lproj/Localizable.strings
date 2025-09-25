@@ -104,6 +104,7 @@
 
 //
 "editor.alert.encoding.cancel.title.shoplive" = "인코딩을 취소하시겠습니까?";
+"editor.alert.uploading.cancel.title.shoplive" = "업로딩을 취소하시겠습니까?";
 "editor.alert.max.duration.shoplive" = "%d초 이하의 영상만 업로드할 수 있습니다";
 "editor.alert.min.duration.shoplive" = "%d초 이상의 영상만 업로드할 수 있습니다";
 

@@ -121,7 +121,7 @@ public extension APIDefinition {
 }
 
 public final class APIDefinitionCancellable {
-    init(task: URLSessionTask) {
+    init(task: URLSessionTask?) {
         self.task = task
     }
     
@@ -288,7 +288,7 @@ public extension APIDefinition {
     }
     
     
-    func upload(handler: ((Result<ResultType, ShopLiveCommonError>) -> ())? = nil, progressHandler: ((Double) -> ())? = nil ) {
+    func upload(handler: ((Result<ResultType, ShopLiveCommonError>) -> ())? = nil, progressHandler: ((Double) -> ())? = nil ) -> APIDefinitionCancellable {
         
         // Headers
         var finalHeaders = Self.defaultHeaders
@@ -341,7 +341,7 @@ public extension APIDefinition {
         } catch {
             let commonError = ShopLiveCommonErrorGenerator.generateError(errorCase: .UnexpectedError, error: error, message: "Failed to create temporary file")
             handler?(.failure(commonError))
-            return
+            return APIDefinitionCancellable(task: nil)
         }
         
         let delegateKey = UUID().uuidString
@@ -414,6 +414,8 @@ public extension APIDefinition {
         DispatchQueue.global(qos: .background).async {
             task.resume()
         }
+        
+        return APIDefinitionCancellable(task: task)
     }
     
     

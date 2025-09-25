@@ -74,6 +74,17 @@ public enum ShopLiveShortformEditorSDKStrings: Sendable {
           public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.alert.shoot.title.shoplive")
         }
       }
+
+      public enum Uploading: Sendable {
+
+        public enum Cancel: Sendable {
+
+          public enum Title: Sendable {
+          /// Cancel uploading?
+            public static let shoplive = ShopLiveShortformEditorSDKStrings.tr("Localizable", "editor.alert.uploading.cancel.title.shoplive")
+          }
+        }
+      }
     }
 
     public enum Cover: Sendable {

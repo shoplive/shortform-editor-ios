@@ -326,13 +326,18 @@ class SLVideoConverter : NSObject {
                 session.cancel()
             }
             self.ffmpegSessions = []
-            self.semaphoreLock.wait()
         }
     }
     
     private func runFfmpegCommand(command: String, completion: @escaping (SLVideoFFMpegExecuteResult) -> Void) {
         ffmpegConverQueue2.addOperation { [weak self] in
             guard let self = self else { return }
+            
+            if self.didForceCancel {
+                completion(.Failed(error: SLVideoConvertError.cancel(log: "Cancelled before execution")))
+                return
+            }
+            
             self.delegate?.updateConvertPercent(percent: Int(0))
             ShopLiveLogger.tempLog("ffmpeg command \(command)")
             let session = FFmpegKit.executeAsync(command) { [weak self] session in
@@ -357,10 +362,14 @@ class SLVideoConverter : NSObject {
                 }
             } withLogCallback: { log in
                 ShopLiveLogger.tempLog(log?.getMessage() ?? "")
-            } withStatisticsCallback: { [weak self] statistics in
+            }             withStatisticsCallback: { [weak self] statistics in
                 guard let self = self,
                       let convertTime = statistics?.getTime(),
                       let totalDuration = self.videoInfo?.totalDuration else { return }
+                
+                if self.didForceCancel {
+                    return
+                }
                 
                 let total = totalDuration * 1000
                 let current: Float64 = Float64(convertTime)
