@@ -23,22 +23,22 @@ extension LiveStreamViewController {
 
     /// 쿠폰 다운로드 완료 후 오버레이에 반영/전달
     func didCompleteDownLoadCoupon(couponId: String, couponResult: ShopLiveCouponResult) {
-        overlayView?.didCompleteDownloadCoupon(couponId: couponId, couponResult: couponResult)
+        overlayView.didCompleteDownloadCoupon(couponId: couponId, couponResult: couponResult)
     }
 
     /// 커스텀 액션 완료 후 오버레이에 알림
     func didCompleteCustomAction(with id: String) {
-        overlayView?.didCompleteCustomAction(with: id)
+        overlayView.didCompleteCustomAction(with: id)
     }
 
     /// 커스텀 액션 결과를 오버레이에 전달
     func didCompleteCustomAction(with customActionResult: ShopLiveCustomActionResult) {
-        overlayView?.didCompleteCustomAction(with: customActionResult)
+        overlayView.didCompleteCustomAction(with: customActionResult)
     }
     
     /// 세션 종료 시 웹소켓 연결 해제
     func onTerminated() {
-        overlayView?.closeWebSocket()
+        overlayView.closeWebSocket()
     }
 
     /// 화면 잠금 시 백그라운드 상태 전환 및 이벤트 전달
@@ -47,7 +47,7 @@ extension LiveStreamViewController {
             return
         }
         ShopLiveBase.sessionState = .background
-        overlayView?.sendEventToWeb(event: .onBackground)
+        overlayView.sendEventToWeb(event: .onBackground)
     }
     
     /// 화면 잠금 해제 시 포그라운드 상태 복구 처리
@@ -60,7 +60,7 @@ extension LiveStreamViewController {
             return
         }
         ShopLiveBase.sessionState = .foreground
-        overlayView?.sendEventToWeb(event: .onForeground)
+        overlayView.sendEventToWeb(event: .onForeground)
     }
     
     /// 앱이 백그라운드로 전환될 때 스트림 일시정지 처리
@@ -74,7 +74,7 @@ extension LiveStreamViewController {
             return
         }
         ShopLiveBase.sessionState = .background
-        overlayView?.sendEventToWeb(event: .onBackground)
+        overlayView.sendEventToWeb(event: .onBackground)
     }
 
     /// 앱이 포그라운드로 돌아왔을 때 스트림 복원 및 상태 전환 처리
@@ -107,7 +107,7 @@ extension LiveStreamViewController {
                 }
             }
             ShopLiveBase.sessionState = .foreground
-            self.overlayView?.sendEventToWeb(event: .onForeground)
+            self.overlayView.sendEventToWeb(event: .onForeground)
         }
     }
     

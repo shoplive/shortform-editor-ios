@@ -142,7 +142,7 @@ extension LiveStreamViewController {
                 self.chatInputBG.isHidden = false
             }
             
-            if (ShopLiveController.shared.lastOrientaion.orientation == UIScreen.currentOrientation.deviceOrientation) || (ShopLiveController.shared.lastOrientaion.direction != (UIScreen.isLandscape ? .landscape : .portrait)) {
+            if (ShopLiveController.shared.lastOrientaion.orientation == UIScreen.currentOrientation_SL.deviceOrientation_SL) || (ShopLiveController.shared.lastOrientaion.direction != (UIScreen.isLandscape_SL ? .landscape : .portrait)) {
                 let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("value", hasKeyboard ? "\(self.chatInputView.frame.height)px" : "0px"), ("keyboard", hasKeyboard))
                 ShopLiveController.webInstance?.sendEventToWeb(event: .setChatListMarginBottom, param.toJson())
                 ShopLiveController.webInstance?.sendEventToWeb(event: .hiddenChatInput)

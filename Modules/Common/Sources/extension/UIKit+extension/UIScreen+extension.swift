@@ -97,7 +97,6 @@ public extension UIScreen {
     static var safeArea_SL: UIEdgeInsets {
         if #available(iOS 13.0, *) {
             let window = UIApplication.shared.windows.filter({ $0.frame == main.bounds && $0.safeAreaInsets != .zero }).first
-            
             return window?.safeAreaInsets ?? .zero
         } else {
             let window = UIApplication.shared.keyWindow

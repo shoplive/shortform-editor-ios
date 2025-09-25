@@ -36,7 +36,7 @@ protocol OverlayWebViewDelegate: AnyObject {
     
     func handleReceivedCommand(_ command: String, with payload: [String: Any]?)
     
-    func updatePlayerViewFrameFromWeb(targetFrame: CGRect)
+    func updatePlayerViewFrameFromWeb(targetFrame: CGRect, isCenterCrop: Bool)
     func updateOrientation(toLandscape: Bool)
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any])
     func didFailToLoadWebViewWithNetworkUnreachable()
@@ -306,7 +306,10 @@ extension OverlayWebView: WKScriptMessageHandler {
                     break
                 case "SET_VIDEO_POSITION":
                     guard let x = parameters?["x"] as? CGFloat, let y = parameters?["y"] as? CGFloat,
-                          let height = parameters?["height"] as? CGFloat, let width = parameters?["width"] as? CGFloat
+                          let height = parameters?["height"] as? CGFloat,
+                          let width = parameters?["width"] as? CGFloat,
+                          let centerCrop = parameters?["centerCrop"] as? Int,
+                          let isCenterCrop = String(describing: centerCrop).boolValue
                     else { return }
                     
                     if ShopLiveController.shared.supportOrientation == .landscape {
@@ -314,22 +317,22 @@ extension OverlayWebView: WKScriptMessageHandler {
                         let bottom = (self.window?.frame.height ?? UIWindow.mainWindowFrame.frame.height) - y - height
                         
                         let playerFrame = CGRect(x: x, y: y, width: right, height: bottom)
-                        if UIScreen.isLandscape {
+                        if UIScreen.isLandscape_SL {
                             if ShopLiveController.shared.videoExpanded {
                                 ShopLiveController.shared.videoFrame.landscape.expanded = playerFrame
                                 if ShopLiveController.windowStyle == .normal || ShopLiveController.shared.needForceSetVideoPositionUpdate == true  {
-                                    delegate?.updatePlayerViewFrameFromWeb(targetFrame: playerFrame)
+                                    delegate?.updatePlayerViewFrameFromWeb(targetFrame: playerFrame, isCenterCrop: isCenterCrop)
                                 }
                             } else {
                                 ShopLiveController.shared.videoFrame.landscape.standard = playerFrame
                                 if ShopLiveController.windowStyle == .normal || ShopLiveController.shared.needForceSetVideoPositionUpdate == true  {
-                                    delegate?.updatePlayerViewFrameFromWeb(targetFrame: playerFrame)
+                                    delegate?.updatePlayerViewFrameFromWeb(targetFrame: playerFrame, isCenterCrop: isCenterCrop)
                                 }
                             }
                         } else {
                             ShopLiveController.shared.videoFrame.portrait = playerFrame
                             if ShopLiveController.windowStyle == .normal || ShopLiveController.shared.needForceSetVideoPositionUpdate == true {
-                                delegate?.updatePlayerViewFrameFromWeb(targetFrame: playerFrame)
+                                delegate?.updatePlayerViewFrameFromWeb(targetFrame: playerFrame, isCenterCrop: isCenterCrop)
                             }
                         }
                     }
@@ -341,23 +344,13 @@ extension OverlayWebView: WKScriptMessageHandler {
                     }
                     
                     guard let orientation = parameters?["orientation"] as? String else {
-                        self.delegate?.updateOrientation(toLandscape: false)
                         return
                     }
                     
                     self.delegate?.updateOrientation(toLandscape: ("LANDSCAPE" == orientation))
                     
-                    let param: Dictionary = Dictionary<String, Any>.init(
-                        dictionaryLiteral: ("top", UIScreen.safeArea.top),
-                        ("left", UIScreen.safeArea.left),
-                        ("right", UIScreen.safeArea.right),
-                        ("bottom", UIScreen.safeArea.bottom),
-                        ("orientation", "LANDSCAPE" == orientation ? 270 : 0)
-                    )
-                    
-                    sendCommandMessage(command: "SET_SAFE_AREA_MARGIN", payload: param)
-                    
                     break
+                    
                 case "SET_PLAYBACK_SPEED":
                     if let playBackSpeed = parameters?["rate"] as? Float {
                         self.delegate?.didUpdatePlaybackSpeed(speed: playBackSpeed)
