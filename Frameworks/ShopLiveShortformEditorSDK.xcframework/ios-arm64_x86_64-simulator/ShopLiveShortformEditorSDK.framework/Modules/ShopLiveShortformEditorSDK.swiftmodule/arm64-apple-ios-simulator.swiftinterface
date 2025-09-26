@@ -4,7 +4,6 @@
 // swift-module-flags-ignorable: -no-verify-emitted-module-interface
 import AVFoundation
 import AVKit
-import AssetsLibrary
 import DeveloperToolsSupport
 import Foundation
 import GLKit
