@@ -10,7 +10,6 @@ import UIKit
 import ShopliveFilterSDK
 import ShopliveSDKCommon
 import Photos
-import AssetsLibrary
 import VideoToolbox
 
 
