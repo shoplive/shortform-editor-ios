@@ -2394,13 +2394,9 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     func didTouchCustomAction(id: String, type: String, payload: Any?) {
-        
-        _delegate?.handleCustomAction?(with: id, type: type, payload: payload) { [weak self] _ in
-            self?.liveStreamViewController?.didCompleteCustomAction(with: id)
-        }
-        
         _delegate?.handleCustomAction?(with: id, type: type, payload: payload) { [weak self] customActionResult in
             self?.liveStreamViewController?.didCompleteCustomAction(with: customActionResult)
+            self?.liveStreamViewController?.didCompleteCustomAction(with: id)
         }
     }
     
