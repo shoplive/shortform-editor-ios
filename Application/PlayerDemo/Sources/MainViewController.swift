@@ -317,7 +317,7 @@ class MainViewController: SideMenuBaseViewController {
         
         ShopLive.setVisibleStatusBar(isVisible: DemoConfiguration.shared.statusBarVisibility)
         
-        previewConverViewMaker.setCustomerPreviewCoverView()
+//        previewConverViewMaker.setCustomerPreviewCoverView()
         
     }
     

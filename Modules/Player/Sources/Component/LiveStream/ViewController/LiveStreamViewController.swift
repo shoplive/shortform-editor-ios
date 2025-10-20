@@ -121,6 +121,18 @@ final class LiveStreamViewController: SLViewController {
         view.isHidden = true
         return view
     }()
+    
+    private var inAppPipBadgeView: ShopLiveInAppPIPBadgeView = {
+        let view = ShopLiveInAppPIPBadgeView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private var inAppPipTextBoxView: ShopLiveInAppPipTextBoxView = {
+        let view = ShopLiveInAppPipTextBoxView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     private lazy var indicatorView: SLActivityIndicatorView = {
         let activityIndicator = SLActivityIndicatorView()
@@ -229,23 +241,46 @@ final class LiveStreamViewController: SLViewController {
         setupOverayWebview()
         setupChatInputView()
         setupIndicator()
-        setupCloseButton()
+        setupInAppPip()
     }
     
-    func setupCloseButton() {
+    func setupInAppPip() {
         self.view.addSubview(inAppPipView)
         inAppPipView.fitToSuperView()
+        
         inAppPipView.addSubview(pipDim)
-        pipDim.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        pipDim.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: 0).isActive = true
-        pipDim.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: 0).isActive = true
-        pipDim.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: 0).isActive = true
+        NSLayoutConstraint.activate([
+            pipDim.heightAnchor.constraint(equalToConstant: 60),
+            pipDim.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: 0),
+            pipDim.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: 0),
+            pipDim.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: 0),
+        ])
         
         inAppPipView.addSubview(closeButton)
-        closeButton.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor).isActive = true
-        closeButton.topAnchor.constraint(equalTo: inAppPipView.topAnchor).isActive = true
-        closeButton.widthAnchor.constraint(equalToConstant: 36).isActive = true
-        closeButton.heightAnchor.constraint(equalToConstant: 36).isActive = true
+        NSLayoutConstraint.activate([
+            closeButton.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor),
+            closeButton.topAnchor.constraint(equalTo: inAppPipView.topAnchor),
+            closeButton.widthAnchor.constraint(equalToConstant: 36),
+            closeButton.heightAnchor.constraint(equalToConstant: 36)
+        ])
+        
+        inAppPipView.addSubview(inAppPipBadgeView)
+        NSLayoutConstraint.activate([
+            inAppPipBadgeView.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: 8),
+            inAppPipBadgeView.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: -8),
+            inAppPipBadgeView.widthAnchor.constraint(equalTo: inAppPipView.widthAnchor, multiplier: 0.4),
+            inAppPipBadgeView.heightAnchor.constraint(equalTo: inAppPipView.widthAnchor, multiplier: 0.1)
+        ])
+        
+        inAppPipView.addSubview(inAppPipTextBoxView)
+        
+        NSLayoutConstraint.activate([
+            inAppPipTextBoxView.bottomAnchor.constraint(equalTo: inAppPipView.bottomAnchor, constant: -8),
+            inAppPipTextBoxView.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: -9.5),
+            inAppPipTextBoxView.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: 9.5),
+            inAppPipTextBoxView.heightAnchor.constraint(equalTo: inAppPipView.widthAnchor, multiplier: 0.2)
+        ])
+        
         self.view.bringSubviewToFront(inAppPipView)
     }
     
