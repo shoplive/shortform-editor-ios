@@ -1033,6 +1033,10 @@ extension LiveStreamViewModel {
         self.inAppPipConfiguration = config
     }
     
+    func getInAppPipConfiguration() -> ShopLiveInAppPipConfiguration? {
+        return inAppPipConfiguration
+    }
+    
     func setPipPosition(position: ShopLive.PipPosition) {
         self.lastPipPosition = position
     }

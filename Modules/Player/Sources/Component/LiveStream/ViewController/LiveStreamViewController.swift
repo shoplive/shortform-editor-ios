@@ -38,7 +38,7 @@ protocol LiveStreamViewControllerDelegate: AnyObject {
 
 final class LiveStreamViewController: SLViewController {
 
-    @objc dynamic lazy var viewModel: LiveStreamViewModel = LiveStreamViewModel()
+    var viewModel: LiveStreamViewModel = LiveStreamViewModel()
     weak var delegate: LiveStreamViewControllerDelegate?
 
     var webViewConfiguration: WKWebViewConfiguration?
@@ -256,6 +256,9 @@ final class LiveStreamViewController: SLViewController {
             pipDim.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: 0),
         ])
         
+        setInAppPipBadge()
+        setInAppPipTextBox()
+        
         inAppPipView.addSubview(closeButton)
         NSLayoutConstraint.activate([
             closeButton.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor),
@@ -264,24 +267,191 @@ final class LiveStreamViewController: SLViewController {
             closeButton.heightAnchor.constraint(equalToConstant: 36)
         ])
         
+        self.view.bringSubviewToFront(inAppPipView)
+    }
+    
+    private func setInAppPipBadge() {
+        let badgeConfig = InAppPipDisplayModel.badgeDummy()
+        
         inAppPipView.addSubview(inAppPipBadgeView)
+        
+        inAppPipBadgeView.action(.setBadge(URL(string: badgeConfig.imageUrl ?? "")))
+        
+        let horizontal = badgeConfig.layout.horizontalToAlignment()
+        let vertical = badgeConfig.layout.verticalToAlignment()
+        
+        let horizontalPadding = badgeConfig.padding.horizontal
+        let verticalPadding = badgeConfig.padding.vertical
+        
+        switch (horizontal, vertical) {
+        case (.LEFT, .TOP): // 좌측 상단
+            NSLayoutConstraint.activate([
+                inAppPipBadgeView.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: verticalPadding),
+                inAppPipBadgeView.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: horizontalPadding),
+                inAppPipBadgeView.trailingAnchor.constraint(lessThanOrEqualTo: inAppPipView.trailingAnchor, constant: -horizontalPadding)
+            ])
+        case (.CENTER, .TOP): // 중앙 상단
+            NSLayoutConstraint.activate([
+                inAppPipBadgeView.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: verticalPadding),
+                inAppPipBadgeView.centerXAnchor.constraint(equalTo: inAppPipView.centerXAnchor),
+                inAppPipBadgeView.leadingAnchor.constraint(greaterThanOrEqualTo: inAppPipView.leadingAnchor, constant: horizontalPadding),
+                inAppPipBadgeView.trailingAnchor.constraint(lessThanOrEqualTo: inAppPipView.trailingAnchor, constant: -horizontalPadding)
+            ])
+        case (.RIGHT, .TOP): // 우측 상단
+            NSLayoutConstraint.activate([
+                inAppPipBadgeView.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: verticalPadding),
+                inAppPipBadgeView.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: -horizontalPadding),
+                inAppPipBadgeView.leadingAnchor.constraint(greaterThanOrEqualTo: inAppPipView.leadingAnchor, constant: horizontalPadding)
+            ])
+        case (.LEFT, .CENTER): // 좌측 중앙
+            NSLayoutConstraint.activate([
+                inAppPipBadgeView.centerYAnchor.constraint(equalTo: inAppPipView.centerYAnchor),
+                inAppPipBadgeView.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: horizontalPadding),
+                inAppPipBadgeView.trailingAnchor.constraint(lessThanOrEqualTo: inAppPipView.trailingAnchor, constant: -horizontalPadding)
+            ])
+        case (.CENTER, .CENTER): // 중앙
+            NSLayoutConstraint.activate([
+                inAppPipBadgeView.centerXAnchor.constraint(equalTo: inAppPipView.centerXAnchor),
+                inAppPipBadgeView.centerYAnchor.constraint(equalTo: inAppPipView.centerYAnchor),
+                inAppPipBadgeView.leadingAnchor.constraint(greaterThanOrEqualTo: inAppPipView.leadingAnchor, constant: horizontalPadding),
+                inAppPipBadgeView.trailingAnchor.constraint(lessThanOrEqualTo: inAppPipView.trailingAnchor, constant: -horizontalPadding)
+            ])
+        case (.RIGHT, .CENTER): // 우측 중앙
+            NSLayoutConstraint.activate([
+                inAppPipBadgeView.centerYAnchor.constraint(equalTo: inAppPipView.centerYAnchor),
+                inAppPipBadgeView.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: -horizontalPadding),
+                inAppPipBadgeView.leadingAnchor.constraint(greaterThanOrEqualTo: inAppPipView.leadingAnchor, constant: horizontalPadding)
+            ])
+        case (.LEFT, .BOTTOM): // 좌측 하단
+            NSLayoutConstraint.activate([
+                inAppPipBadgeView.bottomAnchor.constraint(equalTo: inAppPipView.bottomAnchor, constant: -verticalPadding),
+                inAppPipBadgeView.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: horizontalPadding),
+                inAppPipBadgeView.trailingAnchor.constraint(lessThanOrEqualTo: inAppPipView.trailingAnchor, constant: -horizontalPadding)
+            ])
+        case (.CENTER, .BOTTOM): // 중앙 하단
+            NSLayoutConstraint.activate([
+                inAppPipBadgeView.bottomAnchor.constraint(equalTo: inAppPipView.bottomAnchor, constant: -verticalPadding),
+                inAppPipBadgeView.centerXAnchor.constraint(equalTo: inAppPipView.centerXAnchor),
+                inAppPipBadgeView.leadingAnchor.constraint(greaterThanOrEqualTo: inAppPipView.leadingAnchor, constant: horizontalPadding),
+                inAppPipBadgeView.trailingAnchor.constraint(lessThanOrEqualTo: inAppPipView.trailingAnchor, constant: -horizontalPadding)
+            ])
+        case (.RIGHT, .BOTTOM): // 우측 하단
+            NSLayoutConstraint.activate([
+                inAppPipBadgeView.bottomAnchor.constraint(equalTo: inAppPipView.bottomAnchor, constant: -verticalPadding),
+                inAppPipBadgeView.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: -horizontalPadding),
+                inAppPipBadgeView.leadingAnchor.constraint(greaterThanOrEqualTo: inAppPipView.leadingAnchor, constant: horizontalPadding)
+            ])
+        default:
+            break
+        }
+        
+        let configHeight = CGFloat(badgeConfig.size?.height ?? 24)
+        let configMaxWidth = CGFloat(badgeConfig.size?.maxWidth ?? 112)
+        let designPipWidth = CGFloat(badgeConfig.size?.width ?? 320)
+        
+        let heightMultiplier = configHeight / designPipWidth
+        let maxWidthMultiplier: CGFloat = 0.35
+        
         NSLayoutConstraint.activate([
-            inAppPipBadgeView.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: 8),
-            inAppPipBadgeView.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: -8),
-            inAppPipBadgeView.widthAnchor.constraint(equalTo: inAppPipView.widthAnchor, multiplier: 0.4),
-            inAppPipBadgeView.heightAnchor.constraint(equalTo: inAppPipView.widthAnchor, multiplier: 0.1)
+            inAppPipBadgeView.widthAnchor.constraint(lessThanOrEqualTo: inAppPipView.widthAnchor, multiplier: 0.7),
+            inAppPipBadgeView.widthAnchor.constraint(lessThanOrEqualToConstant: configMaxWidth)
         ])
+        
+        inAppPipBadgeView.action(.setAlignment(horizontal ?? .RIGHT))
+        inAppPipBadgeView.backgroundColor = .gray
+    }
+    
+    private func setInAppPipTextBox() {
+        let textBoxConfig = InAppPipDisplayModel.textBoxDummy()
         
         inAppPipView.addSubview(inAppPipTextBoxView)
         
+        inAppPipTextBoxView.action(.setTitle(textBoxConfig.text))
+        
+        let horizontal = textBoxConfig.layout.horizontalToAlignment()
+        let vertical = textBoxConfig.layout.verticalToAlignment()
+        
+        let horizontalPadding = textBoxConfig.padding.horizontal
+        let verticalPadding = textBoxConfig.padding.vertical
+        
+        switch (horizontal, vertical) {
+        case (.LEFT, .TOP): // 좌측 상단
+            NSLayoutConstraint.activate([
+                inAppPipTextBoxView.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: verticalPadding),
+                inAppPipTextBoxView.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: horizontalPadding)
+            ])
+        case (.CENTER, .TOP): // 중앙 상단
+            NSLayoutConstraint.activate([
+                inAppPipTextBoxView.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: verticalPadding),
+                inAppPipTextBoxView.centerXAnchor.constraint(equalTo: inAppPipView.centerXAnchor),
+                inAppPipTextBoxView.leadingAnchor.constraint(greaterThanOrEqualTo: inAppPipView.leadingAnchor, constant: horizontalPadding),
+                inAppPipTextBoxView.trailingAnchor.constraint(lessThanOrEqualTo: inAppPipView.trailingAnchor, constant: -horizontalPadding)
+            ])
+        case (.RIGHT, .TOP): // 우측 상단
+            NSLayoutConstraint.activate([
+                inAppPipTextBoxView.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: verticalPadding),
+                inAppPipTextBoxView.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: -horizontalPadding),
+                inAppPipTextBoxView.leadingAnchor.constraint(greaterThanOrEqualTo: inAppPipView.leadingAnchor, constant: horizontalPadding)
+            ])
+        case (.LEFT, .CENTER): // 좌측 중앙
+            NSLayoutConstraint.activate([
+                inAppPipTextBoxView.centerYAnchor.constraint(equalTo: inAppPipView.centerYAnchor),
+                inAppPipTextBoxView.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: horizontalPadding)
+            ])
+        case (.CENTER, .CENTER): // 중앙
+            NSLayoutConstraint.activate([
+                inAppPipTextBoxView.centerXAnchor.constraint(equalTo: inAppPipView.centerXAnchor),
+                inAppPipTextBoxView.centerYAnchor.constraint(equalTo: inAppPipView.centerYAnchor),
+                inAppPipTextBoxView.leadingAnchor.constraint(greaterThanOrEqualTo: inAppPipView.leadingAnchor, constant: horizontalPadding),
+                inAppPipTextBoxView.trailingAnchor.constraint(lessThanOrEqualTo: inAppPipView.trailingAnchor, constant: -horizontalPadding)
+            ])
+        case (.RIGHT, .CENTER): // 우측 중앙
+            NSLayoutConstraint.activate([
+                inAppPipTextBoxView.centerYAnchor.constraint(equalTo: inAppPipView.centerYAnchor),
+                inAppPipTextBoxView.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: -horizontalPadding),
+                inAppPipTextBoxView.leadingAnchor.constraint(greaterThanOrEqualTo: inAppPipView.leadingAnchor, constant: horizontalPadding)
+            ])
+        case (.LEFT, .BOTTOM): // 좌측 하단
+            NSLayoutConstraint.activate([
+                inAppPipTextBoxView.bottomAnchor.constraint(equalTo: inAppPipView.bottomAnchor, constant: -verticalPadding),
+                inAppPipTextBoxView.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: horizontalPadding)
+            ])
+        case (.CENTER, .BOTTOM): // 중앙 하단 (디자인 가이드 기본값)
+            NSLayoutConstraint.activate([
+                inAppPipTextBoxView.bottomAnchor.constraint(equalTo: inAppPipView.bottomAnchor, constant: -verticalPadding),
+                inAppPipTextBoxView.centerXAnchor.constraint(equalTo: inAppPipView.centerXAnchor),
+                inAppPipTextBoxView.leadingAnchor.constraint(greaterThanOrEqualTo: inAppPipView.leadingAnchor, constant: horizontalPadding),
+                inAppPipTextBoxView.trailingAnchor.constraint(lessThanOrEqualTo: inAppPipView.trailingAnchor, constant: -horizontalPadding)
+            ])
+        case (.RIGHT, .BOTTOM): // 우측 하단
+            NSLayoutConstraint.activate([
+                inAppPipTextBoxView.bottomAnchor.constraint(equalTo: inAppPipView.bottomAnchor, constant: -verticalPadding),
+                inAppPipTextBoxView.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: -horizontalPadding),
+                inAppPipTextBoxView.leadingAnchor.constraint(greaterThanOrEqualTo: inAppPipView.leadingAnchor, constant: horizontalPadding)
+            ])
+        default:
+            break
+        }
+        
+        // 디자인 가이드 기반 크기 계산
+        let configFontSize = CGFloat(textBoxConfig.font?.size ?? 12)
+        let configBorderRadius = CGFloat(textBoxConfig.box?.borderRadius ?? 8)
+        let configPaddingX = CGFloat(textBoxConfig.box?.paddingX ?? 8)
+        let configPaddingY = CGFloat(textBoxConfig.box?.paddingY ?? 6)
+        
         NSLayoutConstraint.activate([
-            inAppPipTextBoxView.bottomAnchor.constraint(equalTo: inAppPipView.bottomAnchor, constant: -8),
-            inAppPipTextBoxView.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: -9.5),
-            inAppPipTextBoxView.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: 9.5),
-            inAppPipTextBoxView.heightAnchor.constraint(equalTo: inAppPipView.widthAnchor, multiplier: 0.2)
+            inAppPipTextBoxView.heightAnchor.constraint(greaterThanOrEqualToConstant: 26),
+            inAppPipTextBoxView.widthAnchor.constraint(lessThanOrEqualTo: inAppPipView.widthAnchor,
+                                                       constant: -(horizontalPadding * 2))
         ])
         
-        self.view.bringSubviewToFront(inAppPipView)
+        inAppPipTextBoxView.action(.setTitle(textBoxConfig.text))
+        inAppPipTextBoxView.action(.updateStyle(
+            fontSize: configFontSize,
+            borderRadius: configBorderRadius,
+            paddingX: configPaddingX,
+            paddingY: configPaddingY
+        ))
     }
     
     @objc private func inAppPipCloseBtnTapped(sender: UIButton) {
