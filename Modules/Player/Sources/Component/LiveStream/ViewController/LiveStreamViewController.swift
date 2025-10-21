@@ -128,6 +128,8 @@ final class LiveStreamViewController: SLViewController {
         return view
     }()
     
+    private var inAppPipBadgeConstraint: [NSLayoutConstraint] = []
+    
     private var inAppPipTextBoxView: ShopLiveInAppPipTextBoxView = {
         let view = ShopLiveInAppPipTextBoxView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -198,9 +200,46 @@ final class LiveStreamViewController: SLViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        updateInAppPipBadgeConstraint()
         guard viewModel.getUseCloseBtnIsEnabled() else { return }
         pipDim.layer.cornerRadius = viewModel.getPipCornerRadius()
         updateCloseButtonDim()
+    }
+    
+    private func updateInAppPipBadgeConstraint() {
+        // inAppPipBadgeView가 inAppPipView의 서브뷰인지 확인
+        guard inAppPipBadgeView.superview == inAppPipView else {
+            print("Warning: inAppPipBadgeView is not a subview of inAppPipView")
+            return
+        }
+        
+        // inAppPipView의 frame이 유효한지 확인
+        guard inAppPipView.frame.width > 0 else {
+            print("Warning: inAppPipView frame width is 0")
+            return
+        }
+        
+        // 기존 제약조건이 있는 경우에만 업데이트
+        if !inAppPipBadgeConstraint.isEmpty {
+            NSLayoutConstraint.deactivate(inAppPipBadgeConstraint)
+        }
+        
+        let multiplier =  inAppPipView.frame.width * 0.15 > 26 ? 26 : inAppPipView.frame.width * 0.15
+        
+        // 높이 제약조건만 업데이트 (너비는 setInAppPipBadge에서 이미 설정됨)
+        let heightConstraint = inAppPipBadgeView.heightAnchor.constraint(equalToConstant: multiplier)
+        
+        inAppPipBadgeConstraint = [heightConstraint]
+        
+        NSLayoutConstraint.activate(inAppPipBadgeConstraint)
+        
+        inAppPipBadgeView.layoutIfNeeded()
+        
+        print("pip size: \(multiplier)")
+    }
+    
+    private func updateInAppPipTextBoxConstraint() {
+        
     }
     
     override func removeFromParent() {
@@ -352,10 +391,13 @@ final class LiveStreamViewController: SLViewController {
         let heightMultiplier = configHeight / designPipWidth
         let maxWidthMultiplier: CGFloat = 0.35
         
-        NSLayoutConstraint.activate([
+        inAppPipBadgeConstraint = [
+            inAppPipBadgeView.heightAnchor.constraint(equalToConstant: 10),
             inAppPipBadgeView.widthAnchor.constraint(lessThanOrEqualTo: inAppPipView.widthAnchor, multiplier: 0.7),
             inAppPipBadgeView.widthAnchor.constraint(lessThanOrEqualToConstant: configMaxWidth)
-        ])
+        ]
+        
+        NSLayoutConstraint.activate(inAppPipBadgeConstraint)
         
         inAppPipBadgeView.action(.setAlignment(horizontal ?? .RIGHT))
         inAppPipBadgeView.backgroundColor = .gray

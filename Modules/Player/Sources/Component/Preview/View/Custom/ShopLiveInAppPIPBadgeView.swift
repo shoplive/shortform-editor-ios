@@ -98,7 +98,7 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
             
             // spacer가 최소 너비 1 이상
             NSLayoutConstraint.activate([
-                trailingSpacingView.widthAnchor.constraint(greaterThanOrEqualToConstant: 0)
+                trailingSpacingView.widthAnchor.constraint(greaterThanOrEqualToConstant: 1)
             ])
             
         case .CENTER:
@@ -110,7 +110,7 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
             // 양쪽 spacer 동일한 너비
             NSLayoutConstraint.activate([
                 leadingSpacingView.widthAnchor.constraint(equalTo: trailingSpacingView.widthAnchor),
-                leadingSpacingView.widthAnchor.constraint(greaterThanOrEqualToConstant: 0)
+                leadingSpacingView.widthAnchor.constraint(greaterThanOrEqualToConstant: 1)
             ])
             
         case .RIGHT:
@@ -120,7 +120,7 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
             
             // spacer가 최소 너비 1 이상
             NSLayoutConstraint.activate([
-                leadingSpacingView.widthAnchor.constraint(greaterThanOrEqualToConstant: 0)
+                leadingSpacingView.widthAnchor.constraint(greaterThanOrEqualToConstant: 1)
             ])
         }
     }
