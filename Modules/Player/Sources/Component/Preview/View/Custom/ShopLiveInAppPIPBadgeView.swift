@@ -11,39 +11,18 @@ import ShopliveSDKCommon
 
 final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
     
-    private var stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 0
-        stackView.distribution = .fill
-        stackView.alignment = .center
-        return stackView
-    }()
-    
-    private var leadingSpacingView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.setContentHuggingPriority(.defaultLow, for: .horizontal) // 낮은 우선순위
-        view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        return view
-    }()
-    
-    private var trailingSpacingView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.setContentHuggingPriority(.defaultLow, for: .horizontal) // 낮은 우선순위
-        view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        return view
-    }()
-    
     private var badgeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.setContentHuggingPriority(.required, for: .horizontal) // 높은 우선순위
+        imageView.setContentHuggingPriority(.required, for: .horizontal)
         imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
         return imageView
     }()
+    
+    private var imageAspectRatioConstraint: NSLayoutConstraint?
+    private var currentAlignment: InAppPipDisplayHorizontalAlignment = .CENTER
+    private var horizontalConstraints: [NSLayoutConstraint] = []
     
     enum Action {
         case setBadge(URL?)
@@ -69,6 +48,7 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
         case let .setBadge(url):
             onSetBadge(url)
         case let .setAlignment(alignment):
+            currentAlignment = alignment
             onSetAlignment(alignment)
         case let .hiddenBadge(isHidden):
             self.isHidden = isHidden
@@ -76,74 +56,93 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
     }
     
     private func onSetBadge(_ url: URL?) {
-        // URL에서 이미지 로드
-        if let image = UIImage(named: "SDK.Preview.ImageBadge") {
-            badgeImageView.image = image
+        badgeImageView.loadImage(from: url?.absoluteString ?? "") { [weak self] image in
+            guard let self = self, let image = image else { return }
+            self.updateImageViewAspectRatio(for: image)
         }
     }
     
+    private func updateImageViewAspectRatio(for image: UIImage) {
+        if let existingConstraint = imageAspectRatioConstraint {
+            badgeImageView.removeConstraint(existingConstraint)
+        }
+        
+        let aspectRatio = image.size.width / image.size.height
+        
+        imageAspectRatioConstraint = badgeImageView.widthAnchor.constraint(
+            equalTo: badgeImageView.heightAnchor,
+            multiplier: aspectRatio
+        )
+        imageAspectRatioConstraint?.isActive = true
+        
+        onSetAlignment(currentAlignment)
+    }
+    
     private func onSetAlignment(_ alignment: InAppPipDisplayHorizontalAlignment) {
-        // 기존 arrangedSubviews 제거
-        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        
-        // 기존 제약 제거
-        NSLayoutConstraint.deactivate(leadingSpacingView.constraints)
-        NSLayoutConstraint.deactivate(trailingSpacingView.constraints)
-        
+        NSLayoutConstraint.deactivate(horizontalConstraints)
+        horizontalConstraints.removeAll()
         switch alignment {
         case .LEFT:
-            // [이미지][spacer]
-            stackView.addArrangedSubview(badgeImageView)
-            stackView.addArrangedSubview(trailingSpacingView)
-            
-            // spacer가 최소 너비 1 이상
-            NSLayoutConstraint.activate([
-                trailingSpacingView.widthAnchor.constraint(greaterThanOrEqualToConstant: 1)
-            ])
+            horizontalConstraints = [
+                badgeImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+                badgeImageView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor)
+            ]
             
         case .CENTER:
-            // [spacer][이미지][spacer]
-            stackView.addArrangedSubview(leadingSpacingView)
-            stackView.addArrangedSubview(badgeImageView)
-            stackView.addArrangedSubview(trailingSpacingView)
-            
-            // 양쪽 spacer 동일한 너비
-            NSLayoutConstraint.activate([
-                leadingSpacingView.widthAnchor.constraint(equalTo: trailingSpacingView.widthAnchor),
-                leadingSpacingView.widthAnchor.constraint(greaterThanOrEqualToConstant: 1)
-            ])
+            horizontalConstraints = [
+                badgeImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+                badgeImageView.leadingAnchor.constraint(greaterThanOrEqualTo: self.leadingAnchor),
+                badgeImageView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor)
+            ]
             
         case .RIGHT:
-            // [spacer][이미지]
-            stackView.addArrangedSubview(leadingSpacingView)
-            stackView.addArrangedSubview(badgeImageView)
-            
-            // spacer가 최소 너비 1 이상
-            NSLayoutConstraint.activate([
-                leadingSpacingView.widthAnchor.constraint(greaterThanOrEqualToConstant: 1)
-            ])
+            horizontalConstraints = [
+                badgeImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+                badgeImageView.leadingAnchor.constraint(greaterThanOrEqualTo: self.leadingAnchor)
+            ]
         }
+        
+        NSLayoutConstraint.activate(horizontalConstraints)
+        
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
     }
     
     private func setLayout() {
         self.backgroundColor = .clear
-        self.addSubview(stackView)
+        self.addSubview(badgeImageView)
         
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        badgeImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: self.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            badgeImageView.topAnchor.constraint(equalTo: self.topAnchor),
+            badgeImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
         
-        // 초기 이미지 설정
-        if let image = UIImage(named: "SDK.Preview.ImageBadge") {
-            badgeImageView.image = image
+        onSetAlignment(currentAlignment)
+    }
+}
+
+extension UIImageView {
+    func loadImage(from urlString: String, completion: ((UIImage?) -> Void)? = nil) {
+        guard let url = URL(string: urlString) else {
+            completion?(nil)
+            return
         }
         
-        // 기본 정렬은 RIGHT
-        onSetAlignment(.RIGHT)
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let data = data, error == nil,
+                  let image = UIImage(data: data) else {
+                DispatchQueue.main.async {
+                    completion?(nil)
+                }
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self?.image = image
+                completion?(image)
+            }
+        }.resume()
     }
 }

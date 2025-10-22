@@ -12,8 +12,9 @@ import ShopliveSDKCommon
 class ShopLiveInAppPipTextBoxView: UIView, SLReactor {
     
     enum Action {
+        case hiddenTextBox(Bool)
         case setTitle(String?)
-        case updateStyle(fontSize: CGFloat, borderRadius: CGFloat, paddingX: CGFloat, paddingY: CGFloat)
+        case updateStyle(fontSize: CGFloat, fontColor: String, roundedBoxColor: String,  borderRadius: CGFloat, paddingX: CGFloat, paddingY: CGFloat)
     }
     
     enum Result { }
@@ -38,9 +39,8 @@ class ShopLiveInAppPipTextBoxView: UIView, SLReactor {
         label.numberOfLines = 1
         label.textColor = .white
         label.textAlignment = .center
-        label.text = "한글몇글자까지가능할까요"
+        label.text = ""
         label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.5
         label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
@@ -56,54 +56,58 @@ class ShopLiveInAppPipTextBoxView: UIView, SLReactor {
     
     func action(_ action: Action) {
         switch action {
+        case let .hiddenTextBox(isHidden):
+            self.isHidden = isHidden
         case let .setTitle(title):
-            boxTitle.text = title
-        case let .updateStyle(fontSize, borderRadius, paddingX, paddingY):
+            if !(title?.isEmpty ?? false) {
+                boxTitle.text = title
+            } else {
+                self.isHidden = true
+            }
+        case let .updateStyle(fontSize, fontColor, roundedBoxColor, borderRadius, paddingX, paddingY):
+            // title set
             boxTitle.font = UIFont.boldSystemFont(ofSize: fontSize)
+            boxTitle.textColor = UIColor(sl_hex: fontColor)
+            
+            // roundedBox set
+            roundedTextBox.backgroundColor = UIColor(sl_hex: roundedBoxColor)
             roundedTextBox.layer.cornerRadius = borderRadius
             
-            // 기존 padding 제약 조건 업데이트
-            // padding 제약을 variable로 저장하고 있다면 constant 업데이트
-            // 또는 제약을 다시 생성
             updatePaddingConstraints(x: paddingX, y: paddingY)
         }
     }
     
     private func setLayout() {
+        self.isHidden = true
         self.addSubview(roundedTextBox)
         roundedTextBox.addSubview(boxTitle)
         
         paddingConstraints = [
-            // boxTitle 내부 패딩
             boxTitle.topAnchor.constraint(equalTo: roundedTextBox.topAnchor, constant: 6),
             boxTitle.leadingAnchor.constraint(equalTo: roundedTextBox.leadingAnchor, constant: 8),
             boxTitle.trailingAnchor.constraint(equalTo: roundedTextBox.trailingAnchor, constant: -8),
             boxTitle.bottomAnchor.constraint(equalTo: roundedTextBox.bottomAnchor, constant: -6)
         ]
         
-        
         NSLayoutConstraint.activate(paddingConstraints)
         
         NSLayoutConstraint.activate([
-            // roundedTextBox는 텍스트에 맞춰 크기 조절
             roundedTextBox.topAnchor.constraint(equalTo: self.topAnchor),
             roundedTextBox.leadingAnchor.constraint(greaterThanOrEqualTo: self.leadingAnchor),
             roundedTextBox.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor),
             roundedTextBox.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             roundedTextBox.centerXAnchor.constraint(equalTo: self.centerXAnchor), // 중앙 정렬
             
-            // roundedTextBox 너비는 boxTitle에 맞춤 (패딩 16 = 8*2)
+            // roundedTextBox 크기는 boxTitle에 맞춤 (패딩 포함)
             roundedTextBox.widthAnchor.constraint(equalTo: boxTitle.widthAnchor, constant: 16),
             roundedTextBox.heightAnchor.constraint(equalTo: boxTitle.heightAnchor, constant: 12)
         ])
     }
     
     private func updatePaddingConstraints(x: CGFloat, y: CGFloat) {
-        // 기존 padding 제약 제거
         NSLayoutConstraint.deactivate(paddingConstraints)
         paddingConstraints.removeAll()
         
-        // 새로운 padding 제약 추가
         paddingConstraints = [
             boxTitle.topAnchor.constraint(equalTo: roundedTextBox.topAnchor, constant: y),
             boxTitle.leadingAnchor.constraint(equalTo: roundedTextBox.leadingAnchor, constant: x),
@@ -112,5 +116,20 @@ class ShopLiveInAppPipTextBoxView: UIView, SLReactor {
         ]
         
         NSLayoutConstraint.activate(paddingConstraints)
+        
+        updateRoundedTextBoxSizeConstraints(paddingX: x, paddingY: y)
+    }
+    
+    private func updateRoundedTextBoxSizeConstraints(paddingX: CGFloat, paddingY: CGFloat) {
+        for constraint in roundedTextBox.constraints {
+            if constraint.firstAttribute == .width || constraint.firstAttribute == .height {
+                constraint.isActive = false
+            }
+        }
+        
+        NSLayoutConstraint.activate([
+            roundedTextBox.widthAnchor.constraint(equalTo: boxTitle.widthAnchor, constant: paddingX * 2),
+            roundedTextBox.heightAnchor.constraint(equalTo: boxTitle.heightAnchor, constant: paddingY * 2)
+        ])
     }
 }

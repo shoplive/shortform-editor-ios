@@ -128,13 +128,13 @@ final class LiveStreamViewController: SLViewController {
         return view
     }()
     
-    private var inAppPipBadgeConstraint: [NSLayoutConstraint] = []
-    
     private var inAppPipTextBoxView: ShopLiveInAppPipTextBoxView = {
         let view = ShopLiveInAppPipTextBoxView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    private var inAppPipBadgeConstraint: [NSLayoutConstraint] = []
 
     private lazy var indicatorView: SLActivityIndicatorView = {
         let activityIndicator = SLActivityIndicatorView()
@@ -207,39 +207,28 @@ final class LiveStreamViewController: SLViewController {
     }
     
     private func updateInAppPipBadgeConstraint() {
-        // inAppPipBadgeView가 inAppPipView의 서브뷰인지 확인
         guard inAppPipBadgeView.superview == inAppPipView else {
             print("Warning: inAppPipBadgeView is not a subview of inAppPipView")
             return
         }
         
-        // inAppPipView의 frame이 유효한지 확인
         guard inAppPipView.frame.width > 0 else {
             print("Warning: inAppPipView frame width is 0")
             return
         }
         
-        // 기존 제약조건이 있는 경우에만 업데이트
         if !inAppPipBadgeConstraint.isEmpty {
             NSLayoutConstraint.deactivate(inAppPipBadgeConstraint)
         }
         
         let multiplier =  inAppPipView.frame.width * 0.15 > 26 ? 26 : inAppPipView.frame.width * 0.15
         
-        // 높이 제약조건만 업데이트 (너비는 setInAppPipBadge에서 이미 설정됨)
         let heightConstraint = inAppPipBadgeView.heightAnchor.constraint(equalToConstant: multiplier)
         
         inAppPipBadgeConstraint = [heightConstraint]
-        
         NSLayoutConstraint.activate(inAppPipBadgeConstraint)
         
         inAppPipBadgeView.layoutIfNeeded()
-        
-        print("pip size: \(multiplier)")
-    }
-    
-    private func updateInAppPipTextBoxConstraint() {
-        
     }
     
     override func removeFromParent() {
@@ -295,8 +284,8 @@ final class LiveStreamViewController: SLViewController {
             pipDim.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: 0),
         ])
         
-        setInAppPipBadge()
-        setInAppPipTextBox()
+        inAppPipView.addSubview(inAppPipBadgeView)
+        inAppPipView.addSubview(inAppPipTextBoxView)
         
         inAppPipView.addSubview(closeButton)
         NSLayoutConstraint.activate([
@@ -309,15 +298,11 @@ final class LiveStreamViewController: SLViewController {
         self.view.bringSubviewToFront(inAppPipView)
     }
     
-    private func setInAppPipBadge() {
-        let badgeConfig = InAppPipDisplayModel.badgeDummy()
-        
-        inAppPipView.addSubview(inAppPipBadgeView)
-        
-        inAppPipBadgeView.action(.setBadge(URL(string: badgeConfig.imageUrl ?? "")))
+    private func setInAppPipBadge(_ badgeConfig: InAppPipDisplayModel) {
         
         let horizontal = badgeConfig.layout.horizontalToAlignment()
         let vertical = badgeConfig.layout.verticalToAlignment()
+        
         
         let horizontalPadding = badgeConfig.padding.horizontal
         let verticalPadding = badgeConfig.padding.vertical
@@ -384,30 +369,23 @@ final class LiveStreamViewController: SLViewController {
             break
         }
         
-        let configHeight = CGFloat(badgeConfig.size?.height ?? 24)
         let configMaxWidth = CGFloat(badgeConfig.size?.maxWidth ?? 112)
-        let designPipWidth = CGFloat(badgeConfig.size?.width ?? 320)
-        
-        let heightMultiplier = configHeight / designPipWidth
-        let maxWidthMultiplier: CGFloat = 0.35
         
         inAppPipBadgeConstraint = [
-            inAppPipBadgeView.heightAnchor.constraint(equalToConstant: 10),
             inAppPipBadgeView.widthAnchor.constraint(lessThanOrEqualTo: inAppPipView.widthAnchor, multiplier: 0.7),
             inAppPipBadgeView.widthAnchor.constraint(lessThanOrEqualToConstant: configMaxWidth)
         ]
         
         NSLayoutConstraint.activate(inAppPipBadgeConstraint)
         
+        inAppPipBadgeView.action(.hiddenBadge(!badgeConfig.active))
+        inAppPipBadgeView.action(.setBadge(URL(string: badgeConfig.imageUrl ?? "")))
         inAppPipBadgeView.action(.setAlignment(horizontal ?? .RIGHT))
-        inAppPipBadgeView.backgroundColor = .gray
     }
     
-    private func setInAppPipTextBox() {
-        let textBoxConfig = InAppPipDisplayModel.textBoxDummy()
+    private func setInAppPipTextBox(_ textBoxConfig: InAppPipDisplayModel) {
         
-        inAppPipView.addSubview(inAppPipTextBoxView)
-        
+        inAppPipTextBoxView.action(.hiddenTextBox(!textBoxConfig.active))
         inAppPipTextBoxView.action(.setTitle(textBoxConfig.text))
         
         let horizontal = textBoxConfig.layout.horizontalToAlignment()
@@ -475,21 +453,21 @@ final class LiveStreamViewController: SLViewController {
             break
         }
         
-        // 디자인 가이드 기반 크기 계산
         let configFontSize = CGFloat(textBoxConfig.font?.size ?? 12)
+        let configFontColor = textBoxConfig.font?.color ?? "#ffffff"
+        
         let configBorderRadius = CGFloat(textBoxConfig.box?.borderRadius ?? 8)
+        let configBackgroundColor = textBoxConfig.box?.backgroundColor ?? "#000000"
         let configPaddingX = CGFloat(textBoxConfig.box?.paddingX ?? 8)
         let configPaddingY = CGFloat(textBoxConfig.box?.paddingY ?? 6)
         
-        NSLayoutConstraint.activate([
-            inAppPipTextBoxView.heightAnchor.constraint(greaterThanOrEqualToConstant: 26),
-            inAppPipTextBoxView.widthAnchor.constraint(lessThanOrEqualTo: inAppPipView.widthAnchor,
-                                                       constant: -(horizontalPadding * 2))
-        ])
+        NSLayoutConstraint.activate([ inAppPipTextBoxView.heightAnchor.constraint(greaterThanOrEqualToConstant: 26) ])
         
         inAppPipTextBoxView.action(.setTitle(textBoxConfig.text))
         inAppPipTextBoxView.action(.updateStyle(
             fontSize: configFontSize,
+            fontColor: configFontColor,
+            roundedBoxColor: configBackgroundColor,
             borderRadius: configBorderRadius,
             paddingX: configPaddingX,
             paddingY: configPaddingY
@@ -848,6 +826,20 @@ extension LiveStreamViewController: LiveStreamViewModelDelegate {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 5) { [weak self] in
             self?.viewModel.setBlockSnapShotWhenPlayerViewFrameUpdatedByWeb(block: false)
         }
+    }
+    
+    func updateInAppPipDisplayLayout(_ model: InAppPipDisplaysModel?) {
+        
+        print("updateInAppPipDisplayLayout is Called")
+        
+        if let badge = model?.badge {
+            setInAppPipBadge(badge)
+        }
+        
+        if let textBox = model?.textBox {
+            setInAppPipTextBox(textBox)
+        }
+        
     }
     
 }

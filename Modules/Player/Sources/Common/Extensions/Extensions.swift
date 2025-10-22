@@ -466,38 +466,3 @@ extension RawRepresentable where RawValue == String, Self: SLNotificationName {
 extension Notification.Name {
     static let TimebaseEffectiveRateChangedNotification = Notification.Name(rawValue: kCMTimebaseNotification_EffectiveRateChanged as String)
 }
-
-extension UIImage {
-    func aspectFitImage(inRect rect: CGRect) -> UIImage? {
-          // rect 크기가 0이면 원본 이미지 반환
-          guard rect.width > 0 && rect.height > 0 else {
-              return self
-          }
-          
-          let width = self.size.width
-          let height = self.size.height
-          
-          guard width > 0 && height > 0 else {
-              return self
-          }
-          
-          let aspectWidth = rect.width / width
-          let aspectHeight = rect.height / height
-          let scaleFactor = aspectWidth > aspectHeight ? rect.size.height / height : rect.size.width / width
-          
-          let newSize = CGSize(width: width * scaleFactor, height: height * scaleFactor)
-          
-          // 새로운 크기가 유효한지 확인
-          guard newSize.width > 0 && newSize.height > 0 else {
-              return self
-          }
-
-          UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
-          defer {
-              UIGraphicsEndImageContext()
-          }
-          
-          self.draw(in: CGRect(origin: .zero, size: newSize))
-          return UIGraphicsGetImageFromCurrentImageContext()
-      }
-}

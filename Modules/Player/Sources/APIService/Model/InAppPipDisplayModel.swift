@@ -8,6 +8,11 @@
 
 import Foundation
 
+struct InAppPipDisplaysModel {
+    var badge: InAppPipDisplayModel?
+    var textBox: InAppPipDisplayModel?
+}
+
 struct InAppPipDisplayModel {
     var type: String
     var active: Bool
@@ -137,7 +142,7 @@ extension InAppPipDisplayModel {
                 vertical: 8
             ),
             // Textbox 에만 있는 필드
-            text: "한글몇글자까지가능할까요",
+            text: "한글몇",
             font: .init(
                 size: 14,
                 color: "#111827"
