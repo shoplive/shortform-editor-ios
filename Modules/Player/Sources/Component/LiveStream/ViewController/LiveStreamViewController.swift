@@ -372,7 +372,6 @@ final class LiveStreamViewController: SLViewController {
         let configMaxWidth = CGFloat(badgeConfig.size?.maxWidth ?? 112)
         
         inAppPipBadgeConstraint = [
-            inAppPipBadgeView.widthAnchor.constraint(lessThanOrEqualTo: inAppPipView.widthAnchor, multiplier: 0.7),
             inAppPipBadgeView.widthAnchor.constraint(lessThanOrEqualToConstant: configMaxWidth)
         ]
         
@@ -380,7 +379,13 @@ final class LiveStreamViewController: SLViewController {
         
         inAppPipBadgeView.action(.hiddenBadge(!badgeConfig.active))
         inAppPipBadgeView.action(.setBadge(URL(string: badgeConfig.imageUrl ?? "")))
-        inAppPipBadgeView.action(.setAlignment(horizontal ?? .RIGHT))
+        inAppPipBadgeView.action(
+            .setAlignment(
+                useCloseButton: viewModel.getInAppPipConfiguration()?.useCloseButton ?? false,
+                horizontal: horizontal ?? .RIGHT,
+                vertical: vertical ?? .TOP,
+            )
+        )
     }
     
     private func setInAppPipTextBox(_ textBoxConfig: InAppPipDisplayModel) {

@@ -21,12 +21,14 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
     }()
     
     private var imageAspectRatioConstraint: NSLayoutConstraint?
-    private var currentAlignment: InAppPipDisplayHorizontalAlignment = .CENTER
+    private var currentUseCloseButton: Bool = false
+    private var currentHorizontalAlignment: InAppPipDisplayHorizontalAlignment = .CENTER
+    private var currentVerticalAlignment: InAppDisplayVerticalAlignment = .TOP
     private var horizontalConstraints: [NSLayoutConstraint] = []
     
     enum Action {
         case setBadge(URL?)
-        case setAlignment(InAppPipDisplayHorizontalAlignment)
+        case setAlignment(useCloseButton: Bool, horizontal: InAppPipDisplayHorizontalAlignment, vertical: InAppDisplayVerticalAlignment)
         case hiddenBadge(Bool)
     }
     
@@ -47,9 +49,8 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
         switch action {
         case let .setBadge(url):
             onSetBadge(url)
-        case let .setAlignment(alignment):
-            currentAlignment = alignment
-            onSetAlignment(alignment)
+        case let .setAlignment(useCloseButton, horizontal, vertical):
+            onSetAlignment(useCloseButton: useCloseButton, horizontal, vertical)
         case let .hiddenBadge(isHidden):
             self.isHidden = isHidden
         }
@@ -75,16 +76,29 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
         )
         imageAspectRatioConstraint?.isActive = true
         
-        onSetAlignment(currentAlignment)
+        onSetAlignment(useCloseButton: currentUseCloseButton, currentHorizontalAlignment, currentVerticalAlignment)
     }
     
-    private func onSetAlignment(_ alignment: InAppPipDisplayHorizontalAlignment) {
+    private func onSetAlignment(useCloseButton: Bool, _ horizontal: InAppPipDisplayHorizontalAlignment, _ vertical: InAppDisplayVerticalAlignment) {
+        
+        currentUseCloseButton = useCloseButton
+        currentHorizontalAlignment = horizontal
+        currentVerticalAlignment = vertical
+        
+        
         NSLayoutConstraint.deactivate(horizontalConstraints)
         horizontalConstraints.removeAll()
-        switch alignment {
+        switch horizontal {
         case .LEFT:
+            
+            var constant: CGFloat = 0
+            
+            if useCloseButton && vertical == .TOP {
+                constant = 26
+            }
+            
             horizontalConstraints = [
-                badgeImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+                badgeImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: constant),
                 badgeImageView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor)
             ]
             
@@ -119,7 +133,7 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
             badgeImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
         
-        onSetAlignment(currentAlignment)
+        onSetAlignment(useCloseButton: currentUseCloseButton, currentHorizontalAlignment, currentVerticalAlignment)
     }
 }
 
