@@ -45,7 +45,7 @@ struct LiveFetchUrlModel: BaseResponsable {
         self.campaignStatus = try parser.parse(targetType: String.self, key: CodingKeys.campaignStatus)
         self.activityType = try parser.parse(targetType: String.self, key: CodingKeys.activityType)
         self.startHorizontalViewOnLandscapeVideo = try parser.parse(targetType: Bool.self, key: CodingKeys.startHorizontalViewOnLandscapeVideo)
-        self.previewDisplays = try container.decode(PreviewDisplaysModel.self, forKey: CodingKeys.previewDisplays)
+        self.previewDisplays = try container.decodeIfPresent(PreviewDisplaysModel.self, forKey: CodingKeys.previewDisplays)
     }
 }
 

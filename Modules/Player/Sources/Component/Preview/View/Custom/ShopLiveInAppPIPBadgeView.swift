@@ -12,8 +12,8 @@ import ShopliveSDKCommon
 final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
     
     private let imageCache = URLCache(
-        memoryCapacity: 20 * 1024 * 1024,
-        diskCapacity: 100 * 1024 * 1024,
+        memoryCapacity: 10 * 1024 * 1024, // 10MB
+        diskCapacity: 50 * 1024 * 1024,   // 50MB
         diskPath: "shoplive.pip.badge.imageCache"
     )
     

@@ -135,6 +135,11 @@ final class LiveStreamViewController: SLViewController {
     }()
     
     private var inAppPipBadgeConstraint: [NSLayoutConstraint] = []
+    
+    private let badgeHeightRatio: CGFloat = 0.15
+    private let maxBadgeHeight: CGFloat = 26
+    
+    private let minTextBoxHeight: CGFloat = 26
 
     private lazy var indicatorView: SLActivityIndicatorView = {
         let activityIndicator = SLActivityIndicatorView()
@@ -220,7 +225,7 @@ final class LiveStreamViewController: SLViewController {
         }
         
         // inApp PIP width 값의 0.15배가 26보다 높을 경우 badge의 height는 26보다 커지면 안되기에 조건문 처리
-        let multiplier = inAppPipView.frame.width * 0.15 > 26 ? 26 : inAppPipView.frame.width * 0.15
+        let multiplier = inAppPipView.frame.width * badgeHeightRatio > maxBadgeHeight ? maxBadgeHeight : badgeHeightRatio
         
         let heightConstraint = inAppPipBadgeView.heightAnchor.constraint(equalToConstant: multiplier)
         
@@ -320,7 +325,7 @@ final class LiveStreamViewController: SLViewController {
                 inAppPipBadgeView.leadingAnchor.constraint(greaterThanOrEqualTo: inAppPipView.leadingAnchor, constant: horizontalPadding),
                 inAppPipBadgeView.trailingAnchor.constraint(lessThanOrEqualTo: inAppPipView.trailingAnchor, constant: -horizontalPadding)
             ])
-        case (.RIGHT, .TOP): // 우측 상단 (기본값)
+        case (.RIGHT, .TOP): // 우측 상단
             NSLayoutConstraint.activate([
                 inAppPipBadgeView.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: verticalPadding),
                 inAppPipBadgeView.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: -horizontalPadding),
@@ -438,7 +443,7 @@ final class LiveStreamViewController: SLViewController {
                 inAppPipTextBoxView.bottomAnchor.constraint(equalTo: inAppPipView.bottomAnchor, constant: -verticalPadding),
                 inAppPipTextBoxView.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: horizontalPadding)
             ])
-        case (.CENTER, .BOTTOM): // 중앙 하단 (기본값)
+        case (.CENTER, .BOTTOM): // 중앙 하단
             NSLayoutConstraint.activate([
                 inAppPipTextBoxView.bottomAnchor.constraint(equalTo: inAppPipView.bottomAnchor, constant: -verticalPadding),
                 inAppPipTextBoxView.centerXAnchor.constraint(equalTo: inAppPipView.centerXAnchor),
@@ -464,13 +469,12 @@ final class LiveStreamViewController: SLViewController {
         let configPaddingY = CGFloat(textBoxConfig.box?.paddingY ?? 6)
         
         NSLayoutConstraint.activate([
-            inAppPipTextBoxView.heightAnchor.constraint(greaterThanOrEqualToConstant: 26)
+            inAppPipTextBoxView.heightAnchor.constraint(greaterThanOrEqualToConstant: minTextBoxHeight)
         ])
         
         inAppPipTextBoxView.action(.hiddenTextBox(!textBoxConfig.active))
         inAppPipTextBoxView.action(.setTitle(textBoxConfig.text))
         
-        inAppPipTextBoxView.action(.setTitle(textBoxConfig.text))
         inAppPipTextBoxView.action(.updateStyle(
             fontSize: configFontSize,
             fontColor: configFontColor,
