@@ -11,6 +11,14 @@ import ShopliveSDKCommon
 
 final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
     
+    private let imageCache = URLCache(
+        memoryCapacity: 20 * 1024 * 1024,
+        diskCapacity: 100 * 1024 * 1024,
+        diskPath: "shoplive.pip.badge.imageCache"
+    )
+    
+    private var imageUrlSession: URLSession = .init(configuration: .default)
+    
     private var badgeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -39,6 +47,7 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
+        setCache()
     }
     
     required init?(coder: NSCoder) {
@@ -58,7 +67,7 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
     
     private func onSetBadge(_ url: String?) {
         guard let url else { return }
-        badgeImageView.loadImage(from: url ) { [weak self] image in
+        loadImage(from: url) { [weak self] image in
             guard let self = self, let image = image else { return }
             self.updateImageViewAspectRatio(for: image)
         }
@@ -138,16 +147,25 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
         
         onSetAlignment(useCloseButton: currentUseCloseButton, currentHorizontalAlignment, currentVerticalAlignment)
     }
-}
-
-extension UIImageView {
+    
+    private func setCache() {
+        let config = URLSessionConfiguration.default
+        config.urlCache = imageCache
+        config.requestCachePolicy = .returnCacheDataElseLoad
+        
+        let session = URLSession(configuration: config)
+        
+        imageUrlSession = session
+    }
+    
     func loadImage(from urlString: String, completion: ((UIImage?) -> Void)? = nil) {
         guard let url = URL(string: urlString) else {
             completion?(nil)
             return
         }
         
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+        let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30.0)
+        imageUrlSession.dataTask(with: request) { [weak self] data, response, error in
             guard let data = data, error == nil,
                   let image = UIImage(data: data) else {
                 DispatchQueue.main.async {
@@ -157,7 +175,7 @@ extension UIImageView {
             }
             
             DispatchQueue.main.async {
-                self?.image = image
+                self?.badgeImageView.image = image
                 completion?(image)
             }
         }.resume()
