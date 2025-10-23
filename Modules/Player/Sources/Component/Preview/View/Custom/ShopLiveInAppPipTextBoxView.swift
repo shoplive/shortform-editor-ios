@@ -21,6 +21,8 @@ class ShopLiveInAppPipTextBoxView: UIView, SLReactor {
     
     private var paddingConstraints: [NSLayoutConstraint] = []
     
+    private var sizeConstraints: [NSLayoutConstraint] = []
+    
     var resultHandler: ((Result) -> ())?
     
     private var roundedTextBox: UIView = {
@@ -58,23 +60,32 @@ class ShopLiveInAppPipTextBoxView: UIView, SLReactor {
         switch action {
         case let .hiddenTextBox(isHidden):
             self.isHidden = isHidden
+            
         case let .setTitle(title):
-            if !(title?.isEmpty ?? false) {
-                boxTitle.text = title
-            } else {
-                self.isHidden = true
-            }
+            onSetTitle(title)
+            
         case let .updateStyle(fontSize, fontColor, roundedBoxColor, borderRadius, paddingX, paddingY):
-            // title set
-            boxTitle.font = UIFont.boldSystemFont(ofSize: fontSize)
-            boxTitle.textColor = UIColor(sl_hex: fontColor)
-            
-            // roundedBox set
-            roundedTextBox.backgroundColor = UIColor(sl_hex: roundedBoxColor)
-            roundedTextBox.layer.cornerRadius = borderRadius
-            
+            updateUIStyle(fontSize, fontColor, roundedBoxColor, borderRadius)
             updatePaddingConstraints(x: paddingX, y: paddingY)
         }
+    }
+    
+    private func onSetTitle(_ title: String?) {
+        if let title = title, !title.isEmpty {
+            boxTitle.text = title
+        } else {
+            self.isHidden = true
+        }
+    }
+    
+    private func updateUIStyle(_ fontSize: CGFloat,_ fontColor: String,_ roundedBoxColor: String,_ borderRadius: CGFloat) {
+        // title set
+        boxTitle.font = UIFont.boldSystemFont(ofSize: fontSize)
+        boxTitle.textColor = UIColor(sl_hex: fontColor)
+        
+        // roundedBox set
+        roundedTextBox.backgroundColor = UIColor(sl_hex: roundedBoxColor)
+        roundedTextBox.layer.cornerRadius = borderRadius
     }
     
     private func setLayout() {
@@ -91,21 +102,24 @@ class ShopLiveInAppPipTextBoxView: UIView, SLReactor {
         
         NSLayoutConstraint.activate(paddingConstraints)
         
+        sizeConstraints = [
+            roundedTextBox.widthAnchor.constraint(equalTo: boxTitle.widthAnchor, constant: 16),
+            roundedTextBox.heightAnchor.constraint(equalTo: boxTitle.heightAnchor, constant: 12)
+        ]
+        
         NSLayoutConstraint.activate([
             roundedTextBox.topAnchor.constraint(equalTo: self.topAnchor),
             roundedTextBox.leadingAnchor.constraint(greaterThanOrEqualTo: self.leadingAnchor),
             roundedTextBox.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor),
             roundedTextBox.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            roundedTextBox.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            
-            roundedTextBox.widthAnchor.constraint(equalTo: boxTitle.widthAnchor, constant: 16),
-            roundedTextBox.heightAnchor.constraint(equalTo: boxTitle.heightAnchor, constant: 12)
+            roundedTextBox.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
+        
+        NSLayoutConstraint.activate(sizeConstraints)
     }
     
     private func updatePaddingConstraints(x: CGFloat, y: CGFloat) {
         NSLayoutConstraint.deactivate(paddingConstraints)
-        paddingConstraints.removeAll()
         
         paddingConstraints = [
             boxTitle.topAnchor.constraint(equalTo: roundedTextBox.topAnchor, constant: y),
@@ -120,15 +134,14 @@ class ShopLiveInAppPipTextBoxView: UIView, SLReactor {
     }
     
     private func updateRoundedTextBoxSizeConstraints(paddingX: CGFloat, paddingY: CGFloat) {
-        for constraint in roundedTextBox.constraints {
-            if constraint.firstAttribute == .width || constraint.firstAttribute == .height {
-                constraint.isActive = false
-            }
-        }
         
-        NSLayoutConstraint.activate([
+        NSLayoutConstraint.deactivate(sizeConstraints)
+        
+        sizeConstraints = [
             roundedTextBox.widthAnchor.constraint(equalTo: boxTitle.widthAnchor, constant: paddingX * 2),
             roundedTextBox.heightAnchor.constraint(equalTo: boxTitle.heightAnchor, constant: paddingY * 2)
-        ])
+        ]
+        
+        NSLayoutConstraint.activate(sizeConstraints)
     }
 }
