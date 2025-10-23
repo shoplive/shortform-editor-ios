@@ -229,7 +229,7 @@ final class LiveStreamViewModel: NSObject {
             if asset.isPlayable {
                 ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
                 let metadataOutput = AVPlayerItemMetadataOutput(identifiers: nil)
-                metadataOutput.setDelegate(self, queue: .main)
+                metadataOutput.setDelegate(self, queue: .global())
                 playerItem.add(metadataOutput)
                 
                 if #available(iOS 13.0, *) {
@@ -1190,7 +1190,6 @@ extension LiveStreamViewModel: ShopLiveAVPlayerErrorObserverDelegate {
 extension LiveStreamViewModel: LiveStreamRetryManagerDelegate {
     //MARK: -delegate functions
     func updatePlayerItemInRetry(with url: URL) {
-        
         self.updatePlayerItem(with: url)
     }
     
