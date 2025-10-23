@@ -54,39 +54,42 @@ final class LiveStreamRetryManager {
         resetRetry()
         guard self.blockRetry != true else { return }
         if ShopLiveController.retryPlay {
-            isInRetry = true
-            retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
-                guard let self else {
-                    timer.invalidate()
-                    return
-                }
-                
-                if self.blockRetry == true {
-                    timer.invalidate()
-                    return
-                }
-                
-                self.retryCount += 1
-                
-                if ShopLiveController.windowStyle != .osPip {
-                    if ShopLiveController.shared.streamUrl == nil {
-                        self.resetRetry()
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                guard let self else { return }
+                isInRetry = true
+                retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
+                    guard let self else {
+                        timer.invalidate()
                         return
                     }
                     
-                    if (self.retryCount < 20 && self.retryCount % 2 == 0) || (self.retryCount >= 20 && self.retryCount % 5 == 0) {
-                        if let videoUrl = ShopLiveController.streamUrl {
-                            self.delegate?.updatePlayerItemInRetry(with: videoUrl)
-                        } else {
-                            ShopLiveController.retryPlay = false
-                        }
+                    if self.blockRetry == true {
+                        timer.invalidate()
+                        return
                     }
-                } else {
-                    if (self.retryCount < 20 && self.retryCount % 2 == 0) || (self.retryCount >= 20 && self.retryCount % 5 == 0) {
-                        if !self.isBuffering {
-                            ShopLiveController.shared.seekToLatest()
-                            ShopLiveController.playControl = .resume
-                            ShopLiveController.retryPlay = false
+                    
+                    self.retryCount += 1
+                    
+                    if ShopLiveController.windowStyle != .osPip {
+                        if ShopLiveController.shared.streamUrl == nil {
+                            self.resetRetry()
+                            return
+                        }
+                        
+                        if (self.retryCount < 20 && self.retryCount % 2 == 0) || (self.retryCount >= 20 && self.retryCount % 5 == 0) {
+                            if let videoUrl = ShopLiveController.streamUrl {
+                                self.delegate?.updatePlayerItemInRetry(with: videoUrl)
+                            } else {
+                                ShopLiveController.retryPlay = false
+                            }
+                        }
+                    } else {
+                        if (self.retryCount < 20 && self.retryCount % 2 == 0) || (self.retryCount >= 20 && self.retryCount % 5 == 0) {
+                            if !self.isBuffering {
+                                ShopLiveController.shared.seekToLatest()
+                                ShopLiveController.playControl = .resume
+                                ShopLiveController.retryPlay = false
+                            }
                         }
                     }
                 }
