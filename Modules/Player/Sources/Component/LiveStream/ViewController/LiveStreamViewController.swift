@@ -208,12 +208,10 @@ final class LiveStreamViewController: SLViewController {
     
     private func updateInAppPipBadgeConstraint() {
         guard inAppPipBadgeView.superview == inAppPipView else {
-            print("Warning: inAppPipBadgeView is not a subview of inAppPipView")
             return
         }
         
         guard inAppPipView.frame.width > 0 else {
-            print("Warning: inAppPipView frame width is 0")
             return
         }
         
@@ -221,7 +219,8 @@ final class LiveStreamViewController: SLViewController {
             NSLayoutConstraint.deactivate(inAppPipBadgeConstraint)
         }
         
-        let multiplier =  inAppPipView.frame.width * 0.15 > 26 ? 26 : inAppPipView.frame.width * 0.15
+        // inApp PIP width 값의 0.15배가 26보다 높을 경우 badge의 height는 26보다 커지면 안되기에 조건문 처리
+        let multiplier = inAppPipView.frame.width * 0.15 > 26 ? 26 : inAppPipView.frame.width * 0.15
         
         let heightConstraint = inAppPipBadgeView.heightAnchor.constraint(equalToConstant: multiplier)
         
@@ -298,7 +297,7 @@ final class LiveStreamViewController: SLViewController {
         self.view.bringSubviewToFront(inAppPipView)
     }
     
-    private func setInAppPipBadge(_ badgeConfig: InAppPipDisplayModel) {
+    private func setInAppPipBadge(_ badgeConfig: InAppPipDisplayEntity) {
         
         let horizontal = badgeConfig.layout.horizontalToAlignment()
         let vertical = badgeConfig.layout.verticalToAlignment()
@@ -321,7 +320,7 @@ final class LiveStreamViewController: SLViewController {
                 inAppPipBadgeView.leadingAnchor.constraint(greaterThanOrEqualTo: inAppPipView.leadingAnchor, constant: horizontalPadding),
                 inAppPipBadgeView.trailingAnchor.constraint(lessThanOrEqualTo: inAppPipView.trailingAnchor, constant: -horizontalPadding)
             ])
-        case (.RIGHT, .TOP): // 우측 상단
+        case (.RIGHT, .TOP): // 우측 상단 (기본값)
             NSLayoutConstraint.activate([
                 inAppPipBadgeView.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: verticalPadding),
                 inAppPipBadgeView.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: -horizontalPadding),
@@ -378,7 +377,8 @@ final class LiveStreamViewController: SLViewController {
         NSLayoutConstraint.activate(inAppPipBadgeConstraint)
         
         inAppPipBadgeView.action(.hiddenBadge(!badgeConfig.active))
-        inAppPipBadgeView.action(.setBadge(URL(string: badgeConfig.imageUrl ?? "")))
+        inAppPipBadgeView.action(.setBadge(badgeConfig.imageUrl))
+        
         inAppPipBadgeView.action(
             .setAlignment(
                 useCloseButton: viewModel.getInAppPipConfiguration()?.useCloseButton ?? false,
@@ -388,10 +388,7 @@ final class LiveStreamViewController: SLViewController {
         )
     }
     
-    private func setInAppPipTextBox(_ textBoxConfig: InAppPipDisplayModel) {
-        
-        inAppPipTextBoxView.action(.hiddenTextBox(!textBoxConfig.active))
-        inAppPipTextBoxView.action(.setTitle(textBoxConfig.text))
+    private func setInAppPipTextBox(_ textBoxConfig: InAppPipDisplayEntity) {
         
         let horizontal = textBoxConfig.layout.horizontalToAlignment()
         let vertical = textBoxConfig.layout.verticalToAlignment()
@@ -441,7 +438,7 @@ final class LiveStreamViewController: SLViewController {
                 inAppPipTextBoxView.bottomAnchor.constraint(equalTo: inAppPipView.bottomAnchor, constant: -verticalPadding),
                 inAppPipTextBoxView.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: horizontalPadding)
             ])
-        case (.CENTER, .BOTTOM): // 중앙 하단 (디자인 가이드 기본값)
+        case (.CENTER, .BOTTOM): // 중앙 하단 (기본값)
             NSLayoutConstraint.activate([
                 inAppPipTextBoxView.bottomAnchor.constraint(equalTo: inAppPipView.bottomAnchor, constant: -verticalPadding),
                 inAppPipTextBoxView.centerXAnchor.constraint(equalTo: inAppPipView.centerXAnchor),
@@ -466,7 +463,12 @@ final class LiveStreamViewController: SLViewController {
         let configPaddingX = CGFloat(textBoxConfig.box?.paddingX ?? 8)
         let configPaddingY = CGFloat(textBoxConfig.box?.paddingY ?? 6)
         
-        NSLayoutConstraint.activate([ inAppPipTextBoxView.heightAnchor.constraint(greaterThanOrEqualToConstant: 26) ])
+        NSLayoutConstraint.activate([
+            inAppPipTextBoxView.heightAnchor.constraint(greaterThanOrEqualToConstant: 26)
+        ])
+        
+        inAppPipTextBoxView.action(.hiddenTextBox(!textBoxConfig.active))
+        inAppPipTextBoxView.action(.setTitle(textBoxConfig.text))
         
         inAppPipTextBoxView.action(.setTitle(textBoxConfig.text))
         inAppPipTextBoxView.action(.updateStyle(
@@ -512,24 +514,19 @@ final class LiveStreamViewController: SLViewController {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
-            // 0) 전역 마스크 먼저 갱신
             ShopLiveCommon.setShopLiveOrientation(orientation: toLandscape ? [.landscapeLeft, .landscapeRight] : .portrait)
             
             if #available(iOS 16.0, *) {
-                // 1) VC/내비 구조 갱신
                 self.setNeedsUpdateOfSupportedInterfaceOrientations()
                 self.navigationController?.setNeedsUpdateOfSupportedInterfaceOrientations()
                 
                 let mask: UIInterfaceOrientationMask = toLandscape ? [.landscapeLeft, .landscapeRight] : .portrait
-                // 2) iOS16+ 지오메트리 업데이트 (throw 처리)
                 if let windowScene = (self.view.window?.windowScene) ?? (UIApplication.shared.connectedScenes.first as? UIWindowScene) {
                     windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: mask))
                 }
                 
-                // 3) 회전 트리거
                 UIViewController.attemptRotationToDeviceOrientation()
             } else {
-                // iOS15 이하 폴백 (비권장이지만 실무적으로 사용)
                 let orientation: UIDeviceOrientation = toLandscape ? .landscapeLeft : .portrait
                 UIDevice.current.setValue(orientation.rawValue, forKey: "orientation")
                 UIViewController.attemptRotationToDeviceOrientation()
@@ -833,10 +830,8 @@ extension LiveStreamViewController: LiveStreamViewModelDelegate {
         }
     }
     
-    func updateInAppPipDisplayLayout(_ model: InAppPipDisplaysModel?) {
-        
-        print("updateInAppPipDisplayLayout is Called")
-        
+    func updateInAppPipDisplayLayout(_ model: InAppPipDisplaysEntity?) {
+
         if let badge = model?.badge {
             setInAppPipBadge(badge)
         }

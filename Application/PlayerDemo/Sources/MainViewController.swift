@@ -316,7 +316,8 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.setEnabledPipSwipeOut(config.pipEnableSwipeOut)
         
         ShopLive.setVisibleStatusBar(isVisible: DemoConfiguration.shared.statusBarVisibility)
-        
+
+        // inApp PIP 레이어 위에 고객사가 임의로 UI를 세팅할 수 있는 기능 - 테스트 필요할때 주석 해제 하시면 됩니다.
 //        previewConverViewMaker.setCustomerPreviewCoverView()
         
     }

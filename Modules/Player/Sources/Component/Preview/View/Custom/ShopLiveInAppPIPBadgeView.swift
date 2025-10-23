@@ -23,12 +23,12 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
     private var imageAspectRatioConstraint: NSLayoutConstraint?
     private var currentUseCloseButton: Bool = false
     private var currentHorizontalAlignment: InAppPipDisplayHorizontalAlignment = .CENTER
-    private var currentVerticalAlignment: InAppDisplayVerticalAlignment = .TOP
+    private var currentVerticalAlignment: InAppPipDisplayVerticalAlignment = .TOP
     private var horizontalConstraints: [NSLayoutConstraint] = []
     
     enum Action {
-        case setBadge(URL?)
-        case setAlignment(useCloseButton: Bool, horizontal: InAppPipDisplayHorizontalAlignment, vertical: InAppDisplayVerticalAlignment)
+        case setBadge(String?)
+        case setAlignment(useCloseButton: Bool, horizontal: InAppPipDisplayHorizontalAlignment, vertical: InAppPipDisplayVerticalAlignment)
         case hiddenBadge(Bool)
     }
     
@@ -56,8 +56,9 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
         }
     }
     
-    private func onSetBadge(_ url: URL?) {
-        badgeImageView.loadImage(from: url?.absoluteString ?? "") { [weak self] image in
+    private func onSetBadge(_ url: String?) {
+        guard let url else { return }
+        badgeImageView.loadImage(from: url ) { [weak self] image in
             guard let self = self, let image = image else { return }
             self.updateImageViewAspectRatio(for: image)
         }
@@ -74,12 +75,13 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
             equalTo: badgeImageView.heightAnchor,
             multiplier: aspectRatio
         )
+        
         imageAspectRatioConstraint?.isActive = true
         
         onSetAlignment(useCloseButton: currentUseCloseButton, currentHorizontalAlignment, currentVerticalAlignment)
     }
     
-    private func onSetAlignment(useCloseButton: Bool, _ horizontal: InAppPipDisplayHorizontalAlignment, _ vertical: InAppDisplayVerticalAlignment) {
+    private func onSetAlignment(useCloseButton: Bool, _ horizontal: InAppPipDisplayHorizontalAlignment, _ vertical: InAppPipDisplayVerticalAlignment) {
         
         currentUseCloseButton = useCloseButton
         currentHorizontalAlignment = horizontal
@@ -93,6 +95,7 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
             
             var constant: CGFloat = 0
             
+            // MARK: X 버튼 유 & vertical Alignment 가 TOP 일 경우 leading padding을 X 버튼 크기 만큼 주어야 함
             if useCloseButton && vertical == .TOP {
                 constant = 26
             }

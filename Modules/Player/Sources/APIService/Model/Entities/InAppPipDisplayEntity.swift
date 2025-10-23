@@ -1,5 +1,5 @@
 //
-//  InAppPipDisplayModel.swift
+//  InAppPipDisplayEntity.swift
 //  ShopLiveSDK
 //
 //  Created by Tabber on 10/20/25.
@@ -8,12 +8,12 @@
 
 import Foundation
 
-struct InAppPipDisplaysModel {
-    var badge: InAppPipDisplayModel?
-    var textBox: InAppPipDisplayModel?
+struct InAppPipDisplaysEntity {
+    var badge: InAppPipDisplayEntity?
+    var textBox: InAppPipDisplayEntity?
 }
 
-struct InAppPipDisplayModel {
+struct InAppPipDisplayEntity {
     var type: String
     var active: Bool
     var layout: InAppPipDisplayLayout
@@ -60,7 +60,7 @@ struct InAppPipDisplayLayout {
         }
     }
     
-    func verticalToAlignment() -> InAppDisplayVerticalAlignment? {
+    func verticalToAlignment() -> InAppPipDisplayVerticalAlignment? {
         switch vertical {
         case "TOP": .TOP
         case "CENTER": .CENTER
@@ -76,7 +76,7 @@ enum InAppPipDisplayHorizontalAlignment {
     case RIGHT
 }
 
-enum InAppDisplayVerticalAlignment {
+enum InAppPipDisplayVerticalAlignment {
     case TOP
     case CENTER
     case BOTTOM
@@ -106,7 +106,8 @@ struct InAppDisplayBox {
 }
 
 
-extension InAppPipDisplayModel {
+// MARK: - Dummy Data
+extension InAppPipDisplayEntity {
     static func badgeDummy() -> Self {
         .init(
             type: "BADGE",

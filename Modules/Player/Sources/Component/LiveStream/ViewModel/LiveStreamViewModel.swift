@@ -21,7 +21,7 @@ protocol LiveStreamViewModelDelegate: NSObjectProtocol {
     func requestHideOrShowSnapShotImageView(isHidden: Bool)
     func requestHideOrShowBackgroundPosterImageWebView(isHidden: Bool)
     
-    func updateInAppPipDisplayLayout(_ model: InAppPipDisplaysModel?)
+    func updateInAppPipDisplayLayout(_ model: InAppPipDisplaysEntity?)
 }
 
 final class LiveStreamViewModel: NSObject {
@@ -74,7 +74,8 @@ final class LiveStreamViewModel: NSObject {
     private var lastSentOnVideoError: ShopLiveAVPlayerErrorObserver.ErrorCase = .none
     private var currentPreviewResolution: ShopLivePlayerPreviewResolution = .PREVIEW
     
-    var inAppPipDisplaysModel: InAppPipDisplaysModel? = nil
+    // inApp PIP custom UI 모델
+    var inAppPipDisplaysEntity: InAppPipDisplaysEntity? = nil
     
     //viewdata
     private var actualVideoRenderedRect: CGRect = .zero
@@ -171,8 +172,8 @@ final class LiveStreamViewModel: NSObject {
                     var url: URL
                     
                     if let inAppPreviewDisplaysModel = model.previewDisplays {
-                        self.inAppPipDisplaysModel = inAppPreviewDisplaysModel.toEntity()
-                        self.delegate?.updateInAppPipDisplayLayout(self.inAppPipDisplaysModel)
+                        self.inAppPipDisplaysEntity = inAppPreviewDisplaysModel.toEntity()
+                        self.delegate?.updateInAppPipDisplayLayout(self.inAppPipDisplaysEntity)
                     }
                     
                     if let activityType = model.activityType {

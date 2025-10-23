@@ -96,9 +96,8 @@ class ShopLiveInAppPipTextBoxView: UIView, SLReactor {
             roundedTextBox.leadingAnchor.constraint(greaterThanOrEqualTo: self.leadingAnchor),
             roundedTextBox.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor),
             roundedTextBox.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            roundedTextBox.centerXAnchor.constraint(equalTo: self.centerXAnchor), // 중앙 정렬
+            roundedTextBox.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             
-            // roundedTextBox 크기는 boxTitle에 맞춤 (패딩 포함)
             roundedTextBox.widthAnchor.constraint(equalTo: boxTitle.widthAnchor, constant: 16),
             roundedTextBox.heightAnchor.constraint(equalTo: boxTitle.heightAnchor, constant: 12)
         ])
