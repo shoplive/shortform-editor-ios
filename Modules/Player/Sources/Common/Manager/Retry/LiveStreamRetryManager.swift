@@ -56,7 +56,7 @@ final class LiveStreamRetryManager {
         if ShopLiveController.retryPlay {
             isInRetry = true
             retryTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] timer in
-                guard let self = self else {
+                guard let self else {
                     timer.invalidate()
                     return
                 }
@@ -90,7 +90,7 @@ final class LiveStreamRetryManager {
                         if !self.isBuffering {
                             ShopLiveController.shared.seekToLatest()
                             ShopLiveController.playControl = .resume
-                             ShopLiveController.retryPlay = false
+                            ShopLiveController.retryPlay = false
                         }
                     }
                 }
