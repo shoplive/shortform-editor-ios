@@ -219,17 +219,31 @@ final class LiveStreamViewModel: NSObject {
         resetPlayer()
         playerLoadingStartTime = Date().timeIntervalSince1970
         
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+        DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self else { return }
-            let asset = AVURLAsset(url: addQueryForLiveUrl(url: url) )
-            let playerItem = AVPlayerItem(asset: asset)
             
-            setSoundMuteStateOnFirstPlay()
+            let processedUrl = addQueryForLiveUrl(url: url)
+            let asset = AVURLAsset(url: processedUrl)
             
-            if asset.isPlayable {
+            asset.loadValuesAsynchronously(forKeys: ["playable"]) { [weak self] in
+                guard let self else { return }
+                
+                var error: NSError?
+                let status = asset.statusOfValue(forKey: "playable", error: &error)
+                
+                guard status == .loaded && asset.isPlayable else {
+                    return
+                }
+                
+                let playerItem = AVPlayerItem(asset: asset)
+                
+                DispatchQueue.main.async {
+                    self.setSoundMuteStateOnFirstPlay()
+                }
+                
                 ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
                 let metadataOutput = AVPlayerItemMetadataOutput(identifiers: nil)
-                metadataOutput.setDelegate(self, queue: .main)
+                metadataOutput.setDelegate(self, queue: .global())
                 playerItem.add(metadataOutput)
                 
                 if #available(iOS 13.0, *) {
@@ -245,7 +259,6 @@ final class LiveStreamViewModel: NSObject {
                     playerItem.variantPreferences = .scalabilityToLosslessAudio
                 }
                 
-                
                 if ShopLiveController.isReplayMode {
                     playerItem.preferredForwardBufferDuration = 2.5
                 }
@@ -253,6 +266,7 @@ final class LiveStreamViewModel: NSObject {
                 
                 ShopLiveController.playerItem = playerItem
                 self.playerItem = playerItem
+                
                 NotificationCenter.default.addObserver(forName: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase, queue: nil) { [weak self] notification in
                     guard let self else { return }
                     if let timebase = ShopLiveController.timebase {
@@ -1190,7 +1204,6 @@ extension LiveStreamViewModel: ShopLiveAVPlayerErrorObserverDelegate {
 extension LiveStreamViewModel: LiveStreamRetryManagerDelegate {
     //MARK: -delegate functions
     func updatePlayerItemInRetry(with url: URL) {
-        
         self.updatePlayerItem(with: url)
     }
     
