@@ -38,7 +38,7 @@ protocol LiveStreamViewControllerDelegate: AnyObject {
 
 final class LiveStreamViewController: SLViewController {
 
-    @objc dynamic lazy var viewModel: LiveStreamViewModel = LiveStreamViewModel()
+    var viewModel: LiveStreamViewModel = LiveStreamViewModel()
     weak var delegate: LiveStreamViewControllerDelegate?
 
     var webViewConfiguration: WKWebViewConfiguration?
@@ -121,6 +121,25 @@ final class LiveStreamViewController: SLViewController {
         view.isHidden = true
         return view
     }()
+    
+    private var inAppPipBadgeView: ShopLiveInAppPIPBadgeView = {
+        let view = ShopLiveInAppPIPBadgeView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private var inAppPipTextBoxView: ShopLiveInAppPipTextBoxView = {
+        let view = ShopLiveInAppPipTextBoxView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private var inAppPipBadgeConstraint: [NSLayoutConstraint] = []
+    
+    private let badgeHeightRatio: CGFloat = 0.15
+    private let maxBadgeHeight: CGFloat = 26
+    
+    private let minTextBoxHeight: CGFloat = 26
 
     private lazy var indicatorView: SLActivityIndicatorView = {
         let activityIndicator = SLActivityIndicatorView()
@@ -186,9 +205,35 @@ final class LiveStreamViewController: SLViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        updateInAppPipBadgeConstraint()
         guard viewModel.getUseCloseBtnIsEnabled() else { return }
         pipDim.layer.cornerRadius = viewModel.getPipCornerRadius()
         updateCloseButtonDim()
+    }
+    
+    private func updateInAppPipBadgeConstraint() {
+        guard inAppPipBadgeView.superview == inAppPipView else {
+            return
+        }
+        
+        guard inAppPipView.frame.width > 0 else {
+            return
+        }
+        
+        if !inAppPipBadgeConstraint.isEmpty {
+            NSLayoutConstraint.deactivate(inAppPipBadgeConstraint)
+        }
+        
+        // inApp PIP width 값의 0.15배가 26보다 높을 경우 badge의 height는 26보다 커지면 안되기에 min 처리
+        let calculatedBadgeHeight = inAppPipView.frame.width * badgeHeightRatio
+        let multiplier = min(calculatedBadgeHeight, maxBadgeHeight)
+        
+        let heightConstraint = inAppPipBadgeView.heightAnchor.constraint(equalToConstant: multiplier)
+        
+        inAppPipBadgeConstraint = [heightConstraint]
+        NSLayoutConstraint.activate(inAppPipBadgeConstraint)
+        
+        inAppPipBadgeView.layoutIfNeeded()
     }
     
     override func removeFromParent() {
@@ -229,24 +274,180 @@ final class LiveStreamViewController: SLViewController {
         setupOverayWebview()
         setupChatInputView()
         setupIndicator()
-        setupCloseButton()
+        setupInAppPip()
     }
     
-    func setupCloseButton() {
+    func setupInAppPip() {
         self.view.addSubview(inAppPipView)
         inAppPipView.fitToSuperView()
+        
         inAppPipView.addSubview(pipDim)
-        pipDim.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        pipDim.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: 0).isActive = true
-        pipDim.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: 0).isActive = true
-        pipDim.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: 0).isActive = true
+        NSLayoutConstraint.activate([
+            pipDim.heightAnchor.constraint(equalToConstant: 60),
+            pipDim.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor),
+            pipDim.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor),
+            pipDim.topAnchor.constraint(equalTo: inAppPipView.topAnchor),
+        ])
+        
+        inAppPipView.addSubview(inAppPipBadgeView)
+        inAppPipView.addSubview(inAppPipTextBoxView)
         
         inAppPipView.addSubview(closeButton)
-        closeButton.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor).isActive = true
-        closeButton.topAnchor.constraint(equalTo: inAppPipView.topAnchor).isActive = true
-        closeButton.widthAnchor.constraint(equalToConstant: 36).isActive = true
-        closeButton.heightAnchor.constraint(equalToConstant: 36).isActive = true
+        NSLayoutConstraint.activate([
+            closeButton.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor),
+            closeButton.topAnchor.constraint(equalTo: inAppPipView.topAnchor),
+            closeButton.widthAnchor.constraint(equalToConstant: 36),
+            closeButton.heightAnchor.constraint(equalToConstant: 36)
+        ])
+        
         self.view.bringSubviewToFront(inAppPipView)
+    }
+    
+    private func setInAppPipBadge(_ badgeConfig: InAppPipDisplayEntity) {
+        
+        let horizontalAlignment = badgeConfig.layout.horizontalToAlignment() ?? .RIGHT
+        let verticalAlignment = badgeConfig.layout.verticalToAlignment() ?? .TOP
+        
+        
+        let horizontalPadding = badgeConfig.padding.horizontal
+        let verticalPadding = badgeConfig.padding.vertical
+        
+        let constraints = makeInAppPipConstraints(
+            for: inAppPipBadgeView,
+            in: inAppPipView,
+            horizontalAlignment: horizontalAlignment,
+            verticalAlignment: verticalAlignment,
+            horizontalPadding: horizontalPadding,
+            verticalPadding: verticalPadding
+        )
+        
+        let configMaxWidth = CGFloat(badgeConfig.size?.maxWidth ?? 112)
+        
+        inAppPipBadgeConstraint = [
+            inAppPipBadgeView.widthAnchor.constraint(lessThanOrEqualToConstant: configMaxWidth)
+        ]
+        
+        NSLayoutConstraint.activate(constraints + inAppPipBadgeConstraint)
+        
+        inAppPipBadgeView.action(.hiddenBadge(!badgeConfig.active))
+        inAppPipBadgeView.action(.setBadge(badgeConfig.imageUrl))
+        
+        inAppPipBadgeView.action(
+            .setAlignment(
+                useCloseButton: viewModel.getInAppPipConfiguration()?.useCloseButton ?? false,
+                horizontalAlignment: horizontalAlignment,
+                verticalAlignment: verticalAlignment,
+            )
+        )
+    }
+    
+    private func setInAppPipTextBox(_ textBoxConfig: InAppPipDisplayEntity) {
+        
+        let horizontal = textBoxConfig.layout.horizontalToAlignment() ?? .RIGHT
+        let vertical = textBoxConfig.layout.verticalToAlignment() ?? .TOP
+        
+        let horizontalPadding = textBoxConfig.padding.horizontal
+        let verticalPadding = textBoxConfig.padding.vertical
+        
+        let constraints = makeInAppPipConstraints(
+            for: inAppPipTextBoxView,
+            in: inAppPipView,
+            horizontalAlignment: horizontal,
+            verticalAlignment: vertical,
+            horizontalPadding: horizontalPadding,
+            verticalPadding: verticalPadding
+        )
+        
+        let configFontSize = CGFloat(textBoxConfig.font?.size ?? 12)
+        let configFontColor = textBoxConfig.font?.color ?? "#ffffff"
+        
+        let configBorderRadius = CGFloat(textBoxConfig.box?.borderRadius ?? 8)
+        let configBackgroundColor = textBoxConfig.box?.backgroundColor ?? "#000000"
+        let configPaddingX = CGFloat(textBoxConfig.box?.paddingX ?? 8)
+        let configPaddingY = CGFloat(textBoxConfig.box?.paddingY ?? 6)
+        
+        NSLayoutConstraint.activate(constraints + [ inAppPipTextBoxView.heightAnchor.constraint(greaterThanOrEqualToConstant: minTextBoxHeight) ])
+        
+        inAppPipTextBoxView.action(.hiddenTextBox(!textBoxConfig.active))
+        inAppPipTextBoxView.action(.setTitle(textBoxConfig.text))
+        
+        inAppPipTextBoxView.action(.updateStyle(
+            fontSize: configFontSize,
+            fontColor: configFontColor,
+            roundedBoxColor: configBackgroundColor,
+            borderRadius: configBorderRadius,
+            paddingX: configPaddingX,
+            paddingY: configPaddingY
+        ))
+    }
+    
+    private func makeInAppPipConstraints(
+        for subview: UIView,
+        in superview: UIView,
+        horizontalAlignment: InAppPipDisplayHorizontalAlignment,
+        verticalAlignment: InAppPipDisplayVerticalAlignment,
+        horizontalPadding: CGFloat,
+        verticalPadding: CGFloat
+    ) -> [NSLayoutConstraint] {
+        switch (horizontalAlignment, verticalAlignment) {
+        case (.LEFT, .TOP):
+            return [
+                subview.topAnchor.constraint(equalTo: superview.topAnchor, constant: verticalPadding),
+                subview.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: horizontalPadding),
+                subview.trailingAnchor.constraint(lessThanOrEqualTo: superview.trailingAnchor, constant: -horizontalPadding)
+            ]
+        case (.CENTER, .TOP):
+            return [
+                subview.topAnchor.constraint(equalTo: superview.topAnchor, constant: verticalPadding),
+                subview.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
+                subview.leadingAnchor.constraint(greaterThanOrEqualTo: superview.leadingAnchor, constant: horizontalPadding),
+                subview.trailingAnchor.constraint(lessThanOrEqualTo: superview.trailingAnchor, constant: -horizontalPadding)
+            ]
+        case (.RIGHT, .TOP):
+            return [
+                subview.topAnchor.constraint(equalTo: superview.topAnchor, constant: verticalPadding),
+                subview.trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -horizontalPadding),
+                subview.leadingAnchor.constraint(greaterThanOrEqualTo: superview.leadingAnchor, constant: horizontalPadding)
+            ]
+        case (.LEFT, .CENTER):
+            return [
+                subview.centerYAnchor.constraint(equalTo: superview.centerYAnchor),
+                subview.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: horizontalPadding),
+                subview.trailingAnchor.constraint(lessThanOrEqualTo: superview.trailingAnchor, constant: -horizontalPadding)
+            ]
+        case (.CENTER, .CENTER):
+            return [
+                subview.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
+                subview.centerYAnchor.constraint(equalTo: superview.centerYAnchor),
+                subview.leadingAnchor.constraint(greaterThanOrEqualTo: superview.leadingAnchor, constant: horizontalPadding),
+                subview.trailingAnchor.constraint(lessThanOrEqualTo: superview.trailingAnchor, constant: -horizontalPadding)
+            ]
+        case (.RIGHT, .CENTER):
+            return [
+                subview.centerYAnchor.constraint(equalTo: superview.centerYAnchor),
+                subview.trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -horizontalPadding),
+                subview.leadingAnchor.constraint(greaterThanOrEqualTo: superview.leadingAnchor, constant: horizontalPadding)
+            ]
+        case (.LEFT, .BOTTOM):
+            return [
+                subview.bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -verticalPadding),
+                subview.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: horizontalPadding),
+                subview.trailingAnchor.constraint(lessThanOrEqualTo: superview.trailingAnchor, constant: -horizontalPadding)
+            ]
+        case (.CENTER, .BOTTOM):
+            return [
+                subview.bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -verticalPadding),
+                subview.centerXAnchor.constraint(equalTo: superview.centerXAnchor),
+                subview.leadingAnchor.constraint(greaterThanOrEqualTo: superview.leadingAnchor, constant: horizontalPadding),
+                subview.trailingAnchor.constraint(lessThanOrEqualTo: superview.trailingAnchor, constant: -horizontalPadding)
+            ]
+        case (.RIGHT, .BOTTOM):
+            return [
+                subview.bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -verticalPadding),
+                subview.trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -horizontalPadding),
+                subview.leadingAnchor.constraint(greaterThanOrEqualTo: superview.leadingAnchor, constant: horizontalPadding)
+            ]
+        }
     }
     
     @objc private func inAppPipCloseBtnTapped(sender: UIButton) {
@@ -282,24 +483,19 @@ final class LiveStreamViewController: SLViewController {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
-            // 0) 전역 마스크 먼저 갱신
             ShopLiveCommon.setShopLiveOrientation(orientation: toLandscape ? [.landscapeLeft, .landscapeRight] : .portrait)
             
             if #available(iOS 16.0, *) {
-                // 1) VC/내비 구조 갱신
                 self.setNeedsUpdateOfSupportedInterfaceOrientations()
                 self.navigationController?.setNeedsUpdateOfSupportedInterfaceOrientations()
                 
                 let mask: UIInterfaceOrientationMask = toLandscape ? [.landscapeLeft, .landscapeRight] : .portrait
-                // 2) iOS16+ 지오메트리 업데이트 (throw 처리)
                 if let windowScene = (self.view.window?.windowScene) ?? (UIApplication.shared.connectedScenes.first as? UIWindowScene) {
                     windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: mask))
                 }
                 
-                // 3) 회전 트리거
                 UIViewController.attemptRotationToDeviceOrientation()
             } else {
-                // iOS15 이하 폴백 (비권장이지만 실무적으로 사용)
                 let orientation: UIDeviceOrientation = toLandscape ? .landscapeLeft : .portrait
                 UIDevice.current.setValue(orientation.rawValue, forKey: "orientation")
                 UIViewController.attemptRotationToDeviceOrientation()
@@ -601,6 +797,18 @@ extension LiveStreamViewController: LiveStreamViewModelDelegate {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 5) { [weak self] in
             self?.viewModel.setBlockSnapShotWhenPlayerViewFrameUpdatedByWeb(block: false)
         }
+    }
+    
+    func updateInAppPipDisplayLayout(_ model: InAppPipDisplaysEntity?) {
+
+        if let badge = model?.badge {
+            setInAppPipBadge(badge)
+        }
+        
+        if let textBox = model?.textBox {
+            setInAppPipTextBox(textBox)
+        }
+        
     }
     
 }

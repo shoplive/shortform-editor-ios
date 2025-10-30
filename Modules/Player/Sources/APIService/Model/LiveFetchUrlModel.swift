@@ -17,7 +17,8 @@ struct LiveFetchUrlModel: BaseResponsable {
     let liveUrl, previewLiveUrl, videoAspectRatio, campaignStatus, activityType: String?
     let startHorizontalViewOnLandscapeVideo: Bool?
     
-    
+    // inApp Pip UI 관련 프로퍼티
+    let previewDisplays : PreviewDisplaysModel?
     
     enum CodingKeys: String, CodingKey {
         case _s, _e
@@ -28,6 +29,7 @@ struct LiveFetchUrlModel: BaseResponsable {
         case campaignStatus = "campaignStatus"
         case startHorizontalViewOnLandscapeVideo = "startHorizontalViewOnLandscapeVideo"
         case activityType = "activityType"
+        case previewDisplays = "previewDisplays"
     }
     
     
@@ -43,5 +45,7 @@ struct LiveFetchUrlModel: BaseResponsable {
         self.campaignStatus = try parser.parse(targetType: String.self, key: CodingKeys.campaignStatus)
         self.activityType = try parser.parse(targetType: String.self, key: CodingKeys.activityType)
         self.startHorizontalViewOnLandscapeVideo = try parser.parse(targetType: Bool.self, key: CodingKeys.startHorizontalViewOnLandscapeVideo)
+        self.previewDisplays = try container.decodeIfPresent(PreviewDisplaysModel.self, forKey: CodingKeys.previewDisplays)
     }
 }
+

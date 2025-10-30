@@ -20,6 +20,8 @@ protocol LiveStreamViewModelDelegate: NSObjectProtocol {
     func updateSnapShotImageViewFrameWithRatio(ratio: CGSize)
     func requestHideOrShowSnapShotImageView(isHidden: Bool)
     func requestHideOrShowBackgroundPosterImageWebView(isHidden: Bool)
+    
+    func updateInAppPipDisplayLayout(_ model: InAppPipDisplaysEntity?)
 }
 
 final class LiveStreamViewModel: NSObject {
@@ -71,6 +73,9 @@ final class LiveStreamViewModel: NSObject {
     private var shopliveSessionId: String? = nil
     private var lastSentOnVideoError: ShopLiveAVPlayerErrorObserver.ErrorCase = .none
     private var currentPreviewResolution: ShopLivePlayerPreviewResolution = .PREVIEW
+    
+    // inApp PIP custom UI 모델
+    var inAppPipDisplaysEntity: InAppPipDisplaysEntity? = nil
     
     //viewdata
     private var actualVideoRenderedRect: CGRect = .zero
@@ -166,7 +171,11 @@ final class LiveStreamViewModel: NSObject {
                 case .success(let model):
                     var url: URL
                     
-
+                    if let inAppPreviewDisplaysModel = model.previewDisplays {
+                        self.inAppPipDisplaysEntity = inAppPreviewDisplaysModel.toEntity()
+                        self.delegate?.updateInAppPipDisplayLayout(self.inAppPipDisplaysEntity)
+                    }
+                    
                     if let activityType = model.activityType {
                         self.setStreamActivityType(type: activityType)
                     }
@@ -1045,6 +1054,10 @@ extension LiveStreamViewModel {
     
     func setInAppPipConfiguration(config: ShopLiveInAppPipConfiguration?) {
         self.inAppPipConfiguration = config
+    }
+    
+    func getInAppPipConfiguration() -> ShopLiveInAppPipConfiguration? {
+        return inAppPipConfiguration
     }
     
     func setPipPosition(position: ShopLive.PipPosition) {
