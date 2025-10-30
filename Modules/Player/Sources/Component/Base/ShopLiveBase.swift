@@ -571,7 +571,7 @@ import ShopliveSDKCommon
                 windowAnimator = nil
             }
             
-            windowAnimator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut)
+            windowAnimator = UIViewPropertyAnimator(duration: 0.3, curve: .easeInOut)
             windowAnimator?.addAnimations { [weak self] in
                 guard let self = self else { return }
                 liveVc.setStatusBarVisiblityOnFullScreen(isVisible: true)
@@ -679,7 +679,7 @@ import ShopliveSDKCommon
                 windowAnimator = nil
             }
             self.hidePreviewCoverView()
-            windowAnimator = UIViewPropertyAnimator(duration: animationDuration, curve: .easeOut)
+            windowAnimator = UIViewPropertyAnimator(duration: animationDuration, curve: .easeInOut)
             windowAnimator?.addAnimations { [weak self] in
                 guard let self = self else { return }
                 liveVc.setStatusBarVisiblityOnFullScreen(isVisible: statusBarVisibility)

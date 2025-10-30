@@ -20,6 +20,8 @@ protocol LiveStreamViewModelDelegate: NSObjectProtocol {
     func updateSnapShotImageViewFrameWithRatio(ratio: CGSize)
     func requestHideOrShowSnapShotImageView(isHidden: Bool)
     func requestHideOrShowBackgroundPosterImageWebView(isHidden: Bool)
+    
+    func updateInAppPipDisplayLayout(_ model: InAppPipDisplaysEntity?)
 }
 
 final class LiveStreamViewModel: NSObject {
@@ -71,6 +73,9 @@ final class LiveStreamViewModel: NSObject {
     private var shopliveSessionId: String? = nil
     private var lastSentOnVideoError: ShopLiveAVPlayerErrorObserver.ErrorCase = .none
     private var currentPreviewResolution: ShopLivePlayerPreviewResolution = .PREVIEW
+    
+    // inApp PIP custom UI 모델
+    var inAppPipDisplaysEntity: InAppPipDisplaysEntity? = nil
     
     //viewdata
     private var actualVideoRenderedRect: CGRect = .zero
@@ -166,7 +171,11 @@ final class LiveStreamViewModel: NSObject {
                 case .success(let model):
                     var url: URL
                     
-
+                    if let inAppPreviewDisplaysModel = model.previewDisplays {
+                        self.inAppPipDisplaysEntity = inAppPreviewDisplaysModel.toEntity()
+                        self.delegate?.updateInAppPipDisplayLayout(self.inAppPipDisplaysEntity)
+                    }
+                    
                     if let activityType = model.activityType {
                         self.setStreamActivityType(type: activityType)
                     }
@@ -219,17 +228,31 @@ final class LiveStreamViewModel: NSObject {
         resetPlayer()
         playerLoadingStartTime = Date().timeIntervalSince1970
         
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+        DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self else { return }
-            let asset = AVURLAsset(url: addQueryForLiveUrl(url: url) )
-            let playerItem = AVPlayerItem(asset: asset)
             
-            setSoundMuteStateOnFirstPlay()
+            let processedUrl = addQueryForLiveUrl(url: url)
+            let asset = AVURLAsset(url: processedUrl)
             
-            if asset.isPlayable {
+            asset.loadValuesAsynchronously(forKeys: ["playable"]) { [weak self] in
+                guard let self else { return }
+                
+                var error: NSError?
+                let status = asset.statusOfValue(forKey: "playable", error: &error)
+                
+                guard status == .loaded && asset.isPlayable else {
+                    return
+                }
+                
+                let playerItem = AVPlayerItem(asset: asset)
+                
+                DispatchQueue.main.async {
+                    self.setSoundMuteStateOnFirstPlay()
+                }
+                
                 ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
                 let metadataOutput = AVPlayerItemMetadataOutput(identifiers: nil)
-                metadataOutput.setDelegate(self, queue: .main)
+                metadataOutput.setDelegate(self, queue: .global())
                 playerItem.add(metadataOutput)
                 
                 if #available(iOS 13.0, *) {
@@ -245,7 +268,6 @@ final class LiveStreamViewModel: NSObject {
                     playerItem.variantPreferences = .scalabilityToLosslessAudio
                 }
                 
-                
                 if ShopLiveController.isReplayMode {
                     playerItem.preferredForwardBufferDuration = 2.5
                 }
@@ -253,6 +275,7 @@ final class LiveStreamViewModel: NSObject {
                 
                 ShopLiveController.playerItem = playerItem
                 self.playerItem = playerItem
+                
                 NotificationCenter.default.addObserver(forName: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase, queue: nil) { [weak self] notification in
                     guard let self else { return }
                     if let timebase = ShopLiveController.timebase {
@@ -1033,6 +1056,10 @@ extension LiveStreamViewModel {
         self.inAppPipConfiguration = config
     }
     
+    func getInAppPipConfiguration() -> ShopLiveInAppPipConfiguration? {
+        return inAppPipConfiguration
+    }
+    
     func setPipPosition(position: ShopLive.PipPosition) {
         self.lastPipPosition = position
     }
@@ -1190,7 +1217,6 @@ extension LiveStreamViewModel: ShopLiveAVPlayerErrorObserverDelegate {
 extension LiveStreamViewModel: LiveStreamRetryManagerDelegate {
     //MARK: -delegate functions
     func updatePlayerItemInRetry(with url: URL) {
-        
         self.updatePlayerItem(with: url)
     }
     
