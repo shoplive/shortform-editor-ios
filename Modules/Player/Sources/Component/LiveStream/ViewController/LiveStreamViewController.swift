@@ -224,8 +224,9 @@ final class LiveStreamViewController: SLViewController {
             NSLayoutConstraint.deactivate(inAppPipBadgeConstraint)
         }
         
-        // inApp PIP width 값의 0.15배가 26보다 높을 경우 badge의 height는 26보다 커지면 안되기에 조건문 처리
-        let multiplier = inAppPipView.frame.width * badgeHeightRatio > maxBadgeHeight ? maxBadgeHeight : inAppPipView.frame.width * badgeHeightRatio
+        // inApp PIP width 값의 0.15배가 26보다 높을 경우 badge의 height는 26보다 커지면 안되기에 min 처리
+        let calculatedBadgeHeight = inAppPipView.frame.width * badgeHeightRatio
+        let multiplier = min(calculatedBadgeHeight, maxBadgeHeight)
         
         let heightConstraint = inAppPipBadgeView.heightAnchor.constraint(equalToConstant: multiplier)
         
@@ -283,9 +284,9 @@ final class LiveStreamViewController: SLViewController {
         inAppPipView.addSubview(pipDim)
         NSLayoutConstraint.activate([
             pipDim.heightAnchor.constraint(equalToConstant: 60),
-            pipDim.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: 0),
-            pipDim.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: 0),
-            pipDim.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: 0),
+            pipDim.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor),
+            pipDim.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor),
+            pipDim.topAnchor.constraint(equalTo: inAppPipView.topAnchor),
         ])
         
         inAppPipView.addSubview(inAppPipBadgeView)
@@ -304,8 +305,8 @@ final class LiveStreamViewController: SLViewController {
     
     private func setInAppPipBadge(_ badgeConfig: InAppPipDisplayEntity) {
         
-        let horizontal = badgeConfig.layout.horizontalToAlignment() ?? .RIGHT
-        let vertical = badgeConfig.layout.verticalToAlignment() ?? .TOP
+        let horizontalAlignment = badgeConfig.layout.horizontalToAlignment() ?? .RIGHT
+        let verticalAlignment = badgeConfig.layout.verticalToAlignment() ?? .TOP
         
         
         let horizontalPadding = badgeConfig.padding.horizontal
@@ -314,8 +315,8 @@ final class LiveStreamViewController: SLViewController {
         let constraints = makeInAppPipConstraints(
             for: inAppPipBadgeView,
             in: inAppPipView,
-            horizontal: horizontal,
-            vertical: vertical,
+            horizontalAlignment: horizontalAlignment,
+            verticalAlignment: verticalAlignment,
             horizontalPadding: horizontalPadding,
             verticalPadding: verticalPadding
         )
@@ -334,8 +335,8 @@ final class LiveStreamViewController: SLViewController {
         inAppPipBadgeView.action(
             .setAlignment(
                 useCloseButton: viewModel.getInAppPipConfiguration()?.useCloseButton ?? false,
-                horizontal: horizontal,
-                vertical: vertical,
+                horizontalAlignment: horizontalAlignment,
+                verticalAlignment: verticalAlignment,
             )
         )
     }
@@ -351,8 +352,8 @@ final class LiveStreamViewController: SLViewController {
         let constraints = makeInAppPipConstraints(
             for: inAppPipTextBoxView,
             in: inAppPipView,
-            horizontal: horizontal,
-            vertical: vertical,
+            horizontalAlignment: horizontal,
+            verticalAlignment: vertical,
             horizontalPadding: horizontalPadding,
             verticalPadding: verticalPadding
         )
@@ -383,12 +384,12 @@ final class LiveStreamViewController: SLViewController {
     private func makeInAppPipConstraints(
         for subview: UIView,
         in superview: UIView,
-        horizontal: InAppPipDisplayHorizontalAlignment,
-        vertical: InAppPipDisplayVerticalAlignment,
+        horizontalAlignment: InAppPipDisplayHorizontalAlignment,
+        verticalAlignment: InAppPipDisplayVerticalAlignment,
         horizontalPadding: CGFloat,
         verticalPadding: CGFloat
     ) -> [NSLayoutConstraint] {
-        switch (horizontal, vertical) {
+        switch (horizontalAlignment, verticalAlignment) {
         case (.LEFT, .TOP):
             return [
                 subview.topAnchor.constraint(equalTo: superview.topAnchor, constant: verticalPadding),

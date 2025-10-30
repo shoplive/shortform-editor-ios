@@ -11,20 +11,22 @@ import ShopliveSDKCommon
 
 final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
     
-    private let imageCache = URLCache(
-        memoryCapacity: 10 * 1024 * 1024, // 10MB
-        diskCapacity: 50 * 1024 * 1024,   // 50MB
-        diskPath: "shoplive.pip.badge.imageCache"
-    )
-    
-    private var imageUrlSession: URLSession = .init(configuration: .default)
+    private var imageUrlSession: URLSession = {
+        let config = URLSessionConfiguration.default
+        config.urlCache = URLCache(
+            memoryCapacity: 10 * 1024 * 1024, // 10MB
+            diskCapacity: 50 * 1024 * 1024,   // 50MB
+            diskPath: "shoplive.pip.badge.imageCache"
+        )
+        config.requestCachePolicy = .returnCacheDataElseLoad
+        return URLSession(configuration: config)
+    }()
     
     private var badgeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.setContentHuggingPriority(.required, for: .horizontal)
-        imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
         return imageView
     }()
     
@@ -36,7 +38,7 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
     
     enum Action {
         case setBadge(String?)
-        case setAlignment(useCloseButton: Bool, horizontal: InAppPipDisplayHorizontalAlignment, vertical: InAppPipDisplayVerticalAlignment)
+        case setAlignment(useCloseButton: Bool, horizontalAlignment: InAppPipDisplayHorizontalAlignment, verticalAlignment: InAppPipDisplayVerticalAlignment)
         case hiddenBadge(Bool)
     }
     
@@ -47,7 +49,6 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLayout()
-        setCache()
     }
     
     required init?(coder: NSCoder) {
@@ -58,19 +59,32 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
         switch action {
         case let .setBadge(url):
             onSetBadge(url)
-        case let .setAlignment(useCloseButton, horizontal, vertical):
-            onSetAlignment(useCloseButton: useCloseButton, horizontal, vertical)
+        case let .setAlignment(useCloseButton, horizontalAlignment, verticalAlignment):
+            onSetAlignment(useCloseButton: useCloseButton, horizontalAlignment, verticalAlignment)
         case let .hiddenBadge(isHidden):
             self.isHidden = isHidden
         }
     }
     
-    private func onSetBadge(_ url: String?) {
-        guard let url else { return }
-        loadImage(from: url) { [weak self] image in
-            guard let self = self, let image = image else { return }
-            self.updateImageViewAspectRatio(for: image)
+    private func onSetBadge(_ urlString: String?) {
+        
+        guard let urlString, let url = URL(string: urlString) else {
+            return
         }
+        
+        let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30.0)
+        imageUrlSession.dataTask(with: request) { [weak self] data, response, error in
+            guard let self,
+                  let data = data, error == nil,
+                  let image = UIImage(data: data) else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.badgeImageView.image = image
+                self.updateImageViewAspectRatio(for: image)
+            }
+        }.resume()
     }
     
     private func updateImageViewAspectRatio(for image: UIImage) {
@@ -90,22 +104,22 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
         onSetAlignment(useCloseButton: currentUseCloseButton, currentHorizontalAlignment, currentVerticalAlignment)
     }
     
-    private func onSetAlignment(useCloseButton: Bool, _ horizontal: InAppPipDisplayHorizontalAlignment, _ vertical: InAppPipDisplayVerticalAlignment) {
+    private func onSetAlignment(useCloseButton: Bool, _ horizontalAlignment: InAppPipDisplayHorizontalAlignment, _ verticalAlignment: InAppPipDisplayVerticalAlignment) {
         
         currentUseCloseButton = useCloseButton
-        currentHorizontalAlignment = horizontal
-        currentVerticalAlignment = vertical
+        currentHorizontalAlignment = horizontalAlignment
+        currentVerticalAlignment = verticalAlignment
         
         
         NSLayoutConstraint.deactivate(horizontalConstraints)
         horizontalConstraints.removeAll()
-        switch horizontal {
+        switch horizontalAlignment {
         case .LEFT:
             
             var constant: CGFloat = 0
             
             // MARK: X 버튼 유 & vertical Alignment 가 TOP 일 경우 leading padding을 X 버튼 크기 만큼 주어야 함
-            if useCloseButton && vertical == .TOP {
+            if useCloseButton && verticalAlignment == .TOP {
                 constant = 26
             }
             
@@ -146,38 +160,5 @@ final class ShopLiveInAppPIPBadgeView: UIView, SLReactor {
         ])
         
         onSetAlignment(useCloseButton: currentUseCloseButton, currentHorizontalAlignment, currentVerticalAlignment)
-    }
-    
-    private func setCache() {
-        let config = URLSessionConfiguration.default
-        config.urlCache = imageCache
-        config.requestCachePolicy = .returnCacheDataElseLoad
-        
-        let session = URLSession(configuration: config)
-        
-        imageUrlSession = session
-    }
-    
-    func loadImage(from urlString: String, completion: ((UIImage?) -> Void)? = nil) {
-        guard let url = URL(string: urlString) else {
-            completion?(nil)
-            return
-        }
-        
-        let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30.0)
-        imageUrlSession.dataTask(with: request) { [weak self] data, response, error in
-            guard let data = data, error == nil,
-                  let image = UIImage(data: data) else {
-                DispatchQueue.main.async {
-                    completion?(nil)
-                }
-                return
-            }
-            
-            DispatchQueue.main.async {
-                self?.badgeImageView.image = image
-                completion?(image)
-            }
-        }.resume()
     }
 }
