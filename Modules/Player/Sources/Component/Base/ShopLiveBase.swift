@@ -248,7 +248,7 @@ import ShopliveSDKCommon
         if isPreview {
             ShopLiveController.shared.isPreview = true
             let pipPosition = self.pipPosition(with: self.pipScale, position: self.getPipPosition())
-            shopLiveWindow?.frame = pipPosition
+            shopLiveWindow?.frame = .zero
             shopLiveWindow?.center = pipPosition.center
             
             _style = .pip
@@ -335,15 +335,11 @@ import ShopliveSDKCommon
         removeObserver()
         ShopLiveController.shared.releaseData()
         SoundManager.shared.removeAllSounds()
-         
-        self.shopLiveWindow?.resignKey()
-        self.mainWindow?.makeKeyAndVisible()
         
         self.videoWindowPanGestureRecognizer = nil
         self.videoWindowTapGestureRecognizer = nil
         self.videoWindowSwipeDownGestureRecognizer = nil
         self.osPictureInPictureController = nil
-        
         
         self.liveStreamViewController?.removeFromParent()
         self.liveStreamViewController?.viewModel.stop()
