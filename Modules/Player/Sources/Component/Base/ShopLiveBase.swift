@@ -147,6 +147,11 @@ import ShopliveSDKCommon
         _ completion: (() -> Void)? = nil
     ) {
         UIApplication.shared.isIdleTimerDisabled = true
+        
+        if shopLiveWindow != nil {
+            teardownShopLiveWindow()
+        }
+        
         if !ShopLiveController.shared.isSameCampaign {
             ShopLiveController.shared.resetVideoDatas()
         }
@@ -224,20 +229,27 @@ import ShopliveSDKCommon
         }
         
         
-        mainWindow = (UIApplication.shared.windows.first(where: { $0.isKeyWindow }))
-        
         shopLiveWindow = ShopliveWindow()
+        
         if #available(iOS 13.0, *) {
-            shopLiveWindow?.windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+            var activeScene: UIWindowScene? = nil
+            activeScene = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+                .first { $0.activationState == .foregroundActive || $0.activationState == .foregroundInactive }
+            mainWindow = activeScene?.windows.first(where: { $0.isKeyWindow })
+            shopLiveWindow?.windowScene = activeScene
+        } else {
+            mainWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow })
         }
+        
         shopLiveWindow?.backgroundColor = .clear
         shopLiveWindow?.windowLevel = .statusBar - 1
         shopLiveWindow?.isHidden = false
         
         if isPreview {
             ShopLiveController.shared.isPreview = true
-            shopLiveWindow?.frame = .zero
-            shopLiveWindow?.center = self.pipPosition(with: self.pipScale, position: self.getPipPosition()).center
+            let pipPosition = self.pipPosition(with: self.pipScale, position: self.getPipPosition())
+            shopLiveWindow?.frame = pipPosition
+            shopLiveWindow?.center = pipPosition.center
             
             _style = .pip
             self.liveStreamViewController?.updateStatusBarToDefault()
@@ -323,11 +335,7 @@ import ShopliveSDKCommon
         removeObserver()
         ShopLiveController.shared.releaseData()
         SoundManager.shared.removeAllSounds()
-        
-        self.shopLiveWindow?.isHidden = true
-        self.shopLiveWindow?.transform = .identity
-        self.shopLiveWindow?.alpha = 1
-        
+         
         self.shopLiveWindow?.resignKey()
         self.mainWindow?.makeKeyAndVisible()
         
@@ -342,11 +350,13 @@ import ShopliveSDKCommon
         self.liveStreamViewController?.delegate = nil
         self.liveStreamViewController = nil
         
-        self.mainWindow = nil
-        self.shopLiveWindow?.removeFromSuperview()
-        self.shopLiveWindow?.rootViewController = nil
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.mainWindow = nil
+            self.teardownShopLiveWindow()
+        }
         
-        self.shopLiveWindow = nil
+        
         self.delegate?.handleChangedPlayerStatus?(status: "DESTROYED")
         delegate?.onEvent?(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type": (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
         delegate?.onEvent?(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type": (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
@@ -365,6 +375,22 @@ import ShopliveSDKCommon
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) {
             ShopLiveController.shared.execusedClose = false
         }
+    }
+    
+    private func teardownShopLiveWindow() {
+        guard let shopLiveWindow else { return }
+        
+        shopLiveWindow.isHidden = true
+        shopLiveWindow.windowLevel = .normal
+        if #available(iOS 13.0, *) {
+            shopLiveWindow.windowScene = nil
+        }
+        
+        shopLiveWindow.transform = .identity
+        shopLiveWindow.alpha = 1
+        shopLiveWindow.removeFromSuperview()
+        shopLiveWindow.rootViewController = nil
+        self.shopLiveWindow = nil
     }
     
     func setupOsPictureInPicture() {
