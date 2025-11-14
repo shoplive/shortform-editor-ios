@@ -350,12 +350,16 @@ import ShopliveSDKCommon
         self.liveStreamViewController?.delegate = nil
         self.liveStreamViewController = nil
         
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
+        if Thread.isMainThread {
             self.mainWindow = nil
             self.teardownShopLiveWindow()
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.mainWindow = nil
+                self.teardownShopLiveWindow()
+            }
         }
-        
         
         self.delegate?.handleChangedPlayerStatus?(status: "DESTROYED")
         delegate?.onEvent?(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type": (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
@@ -378,6 +382,14 @@ import ShopliveSDKCommon
     }
     
     private func teardownShopLiveWindow() {
+        
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async { [weak self] in
+                self?.teardownShopLiveWindow()
+            }
+            return
+        }
+        
         guard let shopLiveWindow else { return }
         
         shopLiveWindow.isHidden = true
