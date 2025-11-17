@@ -372,19 +372,8 @@ import ShopliveSDKCommon
                 }
             }
         }
-        
-        if Thread.isMainThread {
-            self.teardownShopLiveWindow { executeCleanup() }
-        } else {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                self.teardownShopLiveWindow { executeCleanup() }
-            }
-        }
-    }
-    
-    private func teardownAfterAction() {
-        
+
+        self.teardownShopLiveWindow { executeCleanup() }
     }
     
     private func teardownShopLiveWindow(completion: (() -> Void)? = nil) {
