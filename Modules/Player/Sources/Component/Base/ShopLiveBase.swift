@@ -232,8 +232,7 @@ import ShopliveSDKCommon
         shopLiveWindow = ShopliveWindow()
         
         if #available(iOS 13.0, *) {
-            var activeScene: UIWindowScene? = nil
-            activeScene = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+            var activeScene: UIWindowScene? = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
                 .first { $0.activationState == .foregroundActive || $0.activationState == .foregroundInactive }
             mainWindow = activeScene?.windows.first(where: { $0.isKeyWindow })
             shopLiveWindow?.windowScene = activeScene
@@ -346,47 +345,72 @@ import ShopliveSDKCommon
         self.liveStreamViewController?.delegate = nil
         self.liveStreamViewController = nil
         
+        let finalStyle = self.style
+        let finalLastStyle = self._lastStyle
+        let finalIsPreview = ShopLiveController.shared.isPreview
+        let finalCampaignKey = ShopLiveController.shared.campaignKey
+        
         if Thread.isMainThread {
-            self.teardownShopLiveWindow()
-            self.mainWindow = nil
+            self.teardownShopLiveWindow { [weak self] in
+                guard let self = self else { return }
+                self.mainWindow = nil
+                
+                self.delegate?.handleChangedPlayerStatus?(status: "DESTROYED")
+                self.delegate?.onEvent?(name: "player_close", feature: .ACTION, campaign: finalCampaignKey, payload: ["type": (finalStyle == .pip ? (finalIsPreview ? "preview" : "pip") : "normal")])
+                self.delegate?.onEvent?(name: "player_close", feature: .ACTION, campaign: finalCampaignKey, payload: ["type": (finalStyle == .pip ? (finalIsPreview ? "preview" : "pip") : "normal")])
+                self.delegate?.handleCommand?("didShopLiveOff", with: ["style": finalStyle.rawValue])
+                self.delegate?.handleCommand?(
+                    ShopLiveViewTrackEvent.viewDidDisAppear.name,
+                    with: ["lastStyle": finalLastStyle.name,
+                           "currentStyle": finalStyle.name,
+                           "isPreview": finalIsPreview,
+                           "viewHiddenActionType": viewHideActionType.name]
+                )
+                self._style = .unknown
+                self._lastStyle = .unknown
+                ShopLiveBase.sessionState = .terminated
+                ShopLiveController.shared.resetOnlyFinished()
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) {
+                    ShopLiveController.shared.execusedClose = false
+                }
+            }
         } else {
             DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                self.teardownShopLiveWindow()
-                self.mainWindow = nil
+                guard let self = self else { return }
+                self.teardownShopLiveWindow { [weak self] in
+                    guard let self = self else { return }
+                    self.mainWindow = nil
+                    
+                    // teardown 완료 후 delegate 호출
+                    self.delegate?.handleChangedPlayerStatus?(status: "DESTROYED")
+                    self.delegate?.onEvent?(name: "player_close", feature: .ACTION, campaign: finalCampaignKey, payload: ["type": (finalStyle == .pip ? (finalIsPreview ? "preview" : "pip") : "normal")])
+                    self.delegate?.onEvent?(name: "player_close", feature: .ACTION, campaign: finalCampaignKey, payload: ["type": (finalStyle == .pip ? (finalIsPreview ? "preview" : "pip") : "normal")])
+                    self.delegate?.handleCommand?("didShopLiveOff", with: ["style": finalStyle.rawValue])
+                    self.delegate?.handleCommand?(
+                        ShopLiveViewTrackEvent.viewDidDisAppear.name,
+                        with: ["lastStyle": finalLastStyle.name,
+                               "currentStyle": finalStyle.name,
+                               "isPreview": finalIsPreview,
+                               "viewHiddenActionType": viewHideActionType.name]
+                    )
+                    self._style = .unknown
+                    self._lastStyle = .unknown
+                    ShopLiveBase.sessionState = .terminated
+                    ShopLiveController.shared.resetOnlyFinished()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) {
+                        ShopLiveController.shared.execusedClose = false
+                    }
+                }
             }
-        }
-        
-        self.delegate?.handleChangedPlayerStatus?(status: "DESTROYED")
-        delegate?.onEvent?(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type": (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
-        delegate?.onEvent?(name: "player_close", feature: .ACTION, campaign: ShopLiveController.shared.campaignKey, payload: ["type": (_style == .pip ? (ShopLiveController.shared.isPreview ? "preview" : "pip") : "normal")])
-        self.delegate?.handleCommand?("didShopLiveOff", with: ["style": self.style.rawValue])
-        self.delegate?.handleCommand?(
-            ShopLiveViewTrackEvent.viewDidDisAppear.name,
-            with: ["lastStyle": self._lastStyle.name,
-                   "currentStyle": self.style.name,
-                   "isPreview": ShopLiveController.shared.isPreview,
-                   "viewHiddenActionType": viewHideActionType.name]
-        )
-        self._style = .unknown
-        self._lastStyle = .unknown
-        ShopLiveBase.sessionState = .terminated
-        ShopLiveController.shared.resetOnlyFinished()
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) {
-            ShopLiveController.shared.execusedClose = false
         }
     }
     
-    private func teardownShopLiveWindow() {
+    private func teardownShopLiveWindow(completion: (() -> Void)? = nil) {
         
-        guard Thread.isMainThread else {
-            DispatchQueue.main.async { [weak self] in
-                self?.teardownShopLiveWindow()
-            }
+        guard let shopLiveWindow else {
+            completion?()
             return
         }
-        
-        guard let shopLiveWindow else { return }
         
         shopLiveWindow.isHidden = true
         shopLiveWindow.windowLevel = .normal
@@ -401,6 +425,8 @@ import ShopliveSDKCommon
         shopLiveWindow.removeFromSuperview()
         shopLiveWindow.rootViewController = nil
         self.shopLiveWindow = nil
+        
+        completion?()
     }
     
     func setupOsPictureInPicture() {
