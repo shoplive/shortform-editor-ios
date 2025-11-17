@@ -347,13 +347,13 @@ import ShopliveSDKCommon
         self.liveStreamViewController = nil
         
         if Thread.isMainThread {
-            self.mainWindow = nil
             self.teardownShopLiveWindow()
+            self.mainWindow = nil
         } else {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
-                self.mainWindow = nil
                 self.teardownShopLiveWindow()
+                self.mainWindow = nil
             }
         }
         
@@ -393,6 +393,8 @@ import ShopliveSDKCommon
         if #available(iOS 13.0, *) {
             shopLiveWindow.windowScene = nil
         }
+        
+        self.mainWindow?.makeKeyAndVisible()
         
         shopLiveWindow.transform = .identity
         shopLiveWindow.alpha = 1
