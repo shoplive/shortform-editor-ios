@@ -26,7 +26,10 @@ public class ShopLiveBackgroundPosterImageWebView: SLView, SLReactor {
     
     init() {
         super.init(frame: .zero)
-        let webView = SLWKWebView()
+        let configuration = WKWebViewConfiguration()
+        configuration.websiteDataStore = SLWebViewStore.shared.dataStore
+        configuration.processPool = SLWebViewStore.shared.processPool
+        let webView = SLWKWebView(frame: .zero, configuration: configuration)
         self.webView = webView
         self.cacheManager = ShopLiveWebViewCacheManager()
         webView.navigationDelegate = self

@@ -63,6 +63,7 @@ public final class SLWebView: SLBaseView {
         configuration.mediaTypesRequiringUserActionForPlayback = []
         configuration.preferences.javaScriptEnabled = true
         configuration.websiteDataStore = SLWebViewStore.shared.dataStore
+        configuration.processPool = SLWebViewStore.shared.processPool
         let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
         webView.backgroundColor = .clear
         webView.isOpaque = false
