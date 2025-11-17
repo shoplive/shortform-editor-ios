@@ -152,6 +152,7 @@ final class OverlayWebView: SLView {
         configuration.allowsPictureInPictureMediaPlayback = false
         configuration.mediaTypesRequiringUserActionForPlayback = []
         configuration.preferences.javaScriptEnabled = true
+        configuration.processPool = SLWebViewStore.shared.processPool
         
         return configuration
     }
