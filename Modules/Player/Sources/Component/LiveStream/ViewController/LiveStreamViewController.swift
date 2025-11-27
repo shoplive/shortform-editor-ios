@@ -583,6 +583,7 @@ final class LiveStreamViewController: SLViewController {
         activityViewController.completionWithItemsHandler = { [weak self] _, _, _, _ in
             self?.shareSheetWindow?.isHidden = true
             self?.shareSheetWindow?.rootViewController = nil
+            self?.shareSheetWindow = nil
             self?.view.window?.makeKey()
         }
         
