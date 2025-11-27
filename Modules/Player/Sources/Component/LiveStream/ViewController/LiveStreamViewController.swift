@@ -49,6 +49,8 @@ final class LiveStreamViewController: SLViewController {
     var hasKeyboard: Bool = false
     var lastKeyboardHeight: CGFloat = 0
     weak var popoverController: UIPopoverPresentationController?
+    
+    private var shareSheetWindow: UIWindow?
 
     //뷰 계층
     //playerView
@@ -259,6 +261,9 @@ final class LiveStreamViewController: SLViewController {
         removeObserver()
         teardownAudioConfig()
         viewModel.teardownLiveStreamViewModel()
+        shareSheetWindow?.isHidden = true
+        shareSheetWindow?.rootViewController = nil
+        shareSheetWindow = nil
     }
 
     func updateChattingViewPlaceholderVisibility() {
@@ -545,11 +550,9 @@ final class LiveStreamViewController: SLViewController {
             return
         }
         
-        guard let originUrl = urlString as? NSString,
-              let decodeUrl = originUrl.trimmingCharacters(in: .whitespacesAndNewlines).removingPercentEncoding,
+        guard let decodeUrl = urlString.trimmingCharacters(in: .whitespacesAndNewlines).removingPercentEncoding,
               let shareUrl = URL(string: decodeUrl) else { return }
 
-        // 공유용 임시 window 생성 (ShopLiveWindow보다 높은 level)
         let shareWindow = UIWindow(frame: UIScreen.main.bounds)
         if #available(iOS 13.0, *) {
             if let windowScene = self.view.window?.windowScene {
@@ -563,24 +566,23 @@ final class LiveStreamViewController: SLViewController {
         hostVC.view.backgroundColor = .clear
         shareWindow.rootViewController = hostVC
         shareWindow.makeKeyAndVisible()
+        self.shareSheetWindow = shareWindow
         
-        let shareItems: [Any] = [decodeUrl]
-        let activityViewController = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
+        let shareItems: [Any] = [shareUrl]
+        let activityViewController = SLActivityViewController(activityItems: shareItems, applicationActivities: nil)
         
         // iPad popover 설정
         if UIDevice.isIpad {
             if let popover = activityViewController.popoverPresentationController {
                 popover.sourceView = hostVC.view
                 popover.sourceRect = CGRect(x: hostVC.view.bounds.midX, y: hostVC.view.bounds.midY, width: 1, height: 1)
-                popover.permittedArrowDirections = .any
+                popover.permittedArrowDirections = []
             }
         }
         
-        // dismiss 시 임시 window 정리
         activityViewController.completionWithItemsHandler = { [weak self] _, _, _, _ in
-            shareWindow.isHidden = true
-            shareWindow.rootViewController = nil
-            // ShopLiveWindow를 다시 key window로
+            self?.shareSheetWindow?.isHidden = true
+            self?.shareSheetWindow?.rootViewController = nil
             self?.view.window?.makeKey()
         }
         
