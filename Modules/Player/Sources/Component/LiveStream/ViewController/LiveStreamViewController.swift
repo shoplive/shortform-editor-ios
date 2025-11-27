@@ -49,6 +49,8 @@ final class LiveStreamViewController: SLViewController {
     var hasKeyboard: Bool = false
     var lastKeyboardHeight: CGFloat = 0
     weak var popoverController: UIPopoverPresentationController?
+    
+    private var shareSheetWindow: UIWindow?
 
     //뷰 계층
     //playerView
@@ -259,6 +261,9 @@ final class LiveStreamViewController: SLViewController {
         removeObserver()
         teardownAudioConfig()
         viewModel.teardownLiveStreamViewModel()
+        shareSheetWindow?.isHidden = true
+        shareSheetWindow?.rootViewController = nil
+        shareSheetWindow = nil
     }
 
     func updateChattingViewPlaceholderVisibility() {
@@ -545,17 +550,44 @@ final class LiveStreamViewController: SLViewController {
             return
         }
         
-        guard let originUrl = urlString as? NSString, let decodeUrl = originUrl.trimmingCharacters(in: .whitespacesAndNewlines).removingPercentEncoding, let shareUrl = URL(string: decodeUrl) else { return }
+        guard let decodeUrl = urlString.trimmingCharacters(in: .whitespacesAndNewlines).removingPercentEncoding,
+              let shareUrl = URL(string: decodeUrl) else { return }
 
-        let shareAll:[Any] = [shareUrl]
-        let activityViewController = SLActivityViewController(activityItems: shareAll , applicationActivities: nil)
-        popoverController = activityViewController.popoverPresentationController
-        popoverController?.sourceView = self.view
-        if UIDevice.isIpad {
-            popoverController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-            popoverController?.permittedArrowDirections = []
+        let shareWindow = UIWindow(frame: UIScreen.main.bounds)
+        if #available(iOS 13.0, *) {
+            if let windowScene = self.view.window?.windowScene {
+                shareWindow.windowScene = windowScene
+            }
         }
-        self.present(activityViewController, animated: true, completion: nil)
+        shareWindow.windowLevel = .statusBar // ShopLiveWindow (.statusBar - 1) 보다 높음
+        shareWindow.backgroundColor = .clear
+        
+        let hostVC = UIViewController()
+        hostVC.view.backgroundColor = .clear
+        shareWindow.rootViewController = hostVC
+        shareWindow.makeKeyAndVisible()
+        self.shareSheetWindow = shareWindow
+        
+        let shareItems: [Any] = [shareUrl]
+        let activityViewController = SLActivityViewController(activityItems: shareItems, applicationActivities: nil)
+        
+        // iPad popover 설정
+        if UIDevice.isIpad {
+            if let popover = activityViewController.popoverPresentationController {
+                popover.sourceView = hostVC.view
+                popover.sourceRect = CGRect(x: hostVC.view.bounds.midX, y: hostVC.view.bounds.midY, width: 1, height: 1)
+                popover.permittedArrowDirections = []
+            }
+        }
+        
+        activityViewController.completionWithItemsHandler = { [weak self] _, _, _, _ in
+            self?.shareSheetWindow?.isHidden = true
+            self?.shareSheetWindow?.rootViewController = nil
+            self?.shareSheetWindow = nil
+            self?.view.window?.makeKey()
+        }
+        
+        hostVC.present(activityViewController, animated: true, completion: nil)
     }
 }
 
