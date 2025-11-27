@@ -11,7 +11,8 @@ import UIKit
 
 public class SLWebViewStore {
     public static let shared = SLWebViewStore()
-    let dataStore: WKWebsiteDataStore = WKWebsiteDataStore.nonPersistent()
+    public let dataStore: WKWebsiteDataStore = WKWebsiteDataStore.nonPersistent()
+    public let processPool: WKProcessPool = WKProcessPool()
     
     public func updateState() {
         if !ShopLiveUserDefaults.shortFormGuideOpen {
