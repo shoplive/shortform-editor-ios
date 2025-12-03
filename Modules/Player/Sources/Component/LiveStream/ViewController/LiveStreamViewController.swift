@@ -117,9 +117,8 @@ final class LiveStreamViewController: SLViewController {
     lazy var closeButton: SLButton = {
         let view = SLButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setImage(ShopLiveSDKAsset.closebutton.image, for: .normal)
+        view.imageView?.contentMode = .scaleAspectFit
         view.addTarget(self, action: #selector(inAppPipCloseBtnTapped), for: .touchUpInside)
-        view.contentEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
         view.isHidden = true
         return view
     }()
@@ -136,7 +135,11 @@ final class LiveStreamViewController: SLViewController {
         return view
     }()
     
+    private var closeButtonBlurView: UIView?
+    
     private var inAppPipBadgeConstraint: [NSLayoutConstraint] = []
+    private var closeButtonConstraints: [NSLayoutConstraint] = []
+    private var closeButtonBlurViewConstraints: [NSLayoutConstraint] = []
     
     private let badgeHeightRatio: CGFloat = 0.15
     private let maxBadgeHeight: CGFloat = 26
@@ -212,7 +215,7 @@ final class LiveStreamViewController: SLViewController {
         pipDim.layer.cornerRadius = viewModel.getPipCornerRadius()
         updateCloseButtonDim()
     }
-    
+        
     private func updateInAppPipBadgeConstraint() {
         guard inAppPipBadgeView.superview == inAppPipView else {
             return
@@ -298,12 +301,22 @@ final class LiveStreamViewController: SLViewController {
         inAppPipView.addSubview(inAppPipTextBoxView)
         
         inAppPipView.addSubview(closeButton)
-        NSLayoutConstraint.activate([
-            closeButton.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor),
-            closeButton.topAnchor.constraint(equalTo: inAppPipView.topAnchor),
-            closeButton.widthAnchor.constraint(equalToConstant: 36),
-            closeButton.heightAnchor.constraint(equalToConstant: 36)
-        ])
+        updateCloseButtonConfig(
+            CloseButtonConfig(
+                position: .topRight,
+                width: 30,
+                height: 30,
+                offsetX: 5,
+                offsetY: 5,
+                color: .white,
+                shadowOffsetX: -10,
+                shadowOffsetY: 10,
+                shadowBlur: 14,
+                shadowBlurStyle: .normal,
+                shadowColor: .systemPink,
+                imageStr: nil // "https://cdn-icons-png.flaticon.com/512/1828/1828778.png"
+            )
+        )
         
         self.view.bringSubviewToFront(inAppPipView)
     }
@@ -588,6 +601,191 @@ final class LiveStreamViewController: SLViewController {
         }
         
         hostVC.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    func updateCloseButtonConfig(_ config: CloseButtonConfig?) {
+        guard let config else {
+            updateCloseButtonConstraints()
+            return
+        }
+        updateCloseButtonConstraints(config: config)
+        
+        let width = config.width ?? 36
+        let height = config.height ?? 36
+        let targetSize = CGSize(width: width, height: height)
+                
+        if let imageStr = config.imageStr, !imageStr.isEmpty {
+            if let imageUrl = URL(string: imageStr), imageUrl.scheme != nil {
+                URLSession.shared.dataTask(with: imageUrl) { [weak self] data, response, error in
+                    if let data = data, let image = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            guard let self,
+                                  let resizedImage = image.resizeImageTo_SL(size: targetSize)?.withRenderingMode(.alwaysTemplate) else { return }
+                            self.closeButton.setImage(resizedImage, for: .normal)
+                            self.applyBlurAndShadowEffect(with: resizedImage, config: config)
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            guard let self,
+                                  let resizedImage = ShopLiveSDKAsset.closebutton.image.resizeImageTo_SL(size: targetSize)?.withRenderingMode(.alwaysTemplate) else { return }
+                            self.closeButton.setImage(resizedImage, for: .normal)
+                            self.applyBlurAndShadowEffect(with: resizedImage, config: config)
+                        }
+                    }
+                }.resume()
+            } else {
+                guard let resizedImage = ShopLiveSDKAsset.closebutton.image.resizeImageTo_SL(size: targetSize)?.withRenderingMode(.alwaysTemplate) else { return }
+                closeButton.setImage(resizedImage, for: .normal)
+                applyBlurAndShadowEffect(with: resizedImage, config: config)
+            }
+        } else {
+            guard let resizedImage = ShopLiveSDKAsset.closebutton.image.resizeImageTo_SL(size: targetSize)?.withRenderingMode(.alwaysTemplate) else { return }
+            closeButton.setImage(resizedImage, for: .normal)
+            applyBlurAndShadowEffect(with: resizedImage, config: config)
+        }
+        closeButton.tintColor = config.color
+    }
+    
+    private func applyBlurAndShadowEffect(with image: UIImage, config: CloseButtonConfig) {
+        closeButtonBlurView?.removeFromSuperview()
+        closeButtonBlurView = nil
+        guard let superview = closeButton.superview else { return }
+
+        if let shadowBlur = config.shadowBlur {
+            var targetImage = image.withRenderingMode(.alwaysTemplate)
+            
+            if let shadowBlurStyle = config.shadowBlurStyle {
+                targetImage = self.imageWithBlurMask(image: targetImage, style: shadowBlurStyle, color: config.shadowColor) ?? UIImage()
+            }
+            
+            let copiedImageView = UIImageView(image: targetImage)
+            copiedImageView.translatesAutoresizingMaskIntoConstraints = false
+            copiedImageView.contentMode = .scaleAspectFit
+            copiedImageView.tintColor = config.shadowColor ?? config.color
+            copiedImageView.backgroundColor = .clear
+            superview.insertSubview(copiedImageView, belowSubview: closeButton)
+            
+            let constraints = [
+                copiedImageView.topAnchor.constraint(equalTo: closeButton.topAnchor, constant: config.shadowOffsetY ?? 0),
+                copiedImageView.leadingAnchor.constraint(equalTo: closeButton.leadingAnchor, constant: config.shadowOffsetX ?? 0),
+                copiedImageView.widthAnchor.constraint(equalTo: closeButton.widthAnchor),
+                copiedImageView.heightAnchor.constraint(equalTo: closeButton.heightAnchor)
+            ]
+            NSLayoutConstraint.activate(constraints)
+            closeButtonBlurViewConstraints = constraints
+            
+            copiedImageView.layer.shadowOpacity = 1.0
+            copiedImageView.layer.shadowRadius = shadowBlur
+            copiedImageView.layer.shadowColor = (config.shadowColor ?? .black).cgColor
+            copiedImageView.layer.shadowOffset = .zero
+            copiedImageView.layer.shadowPath = UIBezierPath(
+                roundedRect: CGRect(x: 0, y: 0, width: config.width ?? 0, height: config.height ?? 0),
+                cornerRadius: config.width ?? 0 / 2
+            ).cgPath
+             
+            closeButtonBlurView = copiedImageView
+        }
+        
+        closeButton.backgroundColor = .clear
+    }
+    
+    private func updateCloseButtonConstraints(config: CloseButtonConfig? = nil) {
+        if !closeButtonConstraints.isEmpty {
+            NSLayoutConstraint.deactivate(closeButtonConstraints)
+            closeButtonConstraints.removeAll()
+        }
+        
+        let defaultConfig = CloseButtonConfig()
+        let position = config?.position ?? defaultConfig.position ?? .topLeft
+        let offsetX = config?.offsetX ?? defaultConfig.offsetX ?? 0
+        let offsetY = config?.offsetY ?? defaultConfig.offsetY ?? 0
+        let width = config?.width ?? defaultConfig.width ?? 36
+        let height = config?.height ?? defaultConfig.height ?? 36
+        
+        var constraints: [NSLayoutConstraint] = []
+        
+        switch position {
+        case .topLeft:
+            constraints.append(closeButton.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: offsetX))
+            constraints.append(closeButton.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: offsetY))
+        case .topRight:
+            constraints.append(closeButton.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: -offsetX))
+            constraints.append(closeButton.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: offsetY))
+        }
+        
+        constraints.append(closeButton.widthAnchor.constraint(equalToConstant: width))
+        constraints.append(closeButton.heightAnchor.constraint(equalToConstant: height))
+        
+        closeButtonConstraints = constraints
+        NSLayoutConstraint.activate(closeButtonConstraints)
+    }
+    
+    func imageWithBlurMask(image: UIImage?, style: ShopLiveBlurMaskStyle, color: UIColor?) -> UIImage? {
+        guard let image = image else { return nil }
+        
+        let radius: CGFloat
+        switch style {
+        case .solid:
+            radius = 2
+        default:
+            radius = 4
+        }
+        
+        guard let inputCIImage = CIImage(image: image), radius > 0 else { return image }
+        
+        let clampFilter = CIFilter(name: "CIAffineClamp")
+        clampFilter?.setValue(inputCIImage, forKey: kCIInputImageKey)
+        clampFilter?.setValue(CGAffineTransform.identity, forKey: kCIInputTransformKey)
+        guard let clampedImage = clampFilter?.outputImage else { return image }
+        
+        let blurFilter = CIFilter(name: "CIGaussianBlur")
+        blurFilter?.setValue(clampedImage, forKey: kCIInputImageKey)
+        blurFilter?.setValue(radius, forKey: kCIInputRadiusKey)
+        guard var blurredImage = blurFilter?.outputImage else { return image }
+        
+        if let color = color {
+            let colorFilter = CIFilter(name: "CIConstantColorGenerator")
+            let ciColor = CIColor(color: color)
+            colorFilter?.setValue(ciColor, forKey: kCIInputColorKey)
+            
+            if let colorOutput = colorFilter?.outputImage {
+                let colorTintFilter = CIFilter(name: "CISourceInCompositing")
+                colorTintFilter?.setValue(colorOutput, forKey: kCIInputImageKey)
+                colorTintFilter?.setValue(blurredImage, forKey: kCIInputBackgroundImageKey)
+                if let tintedBlur = colorTintFilter?.outputImage {
+                    blurredImage = tintedBlur
+                }
+            }
+        }
+        
+        var outputImage: CIImage?
+        switch style {
+        case .normal, .solid:
+            outputImage = blurredImage
+            
+        case .inner:
+            let compositor = CIFilter(name: "CISourceInCompositing")
+            compositor?.setValue(blurredImage, forKey: kCIInputImageKey)
+            compositor?.setValue(inputCIImage, forKey: kCIInputBackgroundImageKey)
+            outputImage = compositor?.outputImage
+            
+        case .outer:
+            let compositor = CIFilter(name: "CISourceOutCompositing")
+            compositor?.setValue(blurredImage, forKey: kCIInputImageKey)
+            compositor?.setValue(inputCIImage, forKey: kCIInputBackgroundImageKey)
+            outputImage = compositor?.outputImage
+        }
+        
+        guard let finalImage = outputImage else { return image }
+        let padding = radius * 3
+        let renderRect = inputCIImage.extent.insetBy(dx: -padding, dy: -padding)
+        
+        let ciContext = CIContext(options: nil)
+        guard let cgImage = ciContext.createCGImage(finalImage, from: renderRect) else {
+            return image
+        }
+        
+        return UIImage(cgImage: cgImage, scale: image.scale, orientation: image.imageOrientation)
     }
 }
 

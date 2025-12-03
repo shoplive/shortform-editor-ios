@@ -183,6 +183,20 @@ extension ShopLive {
             }
         }
     }
+    
+    @objc public enum PreviewCloseButtonPositionConfig: Int {
+        case topLeft
+        case topRight
+        
+        public var name: String {
+            switch self {
+            case .topLeft:
+                return "topLeft"
+            case .topRight:
+                return "topRight"
+            }
+        }
+    }
 }
 
 extension ShopLive: ShopLiveSDKInterface {
