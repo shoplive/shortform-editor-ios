@@ -191,9 +191,9 @@ extension ShopLive {
         public var name: String {
             switch self {
             case .topLeft:
-                return "topLeft"
+                return "TOP_LEFT"
             case .topRight:
-                return "topRight"
+                return "TOP_RIGHT"
             }
         }
     }

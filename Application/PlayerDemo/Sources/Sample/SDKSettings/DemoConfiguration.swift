@@ -828,6 +828,19 @@ final class DemoConfiguration: NSObject {
             return value == "LIVE" ? .LIVE : .PREVIEW
         }
     }
+    
+    var closeButtonConfig: ShopLiveCloseButtonConfig {
+        set {
+            let jsonString = newValue.toJSON()
+            UserDefaults.standard.setValue(jsonString, forKey: SDKOptionType.closeButtonConfig.optionKey)
+            notifyObservers(key: SDKOptionType.closeButtonConfig.optionKey)
+        }
+        get {
+            guard let jsonString = UserDefaults.standard.string(forKey: SDKOptionType.closeButtonConfig.optionKey),
+                  let config = ShopLiveCloseButtonConfig.fromJSON(jsonString) else {
+                return ShopLiveCloseButtonConfig()
+            }
+            return config
+        }
+    }
 }
-
-

@@ -99,7 +99,9 @@ final class OptionsViewController: SideMenuItemViewController {
         
         let playerPreviewResolutionOption = SDKOptionItem(name: "sdkoption.player.preview.title".localized(), optionDescription: "sdkoption.player.preview.description".localized(), optionType: .previewResolution)
         
-        let previewOptions = SDKOption(optionTitle: "sdkoption.section.preview.title".localized(), optionItems: [previewOption, closeButtonOption,previewSoundOption,playerPreviewResolutionOption])
+        let closeButtonConfigOption = SDKOptionItem(name: "Close Button Config (JSON)", optionDescription: "Preview Close Button Configuration", optionType: .closeButtonConfig)
+        
+        let previewOptions = SDKOption(optionTitle: "sdkoption.section.preview.title".localized(), optionItems: [previewOption, closeButtonOption,previewSoundOption,playerPreviewResolutionOption, closeButtonConfigOption])
         
         items.append(previewOptions)
         
@@ -283,6 +285,39 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                     DemoConfiguration.shared.pipCornerRadius = size.cgfloatValue
                     self.tableView.reloadData()
                 }
+                alert.modalPresentationStyle = .overCurrentContext
+                self.navigationController?.present(alert, animated: false, completion: nil)
+            case .closeButtonConfig:
+                let defaultJson = """
+                {
+                  "position": "TOP_LEFT",
+                  "width": 30,
+                  "height": 30,
+                  "offsetX": 3,
+                  "offsetY": 3,
+                  "color": "#ffffff",
+                  "shadowOffsetX": 0,
+                  "shadowOffsetY": 0,
+                  "shadowBlur": 0,
+                  "shadowBlurStyle": "",
+                  "shadowColor": ""
+                  "imageStr": ""
+                }
+                """
+                
+                let jsonString = UserDefaults.standard.string(forKey: SDKOptionType.closeButtonConfig.optionKey) ?? defaultJson
+                let alert = JSONInputAlertController(
+                    header: "Close Button Config (JSON)",
+                    data: jsonString,
+                    placeHolder: defaultJson,
+                    validate: { jsonString in
+                        return ShopLiveCloseButtonConfig.validateJSON(jsonString)
+                    },
+                    saveClosure: { validJsonString in
+                        UserDefaults.standard.setValue(validJsonString, forKey: SDKOptionType.closeButtonConfig.optionKey)
+                        self.tableView.reloadData()
+                    }
+                )
                 alert.modalPresentationStyle = .overCurrentContext
                 self.navigationController?.present(alert, animated: false, completion: nil)
             default:

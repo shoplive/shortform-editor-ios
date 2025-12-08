@@ -301,22 +301,27 @@ final class LiveStreamViewController: SLViewController {
         inAppPipView.addSubview(inAppPipTextBoxView)
         
         inAppPipView.addSubview(closeButton)
-        updateCloseButtonConfig(
-            CloseButtonConfig(
-                position: .topRight,
-                width: 30,
-                height: 30,
-                offsetX: 5,
-                offsetY: 5,
-                color: .white,
-                shadowOffsetX: -10,
-                shadowOffsetY: 10,
-                shadowBlur: 14,
-                shadowBlurStyle: .normal,
-                shadowColor: .systemPink,
-                imageStr: nil // "https://cdn-icons-png.flaticon.com/512/1828/1828778.png"
+        
+        if let closeButtonConfig = viewModel.getInAppPipConfiguration()?.closeButtonConfig {
+            updateCloseButtonConfig(closeButtonConfig)
+        } else {
+            updateCloseButtonConfig(
+                ShopLiveCloseButtonConfig(
+                    position: .topLeft,
+                    width: 30,
+                    height: 30,
+                    offsetX: 3,
+                    offsetY: 3,
+                    color: .white,
+                    shadowOffsetX: nil,
+                    shadowOffsetY: nil,
+                    shadowBlur: nil,
+                    shadowBlurStyle: nil,
+                    shadowColor: nil,
+                    imageStr: nil
+                )
             )
-        )
+        }
         
         self.view.bringSubviewToFront(inAppPipView)
     }
@@ -603,7 +608,7 @@ final class LiveStreamViewController: SLViewController {
         hostVC.present(activityViewController, animated: true, completion: nil)
     }
     
-    func updateCloseButtonConfig(_ config: CloseButtonConfig?) {
+    func updateCloseButtonConfig(_ config: ShopLiveCloseButtonConfig?) {
         guard let config else {
             updateCloseButtonConstraints()
             return
@@ -615,7 +620,7 @@ final class LiveStreamViewController: SLViewController {
         let targetSize = CGSize(width: width, height: height)
                 
         if let imageStr = config.imageStr, !imageStr.isEmpty {
-            if let imageUrl = URL(string: imageStr), imageUrl.scheme != nil {
+            if let imageUrl = URL(string: imageStr) {
                 URLSession.shared.dataTask(with: imageUrl) { [weak self] data, response, error in
                     if let data = data, let image = UIImage(data: data) {
                         DispatchQueue.main.async {
@@ -646,16 +651,18 @@ final class LiveStreamViewController: SLViewController {
         closeButton.tintColor = config.color
     }
     
-    private func applyBlurAndShadowEffect(with image: UIImage, config: CloseButtonConfig) {
+    private func applyBlurAndShadowEffect(with image: UIImage, config: ShopLiveCloseButtonConfig) {
         closeButtonBlurView?.removeFromSuperview()
         closeButtonBlurView = nil
         guard let superview = closeButton.superview else { return }
 
-        if let shadowBlur = config.shadowBlur {
+        if let shadowBlur = config.shadowBlur, shadowBlur > 0 {
             var targetImage = image.withRenderingMode(.alwaysTemplate)
             
             if let shadowBlurStyle = config.shadowBlurStyle {
                 targetImage = self.imageWithBlurMask(image: targetImage, style: shadowBlurStyle, color: config.shadowColor) ?? UIImage()
+            } else {
+                targetImage = UIImage()
             }
             
             let copiedImageView = UIImageView(image: targetImage)
@@ -689,13 +696,13 @@ final class LiveStreamViewController: SLViewController {
         closeButton.backgroundColor = .clear
     }
     
-    private func updateCloseButtonConstraints(config: CloseButtonConfig? = nil) {
+    private func updateCloseButtonConstraints(config: ShopLiveCloseButtonConfig? = nil) {
         if !closeButtonConstraints.isEmpty {
             NSLayoutConstraint.deactivate(closeButtonConstraints)
             closeButtonConstraints.removeAll()
         }
         
-        let defaultConfig = CloseButtonConfig()
+        let defaultConfig = ShopLiveCloseButtonConfig()
         let position = config?.position ?? defaultConfig.position ?? .topLeft
         let offsetX = config?.offsetX ?? defaultConfig.offsetX ?? 0
         let offsetY = config?.offsetY ?? defaultConfig.offsetY ?? 0
