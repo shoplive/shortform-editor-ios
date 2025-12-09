@@ -737,7 +737,7 @@ final class LiveStreamViewController: SLViewController {
             constraints.append(closeButton.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: offsetX))
             constraints.append(closeButton.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: offsetY))
         case .topRight:
-            constraints.append(closeButton.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: -offsetX))
+            constraints.append(closeButton.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: offsetX))
             constraints.append(closeButton.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: offsetY))
         }
         
