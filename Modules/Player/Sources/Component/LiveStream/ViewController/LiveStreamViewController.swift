@@ -615,40 +615,37 @@ final class LiveStreamViewController: SLViewController {
         }
         updateCloseButtonConstraints(config: config)
         
-        let width = config.width ?? 36
-        let height = config.height ?? 36
+        let width = (config.width ?? 30) > 0 ? (config.width ?? 30) : 30
+        let height = (config.height ?? 30) > 0 ? (config.height ?? 30) : 30
         let targetSize = CGSize(width: width, height: height)
-                
-        if let imageStr = config.imageStr, !imageStr.isEmpty {
-            if let imageUrl = URL(string: imageStr) {
-                URLSession.shared.dataTask(with: imageUrl) { [weak self] data, response, error in
-                    if let data = data, let image = UIImage(data: data) {
-                        DispatchQueue.main.async {
-                            guard let self,
-                                  let resizedImage = image.resizeImageTo_SL(size: targetSize)?.withRenderingMode(.alwaysTemplate) else { return }
-                            self.closeButton.setImage(resizedImage, for: .normal)
-                            self.applyBlurAndShadowEffect(with: resizedImage, config: config)
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            guard let self,
-                                  let resizedImage = ShopLiveSDKAsset.closebutton.image.resizeImageTo_SL(size: targetSize)?.withRenderingMode(.alwaysTemplate) else { return }
-                            self.closeButton.setImage(resizedImage, for: .normal)
-                            self.applyBlurAndShadowEffect(with: resizedImage, config: config)
-                        }
-                    }
-                }.resume()
-            } else {
-                guard let resizedImage = ShopLiveSDKAsset.closebutton.image.resizeImageTo_SL(size: targetSize)?.withRenderingMode(.alwaysTemplate) else { return }
-                closeButton.setImage(resizedImage, for: .normal)
-                applyBlurAndShadowEffect(with: resizedImage, config: config)
-            }
-        } else {
-            guard let resizedImage = ShopLiveSDKAsset.closebutton.image.resizeImageTo_SL(size: targetSize)?.withRenderingMode(.alwaysTemplate) else { return }
-            closeButton.setImage(resizedImage, for: .normal)
-            applyBlurAndShadowEffect(with: resizedImage, config: config)
-        }
+        
+        loadAndApplyCloseButtonImageWithShadow(config: config, targetSize: targetSize)
         closeButton.tintColor = config.color
+    }
+    
+    private func loadAndApplyCloseButtonImageWithShadow(config: ShopLiveCloseButtonConfig, targetSize: CGSize) {
+        guard let imageStr = config.imageStr, !imageStr.isEmpty, let imageUrl = URL(string: imageStr) else {
+            applyCloseButtonImage(ShopLiveSDKAsset.closebutton.image, config: config, targetSize: targetSize)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: imageUrl) { [weak self] data, _, _ in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                
+                if let data = data, let image = UIImage(data: data) {
+                    self.applyCloseButtonImage(image, config: config, targetSize: targetSize)
+                } else {
+                    self.applyCloseButtonImage(ShopLiveSDKAsset.closebutton.image, config: config, targetSize: targetSize)
+                }
+            }
+        }.resume()
+    }
+    
+    private func applyCloseButtonImage(_ image: UIImage, config: ShopLiveCloseButtonConfig, targetSize: CGSize) {
+        guard let resizedImage = image.resizeImageTo_SL(size: targetSize)?.withRenderingMode(.alwaysTemplate) else { return }
+        closeButton.setImage(resizedImage, for: .normal)
+        applyBlurAndShadowEffect(with: resizedImage, config: config)
     }
     
     private func applyBlurAndShadowEffect(with image: UIImage, config: ShopLiveCloseButtonConfig) {
@@ -660,9 +657,7 @@ final class LiveStreamViewController: SLViewController {
         let shadowBlur = config.shadowBlur ?? 0
         let shadowBlurStyle = config.shadowBlurStyle ?? .normal
         let shadowColor = config.shadowColor ?? .clear
-        
-        var targetImage = image.withRenderingMode(.alwaysTemplate)
-        targetImage = self.imageWithBlurMask(image: targetImage, style: shadowBlurStyle, color: shadowColor) ?? UIImage()
+        let targetImage = self.imageWithBlurMask(image: image, style: shadowBlurStyle, color: shadowColor) ?? UIImage()
         
         let copiedImageView = UIImageView(image: targetImage)
         copiedImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -751,7 +746,7 @@ final class LiveStreamViewController: SLViewController {
         NSLayoutConstraint.activate(closeButtonConstraints)
     }
     
-    func imageWithBlurMask(image: UIImage?, style: ShopLiveBlurMaskStyle, color: UIColor?) -> UIImage? {
+    func imageWithBlurMask(image: UIImage?, style: ShopLiveBlurMaskStyle, color: UIColor) -> UIImage? {
         guard let image = image else { return nil }
         
         let radius: CGFloat
@@ -774,18 +769,16 @@ final class LiveStreamViewController: SLViewController {
         blurFilter?.setValue(radius, forKey: kCIInputRadiusKey)
         guard var blurredImage = blurFilter?.outputImage else { return image }
         
-        if let color = color {
-            let colorFilter = CIFilter(name: "CIConstantColorGenerator")
-            let ciColor = CIColor(color: color)
-            colorFilter?.setValue(ciColor, forKey: kCIInputColorKey)
-            
-            if let colorOutput = colorFilter?.outputImage {
-                let colorTintFilter = CIFilter(name: "CISourceInCompositing")
-                colorTintFilter?.setValue(colorOutput, forKey: kCIInputImageKey)
-                colorTintFilter?.setValue(blurredImage, forKey: kCIInputBackgroundImageKey)
-                if let tintedBlur = colorTintFilter?.outputImage {
-                    blurredImage = tintedBlur
-                }
+        let colorFilter = CIFilter(name: "CIConstantColorGenerator")
+        let ciColor = CIColor(color: color)
+        colorFilter?.setValue(ciColor, forKey: kCIInputColorKey)
+        
+        if let colorOutput = colorFilter?.outputImage {
+            let colorTintFilter = CIFilter(name: "CISourceInCompositing")
+            colorTintFilter?.setValue(colorOutput, forKey: kCIInputImageKey)
+            colorTintFilter?.setValue(blurredImage, forKey: kCIInputBackgroundImageKey)
+            if let tintedBlur = colorTintFilter?.outputImage {
+                blurredImage = tintedBlur
             }
         }
         

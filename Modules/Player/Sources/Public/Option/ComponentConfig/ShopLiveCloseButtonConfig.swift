@@ -134,80 +134,57 @@ import UIKit
             return nil
         }
         
-        let position: ShopLive.PreviewCloseButtonPositionConfig?
-        if let positionStr = dict["position"] as? String {
-            if positionStr == "TOP_LEFT" {
-                position = .topLeft
-            } else if positionStr == "TOP_RIGHT" {
-                position = .topRight
-            } else {
-                position = nil
-            }
-        } else {
-            position = nil
-        }
-        
-        let width = dict["width"] as? CGFloat
-        let height = dict["height"] as? CGFloat
-        let offsetX = dict["offsetX"] as? CGFloat
-        let offsetY = dict["offsetY"] as? CGFloat
-        
-        let color: UIColor?
-        if let colorStr = dict["color"] as? String {
-            color = UIColor(hexString: colorStr)
-        } else {
-            color = nil
-        }
-        
-        let shadowOffsetX = dict["shadowOffsetX"] as? CGFloat
-        let shadowOffsetY = dict["shadowOffsetY"] as? CGFloat
-        let shadowBlur = dict["shadowBlur"] as? CGFloat
-        
-        let shadowBlurStyle: ShopLiveBlurMaskStyle?
-        if let styleInt = dict["shadowBlurStyle"] as? Int {
-            shadowBlurStyle = ShopLiveBlurMaskStyle(rawValue: styleInt)
-        } else if let styleStr = dict["shadowBlurStyle"] as? String {
-            if styleStr.isEmpty {
-                shadowBlurStyle = nil
-            } else {
-                shadowBlurStyle = ShopLiveBlurMaskStyle.from(string: styleStr)
-            }
-        } else {
-            shadowBlurStyle = nil
-        }
-        
-        let shadowColor: UIColor?
-        if let shadowColorStr = dict["shadowColor"] as? String {
-            if shadowColorStr.isEmpty {
-                shadowColor = nil
-            } else {
-                shadowColor = UIColor(hexString: shadowColorStr)
-            }
-        } else {
-            shadowColor = nil
-        }
-        
-        let imageStr: String?
-        if let imgStr = dict["imageStr"] as? String, !imgStr.isEmpty {
-            imageStr = imgStr
-        } else {
-            imageStr = nil
-        }
-        
         return ShopLiveCloseButtonConfig(
-            position: position,
-            width: width,
-            height: height,
-            offsetX: offsetX,
-            offsetY: offsetY,
-            color: color,
-            shadowOffsetX: shadowOffsetX,
-            shadowOffsetY: shadowOffsetY,
-            shadowBlur: shadowBlur,
-            shadowBlurStyle: shadowBlurStyle,
-            shadowColor: shadowColor,
-            imageStr: imageStr
+            position: parsePosition(from: dict["position"]),
+            width: parseCGFloat(from: dict["width"]),
+            height: parseCGFloat(from: dict["height"]),
+            offsetX: parseCGFloat(from: dict["offsetX"]),
+            offsetY: parseCGFloat(from: dict["offsetY"]),
+            color: parseColor(from: dict["color"]),
+            shadowOffsetX: parseCGFloat(from: dict["shadowOffsetX"]),
+            shadowOffsetY: parseCGFloat(from: dict["shadowOffsetY"]),
+            shadowBlur: parseCGFloat(from: dict["shadowBlur"]),
+            shadowBlurStyle: parseBlurStyle(from: dict["shadowBlurStyle"]),
+            shadowColor: parseColor(from: dict["shadowColor"]),
+            imageStr: parseString(from: dict["imageStr"])
         )
+    }
+    
+    // MARK: - JSON Parsing Helpers
+    
+    private static func parsePosition(from value: Any?) -> ShopLive.PreviewCloseButtonPositionConfig? {
+        guard let positionStr = value as? String else { return nil }
+        switch positionStr {
+        case "TOP_LEFT": return .topLeft
+        case "TOP_RIGHT": return .topRight
+        default: return nil
+        }
+    }
+    
+    private static func parseCGFloat(from value: Any?) -> CGFloat? {
+        if let number = value as? NSNumber {
+            return CGFloat(number.doubleValue)
+        }
+        return nil
+    }
+    
+    private static func parseColor(from value: Any?) -> UIColor? {
+        guard let colorStr = value as? String, !colorStr.isEmpty else { return nil }
+        return UIColor(hexString: colorStr)
+    }
+    
+    private static func parseBlurStyle(from value: Any?) -> ShopLiveBlurMaskStyle? {
+        if let styleInt = value as? Int {
+            return ShopLiveBlurMaskStyle(rawValue: styleInt)
+        } else if let styleStr = value as? String, !styleStr.isEmpty {
+            return ShopLiveBlurMaskStyle.from(string: styleStr)
+        }
+        return nil
+    }
+    
+    private static func parseString(from value: Any?) -> String? {
+        guard let str = value as? String, !str.isEmpty else { return nil }
+        return str
     }
     
     /// Validate JSON string format
