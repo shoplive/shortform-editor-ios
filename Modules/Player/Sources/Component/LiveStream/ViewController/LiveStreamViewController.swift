@@ -695,8 +695,12 @@ final class LiveStreamViewController: SLViewController {
     // MARK: - Shadow Configuration
     
     private func configureShadowLayer(for imageView: UIImageView, config: ShopLiveCloseButtonConfig, shadowBlur: CGFloat) {
-        imageView.layer.shadowOpacity = 1.0
-        imageView.layer.shadowRadius = shadowBlur
+        let width = config.width ?? imageView.bounds.width
+        let height = config.height ?? imageView.bounds.height
+        let cornerRadius = min(width, height) / 2
+        let opacity: Float = Float(min(shadowBlur / 10, 1))
+        imageView.layer.shadowOpacity = opacity
+        imageView.layer.shadowRadius = cornerRadius
         imageView.layer.shadowColor = (config.shadowColor ?? .black).cgColor
         imageView.layer.shadowOffset = .zero
     }
@@ -707,11 +711,14 @@ final class LiveStreamViewController: SLViewController {
         DispatchQueue.main.async { [weak imageView] in
             guard let imageView = imageView, imageView.superview != nil else { return }
             
-            let bounds = imageView.bounds
-            guard bounds.width > 0, bounds.height > 0 else { return }
-            let cornerRadius = min(bounds.width, bounds.height) / 2
+            let width = config.width ?? imageView.bounds.width
+            let height = config.height ?? imageView.bounds.height
+            guard width > 0, height > 0 else { return }
+            
+            let cornerRadius = min(width, height) / 2
+            let shadowRect = CGRect(x: 0, y: 0, width: width, height: height)
             imageView.layer.shadowPath = UIBezierPath(
-                roundedRect: bounds,
+                roundedRect: shadowRect,
                 cornerRadius: cornerRadius
             ).cgPath
         }
