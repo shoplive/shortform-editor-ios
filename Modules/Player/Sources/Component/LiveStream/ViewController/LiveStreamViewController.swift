@@ -654,54 +654,50 @@ final class LiveStreamViewController: SLViewController {
     private func applyBlurAndShadowEffect(with image: UIImage, config: ShopLiveCloseButtonConfig) {
         closeButtonBlurView?.removeFromSuperview()
         closeButtonBlurView = nil
+        closeButton.backgroundColor = .clear
         guard let superview = closeButton.superview else { return }
 
-        if let shadowBlur = config.shadowBlur, shadowBlur > 0 {
-            var targetImage = image.withRenderingMode(.alwaysTemplate)
-            
-            if let shadowBlurStyle = config.shadowBlurStyle {
-                targetImage = self.imageWithBlurMask(image: targetImage, style: shadowBlurStyle, color: config.shadowColor) ?? UIImage()
-            } else {
-                targetImage = UIImage()
-            }
-            
-            let copiedImageView = UIImageView(image: targetImage)
-            copiedImageView.translatesAutoresizingMaskIntoConstraints = false
-            copiedImageView.contentMode = .scaleAspectFit
-            copiedImageView.tintColor = config.shadowColor ?? config.color
-            copiedImageView.backgroundColor = .clear
-            superview.insertSubview(copiedImageView, belowSubview: closeButton)
-            
-            copiedImageView.layer.masksToBounds = false
-            copiedImageView.clipsToBounds = false
-            
-            let constraints = [
-                copiedImageView.topAnchor.constraint(equalTo: closeButton.topAnchor, constant: config.shadowOffsetY ?? 0),
-                copiedImageView.leadingAnchor.constraint(equalTo: closeButton.leadingAnchor, constant: config.shadowOffsetX ?? 0),
-                copiedImageView.widthAnchor.constraint(equalTo: closeButton.widthAnchor),
-                copiedImageView.heightAnchor.constraint(equalTo: closeButton.heightAnchor)
-            ]
-            NSLayoutConstraint.activate(constraints)
-            closeButtonBlurViewConstraints = constraints
-            
-            configureShadowLayer(for: copiedImageView, config: config, shadowBlur: shadowBlur)
-            closeButtonBlurView = copiedImageView
-            scheduleShadowPathUpdate(for: copiedImageView, config: config)
-        }
+        let shadowBlur = config.shadowBlur ?? 0
+        let shadowBlurStyle = config.shadowBlurStyle ?? .normal
+        let shadowColor = config.shadowColor ?? .clear
         
-        closeButton.backgroundColor = .clear
+        var targetImage = image.withRenderingMode(.alwaysTemplate)
+        targetImage = self.imageWithBlurMask(image: targetImage, style: shadowBlurStyle, color: shadowColor) ?? UIImage()
+        
+        let copiedImageView = UIImageView(image: targetImage)
+        copiedImageView.translatesAutoresizingMaskIntoConstraints = false
+        copiedImageView.contentMode = .scaleAspectFit
+        copiedImageView.tintColor = shadowColor
+        copiedImageView.backgroundColor = .clear
+        superview.insertSubview(copiedImageView, belowSubview: closeButton)
+        
+        copiedImageView.layer.masksToBounds = false
+        copiedImageView.clipsToBounds = false
+        
+        let constraints = [
+            copiedImageView.topAnchor.constraint(equalTo: closeButton.topAnchor, constant: config.shadowOffsetY ?? 0),
+            copiedImageView.leadingAnchor.constraint(equalTo: closeButton.leadingAnchor, constant: config.shadowOffsetX ?? 0),
+            copiedImageView.widthAnchor.constraint(equalTo: closeButton.widthAnchor),
+            copiedImageView.heightAnchor.constraint(equalTo: closeButton.heightAnchor)
+        ]
+        NSLayoutConstraint.activate(constraints)
+        closeButtonBlurViewConstraints = constraints
+        
+        configureShadowLayer(for: copiedImageView, config: config, shadowBlur: shadowBlur, shadowColor: shadowColor)
+        closeButtonBlurView = copiedImageView
+        scheduleShadowPathUpdate(for: copiedImageView, config: config)
     }
     
     // MARK: - Shadow Configuration
     
-    private func configureShadowLayer(for imageView: UIImageView, config: ShopLiveCloseButtonConfig, shadowBlur: CGFloat) {
+    private func configureShadowLayer(for imageView: UIImageView, config: ShopLiveCloseButtonConfig, shadowBlur: CGFloat, shadowColor: UIColor) {
         let width = config.width ?? imageView.bounds.width
         let height = config.height ?? imageView.bounds.height
         let cornerRadius = min(width, height) / 2
         let opacity: Float = Float(min(shadowBlur / 10, 1))
         imageView.layer.shadowOpacity = opacity
         imageView.layer.shadowRadius = cornerRadius
-        imageView.layer.shadowColor = (config.shadowColor ?? .black).cgColor
+        imageView.layer.shadowColor = shadowColor.cgColor
         imageView.layer.shadowOffset = .zero
     }
     
