@@ -300,7 +300,7 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                   "shadowOffsetY": 0,
                   "shadowBlur": 0,
                   "shadowBlurStyle": "",
-                  "shadowColor": ""
+                  "shadowColor": "",
                   "imageStr": ""
                 }
                 """

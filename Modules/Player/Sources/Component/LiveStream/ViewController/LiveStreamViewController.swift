@@ -305,22 +305,7 @@ final class LiveStreamViewController: SLViewController {
         if let closeButtonConfig = viewModel.getInAppPipConfiguration()?.closeButtonConfig {
             updateCloseButtonConfig(closeButtonConfig)
         } else {
-            updateCloseButtonConfig(
-                ShopLiveCloseButtonConfig(
-                    position: .topLeft,
-                    width: 30,
-                    height: 30,
-                    offsetX: 3,
-                    offsetY: 3,
-                    color: .white,
-                    shadowOffsetX: nil,
-                    shadowOffsetY: nil,
-                    shadowBlur: nil,
-                    shadowBlurStyle: nil,
-                    shadowColor: nil,
-                    imageStr: nil
-                )
-            )
+            updateCloseButtonConfig(ShopLiveCloseButtonConfig())
         }
         
         self.view.bringSubviewToFront(inAppPipView)
@@ -629,9 +614,14 @@ final class LiveStreamViewController: SLViewController {
             return
         }
         
-        URLSession.shared.dataTask(with: imageUrl) { [weak self] data, _, _ in
+        URLSession.shared.dataTask(with: imageUrl) { [weak self] data, _, error in
             DispatchQueue.main.async {
                 guard let self else { return }
+                
+                if let error {
+                    self.applyCloseButtonImage(ShopLiveSDKAsset.closebutton.image, config: config, targetSize: targetSize)
+                    return
+                }
                 
                 if let data = data, let image = UIImage(data: data) {
                     self.applyCloseButtonImage(image, config: config, targetSize: targetSize)
@@ -657,30 +647,37 @@ final class LiveStreamViewController: SLViewController {
         let shadowBlur = config.shadowBlur ?? 0
         let shadowBlurStyle = config.shadowBlurStyle ?? .normal
         let shadowColor = config.shadowColor ?? .clear
-        let targetImage = self.imageWithBlurMask(image: image, style: shadowBlurStyle, color: shadowColor) ?? UIImage()
         
-        let copiedImageView = UIImageView(image: targetImage)
-        copiedImageView.translatesAutoresizingMaskIntoConstraints = false
-        copiedImageView.contentMode = .scaleAspectFit
-        copiedImageView.tintColor = shadowColor
-        copiedImageView.backgroundColor = .clear
-        superview.insertSubview(copiedImageView, belowSubview: closeButton)
-        
-        copiedImageView.layer.masksToBounds = false
-        copiedImageView.clipsToBounds = false
-        
-        let constraints = [
-            copiedImageView.topAnchor.constraint(equalTo: closeButton.topAnchor, constant: config.shadowOffsetY ?? 0),
-            copiedImageView.leadingAnchor.constraint(equalTo: closeButton.leadingAnchor, constant: config.shadowOffsetX ?? 0),
-            copiedImageView.widthAnchor.constraint(equalTo: closeButton.widthAnchor),
-            copiedImageView.heightAnchor.constraint(equalTo: closeButton.heightAnchor)
-        ]
-        NSLayoutConstraint.activate(constraints)
-        closeButtonBlurViewConstraints = constraints
-        
-        configureShadowLayer(for: copiedImageView, config: config, shadowBlur: shadowBlur, shadowColor: shadowColor)
-        closeButtonBlurView = copiedImageView
-        scheduleShadowPathUpdate(for: copiedImageView, config: config)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+            let targetImage = self.imageWithBlurMask(image: image, style: shadowBlurStyle, color: shadowColor) ?? UIImage()
+            
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                let copiedImageView = UIImageView(image: targetImage)
+                copiedImageView.translatesAutoresizingMaskIntoConstraints = false
+                copiedImageView.contentMode = .scaleAspectFit
+                copiedImageView.tintColor = shadowColor
+                copiedImageView.backgroundColor = .clear
+                superview.insertSubview(copiedImageView, belowSubview: self.closeButton)
+                
+                copiedImageView.layer.masksToBounds = false
+                copiedImageView.clipsToBounds = false
+                
+                let constraints = [
+                    copiedImageView.topAnchor.constraint(equalTo: self.closeButton.topAnchor, constant: config.shadowOffsetY ?? 0),
+                    copiedImageView.leadingAnchor.constraint(equalTo: self.closeButton.leadingAnchor, constant: config.shadowOffsetX ?? 0),
+                    copiedImageView.widthAnchor.constraint(equalTo: self.closeButton.widthAnchor),
+                    copiedImageView.heightAnchor.constraint(equalTo: self.closeButton.heightAnchor)
+                ]
+                NSLayoutConstraint.activate(constraints)
+                self.closeButtonBlurViewConstraints = constraints
+                
+                self.configureShadowLayer(for: copiedImageView, config: config, shadowBlur: shadowBlur, shadowColor: shadowColor)
+                self.closeButtonBlurView = copiedImageView
+                self.scheduleShadowPathUpdate(for: copiedImageView, config: config)
+            }
+        }
     }
     
     // MARK: - Shadow Configuration
@@ -698,21 +695,18 @@ final class LiveStreamViewController: SLViewController {
     
     private func scheduleShadowPathUpdate(for imageView: UIImageView, config: ShopLiveCloseButtonConfig) {
         imageView.layer.shadowPath = nil
+        guard imageView.superview != nil else { return }
         
-        DispatchQueue.main.async { [weak imageView] in
-            guard let imageView = imageView, imageView.superview != nil else { return }
-            
-            let width = config.width ?? imageView.bounds.width
-            let height = config.height ?? imageView.bounds.height
-            guard width > 0, height > 0 else { return }
-            
-            let cornerRadius = min(width, height) / 2
-            let shadowRect = CGRect(x: 0, y: 0, width: width, height: height)
-            imageView.layer.shadowPath = UIBezierPath(
-                roundedRect: shadowRect,
-                cornerRadius: cornerRadius
-            ).cgPath
-        }
+        let width = config.width ?? imageView.bounds.width
+        let height = config.height ?? imageView.bounds.height
+        guard width > 0, height > 0 else { return }
+        
+        let cornerRadius = min(width, height) / 2
+        let shadowRect = CGRect(x: 0, y: 0, width: width, height: height)
+        imageView.layer.shadowPath = UIBezierPath(
+            roundedRect: shadowRect,
+            cornerRadius: cornerRadius
+        ).cgPath
     }
     
     private func updateCloseButtonConstraints(config: ShopLiveCloseButtonConfig? = nil) {

@@ -215,7 +215,7 @@ import UIKit
         
         // color 형식 검사 (선택사항)
         if let colorStr = dict["color"] as? String {
-            if !colorStr.hasPrefix("#") || (colorStr.count != 7 && colorStr.count != 9) {
+            if !colorStr.isEmpty && (!colorStr.hasPrefix("#") || (colorStr.count != 7 && colorStr.count != 9)) {
                 return (false, "color는 '#RRGGBB' 또는 '#RRGGBBAA' 형식이어야 합니다.")
             }
         }
