@@ -58,8 +58,8 @@ final class LiveStreamViewModel: NSObject {
     private var liveKeepUpTimerPreviousCurrentTime: Double?
     private var liveKeepUpSeekOccured: Bool = false
     
-    private var inAppPipConfiguration: ShopLiveInAppPipConfiguration?
-    private var lastPipPosition: ShopLive.PipPosition?
+    private(set) var inAppPipConfiguration: ShopLiveInAppPipConfiguration?
+    private(set) var lastPipPosition: ShopLive.PipPosition?
     private var isWebViewDidCompleteLoading: Bool = false
     var isAlreadyPlayedOnce: Bool = false
     private var osPipFailedErrorHasOccured: Bool = false

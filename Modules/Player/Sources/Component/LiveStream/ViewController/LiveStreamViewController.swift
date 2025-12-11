@@ -593,38 +593,34 @@ final class LiveStreamViewController: SLViewController {
         hostVC.present(activityViewController, animated: true, completion: nil)
     }
     
-    func updateCloseButtonConfig(_ config: ShopLiveCloseButtonConfig?) {
-        guard let config else {
-            updateCloseButtonConstraints()
-            return
-        }
+    func updateCloseButtonConfig(_ config: ShopLiveCloseButtonConfig) {
         updateCloseButtonConstraints(config: config)
         
-        let width = (config.width ?? 30) > 0 ? (config.width ?? 30) : 30
-        let height = (config.height ?? 30) > 0 ? (config.height ?? 30) : 30
-        let targetSize = CGSize(width: width, height: height)
+        if let width = config.width, width > 0,
+           let height = config.height, height > 0 {
+            let targetSize = CGSize(width: width, height: height)
+            loadAndApplyCloseButtonImageWithShadow(config: config, targetSize: targetSize)
+        }
         
-        loadAndApplyCloseButtonImageWithShadow(config: config, targetSize: targetSize)
-        closeButton.tintColor = config.color
+        if let color = config.color {
+            closeButton.tintColor = color
+        }
     }
     
     private func loadAndApplyCloseButtonImageWithShadow(config: ShopLiveCloseButtonConfig, targetSize: CGSize) {
-        guard let imageStr = config.imageStr, !imageStr.isEmpty, let imageUrl = URL(string: imageStr) else {
+        guard let imageStr = config.imageStr,
+                !imageStr.isEmpty,
+                let imageUrl = URL(string: imageStr)
+        else {
             applyCloseButtonImage(ShopLiveSDKAsset.closebutton.image, config: config, targetSize: targetSize)
             return
         }
         
         ImageDownLoaderManager.shared.download(imageUrl: imageUrl) { [weak self] result in
             guard let self else { return }
-            
-            switch result {
-            case .success(let data):
-                if let image = UIImage(data: data) {
-                    self.applyCloseButtonImage(image, config: config, targetSize: targetSize)
-                } else {
-                    self.applyCloseButtonImage(ShopLiveSDKAsset.closebutton.image, config: config, targetSize: targetSize)
-                }
-            case .failure:
+            if case let .success(data) = result, let image = UIImage(data: data) {
+                self.applyCloseButtonImage(image, config: config, targetSize: targetSize)
+            } else {
                 self.applyCloseButtonImage(ShopLiveSDKAsset.closebutton.image, config: config, targetSize: targetSize)
             }
         }
@@ -707,27 +703,26 @@ final class LiveStreamViewController: SLViewController {
         ).cgPath
     }
     
-    private func updateCloseButtonConstraints(config: ShopLiveCloseButtonConfig? = nil) {
+    private func updateCloseButtonConstraints(config: ShopLiveCloseButtonConfig) {
         if !closeButtonConstraints.isEmpty {
             NSLayoutConstraint.deactivate(closeButtonConstraints)
             closeButtonConstraints.removeAll()
         }
         
-        let defaultConfig = ShopLiveCloseButtonConfig()
-        let position = config?.position ?? defaultConfig.position ?? .topLeft
-        let offsetX = config?.offsetX ?? defaultConfig.offsetX ?? 0
-        let offsetY = config?.offsetY ?? defaultConfig.offsetY ?? 0
-        let width = config?.width ?? defaultConfig.width ?? 36
-        let height = config?.height ?? defaultConfig.height ?? 36
+        let position = config.position ?? .topLeft
+        let width = (config.width ?? 30) > 0 ? (config.width ?? 30) : 30
+        let height = (config.height ?? 30) > 0 ? (config.height ?? 30) : 30
+        let offsetX = config.offsetX ?? 3
+        let offsetY = config.offsetY ?? 3
         
         var constraints: [NSLayoutConstraint] = []
         
         switch position {
         case .topLeft:
-            constraints.append(closeButton.leadingAnchor.constraint(equalTo: inAppPipView.leadingAnchor, constant: offsetX))
+            constraints.append(closeButton.leftAnchor.constraint(equalTo: inAppPipView.leftAnchor, constant: offsetX))
             constraints.append(closeButton.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: offsetY))
         case .topRight:
-            constraints.append(closeButton.trailingAnchor.constraint(equalTo: inAppPipView.trailingAnchor, constant: offsetX))
+            constraints.append(closeButton.rightAnchor.constraint(equalTo: inAppPipView.rightAnchor, constant: offsetX))
             constraints.append(closeButton.topAnchor.constraint(equalTo: inAppPipView.topAnchor, constant: offsetY))
         }
         
