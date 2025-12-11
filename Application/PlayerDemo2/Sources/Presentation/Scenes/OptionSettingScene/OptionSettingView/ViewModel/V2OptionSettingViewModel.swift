@@ -137,18 +137,18 @@ extension OptionSettingViewModel : OptionTableViewAdapterDelegate, OptionTableVi
     }
     
     private func handlePipPositionDropBoxAction(cell : UITableViewCell, indexPath : IndexPath) {
-        let source = ["topLeft", "topRight", "bottomLeft","bottomRight"]
+        let source = ["TOP_LEFT", "TOP_RIGHT", "BOTTOM_LEFT","BOTTOM_RIGHT"]
         
         delegate?.showDropDown(with: source, indexPath: indexPath, cell: cell, completion: { [weak self] text, index in
             var newValue : ShopLive.PipPosition = .bottomRight
             switch text {
-            case "topLeft":
+            case "TOP_LEFT":
                 newValue = .topLeft
-            case "topRight":
+            case "TOP_RIGHT":
                 newValue = .topRight
-            case "bottomLeft":
+            case "BOTTOM_LEFT":
                 newValue = .bottomLeft
-            case "bottomRight":
+            case "BOTTOM_RIGHT":
                 newValue = .bottomRight
             default:
                 newValue = .bottomRight

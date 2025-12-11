@@ -53,4 +53,49 @@ public extension UIColor {
                   blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
                   alpha: alpha)
     }
+    
+    /// UIColor를 헥스 문자열로 변환 - Returns: #RRGGBB 또는 #RRGGBBAA 형식의 문자열
+    func toHexString() -> String {
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        
+        let rgb: Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
+        
+        if a < 1.0 {
+            return String(format: "#%06x%02x", rgb, Int(a*255))
+        } else {
+            return String(format: "#%06x", rgb)
+        }
+    }
+    
+    /// 헥스 문자열로부터 UIColor를 생성  - Parameter hexString: #RRGGBB 또는 #RRGGBBAA 형식의 헥스 문자열
+    convenience init?(hexString: String) {
+        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        
+        guard Scanner(string: hex).scanHexInt64(&int) else {
+            return nil
+        }
+        
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 6: // RGB (24-bit)
+            (r, g, b, a) = (int >> 16, int >> 8 & 0xFF, int & 0xFF, 255)
+        case 8: // RGBA (32-bit)
+            (r, g, b, a) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            return nil
+        }
+        
+        self.init(
+            red: CGFloat(r) / 255,
+            green: CGFloat(g) / 255,
+            blue: CGFloat(b) / 255,
+            alpha: CGFloat(a) / 255
+        )
+    }
 }
