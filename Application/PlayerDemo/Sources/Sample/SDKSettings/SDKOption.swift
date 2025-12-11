@@ -63,6 +63,7 @@ enum SDKOptionType: String, CaseIterable {
     case enableOSPip
     case resizeMode
     case isEnabledVolumeKey
+    case closeButtonConfig
 
     
     enum SettingType: Int {
@@ -74,7 +75,7 @@ enum SDKOptionType: String, CaseIterable {
 
     var settingType: SettingType {
         switch self {
-        case .shareScheme, .progressColor, .pipScale, .maxPipSize, .fixedHeightPipSize, .fixedWidthPipSize, .pipCornerRadius:
+        case .shareScheme, .progressColor, .pipScale, .maxPipSize, .fixedHeightPipSize, .fixedWidthPipSize, .pipCornerRadius, .closeButtonConfig:
             return .showAlert
         case .pipPosition, .nextActionOnHandleNavigation:
             return .dropdown

@@ -303,12 +303,17 @@ class MainViewController: SideMenuBaseViewController {
             pipSize = .init(pipFixedWidth: DemoConfiguration.shared.fixedWidthPipSize ?? 100)
         }
         
-        let inAppPipConfig = ShopLiveInAppPipConfiguration(useCloseButton: DemoConfiguration.shared.useCloseButton,
-                                                           pipPosition: config.pipPosition,
-                                                           enableSwipeOut: config.pipEnableSwipeOut,
-                                                           pipSize: pipSize,
-                                                           pipRadius: DemoConfiguration.shared.pipCornerRadius ?? 10,
-                                                           pipPinPositions: DemoConfiguration.shared.pipPinPosition)
+        let closeButtonConfig = DemoConfiguration.shared.closeButtonConfig
+        
+        let inAppPipConfig = ShopLiveInAppPipConfiguration(
+            useCloseButton: DemoConfiguration.shared.useCloseButton,
+            pipPosition: config.pipPosition,
+            enableSwipeOut: config.pipEnableSwipeOut,
+            pipSize: pipSize,
+            pipRadius: DemoConfiguration.shared.pipCornerRadius ?? 10,
+            pipPinPositions: DemoConfiguration.shared.pipPinPosition,
+            closeButtonConfig: closeButtonConfig
+        )
         
         ShopLive.setInAppPipConfiguration(config: inAppPipConfig)
         

@@ -110,10 +110,10 @@
 "sdkoption.preview.enableSound.description" = "Preview 에서 음소거를 설정합니다. (기본은 사용)";
 
 "sdkoption.pipPosition.title" = "PIP 위치";
-"sdkoption.pipPosition.description" = "PIP 모드가 시작될 때 위치입니다. (기본은 bottomRight)";
+"sdkoption.pipPosition.description" = "PIP 모드가 시작될 때 위치입니다. (기본은 BOTTOM_RIGHT)";
 
 "sdkoption.pinPosition.title" = "PIP 핀 옵션";
-"sdkoption.pinPosition.description" = "PIP가 고정될 수 있는 지점을 설정합니다. (초기값  [topLeft, topRight, bottomLeft, bottomRight])";
+"sdkoption.pinPosition.description" = "PIP가 고정될 수 있는 지점을 설정합니다. (초기값  [TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT])";
 
 "sdkoption.pipScale.title" = "PIP Scale";
 "sdkoption.pipScale.description" = "PIP 모드 화면의 Scale입니다.\n화면 width 기준으로 scale 된 사이즈 (0 ~ 1 사이의 값) 또는 최소, 최대 제한 사이즈가 있고, 그 사이의 비율에 맞춘 scale 사이즈(1 ~. 100 사이의 값) 으로 표시 기본값(0.4)\n ";

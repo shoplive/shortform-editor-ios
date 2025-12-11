@@ -41,8 +41,17 @@ import UIKit
     public var enableSwipeOut: Bool?
     public var pipSize: ShopLiveInAppPipSize?
     public var pipRadius: CGFloat = 10
+    public var closeButtonConfig: ShopLiveCloseButtonConfig?
 
-    public init(useCloseButton: Bool? = nil, pipPosition: ShopLive.PipPosition? = nil, enableSwipeOut: Bool? = nil, pipSize: ShopLiveInAppPipSize? = nil,pipRadius: CGFloat = 10, pipPinPositions: [ShopLive.PipPosition]? = nil) {
+    public init(
+        useCloseButton: Bool? = nil,
+        pipPosition: ShopLive.PipPosition? = nil,
+        enableSwipeOut: Bool? = nil,
+        pipSize: ShopLiveInAppPipSize? = nil,
+        pipRadius: CGFloat = 10,
+        pipPinPositions: [ShopLive.PipPosition]? = nil,
+        closeButtonConfig: ShopLiveCloseButtonConfig? = nil
+    ) {
         self.useCloseButton = useCloseButton
         self.pipPosition = pipPosition
         self.enableSwipeOut = enableSwipeOut
@@ -54,5 +63,6 @@ import UIKit
         else {
             self.pipPinPositions = [.topLeft,.topRight,.bottomLeft,.bottomRight]
         }
+        self.closeButtonConfig = closeButtonConfig
     }
 }
