@@ -59,7 +59,7 @@ public class ImageDownLoaderManager {
             }
         }
         
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global().async {
             task.resume()
         }
     }
@@ -90,7 +90,7 @@ public class ImageDownLoaderManager {
             }
         }
         
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global().async {
             task.resume()
         }
     }

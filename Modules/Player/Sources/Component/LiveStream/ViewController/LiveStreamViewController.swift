@@ -614,22 +614,20 @@ final class LiveStreamViewController: SLViewController {
             return
         }
         
-        URLSession.shared.dataTask(with: imageUrl) { [weak self] data, _, error in
-            DispatchQueue.main.async {
-                guard let self else { return }
-                
-                if let error {
-                    self.applyCloseButtonImage(ShopLiveSDKAsset.closebutton.image, config: config, targetSize: targetSize)
-                    return
-                }
-                
-                if let data = data, let image = UIImage(data: data) {
+        ImageDownLoaderManager.shared.download(imageUrl: imageUrl) { [weak self] result in
+            guard let self else { return }
+            
+            switch result {
+            case .success(let data):
+                if let image = UIImage(data: data) {
                     self.applyCloseButtonImage(image, config: config, targetSize: targetSize)
                 } else {
                     self.applyCloseButtonImage(ShopLiveSDKAsset.closebutton.image, config: config, targetSize: targetSize)
                 }
+            case .failure:
+                self.applyCloseButtonImage(ShopLiveSDKAsset.closebutton.image, config: config, targetSize: targetSize)
             }
-        }.resume()
+        }
     }
     
     private func applyCloseButtonImage(_ image: UIImage, config: ShopLiveCloseButtonConfig, targetSize: CGSize) {
