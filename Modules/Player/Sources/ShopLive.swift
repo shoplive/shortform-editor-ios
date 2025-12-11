@@ -143,26 +143,26 @@ extension ShopLive {
         public var name: String {
             switch self {
             case .default, .bottomRight:
-                return "bottomRight"
+                return "BOTTOM_RIGHT"
             case .bottomLeft:
-                return "bottomLeft"
+                return "BOTTOM_LEFT"
             case .bottomCenter:
-                return "bottomCenter"
+                return "BOTTOM_CENTER"
             case .topLeft:
-                return "topLeft"
+                return "TOP_LEFT"
             case .topRight:
-                return "topRight"
+                return "TOP_RIGHT"
             case .topCenter:
-                return "topCenter"
+                return "TOP_CENTER"
             case .middleLeft:
-                return "middleLeft"
+                return "MIDDLE_LEFT"
             case .middleCenter:
-                return "middleCenter"
+                return "MIDDLE_CENTER"
             case .middleRight:
-                return "middleRight"
+                return "MIDDLE_RIGHT"
             
             default:
-                return "bottomRight"
+                return "BOTTOM_RIGHT"
             }
         }
     }

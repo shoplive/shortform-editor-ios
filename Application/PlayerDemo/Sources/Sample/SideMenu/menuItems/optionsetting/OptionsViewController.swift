@@ -346,16 +346,16 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 break
             case .pipPosition:
-                dropdown.optionArray = ["topLeft", "topRight", "bottomLeft","bottomRight"]
+                dropdown.optionArray = ["TOP_LEFT", "TOP_RIGHT", "BOTTOM_LEFT", "BOTTOM_RIGHT"]
                 dropdown.didSelect { [weak self] selectedText, index, id in
                     switch selectedText {
-                    case "topLeft":
+                    case "TOP_LEFT":
                         DemoConfiguration.shared.pipPosition = .topLeft
-                    case "topRight":
+                    case "TOP_RIGHT":
                         DemoConfiguration.shared.pipPosition = .topRight
-                    case "bottomLeft":
+                    case "BOTTOM_LEFT":
                         DemoConfiguration.shared.pipPosition = .bottomLeft
-                    case "bottomRight":
+                    case "BOTTOM_RIGHT":
                         DemoConfiguration.shared.pipPosition = .bottomRight
                     default:
                         DemoConfiguration.shared.pipPosition = .bottomRight

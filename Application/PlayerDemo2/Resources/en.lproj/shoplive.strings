@@ -109,10 +109,10 @@
 "sdkoption.preview.enableSound.description" = "Set whether to mute in Preview. (Default is true)";
 
 "sdkoption.pipPosition.title" = "PIP Position";
-"sdkoption.pipPosition.description" = "Position of PIP mode when it starts. (default is bottomRight)";
+"sdkoption.pipPosition.description" = "Position of PIP mode when it starts. (default is BOTTOM_RIGHT)";
 
 "sdkoption.pinPosition.title" = "PIP Pin Position";
-"sdkoption.pinPosition.description" = "Position of where PIP can be pinned. (default is [topLeft, topRight, bottomLeft, bottomRight])";
+"sdkoption.pinPosition.description" = "Position of where PIP can be pinned. (default is [TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT])";
 
 
 "sdkoption.pipScale.title" = "PIP Scale";
