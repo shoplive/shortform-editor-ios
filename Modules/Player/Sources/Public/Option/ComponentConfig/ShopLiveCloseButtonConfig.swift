@@ -7,13 +7,20 @@
 //
 
 import UIKit
+import ShopliveSDKCommon
 
+/// 블러 마스크 스타일을 정의하는 열거형
 @objc public enum ShopLiveBlurMaskStyle: Int {
+    /// 일반 블러 효과
     case normal = 0
+    /// 솔리드 블러 효과
     case solid = 1
+    /// 내부 블러 효과
     case inner = 2
+    /// 외부 블러 효과
     case outer = 3
     
+    /// 스타일을 문자열로 변환
     public var stringValue: String {
         switch self {
         case .normal: return "NORMAL"
@@ -23,6 +30,7 @@ import UIKit
         }
     }
     
+    /// 문자열로부터 블러 마스크 스타일을 생성
     public static func from(string: String) -> ShopLiveBlurMaskStyle? {
         switch string {
         case "NORMAL": return .normal
@@ -34,20 +42,49 @@ import UIKit
     }
 }
 
+///
+///
+/// Close 버튼의 외형과 위치를 커스터마이징하기 위한 설정 클래스 - Preview 모드의 Close 버튼의 위치, 크기, 색상, 그림자 효과 등을 설정할 수 있습니다.
 @objc public class ShopLiveCloseButtonConfig: NSObject {
+    /// Close 버튼의 위치 (.topLeft 또는 .topRight)
     public var position: ShopLive.PreviewCloseButtonPositionConfig?
+    /// 버튼의 너비 (기본값: 30)
     public var width: CGFloat?
+    /// 버튼의 높이 (기본값: 30)
     public var height: CGFloat?
+    /// 버튼의 X축 오프셋 (기본값: 3)
     public var offsetX: CGFloat?
+    /// 버튼의 Y축 오프셋 (기본값: 3)
     public var offsetY: CGFloat?
+    /// 버튼의 색상 (기본값: .white)
     public var color: UIColor?
+    /// 그림자의 X축 오프셋
     public var shadowOffsetX: CGFloat?
+    /// 그림자의 Y축 오프셋
     public var shadowOffsetY: CGFloat?
+    /// 그림자의 블러 반경
     public var shadowBlur: CGFloat?
+    /// 그림자의 블러 스타일
     public var shadowBlurStyle: ShopLiveBlurMaskStyle?
+    /// 그림자의 색상
     public var shadowColor: UIColor?
+    /// 커스텀 이미지 URL 문자열
     public var imageStr: String?
     
+    /// ShopLiveCloseButtonConfig 초기화
+    /// - Parameters:
+    ///   - position: Close 버튼의 위치 (기본값: .topLeft)
+    ///   - width: 버튼의 너비 (기본값: 30)
+    ///   - height: 버튼의 높이 (기본값: 30)
+    ///   - offsetX: 버튼의 X축 오프셋 (기본값: 3)
+    ///   - offsetY: 버튼의 Y축 오프셋 (기본값: 3)
+    ///   - color: 버튼의 색상 (기본값: .white)
+    ///   - shadowOffsetX: 그림자의 X축 오프셋
+    ///   - shadowOffsetY: 그림자의 Y축 오프셋
+    ///   - shadowBlur: 그림자의 블러 반경
+    ///   - shadowBlurStyle: 그림자의 블러 스타일
+    ///   - shadowColor: 그림자의 색상
+    ///   - imageStr: 커스텀 이미지 URL 문자열
     public init(
         position: ShopLive.PreviewCloseButtonPositionConfig? = .topLeft,
         width: CGFloat? = 30,
@@ -79,7 +116,7 @@ import UIKit
     
     // MARK: - JSON Conversion
     
-    /// Convert ShopLiveCloseButtonConfig to JSON string
+    /// ShopLiveCloseButtonConfig를 JSON 문자열로 변환
     public func toJSON() -> String {
         var dict: [String: Any] = [:]
         
@@ -127,7 +164,7 @@ import UIKit
         return jsonString
     }
     
-    /// Create ShopLiveCloseButtonConfig from JSON string
+    /// JSON 문자열로부터 ShopLiveCloseButtonConfig를 생성
     public static func fromJSON(_ jsonString: String) -> ShopLiveCloseButtonConfig? {
         guard let jsonData = jsonString.data(using: .utf8),
               let dict = try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any] else {
@@ -136,43 +173,33 @@ import UIKit
         
         return ShopLiveCloseButtonConfig(
             position: parsePosition(from: dict["position"]),
-            width: parseCGFloat(from: dict["width"]),
-            height: parseCGFloat(from: dict["height"]),
-            offsetX: parseCGFloat(from: dict["offsetX"]),
-            offsetY: parseCGFloat(from: dict["offsetY"]),
-            color: parseColor(from: dict["color"]),
-            shadowOffsetX: parseCGFloat(from: dict["shadowOffsetX"]),
-            shadowOffsetY: parseCGFloat(from: dict["shadowOffsetY"]),
-            shadowBlur: parseCGFloat(from: dict["shadowBlur"]),
+            width: SLJSONUtil.parseCGFloat(from: dict["width"]),
+            height: SLJSONUtil.parseCGFloat(from: dict["height"]),
+            offsetX: SLJSONUtil.parseCGFloat(from: dict["offsetX"]),
+            offsetY: SLJSONUtil.parseCGFloat(from: dict["offsetY"]),
+            color: SLJSONUtil.parseColor(from: dict["color"]),
+            shadowOffsetX: SLJSONUtil.parseCGFloat(from: dict["shadowOffsetX"]),
+            shadowOffsetY: SLJSONUtil.parseCGFloat(from: dict["shadowOffsetY"]),
+            shadowBlur: SLJSONUtil.parseCGFloat(from: dict["shadowBlur"]),
             shadowBlurStyle: parseBlurStyle(from: dict["shadowBlurStyle"]),
-            shadowColor: parseColor(from: dict["shadowColor"]),
-            imageStr: parseString(from: dict["imageStr"])
+            shadowColor: SLJSONUtil.parseColor(from: dict["shadowColor"]),
+            imageStr: SLJSONUtil.parseString(from: dict["imageStr"])
         )
     }
     
     // MARK: - JSON Parsing Helpers
     
+    /// JSON에서 position 값을 파싱
     private static func parsePosition(from value: Any?) -> ShopLive.PreviewCloseButtonPositionConfig? {
         guard let positionStr = value as? String else { return nil }
         switch positionStr {
-        case "TOP_LEFT": return .topLeft
-        case "TOP_RIGHT": return .topRight
+        case ShopLive.PreviewCloseButtonPositionConfig.topLeft.name: return .topLeft
+        case ShopLive.PreviewCloseButtonPositionConfig.topRight.name: return .topRight
         default: return nil
         }
     }
     
-    private static func parseCGFloat(from value: Any?) -> CGFloat? {
-        if let number = value as? NSNumber {
-            return CGFloat(number.doubleValue)
-        }
-        return nil
-    }
-    
-    private static func parseColor(from value: Any?) -> UIColor? {
-        guard let colorStr = value as? String, !colorStr.isEmpty else { return nil }
-        return UIColor(hexString: colorStr)
-    }
-    
+    /// JSON에서 ShopLiveBlurMaskStyle 값을 파싱
     private static func parseBlurStyle(from value: Any?) -> ShopLiveBlurMaskStyle? {
         if let styleInt = value as? Int {
             return ShopLiveBlurMaskStyle(rawValue: styleInt)
@@ -182,12 +209,7 @@ import UIKit
         return nil
     }
     
-    private static func parseString(from value: Any?) -> String? {
-        guard let str = value as? String, !str.isEmpty else { return nil }
-        return str
-    }
-    
-    /// Validate JSON string format
+    /// 데모앱 JSON 문자열 형식을 검증
     public static func validateJSON(_ jsonString: String) -> (isValid: Bool, errorMessage: String?) {
         // JSON 형식 검사
         guard let jsonData = jsonString.data(using: .utf8),
@@ -248,51 +270,5 @@ import UIKit
         }
         
         return (true, nil)
-    }
-}
-
-// MARK: - UIColor Extension for Hex Conversion
-extension UIColor {
-    func toHexString() -> String {
-        var r: CGFloat = 0
-        var g: CGFloat = 0
-        var b: CGFloat = 0
-        var a: CGFloat = 0
-        
-        getRed(&r, green: &g, blue: &b, alpha: &a)
-        
-        let rgb: Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
-        
-        if a < 1.0 {
-            return String(format: "#%06x%02x", rgb, Int(a*255))
-        } else {
-            return String(format: "#%06x", rgb)
-        }
-    }
-    
-    convenience init?(hexString: String) {
-        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int: UInt64 = 0
-        
-        guard Scanner(string: hex).scanHexInt64(&int) else {
-            return nil
-        }
-        
-        let a, r, g, b: UInt64
-        switch hex.count {
-        case 6: // RGB (24-bit)
-            (r, g, b, a) = (int >> 16, int >> 8 & 0xFF, int & 0xFF, 255)
-        case 8: // RGBA (32-bit)
-            (r, g, b, a) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
-        default:
-            return nil
-        }
-        
-        self.init(
-            red: CGFloat(r) / 255,
-            green: CGFloat(g) / 255,
-            blue: CGFloat(b) / 255,
-            alpha: CGFloat(a) / 255
-        )
     }
 }
