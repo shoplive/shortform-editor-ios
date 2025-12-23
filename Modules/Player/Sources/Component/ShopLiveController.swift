@@ -184,40 +184,20 @@ final class ShopLiveController: NSObject {
     lazy var videoRatio: CGSize = videoOrientation == .landscape ? CGSize(width: 16, height: 9): CGSize(width: 9, height: 16)
     var videoFrame: (portrait: CGRect?, landscape: (expanded: CGRect?, standard: CGRect?)) = (portrait: nil, landscape: (expanded: nil, standard: nil))
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        guard let keyPath = keyPath, let key = ShopLivePlayerObserveValue(rawValue: keyPath), let _ = change?[.newKey] else { return }
-        switch key {
-        case .loadedTimeRanges:
-            if let loadedTimeRanges = change?[.newKey] as? [NSValue], let timeRange = loadedTimeRanges.last as? CMTimeRange {
-                let timeLoaded = Int(timeRange.duration.value) / Int(timeRange.duration.timescale)
-                if timeLoaded >= 4 && ShopLiveController.timeControlStatus == .waitingToPlayAtSpecifiedRate && ShopLiveController.playControl != .play {
-                    ShopLiveController.playControl = .play
-                }
-            }
-            break
-        case .playControl, .timeControlStatus, .videoUrl, .isPlayable, .isHiddenOverlay, .overlayUrl, .releasePlayer:
-            postPlayerObservers(key: key)
-            break
-        case .playerItemStatus:
-            postPlayerObservers(key: key)
-            break
-        case .retryPlay:
-            if let old: Bool = change?[.oldKey] as? Bool, let new: Bool = change?[.newKey] as? Bool {
-                if old != new {
-                    guard let videoUrl = ShopLiveController.streamUrl, !videoUrl.absoluteString.isEmpty && videoUrl.absoluteString != "null" else {
-                        // 
-                        return
-                    }
-                    postPlayerObservers(key: key)
-                }
-            } else {
-                postPlayerObservers(key: key)
-            }
-            break
-        default:
-            break
-        }
-    }
+    private var videoUrlObservation: NSKeyValueObservation?
+    private var urlAssetObservation: NSKeyValueObservation?
+    private var isPlayableObservation: NSKeyValueObservation?
+    private var playerItemObservation: NSKeyValueObservation?
+    private var playerItemStatusObservation: NSKeyValueObservation?
+    private var playerObservation: NSKeyValueObservation?
+    private var timeControlStatusObservation: NSKeyValueObservation?
+    private var currentItemObservation: NSKeyValueObservation?
+    private var loadedTimeRangesObservation: NSKeyValueObservation?
+    private var isHiddenOverlayObservation: NSKeyValueObservation?
+    private var overlayUrlObservation: NSKeyValueObservation?
+    private var playControlObservation: NSKeyValueObservation?
+    private var retryPlayObservation: NSKeyValueObservation?
+    private var releasePlayerObservation: NSKeyValueObservation?
 
     func addPlayerDelegate(delegate: ShopLivePlayerDelegate) {
         guard self.playerDelegates.filter({ $0?.identifier == delegate.identifier }).isEmpty else { return }
@@ -250,11 +230,18 @@ final class ShopLiveController: NSObject {
         currentCampaignKey = ""
         isSameCampaign = false
         
+        let hasObservers = !playerDelegates.isEmpty
+        
         playItem = nil
         playItem = .init()
 
         playerItem = nil
         playerItem = .init()
+        
+        if hasObservers {
+            removePlayerObserver()
+            addPlayerObserver()
+        }
         
         hookNavigation = nil
         currentPlayTime = nil
@@ -344,30 +331,123 @@ final class ShopLiveController: NSObject {
 // MARK: ShopLive Player Section
 extension ShopLiveController {
     func addPlayerObserver() {
-        playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue, options: .new, context: nil)
-        playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlayable.rawValue, options: .new, context: nil)
-        playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.playerItemStatus.rawValue, options: .new, context: nil)
-        playerItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.timeControlStatus.rawValue, options: .new, context: nil)
-        playerItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.loadedTimeRanges.rawValue, options: .new, context: nil)
-        self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isHiddenOverlay.rawValue, options: [.initial, .new], context: nil)
-        self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.overlayUrl.rawValue, options: [.initial, .old, .new], context: nil)
-        self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.playControl.rawValue, options: .new, context: nil)
-        self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.retryPlay.rawValue, options: [.old, .new], context: nil)
-        self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.releasePlayer.rawValue, options: .new, context: nil)
+        if let playItem = playItem {
+            videoUrlObservation = playItem.observe(\.videoUrl, options: [.new]) { [weak self] _, _ in
+                self?.postPlayerObservers(key: .videoUrl)
+            }
+            
+            urlAssetObservation = playItem.observe(\.urlAsset, options: [.new, .initial]) { [weak self] playItem, _ in
+                if let urlAsset = playItem.urlAsset {
+                    self?.isPlayableObservation = urlAsset.observe(\.isPlayable, options: [.new]) { [weak self] _, _ in
+                        self?.postPlayerObservers(key: .isPlayable)
+                    }
+                }
+            }
+            
+            playerItemObservation = playItem.observe(\.playerItem, options: [.new, .initial]) { [weak self] playItem, _ in
+                if let playerItem = playItem.playerItem {
+                    self?.playerItemStatusObservation = playerItem.observe(\.status, options: [.new]) { [weak self] _, _ in
+                        self?.postPlayerObservers(key: .playerItemStatus)
+                    }
+                }
+            }
+        }
+        
+        if let playerItem = playerItem {
+            playerObservation = playerItem.observe(\.player, options: [.new, .initial]) { [weak self] playerItem, _ in
+                if let player = playerItem.player {
+                    self?.timeControlStatusObservation = player.observe(\.timeControlStatus, options: [.new]) { [weak self] _, _ in
+                        self?.postPlayerObservers(key: .timeControlStatus)
+                    }
+                    
+                    self?.currentItemObservation = player.observe(\.currentItem, options: [.new, .initial]) { [weak self] player, _ in
+                        guard let self else { return }
+                        if let currentItem = player.currentItem {
+                            self.loadedTimeRangesObservation = currentItem.observe(\.loadedTimeRanges, options: [.new]) { item, _ in
+                                guard let timeRange = item.loadedTimeRanges.last?.timeRangeValue else { return }
+                                let timeLoaded = Int(timeRange.duration.value) / Int(timeRange.duration.timescale)
+                                if timeLoaded >= 4 && ShopLiveController.timeControlStatus == .waitingToPlayAtSpecifiedRate && ShopLiveController.playControl != .play {
+                                    ShopLiveController.playControl = .play
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        isHiddenOverlayObservation = observe(\.isHiddenOverlay, options: [.initial, .new]) { [weak self] _, _ in
+            self?.postPlayerObservers(key: .isHiddenOverlay)
+        }
+        
+        overlayUrlObservation = observe(\.overlayUrl, options: [.initial, .old, .new]) { [weak self] _, _ in
+            self?.postPlayerObservers(key: .overlayUrl)
+        }
+        
+        playControlObservation = observe(\.playControl, options: [.new]) { [weak self] _, _ in
+            self?.postPlayerObservers(key: .playControl)
+        }
+        
+        retryPlayObservation = observe(\.retryPlay, options: [.old, .new]) { [weak self] _, change in
+            if let old: Bool = change.oldValue, let new: Bool = change.newValue {
+                if old != new {
+                    guard let videoUrl = ShopLiveController.streamUrl, !videoUrl.absoluteString.isEmpty else {
+                        return
+                    }
+                    self?.postPlayerObservers(key: .retryPlay)
+                }
+            } else {
+                self?.postPlayerObservers(key: .retryPlay)
+            }
+        }
+        
+        releasePlayerObservation = observe(\.releasePlayer, options: [.new]) { [weak self] _, _ in
+            self?.postPlayerObservers(key: .releasePlayer)
+        }
     }
 
     func removePlayerObserver() {
-        playItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue)
-        playItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlayable.rawValue)
-        playItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.playerItemStatus.rawValue)
-        playerItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.timeControlStatus.rawValue)
-        playerItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.loadedTimeRanges.rawValue)
+        videoUrlObservation?.invalidate()
+        videoUrlObservation = nil
         
-        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isHiddenOverlay.rawValue)
-        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.overlayUrl.rawValue)
-        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.playControl.rawValue)
-        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.retryPlay.rawValue)
-        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.releasePlayer.rawValue)
+        urlAssetObservation?.invalidate()
+        urlAssetObservation = nil
+        
+        isPlayableObservation?.invalidate()
+        isPlayableObservation = nil
+        
+        playerItemObservation?.invalidate()
+        playerItemObservation = nil
+        
+        playerItemStatusObservation?.invalidate()
+        playerItemStatusObservation = nil
+        
+        playerObservation?.invalidate()
+        playerObservation = nil
+        
+        timeControlStatusObservation?.invalidate()
+        timeControlStatusObservation = nil
+        
+        currentItemObservation?.invalidate()
+        currentItemObservation = nil
+        
+        loadedTimeRangesObservation?.invalidate()
+        loadedTimeRangesObservation = nil
+        
+        isHiddenOverlayObservation?.invalidate()
+        isHiddenOverlayObservation = nil
+        
+        overlayUrlObservation?.invalidate()
+        overlayUrlObservation = nil
+        
+        playControlObservation?.invalidate()
+        playControlObservation = nil
+        
+        retryPlayObservation?.invalidate()
+        retryPlayObservation = nil
+        
+        releasePlayerObservation?.invalidate()
+        releasePlayerObservation = nil
     }
 
     func postPlayerObservers(key: ShopLivePlayerObserveValue) {
