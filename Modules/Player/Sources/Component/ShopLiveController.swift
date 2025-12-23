@@ -545,7 +545,6 @@ extension ShopLiveController {
 
     static var playerItem: AVPlayerItem? {
         set {
-            shared.playItem?.playerItem = newValue
             if let videoOutput = shared.playItem?.videoOutput {
                 player?.currentItem?.remove(videoOutput)
                 shared.playItem?.videoOutput = nil
@@ -567,8 +566,10 @@ extension ShopLiveController {
                     playerItem.add(videoOutput)
                 }
                 
+                shared.playItem?.playerItem = playerItem
                 shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
             } else {
+                shared.playItem?.playerItem = nil
                 shared.playerItem?.player?.replaceCurrentItem(with: nil)
             }
         }

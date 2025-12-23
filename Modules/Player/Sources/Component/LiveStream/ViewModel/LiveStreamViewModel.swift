@@ -317,17 +317,12 @@ final class LiveStreamViewModel: NSObject {
         ShopLiveController.videoUrl = nil
         ShopLiveController.player?.currentItem?.asset.cancelLoading()
         ShopLiveController.player?.cancelPendingPrerolls()
-        ShopLiveController.player?.replaceCurrentItem(with: nil)
         ShopLiveController.playerItem = nil
         ShopLiveController.urlAsset = nil
         ShopLiveController.shared.playItem?.perfMeasurements = nil
         
         ShopLiveController.perfMeasurements?.playbackEnded()
         ShopLiveController.perfMeasurements = nil
-        
-        NotificationCenter.default.removeObserver(self, name: .TimebaseEffectiveRateChangedNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemPlaybackStalled, object: nil)
-        
         ShopLiveController.playControl = .none
     }
     
