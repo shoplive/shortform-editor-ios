@@ -82,7 +82,14 @@ final class ShopLiveController: NSObject {
         super.init()
     }
 
-    deinit { }
+    deinit {
+        if let timebaseRateChangedObservation = timebaseRateChangedNotificateObservation {
+            NotificationCenter.default.removeObserver(timebaseRateChangedObservation)
+        }
+        if let playbackStalledObservation = playbackStalledNotificateObservation {
+            NotificationCenter.default.removeObserver(playbackStalledObservation)
+        }
+    }
 
     var campaignKey: String {
         set {
@@ -198,6 +205,9 @@ final class ShopLiveController: NSObject {
     private var playControlObservation: NSKeyValueObservation?
     private var retryPlayObservation: NSKeyValueObservation?
     private var releasePlayerObservation: NSKeyValueObservation?
+    
+    private var timebaseRateChangedNotificateObservation: NSObjectProtocol?
+    private var playbackStalledNotificateObservation: NSObjectProtocol?
 
     func addPlayerDelegate(delegate: ShopLivePlayerDelegate) {
         guard self.playerDelegates.filter({ $0?.identifier == delegate.identifier }).isEmpty else { return }
@@ -337,6 +347,9 @@ extension ShopLiveController {
             }
             
             urlAssetObservation = playItem.observe(\.urlAsset, options: [.new, .initial]) { [weak self] playItem, _ in
+                self?.isPlayableObservation?.invalidate()
+                self?.isPlayableObservation = nil
+                
                 if let urlAsset = playItem.urlAsset {
                     self?.isPlayableObservation = urlAsset.observe(\.isPlayable, options: [.new]) { [weak self] _, _ in
                         self?.postPlayerObservers(key: .isPlayable)
@@ -345,9 +358,42 @@ extension ShopLiveController {
             }
             
             playerItemObservation = playItem.observe(\.playerItem, options: [.new, .initial]) { [weak self] playItem, _ in
+                self?.playerItemStatusObservation?.invalidate()
+                self?.playerItemStatusObservation = nil
+                
+                if let timebaseToken = self?.timebaseRateChangedNotificateObservation {
+                    NotificationCenter.default.removeObserver(timebaseToken)
+                    self?.timebaseRateChangedNotificateObservation = nil
+                }
+                if let stalledToken = self?.playbackStalledNotificateObservation {
+                    NotificationCenter.default.removeObserver(stalledToken)
+                    self?.playbackStalledNotificateObservation = nil
+                }
+                
                 if let playerItem = playItem.playerItem {
                     self?.playerItemStatusObservation = playerItem.observe(\.status, options: [.new]) { [weak self] _, _ in
                         self?.postPlayerObservers(key: .playerItemStatus)
+                    }
+                    
+                    self?.timebaseRateChangedNotificateObservation = NotificationCenter.default.addObserver(
+                        forName: .TimebaseEffectiveRateChangedNotification,
+                        object: playerItem.timebase,
+                        queue: nil
+                    ) { _ in
+                        guard let timebase = ShopLiveController.timebase else { return }
+                        let rate = CMTimebaseGetRate(timebase)
+                        ShopLiveController.perfMeasurements?.rateChanged(rate: rate)
+                    }
+                    
+                    self?.playbackStalledNotificateObservation = NotificationCenter.default.addObserver(
+                        forName: .AVPlayerItemPlaybackStalled,
+                        object: playerItem,
+                        queue: nil
+                    ) { notification in
+                        guard let currentPlayerItem = ShopLiveController.playerItem,
+                              let notificationObject = notification.object as? AVPlayerItem,
+                              currentPlayerItem === notificationObject else { return }
+                        ShopLiveController.perfMeasurements?.playbackStalled()
                     }
                 }
             }
@@ -355,6 +401,13 @@ extension ShopLiveController {
         
         if let playerItem = playerItem {
             playerObservation = playerItem.observe(\.player, options: [.new, .initial]) { [weak self] playerItem, _ in
+                self?.timeControlStatusObservation?.invalidate()
+                self?.timeControlStatusObservation = nil
+                self?.currentItemObservation?.invalidate()
+                self?.currentItemObservation = nil
+                self?.loadedTimeRangesObservation?.invalidate()
+                self?.loadedTimeRangesObservation = nil
+                
                 if let player = playerItem.player {
                     self?.timeControlStatusObservation = player.observe(\.timeControlStatus, options: [.new]) { [weak self] _, _ in
                         self?.postPlayerObservers(key: .timeControlStatus)
@@ -362,6 +415,9 @@ extension ShopLiveController {
                     
                     self?.currentItemObservation = player.observe(\.currentItem, options: [.new, .initial]) { [weak self] player, _ in
                         guard let self else { return }
+                        self.loadedTimeRangesObservation?.invalidate()
+                        self.loadedTimeRangesObservation = nil
+                        
                         if let currentItem = player.currentItem {
                             self.loadedTimeRangesObservation = currentItem.observe(\.loadedTimeRanges, options: [.new]) { item, _ in
                                 guard let timeRange = item.loadedTimeRanges.last?.timeRangeValue else { return }
@@ -448,6 +504,16 @@ extension ShopLiveController {
         
         releasePlayerObservation?.invalidate()
         releasePlayerObservation = nil
+        
+        if let timebaseRateChangedObservation = timebaseRateChangedNotificateObservation {
+            NotificationCenter.default.removeObserver(timebaseRateChangedObservation)
+            timebaseRateChangedNotificateObservation = nil
+        }
+        
+        if let playbackStalledObservation = playbackStalledNotificateObservation {
+            NotificationCenter.default.removeObserver(playbackStalledObservation)
+            playbackStalledNotificateObservation = nil
+        }
     }
 
     func postPlayerObservers(key: ShopLivePlayerObserveValue) {
@@ -485,20 +551,25 @@ extension ShopLiveController {
                 shared.playItem?.videoOutput = nil
             }
 
-            let properties:[String: Any] = [
-                (kVTCompressionPropertyKey_RealTime as String): kCFBooleanTrue ?? true,
-                        (kVTCompressionPropertyKey_ProfileLevel as String): kVTProfileLevel_H264_High_AutoLevel,
-                        (kVTCompressionPropertyKey_AllowFrameReordering as String): true,
-                        (kVTCompressionPropertyKey_H264EntropyMode as String): kVTH264EntropyMode_CABAC,
-                        (kVTCompressionPropertyKey_PixelTransferProperties as String): [
-                            (kVTPixelTransferPropertyKey_ScalingMode as String): kVTScalingMode_Trim
-                        ]
+            if let playerItem = newValue {
+                let properties:[String: Any] = [
+                    (kVTCompressionPropertyKey_RealTime as String): kCFBooleanTrue ?? true,
+                    (kVTCompressionPropertyKey_ProfileLevel as String): kVTProfileLevel_H264_High_AutoLevel,
+                    (kVTCompressionPropertyKey_AllowFrameReordering as String): true,
+                    (kVTCompressionPropertyKey_H264EntropyMode as String): kVTH264EntropyMode_CABAC,
+                    (kVTCompressionPropertyKey_PixelTransferProperties as String): [
+                        (kVTPixelTransferPropertyKey_ScalingMode as String): kVTScalingMode_Trim
                     ]
-
-
-            shared.playItem?.videoOutput = AVPlayerItemVideoOutput.init(pixelBufferAttributes: properties)
-            if let videoOutput = shared.playItem?.videoOutput {
-                shared.playItem?.playerItem?.add(videoOutput)
+                ]
+                
+                shared.playItem?.videoOutput = AVPlayerItemVideoOutput.init(pixelBufferAttributes: properties)
+                if let videoOutput = shared.playItem?.videoOutput {
+                    playerItem.add(videoOutput)
+                }
+                
+                shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
+            } else {
+                shared.playerItem?.player?.replaceCurrentItem(with: nil)
             }
         }
         get {
