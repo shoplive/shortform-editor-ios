@@ -1035,7 +1035,7 @@ extension LiveStreamViewController: LiveStreamViewModelDelegate {
     func refreshSnapShotImageViewWhenPlayerViewFrameUpdatedFromWebAndBlock() {
         snapShotImageView.image = nil
         viewModel.setBlockSnapShotWhenPlayerViewFrameUpdatedByWeb(block: true)
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 5) { [weak self] in
+        DispatchQueue.global().asyncAfter(deadline: .now() + 5) { [weak self] in
             self?.viewModel.setBlockSnapShotWhenPlayerViewFrameUpdatedByWeb(block: false)
         }
     }

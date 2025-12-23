@@ -186,7 +186,7 @@ public class ShopliveVideoEditor {
     }
     
     private func callFilterListAPI() {
-        DispatchQueue.global(qos: .background).async { [weak self] in
+        DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
             ShopLiveShortformEditorFilterListManager.shared.videoEditorDelegate = self.delegate
             ShopLiveShortformEditorFilterListManager.shared.callFilterListAPI { }

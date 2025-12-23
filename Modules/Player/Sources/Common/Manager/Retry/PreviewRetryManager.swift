@@ -71,7 +71,7 @@ final class PreviewRetryManager: NSObject, SLReactor {
             return
         }
         self.isRetrying = true
-        self.retryTimer = DispatchSource.makeTimerSource(flags: .strict, queue: .global(qos: .background))
+        self.retryTimer = DispatchSource.makeTimerSource(flags: .strict, queue: .global())
         self.retryTimer?.schedule(deadline: .now(),repeating: .seconds(3))
         self.retryTimer?.setEventHandler(qos: .background, handler: { [weak self] in
             self?.updateRetry()
@@ -96,7 +96,7 @@ final class PreviewRetryManager: NSObject, SLReactor {
             return
         }
         isRetrying = true
-        self.retryTimer = DispatchSource.makeTimerSource(flags: .strict, queue: .global(qos: .background))
+        self.retryTimer = DispatchSource.makeTimerSource(flags: .strict, queue: .global())
         self.retryTimer?.schedule(deadline: .now(),repeating: .seconds(3))
         self.retryTimer?.setEventHandler(qos: .background, handler: { [weak self] in
             self?.updateNetWorkDisconnectedTimer()

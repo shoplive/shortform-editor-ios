@@ -442,7 +442,7 @@ extension SLVideoThumbnailReactor {
     }
     
     private func removeVideoFile(){
-        DispatchQueue.global(qos: .background).async { [weak self] in
+        DispatchQueue.global().async { [weak self] in
             guard let self = self, let videoUrl = self.videoEditInfoDto.convertedVideoPath else { return }
             try? FileManager.default.removeItem(atPath: videoUrl)
         }

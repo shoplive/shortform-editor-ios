@@ -228,7 +228,7 @@ final class LiveStreamViewModel: NSObject {
         resetPlayer()
         playerLoadingStartTime = Date().timeIntervalSince1970
         
-        DispatchQueue.global(qos: .background).async { [weak self] in
+        DispatchQueue.global().async { [weak self] in
             guard let self else { return }
             
             let processedUrl = addQueryForLiveUrl(url: url)
@@ -677,7 +677,7 @@ extension LiveStreamViewModel {
         if ShopLiveController.isReplayMode { return  }
 
         let time = CMTime(seconds: liveKeepUpTimerFrequency, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        liveKeepUpTimer = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: DispatchQueue.global(qos: .background)) { [weak self] time in
+        liveKeepUpTimer = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: DispatchQueue.global()) { [weak self] time in
             guard let self = self else { return }
             guard self.checkLiveKeepUpTimerFiredMultipleTime() else { return }
             if ShopLiveController.player?.timeControlStatus != .playing {

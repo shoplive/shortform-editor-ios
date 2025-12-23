@@ -344,7 +344,7 @@ extension SLUploadInfoReactor {
         }
         else {
             onMainQueueResultHandler?(.setLoadingVisible(true))
-            DispatchQueue.global(qos: .background).async { [weak self] in
+            DispatchQueue.global().async { [weak self] in
                 guard let self = self else { return }
                 self.processUploadCheckAPI()
             }
@@ -444,14 +444,14 @@ extension SLUploadInfoReactor {
     }
     
     private func removeVideoFile(){
-        DispatchQueue.global(qos: .background).async { [weak self] in
+        DispatchQueue.global().async { [weak self] in
             guard let self = self, let videoUrl = self.videoUrl else { return }
             try? FileManager.default.removeItem(atPath: videoUrl)
         }
     }
     
     private func removeThumbnail() {
-        DispatchQueue.global(qos: .background).async { [weak self] in
+        DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
             try? FileManager.default.removeItem(atPath: self.thumbnailPath)
         }

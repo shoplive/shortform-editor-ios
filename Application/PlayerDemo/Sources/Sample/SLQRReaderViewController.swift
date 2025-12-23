@@ -47,7 +47,7 @@ class SLQRReaderViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
        
-        DispatchQueue.global(qos: .background).async { [weak self] in
+        DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
             self.captureSession?.startRunning()
         }

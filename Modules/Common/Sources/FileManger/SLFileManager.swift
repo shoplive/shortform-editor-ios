@@ -59,7 +59,7 @@ public class SLFileManager {
     
     public static func deleteShortformDirectoryFiles() {
         let path = Self.shortformDirectoryPath
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global().async {
             do {
                 let files = try FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil, options: [])
                 
@@ -73,7 +73,7 @@ public class SLFileManager {
     
     public static func deleteEditorDirectoryFiles() {
         let path = Self.editorDirectoryPath
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global().async {
             do {
                 let files = try FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil, options: [])
                 
@@ -87,7 +87,7 @@ public class SLFileManager {
     
     public static func deleteFFMpegDirectoryFiles() {
         let path = Self.ffmpegDirectorypath
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global().async {
             do {
                 let files = try FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil, options: [])
                 
@@ -101,7 +101,7 @@ public class SLFileManager {
     
     public static func deleteBackgroundPosterDirectoryFiles() {
         let path = Self.backgroundPosterDirectoryPath
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global().async {
             do {
                 let files = try FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil, options: [])
                 
