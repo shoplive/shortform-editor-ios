@@ -347,9 +347,6 @@ extension ShopLiveController {
             }
             
             urlAssetObservation = playItem.observe(\.urlAsset, options: [.new, .initial]) { [weak self] playItem, _ in
-                self?.isPlayableObservation?.invalidate()
-                self?.isPlayableObservation = nil
-                
                 if let urlAsset = playItem.urlAsset {
                     self?.isPlayableObservation = urlAsset.observe(\.isPlayable, options: [.new]) { [weak self] _, _ in
                         self?.postPlayerObservers(key: .isPlayable)
@@ -358,15 +355,12 @@ extension ShopLiveController {
             }
             
             playerItemObservation = playItem.observe(\.playerItem, options: [.new, .initial]) { [weak self] playItem, _ in
-                self?.playerItemStatusObservation?.invalidate()
-                self?.playerItemStatusObservation = nil
-                
-                if let timebaseToken = self?.timebaseRateChangedNotificateObservation {
-                    NotificationCenter.default.removeObserver(timebaseToken)
+                if let timebaseRateChangedObservation = self?.timebaseRateChangedNotificateObservation {
+                    NotificationCenter.default.removeObserver(timebaseRateChangedObservation)
                     self?.timebaseRateChangedNotificateObservation = nil
                 }
-                if let stalledToken = self?.playbackStalledNotificateObservation {
-                    NotificationCenter.default.removeObserver(stalledToken)
+                if let playbackStalledObservation = self?.playbackStalledNotificateObservation {
+                    NotificationCenter.default.removeObserver(playbackStalledObservation)
                     self?.playbackStalledNotificateObservation = nil
                 }
                 
@@ -401,13 +395,6 @@ extension ShopLiveController {
         
         if let playerItem = playerItem {
             playerObservation = playerItem.observe(\.player, options: [.new, .initial]) { [weak self] playerItem, _ in
-                self?.timeControlStatusObservation?.invalidate()
-                self?.timeControlStatusObservation = nil
-                self?.currentItemObservation?.invalidate()
-                self?.currentItemObservation = nil
-                self?.loadedTimeRangesObservation?.invalidate()
-                self?.loadedTimeRangesObservation = nil
-                
                 if let player = playerItem.player {
                     self?.timeControlStatusObservation = player.observe(\.timeControlStatus, options: [.new]) { [weak self] _, _ in
                         self?.postPlayerObservers(key: .timeControlStatus)
@@ -415,8 +402,6 @@ extension ShopLiveController {
                     
                     self?.currentItemObservation = player.observe(\.currentItem, options: [.new, .initial]) { [weak self] player, _ in
                         guard let self else { return }
-                        self.loadedTimeRangesObservation?.invalidate()
-                        self.loadedTimeRangesObservation = nil
                         
                         if let currentItem = player.currentItem {
                             self.loadedTimeRangesObservation = currentItem.observe(\.loadedTimeRanges, options: [.new]) { item, _ in
