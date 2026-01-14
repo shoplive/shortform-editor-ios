@@ -281,7 +281,7 @@ public extension APIDefinition {
             
         }
         
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global().async {
             task.resume()
         }
         
@@ -403,7 +403,7 @@ public extension APIDefinition {
         let session = URLSession(configuration: sessionConfg, delegate: delegate, delegateQueue: nil)
         let task = session.uploadTask(with: request, fromFile: tempFileURL)
         
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global().async {
             task.resume()
         }
         

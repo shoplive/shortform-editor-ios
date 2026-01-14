@@ -78,7 +78,7 @@ public class ShopliveMP4CachingManager: NSObject {
     }
     
     public func removeCaches() {
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global().async {
             guard let dirPathURL = self.dirPathURL else { return }
             var path: URL = dirPathURL
             
@@ -92,7 +92,7 @@ public class ShopliveMP4CachingManager: NSObject {
     }
     
     public func downloadVideo(url: URL,completion: @escaping(AVPlayerItem) -> ()) {
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global().async {
             if url.pathExtension.lowercased() != "mp4" {
                 DispatchQueue.main.async {
                     completion(AVPlayerItem(url: url))

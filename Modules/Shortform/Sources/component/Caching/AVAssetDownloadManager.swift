@@ -32,7 +32,7 @@ public final class AVAssetDownloadManager : NSObject {
    
     private override init() {
         super.init()
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global().async {
             Self.shared.deleteShopLiveCacheDirectory()
         }
         NotificationCenter.default.addObserver(self,
@@ -104,7 +104,7 @@ public final class AVAssetDownloadManager : NSObject {
     }
     
     public func deleteCaches() {
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global().async {
             self.deleteShopLiveCacheDirectory()
         }
     }

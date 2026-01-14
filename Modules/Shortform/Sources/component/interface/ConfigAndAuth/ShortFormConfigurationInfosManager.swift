@@ -81,7 +81,7 @@ public class ShortFormConfigurationInfosManager {
                 }
             }
         }
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global().async {
             task.resume()
         }
         if let params = params {

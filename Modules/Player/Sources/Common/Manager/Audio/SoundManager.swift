@@ -83,7 +83,7 @@ final class SoundItem {
     }
     
     func downloadSoundItem(requestUrl: URL, destination: URL) {
-        DispatchQueue.global(qos: .background).async { [weak self] in
+        DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
             let task = URLSession.shared.downloadTask(with: requestUrl) { localUrl, response , error in
                 guard let localUrl = localUrl else { return }

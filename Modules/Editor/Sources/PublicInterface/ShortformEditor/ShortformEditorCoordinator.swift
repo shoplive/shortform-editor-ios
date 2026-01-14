@@ -41,7 +41,7 @@ class ShopliveShortformCoordinator : NSObject {
     
     
     private func callFilterListAPI() {
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global().async {
             ShopLiveShortformEditorFilterListManager.shared.shortformEditorDelegate = self.editorDelegate
             ShopLiveShortformEditorFilterListManager.shared.callFilterListAPI { }
         }

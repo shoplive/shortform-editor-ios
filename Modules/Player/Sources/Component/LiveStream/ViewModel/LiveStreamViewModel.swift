@@ -34,7 +34,6 @@ final class LiveStreamViewModel: NSObject {
     
     private var networkMonitor: NetworkMonitor?
     private var urlAsset: AVURLAsset?
-    private var playerItem: AVPlayerItem?
     private var perfMeasurements: PerfMeasurements?
     private var playerErrorObserver: ShopLiveAVPlayerErrorObserver?
     var retryManager: LiveStreamRetryManager?
@@ -228,7 +227,7 @@ final class LiveStreamViewModel: NSObject {
         resetPlayer()
         playerLoadingStartTime = Date().timeIntervalSince1970
         
-        DispatchQueue.global(qos: .background).async { [weak self] in
+        DispatchQueue.global().async { [weak self] in
             guard let self else { return }
             
             let processedUrl = addQueryForLiveUrl(url: url)
@@ -245,12 +244,6 @@ final class LiveStreamViewModel: NSObject {
                 }
                 
                 let playerItem = AVPlayerItem(asset: asset)
-                
-                DispatchQueue.main.async {
-                    self.setSoundMuteStateOnFirstPlay()
-                }
-                
-                ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
                 let metadataOutput = AVPlayerItemMetadataOutput(identifiers: nil)
                 metadataOutput.setDelegate(self, queue: .global())
                 playerItem.add(metadataOutput)
@@ -273,26 +266,11 @@ final class LiveStreamViewModel: NSObject {
                 }
                 playerItem.audioTimePitchAlgorithm = .timeDomain
                 
-                ShopLiveController.playerItem = playerItem
-                self.playerItem = playerItem
-                
-                NotificationCenter.default.addObserver(forName: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase, queue: nil) { [weak self] notification in
-                    guard let self else { return }
-                    if let timebase = ShopLiveController.timebase {
-                        let rate = CMTimebaseGetRate(timebase)
-                        self.perfMeasurements?.rateChanged(rate: rate)
-                    }
-                }
-                NotificationCenter.default.addObserver(forName: .AVPlayerItemPlaybackStalled, object: self.playerItem, queue: nil) { [weak self] notification in
-                    guard let self else { return }
-                    if let _ = ShopLiveController.playerItem {
-                        self.perfMeasurements?.playbackStalled()
-                    }
-                }
-                
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
-                    ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
+                    self.setSoundMuteStateOnFirstPlay()
+                    ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
+                    ShopLiveController.playerItem = playerItem
                     self.playerErrorObserver = ShopLiveAVPlayerErrorObserver(player: player)
                     self.playerErrorObserver?.delegate = self
                 }
@@ -336,21 +314,15 @@ final class LiveStreamViewModel: NSObject {
         if ShopLiveController.shared.isSameCampaign == false {
             ShopLiveController.shared.currentPlayTime = nil
         }
-        self.playerItem = nil
         ShopLiveController.videoUrl = nil
         ShopLiveController.player?.currentItem?.asset.cancelLoading()
         ShopLiveController.player?.cancelPendingPrerolls()
-        ShopLiveController.player?.replaceCurrentItem(with: nil)
         ShopLiveController.playerItem = nil
         ShopLiveController.urlAsset = nil
         ShopLiveController.shared.playItem?.perfMeasurements = nil
         
         ShopLiveController.perfMeasurements?.playbackEnded()
         ShopLiveController.perfMeasurements = nil
-        
-        NotificationCenter.default.removeObserver(self, name: .TimebaseEffectiveRateChangedNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemPlaybackStalled, object: nil)
-        
         ShopLiveController.playControl = .none
     }
     
@@ -677,7 +649,7 @@ extension LiveStreamViewModel {
         if ShopLiveController.isReplayMode { return  }
 
         let time = CMTime(seconds: liveKeepUpTimerFrequency, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        liveKeepUpTimer = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: DispatchQueue.global(qos: .background)) { [weak self] time in
+        liveKeepUpTimer = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: DispatchQueue.global()) { [weak self] time in
             guard let self = self else { return }
             guard self.checkLiveKeepUpTimerFiredMultipleTime() else { return }
             if ShopLiveController.player?.timeControlStatus != .playing {
