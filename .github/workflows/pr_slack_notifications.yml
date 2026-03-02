@@ -42,6 +42,7 @@ jobs:
             const repo = context.repo.repo;
             const eventName = context.eventName;
             const action = context.payload.action;
+            const { createHash } = require("crypto");
 
             async function resolvePrPayload() {
               if (eventName === "issue_comment") {
@@ -83,6 +84,7 @@ jobs:
             const SUMMARY_MARKER = "<!-- ai-summary-posted:v1 -->";
             const AI_REVIEW_REQUESTED_MARKER = "<!-- ai-review-requested:v1 -->";
             const AI_REVIEW_COMPLETED_PREFIX = "<!-- ai-review-completed:";
+            const REVIEW_REQUEST_NOTIFIED_PREFIX = "<!-- review-request-notified:v1:";
 
             function isCopilotReviewer(login) {
               if (!login) {
@@ -270,7 +272,34 @@ jobs:
                   return parsed;
                 }
               } catch (error) {
-                core.warning(`SLACK_USER_MAP_JSON parse failed: ${error.message}`);
+                core.warning(`SLACK_USER_MAP_JSON JSON parse failed: ${error.message}`);
+              }
+
+              // Fallback parser for non-JSON formats, e.g.:
+              // yong-ios=U12345
+              // kio-shoplive:U67890
+              const fallback = {};
+              const chunks = raw
+                .replace(/[{}]/g, "")
+                .split(/\r?\n|,/)
+                .map((line) => line.trim())
+                .filter(Boolean);
+
+              for (const chunk of chunks) {
+                const match = chunk.match(/^"?([^":=]+)"?\s*[:=]\s*"?([^"]+)"?$/);
+                if (!match) {
+                  continue;
+                }
+                const key = String(match[1] || "").trim();
+                const value = String(match[2] || "").trim();
+                if (key && value) {
+                  fallback[key] = value;
+                }
+              }
+
+              if (Object.keys(fallback).length > 0) {
+                core.info(`SLACK_USER_MAP_JSON fallback parser applied with ${Object.keys(fallback).length} entries.`);
+                return fallback;
               }
               return {};
             }
@@ -289,11 +318,11 @@ jobs:
               const text = String(value).trim();
               const mentionMatch = text.match(/^<@([A-Z0-9]+)>$/i);
               if (mentionMatch) {
-                return mentionMatch[1];
+                return mentionMatch[1].toUpperCase();
               }
               const idMatch = text.match(/^[A-Z0-9]+$/i);
               if (idMatch) {
-                return text;
+                return text.toUpperCase();
               }
               return null;
             }
@@ -339,17 +368,30 @@ jobs:
               return null;
             }
 
-            function mentionSlackUsersFromGitHubLogins(userMap, githubLogins) {
+            function resolveSlackMentionsFromGitHubLogins(userMap, githubLogins) {
               const mentions = [];
+              const unmapped = [];
               const seen = new Set();
               for (const login of githubLogins) {
                 const slackUserId = findSlackUserId(userMap, login);
                 if (slackUserId && !seen.has(slackUserId)) {
                   mentions.push(`<@${slackUserId}>`);
                   seen.add(slackUserId);
+                } else if (!slackUserId) {
+                  unmapped.push(login);
                 }
               }
-              return mentions;
+              return { mentions, unmapped };
+            }
+
+            function buildReviewRequestNotifiedMarker(githubLogins) {
+              const canonical = githubLogins
+                .map((login) => String(login || "").toLowerCase())
+                .filter(Boolean)
+                .sort()
+                .join("|");
+              const digest = createHash("sha1").update(canonical).digest("hex").slice(0, 12);
+              return `${REVIEW_REQUEST_NOTIFIED_PREFIX}${digest} -->`;
             }
 
             function reviewStateLabel(state) {
@@ -575,15 +617,35 @@ jobs:
                   .map((user) => user?.login)
                   .filter(Boolean);
                 const userMap = parseUserMap();
-                const mentions = mentionSlackUsersFromGitHubLogins(userMap, requestedReviewerLogins);
+                const { mentions, unmapped } = resolveSlackMentionsFromGitHubLogins(
+                  userMap,
+                  requestedReviewerLogins
+                );
 
                 await maybePostPrSummary(false);
-                const mentionLine = mentions.length ? `${mentions.join(" ")}\n` : "";
                 const targetText = requestedReviewerLogins.length
                   ? requestedReviewerLogins.join(", ")
                   : "리뷰어";
 
-                await postThreadMessage(`📝 리뷰 요청 대상: ${targetText}\n${mentionLine}${prLink}`);
+                const notifiedMarker = buildReviewRequestNotifiedMarker(requestedReviewerLogins);
+                const shouldNotify = await createMarker(notifiedMarker, notifiedMarker);
+                if (!shouldNotify) {
+                  core.info(`Review request notification already sent for ${targetText}`);
+                  return;
+                }
+
+                const messageLines = [`📝 리뷰 요청 대상: ${targetText}`];
+                if (mentions.length) {
+                  messageLines.push(mentions.join(" "));
+                }
+
+                const filteredUnmapped = unmapped.filter((login) => !isCopilotReviewer(login));
+                if (filteredUnmapped.length) {
+                  messageLines.push(`멘션 매핑 없음: ${filteredUnmapped.join(", ")} (SLACK_USER_MAP_JSON 확인)`);
+                }
+                messageLines.push(prLink);
+
+                await postThreadMessage(messageLines.join("\n"));
                 if (isAiReviewRequestedFromPrBody(pr.body)) {
                   await maybeRequestAiReview("PR 본문 [ai-review]");
                 }
