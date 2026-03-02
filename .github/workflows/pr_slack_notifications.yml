@@ -218,11 +218,11 @@ jobs:
               const headRef = pr.head?.ref || "unknown";
 
               return [
-                "📣 PR 생성됨",
-                `• PR: ${prLink}`,
-                `• 작성자: \`${author}\``,
-                `• 브랜치: \`${headRef}\` -> \`${baseRef}\``,
-                "• 리뷰 관련 업데이트는 이 스레드에 계속 안내됩니다.",
+                "*PR 생성*",
+                `*제목* ${prLink}`,
+                `*작성자* ${author}`,
+                `*브랜치* ${headRef} -> ${baseRef}`,
+                "이 스레드에서 리뷰/승인/머지 업데이트를 계속 안내합니다.",
               ].join("\n");
             }
 
