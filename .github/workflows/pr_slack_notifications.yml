@@ -412,6 +412,7 @@ jobs:
             function stripMarkdownLine(line) {
               return String(line || "")
                 .replace(/^#{1,6}\s*/g, "")
+                .replace(/^\d+[.)]\s*/g, "")
                 .replace(/^- \[[ xX]\]\s*/g, "")
                 .replace(/^\s*[-*]\s+/g, "")
                 .replace(/^>\s*/g, "")
@@ -425,6 +426,7 @@ jobs:
 
             function extractSummaryLines(body, maxLines = 3) {
               const skipPatterns = [
+                /^세줄 요약$/i,
                 /^feature link$/i,
                 /^pr 간단하게 설명 해주세요\.?$/i,
                 /^pr 에 포함 될 유틸 중 유용하게 쓰일 상황 있다면 말해주세요\.?$/i,
@@ -517,13 +519,14 @@ jobs:
               const prLink = `<${pr.html_url}|#${pr.number} ${pr.title}>`;
 
               return [
-                "🧠 PR 자동 요약",
-                `• PR: ${prLink}`,
-                `• 변경 파일: ${changedFiles}개 (+${additions} / -${deletions})`,
-                `• 주요 영역: ${areaList.length ? areaList.join(", ") : "분류 불가"}`,
-                `• 변경 큰 파일: ${topFiles.length ? topFiles.join(", ") : "없음"}`,
-                "• 설명 요약:",
-                summaryText,
+                "*PR 요약*",
+                `*PR* ${prLink}`,
+                `*변경 파일* ${changedFiles}개 (+${additions} / -${deletions})`,
+                `*주요 영역* ${areaList.length ? areaList.join(", ") : "분류 불가"}`,
+                `*변경 큰 파일* ${topFiles.length ? topFiles.join(", ") : "없음"}`,
+                "",
+                "*설명 요약*",
+                ...summaryText.split("\n").map((line) => `- ${line}`),
               ].join("\n");
             }
 
@@ -552,10 +555,10 @@ jobs:
 
               await postThreadMessage(
                 [
-                  "🤖 AI 리뷰 요청이 활성화됨",
-                  `• 트리거: ${triggerLabel}`,
-                  `• 상태: ${requestStatus.label}`,
-                  `• PR: ${prLink}`,
+                  "*AI 리뷰 요청 활성화*",
+                  `*트리거* ${triggerLabel}`,
+                  `*상태* ${requestStatus.label}`,
+                  `*PR* ${prLink}`,
                 ].join("\n")
               );
 
@@ -634,16 +637,17 @@ jobs:
                   return;
                 }
 
-                const messageLines = [`📝 리뷰 요청 대상: ${targetText}`];
+                const messageLines = ["*리뷰 요청*"];
+                messageLines.push(`*대상* ${targetText}`);
                 if (mentions.length) {
                   messageLines.push(mentions.join(" "));
                 }
 
                 const filteredUnmapped = unmapped.filter((login) => !isCopilotReviewer(login));
                 if (filteredUnmapped.length) {
-                  messageLines.push(`멘션 매핑 없음: ${filteredUnmapped.join(", ")} (SLACK_USER_MAP_JSON 확인)`);
+                  messageLines.push(`*멘션 매핑 없음* ${filteredUnmapped.join(", ")} (SLACK_USER_MAP_JSON 확인)`);
                 }
-                messageLines.push(prLink);
+                messageLines.push(`*PR* ${prLink}`);
 
                 await postThreadMessage(messageLines.join("\n"));
                 if (isAiReviewRequestedFromPrBody(pr.body)) {
@@ -689,10 +693,10 @@ jobs:
 
                 await postThreadMessage(
                   [
-                    "🤖 Copilot PR 리뷰 완료",
-                    `• 상태: ${state}`,
-                    `• 리뷰 링크: <${reviewHtmlUrl}|리뷰 보기>`,
-                    `• PR: ${prLink}`,
+                    "*Copilot PR 리뷰 완료*",
+                    `*상태* ${state}`,
+                    `*리뷰 링크* <${reviewHtmlUrl}|리뷰 보기>`,
+                    `*PR* ${prLink}`,
                   ].join("\n")
                 );
                 return;
