@@ -15,7 +15,8 @@ extension LiveStreamViewModel {
         guard !ShopLiveController.shared.screenLock else { return }
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty, (ShopLiveController.playerItemStatus == .failed || ShopLiveController.player?.reasonForWaitingToPlay == AVPlayer.WaitingReason.evaluatingBufferingRate) {
+            if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty,
+               (ShopLiveController.playerItemStatus == .failed) {
                 if ShopLiveController.windowStyle != .osPip {
                     self.updatePlayerItem(with: url)
                 } else {
