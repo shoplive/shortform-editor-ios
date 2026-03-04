@@ -12,7 +12,6 @@ permissions:
   contents: read
   pull-requests: write
   issues: write
-  models: read
 
 concurrency:
   group: pr-slack-${{ github.event.pull_request.number || github.event.issue.number || github.run_id }}
@@ -33,9 +32,6 @@ jobs:
           SLACK_CHANNEL_ID_VAR: ${{ vars.SLACK_CHANNEL_ID }}
           SLACK_USER_MAP_JSON: ${{ secrets.SLACK_USER_MAP_JSON }}
           AI_REVIEWER_LOGIN: ${{ vars.AI_REVIEWER_LOGIN }}
-          COPILOT_SUMMARY_MODEL: ${{ vars.COPILOT_SUMMARY_MODEL }}
-          AI_SUMMARY_CONTEXT_MODE: ${{ vars.AI_SUMMARY_CONTEXT_MODE }}
-          MODELS_API_TOKEN: ${{ secrets.MODELS_API_TOKEN }}
           GITHUB_TOKEN: ${{ github.token }}
         with:
           script: |

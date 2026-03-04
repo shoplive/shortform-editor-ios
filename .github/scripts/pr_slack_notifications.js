@@ -686,6 +686,48 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
       .filter(Boolean)
       .slice(0, maxLines);
   }
+
+  function extractCopilotOverviewLines(body, maxLines = 4) {
+    const skipPatterns = [
+      /^pull request overview$/i,
+      /^changes:?$/i,
+      /^you can also share your feedback on copilot code review\.?$/i,
+      /^take the survey\.?$/i,
+    ];
+
+    return String(body || "")
+      .split(/\r?\n/)
+      .map(stripMarkdownLine)
+      .filter(Boolean)
+      .filter((line) => !skipPatterns.some((pattern) => pattern.test(line)))
+      .filter((line) => !/feedback on copilot code review/i.test(line))
+      .slice(0, maxLines);
+  }
+
+  async function resolveReviewBody(review) {
+    const inlineBody = String(review?.body || "").trim();
+    if (inlineBody) {
+      return inlineBody;
+    }
+
+    const reviewId = review?.id;
+    if (!reviewId) {
+      return "";
+    }
+
+    try {
+      const response = await github.rest.pulls.getReview({
+        owner,
+        repo,
+        pull_number: issueNumber,
+        review_id: reviewId,
+      });
+      return String(response.data?.body || "").trim();
+    } catch (error) {
+      core.warning(`Failed to load review body(${reviewId}): ${error.message}`);
+      return "";
+    }
+  }
   
   function buildDeterministicDiffSummary(files) {
     if (!files.length) {
@@ -1058,14 +1100,7 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
   
     const areaList = Array.from(areas).slice(0, 5);
     const prLink = `<${pr.html_url}|#${pr.number} ${pr.title}>`;
-  
-    const aiSummaryResult = await buildCopilotDiffSummary(files);
-    const aiSummaryText = aiSummaryResult?.ok ? aiSummaryResult.text : "";
-    const aiSummaryLines = normalizeSummaryLines(aiSummaryText, 5);
-    const aiSummaryTitle =
-      aiSummaryResult?.contextMode === "full" ? "*Diff 기반 AI 요약*" : "*파일/통계 기반 AI 요약*";
-    const deterministicLines = buildDeterministicDiffSummary(files);
-    const bodySummaryLines = extractSummaryLines(pr.body, 2);
+    const bodySummaryLines = extractSummaryLines(pr.body, 5);
   
     const lines = [
       "*PR 요약*",
@@ -1074,27 +1109,15 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
       `*주요 영역* ${areaList.length ? areaList.join(", ") : "분류 불가"}`,
       `*변경 큰 파일* ${topFiles.length ? topFiles.join(", ") : "없음"}`,
       "",
-      aiSummaryTitle,
+      "*PR 본문 참고*",
     ];
-  
-    if (aiSummaryLines.length) {
-      lines.push(...aiSummaryLines.map((line) => `- ${line}`));
-      if (aiSummaryResult?.model) {
-        lines.push(`- 모델: \`${aiSummaryResult.model}\``);
-      }
-    } else {
-      lines.push("- AI 요약을 생성하지 못해 fallback 요약을 사용합니다.");
-      if (aiSummaryResult?.reason) {
-        lines.push(`- 실패 원인: ${aiSummaryResult.reason}`);
-      }
-    }
-  
-    lines.push("", "*Diff fallback 요약*");
-    lines.push(...deterministicLines.map((line) => `- ${line}`));
-  
+
     if (bodySummaryLines.length) {
-      lines.push("", "*PR 본문 참고(보조)*");
       lines.push(...bodySummaryLines.map((line) => `- ${line}`));
+      lines.push("- 상세 내용은 PR 본문(Description)에서 확인해 주세요.");
+    } else {
+      lines.push("- PR 본문 요약이 비어 있습니다.");
+      lines.push("- 상세 변경 사항은 PR 본문(Description)과 파일 변경 목록을 확인해 주세요.");
     }
   
     return lines.join("\n");
@@ -1165,7 +1188,6 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
       return;
     }
   
-    await maybePostPrSummary(false);
     await maybeRequestAiReview("PR 코멘트 /ai-review");
     return;
   }
@@ -1173,7 +1195,6 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
   if (eventName === "pull_request") {
     if (action === "opened") {
       await ensureThreadTs();
-      await maybePostPrSummary(false);
       if (isAiReviewRequestedFromPrBody(pr.body)) {
         await maybeRequestAiReview("PR 본문 [ai-review]");
       }
@@ -1200,8 +1221,6 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
         context.payload.requested_team?.slug,
       ]);
   
-      await maybePostPrSummary(false);
-  
       const userMap = parseUserMap();
       const { mentions, unmapped } = resolveSlackMentionsFromGitHubLogins(
         userMap,
@@ -1216,13 +1235,17 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
       }
   
       const targetSegments = [];
-      if (requestedReviewerLogins.length) {
+      if (!mentions.length && requestedReviewerLogins.length) {
         targetSegments.push(`리뷰어: ${requestedReviewerLogins.join(", ")}`);
       }
       if (requestedTeamSlugs.length) {
         targetSegments.push(`팀: ${requestedTeamSlugs.map((slug) => `@${slug}`).join(", ")}`);
       }
-      const targetText = targetSegments.length ? targetSegments.join(" / ") : "리뷰어 정보 없음(payload 확인 필요)";
+      const targetText = targetSegments.length
+        ? targetSegments.join(" / ")
+        : mentions.length
+          ? "멘션으로 전달"
+          : "리뷰어 정보 없음(payload 확인 필요)";
   
       const messageLines = ["*리뷰 요청*", `*대상* ${targetText}`];
       if (mentions.length) {
@@ -1249,7 +1272,6 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
   
     if (action === "edited" || action === "synchronize") {
       if (isAiReviewRequestedFromPrBody(pr.body)) {
-        await maybePostPrSummary(false);
         await maybeRequestAiReview("PR 본문 [ai-review]");
       }
       return;
@@ -1281,15 +1303,20 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
         core.info(`Copilot review already notified: ${reviewId}`);
         return;
       }
-  
-      await postThreadMessage(
-        [
-          "*Copilot PR 리뷰 완료*",
-          `*상태* ${state}`,
-          `*리뷰 링크* <${reviewHtmlUrl}|리뷰 보기>`,
-          `*PR* ${prLink}`,
-        ].join("\n")
-      );
+
+      const reviewBody = await resolveReviewBody(review);
+      const copilotOverviewLines = extractCopilotOverviewLines(reviewBody, 5);
+      const messageLines = [
+        "*Copilot PR 리뷰 완료*",
+        `*상태* ${state}`,
+        `*리뷰 링크* <${reviewHtmlUrl}|리뷰 보기>`,
+      ];
+      if (copilotOverviewLines.length) {
+        messageLines.push("*Copilot 분석 요약*");
+        messageLines.push(...copilotOverviewLines.map((line) => `- ${line}`));
+      }
+      messageLines.push(`*PR* ${prLink}`);
+      await postThreadMessage(messageLines.join("\n"));
       return;
     }
   
