@@ -1167,6 +1167,59 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
     });
     return true;
   }
+
+  async function maybeNotifyReviewRequest(requestedReviewerLogins, requestedTeamSlugs) {
+    const reviewerLogins = uniqueSortedStrings(requestedReviewerLogins || []);
+    const teamSlugs = uniqueSortedStrings(requestedTeamSlugs || []);
+    if (!reviewerLogins.length && !teamSlugs.length) {
+      core.info("No requested reviewers/teams to notify.");
+      return false;
+    }
+
+    const userMap = parseUserMap();
+    const { mentions, unmapped } = resolveSlackMentionsFromGitHubLogins(
+      userMap,
+      reviewerLogins
+    );
+
+    const notifiedKey = buildReviewRequestNotifiedKey(reviewerLogins, teamSlugs);
+    const shouldNotify = await markReviewRequestNotified(notifiedKey);
+    if (!shouldNotify) {
+      core.info("Review request notification already sent for identical targets.");
+      return false;
+    }
+
+    const targetSegments = [];
+    if (!mentions.length && reviewerLogins.length) {
+      targetSegments.push(`리뷰어: ${reviewerLogins.join(", ")}`);
+    }
+    if (teamSlugs.length) {
+      targetSegments.push(`팀: ${teamSlugs.map((slug) => `@${slug}`).join(", ")}`);
+    }
+    const targetText = targetSegments.length
+      ? targetSegments.join(" / ")
+      : mentions.length
+        ? "멘션으로 전달"
+        : "리뷰어 정보 없음(payload 확인 필요)";
+
+    const messageLines = ["*리뷰 요청*", `*대상* ${targetText}`];
+    if (mentions.length) {
+      messageLines.push(mentions.join(" "));
+    }
+
+    const filteredUnmapped = unmapped.filter((login) => !isCopilotReviewer(login));
+    if (filteredUnmapped.length) {
+      messageLines.push(`*멘션 매핑 없음* ${filteredUnmapped.join(", ")} (SLACK_USER_MAP_JSON 확인)`);
+    }
+
+    if (!notifiedKey) {
+      messageLines.push("*참고* 요청 대상이 비어 marker 저장을 건너뜀");
+    }
+
+    messageLines.push(`*PR* ${prLink}`);
+    await postThreadMessage(messageLines.join("\n"));
+    return true;
+  }
   
   const prLink = `<${pr.html_url}|#${pr.number} ${pr.title}>`;
   await loadMetadata();
@@ -1195,6 +1248,10 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
   if (eventName === "pull_request") {
     if (action === "opened") {
       await ensureThreadTs();
+      await maybeNotifyReviewRequest(
+        (pr.requested_reviewers || []).map((user) => user?.login).filter(Boolean),
+        (pr.requested_teams || []).map((team) => team?.slug).filter(Boolean)
+      );
       if (isAiReviewRequestedFromPrBody(pr.body)) {
         await maybeRequestAiReview("PR 본문 [ai-review]");
       }
@@ -1208,6 +1265,10 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
   
     if (action === "ready_for_review") {
       await postThreadMessage(`🚀 PR이 리뷰 가능 상태로 변경됨: ${prLink}`);
+      await maybeNotifyReviewRequest(
+        (pr.requested_reviewers || []).map((user) => user?.login).filter(Boolean),
+        (pr.requested_teams || []).map((team) => team?.slug).filter(Boolean)
+      );
       return;
     }
   
@@ -1220,49 +1281,7 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
         ...(pr.requested_teams || []).map((team) => team?.slug).filter(Boolean),
         context.payload.requested_team?.slug,
       ]);
-  
-      const userMap = parseUserMap();
-      const { mentions, unmapped } = resolveSlackMentionsFromGitHubLogins(
-        userMap,
-        requestedReviewerLogins
-      );
-  
-      const notifiedKey = buildReviewRequestNotifiedKey(requestedReviewerLogins, requestedTeamSlugs);
-      const shouldNotify = await markReviewRequestNotified(notifiedKey);
-      if (!shouldNotify) {
-        core.info("Review request notification already sent for identical targets.");
-        return;
-      }
-  
-      const targetSegments = [];
-      if (!mentions.length && requestedReviewerLogins.length) {
-        targetSegments.push(`리뷰어: ${requestedReviewerLogins.join(", ")}`);
-      }
-      if (requestedTeamSlugs.length) {
-        targetSegments.push(`팀: ${requestedTeamSlugs.map((slug) => `@${slug}`).join(", ")}`);
-      }
-      const targetText = targetSegments.length
-        ? targetSegments.join(" / ")
-        : mentions.length
-          ? "멘션으로 전달"
-          : "리뷰어 정보 없음(payload 확인 필요)";
-  
-      const messageLines = ["*리뷰 요청*", `*대상* ${targetText}`];
-      if (mentions.length) {
-        messageLines.push(mentions.join(" "));
-      }
-  
-      const filteredUnmapped = unmapped.filter((login) => !isCopilotReviewer(login));
-      if (filteredUnmapped.length) {
-        messageLines.push(`*멘션 매핑 없음* ${filteredUnmapped.join(", ")} (SLACK_USER_MAP_JSON 확인)`);
-      }
-  
-      if (!notifiedKey) {
-        messageLines.push("*참고* 요청 대상이 비어 marker 저장을 건너뜀");
-      }
-  
-      messageLines.push(`*PR* ${prLink}`);
-      await postThreadMessage(messageLines.join("\n"));
+      await maybeNotifyReviewRequest(requestedReviewerLogins, requestedTeamSlugs);
   
       if (isAiReviewRequestedFromPrBody(pr.body)) {
         await maybeRequestAiReview("PR 본문 [ai-review]");
