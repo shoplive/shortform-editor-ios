@@ -649,7 +649,7 @@ extension LiveStreamViewModel {
         if ShopLiveController.isReplayMode { return  }
 
         let time = CMTime(seconds: liveKeepUpTimerFrequency, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        liveKeepUpTimer = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: DispatchQueue.global()) { [weak self] time in
+        liveKeepUpTimer = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: nil) { [weak self] time in
             guard let self = self else { return }
             guard self.checkLiveKeepUpTimerFiredMultipleTime() else { return }
             if ShopLiveController.player?.timeControlStatus != .playing {
