@@ -813,21 +813,77 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
     }
     return `${text.slice(0, maxChars)}\n\n[diff context truncated]`;
   }
+
+  function compactText(value, maxLength = 220) {
+    const text = String(value || "").replace(/\s+/g, " ").trim();
+    if (!text) {
+      return "";
+    }
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return `${text.slice(0, maxLength)}...`;
+  }
+
+  async function parseInferenceErrorResponse(response) {
+    const status = response?.status || 0;
+    let detail = "";
+
+    try {
+      const raw = await response.text();
+      if (raw) {
+        try {
+          const parsed = JSON.parse(raw);
+          detail =
+            parsed?.error?.message ||
+            parsed?.message ||
+            parsed?.error ||
+            raw;
+        } catch (_) {
+          detail = raw;
+        }
+      }
+    } catch (_) {
+      // no-op
+    }
+
+    const compactDetail = compactText(detail, 200);
+    const withStatus = compactDetail ? `HTTP ${status}: ${compactDetail}` : `HTTP ${status}`;
+
+    if (status === 401 || status === 403) {
+      return `권한 오류 (${withStatus}) - workflow permissions에 \`models: read\`가 있는지 확인하세요.`;
+    }
+    if (status === 404) {
+      return `모델/엔드포인트 접근 실패 (${withStatus})`;
+    }
+    if (status === 422) {
+      return `요청 형식 또는 모델 접근 권한 오류 (${withStatus})`;
+    }
+    if (status >= 500) {
+      return `GitHub Models 서버 오류 (${withStatus})`;
+    }
+    return `AI 요약 API 실패 (${withStatus})`;
+  }
   
   async function buildCopilotDiffSummary(files) {
     const modelsToken =
       (process.env.MODELS_API_TOKEN || "").trim() ||
       (process.env.GITHUB_TOKEN || "").trim();
     if (!modelsToken) {
-      core.warning("MODELS_API_TOKEN/GITHUB_TOKEN is missing. Skipping AI diff summary.");
-      return null;
+      const reason = "MODELS_API_TOKEN/GITHUB_TOKEN이 없어 AI 요약을 건너뜀";
+      core.warning(reason);
+      return { ok: false, contextMode: "stats", reason };
     }
   
     if (!files.length) {
-      return null;
+      return { ok: false, contextMode: "stats", reason: "변경 파일이 없음" };
     }
   
-    const model = (process.env.COPILOT_SUMMARY_MODEL || "openai/gpt-4o-mini").trim();
+    const configuredModel = (process.env.COPILOT_SUMMARY_MODEL || "openai/gpt-4o-mini").trim();
+    const modelCandidates = Array.from(
+      new Set([configuredModel, "openai/gpt-4o-mini", "openai/gpt-4o"])
+    ).filter(Boolean);
+
     const requestedContextMode = String(process.env.AI_SUMMARY_CONTEXT_MODE || "auto")
       .trim()
       .toLowerCase();
@@ -848,7 +904,7 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
         ? buildDiffContext(files, 20, 120, 18000)
         : buildDiffStatsContext(files, 25, 8);
     if (!diffContext) {
-      return null;
+      return { ok: false, contextMode, reason: "AI 요약용 컨텍스트 생성 실패" };
     }
   
     const prompt =
@@ -872,48 +928,65 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
             diffContext,
           ].join("\n");
   
-    try {
-      const response = await fetch("https://models.github.ai/inference/chat/completions", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${modelsToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+    let lastReason = "AI 요약 생성 실패";
+    for (const model of modelCandidates) {
+      try {
+        const response = await fetch("https://models.github.ai/inference/chat/completions", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${modelsToken}`,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "X-GitHub-Api-Version": "2022-11-28",
+          },
+          body: JSON.stringify({
+            model,
+            temperature: 0.2,
+            max_tokens: 280,
+            messages: [
+              {
+                role: "system",
+                content:
+                  "You are GitHub Copilot-style PR reviewer. Summarize only what is evidenced by the diff.",
+              },
+              {
+                role: "user",
+                content: prompt,
+              },
+            ],
+          }),
+        });
+
+        if (!response.ok) {
+          lastReason = await parseInferenceErrorResponse(response);
+          core.warning(`AI diff summary failed with model '${model}': ${lastReason}`);
+          if (response.status === 401 || response.status === 403) {
+            break;
+          }
+          continue;
+        }
+
+        const data = await response.json();
+        const content = data?.choices?.[0]?.message?.content;
+        if (typeof content !== "string" || !content.trim()) {
+          lastReason = `모델 '${model}' 응답이 비어 있음`;
+          core.warning(lastReason);
+          continue;
+        }
+
+        return {
+          ok: true,
+          text: content.trim(),
+          contextMode,
           model,
-          temperature: 0.2,
-          max_tokens: 280,
-          messages: [
-            {
-              role: "system",
-              content:
-                "You are GitHub Copilot-style PR reviewer. Summarize only what is evidenced by the diff.",
-            },
-            {
-              role: "user",
-              content: prompt,
-            },
-          ],
-        }),
-      });
-  
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
+        };
+      } catch (error) {
+        lastReason = `모델 '${model}' 호출 예외: ${compactText(error.message, 160)}`;
+        core.warning(`AI diff summary failed: ${lastReason}`);
       }
-  
-      const data = await response.json();
-      const content = data?.choices?.[0]?.message?.content;
-      if (typeof content !== "string" || !content.trim()) {
-        return null;
-      }
-      return {
-        text: content.trim(),
-        contextMode,
-      };
-    } catch (error) {
-      core.warning(`AI diff summary failed: ${error.message}`);
-      return null;
     }
+
+    return { ok: false, contextMode, reason: lastReason };
   }
   
   function isAiReviewRequestedFromPrBody(body) {
@@ -987,7 +1060,7 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
     const prLink = `<${pr.html_url}|#${pr.number} ${pr.title}>`;
   
     const aiSummaryResult = await buildCopilotDiffSummary(files);
-    const aiSummaryText = aiSummaryResult?.text || "";
+    const aiSummaryText = aiSummaryResult?.ok ? aiSummaryResult.text : "";
     const aiSummaryLines = normalizeSummaryLines(aiSummaryText, 5);
     const aiSummaryTitle =
       aiSummaryResult?.contextMode === "full" ? "*Diff 기반 AI 요약*" : "*파일/통계 기반 AI 요약*";
@@ -1006,8 +1079,14 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
   
     if (aiSummaryLines.length) {
       lines.push(...aiSummaryLines.map((line) => `- ${line}`));
+      if (aiSummaryResult?.model) {
+        lines.push(`- 모델: \`${aiSummaryResult.model}\``);
+      }
     } else {
       lines.push("- AI 요약을 생성하지 못해 fallback 요약을 사용합니다.");
+      if (aiSummaryResult?.reason) {
+        lines.push(`- 실패 원인: ${aiSummaryResult.reason}`);
+      }
     }
   
     lines.push("", "*Diff fallback 요약*");
