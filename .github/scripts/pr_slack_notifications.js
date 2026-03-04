@@ -1297,6 +1297,15 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
     const reviewHtmlUrl = review?.html_url || pr.html_url;
   
     if (isCopilotReviewer(reviewerLogin)) {
+      const metadata = await loadMetadata();
+      const alreadyNotifiedCopilot = (metadata.aiReviewCompletedKeys || []).some((key) =>
+        String(key || "").toLowerCase().startsWith("copilot:")
+      );
+      if (alreadyNotifiedCopilot) {
+        core.info("Copilot review notification already sent once for this PR.");
+        return;
+      }
+
       const reviewId = review?.id || "unknown";
       const shouldNotify = await markAiReviewCompleted("copilot", reviewId);
       if (!shouldNotify) {
