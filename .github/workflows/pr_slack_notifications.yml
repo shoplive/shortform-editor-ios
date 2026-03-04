@@ -1,0 +1,43 @@
+name: pr-slack-notifications
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review, review_requested, edited, synchronize, closed]
+  pull_request_review:
+    types: [submitted]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: pr-slack-${{ github.event.pull_request.number || github.event.issue.number || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: notify slack thread
+        uses: actions/github-script@v7
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+          SLACK_CHANNEL_ID_VAR: ${{ vars.SLACK_CHANNEL_ID }}
+          SLACK_USER_MAP_JSON: ${{ secrets.SLACK_USER_MAP_JSON }}
+          AI_REVIEWER_LOGIN: ${{ vars.AI_REVIEWER_LOGIN }}
+          COPILOT_SUMMARY_MODEL: ${{ vars.COPILOT_SUMMARY_MODEL }}
+          AI_SUMMARY_CONTEXT_MODE: ${{ vars.AI_SUMMARY_CONTEXT_MODE }}
+          MODELS_API_TOKEN: ${{ secrets.MODELS_API_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          script: |
+            const path = require("path");
+            const runner = require(path.join(process.env.GITHUB_WORKSPACE, ".github/scripts/pr_slack_notifications.js"));
+            await runner({ github, context, core, fetch });
