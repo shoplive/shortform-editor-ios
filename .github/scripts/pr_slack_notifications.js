@@ -1352,13 +1352,17 @@ module.exports = async ({ github, context, core, fetch: providedFetch }) => {
     const prAuthorLogin = pr.user?.login || null;
     const prAuthorSlackId = findSlackUserId(userMap, prAuthorLogin);
     const mentionLine = prAuthorSlackId ? `<@${prAuthorSlackId}>\n` : "";
-    await postThreadMessage(
-      `${mentionLine}👀 \`${reviewerLogin}\`님이 리뷰를 남김: *${state}*\n${prLink}`
-    );
-  
-    if (review?.state === "approved") {
+
+    const reviewState = String(review?.state || "").toLowerCase();
+    if (reviewState === "approved") {
       await postThreadMessage(`${mentionLine}✅ 리뷰 완료(승인): ${prLink}`);
+      return;
     }
+
+    const statusIcon = reviewState === "changes_requested" ? "🛠️" : "👀";
+    await postThreadMessage(
+      `${mentionLine}${statusIcon} \`${reviewerLogin}\`님이 리뷰를 남김: *${state}*\n${prLink}`
+    );
     return;
   }
   
