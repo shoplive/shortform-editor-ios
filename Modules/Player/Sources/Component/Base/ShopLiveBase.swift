@@ -317,6 +317,7 @@ import ShopliveSDKCommon
         
         let audioSessionManager = SLAudioSessionManager.shared
         audioSessionManager.setCategory(category: AVAudioSession.sharedInstance().category, options: audioSessionManager.customerAudioCategoryOptions)
+        audioSessionManager.setActive(false, options: [.notifyOthersOnDeactivation])
         
         if let videoWindowPanGestureRecognizer = self.videoWindowPanGestureRecognizer {
             shopLiveWindow?.removeGestureRecognizer(videoWindowPanGestureRecognizer)
