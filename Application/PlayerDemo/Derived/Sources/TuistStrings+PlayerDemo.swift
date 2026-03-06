@@ -397,7 +397,7 @@ public enum PlayerDemoStrings: Sendable {
     }
 
     public enum PinPosition: Sendable {
-    /// Position of where PIP can be pinned. (default is [topLeft, topRight, bottomLeft, bottomRight])
+    /// Position of where PIP can be pinned. (default is [TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT])
       public static let description = PlayerDemoStrings.tr("shoplive", "sdkoption.pinPosition.description")
       /// PIP Pin Position
       public static let title = PlayerDemoStrings.tr("shoplive", "sdkoption.pinPosition.title")
@@ -437,7 +437,7 @@ public enum PlayerDemoStrings: Sendable {
     }
 
     public enum PipPosition: Sendable {
-    /// Position of PIP mode when it starts. (default is bottomRight)
+    /// Position of PIP mode when it starts. (default is BOTTOM_RIGHT)
       public static let description = PlayerDemoStrings.tr("shoplive", "sdkoption.pipPosition.description")
       /// PIP Position
       public static let title = PlayerDemoStrings.tr("shoplive", "sdkoption.pipPosition.title")
