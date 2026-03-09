@@ -1,5 +1,5 @@
 {
-  "originHash" : "cd866e467b6fd59afc7d358086d1dd500becd0bcf49b1642003bd1286e19757e",
+  "originHash" : "e23e7af2bb37d7837dc058a3afd6334ae7210dc4f436cf27e808ae82ebc301e0",
   "pins" : [
     {
       "identity" : "abseil-cpp-swiftpm",
@@ -191,33 +191,6 @@
       }
     },
     {
-      "identity" : "reactorkit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ReactorKit/ReactorKit.git",
-      "state" : {
-        "revision" : "8fa33f09c6f6621a2aa536d739956d53b84dd139",
-        "version" : "3.2.0"
-      }
-    },
-    {
-      "identity" : "rxgesture",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/RxSwiftCommunity/RxGesture.git",
-      "state" : {
-        "revision" : "1b137c576b4aaaab949235752278956697c9e4a0",
-        "version" : "4.0.4"
-      }
-    },
-    {
-      "identity" : "rxswift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ReactiveX/RxSwift.git",
-      "state" : {
-        "revision" : "c7c7d2cf50a3211fe2843f76869c698e4e417930",
-        "version" : "6.8.0"
-      }
-    },
-    {
       "identity" : "sidemenu",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/jonkykong/SideMenu.git",
@@ -245,24 +218,6 @@
       }
     },
     {
-      "identity" : "swiftdate",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/malcommac/SwiftDate.git",
-      "state" : {
-        "revision" : "6190d0cefff3013e77ed567e6b074f324e5c5bf5",
-        "version" : "6.3.1"
-      }
-    },
-    {
-      "identity" : "swiftrichstring",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/malcommac/SwiftRichString.git",
-      "state" : {
-        "revision" : "9bf4b5af6bb4386865636fc504d6c588c2b65040",
-        "version" : "3.7.2"
-      }
-    },
-    {
       "identity" : "then",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/devxoul/Then.git",
@@ -278,15 +233,6 @@
       "state" : {
         "revision" : "ddccd20d6fb718448d9b179c454c561653fda7d5",
         "version" : "5.1.1"
-      }
-    },
-    {
-      "identity" : "weakmaptable",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ReactorKit/WeakMapTable.git",
-      "state" : {
-        "revision" : "cb05d64cef2bbf51e85c53adee937df46540a74e",
-        "version" : "1.2.1"
       }
     }
   ],

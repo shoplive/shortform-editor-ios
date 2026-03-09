@@ -3,6 +3,37 @@
 WORKING_DIR=$(pwd)
 
 # ============================================
+# tuist clean / install / generate
+# ============================================
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "⚙️  Tuist 프로젝트 초기화"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+echo "🧹 tuist clean 실행 중..."
+tuist clean
+if [ $? -ne 0 ]; then
+  echo "❌ tuist clean 실패"
+  exit 1
+fi
+
+echo "📦 tuist install 실행 중..."
+tuist install
+if [ $? -ne 0 ]; then
+  echo "❌ tuist install 실패"
+  exit 1
+fi
+
+echo "🔧 tuist generate 실행 중..."
+tuist generate
+if [ $? -ne 0 ]; then
+  echo "❌ tuist generate 실패"
+  exit 1
+fi
+
+echo "✅ Tuist 초기화 완료!"
+echo ""
+
+# ============================================
 # 버전 업데이트 함수
 # ============================================
 update_version_files() {
@@ -107,24 +138,68 @@ validate_version_consistency() {
 }
 
 # ============================================
-# 배포 버전 입력
+# 배포 버전 선택
 # ============================================
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "📝 배포 버전 입력"
+echo "📝 배포 버전 선택"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-# 로컬 태그에서 ebay 태그 제외하고 숫자로 시작하는 최신 10개 조회
-echo "💡 존재하는 배포된 버전 태그 목록 (로컬):"
-git tag -l | grep -v '^ebay' | grep '^[0-9]' | sort -V | tail -n 10
-echo ""
-echo "배포할 버전을 입력해주세요. (예: 1.8.0 또는 1.8.0.1)"
-read -r DEPLOY_VERSION
-DEPLOY_VERSION=$(echo "$DEPLOY_VERSION" | xargs)  # 앞뒤 공백 제거
-echo ""
 
-if [ -z "$DEPLOY_VERSION" ]; then
-  echo "❌ 버전이 입력되지 않았습니다."
+# 최신 태그 자동 조회 (ebay 제외, 숫자로 시작)
+CURRENT_TAG=$(git tag -l | grep -v '^ebay' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
+
+if [ -z "$CURRENT_TAG" ]; then
+  echo "❌ 기존 태그를 찾을 수 없습니다."
   exit 1
 fi
+
+echo "🏷️  현재 최신 버전: $CURRENT_TAG"
+echo ""
+
+# 버전 파싱
+IFS='.' read -r V1 V2 V3 V4 <<< "$CURRENT_TAG"
+
+# 옵션 1: 일반 배포 (V3 +1, V4 제거)
+OPTION_RELEASE="${V1}.${V2}.$((V3 + 1))"
+
+# 옵션 2: 핫픽스 (V4 추가 또는 +1)
+if [ -n "$V4" ]; then
+  OPTION_HOTFIX="${V1}.${V2}.${V3}.$((V4 + 1))"
+else
+  OPTION_HOTFIX="${V1}.${V2}.${V3}.1"
+fi
+
+echo "배포 유형을 선택해주세요:"
+echo "  1) 일반 배포  → $OPTION_RELEASE"
+echo "  2) 핫픽스     → $OPTION_HOTFIX"
+echo "  3) 직접 입력"
+echo ""
+read -r VERSION_CHOICE
+VERSION_CHOICE=$(echo "$VERSION_CHOICE" | xargs)
+
+case "$VERSION_CHOICE" in
+  1)
+    DEPLOY_VERSION="$OPTION_RELEASE"
+    ;;
+  2)
+    DEPLOY_VERSION="$OPTION_HOTFIX"
+    ;;
+  3)
+    echo "배포할 버전을 입력해주세요. (예: 1.8.0 또는 1.8.0.1)"
+    read -r DEPLOY_VERSION
+    DEPLOY_VERSION=$(echo "$DEPLOY_VERSION" | xargs)
+    if [ -z "$DEPLOY_VERSION" ]; then
+      echo "❌ 버전이 입력되지 않았습니다."
+      exit 1
+    fi
+    ;;
+  *)
+    echo "❌ 잘못된 선택입니다. (1, 2, 3 중 하나를 입력해주세요.)"
+    exit 1
+    ;;
+esac
+
+echo ""
+echo "📋 선택된 배포 버전: $DEPLOY_VERSION"
 
 # 버전 형식 검증 (3개 또는 4개 숫자: 1.2.3 또는 1.2.3.4 형식)
 if ! [[ "$DEPLOY_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then

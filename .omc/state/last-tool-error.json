@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"brew install tuist@4.31.0 2>&1\",\"description\":\"Homebrew tuist@4.31.0 설치 전체 출력 확인\"}",
+  "error": "Exit code 1\n==> Fetching downloads for: tuist@4.31.0\n✔︎ Formula tuist@4.31.0 (4.31.0)\n==> Installing tuist@4.31.0 from tuist/tuist\nError: Your Xcode (16.4) at /Applications/Xcode.app is too outdated.\nPlease update to Xcode 26.0 (or delete it).\nXcode can be updated from the App Store.\n\nError: Your Command Line Tools are too outdated.\nUpdate them from Software Update in System Settings.\n\nIf that doesn't show you any updates, run:\n  sudo rm -rf /Library/Developer/CommandLineTools\n  sudo xcode-selec...",
+  "timestamp": "2026-03-09T04:46:51.118Z",
+  "retry_count": 1
+}
