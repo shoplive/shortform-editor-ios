@@ -14,11 +14,11 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		D1QlCxenlO1ObmbKyVZZDoCc+do=
+		WWGGP44wdK0wvWEPa5pcWJ90t6w=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		FV4j+7KEu3u0KQ8BK/IbYGGMzeI=
+		uFaKdsboTHvtDaTEq+ocLWTaSmU=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
@@ -34,11 +34,11 @@
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		McYaJZf30SmZSdPvlyqUgJV4NqU=
+		NkqVrIIijeUsyGX/LVYNSkh2Tr8=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		FV4j+7KEu3u0KQ8BK/IbYGGMzeI=
+		uFaKdsboTHvtDaTEq+ocLWTaSmU=
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		16UNzFpKLzT/MmEeVn6zL2CmD18=
+		mE8KCY+TSXxD7ih774Bc/U015mk=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -132,7 +132,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			46lGa69TZ4SH5aOUW6kv0ymRQdOzsMXdUEIvrEQTNw8=
+			y841+MWZ06vhSVQiBsuDmmmbiJpNeYv+IcY0rjUlvj8=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
@@ -160,14 +160,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			W0GpZOwFOdaetr3FoXX5h8H1aAasSEKh7FVj2u+BVyk=
+			DQJLe8BcNSLMJ+4M/S6+3OdNsdsIxW5kzB1XvTDhpKI=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			46lGa69TZ4SH5aOUW6kv0ymRQdOzsMXdUEIvrEQTNw8=
+			y841+MWZ06vhSVQiBsuDmmmbiJpNeYv+IcY0rjUlvj8=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveShortformEditorSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
@@ -195,7 +195,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			LdoJgLbLGVpQWKu2tvvTcr2xR0feZtCTatATz/v7Qvk=
+			VgQdfTB0Ur3w35LzwyTmFY+Uf6KMdwGCjk9tpNmI6Q4=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
