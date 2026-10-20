@@ -3,7 +3,8 @@
 //
 // 에디터는 런타임에 다음을 링크한다. 이제 이 매니페스트가 의존으로 선언한다.
 //   - Common(ShopliveSDKCommon · ShopliveAPI) — shoplive/common-ios (라이브 SDK 1.x · 숏폼과 같은 패키지를 공유)
-//   - ffmpegkit · libavcodec/avdevice/avfilter/avformat/avutil — shoplive/ffmpeg-kit-spm
+//   - ffmpegkit · libavcodec/avdevice/avfilter/avformat/avutil · libswresample/libswscale — shoplive/ffmpeg-kit-spm
+//   - ShopliveFilterSDK — 이 패키지의 필터 바이너리(에디터 product 에 함께 포함)
 
 import PackageDescription
 
@@ -18,7 +19,8 @@ let package = Package(
     products: [
         .library(
             name: "ShopLiveShortformEditorSDK",
-            targets: ["ShopLiveShortformEditorSDK", "ShopLiveShortformEditorSDKDependencies"]
+            // 에디터는 필터 모듈을 링크하므로 에디터 product 만 추가해도 ShopliveFilterSDK 가 함께 포함되게 한다.
+            targets: ["ShopLiveShortformEditorSDK", "ShopliveFilterSDK", "ShopLiveShortformEditorSDKDependencies"]
         ),
         .library(
             name: "ShopliveFilterSDK",
