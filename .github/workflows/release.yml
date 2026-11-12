@@ -1,0 +1,27 @@
+name: Release
+
+on:
+  pull_request_target:
+    types: [closed]
+    branches: [main]
+
+permissions: {}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/')
+    steps:
+      - name: Notify
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          GH_TOKEN: ${{ secrets.MATRIX_FINALIZE_TOKEN }}
+          TARGET: ${{ vars.RELEASE_TARGET_REPO }}
+        run: |
+          set -euo pipefail
+          [[ "$HEAD_REPO" == "$GITHUB_REPOSITORY" ]] || exit 0
+          [[ "$HEAD_REF" =~ ^release/([0-9]+\.[0-9]+\.[0-9]+)$ ]] || exit 0
+          V="${BASH_REMATCH[1]}"
+          [[ -n "$GH_TOKEN" && -n "$TARGET" ]] || { echo "::error::missing configuration"; exit 1; }
+          gh workflow run release-finalize.yml --repo "$TARGET" --ref "release/$V" -f version="$V"
