@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
 // swift-compiler-version: Apple Swift version 6.2 effective-5.10 (swiftlang-6.2.0.19.9 clang-1700.3.19.1)
-// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name ShopLiveShortformEditorSDK
+// swift-module-flags: -target arm64-apple-ios15.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name ShopLiveShortformEditorSDK
 // swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2
 import AVFoundation
 import AVKit
@@ -11,6 +11,7 @@ import MetalKit
 import MobileCoreServices
 import Photos
 import PhotosUI
+import ShopliveAPI
 import ShopliveFilterSDK
 import ShopliveSDKCommon
 import Swift
@@ -45,7 +46,6 @@ public enum ShopLiveShortformEditorSDKAsset : Swift.Sendable {
   public static let slIcSpeedometer: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
   public static let slInsertPhotoMaterial: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
   public static let slPlaybar: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
-  public static let slPlaypreview: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
   public static let slPopArrow: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
   public static let slTimeSliderThumb: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages
 }
@@ -66,358 +66,12 @@ extension SwiftUICore.Image {
   public init(asset: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages, label: SwiftUICore.Text)
   public init(decorative asset: ShopLiveShortformEditorSDK.ShopLiveShortformEditorSDKImages)
 }
-@_inheritsConvenienceInitializers @objc public class ShopLiveShortformEditorSDKResources : ObjectiveC.NSObject {
-  @objc public class var bundle: Foundation.Bundle {
+@_inheritsConvenienceInitializers @objc final public class ShopLiveShortformEditorSDKResources : ObjectiveC.NSObject {
+  @objc nonisolated final public class var bundle: Foundation.Bundle {
     @objc get
   }
   @objc override dynamic public init()
   @objc deinit
-}
-public enum ShopLiveShortformEditorSDKStrings : Swift.Sendable {
-  public enum Alert : Swift.Sendable {
-    public enum Permission : Swift.Sendable {
-      public enum Denied : Swift.Sendable {
-        public static let cancel: Swift.String
-        public static let description: Swift.String
-        public static let setting: Swift.String
-        public static let title: Swift.String
-      }
-    }
-  }
-  public enum Editor : Swift.Sendable {
-    public enum Alert : Swift.Sendable {
-      public enum Encoding : Swift.Sendable {
-        public enum Cancel : Swift.Sendable {
-          public enum Title : Swift.Sendable {
-            public static let shoplive: Swift.String
-          }
-        }
-      }
-      public enum Max : Swift.Sendable {
-        public enum Duration : Swift.Sendable {
-          public static func shoplive(_ p1: Swift.Int) -> Swift.String
-        }
-      }
-      public enum Min : Swift.Sendable {
-        public enum Duration : Swift.Sendable {
-          public static func shoplive(_ p1: Swift.Int) -> Swift.String
-        }
-      }
-      public enum Shoot : Swift.Sendable {
-        public static let shoplive: Swift.String
-        public enum Title : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-      }
-      public enum Uploading : Swift.Sendable {
-        public enum Cancel : Swift.Sendable {
-          public enum Title : Swift.Sendable {
-            public static let shoplive: Swift.String
-          }
-        }
-      }
-    }
-    public enum Cover : Swift.Sendable {
-      public enum Picker : Swift.Sendable {
-        public enum Btn : Swift.Sendable {
-          public enum CameraRool : Swift.Sendable {
-            public static let shoplive: Swift.String
-          }
-          public enum Confirm : Swift.Sendable {
-            public static let shoplive: Swift.String
-          }
-        }
-        public enum Done : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-      }
-    }
-    public enum Crop : Swift.Sendable {
-      public enum Btn : Swift.Sendable {
-        public enum Confirm : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-      }
-    }
-    public enum Encoding : Swift.Sendable {
-      public enum Cancel : Swift.Sendable {
-        public static let shoplive: Swift.String
-      }
-    }
-    public enum Filter : Swift.Sendable {
-      public static let shoplive: Swift.String
-      public enum Bright : Swift.Sendable {
-        public static let shoplive: Swift.String
-      }
-      public enum Btn : Swift.Sendable {
-        public enum Confirm : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-      }
-      public enum Clear : Swift.Sendable {
-        public static let shoplive: Swift.String
-      }
-      public enum Done : Swift.Sendable {
-        public static let shoplive: Swift.String
-      }
-      public enum Original : Swift.Sendable {
-        public static let shoplive: Swift.String
-      }
-      public enum Warm : Swift.Sendable {
-        public static let shoplive: Swift.String
-      }
-    }
-    public enum Folder : Swift.Sendable {
-      public enum All : Swift.Sendable {
-        public static let shoplive: Swift.String
-      }
-    }
-    public enum Gallery : Swift.Sendable {
-      public enum Done : Swift.Sendable {
-        public static let shoplive: Swift.String
-      }
-      public enum Photo : Swift.Sendable {
-        public static let shoplive: Swift.String
-        public enum And : Swift.Sendable {
-          public enum Video : Swift.Sendable {
-            public static let shoplive: Swift.String
-          }
-        }
-      }
-      public enum Selected : Swift.Sendable {
-        public enum Count : Swift.Sendable {
-          public static func shoplive(_ p1: Swift.Int, _ p2: Swift.Int) -> Swift.String
-        }
-      }
-      public enum Unsupported : Swift.Sendable {
-        public enum Media : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-      }
-      public enum Video : Swift.Sendable {
-        public static let shoplive: Swift.String
-      }
-    }
-    public enum Header : Swift.Sendable {
-      public enum Headline : Swift.Sendable {
-        public enum Playback : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-      }
-    }
-    public enum Hint : Swift.Sendable {
-      public enum Tag : Swift.Sendable {
-        public static let shoplive: Swift.String
-      }
-    }
-    public enum Loading : Swift.Sendable {
-      public static let compress: Swift.String
-      public static let shoplive: Swift.String
-      public static let thumbnail: Swift.String
-      public static let upload: Swift.String
-    }
-    public enum Main : Swift.Sendable {
-      public enum Btn : Swift.Sendable {
-        public enum Next : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-      }
-    }
-    public enum Modify : Swift.Sendable {
-      public static let shoplive: Swift.String
-    }
-    public enum Next : Swift.Sendable {
-      public static let shoplive: Swift.String
-    }
-    public enum No : Swift.Sendable {
-      public static let shoplive: Swift.String
-    }
-    public enum Photo : Swift.Sendable {
-      public enum Picker : Swift.Sendable {
-        public enum Camera : Swift.Sendable {
-          public enum Cell : Swift.Sendable {
-            public enum Btn : Swift.Sendable {
-              public static let title: Swift.String
-            }
-          }
-        }
-      }
-    }
-    public enum Picture : Swift.Sendable {
-      public static let shoplive: Swift.String
-    }
-    public enum PlaybackSpeed : Swift.Sendable {
-      public enum Btn : Swift.Sendable {
-        public enum Confirm : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-      }
-    }
-    public enum Preparing : Swift.Sendable {
-      public static let shoplive: Swift.String
-    }
-    public enum Preview : Swift.Sendable {
-      public enum Title : Swift.Sendable {
-        public static let shoplive: Swift.String
-      }
-    }
-    public enum Progress : Swift.Sendable {
-      public static func shoplive(_ p1: Swift.Int) -> Swift.String
-    }
-    public enum Progressing : Swift.Sendable {
-      public static let shoplive: Swift.String
-    }
-    public enum Select : Swift.Sendable {
-      public enum Gallery : Swift.Sendable {
-        public static let shoplive: Swift.String
-      }
-    }
-    public enum Title : Swift.Sendable {
-      public enum Cover : Swift.Sendable {
-        public enum Picker : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-      }
-      public enum Crop : Swift.Sendable {
-        public static let shoplive: Swift.String
-      }
-      public enum Filter : Swift.Sendable {
-        public static let shoplive: Swift.String
-      }
-      public enum PlaybackSpeed : Swift.Sendable {
-        public static let shoplive: Swift.String
-      }
-      public enum Shortform : Swift.Sendable {
-        public enum Data : Swift.Sendable {
-          public enum Edit : Swift.Sendable {
-            public static let shoplive: Swift.String
-          }
-        }
-      }
-      public enum Video : Swift.Sendable {
-        public enum Edit : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-        public enum Upload : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-      }
-    }
-    public enum Toast : Swift.Sendable {
-      public enum Duration : Swift.Sendable {
-        public enum Minute : Swift.Sendable {
-          public static func shoplive(_ p1: Swift.Int, _ p2: Swift.Int) -> Swift.String
-        }
-        public enum Second : Swift.Sendable {
-          public static func shoplive(_ p1: Swift.Int, _ p2: Swift.Int) -> Swift.String
-        }
-      }
-      public enum Encoding : Swift.Sendable {
-        public enum Canceled : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-        public enum Fail : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-        public enum Uri : Swift.Sendable {
-          public enum Was : Swift.Sendable {
-            public enum Not : Swift.Sendable {
-              public enum Created : Swift.Sendable {
-                public static let shoplive: Swift.String
-              }
-            }
-          }
-        }
-        public enum Video : Swift.Sendable {
-          public enum Was : Swift.Sendable {
-            public enum Not : Swift.Sendable {
-              public enum Exist : Swift.Sendable {
-                public static let shoplive: Swift.String
-              }
-            }
-          }
-        }
-      }
-      public enum Min : Swift.Sendable {
-        public enum Duration : Swift.Sendable {
-          public static func shoplive(_ p1: Swift.Float) -> Swift.String
-        }
-      }
-      public enum Need : Swift.Sendable {
-        public enum Access : Swift.Sendable {
-          public enum Gallery : Swift.Sendable {
-            public enum Permissions : Swift.Sendable {
-              public static let shoplive: Swift.String
-            }
-          }
-        }
-      }
-      public enum Shortform : Swift.Sendable {
-        public enum Creation : Swift.Sendable {
-          public enum Failed : Swift.Sendable {
-            public static let shoplive: Swift.String
-          }
-        }
-      }
-      public enum Upload : Swift.Sendable {
-        public static let cancelled: Swift.String
-      }
-    }
-    public enum Trim : Swift.Sendable {
-      public enum Cut : Swift.Sendable {
-        public enum End : Swift.Sendable {
-          public static func shoplive(_ p1: Swift.UnsafePointer<Swift.CChar>) -> Swift.String
-        }
-        public enum Sec : Swift.Sendable {
-          public static func shoplive(_ p1: Swift.Int) -> Swift.String
-        }
-        public enum Start : Swift.Sendable {
-          public static func shoplive(_ p1: Swift.UnsafePointer<Swift.CChar>) -> Swift.String
-        }
-      }
-    }
-    public enum Ugc : Swift.Sendable {
-      public enum Preview : Swift.Sendable {
-        public static let title: Swift.String
-      }
-    }
-    public enum Upload : Swift.Sendable {
-      public static let shoplive: Swift.String
-      public enum Description : Swift.Sendable {
-        public static let shoplive: Swift.String
-        public enum Hint : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-      }
-      public enum Tag : Swift.Sendable {
-        public static let shoplive: Swift.String
-      }
-      public enum Title : Swift.Sendable {
-        public static let shoplive: Swift.String
-        public enum Hint : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-      }
-    }
-    public enum Video : Swift.Sendable {
-      public static let shoplive: Swift.String
-    }
-    public enum Volume : Swift.Sendable {
-      public enum Btn : Swift.Sendable {
-        public enum Confirm : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-      }
-      public enum Page : Swift.Sendable {
-        public enum Title : Swift.Sendable {
-          public static let shoplive: Swift.String
-        }
-      }
-    }
-    public enum Yes : Swift.Sendable {
-      public static let shoplive: Swift.String
-    }
-  }
 }
 @_hasMissingDesignatedInitializers public class ShortFormUploadConfigurationInfosManager {
   public static let shared: ShopLiveShortformEditorSDK.ShortFormUploadConfigurationInfosManager
@@ -447,7 +101,7 @@ public struct SLUploadAttachmentInfo {
 }
 @objc public protocol ShopLiveCoverPickerDelegate {
   #if compiler(>=5.3) && $NonescapableTypes
-  @objc optional func onShopLiveCoverPickerError(picker: UIKit.UIViewController?, error: ShopliveSDKCommon.ShopLiveCommonError)
+  @objc optional func onShopLiveCoverPickerError(picker: UIKit.UIViewController?, error: ShopliveAPI.ShopLiveCommonError)
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
   @objc optional func onShopLiveCoverPickerCoverImageSuccess(picker: UIKit.UIViewController?, image: UIKit.UIImage?)
@@ -464,7 +118,7 @@ public struct SLUploadAttachmentInfo {
 }
 @objc public protocol ShopLiveMediaPickerDelegate {
   #if compiler(>=5.3) && $NonescapableTypes
-  @objc optional func onShopLiveMediaPickerError(picker: UIKit.UIViewController?, error: ShopliveSDKCommon.ShopLiveCommonError)
+  @objc optional func onShopLiveMediaPickerError(picker: UIKit.UIViewController?, error: ShopliveAPI.ShopLiveCommonError)
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
   @objc optional func onShopLiveMediaPickerDidPickVideo(picker: UIKit.UIViewController?, absoluteUrl: Foundation.URL, relativeUrl: Foundation.URL)
@@ -480,7 +134,7 @@ public struct SLUploadAttachmentInfo {
   #endif
 }
 @objc public protocol ShopLiveShortformEditorDelegate {
-  @objc optional func onShopLiveShortformEditorError(error: ShopliveSDKCommon.ShopLiveCommonError)
+  @objc optional func onShopLiveShortformEditorError(error: ShopliveAPI.ShopLiveCommonError)
   @objc optional func onShopLiveShortformEditorVideoConvertSuccess(videoPath: Swift.String)
   #if compiler(>=5.3) && $NonescapableTypes
   @objc optional func onShopLiveShortformEditorCoverImageSuccess(image: UIKit.UIImage?)
@@ -495,7 +149,7 @@ public struct SLUploadAttachmentInfo {
 }
 @objc public protocol ShopLiveVideoEditorDelegate {
   #if compiler(>=5.3) && $NonescapableTypes
-  @objc optional func onShopLiveVideoEditorError(editor: UIKit.UIViewController?, error: ShopliveSDKCommon.ShopLiveCommonError)
+  @objc optional func onShopLiveVideoEditorError(editor: UIKit.UIViewController?, error: ShopliveAPI.ShopLiveCommonError)
   #endif
   #if compiler(>=5.3) && $NonescapableTypes
   @objc optional func onShopLiveVideoEditorVideoConvertSuccess(editor: UIKit.UIViewController?, videoPath: Swift.String)
@@ -520,7 +174,7 @@ public struct SLUploadAttachmentInfo {
   #if compiler(>=5.3) && $NonescapableTypes
   @objc optional func onShopLiveShortformUploaderEvent(command: Swift.String, payload: [Swift.String : Any]?)
   #endif
-  @objc optional func onShopLiveShortformUploaderError(error: ShopliveSDKCommon.ShopLiveCommonError)
+  @objc optional func onShopLiveShortformUploaderError(error: ShopliveAPI.ShopLiveCommonError)
 }
 @objc public protocol ShopLiveShortformUploaderMessageDelegate {
   @objc optional func upload(id: Swift.String)
@@ -769,6 +423,10 @@ public class ShopLiveShortformEditor {
   public static let shared: ShopLiveShortformEditorSDK.ShopLiveShortformEditor
   public init()
   #if compiler(>=5.3) && $NonescapableTypes
+  public static func setLocale(_ locale: Foundation.Locale?)
+  #endif
+  public static func getLocale() -> Foundation.Locale
+  #if compiler(>=5.3) && $NonescapableTypes
   @discardableResult
   public func setPermissionHandler(_ permissionHandler: (any ShopliveSDKCommon.ShopLivePermissionHandler)?) -> Self
   #endif
@@ -846,7 +504,10 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var editingCloseButtonIconPadding: UIKit.UIEdgeInsets
     public var editingCloseButtonIconTintColor: UIKit.UIColor
     public var nextButtonTitleFont: UIKit.UIFont?
-    public var nextButtonTitle: Swift.String
+    public var nextButtonTitle: Swift.String {
+      get
+      set
+    }
     public var nextButtonCornerRadius: CoreFoundation.CGFloat
     public var nextButtonBackgroundColor: UIKit.UIColor
     public var nextButtonTitleColor: UIKit.UIColor
@@ -930,7 +591,10 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var backButtonIconTintColor: UIKit.UIColor
     public var backButtonBackgroundColor: UIKit.UIColor?
     public var confirmButtonTitleFont: UIKit.UIFont?
-    public var confirmButtonTitle: Swift.String
+    public var confirmButtonTitle: Swift.String {
+      get
+      set
+    }
     public var confirmButtonBackgroundColor: UIKit.UIColor
     public var confirmButtonTextColor: UIKit.UIColor
     public var confirmButtonCornerRadius: CoreFoundation.CGFloat
@@ -943,7 +607,10 @@ extension ShopLiveShortformEditorSDK.ShopLiveShortformEditor {
     public var cameraRollButtonBackgroundColor: UIKit.UIColor
     public var cameraRollButtonTextColor: UIKit.UIColor
     public var cameraRollButtonCornerRadius: CoreFoundation.CGFloat
-    public var cameraRollButtonTitle: Swift.String
+    public var cameraRollButtonTitle: Swift.String {
+      get
+      set
+    }
     @objc deinit
   }
 }
@@ -997,8 +664,14 @@ public struct ShopLiveConversionProductDTO : Swift.Encodable {
 public struct SLPhotosPickerConfigure {
   public var customLocalizedTitle: [Swift.String : Swift.String]
   public var tapHereToChange: Swift.String
-  public var cancelTitle: Swift.String
-  public var doneTitle: Swift.String
+  public var cancelTitle: Swift.String {
+    get
+    set
+  }
+  public var doneTitle: Swift.String {
+    get
+    set
+  }
   public var emptyMessage: Swift.String
   public var selectMessage: Swift.String
   public var deselectMessage: Swift.String
