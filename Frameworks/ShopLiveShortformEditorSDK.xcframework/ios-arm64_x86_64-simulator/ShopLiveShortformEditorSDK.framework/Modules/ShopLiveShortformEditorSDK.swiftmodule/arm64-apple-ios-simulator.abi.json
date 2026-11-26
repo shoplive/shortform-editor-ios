@@ -28045,6 +28045,23 @@
       },
       {
         "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "ShopLiveShortformEditorSDK",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "ShopliveSDKCommon",
+        "printedName": "ShopliveSDKCommon",
+        "declKind": "Import",
+        "moduleName": "ShopLiveShortformEditorSDK"
+      },
+      {
+        "kind": "Import",
         "name": "Foundation",
         "printedName": "Foundation",
         "declKind": "Import",
@@ -50043,7 +50060,7 @@
       "kind": "StringLiteral",
       "offset": 126,
       "length": 7,
-      "value": "\"1.9.1\""
+      "value": "\"1.9.2\""
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/PublicInterface\/ShortformEditor\/ShopLiveShortformEditor.swift",
@@ -51012,6 +51029,146 @@
       "value": "15"
     },
     {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 732,
+      "length": 3,
+      "value": "146"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 779,
+      "length": 3,
+      "value": "130"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 826,
+      "length": 2,
+      "value": "16"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 871,
+      "length": 2,
+      "value": "24"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 916,
+      "length": 2,
+      "value": "20"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 963,
+      "length": 2,
+      "value": "14"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1012,
+      "length": 2,
+      "value": "10"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1060,
+      "length": 2,
+      "value": "16"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1102,
+      "length": 2,
+      "value": "15"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1135,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "FloatLiteral",
+      "offset": 1186,
+      "length": 3,
+      "value": "0.7"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1352,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1402,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1412,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1421,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "FloatLiteral",
+      "offset": 1431,
+      "length": 3,
+      "value": "0.6"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1525,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1712,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1758,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLEditorProgressIndicatorView.swift",
+      "kind": "StringLiteral",
+      "offset": 6329,
+      "length": 18,
+      "value": "\"circleStrokeSpin\""
+    },
+    {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/CommonView\/SLLabelButton.swift",
       "kind": "BooleanLiteral",
       "offset": 383,
@@ -51559,29 +51716,36 @@
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
+      "kind": "IntegerLiteral",
+      "offset": 7781,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 7634,
+      "offset": 7823,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "BooleanLiteral",
-      "offset": 7680,
+      "offset": 8093,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "IntegerLiteral",
-      "offset": 7810,
+      "offset": 8629,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/Converter\/SLVideoConverter.swift",
       "kind": "Array",
-      "offset": 10362,
+      "offset": 11632,
       "length": 2,
       "value": "[]"
     },
@@ -53968,51 +54132,65 @@
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "BooleanLiteral",
-      "offset": 2875,
+      "offset": 5156,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "BooleanLiteral",
-      "offset": 2924,
+      "offset": 5205,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "BooleanLiteral",
-      "offset": 2970,
+      "offset": 5251,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
-      "kind": "BooleanLiteral",
-      "offset": 3011,
-      "length": 5,
-      "value": "false"
+      "kind": "IntegerLiteral",
+      "offset": 5541,
+      "length": 1,
+      "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "BooleanLiteral",
-      "offset": 3059,
-      "length": 5,
-      "value": "false"
+      "offset": 5829,
+      "length": 4,
+      "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
-      "kind": "BooleanLiteral",
-      "offset": 3106,
-      "length": 5,
-      "value": "false"
+      "kind": "IntegerLiteral",
+      "offset": 6274,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6499,
+      "length": 1,
+      "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
       "kind": "StringLiteral",
-      "offset": 3283,
+      "offset": 7022,
       "length": 29,
       "value": "\"shopLiveImageGeneratorQueue\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/Reactor\/SLVideoEditorMainViewReactor.swift",
+      "kind": "FloatLiteral",
+      "offset": 25840,
+      "length": 3,
+      "value": "0.3"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/SubReactors\/SLVideoMainFilterSubReactor.swift",
@@ -54055,6 +54233,34 @@
       "offset": 1412,
       "length": 2,
       "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/SubReactors\/SLVideoMainFilterSubReactor.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6035,
+      "length": 2,
+      "value": "72"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/SubReactors\/SLVideoMainFilterSubReactor.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6047,
+      "length": 3,
+      "value": "100"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/SubReactors\/SLVideoMainFilterSubReactor.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6090,
+      "length": 1,
+      "value": "8"
+    },
+    {
+      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/SubReactors\/SLVideoMainFilterSubReactor.swift",
+      "kind": "IntegerLiteral",
+      "offset": 6225,
+      "length": 2,
+      "value": "30"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/SubReactors\/SLVideoMainSpeedSubReactor.swift",
@@ -54850,77 +55056,70 @@
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/ViewController\/SLVideoEditorMainViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 9266,
+      "offset": 9262,
       "length": 5,
       "value": "false"
-    },
-    {
-      "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/ViewController\/SLVideoEditorMainViewController.swift",
-      "kind": "IntegerLiteral",
-      "offset": 9291,
-      "length": 1,
-      "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/ViewController\/SLVideoEditorMainViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 9624,
+      "offset": 9539,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/ViewController\/SLVideoEditorMainViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 9713,
+      "offset": 9628,
       "length": 2,
       "value": "15"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/ViewController\/SLVideoEditorMainViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 9866,
+      "offset": 9781,
       "length": 2,
       "value": "20"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/ViewController\/SLVideoEditorMainViewController.swift",
       "kind": "BooleanLiteral",
-      "offset": 9898,
+      "offset": 9813,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/ViewController\/SLVideoEditorMainViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 9950,
+      "offset": 9865,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/ViewController\/SLVideoEditorMainViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 9959,
+      "offset": 9874,
       "length": 2,
       "value": "20"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/ViewController\/SLVideoEditorMainViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 9971,
+      "offset": 9886,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/ViewController\/SLVideoEditorMainViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 9981,
+      "offset": 9896,
       "length": 2,
       "value": "20"
     },
     {
       "filePath": "\/Users\/runner\/work\/_temp\/release\/src\/Modules\/Editor\/Sources\/component\/EditProcess\/TrimView(main)\/ViewController\/SLVideoEditorMainViewController.swift",
       "kind": "IntegerLiteral",
-      "offset": 10006,
+      "offset": 9921,
       "length": 1,
       "value": "0"
     },
